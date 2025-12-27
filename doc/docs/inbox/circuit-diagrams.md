@@ -2,6 +2,10 @@
 sidebar_position: 3
 ---
 
+import BuckU2Diagram from '../_fragments/buck-u2-diagram.mdx';
+import BuckU3Diagram from '../_fragments/buck-u3-diagram.mdx';
+import BuckU5Diagram from '../_fragments/buck-u5-diagram.mdx';
+
 # Circuit Diagrams
 
 Complete circuit configuration shown in stages.
@@ -10,24 +14,24 @@ Complete circuit configuration shown in stages.
 
 ```
 USB-C Connector              CH224Q (DFN-10-EP)              LED Status Indicator
-┌─────────────┐                ┌──────────────┐                 ┌─────────────┐
-│VBUS (B9,A9) ├──┬─────────────┤1. VHV        │                 │  +5V Rail   │
-│             │  │             │8. VBUS       │─┬─→ 15V Output  │  (from D7)  │
-│CC1 (A5)     ├──┼─────────────┤7. CC1        │ │               │      │      │
-│CC2 (B5)     ├──┼─────────────┤6. CC2        │ │               │    330Ω     │
-│GND (B12,A12)├──┼─────────────┤GND           │ │               │   (R1)      │
-└─────────────┘  │             │11. EP        │←┘               │      │      │
-                 │             │              │                 │  Green LED  │
-               ┌─C1            │9. CFG1       │←── GND          │   (LED1)    │
-               │ 10µF/25V      │2. CFG2/SCL   │←── Open         │      │      │
-               │               │3. CFG3/SDA   │←── Open         │  PG ────────┘
-               └─┬───          │10. PG        │─────────────────┘
-                 │             │4. DP         │    (N/C)
-               ┌─C2            │5. DM         │    (N/C)
-               │ 10µF/25V      └──────────────┘
-               │                      │
-               └─┬────────────────────┘
-                 │
++-----------+                +--------------+                 +-------------+
+|VBUS (B9,A9)  +--+-----------+1. VHV        |                 |  +5V Rail   |
+|             |  |             |8. VBUS       +-+-> 15V Output  |  (from D7)  |
+|CC1 (A5)     +--+-------------+7. CC1        | |               |      |      |
+|CC2 (B5)     +--+-------------+6. CC2        | |               |    330Ω     |
+|GND (B12,A12)+--+-------------+GND           | |               |   (R1)      |
++-----------+  |             |11. EP        +<-+               |      |      |
+                 |             |              |                 |  Green LED  |
+               +-C1            |9. CFG1       +<-- GND          |   (LED1)    |
+               | 10uF/25V      |2. CFG2/SCL   +<-- Open         |      |      |
+               |               |3. CFG3/SDA   +<-- Open         |  PG --------+
+               +-+--          |10. PG        +-----------------+
+                 |             |4. DP         |    (N/C)
+               +-C2            |5. DM         |    (N/C)
+               | 10uF/25V      +--------------+
+               |                      |
+               +-+--------------------+
+                 |
                 GND
 ```
 
@@ -69,37 +73,7 @@ USB-C Connector              CH224Q (DFN-10-EP)              LED Status Indicato
 
 ## Diagram2: USB-PD +15V → +13.5V Buck Converter (LM2596S-ADJ #1)
 
-```
-                                LM2596S-ADJ (U2)
-                                ┌─────────────────┐
-+15V ──────────┬────────────────┤5 VIN            │
-               │                │                 │
-               │         ┌──────┤3 ON             │
-               │         │      │                 │
-               │         │      │            VOUT ├4───┬─→ L1 ──┬─→ C3 ──┬─→ +13.5V/1.3A
-               │         │      │                 │    │ 100µH  │  470µF │   (Output)
-               │         │      │              FB ├2───┼────────┼────────┤
-               │         │      │                 │    │        │        │
-               │         │      │             GND ├1─┐ │        │        │
-               │         │      └─────────────────┘  │ │        │        │
-               │         │                           │ │        │        │
-              C5        C6                          GND│        │        │
-             100µF     100nF                           │        │        │
-          (input)   (decouple)                         │        │        │
-               │         │                             │        │        │
-              GND       GND                            │        │        │
-                                                       │        │        │
-                                           D1: SS34    │        │        │
-                                          Schottky ────┘       GND      GND
-                                           (Flyback)
-                                              │
-                                             GND
-
-                        Feedback Voltage Divider:
-                        +13.5V ─── R1 (10kΩ) ─┬─ R2 (1kΩ) ─── GND
-                                               │
-                                               └──→ FB (pin 2)
-```
+<BuckU2Diagram />
 
 ### Connection List
 
@@ -123,12 +97,16 @@ USB-C Connector              CH224Q (DFN-10-EP)              LED Status Indicato
 - `C6 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling)
 
 **Output Capacitor:**
-- `C3 (470µF/25V electrolytic)`: `+13.5V output` ⟷ `GND` (output filtering and ripple reduction)
+- `C3 (470µF/25V electrolytic)`: Connected **in parallel** between `+13.5V output` ⟷ `GND`
+- Purpose: Output filtering, ripple reduction, and energy storage for transient response
+- **Important**: C3 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
 
 **Feedback Network (Voltage Setting):**
-- `+13.5V output` → `R1 (10kΩ)` → `U2 pin 2 (FB)`
-- `U2 pin 2 (FB)` → `R2 (1kΩ)` → `GND`
-- Voltage divider ratio: `VOUT = 1.23V × (1 + R1/R2) = 1.23V × (1 + 10kΩ/1kΩ) = 13.53V`
+- Voltage divider: `+13.5V output` → `R1 (10kΩ)` → **Tap point** → `R2 (1kΩ)` → `GND`
+- `U2 pin 2 (FB)` → Connected to **tap point** (junction between R1 and R2)
+- The tap point voltage = `13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V`
+- Chip maintains FB pin at 1.23V by adjusting duty cycle
+- Output voltage formula: `VOUT = 1.23V × (1 + R1/R2) = 1.23V × (1 + 10kΩ/1kΩ) = 13.53V`
 
 **Ground:**
 - `U2 pin 1 (GND)` → `System GND`
@@ -143,37 +121,7 @@ USB-C Connector              CH224Q (DFN-10-EP)              LED Status Indicato
 
 ## Diagram3: +15V → +7.5V Buck Converter (LM2596S-ADJ #2)
 
-```
-                                LM2596S-ADJ (U3)
-                                ┌─────────────────┐
-+15V ──────────┬────────────────┤5 VIN            │
-               │                │                 │
-               │         ┌──────┤3 ON             │
-               │         │      │                 │
-               │         │      │            VOUT ├4───┬─→ L2 ──┬─→ C4 ──┬─→ +7.5V/0.6A
-               │         │      │                 │    │ 100µH  │  470µF │   (Output)
-               │         │      │              FB ├2───┼────────┼────────┤
-               │         │      │                 │    │        │        │
-               │         │      │             GND ├1─┐ │        │        │
-               │         │      └─────────────────┘  │ │        │        │
-               │         │                           │ │        │        │
-              C7        C8                          GND│        │        │
-             100µF     100nF                           │        │        │
-          (input)   (decouple)                         │        │        │
-               │         │                             │        │        │
-              GND       GND                            │        │        │
-                                                       │        │        │
-                                           D2: SS34    │        │        │
-                                          Schottky ────┘       GND      GND
-                                           (Flyback)
-                                              │
-                                             GND
-
-                        Feedback Voltage Divider:
-                        +7.5V ─── R3 (5.1kΩ) ─┬─ R4 (1kΩ) ─── GND
-                                               │
-                                               └──→ FB (pin 2)
-```
+<BuckU3Diagram />
 
 ### Connection List
 
@@ -196,12 +144,16 @@ USB-C Connector              CH224Q (DFN-10-EP)              LED Status Indicato
 - `C8 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling)
 
 **Output Capacitor:**
-- `C4 (470µF/10V electrolytic)`: `+7.5V output` ⟷ `GND` (output filtering)
+- `C4 (470µF/10V electrolytic)`: Connected **in parallel** between `+7.5V output` ⟷ `GND`
+- Purpose: Output filtering, ripple reduction, and energy storage for transient response
+- **Important**: C4 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
 
 **Feedback Network:**
-- `+7.5V output` → `R3 (5.1kΩ)` → `U3 pin 2 (FB)`
-- `U3 pin 2 (FB)` → `R4 (1kΩ)` → `GND`
-- Voltage divider ratio: `VOUT = 1.23V × (1 + R3/R4) = 1.23V × (1 + 5.1kΩ/1kΩ) = 7.50V`
+- Voltage divider: `+7.5V output` → `R3 (5.1kΩ)` → **Tap point** → `R4 (1kΩ)` → `GND`
+- `U3 pin 2 (FB)` → Connected to **tap point** (junction between R3 and R4)
+- The tap point voltage = `7.5V × R4/(R3+R4) = 7.5V × 1kΩ/6.1kΩ = 1.23V`
+- Chip maintains FB pin at 1.23V by adjusting duty cycle
+- Output voltage formula: `VOUT = 1.23V × (1 + R3/R4) = 1.23V × (1 + 5.1kΩ/1kΩ) = 7.50V`
 
 **Ground:**
 - `U3 pin 1 (GND)` → `System GND`
@@ -268,40 +220,7 @@ PIN1 ──────┤+       -├────── PIN4
 
 ## Diagram5: -15V → -13.5V Buck Converter (LM2596S-ADJ #3)
 
-```
-                                LM2596S-ADJ (U5)
-                                ┌─────────────────┐
--15V ──────────┬────────────────┤5 VIN            │
-               │                │                 │
-               │         ┌──────┤3 ON             │
-               │         │      │                 │
-               │         │      │            VOUT ├4───┬─→ L3 ──┬─→ C11 ──┬─→ -13.5V/0.9A
-               │         │      │                 │    │ 100µH  │  470µF  │   (Output)
-               │         │      │              FB ├2───┼────────┼─────────┤
-               │         │      │                 │    │        │         │
-               │         │      │             GND ├1─┐ │        │         │
-               │         │      └─────────────────┘  │ │        │         │
-               │         │                           │ │        │         │
-              C9        C10                         GND│        │         │
-             100µF     100nF                           │        │         │
-          (input)   (decouple)                         │        │         │
-               │         │                             │        │         │
-              GND       GND                            │        │         │
-                                                       │        │         │
-                                           D3: SS34    │        │         │
-                                          Schottky ────┘       GND       GND
-                                           (Flyback)
-                                              │
-                                             GND
-
-                        Feedback Voltage Divider:
-                        -13.5V ─── R5 (10kΩ) ─┬─ R6 (1kΩ) ─── GND
-                                               │
-                                               └──→ FB (pin 2)
-
-Note: For negative voltage regulation, all voltages are referenced to GND (0V).
-      The buck converter operates with negative voltages, but the topology is identical.
-```
+<BuckU5Diagram />
 
 ### Connection List
 
@@ -325,13 +244,17 @@ Note: For negative voltage regulation, all voltages are referenced to GND (0V).
 - `C10 (100nF ceramic)`: `-15V input` ⟷ `GND` (high-frequency decoupling)
 
 **Output Capacitor:**
-- `C11 (470µF/25V electrolytic)`: `-13.5V output` ⟷ `GND` (output filtering)
+- `C11 (470µF/25V electrolytic)`: Connected **in parallel** between `-13.5V output` ⟷ `GND`
   - Polarity: Negative terminal to `-13.5V`, positive terminal to `GND`
+- Purpose: Output filtering, ripple reduction, and energy storage for transient response
+- **Important**: C11 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
 
 **Feedback Network:**
-- `-13.5V output` → `R5 (10kΩ)` → `U5 pin 2 (FB)`
-- `U5 pin 2 (FB)` → `R6 (1kΩ)` → `GND`
-- Voltage divider ratio: `VOUT = -1.23V × (1 + R5/R6) = -1.23V × (1 + 10kΩ/1kΩ) = -13.53V`
+- Voltage divider: `-13.5V output` → `R5 (10kΩ)` → **Tap point** → `R6 (1kΩ)` → `GND`
+- `U5 pin 2 (FB)` → Connected to **tap point** (junction between R5 and R6)
+- The tap point voltage = `-13.5V × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V`
+- Chip maintains FB pin at 1.23V below GND by adjusting duty cycle
+- Output voltage formula: `VOUT = -1.23V × (1 + R5/R6) = -1.23V × (1 + 10kΩ/1kΩ) = -13.53V`
 
 **Ground:**
 - `U5 pin 1 (GND)` → `System GND` (0V reference point)
