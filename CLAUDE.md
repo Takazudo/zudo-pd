@@ -52,6 +52,23 @@ The power supply uses a 4-stage architecture:
 
 Use English for all text to ensure international accessibility and collaboration. ASCII art diagrams should use English labels to avoid encoding issues.
 
+## URL Reference Guidelines
+
+When the user provides URLs starting with `http://localhost:3000/` in the conversation:
+
+- **DO NOT fetch the URL** - These are local documentation URLs served by Docusaurus
+- **Instead, find and read the corresponding markdown file** in the `/doc/` directory
+- Map URLs to file paths following Docusaurus routing:
+  - `http://localhost:3000/` → `/doc/docs/` (root pages)
+  - `http://localhost:3000/docs/inbox/overview` → `/doc/docs/inbox/overview.md`
+  - `http://localhost:3000/docs/inbox/circuit-diagrams` → `/doc/docs/inbox/circuit-diagrams.md`
+- Use the Read tool to access the actual markdown source files
+- This provides the raw content without HTML rendering, making it easier to edit and understand
+
+Example:
+- User mentions: `http://localhost:3000/docs/inbox/current-status`
+- Read file: `/doc/docs/inbox/current-status.md`
+
 ## File Types
 
 - `.md` files contain technical specifications and circuit diagrams in text format
