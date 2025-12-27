@@ -21,10 +21,10 @@ const config = {
 
   onBrokenLinks: 'throw',
 
-  // Japanese locale
+  // English locale
   i18n: {
-    defaultLocale: 'ja',
-    locales: ['ja'],
+    defaultLocale: 'en',
+    locales: ['en'],
   },
 
   // Enable Mermaid diagrams

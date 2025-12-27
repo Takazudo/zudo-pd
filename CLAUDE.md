@@ -43,7 +43,14 @@ The power supply uses a 4-stage architecture:
 
 ## Documentation Language
 
-All documentation is in Japanese. The project targets Japanese makers and uses Japanese component sourcing.
+**All documentation must be written in English.** This includes:
+- Circuit diagrams and annotations
+- Technical specifications
+- README files
+- Code comments
+- Commit messages
+
+Use English for all text to ensure international accessibility and collaboration. ASCII art diagrams should use English labels to avoid encoding issues.
 
 ## File Types
 

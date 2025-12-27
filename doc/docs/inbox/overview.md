@@ -2,135 +2,135 @@
 sidebar_position: 2
 ---
 
-# プロジェクト概要
+# Project Overview
 
-USB-C PD 15Vを入力として、モジュラーシンセサイザー用の±12V/+5V電源を供給するコンパクトな電源モジュールです。
+A compact power supply module that provides ±12V/+5V power for modular synthesizers using USB-C PD 15V as input.
 
-## 設計目標
+## Design Goals
 
-### 出力仕様
+### Output Specifications
 
-- **+12V**: 1200mA (設計余裕1.2A)
-- **-12V**: 800mA (設計余裕1.0A)
-- **+5V**: 500mA (設計余裕1.2A)
+- **+12V**: 1200mA (design margin 1.2A)
+- **-12V**: 800mA (design margin 1.0A)
+- **+5V**: 500mA (design margin 1.2A)
 
-### 入力
+### Input
 
-- **USB-C PD 15V 3A** (最大45W)
+- **USB-C PD 15V 3A** (max 45W)
 
-### 性能特性
+### Performance Characteristics
 
-- **効率**: 約75-80% (全体)
-- **リップルノイズ**: \<1mVp-p (最終出力)
-- **レギュレーション**: ±1% (線路・負荷変動)
-- **応答速度**: 優秀 (リニア段による)
-- **安全マージン**: 全回路150%以上
+- **Efficiency**: Approx. 75-80% (overall)
+- **Ripple Noise**: &lt;1mVp-p (final output)
+- **Regulation**: ±1% (line & load variation)
+- **Response Speed**: Excellent (due to linear stage)
+- **Safety Margin**: 150%+ across all circuits
 
-## アーキテクチャ
+## Architecture
 
-### 4段階設計
+### 4-Stage Design
 
-このプロジェクトは、ノイズを最小限に抑えながら効率的な電力変換を実現するため、4段階のアーキテクチャを採用しています。
+This project adopts a 4-stage architecture to achieve efficient power conversion while minimizing noise.
 
 ```
 USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             │
             ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
             │
-            └─→ -15V (反転) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
+            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
-#### 段階1: USB-PD給電部
+#### Stage 1: USB-PD Power Delivery
 
-- **CH224Q IC**: USB-C PDプロトコル交渉
-- **15V出力**: PD交渉により安定した15Vを取得
-- **状態表示**: LED1（赤色）で電源状態を表示
+- **CH224Q IC**: USB-C PD protocol negotiation
+- **15V Output**: Obtains stable 15V through PD negotiation
+- **Status Display**: LED1 (red) indicates power status
 
-#### 段階2: DC-DCコンバータ
+#### Stage 2: DC-DC Converter
 
-- **LM2596S-ADJ × 3**: 高効率降圧コンバータ
+- **LM2596S-ADJ × 3**: High-efficiency buck converter
   - +15V → +13.5V (for +12V rail)
   - +15V → +7.5V (for +5V rail)
   - -15V → -13.5V (for -12V rail)
-- **ICL7660**: 電圧反転IC (+15V → -15V)
-- **効率**: 約85-90%
+- **ICL7660**: Voltage inverter IC (+15V → -15V)
+- **Efficiency**: Approx. 85-90%
 
-#### 段階3: リニアレギュレータ
+#### Stage 3: Linear Regulator
 
-- **LM7812**: +13.5V → +12V (低ノイズ化)
-- **LM7805**: +7.5V → +5V (低ノイズ化)
-- **LM7912**: -13.5V → -12V (低ノイズ化)
-- **リップル**: \<1mVp-p
+- **LM7812**: +13.5V → +12V (noise reduction)
+- **LM7805**: +7.5V → +5V (noise reduction)
+- **LM7912**: -13.5V → -12V (noise reduction)
+- **Ripple**: &lt;1mVp-p
 
-#### 段階4: 保護回路（初心者対応・2段階保護）
+#### Stage 4: Protection Circuit (Beginner-Friendly, 2-Level Protection)
 
-- **PTCリセッタブルヒューズ**: 過負荷時に自動復帰
-- **SMDヒューズ**: 短絡時のバックアップ保護
-- **TVSダイオード**: サージ電圧保護
-- **LEDインジケータ**: 各電圧ラインの状態表示
+- **PTC Resettable Fuse**: Auto-recovery during overload
+- **SMD Fuse**: Backup protection during short circuit
+- **TVS Diode**: Surge voltage protection
+- **LED Indicator**: Status display for each voltage line
 
-## 設計の特長
+## Design Features
 
-### 1. 全てJLCPCB調達可能
+### 1. All Parts Available from JLCPCB
 
-- **Basic Parts多用**: 追加費用なし
-- **豊富な在庫**: 最小2,763個から最大2,100万個
-- **安定調達**: サプライチェーン安定
+- **Extensive Basic Parts Usage**: No additional costs
+- **Rich Inventory**: From minimum 2,763 to maximum 21 million units
+- **Stable Sourcing**: Stable supply chain
 
-### 2. 高性能設計
+### 2. High-Performance Design
 
-- **2段階フィルタ**: DC-DC + リニア で低ノイズ
-- **十分な余裕**: 全回路150%以上の安全マージン
-- **モジュラーシンセ最適**: 低ノイズ・高安定性
+- **2-Stage Filter**: DC-DC + Linear for low noise
+- **Sufficient Margin**: 150%+ safety margin across all circuits
+- **Modular Synth Optimized**: Low noise, high stability
 
-### 3. 初心者対応の保護回路
+### 3. Beginner-Friendly Protection Circuit
 
-- **PTC自動復帰**: モジュール接続過多でも30秒で復帰
-- **段階的保護**: 過負荷 → PTC、短絡 → ヒューズ
-- **視覚的フィードバック**: LED消灯で過負荷を即座に認識
-- **修理不要**: 通常の過負荷はユーザー自身で解決可能
+- **PTC Auto-Recovery**: Recovers in 30 seconds even with excessive module connections
+- **Staged Protection**: Overload → PTC, Short circuit → Fuse
+- **Visual Feedback**: Instantly recognize overload by LED extinguishing
+- **No Repair Needed**: Users can resolve normal overloads themselves
 
-### 4. 実装性
+### 4. Manufacturability
 
-- **全SMD部品**: 自動実装対応
-- **TO-220パッケージ**: ヒートシンク取付容易
-- **分離設計**: DC-DC段とリニア段の物理分離
+- **All SMD Components**: Compatible with automated assembly
+- **TO-220 Package**: Easy heatsink mounting
+- **Separated Design**: Physical separation of DC-DC and linear stages
 
-## 保護回路の動作
+## Protection Circuit Operation
 
-### 通常時
+### Normal Operation
 
-- PTCは抵抗ゼロ
-- LEDが明るく点灯 ✅
+- PTC has zero resistance
+- LED lights brightly ✅
 
-### 過負荷時（1.2-2A）
+### Overload (1.2-2A)
 
-- PTCが高抵抗化
-- LED消灯
-- モジュールを減らして30秒待つ
-- 自動復帰 🔄
+- PTC becomes high resistance
+- LED extinguishes
+- Reduce modules and wait 30 seconds
+- Auto-recovery 🔄
 
-### 短絡時（>2A）
+### Short Circuit (>2A)
 
-- ヒューズ溶断
-- 修理必要 ❌
+- Fuse blows
+- Repair required ❌
 
-## 次のステップ
+## Next Steps
 
-1. **未検索部品の確定**:
-   - PTCリセッタブルヒューズ (1.1A, 0.75A, 0.9A @ 16V)
-   - 2A SMDヒューズ (+12V用バックアップ)
+1. **Finalize Unsearched Components**:
+   - PTC Resettable Fuse (1.1A, 0.75A, 0.9A @ 16V)
+   - 2A SMD Fuse (+12V backup)
 
-2. **基板設計**:
-   - 4層基板 (電源プレーン分離)
-   - サーマルビア配置
-   - EMI対策レイアウト
+2. **PCB Design**:
+   - 4-layer PCB (power plane separation)
+   - Thermal via placement
+   - EMI countermeasure layout
 
-3. **プロトタイプ製作**:
-   - JLCPCB SMTサービス利用
-   - 初期ロット10個程度
+3. **Prototype Manufacturing**:
+   - Use JLCPCB SMT service
+   - Initial lot of approximately 10 units
 
-4. **性能検証**:
-   - リップルノイズ測定
-   - 負荷応答特性
-   - 熱設計検証
+4. **Performance Verification**:
+   - Ripple noise measurement
+   - Load response characteristics
+   - Thermal design verification

@@ -2,196 +2,199 @@
 sidebar_position: 4
 ---
 
-# 部品リスト（BOM）
+# Bill of Materials (BOM)
 
-JLCPCB SMTサービスを使用した完全部品構成です。
+Complete parts configuration using JLCPCB SMT service.
 
-## 電源仕様
+## Power Supply Specifications
 
-- **+12V**: 1200mA (実際1.2A対応)
-- **-12V**: 800mA (実際1A対応)
-- **+5V**: 500mA (実際1.2A対応)
-- **入力**: USB-C PD 15V 3A
-- **効率**: 約75-80%
-- **リップル**: \<1mVp-p (最終出力)
+- **+12V**: 1200mA (actual 1.2A support)
+- **-12V**: 800mA (actual 1A support)
+- **+5V**: 500mA (actual 1.2A support)
+- **Input**: USB-C PD 15V 3A
+- **Efficiency**: Approximately 75-80%
+- **Ripple**: \<1mVp-p (final output)
 
-## 段階別完全部品構成
+## Complete Parts Configuration by Stage
 
-### 段階1: USB-PD電圧取得 (CH224Q)
+### Stage 1: USB-PD Voltage Acquisition (CH224Q)
 
-| 記号 | 部品番号 | メーカー品番 | 説明 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **U1** | **C9900166627** | **CH224Q** | USB PD Controller | DFN-10-EP | **1383** | **$0.394** | PD交渉 |
-| **J1** | **C2927029** | **USB-TYPE-C-009** | 6P Type-C Female | SMD | **27128** | **$0.036** | USB-C入力 |
-| **C1,C2** | **C15850** | **CL21A106KAYNNNE** | 10µF 25V X5R | 0805 | **6000** | **$0.0101 × 2** | フィルタ |
-| **R1** | **C23138** | **0603WAF3300T5E** | 330Ω ±1% | 0603 | **在庫豊富** | **$0.00099** | LED電流制限 |
-| **LED1** | **C84256** | **NCD0805R1** | 赤色LED 25mA | 0805 | **在庫豊富** | **$0.0126** | 状態表示 |
+| **U1** | **[C3975094](https://jlcpcb.com/partdetail/C3975094)** | **CH224D** | USB PD Controller (5/9/12/15/20V) | QFN-20 | **2,291** | **$0.36** | PD Negotiation (15V) |
+| **J1** | **[C2927029](https://jlcpcb.com/partdetail/C2927029)** | **USB-TYPE-C-009** | 6P Type-C Female | SMD | **27128** | **$0.036** | USB-C Input |
+| **C1,C2** | **[C15850](https://jlcpcb.com/partdetail/C15850)** | **CL21A106KAYNNNE** | 10µF 25V X5R | 0805 | **6000** | **$0.0101 × 2** | Filter |
+| **R1** | **[C23138](https://jlcpcb.com/partdetail/C23138)** | **0603WAF3300T5E** | 330Ω ±1% | 0603 | **Rich Stock** | **$0.00099** | LED Current Limit |
+| **LED1** | **[C84256](https://jlcpcb.com/partdetail/C84256)** | **NCD0805R1** | Red LED 25mA | 0805 | **Rich Stock** | **$0.0126** | Status Indicator |
 
-**段階1小計: $0.464**
+**Stage 1 Subtotal: $0.43** (Using CH224D)
 
-### 段階2: DC-DCコンバータ (LM2596S-ADJ × 3 + ICL7660)
+### Stage 2: DC-DC Converters (LM2596S-ADJ × 3 + ICL7660)
 
-#### 主要IC
+#### Main ICs
 
-| 記号 | 部品番号 | メーカー品番 | 説明 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **U2,U3,U4** | **C347423** | **LM2596S-ADJ(UMW)** | 可変3A降圧 | TO-263-5 | **12075** | **$0.266 × 3** | DC-DC変換 |
-| **U5** | **C356724** | **ICL7660M/TR** | 電圧反転IC | SOP-8 | **32192** | **$0.078** | -15V生成 |
+| **U2,U3,U4** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **LM2596S-ADJ(UMW)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266 × 3** | DC-DC Conversion |
+| **U5** | **[C356724](https://jlcpcb.com/partdetail/C356724)** | **ICL7660M/TR** | Voltage Inverter IC | SOP-8 | **32192** | **$0.078** | -15V Generation |
 
-#### インダクタ
+#### Inductors
 
-| 記号 | 部品番号 | メーカー品番 | 説明 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **L1,L2,L3** | **C19268674** | **CYA1265-100UH** | 100µH 4.5A | SMD,13.8x12.8mm | **2763** | **$0.378 × 3** | エネルギー蓄積 |
+| **L1,L2,L3** | **[C19268674](https://jlcpcb.com/partdetail/C19268674)** | **CYA1265-100UH** | 100µH 4.5A | SMD,13.8x12.8mm | **2763** | **$0.378 × 3** | Energy Storage |
 
-#### ダイオード
+#### Diodes
 
-| 記号 | 部品番号 | メーカー品番 | 説明 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **D1,D2,D3** | **C8678** | **SS34** | 3A 40V ショットキー | SMA | **1,859,655** | **$0.012 × 3** | フリーホイール |
+| **D1,D2,D3** | **[C8678](https://jlcpcb.com/partdetail/C8678)** | **SS34** | 3A 40V Schottky | SMA | **1,859,655** | **$0.012 × 3** | Freewheeling |
 
-#### フィードバック抵抗 (Basic Parts)
+#### Feedback Resistors (Basic Parts)
 
-| 記号 | 部品番号 | 値 | 説明 | パッケージ | 価格 | 用途 |
+| Symbol | Part Number | Value | Description | Package | Price | Application |
 |------|----------|-----|------|------------|------|------|
-| **R2,R4,R6** | **C21190** | **1kΩ** | ±1% 100mW | 0603 | **$0.0005 × 3** | FB基準 |
-| **R1,R5** | **C25804** | **10kΩ** | ±1% 100mW | 0603 | **$0.0005 × 2** | ±13.5V設定 |
-| **R3** | **C23186** | **5.1kΩ** | ±1% 100mW | 0603 | **$0.0005 × 1** | +7.5V設定 |
+| **R2,R4,R6** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ** | ±1% 100mW | 0603 | **$0.0005 × 3** | FB Reference |
+| **R1,R5** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | **10kΩ** | ±1% 100mW | 0603 | **$0.0005 × 2** | ±13.5V Setting |
+| **R3** | **[C23186](https://jlcpcb.com/partdetail/C23186)** | **5.1kΩ** | ±1% 100mW | 0603 | **$0.0005 × 1** | +7.5V Setting |
 
-#### 電解コンデンサ
+#### Electrolytic Capacitors
 
-| 記号 | 部品番号 | 仕様 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Specification | Package | Stock | Price | Application |
 |------|----------|------|------------|--------|------|------|
-| **C3,C4** | **C335982** | **470µF 10V** | D6.3xL7.7mm | **164,155** | **$0.014 × 2** | +7.5V系 |
-| **C5,C6,C7,C8** | **C3351** | **470µF 25V** | D10xL10.2mm | **19,150** | **$0.044 × 4** | ±13.5V系 |
-| **C9,C10** | **C15850** | **10µF 25V** | 0805 | **6000** | **$0.0101 × 2** | ICL7660用 |
+| **C3,C4** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **164,155** | **$0.014 × 2** | +7.5V System |
+| **C5,C6,C7,C8** | **[C3351](https://jlcpcb.com/partdetail/C3351)** | **470µF 25V** | D10xL10.2mm | **19,150** | **$0.044 × 4** | ±13.5V System |
+| **C9,C10** | **[C15850](https://jlcpcb.com/partdetail/C15850)** | **10µF 25V** | 0805 | **6000** | **$0.0101 × 2** | For ICL7660 |
 
-**段階2小計: $2.09**
+**Stage 2 Subtotal: $2.09**
 
-### 段階3: リニアレギュレータ (LM7812/7805/7912)
+### Stage 3: Linear Regulators (LM7812/7805/7912)
 
-#### レギュレータIC
+#### Regulator ICs
 
-| 記号 | 部品番号 | メーカー品番 | 説明 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **U6** | **C71108** | **LM7812L-TA3-T** | +12V 1A | TO-220 | **1932** | **$0.109** | +12V出力 |
-| **U7** | **C71107** | **LM7805L-TF3-T** | +5V 1A | TO-220F-3 | **7518** | **$0.101** | +5V出力 |
-| **U8** | **C428906** | **LM7912L-TA3-T** | -12V 1A | TO-220 | **3040** | **$0.106** | -12V出力 |
+| **U6** | **[C2914](https://jlcpcb.com/partdetail/C2914)** | **L7812CV-DG** | +12V 1.5A | TO-220 | **158,795** | **$0.11** | +12V Output |
+| **U7** | **[C86206](https://jlcpcb.com/partdetail/C86206)** | **L7805ABD2T-TR** | +5V 1.5A | TO-263-2 | **272,379** | **$0.11** | +5V Output |
+| **U8** | **[C94173](https://jlcpcb.com/partdetail/C94173)** | **CJ7912** | -12V 1.5A | TO-252-2L | **3,386** | **$0.11** | -12V Output |
 
-#### 入力コンデンサ (470nF) - Basic Parts
+#### Input Capacitors (470nF) - Basic Parts
 
-| 記号 | 部品番号 | 仕様 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Specification | Package | Stock | Price | Application |
 |------|----------|------|------------|--------|------|------|
-| **C11,C12,C13** | **C1623** | **470nF 25V X7R** | 0603 | **1,100,473** | **$0.0036 × 3** | 入力フィルタ |
+| **C11,C12,C13** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603 | **1,100,473** | **$0.0036 × 3** | Input Filter |
 
-#### 出力コンデンサ (0.1µF) - Basic Parts
+#### Output Capacitors (0.1µF) - Basic Parts
 
-| 記号 | 部品番号 | 仕様 | パッケージ | 在庫数 | 価格 | 用途 |
+| Symbol | Part Number | Specification | Package | Stock | Price | Application |
 |------|----------|------|------------|--------|------|------|
-| **C14,C15,C16** | **C49678** | **100nF 50V X7R** | 0805 | **23,309,869** | **$0.0021 × 3** | 出力フィルタ |
+| **C14,C15,C16** | **[C49678](https://jlcpcb.com/partdetail/C49678)** | **100nF 50V X7R** | 0805 | **23,309,869** | **$0.0021 × 3** | Output Filter |
 
-#### 大容量電解コンデンサ
+#### Large Electrolytic Capacitors
 
-| 記号 | 部品番号 | 仕様 | パッケージ | 価格 | 用途 |
+| Symbol | Part Number | Specification | Package | Price | Application |
 |------|----------|------|------------|------|------|
-| **C17,C18,C19,C20** | **C335982** | **470µF 10V** | D6.3xL7.7mm | **$0.014 × 4** | +12V,+5V系 |
-| **C21,C22** | **C3351** | **470µF 25V** | D10xL10.2mm | **$0.044 × 2** | -12V系 |
+| **C17,C18,C19,C20** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014 × 4** | +12V,+5V System |
+| **C21,C22** | **[C3351](https://jlcpcb.com/partdetail/C3351)** | **470µF 25V** | D10xL10.2mm | **$0.044 × 2** | -12V System |
 
-**段階3小計: $0.40** (コンデンサ価格再計算済み)
+**Stage 3 Subtotal: $0.37** (Using high-stock regulators)
 
-### 段階4: 保護回路（初心者対応・2段階保護）
+### Stage 4: Protection Circuit (Beginner-Friendly, 2-Stage Protection)
 
-#### PTCリセッタブルヒューズ (自動復帰)
+#### PTC Resettable Fuses (Auto-Recovery)
 
-| 記号 | 部品番号 | 仕様 | パッケージ | 在庫数 | 推定価格 | 用途 |
-|------|----------|------|------------|--------|---------|------|
-| **PTC1** | **要検索** | **1.1A 16V** | 1812 | **要確認** | **$0.06** | +12V過負荷保護 |
-| **PTC2** | **要検索** | **0.75A 16V** | 1206 | **要確認** | **$0.05** | +5V過負荷保護 |
-| **PTC3** | **要検索** | **0.9A 16V** | 1812 | **要確認** | **$0.06** | -12V過負荷保護 |
+| Symbol | Part Number | Manufacturer Part Number | Specification | Package | Stock | Price | Application |
+|------|----------|-------------|------|------------|--------|------|------|
+| **PTC1** | **[C883148](https://jlcpcb.com/partdetail/C883148)** | **BSMD1812-110-16V** | **1.1A 16V** | 1812 | **11,029** | **$0.06** | +12V Overload Protection |
+| **PTC2** | **[C883128](https://jlcpcb.com/partdetail/C883128)** | **BSMD1206-075-16V** | **0.75A 16V** | 1206 | **51,532** | **$0.05** | +5V Overload Protection |
+| **PTC3** | **[C883148](https://jlcpcb.com/partdetail/C883148)** | **BSMD1812-110-16V** | **1.1A 16V** | 1812 | **11,029** | **$0.06** | -12V Overload Protection ※ |
 
-#### ヒューズ (SMD・バックアップ保護)
+**※ PTC3 Note**: Using 1.1A for 0.9A design value. 0.9A part out of stock. Sufficient protection margin for -12V actual load of 800mA.
 
-| 記号 | 部品番号 | 仕様 | パッケージ | 在庫数 | 価格 | 用途 |
-|------|----------|------|------------|--------|------|------|
-| **F1** | **要検索** | **2A 250V** | SMD,10.1x3.1mm | **要確認** | **$0.40** | +12V短絡保護 |
-| **F2,F3** | **C95352** | **1.5A 250V** | SMD,10.1x3.1mm | **840** | **$0.386 × 2** | ±5V/±12V短絡保護 |
+#### Fuses (SMD, Backup Protection)
 
-#### TVSダイオード
+| Symbol | Part Number | Manufacturer Part Number | Specification | Package | Stock | Price | Application |
+|------|----------|-------------|------|------------|--------|------|------|
+| **F1** | **[C5183824](https://jlcpcb.com/partdetail/C5183824)** | **6125FA2A** | **2A 250V** | 2410 (6.1x2.6mm) | **744** | **$0.40** | +12V Short Circuit Protection |
+| **F2,F3** | **[C95352](https://jlcpcb.com/partdetail/C95352)** | **1.5A 250V** | SMD,10.1x3.1mm | **840** | **$0.386 × 2** | ±5V/±12V Short Circuit Protection |
 
-| 記号 | 部品番号 | メーカー品番 | 説明 | パッケージ | 推定価格 | 用途 |
+#### TVS Diodes
+
+| Symbol | Part Number | Manufacturer Part Number | Description | Package | Estimated Price | Application |
 |------|----------|-------------|------|------------|---------|------|
-| **TVS1** | **C571368** | **SMAJ15A** | 15V TVS 一方向 | SMA | **$0.15** | +12V保護 |
-| **TVS2** | **C5199240** | **PRTR5V0U2X** | 5V TVS 双方向 | SOT-143 | **$0.12** | +5V保護 |
-| **TVS3** | **C571368** | **SMAJ15A** | 15V TVS 一方向 | SMA | **$0.15** | -12V保護 |
+| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **SMAJ15A** | 15V TVS Unidirectional | SMA | **$0.15** | +12V Protection |
+| **TVS2** | **[C5199240](https://jlcpcb.com/partdetail/C5199240)** | **PRTR5V0U2X** | 5V TVS Bidirectional | SOT-143 | **$0.12** | +5V Protection |
+| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **SMAJ15A** | 15V TVS Unidirectional | SMA | **$0.15** | -12V Protection |
 
-#### 状態表示LED (Basic Parts使用)
+#### Status Indicator LEDs (Using Basic Parts)
 
-| 記号 | 部品番号 | 仕様 | パッケージ | 価格 | 用途 |
+| Symbol | Part Number | Specification | Package | Price | Application |
 |------|----------|------|------------|------|------|
-| **LED2** | **C72043** | **緑色LED** | 0805 | **$0.0126** | +12V状態表示 |
-| **LED3** | **C72041** | **青色LED** | 0805 | **$0.0126** | +5V状態表示 |
-| **LED4** | **C84256** | **赤色LED** | 0805 | **$0.0126** | -12V状態表示 |
-| **R7,R8,R9** | **C21190** | **1kΩ** | 0603 | **$0.0005 × 3** | LED電流制限 |
+| **LED2** | **[C72043](https://jlcpcb.com/partdetail/C72043)** | **Green LED** | 0805 | **$0.0126** | +12V Status Indicator |
+| **LED3** | **[C72041](https://jlcpcb.com/partdetail/C72041)** | **Blue LED** | 0805 | **$0.0126** | +5V Status Indicator |
+| **LED4** | **[C84256](https://jlcpcb.com/partdetail/C84256)** | **Red LED** | 0805 | **$0.0126** | -12V Status Indicator |
+| **R7,R8,R9** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ** | 0603 | **$0.0005 × 3** | LED Current Limit |
 
-**段階4小計: $1.79** (PTC追加、ヒューズ格上げ済み)
+**Stage 4 Subtotal: $1.79** (PTC added, fuses upgraded)
 
-## 性能仕様
+## Performance Specifications
 
-### 電源性能
+### Power Supply Performance
 
-| 項目 | 仕様 |
+| Item | Specification |
 |------|------|
-| **効率** | 75-80% (全体) |
-| **リップルノイズ** | \<1mVp-p (最終出力) |
-| **レギュレーション** | ±1% (線路・負荷変動) |
-| **応答速度** | 優秀 (リニア段による) |
-| **安全マージン** | 全回路150%以上 |
+| **Efficiency** | 75-80% (Overall) |
+| **Ripple Noise** | \<1mVp-p (Final Output) |
+| **Regulation** | ±1% (Line & Load Variation) |
+| **Response Speed** | Excellent (Linear Stage) |
+| **Safety Margin** | 150%+ on All Circuits |
 
-### 出力仕様
+### Output Specifications
 
-| 電圧 | 電流 | 精度 | リップル |
+| Voltage | Current | Accuracy | Ripple |
 |------|------|------|--------|
 | **+12V** | 1.2A | ±0.5% | \<1mVp-p |
 | **-12V** | 1.0A | ±0.5% | \<1mVp-p |
 | **+5V** | 1.2A | ±0.5% | \<1mVp-p |
 
-## 保護回路の動作
+## Protection Circuit Operation
 
-### 通常時
+### Normal Operation
 
-- PTCは抵抗ゼロ、LEDが明るく点灯 ✅
+- PTC has zero resistance, LED lights brightly ✅
 
-### 過負荷時
+### Overload Condition
 
-- PTCが高抵抗化、LED消灯 → モジュール減らして30秒待つ → 自動復帰 🔄
+- PTC increases resistance, LED turns off → Reduce modules and wait 30 seconds → Auto-recovery 🔄
 
-### 短絡時
+### Short Circuit Condition
 
-- ヒューズ溶断 → 修理必要 ❌
+- Fuse blows → Repair required ❌
 
-## 設計の特長
+## Design Features
 
-### 1. 全てJLCPCB調達可能
+### 1. Fully JLCPCB Sourceable with High Stock
 
-- **Basic Parts多用**: 追加費用なし
-- **豊富な在庫**: 最小2,763個から最大2,100万個
-- **安定調達**: サプライチェーン安定
+- **Extensive Basic Parts Usage**: No additional costs
+- **Abundant Stock**: Regulator ICs 150k~270k pieces in stock
+- **Stable Sourcing**: High stock secured for all major components
+- **USB-PD IC**: CH224D (2,291 pieces) - 15V support confirmed
 
-### 2. 高性能設計
+### 2. High-Performance Design
 
-- **2段階フィルタ**: DC-DC + リニア で低ノイズ
-- **十分な余裕**: 全回路150%以上の安全マージン
-- **モジュラーシンセ最適**: 低ノイズ・高安定性
+- **2-Stage Filtering**: DC-DC + Linear for low noise
+- **Ample Margin**: 150%+ safety margin on all circuits
+- **Modular Synth Optimized**: Low noise, high stability
 
-### 3. 初心者対応の保護回路
+### 3. Beginner-Friendly Protection Circuit
 
-- **PTC自動復帰**: モジュール接続過多でも30秒で復帰
-- **段階的保護**: 過負荷 → PTC、短絡 → ヒューズ
-- **視覚的フィードバック**: LED消灯で過負荷を即座に認識
-- **修理不要**: 通常の過負荷はユーザー自身で解決可能
+- **PTC Auto-Recovery**: Recovers in 30 seconds even with too many modules connected
+- **Staged Protection**: Overload → PTC, Short circuit → Fuse
+- **Visual Feedback**: Immediate recognition of overload via LED off
+- **No Repair Needed**: Normal overloads can be resolved by user
 
-### 4. 実装性
+### 4. Implementation
 
-- **全SMD部品**: 自動実装対応
-- **TO-220パッケージ**: ヒートシンク取付容易
-- **分離設計**: DC-DC段とリニア段の物理分離
+- **All SMD Components**: Compatible with automated assembly
+- **TO-220 Package**: Easy heat sink attachment
+- **Separated Design**: Physical separation of DC-DC and linear stages

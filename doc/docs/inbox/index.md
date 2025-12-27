@@ -6,40 +6,40 @@ pagination_prev: null
 
 # INBOX
 
-USB-PD駆動モジュラーシンセサイザー電源のドキュメントです。
+Documentation for USB-PD powered modular synthesizer power supply.
 
-## 現在のコンテンツ
+## Current Content
 
-### プロジェクト管理
+### Project Management
 
-- **[📍 プロジェクト現状とプラン](current-status.md)** - 今どこまで進んだ？次に何をする？
+- **[📍 Project Status and Plan](current-status.md)** - Where are we now? What's next?
 
-### 設計ドキュメント
+### Design Documentation
 
-- **[プロジェクト概要](overview.md)** - 設計目標、アーキテクチャ、特長
-- **[回路図](circuit-diagrams.md)** - 完全な回路構成（段階1-4）
-- **[部品リスト](parts-list.md)** - JLCPCB対応BOM
-- **[📋 クイックリファレンス](quick-reference.md)** - よく使う仕様・計算式・FAQ
+- **[Project Overview](overview.md)** - Design goals, architecture, features
+- **[Circuit Diagrams](circuit-diagrams.md)** - Complete circuit configuration (Stages 1-4)
+- **[Parts List](parts-list.md)** - JLCPCB-compatible BOM
+- **[📋 Quick Reference](quick-reference.md)** - Common specs, formulas, FAQ
 
-## プロジェクトの特徴
+## Project Features
 
-### 4段階設計
+### 4-Stage Design
 
-1. **USB-PD給電部** (CH224Q)
-2. **DC-DCコンバータ** (LM2596S × 3 + ICL7660)
-3. **リニアレギュレータ** (LM7812/7805/7912)
-4. **保護回路** (PTC + ヒューズ + TVS)
+1. **USB-PD Power Supply** (CH224Q)
+2. **DC-DC Converters** (LM2596S × 3 + ICL7660)
+3. **Linear Regulators** (LM7812/7805/7912)
+4. **Protection Circuit** (PTC + Fuse + TVS)
 
-### 性能
+### Performance
 
-- **出力**: +12V/1.2A, -12V/1A, +5V/1.2A
-- **リップル**: \<1mVp-p
-- **効率**: 75-80%
-- **保護**: 2段階（PTC自動復帰 + ヒューズバックアップ）
+- **Output**: +12V/1.2A, -12V/1A, +5V/1.2A
+- **Ripple**: &lt;1mVp-p
+- **Efficiency**: 75-80%
+- **Protection**: 2-stage (PTC auto-reset + fuse backup)
 
-## 追加予定のコンテンツ
+## Planned Content
 
-- PCB設計ガイドライン
-- 製造手順
-- テスト手順
-- 組み立てガイド
+- PCB design guidelines
+- Manufacturing procedures
+- Testing procedures
+- Assembly guide

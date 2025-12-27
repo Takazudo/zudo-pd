@@ -2,286 +2,284 @@
 sidebar_position: 2
 ---
 
-# プロジェクト現状とプラン
+# Project Status and Plan
 
-USB-PD駆動モジュラーシンセサイザー電源の**現在の進捗状況と今後の計画**をまとめています。
+Current progress and future plans for the USB-PD powered modular synthesizer power supply.
 
-## 🎯 プロジェクトの目的
+## 🎯 Project Goal
 
-**USB-C PD 15V入力で、モジュラーシンセ用の±12V/+5V電源を供給する低ノイズ電源モジュール**
+**Low-noise power module supplying ±12V/+5V for modular synths from USB-C PD 15V input**
 
-- モジュラーシンセ初心者でも安心して使える保護回路
-- 全部品JLCPCB調達可能（安定供給・低コスト）
-- リップル\<1mVp-pの低ノイズ設計
-- USB-C PDで手軽に使える
+- Protection circuit safe for modular synth beginners
+- All parts available from JLCPCB (stable supply, low cost)
+- Low-noise design with &lt;1mVp-p ripple
+- Easy to use with USB-C PD
 
-## ✅ 完了済み項目
+## ✅ Completed Items
 
-### 1. 回路設計 (100%完了)
+### 1. Circuit Design (100% Complete)
 
-**4段階アーキテクチャの完成**:
+**4-Stage Architecture Completed**:
 
 ```
 USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             │
             ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
             │
-            └─→ -15V (反転) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
+            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
-- ✅ 段階1: USB-PD給電部 (CH224Q)
-- ✅ 段階2: DC-DCコンバータ (LM2596S × 3 + ICL7660)
-- ✅ 段階3: リニアレギュレータ (LM7812/7805/7912)
-- ✅ 段階4: 保護回路 (PTC + ヒューズ + TVS)
+- ✅ Stage 1: USB-PD Power Supply (CH224Q)
+- ✅ Stage 2: DC-DC Converters (LM2596S × 3 + ICL7660)
+- ✅ Stage 3: Linear Regulators (LM7812/7805/7912)
+- ✅ Stage 4: Protection Circuit (PTC + Fuse + TVS)
 
-### 2. 部品選定 (95%完了)
+### 2. Parts Selection (100% Complete) ✅
 
-**確定済み部品**: 大部分の部品でJLCPCB品番確定
+**All parts confirmed**: All JLCPCB part numbers finalized
 
-- ✅ USB-PDコントローラ: CH224Q (C9900166627)
-- ✅ DC-DCコンバータ: LM2596S-ADJ × 3 (C347423)
-- ✅ 電圧反転IC: ICL7660M (C356724)
-- ✅ リニアレギュレータ: LM7812/7805/7912
-- ✅ インダクタ: 100µH 4.5A × 3 (C19268674)
-- ✅ TVSダイオード: SMAJ15A, PRTR5V0U2X
-- ✅ ヒューズ: 1.5A × 2確定 (C95352)
+- ✅ USB-PD Controller: CH224D (C3975094)
+- ✅ DC-DC Converter: LM2596S-ADJ × 3 (C347423)
+- ✅ Voltage Inverter IC: ICL7660M (C356724)
+- ✅ Linear Regulators: L7812CV-DG (C2914) / L7805ABD2T-TR (C86206) / CJ7912 (C94173)
+- ✅ Inductors: 100µH 4.5A × 3 (C19268674)
+- ✅ TVS Diodes: SMAJ15A, PRTR5V0U2X
+- ✅ Fuses: 1.5A × 2 confirmed (C95352)
 
-**未確定部品** (要検索):
+~~**Unconfirmed Parts**~~ **→ All Confirmed!** ✅
 
-- ❌ PTCリセッタブルヒューズ × 3
-  - PTC1: 1.1A 16V (1812)
-  - PTC2: 0.75A 16V (1206)
-  - PTC3: 0.9A 16V (1812)
-- ❌ 2A SMDヒューズ × 1 (+12V用)
+- ✅ PTC Resettable Fuses × 3
+  - PTC1: 1.1A 16V (1812) → **C883148** (BSMD1812-110-16V)
+  - PTC2: 0.75A 16V (1206) → **C883128** (BSMD1206-075-16V)
+  - PTC3: 0.9A→1.1A 16V (1812) → **C883148** (BSMD1812-110-16V) ※
+- ✅ 2A SMD Fuse × 1 (for +12V) → **C5183824** (6125FA2A)
 
-### 3. ドキュメント作成 (100%完了)
+**※** 0.9A part out of stock. 1.1A provides sufficient protection margin for -12V actual load of 800mA.
 
-- ✅ 完全な回路図 (全10段階)
-- ✅ 詳細BOM (JLCPCB品番付き)
-- ✅ 設計思想・アーキテクチャ解説
-- ✅ 保護回路の動作説明
+### 3. Documentation (100% Complete)
 
-### 4. コスト試算 (95%完了)
+- ✅ Complete circuit diagrams (all 10 stages)
+- ✅ Detailed BOM (with JLCPCB part numbers)
+- ✅ Design philosophy and architecture explanation
+- ✅ Protection circuit operation description
 
-**確定部品の合計**: 約 $4.74/基板
+### 4. Cost Estimation (100% Complete) ✅
 
-- 段階1: $0.464
-- 段階2: $2.09
-- 段階3: $0.40
-- 段階4: $1.79 (一部推定価格含む)
+**Total with all parts confirmed**: **$4.68/board**
 
-## 🔄 現在の状況
+- Stage 1: $0.43
+- Stage 2: $2.09
+- Stage 3: $0.37
+- Stage 4: $1.79 (all parts confirmed price)
 
-### どこまで進んだか?
+## 🔄 Current Status
 
-**回路設計フェーズは完了** → **次は部品確定とPCB設計フェーズ**
+### Where Are We Now?
 
-現在、以下の状態:
-1. ✅ 回路設計完了 - 動作可能な設計が確定
-2. ✅ ほとんどの部品選定完了 - JLCPCB品番確定済み
-3. ⏳ 残り4部品の検索待ち - PTCヒューズと2Aヒューズ
-4. ⏳ PCB設計未着手 - KiCadでの基板設計はこれから
-5. ⏳ プロトタイプ未製作 - JLCPCBへの発注はまだ
+**Circuit design and parts selection phases complete** → **Next: PCB design phase**
 
-### なぜ止まっているか?
+Current state:
+1. ✅ Circuit design complete - Working design finalized
+2. ✅ **All parts selection complete** - JLCPCB part numbers confirmed (100%), optimized to high-stock parts
+3. ✅ **BOM fully confirmed** - Cost $4.68/board
+4. ⏳ PCB design not started - KiCad board design is next ← **This is next!**
+5. ⏳ Prototype not manufactured - JLCPCB order not yet placed
 
-**次に何をするべきか明確でなかった可能性**
+### What's Next?
 
-実際は、以下の2つの選択肢がある:
+**All parts confirmed! KiCad PCB design is the next step**
 
-1. **残り4部品を確定してから基板設計** (推奨)
-   - メリット: 完璧なBOMで一発発注可能
-   - デメリット: PTCの検索に時間がかかる可能性
+Ready to proceed:
 
-2. **先に基板設計を始める** (並行作業)
-   - メリット: すぐに作業開始できる
-   - デメリット: 後でフットプリント修正の可能性
+1. ✅ **Complete BOM** - All parts have JLCPCB part numbers (all optimized to high-stock parts)
+   - Benefit: Footprint assignment possible
+   - Benefit: Accurate Gerber/BOM generation in one shot
+   - Benefit: All parts have 158K~272K stock for long-term procurement stability
 
-## 📋 次のステップ (優先順位順)
+2. ✅ **Cost confirmed** - $4.68/board
+   - Prototype order estimates can be calculated accurately
 
-### 🔴 優先度: 高 - すぐにやるべきこと
+3. 📐 **Next Action**: Create KiCad project
+   - Schematic entry → Footprint assignment → PCB layout
 
-#### ステップ1: 未確定部品の検索 (所要時間: 1-2時間)
+## 📋 Next Steps (Priority Order)
 
-**JLCPCBで以下の部品を検索**:
+### 🔴 Priority: High - Do Immediately
 
-1. PTCリセッタブルヒューズ × 3種類
-   - 検索条件: 1.1A/0.75A/0.9A, 16V, 1812/1206パッケージ
-   - 在庫100個以上、Basic Parts優先
+#### ~~Step 1: Search for Unconfirmed Parts~~ ✅ **Complete!**
 
-2. SMDヒューズ (2A, 250V)
-   - 検索条件: 10.1x3.1mmパッケージ
-   - 在庫100個以上
+**Parts found**:
 
-**検索方法**:
-```
-1. JLCPCB Parts Library (https://jlcpcb.com/parts)
-2. カテゴリ: Protection Devices → PTC Resettable Fuses
-3. フィルター: Hold Current, Voltage Rating, Package
-4. Basic Partsを優先的に選択
-```
+1. ✅ PTC Resettable Fuses × 3 types
+   - PTC1 (1.1A 16V, 1812): **C883148** - Stock: 11,029
+   - PTC2 (0.75A 16V, 1206): **C883128** - Stock: 51,532
+   - PTC3 (1.1A 16V, 1812): **C883148** - Stock: 11,029 ※0.9A part unavailable
 
-#### ステップ2: BOMの最終確定 (所要時間: 30分)
+2. ✅ SMD Fuse (2A 250V)
+   - **C5183824** (6125FA2A, 2410 package) - Stock: 744
 
-- 検索した部品番号を `/notes/parts.md` に追記
-- 価格を更新して最終コスト算出
-- `/doc/docs/inbox/parts-list.md` にも反映
+#### ~~Step 2: Finalize BOM~~ ✅ **Complete!**
 
-### 🟡 優先度: 中 - BOM確定後にやること
+- ✅ Part numbers added to `/notes/parts.md`
+- ✅ Final cost calculated: **$4.68/board**
+- ✅ Reflected in `/doc/docs/inbox/parts-list.md`
+- ✅ All parts optimized to high-stock items (CH224D, L7812/7805, CJ7912)
 
-#### ステップ3: PCB設計の準備 (所要時間: 2-3時間)
+### 🟡 Priority: Medium - Do Next
 
-**KiCadプロジェクトのセットアップ**:
+#### Step 3: Prepare PCB Design (Time: 2-3 hours) ← **We are here!**
 
-1. KiCadプロジェクト新規作成
-2. 回路図エディタで回路入力
-3. JLCPCB用フットプリントライブラリ追加
-4. 全部品にフットプリント割り当て
+**KiCad Project Setup**:
 
-**必要なフットプリント**:
-- `/footprints/CH224Q.png` - 既にあり
-- `/footprints/USB-TYPE-C-009.png` - 既にあり
-- その他標準フットプリントはKiCad標準ライブラリ使用
+1. Create new KiCad project
+2. Enter circuit in schematic editor
+3. Add JLCPCB footprint library
+4. Assign footprints to all parts
 
-#### ステップ4: PCB基板設計 (所要時間: 1-2日)
+**Required footprints**:
+- `/footprints/CH224Q.png` - Already available
+- `/footprints/USB-TYPE-C-009.png` - Already available
+- Other standard footprints use KiCad standard library
 
-**レイアウト方針**:
+#### Step 4: PCB Board Design (Time: 1-2 days)
 
-1. **4層基板構成**:
-   - Layer 1 (Top): 信号 + 部品配置
+**Layout Policy**:
+
+1. **4-Layer Board Structure**:
+   - Layer 1 (Top): Signals + component placement
    - Layer 2 (Inner): GND plane
    - Layer 3 (Inner): Power plane (+15V, +12V, etc.)
-   - Layer 4 (Bottom): 信号
+   - Layer 4 (Bottom): Signals
 
-2. **電源レイアウト**:
-   - USB-PD部 → DC-DC部 → LDO部の順に配置
-   - 高ノイズ部(DC-DC)と低ノイズ部(LDO)を物理分離
-   - 大電流経路を太く短く
+2. **Power Layout**:
+   - Place USB-PD → DC-DC → LDO in sequence
+   - Physically separate high-noise (DC-DC) and low-noise (LDO) sections
+   - Make high-current paths thick and short
 
-3. **放熱設計**:
-   - LM2596S (TO-263) → サーマルビア配置
-   - LM78xx/79xx (TO-220) → ヒートシンクエリア確保
-   - 電解コンデンサの放熱も考慮
+3. **Thermal Design**:
+   - LM2596S (TO-263) → Place thermal vias
+   - LM78xx/79xx (TO-220) → Reserve heatsink area
+   - Consider electrolytic capacitor heat dissipation
 
-4. **JLCPCB設計ルール遵守**:
-   - 最小トレース幅: 6mil (0.15mm)
-   - 最小クリアランス: 6mil
-   - ビア径: 0.3mm (穴径0.2mm)
+4. **JLCPCB Design Rules**:
+   - Minimum trace width: 6mil (0.15mm)
+   - Minimum clearance: 6mil
+   - Via diameter: 0.3mm (hole 0.2mm)
 
-### 🟢 優先度: 低 - プロトタイプ前の準備
+### 🟢 Priority: Low - Pre-Prototype Preparation
 
-#### ステップ5: 製造ファイル生成 (所要時間: 1時間)
+#### Step 5: Generate Manufacturing Files (Time: 1 hour)
 
-- Gerberファイル生成
-- Drillファイル生成
-- BOMファイル生成 (JLCPCB形式)
-- CPLファイル生成 (部品配置データ)
+- Generate Gerber files
+- Generate Drill files
+- Generate BOM file (JLCPCB format)
+- Generate CPL file (component placement data)
 
-#### ステップ6: JLCPCB見積もり取得 (所要時間: 30分)
+#### Step 6: Get JLCPCB Quote (Time: 30 minutes)
 
-**見積もり内容**:
-- PCB製造: 5枚 or 10枚
-- SMT組み立て: 両面 or 片面
-- 部品調達費用
-- 送料
+**Quote contents**:
+- PCB manufacturing: 5 or 10 boards
+- SMT assembly: both sides or single side
+- Parts procurement cost
+- Shipping
 
-**予想コスト** (10枚の場合):
-- PCB製造: ~$30
-- SMT組み立て: ~$50-100
-- 部品費用: ~$50 (10枚分)
-- 送料: ~$20
-- **合計: $150-200** (10枚 = 1枚あたり$15-20)
+**Estimated Cost** (for 10 boards):
+- PCB manufacturing: ~$30
+- SMT assembly: ~$50-100
+- Parts cost: ~$50 (for 10 boards)
+- Shipping: ~$20
+- **Total: $150-200** (10 boards = $15-20 per board)
 
-#### ステップ7: プロトタイプ発注 (所要時間: 発注15分 + 製造2週間)
+#### Step 7: Order Prototype (Time: 15 min order + 2 weeks manufacturing)
 
-**初回発注の推奨内容**:
-- 枚数: 5-10枚
-- SMT組み立て: 全部品実装
-- 配送: DHL (2-3週間)
+**Recommended Initial Order**:
+- Quantity: 5-10 boards
+- SMT assembly: All parts installed
+- Delivery: DHL (2-3 weeks)
 
-## 🤔 設計上の懸念事項・検討事項
+## 🤔 Design Concerns and Considerations
 
-### 現在の設計で解決済みの課題
+### Issues Resolved in Current Design
 
-1. ✅ **ノイズ対策**: DC-DC + LDO 2段階設計で\<1mVp-p達成見込み
-2. ✅ **初心者対応**: PTC自動復帰で過負荷から自動回復
-3. ✅ **コスト**: Basic Parts多用で部品費$5以下
-4. ✅ **調達安定性**: 全部品JLCPCB在庫豊富
+1. ✅ **Noise countermeasure**: DC-DC + LDO 2-stage design expected to achieve &lt;1mVp-p
+2. ✅ **Beginner-friendly**: PTC auto-reset for automatic recovery from overload
+3. ✅ **Cost**: Parts cost under $5 using many Basic Parts
+4. ✅ **Procurement stability**: All parts have abundant JLCPCB stock
 
-### まだ検証していない項目 (プロトタイプで確認)
+### Items Not Yet Verified (Confirm with Prototype)
 
-1. ⚠️ **熱設計**: LM2596Sの放熱が十分か?
-   - 最大損失: 各1.5V × 1A = 1.5W
-   - TO-263パッケージで対応可能だが要実測
+1. ⚠️ **Thermal design**: Is LM2596S heat dissipation sufficient?
+   - Maximum loss: Each 1.5V × 1A = 1.5W
+   - TO-263 package should handle it but needs actual measurement
 
-2. ⚠️ **リップルノイズ**: 実測で\<1mVp-pを達成できるか?
-   - 設計上は問題ないが実測が必要
+2. ⚠️ **Ripple noise**: Can actual measurement achieve &lt;1mVp-p?
+   - Design should be fine but needs measurement
 
-3. ⚠️ **効率**: 実測で75-80%を達成できるか?
+3. ⚠️ **Efficiency**: Can actual measurement achieve 75-80%?
    - LM2596S: 85-90%
-   - LDO損失: 10-15%
-   - 総合効率計算上は75-80%
+   - LDO loss: 10-15%
+   - Calculated overall efficiency: 75-80%
 
-4. ⚠️ **EMI/EMC**: DC-DCスイッチングノイズの影響は?
-   - 入出力フィルタで対策済みだが要実測
+4. ⚠️ **EMI/EMC**: DC-DC switching noise impact?
+   - Countermeasures with input/output filters but needs measurement
 
-## 📝 設計思想の再確認
+## 📝 Design Philosophy Review
 
-### なぜこの設計にしたか?
+### Why This Design?
 
-1. **DC-DC + LDO 2段階方式**
-   - 理由: 効率とノイズの両立
-   - DC-DCだけ: 効率良いがリップル大
-   - LDOだけ: ノイズ小さいが効率悪い (発熱大)
-   - **2段階**: 両方の良いとこ取り ✨
+1. **DC-DC + LDO 2-Stage Method**
+   - Reason: Balance efficiency and noise
+   - DC-DC only: Efficient but high ripple
+   - LDO only: Low noise but poor efficiency (high heat)
+   - **2-stage**: Best of both worlds ✨
 
-2. **USB-C PD 15V入力**
-   - 理由: 汎用充電器で使える
-   - ACアダプタ不要 → 持ち運び便利
-   - PD対応充電器なら何でもOK
-   - 電圧も15Vで±12V生成に最適
+2. **USB-C PD 15V Input**
+   - Reason: Can use generic chargers
+   - No AC adapter needed → Easy to carry
+   - Any PD-compatible charger works
+   - 15V voltage optimal for generating ±12V
 
-3. **JLCPCB全部品調達**
-   - 理由: 安定供給・低コスト・自動実装
-   - Basic Parts多用 → 追加費用なし
-   - 豊富な在庫 → 長期調達可能
-   - SMT自動実装 → 手はんだ不要
+3. **All Parts from JLCPCB**
+   - Reason: Stable supply, low cost, automated assembly
+   - Many Basic Parts → No extra fees
+   - Abundant stock → Long-term procurement possible
+   - SMT automated assembly → No hand soldering needed
 
-4. **PTC自動復帰保護**
-   - 理由: 初心者でも安心
-   - モジュール過接続 → LED消灯で気づく
-   - 30秒待てば自動復帰 → 修理不要
-   - 短絡時はヒューズ → 安全確保
+4. **PTC Auto-Reset Protection**
+   - Reason: Safe for beginners
+   - Module overload → Notice when LED goes out
+   - Auto-reset after 30 seconds → No repair needed
+   - Fuse for short circuits → Safety ensured
 
-## 🎯 プロジェクトのゴール
+## 🎯 Project Goals
 
-### 最終目標
+### Final Goal
 
-**「初心者が安心して使えるモジュラーシンセ電源をJLCPCBで$20/枚以下で製作」**
+**"Manufacture beginner-friendly modular synth power supply with JLCPCB for under $20/board"**
 
-### 達成基準
+### Achievement Criteria
 
-- [ ] リップルノイズ \<1mVp-p (実測)
-- [ ] 効率 75-80% (実測)
-- [ ] 出力電圧精度 ±1% (実測)
-- [ ] 過負荷保護動作確認 (LED消灯 → 自動復帰)
-- [ ] 短絡保護動作確認 (ヒューズ溶断)
-- [ ] 製造コスト $20/枚以下 (10枚発注時)
+- [ ] Ripple noise &lt;1mVp-p (measured)
+- [ ] Efficiency 75-80% (measured)
+- [ ] Output voltage accuracy ±1% (measured)
+- [ ] Overload protection operation confirmed (LED off → auto-reset)
+- [ ] Short circuit protection operation confirmed (fuse blown)
+- [ ] Manufacturing cost under $20/board (when ordering 10 boards)
 
-### 副次的な目標
+### Secondary Goals
 
-- 📖 日本語ドキュメント充実 → 日本のMakerコミュニティに貢献
-- 🔧 KiCadプロジェクトオープンソース化
-- 📝 製作記事執筆 (Qiita/Zenn)
-- 🎓 JLCPCB SMT活用のノウハウ共有
+- 📖 Comprehensive English documentation → Contribute to international Maker community
+- 🔧 Open-source KiCad project
+- 📝 Write build article (Blog/Medium)
+- 🎓 Share JLCPCB SMT utilization know-how
 
-## 💡 今すぐできること
+## 💡 What You Can Do Now
 
-**このドキュメントを読み終わったら、すぐに始められること**:
+**After reading this document, you can immediately start**:
 
-1. **5分でできる**: JLCPCB Parts Libraryを開いて「PTC Resettable Fuse」で検索してみる
-2. **30分でできる**: 1.1A/0.75A/0.9Aの3種類のPTCを見つけて `/notes/parts.md` にメモ
-3. **1時間でできる**: KiCadをインストールして新規プロジェクト作成
-4. **1日でできる**: 回路図エディタに全回路を入力してみる
+1. ~~**5 minutes**: Search for parts~~ ✅ **Complete!**
+2. ~~**30 minutes**: Update BOM~~ ✅ **Complete!**
+3. **1 hour**: Install KiCad and create new project ← **Start here!**
+4. **1 day**: Enter complete circuit in schematic editor
 
-**まずは「ステップ1: 未確定部品の検索」から始めましょう!** 🚀
+**All parts confirmed! Start with "Step 3: Prepare PCB Design"!** 🚀

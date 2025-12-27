@@ -2,178 +2,185 @@
 sidebar_position: 5
 ---
 
-# クイックリファレンス
+# Quick Reference
 
-設計中によく参照する情報をまとめたチートシートです。
+A cheat sheet of frequently referenced information during design.
 
-## 🎯 基本仕様 (一目でわかる)
+## 🎯 Basic Specifications (At a Glance)
 
-| 項目 | 仕様 |
+| Item | Specification |
 |------|------|
-| **入力** | USB-C PD 15V 3A (最大45W) |
-| **+12V出力** | 1.2A (設計値1200mA) |
-| **-12V出力** | 1.0A (設計値800mA) |
-| **+5V出力** | 1.2A (設計値500mA) |
-| **リップル** | \<1mVp-p |
-| **効率** | 75-80% |
-| **保護** | PTC自動復帰 + ヒューズバックアップ |
+| **Input** | USB-C PD 15V 3A (Max 45W) |
+| **+12V Output** | 1.2A (Design value 1200mA) |
+| **-12V Output** | 1.0A (Design value 800mA) |
+| **+5V Output** | 1.2A (Design value 500mA) |
+| **Ripple** | \<1mVp-p |
+| **Efficiency** | 75-80% |
+| **Protection** | PTC auto-recovery + Fuse backup |
 
-## ⚡ 電源フロー (アーキテクチャ)
+## ⚡ Power Flow (Architecture)
 
 ```
-USB-C        DC-DC        LDO          出力
+USB-C        DC-DC        LDO          Output
 15V    →   +13.5V   →   +12V    →   +12V/1.2A
   ↓
   ├──  →   +7.5V    →   +5V     →   +5V/1.2A
   ↓
   └──  →   -15V → -13.5V → -12V →   -12V/1.0A
-         (反転)
+         (Inverter)
 ```
 
-## 🔧 主要ICとその役割
+## 🔧 Main ICs and Their Roles
 
-| IC | 型番 | JLCPCB品番 | 役割 | 個数 |
-|---|------|-----------|------|-----|
-| **USB-PD** | CH224Q | C9900166627 | PD交渉 (15V取得) | 1 |
-| **DC-DC** | LM2596S-ADJ | C347423 | 降圧変換 | 3 |
-| **反転** | ICL7660M/TR | C356724 | +15V → -15V | 1 |
-| **+12V LDO** | LM7812L | C71108 | +13.5V → +12V | 1 |
-| **+5V LDO** | LM7805L | C71107 | +7.5V → +5V | 1 |
-| **-12V LDO** | LM7912L | C428906 | -13.5V → -12V | 1 |
+| IC | Part Number | JLCPCB P/N | Stock | Role | Qty |
+|---|------|-----------|--------|------|-----|
+| **USB-PD** | CH224D | C3975094 | 2,291 | PD Negotiation (15V) | 1 |
+| **DC-DC** | LM2596S-ADJ | C347423 | 12,075 | Buck Converter | 3 |
+| **Inverter** | ICL7660M/TR | C356724 | 32,192 | +15V → -15V | 1 |
+| **+12V LDO** | L7812CV-DG | C2914 | 158,795 | +13.5V → +12V | 1 |
+| **+5V LDO** | L7805ABD2T-TR | C86206 | 272,379 | +7.5V → +5V | 1 |
+| **-12V LDO** | CJ7912 | C94173 | 3,386 | -13.5V → -12V | 1 |
 
-## 📐 DC-DCフィードバック抵抗値 (電圧設定)
+## 📐 DC-DC Feedback Resistor Values (Voltage Setting)
 
-| 出力電圧 | R上 | R下 | 実際の出力 |
+| Output Voltage | R_upper | R_lower | Actual Output |
 |---------|-----|-----|----------|
 | **+13.5V** | 10kΩ | 1kΩ | 13.53V |
 | **+7.5V** | 5.1kΩ | 1kΩ | 7.50V |
 | **-13.5V** | 10kΩ | 1kΩ | -13.53V |
 
-**計算式**: `Vout = 1.23V × (1 + R上/R下)`
+**Formula**: `Vout = 1.23V × (1 + R_upper/R_lower)`
 
-## 🛡️ 保護回路の定格
+## 🛡️ Protection Circuit Ratings
 
-| 電圧ライン | PTC定格 | ヒューズ定格 | TVS型番 | 動作 |
-|----------|--------|-----------|--------|------|
-| **+12V** | 1.1A | 2A | SMAJ15A | 過負荷→PTC / 短絡→ヒューズ |
-| **+5V** | 0.75A | 1.5A | PRTR5V0U2X | 同上 |
-| **-12V** | 0.9A | 1.5A | SMAJ15A | 同上 |
+| Voltage Line | PTC Rating | JLCPCB P/N | Fuse Rating | JLCPCB P/N | TVS Model | Operation |
+|----------|--------|-----------|-----------|-----------|--------|------|
+| **+12V** | 1.1A | C883148 | 2A | C5183824 | SMAJ15A | Overload→PTC / Short circuit→Fuse |
+| **+5V** | 0.75A | C883128 | 1.5A | C95352 | PRTR5V0U2X | Same as above |
+| **-12V** | 1.1A | C883148 | 1.5A | C95352 | SMAJ15A | Same as above |
 
-### 保護動作シーケンス
+### Protection Operation Sequence
 
-1. **通常時**: LED点灯 ✅
-2. **過負荷 (定格の110-180%)**: PTC遮断 → LED消灯 → 30秒後復帰 🔄
-3. **短絡 (定格の200%以上)**: ヒューズ溶断 → 修理必要 ❌
+1. **Normal**: LED on ✅
+2. **Overload (110-180% of rating)**: PTC trip → LED off → Recovery after 30 seconds 🔄
+3. **Short circuit (200%+ of rating)**: Fuse blown → Repair required ❌
 
-## 🔌 コネクタとパッケージ
+## 🔌 Connectors and Packages
 
-| 部品 | パッケージ | 備考 |
+| Component | Package | Notes |
 |------|-----------|------|
-| CH224Q | DFN-10-EP | USB-PD IC |
-| USB-C | USB-TYPE-C-009 | 6ピン (電源専用) |
-| LM2596S | TO-263-5 | 表面実装、放熱パッド大 |
-| LM78xx/79xx | TO-220 | スルーホール、ヒートシンク可 |
-| インダクタ | SMD 13.8x12.8mm | 100µH 4.5A |
-| 電解コンデンサ | φ6.3mm / φ10mm | 径による使い分け |
+| CH224D | QFN-20 | USB-PD IC |
+| USB-C | USB-TYPE-C-009 | 6-pin (Power only) |
+| LM2596S | TO-263-5 | Surface mount, large thermal pad |
+| L7812/L7805 | TO-220/TO-263-2 | Heatsink compatible |
+| CJ7912 | TO-252-2L | Surface mount |
+| Inductor | SMD 13.8x12.8mm | 100µH 4.5A |
+| Electrolytic Cap | φ6.3mm / φ10mm | Select by diameter |
 
-## 💰 コスト内訳 (1枚あたり)
+## 💰 Cost Breakdown (Per Board)
 
-| 段階 | 内容 | コスト |
+| Stage | Content | Cost |
 |------|------|--------|
-| **段階1** | USB-PD給電部 | $0.46 |
-| **段階2** | DC-DCコンバータ | $2.09 |
-| **段階3** | リニアレギュレータ | $0.40 |
-| **段階4** | 保護回路 | $1.79 |
-| **合計** | 部品費 | **$4.74** |
+| **Stage 1** | USB-PD Power Section | $0.43 |
+| **Stage 2** | DC-DC Converters | $2.09 |
+| **Stage 3** | Linear Regulators | $0.37 |
+| **Stage 4** | Protection Circuits | $1.79 |
+| **Total** | Component Cost | **$4.68** |
 
-※ PCB製造費・組立費は別途 (10枚発注で約$15-20/枚)
+※ PCB manufacturing and assembly costs are separate (approx. $15-20/board for 10-piece order)
 
-## 📊 部品在庫状況 (JLCPCB)
+## 📊 Component Stock Status (JLCPCB)
 
-| 部品カテゴリ | 最小在庫数 | 調達安定性 |
+| Component Category | Minimum Stock | Availability |
 |------------|-----------|----------|
-| Basic Parts抵抗/コンデンサ | **1,000,000+** | ✅ 非常に安定 |
-| LM2596S (DC-DC) | **12,075** | ✅ 安定 |
-| ICL7660 (反転IC) | **32,192** | ✅ 安定 |
-| LM78xx/79xx (LDO) | **1,932~7,518** | ✅ 安定 |
-| インダクタ (100µH) | **2,763** | ⚠️ やや少ないが問題なし |
-| SS34 (ダイオード) | **1,859,655** | ✅ 非常に安定 |
+| Basic Parts Resistors/Capacitors | **1,000,000+** | ✅ Very Stable |
+| CH224D (USB-PD) | **2,291** | ✅ Stable |
+| LM2596S (DC-DC) | **12,075** | ✅ Stable |
+| ICL7660 (Inverter IC) | **32,192** | ✅ Stable |
+| L7812/L7805/CJ7912 (LDO) | **3,386~272,379** | ✅ Very Stable |
+| Inductor (100µH) | **2,763** | ✅ Stable |
+| SS34 (Diode) | **1,859,655** | ✅ Very Stable |
 
-## 🔬 性能仕様詳細
+## 🔬 Detailed Performance Specifications
 
-### リップルノイズ目標
+### Ripple Noise Target
 
-| 段階 | 予想リップル | 対策 |
+| Stage | Expected Ripple | Countermeasure |
 |------|------------|------|
-| DC-DC出力 | ~50mVp-p | 470µF電解コンデンサ |
-| LDO出力 | **\<1mVp-p** | LDO + 470µF×2 |
+| DC-DC Output | ~50mVp-p | 470µF electrolytic capacitor |
+| LDO Output | **\<1mVp-p** | LDO + 470µF×2 |
 
-### 効率計算
+### Efficiency Calculation
 
-| 段階 | 効率 | 損失例 |
+| Stage | Efficiency | Loss Example |
 |------|------|--------|
 | LM2596S | 85-90% | 15V→13.5V: 1.5V × 1A = 1.5W |
 | LM7812 | ~90% | 13.5V→12V: 1.5V × 1A = 1.5W |
 | LM7805 | ~67% | 7.5V→5V: 2.5V × 0.5A = 1.25W |
 | LM7912 | ~89% | -13.5V→-12V: 1.5V × 0.8A = 1.2W |
-| **総合** | **75-80%** | 最大損失 ~10W |
+| **Overall** | **75-80%** | Max loss ~10W |
 
-## 🌡️ 熱設計概算
+## 🌡️ Thermal Design Estimation
 
-### 最大発熱部品
+### Maximum Heat-Generating Components
 
-| IC | 最大損失 | パッケージ | 熱抵抗 | 温度上昇 |
+| IC | Max Loss | Package | Thermal Resistance | Temperature Rise |
 |---|---------|----------|--------|---------|
 | LM2596S (×3) | 1.5W | TO-263 | ~10℃/W | +15℃ |
 | LM7805 | 1.25W | TO-220 | ~5℃/W | +6℃ |
 | LM7812 | 1.5W | TO-220 | ~5℃/W | +7.5℃ |
 | LM7912 | 1.2W | TO-220 | ~5℃/W | +6℃ |
 
-※ 室温25℃で最大40-50℃程度 (許容範囲内)
+※ Approx. 40-50℃ max at 25℃ ambient (within acceptable range)
 
-## 🛠️ PCB設計ガイドライン
+## 🛠️ PCB Design Guidelines
 
-### レイアウト原則
+### Layout Principles
 
-1. **高ノイズ部と低ノイズ部を分離**
-   - DC-DC部: 基板左側
-   - LDO部: 基板右側
-   - GNDプレーン分離検討
+1. **Separate high-noise and low-noise sections**
+   - DC-DC section: Left side of board
+   - LDO section: Right side of board
+   - Consider GND plane separation
 
-2. **大電流経路を太く短く**
-   - USB入力: 最低1mm幅
-   - +12V/-12V: 最低0.8mm幅
-   - +5V: 最低0.5mm幅
+2. **Make high-current paths thick and short**
+   - USB input: Minimum 1mm width
+   - +12V/-12V: Minimum 0.8mm width
+   - +5V: Minimum 0.5mm width
 
-3. **サーマルビア配置**
-   - LM2596S (TO-263): パッド下に4-6個
-   - LM78xx/79xx: 必要に応じて
+3. **Thermal via placement**
+   - LM2596S (TO-263): 4-6 vias under pad
+   - LM78xx/79xx: As needed
 
-4. **コンデンサ配置**
-   - 入力コンデンサ: IC直近
-   - 出力コンデンサ: 負荷端子近く
-   - 電解コンデンサ: 極性注意
+4. **Capacitor placement**
+   - Input capacitors: Close to IC
+   - Output capacitors: Near load terminals
+   - Electrolytic capacitors: Mind polarity
 
-### 推奨層構成 (4層基板)
+### Recommended Layer Stack (4-layer board)
 
-| レイヤー | 用途 | 備考 |
+| Layer | Purpose | Notes |
 |---------|------|------|
-| **L1 (Top)** | 信号 + 部品 | SMD部品配置面 |
-| **L2 (GND)** | GNDプレーン | ベタGND |
-| **L3 (Power)** | 電源プレーン | +15V/+12V/+5V/-12V |
-| **L4 (Bottom)** | 信号 | 配線補助 |
+| **L1 (Top)** | Signal + Components | SMD component side |
+| **L2 (GND)** | GND Plane | Solid GND |
+| **L3 (Power)** | Power Plane | +15V/+12V/+5V/-12V |
+| **L4 (Bottom)** | Signal | Routing auxiliary |
 
-## 📝 未確定項目チェックリスト
+## 📝 Open Items Checklist
 
-- [ ] PTC1: 1.1A 16V (1812) - JLCPCB品番未定
-- [ ] PTC2: 0.75A 16V (1206) - JLCPCB品番未定
-- [ ] PTC3: 0.9A 16V (1812) - JLCPCB品番未定
-- [ ] F1: 2A 250V SMDヒューズ - JLCPCB品番未定
-- [ ] PCB設計 (KiCad) - 未着手
-- [ ] プロトタイプ発注 - 未実施
-- [ ] 性能測定 (リップル/効率/熱) - 未実施
+- [x] ~~PTC1: 1.1A 16V (1812)~~ - **C883148 (BSMD1812-110-16V)** ✅
+- [x] ~~PTC2: 0.75A 16V (1206)~~ - **C883128 (BSMD1206-075-16V)** ✅
+- [x] ~~PTC3: 0.9A 16V (1812)~~ - **C883148 (BSMD1812-110-16V) ※Using 1.1A** ✅
+- [x] ~~F1: 2A 250V SMD fuse~~ - **C5183824 (6125FA2A)** ✅
+- [x] ~~Stock optimization~~ - **All components changed to high-stock parts** ✅
+  - USB-PD: CH224D (2,291 stock)
+  - LDO: L7812/L7805/CJ7912 (3K~272K stock)
+- [ ] PCB design (KiCad) - Not started
+- [ ] Prototype order - Not implemented
+- [ ] Performance testing (ripple/efficiency/thermal) - Not implemented
 
-## 🔗 参考リンク
+**🎉 All JLCPCB part numbers confirmed and optimized for high-stock parts! PCB design is next.**
+
+## 🔗 Reference Links
 
 ### JLCPCB
 
@@ -181,60 +188,61 @@ USB-C        DC-DC        LDO          出力
 - SMT Assembly: https://jlcpcb.com/smt-assembly
 - Design Rules: https://jlcpcb.com/capabilities/pcb-capabilities
 
-### データシート
+### Datasheets
 
-- CH224Q: WCH公式サイト
+- CH224D: WCH official website (15V support confirmed)
 - LM2596: Texas Instruments
-- ICL7660: Renesas (旧Intersil)
-- LM78xx/79xx: Texas Instruments
+- ICL7660: Renesas (formerly Intersil)
+- L7812/L7805: STMicroelectronics
+- CJ7912: CJ (Changjiang Micro-Electronics)
 
 ### KiCad
 
-- 公式サイト: https://www.kicad.org/
-- JLCPCBライブラリ: GitHub検索 "JLCPCB KiCad library"
+- Official website: https://www.kicad.org/
+- JLCPCB library: GitHub search "JLCPCB KiCad library"
 
-## 💡 よくある質問 (FAQ)
+## 💡 Frequently Asked Questions (FAQ)
 
-### Q: なぜDC-DCとLDOの2段階なの?
+### Q: Why use 2-stage DC-DC and LDO?
 
-**A**: 効率とノイズの両立のため
+**A**: To balance efficiency and noise
 
-- DC-DCのみ: 効率良い(85%+)が、リップル大きい(50mVp-p)
-- LDOのみ: ノイズ小さい(\<1mVp-p)が、効率悪い(50-60%)、発熱大
-- **2段階**: DC-DCで効率確保 + LDOでノイズ除去 = 効率75%+でリップル\<1mVp-p ✨
+- DC-DC only: Good efficiency (85%+) but high ripple (50mVp-p)
+- LDO only: Low noise (\<1mVp-p) but poor efficiency (50-60%), high heat
+- **2-stage**: DC-DC for efficiency + LDO for noise reduction = 75%+ efficiency with \<1mVp-p ripple ✨
 
-### Q: なぜ-12VだけICL7660で反転?
+### Q: Why use ICL7660 inverter only for -12V?
 
-**A**: コスト・シンプルさ・効率のバランス
+**A**: Balance of cost, simplicity, and efficiency
 
-- 代替案1: トランス絶縁 → 高コスト、大型
-- 代替案2: 昇降圧DC-DC → 複雑、ノイズ大
-- **ICL7660**: $0.08、簡単、1A対応で十分 ✅
+- Alternative 1: Transformer isolation → High cost, large size
+- Alternative 2: Buck-boost DC-DC → Complex, high noise
+- **ICL7660**: $0.08, simple, 1A capable and sufficient ✅
 
-### Q: PTCとヒューズの2段階保護は本当に必要?
+### Q: Is 2-stage protection with PTC and fuse really necessary?
 
-**A**: 初心者対応として非常に重要
+**A**: Very important for beginner users
 
-- **PTC**: 過負荷時(モジュール過接続)に自動復帰 → ユーザー自身で解決可能
-- **ヒューズ**: 短絡時の最終防衛線 → 火災防止
-- コスト増: わずか$0.50/枚 → 安全性向上の価値あり ✅
+- **PTC**: Auto-recovery during overload (too many modules) → User can resolve
+- **Fuse**: Final defense during short circuit → Fire prevention
+- Cost increase: Only $0.50/board → Worth it for safety ✅
 
-### Q: 4層基板は必要? 2層じゃダメ?
+### Q: Is 4-layer board necessary? Can't use 2-layer?
 
-**A**: 2層でも可能だが、4層を推奨
+**A**: 2-layer is possible, but 4-layer recommended
 
-- **2層の場合**: ノイズ対策が難しい、配線が複雑
-- **4層の場合**: GND/Powerプレーンでノイズ低減、配線しやすい
-- コスト差: $5-10/枚程度 → 性能向上の価値あり
-- **推奨**: プロトタイプは4層、量産時に2層化検討
+- **2-layer**: Difficult noise control, complex routing
+- **4-layer**: GND/Power planes reduce noise, easier routing
+- Cost difference: About $5-10/board → Worth it for performance
+- **Recommendation**: 4-layer for prototype, consider 2-layer for production
 
-### Q: 今すぐ何から始めればいい?
+### Q: What should I start with right now?
 
-**A**: [プロジェクト現状とプラン](current-status.md)の「ステップ1」から!
+**A**: Start from "Step 3" in [Project Status and Plan](current-status.md)!
 
-1. JLCPCB Parts LibraryでPTCを検索 (30分)
-2. `/notes/parts.md` に追記 (5分)
-3. KiCadインストール (15分)
-4. 回路図入力開始 (1-2時間)
+1. ~~Search JLCPCB Parts Library for PTC~~ ✅ **Done!**
+2. ~~Add to `/notes/parts.md`~~ ✅ **Done!**
+3. Install KiCad (15 minutes) ← **This is next!**
+4. Start schematic entry (1-2 hours)
 
-**→ まずは「未確定部品の検索」を完了させましょう!** 🚀
+**→ All components confirmed! Let's start "PCB Design Preparation"!** 🚀
