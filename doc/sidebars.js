@@ -17,9 +17,19 @@
 const sidebars = {
   inboxSidebar: [
     {
-      type: 'doc',
-      id: 'inbox/index',
+      type: 'category',
       label: 'INBOX',
+      link: {
+        type: 'doc',
+        id: 'inbox/index',
+      },
+      items: [
+        'inbox/current-status',
+        'inbox/overview',
+        'inbox/circuit-diagrams',
+        'inbox/parts-list',
+        'inbox/quick-reference',
+      ],
     },
   ],
 };
