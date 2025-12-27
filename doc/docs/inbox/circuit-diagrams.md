@@ -11,16 +11,16 @@ Complete circuit configuration shown in stages.
 ```
 USB-C Connector              CH224Q (DFN-10-EP)              LED Status Indicator
 ┌─────────────┐                ┌──────────────┐                 ┌─────────────┐
-│VBUS (B9,A9) ├──┬─────────────┤1. VHV        │                 │   VDD 3.3V  │
-│             │  │             │8. VBUS       │─┬─→ 15V Output  │      │      │
-│CC1 (A5)     ├──┼─────────────┤7. CC1        │ │               │    330Ω     │
-│CC2 (B5)     ├──┼─────────────┤6. CC2        │ │               │   (R1)      │
-│GND (B12,A12)├──┼─────────────┤GND           │ │               │      │      │
-└─────────────┘  │             │11. EP        │←┘               │   Red LED   │
-                 │             │              │                 │   (LED1)    │
-               ┌─C1            │9. CFG1       │←── GND          │      │      │
-               │ 10µF/25V      │2. CFG2/SCL   │←── Open         │  PG ────────┘
-               │               │3. CFG3/SDA   │←── Open         │
+│VBUS (B9,A9) ├──┬─────────────┤1. VHV        │                 │  +5V Rail   │
+│             │  │             │8. VBUS       │─┬─→ 15V Output  │  (from D7)  │
+│CC1 (A5)     ├──┼─────────────┤7. CC1        │ │               │      │      │
+│CC2 (B5)     ├──┼─────────────┤6. CC2        │ │               │    330Ω     │
+│GND (B12,A12)├──┼─────────────┤GND           │ │               │   (R1)      │
+└─────────────┘  │             │11. EP        │←┘               │      │      │
+                 │             │              │                 │  Green LED  │
+               ┌─C1            │9. CFG1       │←── GND          │   (LED1)    │
+               │ 10µF/25V      │2. CFG2/SCL   │←── Open         │      │      │
+               │               │3. CFG3/SDA   │←── Open         │  PG ────────┘
                └─┬───          │10. PG        │─────────────────┘
                  │             │4. DP         │    (N/C)
                ┌─C2            │5. DM         │    (N/C)
@@ -58,7 +58,10 @@ USB-C Connector              CH224Q (DFN-10-EP)              LED Status Indicato
 - `CH224Q pin 3 (CFG3/SDA)` → `Open` (15V config)
 
 **LED Status Indicator Circuit:**
-- `VDD 3.3V` → `R1 (330Ω)` → `LED1 (Red LED)` → `CH224Q pin 10 (PG)`
+- `+5V rail (from Diagram7)` → `R1 (330Ω)` → `LED1 (Green LED)` → `CH224Q pin 10 (PG)`
+- LED indicates: **Power Good** (lights up when 15V USB-PD negotiation succeeds)
+- LED current: `I = (5V - 2.2V) / 330Ω ≈ 8.5mA` ✅
+- **Note**: PG pin is open-drain, pulls LOW when power is good, enabling current flow from +5V through LED to GND
 
 **Not Connected:**
 - `CH224Q pin 4 (DP)` - N/C
