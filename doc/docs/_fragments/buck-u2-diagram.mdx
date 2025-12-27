@@ -1,41 +1,51 @@
 ```
-                                          |
-                     LM2596S-ADJ (U2)       |
-                     +---------------+       |
-+15V ---+------------+5 VIN          |       |
-        |            |               |       |
-        |     +------+3 ON           |       |
-        |     |      |               |       |
-        |     |      |          VOUT +4------+-> L1 ---+-> +13.5V/1.3A Output
-        |     |      |                      100uH    |
-        |     |      |            FB +2-> Tap        +-> R1 --+-> Tap -> R2 -> GND
-        |     |      |                               |  10kΩ  |         1kΩ
-        |     |      |           GND +1-> GND        |        |
-        |     |      +---------------+               +-> C3 -> GND
-        |     |                                         470uF
-       C5    C6                                          |
-      100uF 100nF                                       GND
-        |     |                                      Schottky
-       GND   GND                                     D1 (SS34)
-
-Note: FB pin 2 connects to the tap point between R1 and R2.
-      This tap voltage = VOUT × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V
-      The LM2596 adjusts duty cycle to maintain FB pin at 1.23V reference.
-
-Connections:
-  Input power:    +15V -> C5 (100uF) -> GND  (input filter, parallel)
-                  +15V -> U2 pin 5 (VIN)
-  Decoupling:     VIN -> C6 (100nF) -> GND  (high-freq decoupling, parallel)
-  Enable:         ON pin 3 -> tied high (always enabled)
-
-  Output stage:   VOUT (pin 4) -> L1 (100uH inductor) -> +13.5V Output
-  Flyback diode:  Switching node (between pin 4 and L1) -> D1 (SS34 Schottky) -> GND
-  Output filter:  Output -> C3 (470uF) -> GND  (parallel, NOT in series!)
-
-  Voltage divider (sets output voltage):
-                  Output -> R1 (10kΩ) -> Tap point -> R2 (1kΩ) -> GND
-  Feedback:       FB pin 2 -> Tap point (junction between R1 and R2)
-                  Tap voltage = 1.23V when output = 13.5V
-
-  Ground:         GND pin 1 -> System ground (shared with all components)
+                 ┌──────┐ ┌──────┐
+            GND←─│  C5  │ │  C6  │─→GND
+                 │ 100µF│ │100nF │
+                 └──┬───┘ └───┬──┘
+┌──────────┐        │         │        ┌──────────────────┐
+│ +15V In  ├────────┴─────────┴────┬───┤5. VIN            │
+└──────────┘                     │   │3. ON             │
+                                 └───┤                  │
+                                     │   U2 (LM2596S)   │                 ┌─────────┐
+                                     │                  │                 │   L1    │
+                                     │            VOUT 4├─────┬───────────┤  100µH  ├──┐
+                                     │                  │     │           │  4.5A   │  │
+                See feedback ────────┤2. FB             │     │           └─────────┘  │
+                diagram              │                  │     │  ┌──────────┐          │
+                                     │            GND 1 ├──┐  └──┤    D1    │     ┌────┴───┐
+                                     └──────────────────┘  │     │   SS34   │     │ +13.5V │
+                                                           │     │ Schottky │     │  Out   │
+                                                           │     └────┬─────┘     └────┬───┘
+                                                           │          │           ┌────┴───┐
+┌──────────┐                                               │          │           │   C3   │
+│   GND    ├───────────────────────────────────────────────┴──────────┴───────────┤  470µF │
+└──────────┘                                                                       │  25V   │
+                                                                                   └────┬───┘
+                                                                                        │
+                                                                                       GND
 ```
+
+### Feedback Network (Voltage Divider)
+
+```
+┌──────────────┐     ┌─────────┐     ┌──────────┐
+│ +13.5V Out   │     │   R1    │     │    R2    │
+│              ├─────┤  10kΩ   ├──┬──┤   1kΩ    ├─→ GND
+└──────────────┘     └─────────┘  │  └──────────┘
+                                  │
+                ┌──────────────────┐
+                │   U2 (LM2596S)   │
+                │2. FB             │
+                └──────────────────┘
+
+Tap voltage = +13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V
+U2 maintains FB pin at 1.23V reference by adjusting duty cycle
+```
+
+**Key Points:**
+- **D1 cathode** connects to switching node (between U2 VOUT and L1)
+- **D1 anode** connects to GND
+- **C3** is in parallel (output → C3 → GND), NOT in series
+- **ON pin 3** tied to VIN for always-on operation
+- **FB pin 2** connects to tap point (see feedback diagram)
