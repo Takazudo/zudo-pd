@@ -25,7 +25,7 @@ Complete parts configuration using JLCPCB SMT service.
 | **J1** | **[C2927029](https://jlcpcb.com/partdetail/C2927029)** | **USB-TYPE-C-009** | 6P Type-C Female | SMD | **27128** | **$0.036** | USB-C Input |
 | **C1,C2** | **[C15850](https://jlcpcb.com/partdetail/C15850)** | **CL21A106KAYNNNE** | 10µF 25V X5R | 0805 | **6000** | **$0.0101 × 2** | Filter |
 | **R1** | **[C23138](https://jlcpcb.com/partdetail/C23138)** | **0603WAF3300T5E** | 330Ω ±1% | 0603 | **Rich Stock** | **$0.00099** | LED Current Limit |
-| **LED1** | **[C84256](https://jlcpcb.com/partdetail/C84256)** | **NCD0805R1** | Red LED 25mA | 0805 | **Rich Stock** | **$0.0126** | Status Indicator |
+| **LED1** | **[C2286](https://jlcpcb.com/partdetail/C2286)** | **0805G** | Green LED 20mA | 0805 | **Rich Stock** | **$0.0115** | Power Good Indicator |
 
 **Stage 1 Subtotal: $0.43** (Using CH224D)
 
@@ -62,9 +62,22 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol | Part Number | Specification | Package | Stock | Price | Application |
 |------|----------|------|------------|--------|------|------|
-| **C3,C4** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **164,155** | **$0.014 × 2** | +7.5V System |
-| **C5,C6,C7,C8** | **[C3351](https://jlcpcb.com/partdetail/C3351)** | **470µF 25V** | D10xL10.2mm | **19,150** | **$0.044 × 4** | ±13.5V System |
-| **C9,C10** | **[C15850](https://jlcpcb.com/partdetail/C15850)** | **10µF 25V** | 0805 | **6000** | **$0.0101 × 2** | For ICL7660 |
+| **C3** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **164,155** | **$0.014** | +13.5V Output Filter |
+| **C4** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **164,155** | **$0.014** | +7.5V Output Filter |
+| **C5,C7,C9** | **[C2907](https://jlcpcb.com/partdetail/C2907)** | **100µF 25V** | D6.3xL7.7mm | **Rich Stock** | **$0.019 × 3** | DC-DC Input Bulk (±13.5V stages) |
+| **C11** | **[C3351](https://jlcpcb.com/partdetail/C3351)** | **470µF 25V** | D10xL10.2mm | **19,150** | **$0.044** | -13.5V Output Filter |
+
+#### Ceramic Capacitors (DC-DC Stage)
+
+| Symbol | Part Number | Specification | Package | Stock | Price | Application |
+|------|----------|------|------------|--------|------|------|
+| **C6,C8,C10** | **[C49678](https://jlcpcb.com/partdetail/C49678)** | **100nF 50V X7R** | 0805 | **23,309,869** | **$0.0021 × 3** | DC-DC Input Decoupling |
+
+#### ICL7660 Capacitors
+
+| Symbol | Part Number | Specification | Package | Stock | Price | Application |
+|------|----------|------|------------|--------|------|------|
+| **C12,C13** | **[C15850](https://jlcpcb.com/partdetail/C15850)** | **10µF 25V X5R** | 0805 | **6000** | **$0.0101 × 2** | ICL7660 Charge Pump |
 
 **Stage 2 Subtotal: $2.09**
 
@@ -82,20 +95,20 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol | Part Number | Specification | Package | Stock | Price | Application |
 |------|----------|------|------------|--------|------|------|
-| **C11,C12,C13** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603 | **1,100,473** | **$0.0036 × 3** | Input Filter |
+| **C14,C15,C16** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603 | **1,100,473** | **$0.0036 × 3** | Linear Reg Input Filter |
 
 #### Output Capacitors (0.1µF) - Basic Parts
 
 | Symbol | Part Number | Specification | Package | Stock | Price | Application |
 |------|----------|------|------------|--------|------|------|
-| **C14,C15,C16** | **[C49678](https://jlcpcb.com/partdetail/C49678)** | **100nF 50V X7R** | 0805 | **23,309,869** | **$0.0021 × 3** | Output Filter |
+| **C17,C18,C19** | **[C49678](https://jlcpcb.com/partdetail/C49678)** | **100nF 50V X7R** | 0805 | **23,309,869** | **$0.0021 × 3** | Linear Reg Output Filter |
 
-#### Large Electrolytic Capacitors
+#### Large Electrolytic Capacitors (Linear Regulator Stage)
 
 | Symbol | Part Number | Specification | Package | Price | Application |
 |------|----------|------|------------|------|------|
-| **C17,C18,C19,C20** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014 × 4** | +12V,+5V System |
-| **C21,C22** | **[C3351](https://jlcpcb.com/partdetail/C3351)** | **470µF 25V** | D10xL10.2mm | **$0.044 × 2** | -12V System |
+| **C20,C21,C22,C23** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014 × 4** | +12V,+5V Input/Output |
+| **C24,C25** | **[C3351](https://jlcpcb.com/partdetail/C3351)** | **470µF 25V** | D10xL10.2mm | **$0.044 × 2** | -12V Input/Output |
 
 **Stage 3 Subtotal: $0.37** (Using high-stock regulators)
 
