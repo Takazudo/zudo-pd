@@ -94,6 +94,12 @@ const config = {
             position: 'left',
             label: 'Learning',
           },
+          {
+            type: 'doc',
+            docId: 'knowledge/index',
+            position: 'left',
+            label: 'Knowledge',
+          },
         ],
       },
       footer: {

@@ -20,11 +20,12 @@ const sidebars = {
     'inbox/current-status',
     'inbox/overview',
     'inbox/circuit-diagrams',
-    'inbox/parts-list',
+    'inbox/footprint-preview',
     'inbox/quick-reference',
   ],
   partsSidebar: [
     'parts/index',
+    'parts/bom',
     'parts/ch224d',
     'parts/lm2596s-adj',
     'parts/icl7660m',
@@ -38,6 +39,12 @@ const sidebars = {
     'learning/index',
     'learning/open-drain-pg-pin',
     'learning/buck-converter-feedback',
+  ],
+  knowledgeSidebar: [
+    'knowledge/index',
+    'knowledge/kicad-footprint-generation',
+    'knowledge/create-footprint-svg',
+    'knowledge/create-circuit-svg',
   ],
 };
 
