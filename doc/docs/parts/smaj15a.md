@@ -4,13 +4,17 @@ sidebar_position: 2
 
 # SMAJ15A - 15V Unidirectional TVS Diode
 
-**🔗 [View on JLCPCB: C571368](https://jlcpcb.com/partdetail/C571368)**
-
 High-performance Transient Voltage Suppressor (TVS) diode for overvoltage protection on +12V and -12V power rails.
 
-![SMAJ15A Package - SMA (DO-214AC)](/footprints/SMAJ15A.png)
+- 🔗 [View on JLCPCB: C571368](https://jlcpcb.com/partdetail/C571368)
+- 📄 [Download Datasheet (PDF)](/datasheets/SMAJ-datasheet.pdf)
 
-**📄 [Download Datasheet (PDF)](/datasheets/SMAJ-datasheet.pdf)**
+import FootprintSvg from '@site/src/components/FootprintSvg';
+import DiodeSMA from '@site/static/footprints-svg/SMA_L4.4-W2.8-LS5.4-RD.svg';
+
+<FootprintSvg src={DiodeSMA} alt="SMAJ15A SMA Package" minWidth="250px" minHeight="150px" />
+
+![SMAJ15A Package Preview](/footprints/SMAJ15A.png)
 
 ## Overview
 

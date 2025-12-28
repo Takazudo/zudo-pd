@@ -6,13 +6,17 @@ import BuckU2Diagram from '../_fragments/buck-u2-diagram.mdx';
 
 # LM2596S-ADJ Buck Converter
 
-**🔗 [View on JLCPCB: C347423](https://jlcpcb.com/partdetail/C347423)**
-
 A high-efficiency 3A step-down switching regulator used for intermediate voltage generation through DC-DC conversion.
 
-![LM2596S-ADJ Package - TO-263-5](/footprints/LM2596S-ADJ.png)
+- 🔗 [View on JLCPCB: C347423](https://jlcpcb.com/partdetail/C347423)
+- 📄 [Download Datasheet (PDF)](/datasheets/LM2596S-datasheet.pdf)
 
-**📄 [Download Datasheet (PDF)](/datasheets/LM2596S-datasheet.pdf)**
+import FootprintSvg from '@site/src/components/FootprintSvg';
+import LM2596S from '@site/static/footprints-svg/TO-263-5_L10.2-W8.9-P1.70-BR.svg';
+
+<FootprintSvg src={LM2596S} alt="LM2596S TO-263-5 Package" minWidth="300px" minHeight="200px" />
+
+![LM2596S-ADJ Package Preview](/footprints/LM2596S-ADJ.png)
 
 ## Overview
 

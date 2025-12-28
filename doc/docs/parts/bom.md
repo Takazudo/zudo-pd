@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 # Bill of Materials (BOM)
@@ -21,7 +21,7 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **U1** | **[C3975094](https://jlcpcb.com/partdetail/C3975094)** | **CH224D** | USB PD Controller (5/9/12/15/20V) | QFN-20 | **2,291** | **$0.36** | PD Negotiation (15V) |
+| **U1** | **[C3975094](https://jlcpcb.com/partdetail/C3975094)** | **[CH224D](./ch224d)** | USB PD Controller (5/9/12/15/20V) | QFN-20 | **2,291** | **$0.36** | PD Negotiation (15V) |
 | **J1** | **[C2927029](https://jlcpcb.com/partdetail/C2927029)** | **USB-TYPE-C-009** | 6P Type-C Female | SMD | **27128** | **$0.036** | USB-C Input |
 | **C1,C2** | **[C15850](https://jlcpcb.com/partdetail/C15850)** | **CL21A106KAYNNNE** | 10µF 25V X5R | 0805 | **6000** | **$0.0101 × 2** | Filter |
 | **R1** | **[C23138](https://jlcpcb.com/partdetail/C23138)** | **0603WAF3300T5E** | 330Ω ±1% | 0603 | **Rich Stock** | **$0.00099** | LED Current Limit |
@@ -35,8 +35,8 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **U2,U3,U4** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **LM2596S-ADJ(UMW)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266 × 3** | DC-DC Conversion |
-| **U5** | **[C356724](https://jlcpcb.com/partdetail/C356724)** | **ICL7660M/TR** | Voltage Inverter IC | SOP-8 | **32192** | **$0.078** | -15V Generation |
+| **U2,U3,U4** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](./lm2596s-adj)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266 × 3** | DC-DC Conversion |
+| **U5** | **[C356724](https://jlcpcb.com/partdetail/C356724)** | **[ICL7660M/TR](./icl7660m)** | Voltage Inverter IC | SOP-8 | **32192** | **$0.078** | -15V Generation |
 
 #### Inductors
 
@@ -87,9 +87,9 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **U6** | **[C2914](https://jlcpcb.com/partdetail/C2914)** | **L7812CV-DG** | +12V 1.5A | TO-220 | **158,795** | **$0.11** | +12V Output |
-| **U7** | **[C86206](https://jlcpcb.com/partdetail/C86206)** | **L7805ABD2T-TR** | +5V 1.5A | TO-263-2 | **272,379** | **$0.11** | +5V Output |
-| **U8** | **[C94173](https://jlcpcb.com/partdetail/C94173)** | **CJ7912** | -12V 1.5A | TO-252-2L | **3,386** | **$0.11** | -12V Output |
+| **U6** | **[C2914](https://jlcpcb.com/partdetail/C2914)** | **[L7812CV-DG](./l7812cv)** | +12V 1.5A | TO-220 | **158,795** | **$0.11** | +12V Output |
+| **U7** | **[C86206](https://jlcpcb.com/partdetail/C86206)** | **[L7805ABD2T-TR](./l7805abd2t)** | +5V 1.5A | TO-263-2 | **272,379** | **$0.11** | +5V Output |
+| **U8** | **[C94173](https://jlcpcb.com/partdetail/C94173)** | **[CJ7912](./cj7912)** | -12V 1.5A | TO-252-2L | **3,386** | **$0.11** | -12V Output |
 
 #### Input Capacitors (470nF) - Basic Parts
 
@@ -135,9 +135,9 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol | Part Number | Manufacturer Part Number | Description | Package | Estimated Price | Application |
 |------|----------|-------------|------|------------|---------|------|
-| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **SMAJ15A** | 15V TVS Unidirectional | SMA | **$0.15** | +12V Protection |
-| **TVS2** | **[C5199240](https://jlcpcb.com/partdetail/C5199240)** | **PRTR5V0U2X** | 5V TVS Bidirectional | SOT-143 | **$0.12** | +5V Protection |
-| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **SMAJ15A** | 15V TVS Unidirectional | SMA | **$0.15** | -12V Protection |
+| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](./smaj15a)** | 15V TVS Unidirectional | SMA | **$0.15** | +12V Protection |
+| **TVS2** | **[C5199240](https://jlcpcb.com/partdetail/C5199240)** | **[PRTR5V0U2X](./prtr5v0u2x)** | 5V TVS Bidirectional | SOT-143 | **$0.12** | +5V Protection |
+| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](./smaj15a)** | 15V TVS Unidirectional | SMA | **$0.15** | -12V Protection |
 
 #### Status Indicator LEDs (Using Basic Parts)
 

@@ -4,13 +4,17 @@ sidebar_position: 3
 
 # PRTR5V0U2X - 5V Bidirectional Dual-Channel TVS Diode
 
-**🔗 [View on JLCPCB: C5199240](https://jlcpcb.com/partdetail/C5199240)**
-
 Ultra-low capacitance ESD protection for 5V power rail with dual independent protection channels.
 
-![PRTR5V0U2X Package - SOT-143](/footprints/PRTR5V0U2X.png)
+- 🔗 [View on JLCPCB: C5199240](https://jlcpcb.com/partdetail/C5199240)
+- 📄 [Download Datasheet (PDF)](/datasheets/PRTR5V0U2X-datasheet.pdf)
 
-**📄 [Download Datasheet (PDF)](/datasheets/PRTR5V0U2X-datasheet.pdf)**
+import FootprintSvg from '@site/src/components/FootprintSvg';
+import DiodeSOD from '@site/static/footprints-svg/SOD-123FL_L2.8-W1.8-LS3.7-RD.svg';
+
+<FootprintSvg src={DiodeSOD} alt="PRTR5V0U2X SOD-123FL Package" minWidth="200px" minHeight="150px" />
+
+![PRTR5V0U2X Package Preview](/footprints/PRTR5V0U2X.png)
 
 ## Overview
 
