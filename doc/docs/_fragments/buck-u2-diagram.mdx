@@ -1,29 +1,46 @@
+import CircuitSvg from './CircuitSvg';
+import BuckU2Svg from './buck-u2-diagram.svg';
+
+<CircuitSvg
+  src={BuckU2Svg}
+  alt="LM2596S Buck Converter U2"
+  padding="10px"
+/>
+
+<details>
+<summary>View ASCII art version</summary>
+
 ```
-                 ┌──────┐ ┌──────┐
-            GND←─│  C5  │ │  C6  │─→GND
-                 │ 100µF│ │100nF │
-                 └──┬───┘ └───┬──┘
-┌──────────┐        │         │      ┌──────────────────┐
-│ +15V In  ├────────┴─────────┴────  ┬───┤5. VIN          │
-└──────────┘                     │   │3. ON             │
-                                 └───┤                  │
-                                     │   U2 (LM2596S)   │                 ┌─────────┐
-                                     │                  │                 │   L1    │
-                                     │            VOUT 4├─────┬───────────┤  100µH  ├──┐
-                                     │                  │     │           │  4.5A   │  │
-                See feedback ────────┤2. FB             │     │           └─────────┘  │
-                diagram              │                  │     │  ┌──────────┐          │
-                                     │            GND 1 ├──┐  └──┤    D1  │     ┌────┴───┐
-                                     └──────────────────┘  │     │   SS34 │     │ +13.5V │
-                                                           │     │ Schottky│     │  Out   │
-                                                           │     └────┬─────┘     └────┬───┘
-                                                           │          │           ┌────┴───┐
-┌──────────┐                                               │          │           │   C3   │
-│   GND    ├───────────────────────────────────────────────┴──────────┴───────────┤  470µF │
-└──────────┘                                                                      │  25V   │
-                                                                                  └────┬───┘
-                                                                                        │
-                                                                                       GND
+Input:  +15V ──┬─── C5 (100µF) ─── GND
+               │
+               └─── C6 (100nF) ─── GND
+
+
+Controller: U2 (LM2596S-ADJ)
+
+  +15V ──┬─────┤ VIN (5)
+         └─────┤ ON (3)         (always-on: tie ON to VIN)
+
+  VOUT (4) ├─── Switching Node
+
+  FB (2) ├───→ Tap (see feedback network below)
+
+  GND (1) ├─── GND
+
+
+Switching Node splits into TWO paths:
+
+  Path 1 (to output):
+    Switching Node ──→ L1 (100µH, 4.5A) ──→ +13.5V Out
+
+  Path 2 (flyback):
+    Switching Node ──→ D1 cathode (SS34 Schottky)
+                       D1 anode ──→ GND
+
+
+Output Filter:
+
+  +13.5V Out ──→ C3 (470µF/25V) ──→ GND
 ```
 
 ### Feedback Network (Voltage Divider)
@@ -31,21 +48,23 @@
 ```
 ┌──────────────┐     ┌─────────┐     ┌──────────┐
 │ +13.5V Out   │     │   R1    │     │    R2    │
-│              ├─────┤  10kΩ   ├── ┬──┤   1kΩ    ├─→ GND
-└──────────────┘     └─────────┘   │  └──────────┘
-                                   │
-                ┌──────────────────┐
-                │   U2 (LM2596S)   │
-                │2. FB             │
-                └──────────────────┘
+│              ├─────┤  10kΩ   ├──┬──┤   1kΩ    ├─→ GND
+└──────────────┘     └─────────┘  │  └──────────┘
+                                  │
+               ┌──────────────────┐
+               │   U2 (LM2596S)   │
+               │2. FB             │
+               └──────────────────┘
 
 Tap voltage = +13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V
 U2 maintains FB pin at 1.23V reference by adjusting duty cycle
 ```
 
+</details>
+
 **Key Points:**
-- **D1 cathode** connects to switching node (between U2 VOUT and L1)
-- **D1 anode** connects to GND
-- **C3** is in parallel (output → C3 → GND), NOT in series
-- **ON pin 3** tied to VIN for always-on operation
-- **FB pin 2** connects to tap point (see feedback diagram)
+- **Switching node** is the junction at VOUT pin 4 output
+- **Path 1**: Switching node → L1 → +13.5V output (main current path)
+- **Path 2**: Switching node → D1 cathode; D1 anode → GND (flyback/freewheeling path)
+- **D1** has exactly 2 connections: cathode to switching node, anode to GND
+- **L1 output and D1 anode are completely separate paths** - they do NOT connect to each other
