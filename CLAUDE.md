@@ -8,16 +8,26 @@ This is a hardware project for designing a USB-PD powered modular synthesizer po
 
 ## Repository Structure
 
-- `/notes/` - Organized documentation and specifications
-  - `diagram.md` - Complete circuit diagrams for all stages
-  - `parts.md` - Detailed parts list with JLCPCB part numbers and pricing
-- `/generated-docs/` - Generated documentation (unorganized)
-  - `complete-circuit-diagram.md` - Complete circuit implementation
-  - `initial-idea.html` - HTML visualization of the circuit design
-- `/footprints/` - PCB footprint files for components
-  - `CH224Q.png` - Footprint for USB PD controller
-  - `USB-TYPE-C-009.png` - Type-C connector footprint
-- `/inbox/` - Working directory for temporary files
+### Current Documentation (Use These)
+- `/doc/docs/` - **Primary documentation** (Docusaurus-based, organized)
+  - `inbox/` - Main documentation (overview, parts list, quick reference, current status)
+  - `parts/` - Individual component datasheets and specifications
+  - `learning/` - Circuit design learning notes
+  - `knowledge/` - How-to guides (footprint generation, SVG export, circuit diagrams)
+- `/doc/static/` - **Documentation assets** (images, PDFs, SVGs)
+  - `footprints/` - Component package preview images (PNG)
+  - `datasheets/` - Component datasheets and package specs (PDF)
+- `/doc/docs/_fragments/footprints/` - **Footprint SVGs** (for React imports in documentation)
+- `/footprints/` - **KiCad design files** (not for documentation)
+  - `kicad/` - KiCad footprint source files (.kicad_mod)
+  - `images/` - Exported SVG files (source for documentation)
+  - `scripts/` - Processing scripts (clean-svg-refs.py)
+- `/__inbox/` - **Temporary files** (gitignored, use for working files)
+
+### Legacy Documentation (Outdated)
+- `/notes/` - Old documentation (outdated, do not use)
+- `/generated-docs/` - Old generated docs (outdated, do not use)
+- `/inbox/` - Old working directory (outdated, use `__inbox/` instead)
 
 ## Technical Architecture
 
@@ -73,5 +83,59 @@ Example:
 
 - `.md` files contain technical specifications and circuit diagrams in text format
 - `.html` files provide styled visualizations of the circuit design
-- `.png` files are component footprint references
+- `.kicad_mod` files are KiCad footprint files for PCB design
 - No code compilation or testing is required - this is a hardware design project
+
+## Footprint Management
+
+This project uses [easyeda2kicad.py](https://github.com/uPesy/easyeda2kicad.py) to download KiCad footprints from LCSC/EasyEDA.
+
+### File Organization
+
+- **KiCad source files**: `/footprints/kicad/*.kicad_mod` (design workspace)
+- **SVG exports**: `/footprints/images/*.svg` (intermediate)
+- **Documentation SVGs**: `/doc/docs/_fragments/footprints/*.svg` (final destination)
+- **Package previews**: `/doc/static/footprints/*.png` (datasheet images)
+- **Datasheets**: `/doc/static/datasheets/*.pdf` (component specs)
+
+### Downloading Footprints
+
+**For detailed instructions, see:**
+- **[KiCad Footprint Generation Guide](/doc/docs/knowledge/kicad-footprint-generation.md)**
+
+**Quick reference:**
+```bash
+# Download footprint by LCSC ID
+easyeda2kicad --lcsc_id <LCSC_ID> --footprint
+
+# Copy to project
+cp ~/Documents/Kicad/easyeda2kicad/easyeda2kicad.pretty/*.kicad_mod ./footprints/kicad/
+```
+
+**For users**: Download footprints directly from [GitHub](https://github.com/Takazudo/zudo-power-usb-pd/tree/main/footprints)
+
+### Exporting SVG Files for Documentation (Manual Workflow)
+
+When footprints are added or updated, export SVGs manually for documentation:
+
+**For detailed instructions, see:**
+- **[Create Footprint SVG Files](/doc/docs/knowledge/create-footprint-svg.md)**
+
+**Quick workflow:**
+```bash
+# 1. Create .pretty directory if needed
+cd footprints/kicad
+mkdir -p zudo-power.pretty
+cp *.kicad_mod zudo-power.pretty/
+
+# 2. Export SVGs using KiCad CLI
+kicad-cli fp export svg zudo-power.pretty -o ../images --black-and-white
+
+# 3. Clean SVG files (remove REF** text)
+python3 ../scripts/clean-svg-refs.py ../images/
+
+# 4. Copy to documentation
+cp ../images/*.svg ../../doc/docs/_fragments/footprints/
+```
+
+**Note**: This is a manual process. Run after adding/updating footprints. Future automation may be added via CI/CD.

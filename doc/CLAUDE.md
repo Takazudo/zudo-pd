@@ -242,97 +242,152 @@ This documentation is part of a Docusaurus site. When referencing circuit diagra
 - Use English for all text and labels
 - **Preview all diagrams in monospace** before committing
 
+## Sidebar Management
+
+**CRITICAL**: When adding new documentation pages or reorganizing content, you MUST update the sidebar configuration in `sidebars.js`.
+
+### When to Update the Sidebar
+
+Update `sidebars.js` whenever you:
+- **Add a new page** to any documentation category
+- **Remove a page** from the documentation
+- **Rename a page** (update the path reference)
+- **Reorganize the documentation structure**
+
+### Sidebar Configuration Location
+
+**File:** `/doc/sidebars.js`
+
+### Sidebar Structure
+
+The project uses three main sidebars:
+
+```javascript
+const sidebars = {
+  inboxSidebar: [
+    'inbox/index',
+    'inbox/current-status',
+    'inbox/overview',
+    'inbox/circuit-diagrams',
+    'inbox/parts-list',
+    'inbox/footprint-preview',
+    'inbox/quick-reference',
+  ],
+  partsSidebar: [
+    'parts/index',
+    'parts/ch224d',
+    'parts/lm2596s-adj',
+    // ... more parts
+  ],
+  learningSidebar: [
+    'learning/index',
+    'learning/open-drain-pg-pin',
+    'learning/buck-converter-feedback',
+  ],
+};
+```
+
+### Adding a New Page
+
+**Step 1:** Create the markdown file in the appropriate directory:
+```bash
+# Example: Adding a new page to inbox
+touch docs/inbox/my-new-page.md
+```
+
+**Step 2:** Update `sidebars.js` to include the new page:
+```javascript
+inboxSidebar: [
+  'inbox/index',
+  'inbox/current-status',
+  'inbox/my-new-page',  // ← Add new page here
+  'inbox/overview',
+  // ...
+],
+```
+
+**Step 3:** Verify the sidebar updates (Docusaurus hot-reloads automatically)
+- The new page should appear in the sidebar immediately
+- Click through to verify navigation works
+- Check that the page title displays correctly
+
+### Sidebar Best Practices
+
+1. **Logical Ordering**: Group related pages together
+   - Put overview/index pages first
+   - Group technical details together
+   - Put reference materials last
+
+2. **Path Format**: Use relative paths without file extensions
+   ```javascript
+   'inbox/my-page'      // ✅ Correct
+   'inbox/my-page.md'   // ❌ Wrong - no extension
+   '/inbox/my-page'     // ❌ Wrong - no leading slash
+   ```
+
+3. **Consistent Naming**: Match the file path exactly
+   ```
+   docs/inbox/my-page.md  →  'inbox/my-page'
+   docs/parts/ch224d.md   →  'parts/ch224d'
+   ```
+
+4. **Categories**: Use the appropriate sidebar for each content type
+   - `inboxSidebar`: Main documentation (overview, specs, diagrams)
+   - `partsSidebar`: Individual component datasheets
+   - `learningSidebar`: Educational content and design notes
+
+### Example: Adding Footprint Preview
+
+When the `footprint-preview.md` page was added to `/doc/docs/inbox/`, the sidebar was updated:
+
+```javascript
+inboxSidebar: [
+  'inbox/index',
+  'inbox/current-status',
+  'inbox/overview',
+  'inbox/circuit-diagrams',
+  'inbox/parts-list',
+  'inbox/footprint-preview',  // ← Added here
+  'inbox/quick-reference',
+],
+```
+
+**Result:** The "Footprint Preview" page now appears in the INBOX sidebar between "Parts List" and "Quick Reference".
+
+### Troubleshooting
+
+**Problem:** New page doesn't appear in sidebar
+- ✅ Check that the file path in `sidebars.js` matches the actual file location
+- ✅ Verify no file extension in the path
+- ✅ Restart the dev server if hot-reload fails: `npm start`
+
+**Problem:** Page shows "404 Not Found"
+- ✅ Verify the markdown file exists at the correct path
+- ✅ Check for typos in the sidebar path
+- ✅ Ensure the file has proper frontmatter (title, etc.)
+
+**Problem:** Sidebar order is wrong
+- ✅ Reorder entries in the `sidebars.js` array
+- ✅ Array order determines display order in the sidebar
+
 ## Circuit Design Workflow
 
-When creating new circuit diagrams for the documentation, follow this systematic workflow:
+**For detailed instructions on creating circuit diagrams, see:**
+- **[Create Circuit SVG Files Guide](/doc/docs/knowledge/create-circuit-svg.md)** - Complete workflow for generating professional circuit diagrams using schemdraw
 
-### Step 1: Collect Parts Data
+### Quick Reference
 
-- Use the `/jlcpcb` skill to search for and verify component availability
-- Document part numbers, specifications, and JLCPCB stock codes
-- Verify voltage ratings, current ratings, and package types
-- Record key specifications (resistance values, capacitance, inductance, etc.)
+When creating new circuit diagrams:
 
-### Step 2: Create ASCII Art Draft
+1. **Collect Parts Data** - Use `/jlcpcb` skill to verify component availability
+2. **Create ASCII Art Draft** - Draft circuit with connection list (follows ASCII Art Best Practices above)
+3. **Generate Schemdraw Diagram** - Use `/schemdraw-circuit-generator` skill
+4. **Integrate into Documentation** - Use `CircuitSvg` component
+5. **Verify and Commit** - Test click-to-enlarge, commit both SVG and Python source
 
-- Start with ASCII art circuit diagram in markdown code blocks
-- Follow all ASCII Art Best Practices (see above)
-- **Verify all parts connections** - create detailed connection list
-- Ensure electrical correctness before proceeding
-- Preview in monospace font using headless-browser skill
-- This draft serves as the specification for the final diagram
-
-### Step 3: Generate Schemdraw Diagram
-
-- Use the `/schemdraw-circuit-generator` skill to create professional circuit diagram
-- Provide the connection list from Step 2 as the specification
-- The skill will generate Python code and SVG output
-- Dark theme (black background, white lines) is standard
-- Output SVG files go to `docs/_fragments/` directory
-- Python source files go to `diagram-sources/` directory
-
-### Step 4: Integrate into Documentation
-
-- Import the SVG in MDX files using the `CircuitSvg` component:
-  ```jsx
-  import CircuitSvg from '@site/docs/_fragments/CircuitSvg';
-  import BuckU2Diagram from '@site/docs/_fragments/buck-u2-diagram.svg';
-
-  <CircuitSvg src={BuckU2Diagram} alt="LM2596S Buck Converter U2" />
-  ```
-- The component provides click-to-enlarge functionality (90vw × 90vh fullscreen)
-- Hide the ASCII art draft using HTML `<details>` element:
-  ```html
-  <details>
-  <summary>View ASCII art version</summary>
-
-  ```
-  [ASCII diagram here]
-  ```
-
-  </details>
-  ```
-- Keep the connection list visible for reference
-
-### Step 5: Verify and Commit
-
-- Test the click-to-enlarge functionality in browser
-- Verify SVG renders correctly at both thumbnail and fullscreen sizes
-- Ensure all connections match the specification
-- Check that ASCII art is properly hidden but accessible
-- Commit both SVG and Python source files together
-
-### Available Skills
-
-- `/jlcpcb` - Search JLCPCB parts database (~7M components)
-- `/schemdraw-circuit-generator` - Generate professional circuit diagrams
-- `/headless-browser` - Preview diagrams and check rendering
-- `/ascii-circuit-diagram-creator` - Validate ASCII circuit syntax (if needed)
-
-### File Organization
-
-```
-doc/
-├── docs/
-│   ├── _fragments/
-│   │   ├── CircuitSvg.jsx          # Click-to-enlarge component
-│   │   ├── CircuitDialog.jsx       # Fullscreen dialog component
-│   │   └── *.svg                   # Generated diagrams
-│   └── inbox/
-│       └── circuit-diagrams.md     # Documentation with diagrams
-└── diagram-sources/
-    └── *.py                        # Schemdraw Python sources
-```
-
-### Quality Checklist
-
-Before considering a circuit diagram complete:
-
-- ✅ Parts verified in JLCPCB database
-- ✅ Connection list is accurate and complete
-- ✅ ASCII art draft follows all golden rules
-- ✅ Schemdraw SVG generated with dark theme
-- ✅ Click-to-enlarge works correctly
-- ✅ ASCII art hidden in `<details>` element
-- ✅ Connection list remains visible
-- ✅ Both SVG and Python source committed
+**Configuration:**
+- Black foreground with transparent background
+- Background color: transparent (allows HTML container `oklch(86.9% 0.005 56.366)` to show through)
+- Font: Arial, 11pt
+- SVG output: `docs/_fragments/*.svg`
+- Python source: `/diagram-sources/*.py` (at repository root)
