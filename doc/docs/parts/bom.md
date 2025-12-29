@@ -87,7 +87,7 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol | Part Number | Manufacturer Part Number | Description | Package | Stock | Price | Application |
 |------|----------|-------------|------|------------|--------|------|------|
-| **U6** | **[C2914](https://jlcpcb.com/partdetail/C2914)** | **[L7812CV-DG](./l7812cv)** | +12V 1.5A | TO-220 | **158,795** | **$0.11** | +12V Output |
+| **U6** | **[C13456](https://jlcpcb.com/partdetail/C13456)** | **[L7812CD2T-TR](./l7812cv)** | +12V 1.5A | TO-263-2 | **40,204** | **$0.11** | +12V Output |
 | **U7** | **[C86206](https://jlcpcb.com/partdetail/C86206)** | **[L7805ABD2T-TR](./l7805abd2t)** | +5V 1.5A | TO-263-2 | **272,379** | **$0.11** | +5V Output |
 | **U8** | **[C94173](https://jlcpcb.com/partdetail/C94173)** | **[CJ7912](./cj7912)** | -12V 1.5A | TO-252-2L | **3,386** | **$0.11** | -12V Output |
 
@@ -208,6 +208,6 @@ Complete parts configuration using JLCPCB SMT service.
 
 ### 4. Implementation
 
-- **All SMD Components**: Compatible with automated assembly
-- **TO-220 Package**: Easy heat sink attachment
+- **100% SMD Components**: Fully compatible with automated PCBA assembly
+- **Surface-Mount Design**: All regulators use SMD packages (TO-263-2, TO-252-2L)
 - **Separated Design**: Physical separation of DC-DC and linear stages
