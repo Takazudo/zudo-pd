@@ -137,81 +137,25 @@ LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA
 - When U2's internal switch is ON: Current flows VIN → Switch → VOUT → L1 → C3 → Load
 - When U2's internal switch is OFF: Inductor current flows through D1 (L1 → D1 → GND → L1)
 
-## Diagram3: +15V → +7.5V Buck Converter (LM2596S-ADJ #2)
-
-<BuckU3Diagram />
-
-### Connection List
-
-**Input Power:**
-- `+15V input` → `U3 (LM2596S-ADJ) pin 5 (VIN)`
-- `+15V input` → `U3 pin 3 (ON)` (enable - ties VIN to ON for always-on operation)
-
-**Output Path (Buck Converter Topology):**
-1. `U3 pin 4 (VOUT)` → `L2 (100µH, 4.5A)` → Junction point
-2. Junction point → `C4 (470µF/10V)` → `GND` (output filter capacitor)
-3. Junction point → `+7.5V output` (to LM7805 linear regulator)
-
-**Flyback Diode:**
-- `D2 (SS34 Schottky)`:
-  - Cathode → Junction between `VOUT (pin 4)` and `L2`
-  - Anode → `GND`
-
-**Input Capacitors:**
-- `C7 (100µF electrolytic)`: `+15V input` ⟷ `GND` (bulk input filter)
-- `C8 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling)
-
-**Output Capacitor:**
-- `C4 (470µF/10V electrolytic)`: Connected **in parallel** between `+7.5V output` ⟷ `GND`
-- Purpose: Output filtering, ripple reduction, and energy storage for transient response
-- **Important**: C4 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
-
-**Feedback Network:**
-- Voltage divider: `+7.5V output` → `R3 (5.1kΩ)` → **Tap point** → `R4 (1kΩ)` → `GND`
-- `U3 pin 2 (FB)` → Connected to **tap point** (junction between R3 and R4)
-- The tap point voltage = `7.5V × R4/(R3+R4) = 7.5V × 1kΩ/6.1kΩ = 1.23V`
-- Chip maintains FB pin at 1.23V by adjusting duty cycle
-- Output voltage formula: `VOUT = 1.23V × (1 + R3/R4) = 1.23V × (1 + 5.1kΩ/1kΩ) = 7.50V`
-
-**Ground:**
-- `U3 pin 1 (GND)` → `System GND`
-
-## Diagram4: +15V → -15V Voltage Inverter (ICL7660)
+## Diagram3: +15V → -15V Voltage Inverter (ICL7660)
 
 ```
-+15V ─────┬─────────────────────────────────────────┬─→ +15V (to other circuits)
-          │                                         │
-          │           ICL7660M/TR                   │
-          │         ┌──────────────┐                │
-          └─────────┤2,8  V+   CAP+│1──┐            │
-                    │              │   │            │
-           GND ─────┤3   GND   CAP-│4──┼─┐          │
-                    │              │   │ │          │
-          OPEN ─────┤6   LV    V-  │5──┼─┼──────────┴─→ -15V
-                    │              │   │ │
-          OPEN ─────┤7   OSC       │   │ │
-                    └──────────────┘   │ │
-                                       │ │
-                    C12: 10µF Ceramic  │ │
-                    ┌───────────────────┘ │
-                    │                     │
-                    └─────────────────────┘
+                  ┌────────────────────┐
++15V ─────────────┤2,8 V+         CAP+ │1─────┐
+                  │                    │      │
+                  │   ICL7660M/TR      │      │  C12
+GND ──────────────┤3  GND         CAP- │4─────┤  10µF Ceramic
+                  │                    │      │  (Flying Capacitor)
+OPEN ─────────────┤6  LV           V-  │5─────┴────── -15V OUT
+                  │                    │
+OPEN ─────────────┤7  OSC              │
+                  └────────────────────┘
 
-                    C13: 10µF Ceramic
-                    ┌─────────────────────────┐
-                    │                         │
-            -15V ───┼─────────────────────────┼─── GND
-                    │                         │
-                    └─────────────────────────┘
-```
+Flying Capacitor (Charge Pump):
+PIN1 (CAP+) ────┬──── C12 (10µF) ────┬──── PIN4 (CAP-)
 
-**Flying capacitor (C12) connects directly between PIN1 and PIN4**
-
-```
-      Flying Capacitor C12 (10µF)
-           ┌─────────┐
-PIN1 ──────┤+       -├────── PIN4
-(CAP+)     └─────────┘     (CAP-)
+Output Filter:
+-15V ───────────┬──── C13 (10µF) ────┬──── GND
 ```
 
 ### Connection List
@@ -236,7 +180,7 @@ PIN1 ──────┤+       -├────── PIN4
 - Charge pump switches `C12` between `+15V` and `GND` to generate `-15V`
 - Output voltage: `VOUT ≈ -(VIN - 1V) = -14V typical`
 
-## Diagram5: -15V → -13.5V Buck Converter (LM2596S-ADJ #3)
+## Diagram4: -15V → -13.5V Buck Converter (LM2596S-ADJ #3)
 
 <BuckU5Diagram />
 
@@ -282,153 +226,176 @@ PIN1 ──────┤+       -├────── PIN4
 - Electrolytic capacitors must have correct polarity (negative terminal to negative voltage)
 - The buck converter topology is identical to positive voltage versions, just with negative voltages
 
-## Diagram6: +13.5V → +12V Linear Regulator
+## Diagram5: +13.5V → +12V Linear Regulator
 
 ```
-+13.5V ──┬─── C11: 470nF ───┬─── LM7812 ───┬─── C14: 100nF ───┬─→ +12V/1.2A
-         │                  │   (TO-220)   │                  │
-         │                  │    ┌─────┐   │                  │
-         │                  └────│1 IN │3──┴──────────────────┤
-         │                       │     │                      │
-         │                    ┌──│2 GND│                      │
-         │                    │  └─────┘                      │
-         │                    │     │                         │
-         └─── C17: 470µF ─────┼─────┼─── C18: 470µF ──────────┤
-              (Input Stab)    │     │    (Output Stab)        │
-                              │     │                         │
-                             GND   GND                        │
-                                                              │
-                     ┌────────────────────────────────────────┘
-                     │
-               ┌─────┴─────┐  1kΩ (R7)
-               │    LED2   │ ──────┬─→ +12V Status (Green LED)
-               │  (Green)  │       │
-               └─────┬─────┘       │
-                     │            GND
-                    GND
+                    ┌──────────────────┐
++13.5V IN ──────────┤1 IN         OUT 3├──────────── +12V OUT
+                    │                  │
+                 ┌──┤2 GND             │
+                 │  └──────────────────┘
+                 │      LM7812
+                 │     (TO-263-2)
+                GND
+
+Input Capacitors:
++13.5V ──┬───────────────── To Regulator IN
+         │
+         ├─ C14 (470nF)
+         │     │
+         │    GND
+         │
+         └─ C20 (470µF)
+               │
+              GND
+
+Output Capacitors:
++12V ────┬───────────────── +12V Output Rail
+         │
+         ├─ C17 (100nF)
+         │     │
+         │    GND
+         │
+         └─ C21 (470µF)
+               │
+              GND
+
+Status LED:
++12V ──── R7 (1kΩ) ──── LED2 (Green) ──── GND
 ```
 
 ### Connection List
 
-**Power Lines:**
-- `+13.5V input` → `U6 (LM7812) pin 1 (IN)`
-- `U6 pin 3 (OUT)` → `+12V output`
+**Regulator:**
+- U6 (L7812CD2T-TR): `+13.5V input` → Pin 1 (IN), Pin 3 (OUT) → `+12V output`, Pin 2 (GND) → `GND`
 
-**Input Capacitors:**
-- `C11 (470nF)`: `+13.5V input` ⟷ `GND` (high-frequency noise filtering)
-- `C17 (470µF)`: `+13.5V input` ⟷ `GND` (input stabilization)
+**Input Capacitors (connected in parallel between +13.5V and GND):**
+- C14 (470nF ceramic): High-frequency noise filtering
+- C20 (470µF electrolytic): Input bulk stabilization
 
-**Output Capacitors:**
-- `C14 (100nF)`: `+12V output` ⟷ `GND` (high-frequency decoupling)
-- `C18 (470µF)`: `+12V output` ⟷ `GND` (output stabilization and transient response)
+**Output Capacitors (connected in parallel between +12V and GND):**
+- C17 (100nF ceramic): High-frequency decoupling
+- C21 (470µF electrolytic): Output stabilization and transient response
 
-**LED Status Indicator:**
-- `+12V output` → `R7 (1kΩ)` → `LED2 anode (Green LED)` → `LED2 cathode` → `GND`
+**Status LED:**
+- LED2 (Green): `+12V` → `R7 (1kΩ)` → `LED2 anode` → `LED2 cathode` → `GND`
 - LED current: `I = (12V - 2V) / 1kΩ ≈ 10mA`
 
-**Ground:**
-- `U6 pin 2 (GND)` → `System GND`
-
-## Diagram7: +7.5V → +5V Linear Regulator
+## Diagram6: +7.5V → +5V Linear Regulator
 
 ```
-+7.5V ───┬─── C12: 470nF ───┬─── LM7805 ───┬─── C15: 100nF ───┬─→ +5V/1.2A
-         │                  │  (TO-220F-3) │                  │
-         │                  │    ┌─────┐   │                  │
-         │                  └────│1 IN │3──┴──────────────────┤
-         │                       │     │                      │
-         │                    ┌──│2 GND│                      │
-         │                    │  └─────┘                      │
-         │                    │     │                         │
-         └─── C19: 470µF ─────┼─────┼─── C20: 470µF ──────────┤
-              (Input Stab)    │     │    (Output Stab)        │
-                              │     │                         │
-                             GND   GND                        │
-                                                              │
-                     ┌────────────────────────────────────────┘
-                     │
-               ┌─────┴─────┐  1kΩ (R8)
-               │    LED3   │ ──────┬─→ +5V Status (Blue LED)
-               │  (Blue)   │       │
-               └─────┬─────┘       │
-                     │            GND
-                    GND
+                    ┌──────────────────┐
++7.5V IN ───────────┤1 IN         OUT 3├──────────── +5V OUT
+                    │                  │
+                 ┌──┤2 GND             │
+                 │  └──────────────────┘
+                 │      LM7805
+                 │     (TO-263-2)
+                GND
+
+Input Capacitors:
++7.5V ───┬───────────────── To Regulator IN
+         │
+         ├─ C15 (470nF)
+         │     │
+         │    GND
+         │
+         └─ C22 (470µF)
+               │
+              GND
+
+Output Capacitors:
++5V ─────┬───────────────── +5V Output Rail
+         │
+         ├─ C18 (100nF)
+         │     │
+         │    GND
+         │
+         └─ C23 (470µF)
+               │
+              GND
+
+Status LED:
++5V ──── R8 (1kΩ) ──── LED3 (Blue) ──── GND
 ```
 
 ### Connection List
 
-**Power Lines:**
-- `+7.5V input` → `U7 (LM7805) pin 1 (IN)`
-- `U7 pin 3 (OUT)` → `+5V output`
+**Regulator:**
+- U7 (L7805ABD2T-TR): `+7.5V input` → Pin 1 (IN), Pin 3 (OUT) → `+5V output`, Pin 2 (GND) → `GND`
 
-**Input Capacitors:**
-- `C12 (470nF)`: `+7.5V input` ⟷ `GND` (high-frequency noise filtering)
-- `C19 (470µF)`: `+7.5V input` ⟷ `GND` (input stabilization)
+**Input Capacitors (connected in parallel between +7.5V and GND):**
+- C15 (470nF ceramic): High-frequency noise filtering
+- C22 (470µF electrolytic): Input bulk stabilization
 
-**Output Capacitors:**
-- `C15 (100nF)`: `+5V output` ⟷ `GND` (high-frequency decoupling)
-- `C20 (470µF)`: `+5V output` ⟷ `GND` (output stabilization and transient response)
+**Output Capacitors (connected in parallel between +5V and GND):**
+- C18 (100nF ceramic): High-frequency decoupling
+- C23 (470µF electrolytic): Output stabilization and transient response
 
-**LED Status Indicator:**
-- `+5V output` → `R8 (1kΩ)` → `LED3 anode (Blue LED)` → `LED3 cathode` → `GND`
+**Status LED:**
+- LED3 (Blue): `+5V` → `R8 (1kΩ)` → `LED3 anode` → `LED3 cathode` → `GND`
 - LED current: `I = (5V - 2V) / 1kΩ = 3mA` (dim, consider 330Ω for brighter)
 
-**Ground:**
-- `U7 pin 2 (GND)` → `System GND`
-
-## Diagram8: -13.5V → -12V Linear Regulator
+## Diagram7: -13.5V → -12V Linear Regulator
 
 ```
--13.5V ──┬─── C13: 470nF ───┬─── LM7912 ───┬─── C16: 100nF ───┬─→ -12V/1.0A
-         │                  │   (TO-220)   │                  │
-         │                  │    ┌─────┐   │                  │
-         │                  └────│1 IN │2──┴──────────────────┤
-         │                       │     │                      │
-         │                    ┌──│3 GND│                      │
-         │                    │  └─────┘                      │
-         │                    │     │                         │
-         └─── C21: 470µF ─────┼─────┼─── C22: 470µF ──────────┤
-              (Input Stab)    │     │    (Output Stab)        │
-                              │     │                         │
-                             GND   GND                        │
-                                                              │
-                     ┌────────────────────────────────────────┘
-                     │
-               ┌─────┴─────┐  1kΩ (R9)
-               │    LED4   │ ──────┬─→ -12V Status (Red LED)
-               │  (Red)    │       │
-               └─────┬─────┘       │
-                     │            GND
-                    GND
+                    ┌──────────────────┐
+-13.5V IN ──────────┤1 IN         OUT 2├──────────── -12V OUT
+                    │                  │
+                 ┌──┤3 GND             │
+                 │  └──────────────────┘
+                 │      LM7912
+                 │     (TO-252-3)
+                GND
+
+Input Capacitors:
+-13.5V ──┬───────────────── To Regulator IN
+         │
+         ├─ C16 (470nF)
+         │     │
+         │    GND
+         │
+         └─ C24 (470µF) ※ Polarity: Negative to -13.5V, Positive to GND
+               │
+              GND
+
+Output Capacitors:
+-12V ────┬───────────────── -12V Output Rail
+         │
+         ├─ C19 (100nF)
+         │     │
+         │    GND
+         │
+         └─ C25 (470µF) ※ Polarity: Negative to -12V, Positive to GND
+               │
+              GND
+
+Status LED (reversed polarity for negative rail):
+GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1kΩ) ──── -12V
 ```
 
 ### Connection List
 
-**Power Lines:**
-- `-13.5V input` → `U8 (LM7912) pin 1 (IN)`
-- `U8 pin 2 (OUT)` → `-12V output`
+**Regulator:**
+- U8 (CJ7912): `-13.5V input` → Pin 1 (IN), Pin 2 (OUT) → `-12V output`, Pin 3 (GND) → `GND`
+- **Note:** LM7912 pinout differs from LM7812/7805: pin 1=IN, pin 2=OUT, pin 3=GND
 
-**Input Capacitors:**
-- `C13 (470nF)`: `-13.5V input` ⟷ `GND` (high-frequency noise filtering)
-- `C21 (470µF)`: `-13.5V input` ⟷ `GND` (input stabilization)
-  - **Polarity:** Negative terminal to `-13.5V`, positive terminal to `GND`
+**Input Capacitors (connected in parallel between -13.5V and GND):**
+- C16 (470nF ceramic): High-frequency noise filtering
+- C24 (470µF electrolytic): Input bulk stabilization
+  - **Polarity:** Negative terminal to `-13.5V`, Positive terminal to `GND`
 
-**Output Capacitors:**
-- `C16 (100nF)`: `-12V output` ⟷ `GND` (high-frequency decoupling)
-- `C22 (470µF)`: `-12V output` ⟷ `GND` (output stabilization and transient response)
-  - **Polarity:** Negative terminal to `-12V`, positive terminal to `GND`
+**Output Capacitors (connected in parallel between -12V and GND):**
+- C19 (100nF ceramic): High-frequency decoupling
+- C25 (470µF electrolytic): Output stabilization and transient response
+  - **Polarity:** Negative terminal to `-12V`, Positive terminal to `GND`
 
-**LED Status Indicator:**
-- `GND` → `LED4 anode (Red LED)` → `LED4 cathode` → `R9 (1kΩ)` → `-12V output`
+**Status LED:**
+- LED4 (Red): `GND` → `LED4 anode` → `LED4 cathode` → `R9 (1kΩ)` → `-12V`
 - LED current: `I = (0V - (-12V) - 2V) / 1kΩ = 10mA`
-- **Note:** LED is reversed compared to positive rails (anode to GND, cathode to negative)
+- **Note:** LED is reversed compared to positive rails (anode to GND, cathode to negative voltage)
 
-**Ground:**
-- `U8 pin 3 (GND)` → `System GND`
-
-**Note:** LM7912 pinout differs from LM7812: pin 1=IN, pin 2=OUT, pin 3=GND
-
-## Diagram9: Protection Circuit (Beginner-Friendly, 2-Stage Protection)
+## Diagram8: Protection Circuit (Beginner-Friendly, 2-Stage Protection)
 
 ```
 +12V ──┬─── PTC1: 1.1A ──┬─── F1: 2A ───┬─── TVS1: SMAJ15A ───┬─→ +12V OUT
@@ -513,7 +480,7 @@ PIN1 ──────┤+       -├────── PIN4
 - Shunts overvoltage transients to GND
 - Self-recovering (no replacement needed)
 
-## Diagram10: Power Flow Overview
+## Diagram9: Power Flow Overview
 
 ```
 USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
