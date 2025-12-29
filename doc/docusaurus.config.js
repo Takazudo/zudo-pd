@@ -84,9 +84,9 @@ const config = {
           },
           {
             type: 'doc',
-            docId: 'parts/index',
+            docId: 'components/index',
             position: 'left',
-            label: 'Parts',
+            label: 'Components',
           },
           {
             type: 'doc',

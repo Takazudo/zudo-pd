@@ -8,7 +8,7 @@ This guide explains how to export KiCad footprints to SVG format and prepare the
 
 ## Overview
 
-The documentation displays clickable footprint previews on each parts page. This workflow converts KiCad `.kicad_mod` files to clean SVG images.
+The documentation displays clickable footprint previews on each component page. This workflow converts KiCad `.kicad_mod` files to clean SVG images.
 
 ## Prerequisites
 
@@ -165,7 +165,7 @@ Processing: TO-263-5_L10.2-W8.9-P1.70-BR.svg - Removed 2 elements
 
 ### Import and Use FootprintSvg Component
 
-In MDX files (e.g., parts pages):
+In MDX files (e.g., component pages):
 
 ```jsx
 import FootprintSvg from '@site/src/components/FootprintSvg';
@@ -246,13 +246,13 @@ cp images/*.svg ../doc/docs/_fragments/footprints/
 # 7. Verify in documentation
 cd ../doc
 npm start
-# Open browser to http://localhost:3000/docs/parts
+# Open browser to http://localhost:3000/docs/components
 ```
 
 ## Next Steps
 
 - [View Footprint Preview](../inbox/footprint-preview.md) - See all footprints in the documentation
-- Update parts pages to include new footprints
+- Update component pages to include new footprints
 - Commit changes to git
 
 ## References

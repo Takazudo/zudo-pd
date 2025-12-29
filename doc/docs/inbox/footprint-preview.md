@@ -239,6 +239,6 @@ cp footprints/images/*.svg doc/docs/_fragments/footprints/
 
 ## See Also
 
-- [Bill of Materials](../parts/bom.md) - Complete component list with specifications
+- [Bill of Materials](../components/bom.md) - Complete component list with specifications
 - [Overview](./overview.md) - Project technical overview
 - [Quick Reference](./quick-reference.md) - Specification summary

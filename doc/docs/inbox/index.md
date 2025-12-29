@@ -18,7 +18,7 @@ Documentation for USB-PD powered modular synthesizer power supply.
 
 - **[Project Overview](overview.md)** - Design goals, architecture, features
 - **[Circuit Diagrams](circuit-diagrams.md)** - Complete circuit configuration (Stages 1-4)
-- **[Bill of Materials](../parts/bom.md)** - JLCPCB-compatible BOM
+- **[Bill of Materials](../components/bom.md)** - JLCPCB-compatible BOM
 - **[📋 Quick Reference](quick-reference.md)** - Common specs, formulas, FAQ
 
 ## Project Features

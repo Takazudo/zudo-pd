@@ -4,9 +4,9 @@ pagination_next: null
 pagination_prev: null
 ---
 
-# Parts Documentation
+# Components Documentation
 
-Detailed documentation about components and parts used in the USB-PD modular synthesizer power supply.
+Detailed documentation for all electronic components used in the USB-PD modular synthesizer power supply.
 
 ## Protection Components
 

@@ -371,7 +371,7 @@ ls -l doc/docs/_fragments/buck-u2-diagram.svg
 # 6. Test in documentation
 cd /Users/takazudo/repos/personal/zudo-power-usb-pd/doc
 npm start
-# Open: http://localhost:3000/docs/parts/lm2596s-adj
+# Open: http://localhost:3000/do../components/lm2596s-adj
 
 # 7. Commit both Python source and SVG
 git add diagram-sources/buck-u2-diagram.py

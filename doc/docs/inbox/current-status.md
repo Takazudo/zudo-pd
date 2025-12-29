@@ -122,7 +122,7 @@ Ready to proceed:
 
 - ✅ Part numbers added to `/notes/parts.md`
 - ✅ Final cost calculated: **$4.68/board**
-- ✅ Reflected in `/doc/docs/parts/bom.md`
+- ✅ Reflected in `/doc/do../components/bom.md`
 - ✅ All parts optimized to high-stock items (CH224D, L7812/7805, CJ7912)
 
 ### 🟡 Priority: Medium - Do Next

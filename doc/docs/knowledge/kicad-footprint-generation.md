@@ -38,7 +38,7 @@ The `/footprints/kicad/` directory contains all `.kicad_mod` files ready to use 
 
 ## Finding LCSC Part Numbers
 
-All component LCSC IDs are listed in the [Bill of Materials](../parts/bom.md). You can also search on:
+All component LCSC IDs are listed in the [Bill of Materials](../components/bom.md). You can also search on:
 
 - [LCSC.com](https://www.lcsc.com/)
 - [EasyEDA.com](https://easyeda.com/)
