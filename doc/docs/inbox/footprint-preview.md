@@ -275,14 +275,6 @@ import Header6P from '@site/static/footprints-svg/HDR-SMD_6P-P2.00-V-M_XBK_R2.sv
 
 **Package:** SMD 6-pin vertical header (2.00mm pitch)
 
-### DC Input Jack
-
-import DCJack from '@site/static/footprints-svg/DC-IN-TH_DC550250-0366-2H.svg';
-
-<FootprintSvg src={DCJack} alt="DC Input Jack" minWidth="300px" minHeight="250px" />
-
-**Package:** Through-hole DC barrel jack
-
 ---
 
 ## Footprint Management
