@@ -288,40 +288,45 @@ Feedback Voltage Divider:
 ## Diagram5: +13.5V → +12V Linear Regulator
 
 ```
+Regulator IC:
                     ┌──────────────────┐
 +13.5V IN ──────────┤1 IN         OUT 3├──────────── +12V OUT
                     │                  │
                  ┌──┤2 GND             │
                  │  └──────────────────┘
-                 │      LM7812
-                 │     (TO-263-2)
-                GND
+                GND      LM7812
+                        (TO-263-2)
 
-Input Capacitors:
-+13.5V ──┬───────────────── To Regulator IN
+Input Capacitors (place C14 CLOSEST to IC pin 1):
++13.5V ──┬─── To IC Pin 1
          │
-         ├─ C14 (470nF)
-         │     │
-         │    GND
+         ├─ C14 (470nF ceramic) ※ CLOSE to IC pin
+         │    │
+         │   GND
          │
-         └─ C20 (470µF)
-               │
-              GND
+         └─ C20 (470µF electrolytic) ※ Can be farther
+              │
+             GND
 
-Output Capacitors:
-+12V ────┬───────────────── +12V Output Rail
+Output Capacitors (place C17 CLOSEST to IC pin 3):
++12V ────┬─── From IC Pin 3
          │
-         ├─ C17 (100nF)
-         │     │
-         │    GND
+         ├─ C17 (100nF ceramic) ※ CLOSE to IC pin
+         │    │
+         │   GND
          │
-         └─ C21 (470µF)
-               │
-              GND
+         └─ C21 (470µF electrolytic) ※ Can be farther
+              │
+             GND
 
 Status LED:
 +12V ──── R7 (1kΩ) ──── LED2 (Green) ──── GND
 ```
+
+**Capacitor Placement (Critical for PCB layout):**
+- **C14/C17 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
+- **C20/C21 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
+- All capacitors are in PARALLEL (between rail and GND), NOT in series with power path
 
 ### Connection List
 
@@ -343,40 +348,42 @@ Status LED:
 ## Diagram6: +7.5V → +5V Linear Regulator
 
 ```
+Regulator IC:
                     ┌──────────────────┐
 +7.5V IN ───────────┤1 IN         OUT 3├──────────── +5V OUT
                     │                  │
                  ┌──┤2 GND             │
                  │  └──────────────────┘
-                 │      LM7805
-                 │     (TO-263-2)
-                GND
+                GND      LM7805
+                        (TO-263-2)
 
-Input Capacitors:
-+7.5V ───┬───────────────── To Regulator IN
+Input Capacitors (place C15 CLOSEST to IC pin 1):
++7.5V ───┬─── To IC Pin 1
          │
-         ├─ C15 (470nF)
-         │     │
-         │    GND
+         ├─ C15 (470nF ceramic) ※ CLOSE to IC pin
+         │    │
+         │   GND
          │
-         └─ C22 (470µF)
-               │
-              GND
+         └─ C22 (470µF electrolytic) ※ Can be farther
+              │
+             GND
 
-Output Capacitors:
-+5V ─────┬───────────────── +5V Output Rail
+Output Capacitors (place C18 CLOSEST to IC pin 3):
++5V ─────┬─── From IC Pin 3
          │
-         ├─ C18 (100nF)
-         │     │
-         │    GND
+         ├─ C18 (100nF ceramic) ※ CLOSE to IC pin
+         │    │
+         │   GND
          │
-         └─ C23 (470µF)
-               │
-              GND
+         └─ C23 (470µF electrolytic) ※ Can be farther
+              │
+             GND
 
 Status LED:
 +5V ──── R8 (1kΩ) ──── LED3 (Blue) ──── GND
 ```
+
+**Capacitor Placement:** Same as Diagram5 - ceramic caps close to IC, electrolytic caps can be farther
 
 ### Connection List
 
@@ -398,40 +405,43 @@ Status LED:
 ## Diagram7: -13.5V → -12V Linear Regulator
 
 ```
+Regulator IC:
                     ┌──────────────────┐
 -13.5V IN ──────────┤1 IN         OUT 2├──────────── -12V OUT
                     │                  │
                  ┌──┤3 GND             │
                  │  └──────────────────┘
-                 │      LM7912
-                 │     (TO-252-3)
-                GND
+                GND      LM7912
+                        (TO-252-3)
 
-Input Capacitors:
--13.5V ──┬───────────────── To Regulator IN
+Input Capacitors (place C16 CLOSEST to IC pin 1):
+-13.5V ──┬─── To IC Pin 1
          │
-         ├─ C16 (470nF)
-         │     │
-         │    GND
+         ├─ C16 (470nF ceramic) ※ CLOSE to IC pin
+         │    │
+         │   GND
          │
-         └─ C24 (470µF) ※ Polarity: Negative to -13.5V, Positive to GND
-               │
-              GND
+         └─ C24 (470µF electrolytic) ※ Can be farther
+              │  ※ Polarity: - to -13.5V, + to GND
+             GND
 
-Output Capacitors:
--12V ────┬───────────────── -12V Output Rail
+Output Capacitors (place C19 CLOSEST to IC pin 2):
+-12V ────┬─── From IC Pin 2
          │
-         ├─ C19 (100nF)
-         │     │
-         │    GND
+         ├─ C19 (100nF ceramic) ※ CLOSE to IC pin
+         │    │
+         │   GND
          │
-         └─ C25 (470µF) ※ Polarity: Negative to -12V, Positive to GND
-               │
-              GND
+         └─ C25 (470µF electrolytic) ※ Can be farther
+              │  ※ Polarity: - to -12V, + to GND
+             GND
 
 Status LED (reversed polarity for negative rail):
 GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1kΩ) ──── -12V
 ```
+
+**Capacitor Placement:** Same as Diagram5 - ceramic caps close to IC, electrolytic caps can be farther
+**Important:** Electrolytic polarity for negative rail: Negative terminal to negative voltage, Positive terminal to GND
 
 ### Connection List
 
