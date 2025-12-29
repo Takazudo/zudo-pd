@@ -165,8 +165,12 @@ OPEN ──────────────┤7   OSC                 │
 NOTE: C12 connects ONLY between Pin 1 (CAP+) and Pin 4 (CAP-)
       Pin 5 (V-) outputs the inverted voltage (-15V)
 
-Output Filter Capacitor:
--15V OUT ────┬──── C13 (10µF) ────┬──── GND
+Output Filter Capacitor (connected in parallel):
+-15V OUT ────┬───────────── To next stage
+             │
+           C13 (10µF)
+             │
+            GND
 ```
 
 ### Connection List
