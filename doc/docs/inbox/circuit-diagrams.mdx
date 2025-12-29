@@ -138,17 +138,18 @@ LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA
 ## Diagram3: +15V → -15V Voltage Inverter (ICL7660)
 
 ```
+IC Connections:
                     ┌────────────────────────┐
                     │                        │
 NC ─────────────────┤1  NC                   │
                     │                        │
-                 ┌──┤2  CAP+                 │
-                 │  │                        │
-GND ─────────────┼──┤3  GND                  │
-                 │  │                        │
-                 │  │   ICL7660M/TR          │
-                 │  │                        │
-                 └──┤4  CAP-                 │
+         Pin 2 ─────┤2  CAP+                 │
+                    │                        │
+GND ────────────────┤3  GND                  │
+                    │                        │
+                    │   ICL7660M/TR          │
+                    │                        │
+         Pin 4 ─────┤4  CAP-                 │
                     │                        │
                     │               VOUT  5──┼──────── -15V OUT
                     │                        │
@@ -160,8 +161,12 @@ OPEN ───────────────┤7  OSC                  │
                     │                        │
                     └────────────────────────┘
 
-Flying Capacitor C12 (10µF):
-Pin 2 (CAP+) ──┬── C12 ──┬── Pin 4 (CAP-)
+Flying Capacitor C12 (connects separately):
+                 ┌───────────┐
+Pin 2 (CAP+) ────┤           ├──── Pin 4 (CAP-)
+                 │ C12 (10µF)│
+                 │  Ceramic  │
+                 └───────────┘
 
 NOTE: C12 connects ONLY between Pin 2 (CAP+) and Pin 4 (CAP-)
       Pin 5 (VOUT) outputs the inverted voltage (-15V)
