@@ -197,36 +197,36 @@ Output Filter Capacitor (connected in parallel):
 
 ```
                     ┌─────────────────────────┐
--15V IN ────────────┤5 VIN              VOUT 4├────┐
+-15V IN ────────────┤1 VIN              OUT 2├────┐
                     │                          │    │
-                 ┌──┤3 ON                      │    │    L3 (100µH)
-                 │  │                          │    └─────[inductor]─────┬──── -13.5V OUT
-                 │  │   LM2596S-ADJ (U5)       │                         │
-                 │  │                          │         D3 (SS34)       │
-                 │  │                     FB 2─┼───┐     Schottky        │
-                 │  │                          │   │     ┌───┐           │
-              ┌──┼──┤1 GND                     │   │  ┌──┤ ├──┐          │
-              │  │  └─────────────────────────┘   │  │  └─┬─┘          │
-             GND │                                 │  │    │            │
-                 │                                 │  │   GND           │
-              -15V (tie ON to VIN)                 │  │                 │
-                                                   │  │                 │
-Input Capacitors:                                  │  │                 │
--15V ──┬─────────────────────────────────────────────┘                 │
-       │                                            │                   │
-       ├─ C9 (100µF)  ※ Negative to -15V          │                   │
-       │     │          Positive to GND            │                   │
-       │    GND                                     │                   │
-       │                                            │                   │
-       └─ C10 (100nF)                               │                   │
-             │                                      │                   │
-            GND                                     │                   │
-                                                    │                   │
-Feedback Network:                                   │                   │
--13.5V OUT ──┬─── R5 (10kΩ) ───┬─── R6 (1kΩ) ─── GND                  │
-             │                  │                                       │
-             │                  └─────────────────────────────────────────┘
-             │                       Tap (to FB pin 2)
+                    │                          │    │    L3 (100µH)
+                    │                          │    └─────[inductor]─────┬──── -13.5V OUT
+                    │   LM2596S-ADJ (U5)       │                         │
+                    │                          │         D3 (SS34)       │
+                    │                      FB 4├───┐     Schottky        │
+                    │                          │   │     ┌───┐           │
+GND ────────────────┤3 GND                     │   │  ┌──┤ ├──┐          │
+                    │                          │   │  │  └─┬─┘          │
+                    │                 ON/OFF 5 │   │  │    │            │
+                    └─────────────────────────┘   │  │   GND           │
+                          (leave floating)        │  │                 │
+                                                  │  │                 │
+Input Capacitors:                                 │  │                 │
+-15V ──┬────────────────────────────────────────────┘                 │
+       │                                           │                   │
+       ├─ C9 (100µF)  ※ Negative to -15V         │                   │
+       │     │          Positive to GND           │                   │
+       │    GND                                    │                   │
+       │                                           │                   │
+       └─ C10 (100nF)                              │                   │
+             │                                     │                   │
+            GND                                    │                   │
+                                                   │                   │
+Feedback Network:                                  │                   │
+-13.5V OUT ──┬─── R5 (10kΩ) ───┬─── R6 (1kΩ) ─── GND                 │
+             │                  │                                      │
+             │                  └────────────────────────────────────────┘
+             │                       Tap (to FB pin 4)
              │
 Output Capacitor:
 -13.5V ──┬──────────────────────
@@ -239,17 +239,18 @@ Output Capacitor:
 ### Connection List
 
 **Input Power:**
-- `-15V input` → `U5 (LM2596S-ADJ) pin 5 (VIN)`
-- `-15V input` → `U5 pin 3 (ON)` (enable - ties VIN to ON for always-on operation)
+- `-15V input` → `U5 (LM2596S-ADJ) pin 1 (VIN)`
+- `U5 pin 5 (ON/OFF)` → Left floating (internal pull-up enables regulator)
+- `U5 pin 3 (GND)` → `System GND`
 
 **Output Path (Buck Converter Topology):**
-1. `U5 pin 4 (VOUT)` → `L3 (100µH, 4.5A)` → Junction point
+1. `U5 pin 2 (OUT)` → `L3 (100µH, 4.5A)` → Junction point
 2. Junction point → `C11 (470µF/25V)` → `GND` (output filter capacitor)
 3. Junction point → `-13.5V output` (to LM7912 linear regulator)
 
 **Flyback Diode:**
 - `D3 (SS34 Schottky)`:
-  - Cathode → Junction between `VOUT (pin 4)` and `L3`
+  - Cathode → Junction between `OUT (pin 2)` and `L3`
   - Anode → `GND`
 
 **Input Capacitors:**
@@ -265,13 +266,10 @@ Output Capacitor:
 
 **Feedback Network:**
 - Voltage divider: `-13.5V output` → `R5 (10kΩ)` → **Tap point** → `R6 (1kΩ)` → `GND`
-- `U5 pin 2 (FB)` → Connected to **tap point** (junction between R5 and R6)
+- `U5 pin 4 (FB)` → Connected to **tap point** (junction between R5 and R6)
 - The tap point voltage = `-13.5V × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V`
 - Chip maintains FB pin at 1.23V below GND by adjusting duty cycle
 - Output voltage formula: `VOUT = -1.23V × (1 + R5/R6) = -1.23V × (1 + 10kΩ/1kΩ) = -13.53V`
-
-**Ground:**
-- `U5 pin 1 (GND)` → `System GND` (0V reference point)
 
 **Important Notes:**
 - All voltages are negative and referenced to GND (0V)
