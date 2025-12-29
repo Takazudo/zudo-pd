@@ -138,35 +138,34 @@ LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA
 ## Diagram3: +15V → -15V Voltage Inverter (ICL7660)
 
 ```
-Input Power:
-+15V ─────┬─────────────────────────────────────┐
-          │                                     │
-          │         ┌────────────────────────┐  │
-          ├─────────┤2  V+                   │  │
-          │         │                        │  │
-          └─────────┤8  V+                   ├──┘
-                    │    (tie pins 2&8)      │
+                    ┌────────────────────────┐
                     │                        │
-GND ───────────────┤3   GND                 │
+NC ─────────────────┤1  NC                   │
                     │                        │
-OPEN ──────────────┤6   LV                  │
+                 ┌──┤2  CAP+                 │
+                 │  │                        │
+GND ─────────────┼──┤3  GND                  │
+                 │  │                        │
+                 │  │   ICL7660M/TR          │
+                 │  │                        │
+                 └──┤4  CAP-                 │
                     │                        │
-OPEN ──────────────┤7   OSC                 │
+                    │               VOUT  5──┼──────── -15V OUT
                     │                        │
-                    │   ICL7660M/TR          │
+OPEN ───────────────┤6  LV                   │
                     │                        │
-                    │                  CAP+ 1├──────┐
-                    │                        │      │
-                    │                        │    C12 (10µF)
-                    │                        │    Flying
-                    │                        │    Capacitor
-                    │                  CAP- 4├──────┘
+OPEN ───────────────┤7  OSC                  │
                     │                        │
-                    │                   V- 5├──────── -15V OUT
++15V ───────────────┤8  V+                   │
+                    │                        │
                     └────────────────────────┘
 
-NOTE: C12 connects ONLY between Pin 1 (CAP+) and Pin 4 (CAP-)
-      Pin 5 (V-) outputs the inverted voltage (-15V)
+Flying Capacitor C12 (10µF):
+Pin 2 (CAP+) ──┬── C12 ──┬── Pin 4 (CAP-)
+
+NOTE: C12 connects ONLY between Pin 2 (CAP+) and Pin 4 (CAP-)
+      Pin 5 (VOUT) outputs the inverted voltage (-15V)
+      Pin 8 is the ONLY V+ input pin
 
 Output Filter Capacitor (connected in parallel):
 -15V OUT ────┬───────────── To next stage
