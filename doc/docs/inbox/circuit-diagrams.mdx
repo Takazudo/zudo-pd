@@ -3,6 +3,7 @@ sidebar_position: 3
 ---
 
 import BuckU2Diagram from '../_fragments/buck-u2-diagram.mdx';
+import BuckU3Diagram from '../_fragments/buck-u3-diagram.mdx';
 
 # Circuit Diagrams
 
@@ -10,82 +11,167 @@ Complete circuit configuration shown in stages.
 
 ## Diagram1: USB-PD Power Supply Section
 
-```
-┌───────────────┐                                       ┌────────────────────┐
-│ J1 (USB-C)    │                                       │   U1 (CH224Q)      │
-│               │                                       │                    │
-│ CC1 (A5)      ├───────────────────────────────────────┤7. CC1              │
-│               │                                       │                    │
-│ CC2 (B5)      ├───────────────────────────────────────┤6. CC2              │
-│               │                                       │                    │
-│ VBUS (B9,A9)  ├────────────┬──────────────┬───────────┤1. VIN              │
-│               │            │              │           │8. VBUS      ───────┼─→ +15V Output
-│               │       ┌────┴───┐     ┌────┴────┐      │9. CFG1      ←──── GND (15V)
-│               │       │   C1   │     │   C2    │      │2. CFG2/SCL  ←──── Open
-│               │       │  10µF  │     │  100nF  │      │3. CFG3/SDA  ←──── Open
-│               │       └────┬───┘     └────┬────┘      │10. PG       ───────┼─→ See LED circuit below
-│               │            │              │           │4. DP        (N/C)  │
-│               │            │              │           │5. DM        (N/C)  │
-│ GND (B12,A12) ├────────────┴──────────────┴───────────┤GND                 │
-│               │                                       │11. EP              │
-└───────────────┘                                       └────────────────────┘
-```
-
-### LED Status Indicator Circuit (Power Good)
+### Diagram1-1: USB-C Connector to CH224D IC (Power & Communication)
 
 ```
+USB-C Connector J1:
+┌─────────────────────────────┐
+│                             │
+│  B9, A9   VBUS  ────────────┼──────── VBUS Rail
+│                             │
+│  A5       CC1   ────────────┼──────── To IC
+│  B5       CC2   ────────────┼──────── To IC
+│                             │
+│  B12, A12 GND   ────────────┼──────── To IC
+│                             │
+└─────────────────────────────┘
+
+CH224D IC (QFN-20):
+                    ┌──────────────────────┐
+VBUS ───────────────┤ 2. VBUS (Input)      │
+                    │                      │
+CC1 ────────────────┤10. CC1               │
+CC2 ────────────────┤11. CC2               │
+                    │                      │
+                 ┌──┤ 0. GND (EPAD)        │
+                 │  │                      │
+                 │  │10. DP   ── N/C       │
+                 │  │ 9. DM   ── N/C       │
+                 │  │                      │
+                 │  │18. VOUT ─────────────┼──→ +15V Output
+                GND │                      │
+                    └──────────────────────┘
+
+Input Capacitors (C2 closest to IC):
+VBUS ──┬────────────────┬─── To IC Pin 2
+       │                │
+      C1               C2
+     10µF            100nF
+  electrolytic      ceramic
+   (farther)        (CLOSE!)
+       │                │
+      GND              GND
+
+VDD Decoupling Capacitor:
+                    ┌──────────────────────┐
+                    │                      │
+                 ┌──┤ 7. VDD               │
+                 │  │                      │
+                C3  └──────────────────────┘
+               1µF       CH224D IC
+            ceramic
+                 │
+                GND
+```
+
+### Diagram1-2: CH224D Power Output
+
+```
+CH224D negotiates 15V from USB-C PD and outputs:
+
+VBUS (from J1) ──→ +15V Output Rail ──→ To DC-DC Converters (U2, U3, U4)
+                                           See Diagrams 2, 3, 4, 5
+
+Note: CH224D's VBUS (pin 2) and VOUT (pin 18) are internally connected.
+      The negotiated 15V appears on these pins and serves as the main power rail.
+```
+
+### Diagram1-3: CH224D Voltage Configuration (15V Selection)
+
+```
+R2 (Rset) Resistor Configuration:
+
+VBUS ───┬────────────────────────────────────┐
+        │                                    │
+       R2                                    │
+    (Rset)                                   │
+     56kΩ                                    │
+  0603, ±0.1%                                │
+        │                                    │
+        └─────┬──────────────────────────────┼───── Junction (DRV/CFG1/R2)
+              │                              │
+              │          CH224D IC (QFN-20)  │
+              │          ┌─────────────────────┐
+              │          │                     │
+              └──────────┤ 1. DRV              │
+                         │19. CFG1             │
+                         │                     │
+                         │12. CFG3 ── Open/GND │
+                         │13. CFG2 ── Open/GND │
+                         │                     │
+                         └─────────────────────┘
+
+Configuration Table:
+┌──────────┬──────────────────┐
+│ R2 Value │ Requested Voltage│
+├──────────┼──────────────────┤
+│ 6.8 KΩ   │ 9V               │
+│ 24 KΩ    │ 12V              │
+│ 56 KΩ    │ 15V ✅ (This)    │
+│ NC       │ 20V              │
+└──────────┴──────────────────┘
+```
+
+### Diagram1-4: Power Good (PG) LED Indicator
+
+```
+                                    CH224D IC (QFN-20)
+                                    ┌─────────────────────┐
+                                    │                     │
+                                    │ 8. PG (Open-drain)  │
+                                    │                     │
+                                    └──────────┬──────────┘
+                                               │
 ┌─────────────┐     ┌─────────┐     ┌──────────┐
 │ +5V Rail    │     │   R1    │     │  LED1    │
-│ (from D7)   ├─────┤  330Ω   ├─────┤  Green   ├─────┐
-└─────────────┘     └─────────┘     └──────────┘     │
-                                                     │
-                                    ┌────────────────────┐
-                                    │   U1 (CH224Q)      │
-                                    │10. PG (Open-drain) │
-                                    └────────┬───────────┘
-                                             │
-                                            GND
+│ (from D7)   ├─────┤  330Ω   ├─────┤  Green   ├──────────┘
+└─────────────┘     └─────────┘     └──────────┘
 
-Note: PG pin pulls LOW when power negotiation succeeds, allowing current to flow:
-      +5V → R1 (330Ω) → LED1 → PG pin → GND
-LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA
+Operation:
+- PG pin is open-drain output
+- When power negotiation succeeds: PG pulls LOW
+- Current flows: +5V → R1 → LED1 → PG → GND
+- LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA ✅
 ```
 
 ### Connection List
 
 **Power Lines:**
-- `USB-C VBUS (B9, A9)` → `CH224Q pin 1 (VHV)`
-- `USB-C VBUS (B9, A9)` → `CH224Q pin 8 (VBUS)`
-- `CH224Q pin 8 (VBUS)` → `15V Output`
+- `USB-C VBUS (B9, A9)` → `CH224D pin 2 (VBUS)` → `+15V Output`
+- `VBUS` → `R2/Rset (56kΩ)` → `DRV/CFG1 junction`
 
 **Communication Lines:**
-- `USB-C CC1 (A5)` → `CH224Q pin 7 (CC1)`
-- `USB-C CC2 (B5)` → `CH224Q pin 6 (CC2)`
+- `USB-C CC1 (A5)` → `CH224D pin 10 (CC1)`
+- `USB-C CC2 (B5)` → `CH224D pin 11 (CC2)`
 
 **Ground:**
-- `USB-C GND (B12, A12)` → `CH224Q GND`
-- `USB-C GND (B12, A12)` → `CH224Q pin 11 (EP)`
+- `USB-C GND (B12, A12)` → `CH224D pin 0 (EPAD)` (thermal pad)
 - `C1 negative` → `GND`
 - `C2 negative` → `GND`
 
-**Capacitors:**
-- `C1 (10µF/25V)`: `VBUS` ⟷ `GND` (input filter)
-- `C2 (10µF/25V)`: `VBUS` ⟷ `GND` (input filter)
+**Input Capacitors:**
+- `C1 (10µF/25V)`: `VBUS` ⟷ `GND` (bulk filter)
+- `C2 (100nF ceramic)`: `VBUS` ⟷ `GND` (high-freq decoupling)
 
-**Configuration Pins:**
-- `CH224Q pin 9 (CFG1)` → `GND` (15V config)
-- `CH224Q pin 2 (CFG2/SCL)` → `Open` (15V config)
-- `CH224Q pin 3 (CFG3/SDA)` → `Open` (15V config)
+**VDD Decoupling:**
+- `C3 (1µF ceramic)`: `VDD (pin 7)` ⟷ `GND` (internal regulator decoupling)
+
+**Voltage Configuration (15V):**
+- `R2/Rset (56kΩ resistor)` connects: `VBUS` → `DRV/CFG1 junction`
+- `CH224D pin 1 (DRV)` → Junction with CFG1 and R2
+- `CH224D pin 19 (CFG1)` → Junction with DRV and R2
+- `CH224D pin 13 (CFG2)` → `Open` or `GND`
+- `CH224D pin 12 (CFG3)` → `Open` or `GND`
 
 **LED Status Indicator Circuit:**
-- `+5V rail (from Diagram7)` → `R1 (330Ω)` → `LED1 (Green LED)` → `CH224Q pin 10 (PG)`
+- `+5V rail (from Diagram7)` → `R1 (330Ω)` → `LED1 (Green LED)` → `CH224D pin 8 (PG)`
 - LED indicates: **Power Good** (lights up when 15V USB-PD negotiation succeeds)
 - LED current: `I = (5V - 2.2V) / 330Ω ≈ 8.5mA` ✅
 - **Note**: PG pin is open-drain, pulls LOW when power is good, enabling current flow from +5V through LED to GND
 
 **Not Connected:**
-- `CH224Q pin 4 (DP)` - N/C
-- `CH224Q pin 5 (DM)` - N/C
+- `CH224D pin 10 (DP)` - N/C
+- `CH224D pin 9 (DM)` - N/C
 
 ## Diagram2: USB-PD +15V → +13.5V Buck Converter (LM2596S-ADJ #1)
 
@@ -94,17 +180,17 @@ LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA
 ### Connection List
 
 **Input Power:**
-- `+15V input` → `U2 (LM2596S-ADJ) pin 5 (VIN)`
-- `+15V input` → `U2 pin 3 (ON)` (enable - ties VIN to ON for always-on operation)
+- `+15V input` → `U2 (LM2596S-ADJ) pin 1 (VIN)`
+- `GND` → `U2 pin 5 (ON/OFF)` (always-on: tie to GND or leave floating)
 
 **Output Path (Buck Converter Topology):**
-1. `U2 pin 4 (VOUT)` → `L1 (100µH, 4.5A)` → Junction point
+1. `U2 pin 2 (OUTPUT)` → `L1 (100µH, 4.5A)` → Junction point
 2. Junction point → `C3 (470µF/25V)` → `GND` (output filter capacitor)
 3. Junction point → `+13.5V output` (to next stage)
 
 **Flyback Diode (Freewheeling Diode):**
 - `D1 (SS34 Schottky)`:
-  - Cathode → Junction between `VOUT (pin 4)` and `L1`
+  - Cathode → Junction between `OUTPUT (pin 2)` and `L1`
   - Anode → `GND`
   - Purpose: Provides path for inductor current when switch turns off
 
@@ -119,23 +205,72 @@ LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA
 
 **Feedback Network (Voltage Setting):**
 - Voltage divider: `+13.5V output` → `R1 (10kΩ)` → **Tap point** → `R2 (1kΩ)` → `GND`
-- `U2 pin 2 (FB)` → Connected to **tap point** (junction between R1 and R2)
+- `U2 pin 4 (FB)` → Connected to **tap point** (junction between R1 and R2)
 - The tap point voltage = `13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V`
 - Chip maintains FB pin at 1.23V by adjusting duty cycle
 - Output voltage formula: `VOUT = 1.23V × (1 + R1/R2) = 1.23V × (1 + 10kΩ/1kΩ) = 13.53V`
 
 **Ground:**
-- `U2 pin 1 (GND)` → `System GND`
+- `U2 pin 3 (GND)` → `System GND`
 - All capacitor negative terminals → `System GND`
 - `D1 anode` → `System GND`
 
 **Key Points:**
-- The inductor L1 is on the **OUTPUT side** of VOUT, not the input side
-- D1 cathode connects to the junction between VOUT and L1 (the "switching node")
-- When U2's internal switch is ON: Current flows VIN → Switch → VOUT → L1 → C3 → Load
+- The inductor L1 is on the **OUTPUT side** of pin 2 (OUTPUT), not the input side
+- D1 cathode connects to the junction between OUTPUT (pin 2) and L1 (the "switching node")
+- When U2's internal switch is ON: Current flows VIN → Switch → OUTPUT → L1 → C3 → Load
 - When U2's internal switch is OFF: Inductor current flows through D1 (L1 → D1 → GND → L1)
 
-## Diagram3: +15V → -15V Voltage Inverter (ICL7660)
+## Diagram3: +15V → +7.5V Buck Converter (LM2596S-ADJ #2, U3)
+
+<BuckU3Diagram />
+
+### Connection List
+
+**Input Power:**
+- `+15V input` → `U3 (LM2596S-ADJ) pin 1 (VIN)`
+- `GND` → `U3 pin 5 (ON/OFF)` (always-on: tie to GND or leave floating)
+
+**Output Path (Buck Converter Topology):**
+1. `U3 pin 2 (OUTPUT)` → `L2 (100µH, 4.5A)` → Junction point
+2. Junction point → `C7 (470µF/25V)` → `GND` (output filter capacitor)
+3. Junction point → `+7.5V output` (to L7805 linear regulator)
+
+**Flyback Diode (Freewheeling Diode):**
+- `D2 (SS34 Schottky)`:
+  - Cathode → Junction between `OUTPUT (pin 2)` and `L2`
+  - Anode → `GND`
+  - Purpose: Provides path for inductor current when switch turns off
+
+**Input Capacitors:**
+- `C5 (100µF electrolytic)`: `+15V input` ⟷ `GND` (bulk input filter, shared with U2)
+- `C6 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling, shared with U2)
+
+**Output Capacitor:**
+- `C7 (470µF/25V electrolytic)`: Connected **in parallel** between `+7.5V output` ⟷ `GND`
+- Purpose: Output filtering, ripple reduction, and energy storage for transient response
+- **Important**: C7 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
+
+**Feedback Network (Voltage Setting):**
+- Voltage divider: `+7.5V output` → `R3 (5.1kΩ)` → **Tap point** → `R4 (1kΩ)` → `GND`
+- `U3 pin 4 (FB)` → Connected to **tap point** (junction between R3 and R4)
+- The tap point voltage = `7.5V × R4/(R3+R4) = 7.5V × 1kΩ/6.1kΩ = 1.23V`
+- Chip maintains FB pin at 1.23V by adjusting duty cycle
+- Output voltage formula: `VOUT = 1.23V × (1 + R3/R4) = 1.23V × (1 + 5.1kΩ/1kΩ) = 7.5V`
+
+**Ground:**
+- `U3 pin 3 (GND)` → `System GND`
+- All capacitor negative terminals → `System GND`
+- `D2 anode` → `System GND`
+
+**Key Points:**
+- The inductor L2 is on the **OUTPUT side** of pin 2 (OUTPUT), not the input side
+- D2 cathode connects to the junction between OUTPUT (pin 2) and L2 (the "switching node")
+- When U3's internal switch is ON: Current flows VIN → Switch → OUTPUT → L2 → C7 → Load
+- When U3's internal switch is OFF: Inductor current flows through D2 (L2 → D2 → GND → L2)
+- This stage provides +7.5V to the L7805 linear regulator for final +5V output
+
+## Diagram4: +15V → -15V Voltage Inverter (ICL7660, U5)
 
 ```
                                           ┌───────────┐
@@ -174,26 +309,25 @@ Output Filter Capacitor (connected in parallel):
 ### Connection List
 
 **Power Lines:**
-- `+15V input` → `U4 (ICL7660M) pin 2 (V+)`
-- `+15V input` → `U4 pin 8 (V+)` (tied together)
-- `U4 pin 5 (V-)` → `-15V output`
+- `+15V input` → `U5 (ICL7660M) pin 8 (V+)`
+- `U5 pin 5 (VOUT)` → `-15V output`
 
 **Charge Pump Capacitors:**
-- `C12 (10µF Ceramic)`: `U4 pin 1 (CAP+)` ⟷ `U4 pin 4 (CAP-)` (flying capacitor)
+- `C12 (10µF Ceramic)`: `U5 pin 2 (CAP+)` ⟷ `U5 pin 4 (CAP-)` (flying capacitor)
 - `C13 (10µF Ceramic)`: `-15V output` ⟷ `GND` (output filter)
 
 **Control Pins:**
-- `U4 pin 6 (LV)` → `Open` (normal voltage mode, not low voltage)
-- `U4 pin 7 (OSC)` → `Open` (10kHz internal oscillator)
+- `U5 pin 6 (LV)` → `Open` (normal voltage mode, not low voltage)
+- `U5 pin 7 (OSC)` → `Open` (10kHz internal oscillator)
 
 **Ground:**
-- `U4 pin 3 (GND)` → `System GND`
+- `U5 pin 3 (GND)` → `System GND`
 
 **Operation:**
 - Charge pump switches `C12` between `+15V` and `GND` to generate `-15V`
 - Output voltage: `VOUT ≈ -(VIN - 1V) = -14V typical`
 
-## Diagram4: -15V → -13.5V Buck Converter (LM2596S-ADJ #3)
+## Diagram5: -15V → -13.5V Buck Converter (LM2596S-ADJ #3, U4)
 
 ```
 LM2596S-ADJ IC:
@@ -248,12 +382,12 @@ Feedback Voltage Divider:
 ### Connection List
 
 **Input Power:**
-- `-15V input` → `U5 (LM2596S-ADJ) pin 1 (VIN)`
-- `U5 pin 5 (ON/OFF)` → Left floating (internal pull-up enables regulator)
-- `U5 pin 3 (GND)` → `System GND`
+- `-15V input` → `U4 (LM2596S-ADJ) pin 1 (VIN)`
+- `U4 pin 5 (ON/OFF)` → Left floating (internal pull-up enables regulator)
+- `U4 pin 3 (GND)` → `System GND`
 
 **Output Path (Buck Converter Topology):**
-1. `U5 pin 2 (OUT)` → `L3 (100µH, 4.5A)` → Junction point
+1. `U4 pin 2 (OUT)` → `L3 (100µH, 4.5A)` → Junction point
 2. Junction point → `C11 (470µF/25V)` → `GND` (output filter capacitor)
 3. Junction point → `-13.5V output` (to LM7912 linear regulator)
 
@@ -275,7 +409,7 @@ Feedback Voltage Divider:
 
 **Feedback Network:**
 - Voltage divider: `-13.5V output` → `R5 (10kΩ)` → **Tap point** → `R6 (1kΩ)` → `GND`
-- `U5 pin 4 (FB)` → Connected to **tap point** (junction between R5 and R6)
+- `U4 pin 4 (FB)` → Connected to **tap point** (junction between R5 and R6)
 - The tap point voltage = `-13.5V × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V`
 - Chip maintains FB pin at 1.23V below GND by adjusting duty cycle
 - Output voltage formula: `VOUT = -1.23V × (1 + R5/R6) = -1.23V × (1 + 10kΩ/1kΩ) = -13.53V`
@@ -285,7 +419,7 @@ Feedback Voltage Divider:
 - Electrolytic capacitors must have correct polarity (negative terminal to negative voltage)
 - The buck converter topology is identical to positive voltage versions, just with negative voltages
 
-## Diagram5: +13.5V → +12V Linear Regulator
+## Diagram6: +13.5V → +12V Linear Regulator (L7812, U6)
 
 ```
 Regulator IC:
@@ -342,7 +476,7 @@ Status LED:
 - LED2 (Green): `+12V` → `R7 (1kΩ)` → `LED2 anode` → `LED2 cathode` → `GND`
 - LED current: `I = (12V - 2V) / 1kΩ ≈ 10mA`
 
-## Diagram6: +7.5V → +5V Linear Regulator
+## Diagram7: +7.5V → +5V Linear Regulator (L7805, U7)
 
 ```
 Regulator IC:
@@ -397,7 +531,7 @@ Status LED:
 - LED3 (Blue): `+5V` → `R8 (1kΩ)` → `LED3 anode` → `LED3 cathode` → `GND`
 - LED current: `I = (5V - 2V) / 1kΩ = 3mA` (dim, consider 330Ω for brighter)
 
-## Diagram7: -13.5V → -12V Linear Regulator
+## Diagram8: -13.5V → -12V Linear Regulator (CJ7912, U8)
 
 ```
 Regulator IC:
@@ -461,84 +595,140 @@ GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1k�
 - LED current: `I = (0V - (-12V) - 2V) / 1kΩ = 10mA`
 - **Note:** LED is reversed compared to positive rails (anode to GND, cathode to negative voltage)
 
-## Diagram8: Protection Circuit (Beginner-Friendly, 2-Stage Protection)
+## Diagram9: Protection Circuit (PTC Auto-Reset with Multi-Layer Protection)
 
 ```
-+12V ──┬─── PTC1: 1.1A ──┬─── F1: 2A ───┬─── TVS1: SMAJ15A ───┬─→ +12V OUT
-       │  (Auto-Reset)   │   (Backup)   │   (15V Unidirect)   │
-       │                 │              │      ↓              │
-       │                 │              └─────GND─────────────┤
-       │                 │                                    │
-       │                 └─── LED2: Green ──[R7: 1kΩ]──┬─→ Power Status
-       │                                                │
-       │                                               GND
-       │
-       └─── Staged Protection:
-            1. Overload (1.2-2A) → PTC trips → Auto-reset after 30s ✅
-            2. Short (>2A) → Fuse blows → Repair required ❌
++12V Rail Protection (1.2A target, 1.5A max):
 
-+5V ───┬─── PTC2: 0.75A ─┬─── F2: 1.5A ──┬─── TVS2: PRTR5V0U2X ─┬─→ +5V OUT
-       │  (Auto-Reset)   │   (Backup)    │   (5V Bidirect)      │
-       │                 │              │      ↕               │
-       │                 │              └─────GND──────────────┤
-       │                 │                                    │
-       │                 └─── LED3: Blue ──[R8: 1kΩ]──┬─→ Power Status
-       │                                               │
-       │                                              GND
-       │
-       └─── Staged Protection (same as above)
++12V IN ─── PTC1 ───┬─→ +12V OUT
+       SMD1210P150  │
+       (1.5A hold)  │
+       (3A trip)    │
+                    │
+                   ┌┴┐ TVS1 (SMAJ15A)
+                   │ │ Cathode up
+                   └┬┘ Anode down
+                    │
+                   GND
 
--12V ──┬─── PTC3: 0.9A ──┬─── F3: 1.5A ──┬─── TVS3: SMAJ15A ───┬─→ -12V OUT
-       │  (Auto-Reset)   │   (Backup)    │  (15V Unidirect Rev)│
-       │                 │              │      ↑              │
-       │                 │              └─────GND─────────────┤
-       │                 │                                    │
-       │                 └─── LED4: Red ──[R9: 1kΩ]──┬─→ Power Status
-       │                                              │
-       │                                             GND
-       │
-       └─── Staged Protection (same as above)
+Status Indicator:
++12V OUT ─── R7 ─── LED2 ─── GND
+           (1kΩ)  (Green)
 
-※ TVS3 for negative voltage protection: cathode to -12V rail, anode to GND
-※ PTC has near-zero resistance normally, becomes high resistance on overcurrent
-※ Fuse protects against sudden shorts that PTC cannot handle
-※ If LED goes out → overload → reduce modules and wait 30 seconds
+Protection Layers:
+  1. LM7812 current limiting (~2.2A max, immediate) ✅
+  2. LM7812 thermal shutdown (150°C, 1-5s) ✅
+  3. PTC1 trips (>3A, 0.5-5s) → Auto-reset after 30-60s ✅
+  4. USB-PD adapter protection (backup) ✅
+
+
++5V Rail Protection (0.5A target, 1A max):
+
++5V IN ─── PTC2 ───┬─→ +5V OUT
+      mSMD110-33V  │
+      (1.1A hold)  │
+      (2.2A trip)  │
+                   │
+                  ┌┴┐ TVS2 (PRTR5V0U2X)
+                  │ │ Bidirectional
+                  └┬┘
+                   │
+                  GND
+
+Status Indicator:
++5V OUT ─── R8 ─── LED3 ─── GND
+          (1kΩ)  (Blue)
+
+Protection Layers:
+  1. LM7805 current limiting (~1A max, immediate) ✅
+  2. LM7805 thermal shutdown (150°C, 1-5s) ✅
+  3. PTC2 trips (>2.2A, 1-5s) → Auto-reset after 30-60s ✅
+  4. USB-PD adapter protection (backup) ✅
+
+
+-12V Rail Protection (0.8A target, 1A max):
+
+-12V IN ─── PTC3 ───┬─→ -12V OUT
+     JK-nSMD100/16  │
+     (1.0A hold)    │
+     (2.0A trip)    │
+                    │
+                   ┌┴┐ TVS3 (SMAJ15A)
+                   │ │ Anode up (reversed)
+                   └┬┘ Cathode down
+                    │
+                   GND
+
+Status Indicator (reversed for negative rail):
+GND ─── LED4 ─── R9 ─── -12V OUT
+      (Red)   (1kΩ)
+
+Protection Layers:
+  1. LM7912 current limiting (~1A max, immediate) ✅
+  2. LM7912 thermal shutdown (150°C, 1-5s) ✅
+  3. PTC3 trips (>2.0A, 1-5s) → Auto-reset after 30-60s ✅
+  4. USB-PD adapter protection (backup) ✅
+
+
+Design Philosophy:
+※ Four-layer protection: USB-PD → DC-DC → Linear Regulator → PTC
+※ Linear regulators provide current limiting (prevents catastrophic shorts)
+※ PTCs provide auto-reset convenience (no manual fuse replacement)
+※ TVS diodes protect against overvoltage transients
+※ If LED goes out → overload → reduce modules and wait 60 seconds for auto-reset
+
+Selected Parts:
+※ PTC1: C7529589 (SMD1210P150TF/16) - 1.5A hold, 3A trip, SMD1210
+※ PTC2: C70119 (mSMD110-33V) - 1.1A hold, 2.2A trip, 1812
+※ PTC3: C2830246 (JK-nSMD100/16V) - 1.0A hold, 2.0A trip, 1206
+※ TVS1/3: SMAJ15A (unidirectional, 15V)
+※ TVS2: PRTR5V0U2X (bidirectional, 5V)
 ```
 
 ### Connection List
 
 **+12V Rail Protection:**
-- `+12V input` → `PTC1 (1.1A resettable fuse)` → `F1 (2A fuse)` → `+12V OUT`
+- `+12V input (from LM7812)` → `PTC1 (C7529589, 1.5A hold)` → `+12V OUT`
 - `TVS1 (SMAJ15A)`: Cathode to `+12V OUT`, Anode to `GND` (clamps overvoltage)
-- `LED2 (Green)` + `R7 (1kΩ)`: Between `F1 output` and `GND` (status indicator)
+- `LED2 (Green)` + `R7 (1kΩ)`: Between `+12V OUT` and `GND` (status indicator)
 
 **+5V Rail Protection:**
-- `+5V input` → `PTC2 (0.75A resettable fuse)` → `F2 (1.5A fuse)` → `+5V OUT`
+- `+5V input (from LM7805)` → `PTC2 (C70119, 1.1A hold)` → `+5V OUT`
 - `TVS2 (PRTR5V0U2X)`: Bidirectional protection to `GND` (clamps overvoltage)
-- `LED3 (Blue)` + `R8 (1kΩ)`: Between `F2 output` and `GND` (status indicator)
+- `LED3 (Blue)` + `R8 (1kΩ)`: Between `+5V OUT` and `GND` (status indicator)
 
 **-12V Rail Protection:**
-- `-12V input` → `PTC3 (0.9A resettable fuse)` → `F3 (1.5A fuse)` → `-12V OUT`
-- `TVS3 (SMAJ15A)`: Cathode to `-12V OUT`, Anode to `GND` (reverse for negative rail)
-- `LED4 (Red)` + `R9 (1kΩ)`: Between `GND` and `F3 output` (status indicator)
+- `-12V input (from LM7912)` → `PTC3 (C2830246, 1.0A hold)` → `-12V OUT`
+- `TVS3 (SMAJ15A)`: Anode to `-12V OUT`, Cathode to `GND` (reversed for negative rail)
+- `LED4 (Red)` + `R9 (1kΩ)`: Between `GND` and `-12V OUT` (status indicator, reversed)
 
 **Protection Operation:**
-1. **Normal operation (&lt;rated current):**
-   - PTC: Near-zero resistance, passes current
-   - Fuse: Intact, passes current
+1. **Normal operation (&lt;hold current):**
+   - PTC: Low resistance (0.03-0.05Ω), minimal voltage drop
+   - Linear regulator: Normal operation
    - LED: Illuminated, indicates power present
 
-2. **Overload (current exceeds PTC rating):**
-   - PTC heats up and transitions to high resistance (~1kΩ)
-   - Current drops to safe level (~10mA)
+2. **Moderate overload (hold current to trip current):**
+   - PTC heats up and resistance increases
+   - Linear regulator may enter current limiting
+   - Within 1-5 seconds: PTC trips
+   - Current drops to ~10mA
    - LED dims or turns off (indicates overload)
    - Auto-resets after 30-60 seconds when cooled
 
-3. **Short circuit (current &gt;&gt; PTC rating):**
-   - PTC trips but cannot limit extreme current
-   - Fuse blows (backup protection)
-   - LED turns off permanently
-   - Requires manual fuse replacement
+3. **Short circuit (>trip current):**
+   - Linear regulator current limiting activates IMMEDIATELY (limits to ~1-2A)
+   - PTC heats rapidly due to limited current
+   - Within 0.5-5 seconds: PTC trips
+   - If sustained: Linear regulator thermal shutdown (150°C)
+   - LED turns off
+   - Auto-resets after cooling (both PTC and regulator)
+
+**Multi-Layer Protection:**
+1. **Layer 1 (USB-PD)**: Input overcurrent protection
+2. **Layer 2 (DC-DC)**: LM2596 current limiting (~3-5A)
+3. **Layer 3 (Linear Reg)**: Current limiting (~1-2A, immediate) + thermal shutdown (1-5s)
+4. **Layer 4 (PTC)**: Auto-reset overcurrent protection (0.5-5s trip time)
 
 **TVS Diode Operation:**
 - Normally off (high impedance)
@@ -546,7 +736,10 @@ GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1k�
 - Shunts overvoltage transients to GND
 - Self-recovering (no replacement needed)
 
-## Diagram9: Power Flow Overview
+**Key Insight:**
+Linear regulators prevent catastrophic shorts by limiting current to safe levels before PTC trips, making PTC-only protection adequate for this application.
+
+## Diagram10: Power Flow Overview
 
 ```
 USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
