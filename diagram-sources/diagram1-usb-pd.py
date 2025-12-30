@@ -89,7 +89,7 @@ with schemdraw.Drawing(
     elm.Dot() # to R12
     d.push()  # Save position for U1 CC1 connection
     elm.Line().up(0.5)
-    elm.Resistor(scale=0.7).up().label('R12\n10kΩ', loc='bot', ofst=0.5)
+    elm.Resistor(scale=0.7).up().label('R12\n5.1kΩ', loc='bot', ofst=0.5)
     elm.Line().up(0.1)
     elm.Ground().flip()
 
@@ -102,7 +102,7 @@ with schemdraw.Drawing(
     elm.Dot()
     d.push()  # Save position for U1 CC2 connection
     elm.Line().up(1.5)
-    elm.Resistor(scale=0.7).up().label('R13\n10kΩ', loc='bot', ofst=-2.2)
+    elm.Resistor(scale=0.7).up().label('R13\n5.1kΩ', loc='bot', ofst=-2.2)
     elm.Line().up(0.1)
     elm.Ground().flip()
 
