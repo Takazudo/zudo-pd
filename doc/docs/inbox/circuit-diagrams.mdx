@@ -14,17 +14,22 @@ Complete circuit configuration shown in stages.
 ### Diagram1-1: USB-C Connector to CH224D IC (Power & Communication)
 
 ```
-USB-C Connector J1:
+USB-C Connector J1 (6-pin power-only):
 ┌─────────────────────────────┐
 │                             │
-│  B9, A9   VBUS  ────────────┼──────── VBUS Rail
+│  2, 5  VBUS  ───────────────┼──────── VBUS Rail
 │                             │
-│  A5       CC1   ────────────┼──────── To IC
-│  B5       CC2   ────────────┼──────── To IC
+│  3     CC1   ───────────────┼──────── To IC
+│  4     CC2   ───────────────┼──────── To IC
 │                             │
-│  B12, A12 GND   ────────────┼──────── To IC
+│  1, 6  GND   ───────────────┼──────── To IC
 │                             │
 └─────────────────────────────┘
+
+Note: 6-pin USB Type-C connector (C2927029)
+- Pins 2, 5: VBUS (both connected together)
+- Pins 1, 6: GND (both connected together)
+- Pins 3, 4: CC1, CC2 (separate signals)
 
 CH224D IC (QFN-20):
                     ┌──────────────────────┐
@@ -137,15 +142,15 @@ Operation:
 ### Connection List
 
 **Power Lines:**
-- `USB-C VBUS (B9, A9)` → `CH224D pin 2 (VBUS)` → `+15V Output`
+- `USB-C VBUS (pins 2, 5)` → `CH224D pin 2 (VBUS)` → `+15V Output`
 - `VBUS` → `R2/Rset (56kΩ)` → `DRV/CFG1 junction`
 
 **Communication Lines:**
-- `USB-C CC1 (A5)` → `CH224D pin 10 (CC1)`
-- `USB-C CC2 (B5)` → `CH224D pin 11 (CC2)`
+- `USB-C CC1 (pin 3)` → `CH224D pin 10 (CC1)`
+- `USB-C CC2 (pin 4)` → `CH224D pin 11 (CC2)`
 
 **Ground:**
-- `USB-C GND (B12, A12)` → `CH224D pin 0 (EPAD)` (thermal pad)
+- `USB-C GND (pins 1, 6)` → `CH224D pin 0 (EPAD)` (thermal pad)
 - `C1 negative` → `GND`
 - `C2 negative` → `GND`
 
