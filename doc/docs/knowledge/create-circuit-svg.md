@@ -397,4 +397,4 @@ Before considering a circuit diagram complete:
 - [schemdraw Documentation](https://schemdraw.readthedocs.io/)
 - [schemdraw-circuit-generator Skill](~/.claude/skills/schemdraw-circuit-generator/SKILL.md)
 - [CircuitSvg Component](../../_fragments/CircuitSvg.jsx)
-- [Circuit Diagrams Page](../inbox/circuit-diagrams.md)
+- [Circuit Diagrams Page](/docs/inbox/circuit-diagrams)

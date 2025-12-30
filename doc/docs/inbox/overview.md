@@ -42,7 +42,7 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 
 #### Stage 1: USB-PD Power Delivery
 
-- **CH224Q IC**: USB-C PD protocol negotiation
+- **CH224D IC**: USB-C PD protocol negotiation
 - **15V Output**: Obtains stable 15V through PD negotiation
 - **Status Display**: LED1 (red) indicates power status
 

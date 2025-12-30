@@ -29,7 +29,7 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
-- ✅ Stage 1: USB-PD Power Supply (CH224Q)
+- ✅ Stage 1: USB-PD Power Supply (CH224D)
 - ✅ Stage 2: DC-DC Converters (LM2596S × 3 + ICL7660)
 - ✅ Stage 3: Linear Regulators (LM7812/7805/7912)
 - ✅ Stage 4: Protection Circuit (PTC + Fuse + TVS)
@@ -137,7 +137,7 @@ Ready to proceed:
 4. Assign footprints to all parts
 
 **Required footprints**:
-- `/footprints/CH224Q.png` - Already available
+- `/footprints/CH224D.png` - Already available
 - `/footprints/USB-TYPE-C-009.png` - Already available
 - Other standard footprints use KiCad standard library
 

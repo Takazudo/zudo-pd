@@ -11,110 +11,143 @@ Complete circuit configuration shown in stages.
 
 ## Diagram1: USB-PD Power Supply Section
 
-### Diagram1-1: USB-C Connector to CH224D IC (Power & Communication)
+### Diagram1-1: USB-C Connector to CH224D IC (Complete Connection)
 
 ```
 USB-C Connector J1 (6-pin power-only):
 ┌─────────────────────────────┐
+│  2, 5  VBUS  ───────────────┼──→ VBUS Rail (5V initially, 15V after PD)
 │                             │
-│  2, 5  VBUS  ───────────────┼──────── VBUS Rail
+│  3     CC1   ───────────────┼──→ To CH224D CC1
+│  4     CC2   ───────────────┼──→ To CH224D CC2
 │                             │
-│  3     CC1   ───────────────┼──────── To IC
-│  4     CC2   ───────────────┼──────── To IC
-│                             │
-│  1, 6  GND   ───────────────┼──────── To IC
-│                             │
+│  1, 6  GND   ───────────────┼──→ System GND
 └─────────────────────────────┘
 
-Note: 6-pin USB Type-C connector (C2927029)
-- Pins 2, 5: VBUS (both connected together)
-- Pins 1, 6: GND (both connected together)
-- Pins 3, 4: CC1, CC2 (separate signals)
+CH224D IC (QFN-20) - USB PD Sink Controller:
+                    ┌──────────────────────────────┐
+VBUS (5V→15V) ──────┤ 2. VBUS (Power I/O)          │
+                    │                              │
+                 ┌──┤11. CC1 (PD Comm)             │──→ To USB-C CC1
+                 │  │10. CC2 (PD Comm)             │──→ To USB-C CC2
+                 │  │                              │
+                 │  │ 1. DRV  ──┬──────────────────│
+                 │  │19. CFG1 ──┘                  │
+                 │  │13. CFG2 ── Open              │
+                 │  │12. CFG3 ── Open              │
+                 │  │                              │
+                 │  │ 8. DP   ──┬──────────────────│  ← SHORT together
+                 │  │ 9. DM   ──┘                  │  ← (PD-only mode)
+                 │  │                              │
+                 │  │ 7. VDD (4.7V LDO)            │──→ C30 (1µF) ──→ GND
+                 │  │                              │
+                 │  │ 5. GATE (Internal Switch)    │ ── NC (internal use only)
+                 │  │ 6. NMOS# (Ext Switch Ctrl)   │──→ GND (not using ext)
+                 │  │                              │
+                 │  │14. ISP (Current Sense +) ──┬─│
+                 │  │15. ISN (Current Sense -) ──┘ │──→ GND (not using)
+                 │  │                              │
+                GND │ 0. GND (EPAD)                │
+                    └──────────────────────────────┘
 
-CH224D IC (QFN-20):
-                    ┌──────────────────────┐
-VBUS ───────────────┤ 2. VBUS (Input)      │
-                    │                      │
-CC1 ────────────────┤10. CC1               │
-CC2 ────────────────┤11. CC2               │
-                    │                      │
-                 ┌──┤ 0. GND (EPAD)        │
-                 │  │                      │
-                 │  │10. DP   ── N/C       │
-                 │  │ 9. DM   ── N/C       │
-                 │  │                      │
-                 │  │18. VOUT ─────────────┼──→ +15V Output
-                GND │                      │
-                    └──────────────────────┘
+CRITICAL: VBUS is both input AND output!
+- Initially: VBUS = 5V (default USB)
+- After PD negotiation: VBUS = 15V (requested voltage)
+- Pin 18 is NC (Not Connected) - NO separate output pin!
+- Downstream circuits connect directly to VBUS
 
-Input Capacitors (C2 closest to IC):
-VBUS ──┬────────────────┬─── To IC Pin 2
-       │                │
-      C1               C2
-     10µF            100nF
-  electrolytic      ceramic
-   (farther)        (CLOSE!)
-       │                │
-      GND              GND
+Input Filter Capacitors (on VBUS rail):
+J1 VBUS ──┬────────────────┬─── CH224D pin 2 (VBUS) ──→ +15VOUT (to DC-DC stages)
+          │                │
+         C1               C2
+       10µF            100nF
+   electrolytic       ceramic
+    (farther)        (CLOSE!)
+          │                │
+         GND              GND
 
-VDD Decoupling Capacitor:
-                    ┌──────────────────────┐
-                    │                      │
-                 ┌──┤ 7. VDD               │
-                 │  │                      │
-                C3  └──────────────────────┘
-               1µF       CH224D IC
-            ceramic
-                 │
-                GND
+- C1 (10µF electrolytic): Bulk filtering for both input 5V and output 15V
+- C2 (100nF ceramic): High-frequency decoupling, placed CLOSE to CH224D pin 2
+- Both capacitors filter the VBUS rail (voltage changes from 5V → 15V after PD)
+
+VDD Decoupling (Internal 4.7V Regulator):
+VDD (pin 7) ─── C30 (1µF) ──→ GND  (Close to IC)
+
+CC Pin Pull-down Resistors (USB-PD Sink Identification):
+CC1 (pin 11) ───┬─── R12 (5.1kΩ) ──→ GND
+                │
+                └──→ To USB-C CC1 (pin 3)
+
+CC2 (pin 10) ───┬─── R13 (5.1kΩ) ──→ GND
+                │
+                └──→ To USB-C CC2 (pin 4)
+
+Note: 5.1kΩ pull-downs identify device as USB-PD sink (power consumer)
 ```
 
-### Diagram1-2: CH224D Power Output
+### Diagram1-2: Voltage Configuration (15V Selection via Rset)
 
 ```
-CH224D negotiates 15V from USB-C PD and outputs:
+Rset Configuration Circuit:
 
-VBUS (from J1) ──→ +15V Output Rail ──→ To DC-DC Converters (U2, U3, U4)
-                                           See Diagrams 2, 3, 4, 5
+DRV (pin 1) ──┬── CFG1 (pin 19)  ← These pins connected together
+              │
+             R11 (Rset = 56kΩ, 0603, ±0.1%)
+              │
+             GND
 
-Note: CH224D's VBUS (pin 2) and VOUT (pin 18) are internally connected.
-      The negotiated 15V appears on these pins and serves as the main power rail.
-```
+How it works:
+1. DRV pin provides weak drive output
+2. Resistor value determines voltage at CFG1
+3. CH224D reads CFG1 voltage to determine requested voltage
 
-### Diagram1-3: CH224D Voltage Configuration (15V Selection)
+CFG2 (pin 13) ── Open (or GND)  ← Not connected in resistor mode
+CFG3 (pin 12) ── Open (or GND)  ← Not connected in resistor mode
 
-```
-R2 (Rset) Resistor Configuration:
-
-VBUS ───┬────────────────────────────────────┐
-        │                                    │
-       R2                                    │
-    (Rset)                                   │
-     56kΩ                                    │
-  0603, ±0.1%                                │
-        │                                    │
-        └─────┬──────────────────────────────┼───── Junction (DRV/CFG1/R2)
-              │                              │
-              │          CH224D IC (QFN-20)  │
-              │          ┌─────────────────────┐
-              │          │                     │
-              └──────────┤ 1. DRV              │
-                         │19. CFG1             │
-                         │                     │
-                         │12. CFG3 ── Open/GND │
-                         │13. CFG2 ── Open/GND │
-                         │                     │
-                         └─────────────────────┘
-
-Configuration Table:
+Voltage Selection Table:
 ┌──────────┬──────────────────┐
-│ R2 Value │ Requested Voltage│
+│ R11 Value│ Requested Voltage│
 ├──────────┼──────────────────┤
-│ 6.8 KΩ   │ 9V               │
-│ 24 KΩ    │ 12V              │
-│ 56 KΩ    │ 15V ✅ (This)    │
+│ 6.8 kΩ   │ 9V               │
+│ 24 kΩ    │ 12V              │
+│ 56 kΩ    │ 15V ✅ (This)    │
 │ NC       │ 20V              │
 └──────────┴──────────────────┘
+```
+
+### Diagram1-3: USB PD Negotiation Process
+
+```
+Step-by-step PD negotiation sequence:
+
+1. Initial Connection (0-100ms):
+   ┌─────────┐                    ┌─────────┐
+   │ USB-C   │ ─── VBUS (5V) ───→ │ CH224D  │
+   │ PD      │                    │  Sink   │
+   │ Adapter │ ← CC1/CC2 pins  ─→ │         │
+   └─────────┘   (with 5.1kΩ Rd)  └─────────┘
+
+   VBUS = 5V (default USB voltage)
+   CC pull-downs identify device as sink
+
+2. Capability Discovery (100-200ms):
+   CH224D requests available voltages via CC communication
+   PD Adapter responds: 5V, 9V, 12V, 15V, 20V profiles
+
+3. Voltage Request (200-300ms):
+   CH224D requests 15V (based on R11 = 56kΩ configuration)
+
+4. Acceptance & Voltage Transition (300-1000ms):
+   PD Adapter accepts request
+   VBUS transitions: 5V → 15V
+
+5. Power Ready (>1000ms):
+   VBUS stable at 15V
+   System can draw up to 45W (15V × 3A)
+   PG pin goes LOW (power good indicator)
+
+CRITICAL: VBUS voltage changes from 5V to 15V on the same pin!
+          There is NO separate output pin.
 ```
 
 ### Diagram1-4: Power Good (PG) LED Indicator
@@ -128,55 +161,122 @@ Configuration Table:
                                     └──────────┬──────────┘
                                                │
 ┌─────────────┐     ┌─────────┐     ┌──────────┐
-│ +5V Rail    │     │   R1    │     │  LED1    │
+│ +5V Rail    │     │   R10   │     │  LED1    │
 │ (from D7)   ├─────┤  330Ω   ├─────┤  Green   ├──────────┘
 └─────────────┘     └─────────┘     └──────────┘
 
 Operation:
 - PG pin is open-drain output
 - When power negotiation succeeds: PG pulls LOW
-- Current flows: +5V → R1 → LED1 → PG → GND
+- Current flows: +5V → R10 → LED1 → PG → GND
 - LED current: I = (5V - 2.2V) / 330Ω ≈ 8.5mA ✅
+```
+
+### Diagram1-5: Internal Switch & Current Sensing Configuration
+
+```
+Internal Power Switch (GATE & NMOS#):
+                                CH224D IC (QFN-20)
+                    ┌───────────────────────────────────┐
+                    │                                   │
+VBUS (input) ───────┤ 2. VBUS                           │
+                    │                                   │
+                    │ 5. GATE ──→ Internal NMOS ────────┤──→ VBUS (output)
+                    │              (Built-in switch)    │    (15V after PD)
+                    │                                   │
+               GND ─┤ 6. NMOS# (Ext Switch Control)     │
+                    │   ↑                               │
+                    │   └─ Tied to GND (not using       │
+                    │      external MOSFET)             │
+                    │                                   │
+                    └───────────────────────────────────┘
+
+**Internal Switch Operation:**
+- CH224D has built-in N-channel MOSFET between VBUS input and output
+- Pin 5 (GATE) drives the internal MOSFET gate
+- For our 15V/3A application, internal switch is sufficient (up to 5A capability)
+- **Pin 6 (NMOS#) tied to GND** = Use internal switch only
+
+**External Switch Option (Not Used):**
+- For higher current (>5A), you can use external MOSFET
+- Pin 5 (GATE) would drive external MOSFET gate
+- Pin 6 (NMOS#) would be configured differently
+- We don't need this for our 3A max design
+
+Current Sensing (ISP & ISN):
+                                CH224D IC (QFN-20)
+                    ┌───────────────────────────────────┐
+                    │                                   │
+                    │14. ISP (Current Sense +) ────────┼─┐
+                    │15. ISN (Current Sense -) ────────┘ │
+                    │                                     └─→ GND
+                    └───────────────────────────────────┘
+
+**Current Sensing Operation:**
+- ISP/ISN pins can monitor current through the power path
+- Useful for overcurrent protection or current limiting
+- **Shorted together and tied to GND** = Not using current sensing
+- CH224D still provides overcurrent protection via internal monitoring
+
+**Our Configuration Summary:**
+- ✅ Using internal MOSFET switch (sufficient for 3A)
+- ✅ Pin 6 (NMOS#) → GND
+- ✅ Pins 14, 15 (ISP, ISN) → Shorted together → GND
+- ✅ No external components needed for these pins
 ```
 
 ### Connection List
 
-**Power Lines:**
-- `USB-C VBUS (pins 2, 5)` → `CH224D pin 2 (VBUS)` → `+15V Output`
-- `VBUS` → `R2/Rset (56kΩ)` → `DRV/CFG1 junction`
+**CRITICAL Understanding:**
+- VBUS is BOTH input (initially 5V) AND output (15V after negotiation)
+- Pin 18 is NC - there is NO separate output pin!
+- Downstream circuits (U2, U3, U4) connect directly to VBUS
 
-**Communication Lines:**
-- `USB-C CC1 (pin 3)` → `CH224D pin 10 (CC1)`
-- `USB-C CC2 (pin 4)` → `CH224D pin 11 (CC2)`
+**Power Rail (VBUS):**
+- `USB-C VBUS (pins 2, 5)` → `CH224D pin 2 (VBUS)` → `VBUS Rail`
+  - Initially: VBUS = 5V (default USB voltage)
+  - After PD negotiation: VBUS = 15V (requested voltage)
+  - This SAME pin serves as power output to DC-DC converters
+
+**CC Communication Lines (USB-PD Protocol):**
+- `USB-C CC1 (pin 3)` → `CH224D pin 11 (CC1)` → `R12 (5.1kΩ)` → `GND`
+- `USB-C CC2 (pin 4)` → `CH224D pin 10 (CC2)` → `R13 (5.1kΩ)` → `GND`
+- **Critical**: 5.1kΩ pull-downs (Rd) identify device as USB-PD sink
 
 **Ground:**
-- `USB-C GND (pins 1, 6)` → `CH224D pin 0 (EPAD)` (thermal pad)
-- `C1 negative` → `GND`
-- `C2 negative` → `GND`
+- `USB-C GND (pins 1, 6)` → `System GND` → `CH224D pin 0 (EPAD)` (thermal pad)
 
-**Input Capacitors:**
-- `C1 (10µF/25V)`: `VBUS` ⟷ `GND` (bulk filter)
-- `C2 (100nF ceramic)`: `VBUS` ⟷ `GND` (high-freq decoupling)
+**Input Filter Capacitors:**
+- `C1 (10µF/25V electrolytic)`: `VBUS` ⟷ `GND` (bulk filtering)
+- `C2 (100nF ceramic)`: `VBUS` ⟷ `GND` (high-freq decoupling, close to IC)
 
-**VDD Decoupling:**
-- `C3 (1µF ceramic)`: `VDD (pin 7)` ⟷ `GND` (internal regulator decoupling)
+**VDD Decoupling (Internal 4.7V Regulator):**
+- `C30 (1µF ceramic)`: `VDD (pin 7)` ⟷ `GND` (internal regulator output)
 
-**Voltage Configuration (15V):**
-- `R2/Rset (56kΩ resistor)` connects: `VBUS` → `DRV/CFG1 junction`
-- `CH224D pin 1 (DRV)` → Junction with CFG1 and R2
-- `CH224D pin 19 (CFG1)` → Junction with DRV and R2
+**Voltage Configuration (15V Selection):**
+- `CH224D pin 1 (DRV)` → Connected to `pin 19 (CFG1)`
+- `CFG1` → `R11 (56kΩ, ±0.1%)` → `GND`
 - `CH224D pin 13 (CFG2)` → `Open` or `GND`
 - `CH224D pin 12 (CFG3)` → `Open` or `GND`
 
 **LED Status Indicator Circuit:**
-- `+5V rail (from Diagram7)` → `R1 (330Ω)` → `LED1 (Green LED)` → `CH224D pin 8 (PG)`
+- `+5V rail (from Diagram7)` → `R10 (330Ω)` → `LED1 (Green LED)` → `CH224D pin 8 (PG)` → `GND`
 - LED indicates: **Power Good** (lights up when 15V USB-PD negotiation succeeds)
 - LED current: `I = (5V - 2.2V) / 330Ω ≈ 8.5mA` ✅
-- **Note**: PG pin is open-drain, pulls LOW when power is good, enabling current flow from +5V through LED to GND
+- **Note**: PG pin is open-drain, pulls LOW when power is good
 
-**Not Connected:**
-- `CH224D pin 10 (DP)` - N/C
-- `CH224D pin 9 (DM)` - N/C
+**PD-Only Mode Configuration:**
+- `CH224D pin 8 (DP)` ↔ `pin 9 (DM)` - **Shorted together** (disables BC1.2 and other USB data protocols)
+- **Why short DP to DM?** 6-pin USB-C connector has no DP/DM pins. Per datasheet, we must short DP to DM on CH224D to use PD-only mode.
+- `CH224D pin 18` - NC (Not Connected in datasheet)
+
+**Internal Switch Configuration:**
+- `CH224D pin 5 (GATE)` - Drives internal NMOS gate (no external connection)
+- `CH224D pin 6 (NMOS#)` → `GND` (enables internal switch mode, disables external MOSFET control)
+
+**Current Sensing Configuration:**
+- `CH224D pin 14 (ISP)` ↔ `pin 15 (ISN)` - **Shorted together** → `GND`
+- Not using current sensing feature (CH224D provides overcurrent protection internally)
 
 ## Diagram2: USB-PD +15V → +13.5V Buck Converter (LM2596S-ADJ #1)
 
@@ -238,7 +338,7 @@ Operation:
 
 **Output Path (Buck Converter Topology):**
 1. `U3 pin 2 (OUTPUT)` → `L2 (100µH, 4.5A)` → Junction point
-2. Junction point → `C7 (470µF/25V)` → `GND` (output filter capacitor)
+2. Junction point → `C4 (470µF/25V)` → `GND` (output filter capacitor)
 3. Junction point → `+7.5V output` (to L7805 linear regulator)
 
 **Flyback Diode (Freewheeling Diode):**
@@ -252,9 +352,9 @@ Operation:
 - `C6 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling, shared with U2)
 
 **Output Capacitor:**
-- `C7 (470µF/25V electrolytic)`: Connected **in parallel** between `+7.5V output` ⟷ `GND`
+- `C4 (470µF/25V electrolytic)`: Connected **in parallel** between `+7.5V output` ⟷ `GND`
 - Purpose: Output filtering, ripple reduction, and energy storage for transient response
-- **Important**: C7 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
+- **Important**: C4 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
 
 **Feedback Network (Voltage Setting):**
 - Voltage divider: `+7.5V output` → `R3 (5.1kΩ)` → **Tap point** → `R4 (1kΩ)` → `GND`
@@ -271,7 +371,7 @@ Operation:
 **Key Points:**
 - The inductor L2 is on the **OUTPUT side** of pin 2 (OUTPUT), not the input side
 - D2 cathode connects to the junction between OUTPUT (pin 2) and L2 (the "switching node")
-- When U3's internal switch is ON: Current flows VIN → Switch → OUTPUT → L2 → C7 → Load
+- When U3's internal switch is ON: Current flows VIN → Switch → OUTPUT → L2 → C4 → Load
 - When U3's internal switch is OFF: Inductor current flows through D2 (L2 → D2 → GND → L2)
 - This stage provides +7.5V to the L7805 linear regulator for final +5V output
 

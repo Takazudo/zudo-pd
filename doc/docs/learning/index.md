@@ -13,7 +13,7 @@ This section contains technical explanations, design decisions, and circuit theo
 ## Topics Covered
 
 ### Digital Logic & Control
-- [Open-Drain Outputs: Understanding the PG Pin](./open-drain-pg-pin.md) - How the CH224Q's Power Good pin works and why LEDs connect the way they do
+- [Open-Drain Outputs: Understanding the PG Pin](./open-drain-pg-pin.md) - How the CH224D's Power Good pin works and why LEDs connect the way they do
 
 ### Power Supply Design
 - [How Buck Converters Work: Feedback Control Explained](./buck-converter-feedback.md) - Understanding the LM2596S-ADJ feedback mechanism and why it's like an op-amp

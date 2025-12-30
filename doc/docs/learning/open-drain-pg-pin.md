@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Open-Drain Outputs: Understanding the PG Pin
 
-How the CH224Q's Power Good (PG) pin works and why the LED circuit is connected the way it is.
+How the CH224D's Power Good (PG) pin works and why the LED circuit is connected the way it is.
 
 ## The Question
 
@@ -16,7 +16,7 @@ The answer is **YES** ✅, and here's why.
 
 ## What is an Open-Drain Output?
 
-The CH224Q's **PG (Power Good)** pin is an **open-drain output**. This is a common digital output type that works differently from regular logic outputs.
+The CH224D's **PG (Power Good)** pin is an **open-drain output**. This is a common digital output type that works differently from regular logic outputs.
 
 ### Regular Logic Output (Push-Pull)
 
@@ -44,12 +44,12 @@ Think of it as a **switch to ground**:
 
 ## How the PG Pin Works
 
-The CH224Q uses the PG pin to indicate when USB-PD negotiation is successful and 15V is stable.
+The CH224D uses the PG pin to indicate when USB-PD negotiation is successful and 15V is stable.
 
 ### Internal Circuit Diagram
 
 ```
-Inside CH224Q:
+Inside CH224D:
                     ┌─────────────┐
                     │   Control   │
                     │   Logic     │
@@ -128,14 +128,14 @@ Time 0ms:
 - Status: "Negotiating..."
 
 Time 0-500ms:
-- CH224Q negotiates 15V via CC pins
+- CH224D negotiates 15V via CC pins
 - PG pin = HIGH-Z (still floating)
 - LED OFF (green)
 - Status: "Negotiating..."
 
 Time 500ms-1000ms:
 - VBUS transitions 5V → 15V
-- CH224Q verifies voltage is stable
+- CH224D verifies voltage is stable
 - PG pin = HIGH-Z (still floating)
 - LED OFF (green)
 - Status: "Verifying..."

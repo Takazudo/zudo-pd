@@ -17,7 +17,7 @@ Documentation for USB-PD powered modular synthesizer power supply.
 ### Design Documentation
 
 - **[Project Overview](overview.md)** - Design goals, architecture, features
-- **[Circuit Diagrams](circuit-diagrams.md)** - Complete circuit configuration (Stages 1-4)
+- **[Circuit Diagrams](/docs/inbox/circuit-diagrams)** - Complete circuit configuration (Stages 1-4)
 - **[Bill of Materials](../components/bom.md)** - JLCPCB-compatible BOM
 - **[📋 Quick Reference](quick-reference.md)** - Common specs, formulas, FAQ
 
@@ -25,7 +25,7 @@ Documentation for USB-PD powered modular synthesizer power supply.
 
 ### 4-Stage Design
 
-1. **USB-PD Power Supply** (CH224Q)
+1. **USB-PD Power Supply** (CH224D)
 2. **DC-DC Converters** (LM2596S × 3 + ICL7660)
 3. **Linear Regulators** (LM7812/7805/7912)
 4. **Protection Circuit** (PTC + Fuse + TVS)

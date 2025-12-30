@@ -1,45 +1,64 @@
+<details>
+<summary>Circuit Diagram (ASCII art)</summary>
+
 ```
-                                          |
-                     LM2596S-ADJ (U5)       |
-                     +---------------+       |
--15V ---+------------+5 VIN          |       |
-        |            |               |       |
-        |     +------+3 ON           |       |
-        |     |      |               |       |
-        |     |      |          VOUT +4------+-> L3 ---+-> -13.5V/0.9A Output
-        |     |      |                      100uH    |
-        |     |      |            FB +2-> Tap        +-> R5 --+-> Tap -> R6 -> GND
-        |     |      |                               |  10kΩ  |         1kΩ
-        |     |      |           GND +1-> GND        |        |
-        |     |      +---------------+               +-> C11 -> GND
-        |     |                                          470uF
-       C9    C10                                         |
-      100uF 100nF                                       GND
-        |     |                                      Schottky
-       GND   GND                                     D3 (SS34)
+Input:  -15V ──┬─── C9 (100µF) ─── GND
+               │
+               └─── C10 (100nF) ─── GND
 
-Note: For negative voltage regulation, all voltages are referenced to GND (0V).
-      The buck converter operates with negative voltages, but the topology is identical.
 
-      FB pin 2 connects to the tap point between R5 and R6.
-      This tap voltage = VOUT × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V
-      However, the LM2596 measures this relative to its VIN (which is -15V).
-      The FB pin sees: (-1.23V) - (-15V) = +13.77V above VIN, which gives ~1.23V regulation.
+Controller: U4 (LM2596S-ADJ)
 
-Connections:
-  Input power:    -15V -> C9 (100uF) -> GND  (input filter, parallel)
-                  -15V -> U5 pin 5 (VIN)
-  Decoupling:     VIN -> C10 (100nF) -> GND  (high-freq decoupling, parallel)
-  Enable:         ON pin 3 -> tied high (always enabled)
+  -15V ──┬─────┤ VIN (1)
+         └─────┤ ON/OFF (5)     (floating - internal pull-up enables regulator)
 
-  Output stage:   VOUT (pin 4) -> L3 (100uH inductor) -> -13.5V Output
-  Flyback diode:  Switching node (between pin 4 and L3) -> D3 (SS34 Schottky) -> GND
-  Output filter:  Output -> C11 (470uF) -> GND  (parallel, NOT in series!)
+  OUTPUT (2) ├─── Switching Node
 
-  Voltage divider (sets output voltage):
-                  Output -> R5 (10kΩ) -> Tap point -> R6 (1kΩ) -> GND
-  Feedback:       FB pin 2 -> Tap point (junction between R5 and R6)
-                  The divider creates a tap voltage for negative rail regulation
+  FB (4) ├───→ Tap (see feedback network below)
 
-  Ground:         GND pin 1 -> System ground (shared with all components)
+  GND (3) ├─── GND
+
+
+Switching Node splits into TWO paths:
+
+  Path 1 (to output):
+    Switching Node ──→ L3 (100µH, 4.5A) ──→ -13.5V Out
+
+  Path 2 (flyback):
+    Switching Node ──→ D3 cathode (SS34 Schottky)
+                       D3 anode ──→ GND
+
+
+Output Filter:
+
+  -13.5V Out ──→ C11 (470µF/25V) ──→ GND
+
+  Note: Electrolytic capacitor polarity - negative terminal to -13.5V, positive terminal to GND
 ```
+
+### Feedback Network (Voltage Divider)
+
+```
+┌──────────────┐     ┌─────────┐     ┌──────────┐
+│ -13.5V Out   │     │   R5    │     │    R6    │
+│              ├─────┤  10kΩ   ├──┬──┤   1kΩ    ├─→ GND
+└──────────────┘     └─────────┘  │  └──────────┘
+                                  │
+               ┌──────────────────┐
+               │   U4 (LM2596S)   │
+               │4. FB             │
+               └──────────────────┘
+
+Tap voltage = -13.5V × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V
+U4 maintains FB pin at 1.23V below GND by adjusting duty cycle
+```
+
+</details>
+
+**Key Points:**
+- **Switching node** is the junction at OUTPUT pin 2
+- **Path 1**: Switching node → L3 → -13.5V output (main current path)
+- **Path 2**: Switching node → D3 cathode; D3 anode → GND (flyback/freewheeling path)
+- **D3** has exactly 2 connections: cathode to switching node, anode to GND
+- **L3 output and D3 anode are completely separate paths** - they do NOT connect to each other
+- **Negative voltage regulation**: All voltages are referenced to GND (0V); electrolytic capacitors must have correct polarity

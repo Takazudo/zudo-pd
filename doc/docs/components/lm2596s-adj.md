@@ -70,7 +70,7 @@ Being an adjustable output type (ADJ), the output voltage can be freely set usin
 | 2 | OUTPUT | Switching Output (connect to inductor) |
 | 3 | GND | Ground (also thermal tab) |
 | 4 | FEEDBACK | Voltage Feedback Input (1.23V reference) |
-| 5 | ON/OFF | Enable Control (High = ON, connect to VIN for always-on) |
+| 5 | ON/OFF | Enable Control (Low or floating = ON; tie to GND or leave floating for always-on) |
 | TAB | GND | Thermal Tab (must connect to GND plane) |
 
 ## Application in This Project
@@ -290,6 +290,6 @@ Temperature rise: 0.23W × 40°C/W ≈ 9°C
 
 - The LM2596S-ADJ is a very common DC-DC converter, and many compatible parts exist
 - The 150kHz switching frequency avoids audible noise (below 20kHz)
-- Connecting the ON/OFF pin to VIN enables always-on operation; connecting to GND activates shutdown mode
+- Connecting the ON/OFF pin to GND (or leaving it floating) enables always-on operation; pulling it HIGH (>1.3V) activates shutdown mode
 - This project uses the always-on configuration
 - Feedback resistors with ±1% tolerance are recommended (directly affects output voltage accuracy)

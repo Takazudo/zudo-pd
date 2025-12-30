@@ -1,41 +1,61 @@
+<details>
+<summary>Circuit Diagram (ASCII art)</summary>
+
 ```
-                                          |
-                     LM2596S-ADJ (U3)       |
-                     +---------------+       |
-+15V ---+------------+5 VIN          |       |
-        |            |               |       |
-        |     +------+3 ON           |       |
-        |     |      |               |       |
-        |     |      |          VOUT +4------+-> L2 ---+-> +7.5V/0.6A Output
-        |     |      |                      100uH    |
-        |     |      |            FB +2-> Tap        +-> R3 --+-> Tap -> R4 -> GND
-        |     |      |                               | 5.1kΩ  |         1kΩ
-        |     |      |           GND +1-> GND        |        |
-        |     |      +---------------+               +-> C4 -> GND
-        |     |                                         470uF
-       C7    C8                                          |
-      100uF 100nF                                       GND
-        |     |                                      Schottky
-       GND   GND                                     D2 (SS34)
+Input:  +15V ──┬─── C5 (100µF) ─── GND
+               │
+               └─── C6 (100nF) ─── GND
 
-Note: FB pin 2 connects to the tap point between R3 and R4.
-      This tap voltage = VOUT × R4/(R3+R4) = 7.5V × 1kΩ/6.1kΩ = 1.23V
-      The LM2596 adjusts duty cycle to maintain FB pin at 1.23V reference.
 
-Connections:
-  Input power:    +15V -> C7 (100uF) -> GND  (input filter, parallel)
-                  +15V -> U3 pin 5 (VIN)
-  Decoupling:     VIN -> C8 (100nF) -> GND  (high-freq decoupling, parallel)
-  Enable:         ON pin 3 -> tied high (always enabled)
+Controller: U3 (LM2596S-ADJ)
 
-  Output stage:   VOUT (pin 4) -> L2 (100uH inductor) -> +7.5V Output
-  Flyback diode:  Switching node (between pin 4 and L2) -> D2 (SS34 Schottky) -> GND
-  Output filter:  Output -> C4 (470uF) -> GND  (parallel, NOT in series!)
+  +15V ────────┤ VIN (1)
 
-  Voltage divider (sets output voltage):
-                  Output -> R3 (5.1kΩ) -> Tap point -> R4 (1kΩ) -> GND
-  Feedback:       FB pin 2 -> Tap point (junction between R3 and R4)
-                  Tap voltage = 1.23V when output = 7.5V
+  OUTPUT (2) ├─── Switching Node
 
-  Ground:         GND pin 1 -> System ground (shared with all components)
+  FB (4) ├───→ Tap (see feedback network below)
+
+  GND ─────────┤ GND (3)
+               │ ON/OFF (5)  (always-on: tie to GND or leave floating)
+
+
+Switching Node splits into TWO paths:
+
+  Path 1 (to output):
+    Switching Node ──→ L2 (100µH, 4.5A) ──→ +7.5V Out
+
+  Path 2 (flyback):
+    Switching Node ──→ D2 cathode (SS34 Schottky)
+                       D2 anode ──→ GND
+
+
+Output Filter:
+
+  +7.5V Out ──→ C7 (470µF/25V) ──→ GND
 ```
+
+### Feedback Network (Voltage Divider)
+
+```
+┌──────────────┐     ┌─────────┐     ┌──────────┐
+│ +7.5V Out    │     │   R3    │     │    R4    │
+│              ├─────┤  5.1kΩ  ├──┬──┤   1kΩ    ├─→ GND
+└──────────────┘     └─────────┘  │  └──────────┘
+                                  │
+               ┌──────────────────┐
+               │   U3 (LM2596S)   │
+               │4. FB             │
+               └──────────────────┘
+
+Tap voltage = +7.5V × R4/(R3+R4) = 7.5V × 1kΩ/6.1kΩ = 1.23V
+U3 maintains FB pin at 1.23V reference by adjusting duty cycle
+```
+
+</details>
+
+**Key Points:**
+- **Switching node** is the junction at OUTPUT pin 2
+- **Path 1**: Switching node → L2 → +7.5V output (main current path)
+- **Path 2**: Switching node → D2 cathode; D2 anode → GND (flyback/freewheeling path)
+- **D2** has exactly 2 connections: cathode to switching node, anode to GND
+- **L2 output and D2 anode are completely separate paths** - they do NOT connect to each other
