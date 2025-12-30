@@ -60,10 +60,27 @@ with schemdraw.Drawing(
     elm.Dot().at(j1.VBUS1)  # First dot at J1 VBUS1
     elm.Line().right(2.0)
     elm.Dot()  # Second dot
+    d.push()
+    elm.Line().up(0.1)
+    elm.Capacitor().label('C1\n470µF\n25V', loc='bot', ofst=-1.7)
+    elm.Ground().flip()
+    d.pop()
+
     elm.Line().right(2.0)
     elm.Dot()  # Third dot
+    d.push()
+    elm.Line().up(0.1)
+    elm.Capacitor().label('C2\n470µF\n25V', loc='bot', ofst=0.2)
+    elm.Ground().flip()
+
+    d.pop()
     elm.Line().right(2.0)
     elm.Dot()  # Fourth dot
+    d.push()
+    elm.Line().up(5.0)
+    elm.Dot(open=True).label('+5V first\n+13.5V\nafter init', loc='right', ofst=(0.2, -1.0))
+
+    d.pop()
     elm.Line().to(u1.VBUS)  # Connect to U1 VBUS
 
     # Connect J1 VBUS2 to the first dot
