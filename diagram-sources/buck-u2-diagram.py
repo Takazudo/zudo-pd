@@ -118,10 +118,10 @@ with schemdraw.Drawing(
     elm.Diode().up(2.0).reverse().label('D1\nSS34', loc='top')
     elm.Ground().flip()
 
-    # Save to docs/_fragments (one level up from diagram-sources)
+    # Save to doc/static/circuits/ (one level up from diagram-sources)
     import os
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_path = os.path.join(script_dir, '../docs/_fragments/buck-u2-diagram.svg')
+    output_path = os.path.join(script_dir, '../doc/static/circuits/buck-u2-diagram.svg')
     d.save(output_path)
 
 print("✓ Buck converter diagram generated with transparent background")
