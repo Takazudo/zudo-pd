@@ -78,7 +78,7 @@ with schemdraw.Drawing(
     elm.Dot()  # Fourth dot
     d.push()
     elm.Line().up(5.0)
-    elm.Dot(open=True).label('+5V first\n+13.5V\nafter init', loc='right', ofst=(0.2, -1.0))
+    elm.Dot(open=True).label('OUT\n+5V first\n+13.5V\nafter init', loc='right', ofst=(0.2, -1.0))
 
     d.pop()
     elm.Line().to(u1.VBUS)  # Connect to U1 VBUS
@@ -153,6 +153,12 @@ with schemdraw.Drawing(
     elm.Line().right(3.5)
     elm.Resistor(scale=0.7).up().label('R11\n56kΩ', loc='bot', ofst=-2.1)
     elm.Ground().flip()
+
+    # PG pin with LED and R10 to +5V
+    elm.Line().at(u1.PG).right(0.1)
+    elm.LED().right().reverse().label('D1', loc='bot', ofst=(0, -0.5))
+    elm.Resistor(scale=0.7).right().label('R10\n1kΩ', loc='top', ofst=0.5)
+    elm.Dot(open=True).label('+5V IN', loc='top', ofst=(0, 0.2))
 
     # Save to doc/static/circuits/
     import os
