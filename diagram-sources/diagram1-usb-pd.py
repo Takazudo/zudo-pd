@@ -15,31 +15,31 @@ with schemdraw.Drawing(
 ) as d:
     d.config(unit=3)
 
-    # J1 USB-C Connector (6-pin power-only)
+    # J1 USB-C Connector (6-pin power-only) - Flipped order (top to bottom)
     # Height matched to U1: (6-1)*1.0 + 2*3.5 = 12 units (same as U1's 11 pins)
     j1 = elm.Ic(
         pins=[
-            elm.IcPin(name='VBUS1', pin='1', side='right', slot='1/6'),
-            elm.IcPin(name='VBUS2', pin='2', side='right', slot='2/6'),
-            elm.IcPin(name='CC1', pin='3', side='right', slot='3/6'),
-            elm.IcPin(name='CC2', pin='4', side='right', slot='4/6'),
-            elm.IcPin(name='GND1', pin='5', side='right', slot='5/6'),
-            elm.IcPin(name='GND2', pin='6', side='right', slot='6/6'),
+            elm.IcPin(name='GND2', pin='6', side='right', slot='1/6'),
+            elm.IcPin(name='GND1', pin='5', side='right', slot='2/6'),
+            elm.IcPin(name='CC2', pin='4', side='right', slot='3/6'),
+            elm.IcPin(name='CC1', pin='3', side='right', slot='4/6'),
+            elm.IcPin(name='VBUS2', pin='2', side='right', slot='5/6'),
+            elm.IcPin(name='VBUS1', pin='1', side='right', slot='6/6'),
         ],
         size=(3, 12),  # Explicit size: width=2, height=12
         leadlen=1.0
     ).label('J1\nUSB-C', loc='center', fontsize=10, ofst=(-0.5, 0.5))
 
     # U1 CH224D IC (QFN-20) - USB PD Sink Controller
-    # Position 2.5 units to the right of J1
+    # Left side pins aligned with J1 matching pins
     u1 = elm.Ic(
         pins=[
-            # Left side pins
-            elm.IcPin(name='VBUS', pin='2', side='left', slot='1/4'),
-            elm.IcPin(name='CC1', pin='11', side='left', slot='2/4'),
-            elm.IcPin(name='CC2', pin='10', side='left', slot='3/4'),
-            elm.IcPin(name='GND', pin='0', side='left', slot='4/4'),
-            # Right side pins
+            # Left side pins - aligned by function with J1
+            elm.IcPin(name='GND', pin='0', side='left', slot='1/6'),    # Aligned with J1 GND2
+            elm.IcPin(name='CC2', pin='10', side='left', slot='3/6'),   # Aligned with J1 CC2
+            elm.IcPin(name='CC1', pin='11', side='left', slot='4/6'),   # Aligned with J1 CC1
+            elm.IcPin(name='VBUS', pin='2', side='left', slot='6/6'),   # Aligned with J1 VBUS1
+            # Right side pins (top to bottom)
             elm.IcPin(name='GATE', pin='5', side='right', slot='1/11'),
             elm.IcPin(name='NMOS#', pin='6', side='right', slot='2/11'),
             elm.IcPin(name='ISP', pin='14', side='right', slot='3/11'),
@@ -52,11 +52,15 @@ with schemdraw.Drawing(
             elm.IcPin(name='DP', pin='8', side='right', slot='10/11'),
             elm.IcPin(name='DM', pin='9', side='right', slot='11/11'),
         ],
-        edgepadW=2.5,
-        edgepadH=1.0,
-        pinspacing=1.0,
+        size=(8, 12),  # Explicit size to match J1 height
         leadlen=1.0
-    ).anchor('center').at((j1.VBUS1[0] + 2.5, j1.center[1])).label('U1\nCH224D', loc='center', fontsize=10)
+    ).anchor('center').at((j1.VBUS1[0] + 6.12, j1.center[1])).label('U1\nCH224D', loc='center', fontsize=10)
+
+    # Connection dot at J1 VBUS1
+    elm.Dot().at(j1.VBUS1)
+
+    # Connect J1 VBUS2 to the dot
+    elm.Line().at(j1.VBUS2).to(j1.VBUS1)
 
     # Save to doc/static/circuits/
     import os
