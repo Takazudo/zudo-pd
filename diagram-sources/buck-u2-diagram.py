@@ -39,7 +39,7 @@ with schemdraw.Drawing(
 
     # Input rail: straight horizontal line at VIN level
     # +15V -> dot -> dot -> junction3
-    elm.Dot(open=True).at((ic.VIN[0] - 7.0, junction_y)).label('+15V', loc='left')
+    elm.Dot(open=True).at((ic.VIN[0] - 5.5, junction_y)).label('+15V', loc='left')
 
     elm.Line().right(0.5)
     elm.Dot()
@@ -73,7 +73,7 @@ with schemdraw.Drawing(
     elm.Ground()
 
     # Output stage from VOUT pin (halved spacing)
-    elm.Line().at(ic.VOUT).right(1.0)  # Halved spacing before L1
+    elm.Line().at(ic.VOUT).right(0.5)  # Halved spacing before L1
     elm.Dot()
     vout_junction = d.here
     d.push()
@@ -100,14 +100,12 @@ with schemdraw.Drawing(
     d.push()  # Save position before R1 for parallel C4 capacitor
 
     elm.Resistor(scale=0.7).left().label('R1\n10kΩ', loc='bot', ofst=0.5)
-    elm.Line().left(0.2)
     r1_end = d.here
     d.push()  # Save position after R1 (this is the Tap)
 
     elm.Dot()  # Tap junction for FB connection
     d.push()  # Save tap position for FB connection
 
-    elm.Line().left(0.2)
     elm.Resistor(scale=0.7).left().label('R2\n1kΩ', loc='bot', ofst=0.5)
     elm.Line().left(0.2)
     elm.Line().down(0.2)
@@ -118,11 +116,10 @@ with schemdraw.Drawing(
     elm.Line().to(ic.FB)
 
     # C4 capacitor in parallel with R1 (feedback compensation)
-    d.pop()  # Return to r1_end
-    elm.Line().left(0.8)
-    d.pop()  # Return to r1_start
-    elm.Line().left(0.8)
-    elm.Capacitor().up(d.unit * 0.7 * 2).label('C4\n22nF', loc='left', ofst=-0.3)
+    d.pop()  # Return to r1_end (after R1)
+    d.pop()  # Return to r1_start (the dot junction)
+    elm.Line().up(2)
+    elm.Capacitor().left().label('C4\n22nF', loc='top', ofst=0.3)
     elm.Line().to(r1_end)
 
     # Output capacitor C3 (from output junction - right side, facing up)
