@@ -21,23 +21,56 @@ This diagram shows the complete power conversion chain from USB-C input to all o
 
 ```mermaid
 flowchart TD
-    USB["USB-C 15V<br/>(Diagram1)"] --> D2["Buck Converter U2<br/>+15V → +13.5V<br/>(Diagram2)"]
-    USB --> D3["Buck Converter U3<br/>+15V → +7.5V<br/>(Diagram3)"]
-    USB --> D4["Voltage Inverter U5<br/>+15V → -15V<br/>(Diagram4)"]
+    USB["USB-C 15V INPUT
+    Diagram1"]
 
-    D2 --> D6["Linear Regulator U6<br/>+13.5V → +12V<br/>(Diagram6)"]
-    D3 --> D7["Linear Regulator U7<br/>+7.5V → +5V<br/>(Diagram7)"]
-    D4 --> D5["Buck Converter U4<br/>-15V → -13.5V<br/>(Diagram5)"]
-    D5 --> D8["Linear Regulator U8<br/>-13.5V → -12V<br/>(Diagram8)"]
+    D2["Buck Converter U2
+    +15V to +13.5V
+    Diagram2"]
 
-    D6 --> OUT1["+12V OUT<br/>(1.2A max)"]
-    D7 --> OUT2["+5V OUT<br/>(0.5A max)"]
-    D8 --> OUT3["-12V OUT<br/>(0.8A max)"]
+    D3["Buck Converter U3
+    +15V to +7.5V
+    Diagram3"]
 
-    style USB fill:#e1f5ff
-    style OUT1 fill:#c8e6c9
-    style OUT2 fill:#c8e6c9
-    style OUT3 fill:#ffccbc
+    D4["Voltage Inverter U5
+    +15V to -15V
+    Diagram4"]
+
+    D5["Buck Converter U4
+    -15V to -13.5V
+    Diagram5"]
+
+    D6["Linear Regulator U6
+    +13.5V to +12V
+    Diagram6"]
+
+    D7["Linear Regulator U7
+    +7.5V to +5V
+    Diagram7"]
+
+    D8["Linear Regulator U8
+    -13.5V to -12V
+    Diagram8"]
+
+    OUT1["+12V OUTPUT
+    1.2A max"]
+
+    OUT2["+5V OUTPUT
+    0.5A max"]
+
+    OUT3["-12V OUTPUT
+    0.8A max"]
+
+    USB --> D2
+    USB --> D3
+    USB --> D4
+    D2 --> D6
+    D3 --> D7
+    D4 --> D5
+    D5 --> D8
+    D6 --> OUT1
+    D7 --> OUT2
+    D8 --> OUT3
 ```
 
 **Power Conversion Strategy:**
