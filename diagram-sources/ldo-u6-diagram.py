@@ -65,8 +65,47 @@ with schemdraw.Drawing(
     elm.Capacitor().down(2.0).label('C20\n470µF', loc='bot')
     elm.Ground()
 
-    elm.Line().at(ic.OUT).right(0.5)
+    # Output rail from ic.OUT
+    elm.Line().at(ic.OUT).right(0.2)
     elm.Dot()
+    output_junction1 = d.here
+    d.push()
+
+    elm.Line().right(2.0)
+    elm.Dot()
+    output_junction2 = d.here
+
+    # C21 from output_junction2 (farther from IC - bulk storage)
+    elm.Capacitor().down(2.0).label('C21\n470µF', loc='bot')
+    elm.Ground()
+
+    # C17 from output_junction1 (closer to IC - high-freq filtering)
+    d.pop()
+    elm.Capacitor().down(2.0).label('C17\n100nF', loc='bot')
+    elm.Ground()
+
+    elm.Line().at(output_junction2).right(1.0)
+    elm.Dot()
+    to_led_junction = d.here
+
+    elm.Line().right(1)
+    elm.Fuse().right(1.5).label('PTC1', loc='top')
+
+    elm.Line().right(1)
+    elm.Dot()
+    d.push()
+
+    # TVS1 diode (cathode up to +12V, anode down to GND)
+    elm.Zener().down(2.0).reverse().label('TVS1', loc='right', ofst=(1,-1))
+    elm.Ground()
+
+    d.pop()
+    elm.Line().right(1.0)
+    elm.Dot(open=True).label('+12V\nOUT', loc='top', ofst=(0,0.3))
+
+    elm.Line().at(to_led_junction).up(3.0)
+    elm.Line().left(0.2)
+    # R7,LED2,line down,GND
 
     # Save to doc/static/circuits/ (one level up from diagram-sources)
     import os
