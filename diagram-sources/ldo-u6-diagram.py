@@ -103,9 +103,14 @@ with schemdraw.Drawing(
     elm.Line().right(1.0)
     elm.Dot(open=True).label('+12V\nOUT', loc='top', ofst=(0,0.3))
 
-    elm.Line().at(to_led_junction).up(3.0)
-    elm.Line().left(0.2)
-    # R7,LED2,line down,GND
+    elm.Line().at(to_led_junction).up(4.0)
+    elm.Line().left(1)
+    elm.Resistor(scale=0.7).left(1.0).label('R7\n1kΩ', loc='top', ofst=0.3)
+    elm.Line().left(1)
+    elm.LED().left(1.0).label('LED2\nGreen', loc='top', ofst=0.3)
+    elm.Line().left(1)
+    elm.Line().down(0.5)
+    elm.Ground()
 
     # Save to doc/static/circuits/ (one level up from diagram-sources)
     import os
