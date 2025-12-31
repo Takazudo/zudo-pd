@@ -7,8 +7,15 @@ import BuckU3Svg from '@site/static/circuits/buck-u3-diagram.svg';
   padding="10px"
 />
 
+**Key Points:**
+- **Switching node** is the junction at OUTPUT pin 2
+- **Path 1**: Switching node → L2 → +7.5V output (main current path)
+- **Path 2**: Switching node → D2 cathode; D2 anode → GND (flyback/freewheeling path)
+- **D2** has exactly 2 connections: cathode to switching node, anode to GND
+- **L2 output and D2 anode are completely separate paths** - they do NOT connect to each other
+
 <details>
-<summary>View ASCII art version</summary>
+<summary>View ASCII art circuit</summary>
 
 ```
 Input:  +15V ──┬─── C9 (100µF) ─── GND
@@ -66,10 +73,3 @@ U3 maintains FB pin at 1.23V reference by adjusting duty cycle
 ```
 
 </details>
-
-**Key Points:**
-- **Switching node** is the junction at OUTPUT pin 2
-- **Path 1**: Switching node → L2 → +7.5V output (main current path)
-- **Path 2**: Switching node → D2 cathode; D2 anode → GND (flyback/freewheeling path)
-- **D2** has exactly 2 connections: cathode to switching node, anode to GND
-- **L2 output and D2 anode are completely separate paths** - they do NOT connect to each other

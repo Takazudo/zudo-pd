@@ -7,8 +7,16 @@ import BuckU5Svg from '@site/static/circuits/buck-u5-diagram.svg';
   padding="10px"
 />
 
+**Key Points:**
+- **Switching node** is the junction at OUTPUT pin 2
+- **Path 1**: Switching node → L3 → -13.5V output (main current path)
+- **Path 2**: Switching node → D3 cathode; D3 anode → GND (flyback/freewheeling path)
+- **D3** has exactly 2 connections: cathode to switching node, anode to GND
+- **L3 output and D3 anode are completely separate paths** - they do NOT connect to each other
+- **Negative voltage regulation**: All voltages are referenced to GND (0V); electrolytic capacitors must have correct polarity
+
 <details>
-<summary>View ASCII art version</summary>
+<summary>View ASCII art circuit</summary>
 
 ```
 Input:  -15V ──┬─── C13 (100µF) ─── GND
@@ -68,11 +76,3 @@ U4 maintains FB pin at 1.23V below GND by adjusting duty cycle
 ```
 
 </details>
-
-**Key Points:**
-- **Switching node** is the junction at OUTPUT pin 2
-- **Path 1**: Switching node → L3 → -13.5V output (main current path)
-- **Path 2**: Switching node → D3 cathode; D3 anode → GND (flyback/freewheeling path)
-- **D3** has exactly 2 connections: cathode to switching node, anode to GND
-- **L3 output and D3 anode are completely separate paths** - they do NOT connect to each other
-- **Negative voltage regulation**: All voltages are referenced to GND (0V); electrolytic capacitors must have correct polarity
