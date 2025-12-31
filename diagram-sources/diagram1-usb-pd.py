@@ -21,8 +21,8 @@ with schemdraw.Drawing(
         pins=[
             elm.IcPin(name='GND2', pin='6', side='right', slot='1/8'),
             elm.IcPin(name='GND1', pin='5', side='right', slot='2/8'),
-            elm.IcPin(name='CC2', pin='4', side='right', slot='3/8'),
-            elm.IcPin(name='CC1', pin='3', side='right', slot='4/8'),
+            elm.IcPin(name='CC2', pin='4', side='right', slot='4/8'),
+            elm.IcPin(name='CC1', pin='3', side='right', slot='5/8'),
             elm.IcPin(name='VBUS2', pin='2', side='right', slot='7/8'),
             elm.IcPin(name='VBUS1', pin='1', side='right', slot='8/8'),
         ],
@@ -36,8 +36,8 @@ with schemdraw.Drawing(
         pins=[
             # Left side pins - aligned by function with J1 (using /8 slots)
             elm.IcPin(name='GND', pin='0', side='left', slot='2/8'),    # Aligned with J1 GND1
-            elm.IcPin(name='CC2', pin='10', side='left', slot='3/8'),   # Aligned with J1 CC2
-            elm.IcPin(name='CC1', pin='11', side='left', slot='4/8'),   # Aligned with J1 CC1
+            elm.IcPin(name='CC2', pin='10', side='left', slot='4/8'),   # Aligned with J1 CC2
+            elm.IcPin(name='CC1', pin='11', side='left', slot='5/8'),   # Aligned with J1 CC1
             elm.IcPin(name='VBUS', pin='2', side='left', slot='8/8'),   # Aligned with J1 VBUS1
             # Right side pins (top to bottom) - updated to /12 slots to include VDD
             elm.IcPin(name='GATE', pin='5', side='right', slot='12/12'),
@@ -62,17 +62,17 @@ with schemdraw.Drawing(
     elm.Line().right(2.0)
     elm.Dot()  # Second dot
     d.push()
-    elm.Line().up(0.1)
+    elm.Line().down(0.1)
     elm.Capacitor().label('C1\n10µF\n25V', loc='bot', ofst=-1.7)
-    elm.Ground().flip()
+    elm.Ground()
     d.pop()
 
     elm.Line().right(2.0)
     elm.Dot()  # Third dot
     d.push()
-    elm.Line().up(0.1)
+    elm.Line().down(0.1)
     elm.Capacitor().label('C2\n100nF\n25V', loc='bot', ofst=0.2)
-    elm.Ground().flip()
+    elm.Ground()
 
     d.pop()
     elm.Line().right(2.0)
@@ -106,10 +106,10 @@ with schemdraw.Drawing(
     elm.Line().at(j1.CC1).right(4.0)
     elm.Dot() # to R12
     d.push()  # Save position for U1 CC1 connection
-    elm.Line().up(0.5)
-    elm.Resistor(scale=0.7).up().label('R12\n5.1kΩ', loc='bot', ofst=0.5)
-    elm.Line().up(0.1)
-    elm.Ground().flip()
+    elm.Line().down(1.2)
+    elm.Resistor(scale=0.7).down().label('R12\n5.1kΩ', loc='bot', ofst=0.5)
+    elm.Line().down(0.1)
+    elm.Ground()
 
     # Connect dot to U1 CC1
     d.pop()
@@ -119,10 +119,10 @@ with schemdraw.Drawing(
     elm.Line().at(j1.CC2).right(2.0)
     elm.Dot()
     d.push()  # Save position for U1 CC2 connection
-    elm.Line().up(1.5)
-    elm.Resistor(scale=0.7).up().label('R13\n5.1kΩ', loc='bot', ofst=-2.2)
-    elm.Line().up(0.1)
-    elm.Ground().flip()
+    elm.Line().down(0.5)
+    elm.Resistor(scale=0.7).down().label('R13\n5.1kΩ', loc='bot', ofst=-2.2)
+    elm.Line().down(0.1)
+    elm.Ground()  # Removed flip()
 
     # Connect dot to U1 CC2
     d.pop()
