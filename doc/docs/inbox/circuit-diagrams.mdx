@@ -6,6 +6,8 @@ import BuckU2Diagram from '../_fragments/buck-u2-diagram.mdx';
 import BuckU3Diagram from '../_fragments/buck-u3-diagram.mdx';
 import BuckU5Diagram from '../_fragments/buck-u5-diagram.mdx';
 import LdoU6Diagram from '../_fragments/ldo-u6-diagram.mdx';
+import LdoU7Diagram from '../_fragments/ldo-u7-diagram.mdx';
+import LdoU8Diagram from '../_fragments/ldo-u8-diagram.mdx';
 import CircuitSvg from '@site/src/components/CircuitSvg';
 import Diagram1Svg from '@site/static/circuits/diagram1-usb-pd.svg';
 
@@ -533,41 +535,7 @@ Output Filter Capacitor (connected in parallel):
 
 ## Diagram7: +7.5V → +5V Linear Regulator (L7805, U7)
 
-```
-Regulator IC:
-                    ┌──────────────────┐
-+7.5V IN ───────────┤1 IN         OUT 3├──────────── +5V OUT
-                    │                  │
-                 ┌──┤2 GND             │
-                 │  └──────────────────┘
-                GND      LM7805
-                        (TO-263-2)
-
-Input Capacitors (C15 closest to IC):
-+7.5V ───┬────────────────┬─── To IC Pin 1
-         │                │
-        C22              C15
-       470µF            470nF
-    electrolytic       ceramic
-     (farther)        (CLOSE!)
-         │                │
-        GND              GND
-
-Output Capacitors (C18 closest to IC):
-From IC Pin 3 ──┬────────────────┬─── +5V
-                │                │
-               C18              C23
-              100nF            470µF
-             ceramic        electrolytic
-             (CLOSE!)        (farther)
-                │                │
-               GND              GND
-
-Status LED:
-+5V ──── R8 (1kΩ) ──── LED3 (Blue) ──── GND
-```
-
-**Capacitor Placement:** Same as Diagram5 - ceramic caps close to IC, electrolytic caps can be farther
+<LdoU7Diagram />
 
 <details>
 <summary>Connection List</summary>
@@ -591,46 +559,7 @@ Status LED:
 
 ## Diagram8: -13.5V → -12V Linear Regulator (CJ7912, U8)
 
-```
-Regulator IC:
-                    ┌──────────────────┐
--13.5V IN ──────────┤1 IN         OUT 2├──────────── -12V OUT
-                    │                  │
-                 ┌──┤3 GND             │
-                 │  └──────────────────┘
-                GND      LM7912
-                        (TO-252-3)
-
-Input Capacitors (C16 closest to IC):
--13.5V ──┬────────────────┬─── To IC Pin 1
-         │                │
-        C24              C16
-       470µF            470nF
-    electrolytic       ceramic
-     (farther)        (CLOSE!)
-    Polarity: - to
-    -13.5V, + to GND
-         │                │
-        GND              GND
-
-Output Capacitors (C19 closest to IC):
-From IC Pin 2 ──┬────────────────┬─── -12V
-                │                │
-               C19              C25
-              100nF            470µF
-             ceramic        electrolytic
-             (CLOSE!)        (farther)
-            Polarity: - to
-            -12V, + to GND
-                │                │
-               GND              GND
-
-Status LED (reversed polarity for negative rail):
-GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1kΩ) ──── -12V
-```
-
-**Capacitor Placement:** Same as Diagram5 - ceramic caps close to IC, electrolytic caps can be farther
-**Important:** Electrolytic polarity for negative rail: Negative terminal to negative voltage, Positive terminal to GND
+<LdoU8Diagram />
 
 <details>
 <summary>Connection List</summary>
@@ -656,154 +585,7 @@ GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1k�
 
 </details>
 
-## Diagram9: Protection Circuit (PTC Auto-Reset with Multi-Layer Protection)
-
-```
-+12V Rail Protection (1.2A target, 1.5A max):
-
-+12V IN ─── PTC1 ───┬─→ +12V OUT
-       SMD1210P150  │
-       (1.5A hold)  │
-       (3A trip)    │
-                    │
-                   ┌┴┐ TVS1 (SMAJ15A)
-                   │ │ Cathode up
-                   └┬┘ Anode down
-                    │
-                   GND
-
-Status Indicator:
-+12V OUT ─── R7 ─── LED2 ─── GND
-           (1kΩ)  (Green)
-
-Protection Layers:
-  1. LM7812 current limiting (~2.2A max, immediate) ✅
-  2. LM7812 thermal shutdown (150°C, 1-5s) ✅
-  3. PTC1 trips (>3A, 0.5-5s) → Auto-reset after 30-60s ✅
-  4. USB-PD adapter protection (backup) ✅
-
-
-+5V Rail Protection (0.5A target, 1A max):
-
-+5V IN ─── PTC2 ───┬─→ +5V OUT
-      mSMD110-33V  │
-      (1.1A hold)  │
-      (2.2A trip)  │
-                   │
-                  ┌┴┐ TVS2 (PRTR5V0U2X)
-                  │ │ Bidirectional
-                  └┬┘
-                   │
-                  GND
-
-Status Indicator:
-+5V OUT ─── R8 ─── LED3 ─── GND
-          (1kΩ)  (Blue)
-
-Protection Layers:
-  1. LM7805 current limiting (~1A max, immediate) ✅
-  2. LM7805 thermal shutdown (150°C, 1-5s) ✅
-  3. PTC2 trips (>2.2A, 1-5s) → Auto-reset after 30-60s ✅
-  4. USB-PD adapter protection (backup) ✅
-
-
--12V Rail Protection (0.8A target, 1A max):
-
--12V IN ─── PTC3 ───┬─→ -12V OUT
-     JK-nSMD100/16  │
-     (1.0A hold)    │
-     (2.0A trip)    │
-                    │
-                   ┌┴┐ TVS3 (SMAJ15A)
-                   │ │ Anode up (reversed)
-                   └┬┘ Cathode down
-                    │
-                   GND
-
-Status Indicator (reversed for negative rail):
-GND ─── LED4 ─── R9 ─── -12V OUT
-      (Red)   (1kΩ)
-
-Protection Layers:
-  1. LM7912 current limiting (~1A max, immediate) ✅
-  2. LM7912 thermal shutdown (150°C, 1-5s) ✅
-  3. PTC3 trips (>2.0A, 1-5s) → Auto-reset after 30-60s ✅
-  4. USB-PD adapter protection (backup) ✅
-
-
-Design Philosophy:
-※ Four-layer protection: USB-PD → DC-DC → Linear Regulator → PTC
-※ Linear regulators provide current limiting (prevents catastrophic shorts)
-※ PTCs provide auto-reset convenience (no manual fuse replacement)
-※ TVS diodes protect against overvoltage transients
-※ If LED goes out → overload → reduce modules and wait 60 seconds for auto-reset
-
-Selected Parts:
-※ PTC1: C7529589 (SMD1210P150TF/16) - 1.5A hold, 3A trip, SMD1210
-※ PTC2: C70119 (mSMD110-33V) - 1.1A hold, 2.2A trip, 1812
-※ PTC3: C2830246 (JK-nSMD100/16V) - 1.0A hold, 2.0A trip, 1206
-※ TVS1/3: SMAJ15A (unidirectional, 15V)
-※ TVS2: PRTR5V0U2X (bidirectional, 5V)
-```
-
-<details>
-<summary>Connection List</summary>
-
-**+12V Rail Protection:**
-- `+12V input (from LM7812)` → `PTC1 (C7529589, 1.5A hold)` → `+12V OUT`
-- `TVS1 (SMAJ15A)`: Cathode to `+12V OUT`, Anode to `GND` (clamps overvoltage)
-- `LED2 (Green)` + `R7 (1kΩ)`: Between `+12V OUT` and `GND` (status indicator)
-
-**+5V Rail Protection:**
-- `+5V input (from LM7805)` → `PTC2 (C70119, 1.1A hold)` → `+5V OUT`
-- `TVS2 (PRTR5V0U2X)`: Bidirectional protection to `GND` (clamps overvoltage)
-- `LED3 (Blue)` + `R8 (1kΩ)`: Between `+5V OUT` and `GND` (status indicator)
-
-**-12V Rail Protection:**
-- `-12V input (from LM7912)` → `PTC3 (C2830246, 1.0A hold)` → `-12V OUT`
-- `TVS3 (SMAJ15A)`: Anode to `-12V OUT`, Cathode to `GND` (reversed for negative rail)
-- `LED4 (Red)` + `R9 (1kΩ)`: Between `GND` and `-12V OUT` (status indicator, reversed)
-
-**Protection Operation:**
-1. **Normal operation (&lt;hold current):**
-   - PTC: Low resistance (0.03-0.05Ω), minimal voltage drop
-   - Linear regulator: Normal operation
-   - LED: Illuminated, indicates power present
-
-2. **Moderate overload (hold current to trip current):**
-   - PTC heats up and resistance increases
-   - Linear regulator may enter current limiting
-   - Within 1-5 seconds: PTC trips
-   - Current drops to ~10mA
-   - LED dims or turns off (indicates overload)
-   - Auto-resets after 30-60 seconds when cooled
-
-3. **Short circuit (>trip current):**
-   - Linear regulator current limiting activates IMMEDIATELY (limits to ~1-2A)
-   - PTC heats rapidly due to limited current
-   - Within 0.5-5 seconds: PTC trips
-   - If sustained: Linear regulator thermal shutdown (150°C)
-   - LED turns off
-   - Auto-resets after cooling (both PTC and regulator)
-
-**Multi-Layer Protection:**
-1. **Layer 1 (USB-PD)**: Input overcurrent protection
-2. **Layer 2 (DC-DC)**: LM2596 current limiting (~3-5A)
-3. **Layer 3 (Linear Reg)**: Current limiting (~1-2A, immediate) + thermal shutdown (1-5s)
-4. **Layer 4 (PTC)**: Auto-reset overcurrent protection (0.5-5s trip time)
-
-**TVS Diode Operation:**
-- Normally off (high impedance)
-- Activates when voltage exceeds breakdown (15V for SMAJ15A, 5V for PRTR5V0U2X)
-- Shunts overvoltage transients to GND
-- Self-recovering (no replacement needed)
-
-**Key Insight:**
-Linear regulators prevent catastrophic shorts by limiting current to safe levels before PTC trips, making PTC-only protection adequate for this application.
-
-</details>
-
-## Diagram10: Power Flow Overview
+## Diagram9: Power Flow Overview
 
 ```
 USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT

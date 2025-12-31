@@ -1,0 +1,111 @@
+import CircuitSvg from '@site/src/components/CircuitSvg';
+import LdoU8Svg from '@site/static/circuits/ldo-u8-diagram.svg';
+
+<CircuitSvg
+  src={LdoU8Svg}
+  alt="LM7912 Linear Regulator U8 (Negative Voltage)"
+  padding="10px"
+/>
+
+<details>
+<summary>View ASCII art version</summary>
+
+```
+Regulator IC:
+                    ┌──────────────────┐
+-13.5V IN ──────────┤1 IN         OUT 2├──────────── -12V OUT
+                    │                  │
+                 ┌──┤3 GND             │
+                 │  └──────────────────┘
+                GND      LM7912
+                        (TO-252-3)
+
+Input Capacitors (C16 closest to IC):
+-13.5V ──┬────────────────┬─── To IC Pin 1
+         │                │
+        C24              C16
+       470µF            470nF
+    electrolytic       ceramic
+     (farther)        (CLOSE!)
+    Polarity: - to
+    -13.5V, + to GND
+         │                │
+        GND              GND
+
+Output Capacitors (C19 closest to IC):
+From IC Pin 2 ──┬────────────────┬─── -12V
+                │                │
+               C19              C25
+              100nF            470µF
+             ceramic        electrolytic
+             (CLOSE!)        (farther)
+            Polarity: - to
+            -12V, + to GND
+                │                │
+               GND              GND
+
+Status LED (reversed polarity for negative rail):
+GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1kΩ) ──── -12V
+```
+
+</details>
+
+**Capacitor Placement (Critical for PCB layout):**
+- **C16/C19 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
+- **C24/C25 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
+
+**Important: Negative Voltage Component Polarities**
+- **Electrolytic capacitors REVERSED**: C24 and C25 have negative terminal to negative voltage, positive terminal to GND
+- **LED polarity REVERSED**: LED4 anode to GND (0V, highest potential), cathode through R9 to -12V (lowest potential)
+
+**Key Points:**
+- **Two-stage design**: Buck converter (U4) provides efficient voltage reduction, linear regulator (U8) provides low-noise final output
+- **Input capacitor order**: C24 (bulk, farther) and C16 (ceramic, close to IC)
+- **Output capacitor order**: C19 (ceramic, close to IC) and C25 (bulk, farther)
+- **LED indicator**: Red LED (LED4) with 1kΩ current-limiting resistor shows -12V rail is active
+- **LED current**: I = (0V - 2V - (-12V)) / 1kΩ = 10mA (current flows from GND through LED to -12V)
+- **Dropout voltage**: LM7912 requires ~2V dropout, so -13.5V input provides 1.5V headroom
+- **LM7912 pinout**: Different from positive regulators - pin 1=IN, pin 2=OUT, pin 3=GND (not pin 3=OUT!)
+
+---
+
+### Protection Circuit (-12V Rail)
+
+```
+-12V Rail Protection (0.8A target, 1A max):
+
+-12V IN ─── PTC3 ───┬─→ -12V OUT
+     JK-nSMD100/16  │
+     (1.0A hold)    │
+     (2.0A trip)    │
+                    │
+                   ┌┴┐ TVS3 (SMAJ15A)
+                   │ │ Anode up (reversed)
+                   └┬┘ Cathode down
+                    │
+                   GND
+
+Status Indicator (reversed for negative rail):
+GND ─── LED4 ─── R9 ─── -12V OUT
+      (Red)   (1kΩ)
+```
+
+**Protection Layers:**
+
+- Layer 1: LM7912 current limiting (~1A max, immediate) ✅
+- Layer 2: LM7912 thermal shutdown (150°C, 1-5s) ✅
+- Layer 3: PTC3 trips (>2.0A, 1-5s) → Auto-reset after 30-60s ✅
+- Layer 4: USB-PD adapter protection (backup) ✅
+
+**Components:**
+- **PTC3**: C2830246 (JK-nSMD100/16V) - 1.0A hold, 2.0A trip, 1206
+- **TVS3**: SMAJ15A (unidirectional, 15V) - **Anode to -12V OUT, Cathode to GND** (reversed for negative rail)
+- **LED4**: Red LED with R9 (1kΩ) - Status indicator (anode to GND, cathode to -12V)
+
+**Protection Operation:**
+- **Normal** (&lt;1.0A): PTC low resistance, LED illuminated
+- **Overload** (1.0A-2.0A): PTC heats up, trips in 1-5s, LED dims/off
+- **Short circuit** (&gt;2.0A): LM7912 current limiting activates immediately, PTC trips in 0.5-5s
+- **Auto-reset**: PTC resets after 30-60s cooling period
+
+**Note**: For negative voltage rails, TVS diode polarity is reversed compared to positive rails!
