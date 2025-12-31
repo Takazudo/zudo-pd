@@ -2,9 +2,9 @@
 <summary>Circuit Diagram (ASCII art)</summary>
 
 ```
-Input:  -15V ──┬─── C9 (100µF) ─── GND
+Input:  -15V ──┬─── C13 (100µF) ─── GND
                │
-               └─── C10 (100nF) ─── GND
+               └─── C14 (100nF) ─── GND
 
 
 Controller: U4 (LM2596S-ADJ)
@@ -36,18 +36,23 @@ Output Filter:
   Note: Electrolytic capacitor polarity - negative terminal to -13.5V, positive terminal to GND
 ```
 
-### Feedback Network (Voltage Divider)
+### Feedback Network (Voltage Divider with Compensation)
 
 ```
-┌──────────────┐     ┌─────────┐     ┌──────────┐
-│ -13.5V Out   │     │   R5    │     │    R6    │
-│              ├─────┤  10kΩ   ├──┬──┤   1kΩ    ├─→ GND
-└──────────────┘     └─────────┘  │  └──────────┘
-                                  │
-               ┌──────────────────┐
-               │   U4 (LM2596S)   │
-               │4. FB             │
-               └──────────────────┘
+Feedback Network (Voltage Divider with Compensation):
+-13.5V ──┬─── R5 (10kΩ) ──┬─── R6 (1kΩ) ─── GND
+         │                │
+         └─── C12 (22nF) ─┤
+                          │
+                         Tap → To IC Pin 4 (FB)
+
+Components:
+- R5 (10kΩ) with C12 (22nF) in parallel: Creates pole-zero compensation (Type II)
+- R6 (1kΩ): Sets feedback tap voltage
+- C12 (22nF ceramic): Feedback compensation capacitor in parallel with R5
+  - Improves transient response and loop stability
+  - Reduces switching noise on feedback line
+  - Prevents oscillation
 
 Tap voltage = -13.5V × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V
 U4 maintains FB pin at 1.23V below GND by adjusting duty cycle

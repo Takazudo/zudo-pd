@@ -46,12 +46,20 @@ Output Filter:
            Signal Path:
            +15V → [U2] → L1 → +13.5V → C3 → [LM7812] → +12V OUT
 
-Feedback Network (Voltage Divider):
-+13.5V ──┬─── R1 (10kΩ) ──┬─── R2 (1kΩ) ─── GND
-         │                │
-         │              Tap ─── To IC Pin 4 (FB)
-         │
-         └─── To Linear Regulator
+Feedback Network (Voltage Divider with Compensation):
++13.5V ──┬─── R1 (10kΩ) ───┬─── R2 (1kΩ) ─── GND
+         │                 │
+         └─── C4 (22nF) ───┤
+                           │
+                          Tap → To IC Pin 4 (FB)
+
+Components:
+- R1 (10kΩ) with C4 (22nF) in parallel: Creates pole-zero compensation (Type II)
+- R2 (1kΩ): Sets feedback tap voltage
+- C4 (22nF ceramic): Feedback compensation capacitor in parallel with R1
+  - Improves transient response and loop stability
+  - Reduces switching noise on feedback line
+  - Prevents oscillation
 
 Tap voltage = +13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V
 U2 maintains FB pin at 1.23V reference by adjusting duty cycle

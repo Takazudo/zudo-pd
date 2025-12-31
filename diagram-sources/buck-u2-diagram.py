@@ -15,14 +15,14 @@ with schemdraw.Drawing(
 ) as d:
     d.config(unit=3)
 
-    # Just the IC (positions unchanged, only pin numbers corrected)
+    # Just the IC (VOUT and FB positions swapped)
     ic = elm.Ic(
         pins=[
             elm.IcPin(name='GND', pin='3', side='left', slot='1/3'),
             elm.IcPin(name='ON', pin='5', side='left', slot='2/3'),
             elm.IcPin(name='VIN', pin='1', side='left', slot='3/3'),
-            elm.IcPin(name='FB', pin='4', side='right', slot='1/2'),
-            elm.IcPin(name='VOUT', pin='2', side='right', slot='2/2'),
+            elm.IcPin(name='VOUT', pin='2', side='right', slot='1/2'),  # Swapped: was 2/2
+            elm.IcPin(name='FB', pin='4', side='right', slot='2/2'),    # Swapped: was 1/2
         ],
         edgepadW=2.5,
         edgepadH=0.8,
@@ -41,7 +41,7 @@ with schemdraw.Drawing(
     # +15V -> dot -> dot -> junction3
     elm.Dot(open=True).at((ic.VIN[0] - 7.0, junction_y)).label('+15V', loc='left')
 
-    elm.Line().right(2.0)
+    elm.Line().right(0.5)
     elm.Dot()
     junction1 = d.here
     d.push()
@@ -94,16 +94,22 @@ with schemdraw.Drawing(
     # Return from feedback_junction to add voltage divider
     d.pop()
 
-    # Feedback voltage divider network (straight down, spacing = 0.5)
-    elm.Line().down(0.2)
-    elm.Resistor(scale=0.7).down().label('R1\n10kΩ', loc='bot', ofst=0.5)
-    elm.Line().down(0.2)
+    # Feedback voltage divider network (R1 || C4 in parallel, then R2)
+    elm.Line().up(4)
+    elm.Dot()
+    d.push()  # Save position before R1 for parallel C4 capacitor
+
+    elm.Resistor(scale=0.7).left().label('R1\n10kΩ', loc='bot', ofst=0.5)
+    elm.Line().left(0.2)
+    r1_end = d.here
+    d.push()  # Save position after R1 (this is the Tap)
+
     elm.Dot()  # Tap junction for FB connection
-    tap_junction = d.here
     d.push()  # Save tap position for FB connection
 
-    elm.Line().down(0.2)
-    elm.Resistor(scale=0.7).down().label('R2\n1kΩ', loc='bot', ofst=0.5)
+    elm.Line().left(0.2)
+    elm.Resistor(scale=0.7).left().label('R2\n1kΩ', loc='bot', ofst=0.5)
+    elm.Line().left(0.2)
     elm.Line().down(0.2)
     elm.Ground()
 
@@ -111,15 +117,23 @@ with schemdraw.Drawing(
     d.pop()
     elm.Line().to(ic.FB)
 
+    # C4 capacitor in parallel with R1 (feedback compensation)
+    d.pop()  # Return to r1_end
+    elm.Line().left(0.8)
+    d.pop()  # Return to r1_start
+    elm.Line().left(0.8)
+    elm.Capacitor().up(d.unit * 0.7 * 2).label('C4\n22nF', loc='left', ofst=-0.3)
+    elm.Line().to(r1_end)
+
     # Output capacitor C3 (from output junction - right side, facing up)
     d.pop()
-    elm.Capacitor().up(2.0).label('C3\n470µF\n25V', loc='bot', ofst=0.5)
-    elm.Ground().flip()
+    elm.Capacitor().down(2.0).label('C3\n470µF\n25V', loc='bot', ofst=0.5)
+    elm.Ground()
 
     # Flyback diode D1 (from switching node - left side, facing up)
     d.pop()
-    elm.Diode().up(2.0).reverse().label('D1\nSS34', loc='top')
-    elm.Ground().flip()
+    elm.Diode().down(2.0).reverse().label('D1\nSS34', loc='top')
+    elm.Ground()
 
     # Save to doc/static/circuits/ (one level up from diagram-sources)
     import os

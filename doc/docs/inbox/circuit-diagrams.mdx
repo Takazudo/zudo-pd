@@ -4,6 +4,7 @@ sidebar_position: 3
 
 import BuckU2Diagram from '../_fragments/buck-u2-diagram.mdx';
 import BuckU3Diagram from '../_fragments/buck-u3-diagram.mdx';
+import BuckU5Diagram from '../_fragments/buck-u5-diagram.mdx';
 import CircuitSvg from '@site/src/components/CircuitSvg';
 import Diagram1Svg from '@site/static/circuits/diagram1-usb-pd.svg';
 
@@ -459,55 +460,7 @@ Output Filter Capacitor (connected in parallel):
 
 ## Diagram5: -15V → -13.5V Buck Converter (LM2596S-ADJ #3, U4)
 
-```
-LM2596S-ADJ IC:
-                    ┌──────────────┐
--15V ───────────────┤1 VIN     OUT 2├───── SW Node
-                    │              │
-                 ┌──┤3 GND      FB 4├──── FB Tap
-                 │  │              │
-                GND │    5 ON/OFF  │
-                    │   (floating) │
-                    └──────────────┘
-
-Switching Node and Inductor:
-                                 ┌─────────────┐
-SW Node ────────────┬────────────┤ L3 (100µH)  ├──────────── -13.5V OUT
-                    │            └─────────────┘
-                    │
-                    └─── D3 (SS34 Schottky)
-                         Cathode
-                            │
-                         Anode
-                            │
-                           GND
-
-Input Filter Capacitors:
--15V ───┬─── To VIN
-        │
-        ├─ C9 (100µF electrolytic)
-        │    │  ※ Negative to -15V, Positive to GND
-        │   GND
-        │
-        └─ C10 (100nF ceramic)
-             │
-            GND
-
-Feedback Voltage Divider:
--13.5V OUT ─┬─── Output
-            │
-            ├─ R5 (10kΩ)
-            │    │
-            │ FB Tap ─── To FB Pin 4
-            │    │
-            ├─ R6 (1kΩ)
-            │    │
-            │   GND
-            │
-            └─ C11 (470µF electrolytic)
-                 │  ※ Negative to -13.5V, Positive to GND
-                GND
-```
+<BuckU5Diagram />
 
 <details>
 <summary>Connection List</summary>
@@ -539,8 +492,9 @@ Feedback Voltage Divider:
 - **Important**: C11 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
 
 **Feedback Network:**
-- Voltage divider: `-13.5V output` → `R5 (10kΩ)` → **Tap point** → `R6 (1kΩ)` → `GND`
-- `U4 pin 4 (FB)` → Connected to **tap point** (junction between R5 and R6)
+- Voltage divider with compensation: `-13.5V output` → `R5 (10kΩ) || C12 (22nF)` → **Tap point** → `R6 (1kΩ)` → `GND`
+- `C12 (22nF)` in parallel with `R5`: Feedback compensation (Type II), improves transient response and loop stability
+- `U4 pin 4 (FB)` → Connected to **tap point** (junction between R5/C12 and R6)
 - The tap point voltage = `-13.5V × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V`
 - Chip maintains FB pin at 1.23V below GND by adjusting duty cycle
 - Output voltage formula: `VOUT = -1.23V × (1 + R5/R6) = -1.23V × (1 + 10kΩ/1kΩ) = -13.53V`
