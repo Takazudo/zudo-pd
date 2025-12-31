@@ -39,7 +39,7 @@ with schemdraw.Drawing(
             elm.IcPin(name='CC2', pin='10', side='left', slot='8/15'),   # Aligned with J1 CC2
             elm.IcPin(name='CC1', pin='11', side='left', slot='9/15'),   # Aligned with J1 CC1
             elm.IcPin(name='VBUS', pin='2', side='left', slot='15/15'),  # Aligned with J1 VBUS1
-            # Right side pins (top to bottom) - updated to /12 slots to include VDD
+            # Right side pins (top to bottom) - PG moved below DM
             elm.IcPin(name='GATE', pin='5', side='right', slot='12/12'),
             elm.IcPin(name='NMOS#', pin='6', side='right', slot='11/12'),
             elm.IcPin(name='ISP', pin='14', side='right', slot='10/12'),
@@ -48,9 +48,9 @@ with schemdraw.Drawing(
             elm.IcPin(name='CFG1', pin='19', side='right', slot='7/12'),
             elm.IcPin(name='CFG2', pin='13', side='right', slot='6/12'),
             elm.IcPin(name='CFG3', pin='12', side='right', slot='5/12'),
-            elm.IcPin(name='PG', pin='3', side='right', slot='4/12'),
-            elm.IcPin(name='DP', pin='8', side='right', slot='3/12'),
-            elm.IcPin(name='DM', pin='9', side='right', slot='2/12'),
+            elm.IcPin(name='DP', pin='8', side='right', slot='4/12'),
+            elm.IcPin(name='DM', pin='9', side='right', slot='3/12'),
+            elm.IcPin(name='PG', pin='3', side='right', slot='2/12'),   # Moved below DM
             elm.IcPin(name='VDD', pin='7', side='right', slot='1/12'),  # Internal regulator output
         ],
         size=(4, 12),  # Explicit size to match J1 height
