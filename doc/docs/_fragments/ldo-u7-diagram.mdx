@@ -7,8 +7,20 @@ import LdoU7Svg from '@site/static/circuits/ldo-u7-diagram.svg';
   padding="10px"
 />
 
+**Capacitor Placement (Critical for PCB layout):**
+- **C15/C18 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
+- **C22/C23 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
+
+**Key Points:**
+- **Two-stage design**: Buck converter (U3) provides efficient voltage reduction, linear regulator (U7) provides low-noise final output
+- **Input capacitor order**: C22 (bulk, farther) and C15 (ceramic, close to IC)
+- **Output capacitor order**: C18 (ceramic, close to IC) and C23 (bulk, farther)
+- **LED indicator**: Blue LED (LED3) with 1kΩ current-limiting resistor shows +5V rail is active
+- **LED current**: I = (5V - 2V) / 1kΩ = 3mA (dimmer than +12V LED, consider 330Ω for brighter)
+- **Dropout voltage**: LM7805 requires ~2V dropout, so 7.5V input provides 2.5V headroom
+
 <details>
-<summary>View ASCII art version</summary>
+<summary>View ASCII art circuit</summary>
 
 ```
 Regulator IC:
@@ -45,18 +57,6 @@ Status LED:
 ```
 
 </details>
-
-**Capacitor Placement (Critical for PCB layout):**
-- **C15/C18 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
-- **C22/C23 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
-
-**Key Points:**
-- **Two-stage design**: Buck converter (U3) provides efficient voltage reduction, linear regulator (U7) provides low-noise final output
-- **Input capacitor order**: C22 (bulk, farther) and C15 (ceramic, close to IC)
-- **Output capacitor order**: C18 (ceramic, close to IC) and C23 (bulk, farther)
-- **LED indicator**: Blue LED (LED3) with 1kΩ current-limiting resistor shows +5V rail is active
-- **LED current**: I = (5V - 2V) / 1kΩ = 3mA (dimmer than +12V LED, consider 330Ω for brighter)
-- **Dropout voltage**: LM7805 requires ~2V dropout, so 7.5V input provides 2.5V headroom
 
 ---
 

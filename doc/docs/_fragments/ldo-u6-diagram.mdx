@@ -7,8 +7,19 @@ import LdoU6Svg from '@site/static/circuits/ldo-u6-diagram.svg';
   padding="10px"
 />
 
+**Capacitor Placement (Critical for PCB layout):**
+- **C14/C17 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
+- **C20/C21 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
+
+**Key Points:**
+- **Two-stage design**: Buck converter (U2) provides efficient voltage reduction, linear regulator (U6) provides low-noise final output
+- **Input capacitor order**: C20 (bulk, farther) and C14 (ceramic, close to IC)
+- **Output capacitor order**: C17 (ceramic, close to IC) and C21 (bulk, farther)
+- **LED indicator**: Green LED (LED2) with 1kΩ current-limiting resistor shows +12V rail is active
+- **Dropout voltage**: LM7812 requires ~2V dropout, so 13.5V input provides 1.5V headroom
+
 <details>
-<summary>View ASCII art version</summary>
+<summary>View ASCII art circuit</summary>
 
 ```
 Regulator IC:
@@ -45,17 +56,6 @@ Status LED:
 ```
 
 </details>
-
-**Capacitor Placement (Critical for PCB layout):**
-- **C14/C17 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
-- **C20/C21 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
-
-**Key Points:**
-- **Two-stage design**: Buck converter (U2) provides efficient voltage reduction, linear regulator (U6) provides low-noise final output
-- **Input capacitor order**: C20 (bulk, farther) and C14 (ceramic, close to IC)
-- **Output capacitor order**: C17 (ceramic, close to IC) and C21 (bulk, farther)
-- **LED indicator**: Green LED (LED2) with 1kΩ current-limiting resistor shows +12V rail is active
-- **Dropout voltage**: LM7812 requires ~2V dropout, so 13.5V input provides 1.5V headroom
 
 ---
 

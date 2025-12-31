@@ -7,8 +7,25 @@ import LdoU8Svg from '@site/static/circuits/ldo-u8-diagram.svg';
   padding="10px"
 />
 
+**Capacitor Placement (Critical for PCB layout):**
+- **C16/C19 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
+- **C24/C25 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
+
+**Important: Negative Voltage Component Polarities**
+- **Electrolytic capacitors REVERSED**: C24 and C25 have negative terminal to negative voltage, positive terminal to GND
+- **LED polarity REVERSED**: LED4 anode to GND (0V, highest potential), cathode through R9 to -12V (lowest potential)
+
+**Key Points:**
+- **Two-stage design**: Buck converter (U4) provides efficient voltage reduction, linear regulator (U8) provides low-noise final output
+- **Input capacitor order**: C24 (bulk, farther) and C16 (ceramic, close to IC)
+- **Output capacitor order**: C19 (ceramic, close to IC) and C25 (bulk, farther)
+- **LED indicator**: Red LED (LED4) with 1kΩ current-limiting resistor shows -12V rail is active
+- **LED current**: I = (0V - 2V - (-12V)) / 1kΩ = 10mA (current flows from GND through LED to -12V)
+- **Dropout voltage**: LM7912 requires ~2V dropout, so -13.5V input provides 1.5V headroom
+- **LM7912 pinout**: Different from positive regulators - pin 1=IN, pin 2=OUT, pin 3=GND (not pin 3=OUT!)
+
 <details>
-<summary>View ASCII art version</summary>
+<summary>View ASCII art circuit</summary>
 
 ```
 Regulator IC:
@@ -49,23 +66,6 @@ GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1k�
 ```
 
 </details>
-
-**Capacitor Placement (Critical for PCB layout):**
-- **C16/C19 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
-- **C24/C25 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
-
-**Important: Negative Voltage Component Polarities**
-- **Electrolytic capacitors REVERSED**: C24 and C25 have negative terminal to negative voltage, positive terminal to GND
-- **LED polarity REVERSED**: LED4 anode to GND (0V, highest potential), cathode through R9 to -12V (lowest potential)
-
-**Key Points:**
-- **Two-stage design**: Buck converter (U4) provides efficient voltage reduction, linear regulator (U8) provides low-noise final output
-- **Input capacitor order**: C24 (bulk, farther) and C16 (ceramic, close to IC)
-- **Output capacitor order**: C19 (ceramic, close to IC) and C25 (bulk, farther)
-- **LED indicator**: Red LED (LED4) with 1kΩ current-limiting resistor shows -12V rail is active
-- **LED current**: I = (0V - 2V - (-12V)) / 1kΩ = 10mA (current flows from GND through LED to -12V)
-- **Dropout voltage**: LM7912 requires ~2V dropout, so -13.5V input provides 1.5V headroom
-- **LM7912 pinout**: Different from positive regulators - pin 1=IN, pin 2=OUT, pin 3=GND (not pin 3=OUT!)
 
 ---
 

@@ -7,8 +7,16 @@ import BuckU2Svg from '@site/static/circuits/buck-u2-diagram.svg';
   padding="10px"
 />
 
+**Key Points:**
+- **Two-stage design**: Buck converter (U2) reduces voltage with high efficiency, then linear regulator (LM7812) provides low-noise final output
+- **Capacitor order**: C5/C6 (input filter) → [U2 + L1] → C3 (buck output filter) → [LM7812] → output capacitors
+- **C3 role**: Filters switching ripple from buck converter before feeding the linear regulator
+- **Switching node**: Junction at OUTPUT pin 2, where L1 and D1 cathode connect
+- **D1 flyback path**: Provides current path when U2's internal switch is OFF (D1 cathode → switching node; D1 anode → GND)
+- **L1 output and D1 anode are completely separate paths** - they do NOT connect to each other
+
 <details>
-<summary>View ASCII art version</summary>
+<summary>View ASCII art circuit</summary>
 
 ```
 Buck Converter IC:
@@ -66,11 +74,3 @@ U2 maintains FB pin at 1.23V reference by adjusting duty cycle
 ```
 
 </details>
-
-**Key Points:**
-- **Two-stage design**: Buck converter (U2) reduces voltage with high efficiency, then linear regulator (LM7812) provides low-noise final output
-- **Capacitor order**: C5/C6 (input filter) → [U2 + L1] → C3 (buck output filter) → [LM7812] → output capacitors
-- **C3 role**: Filters switching ripple from buck converter before feeding the linear regulator
-- **Switching node**: Junction at OUTPUT pin 2, where L1 and D1 cathode connect
-- **D1 flyback path**: Provides current path when U2's internal switch is OFF (D1 cathode → switching node; D1 anode → GND)
-- **L1 output and D1 anode are completely separate paths** - they do NOT connect to each other
