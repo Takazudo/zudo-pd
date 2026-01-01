@@ -11,9 +11,9 @@ import InverterU5Svg from '@site/static/circuits/inverter-u5-diagram.svg';
 - **Inverted SEPIC topology**: LM2586 configured for negative voltage generation from positive input
 - **High current capability**: 3A output capability (easily handles 800mA requirement for -12V rail)
 - **Input voltage range**: 4V~40V (safely accepts +15V input)
-- **Output voltage**: Adjustable -15V via feedback resistor divider (R1/R2)
+- **Output voltage**: Adjustable -15V via feedback resistor divider (R7/R8)
 - **Switching frequency**: 200kHz (requires appropriate inductor selection)
-- **Coupled inductor**: L1/L2 can use single coupled inductor or two separate inductors
+- **Coupled inductor**: L4/L5 can use single coupled inductor or two separate inductors
 - **Component count**: More complex than charge pump (2 inductors, coupling cap, diode, feedback network) but necessary for high current
 
 <details>
@@ -26,7 +26,7 @@ Input Power:
                     ┌────────────────┐
 +15V IN ────┬───────┤7 VIN           │
             │       │                │
-           CIN      │  LM2586SX-ADJ  │
+           C13      │  LM2586SX-ADJ  │
           100µF     │   (TO-263-7)   │
             │       │                │
            GND  ┌───┤4 GND           │
@@ -42,18 +42,18 @@ Switching and Output Stage:
                     ┌────────────────┐
                     │  LM2586SX-ADJ  │
                     │                │
-                    │            SW 5├──┬─── L1 (47µH) ───┬─── C1 (47µF) ───┐
-                    └────────────────┘  │                 │                 │
-                                       GND                │                 │
-                                                          │                L2
+                    │            SW 5├──┬─── L4 (47µH) ───┬─── C12 (47µF) ───┐
+                    └────────────────┘  │                 │                  │
+                                       GND                │                  │
+                                                          │                 L5
                                                           │              (47µH)
-                                                          │                 │
-                                                          │                GND
+                                                          │                  │
+                                                          │                 GND
                                                           │
-                                                      D1 Cathode
+                                                      D4 Cathode
                                                      (Schottky)
                                                           │
-                                                      D1 Anode
+                                                      D4 Anode
                                                           │
                                                          GND
 
@@ -62,18 +62,18 @@ Output Filter:
                          -15V OUT
                       (To Diagram5)
                            │
-C1/L2/D1 Junction ─────────┤
+C12/L5/D4 Junction ────────┤
                            │
-                         COUT
+                          C14
                         (100µF)
                            │
                           GND
 
 Feedback Network (Voltage Divider):
 
--15V OUT ─── R1 (10kΩ) ───┬─── FB pin 3 (to LM2586)
+-15V OUT ─── R7 (10kΩ) ───┬─── FB pin 3 (to LM2586)
                           │
-                         R2
+                         R8
                        (~920Ω)
                           │
                          GND
@@ -81,22 +81,22 @@ Feedback Network (Voltage Divider):
 Complete Connection Summary:
 - Pin 1 (Freq. Adj. - On/Off): Floating (always enabled)
 - Pin 2 (Compensation): Connected to RC compensation network
-- Pin 3 (FB): Feedback from voltage divider (R1/R2)
+- Pin 3 (FB): Feedback from voltage divider (R7/R8)
 - Pin 4 (GND): Ground reference
-- Pin 5 (SW): Switching output → L1 → C1 coupling cap
+- Pin 5 (SW): Switching output → L4 → C12 coupling cap
 - Pin 6 (Freq. Sync.): Not connected
 - Pin 7 (VIN): +15V input power
 
-Output voltage: VOUT = -1.23V × (1 + R1/R2) = -15V
-For R1=10kΩ: R2 = 920Ω
+Output voltage: VOUT = -1.23V × (1 + R7/R8) = -15V
+For R7=10kΩ: R8 = 920Ω
 ```
 
 **Component Selection:**
-- **L1, L2**: 47µH inductors rated for 3A (or single 47µH coupled inductor)
-- **C1**: 47µF ceramic or electrolytic coupling capacitor
-- **CIN**: 100µF input capacitor
-- **COUT**: 100µF output capacitor (electrolytic, reversed polarity for negative rail)
-- **D1**: Schottky diode rated for 3A (e.g., SS34, MBRS340)
-- **R1, R2**: Feedback resistor divider for -15V output
+- **L4, L5**: 47µH inductors rated for 3A (or single 47µH coupled inductor)
+- **C12**: 47µF ceramic or electrolytic coupling capacitor
+- **C13**: 100µF input capacitor
+- **C14**: 100µF output capacitor (electrolytic, reversed polarity for negative rail)
+- **D4**: Schottky diode rated for 3A (e.g., SS34, MBRS340)
+- **R7, R8**: Feedback resistor divider for -15V output
 
 </details>
