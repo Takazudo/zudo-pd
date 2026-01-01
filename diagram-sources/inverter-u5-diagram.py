@@ -58,17 +58,16 @@ with schemdraw.Drawing(
             elm.IcPin(name='GND', pin='4', side='left', slot='4/4'),
             # Right side (top to bottom)
             elm.IcPin(name='SW', pin='5', side='right', slot='1/4'),
-            elm.IcPin(name='Freq.Adj', pin='1', side='right', slot='2/4'),
+            elm.IcPin(name='Freq.Adj.', pin='1', side='right', slot='2/4'),
             elm.IcPin(name='FB', pin='3', side='right', slot='3/4'),
         ],
-        edgepadW=2.0,
+        edgepadW=5.0,
         edgepadH=1.2,
         pinspacing=0.8,
         leadlen=1.0,
         pinlblsize=12
     ).at((vin_to_ic[0] + 2.0, vin_to_ic[1] - 3.5))
-     .label('U5', loc='top', fontsize=13, ofst=(0, 0.3))
-     .label('LM2586SX-ADJ', loc='center', fontsize=13)
+     .label('U5\nLM2586SX-ADJ', loc='center', fontsize=14)
     )
 
     # VIN connection from +15V rail to IC (VIN now on left side)
