@@ -19,6 +19,7 @@ This section contains technical explanations, design decisions, and circuit theo
 ### Power Supply Design
 
 - [How Buck Converters Work: Feedback Control Explained](./buck-converter-feedback.md) - Understanding the LM2596S-ADJ feedback mechanism and why it's like an op-amp
+- [Transformer Polarity & Phasing: Why Direction Matters in Flyback Converters](./transformer-polarity-flyback.md) - Understanding dot notation and why connecting a flyback transformer backwards reverses output voltage
 - Coming soon: Linear regulator input/output capacitor selection
 - Coming soon: Protection circuit staged design
 

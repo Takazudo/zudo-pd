@@ -45,6 +45,7 @@ const sidebars = {
     'learning/usb-type-c-pinout',
     'learning/open-drain-pg-pin',
     'learning/buck-converter-feedback',
+    'learning/transformer-polarity-flyback',
     'learning/linear-regulator-capacitors',
     'learning/protection-fuse-strategy',
     'learning/eurorack-power-distribution',
