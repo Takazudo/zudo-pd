@@ -17,7 +17,7 @@ with schemdraw.Drawing(
     d.config(unit=3)
 
     # Define IC first at a fixed position so we can reference it
-    ic_x = 8  # IC X position
+    ic_x = 6  # IC X position
     ic_y = 0.0   # IC Y position
 
     ic = (elm.Ic(
@@ -32,14 +32,14 @@ with schemdraw.Drawing(
             elm.IcPin(name='Freq.Adj.', pin='1', side='right', slot='3/4'),
             elm.IcPin(name='FB', pin='3', side='right', slot='2/4'),
         ],
-        edgepadW=5.0,
+        edgepadW=3.0,
         edgepadH=1.2,
         pinspacing=0.8,
         leadlen=1.0,
         pinlblsize=12
     ).at((ic_x, ic_y))
      .anchor('VIN')
-     .label('U5\nLM2586SX-ADJ', loc='center', fontsize=14)
+     .label('U5\nLM2586SX-ADJ', loc='top', fontsize=14, ofst=0.2)
     )
 
     # Now draw input section to the left of IC
@@ -75,27 +75,24 @@ with schemdraw.Drawing(
     elm.Line().to(ic.VIN)
 
     # GND connection from IC GND pin
-    elm.Line().at(ic.GND).left(0.8)
-    elm.Line().down(0.8)
+    elm.Line().at(ic.GND).down(0.8)
     elm.Ground()
 
     # Compensation network from COMP pin
-    elm.Line().at(ic.COMP).left(3)
-    elm.Line().down(5)
-    elm.Line().left(1)
-    elm.Resistor().left().label('R9\n3kΩ', loc='bottom', fontsize=11)
-    elm.Line().left(1)
+    elm.Line().at(ic.COMP).left(1)
+    elm.Line().down(4)
+    elm.Resistor(scale=0.7).left().label('R9\n3kΩ', loc='bottom', fontsize=11, ofst=0.8)
     elm.Dot()
     comp_junction = d.here
     d.push()
 
     # C15 capacitor to GND
-    elm.Capacitor().down(2).label('C15\n47nF', loc='right', fontsize=11)
+    elm.Capacitor().down(2).label('C15\n47nF', loc='left', fontsize=11, ofst=(-1,-0.8))
     elm.Ground()
 
     # Return to junction, second path to GND
     d.pop()
-    elm.Line().left(1)
+    elm.Line().left(2)
     elm.Line().down(1)
     elm.Ground()
 
