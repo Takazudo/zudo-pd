@@ -150,10 +150,10 @@ with schemdraw.Drawing(
     # ========================================================================
 
     # From s2, go up to the top edge line level
-    elm.Line().at(t1.s2).up(t1_top[1] - t1.s2[1])
+    elm.Line().at(t1.s1).up(1)
 
     # Go right and down to ground
-    elm.Line().right(2)
+    elm.Line().right(4)
     elm.Line().down(1)
     elm.Ground()
 
