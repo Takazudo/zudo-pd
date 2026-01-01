@@ -152,20 +152,22 @@ with schemdraw.Drawing(
     # FB pin senses divided voltage from output
 
     # Route from FB pin
-    elm.Line().at(ic.FB).right(1)
-    elm.Dot()
+    elm.Dot().at(ic.FB)
     fb_junction = d.here
     d.push()
+    elm.Line().down(1)
 
     # R8: 910Ω lower resistor to GND
-    elm.Resistor(scale=0.7).down().label('R8\n910Ω', loc='right', fontsize=11)
+    elm.Resistor(scale=0.7).down().label('R8\n910Ω', fontsize=11, ofst=(0,-.5))
     elm.Ground()
 
     # Return to junction, R7 to output sense point
     d.pop()
-    elm.Resistor(scale=0.7).right().label('R7\n10kΩ', loc='top', fontsize=11)
-    elm.Line().up(1)
+    elm.Resistor(scale=0.7).right().label('R7\n10kΩ', loc='bottom', fontsize=11, ofst=(0,-0.8))
+    elm.Line().up(2)
     elm.Dot()
+
+    # latest junction
 
     # ========================================================================
     # Save Output
