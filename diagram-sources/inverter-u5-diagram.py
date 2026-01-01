@@ -146,6 +146,18 @@ with schemdraw.Drawing(
     elm.Line().at(t1.p2).to(ic.SW)
 
     # ========================================================================
+    # Transformer Secondary Ground Connection (T1.s2)
+    # ========================================================================
+
+    # From s2, go up to the top edge line level
+    elm.Line().at(t1.s2).up(t1_top[1] - t1.s2[1])
+
+    # Go right and down to ground
+    elm.Line().right(2)
+    elm.Line().down(1)
+    elm.Ground()
+
+    # ========================================================================
     # Feedback Network: R7 and R8 voltage divider
     # ========================================================================
     # Feedback divider sets output voltage regulation
