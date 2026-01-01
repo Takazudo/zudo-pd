@@ -18,6 +18,12 @@ import LdoU6Svg from '@site/static/circuits/ldo-u6-diagram.svg';
 - **LED indicator**: Green LED (LED2) with 1kΩ current-limiting resistor shows +12V rail is active
 - **Dropout voltage**: LM7812 requires ~2V dropout, so 13.5V input provides 1.5V headroom
 
+**Protection Circuit (+12V Rail, 1.2A target, 1.5A max):**
+- **Protection layers**: LM7812 current limiting (~2.2A max) → LM7812 thermal shutdown (150°C) → PTC1 trips (&gt;3A) → USB-PD adapter protection
+- **PTC1**: C7529589 (SMD1210P150TF/16) - 1.5A hold, 3A trip, auto-reset fuse
+- **TVS1**: SMAJ15A (unidirectional, 15V) - Overvoltage protection (cathode to +12V OUT, anode to GND)
+- **Operation**: Normal (&lt;1.5A) = PTC low resistance, LED on; Overload (1.5A-3A) = PTC heats/trips in 1-5s; Short circuit (&gt;3A) = LM7812 current limiting + PTC trips in 0.5-5s; Auto-reset after 30-60s cooling
+
 <details>
 <summary>View ASCII art circuit</summary>
 
@@ -53,47 +59,16 @@ From IC Pin 3 ──┬────────────────┬──
 
 Status LED:
 +12V ──── R7 (1kΩ) ──── LED2 (Green) ──── GND
+
+Protection Circuit:
++12V OUT ─── PTC1 ───┬─→ To Load
+      (1.5A hold)    │
+      (3A trip)      │
+                    ┌┴┐ TVS1 (SMAJ15A)
+                    │ │ Cathode up
+                    └┬┘ Anode down
+                     │
+                    GND
 ```
 
 </details>
-
----
-
-### Protection Circuit (+12V Rail)
-
-```
-+12V Rail Protection (1.2A target, 1.5A max):
-
-+12V IN ─── PTC1 ───┬─→ +12V OUT
-       SMD1210P150  │
-       (1.5A hold)  │
-       (3A trip)    │
-                    │
-                   ┌┴┐ TVS1 (SMAJ15A)
-                   │ │ Cathode up
-                   └┬┘ Anode down
-                    │
-                   GND
-
-Status Indicator:
-+12V OUT ─── R7 ─── LED2 ─── GND
-           (1kΩ)  (Green)
-```
-
-**Protection Layers:**
-
-- Layer 1: LM7812 current limiting (~2.2A max, immediate) ✅
-- Layer 2: LM7812 thermal shutdown (150°C, 1-5s) ✅
-- Layer 3: PTC1 trips (>3A, 0.5-5s) → Auto-reset after 30-60s ✅
-- Layer 4: USB-PD adapter protection (backup) ✅
-
-**Components:**
-- **PTC1**: C7529589 (SMD1210P150TF/16) - 1.5A hold, 3A trip, SMD1210
-- **TVS1**: SMAJ15A (unidirectional, 15V) - Cathode to +12V OUT, Anode to GND
-- **LED2**: Green LED with R7 (1kΩ) - Status indicator
-
-**Protection Operation:**
-- **Normal** (&lt;1.5A): PTC low resistance, LED illuminated
-- **Overload** (1.5A-3A): PTC heats up, trips in 1-5s, LED dims/off
-- **Short circuit** (&gt;3A): LM7812 current limiting activates immediately, PTC trips in 0.5-5s
-- **Auto-reset**: PTC resets after 30-60s cooling period

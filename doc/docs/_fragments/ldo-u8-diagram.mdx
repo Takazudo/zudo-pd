@@ -24,6 +24,12 @@ import LdoU8Svg from '@site/static/circuits/ldo-u8-diagram.svg';
 - **Dropout voltage**: LM7912 requires ~2V dropout, so -13.5V input provides 1.5V headroom
 - **LM7912 pinout**: Different from positive regulators - pin 1=IN, pin 2=OUT, pin 3=GND (not pin 3=OUT!)
 
+**Protection Circuit (-12V Rail, 0.8A target, 1A max):**
+- **Protection layers**: LM7912 current limiting (~1A max) → LM7912 thermal shutdown (150°C) → PTC3 trips (&gt;2.0A) → USB-PD adapter protection
+- **PTC3**: C2830246 (JK-nSMD100/16V) - 1.0A hold, 2.0A trip, auto-reset fuse
+- **TVS3**: SMAJ15A (unidirectional, 15V) - **Anode to -12V OUT, Cathode to GND** (reversed for negative rail)
+- **Operation**: Normal (&lt;1.0A) = PTC low resistance, LED on; Overload (1.0A-2.0A) = PTC heats/trips in 1-5s; Short circuit (&gt;2.0A) = LM7912 current limiting + PTC trips in 0.5-5s; Auto-reset after 30-60s cooling
+
 <details>
 <summary>View ASCII art circuit</summary>
 
@@ -63,17 +69,8 @@ From IC Pin 2 ──┬────────────────┬──
 
 Status LED (reversed polarity for negative rail):
 GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1kΩ) ──── -12V
-```
 
-</details>
-
----
-
-### Protection Circuit (-12V Rail)
-
-```
--12V Rail Protection (0.8A target, 1A max):
-
+Protection Circuit:
 -12V IN ─── PTC3 ───┬─→ -12V OUT
      JK-nSMD100/16  │
      (1.0A hold)    │
@@ -84,28 +81,7 @@ GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R9 (1k�
                    └┬┘ Cathode down
                     │
                    GND
-
-Status Indicator (reversed for negative rail):
-GND ─── LED4 ─── R9 ─── -12V OUT
-      (Red)   (1kΩ)
 ```
 
-**Protection Layers:**
+</details>
 
-- Layer 1: LM7912 current limiting (~1A max, immediate) ✅
-- Layer 2: LM7912 thermal shutdown (150°C, 1-5s) ✅
-- Layer 3: PTC3 trips (>2.0A, 1-5s) → Auto-reset after 30-60s ✅
-- Layer 4: USB-PD adapter protection (backup) ✅
-
-**Components:**
-- **PTC3**: C2830246 (JK-nSMD100/16V) - 1.0A hold, 2.0A trip, 1206
-- **TVS3**: SMAJ15A (unidirectional, 15V) - **Anode to -12V OUT, Cathode to GND** (reversed for negative rail)
-- **LED4**: Red LED with R9 (1kΩ) - Status indicator (anode to GND, cathode to -12V)
-
-**Protection Operation:**
-- **Normal** (&lt;1.0A): PTC low resistance, LED illuminated
-- **Overload** (1.0A-2.0A): PTC heats up, trips in 1-5s, LED dims/off
-- **Short circuit** (&gt;2.0A): LM7912 current limiting activates immediately, PTC trips in 0.5-5s
-- **Auto-reset**: PTC resets after 30-60s cooling period
-
-**Note**: For negative voltage rails, TVS diode polarity is reversed compared to positive rails!

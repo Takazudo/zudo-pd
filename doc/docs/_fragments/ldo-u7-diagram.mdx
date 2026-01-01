@@ -19,6 +19,12 @@ import LdoU7Svg from '@site/static/circuits/ldo-u7-diagram.svg';
 - **LED current**: I = (5V - 2V) / 1kΩ = 3mA (dimmer than +12V LED, consider 330Ω for brighter)
 - **Dropout voltage**: LM7805 requires ~2V dropout, so 7.5V input provides 2.5V headroom
 
+**Protection Circuit (+5V Rail, 0.5A target, 1A max):**
+- **Protection layers**: LM7805 current limiting (~1A max) → LM7805 thermal shutdown (150°C) → PTC2 trips (&gt;2.2A) → USB-PD adapter protection
+- **PTC2**: C70119 (mSMD110-33V) - 1.1A hold, 2.2A trip, auto-reset fuse
+- **TVS2**: PRTR5V0U2X (bidirectional, 5V) - ESD and overvoltage protection
+- **Operation**: Normal (&lt;1.1A) = PTC low resistance, LED on; Overload (1.1A-2.2A) = PTC heats/trips in 1-5s; Short circuit (&gt;2.2A) = LM7805 current limiting + PTC trips in 1-5s; Auto-reset after 30-60s cooling
+
 <details>
 <summary>View ASCII art circuit</summary>
 
@@ -54,47 +60,19 @@ From IC Pin 3 ──┬────────────────┬──
 
 Status LED:
 +5V ──── R8 (1kΩ) ──── LED3 (Blue) ──── GND
+
+Protection Circuit:
++5V OUT ─── PTC2 ───┬─→ To Load
+   mSMD110-33V      │
+   (1.1A hold)      │
+   (2.2A trip)      │
+                    │
+                   ┌┴┐ TVS2 (PRTR5V0U2X)
+                   │ │ Bidirectional
+                   └┬┘
+                    │
+                   GND
 ```
 
 </details>
 
----
-
-### Protection Circuit (+5V Rail)
-
-```
-+5V Rail Protection (0.5A target, 1A max):
-
-+5V IN ─── PTC2 ───┬─→ +5V OUT
-      mSMD110-33V  │
-      (1.1A hold)  │
-      (2.2A trip)  │
-                   │
-                  ┌┴┐ TVS2 (PRTR5V0U2X)
-                  │ │ Bidirectional
-                  └┬┘
-                   │
-                  GND
-
-Status Indicator:
-+5V OUT ─── R8 ─── LED3 ─── GND
-          (1kΩ)  (Blue)
-```
-
-**Protection Layers:**
-
-- Layer 1: LM7805 current limiting (~1A max, immediate) ✅
-- Layer 2: LM7805 thermal shutdown (150°C, 1-5s) ✅
-- Layer 3: PTC2 trips (>2.2A, 1-5s) → Auto-reset after 30-60s ✅
-- Layer 4: USB-PD adapter protection (backup) ✅
-
-**Components:**
-- **PTC2**: C70119 (mSMD110-33V) - 1.1A hold, 2.2A trip, 1812
-- **TVS2**: PRTR5V0U2X (bidirectional, 5V) - ESD and overvoltage protection
-- **LED3**: Blue LED with R8 (1kΩ) - Status indicator
-
-**Protection Operation:**
-- **Normal** (&lt;1.1A): PTC low resistance, LED illuminated
-- **Overload** (1.1A-2.2A): PTC heats up, trips in 1-5s, LED dims/off
-- **Short circuit** (&gt;2.2A): LM7805 current limiting activates immediately, PTC trips in 1-5s
-- **Auto-reset**: PTC resets after 30-60s cooling period
