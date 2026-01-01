@@ -181,9 +181,6 @@ with schemdraw.Drawing(
     elm.Diode().left().label('D4\nSS34', fontsize=11, ofst=0.4)
 
     # Connect to transformer secondary winding (s1)
-    diode_end = d.here
-    elm.Line().left(t1.s1[0] - diode_end[0])
-    elm.Line().up(t1.s1[1] - d.here[1])
     elm.Line().to(t1.s2)
 
     # Return to output sense junction
