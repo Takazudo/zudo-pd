@@ -164,6 +164,7 @@ with schemdraw.Drawing(
     # Return to junction, R7 to output sense point
     d.pop()
     elm.Resistor(scale=0.7).right().label('R7\n10kΩ', loc='bottom', fontsize=11, ofst=(0,-0.8))
+    elm.Line().right(1)
     # Position dot at exact Y coordinate of SW pin
     current_y = d.here[1]
     target_y = ic.SW[1]
@@ -188,7 +189,7 @@ with schemdraw.Drawing(
 
     # Return to junction, continue to output terminal
     d.pop()
-    elm.Line().right(2)
+    elm.Line().right(1)
     elm.Dot(open=True).label('-15V\nOUT', loc='top', fontsize=14, ofst=0.5)
 
     # ========================================================================
