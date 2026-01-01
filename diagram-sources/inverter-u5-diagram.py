@@ -31,13 +31,12 @@ with schemdraw.Drawing(
             elm.IcPin(name='Freq.Adj.', pin='1', side='right', slot='2/4'),
             elm.IcPin(name='FB', pin='3', side='right', slot='3/4'),
         ],
-        edgepadW=2.0,
+        edgepadW=5.0,
         edgepadH=1.2,
         pinspacing=0.8,
         leadlen=1.0,
         pinlblsize=12
-    ).label('U5', loc='top', fontsize=13, ofst=(0, 0.3))
-     .label('LM2586SX-ADJ', loc='center', fontsize=13)
+    ).label('U5\nLM2586SX-ADJ', loc='center', fontsize=14)
     )
 
     # Save to doc/static/circuits/
