@@ -83,6 +83,19 @@ with schemdraw.Drawing(
     elm.Line().down(0.8)
     elm.Ground()
 
+    # T1 flyback transformer primary: +15V -> T1 -> SW
+    # Take tap from input line before VIN
+    elm.Line().at(vin_tap1).up(4.0)
+    t1_top = d.here
+
+    # T1 primary inductor
+    elm.Inductor2(loops=3).down(2.0).label('T1', loc='left', fontsize=12, ofst=0.3)
+    t1_bottom = d.here
+
+    # Connect to SW pin
+    elm.Line().to((ic.SW[0], t1_bottom[1]))
+    elm.Line().to(ic.SW)
+
     # Save to doc/static/circuits/
     script_dir = os.path.dirname(os.path.abspath(__file__))
     output_path = os.path.join(script_dir, '../doc/static/circuits/inverter-u5-diagram.svg')
