@@ -29,7 +29,7 @@ const sidebars = {
     'components/usb-c-connector',
     'components/ch224d',
     'components/lm2596s-adj',
-    'components/icl7660m',
+    'components/lm2586sx-adj',
     'components/l7812cv',
     'components/l7805abd2t',
     'components/cj7912',
