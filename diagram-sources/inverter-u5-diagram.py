@@ -167,7 +167,26 @@ with schemdraw.Drawing(
     elm.Line().up(2)
     elm.Dot()
 
-    # latest junction
+    # ========================================================================
+    # Output Section: -15V with filtering
+    # ========================================================================
+
+    # Route to output filtering
+    elm.Line().right(2)
+    elm.Dot()
+    output_junction = d.here
+    d.push()
+
+    # Output filter path to GND
+    elm.Line().down(1)
+    elm.Capacitor().down().label('C14\n100µF', loc='right', fontsize=11)
+    elm.Line().down(1)
+    elm.Ground()
+
+    # Return to junction, continue to output terminal
+    d.pop()
+    elm.Line().right(2)
+    elm.Dot(open=True).label('-15V\nOUT', loc='top', fontsize=14, ofst=0.5)
 
     # ========================================================================
     # Save Output
