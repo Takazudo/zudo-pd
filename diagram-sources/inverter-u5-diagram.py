@@ -51,14 +51,14 @@ with schemdraw.Drawing(
     ic = (elm.Ic(
         pins=[
             # Left side (top to bottom)
-            elm.IcPin(name='VIN', pin='7', side='left', slot='1/4'),
-            elm.IcPin(name='COMP', pin='2', side='left', slot='2/4'),
-            elm.IcPin(name='Freq.Sync.', pin='6', side='left', slot='3/4'),
-            elm.IcPin(name='GND', pin='4', side='left', slot='4/4'),
+            elm.IcPin(name='VIN', pin='7', side='left', slot='4/4'),
+            elm.IcPin(name='COMP', pin='2', side='left', slot='3/4'),
+            elm.IcPin(name='Freq.Sync.', pin='6', side='left', slot='2/4'),
+            elm.IcPin(name='GND', pin='4', side='left', slot='1/4'),
             # Right side (top to bottom)
-            elm.IcPin(name='SW', pin='5', side='right', slot='1/4'),
-            elm.IcPin(name='Freq.Adj.', pin='1', side='right', slot='2/4'),
-            elm.IcPin(name='FB', pin='3', side='right', slot='3/4'),
+            elm.IcPin(name='SW', pin='5', side='right', slot='4/4'),
+            elm.IcPin(name='Freq.Adj.', pin='1', side='right', slot='3/4'),
+            elm.IcPin(name='FB', pin='3', side='right', slot='2/4'),
         ],
         edgepadW=5.0,
         edgepadH=1.2,
