@@ -96,7 +96,7 @@ with schemdraw.Drawing(
     elm.Line().down(1)
     elm.Ground()
 
-    # T1 flyback transformer primary: +15V -> T1 -> SW
+    # T1 flyback transformer: +15V -> T1 (primary) -> SW
     # Vertical line up from first tap point
     elm.Line().at(vin_tap1).up(3.0)
     point_to_switch = d.here
@@ -105,12 +105,12 @@ with schemdraw.Drawing(
     elm.Line().right(ic.SW[0] - point_to_switch[0])
     t1_top = d.here
 
-    # T1 primary inductor (positioned above SW pin)
-    elm.Inductor2(loops=3).down(2.0).label('T1', loc='left', fontsize=12, ofst=(-0.75,-0.8))
+    # T1 flyback transformer (1:1 ratio, 47µH:47µH)
+    # Primary (p1, p2) on left, Secondary (s1, s2) on right
+    t1 = elm.Transformer(t1=3, t2=3).down().label('T1\n1:1', loc='right', fontsize=11, ofst=(0.3, 0))
 
-    # Connect down to SW pin
-    elm.Line().down(t1_top[1] - ic.SW[1] - 2.0)
-    elm.Line().to(ic.SW)
+    # Connect from transformer p2 down to SW pin
+    elm.Line().at(t1.p2).to(ic.SW)
 
     # Save to doc/static/circuits/
     script_dir = os.path.dirname(os.path.abspath(__file__))
