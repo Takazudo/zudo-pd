@@ -45,7 +45,7 @@ with schemdraw.Drawing(
             # Right side (top to bottom)
             elm.IcPin(name='SW', pin='5', side='right', slot='4/4'),
             elm.IcPin(name='Freq.Adj.', pin='1', side='right', slot='3/4'),
-            elm.IcPin(name='FB', pin='3', side='right', slot='2/4'),
+            elm.IcPin(name='FB', pin='3', side='right', slot='1/4'),
         ],
         edgepadW=3.0,
         edgepadH=1.2,
@@ -144,6 +144,28 @@ with schemdraw.Drawing(
 
     # Connect transformer p2 to IC SW pin
     elm.Line().at(t1.p2).to(ic.SW)
+
+    # ========================================================================
+    # Feedback Network: R7 and R8 voltage divider
+    # ========================================================================
+    # Feedback divider sets output voltage regulation
+    # FB pin senses divided voltage from output
+
+    # Route from FB pin
+    elm.Line().at(ic.FB).right(1)
+    elm.Dot()
+    fb_junction = d.here
+    d.push()
+
+    # R8: Lower resistor to GND
+    elm.Resistor(scale=0.7).down().label('R8', loc='right', fontsize=11)
+    elm.Ground()
+
+    # Return to junction, R7 to output sense point
+    d.pop()
+    elm.Resistor(scale=0.7).right().label('R7', loc='top', fontsize=11)
+    elm.Line().up(1)
+    elm.Dot()
 
     # ========================================================================
     # Save Output
