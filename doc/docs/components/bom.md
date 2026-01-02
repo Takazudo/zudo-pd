@@ -145,8 +145,8 @@ The following components were used in the old negative voltage generation design
 
 | Symbol  | Part Number                                          | Specification | Package     | Price      | Application | Diagram                                                                            |
 | ------- | ---------------------------------------------------- | ------------- | ----------- | ---------- | ----------- | ---------------------------------------------------------------------------------- |
-| **C20** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014** | U6 Input    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C21** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014** | U6 Output   | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C20** | **[C3351](https://jlcpcb.com/partdetail/C3351)**     | **470µF 25V** | D10xL10.2mm | **$0.044** | U6 Input    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C21** | **[C3351](https://jlcpcb.com/partdetail/C3351)**     | **470µF 25V** | D10xL10.2mm | **$0.044** | U6 Output   | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
 | **C22** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014** | U7 Input    | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
 | **C23** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014** | U7 Output   | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
 | **C24** | **[C3351](https://jlcpcb.com/partdetail/C3351)**     | **470µF 25V** | D10xL10.2mm | **$0.044** | U8 Input    | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
