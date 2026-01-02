@@ -23,14 +23,11 @@ This documentation is kept for reference and educational purposes only.
 A high-efficiency 3A switching regulator designed for flyback, boost, and forward topologies. **Was previously planned** to generate negative voltage (-15V) from positive input (+15V) using flyback transformer topology, but **has been replaced** with a simpler LM2596S inverting buck-boost design.
 
 - 🔗 [View on JLCPCB: C181324](https://jlcpcb.com/partdetail/C181324)
-- 📄 [Download Datasheet (PDF)](/datasheets/LM2586-datasheet.pdf)
+- 📄 Datasheet: Available from [Texas Instruments](https://www.ti.com/product/LM2586)
 
-import FootprintSvg from '@site/src/components/FootprintSvg';
-import LM2586 from '@site/static/footprints-svg/TO-263-7_L10.2-W8.6-P1.27-LS14.4-TL.svg';
-
-<FootprintSvg src={LM2586} alt="LM2586SX-ADJ TO-263-7 Package" minWidth="300px" minHeight="200px" />
-
-![LM2586SX-ADJ Package Preview](/footprints/LM2586SX-ADJ.png)
+:::info Footprint Files Removed
+Footprint files and preview images for this component have been removed from the documentation as it is no longer used in the current design.
+:::
 
 ## Overview
 
@@ -423,7 +420,7 @@ This is **significantly lower** than other components in this project:
 
 ## References
 
-- [Texas Instruments LM2586 Datasheet (PDF)](/datasheets/LM2586-datasheet.pdf)
+- [Texas Instruments LM2586 Product Page](https://www.ti.com/product/LM2586)
 - Application Note: "Flyback Regulator Design" (Texas Instruments)
 - [JLCPCB Part Detail: C181324](https://jlcpcb.com/partdetail/C181324)
 - [Coilcraft MSD1514-473MED Datasheet](https://www.coilcraft.com/en-us/products/power/coupled-inductors/shielded-coupled-inductors/msd/)
