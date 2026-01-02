@@ -187,9 +187,9 @@ The following components were used in the old negative voltage generation design
 | **LED2** | **[C72043](https://jlcpcb.com/partdetail/C72043)** | **Green LED** | 0805    | **$0.0126** | +12V Status Indicator | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
 | **LED3** | **[C72041](https://jlcpcb.com/partdetail/C72041)** | **Blue LED**  | 0805    | **$0.0126** | +5V Status Indicator  | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
 | **LED4** | **[C84256](https://jlcpcb.com/partdetail/C84256)** | **Red LED**   | 0805    | **$0.0126** | -12V Status Indicator | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
-| **R7**   | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED2 Current Limit    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **R7**   | **[C25623](https://jlcpcb.com/partdetail/C25623)** | **1kΩ 125mW** | 0805    | **$0.0010** | LED2 Current Limit    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
 | **R8**   | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED3 Current Limit    | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **R9**   | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED4 Current Limit    | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **R9**   | **[C25623](https://jlcpcb.com/partdetail/C25623)** | **1kΩ 125mW** | 0805    | **$0.0010** | LED4 Current Limit    | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 **Stage 4 Subtotal: $0.77** (PTC-only protection, no fuses needed)
 
