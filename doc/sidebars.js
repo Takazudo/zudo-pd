@@ -47,6 +47,7 @@ const sidebars = {
     'learning/buck-converter-feedback',
     'learning/transformer-polarity-flyback',
     'learning/linear-regulator-capacitors',
+    'learning/two-stage-dc-dc-ldo-architecture',
     'learning/protection-fuse-strategy',
     'learning/eurorack-power-distribution',
   ],
