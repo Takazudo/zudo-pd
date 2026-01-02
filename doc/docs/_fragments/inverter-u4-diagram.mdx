@@ -139,9 +139,9 @@ Complete Pin Connections:
 **Component Selection:**
 
 - **U4**: LM2596S-ADJ (same IC as Diagram2/3)
-- **L3**: 100µH inductor, 3A saturation current rating (same as Diagram2/3)
+- **L3**: 100µH inductor, 4.5A saturation current rating (same as Diagram2/3)
 - **D3**: SS34 Schottky diode, 3A, 40V minimum (catch diode from SW to -13.5V)
-- **C9**: 100µF electrolytic, 35V+ rating (input bulk, sees VIN+|VOUT| = 28.5V)
+- **C9**: 100µF electrolytic, 50V rating (input bulk, sees VIN+|VOUT| = 28.5V)
 - **C10**: 100nF ceramic, 50V X7R (input decoupling)
 - **C11**: 470µF electrolytic, 25V rating (output filter)
 - **C12**: 10µF ceramic, 25V X7R (output decoupling)
@@ -151,7 +151,7 @@ Complete Pin Connections:
 **Key Design Notes:**
 
 1. **Bootstrapped Ground**: IC GND pin connects to negative output, not system ground
-2. **Input Voltage Stress**: Input caps see VIN + |VOUT| = 28.5V (use 35V+ rating)
+2. **Input Voltage Stress**: Input caps see VIN + |VOUT| = 28.5V (use 50V rating)
 3. **Diode Selection**: D3 must handle VIN + |VOUT| reverse voltage (≥40V)
 4. **FB Pin Safety**: FB is always +1.23V above IC GND (safe, within spec)
 5. **Single Stage**: Eliminates intermediate -15V conversion, improves efficiency
@@ -183,7 +183,7 @@ Complete Pin Connections:
 
 **Input Capacitors:**
 
-- `C9 (100µF electrolytic, 35V)`: Between `+15V input` and `-13.5V output` (IC GND)
+- `C9 (100µF electrolytic, 50V)`: Between `+15V input` and `-13.5V output` (IC GND)
   - **Critical**: Sees VIN + |VOUT| = 28.5V total voltage!
 - `C10 (100nF ceramic, 50V)`: Between `+15V input` and `-13.5V output` (high-frequency decoupling)
 
