@@ -129,9 +129,9 @@ The following components were used in the old negative voltage generation design
 
 | Symbol  | Part Number                                      | Specification     | Package | Stock         | Price       | Application     | Diagram                                                                            |
 | ------- | ------------------------------------------------ | ----------------- | ------- | ------------- | ----------- | --------------- | ---------------------------------------------------------------------------------- |
-| **C26** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U6 Input Filter | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C27** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U7 Input Filter | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C28** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U8 Input Filter | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C14** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U6 Input Filter | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C15** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U7 Input Filter | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **C16** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U8 Input Filter | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 #### Output Capacitors (0.1µF) - Basic Parts
 
@@ -186,9 +186,9 @@ The following components were used in the old negative voltage generation design
 | **LED2** | **[C72043](https://jlcpcb.com/partdetail/C72043)** | **Green LED** | 0805    | **$0.0126** | +12V Status Indicator | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
 | **LED3** | **[C72041](https://jlcpcb.com/partdetail/C72041)** | **Blue LED**  | 0805    | **$0.0126** | +5V Status Indicator  | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
 | **LED4** | **[C84256](https://jlcpcb.com/partdetail/C84256)** | **Red LED**   | 0805    | **$0.0126** | -12V Status Indicator | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
-| **R14**  | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED2 Current Limit    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **R15**  | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED3 Current Limit    | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **R16**  | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED4 Current Limit    | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **R7**   | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED2 Current Limit    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **R8**   | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED3 Current Limit    | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **R9**   | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**       | 0603    | **$0.0005** | LED4 Current Limit    | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 **Stage 4 Subtotal: $0.77** (PTC-only protection, no fuses needed)
 
