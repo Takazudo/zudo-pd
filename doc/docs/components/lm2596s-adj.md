@@ -38,7 +38,7 @@ Being an adjustable output type (ADJ), the output voltage can be freely set usin
 | **Reference Voltage**      | 1.23V (internal)                     |
 | **Operating Temperature**  | -40°C to +125°C                      |
 | **Dropout Voltage**        | ~1.5V (minimum Vin - Vout)           |
-| **ON/OFF Control**         | High = ON, Low = Shutdown            |
+| **ON/OFF Control**         | Low/Float = ON, High = Shutdown      |
 
 ### Package Information
 
