@@ -13,8 +13,8 @@ import LdoU7Svg from '@site/static/circuits/ldo-u7-diagram.svg';
 - **Two-stage design**: Buck converter (U3) provides efficient voltage reduction, linear regulator (U7) provides low-noise final output
 - **Input capacitor order**: C22 (bulk, farther) and C27 (ceramic, close to IC)
 - **Output capacitor order**: C18 (ceramic, close to IC) and C23 (bulk, farther)
-- **LED indicator**: Blue LED (LED3) with 1kΩ current-limiting resistor shows +5V rail is active
-- **LED current**: I = (5V - 2V) / 1kΩ = 3mA (dimmer than +12V LED, consider 330Ω for brighter)
+- **LED indicator**: Blue LED (LED3) with 330Ω current-limiting resistor shows +5V rail is active
+- **LED current**: I = (5V - 2.8V) / 330Ω = 6.67mA (improved brightness vs previous 1kΩ design)
 - **Dropout voltage**: LM7805 requires ~2V dropout, so 7.5V input provides 2.5V headroom
 
 **Protection Circuit (+5V Rail, 0.5A target, 1A max):**
@@ -58,7 +58,7 @@ From IC Pin 3 ──┬────────────────┬──
                GND              GND
 
 Status LED:
-+5V ──── R15 (1kΩ) ──── LED3 (Blue) ──── GND
++5V ──── R8 (330Ω) ──── LED3 (Blue) ──── GND
 
 Protection Circuit:
 +5V OUT ─── PTC2 ───┬─→ To Load
