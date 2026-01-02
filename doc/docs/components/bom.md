@@ -173,11 +173,11 @@ The following components were used in the old negative voltage generation design
 
 #### TVS Diodes
 
-| Symbol   | Part Number                                            | Manufacturer Part Number       | Description            | Package | Estimated Price | Application     | Diagram                                                                            |
-| -------- | ------------------------------------------------------ | ------------------------------ | ---------------------- | ------- | --------------- | --------------- | ---------------------------------------------------------------------------------- |
-| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)**   | **[SMAJ15A](./smaj15a)**       | 15V TVS Unidirectional | SMA     | **$0.15**       | +12V Protection | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **TVS2** | **[C5199240](https://jlcpcb.com/partdetail/C5199240)** | **[PRTR5V0U2X](./prtr5v0u2x)** | 5V TVS Bidirectional   | SOT-143 | **$0.12**       | +5V Protection  | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)**   | **[SMAJ15A](./smaj15a)**       | 15V TVS Unidirectional | SMA     | **$0.15**       | -12V Protection | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| Symbol   | Part Number                                            | Manufacturer Part Number         | Description            | Package | Estimated Price | Application     | Diagram                                                                            |
+| -------- | ------------------------------------------------------ | -------------------------------- | ---------------------- | ------- | --------------- | --------------- | ---------------------------------------------------------------------------------- |
+| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)**   | **[SMAJ15A](./smaj15a)**         | 15V TVS Unidirectional | SMA     | **$0.15**       | +12V Protection | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **TVS2** | **[C5299440](https://jlcpcb.com/partdetail/C5299440)** | **[SD05C-01FTG](./sd05c-01ftg)** | 6V TVS Bidirectional   | SOD-323 | **$0.08**       | +5V Protection  | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)**   | **[SMAJ15A](./smaj15a)**         | 15V TVS Unidirectional | SMA     | **$0.15**       | -12V Protection | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 #### Status Indicator LEDs (Using Basic Parts)
 
