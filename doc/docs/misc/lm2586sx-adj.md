@@ -4,7 +4,7 @@ sidebar_position: 3
 
 import InverterU5Diagram from '../\_fragments/inverter-u5-diagram.mdx';
 
-# LM2586SX-ADJ Flyback Converter
+# [outdated] LM2586SX-ADJ Flyback Converter
 
 :::danger Component Not Used in Current Design
 **This component has been removed from the project due to FB pin voltage violation issues.**
