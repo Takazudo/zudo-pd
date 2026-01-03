@@ -21,8 +21,8 @@ with schemdraw.Drawing(
             elm.IcPin(name='GND', pin='3', side='left', slot='1/3'),
             elm.IcPin(name='ON', pin='5', side='left', slot='2/3'),
             elm.IcPin(name='VIN', pin='1', side='left', slot='3/3'),
-            elm.IcPin(name='OUT', pin='2', side='right', slot='1/2'),
-            elm.IcPin(name='FB', pin='4', side='right', slot='2/2'),
+            elm.IcPin(name='OUT', pin='2', side='right', slot='1/3'),
+            elm.IcPin(name='FB', pin='4', side='right', slot='3/3'),
         ],
         edgepadW=2.5,
         edgepadH=0.8,
@@ -75,13 +75,42 @@ with schemdraw.Drawing(
     d.pop()
     elm.Capacitor().down().label('C11\n470µF', loc='bot')
     elm.Line().toy(bottom_rail.start)
-    elm.Dot()
+    c11_bottom = elm.Dot()
 
     # D3 diode (from "to D3" dot)
     d.pop()
     elm.Diode().down().reverse().label('D3\nSS34', loc='bot')
     elm.Line().toy(bottom_rail.start)
     elm.Dot()
+
+    # Bottom rail connection (-13.5V)
+    elm.Line().at(bottom_rail.start).tox(c11_bottom.start)
+    elm.Line().right(3.5)
+    before_out =elm.Dot() # end of bottom rail
+    d.push()
+    elm.Line().right(2)
+    elm.Dot(open=True).label('-13.5V\nOUT', loc='top', ofst=0.5)
+
+    d.pop()
+    elm.Resistor(scale=0.7).up().label('R6\n1kΩ', ofst=0.2)
+    elm.Dot()
+    d.push()
+    elm.Capacitor().right().label('C33\n22µF', loc='bottom', ofst=0.5)
+    fb_right_edge = elm.Dot()
+    elm.Line().down(0.5)
+    elm.Ground()
+
+    d.pop()
+    elm.Line().toy(ic.FB)
+    elm.Dot()
+    d.push()
+    elm.Resistor(scale=0.7).right().label('R5\n10kΩ', ofst=0.5)
+    elm.Dot()
+    elm.Line().toy(fb_right_edge.start)
+
+    d.pop()
+    elm.Line().tox(ic.FB)
+
 
     # Save to doc/static/circuits/ (one level up from diagram-sources)
     import os
