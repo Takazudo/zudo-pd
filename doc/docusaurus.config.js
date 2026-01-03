@@ -3,7 +3,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'USB-PD Modular Synth Power',
+  title: 'zudo-PD',
   tagline: 'USB-PD powered modular synthesizer power supply documentation',
   favicon: 'img/favicon.ico',
 
@@ -68,9 +68,9 @@ const config = {
         respectPrefersColorScheme: false,
       },
       navbar: {
-        title: 'USB-PD Synth Power',
+        title: 'zudo-PD',
         logo: {
-          alt: 'USB-PD Synth Power Logo',
+          alt: 'zudo-PD Logo',
           src: 'img/logo.svg',
           width: 32,
           height: 32,
