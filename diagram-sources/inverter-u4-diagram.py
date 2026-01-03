@@ -40,29 +40,26 @@ with schemdraw.Drawing(
     d.push()
 
     elm.Line().left(2)
-    elm.Dot(open=True).label('+15V\nIN', loc='left')
+    elm.Dot(open=True).label('+15V\nIN', loc='top', ofst=0.5)
 
     # C10 capacitor (closer to IC) - establish bottom rail position first
     d.pop()
-    elm.Line().down(0.5)
-    elm.Capacitor().down().label('C10\n100nF', loc='bot')
-    elm.Line().down(2)
-    elm.Dot()
-    bottom_rail_pos = d.here  # Save position of bottom rail
+    elm.Capacitor().down(4).label('C10\n100nF', loc='bot')
+    elm.Line().down(1)
+    bottom_rail = elm.Dot()  # Save anchor point for bottom rail
 
     # C9 capacitor (farther from IC) - align to bottom rail
     d.pop()
-    elm.Line().down(0.5)
-    elm.Capacitor().down().label('C9\n100µF', loc='bot')
-    elm.Line().to((d.here[0], bottom_rail_pos[1]))
+    elm.Capacitor().down(4).label('C9\n100µF', loc='bot')
+    elm.Line().toy(bottom_rail.start)
     elm.Dot()
 
     # GND pin to bottom rail
-    elm.Line().at(ic.GND).to((ic.GND[0], bottom_rail_pos[1]))
+    elm.Line().at(ic.GND).toy(bottom_rail.start)
     elm.Dot()
 
     # Output from OUT pin
-    elm.Line().at(ic.OUT).right(1)
+    elm.Line().at(ic.OUT).right(0.5)
     elm.Dot() # to D3
     d.push()
 
@@ -77,13 +74,13 @@ with schemdraw.Drawing(
     # C11 capacitor (from "to C11" dot)
     d.pop()
     elm.Capacitor().down().label('C11\n470µF', loc='bot')
-    elm.Line().to((d.here[0], bottom_rail_pos[1]))
+    elm.Line().toy(bottom_rail.start)
     elm.Dot()
 
     # D3 diode (from "to D3" dot)
     d.pop()
     elm.Diode().down().reverse().label('D3\nSS34', loc='bot')
-    elm.Line().to((d.here[0], bottom_rail_pos[1]))
+    elm.Line().toy(bottom_rail.start)
     elm.Dot()
 
     # Save to doc/static/circuits/ (one level up from diagram-sources)
