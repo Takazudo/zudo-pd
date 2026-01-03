@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import useGlobalData from '@docusaurus/useGlobalData';
 import sidebars from '@site/sidebars';
+import docTitles from '@site/src/data/doc-titles.json';
 
 type SidebarItem =
   | string
@@ -36,10 +36,10 @@ function generateLabel(sidebarId: string): string {
 /**
  * Render a single sidebar item (doc link or category)
  */
-function renderSidebarItem(item: SidebarItem, docTitles: Record<string, string>): ReactNode {
+function renderSidebarItem(item: SidebarItem): ReactNode {
   // String item (doc ID)
   if (typeof item === 'string') {
-    const title = docTitles[item] || item;
+    const title = docTitles[item as keyof typeof docTitles] || item;
     return (
       <li key={item}>
         <a href={`/docs/${item}`}>{title}</a>
@@ -58,7 +58,7 @@ function renderSidebarItem(item: SidebarItem, docTitles: Record<string, string>)
     return (
       <li key={item.label}>
         <strong>{item.label}:</strong>
-        <ul>{item.items.map((subItem: SidebarItem) => renderSidebarItem(subItem, docTitles))}</ul>
+        <ul>{item.items.map((subItem: SidebarItem) => renderSidebarItem(subItem))}</ul>
       </li>
     );
   }
@@ -71,38 +71,7 @@ function renderSidebarItem(item: SidebarItem, docTitles: Record<string, string>)
   return null;
 }
 
-interface DocMetadata {
-  id: string;
-  title: string;
-}
-
-interface DocsVersion {
-  docs: Record<string, DocMetadata>;
-}
-
-interface DocsPluginData {
-  versions: DocsVersion[];
-}
-
 export default function DocsSitemap(): ReactNode {
-  // Get all docs metadata from Docusaurus (auto-generated, always up-to-date!)
-  const globalData = useGlobalData();
-
-  // Extract doc titles from metadata
-  // The docs plugin data is under 'docusaurus-plugin-content-docs'
-  const docsPluginData = globalData['docusaurus-plugin-content-docs'] as Record<
-    string,
-    DocsPluginData
-  >;
-  const docsData = docsPluginData?.['default'];
-  const docTitles: Record<string, string> = {};
-
-  if (docsData?.versions?.[0]?.docs) {
-    Object.values(docsData.versions[0].docs).forEach((doc: DocMetadata) => {
-      docTitles[doc.id] = doc.title;
-    });
-  }
-
   // Auto-generate sidebar list from sidebars.js (preserves object key order)
   const sidebarEntries = Object.entries(sidebars);
 
@@ -138,7 +107,7 @@ export default function DocsSitemap(): ReactNode {
               {label}
             </summary>
             <ul style={{ marginTop: '0.5rem' }}>
-              {(sidebarItems as SidebarItem[]).map((item) => renderSidebarItem(item, docTitles))}
+              {(sidebarItems as SidebarItem[]).map((item) => renderSidebarItem(item))}
             </ul>
           </details>
         );
