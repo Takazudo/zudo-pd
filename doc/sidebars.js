@@ -44,6 +44,8 @@ const sidebars = {
     'learning/usb-type-c-pinout',
     'learning/open-drain-pg-pin',
     'learning/buck-converter-feedback',
+    'learning/inductor-voltage-reversal',
+    'learning/pcb-layout-power-circuits',
     'learning/transformer-polarity-flyback',
     'learning/linear-regulator-capacitors',
     'learning/two-stage-dc-dc-ldo-architecture',
