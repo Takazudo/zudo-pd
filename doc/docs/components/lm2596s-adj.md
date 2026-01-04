@@ -136,10 +136,10 @@ Vout = 1.23V × (1 + R3/R4)
 
 - **L2**: 100µH, 4.5A Inductor (JLCPCB: C19268674)
 - **D2**: SS34 Schottky Diode (JLCPCB: C8678)
-- **C7**: 470µF/10V Electrolytic Capacitor (JLCPCB: C335982)
+- **C7**: 470µF/25V Electrolytic Capacitor (JLCPCB: C3351)
 - **R3**: 5.1kΩ ±1% 0603 (JLCPCB: C23186)
 - **R4**: 1kΩ ±1% 0603 (JLCPCB: C21190)
-- **C8**: 22nF Ceramic Capacitor (feedback compensation)
+- **C32**: 22nF Ceramic Capacitor (feedback compensation)
 
 ### U4: -15V → -13.5V Conversion (for -12V rail)
 
@@ -317,15 +317,29 @@ Since all three converters use the same IC, switching frequency, inductor, and o
 **Heat Dissipation Calculation Example** (U2: 15V→13.5V, 1.3A):
 
 ```
-Power dissipation = (Vin - Vout) × Iout × (1 - Efficiency)
-                  ≈ (15V - 13.5V) × 1.3A × 0.12
-                  ≈ 0.23W
+Output power:    P_out = V_out × I_out = 13.5V × 1.3A = 17.55W
+Input power:     P_in = P_out / Efficiency = 17.55W / 0.88 = 19.94W
+Power dissipation: P_diss = P_in - P_out = 19.94W - 17.55W = 2.39W
+
+Alternative formula for switching regulators:
+P_diss = P_out × ((1 - η) / η) = 17.55W × (0.12 / 0.88) = 2.39W
 ```
 
-TO-263 package thermal resistance: ~40°C/W (when mounted on PCB)
-Temperature rise: 0.23W × 40°C/W ≈ 9°C
+TO-263 package thermal resistance: ~40°C/W (without thermal vias), ~25°C/W (with thermal vias)
 
-**Conclusion**: No heatsink required (natural convection cooling is sufficient)
+**Without thermal vias:**
+
+- Temperature rise: 2.39W × 40°C/W = 95.6°C
+- Junction temp (25°C ambient): 25°C + 95.6°C = **120.6°C** ⚠️
+- **WARNING:** Approaches maximum operating temperature (125°C)
+
+**With thermal vias (recommended):**
+
+- Temperature rise: 2.39W × 25°C/W = 59.8°C
+- Junction temp (25°C ambient): 25°C + 59.8°C = **84.8°C** ✅
+- **Safe margin:** 40°C below maximum temperature
+
+**Conclusion**: **Thermal vias are REQUIRED** under TO-263 thermal pad for reliable operation at full load
 
 ## JLCPCB Information
 
