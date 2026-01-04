@@ -20,9 +20,9 @@ This project uses [easyeda2kicad.py](https://github.com/uPesy/easyeda2kicad.py) 
 
 **You need BOTH for KiCad design:**
 
-| Type      | File Format  | Used In          | Purpose                        |
-| --------- | ------------ | ---------------- | ------------------------------ |
-| Footprint | `.kicad_mod` | PCB Editor       | Physical component pads on PCB |
+| Type      | File Format  | Used In          | Purpose                             |
+| --------- | ------------ | ---------------- | ----------------------------------- |
+| Footprint | `.kicad_mod` | PCB Editor       | Physical component pads on PCB      |
 | Symbol    | `.kicad_sym` | Schematic Editor | Electrical connections in schematic |
 
 **Common mistake:** Downloading only `--footprint` without `--symbol`!
