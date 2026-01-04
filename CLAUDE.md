@@ -20,17 +20,30 @@ The documentation is automatically deployed to Netlify:
 ### Current Documentation (Use These)
 - `/doc/docs/` - **Primary documentation** (Docusaurus-based, organized)
   - `inbox/` - Main documentation (overview, parts list, quick reference, current status)
-  - `parts/` - Individual component datasheets and specifications
+  - `components/` - Individual component datasheets and specifications
   - `learning/` - Circuit design learning notes
-  - `knowledge/` - How-to guides (footprint generation, SVG export, circuit diagrams)
+  - `how-to/` - How-to guides (KiCad workflow, parts download, SVG export, circuit diagrams)
 - `/doc/static/` - **Documentation assets** (images, PDFs, SVGs)
   - `footprints/` - Component package preview images (PNG)
   - `datasheets/` - Component datasheets and package specs (PDF)
+  - `kicad/` - KiCad setup screenshots
 - `/doc/docs/_fragments/footprints/` - **Footprint SVGs** (for React imports in documentation)
-- `/footprints/` - **KiCad design files** (not for documentation)
+- `/footprints/` - **KiCad footprint library**
   - `kicad/` - KiCad footprint source files (.kicad_mod)
   - `images/` - Exported SVG files (source for documentation)
   - `scripts/` - Processing scripts (clean-svg-refs.py)
+- `/symbols/` - **KiCad symbol library**
+  - `zudo-pd.kicad_sym` - Project schematic symbols (USB-C, CH224D, regulators, etc.)
+- **KiCad project files** (repository root)
+  - `zudo-pd.kicad_pro` - Project configuration
+  - `zudo-pd.kicad_sch` - Root schematic (hierarchical sheet structure)
+  - `usb-pd-input.kicad_sch` - USB-PD input stage sub-sheet
+  - `dc-dc-conversion.kicad_sch` - DC-DC converters sub-sheet
+  - `linear-regulation.kicad_sch` - Linear regulators + protection sub-sheet
+  - `output.kicad_sch` - Output connectors sub-sheet
+  - `zudo-pd.kicad_pcb` - PCB layout file
+  - `fp-lib-table` - Footprint library configuration
+  - `sym-lib-table` - Symbol library configuration
 - `/__inbox/` - **Temporary files** (gitignored, use for working files)
 
 ### Legacy Documentation (Outdated)
@@ -92,43 +105,58 @@ Example:
 
 - `.md` files contain technical specifications and circuit diagrams in text format
 - `.html` files provide styled visualizations of the circuit design
-- `.kicad_mod` files are KiCad footprint files for PCB design
+- `.kicad_pro` - KiCad project configuration file
+- `.kicad_sch` - KiCad schematic files (circuit diagrams)
+- `.kicad_pcb` - KiCad PCB layout files
+- `.kicad_mod` - KiCad footprint files (physical component pads)
+- `.kicad_sym` - KiCad symbol library files (schematic symbols)
+- `fp-lib-table` - Footprint library configuration
+- `sym-lib-table` - Symbol library configuration
 - No code compilation or testing is required - this is a hardware design project
 
-## Footprint Management
+## KiCad Library Management
 
-This project uses [easyeda2kicad.py](https://github.com/uPesy/easyeda2kicad.py) to download KiCad footprints from LCSC/EasyEDA.
+This project uses [easyeda2kicad.py](https://github.com/uPesy/easyeda2kicad.py) to download KiCad footprints and symbols from LCSC/EasyEDA.
 
 ### File Organization
 
-- **KiCad source files**: `/footprints/kicad/*.kicad_mod` (design workspace)
+**Footprints (PCB physical pads):**
+- **KiCad source files**: `/footprints/kicad/*.kicad_mod` (individual footprint files)
 - **SVG exports**: `/footprints/images/*.svg` (intermediate)
 - **Documentation SVGs**: `/doc/docs/_fragments/footprints/*.svg` (final destination)
 - **Package previews**: `/doc/static/footprints/*.png` (datasheet images)
 - **Datasheets**: `/doc/static/datasheets/*.pdf` (component specs)
 
-### Downloading Footprints
+**Symbols (schematic symbols):**
+- **Symbol library**: `/symbols/zudo-pd.kicad_sym` (single file containing all project symbols)
+
+### Downloading Footprints and Symbols
 
 **For detailed instructions, see:**
-- **[KiCad Footprint Generation Guide](/doc/docs/knowledge/kicad-footprint-generation.md)**
+- **[Download KiCad Footprints and Symbols Guide](/doc/docs/how-to/kicad-parts-download.md)**
 
 **Quick reference:**
 ```bash
-# Download footprint by LCSC ID
-easyeda2kicad --lcsc_id <LCSC_ID> --footprint
+# Download BOTH footprint and symbol (recommended)
+easyeda2kicad --lcsc_id <LCSC_ID> --footprint --symbol
 
-# Copy to project
+# Copy footprints to project
 cp ~/Documents/Kicad/easyeda2kicad/easyeda2kicad.pretty/*.kicad_mod ./footprints/kicad/
+
+# Copy symbols to project
+cp ~/Documents/Kicad/easyeda2kicad/easyeda2kicad.kicad_sym ./symbols/zudo-pd.kicad_sym
 ```
 
-**For users**: Download footprints directly from [GitHub](https://github.com/Takazudo/zudo-power-usb-pd/tree/main/footprints)
+**For users**: Download directly from GitHub:
+- [Footprints](https://github.com/Takazudo/zudo-power-usb-pd/tree/main/footprints)
+- [Symbols](https://github.com/Takazudo/zudo-power-usb-pd/tree/main/symbols)
 
 ### Exporting SVG Files for Documentation (Manual Workflow)
 
 When footprints are added or updated, export SVGs manually for documentation:
 
 **For detailed instructions, see:**
-- **[Create Footprint SVG Files](/doc/docs/knowledge/create-footprint-svg.md)**
+- **[Create Footprint SVG Files](/doc/docs/how-to/create-footprint-svg.md)**
 
 **Quick workflow:**
 ```bash

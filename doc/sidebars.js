@@ -40,6 +40,8 @@ const sidebars = {
   ],
   learningSidebar: [
     'learning/index',
+    'learning/gnd-component-placement',
+    'learning/gndd-gnda-split-ground',
     'learning/ch224d-usb-pd-controller',
     'learning/usb-type-c-pinout',
     'learning/open-drain-pg-pin',
@@ -54,7 +56,8 @@ const sidebars = {
   ],
   howToSidebar: [
     'how-to/index',
-    'how-to/kicad-footprint-generation',
+    'how-to/kicad-workflow',
+    'how-to/kicad-parts-download',
     'how-to/create-footprint-svg',
     'how-to/create-circuit-svg',
   ],
