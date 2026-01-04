@@ -163,7 +163,7 @@ with schemdraw.Drawing(
 
     # VDD pin (pin 7) with 1µF decoupling capacitor
     elm.Line().at(u1.VDD).right(1.0)
-    elm.Capacitor().down(2.0).label('C3\n1µF', loc='bot', ofst=0.5)
+    elm.Capacitor().down(2.0).label('C30\n1µF', loc='bot', ofst=0.5)
     elm.Ground()
 
     # Save to doc/static/circuits/
