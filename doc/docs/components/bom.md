@@ -99,26 +99,6 @@ Complete parts configuration using JLCPCB SMT service.
 | **C32** | **[C7393941](https://jlcpcb.com/partdetail/C7393941)** | **22nF 250V X7R** | 0805    | **4,046**      | **$0.0135** | U3 Feedback Compensation | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
 | **C33** | **[C7393941](https://jlcpcb.com/partdetail/C7393941)** | **22nF 250V X7R** | 0805    | **4,046**      | **$0.0135** | U4 Feedback Compensation | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
-## Obsolete Components - Not Used in Current Design
-
-:::info Obsolete Components - Not Used in Current Design
-The following components were used in the old negative voltage generation design (LM2586 flyback converter) but have been replaced with a simpler LM2596S inverting buck-boost topology in Diagram4. These are kept here for reference only.
-
-**Obsolete IC:**
-
-- **U5 (LM2586SX-ADJ)**: Replaced with U4 (LM2596S-ADJ) in inverting buck-boost configuration
-- **Reason for change**: FB pin voltage violation issue with flyback topology
-
-**Obsolete Transformer:**
-
-- **T1 (MSD1514-473MED)**: No longer needed with inverting buck-boost design
-
-**Obsolete Feedback Resistors:**
-
-- **R7 (10kΩ), R8 (910Ω), R9 (3kΩ)**: LM2586 feedback components
-- **Replaced with**: Standard LM2596S feedback resistors (same as U2/U3)
-  :::
-
 **Stage 2 Subtotal: TBD** (pending inductor/capacitor selection)
 
 ### Stage 3: Linear Regulators (LM7812/7805/7912)

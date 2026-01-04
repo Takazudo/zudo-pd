@@ -86,3 +86,40 @@ The following diagrams represent previous design iterations that have been repla
 - The buck converter topology is identical to positive voltage versions, just with negative voltages
 
 </details>
+
+---
+
+## Obsolete Components Not Used in Current Design
+
+The following components were planned for the old negative voltage generation design (LM2586 flyback converter) but were never manufactured. They have been replaced with a simpler LM2596S inverting buck-boost topology in the current Diagram4.
+
+### Obsolete IC
+
+- **U5 (LM2586SX-ADJ)**: Was planned for flyback converter topology
+  - **JLCPCB Part**: [C181324](https://jlcpcb.com/partdetail/C181324)
+  - **Reason for removal**: FB pin voltage violation issue (flyback topology forced FB pin below GND, violating -0.4V absolute maximum rating)
+  - **Replaced with**: U4 (LM2596S-ADJ) in inverting buck-boost configuration (simpler, uses same IC as other DC-DC stages)
+
+### Obsolete Transformer
+
+- **T1 (MSD1514-473MED)**: Coupled transformer for flyback topology
+  - **Specification**: 47µH:47µH (1:1 turns ratio)
+  - **JLCPCB Part**: C40657138
+  - **No longer needed**: Inverting buck-boost design uses only inductors, not transformers
+
+### Obsolete Feedback Components
+
+The LM2586 flyback design required different feedback component values than the standard LM2596S buck converters:
+
+- **R7 (10kΩ)**: Feedback resistor (upper) for -15V output calculation
+- **R8 (910Ω)**: Feedback resistor (lower) to set -15V output voltage
+- **R9 (3kΩ)**: Compensation resistor for flyback stability
+- **Replaced with**: Standard LM2596S feedback resistors R5 (10kΩ) and R6 (1kΩ), same values as U2/U3
+
+**Current design benefits:**
+
+- Simpler topology (single-stage conversion instead of two-stage)
+- Uses standard LM2596S IC (same as other converters, reduces BOM complexity)
+- No transformer required (just standard inductor)
+- No FB pin voltage violations
+- Fewer components overall

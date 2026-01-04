@@ -99,13 +99,51 @@ Being an adjustable output type (ADJ), the output voltage can be set using a fee
 | 6   | Freq. Sync.         | Frequency synchronization (not used in this project)    |
 | 7   | VIN                 | Input voltage (+15V from Diagram1)                      |
 
-## Application in This Project
+## Obsolete Bill of Materials
 
-### Flyback Converter Configuration (Diagram4: U5)
+The following components were planned but never manufactured. This design was abandoned before PCB production.
+
+### Planned Components (Not Ordered)
+
+**Main IC:**
+
+- **U5**: LM2586SX-ADJ - [C181324](https://jlcpcb.com/partdetail/C181324) - $0.50 (estimated) - **89 units stock**
+
+**Transformer:**
+
+- **T1**: MSD1514-473MED - [C40657138](https://jlcpcb.com/partdetail/C40657138) - Coilcraft 47µH:47µH coupled transformer - **Price TBD**
+
+**Feedback/Compensation Resistors:**
+
+- **R7**: 10kΩ ±1% 0603 - [C25804](https://jlcpcb.com/partdetail/C25804) - $0.0005
+- **R8**: 910Ω ±1% 0603 - Standard value (E96 series) - $0.0005 (estimated)
+- **R9**: 3kΩ ±1% 0603 - [C22790](https://jlcpcb.com/partdetail/C22790) - $0.0005
+
+**Capacitors:**
+
+- **C13**: 100µF 25V electrolytic - Input bulk filter
+- **C14**: 100µF 25V electrolytic - Output filter (reversed polarity)
+- **C15**: 47nF ceramic X7R - Compensation capacitor
+- **C16**: 100nF 50V X7R ceramic - Input decoupling
+
+**Diode:**
+
+- **D4**: SS34 Schottky 3A 40V - [C8678](https://jlcpcb.com/partdetail/C8678) - $0.012
+
+**Why These Components Were Never Ordered:**
+
+- Design flaw discovered during circuit simulation (FB pin voltage violation)
+- Replaced with simpler LM2596S inverting buck-boost topology
+- New design uses components already in BOM for other stages
+- Saves cost and reduces unique part count
+
+## Application in This Project (Historical)
+
+### Flyback Converter Configuration (Old Diagram4: U5)
 
 <InverterU5Diagram />
 
-### Component Values for -15V Output
+### Component Values for -15V Output (As Planned)
 
 | Component | Value                   | Purpose                                     |
 | --------- | ----------------------- | ------------------------------------------- |
