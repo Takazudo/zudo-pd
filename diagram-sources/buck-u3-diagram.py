@@ -62,14 +62,14 @@ with schemdraw.Drawing(
     elm.Line().down(1.0)
     elm.Ground()
 
-    # C10 from junction2 (closer to IC - high-freq decoupling)
+    # C8 from junction2 (closer to IC - high-freq decoupling)
     d.pop()
-    elm.Capacitor().down(2.0).label('C10\n100nF', loc='bot')
+    elm.Capacitor().down(2.0).label('C8\n100nF', loc='bot')
     elm.Ground()
 
-    # C9 from junction1 (farther from IC - bulk filtering)
+    # C7 from junction1 (farther from IC - bulk filtering)
     d.pop()
-    elm.Capacitor().down(2.0).label('C9\n100µF', loc='bot')
+    elm.Capacitor().down(2.0).label('C7\n100µF', loc='bot')
     elm.Ground()
 
     # Output stage from VOUT pin
@@ -121,9 +121,9 @@ with schemdraw.Drawing(
     elm.Capacitor().left().label('C32\n22nF', loc='top', ofst=0.3)
     elm.Line().to(r3_end)
 
-    # Output capacitor C7 (from output junction - right side, facing up)
+    # Output capacitor C4 (from output junction - right side, facing up)
     d.pop()
-    elm.Capacitor().down(2.0).label('C7\n470µF\n25V', loc='bot', ofst=0.5)
+    elm.Capacitor().down(2.0).label('C4\n470µF\n16V', loc='bot', ofst=0.5)
     elm.Ground()
 
     # Flyback diode D2 (from switching node - left side, facing up)

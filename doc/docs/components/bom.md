@@ -28,10 +28,10 @@ Complete parts configuration using JLCPCB SMT service.
 | **C30**     | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | **CGA0603X5R105K160JT**                 | 1µF 16V X5R ±10%                  | 0603    | **1,225,237**  | **$0.0012**     | VDD Decoupling       | [D1](/docs/inbox/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 | **R11**     | **[C705785](https://jlcpcb.com/partdetail/C705785)**   | **RT0603BRD0756KL**                     | 56kΩ ±0.1%                        | 0603    | **19,902**     | **$0.0011**     | 15V Config (Rset)    | [D1](/docs/inbox/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 | **R12,R13** | **[C23186](https://jlcpcb.com/partdetail/C23186)**     | **0603WAF5101T5E**                      | 5.1kΩ ±1%                         | 0603    | **Rich Stock** | **$0.0005 × 2** | CC Pull-down (Rd)    | [D1](/docs/inbox/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R10**     | **[C23138](https://jlcpcb.com/partdetail/C23138)**     | **0603WAF3300T5E**                      | 330Ω ±1%                          | 0603    | **Rich Stock** | **$0.00099**    | LED Current Limit    | [D1](/docs/inbox/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **LED1**    | **[C2286](https://jlcpcb.com/partdetail/C2286)**       | **0805G**                               | Green LED 20mA                    | 0805    | **Rich Stock** | **$0.0115**     | Power Good Indicator | [D1](/docs/inbox/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 
-**Stage 1 Subtotal: $0.46** (Updated with CC pull-down resistors)
+**Stage 1 Subtotal: $0.40**
+
+**Note:** CH224D does not have a Power Good (PG) output pin. Status indication is provided by output stage LEDs (LED2, LED3, LED4) which confirm the entire power chain is operational.
 
 **Critical Notes:**
 
@@ -79,14 +79,14 @@ Complete parts configuration using JLCPCB SMT service.
 
 #### Electrolytic Capacitors
 
-| Symbol  | Part Number                                              | Specification | Package     | Stock          | Price      | Application      | Diagram                                                                                    |
-| ------- | -------------------------------------------------------- | ------------- | ----------- | -------------- | ---------- | ---------------- | ------------------------------------------------------------------------------------------ |
-| **C3**  | **[C3351](https://jlcpcb.com/partdetail/C3351)**         | **470µF 25V** | D10xL10.2mm | **19,150**     | **$0.044** | U2 Output Filter | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **C4**  | **[C335982](https://jlcpcb.com/partdetail/C335982)**     | **470µF 10V** | D6.3xL7.7mm | **164,155**    | **$0.014** | U3 Output Filter | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **C5**  | **[C2907](https://jlcpcb.com/partdetail/C2907)**         | **100µF 25V** | D6.3xL7.7mm | **Rich Stock** | **$0.019** | U2 Input Bulk    | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **C7**  | **[C2907](https://jlcpcb.com/partdetail/C2907)**         | **100µF 25V** | D6.3xL7.7mm | **Rich Stock** | **$0.019** | U3 Input Bulk    | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **C9**  | **[C22383806](https://jlcpcb.com/partdetail/C22383806)** | **100µF 50V** | D6.3xL7.7mm | **8,337**      | **TBD**    | U4 Input Bulk    | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
-| **C11** | **[C3351](https://jlcpcb.com/partdetail/C3351)**         | **470µF 25V** | D10xL10.2mm | **19,150**     | **$0.044** | U4 Output Filter | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| Symbol  | Part Number                                              | Specification      | Package     | Stock      | Price      | Application      | Diagram                                                                                    |
+| ------- | -------------------------------------------------------- | ------------------ | ----------- | ---------- | ---------- | ---------------- | ------------------------------------------------------------------------------------------ |
+| **C3**  | **[C3351](https://jlcpcb.com/partdetail/C3351)**         | **470µF 25V**      | D10xL10.2mm | **19,150** | **$0.044** | U2 Output Filter | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **C4**  | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V ±20%** | D6.3xL7.7mm | **5,429**  | **$0.019** | U3 Output Filter | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **C5**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U2 Input Bulk    | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **C7**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U3 Input Bulk    | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **C9**  | **[C22383806](https://jlcpcb.com/partdetail/C22383806)** | **100µF 50V**      | D6.3xL7.7mm | **8,337**  | **TBD**    | U4 Input Bulk    | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **C11** | **[C3351](https://jlcpcb.com/partdetail/C3351)**         | **470µF 25V**      | D10xL10.2mm | **19,150** | **$0.044** | U4 Output Filter | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Ceramic Capacitors (DC-DC Stage)
 
@@ -97,27 +97,9 @@ Complete parts configuration using JLCPCB SMT service.
 | **C10** | **[C49678](https://jlcpcb.com/partdetail/C49678)**     | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U4 Input Decoupling      | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 | **C31** | **[C7393941](https://jlcpcb.com/partdetail/C7393941)** | **22nF 250V X7R** | 0805    | **4,046**      | **$0.0135** | U2 Feedback Compensation | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
 | **C32** | **[C7393941](https://jlcpcb.com/partdetail/C7393941)** | **22nF 250V X7R** | 0805    | **4,046**      | **$0.0135** | U3 Feedback Compensation | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **C33** | **[C7393941](https://jlcpcb.com/partdetail/C7393941)** | **22nF 250V X7R** | 0805    | **4,046**      | **$0.0135** | U4 Feedback Compensation | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **C33** | **[C7393941](https://jlcpcb.com/partdetail/C7393941)** | **22nF 250V X7R** | 0805    | **4,046**      | **$0.0135** | U4 Feedback Compensation | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2296s-adj-u4) |
 
-## Obsolete Components - Not Used in Current Design
-
-:::info Obsolete Components - Not Used in Current Design
-The following components were used in the old negative voltage generation design (LM2586 flyback converter) but have been replaced with a simpler LM2596S inverting buck-boost topology in Diagram4. These are kept here for reference only.
-
-**Obsolete IC:**
-
-- **U5 (LM2586SX-ADJ)**: Replaced with U4 (LM2596S-ADJ) in inverting buck-boost configuration
-- **Reason for change**: FB pin voltage violation issue with flyback topology
-
-**Obsolete Transformer:**
-
-- **T1 (MSD1514-473MED)**: No longer needed with inverting buck-boost design
-
-**Obsolete Feedback Resistors:**
-
-- **R7 (10kΩ), R8 (910Ω), R9 (3kΩ)**: LM2586 feedback components
-- **Replaced with**: Standard LM2596S feedback resistors (same as U2/U3)
-  :::
+**Note on C31/C32/C33:** These capacitors are not available in EasyEDA's symbol database. Use KiCad's built-in `Device:C` symbol paired with the `C0805.kicad_mod` footprint. This is standard practice for passive components in JLCPCB PCBA projects.
 
 **Stage 2 Subtotal: TBD** (pending inductor/capacitor selection)
 

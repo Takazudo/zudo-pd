@@ -39,7 +39,7 @@ with schemdraw.Drawing(
             elm.IcPin(name='CC2', pin='10', side='left', slot='8/15'),   # Aligned with J1 CC2
             elm.IcPin(name='CC1', pin='11', side='left', slot='9/15'),   # Aligned with J1 CC1
             elm.IcPin(name='VBUS', pin='2', side='left', slot='15/15'),  # Aligned with J1 VBUS1
-            # Right side pins (top to bottom) - PG moved below DM
+            # Right side pins (top to bottom)
             elm.IcPin(name='GATE', pin='5', side='right', slot='12/12'),
             elm.IcPin(name='NMOS#', pin='6', side='right', slot='11/12'),
             elm.IcPin(name='ISP', pin='14', side='right', slot='10/12'),
@@ -50,7 +50,6 @@ with schemdraw.Drawing(
             elm.IcPin(name='CFG3', pin='12', side='right', slot='5/12'),
             elm.IcPin(name='DP', pin='8', side='right', slot='4/12'),
             elm.IcPin(name='DM', pin='9', side='right', slot='3/12'),
-            elm.IcPin(name='PG', pin='3', side='right', slot='2/12'),   # Moved below DM
             elm.IcPin(name='VDD', pin='7', side='right', slot='1/12'),  # Internal regulator output
         ],
         size=(4, 12),  # Explicit size to match J1 height
@@ -155,15 +154,9 @@ with schemdraw.Drawing(
     elm.Resistor(scale=0.7).down().label('R11\n56kΩ', loc='bot', ofst=-2.1)
     elm.Ground()
 
-    # PG pin with LED and R10 to +5V
-    elm.Line().at(u1.PG).right(0.1)
-    elm.LED().right().reverse().label('D1', loc='bot', ofst=(0, -0.5))
-    elm.Resistor(scale=0.7).right().label('R10\n330Ω', loc='top', ofst=0.5)
-    elm.Dot(open=True).label('+5V IN', loc='top', ofst=(0, 0.2))
-
     # VDD pin (pin 7) with 1µF decoupling capacitor
     elm.Line().at(u1.VDD).right(1.0)
-    elm.Capacitor().down(2.0).label('C3\n1µF', loc='bot', ofst=0.5)
+    elm.Capacitor().down(2.0).label('C30\n1µF', loc='bot', ofst=0.5)
     elm.Ground()
 
     # Save to doc/static/circuits/
