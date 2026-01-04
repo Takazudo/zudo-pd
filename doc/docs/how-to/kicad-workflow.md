@@ -233,6 +233,16 @@ zudo-power-usb-pd/          ← Repository root
 
 4. **Click OK**
 
+**Example configuration:**
+
+![Footprint Library Setup](/kicad/footprint-library-setup.png)
+
+The dialog should show:
+
+- Library nickname: `zudo-pd`
+- Library path: `${KIPRJMOD}/footprints/kicad/zudo-power.pretty`
+- At the bottom, "Available path substitutions" shows the resolved path
+
 **Verify the library loaded:**
 
 1. Open **Footprint Editor** (from main KiCad window)
