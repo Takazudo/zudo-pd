@@ -40,6 +40,8 @@ const sidebars = {
   ],
   learningSidebar: [
     'learning/index',
+    'learning/gnd-component-placement',
+    'learning/gndd-gnda-split-ground',
     'learning/ch224d-usb-pd-controller',
     'learning/usb-type-c-pinout',
     'learning/open-drain-pg-pin',
