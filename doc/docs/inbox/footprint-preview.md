@@ -143,8 +143,8 @@ import CapD63 from '@site/static/footprints-svg/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
 **Used for:**
 
 - Linear regulator input/output capacitors (C14-C19: 470µF 10V)
-- DC-DC converter output capacitors (C10-C12: 100µF 25V)
-  **LCSC:** [C335982](https://jlcpcb.com/partdetail/C335982) (470µF 10V), [C2907](https://jlcpcb.com/partdetail/C2907) (100µF 25V)
+- DC-DC converter input capacitors (C5, C7: 100µF 25V)
+  **LCSC:** [C335982](https://jlcpcb.com/partdetail/C335982) (470µF 10V), [C22383804](https://jlcpcb.com/partdetail/C22383804) (100µF 25V)
   **Applications:** Most common electrolytic in this design - bulk energy storage
 
 #### D18mm Large Electrolytic Capacitor
