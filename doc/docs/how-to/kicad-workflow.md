@@ -35,6 +35,7 @@ KiCad uses a modular workflow where you work with different editors in sequence:
 Before creating custom symbols, check if they already exist in KiCad's standard libraries:
 
 **Common libraries for this project:**
+
 - `Device` - Resistors, capacitors, inductors, diodes, LEDs
 - `Regulator_Linear` - LM78xx, LM79xx series
 - `Regulator_Switching` - LM2596, buck/boost converters
@@ -42,6 +43,7 @@ Before creating custom symbols, check if they already exist in KiCad's standard 
 - `power` - GND, VCC, voltage symbols
 
 **To check:**
+
 1. Open **Symbol Editor**
 2. File → Add Library... → Browse standard KiCad libraries
 3. Search for your part number or category
@@ -84,6 +86,7 @@ easyeda2kicad --lcsc_id C970725 --symbol --footprint
    - Reference designator (U, R, C, J, etc.)
 
 **Best practices:**
+
 - Match datasheet pin numbering exactly
 - Use descriptive pin names (VIN, VOUT, FB, EN, etc.)
 - Set correct electrical types for ERC (Electrical Rule Check)
@@ -111,6 +114,7 @@ easyeda2kicad --lcsc_id C970725 --symbol --footprint
    - Output connectors (far right)
 
 **Recommended layout flow:**
+
 ```
 Left to Right = Signal Flow
 USB-C Input → DC-DC Conversion → Linear Regulation → Outputs
@@ -126,6 +130,7 @@ USB-C Input → DC-DC Conversion → Linear Regulation → Outputs
    - Signal names: `PG` (Power Good), `EN` (Enable), `FB` (Feedback)
 
 **Best practices:**
+
 - Use net labels instead of long wires across the page
 - Group related components close together
 - Keep power flow left-to-right, top-to-bottom
@@ -142,6 +147,7 @@ USB-C Input → DC-DC Conversion → Linear Regulation → Outputs
 ### 2.5 Add Values and References
 
 For each component:
+
 1. Select component
 2. Press `E` to edit properties
 3. Set:
@@ -181,6 +187,7 @@ Before proceeding to PCB:
 See [KiCad Footprint Generation Guide](./kicad-footprint-generation.md) for detailed instructions.
 
 **Quick workflow:**
+
 ```bash
 # Download footprint by LCSC ID
 easyeda2kicad --lcsc_id C970725 --footprint
@@ -194,6 +201,7 @@ cp ~/Documents/Kicad/easyeda2kicad/easyeda2kicad.pretty/*.kicad_mod ./footprints
 **IMPORTANT:** Before adding the footprint library, ensure your KiCad project (`.kicad_pro` file) is located in the repository root directory. The `${KIPRJMOD}` variable points to the project file location, so if your project is in a subdirectory (like `kicad/`), the relative paths won't resolve correctly.
 
 **Project structure:**
+
 ```
 zudo-power-usb-pd/          ← Repository root
 ├── zudo-pd.kicad_pro       ← KiCad project file should be here
@@ -252,6 +260,7 @@ zudo-power-usb-pd/          ← Repository root
    - **Large components**: Verify pad sizes for current rating
 
 **Example assignments:**
+
 - LM7812 → `TO-252-2` (DPAK)
 - LM2596S → `TO-263-5` (D2PAK)
 - CH224Q → `ESSOP-10` (from LCSC)
@@ -308,6 +317,7 @@ zudo-power-usb-pd/          ← Repository root
    - TVS diodes near output
 
 **Best practices:**
+
 - Keep signal paths short (especially high-current paths)
 - Place decoupling capacitors close to IC power pins
 - Orient components for logical layout
@@ -317,21 +327,25 @@ zudo-power-usb-pd/          ← Repository root
 ### 4.4 Route Traces
 
 **Layer strategy:**
+
 - **F.Cu (Top layer):** Power traces, signal routing
 - **B.Cu (Bottom layer):** Ground plane + additional routing
 
 **Trace widths (for 1oz copper):**
+
 - Power traces (1A+): 0.5mm minimum, 1.0mm recommended
 - Signal traces: 0.25mm minimum, 0.3mm recommended
 - Ground/return: Wide as possible, or use ground plane
 
 **Routing order:**
+
 1. Route power traces first (+15V, +12V, +5V, -12V)
 2. Route critical signals (feedback, enable pins)
 3. Route remaining connections
 4. Add ground plane on bottom layer (Fill Zone)
 
 **Tools:**
+
 - Press `X` to start routing
 - Press `V` to add via (switch layers)
 - Press `D` to drag component while maintaining connections
@@ -383,6 +397,7 @@ Before manufacturing:
    - Use external tool (KiBoM, InteractiveHtmlBom)
 
 **For JLCPCB assembly:**
+
 - Must include: Reference, Value, Footprint, LCSC Part Number
 - Export as CSV format
 - Match JLCPCB template exactly
@@ -412,6 +427,7 @@ For SMT assembly:
 ### 6.1 Prepare Files
 
 Create ZIP archive with:
+
 - All Gerber files (.gbr)
 - Drill file (.drl)
 - BOM (CSV format, JLCPCB template)
@@ -470,18 +486,23 @@ cpl_jlcpcb.csv
 ### Common Issues
 
 **Problem:** Symbol not found when placing component
+
 - **Solution:** Add library containing the symbol (Preferences → Manage Symbol Libraries)
 
 **Problem:** Footprint assignment shows "No Footprint"
+
 - **Solution:** Add footprint library (Preferences → Manage Footprint Libraries)
 
 **Problem:** DRC shows "unconnected nets"
+
 - **Solution:** Check for missing wires in schematic, or use "No Connect" flags
 
 **Problem:** Gerber viewer shows misaligned layers
+
 - **Solution:** Check drill origin settings, regenerate Gerbers with correct settings
 
 **Problem:** JLCPCB BOM upload fails
+
 - **Solution:** Verify CSV format matches template, check for special characters
 
 ## Next Steps
