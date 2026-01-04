@@ -17,11 +17,12 @@ with schemdraw.Drawing(
     d.config(unit=3)
 
     # LM7912 linear regulator IC (3-pin TO-252-3)
+    # 79xx NEGATIVE regulator pinout (different from 78xx positive regulators!)
     ic = elm.Ic(
         pins=[
-            elm.IcPin(name='GND', pin='3', side='left', slot='1/2'),
-            elm.IcPin(name='IN', pin='1', side='left', slot='2/2'),
-            elm.IcPin(name='OUT', pin='2', side='right', slot='1/1'),
+            elm.IcPin(name='GND', pin='1', side='left', slot='1/2'),
+            elm.IcPin(name='IN', pin='2', side='left', slot='2/2'),
+            elm.IcPin(name='OUT', pin='3', side='right', slot='1/1'),
         ],
         edgepadW=2.0,
         edgepadH=0.8,
