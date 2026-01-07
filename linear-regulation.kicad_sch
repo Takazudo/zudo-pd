@@ -1771,11 +1771,11 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "zudo-pd:SD05C-01FTG_C5299440"
+		(symbol "zudo-pd:SD05_C502527"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U"
+			(property "Reference" "D"
 				(at 0 5.08 0)
 				(effects
 					(font
@@ -1783,7 +1783,7 @@
 					)
 				)
 			)
-			(property "Value" "SD05C-01FTG_C5299440"
+			(property "Value" "SD05_C502527"
 				(at 0 -5.08 0)
 				(effects
 					(font
@@ -1791,7 +1791,7 @@
 					)
 				)
 			)
-			(property "Footprint" "easyeda2kicad:SOD-323_L1.7-W1.3-LS2.5-BI-1"
+			(property "Footprint" "zudo-power:SOD-323_L1.8-W1.3-LS2.5-FD"
 				(at 0 -7.62 0)
 				(effects
 					(font
@@ -1800,25 +1800,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "LCSC Part" "C5299440"
+			(property "Datasheet" "https://lcsc.com/product-detail/TVS_MDD-Microdiode-Electronics-SD05_C502527.html"
 				(at 0 -10.16 0)
 				(effects
 					(font
@@ -1827,22 +1809,28 @@
 					(hide yes)
 				)
 			)
-			(symbol "SD05C-01FTG_C5299440_0_1"
-				(polyline
-					(pts
-						(xy -2.54 -1.78) (xy 0 0) (xy -2.54 1.78) (xy -2.54 -1.78)
+			(property "Description" "5V Unidirectional TVS Diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
 					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
+					(hide yes)
 				)
+			)
+			(property "LCSC Part" "C502527"
+				(at 0 -12.7 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SD05_C502527_0_1"
 				(polyline
 					(pts
-						(xy -0.51 1.78) (xy 0 1.27) (xy 0 -1.27) (xy 0.51 -1.78)
+						(xy -2.54 0) (xy -1.27 0)
 					)
 					(stroke
 						(width 0)
@@ -1854,7 +1842,7 @@
 				)
 				(polyline
 					(pts
-						(xy 2.54 1.78) (xy 0 0) (xy 2.54 -1.78) (xy 2.54 1.78)
+						(xy -1.27 1.78) (xy 1.27 0) (xy -1.27 -1.78) (xy -1.27 1.78)
 					)
 					(stroke
 						(width 0)
@@ -1864,10 +1852,34 @@
 						(type background)
 					)
 				)
-				(pin unspecified line
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.03 2.03) (xy 1.27 1.52) (xy 1.27 -1.52) (xy 0.51 -2.03)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
 					(at -5.08 0 0)
 					(length 2.54)
-					(name "1"
+					(name "A"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1882,10 +1894,10 @@
 						)
 					)
 				)
-				(pin unspecified line
+				(pin passive line
 					(at 5.08 0 180)
 					(length 2.54)
-					(name "2"
+					(name "K"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3787,7 +3799,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1d8c64da-717c-4c79-84a4-1ac22bcb84b2")
-		(property "Reference" "F1"
+		(property "Reference" "PTC3"
 			(at 241.3 93.472 0)
 			(effects
 				(font
@@ -3849,7 +3861,7 @@
 		(instances
 			(project ""
 				(path "/c5ce32ac-bd6d-413c-bfb5-5e9e2f8848d1/df8a312b-d6c9-4f81-85b3-c59053621460"
-					(reference "F1")
+					(reference "PTC3")
 					(unit 1)
 				)
 			)
@@ -5195,6 +5207,86 @@
 		)
 	)
 	(symbol
+		(lib_id "zudo-pd:SD05_C502527")
+		(at 139.7 129.54 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "907288fc-4906-4c1d-94e6-5618006eddeb")
+		(property "Reference" "TVS2"
+			(at 143.51 128.2699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "SD05_C502527"
+			(at 143.51 130.8099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "zudo-power:SOD-323_L1.8-W1.3-LS2.5-FD"
+			(at 147.32 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://lcsc.com/product-detail/TVS_MDD-Microdiode-Electronics-SD05_C502527.html"
+			(at 149.86 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "5V Unidirectional TVS Diode"
+			(at 139.7 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" "C502527"
+			(at 152.4 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "79403b77-8e44-4013-9eaf-04b37b2a83ea")
+		)
+		(pin "2"
+			(uuid "aea00aff-8fba-4585-b977-b6d247f25a5d")
+		)
+		(instances
+			(project ""
+				(path "/c5ce32ac-bd6d-413c-bfb5-5e9e2f8848d1/df8a312b-d6c9-4f81-85b3-c59053621460"
+					(reference "TVS2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "zudo-pd:0805W8F3300T5E")
 		(at 109.22 106.68 180)
 		(unit 1)
@@ -5862,86 +5954,6 @@
 			(project ""
 				(path "/c5ce32ac-bd6d-413c-bfb5-5e9e2f8848d1/df8a312b-d6c9-4f81-85b3-c59053621460"
 					(reference "C21")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "zudo-pd:SD05C-01FTG_C5299440")
-		(at 139.7 129.54 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "ea4f6869-c932-4828-9d8b-324ffc8c7f76")
-		(property "Reference" "TVS2"
-			(at 142.24 129.5399 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TVS2"
-			(at 137.16 128.2701 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "easyeda2kicad:SOD-323_L1.7-W1.3-LS2.5-BI-1"
-			(at 132.08 129.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 139.7 129.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 139.7 129.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part" "C5299440"
-			(at 129.54 129.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "659d6a36-788c-41df-99dd-7e11bf19c99d")
-		)
-		(pin "2"
-			(uuid "8253b837-1f16-4401-a71f-8fe99a99c518")
-		)
-		(instances
-			(project ""
-				(path "/c5ce32ac-bd6d-413c-bfb5-5e9e2f8848d1/df8a312b-d6c9-4f81-85b3-c59053621460"
-					(reference "TVS2")
 					(unit 1)
 				)
 			)

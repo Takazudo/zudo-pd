@@ -161,11 +161,11 @@ Complete parts configuration using JLCPCB SMT service.
 
 #### TVS Diodes
 
-| Symbol   | Part Number                                            | Manufacturer Part Number | Description            | Package | Estimated Price | Application     | Diagram                                                                            |
-| -------- | ------------------------------------------------------ | ------------------------ | ---------------------- | ------- | --------------- | --------------- | ---------------------------------------------------------------------------------- |
-| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)**   | **[SMAJ15A](./smaj15a)** | 15V TVS Unidirectional | SMA     | **$0.15**       | +12V Protection | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **TVS2** | **[C5299440](https://jlcpcb.com/partdetail/C5299440)** | **SD05C-01FTG**          | 6V TVS Bidirectional   | SOD-323 | **$0.08**       | +5V Protection  | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)**   | **[SMAJ15A](./smaj15a)** | 15V TVS Unidirectional | SMA     | **$0.15**       | -12V Protection | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| Symbol   | Part Number                                          | Manufacturer Part Number | Description            | Package | Estimated Price | Application     | Diagram                                                                            |
+| -------- | ---------------------------------------------------- | ------------------------ | ---------------------- | ------- | --------------- | --------------- | ---------------------------------------------------------------------------------- |
+| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](./smaj15a)** | 15V TVS Unidirectional | SMA     | **$0.15**       | +12V Protection | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **TVS2** | **[C502527](https://jlcpcb.com/partdetail/C502527)** | **[SD05](./sd05)**       | 5V TVS Unidirectional  | SOD-323 | **$0.02**       | +5V Protection  | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](./smaj15a)** | 15V TVS Unidirectional | SMA     | **$0.15**       | -12V Protection | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 #### Status Indicator LEDs (Using Basic Parts)
 
@@ -180,7 +180,7 @@ Complete parts configuration using JLCPCB SMT service.
 
 **Stage 4 Subtotal: $0.77** (PTC-only protection, no fuses needed)
 
-### Stage 5: Output Connector
+### Stage 5: Output Connectors
 
 #### Eurorack Power Connector (16-pin)
 
@@ -209,7 +209,26 @@ Complete parts configuration using JLCPCB SMT service.
   +12V  [15]  [16]  +5V
 ```
 
-**Stage 5 Subtotal: $0.08**
+#### FASTON Power Terminals (Busboard Connection)
+
+| Symbol    | Part Number                                          | Manufacturer Part Number                | Description               | Package      | Stock     | Price         | Application           |
+| --------- | ---------------------------------------------------- | --------------------------------------- | ------------------------- | ------------ | --------- | ------------- | --------------------- |
+| **J3-J6** | **[C305825](https://jlcpcb.com/partdetail/C305825)** | **[1217754-1](./faston-terminal)** (×4) | FASTON 250 PCB Tab 6.35mm | Through-hole | **4,044** | **$0.03 × 4** | Busboard Power Output |
+
+**FASTON Terminal Configuration:**
+
+| Terminal | Signal | Max Current |
+| -------- | ------ | ----------- |
+| **J3**   | +12V   | 7A (rated)  |
+| **J4**   | -12V   | 7A (rated)  |
+| **J5**   | +5V    | 7A (rated)  |
+| **J6**   | GND    | 7A (rated)  |
+
+**Purpose:** Heavy-duty power output for busboard connection. FASTON 250 series terminals support thick gauge wire for low-resistance, low-noise power delivery to multiple Eurorack modules.
+
+**Note:** Requires matching FASTON receptacles on the busboard. Combined GND return current is ~2.5A max (well within 7A rating).
+
+**Stage 5 Subtotal: $0.20** (Header: $0.08 + FASTON × 4: $0.12)
 
 ## Performance Specifications
 
@@ -299,14 +318,14 @@ Complete parts configuration using JLCPCB SMT service.
 | **Stage 2** | DC-DC Converters            | **$2.09** |
 | **Stage 3** | Linear Regulators           | **$0.37** |
 | **Stage 4** | Protection Circuit          | **$0.77** |
-| **Stage 5** | Output Connector            | **$0.08** |
-|             | **Total (Components Only)** | **$3.76** |
+| **Stage 5** | Output Connectors           | **$0.20** |
+|             | **Total (Components Only)** | **$3.88** |
 
 **Cost Savings:**
 
 - **Previous design** (PTC + Fuse): ~$4.76
-- **Current design** (PTC-only + Connector): **$3.76**
-- **Savings**: **$1.00** (21% reduction)
+- **Current design** (PTC-only + Connectors): **$3.88**
+- **Savings**: **$0.88** (18% reduction)
 
 **Notes:**
 
