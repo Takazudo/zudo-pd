@@ -27,25 +27,12 @@ Physical height reference for PCB layout and enclosure design.
 
 ### Height Profile
 
-```
-Height (mm)
-    |
- 10 +                          ####
-  9 +                    ####  ####  <- 470uF 25V caps (10.2mm) - TALLEST
-8.9 +                    ####  ####  <- FASTON J3-J6 (8.89mm)
-  8 +              ####  ####  ####
-7.7 +              ####  ####  ####  <- Small electrolytics (7.7mm)
-  7 +              ####  ####  ####
-  6 +              ####  ####  ####  <- Inductors L1,L2,L3 (~6-7mm)
-  5 +              ####  ####  ####
-4.5 +  ####  ####  ####  ####  ####  <- TO-263 (U2-U4, U6, U7)
-  4 +  ####  ####  ####  ####  ####
-  3 +  ####  ####  ####  ####  ####
-2.3 +  ####  ####  ####  ####  ####  <- TO-252 (U8)
-  2 +  ####  ####  ####  ####  ####
-  1 +  ####  ####  ####  ####  ####
-  0 +------------------------------
-      DC-DC  LDO   IND  FASTON  CAP
+```mermaid
+xychart-beta
+    title "Component Height Profile"
+    x-axis ["TO-252 (U8)", "TO-263 (U2-U7)", "Inductors (L1-L3)", "Small Caps", "FASTON (J3-J6)", "470uF 25V"]
+    y-axis "Height (mm)" 0 --> 12
+    bar [2.3, 4.5, 6.5, 7.7, 8.89, 10.2]
 ```
 
 ### PCB Design Implications
