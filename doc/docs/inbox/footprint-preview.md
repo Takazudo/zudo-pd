@@ -293,14 +293,17 @@ import TVSSMA from '@site/static/footprints-svg/D-FLAT_L4.3-W2.6-LS5.3-RD.svg';
 **LCSC:** [C571368](https://jlcpcb.com/partdetail/C571368)
 **Function:** Overvoltage protection for ±12V rails
 
-#### TVS2 - PRTR5V0U2X (+5V Overvoltage Protection)
+#### TVS2 - SD05 (+5V Overvoltage Protection)
+
+import TVSSOD323 from '@site/static/footprints-svg/SOD-323_L1.8-W1.3-LS2.5-FD.svg';
+
+<FootprintSvg src={TVSSOD323} alt="SD05 SOD-323 TVS Diode" minWidth="200px" minHeight="150px" />
 
 **Designator:** TVS2
-**Component:** [PRTR5V0U2X](../components/prtr5v0u2x) - 5V Bidirectional TVS Diode
-**Package:** SOT-143
-**LCSC:** [C5199240](https://jlcpcb.com/partdetail/C5199240)
-**Function:** Overvoltage protection for +5V rail
-**Note:** Footprint not available - download failed from EasyEDA API
+**Component:** [SD05](../components/sd05) - 5V Unidirectional TVS Diode
+**Package:** SOD-323 (1.8mm × 1.3mm)
+**LCSC:** [C502527](https://jlcpcb.com/partdetail/C502527)
+**Function:** Overvoltage protection for +5V DC power rail
 
 ---
 
@@ -320,6 +323,22 @@ import HeaderEuro from '@site/static/footprints-svg/HDR-TH_16P-P2.54-H-M-R2-C8-S
 **Function:** Eurorack power output connector
 
 **Note:** This is a standard pin header. For box/shrouded connectors (commonly used in Eurorack), source the mating connector separately from Tayda Electronics, Mouser, or Digikey.
+
+### J3-J6 - FASTON 250 Power Terminals
+
+import FASTON from '@site/docs/\_fragments/footprints/CONN-TH_1217754-1.svg';
+
+<FootprintSvg src={FASTON} alt="FASTON 250 PCB Terminal" minWidth="150px" minHeight="150px" />
+
+**Designators:** J3, J4, J5, J6 (4× units)
+**Component:** [1217754-1](../components/faston-terminal) - FASTON 250 PCB Tab Terminal
+**Package:** Through-hole (6.35mm tab width)
+**LCSC:** [C305825](https://jlcpcb.com/partdetail/C305825)
+**Stock:** 4,044 units
+**Current Rating:** 7A continuous
+**Function:** Busboard power output (+12V, -12V, +5V, GND)
+
+**Note:** Industrial-grade quick-connect terminals for heavy-duty power distribution to Eurorack busboards. Requires matching FASTON 250 receptacles on busboard side.
 
 ### 3-pin Header
 

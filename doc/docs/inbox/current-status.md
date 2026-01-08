@@ -43,7 +43,7 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 - ✅ Voltage Inverter: LM2586SX-ADJ/NOPB (C181324)
 - ✅ Linear Regulators: L7812CV-DG (C2914) / L7805ABD2T-TR (C86206) / CJ7912 (C94173)
 - ✅ Inductors: 100µH 4.5A × 3 (C19268674)
-- ✅ TVS Diodes: SMAJ15A, PRTR5V0U2X
+- ✅ TVS Diodes: SMAJ15A, SD05
 - ✅ Fuses: 1.5A × 2 confirmed (C95352)
 
 ~~**Unconfirmed Parts**~~ **→ All Confirmed!** ✅

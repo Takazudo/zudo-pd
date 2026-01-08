@@ -53,11 +53,11 @@ USB-C        DC-DC        LDO          Output
 
 ## 🛡️ Protection Circuit Ratings
 
-| Voltage Line | PTC Rating | JLCPCB P/N | Fuse Rating | JLCPCB P/N | TVS Model  | Operation                         |
-| ------------ | ---------- | ---------- | ----------- | ---------- | ---------- | --------------------------------- |
-| **+12V**     | 1.1A       | C883148    | 2A          | C5183824   | SMAJ15A    | Overload→PTC / Short circuit→Fuse |
-| **+5V**      | 0.75A      | C883128    | 1.5A        | C95352     | PRTR5V0U2X | Same as above                     |
-| **-12V**     | 1.1A       | C883148    | 1.5A        | C95352     | SMAJ15A    | Same as above                     |
+| Voltage Line | PTC Rating | JLCPCB P/N | Fuse Rating | JLCPCB P/N | TVS Model | Operation                         |
+| ------------ | ---------- | ---------- | ----------- | ---------- | --------- | --------------------------------- |
+| **+12V**     | 1.1A       | C883148    | 2A          | C5183824   | SMAJ15A   | Overload→PTC / Short circuit→Fuse |
+| **+5V**      | 1.1A       | C70119     | 1.5A        | C95352     | SD05      | Same as above                     |
+| **-12V**     | 1.1A       | C883148    | 1.5A        | C95352     | SMAJ15A   | Same as above                     |
 
 ### Protection Operation Sequence
 

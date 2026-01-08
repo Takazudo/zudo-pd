@@ -21,6 +21,7 @@ const sidebars = {
     'inbox/overview',
     'inbox/circuit-diagrams',
     'inbox/footprint-preview',
+    'inbox/mechanical-design',
     'inbox/quick-reference',
   ],
   componentsSidebar: [
@@ -36,7 +37,8 @@ const sidebars = {
     'components/ptc-5v',
     'components/ptc-12v-neg',
     'components/smaj15a',
-    'components/prtr5v0u2x',
+    'components/sd05',
+    'components/faston-terminal',
   ],
   learningSidebar: [
     'learning/index',
