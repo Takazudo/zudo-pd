@@ -20,11 +20,30 @@ Critical transient voltage suppression (TVS) diodes providing overvoltage and ES
   - Peak pulse power: 400W
   - JLCPCB: C571368
 
-- **[PRTR5V0U2X](./prtr5v0u2x.md)** - 5V Bidirectional Dual-Channel TVS Diode
-  - Package: SOT-143 (4-pin)
+- **[SD05](./sd05.md)** - 5V Unidirectional TVS Diode
+  - Package: SOD-323 (2-pin)
   - Application: +5V rail protection (TVS2)
-  - Ultra-low capacitance: 1pF typical
-  - JLCPCB: C5199240
+  - Optimized for DC power rails
+  - JLCPCB: C502527
+
+## Connectors
+
+Power input and output connectors:
+
+### Input Connector
+
+- **[USB Type-C Connector](./usb-c-connector.md)** - J1 USB-C Receptacle
+  - Package: SMD 6-pin power-only
+  - Application: USB-PD 15V power input
+  - JLCPCB: C2927029
+
+### Output Connectors
+
+- **[FASTON 250 Terminal](./faston-terminal.md)** - J3-J6 Power Terminals
+  - Package: Through-hole (6.35mm tab)
+  - Application: Busboard power output (+12V, -12V, +5V, GND)
+  - Current rating: 7A per terminal
+  - JLCPCB: C305825
 
 ## Planned Content
 

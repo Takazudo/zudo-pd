@@ -48,8 +48,8 @@ Input Capacitors:                    Regulator IC:                    Output Cap
 
 **Characteristics:**
 
-- **Low ESR** (Equivalent Series Resistance) < 10mΩ
-- **Low ESL** (Equivalent Series Inductance) < 1nH
+- **Low ESR** (Equivalent Series Resistance) &lt; 10mΩ
+- **Low ESL** (Equivalent Series Inductance) &lt; 1nH
 - **Fast response** to high-frequency noise
 - **Small physical size**
 
@@ -199,6 +199,239 @@ IC Pin ──┤<-- 10-50mm OK -->├── Electrolytic Cap
 - Large physical size prevents very close placement anyway
 - Bulk storage function doesn't need ultra-fast response
 
+## Why Output Ceramic Must Be So Close: Preventing Oscillation
+
+### The Problem: Linear Regulators Can Oscillate
+
+**Short answer:** The regulator oscillates, so kill the vibration near! 🎯
+
+Linear regulators contain an **internal feedback loop** that can become unstable:
+
+```
+Internal Feedback Loop:
+Output voltage → Error amp → Pass transistor → Output
+                    ↑                            │
+                    └────── Feedback ────────────┘
+
+If phase shift occurs in this loop:
+→ Positive feedback at certain frequencies
+→ Oscillation! (typically 100kHz - 10MHz)
+```
+
+**Without proper output capacitor:**
+
+```
+Output voltage waveform:
+     ╱╲╱╲╱╲╱╲╱╲╱╲╱╲
+    ╱            ╲╱   (Oscillating at MHz frequency!)
+   ╲╱
+```
+
+**With ceramic cap VERY CLOSE:**
+
+```
+Output voltage waveform:
+    ────────────────   (Stable! ✅)
+```
+
+### Why "CLOSE" is Critical: The Physics
+
+**Trace inductance blocks high-frequency current:**
+
+```
+If ceramic cap is FAR (>5cm):
+
+IC Output ──┬── 5cm trace (~50nH inductance) ── Ceramic cap ── GND
+            │          ↑
+         Oscillation   Inductance blocks MHz currents! ❌
+         (1-10MHz)     Cap can't "see" the oscillation
+            │          Vibration stays at IC output!
+            └──→ ╱╲╱╲╱╲╱╲╱╲  (Unstable!)
+```
+
+**At MHz frequencies, even short traces act like inductors:**
+
+| Trace Length | Inductance | Impedance at 1MHz | Impedance at 10MHz |
+| ------------ | ---------- | ----------------- | ------------------ |
+| 1mm          | ~1nH       | 0.006Ω            | 0.06Ω              |
+| 1cm          | ~10nH      | 0.06Ω             | 0.6Ω               |
+| 5cm          | ~50nH      | 0.3Ω              | **3Ω** ❌          |
+
+**At 10MHz with 5cm trace:** 3Ω impedance blocks oscillation current from reaching the capacitor!
+
+**If ceramic cap is VERY CLOSE (&lt;2mm):**
+
+```
+IC Output ──┬── 2mm trace (~2nH) ── Ceramic cap ── GND
+            │       ↑
+         Oscillation  Minimal inductance! ✅
+         (1-10MHz)    Cap immediately shorts vibration to ground
+            │
+            └──→ ──────────  (Stable! No oscillation)
+```
+
+**Why it works:**
+
+1. Oscillation current has **very low impedance path** to ground
+2. High-frequency vibrations are **immediately damped**
+3. Feedback loop remains **stable**
+4. Output stays **clean and steady**
+
+### Visual Analogy: Shock Absorber
+
+Think of the output ceramic capacitor like a **car shock absorber:**
+
+```
+🚗 Bouncing Spring (Oscillation):
+    ╱╲     Spring bouncing up/down
+   ╱  ╲    (Like regulator oscillating)
+  ╱    ╲
+ ╱      ╲
+
+🔧 Shock Absorber (Ceramic Cap):
+   Must be attached DIRECTLY to spring!
+
+✅ Shock absorber attached directly:
+   Spring ── [shock absorber] ── chassis
+           (dampens vibration immediately)
+
+❌ Shock absorber via long flexible cable:
+   Spring ── [5m rubber hose] ── [shock absorber] ── chassis
+           (too slow, spring keeps bouncing!)
+```
+
+**Same principle for capacitors:**
+
+- **Regulator = Spring** (can oscillate)
+- **Ceramic cap = Shock absorber** (dampens oscillation)
+- **Trace inductance = Flexible cable** (blocks effectiveness)
+- **Solution: Attach directly!** (minimize trace length)
+
+### The Numbers: Why &lt;2mm Matters
+
+**PCB trace inductance rule of thumb:** ~1nH per millimeter
+
+```
+Best practice trace lengths:
+
+✅ Excellent: <2mm trace
+   - Inductance: ~2nH
+   - Impedance at 10MHz: 0.12Ω
+   - Result: Cap effectively shorts oscillation ✅
+
+✅ Good: 2-5mm trace
+   - Inductance: ~5nH
+   - Impedance at 10MHz: 0.3Ω
+   - Result: Cap still effective, minor degradation
+
+⚠️ Acceptable: 5-10mm trace
+   - Inductance: ~10nH
+   - Impedance at 10MHz: 0.6Ω
+   - Result: Reduced effectiveness, may work
+
+❌ Poor: >10mm trace
+   - Inductance: >10nH
+   - Impedance at 10MHz: >0.6Ω
+   - Result: Oscillation likely! ❌
+```
+
+### Input vs Output: Different Priorities
+
+**Why is output ceramic placement MORE critical than input?**
+
+| Side       | What Happens If Cap Is Far  | Consequence                          |
+| ---------- | --------------------------- | ------------------------------------ |
+| **Input**  | More noise reaches IC       | Regulator filters it (PSRR helps) ✅ |
+| **Output** | Oscillation can't be damped | **Regulator oscillates!** ❌         |
+
+**Input capacitor far:**
+
+```
+Switching noise → [far cap can't filter well] → Regulator IC
+                                                    ↓
+                                    PSRR (Power Supply Rejection)
+                                    filters most of it ✅
+                                                    ↓
+                                            Output (mostly OK)
+```
+
+**Output capacitor far:**
+
+```
+Regulator IC → Oscillation starts → [far cap can't damp] → Output
+     ↑                                                          │
+     └────────── Positive feedback ─────────────────────────────┘
+                 (Oscillation continues! ❌)
+```
+
+**Key insight:**
+
+- Input: Regulator helps compensate for poor cap placement
+- Output: **Nothing can save you** if cap is too far! ⚠️
+
+### PCB Layout Checklist for Stability
+
+**Critical rules for output ceramic capacitor:**
+
+- [ ] **Distance:** &lt;2mm from IC output pin (ideal)
+- [ ] **Trace width:** As wide as possible (reduces inductance)
+- [ ] **Via to ground:** Place GND via **right next to** capacitor
+- [ ] **No obstacles:** Direct, straight path from IC pin to cap
+- [ ] **Keep away from:** High-speed signals, switching nodes
+
+**Example of GOOD layout:**
+
+```
+        IC Output Pin
+             │
+             │ <── 1-2mm trace, 2mm wide
+             ↓
+          [Ceramic]
+             │
+           [Via] <── Ground via right next to cap
+             │
+        ════╧════  (Ground plane)
+```
+
+**Example of BAD layout:**
+
+```
+        IC Output Pin
+             │
+             ├── routes around other components
+             │
+        <5cm total trace length>
+             │
+             ↓
+          [Ceramic] <── TOO FAR! ❌
+             │
+           [Via]
+```
+
+### Real-World Impact
+
+**What you'll see with improper placement:**
+
+```
+Oscilloscope measurement (no load):
+
+Bad placement (ceramic 3cm away):
+  ┌─────────────────────────────┐
+  │  ╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲  │ ← 500mV oscillation!
+  │╱  Expected 12.00V       ╲│ ← Unstable
+  │                           ╲│
+  └─────────────────────────────┘
+
+Good placement (ceramic <2mm away):
+  ┌─────────────────────────────┐
+  │─────────────────────────────│ ← Flat 12.00V
+  │     Stable output ✅         │ ← <1mV noise
+  │                             │
+  └─────────────────────────────┘
+```
+
+**Summary:** The regulator oscillates at MHz frequencies. To kill this vibration, the ceramic capacitor must be **physically close** (&lt;2mm) so trace inductance doesn't block the damping current. Think "shock absorber attached directly to spring" - distance kills effectiveness! 🎯
+
 ## Common Mistakes and Fixes
 
 ### ❌ Mistake 1: Swapping Ceramic Values
@@ -312,13 +545,13 @@ Too high ESR → Poor transient response
 **Typical requirements (from datasheets):**
 
 - LM78xx: Output cap ESR should be 0.1Ω - 10Ω
-- Pure ceramic (ESR < 10mΩ) can cause instability
+- Pure ceramic (ESR &lt; 10mΩ) can cause instability
 - Electrolytic + ceramic combination provides optimal ESR
 
 **Our design:**
 
 - C21/C23/C25 (electrolytic 470µF): ESR ~100mΩ (provides damping)
-- C17/C18/C19 (ceramic 100nF): ESR < 10mΩ (provides HF decoupling)
+- C17/C18/C19 (ceramic 100nF): ESR &lt; 10mΩ (provides HF decoupling)
 - **Together:** Optimal combination for stability and performance
 
 ### Load Transient Response
@@ -344,16 +577,16 @@ With proper capacitors:
 ### What to Check on PCB
 
 1. **Ceramic placement:** Measure distance from cap to IC pin
-   - ✓ Goal: < 5mm
-   - ✗ Problem: > 10mm
+   - ✓ Goal: &lt; 5mm
+   - ✗ Problem: &gt; 10mm
 
 2. **Output ripple:** Measure with oscilloscope (20MHz bandwidth)
-   - ✓ Goal: < 1mVp-p at full load
-   - ✗ Problem: > 10mVp-p (missing/far ceramic caps)
+   - ✓ Goal: &lt; 1mVp-p at full load
+   - ✗ Problem: &gt; 10mVp-p (missing/far ceramic caps)
 
 3. **Load transient:** Step load from 0% to 100%
-   - ✓ Goal: < 100mV deviation, < 50µs recovery
-   - ✗ Problem: > 500mV deviation (missing bulk caps)
+   - ✓ Goal: &lt; 100mV deviation, &lt; 50µs recovery
+   - ✗ Problem: &gt; 500mV deviation (missing bulk caps)
 
 4. **Oscillation check:** Probe output with 100MHz scope, no load
    - ✓ Goal: Clean DC, no oscillation
@@ -373,7 +606,7 @@ With proper capacitors:
 ## Key Takeaways
 
 1. **Always use BOTH ceramic and electrolytic** - they work together across different frequencies
-2. **Ceramic placement is CRITICAL** - must be right next to IC pins (< 5mm)
+2. **Ceramic placement is CRITICAL** - must be right next to IC pins (&lt; 5mm)
 3. **Different values for input/output** - input handles more noise (470nF), output is cleaner (100nF)
 4. **Electrolytic provides bulk storage** - placement less critical (10-50mm OK)
 5. **Negative rail polarity** - don't forget to reverse electrolytic polarity!

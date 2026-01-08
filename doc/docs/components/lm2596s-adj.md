@@ -64,14 +64,14 @@ Being an adjustable output type (ADJ), the output voltage can be freely set usin
 
 ### Pin Descriptions
 
-| Pin | Name     | Function                                                                          |
-| --- | -------- | --------------------------------------------------------------------------------- |
-| 1   | VIN      | Voltage Input (4.5V - 40V)                                                        |
-| 2   | OUTPUT   | Switching Output (connect to inductor)                                            |
-| 3   | GND      | Ground (also thermal tab)                                                         |
-| 4   | FEEDBACK | Voltage Feedback Input (1.23V reference)                                          |
-| 5   | ON/OFF   | Enable Control (Low or floating = ON; tie to GND or leave floating for always-on) |
-| TAB | GND      | Thermal Tab (must connect to GND plane)                                           |
+| Pin | Name     | Function                                                                                                                           |
+| --- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | VIN      | Voltage Input (4.5V - 40V)                                                                                                         |
+| 2   | OUTPUT   | Switching Output (connect to inductor)                                                                                             |
+| 3   | GND      | Ground (also thermal tab)                                                                                                          |
+| 4   | FEEDBACK | Voltage Feedback Input (1.23V reference)                                                                                           |
+| 5   | ON/OFF   | Enable Control (Low or floating = ON; connection depends on topology - see [ON/OFF Pin Configuration](#8-onoff-pin-configuration)) |
+| TAB | GND      | Thermal Tab (must connect to GND plane)                                                                                            |
 
 ## Application in This Project
 
@@ -312,7 +312,74 @@ Since all three converters use the same IC, switching frequency, inductor, and o
 - U3 (15V→7.5V): ~85% (Moderate voltage difference)
 - U4 (-15V→-13.5V): ~88% (Equivalent efficiency for negative voltage)
 
-### 8. Thermal Considerations
+### 8. ON/OFF Pin Configuration
+
+The ON/OFF pin (pin 5) behavior differs between regular buck converters and inverting buck-boost configurations due to the **bootstrapped ground reference**.
+
+#### Regular Buck Configuration (U2, U3)
+
+**Connection**: ON pin tied to **system GND (0V)** or left floating
+
+```
+U2, U3 (Buck Converters):
+Pin 5 (ON/OFF) ──→ System GND (0V)
+Pin 3 (IC GND)  ──→ System GND (0V)
+```
+
+**How it works**:
+
+- IC GND pin is at system ground (0V)
+- ON/OFF threshold: &lt;1.3V above IC GND = &lt;1.3V system reference
+- Tying to system GND (0V) = LOW = **ENABLED** ✅
+- Pulling >1.6V = HIGH = **DISABLED**
+
+#### Inverting Buck-Boost Configuration (U4)
+
+**Connection**: ON pin tied to **IC GND (-13.5V)** or left floating
+
+```
+U4 (Inverting Buck-Boost):
+Pin 5 (ON/OFF) ──→ IC GND (-13.5V) [connected to pin 3]
+Pin 3 (IC GND)  ──→ -13.5V output (bootstrapped)
+```
+
+**Critical difference**:
+
+- IC GND pin is at **-13.5V** (bootstrapped to negative output), NOT system ground
+- ON/OFF threshold: &lt;1.3V above IC GND = &lt;-12.2V system reference
+- **Cannot connect to system GND (0V)** - this would be +13.5V above IC GND = DISABLED ❌
+- Must connect to IC GND (-13.5V) or leave floating = **ENABLED** ✅
+
+#### Comparison Table
+
+| Topology           | IC GND Location | ON Pin Connection   | Enable Voltage          | Disable Voltage      |
+| ------------------ | --------------- | ------------------- | ----------------------- | -------------------- |
+| **U2, U3 (Buck)**  | System GND (0V) | System GND or float | &lt;1.3V (system ref)   | >1.6V (system ref)   |
+| **U4 (Inverting)** | -13.5V output   | IC GND or float     | &lt;-12.2V (system ref) | >-11.9V (system ref) |
+
+#### Why This Matters
+
+**For always-on operation** (this project):
+
+- **U2, U3**: Tie ON pin to system GND (explicit, better noise immunity)
+- **U4**: Tie ON pin to IC GND (pin 3, at -13.5V) - shown in Diagram4
+
+**For shutdown control** (not used in this project):
+
+- **U2, U3**: Simple - pull pin above 1.6V (system ground referenced)
+- **U4**: Complex - requires optocoupler or level-shifter (see TI app note SNVA722B)
+
+#### Internal Pull-Down Behavior
+
+The LM2596S has an **internal pull-down resistor** on the ON/OFF pin:
+
+- Pulls the pin toward IC GND (wherever IC GND is connected)
+- Keeps pin LOW relative to IC GND when floating
+- **Result**: Floating = ENABLED for both topologies
+
+**Best practice**: Explicitly connect to IC GND rather than relying on internal pull-down for better noise immunity.
+
+### 9. Thermal Considerations
 
 **Heat Dissipation Calculation Example** (U2: 15V→13.5V, 1.3A):
 
@@ -362,6 +429,6 @@ TO-263 package thermal resistance: ~40°C/W (without thermal vias), ~25°C/W (wi
 
 - The LM2596S-ADJ is a very common DC-DC converter, and many compatible parts exist
 - The 150kHz switching frequency avoids audible noise (below 20kHz)
-- Connecting the ON/OFF pin to GND (or leaving it floating) enables always-on operation; pulling it HIGH (>1.3V) activates shutdown mode
-- This project uses the always-on configuration
+- ON/OFF pin connection differs between regular buck (U2, U3) and inverting buck-boost (U4) - see [ON/OFF Pin Configuration](#8-onoff-pin-configuration) for details
+- This project uses the always-on configuration for all three converters
 - Feedback resistors with ±1% tolerance are recommended (directly affects output voltage accuracy)

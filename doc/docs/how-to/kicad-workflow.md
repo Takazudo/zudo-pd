@@ -184,7 +184,7 @@ Before proceeding to PCB:
 
 **For JLCPCB-compatible parts:**
 
-See [KiCad Footprint Generation Guide](./kicad-footprint-generation.md) for detailed instructions.
+See [KiCad Parts Download Guide](./kicad-parts-download.md) for detailed instructions.
 
 **Quick workflow:**
 
@@ -538,6 +538,6 @@ After completing the KiCad workflow:
 ## References
 
 - [KiCad Documentation](https://docs.kicad.org/)
-- [KiCad Footprint Generation Guide](./kicad-footprint-generation.md)
+- [KiCad Parts Download Guide](./kicad-parts-download.md)
 - [JLCPCB SMT Assembly](https://jlcpcb.com/smt-assembly)
 - [Create Footprint SVG Files](./create-footprint-svg.md)

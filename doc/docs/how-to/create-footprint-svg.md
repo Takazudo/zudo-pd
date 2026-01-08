@@ -14,7 +14,7 @@ The documentation displays clickable footprint previews on each component page. 
 
 - KiCad 9.0.6 or later (with `kicad-cli` command)
 - Python 3 (for cleanup script)
-- KiCad footprints downloaded (see [KiCad Footprint Generation](./kicad-footprint-generation.md))
+- KiCad footprints downloaded (see [KiCad Parts Download Guide](./kicad-parts-download.md))
 
 ## Verify KiCad CLI
 

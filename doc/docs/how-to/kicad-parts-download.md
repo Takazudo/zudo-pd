@@ -164,8 +164,8 @@ easyeda2kicad --lcsc_id C94173 --footprint --symbol
 # SMAJ15A - TVS Diode
 easyeda2kicad --lcsc_id C347883 --footprint --symbol
 
-# PRTR5V0U2X - ESD Protection
-easyeda2kicad --lcsc_id C12333 --footprint --symbol
+# SD05 - TVS Diode (5V)
+easyeda2kicad --lcsc_id C502527 --footprint --symbol
 ```
 
 ### 2. Copy to Project

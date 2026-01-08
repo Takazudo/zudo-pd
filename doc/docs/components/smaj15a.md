@@ -176,12 +176,7 @@ This protects against negative voltage spikes below -16.7V
 - TVS1: Protects +12V from positive spikes above +16.7V
 - TVS3: Protects -12V from negative spikes below -16.7V (when reversed)
 
-**Bidirectional** (like PRTR5V0U2X):
-
-- Protects against voltage spikes in BOTH directions
-- Used for signal lines or AC applications
-- Higher capacitance
-- See [PRTR5V0U2X documentation](./prtr5v0u2x.md) for comparison
+**Note**: For the +5V rail in this project, we use the [SD05](./sd05.md) unidirectional TVS diode, which is optimized for DC power rail protection.
 
 ### 2. Clamping Voltage Selection
 
@@ -368,7 +363,7 @@ Complete Protection Architecture:
 
 ## Related Components
 
-- [PRTR5V0U2X](./prtr5v0u2x.md) - 5V Bidirectional TVS Diode
+- [SD05](./sd05.md) - 5V Unidirectional TVS Diode (for +5V rail)
 - Protection Circuit Overview - Coming soon
 - PCB Layout Guidelines - Coming soon
 

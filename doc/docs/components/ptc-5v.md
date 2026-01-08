@@ -60,7 +60,7 @@ Layer 4: This PTC (1.1A hold / 2.2A trip) → Auto-reset protection
 
 ```
 LM7805 Output ──┬─── PTC2 (1.1A) ───┬─── TVS2 ─── +5V OUT
-                │   mSMD110-33V     │  PRTR5V0U2X
+                │   mSMD110-33V     │    SD05
                 │                   │      ↕
                 │                   └─────GND
                 │
@@ -116,7 +116,7 @@ Benefits:
 
 - **Protected circuit**: L7805ABD2T-TR (U7) - +5V Linear Regulator
 - **Upstream**: LM2596S-ADJ #2 (U3) - +7.5V DC-DC Converter
-- **Overvoltage protection**: PRTR5V0U2X (TVS2)
+- **Overvoltage protection**: SD05 (TVS2)
 - **Parallel rails**: PTC +12V (C7529589), PTC -12V (C2830246)
 
 ## References
