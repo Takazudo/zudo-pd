@@ -310,6 +310,51 @@ Complete parts configuration using JLCPCB SMT service.
 - **Surface-Mount Design**: All regulators use SMD packages (TO-263-2, TO-252-2L)
 - **Separated Design**: Physical separation of DC-DC and linear stages
 
+## Component Heights for PCB Design
+
+Physical height reference for PCB layout and enclosure design.
+
+### Power Components
+
+| Component         | Designator     | Package         | Height     | Notes                     |
+| ----------------- | -------------- | --------------- | ---------- | ------------------------- |
+| **LM2596S-ADJ**   | U2, U3, U4     | TO-263-5        | **4.5mm**  | DC-DC converters          |
+| **L7812CD2T-TR**  | U6             | TO-263-2        | **4.5mm**  | +12V linear regulator     |
+| **L7805ABD2T-TR** | U7             | TO-263-2        | **4.5mm**  | +5V linear regulator      |
+| **CJ7912**        | U8             | TO-252-3 (DPAK) | **2.3mm**  | -12V linear regulator     |
+| **CYA1265-100UH** | L1, L2, L3     | SMD 13.8×12.8mm | **~6-7mm** | Power inductors           |
+| **1217754-1**     | J3, J4, J5, J6 | FASTON 250 THT  | **8.89mm** | Power terminals (tallest) |
+
+### Height Profile
+
+```
+Height (mm)
+    │
+  9 ┤                    ████
+8.9 ┤                    ████  ← FASTON J3-J6 (8.89mm) - TALLEST
+  8 ┤                    ████
+  7 ┤              ████  ████
+  6 ┤              ████  ████  ← Inductors L1,L2,L3 (~6-7mm)
+  5 ┤              ████  ████
+4.5 ┤  ████  ████  ████  ████  ← TO-263 (U2-U4, U6, U7)
+  4 ┤  ████  ████  ████  ████
+  3 ┤  ████  ████  ████  ████
+2.3 ┤  ████  ████  ████  ████  ← TO-252 (U8)
+  2 ┤  ████  ████  ████  ████
+  1 ┤  ████  ████  ████  ████
+  0 ┼────────────────────────
+      DC-DC  LDO   IND  FASTON
+```
+
+### PCB Design Implications
+
+- **Tallest components**: FASTON terminals J3-J6 (8.89mm)
+- **Second tallest**: Inductors L1, L2, L3 (~6-7mm)
+- **Total board height**: ~10-11mm including PCB thickness (1.6mm)
+- **Clearance**: Keep space around TO-263 packages for thermal dissipation
+- **CJ7912 advantage**: Lower profile (2.3mm) allows flexible placement
+- **FASTON placement**: Position at board edge for cable access
+
 ## Total Cost Summary
 
 | Stage       | Description                 | Subtotal  |
