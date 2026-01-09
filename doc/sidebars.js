@@ -47,6 +47,7 @@ const sidebars = {
     'learning/gndd-gnda-split-ground',
     'learning/ch224d-usb-pd-controller',
     'learning/usb-type-c-pinout',
+    'learning/usb-pd-vs-traditional-usb',
     'learning/open-drain-pg-pin',
     'learning/buck-converter-feedback',
     'learning/inductor-voltage-reversal',
