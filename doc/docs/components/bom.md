@@ -196,18 +196,20 @@ Complete parts configuration using JLCPCB SMT service.
 - Mouser / Digikey
 - Other electronics distributors
 
-**Eurorack Pinout (Standard):**
+**Eurorack 16-Pin Pinout (Standard):**
 
 ```
-  -12V  [ 1]  [ 2]  GND
-  GND   [ 3]  [ 4]  GND
-  GND   [ 5]  [ 6]  GND
-  GND   [ 7]  [ 8]  GND
-  GND   [ 9]  [10]  GND
-  GND   [11]  [12]  GND
-  GND   [13]  [14]  GND
-  +12V  [15]  [16]  +5V
+  GATE  [16]  [15]  GATE
+  CV    [14]  [13]  CV
+  +5V   [12]  [11]  +5V
+  +12V  [10]  [ 9]  +12V
+  GND   [ 8]  [ 7]  GND
+  GND   [ 6]  [ 5]  GND
+  GND   [ 4]  [ 3]  GND
+  -12V  [ 2]  [ 1]  -12V   ← Red stripe
 ```
+
+**Note:** This power supply provides +12V, -12V, +5V, and GND. The CV (pins 13-14) and GATE (pins 15-16) pins are typically unused for power-only applications.
 
 #### FASTON Power Terminals (Busboard Connection)
 
