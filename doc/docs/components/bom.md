@@ -81,12 +81,12 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol  | Part Number                                              | Specification      | Package     | Stock      | Price      | Application      | Diagram                                                                                    |
 | ------- | -------------------------------------------------------- | ------------------ | ----------- | ---------- | ---------- | ---------------- | ------------------------------------------------------------------------------------------ |
-| **C3**  | **[C3351](https://jlcpcb.com/partdetail/C3351)**         | **470µF 25V**      | D10xL10.2mm | **19,150** | **$0.044** | U2 Output Filter | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **C4**  | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V ±20%** | D6.3xL7.7mm | **5,429**  | **$0.019** | U3 Output Filter | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **C3**  | **[C2983319](https://jlcpcb.com/partdetail/C2983319)**   | **470µF 25V**      | D8xL10.5mm  | **46,748** | **$0.04**  | U2 Output Filter | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **C4**  | **[C46550400](https://jlcpcb.com/partdetail/C46550400)** | **470µF 16V ±20%** | D6.3xL7.7mm | **23,331** | **$0.02**  | U3 Output Filter | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
 | **C5**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U2 Input Bulk    | [D2](/docs/inbox/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
 | **C7**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U3 Input Bulk    | [D3](/docs/inbox/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
 | **C9**  | **[C22383806](https://jlcpcb.com/partdetail/C22383806)** | **100µF 50V**      | D6.3xL7.7mm | **8,337**  | **TBD**    | U4 Input Bulk    | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
-| **C11** | **[C3351](https://jlcpcb.com/partdetail/C3351)**         | **470µF 25V**      | D10xL10.2mm | **19,150** | **$0.044** | U4 Output Filter | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **C11** | **[C2983319](https://jlcpcb.com/partdetail/C2983319)**   | **470µF 25V**      | D8xL10.5mm  | **46,748** | **$0.04**  | U4 Output Filter | [D4](/docs/inbox/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Ceramic Capacitors (DC-DC Stage)
 
@@ -117,7 +117,6 @@ Complete parts configuration using JLCPCB SMT service.
 
 | Symbol  | Part Number                                      | Specification     | Package | Stock         | Price       | Application     | Diagram                                                                            |
 | ------- | ------------------------------------------------ | ----------------- | ------- | ------------- | ----------- | --------------- | ---------------------------------------------------------------------------------- |
-| **C14** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U6 Input Filter | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
 | **C15** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U7 Input Filter | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
 | **C16** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U8 Input Filter | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
@@ -131,14 +130,15 @@ Complete parts configuration using JLCPCB SMT service.
 
 #### Large Electrolytic Capacitors (Linear Regulator Stage)
 
-| Symbol  | Part Number                                          | Specification | Package     | Price      | Application | Diagram                                                                            |
-| ------- | ---------------------------------------------------- | ------------- | ----------- | ---------- | ----------- | ---------------------------------------------------------------------------------- |
-| **C20** | **[C3351](https://jlcpcb.com/partdetail/C3351)**     | **470µF 25V** | D10xL10.2mm | **$0.044** | U6 Input    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C21** | **[C3351](https://jlcpcb.com/partdetail/C3351)**     | **470µF 25V** | D10xL10.2mm | **$0.044** | U6 Output   | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C22** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014** | U7 Input    | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C23** | **[C335982](https://jlcpcb.com/partdetail/C335982)** | **470µF 10V** | D6.3xL7.7mm | **$0.014** | U7 Output   | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C24** | **[C3351](https://jlcpcb.com/partdetail/C3351)**     | **470µF 25V** | D10xL10.2mm | **$0.044** | U8 Input    | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
-| **C25** | **[C3351](https://jlcpcb.com/partdetail/C3351)**     | **470µF 25V** | D10xL10.2mm | **$0.044** | U8 Output   | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| Symbol  | Part Number                                              | Specification | Package     | Stock      | Price     | Application | Diagram                                                                            |
+| ------- | -------------------------------------------------------- | ------------- | ----------- | ---------- | --------- | ----------- | ---------------------------------------------------------------------------------- |
+| **C14** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C20** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C21** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Output   | [D5](/docs/inbox/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C22** | **[C46550400](https://jlcpcb.com/partdetail/C46550400)** | **470µF 16V** | D6.3xL7.7mm | **23,331** | **$0.02** | U7 Input    | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **C23** | **[C46550400](https://jlcpcb.com/partdetail/C46550400)** | **470µF 16V** | D6.3xL7.7mm | **23,331** | **$0.02** | U7 Output   | [D6](/docs/inbox/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **C24** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Input    | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C25** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Output   | [D7](/docs/inbox/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 **Stage 3 Subtotal: $0.37** (Using high-stock regulators)
 
@@ -343,3 +343,44 @@ For detailed component height information and mechanical design considerations, 
 - Does not include PCB fabrication or assembly fees
 - All parts available on JLCPCB with good stock levels
 - PTC-only design reduces cost while improving user experience
+
+## JLCPCB Assembly Cost Structure
+
+The component prices above are only part of the total PCBA cost. JLCPCB charges additional fees:
+
+### Fee Types
+
+| Fee                    | Description              | Typical Cost  |
+| ---------------------- | ------------------------ | ------------- |
+| **PCB Fabrication**    | Board manufacturing      | ¥500-1,000    |
+| **Setup Fee**          | One-time assembly setup  | ~¥1,250       |
+| **Stencil**            | Solder paste stencil     | ~¥235         |
+| **SMT Assembly**       | Per-placement fee        | ~¥145         |
+| **Extended Parts Fee** | Per unique Extended part | **¥470 each** |
+| **Hand-soldering**     | THT components           | ~¥550         |
+
+### Basic vs Extended Parts
+
+JLCPCB classifies components into two categories:
+
+- **Basic Parts**: Common resistors, MLCCs, some diodes - **No extra fee**
+- **Extended Parts**: Specialty ICs, electrolytic caps, LEDs, inductors, connectors - **¥470 per unique part number**
+
+This project uses ~20 Extended parts, adding ~¥9,400 to the assembly cost.
+
+### Cost Per Board (Reference: January 2025)
+
+| Quantity  | Total Cost | Per Board  |
+| --------- | ---------- | ---------- |
+| 1 board   | ~¥16,500   | ¥16,500    |
+| 5 boards  | ~¥21,000   | ¥4,200     |
+| 10 boards | ~¥26,000   | **¥2,600** |
+
+**Key insight**: Extended fees are **one-time setup costs**, not per-board. Ordering more boards significantly reduces the per-unit cost.
+
+### Cost Optimization Tips
+
+1. **Order in batches of 5-10** to amortize setup fees
+2. **Hand-solder large components** (electrolytic caps, connectors) to reduce Extended fees
+3. **Use Basic parts** where possible (resistors, MLCCs are usually Basic)
+4. **Consolidate part numbers** - fewer unique Extended parts = lower fees

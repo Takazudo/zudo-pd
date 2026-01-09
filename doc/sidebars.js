@@ -22,6 +22,7 @@ const sidebars = {
     'inbox/circuit-diagrams',
     'inbox/footprint-preview',
     'inbox/mechanical-design',
+    'inbox/usb-pd-adapter',
     'inbox/quick-reference',
   ],
   componentsSidebar: [

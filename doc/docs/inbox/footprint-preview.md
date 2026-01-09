@@ -28,7 +28,7 @@ import USBC from '@site/static/footprints-svg/TYPE-C-SMD_TYPE-C-6P.svg';
 **Designator:** J1
 **Component:** USB-TYPE-C-009 - 6P Type-C Female Connector
 **Package:** SMD Type-C 6P Female
-**LCSC:** [C2927029](https://jlcpcb.com/partdetail/C2927029)
+**LCSC:** [C456012](https://jlcpcb.com/partdetail/C456012)
 **Function:** USB-C PD power input
 
 ---
@@ -47,17 +47,17 @@ import LM2596S from '@site/static/footprints-svg/TO-263-5_L10.2-W8.9-P1.70-BR.sv
 **LCSC:** [C347423](https://jlcpcb.com/partdetail/C347423)
 **Function:** DC-DC conversion (+13.5V, +7.5V, -13.5V outputs)
 
-### L1, L2 - 100µH Power Inductor
+### L1, L2, L3 - 100µH Power Inductor
 
 import Inductor from '@site/static/footprints-svg/IND-SMD_L13.8-W12.8.svg';
 
 <FootprintSvg src={Inductor} alt="100µH Power Inductor" minWidth="300px" minHeight="300px" />
 
-**Designators:** L1, L2 (2× units)
+**Designators:** L1, L2, L3 (3× units)
 **Component:** CYA1265-100UH - 100µH 4.5A Power Inductor
 **Package:** SMD Power Inductor (13.8mm × 12.8mm)
 **LCSC:** [C19268674](https://jlcpcb.com/partdetail/C19268674)
-**Function:** Energy storage for LM2596S buck converters (U2, U3)
+**Function:** Energy storage for LM2596S buck converters (U2, U3, U4)
 
 ---
 
@@ -142,22 +142,38 @@ import CapD63 from '@site/static/footprints-svg/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
 **Package:** SMD Electrolytic (Ø6.3mm, 6.6mm × 6.6mm)
 **Used for:**
 
-- DC-DC converter output filter (C4: 470µF 16V)
-- DC-DC converter input capacitors (C5, C7: 100µF 25V)
-  **LCSC:** [C22383803](https://jlcpcb.com/partdetail/C22383803) (470µF 16V), [C22383804](https://jlcpcb.com/partdetail/C22383804) (100µF 25V)
-  **Applications:** Most common electrolytic in this design - bulk energy storage
+- DC-DC converter output filter (C4, C22, C23: 470µF 16V)
+- DC-DC converter input capacitors (C5, C7, C9: 100µF 25V)
 
-#### D18mm Large Electrolytic Capacitor
+**LCSC:** [C46550400](https://jlcpcb.com/partdetail/C46550400) (470µF 16V), [C22383804](https://jlcpcb.com/partdetail/C22383804) (100µF 25V)
+**Applications:** Bulk energy storage for DC-DC converters
 
-import CapLarge from '@site/static/footprints-svg/CAP-SMD_BD18.0-L19.0-W19.0-LS20.4-FD.svg';
+#### D10mm Electrolytic Capacitor
 
-<FootprintSvg src={CapLarge} alt="Large SMD Electrolytic Capacitor" minWidth="300px" minHeight="300px" />
+import CapD10 from '@site/static/footprints-svg/CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-FD.svg';
+
+<FootprintSvg src={CapD10} alt="D10mm SMD Electrolytic Capacitor" minWidth="300px" minHeight="300px" />
+
+**Package:** SMD Electrolytic (Ø10.0mm, 10.3mm × 10.3mm)
+**Used for:**
+
+- DC-DC input capacitors (C3, C11: 470µF 25V)
+- Linear regulator output capacitors (C14, C20, C21, C24, C25: 470µF 16V)
+
+**LCSC:** [C2983319](https://jlcpcb.com/partdetail/C2983319) (470µF 25V), [C2992611](https://jlcpcb.com/partdetail/C2992611) (470µF 16V)
+**Applications:** Bulk energy storage for input and output filtering
+
+#### 1206 Ceramic Capacitor
+
+import C1206 from '@site/static/footprints-svg/C1206.svg';
+
+<FootprintSvg src={C1206} alt="1206 Capacitor" minWidth="200px" minHeight="150px" />
 
 **Designator:** C1
-**Package:** SMD Electrolytic (Ø18.0mm, 19.0mm × 19.0mm)
-**Value:** 470µF 25V
-**LCSC:** [C3351](https://jlcpcb.com/partdetail/C3351)
-**Function:** Main input bulk capacitor for USB-PD 15V supply
+**Package:** 1206 (3.2mm × 1.6mm)
+**Value:** 10µF 25V
+**LCSC:** [C7432781](https://jlcpcb.com/partdetail/C7432781)
+**Function:** USB-PD input decoupling capacitor
 
 ### Resistors
 
@@ -170,28 +186,43 @@ import R0603 from '@site/static/footprints-svg/R0603.svg';
 **Package:** 0603 (1.6mm × 0.8mm)
 **Used for:**
 
-- USB-C CC line resistors (R1, R2: 5.1kΩ for 15V PD negotiation)
-- DC-DC feedback resistors (R3-R8: 1kΩ, 10kΩ for voltage adjustment)
-- LED current limiting resistors
-  **Typical values:** 1kΩ, 5.1kΩ, 10kΩ, 330Ω
-  **Applications:** Voltage dividers, current limiting, pull-up/pull-down
+- USB-C CC line resistors (R3, R12, R13: 5.1kΩ for 15V PD negotiation)
+- DC-DC feedback resistors (R1-R6: 1kΩ, 10kΩ for voltage adjustment)
+- Compensation resistor (R11: 56kΩ)
+
+**LCSC:** [C23186](https://jlcpcb.com/partdetail/C23186) (5.1kΩ), [C25804](https://jlcpcb.com/partdetail/C25804) (10kΩ), [C21190](https://jlcpcb.com/partdetail/C21190) (1kΩ)
+**Applications:** Voltage dividers, current limiting, pull-up/pull-down
+
+#### 0805 Resistor
+
+import R0805 from '@site/static/footprints-svg/R0805.svg';
+
+<FootprintSvg src={R0805} alt="0805 Resistor" minWidth="200px" minHeight="150px" />
+
+**Package:** 0805 (2.0mm × 1.25mm)
+**Used for:**
+
+- LED current limiting resistors (R7, R8, R9: 1kΩ)
+
+**LCSC:** [C25623](https://jlcpcb.com/partdetail/C25623)
+**Applications:** Higher power dissipation resistors for LED current limiting
 
 ### LEDs
 
-#### 0805 LED
+#### 0603 LED
 
 import LED0603 from '@site/static/footprints-svg/LED0603-RD.svg';
 
-<FootprintSvg src={LED0603} alt="0805 LED" minWidth="200px" minHeight="150px" />
+<FootprintSvg src={LED0603} alt="0603 LED" minWidth="200px" minHeight="150px" />
 
-**Package:** 0805 (2.0mm × 1.25mm)
+**Package:** 0603 (1.6mm × 0.8mm)
 **Used for:** Power rail status indicators
-**Colors:** Red, Green, Blue
+**Colors:** Green, Blue, Red
 **Applications:**
 
-- LED1 (Green): Power good indicator
-- LED2 (Red): Fault indicator
-- LED3 (Blue): +5V rail indicator
+- LED2 (Green): +12V rail indicator - [C19171392](https://jlcpcb.com/partdetail/C19171392)
+- LED3 (Blue): +5V rail indicator - [C5382145](https://jlcpcb.com/partdetail/C5382145)
+- LED4 (Red): -12V rail indicator - [C2286](https://jlcpcb.com/partdetail/C2286)
 
 ---
 
@@ -199,30 +230,30 @@ import LED0603 from '@site/static/footprints-svg/LED0603-RD.svg';
 
 ### PTC Resettable Fuses
 
-#### PTC3 - F1206 (1.0A Hold, -12V Rail)
+#### PTC3 - F1206 (1.5A Hold, -12V Rail)
 
 import PTC1206 from '@site/static/footprints-svg/F1206.svg';
 
 <FootprintSvg src={PTC1206} alt="1206 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
 
 **Designator:** PTC3
-**Component:** [JK-nSMD100/16V](../components/ptc-12v-neg) - PTC Resettable Fuse
+**Component:** BSMD1206-150-16V - PTC Resettable Fuse
 **Package:** 1206 (3.2mm × 1.6mm)
-**Specification:** 1.0A hold / 2.0A trip
-**LCSC:** [C2830246](https://jlcpcb.com/partdetail/C2830246)
+**Specification:** 1.5A hold / 3.0A trip
+**LCSC:** [C883133](https://jlcpcb.com/partdetail/C883133)
 **Function:** -12V rail auto-reset overcurrent protection
 
-#### PTC1 - F1210 (1.5A Hold, +12V Rail)
+#### PTC1 - F1210 (2.0A Hold, +12V Rail)
 
 import PTC1210 from '@site/static/footprints-svg/F1210.svg';
 
 <FootprintSvg src={PTC1210} alt="1210 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
 
 **Designator:** PTC1
-**Component:** [SMD1210P150TF/16](../components/ptc-12v) - PTC Resettable Fuse
+**Component:** SMD1210P200TF - PTC Resettable Fuse
 **Package:** SMD1210 (3.2mm × 2.5mm)
-**Specification:** 1.5A hold / 3.0A trip
-**LCSC:** [C7529589](https://jlcpcb.com/partdetail/C7529589)
+**Specification:** 2.0A hold / 4.0A trip
+**LCSC:** [C20808](https://jlcpcb.com/partdetail/C20808)
 **Function:** +12V rail auto-reset overcurrent protection
 
 #### PTC2 - F1812 (1.1A Hold, +5V Rail)
@@ -238,43 +269,15 @@ import PTC1812 from '@site/static/footprints-svg/F1812.svg';
 **LCSC:** [C70119](https://jlcpcb.com/partdetail/C70119)
 **Function:** +5V rail auto-reset overcurrent protection
 
-### SMD Fuses
-
-#### F1 - 2410 SMD Fuse (2A, +12V Rail)
-
-import Fuse2410 from '@site/static/footprints-svg/FUSE-SMD_L6.1-W2.6.svg';
-
-<FootprintSvg src={Fuse2410} alt="2410 SMD Fuse" minWidth="250px" minHeight="150px" />
-
-**Designator:** F1
-**Component:** 6125FA2A - Fast-Acting SMD Fuse
-**Package:** 2410 (6.1mm × 2.6mm)
-**Specification:** 2A 250V
-**LCSC:** [C5183824](https://jlcpcb.com/partdetail/C5183824)
-**Function:** +12V rail short circuit protection (backup to PTC1)
-
-#### F2, F3 - SMD Fuse 1.5A (±5V/±12V Rails)
-
-import FuseLarge from '@site/static/footprints-svg/FUSE-SMD_L10.1-W3.1.svg';
-
-<FootprintSvg src={FuseLarge} alt="Large SMD Fuse" minWidth="300px" minHeight="150px" />
-
-**Designators:** F2, F3
-**Component:** Fast-Acting SMD Fuse
-**Package:** SMD (10.1mm × 3.1mm)
-**Specification:** 1.5A 250V
-**LCSC:** [C95352](https://jlcpcb.com/partdetail/C95352)
-**Function:** +5V and -12V rail short circuit protection (backup to PTC2, PTC3)
-
 ### Schottky Diode (SMA)
 
-import DiodeSMA from '@site/static/footprints-svg/SMA_L4.4-W2.8-LS5.4-RD.svg';
+import DiodeSMA from '@site/static/footprints-svg/SMA_L4.3-W2.6-LS5.2-RD.svg';
 
 <FootprintSvg src={DiodeSMA} alt="SMA Diode Package" minWidth="250px" minHeight="150px" />
 
 **Designators:** D1, D2, D3 (used in DC-DC converter flyback circuits)
 **Component:** SS34 - 3A 40V Schottky Barrier Diode
-**Package:** SMA (4.4mm × 2.8mm)
+**Package:** SMA (4.3mm × 2.6mm)
 **LCSC:** [C8678](https://jlcpcb.com/partdetail/C8678)
 **Function:** Flyback diode for LM2596S buck converters
 
@@ -309,54 +312,34 @@ import TVSSOD323 from '@site/static/footprints-svg/SOD-323_L1.8-W1.3-LS2.5-FD.sv
 
 ## Connectors
 
-### J2 - Eurorack Power Connector (16-pin)
+### J2-J5 - Eurorack Power Connector (16-pin)
 
 import HeaderEuro from '@site/static/footprints-svg/HDR-TH_16P-P2.54-H-M-R2-C8-S2.54.svg';
 
 <FootprintSvg src={HeaderEuro} alt="16-pin 2.54mm Header (Eurorack)" minWidth="400px" minHeight="200px" />
 
-**Designator:** J2
+**Designators:** J2, J3, J4, J5 (4× units)
 **Component:** 2541WR-2x08P - 2×8 Pin Header (Standard)
 **Package:** Through-hole 16-pin header (2×8, 2.54mm pitch)
 **LCSC:** [C5383092](https://jlcpcb.com/partdetail/C5383092)
-**Stock:** 6,813 units
-**Function:** Eurorack power output connector
+**Function:** Eurorack power output connectors
 
-**Note:** This is a standard pin header. For box/shrouded connectors (commonly used in Eurorack), source the mating connector separately from Tayda Electronics, Mouser, or Digikey.
+**Note:** Standard pin headers. For box/shrouded connectors (commonly used in Eurorack), source the mating connector separately from Tayda Electronics, Mouser, or Digikey.
 
-### J3-J6 - FASTON 250 Power Terminals
+### J6-J9 - FASTON 250 Power Terminals
 
 import FASTON from '@site/docs/\_fragments/footprints/CONN-TH_1217754-1.svg';
 
 <FootprintSvg src={FASTON} alt="FASTON 250 PCB Terminal" minWidth="150px" minHeight="150px" />
 
-**Designators:** J3, J4, J5, J6 (4× units)
-**Component:** [1217754-1](../components/faston-terminal) - FASTON 250 PCB Tab Terminal
+**Designators:** J6, J7, J8, J9 (4× units)
+**Component:** 1217754-1 - FASTON 250 PCB Tab Terminal
 **Package:** Through-hole (6.35mm tab width)
 **LCSC:** [C305825](https://jlcpcb.com/partdetail/C305825)
-**Stock:** 4,044 units
 **Current Rating:** 7A continuous
 **Function:** Busboard power output (+12V, -12V, +5V, GND)
 
 **Note:** Industrial-grade quick-connect terminals for heavy-duty power distribution to Eurorack busboards. Requires matching FASTON 250 receptacles on busboard side.
-
-### 3-pin Header
-
-import Header3P from '@site/static/footprints-svg/HDR-TH_3P-P2.54-V-M.svg';
-
-<FootprintSvg src={Header3P} alt="3-pin 2.54mm Header" minWidth="200px" minHeight="200px" />
-
-**Package:** Through-hole 3-pin vertical header (2.54mm pitch)
-**Function:** General purpose connection header
-
-### 6-pin SMD Header
-
-import Header6P from '@site/static/footprints-svg/HDR-SMD_6P-P2.00-V-M_XBK_R2.svg';
-
-<FootprintSvg src={Header6P} alt="6-pin 2.00mm SMD Header" minWidth="250px" minHeight="200px" />
-
-**Package:** SMD 6-pin vertical header (2.00mm pitch)
-**Function:** General purpose SMD connection header
 
 ---
 

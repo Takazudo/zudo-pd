@@ -5,8 +5,9 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "generate-doc-titles": "node scripts/generate-doc-titles.js",
+    "generate-category-nav": "node scripts/generate-category-nav.js",
     "start": "docusaurus start",
-    "build": "npm run generate-doc-titles && docusaurus build",
+    "build": "npm run generate-doc-titles && npm run generate-category-nav && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
