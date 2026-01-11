@@ -1,0 +1,15 @@
+# Netlify redirects for zudo-PD documentation
+# Serves content at /pj/zudo-pd/ base path
+# Order matters: first matching rule wins
+
+# Handle exact /pj/zudo-pd/ path (serve index.html)
+/pj/zudo-pd/  /index.html  200
+
+# Rewrite all requests under /pj/zudo-pd/ to serve files from root
+/pj/zudo-pd/*  /:splat  200
+
+# Handle trailing slash (no-slash to with-slash)
+/pj/zudo-pd  /pj/zudo-pd/  301
+
+# Redirect root to the base path
+/  /pj/zudo-pd/  301
