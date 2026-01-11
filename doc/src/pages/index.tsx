@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 import DocsSitemap from '@site/src/components/DocsSitemap';
 import styles from './index.module.css';
 
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
+  const logoUrl = useBaseUrl('/img/logo.svg');
   return (
     <Layout title={siteConfig.title}>
       <main className={clsx(styles.main)}>
@@ -21,11 +23,7 @@ export default function Home(): ReactNode {
 
                 {/* Big Logo */}
                 <div className={styles.logoContainer}>
-                  <img
-                    src="/img/logo.svg"
-                    alt="USB-PD Synth Power Logo"
-                    className={styles.bigLogo}
-                  />
+                  <img src={logoUrl} alt="USB-PD Synth Power Logo" className={styles.bigLogo} />
                 </div>
               </div>
 

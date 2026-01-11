@@ -10,7 +10,9 @@ This is a hardware project for designing a USB-PD powered modular synthesizer po
 
 The documentation is automatically deployed to Netlify:
 
-- **Production URL**: https://zudopd.netlify.app/
+- **Production URL**: https://takazudomodular.com/pj/zudo-pd/
+- **Netlify URL**: https://manual-oxi-one-mk2.netlify.app/pj/zudo-pd/ (rewritten to production URL)
+- **Base Path**: `/pj/zudo-pd/`
 - **Deployment**: Automatic on every push to `main` branch
 - **Technology**: Docusaurus static site deployed via Netlify CLI on GitHub Actions
 - **Configuration**: See `.github/workflows/main-deploy.yml` for deployment workflow
@@ -86,19 +88,19 @@ Use English for all text to ensure international accessibility and collaboration
 
 ## URL Reference Guidelines
 
-When the user provides URLs starting with `http://localhost:3800/` or `http://zudopd.localhost:3800/` in the conversation:
+When the user provides URLs starting with `http://localhost:3800/pj/zudo-pd/` or `http://zudopd.localhost:3800/pj/zudo-pd/` in the conversation:
 
 - **DO NOT fetch the URL** - These are local documentation URLs served by Docusaurus
 - **Instead, find and read the corresponding markdown file** in the `/doc/` directory
-- Map URLs to file paths following Docusaurus routing:
-  - `http://localhost:3800/` or `http://zudopd.localhost:3800/` → `/doc/docs/` (root pages)
-  - `http://zudopd.localhost:3800/docs/inbox/overview` → `/doc/docs/inbox/overview.md`
-  - `http://zudopd.localhost:3800/docs/inbox/circuit-diagrams` → `/doc/docs/inbox/circuit-diagrams.md`
+- Map URLs to file paths following Docusaurus routing (note: `/pj/zudo-pd/` is the base path):
+  - `http://localhost:3800/pj/zudo-pd/` or `http://zudopd.localhost:3800/pj/zudo-pd/` → `/doc/docs/` (root pages)
+  - `http://zudopd.localhost:3800/pj/zudo-pd/docs/inbox/overview` → `/doc/docs/inbox/overview.md`
+  - `http://zudopd.localhost:3800/pj/zudo-pd/docs/inbox/circuit-diagrams` → `/doc/docs/inbox/circuit-diagrams.md`
 - Use the Read tool to access the actual markdown source files
 - This provides the raw content without HTML rendering, making it easier to edit and understand
 
 Example:
-- User mentions: `http://zudopd.localhost:3800/docs/inbox/current-status`
+- User mentions: `http://zudopd.localhost:3800/pj/zudo-pd/docs/inbox/current-status`
 - Read file: `/doc/docs/inbox/current-status.md`
 
 ## File Types

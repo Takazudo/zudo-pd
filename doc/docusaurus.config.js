@@ -13,8 +13,8 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://zudo-power-usb-pd.example.com',
-  baseUrl: '/',
+  url: 'https://takazudomodular.com',
+  baseUrl: '/pj/zudo-pd/',
 
   // Don't add trailing slash
   trailingSlash: false,

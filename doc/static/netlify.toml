@@ -1,0 +1,26 @@
+# Netlify configuration for zudo-PD documentation
+# Serves content at /pj/zudo-pd/ base path
+
+[build]
+  publish = "build"
+
+# Redirect root to the base path
+[[redirects]]
+  from = "/"
+  to = "/pj/zudo-pd/"
+  status = 301
+  force = true
+
+# Rewrite all requests under /pj/zudo-pd/ to serve files from root
+[[redirects]]
+  from = "/pj/zudo-pd/*"
+  to = "/:splat"
+  status = 200
+  force = true
+
+# Handle trailing slash requests
+[[redirects]]
+  from = "/pj/zudo-pd"
+  to = "/pj/zudo-pd/"
+  status = 301
+  force = true
