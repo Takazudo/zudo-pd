@@ -58,9 +58,9 @@ with schemdraw.Drawing(
     elm.Capacitor().down(2.0).label('C15\n470nF', loc='bot')
     elm.Ground()
 
-    # C22 from junction1 (farther from IC - bulk storage)
+    # C22 from junction1 (farther from IC - bulk storage, electrolytic)
     d.pop()
-    elm.Capacitor().down(2.0).label('C22\n470µF', loc='bot')
+    elm.Capacitor(polar=True).down(2.0).label('C22\n470µF', loc='bot')
     elm.Ground()
 
     # Output rail with capacitors (C18 closer, C23 farther from IC)
@@ -73,8 +73,8 @@ with schemdraw.Drawing(
     elm.Dot()
     output_junction2 = d.here
 
-    # C23 from output_junction2 (farther from IC - bulk storage)
-    elm.Capacitor().down(2.0).label('C23\n470µF', loc='bot')
+    # C23 from output_junction2 (farther from IC - bulk storage, electrolytic)
+    elm.Capacitor(polar=True).down(2.0).label('C23\n470µF', loc='bot')
     elm.Ground()
 
     # C18 from output_junction1 (closer to IC - high-freq filtering)

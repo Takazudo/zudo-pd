@@ -42,9 +42,9 @@ with schemdraw.Drawing(
     elm.Line().left(2)
     elm.Dot(open=True).label('+15V\nIN', loc='top', ofst=0.5)
 
-    # C9 capacitor (farther from IC) - establish bottom rail position first
+    # C9 capacitor (farther from IC, electrolytic) - establish bottom rail position first
     d.pop()
-    elm.Capacitor().down(4).label('C9\n100µF', loc='bot')
+    elm.Capacitor(polar=True).down(4).label('C9\n100µF', loc='bot')
     elm.Line().down(1)
     bottom_rail = elm.Dot()  # Save anchor point for bottom rail
 
@@ -75,9 +75,9 @@ with schemdraw.Drawing(
     elm.Line().down(1)
     elm.Ground()
 
-    # C11 capacitor (from "to C11" dot)
+    # C11 capacitor (from "to C11" dot, electrolytic)
     d.pop()
-    elm.Capacitor().down().label('C11\n470µF', loc='bot')
+    elm.Capacitor(polar=True).down().label('C11\n470µF', loc='bot')
     elm.Line().toy(bottom_rail.start)
     c11_bottom = elm.Dot()
 

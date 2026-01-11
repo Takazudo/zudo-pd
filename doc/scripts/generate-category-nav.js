@@ -15,6 +15,7 @@ const OUTPUT_FILE = path.join(__dirname, '../src/data/category-nav.json');
 // Top-level categories and their subcategories
 // Add subcategory folder names to the array to enable nested navigation
 const CATEGORY_STRUCTURE = {
+  overview: [],
   inbox: [],
   components: [],
   learning: [],
