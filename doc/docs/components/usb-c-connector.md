@@ -6,7 +6,7 @@ sidebar_position: 0
 
 6-pin USB Type-C receptacle connector for USB Power Delivery (PD) input and power negotiation (power-only configuration).
 
-- 🔗 [View on JLCPCB: C2927029](https://jlcpcb.com/partdetail/C2927029)
+- 🔗 [View on JLCPCB: C456012](https://jlcpcb.com/partdetail/C456012)
 - 📘 [USB Type-C Specification](https://www.usb.org/usb-charger-pd)
 
 import FootprintSvg from '@site/src/components/FootprintSvg';
@@ -28,7 +28,7 @@ USB Type-C features a reversible connector design, allowing insertion in either 
 
 | Parameter                    | Value                 | Notes                    |
 | ---------------------------- | --------------------- | ------------------------ |
-| **JLCPCB Part Number**       | C2927029              | This design              |
+| **JLCPCB Part Number**       | C456012               | This design              |
 | **Manufacturer Part Number** | USB-TYPE-C-009        |                          |
 | **Package**                  | SMD (Surface Mount)   | 6-pin power-only         |
 | **Stock Availability**       | 22,140 units          | Good availability        |
@@ -192,14 +192,14 @@ When connected to a USB-PD charger:
 
 ## Alternative Parts
 
-If C2927029 is unavailable, consider these 6-pin power-only USB Type-C alternatives:
+If C456012 is unavailable, consider these 6-pin power-only USB Type-C alternatives:
 
-| Part Number | Stock   | Notes                       |
-| ----------- | ------- | --------------------------- |
-| C456012     | 186,928 | TYPE-C 6P (very high stock) |
-| C668623     | 133,479 | TYPE-C 6P(073)              |
-| C5156600    | 43,224  | TYPE-C 6PLTH6.8-DJ          |
-| C36936554   | 38,214  | UC17-0B06F68011 (3A rated)  |
+| Part Number | Stock   | Notes                      |
+| ----------- | ------- | -------------------------- |
+| C2927029    | 22,140  | USB-TYPE-C-009 (previous)  |
+| C668623     | 133,479 | TYPE-C 6P(073)             |
+| C5156600    | 43,224  | TYPE-C 6PLTH6.8-DJ         |
+| C36936554   | 38,214  | UC17-0B06F68011 (3A rated) |
 
 **Important**: Verify pinout compatibility when substituting parts. Most 6-pin USB Type-C power-only connectors follow the same pinout (GND-VBUS-CC1 / CC2-VBUS-GND), but always check the datasheet.
 
