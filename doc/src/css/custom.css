@@ -125,10 +125,15 @@ article.theme-doc-markdown {
 
 .menu__list-item {
   margin: 0.25rem 0;
+  padding: 0.2em 0 0;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+.menu__list-item:first-child {
+  border-top: none;
 }
 
 .menu__link {
-  padding: 0.3rem 0.5rem;
+  padding: 0.55rem 0.4rem 0.35rem;
   border-radius: 0.25rem;
   line-height: 1.6;
   font-size: 0.95rem;
