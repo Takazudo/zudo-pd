@@ -52,6 +52,7 @@ const sidebars = {
     'learning/buck-converter-feedback',
     'learning/inductor-voltage-reversal',
     'learning/pcb-layout-power-circuits',
+    'learning/trace-width-copper-weight',
     'learning/transformer-polarity-flyback',
     'learning/linear-regulator-capacitors',
     'learning/two-stage-dc-dc-ldo-architecture',
