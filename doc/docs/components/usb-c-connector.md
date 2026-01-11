@@ -2,7 +2,7 @@
 sidebar_position: 0
 ---
 
-# J1 - USB Type-C Receptacle Connector
+# USB Type-C Receptacle Connector
 
 6-pin USB Type-C receptacle connector for USB Power Delivery (PD) input and power negotiation (power-only configuration).
 

@@ -2,7 +2,7 @@
 sidebar_position: 15
 ---
 
-# J3-J6 - FASTON 250 PCB Power Terminal
+# FASTON 250 PCB Power Terminal
 
 Heavy-duty FASTON 250 series PCB tab terminal for busboard power connection, supporting thick gauge wire for low-noise power delivery to Eurorack modules.
 
