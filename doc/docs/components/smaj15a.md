@@ -10,7 +10,7 @@ High-performance Transient Voltage Suppressor (TVS) diode for overvoltage protec
 - 📄 [Download Datasheet (PDF)](/datasheets/SMAJ-datasheet.pdf)
 
 import FootprintSvg from '@site/src/components/FootprintSvg';
-import DiodeSMA from '@site/static/footprints-svg/SMA_L4.4-W2.8-LS5.4-RD.svg';
+import DiodeSMA from '../\_fragments/footprints/SMA_L4.4-W2.8-LS5.4-RD.svg';
 
 <FootprintSvg src={DiodeSMA} alt="SMAJ15A SMA Package" minWidth="250px" minHeight="150px" />
 

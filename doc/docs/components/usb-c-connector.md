@@ -10,7 +10,7 @@ sidebar_position: 0
 - 📘 [USB Type-C Specification](https://www.usb.org/usb-charger-pd)
 
 import FootprintSvg from '@site/src/components/FootprintSvg';
-import USBC from '@site/static/footprints-svg/TYPE-C-SMD_TYPE-C-6P.svg';
+import USBC from '../\_fragments/footprints/TYPE-C-SMD_TYPE-C-6P.svg';
 
 <FootprintSvg src={USBC} alt="USB Type-C 6P Connector" minWidth="300px" minHeight="200px" />
 

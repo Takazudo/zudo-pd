@@ -9,7 +9,7 @@ Click on any footprint to view it in fullscreen.
 ### U1 - CH224D USB PD Controller
 
 import FootprintSvg from '@site/src/components/FootprintSvg';
-import CH224D from '@site/static/footprints-svg/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.svg';
+import CH224D from '../\_fragments/footprints/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.svg';
 
 <FootprintSvg src={CH224D} alt="CH224D QFN-20 Package" minWidth="300px" minHeight="300px" />
 
@@ -21,7 +21,7 @@ import CH224D from '@site/static/footprints-svg/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.
 
 ### J1 - USB Type-C Connector
 
-import USBC from '@site/static/footprints-svg/TYPE-C-SMD_TYPE-C-6P.svg';
+import USBC from '../\_fragments/footprints/TYPE-C-SMD_TYPE-C-6P.svg';
 
 <FootprintSvg src={USBC} alt="USB Type-C 6P Connector" minWidth="300px" minHeight="200px" />
 
@@ -37,7 +37,7 @@ import USBC from '@site/static/footprints-svg/TYPE-C-SMD_TYPE-C-6P.svg';
 
 ### U2, U3, U4 - LM2596S-ADJ Buck Converter
 
-import LM2596S from '@site/static/footprints-svg/TO-263-5_L10.2-W8.9-P1.70-BR.svg';
+import LM2596S from '../\_fragments/footprints/TO-263-5_L10.2-W8.9-P1.70-BR.svg';
 
 <FootprintSvg src={LM2596S} alt="LM2596S TO-263-5 Package" minWidth="300px" minHeight="200px" />
 
@@ -49,7 +49,7 @@ import LM2596S from '@site/static/footprints-svg/TO-263-5_L10.2-W8.9-P1.70-BR.sv
 
 ### L1, L2, L3 - 100µH Power Inductor
 
-import Inductor from '@site/static/footprints-svg/IND-SMD_L13.8-W12.8.svg';
+import Inductor from '../\_fragments/footprints/IND-SMD_L13.8-W12.8.svg';
 
 <FootprintSvg src={Inductor} alt="100µH Power Inductor" minWidth="300px" minHeight="300px" />
 
@@ -65,7 +65,7 @@ import Inductor from '@site/static/footprints-svg/IND-SMD_L13.8-W12.8.svg';
 
 ### U6 - L7812CD2T-TR (+12V Linear Regulator)
 
-import LM7812 from '@site/static/footprints-svg/TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL.svg';
+import LM7812 from '../\_fragments/footprints/TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL.svg';
 
 <FootprintSvg src={LM7812} alt="L7812CD2T TO-263-2 Package" minWidth="300px" minHeight="200px" />
 
@@ -77,7 +77,7 @@ import LM7812 from '@site/static/footprints-svg/TO-263-2_L10.0-W9.1-P5.08-LS15.2
 
 ### U7 - L7805ABD2T-TR (+5V Linear Regulator)
 
-import LM7805 from '@site/static/footprints-svg/TO-263-2_L10.0-W9.2-P5.08-LS15.3-TL-CW.svg';
+import LM7805 from '../\_fragments/footprints/TO-263-2_L10.0-W9.2-P5.08-LS15.3-TL-CW.svg';
 
 <FootprintSvg src={LM7805} alt="L7805ABD2T TO-263-2 Package" minWidth="300px" minHeight="200px" />
 
@@ -89,7 +89,7 @@ import LM7805 from '@site/static/footprints-svg/TO-263-2_L10.0-W9.2-P5.08-LS15.3
 
 ### U8 - CJ7912 (-12V Linear Regulator)
 
-import LM7912 from '@site/static/footprints-svg/TO-252-3_L6.5-W5.8-P4.58-BL.svg';
+import LM7912 from '../\_fragments/footprints/TO-252-3_L6.5-W5.8-P4.58-BL.svg';
 
 <FootprintSvg src={LM7912} alt="CJ7912 TO-252-3 Package" minWidth="250px" minHeight="200px" />
 
@@ -107,7 +107,7 @@ import LM7912 from '@site/static/footprints-svg/TO-252-3_L6.5-W5.8-P4.58-BL.svg'
 
 #### 0603 Ceramic Capacitor
 
-import C0603 from '@site/static/footprints-svg/C0603.svg';
+import C0603 from '../\_fragments/footprints/C0603.svg';
 
 <FootprintSvg src={C0603} alt="0603 Capacitor" minWidth="200px" minHeight="150px" />
 
@@ -121,7 +121,7 @@ import C0603 from '@site/static/footprints-svg/C0603.svg';
 
 #### 0805 Ceramic Capacitor
 
-import C0805 from '@site/static/footprints-svg/C0805.svg';
+import C0805 from '../\_fragments/footprints/C0805.svg';
 
 <FootprintSvg src={C0805} alt="0805 Capacitor" minWidth="200px" minHeight="150px" />
 
@@ -135,7 +135,7 @@ import C0805 from '@site/static/footprints-svg/C0805.svg';
 
 #### D6.3mm Electrolytic Capacitor
 
-import CapD63 from '@site/static/footprints-svg/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
+import CapD63 from '../\_fragments/footprints/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
 
 <FootprintSvg src={CapD63} alt="D6.3mm SMD Electrolytic Capacitor" minWidth="250px" minHeight="250px" />
 
@@ -150,7 +150,7 @@ import CapD63 from '@site/static/footprints-svg/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
 
 #### D10mm Electrolytic Capacitor
 
-import CapD10 from '@site/static/footprints-svg/CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-FD.svg';
+import CapD10 from '../\_fragments/footprints/CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-FD.svg';
 
 <FootprintSvg src={CapD10} alt="D10mm SMD Electrolytic Capacitor" minWidth="300px" minHeight="300px" />
 
@@ -165,7 +165,7 @@ import CapD10 from '@site/static/footprints-svg/CAP-SMD_BD10.0-L10.3-W10.3-LS11.
 
 #### 1206 Ceramic Capacitor
 
-import C1206 from '@site/static/footprints-svg/C1206.svg';
+import C1206 from '../\_fragments/footprints/C1206.svg';
 
 <FootprintSvg src={C1206} alt="1206 Capacitor" minWidth="200px" minHeight="150px" />
 
@@ -179,7 +179,7 @@ import C1206 from '@site/static/footprints-svg/C1206.svg';
 
 #### 0603 Resistor
 
-import R0603 from '@site/static/footprints-svg/R0603.svg';
+import R0603 from '../\_fragments/footprints/R0603.svg';
 
 <FootprintSvg src={R0603} alt="0603 Resistor" minWidth="200px" minHeight="150px" />
 
@@ -195,7 +195,7 @@ import R0603 from '@site/static/footprints-svg/R0603.svg';
 
 #### 0805 Resistor
 
-import R0805 from '@site/static/footprints-svg/R0805.svg';
+import R0805 from '../\_fragments/footprints/R0805.svg';
 
 <FootprintSvg src={R0805} alt="0805 Resistor" minWidth="200px" minHeight="150px" />
 
@@ -211,7 +211,7 @@ import R0805 from '@site/static/footprints-svg/R0805.svg';
 
 #### 0603 LED
 
-import LED0603 from '@site/static/footprints-svg/LED0603-RD.svg';
+import LED0603 from '../\_fragments/footprints/LED0603-RD.svg';
 
 <FootprintSvg src={LED0603} alt="0603 LED" minWidth="200px" minHeight="150px" />
 
@@ -232,7 +232,7 @@ import LED0603 from '@site/static/footprints-svg/LED0603-RD.svg';
 
 #### PTC3 - F1206 (1.5A Hold, -12V Rail)
 
-import PTC1206 from '@site/static/footprints-svg/F1206.svg';
+import PTC1206 from '../\_fragments/footprints/F1206.svg';
 
 <FootprintSvg src={PTC1206} alt="1206 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
 
@@ -245,7 +245,7 @@ import PTC1206 from '@site/static/footprints-svg/F1206.svg';
 
 #### PTC1 - F1210 (2.0A Hold, +12V Rail)
 
-import PTC1210 from '@site/static/footprints-svg/F1210.svg';
+import PTC1210 from '../\_fragments/footprints/F1210.svg';
 
 <FootprintSvg src={PTC1210} alt="1210 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
 
@@ -258,7 +258,7 @@ import PTC1210 from '@site/static/footprints-svg/F1210.svg';
 
 #### PTC2 - F1812 (1.1A Hold, +5V Rail)
 
-import PTC1812 from '@site/static/footprints-svg/F1812.svg';
+import PTC1812 from '../\_fragments/footprints/F1812.svg';
 
 <FootprintSvg src={PTC1812} alt="1812 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
 
@@ -271,7 +271,7 @@ import PTC1812 from '@site/static/footprints-svg/F1812.svg';
 
 ### Schottky Diode (SMA)
 
-import DiodeSMA from '@site/static/footprints-svg/SMA_L4.3-W2.6-LS5.2-RD.svg';
+import DiodeSMA from '../\_fragments/footprints/SMA_L4.3-W2.6-LS5.2-RD.svg';
 
 <FootprintSvg src={DiodeSMA} alt="SMA Diode Package" minWidth="250px" minHeight="150px" />
 
@@ -285,7 +285,7 @@ import DiodeSMA from '@site/static/footprints-svg/SMA_L4.3-W2.6-LS5.2-RD.svg';
 
 #### TVS1, TVS3 - SMAJ15A (±12V Overvoltage Protection)
 
-import TVSSMA from '@site/static/footprints-svg/D-FLAT_L4.3-W2.6-LS5.3-RD.svg';
+import TVSSMA from '../\_fragments/footprints/D-FLAT_L4.3-W2.6-LS5.3-RD.svg';
 
 <FootprintSvg src={TVSSMA} alt="SMAJ15A SMA TVS Diode" minWidth="250px" minHeight="150px" />
 
@@ -298,7 +298,7 @@ import TVSSMA from '@site/static/footprints-svg/D-FLAT_L4.3-W2.6-LS5.3-RD.svg';
 
 #### TVS2 - SD05 (+5V Overvoltage Protection)
 
-import TVSSOD323 from '@site/static/footprints-svg/SOD-323_L1.8-W1.3-LS2.5-FD.svg';
+import TVSSOD323 from '../\_fragments/footprints/SOD-323_L1.8-W1.3-LS2.5-FD.svg';
 
 <FootprintSvg src={TVSSOD323} alt="SD05 SOD-323 TVS Diode" minWidth="200px" minHeight="150px" />
 
@@ -314,7 +314,7 @@ import TVSSOD323 from '@site/static/footprints-svg/SOD-323_L1.8-W1.3-LS2.5-FD.sv
 
 ### J2-J5 - Eurorack Power Connector (16-pin)
 
-import HeaderEuro from '@site/static/footprints-svg/HDR-TH_16P-P2.54-H-M-R2-C8-S2.54.svg';
+import HeaderEuro from '../\_fragments/footprints/HDR-TH_16P-P2.54-H-M-R2-C8-S2.54.svg';
 
 <FootprintSvg src={HeaderEuro} alt="16-pin 2.54mm Header (Eurorack)" minWidth="400px" minHeight="200px" />
 

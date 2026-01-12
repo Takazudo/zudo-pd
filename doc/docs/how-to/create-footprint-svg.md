@@ -174,7 +174,7 @@ In MDX files (e.g., component pages):
 
 ```jsx
 import FootprintSvg from '@site/src/components/FootprintSvg';
-import CH224D from '@site/static/footprints-svg/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.svg';
+import CH224D from '../_fragments/footprints/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.svg';
 
 <FootprintSvg src={CH224D} alt="CH224D QFN-20 Package" minWidth="300px" minHeight="300px" />;
 ```
