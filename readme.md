@@ -1,10 +1,10 @@
-# USB-PD駆動モジュラーシンセサイザー電源
+# USB-PD Powered Modular Synthesizer Power Supply
 
-USB-C PD 15V入力で、モジュラーシンセ用の±12V/+5V電源を供給する低ノイズ電源モジュールの設計プロジェクト
+A low-noise power module design that takes USB-C PD 15V input and provides ±12V/+5V power for modular synthesizers.
 
-## 📖 ドキュメント
+## Documentation
 
-**メインドキュメントは `/doc/` のDocusaurusサイトにあります**
+**Main documentation is in the `/doc/` Docusaurus site**
 
 ```bash
 cd doc
@@ -12,87 +12,86 @@ pnpm install
 pnpm start
 ```
 
-ブラウザで http://localhost:3000 を開くとドキュメントが見られます。
+Open http://localhost:3000 in your browser to view the documentation.
 
-### 主要ドキュメント
+### Key Documents
 
-- **[プロジェクト現状とプラン](doc/docs/inbox/current-status.md)** - 今どこまで進んだ？次に何をする？
-- **[クイックリファレンス](doc/docs/inbox/quick-reference.md)** - よく使う仕様・計算式・FAQ
-- **[プロジェクト概要](doc/docs/inbox/overview.md)** - 設計目標、アーキテクチャ、特長
-- **[回路図](doc/docs/inbox/circuit-diagrams.md)** - 完全な回路構成
-- **[部品リスト](doc/docs/inbox/parts-list.md)** - JLCPCB対応BOM
+- **[Project Overview](doc/docs/overview/overview.md)** - Design goals, architecture, features
+- **[Circuit Diagrams](doc/docs/overview/circuit-diagrams.mdx)** - Complete circuit configuration
+- **[Bill of Materials](doc/docs/overview/bom.md)** - JLCPCB-compatible BOM
+- **[Quick Reference](doc/docs/inbox/quick-reference.md)** - Common specs, formulas, FAQ
 
-## 🎯 プロジェクト概要
+## Project Overview
 
-### 設計目標
+### Design Goals
 
-USB-C PD充電器で動作するモジュラーシンセサイザー用電源
+A modular synthesizer power supply powered by USB-C PD chargers.
 
-- **入力**: USB-C PD 15V 3A (最大45W)
-- **出力**: +12V/1.2A, -12V/1.0A, +5V/1.2A
-- **リップル**: <1mVp-p (モジュラーシンセに最適な低ノイズ)
-- **保護**: PTC自動復帰 + ヒューズバックアップ (初心者対応)
-- **調達**: 全部品JLCPCB対応 (安定供給・低コスト)
+- **Input**: USB-C PD 15V 3A (max 45W)
+- **Output**: +12V/1.2A, -12V/1.0A, +5V/1.2A
+- **Ripple**: <1mVp-p (low noise optimized for modular synths)
+- **Protection**: PTC auto-reset + fuse backup (beginner-friendly)
+- **Sourcing**: All parts JLCPCB-compatible (reliable supply, low cost)
 
-### 4段階アーキテクチャ
+### 4-Stage Architecture
 
 ```
 USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             │
             ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
             │
-            └─→ -15V (反転) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
+            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
-**DC-DC + LDO 2段階方式**: 効率とノイズを両立
+**DC-DC + LDO Two-Stage Design**: Balancing efficiency and noise
 
-- DC-DCで効率確保 (85-90%)
-- LDOでノイズ除去 (<1mVp-p)
-- 総合効率: 75-80%
+- DC-DC ensures efficiency (85-90%)
+- LDO removes noise (<1mVp-p)
+- Overall efficiency: 75-80%
 
-## 🛠️ 現在の状況
+## Current Status
 
-### ✅ 完了
+### Completed
 
-- 回路設計完了 (4段階アーキテクチャ)
-- 主要部品選定完了 (JLCPCB品番確定)
-- 詳細ドキュメント作成完了
+- Circuit design complete (4-stage architecture)
+- Main component selection complete (JLCPCB part numbers confirmed)
+- Detailed documentation complete
 
-### 🔄 次のステップ
+### Next Steps
 
-1. **未確定部品の検索** (PTCヒューズ × 3、2Aヒューズ × 1)
-2. **KiCad PCB設計** (4層基板推奨)
-3. **プロトタイプ発注** (JLCPCB SMT)
-4. **性能測定** (リップル・効率・熱)
+1. **Search for remaining parts** (PTC fuses × 3, 2A fuse × 1)
+2. **KiCad PCB design** (4-layer board recommended)
+3. **Order prototype** (JLCPCB SMT)
+4. **Performance testing** (ripple, efficiency, thermal)
 
-詳細は [プロジェクト現状とプラン](doc/docs/inbox/current-status.md) を参照
+## Repository Structure
 
-## 📁 リポジトリ構成
+- `/doc/` - Docusaurus documentation site **← Main documentation**
+- `/footprints/` - PCB footprint images (CH224Q, USB-C)
+- `/diagram-sources/` - Python schemdraw scripts for circuit diagrams
+- `/symbols/` - KiCad symbol library
+- `/3dp-files/` - 3D printable files
+- `/jlcpcb-templates/` - JLCPCB order templates
+- `/__inbox/` - Working directory (temporary files, gitignored)
 
-- `/doc/` - Docusaurusドキュメントサイト **← メインドキュメント**
-- `/notes/` - 整理済みの設計メモ (回路図・部品リスト)
-- `/generated-docs/` - 初期アイデア・自動生成ドキュメント (参考資料)
-- `/footprints/` - PCB footprint画像 (CH224Q, USB-C)
-- `/inbox/` - 作業用ディレクトリ (一時ファイル)
+## Original Concept
 
-## 💡 オリジナルのアイデア
+The reliable Doepfer power supplies use DC-DC converters for voltage conversion, with linear regulators (LM7812/LM7912) and capacitors at the final stage to reduce switching noise.
 
-信頼性の高いDoepferの電源では、DC-DCコンバータで電圧変換しつつも、最終段はリニアレギュレーター（LM7812/LM7912）とコンデンサでスイッチングノイズを低減する実装をしている。
+Following this design philosophy, this project obtains 15V power from USB-PD and provides low-noise ±12V/+5V power required by modular synthesizers.
 
-この設計思想を踏襲し、USB-PDから15V電源を取得し、モジュラーシンセサイザーに必要な±12V/+5Vを低ノイズで供給する電源を設計。
+- **+12V**: 1200mA (most commonly used voltage in modular synths)
+- **-12V**: 800mA (used by VCOs/VCAs)
+- **+5V**: 500mA (used by digital modules)
 
-- **+12V**: 1200mA (モジュラーシンセで最も使用される電圧)
-- **-12V**: 800mA (VCO/VCAなどで使用)
-- **+5V**: 500mA (デジタルモジュールで使用)
+These values are based on typical usage ratios in standard modular synthesizer systems.
 
-これらの値は、標準的なモジュラーシンセシステムでの使用比率に基づいている。
-
-## 🔗 参考リンク
+## Reference Links
 
 - [JLCPCB Parts Library](https://jlcpcb.com/parts)
-- [KiCad公式サイト](https://www.kicad.org/)
-- [CH224Q データシート](https://www.wch-ic.com/products/CH224.html)
+- [KiCad Official Site](https://www.kicad.org/)
+- [CH224Q Datasheet](https://www.wch-ic.com/products/CH224.html)
 
-## 📝 ライセンス
+## License
 
-このプロジェクトはオープンソースです。ハードウェア設計ファイルは自由に使用・改変できます。
+This project is open source. Hardware design files can be freely used and modified.

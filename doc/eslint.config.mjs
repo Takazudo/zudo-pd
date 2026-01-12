@@ -31,7 +31,7 @@ export default [
         sourceType: 'module',
       },
     },
-    settings: { react: { version: '19.0' } },
+    settings: { react: { version: 'detect' } },
     plugins: {
       '@typescript-eslint': typescript,
       react: eslintReact,

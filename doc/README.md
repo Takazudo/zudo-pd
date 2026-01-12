@@ -1,56 +1,68 @@
 # USB-PD Modular Synth Power Documentation
 
-このディレクトリには、USB-PD駆動モジュラーシンセサイザー電源のドキュメントが含まれています。
+This directory contains documentation for the USB-PD powered modular synthesizer power supply.
 
-## セットアップ
+## Setup
 
 ```bash
-# 依存関係のインストール
+# Install dependencies
 pnpm install
 
-# 開発サーバーの起動
+# Start development server
 pnpm start
 
-# プロダクションビルド
+# Production build
 pnpm build
 ```
 
-## ディレクトリ構造
+## Directory Structure
 
 ```
 doc/
-├── docs/              # ドキュメントのMarkdownファイル
-│   └── inbox/         # INBOX カテゴリ
-├── src/               # Reactコンポーネントとスタイル
-│   ├── css/           # カスタムCSS
-│   └── pages/         # カスタムページ
-├── static/            # 静的アセット (画像など)
-└── plugins/           # カスタムプラグイン
+├── docs/              # Documentation Markdown files
+│   ├── overview/      # Project overview, circuit diagrams, BOM
+│   ├── components/    # Individual component specifications
+│   ├── learning/      # Circuit design learning notes
+│   ├── how-to/        # How-to guides
+│   ├── inbox/         # Quick reference and misc docs
+│   ├── misc/          # Miscellaneous documentation
+│   └── _fragments/    # Reusable fragments (SVGs, etc.)
+├── src/               # React components and styles
+│   ├── components/    # Custom React components
+│   ├── css/           # Custom CSS
+│   ├── pages/         # Custom pages
+│   └── theme/         # Theme customizations
+├── static/            # Static assets (images, etc.)
+│   ├── circuits/      # Circuit diagram SVGs
+│   ├── datasheets/    # Component datasheets (PDF)
+│   ├── footprints/    # Package preview images (PNG)
+│   └── img/           # General images
+└── plugins/           # Custom plugins
 ```
 
-## ドキュメントの追加
+## Adding Documentation
 
-1. `docs/inbox/` に新しい `.md` ファイルを作成
-2. frontmatter を設定:
+1. Create a new `.md` or `.mdx` file in the appropriate `docs/` subdirectory
+2. Set frontmatter:
    ```yaml
    ---
    sidebar_position: 1
    ---
    ```
-3. Markdownでコンテンツを記述
+3. Write content in Markdown/MDX
 
-## 技術スタック
+## Tech Stack
 
-- [Docusaurus 3](https://docusaurus.io/) - ドキュメントサイトジェネレータ
-- [React 19](https://react.dev/) - UIライブラリ
-- [TypeScript](https://www.typescriptlang.org/) - 型安全性
-- [Mermaid](https://mermaid.js.org/) - ダイアグラム描画
+- [Docusaurus 3](https://docusaurus.io/) - Documentation site generator
+- [React 19](https://react.dev/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Mermaid](https://mermaid.js.org/) - Diagram rendering
 
-## コマンド
+## Commands
 
-- `pnpm start` - 開発サーバー起動 (http://localhost:3000)
-- `pnpm build` - プロダクションビルド
-- `pnpm serve` - ビルドしたサイトをローカルで確認
-- `pnpm clear` - キャッシュクリア
-- `pnpm lint` - コードのリント
-- `pnpm format` - コードフォーマット
+- `pnpm start` - Start development server (http://localhost:3000)
+- `pnpm build` - Production build
+- `pnpm serve` - Preview built site locally
+- `pnpm clear` - Clear cache
+- `pnpm lint` - Lint code
+- `pnpm format` - Format code

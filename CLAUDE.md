@@ -19,39 +19,46 @@ The documentation is automatically deployed to Netlify:
 
 ## Repository Structure
 
-### Current Documentation (Use These)
+### Documentation
 - `/doc/docs/` - **Primary documentation** (Docusaurus-based, organized)
-  - `inbox/` - Main documentation (overview, parts list, quick reference, current status)
+  - `overview/` - Project overview, circuit diagrams, BOM
   - `components/` - Individual component datasheets and specifications
   - `learning/` - Circuit design learning notes
   - `how-to/` - How-to guides (KiCad workflow, parts download, SVG export, circuit diagrams)
+  - `inbox/` - Quick reference and miscellaneous docs
+  - `misc/` - Miscellaneous documentation
+  - `_fragments/` - Reusable fragments (footprint SVGs for React imports)
 - `/doc/static/` - **Documentation assets** (images, PDFs, SVGs)
+  - `circuits/` - Circuit diagram SVGs
   - `footprints/` - Component package preview images (PNG)
   - `datasheets/` - Component datasheets and package specs (PDF)
   - `kicad/` - KiCad setup screenshots
-- `/doc/docs/_fragments/footprints/` - **Footprint SVGs** (for React imports in documentation)
+
+### KiCad Libraries
 - `/footprints/` - **KiCad footprint library**
   - `kicad/` - KiCad footprint source files (.kicad_mod)
   - `images/` - Exported SVG files (source for documentation)
   - `scripts/` - Processing scripts (clean-svg-refs.py)
 - `/symbols/` - **KiCad symbol library**
   - `zudo-pd.kicad_sym` - Project schematic symbols (USB-C, CH224D, regulators, etc.)
-- **KiCad project files** (repository root)
-  - `zudo-pd.kicad_pro` - Project configuration
-  - `zudo-pd.kicad_sch` - Root schematic (hierarchical sheet structure)
-  - `usb-pd-input.kicad_sch` - USB-PD input stage sub-sheet
-  - `dc-dc-conversion.kicad_sch` - DC-DC converters sub-sheet
-  - `linear-regulation.kicad_sch` - Linear regulators + protection sub-sheet
-  - `output.kicad_sch` - Output connectors sub-sheet
-  - `zudo-pd.kicad_pcb` - PCB layout file
-  - `fp-lib-table` - Footprint library configuration
-  - `sym-lib-table` - Symbol library configuration
-- `/__inbox/` - **Temporary files** (gitignored, use for working files)
 
-### Legacy Documentation (Outdated)
-- `/notes/` - Old documentation (outdated, do not use)
-- `/generated-docs/` - Old generated docs (outdated, do not use)
-- `/inbox/` - Old working directory (outdated, use `__inbox/` instead)
+### KiCad Project Files (repository root)
+- `zudo-pd.kicad_pro` - Project configuration
+- `zudo-pd.kicad_sch` - Root schematic (hierarchical sheet structure)
+- `usb-pd-input.kicad_sch` - USB-PD input stage sub-sheet
+- `dc-dc-conversion.kicad_sch` - DC-DC converters sub-sheet
+- `linear-regulation.kicad_sch` - Linear regulators + protection sub-sheet
+- `output.kicad_sch` - Output connectors sub-sheet
+- `zudo-pd.kicad_pcb` - PCB layout file
+- `fp-lib-table` - Footprint library configuration
+- `sym-lib-table` - Symbol library configuration
+
+### Other Directories
+- `/diagram-sources/` - Python schemdraw scripts for circuit diagram generation
+- `/3dp-files/` - 3D printable files (component guards, enclosures)
+- `/jlcpcb-templates/` - JLCPCB BOM/CPL template files
+- `/jlcpcb-order-snapshots/` - Historical order snapshots for reference
+- `/__inbox/` - **Temporary files** (gitignored, use for working files)
 
 ## Technical Architecture
 
