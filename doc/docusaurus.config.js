@@ -110,7 +110,7 @@ const config = {
             type: 'html',
             position: 'right',
             value:
-              '<a href="https://takazudomodular.com/" class="navbar__takazudo-modular"><img src="/pj/zudo-pd/img/logo.svg" alt="Takazudo Modular" /><span>Takazudo Modular</span></a>',
+              '<a href="https://takazudomodular.com/" class="navbar__takazudo-modular" rel="noopener noreferrer"><img src="/pj/zudo-pd/img/logo.svg" alt="" /><span>Takazudo Modular</span></a>',
           },
         ],
       },
