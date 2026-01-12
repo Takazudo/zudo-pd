@@ -86,13 +86,10 @@ difference() {
         translate([-base_length/2, pin_pitch/2 - slot_width/2, -0.1])
             cube([base_length, slot_width, bottom_thickness + 0.2]);
 
-        //Tab upper part (key notch for IDC connector) - extends from bottom plate to top
+        //Tab (key notch for IDC connector) - extends from bottom plate to top
+        //Bottom plate remains intact at tab end (no foot separator)
         translate([-tab_width_actual/2, -outside_width, bottom_thickness])
             cube([tab_width_actual, outside_width, height]);
-
-        //Tab lower part (foot separator - only through the wall, not the bottom plate)
-        translate([-tab_width_actual/2, -outside_width, -0.1])
-            cube([tab_width_actual, outside_width/2 + wall_thickness, bottom_thickness + 0.2]);
 
     }
 
