@@ -29,8 +29,8 @@ connector_width = 6.4;
 //Size of pin header base holes - TIGHT FIT based on actual pin dimensions
 //Length: pin span + pin size + clearance
 base_length = pin_pitch*(n_pins-1) + pin_size + tight_clearance;  // 17.78 + 0.64 + 0.2 = 18.62mm
-//Width of each slot: tight press-fit
-slot_width = 0.4;  // Very tight - plastic will grip the pins
+//Width of each slot
+slot_width = 0.6;  // Adjusted after print test (0.4 was too tight)
 
 //Size of orientation tab
 tab_width=4.5;
@@ -86,9 +86,13 @@ difference() {
         translate([-base_length/2, pin_pitch/2 - slot_width/2, -0.1])
             cube([base_length, slot_width, bottom_thickness + 0.2]);
 
-        //Tab
-        translate([-tab_width_actual/2, -outside_width, height-tab_height])
+        //Tab upper part (key notch for IDC connector) - extends from bottom plate to top
+        translate([-tab_width_actual/2, -outside_width, bottom_thickness])
             cube([tab_width_actual, outside_width, height]);
+
+        //Tab lower part (foot separator - only through the wall, not the bottom plate)
+        translate([-tab_width_actual/2, -outside_width, -0.1])
+            cube([tab_width_actual, outside_width/2 + wall_thickness, bottom_thickness + 0.2]);
 
     }
 
