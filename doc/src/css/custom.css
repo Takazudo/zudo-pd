@@ -258,6 +258,29 @@ article.theme-doc-markdown {
   filter: brightness(0) invert(1);
 }
 
+/* Takazudo Modular right-side nav link */
+.navbar__takazudo-modular {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ifm-navbar-link-color);
+  text-decoration: none;
+  font-family: Futura, sans-serif;
+  font-weight: var(--ifm-font-weight-semibold);
+  transition: color var(--ifm-transition-fast);
+}
+
+.navbar__takazudo-modular:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.navbar__takazudo-modular img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
 /* Footer styling */
 .footer {
   background-color: oklch(30% 0.163 48.998);
