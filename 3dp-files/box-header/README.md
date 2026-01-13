@@ -24,13 +24,14 @@
 | Pin size | 0.64mm (square) | Datasheet SQ.0.64 |
 | Row spacing | 2.54mm | Standard |
 | Box height | 8.9mm | Standard IDC |
-| Bottom thickness | 0.5mm | Modified |
+| Bottom thickness | 1.0mm | Adjusted (0.5mm too thin) |
+| Pin hole diameter | 1.4mm | Adjusted (0.8mm, 1.0mm too tight) |
 | Slot width | 0.6mm | Adjusted after print test |
 
 ## Design Features
 
 - **Center divider** on bottom surface for alignment
-- **0.8mm pin holes** for tight press-fit
+- **1.4mm pin holes** for proper fit (0.8mm, 1.0mm were too tight)
 - **Key notch** for polarized connection (prevents reverse insertion)
 - **Thicker walls** (1.5mm) for print durability
 
@@ -45,7 +46,8 @@
 Original design by John Stäck 2018, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 Modifications:
-- Changed bottom thickness to 0.5mm
+- Changed bottom thickness to 1.0mm (0.5mm was too thin)
+- Changed pin hole diameter to 1.4mm (0.8mm, 1.0mm were too tight)
 - Added center divider
 - Adjusted slot width to 0.6mm
 
