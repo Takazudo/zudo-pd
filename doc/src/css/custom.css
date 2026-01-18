@@ -354,3 +354,17 @@ article.theme-doc-markdown {
 .theme-doc-meta-author address {
   font-style: normal;
 }
+
+/* Remove hover effect from non-link category labels */
+.menu__link:not([href]) {
+  cursor: default;
+}
+
+.menu__link:not([href]):hover {
+  background: none;
+}
+
+/* Remove hover effect from collapsible container of non-link categories */
+.menu__list-item-collapsible:has(.menu__link:not([href])):hover {
+  background: none;
+}
