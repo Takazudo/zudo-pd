@@ -102,43 +102,43 @@ This section documents the **STUSB4500-based** design (v1.1). The STUSB4500 is U
     │   ┌────────────────────┐      │              │                    │
     │   │                    │      │              │                    │
     │   │  VBUS_EN_SNK ──────┼──────┘              │                    │
-    │   │  (pin 10)          │                     │                    │
+    │   │  (pin 16)          │                     │                    │
     │   │                    │                    C35 (100nF)           │
-    │   │  VDD (pin 5) ──────┼── VBUS_IN           │                    │
+    │   │  VDD (pin 24) ─────┼── VBUS_IN           │                    │
     │   │        │           │                    GND                   │
     │   │       C2 (100nF)   │                                          │
     │   │        │           │                     ▼                    │
     │   │       GND          │                 VBUS_OUT ──→ (to DC-DC)  │
     │   │                    │                     │                    │
-    │   │  VREG_2V7 (pin 7)  │                    TP1                   │
+    │   │  VREG_2V7 (pin 23) │                    TP1                   │
     │   │        │           │                                          │
     │   │       C30 (1µF)    │                                          │
     │   │        │           │                                          │
     │   │       GND          │                                          │
     │   │                    │                                          │
-    │   │  VREG_1V2 (pin 24) │                                          │
+    │   │  VREG_1V2 (pin 21) │                                          │
     │   │        │           │                                          │
     │   │       C34 (1µF)    │                                          │
     │   │        │           │                                          │
     │   │       GND          │                                          │
     │   │                    │                                          │
-    │   │  VSYS (pin 11) ────┼── VREG_2V7 (tie together)                │
+    │   │  VSYS (pin 22) ────┼── VREG_2V7 (tie together)                │
     │   │                    │                                          │
-    │   │  RESET (pin 15) ───┼── R14 (10kΩ) ── VDD                      │
+    │   │  RESET (pin 6) ────┼── R14 (10kΩ) ── VDD                      │
     │   │                    │                                          │
-    │   │  DISCH (pin 21) ───┼── R13 (470Ω) ── VBUS_OUT                 │
+    │   │  DISCH (pin 9) ────┼── R13 (470Ω) ── VBUS_OUT                 │
     │   │                    │                                          │
-    │   │  ADDR0 (pin 16) ───┼── GND                                    │
-    │   │  ADDR1 (pin 17) ───┼── GND                                    │
+    │   │  ADDR0 (pin 12) ───┼── GND                                    │
+    │   │  ADDR1 (pin 13) ───┼── GND                                    │
     │   │                    │                                          │
-    │   │  GND (pins 6,12)   │                                          │
-    │   │  EP (EPAD) ────────┼── GND                                    │
+    │   │  GND (pin 10)      │                                          │
+    │   │  EP (pin 25) ──────┼── GND                                    │
     │   │                    │                                          │
     │   │  CC1 (pin 2) ──────┼────┬── USB-C CC1                         │
-    │   │  CC1DB (pin 23) ───┼────┘                                     │
+    │   │  CC1DB (pin 1) ────┼────┘                                     │
     │   │                    │    │                                     │
-    │   │  CC2 (pin 3) ──────┼────┼─┬── USB-C CC2                       │
-    │   │  CC2DB (pin 22) ───┼────┼─┘                                   │
+    │   │  CC2 (pin 4) ──────┼────┼─┬── USB-C CC2                       │
+    │   │  CC2DB (pin 5) ────┼────┼─┘                                   │
     │   │                    │    │                                     │
     │   └────────────────────┘    │                                     │
     │                             │                                     │
@@ -156,12 +156,12 @@ This section documents the **STUSB4500-based** design (v1.1). The STUSB4500 is U
 
 USB-C Connector J1 (6-pin power-only):
 ┌─────────────────────────────────────┐
-│  2, 5  VBUS  ───────────────────────┼──→ VBUS_IN Rail (5V initially)
+│  A9,B9  VBUS  ──────────────────────┼──→ VBUS_IN Rail (5V initially)
 │                                     │
-│  3     CC1   ───────────────────────┼──→ To STUSB4500 CC1 (pin 2)
-│  4     CC2   ───────────────────────┼──→ To STUSB4500 CC2 (pin 3)
+│  A5     CC1   ──────────────────────┼──→ To STUSB4500 CC1 (pin 2)
+│  B5     CC2   ──────────────────────┼──→ To STUSB4500 CC2 (pin 4)
 │                                     │
-│  1, 6  GND   ───────────────────────┼──→ System GND
+│  A1,B12 GND   ──────────────────────┼──→ System GND
 └─────────────────────────────────────┘
 ```
 
@@ -248,21 +248,21 @@ STUSB4500 (QFN-24) - USB-IF Certified PD Sink Controller:
               ┌───────────────────────────────────────┐
               │              (Top View)               │
               │                                       │
-     CC1DB  1 │●                                   24│ VREG_1V2 ── C34 (1µF) ── GND
-       CC1  2 │                                   23│ CC2DB
-       NC   3 │                                   22│ CC2
-       CC2  4 │                                   21│ DISCH ── R13 (470Ω) ── VBUS_OUT
-      VDD   5 │─── VBUS_IN + C2 (100nF)           20│ ATTACH (NC)
-      GND   6 │─── GND                            19│ GPIO (NC)
-  VREG_2V7  7 │── C30 (1µF) ── GND                18│ ALERT (NC)
-      SCL   8 │── NC (or I2C)                     17│ ADDR1 ── GND
-      SDA   9 │── NC (or I2C)                     16│ ADDR0 ── GND
-VBUS_EN_SNK10 │──→ Gate drive circuit             15│ RESET ── R14 (10kΩ) ── VDD
-     VSYS  11 │── VREG_2V7                        14│ POWER_OK3 (NC)
-      GND  12 │── GND                             13│ POWER_OK2 (NC)
+    CC1DB   1 │●                                   24│ VDD ─── VBUS_IN + C2 (100nF)
+      CC1   2 │                                   23│ VREG_2V7 ── C30 (1µF) ── GND
+       NC   3 │                                   22│ VSYS ── VREG_2V7
+      CC2   4 │                                   21│ VREG_1V2 ── C34 (1µF) ── GND
+    CC2DB   5 │                                   20│ POWER_OK2 (NC)
+    RESET   6 │── R14 (10kΩ) ── VDD               19│ ALERT (NC)
+      SCL   7 │── NC (or I2C)                     18│ VBUS_VS_DISCH (NC)
+      SDA   8 │── NC (or I2C)                     17│ A_B_SIDE (NC)
+    DISCH   9 │── R13 (470Ω) ── VBUS_OUT          16│ VBUS_EN_SNK ──→ Gate drive
+      GND  10 │── GND                             15│ GPIO (NC)
+   ATTACH  11 │── NC                              14│ POWER_OK3 (NC)
+    ADDR0  12 │── GND                             13│ ADDR1 ── GND
               │                                       │
               │         ┌──────────────┐              │
-              └─────────┤  Exposed Pad ├──────────────┘
+              └─────────┤  EP (pin 25) ├──────────────┘
                         │     GND      │
                         └──────────────┘
 
@@ -270,21 +270,22 @@ Critical Pin Connections:
 ┌──────────────┬──────────────────────────────────────────────────────┐
 │ Pin          │ Connection                                           │
 ├──────────────┼──────────────────────────────────────────────────────┤
-│ VDD (5)      │ VBUS_IN + C2 (100nF) to GND                          │
-│ CC1 (2)      │ USB-C CC1, also to CC1DB (pin 23)                    │
-│ CC2 (4)      │ USB-C CC2, also to CC2DB (pin 22)                    │
-│ CC1DB (23)   │ Tie to CC1 (enables dead battery mode)               │
-│ CC2DB (22)   │ Tie to CC2 (enables dead battery mode)               │
-│ VBUS_EN_SNK  │ To gate drive (R12) → Q1 gate                        │
-│ VREG_2V7 (7) │ C30 (1µF) to GND, also to VSYS (pin 11)              │
-│ VREG_1V2 (24)│ C34 (1µF) to GND                                     │
-│ VSYS (11)    │ Tie to VREG_2V7                                      │
-│ RESET (15)   │ R14 (10kΩ) to VDD (active-low, default running)      │
-│ DISCH (21)   │ R13 (470Ω) to VBUS_OUT (for VBUS discharge)          │
-│ ADDR0/1      │ Both to GND (I2C address = 0x28)                     │
-│ GND (6,12)   │ System GND                                           │
-│ EP (EPAD)    │ System GND (thermal pad)                             │
-│ NC pins      │ 3,13,14,18,19,20 - Not connected                     │
+│ VDD (24)     │ VBUS_IN + C2 (100nF) to GND                          │
+│ CC1 (2)      │ USB-C CC1, also to CC1DB (pin 1)                     │
+│ CC2 (4)      │ USB-C CC2, also to CC2DB (pin 5)                     │
+│ CC1DB (1)    │ Tie to CC1 (enables dead battery mode)               │
+│ CC2DB (5)    │ Tie to CC2 (enables dead battery mode)               │
+│ VBUS_EN_SNK (16) │ To gate drive (R12) → Q1 gate                    │
+│ VREG_2V7 (23)│ C30 (1µF) to GND, also to VSYS (pin 22)              │
+│ VREG_1V2 (21)│ C34 (1µF) to GND                                     │
+│ VSYS (22)    │ Tie to VREG_2V7                                      │
+│ RESET (6)    │ R14 (10kΩ) to VDD (active-low, default running)      │
+│ DISCH (9)    │ R13 (470Ω) to VBUS_OUT (for VBUS discharge)          │
+│ ADDR0 (12)   │ GND                                                  │
+│ ADDR1 (13)   │ GND (I2C address = 0x28)                             │
+│ GND (10)     │ System GND                                           │
+│ EP (25)      │ System GND (thermal pad)                             │
+│ NC pins      │ 3,7,8,11,14,15,17,18,19,20 - Not connected           │
 └──────────────┴──────────────────────────────────────────────────────┘
 ```
 
@@ -293,47 +294,47 @@ Critical Pin Connections:
 
 **Power Supply:**
 
-- `USB-C VBUS (pins 2, 5)` → `VBUS_IN Rail` → `STUSB4500 VDD (pin 5)`
+- `USB-C VBUS (pins A9, B9)` → `VBUS_IN Rail` → `STUSB4500 VDD (pin 24)`
 - `C1 (10µF ceramic)`: `VBUS_IN` ⟷ `GND` (bulk filtering)
-- `C2 (100nF ceramic)`: `VDD (pin 5)` ⟷ `GND` (close to IC)
+- `C2 (100nF ceramic)`: `VDD (pin 24)` ⟷ `GND` (close to IC)
 
 **Internal Regulators:**
 
-- `VREG_2V7 (pin 7)` → `C30 (1µF)` → `GND`
-- `VREG_1V2 (pin 24)` → `C34 (1µF)` → `GND`
-- `VSYS (pin 11)` → `VREG_2V7 (pin 7)` (tie together)
+- `VREG_2V7 (pin 23)` → `C30 (1µF)` → `GND`
+- `VREG_1V2 (pin 21)` → `C34 (1µF)` → `GND`
+- `VSYS (pin 22)` → `VREG_2V7 (pin 23)` (tie together)
 
 **CC Lines:**
 
-- `USB-C CC1 (pin 3)` → `STUSB4500 CC1 (pin 2)` → `CC1DB (pin 23)` (tie CC1 and CC1DB together)
-- `USB-C CC2 (pin 4)` → `STUSB4500 CC2 (pin 4)` → `CC2DB (pin 22)` (tie CC2 and CC2DB together)
+- `USB-C CC1 (pin A5)` → `STUSB4500 CC1 (pin 2)` → `CC1DB (pin 1)` (tie CC1 and CC1DB together)
+- `USB-C CC2 (pin B5)` → `STUSB4500 CC2 (pin 4)` → `CC2DB (pin 5)` (tie CC2 and CC2DB together)
 - Optional: `TVS4 (ESDA25L)` K1 → CC1, K2 → CC2, A → GND
 
 **Load Switch (Power Path Control):**
 
 - `VBUS_IN` → `R11 (100kΩ)` → `Q1 Gate` (pull-up, default OFF)
-- `VBUS_EN_SNK (pin 10)` → `R12 (22kΩ)` → `Q1 Gate`
+- `VBUS_EN_SNK (pin 16)` → `R12 (22kΩ)` → `Q1 Gate`
 - `Q1 Gate` → `C35 (100nF)` → `GND` (soft-start)
 - `Q1 (AO3401A)`: Source = VBUS_IN, Drain = VBUS_OUT
 - **Result**: Q1 conducts when VBUS_EN_SNK goes HIGH after PD success
 
 **VBUS Discharge:**
 
-- `DISCH (pin 21)` → `R13 (470Ω)` → `VBUS_OUT`
+- `DISCH (pin 9)` → `R13 (470Ω)` → `VBUS_OUT`
 - Purpose: Quickly discharge VBUS when cable disconnected
 
 **Configuration:**
 
-- `RESET (pin 15)` → `R14 (10kΩ)` → `VDD` (active-low, default = running)
-- `ADDR0 (pin 16)` → `GND`
-- `ADDR1 (pin 17)` → `GND`
+- `RESET (pin 6)` → `R14 (10kΩ)` → `VDD` (active-low, default = running)
+- `ADDR0 (pin 12)` → `GND`
+- `ADDR1 (pin 13)` → `GND`
 - I2C address = 0x28 (for NVM programming)
 
 **Ground:**
 
-- `USB-C GND (pins 1, 6)` → `System GND`
-- `STUSB4500 GND (pins 6, 12)` → `System GND`
-- `STUSB4500 EP (EPAD)` → `System GND` (thermal + ground)
+- `USB-C GND (pins A1, B12)` → `System GND`
+- `STUSB4500 GND (pin 10)` → `System GND`
+- `STUSB4500 EP (pin 25)` → `System GND` (thermal + ground)
 
 **NVM Programming (One-time Setup):**
 
