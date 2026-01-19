@@ -49,12 +49,12 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 #### Resistors
 
-| Symbol  | Part Number                                        | Value | Description | Package | Price       | Application                | Diagram                                                                    |
-| ------- | -------------------------------------------------- | ----- | ----------- | ------- | ----------- | -------------------------- | -------------------------------------------------------------------------- |
-| **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)** | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R12** | **[C1604](https://jlcpcb.com/partdetail/C1604)**   | 22kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Series Resistor       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R13** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R14** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | RESET Pull-up              | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| Symbol  | Part Number                                          | Value | Description | Package | Price       | Application                | Diagram                                                                    |
+| ------- | ---------------------------------------------------- | ----- | ----------- | ------- | ----------- | -------------------------- | -------------------------------------------------------------------------- |
+| **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)**   | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R12** | **[C114065](https://jlcpcb.com/partdetail/C114065)** | 22kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Series Resistor       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R13** | **[C23162](https://jlcpcb.com/partdetail/C23162)**   | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R14** | **[C25804](https://jlcpcb.com/partdetail/C25804)**   | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | RESET Pull-up              | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 
 **Stage 1 Subtotal: ~$2.80**
 
