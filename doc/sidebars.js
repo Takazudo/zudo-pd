@@ -50,6 +50,8 @@ const sidebars = {
     'learning/usb-type-c-pinout',
     'learning/usb-pd-vs-traditional-usb',
     'learning/open-drain-pg-pin',
+    'learning/p-channel-mosfet-load-switch',
+    'learning/esd-protection-tvs-diodes',
     'learning/buck-converter-feedback',
     'learning/inductor-voltage-reversal',
     'learning/pcb-layout-power-circuits',
