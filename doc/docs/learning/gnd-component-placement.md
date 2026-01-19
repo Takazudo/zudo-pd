@@ -34,7 +34,7 @@ Practical guide for 2-layer PCB layout using unified ground plane with noise con
 
 | Component | Type            | Noise Level | Notes                                   |
 | --------- | --------------- | ----------- | --------------------------------------- |
-| **U1**    | CH224D          | Medium      | Digital USB-PD protocol, some switching |
+| **U1**    | STUSB4500       | Medium      | Digital USB-PD protocol, some switching |
 | **J1**    | USB-C connector | Low-Medium  | Input noise from adapter                |
 
 ### Low Noise Components (Sensitive to Noise)

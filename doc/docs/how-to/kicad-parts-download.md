@@ -70,8 +70,8 @@ Download footprint AND symbol together:
 # Download both footprint and symbol
 easyeda2kicad --lcsc_id <LCSC_ID> --footprint --symbol
 
-# Example: CH224D (USB-PD controller)
-easyeda2kicad --lcsc_id C3975094 --footprint --symbol
+# Example: STUSB4500 (USB-PD controller)
+easyeda2kicad --lcsc_id C2678061 --footprint --symbol
 
 # Example: USB-C connector
 easyeda2kicad --lcsc_id C2927029 --footprint --symbol
@@ -143,8 +143,8 @@ Download all components with BOTH footprints and symbols:
 # USB-C Connector
 easyeda2kicad --lcsc_id C2927029 --footprint --symbol
 
-# CH224D - USB PD Controller
-easyeda2kicad --lcsc_id C3975094 --footprint --symbol
+# STUSB4500 - USB PD Controller
+easyeda2kicad --lcsc_id C2678061 --footprint --symbol
 
 # LM2596S-ADJ - Buck Converter
 easyeda2kicad --lcsc_id C347423 --footprint --symbol

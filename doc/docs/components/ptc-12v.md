@@ -209,20 +209,20 @@ Protection Effectiveness:
 
 ### Why 1.5A Hold Current?
 
-**Design target:** 1.2A maximum continuous current
+**Design target:** 1.5A maximum continuous current (L7812CD2T-TR rated for 1.5A)
 
 **Analysis:**
 
 ```
 Hold current:  1.5A  (chosen)
-Design target: 1.2A
-Margin:        0.3A  (25% safety margin)
+Design target: 1.5A
+Margin:        PTC and regulator rated equally
 
 Benefits:
-✅ Allows full 1.2A operation without false trips
-✅ Tolerates brief surges to 1.5A
-✅ Trips above safe operating range
-✅ Protects LM7812 (1.5A max) before it reaches limit
+✅ Matches L7812CD2T-TR maximum output (1.5A)
+✅ Tolerates brief surges without false trips
+✅ Trips at 3A provides clear fault indication
+✅ Regulator current limiting provides first-line protection
 ```
 
 ### Interaction with LM7812
@@ -299,7 +299,7 @@ Negligible impact on +12V rail voltage.
 - Higher voltage drop during normal operation
 - Earlier trip threshold
 
-**Design margin:** Selected 1.5A hold for 1.2A target provides 25% margin for degradation.
+**Design margin:** Selected 1.5A hold matches regulator maximum. Degradation over time may require replacement if voltage drop exceeds spec.
 
 ### Failure Mode: Stuck Open (Very Rare)
 

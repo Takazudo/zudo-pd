@@ -18,7 +18,7 @@ import USBC from '../\_fragments/footprints/TYPE-C-SMD_TYPE-C-6P.svg';
 
 ## Overview
 
-The USB Type-C receptacle connector (J1) serves as the power input interface for this modular synthesizer power supply. It receives power from USB-C PD chargers and provides the necessary connections for the CH224D USB-PD controller to negotiate 15V/3A power delivery.
+The USB Type-C receptacle connector (J1) serves as the power input interface for this modular synthesizer power supply. It receives power from USB-C PD chargers and provides the necessary connections for the STUSB4500 USB-PD controller to negotiate 15V/3A power delivery.
 
 This design uses a **6-pin power-only USB Type-C connector** optimized for USB-PD applications where data transfer is not needed. The 6-pin configuration includes only the essential pins for power delivery: VBUS, GND, and CC (Configuration Channel) pins.
 
@@ -58,14 +58,14 @@ Receptacle Front View (looking into the connector)
 
 ### Pin Descriptions
 
-| Pin | Signal | Function                | Connection in This Design          |
-| --- | ------ | ----------------------- | ---------------------------------- |
-| 1   | GND    | Ground (Top)            | ✅ System GND, CH224D pin 0 (EPAD) |
-| 2   | VBUS   | Power input (Top)       | ✅ CH224D pin 2 (VBUS), C1, C2     |
-| 3   | CC1    | Configuration Channel 1 | ✅ CH224D pin 10 (CC1)             |
-| 4   | CC2    | Configuration Channel 2 | ✅ CH224D pin 11 (CC2)             |
-| 5   | VBUS   | Power input (Bottom)    | ✅ CH224D pin 2 (VBUS), C1, C2     |
-| 6   | GND    | Ground (Bottom)         | ✅ System GND, CH224D pin 0 (EPAD) |
+| Pin | Signal | Function                | Connection in This Design                       |
+| --- | ------ | ----------------------- | ----------------------------------------------- |
+| 1   | GND    | Ground (Top)            | ✅ System GND, STUSB4500 GND (pins 6, 12, EPAD) |
+| 2   | VBUS   | Power input (Top)       | ✅ STUSB4500 VDD (pin 5), C1, C2                |
+| 3   | CC1    | Configuration Channel 1 | ✅ STUSB4500 CC1 (pin 2)                        |
+| 4   | CC2    | Configuration Channel 2 | ✅ STUSB4500 CC2 (pin 3)                        |
+| 5   | VBUS   | Power input (Bottom)    | ✅ STUSB4500 VDD (pin 5), C1, C2                |
+| 6   | GND    | Ground (Bottom)         | ✅ System GND, STUSB4500 GND (pins 6, 12, EPAD) |
 
 **Note**: Pins 2 and 5 (both VBUS) are connected together internally or on PCB. Same for pins 1 and 6 (both GND).
 
@@ -78,14 +78,14 @@ In this power supply design, the 6-pin USB Type-C connector is used exclusively 
 1. **VBUS Pins (2, 5)**:
    - Receive power from USB-C PD charger
    - Initially at 5V (USB default)
-   - Negotiates up to 15V/3A via CH224D
+   - Negotiates up to 15V/3A via STUSB4500
    - Both VBUS pins connected together for 3A current capacity
 
 2. **CC Pins (3, 4)**:
-   - CC1 (pin 3) → CH224D pin 10
-   - CC2 (pin 4) → CH224D pin 11
+   - CC1 (pin 3) → STUSB4500 CC1 (pin 2)
+   - CC2 (pin 4) → STUSB4500 CC2 (pin 3)
    - Used for orientation detection and PD negotiation
-   - CH224D uses CC pins to communicate with PD source
+   - STUSB4500 uses CC pins to communicate with PD source
 
 3. **Ground Pins (1, 6)**:
    - Both GND pins connected to system ground
@@ -107,14 +107,14 @@ J1 (USB-C 6P Connector) Connections:
 
 ┌────────────────────────────┐
 │                            │
-│  2, 5  VBUS  ──────────────┼──────── To CH224D pin 2 (VBUS)
+│  2, 5  VBUS  ──────────────┼──────── To STUSB4500 VDD (pin 5)
 │                            │         and input capacitors C1, C2
 │                            │
-│  3     CC1   ──────────────┼──────── To CH224D pin 10 (CC1)
-│  4     CC2   ──────────────┼──────── To CH224D pin 11 (CC2)
+│  3     CC1   ──────────────┼──────── To STUSB4500 CC1 (pin 2)
+│  4     CC2   ──────────────┼──────── To STUSB4500 CC2 (pin 3)
 │                            │
 │  1, 6  GND   ──────────────┼──────── To system GND
-│                            │         and CH224D pin 0 (EPAD)
+│                            │         and STUSB4500 GND (pins 6, 12, EPAD)
 │                            │
 └────────────────────────────┘
 
@@ -124,12 +124,12 @@ VBUS (pins 2, 5) ──┬─→ C1 (10µF) ──→ GND
                     │
                     ├─→ C2 (100nF) ─→ GND
                     │
-                    └─→ CH224D pin 2 (VBUS)
+                    └─→ STUSB4500 VDD (pin 5)
 
-CC1 (pin 3) ────────→ CH224D pin 10 (CC1)
-CC2 (pin 4) ────────→ CH224D pin 11 (CC2)
+CC1 (pin 3) ────────→ STUSB4500 CC1 (pin 2)
+CC2 (pin 4) ────────→ STUSB4500 CC2 (pin 3)
 
-GND (pins 1, 6) ────→ System GND / CH224D pin 0 (EPAD)
+GND (pins 1, 6) ────→ System GND / STUSB4500 GND (pins 6, 12, EPAD)
 ```
 
 ## USB Power Delivery Operation
@@ -142,37 +142,38 @@ When connected to a standard USB power source:
 - **Current**: Up to 0.9A (4.5W) - USB 2.0 spec
 - **Current**: Up to 3A (15W) - with USB Type-C current advertisement
 
-### With USB-PD Negotiation (CH224D)
+### With USB-PD Negotiation (STUSB4500)
 
 When connected to a USB-PD charger:
 
 1. **Initial State** (0-100ms):
    - Connector establishes physical connection
    - VBUS provides 5V default power
+   - VBUS_EN_SNK remains LOW (load switch OFF)
 
 2. **Orientation Detection** (100-200ms):
-   - CH224D detects cable orientation via CC1/CC2 pull-down
+   - STUSB4500 detects cable orientation via CC1/CC2
    - Identifies which CC pin is active
 
 3. **PD Negotiation** (200-500ms):
-   - CH224D requests 15V/3A power profile via CC line
+   - STUSB4500 requests 15V/3A power profile via CC line
    - PD source responds with available power profiles
-   - Negotiation completes
+   - Negotiation completes (with retry logic if needed)
 
 4. **Voltage Transition** (500-1000ms):
    - VBUS transitions from 5V → 15V
-   - CH224D monitors voltage stability
+   - STUSB4500 monitors voltage stability
 
 5. **Power Ready** (>1000ms):
    - VBUS stable at 15V
+   - VBUS_EN_SNK goes HIGH (load switch ON)
    - System can draw up to 45W (15V × 3A)
-   - PG pin goes LOW (power good indicator)
 
 ## Design Considerations
 
 ### PCB Layout
 
-1. **Keep CC traces short**: Route CC1/CC2 traces directly to CH224D with minimal length
+1. **Keep CC traces short**: Route CC1/CC2 traces directly to STUSB4500 with minimal length
 2. **Match CC trace lengths**: CC1 and CC2 should have similar lengths for symmetry
 3. **VBUS current capacity**: Use wide traces or copper pours for both VBUS pins (2, 5)
 4. **GND plane**: Solid ground connection for both GND pins (1, 6)
@@ -210,7 +211,7 @@ If C456012 is unavailable, consider these 6-pin power-only USB Type-C alternativ
 | Symptom              | Possible Cause           | Solution                                                     |
 | -------------------- | ------------------------ | ------------------------------------------------------------ |
 | No power from USB-C  | Poor VBUS connection     | Check solder joints on pins 2, 5 (VBUS)                      |
-| PD negotiation fails | CC pins not connected    | Verify CC1 (pin 3) and CC2 (pin 4) connections to CH224D     |
+| PD negotiation fails | CC pins not connected    | Verify CC1 (pin 3) and CC2 (pin 4) connections to STUSB4500  |
 | Intermittent power   | Loose connector          | Check mechanical mounting and solder joints                  |
 | Only 5V available    | PD source not compatible | Use USB-PD 2.0/3.0 compatible charger (15V profile required) |
 | Ground issues        | Poor GND connection      | Check solder joints on pins 1, 6 (GND)                       |
@@ -219,5 +220,5 @@ If C456012 is unavailable, consider these 6-pin power-only USB Type-C alternativ
 
 - [USB Type-C Cable and Connector Specification](https://www.usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-21)
 - [USB Power Delivery Specification 3.1](https://www.usb.org/document-library/usb-power-delivery)
-- [CH224D USB-PD Controller](/docs/components/ch224d) - Companion IC for PD negotiation
+- [STUSB4500 USB-PD Controller](/docs/components/stusb4500) - Companion IC for PD negotiation (v1.1)
 - [Diagram1: USB-PD Section](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) - Circuit diagram

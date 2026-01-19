@@ -243,7 +243,7 @@ In the modular synthesizer community:
 **Target Use Case:**
 
 - Small modular synth system (10-20 modules)
-- Current requirements: +12V/1.2A, -12V/0.8A, +5V/0.5A
+- Current requirements: +12V/1.5A, -12V/1A, +5V/1.5A (max regulator capacity)
 - Noise-sensitive analog circuits (VCOs, VCAs, filters)
 
 **Why Linear Regulators:**

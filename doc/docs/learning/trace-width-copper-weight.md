@@ -145,9 +145,9 @@ This is why USB-C connectors use **multiple power pins** - to distribute current
 | Rail           | Voltage | Current | Power |
 | -------------- | ------- | ------- | ----- |
 | Input (USB-PD) | 15V     | 3A max  | 45W   |
-| +12V output    | 12V     | 1.2A    | 14.4W |
-| -12V output    | -12V    | 0.8A    | 9.6W  |
-| +5V output     | 5V      | 0.5A    | 2.5W  |
+| +12V output    | 12V     | 1.5A    | 18W   |
+| -12V output    | -12V    | 1A      | 12W   |
+| +5V output     | 5V      | 1.5A    | 7.5W  |
 
 ### Trace Width Selection: 0.7mm
 

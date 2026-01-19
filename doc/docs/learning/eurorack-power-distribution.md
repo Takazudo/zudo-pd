@@ -298,7 +298,7 @@ Bottom layer:
 
 | Feature               | Eurobus                       | Our USB-PD Design                    | Gap                                         |
 | --------------------- | ----------------------------- | ------------------------------------ | ------------------------------------------- |
-| **Power Output**      | +12V@3.5A, -12V@2A, +5V@1.5A  | +12V@1.2A, -12V@1A, +5V@1.2A         | Smaller capacity (suitable for ~10 modules) |
+| **Power Output**      | +12V@3.5A, -12V@2A, +5V@1.5A  | +12V@1.5A, -12V@1A, +5V@1.5A         | Smaller capacity (suitable for ~10 modules) |
 | **Connectors**        | 20× keyed                     | 1× standard                          | ⚠️ No keying, single output                 |
 | **Zone Filtering**    | 2 zones                       | Single point                         | Not needed for 1 output                     |
 | **PCB Layers**        | 4-layer                       | TBD (recommend 4)                    | Should specify                              |

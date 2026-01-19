@@ -11,9 +11,9 @@ A cheat sheet of frequently referenced information during design.
 | Item            | Specification                   |
 | --------------- | ------------------------------- |
 | **Input**       | USB-C PD 15V 3A (Max 45W)       |
-| **+12V Output** | 1.2A (Design value 1200mA)      |
-| **-12V Output** | 1.0A (Design value 800mA)       |
-| **+5V Output**  | 1.2A (Design value 500mA)       |
+| **+12V Output** | 1.5A (max)                      |
+| **-12V Output** | 1.0A (max)                      |
+| **+5V Output**  | 1.5A (max)                      |
 | **Ripple**      | \<1mVp-p                        |
 | **Efficiency**  | 75-80%                          |
 | **Protection**  | PTC auto-recovery + Fuse backup |
@@ -22,9 +22,9 @@ A cheat sheet of frequently referenced information during design.
 
 ```
 USB-C        DC-DC        LDO          Output
-15V    →   +13.5V   →   +12V    →   +12V/1.2A
+15V    →   +13.5V   →   +12V    →   +12V/1.5A
   ↓
-  ├──  →   +7.5V    →   +5V     →   +5V/1.2A
+  ├──  →   +7.5V    →   +5V     →   +5V/1.5A
   ↓
   └──  →   -13.5V   →   -12V    →   -12V/1.0A
       (Inverting Buck-Boost)
@@ -34,7 +34,7 @@ USB-C        DC-DC        LDO          Output
 
 | IC           | Part Number   | JLCPCB P/N | Stock   | Role                      | Qty |
 | ------------ | ------------- | ---------- | ------- | ------------------------- | --- |
-| **USB-PD**   | CH224D        | C3975094   | 2,291   | PD Negotiation (15V)      | 1   |
+| **USB-PD**   | STUSB4500     | C2678061   | -       | PD Negotiation (15V)      | 1   |
 | **DC-DC**    | LM2596S-ADJ   | C347423    | 12,075  | Buck Converter (U2, U3)   | 2   |
 | **DC-DC**    | LM2596S-ADJ   | C347423    | 12,075  | Inverting Buck-Boost (U4) | 1   |
 | **+12V LDO** | L7812CD2T-TR  | C13456     | 158,795 | +13.5V → +12V             | 1   |
@@ -69,7 +69,7 @@ USB-C        DC-DC        LDO          Output
 
 | Component        | Package         | Notes                            |
 | ---------------- | --------------- | -------------------------------- |
-| CH224D           | QFN-20          | USB-PD IC                        |
+| STUSB4500        | QFN-24          | USB-PD IC                        |
 | USB-C            | USB-TYPE-C-009  | 6-pin (Power only)               |
 | LM2596S          | TO-263-5        | Surface mount, large thermal pad |
 | L7812/L7805      | TO-220/TO-263-2 | Heatsink compatible              |
@@ -94,7 +94,7 @@ USB-C        DC-DC        LDO          Output
 | Component Category               | Minimum Stock     | Availability   |
 | -------------------------------- | ----------------- | -------------- |
 | Basic Parts Resistors/Capacitors | **1,000,000+**    | ✅ Very Stable |
-| CH224D (USB-PD)                  | **2,291**         | ✅ Stable      |
+| STUSB4500 (USB-PD)               | -                 | ✅ Stable      |
 | LM2596S (DC-DC)                  | **12,075**        | ✅ Stable      |
 | L7812/L7805/CJ7912 (LDO)         | **3,386~272,379** | ✅ Very Stable |
 | Inductor (100µH)                 | **2,763**         | ✅ Stable      |
@@ -171,7 +171,7 @@ USB-C        DC-DC        LDO          Output
 - [x] ~~PTC3: 0.9A 16V (1812)~~ - **C883148 (BSMD1812-110-16V) ※Using 1.1A** ✅
 - [x] ~~F1: 2A 250V SMD fuse~~ - **C5183824 (6125FA2A)** ✅
 - [x] ~~Stock optimization~~ - **All components changed to high-stock parts** ✅
-  - USB-PD: CH224D (2,291 stock)
+  - USB-PD: STUSB4500
   - LDO: L7812/L7805/CJ7912 (3K~272K stock)
 - [ ] PCB design (KiCad) - Not started
 - [ ] Prototype order - Not implemented
@@ -189,7 +189,7 @@ USB-C        DC-DC        LDO          Output
 
 ### Datasheets
 
-- CH224D: WCH official website (15V support confirmed)
+- STUSB4500: STMicroelectronics (15V support confirmed)
 - LM2596S: Texas Instruments
 - L7812/L7805: STMicroelectronics
 - CJ7912: CJ (Changjiang Micro-Electronics)

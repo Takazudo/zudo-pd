@@ -11,9 +11,9 @@ A compact power supply module that provides ±12V/+5V power for modular synthesi
 
 ### Output Specifications
 
-- **+12V**: 1200mA (design margin 1.2A)
-- **-12V**: 800mA (design margin 1.0A)
-- **+5V**: 500mA (design margin 1.2A)
+- **+12V**: 1500mA max (L7812CD2T-TR)
+- **-12V**: 1000mA max (CJ7912)
+- **+5V**: 1500mA max (L7805ABD2T-TR)
 
 ### Input
 
@@ -43,9 +43,9 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 
 #### Stage 1: USB-PD Power Delivery
 
-- **CH224D IC**: USB-C PD protocol negotiation
+- **STUSB4500 IC**: USB-IF certified USB-C PD protocol negotiation
 - **15V Output**: Obtains stable 15V through PD negotiation
-- **Status Display**: LED1 (red) indicates power status
+- **Load Switch**: AO3401A P-MOSFET enables power after successful negotiation
 
 #### Stage 2: DC-DC Converter
 

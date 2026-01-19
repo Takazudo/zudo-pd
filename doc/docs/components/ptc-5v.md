@@ -80,19 +80,22 @@ LM7805 Output ──┬─── PTC2 (1.1A) ───┬─── TVS2 ──�
 
 ### Design Rationale
 
-**Why 1.1A hold for 0.5A target?**
+**Why 1.1A hold for 1.5A target?**
 
 ```
 Hold current:  1.1A
-Design target: 0.5A
-Safety margin: 0.6A (120% overhead)
+Design target: 1.5A (L7805ABD2T-TR max)
+Note:          PTC trips before reaching regulator max
 
-Benefits:
+Behavior:
+⚠️ PTC will trip if load exceeds 1.1A sustained
 ✅ Prevents false trips during power-on surge
 ✅ Allows brief current spikes
-✅ Protects L7805 (1A max) before reaching limit
-✅ Tolerates LED current variations
+✅ Provides additional protection layer
+✅ L7805ABD2T-TR handles 1.5A but PTC limits to 1.1A
 ```
+
+**Note:** The 1.1A PTC hold current is lower than the 1.5A regulator capacity. If 1.5A sustained current is needed, consider upgrading to a 1.5A PTC. For typical modular synth applications, 1.1A is usually sufficient.
 
 ## Comparison to +12V Rail
 
@@ -100,11 +103,11 @@ Benefits:
 | ------------- | -------------- | -------- |
 | Hold current  | 1.1A           | 1.5A     |
 | Package       | 1812           | SMD1210  |
-| Design target | 0.5A           | 1.2A     |
-| Overhead      | 120%           | 25%      |
+| Regulator max | 1.5A           | 1.5A     |
+| PTC limits to | 1.1A           | 1.5A     |
 | Stock         | 44,459         | 7,525    |
 
-**Note:** Higher overhead on +5V rail accounts for power-on inrush and LED indicator current.
+**Note:** The +5V PTC limits current to 1.1A, which is lower than the regulator's 1.5A capacity. For typical modular synth applications using the +5V rail (digital modules, some LEDs), 1.1A is usually sufficient.
 
 ## Bill of Materials
 

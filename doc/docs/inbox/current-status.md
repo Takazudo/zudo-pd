@@ -29,7 +29,7 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
-- ✅ Stage 1: USB-PD Power Supply (CH224D)
+- ✅ Stage 1: USB-PD Power Supply (STUSB4500)
 - ✅ Stage 2: DC-DC Converters (LM2596S × 3 + LM2586 inverted SEPIC)
 - ✅ Stage 3: Linear Regulators (LM7812/7805/7912)
 - ✅ Stage 4: Protection Circuit (PTC + Fuse + TVS)
@@ -38,7 +38,7 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 
 **All parts confirmed**: All JLCPCB part numbers finalized
 
-- ✅ USB-PD Controller: CH224D (C3975094)
+- ✅ USB-PD Controller: STUSB4500 (C2678061)
 - ✅ DC-DC Converter: LM2596S-ADJ × 3 (C347423)
 - ✅ Voltage Inverter: LM2586SX-ADJ/NOPB (C181324)
 - ✅ Linear Regulators: L7812CV-DG (C2914) / L7805ABD2T-TR (C86206) / CJ7912 (C94173)

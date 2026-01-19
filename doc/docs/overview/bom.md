@@ -8,9 +8,9 @@ Complete parts configuration using JLCPCB SMT service.
 
 ## Power Supply Specifications
 
-- **+12V**: 1200mA (actual 1.2A support)
-- **-12V**: 800mA (actual 1A support)
-- **+5V**: 500mA (actual 1.2A support)
+- **+12V**: 1500mA max (L7812CD2T-TR)
+- **-12V**: 1000mA max (CJ7912)
+- **+5V**: 1500mA max (L7805ABD2T-TR)
 - **Input**: USB-C PD 15V 3A
 - **Efficiency**: Approximately 75-80%
 - **Ripple**: \<1mVp-p (final output)
@@ -286,9 +286,9 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Voltage  | Current | Accuracy | Ripple   |
 | -------- | ------- | -------- | -------- |
-| **+12V** | 1.2A    | ±0.5%    | \<1mVp-p |
+| **+12V** | 1.5A    | ±0.5%    | \<1mVp-p |
 | **-12V** | 1.0A    | ±0.5%    | \<1mVp-p |
-| **+5V**  | 1.2A    | ±0.5%    | \<1mVp-p |
+| **+5V**  | 1.5A    | ±0.5%    | \<1mVp-p |
 
 ## Protection Circuit Operation
 
@@ -327,7 +327,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 - **Extensive Basic Parts Usage**: No additional costs
 - **Abundant Stock**: Regulator ICs 150k~270k pieces in stock
 - **Stable Sourcing**: High stock secured for all major components
-- **USB-PD IC**: CH224D (2,291 pieces) - 15V support confirmed
+- **USB-PD IC**: STUSB4500 (USB-IF certified) - 15V support, excellent charger compatibility
 
 ### 2. High-Performance Design
 

@@ -18,16 +18,16 @@ This page describes the USB-PD AC adapter requirements for the Zudo Power USB-PD
 
 ### Why 15V / 3A?
 
-This power supply uses the **CH224D** USB-PD controller to negotiate **15V** from the adapter. The CH224D is configured to request specifically 15V PDO (Power Data Object).
+This power supply uses the **STUSB4500** USB-PD controller to negotiate **15V** from the adapter. The STUSB4500 is configured via NVM to request specifically 15V PDO (Power Data Object).
 
 **Power Budget Calculation:**
 
 | Output Rail      | Current | Power     |
 | ---------------- | ------- | --------- |
-| +12V             | 1.2A    | 14.4W     |
-| -12V             | 0.8A    | 9.6W      |
-| +5V              | 0.5A    | 2.5W      |
-| **Total Output** | -       | **26.5W** |
+| +12V             | 1.5A    | 18W       |
+| -12V             | 1.0A    | 12W       |
+| +5V              | 1.5A    | 7.5W      |
+| **Total Output** | -       | **37.5W** |
 
 Accounting for conversion efficiency (~75-80%), the input power required is approximately **35-40W**. A 45W adapter (15V/3A) meets this requirement with some margin.
 
@@ -121,11 +121,11 @@ Before purchasing, check the product page for:
 3. **Safety Certification** - PSE mark for Japan
 4. **Reviews** - Check for stability issues
 
-## CH224D Compatibility with Multi-Port GaN Chargers
+## USB-PD Controller Compatibility with Multi-Port GaN Chargers
 
 ### Known Issue: High-Wattage Multi-Port Chargers May Not Work
 
-**Important Discovery:** Some high-wattage multi-port GaN chargers do not work with the CH224D-based zudo-PD, even though they work perfectly with laptops, tablets, and phones.
+**Important Discovery:** Some high-wattage multi-port GaN chargers may have compatibility issues with simple PD sink controllers. The v1.1 design uses STUSB4500 which has significantly better charger compatibility (~95%+) compared to the v1.0 CH224D design (~33%).
 
 #### Confirmed Working
 
@@ -142,39 +142,20 @@ Before purchasing, check the product page for:
 
 ### Why This Happens
 
-The CH224D is a **simple hardware-only PD sink controller**, while laptops and tablets use **sophisticated software PD stacks**. Multi-port GaN chargers with intelligent power management expect active, responsive PD sinks.
+Simple PD sink controllers may have limited negotiation capabilities compared to the **sophisticated software PD stacks** in laptops and tablets. Multi-port GaN chargers with intelligent power management expect active, responsive PD sinks.
 
-#### Comparison: CH224D vs PC/Tablet PD Controllers
+#### Comparison: Simple vs Advanced PD Controllers
 
-| Aspect               | PC / iPad                             | CH224D                       |
-| -------------------- | ------------------------------------- | ---------------------------- |
-| **PD Controller**    | Full software stack with dedicated IC | Simple hardware-only sink IC |
-| **Negotiation**      | Active, bi-directional communication  | Passive, one-shot request    |
-| **Retries**          | Multiple retry attempts with backoff  | Limited or no retry logic    |
-| **Timing Tolerance** | Flexible, handles delays              | Strict timing requirements   |
-| **Re-negotiation**   | Handles dynamic PDO changes           | May fail on PDO updates      |
-| **Error Recovery**   | Sophisticated error handling          | Falls back to 5V or fails    |
+| Aspect               | PC / iPad                             | Simple PD Sink (e.g., CH224D) | STUSB4500 (v1.1)         |
+| -------------------- | ------------------------------------- | ----------------------------- | ------------------------ |
+| **PD Controller**    | Full software stack with dedicated IC | Simple hardware-only sink IC  | USB-IF certified sink IC |
+| **Negotiation**      | Active, bi-directional communication  | Passive, one-shot request     | Active with retry logic  |
+| **Retries**          | Multiple retry attempts with backoff  | Limited or no retry logic     | Built-in retry mechanism |
+| **Timing Tolerance** | Flexible, handles delays              | Strict timing requirements    | Flexible timing          |
+| **Re-negotiation**   | Handles dynamic PDO changes           | May fail on PDO updates       | Handles re-negotiation   |
+| **Error Recovery**   | Sophisticated error handling          | Falls back to 5V or fails     | Built-in error recovery  |
 
-#### How PC/iPad Negotiation Works
-
-1. Detects charger connection
-2. Waits for Source_Capabilities message
-3. If timeout or error, **retries multiple times**
-4. Parses all PDOs including PPS/AVS
-5. Selects optimal voltage/current
-6. Sends Request message
-7. If rejected, **tries alternative PDO**
-8. Monitors for re-negotiation requests
-9. Responds to GetStatus, Alert messages
-
-#### How CH224D Works
-
-1. Detects charger connection
-2. Waits for Source_Capabilities (fixed timeout)
-3. Looks for configured voltage (15V)
-4. Sends single Request message
-5. If fails → falls back to 5V
-6. No active monitoring or re-negotiation
+The STUSB4500 used in v1.1 addresses most of these issues with USB-IF certification and built-in retry logic.
 
 ### Root Causes
 
@@ -231,15 +212,15 @@ When connecting zudo-PD to an incompatible charger:
 
 ### Multi-Case Setup Caveat
 
-The [Multi-Case Setup](#multi-case-setup-multiple-zudo-pd-units) section recommends multi-port chargers for ground loop elimination. However, due to this compatibility issue:
+The [Multi-Case Setup](#multi-case-setup-multiple-zudo-pd-units) section recommends multi-port chargers for ground loop elimination. However, due to potential compatibility issues:
 
 - **Preferred:** Use confirmed-working chargers (like Anker Nano II series)
 - **Alternative:** Accept separate adapters with proper ground management
 - **Testing required:** Always test multi-port chargers before relying on them for live performance
 
-### This Is Not a Design Defect
+### STUSB4500 Improves Compatibility (v1.1)
 
-This limitation is inherent to simple PD sink controllers like CH224D. The same issue affects other CH224x-based projects and similar simple sink ICs. The board works correctly - some chargers simply don't support simple sink devices properly.
+The v1.1 design uses the **STUSB4500** USB-IF certified controller, which significantly improves charger compatibility (~95%+) compared to the v1.0 CH224D design (~33%). The STUSB4500 includes built-in retry logic and error recovery that resolves most compatibility issues with modern GaN chargers.
 
 ---
 
@@ -322,7 +303,7 @@ Each zudo-PD unit requires approximately **40W at 15V** (15V × 2.5A with some m
 
 ### ⚠️ Critical Compatibility Warning
 
-**The multi-port chargers listed below have NOT been tested with zudo-PD.** Based on our testing (see [CH224D Compatibility](#ch224d-compatibility-with-multi-port-gan-chargers)), high-wattage multi-port GaN chargers often fail to work with the CH224D controller.
+**The multi-port chargers listed below have NOT been tested with zudo-PD.** Based on our testing (see [USB-PD Controller Compatibility](#usb-pd-controller-compatibility-with-multi-port-gan-chargers)), high-wattage multi-port GaN chargers often fail to work with the CH224D controller (v1.0 design). The STUSB4500 (v1.1) improves this significantly.
 
 **Confirmed NOT working:**
 

@@ -83,15 +83,15 @@ LM7912 Output ──┬─── PTC3 (1.0A) ───┬─── TVS3 ──�
 
 ### Design Rationale
 
-**Why 1.0A hold for 0.8A target?**
+**Why 1.0A hold for 1.0A target?**
 
 ```
 Hold current:  1.0A
-Design target: 0.8A
-Safety margin: 0.2A (25% overhead)
+Design target: 1.0A (CJ7912 max)
+Note:          PTC and regulator rated equally
 
 Benefits:
-✅ Matches regulator maximum (1A)
+✅ Matches CJ7912 regulator maximum (1A)
 ✅ Provides margin for transients
 ✅ Typical modular synth -12V usage: 0.6-0.8A
 ✅ Prevents false trips during normal operation
@@ -135,11 +135,11 @@ Result: PTC warms up and may trip (same as +12V rail)
 | ------------- | --------------- | -------- | ------- |
 | Hold current  | 1.0A            | 1.5A     | 1.1A    |
 | Package       | 1206            | SMD1210  | 1812    |
-| Design target | 0.8A            | 1.2A     | 0.5A    |
-| Overhead      | 25%             | 25%      | 120%    |
+| Regulator max | 1.0A (CJ7912)   | 1.5A     | 1.5A    |
+| PTC limits to | 1.0A            | 1.5A     | 1.1A    |
 | Stock         | 99,339          | 7,525    | 44,459  |
 
-**Note:** -12V rail typically draws less current than +12V in modular synth applications, hence lower current rating.
+**Note:** -12V rail uses CJ7912 which has 1A max output (vs 1.5A for positive rails). This is adequate for typical modular synth applications where -12V draws less current than +12V.
 
 ## Typical Modular Synth -12V Usage
 

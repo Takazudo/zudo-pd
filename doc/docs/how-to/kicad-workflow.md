@@ -59,15 +59,15 @@ For parts already in KiCad libraries:
 
 ### 1.3 Create Custom Symbols
 
-For parts NOT in standard libraries (like CH224Q, specialized ICs):
+For parts NOT in standard libraries (like STUSB4500, specialized ICs):
 
 **Method 1: Import from EasyEDA/LCSC**
 
 Use `easyeda2kicad.py` to download both symbols and footprints:
 
 ```bash
-# Download symbol + footprint for CH224Q (LCSC ID: C970725)
-easyeda2kicad --lcsc_id C970725 --symbol --footprint
+# Download symbol + footprint for STUSB4500 (LCSC ID: C2678061)
+easyeda2kicad --lcsc_id C2678061 --symbol --footprint
 
 # Files saved to:
 # ~/Documents/Kicad/easyeda2kicad/easyeda2kicad.pretty/  (footprints)
@@ -273,7 +273,7 @@ The dialog should show:
 
 - LM7812 → `TO-252-2` (DPAK)
 - LM2596S → `TO-263-5` (D2PAK)
-- CH224Q → `ESSOP-10` (from LCSC)
+- STUSB4500 → `QFN-24` (from LCSC)
 - 10µF capacitor → `C_0805_2012Metric`
 - 5.1kΩ resistor → `R_0805_2012Metric`
 

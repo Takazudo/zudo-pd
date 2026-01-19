@@ -53,8 +53,8 @@ This design uses **4 terminals** for the three power rails plus ground return:
 
 2. **High Current Capacity**
    - 7A per terminal far exceeds requirements
-   - +12V: 1.2A actual (17% of capacity)
-   - Combined GND: ~2.5A (36% of capacity)
+   - +12V: 1.5A max (21% of capacity)
+   - Combined GND: ~4A max (57% of capacity)
 
 3. **Industrial Reliability**
    - TE Connectivity quality
