@@ -17,28 +17,64 @@ Complete parts configuration using JLCPCB SMT service.
 
 ## Complete Parts Configuration by Stage
 
-### Stage 1: USB-PD Voltage Acquisition (CH224D)
+### Stage 1: USB-PD Voltage Acquisition (STUSB4500)
 
-| Symbol      | Part Number                                            | Manufacturer Part Number                           | Description                       | Package | Stock          | Price           | Application          | Diagram                                                                    |
-| ----------- | ------------------------------------------------------ | -------------------------------------------------- | --------------------------------- | ------- | -------------- | --------------- | -------------------- | -------------------------------------------------------------------------- |
-| **U1**      | **[C3975094](https://jlcpcb.com/partdetail/C3975094)** | **[CH224D](../components/ch224d)**                 | USB PD Controller (5/9/12/15/20V) | QFN-20  | **2,291**      | **$0.36**       | PD Negotiation (15V) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **J1**      | **[C456012](https://jlcpcb.com/partdetail/C456012)**   | **[USB-TYPE-C-6P](../components/usb-c-connector)** | 6P Type-C Female                  | SMD     | **Stock**      | **$0.05**       | USB-C Input          | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **C1**      | **[C7432781](https://jlcpcb.com/partdetail/C7432781)** | **HGC1206R5106K500NSPJ**                           | 10µF 50V X5R ±10%                 | 1206    | **656,427**    | **$0.024**      | VBUS Bulk Filter     | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **C2**      | **[C49678](https://jlcpcb.com/partdetail/C49678)**     | **CC0805KRX7R9BB104**                              | 100nF 50V X7R                     | 0805    | **23,309,869** | **$0.0021**     | VBUS HF Decoupling   | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **C30**     | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | **CGA0603X5R105K160JT**                            | 1µF 16V X5R ±10%                  | 0603    | **1,225,237**  | **$0.0012**     | VDD Decoupling       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R11**     | **[C705785](https://jlcpcb.com/partdetail/C705785)**   | **RT0603BRD0756KL**                                | 56kΩ ±0.1%                        | 0603    | **19,902**     | **$0.0011**     | 15V Config (Rset)    | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R12,R13** | **[C23186](https://jlcpcb.com/partdetail/C23186)**     | **0603WAF5101T5E**                                 | 5.1kΩ ±1%                         | 0603    | **Rich Stock** | **$0.0005 × 2** | CC Pull-down (Rd)    | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+:::info v1.1 Upgrade
+This stage was upgraded from CH224D to **STUSB4500** for significantly improved charger compatibility (~95%+ vs ~33%). See [CH224D](../components/ch224d) for the deprecated v1.0 design.
+:::
 
-**Stage 1 Subtotal: $0.40**
+#### Main ICs
 
-**Note:** CH224D does not have a Power Good (PG) output pin. Status indication is provided by output stage LEDs (LED2, LED3, LED4) which confirm the entire power chain is operational.
+| Symbol | Part Number                                            | Manufacturer Part Number                           | Description               | Package | Stock     | Price     | Application             | Diagram                                                                    |
+| ------ | ------------------------------------------------------ | -------------------------------------------------- | ------------------------- | ------- | --------- | --------- | ----------------------- | -------------------------------------------------------------------------- |
+| **U1** | **[C2678061](https://jlcpcb.com/partdetail/C2678061)** | **[STUSB4500QTR](../components/stusb4500)**        | USB-IF Certified PD Sink  | QFN-24  | **4,728** | **$2.50** | PD Negotiation (15V)    | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **Q1** | **[C347476](https://jlcpcb.com/partdetail/C347476)**   | **[AO3401A](../components/ao3401a)**               | P-Channel MOSFET -30V -4A | SOT-23  | **1.1M**  | **$0.02** | Load Switch (High-side) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **J1** | **[C456012](https://jlcpcb.com/partdetail/C456012)**   | **[USB-TYPE-C-6P](../components/usb-c-connector)** | 6P Type-C Female          | SMD     | **Stock** | **$0.05** | USB-C Input             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+
+#### ESD Protection (Optional but Recommended)
+
+| Symbol   | Part Number                                          | Manufacturer Part Number             | Description         | Package | Stock     | Price     | Application        | Diagram                                                                    |
+| -------- | ---------------------------------------------------- | ------------------------------------ | ------------------- | ------- | --------- | --------- | ------------------ | -------------------------------------------------------------------------- |
+| **TVS4** | **[C343997](https://jlcpcb.com/partdetail/C343997)** | **[ESDA25L](../components/esda25l)** | CC Line TVS 25V 3pF | SOT-23  | **4,584** | **$0.15** | CC1/CC2 Protection | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+
+#### Capacitors
+
+| Symbol  | Part Number                                            | Specification     | Package | Stock          | Price       | Application         | Diagram                                                                    |
+| ------- | ------------------------------------------------------ | ----------------- | ------- | -------------- | ----------- | ------------------- | -------------------------------------------------------------------------- |
+| **C1**  | **[C7432781](https://jlcpcb.com/partdetail/C7432781)** | 10µF 50V X5R ±10% | 1206    | **656,427**    | **$0.024**  | VBUS Bulk Filter    | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **C2**  | **[C49678](https://jlcpcb.com/partdetail/C49678)**     | 100nF 50V X7R     | 0805    | **23,309,869** | **$0.0021** | VDD HF Decoupling   | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **C30** | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | 1µF 16V X5R ±10%  | 0603    | **1,225,237**  | **$0.0012** | VREG_2V7 Decoupling | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **C34** | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | 1µF 16V X5R ±10%  | 0603    | **1,225,237**  | **$0.0012** | VREG_1V2 Decoupling | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **C35** | **[C49678](https://jlcpcb.com/partdetail/C49678)**     | 100nF 50V X7R     | 0805    | **23,309,869** | **$0.0021** | Gate Soft-start     | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+
+#### Resistors
+
+| Symbol  | Part Number                                        | Value | Description | Package | Price       | Application                | Diagram                                                                    |
+| ------- | -------------------------------------------------- | ----- | ----------- | ------- | ----------- | -------------------------- | -------------------------------------------------------------------------- |
+| **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)** | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R12** | **[C1604](https://jlcpcb.com/partdetail/C1604)**   | 22kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Series Resistor       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R13** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R14** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | RESET Pull-up              | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+
+**Stage 1 Subtotal: ~$2.80**
+
+**Key Features (STUSB4500 vs CH224D):**
+
+| Feature              | CH224D (v1.0) | STUSB4500 (v1.1)    |
+| -------------------- | ------------- | ------------------- |
+| **USB-IF Certified** | No            | **Yes**             |
+| **Charger Compat.**  | ~33%          | **~95%+**           |
+| **Error Recovery**   | None          | **Built-in retry**  |
+| **Power Sequencing** | None          | **VBUS_EN_SNK pin** |
+| **CC Protection**    | 8V            | **22V**             |
+| **Configuration**    | Resistor      | **NVM + I2C**       |
 
 **Critical Notes:**
 
-- **VBUS is both input and output**: No separate output pin! VBUS changes from 5V → 15V after PD negotiation
-- **Pin 18 is NC**: Not connected (datasheet confirms)
-- **R12, R13 (5.1kΩ) are REQUIRED**: Identify device as USB-PD sink (Rd pull-downs per USB-C spec)
-- **CH224D negotiates voltage via CC pins**, then PD adapter changes VBUS voltage
+- **Load switch (Q1)** controls power path - only enables after successful PD negotiation
+- **VBUS_EN_SNK** goes HIGH when negotiation succeeds, turning ON Q1
+- **Soft-start** via C35 (100nF) limits inrush current (τ = 22kΩ × 100nF = 2.2ms)
+- **NVM programming** required to configure 15V PDO (one-time setup)
 
 ### Stage 2: DC-DC Converters (LM2596S-ADJ × 3 + ICL7660)
 
