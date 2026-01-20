@@ -95,7 +95,7 @@ This section documents the **STUSB4500-based** design (v1.1). The STUSB4500 is U
     │                               │                                   │
     │                               ├──────── Q1 (AO3401A) ─────────────┤
     │                               │          S ←───── D               │
-    │                          R12 (22kΩ)          │                    │
+    │                          R12 (33kΩ)          │                    │
     │                               │              G                    │
     │                               │              │                    │
     │   STUSB4500 (QFN-24)          │              │                    │
@@ -174,7 +174,7 @@ Power Path with P-Channel MOSFET Load Switch:
                            │
                       R11 (100kΩ)  ← Gate pull-up (default OFF)
                            │
-VBUS_EN_SNK ───┬── R12 (22kΩ) ──┴─── Gate ─── Q1 (AO3401A)
+VBUS_EN_SNK ───┬── R12 (33kΩ) ──┴─── Gate ─── Q1 (AO3401A)
 (from STUSB4500)│                              │    │
                │                            Source Drain
               C35 (100nF)                      │    │
@@ -196,7 +196,7 @@ Why P-Channel MOSFET?
 - Default OFF when gate is pulled to VBUS via R11
 
 Soft-Start Calculation:
-- Time constant: τ = R12 × C35 = 22kΩ × 100nF = 2.2ms
+- Time constant: τ = R12 × C35 = 33kΩ × 100nF = 3.3ms
 - Limits dV/dt during turn-on, reducing inrush current
 ```
 
@@ -313,7 +313,7 @@ Critical Pin Connections:
 **Load Switch (Power Path Control):**
 
 - `VBUS_IN` → `R11 (100kΩ)` → `Q1 Gate` (pull-up, default OFF)
-- `VBUS_EN_SNK (pin 16)` → `R12 (22kΩ)` → `Q1 Gate`
+- `VBUS_EN_SNK (pin 16)` → `R12 (33kΩ)` → `Q1 Gate`
 - `Q1 Gate` → `C35 (100nF)` → `GND` (soft-start)
 - `Q1 (AO3401A)`: Source = VBUS_IN, Drain = VBUS_OUT
 - **Result**: Q1 conducts when VBUS_EN_SNK goes HIGH after PD success

@@ -49,12 +49,12 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 #### Resistors
 
-| Symbol  | Part Number                                          | Value | Description | Package | Price       | Application                | Diagram                                                                    |
-| ------- | ---------------------------------------------------- | ----- | ----------- | ------- | ----------- | -------------------------- | -------------------------------------------------------------------------- |
-| **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)**   | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R12** | **[C114065](https://jlcpcb.com/partdetail/C114065)** | 22kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Series Resistor       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R13** | **[C23162](https://jlcpcb.com/partdetail/C23162)**   | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R14** | **[C25804](https://jlcpcb.com/partdetail/C25804)**   | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | RESET Pull-up              | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| Symbol  | Part Number                                        | Value | Description | Package | Price       | Application                | Diagram                                                                    |
+| ------- | -------------------------------------------------- | ----- | ----------- | ------- | ----------- | -------------------------- | -------------------------------------------------------------------------- |
+| **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)** | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R12** | **[C4216](https://jlcpcb.com/partdetail/C4216)**   | 33kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Voltage Divider       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R13** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R14** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | RESET Pull-up              | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 
 **Stage 1 Subtotal: ~$2.80**
 
@@ -73,7 +73,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 - **Load switch (Q1)** controls power path - only enables after successful PD negotiation
 - **VBUS_EN_SNK** goes HIGH when negotiation succeeds, turning ON Q1
-- **Soft-start** via C35 (100nF) limits inrush current (τ = 22kΩ × 100nF = 2.2ms)
+- **Soft-start** via C35 (100nF) limits inrush current (τ = 33kΩ × 100nF = 3.3ms)
 - **NVM programming** required to configure 15V PDO (one-time setup)
 
 ### Stage 2: DC-DC Converters (LM2596S-ADJ × 3 + ICL7660)

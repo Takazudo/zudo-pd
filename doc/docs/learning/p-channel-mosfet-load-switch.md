@@ -108,7 +108,7 @@ Think of it like an upside-down water valve:
 ```
                     VBUS_EN_SNK (pin 16) ← Open-drain from STUSB4500
                           │
-                         R12 (22kΩ)
+                         R12 (33kΩ)
                           │
 VBUS_IN (15V) ─── R11 (100kΩ) ───┼─── Gate (pin 1)
                           │           │
@@ -122,12 +122,12 @@ VBUS_IN (15V) ─── R11 (100kΩ) ───┼─── Gate (pin 1)
 
 ### Component Roles
 
-| Component | Value   | Function                                                       |
-| --------- | ------- | -------------------------------------------------------------- |
-| **R11**   | 100kΩ   | Pull-up: keeps Gate at VBUS_IN when VBUS_EN_SNK floats         |
-| **R12**   | 22kΩ    | Gate driver: pulls Gate down when VBUS_EN_SNK is LOW           |
-| **C35**   | 100nF   | Soft-start: slows gate voltage change to reduce inrush current |
-| **Q1**    | AO3401A | P-channel MOSFET: the actual power switch                      |
+| Component | Value   | Function                                                        |
+| --------- | ------- | --------------------------------------------------------------- |
+| **R11**   | 100kΩ   | Pull-up: keeps Gate at VBUS_IN when VBUS_EN_SNK floats          |
+| **R12**   | 33kΩ    | Gate voltage divider: sets Gate voltage when VBUS_EN_SNK is LOW |
+| **C35**   | 100nF   | Soft-start: slows gate voltage change to reduce inrush current  |
+| **Q1**    | AO3401A | P-channel MOSFET: the actual power switch                       |
 
 ## How VBUS_EN_SNK Controls Q1
 
@@ -143,7 +143,7 @@ VBUS_EN_SNK = floating (open-drain not pulling)
 
 VBUS_IN (15V) ─── R11 (100kΩ) ───┬─── Gate
                                  │
-                                R12 (22kΩ)
+                                R12 (33kΩ)
                                  │
                             (floating) ← No current path through R12
 
@@ -159,19 +159,19 @@ Power blocked! DC-DC cannot drain the 5V during negotiation.
 ```
 VBUS_EN_SNK = GND (open-drain pulling LOW)
 
-VBUS_IN (15V) ─── R11 (100kΩ) ───┬─── Gate (2.7V)
+VBUS_IN (15V) ─── R11 (100kΩ) ───┬─── Gate (3.7V)
                                  │
-                                R12 (22kΩ)
+                                R12 (33kΩ)
                                  │
                                 GND ← Current flows to GND
 
 Voltage divider: Gate = 15V × R12/(R11+R12)
-                      = 15V × 22kΩ/122kΩ
-                      = 15V × 0.18
-                      = 2.7V
+                      = 15V × 33kΩ/133kΩ
+                      = 15V × 0.248
+                      = 3.7V
 
-Gate = 2.7V, Source = 15V
-Vgs = 2.7V - 15V = -12.3V → Q1 is fully ON ✓
+Gate = 3.7V, Source = 15V
+Vgs = 3.7V - 15V = -11.3V → Q1 is fully ON ✓
 
 Power flows! VBUS_OUT ≈ VBUS_IN (minus tiny Rds(on) drop)
 ```
@@ -183,11 +183,11 @@ When VBUS_EN_SNK pulls to GND, R11 and R12 form a voltage divider:
 ```
 15V (Top of hill)
  │
- ▼ R11 drops 12.3V (steep slope, 100kΩ)
+ ▼ R11 drops 11.3V (steep slope, 100kΩ)
  │
-2.7V ──── Gate node (plateau)
+3.7V ──── Gate node (plateau)
  │
- ▼ R12 drops 2.7V (gentle slope, 22kΩ)
+ ▼ R12 drops 3.7V (gentle slope, 33kΩ)
  │
 0V (Ground level)
 ```
@@ -195,27 +195,27 @@ When VBUS_EN_SNK pulls to GND, R11 and R12 form a voltage divider:
 ### The Math
 
 ```
-Voltage across R11 = 15V × R11/(R11+R12) = 15V × 100/122 = 12.3V
-Voltage across R12 = 15V × R12/(R11+R12) = 15V × 22/122 = 2.7V
+Voltage across R11 = 15V × R11/(R11+R12) = 15V × 100/133 = 11.3V
+Voltage across R12 = 15V × R12/(R11+R12) = 15V × 33/133 = 3.7V
 
-Check: 12.3V + 2.7V = 15V ✓
+Check: 11.3V + 3.7V = 15V ✓
 
-Gate voltage = Voltage across R12 = 2.7V
+Gate voltage = Voltage across R12 = 3.7V
 (because R12's bottom is at GND)
 ```
 
 ### The Ratio
 
-- R12 : R11 = 22 : 100 ≈ **1 : 4.5**
-- Gate gets about **18%** of VBUS_IN
+- R12 : R11 = 33 : 100 ≈ **1 : 3**
+- Gate gets about **25%** of VBUS_IN
 
 ## Why These Resistor Values?
 
 | Requirement                              | How It's Met                             |
 | ---------------------------------------- | ---------------------------------------- |
-| **Vgs must be &lt; -1.5V to turn ON**    | 2.7V - 15V = -12.3V ✓ (plenty of margin) |
-| **Vgs must stay &gt; -12V (max rating)** | -12.3V is right at the limit ⚠️          |
-| **Low power consumption**                | 122kΩ total → only 0.12mA flows to GND   |
+| **Vgs must be &lt; -1.5V to turn ON**    | 3.7V - 15V = -11.3V ✓ (plenty of margin) |
+| **Vgs must stay &gt; -12V (max rating)** | -11.3V is within spec ✓                  |
+| **Low power consumption**                | 133kΩ total → only 0.11mA flows to GND   |
 | **Fast switching**                       | R × C35 time constant is reasonable      |
 
 ### Adapting for Higher Voltages
@@ -223,8 +223,8 @@ Gate voltage = Voltage across R12 = 2.7V
 If you wanted to use 20V PD instead of 15V:
 
 ```
-Current design at 15V:  Vgs = 2.7V - 15V = -12.3V ⚠️ At limit
-If VBUS were 20V:       Vgs = 3.6V - 20V = -16.4V ❌ Exceeds -12V limit!
+Current design at 15V:  Vgs = 3.7V - 15V = -11.3V ✓ Within spec
+If VBUS were 20V:       Vgs = 5.0V - 20V = -15.0V ❌ Exceeds -12V limit!
 ```
 
 **Solution**: Increase R12 to raise the gate voltage:
@@ -270,8 +270,8 @@ Time 0-500ms:
 Time ~500ms:
 ├─ 15V confirmed stable
 ├─ VBUS_EN_SNK pulls to GND ✓
-├─ Q1 Gate drops to 2.7V (voltage divider)
-├─ Vgs = -12.3V → Q1 turns ON
+├─ Q1 Gate drops to 3.7V (voltage divider)
+├─ Vgs = -11.3V → Q1 turns ON
 ├─ Power flows to DC-DC converters
 └─ Status: "Power Good - 15V flowing to output"
 ```
@@ -299,8 +299,8 @@ Time ~500ms:
 
 ❌ **Wrong**: "Negative Vgs means the gate has negative voltage"
 
-- All voltages are positive relative to GND (Gate = 2.7V, Source = 15V)
-- Vgs is negative because Gate is **lower than** Source (2.7V - 15V = -12.3V)
+- All voltages are positive relative to GND (Gate = 3.7V, Source = 15V)
+- Vgs is negative because Gate is **lower than** Source (3.7V - 15V = -11.3V)
 
 ✅ **Correct**: "Vgs is the voltage **difference** between Gate and Source"
 

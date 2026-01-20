@@ -144,7 +144,7 @@ Load Switch Control:
                                          │
                                         R1 (100kΩ)
                                          │
-VBUS_EN_SNK (pin 10) ─── R2 (22kΩ) ──┬───┴─── Gate ─── Q1 (AO3401A)
+VBUS_EN_SNK (pin 10) ─── R2 (33kΩ) ──┬───┴─── Gate ─── Q1 (AO3401A)
                                      │                 Source ─── VBUS_IN
                                     C5 (100nF)         Drain ──── VBUS_OUT
                                      │                            (to DC-DC)
@@ -181,7 +181,7 @@ CC2 (pin 3) ───┘
 
 **Load Switch (Power Path Control):**
 
-- `VBUS_EN_SNK (pin 10)` → `R2 (22kΩ)` → `Q1 Gate`
+- `VBUS_EN_SNK (pin 10)` → `R2 (33kΩ)` → `Q1 Gate`
 - `VBUS_IN` → `R1 (100kΩ)` → `Q1 Gate` (pull-up)
 - `Q1 Gate` → `C5 (100nF)` → `GND` (soft-start)
 - `Q1 (AO3401A)`: Source=VBUS_IN, Drain=VBUS_OUT
@@ -212,7 +212,7 @@ CC2 (pin 3) ───┘
 | Reference | Value | Tolerance | Package | Purpose              |
 | --------- | ----- | --------- | ------- | -------------------- |
 | R1        | 100kΩ | ±1%       | 0603    | Gate pull-up         |
-| R2        | 22kΩ  | ±1%       | 0603    | Gate series resistor |
+| R2        | 33kΩ  | ±1%       | 0603    | Gate voltage divider |
 | R3        | 470Ω  | ±1%       | 0603    | VBUS discharge       |
 | R4        | 10kΩ  | ±1%       | 0603    | RESET pull-up        |
 
