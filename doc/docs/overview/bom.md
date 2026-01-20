@@ -54,7 +54,6 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 | **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)** | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 | **R12** | **[C4216](https://jlcpcb.com/partdetail/C4216)**   | 33kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Voltage Divider       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 | **R13** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R14** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | RESET Pull-up              | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 
 **Stage 1 Subtotal: ~$2.80**
 

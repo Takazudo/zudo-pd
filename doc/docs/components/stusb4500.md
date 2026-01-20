@@ -103,7 +103,7 @@ Note: Pin 10 is VBUS_EN_SNK (critical for load switch control)
 | 12   | GND         | Ground                               | System ground                              |
 | 13   | POWER_OK2   | PDO2 selected indicator              | LED or MCU (optional)                      |
 | 14   | POWER_OK3   | PDO3 selected indicator              | LED or MCU (optional)                      |
-| 15   | RESET       | Active-low reset                     | VDD via 10kΩ (or MCU controlled)           |
+| 15   | RESET       | Active-HIGH reset                    | GND or NC (has internal pull-down)         |
 | 16   | ADDR0       | I2C address bit 0                    | GND or VDD (sets I2C address)              |
 | 17   | ADDR1       | I2C address bit 1                    | GND (with &gt;10kΩ pull-up recommended)    |
 | 18   | ALERT       | Interrupt output (open-drain)        | MCU interrupt or NC                        |
@@ -154,7 +154,7 @@ VBUS Discharge:
 DISCH (pin 21) ─── R3 (470Ω) ─── VBUS_OUT
 
 Configuration Pins:
-RESET (pin 15) ─── R4 (10kΩ) ─── VDD
+RESET (pin 15) ─── GND (or NC, has internal pull-down)
 ADDR0 (pin 16) ─── GND
 ADDR1 (pin 17) ─── GND (or 10kΩ to VDD)
 VSYS (pin 11) ──── VREG_2V7 (pin 7)
@@ -192,7 +192,7 @@ CC2 (pin 3) ───┘
 
 **Configuration:**
 
-- `RESET (pin 15)` → `R4 (10kΩ)` → `VDD`
+- `RESET (pin 15)` → `GND` (or NC, has internal pull-down)
 - `ADDR0 (pin 16)` → `GND`
 - `ADDR1 (pin 17)` → `GND`
 
@@ -214,7 +214,6 @@ CC2 (pin 3) ───┘
 | R1        | 100kΩ | ±1%       | 0603    | Gate pull-up         |
 | R2        | 33kΩ  | ±1%       | 0603    | Gate voltage divider |
 | R3        | 470Ω  | ±1%       | 0603    | VBUS discharge       |
-| R4        | 10kΩ  | ±1%       | 0603    | RESET pull-up        |
 
 ### Load Switch MOSFET
 

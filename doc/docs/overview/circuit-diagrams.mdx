@@ -124,7 +124,7 @@ This section documents the **STUSB4500-based** design (v1.1). The STUSB4500 is U
     │   │                    │                                          │
     │   │  VSYS (pin 22) ────┼── VREG_2V7 (tie together)                │
     │   │                    │                                          │
-    │   │  RESET (pin 6) ────┼── R14 (10kΩ) ── VDD                      │
+    │   │  RESET (pin 6) ────┼── GND (internal pull-down, NC also OK)   │
     │   │                    │                                          │
     │   │  DISCH (pin 9) ────┼── R13 (470Ω) ── VBUS_OUT                 │
     │   │                    │                                          │
@@ -253,7 +253,7 @@ STUSB4500 (QFN-24) - USB-IF Certified PD Sink Controller:
        NC   3 │                                   22│ VSYS ── VREG_2V7
       CC2   4 │                                   21│ VREG_1V2 ── C34 (1µF) ── GND
     CC2DB   5 │                                   20│ POWER_OK2 (NC)
-    RESET   6 │── R14 (10kΩ) ── VDD               19│ ALERT (NC)
+    RESET   6 │── GND (or NC)                    19│ ALERT (NC)
       SCL   7 │── NC (or I2C)                     18│ VBUS_VS_DISCH (NC)
       SDA   8 │── NC (or I2C)                     17│ A_B_SIDE (NC)
     DISCH   9 │── R13 (470Ω) ── VBUS_OUT          16│ VBUS_EN_SNK ──→ Gate drive
@@ -279,7 +279,7 @@ Critical Pin Connections:
 │ VREG_2V7 (23)│ C30 (1µF) to GND, also to VSYS (pin 22)              │
 │ VREG_1V2 (21)│ C34 (1µF) to GND                                     │
 │ VSYS (22)    │ Tie to VREG_2V7                                      │
-│ RESET (6)    │ R14 (10kΩ) to VDD (active-low, default running)      │
+│ RESET (6)    │ GND (or NC) - Active-HIGH, has internal pull-down    │
 │ DISCH (9)    │ R13 (470Ω) to VBUS_OUT (for VBUS discharge)          │
 │ ADDR0 (12)   │ GND                                                  │
 │ ADDR1 (13)   │ GND (I2C address = 0x28)                             │
@@ -325,7 +325,7 @@ Critical Pin Connections:
 
 **Configuration:**
 
-- `RESET (pin 6)` → `R14 (10kΩ)` → `VDD` (active-low, default = running)
+- `RESET (pin 6)` → `GND` (or NC) - Active-HIGH, has internal pull-down
 - `ADDR0 (pin 12)` → `GND`
 - `ADDR1 (pin 13)` → `GND`
 - I2C address = 0x28 (for NVM programming)
