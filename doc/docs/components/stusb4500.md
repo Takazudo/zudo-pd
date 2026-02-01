@@ -192,6 +192,16 @@ USB-C CC2 (B5) ───→ Pin 3 (I/O2) ───→ Pin 4 (I/O2) ───→ 
 
 - `DISCH (pin 9)` → `R13 (470Ω)` → `VBUS_OUT`
 
+:::info How DISCH Works
+When USB-C cable is disconnected, STUSB4500 opens an internal path from DISCH pin to GND. This allows capacitor charge to escape:
+
+```
+VBUS_OUT (15V) → R13 (470Ω) → DISCH → GND (inside STUSB4500)
+```
+
+The stored energy drains as heat through R13 (~0.5W briefly). This is required by USB-C spec to bring VBUS to safe level (&lt;0.8V) quickly, preventing hot-plug hazards.
+:::
+
 **Configuration:**
 
 - `RESET (pin 6)` → `GND` (active-HIGH reset, GND = normal operation)

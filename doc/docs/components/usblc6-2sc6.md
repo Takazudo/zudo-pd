@@ -129,6 +129,106 @@ USB-C (J1)           D4 (USBLC6-2SC6)          STUSB4500 (U1)
 
 The lower clamping voltage (17V vs 44V) provides much better protection for the STUSB4500's CC pins.
 
+## How It Works: Avalanche Breakdown
+
+TVS diodes protect circuits using a phenomenon called **avalanche breakdown**. Here's how it works:
+
+### Normal Operation (V &lt; 5.25V)
+
+```
+I/O1 (CC1) ────●──────────────────●──── I/O1
+               │                  │
+               ▼ (reverse bias)   ▼ (reverse bias)
+               │                  │
+GND ───────────┴────────●─────────┴──── VBUS
+                        │
+               (all diodes OFF - high impedance)
+```
+
+- All TVS diodes are **reverse biased** → no current flows
+- Signal passes through unaffected
+- Only ~3.5pF capacitance added to the line
+
+### ESD Event (High Voltage Spike)
+
+When an ESD spike arrives (e.g., +8kV from human touch):
+
+```
+                  ⚡ Incoming electron (accelerated by ESD voltage)
+                     ↓
+                     ●→→→→ accelerates in electric field
+                         ↓
+                         💥 COLLISION with silicon atom!
+                        ╱ ╲
+                       ●   ●  ← 2 electrons now!
+                      ↓     ↓
+                     💥     💥
+                    ╱ ╲   ╱ ╲
+                   ●   ● ●   ●  ← 4 electrons!
+                   ↓   ↓ ↓   ↓
+                  ... CHAIN REACTION ...
+```
+
+This is **impact ionization**:
+
+1. High voltage creates strong electric field in the diode's depletion region
+2. Stray electrons accelerate to **high kinetic energy**
+3. Electrons **collide** with silicon crystal lattice
+4. Each collision **knocks loose** more electrons (creates electron-hole pairs)
+5. **Exponential multiplication** = massive current flows through the TVS
+
+### Why Voltage Stays Constant (Clamping)
+
+```
+        Current
+           ↑
+           │                    ╱
+           │                   ╱
+           │                  ╱  ← Massive current increase
+           │                 ╱     with tiny voltage change
+           │                │
+           │                │ Breakdown!
+           │                │ (V_BR ≈ 6V)
+           │________________│___________→ Voltage
+           0                6V
+```
+
+The avalanche multiplication is **extremely sensitive** to electric field:
+
+- Small voltage increase → field increases slightly → **exponentially more** ionization
+- Current increases 1000x while voltage increases only ~1V
+- Result: Voltage is effectively "clamped" at breakdown voltage
+
+**Analogy:** Like a **pressure relief valve** - below threshold the valve is closed, at threshold it opens and pressure stays constant no matter how much more you push.
+
+### Energy Absorption
+
+Where does the ESD energy go?
+
+```
+ESD spike energy → Electron kinetic energy → Lattice vibrations → HEAT
+     (8kV)              (accelerated)           (phonons)        (absorbed)
+```
+
+The TVS diode:
+
+1. **Clamps voltage** at ~17V (limits how high it can go)
+2. **Conducts the current** through itself → to GND
+3. **Converts energy to heat** in its own silicon body (P = V × I = 17V × 3A = 51W briefly)
+
+The protected IC (STUSB4500) never sees the dangerous voltage - the TVS diode **"takes the hit"** and dissipates it as heat instead.
+
+### Bidirectional Protection
+
+The USBLC6-2SC6 has back-to-back diodes for each channel:
+
+| ESD Polarity          | Diode Behavior      | Clamping Voltage |
+| --------------------- | ------------------- | ---------------- |
+| Positive spike (+8kV) | Avalanche breakdown | ~17V             |
+| Negative spike (-8kV) | Forward conduction  | ~-0.7V           |
+
+This provides full protection regardless of ESD polarity.
+
 ## Design Considerations
 
 ### Placement
