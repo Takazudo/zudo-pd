@@ -124,5 +124,5 @@ To connect to the FASTON tabs, use standard FASTON 250 receptacles:
 ## Related Components
 
 - [J1 - USB Type-C Connector](./usb-c-connector) - Power input
-- [J2 - 2x8 Pin Header](../overview/bom#eurorack-power-connector-16-pin) - Direct module connection
+- [J10, J11 - 2x8 Pin Headers](../overview/bom#eurorack-power-connectors-16-pin) - Direct module connection
 - [Bill of Materials](../overview/bom) - Complete parts list

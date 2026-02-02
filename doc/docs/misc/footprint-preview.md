@@ -312,13 +312,13 @@ import TVSSOD323 from '../\_fragments/footprints/SOD-323_L1.8-W1.3-LS2.5-FD.svg'
 
 ## Connectors
 
-### J2-J5 - Eurorack Power Connector (16-pin)
+### J10-J11 - Eurorack Power Connector (16-pin)
 
 import HeaderEuro from '../\_fragments/footprints/HDR-TH_16P-P2.54-H-M-R2-C8-S2.54.svg';
 
 <FootprintSvg src={HeaderEuro} alt="16-pin 2.54mm Header (Eurorack)" minWidth="400px" minHeight="200px" />
 
-**Designators:** J2, J3, J4, J5 (4× units)
+**Designators:** J10, J11 (2× units)
 **Component:** 2541WR-2x08P - 2×8 Pin Header (Standard)
 **Package:** Through-hole 16-pin header (2×8, 2.54mm pitch)
 **LCSC:** [C5383092](https://jlcpcb.com/partdetail/C5383092)

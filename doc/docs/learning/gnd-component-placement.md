@@ -49,12 +49,12 @@ Practical guide for 2-layer PCB layout using unified ground plane with noise con
 
 **Output Stage (Cleanest Area):**
 
-| Component  | Type               | Sensitivity | Priority                        |
-| ---------- | ------------------ | ----------- | ------------------------------- |
-| **J2**     | Eurorack connector | HIGH        | Maximum distance from switching |
-| **PTC1-3** | Resettable fuses   | Low         | Output protection area          |
-| **TVS1-3** | TVS diodes         | Low         | Output protection area          |
-| **LED2-4** | Status indicators  | Low         | Can go anywhere                 |
+| Component    | Type                | Sensitivity | Priority                        |
+| ------------ | ------------------- | ----------- | ------------------------------- |
+| **J10, J11** | Eurorack connectors | HIGH        | Maximum distance from switching |
+| **PTC1-3**   | Resettable fuses    | Low         | Output protection area          |
+| **TVS1-3**   | TVS diodes          | Low         | Output protection area          |
+| **LED2-4**   | Status indicators   | Low         | Can go anywhere                 |
 
 ---
 
@@ -81,7 +81,7 @@ Practical guide for 2-layer PCB layout using unified ground plane with noise con
 │  │          │     │ C5-C10          │     │ PTC1-3       │ │
 │  │          │     │ C31-C33         │     │ TVS1-3       │ │
 │  │          │     │ R1-R6           │     │ F1-F3        │ │
-│  │          │     │                 │     │ J2 Output    │ │
+│  │          │     │                 │     │ J10,J11 Out  │ │
 │  └──────────┘     └─────────────────┘     └──────────────┘ │
 │      ║                    ║                      ║         │
 │     Vias                 Vias                   Vias       │
@@ -246,7 +246,7 @@ Benefit: Creates "Faraday cage" effect
 - [ ] Each LM2596S circuit is compact (&lt;20mm radius)
 - [ ] Input caps &lt;5mm from IC VIN pins
 - [ ] Inductors have 10-15mm clearance around them
-- [ ] Output connector (J2) at maximum distance from switching
+- [ ] Output connectors (J10, J11) at maximum distance from switching
 
 ### During Routing
 
@@ -327,11 +327,11 @@ Route feedback traces away from inductors!
 
 ```
 ❌ BAD:
-[J2 Output] ──→ [U2 Switching] ──→ [Linear regs]
+[J10,J11 Output] ──→ [U2 Switching] ──→ [Linear regs]
  ← Output picks up switching noise
 
 ✅ GOOD:
-[U2 Switching] ──→ [Linear regs] ──→ [J2 Output]
+[U2 Switching] ──→ [Linear regs] ──→ [J10,J11 Output]
  ← Maximum distance from noise source
 ```
 
@@ -365,17 +365,17 @@ Minimal loop = Less EMI
 
 ```
 ✅ GOOD:
-┌──────────────┐  ┌──────────┐  ┌────────────┐
-│ All Switching│  │ Linears  │  │   Output   │
-│ U2, U3, U4   │→→│ U6,U7,U8 │→→│ J2, LEDs   │
-└──────────────┘  └──────────┘  └────────────┘
+┌──────────────┐  ┌──────────┐  ┌──────────────┐
+│ All Switching│  │ Linears  │  │   Output     │
+│ U2, U3, U4   │→→│ U6,U7,U8 │→→│ J10,J11,LEDs │
+└──────────────┘  └──────────┘  └──────────────┘
 ```
 
 **4. Maximum isolation for output:**
 
 ```
 ✅ GOOD:
-[USB-PD] → [Switching] → [Linear] → [Protection] → [J2]
+[USB-PD] → [Switching] → [Linear] → [Protection] → [J10,J11]
                                                       ↑
                                           Cleanest location
 ```
