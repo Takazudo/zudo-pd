@@ -217,15 +217,17 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 ### Stage 5: Output Connectors
 
-#### Eurorack Power Connector (16-pin)
+#### Eurorack Power Connectors (16-pin)
 
-| Symbol | Part Number                                            | Manufacturer Part Number | Description            | Package      | Stock     | Price     | Application           | Diagram |
-| ------ | ------------------------------------------------------ | ------------------------ | ---------------------- | ------------ | --------- | --------- | --------------------- | ------- |
-| **J2** | **[C5383092](https://jlcpcb.com/partdetail/C5383092)** | **2541WR-2x08P**         | 2x8P Pin Header 2.54mm | Through-hole | **6,813** | **$0.08** | Eurorack Power Output | -       |
+| Symbol       | Part Number                                            | Manufacturer Part Number | Description            | Package      | Stock     | Price         | Application           | Diagram |
+| ------------ | ------------------------------------------------------ | ------------------------ | ---------------------- | ------------ | --------- | ------------- | --------------------- | ------- |
+| **J10, J11** | **[C5383092](https://jlcpcb.com/partdetail/C5383092)** | **2541WR-2x08P**         | 2x8P Pin Header 2.54mm | Through-hole | **6,813** | **$0.08 × 2** | Eurorack Power Output | -       |
 
 **Connector Type:** Standard 2x8 pin header (male, through-hole, 2.54mm pitch)
 
-**Note:** This is a standard pin header. For box/shrouded connectors (commonly used in Eurorack), users should source the mating female box header connector separately from:
+**Quantity:** 2 connectors (J10, J11)
+
+**Note:** These are standard pin headers. For box/shrouded connectors (commonly used in Eurorack), users should source the mating female box header connector separately from:
 
 - Tayda Electronics
 - Mouser / Digikey
@@ -267,7 +269,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 **Note:** Requires matching FASTON receptacles. Combined GND return current is ~2.5A max (well within 7A rating).
 
-**Stage 5 Subtotal: $0.20** (Header: $0.08 + FASTON × 4: $0.12)
+**Stage 5 Subtotal: $0.28** (Headers × 2: $0.16 + FASTON × 4: $0.12)
 
 ## Performance Specifications
 
@@ -367,14 +369,14 @@ For detailed component height information and mechanical design considerations, 
 | **Stage 2** | DC-DC Converters            | **$2.09** |
 | **Stage 3** | Linear Regulators           | **$0.37** |
 | **Stage 4** | Protection Circuit          | **$0.77** |
-| **Stage 5** | Output Connectors           | **$0.20** |
-|             | **Total (Components Only)** | **$3.88** |
+| **Stage 5** | Output Connectors           | **$0.28** |
+|             | **Total (Components Only)** | **$3.96** |
 
 **Cost Savings:**
 
 - **Previous design** (PTC + Fuse): ~$4.76
-- **Current design** (PTC-only + Connectors): **$3.88**
-- **Savings**: **$0.88** (18% reduction)
+- **Current design** (PTC-only + Connectors): **$3.96**
+- **Savings**: **$0.80** (17% reduction)
 
 **Notes:**
 
