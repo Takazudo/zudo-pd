@@ -2,6 +2,51 @@
 
 This file provides guidance to Claude Code when working with documentation in this directory.
 
+## Deployment
+
+The documentation is automatically deployed to Netlify:
+
+- **Production URL**: https://takazudomodular.com/pj/zudo-pd/
+- **Netlify URL**: https://zudopd.netlify.app/pj/zudo-pd/ (rewritten to production URL)
+- **Base Path**: `/pj/zudo-pd/`
+- **Deployment**: Automatic on every push to `main` branch
+- **Technology**: Docusaurus static site deployed via Netlify CLI on GitHub Actions
+- **Configuration**: See `.github/workflows/main-deploy.yml` for deployment workflow
+
+## URL Reference Guidelines
+
+When the user provides URLs starting with `http://localhost:3800/pj/zudo-pd/` or `http://zudopd.localhost:3800/pj/zudo-pd/` in the conversation:
+
+- **DO NOT fetch the URL** - These are local documentation URLs served by Docusaurus
+- **Instead, find and read the corresponding markdown file** in the `/doc/` directory
+- Map URLs to file paths following Docusaurus routing (note: `/pj/zudo-pd/` is the base path):
+  - `http://localhost:3800/pj/zudo-pd/` or `http://zudopd.localhost:3800/pj/zudo-pd/` → `/doc/docs/` (root pages)
+  - `http://zudopd.localhost:3800/pj/zudo-pd/docs/inbox/overview` → `/doc/docs/inbox/overview.md`
+  - `http://zudopd.localhost:3800/pj/zudo-pd/docs/inbox/circuit-diagrams` → `/doc/docs/inbox/circuit-diagrams.md`
+- Use the Read tool to access the actual markdown source files
+- This provides the raw content without HTML rendering, making it easier to edit and understand
+
+Example:
+
+- User mentions: `http://zudopd.localhost:3800/pj/zudo-pd/docs/inbox/current-status`
+- Read file: `/doc/docs/inbox/current-status.md`
+
+## Documentation Directory Structure
+
+- `docs/` - **Primary documentation** (Docusaurus-based, organized)
+  - `overview/` - Project overview, circuit diagrams, BOM
+  - `components/` - Individual component datasheets and specifications
+  - `learning/` - Circuit design learning notes
+  - `how-to/` - How-to guides (KiCad workflow, parts download, SVG export, circuit diagrams)
+  - `inbox/` - Quick reference and miscellaneous docs
+  - `misc/` - Miscellaneous documentation
+  - `_fragments/` - Reusable fragments (footprint SVGs for React imports)
+- `static/` - **Documentation assets** (images, PDFs, SVGs)
+  - `circuits/` - Circuit diagram SVGs
+  - `footprints/` - Component package preview images (PNG)
+  - `datasheets/` - Component datasheets and package specs (PDF)
+  - `kicad/` - KiCad setup screenshots
+
 ## MDX Syntax Rules
 
 **CRITICAL**: This documentation uses MDX (Markdown + JSX), which requires special handling of certain characters.
