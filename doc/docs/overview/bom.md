@@ -167,13 +167,13 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol  | Part Number                                              | Specification | Package     | Stock      | Price     | Application | Diagram                                                                               |
 | ------- | -------------------------------------------------------- | ------------- | ----------- | ---------- | --------- | ----------- | ------------------------------------------------------------------------------------- |
-| **C14** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C20** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C21** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Output   | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C14** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C20** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C21** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Output   | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
 | **C22** | **[C46550400](https://jlcpcb.com/partdetail/C46550400)** | **470µF 16V** | D6.3xL7.7mm | **23,331** | **$0.02** | U7 Input    | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
 | **C23** | **[C46550400](https://jlcpcb.com/partdetail/C46550400)** | **470µF 16V** | D6.3xL7.7mm | **23,331** | **$0.02** | U7 Output   | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C24** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Input    | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
-| **C25** | **[C2992611](https://jlcpcb.com/partdetail/C2992611)**   | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Output   | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C24** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Input    | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C25** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Output   | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 **Stage 3 Subtotal: $0.37** (Using high-stock regulators)
 

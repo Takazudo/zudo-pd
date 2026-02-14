@@ -160,7 +160,7 @@ import CapD10 from '../\_fragments/footprints/CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-
 - DC-DC input capacitors (C3, C11: 470µF 25V)
 - Linear regulator output capacitors (C14, C20, C21, C24, C25: 470µF 16V)
 
-**LCSC:** [C2983319](https://jlcpcb.com/partdetail/C2983319) (470µF 25V), [C2992611](https://jlcpcb.com/partdetail/C2992611) (470µF 16V)
+**LCSC:** [C2983319](https://jlcpcb.com/partdetail/C2983319) (470µF 25V), [C22387780](https://jlcpcb.com/partdetail/C22387780) (470µF 16V)
 **Applications:** Bulk energy storage for input and output filtering
 
 #### 1206 Ceramic Capacitor
