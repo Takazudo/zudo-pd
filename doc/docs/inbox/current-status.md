@@ -202,6 +202,27 @@ Ready to proceed:
 - SMT assembly: All parts installed
 - Delivery: DHL (2-3 weeks)
 
+## PCBA v1 Failure Findings
+
+The first prototype PCBA (v1) failed during testing. The STUSB4500 USB-PD controller did not negotiate power delivery. Root cause analysis identified three issues:
+
+### Issues Found
+
+1. **Pin 18 (VBUS_VS_DISCH) not connected** - This pin was left as NC but must be connected to VBUS_IN via a 470ohm series resistor for VBUS voltage sensing. This is a critical connection required by the datasheet.
+
+2. **Pin 22 (VSYS) floating** - After cutting the incorrect VSYS-to-VREG_2V7 trace, VSYS was left floating. The datasheet requires VSYS to be connected to GND when not used.
+
+3. **Pin 22 (VSYS) shorted to Pin 23 (VREG_2V7)** - A routing error in the original schematic connected these pins together, overloading the internal 2.7V regulator. Fixed by cutting the trace on the PCBA.
+
+### Required Schematic Fixes Before Next Order
+
+- [ ] Add R_VS (470ohm) from VBUS_IN to VBUS_VS_DISCH (pin 18)
+- [ ] Connect VSYS (pin 22) to GND
+- [ ] Verify VREG_2V7 (pin 23) decoupling is correct (C30 only)
+- [ ] Run DRC and review all STUSB4500 connections
+
+See the full [PCBA v1 Debug Report](/docs/inbox/pcba-v1-debug) for detailed analysis, bodge wire instructions, and reference design comparison.
+
 ## 🤔 Design Concerns and Considerations
 
 ### Issues Resolved in Current Design

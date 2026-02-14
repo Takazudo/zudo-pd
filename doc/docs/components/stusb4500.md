@@ -105,7 +105,7 @@ Note: Pin 16 (VBUS_EN_SNK) is critical for load switch control
 | 15  | GPIO          | General purpose I/O                  | NC                                    |
 | 16  | VBUS_EN_SNK   | **Load switch enable (active HIGH)** | To P-MOSFET gate via R12 (56kΩ)       |
 | 17  | A_B_SIDE      | Cable orientation indicator          | NC                                    |
-| 18  | VBUS_VS_DISCH | VBUS voltage sense / discharge       | NC                                    |
+| 18  | VBUS_VS_DISCH | VBUS voltage sense / discharge       | VBUS_IN via R_VS (470ohm)             |
 | 19  | ALERT         | Interrupt output (open-drain)        | NC                                    |
 | 20  | POWER_OK2     | PDO2 selected indicator              | NC (optional LED/MCU)                 |
 | 21  | VREG_1V2      | 1.2V internal regulator output       | C34 (1µF) to GND                      |
@@ -150,6 +150,9 @@ VBUS_EN_SNK (pin 16) ─── R12 (56kΩ) ──┬──┴─── Gate ─�
 VBUS Discharge:
 DISCH (pin 9) ─── R13 (470Ω) ─── VBUS_OUT
 
+VBUS Voltage Sense:
+VBUS_IN ─── R_VS (470Ω) ─── VBUS_VS_DISCH (pin 18)
+
 Configuration Pins:
 RESET (pin 6) ──── GND (active-HIGH, GND = normal operation)
 ADDR0 (pin 12) ─── GND
@@ -192,6 +195,10 @@ USB-C CC2 (B5) ───→ Pin 3 (I/O2) ───→ Pin 4 (I/O2) ───→ 
 
 - `DISCH (pin 9)` → `R13 (470Ω)` → `VBUS_OUT`
 
+**VBUS Voltage Sense:**
+
+- `VBUS_IN` → `R_VS (470Ω)` → `VBUS_VS_DISCH (pin 18)`
+
 :::info How DISCH Works
 When USB-C cable is disconnected, STUSB4500 opens an internal path from DISCH pin to GND. This allows capacitor charge to escape:
 
@@ -227,6 +234,7 @@ The stored energy drains as heat through R13 (~0.5W briefly). This is required b
 | R11       | 100kΩ | ±1%       | 0603    | Gate pull-up                      |
 | R12       | 56kΩ  | ±1%       | 0603    | Gate voltage divider (Vgs margin) |
 | R13       | 470Ω  | ±1%       | 0603    | VBUS discharge (31mA @ 15V)       |
+| R_VS      | 470Ω  | ±1%       | 0603    | VBUS_VS_DISCH series resistor     |
 
 :::info R12 Value Selection
 R12 was changed from 33kΩ to 56kΩ to provide adequate Vgs margin for Q1:
@@ -331,6 +339,21 @@ This eliminates inrush current issues during PD negotiation.
 | Intermittent negotiation | Inadequate decoupling     | Check C_VDD, C1, C2 values and placement   |
 | Overheating              | Poor thermal connection   | Improve EPAD ground connection             |
 | I2C not responding       | Wrong address             | Check ADDR0/ADDR1 pin settings             |
+| No VBUS voltage sense    | VBUS_VS_DISCH not connected | Connect pin 18 to VBUS_IN via 470ohm resistor |
+
+## Known Issues / Design Errata
+
+### v1 PCBA Issues (Fixed in v1.1)
+
+Three issues were found in the v1 PCBA that prevented STUSB4500 from operating correctly:
+
+1. **VBUS_VS_DISCH (pin 18) not connected**: Pin 18 was left as NC (no connection). The datasheet requires this pin to be connected to VBUS_IN through a 470ohm series resistor for VBUS voltage sensing and discharge. Fixed by adding R_VS (470ohm) between VBUS_IN and pin 18.
+
+2. **VSYS (pin 22) shorted to VREG_2V7 (pin 23)**: A routing error connected pin 22 (VSYS input) to pin 23 (VREG_2V7 regulator output), overloading the internal 2.7V regulator. Fixed by cutting the trace and wiring VSYS to GND.
+
+3. **VSYS (pin 22) left floating**: After the trace cut fix above, VSYS was left floating instead of being connected to GND. The datasheet recommends grounding VSYS when not used. Fixed by adding a bodge wire from pin 22 to GND.
+
+For full details, see the [PCBA v1 Debug Report](/docs/inbox/pcba-v1-debug).
 
 ## References
 

@@ -23,7 +23,12 @@ const sidebars = {
     'overview/mechanical-design',
     'overview/usb-pd-adapter',
   ],
-  inboxSidebar: ['inbox/index', 'inbox/current-status', 'inbox/quick-reference'],
+  inboxSidebar: [
+    'inbox/index',
+    'inbox/current-status',
+    'inbox/quick-reference',
+    'inbox/pcba-v1-debug',
+  ],
   componentsSidebar: [
     'components/index',
     'components/usb-c-connector',

@@ -128,6 +128,9 @@ This section documents the **STUSB4500-based** design (v1.1). The STUSB4500 is U
     │   │                    │                                          │
     │   │  DISCH (pin 9) ────┼── R13 (470Ω) ── VBUS_OUT                 │
     │   │                    │                                          │
+    │   │  VBUS_VS_DISCH ────┼── R_VS (470Ω) ── VBUS_IN                │
+    │   │  (pin 18)          │                                          │
+    │   │                    │                                          │
     │   │  ADDR0 (pin 12) ───┼── GND                                    │
     │   │  ADDR1 (pin 13) ───┼── GND                                    │
     │   │                    │                                          │
@@ -254,7 +257,7 @@ STUSB4500 (QFN-24) - USB-IF Certified PD Sink Controller:
       CC2   4 │                                   21│ VREG_1V2 ── C34 (1µF) ── GND
     CC2DB   5 │                                   20│ POWER_OK2 (NC)
     RESET   6 │── GND (or NC)                    19│ ALERT (NC)
-      SCL   7 │── NC (or I2C)                     18│ VBUS_VS_DISCH (NC)
+      SCL   7 │── NC (or I2C)                     18│ VBUS_VS_DISCH ── R_VS (470Ω) ── VBUS_IN
       SDA   8 │── NC (or I2C)                     17│ A_B_SIDE (NC)
     DISCH   9 │── R13 (470Ω) ── VBUS_OUT          16│ VBUS_EN_SNK ──→ Gate drive
       GND  10 │── GND                             15│ GPIO (NC)
@@ -285,14 +288,15 @@ Critical Pin Connections:
 │ ADDR1 (13)   │ GND (I2C address = 0x28)                             │
 │ GND (10)     │ System GND                                           │
 │ EP (25)      │ System GND (thermal pad)                             │
-│ NC pins      │ 3,7,8,11,14,15,17,18,19,20 - Not connected           │
+│ VBUS_VS_DISCH (18) │ R_VS (470Ω) to VBUS_IN (voltage sense/discharge) │
+│ NC pins      │ 3,7,8,11,14,15,17,19,20 - Not connected              │
 └──────────────┴──────────────────────────────────────────────────────┘
 ```
 
 <details>
   <summary>Connection List</summary>
 
-  **Power Supply:** - `USB-C VBUS (pins A9, B9)` → `VBUS_IN Rail` → `STUSB4500 VDD (pin 24)` - `C1 (10µF ceramic)`: `VBUS_IN` ⟷ `GND` (bulk filtering) - `C2 (100nF ceramic)`: `VDD (pin 24)` ⟷ `GND` (close to IC) **Internal Regulators:** - `VREG_2V7 (pin 23)` → `C30 (1µF)` → `GND` - `VREG_1V2 (pin 21)` → `C34 (1µF)` → `GND` - `VSYS (pin 22)` → `GND` (connect to ground when not used) **CC Lines:** - `USB-C CC1 (pin A5)` → `STUSB4500 CC1 (pin 2)` → `CC1DB (pin 1)` (tie CC1 and CC1DB together) - `USB-C CC2 (pin B5)` → `STUSB4500 CC2 (pin 4)` → `CC2DB (pin 5)` (tie CC2 and CC2DB together) - `D4 (USBLC6-2SC6)`: Pin 1 → USB-C CC1, Pin 6 → STUSB4500 CC1/CC1DB, Pin 3 → USB-C CC2, Pin 4 → STUSB4500 CC2/CC2DB, Pin 2 → GND, Pin 5 → VBUS_IN **Load Switch (Power Path Control):** - `VBUS_IN` → `R11 (100kΩ)` → `Q1 Gate` (pull-up, default OFF) - `VBUS_EN_SNK (pin 16)` → `R12 (56kΩ)` → `Q1 Gate` - `Q1 Gate` → `C35 (100nF)` → `GND` (soft-start) - `Q1 (AO3401A)`: Source = VBUS_IN, Drain = VBUS_OUT - **Result**: Q1 conducts when VBUS_EN_SNK goes HIGH after PD success **VBUS Discharge:** - `DISCH (pin 9)` → `R13 (470Ω)` → `VBUS_OUT` - Purpose: Quickly discharge VBUS when cable disconnected **Configuration:** - `RESET (pin 6)` → `GND` (or NC) - Active-HIGH, has internal pull-down - `ADDR0 (pin 12)` → `GND` - `ADDR1 (pin 13)` → `GND` - I2C address = 0x28 (for NVM programming) **Ground:** - `USB-C GND (pins A1, B12)` → `System GND` - `STUSB4500 GND (pin 10)` → `System GND` - `STUSB4500 EP (pin 25)` → `System GND` (thermal + ground) **NVM Programming (One-time Setup):** The STUSB4500 requires NVM programming to configure the 15V PDO: | PDO | Voltage | Current | Purpose | | ---- | ------- | ------- | ------------------ | | PDO1 | 5V | 1.5A | Fixed (mandatory) | | PDO2 | **15V** | **3A** | **Target voltage** | | PDO3 | 20V | 1.5A | Fallback option | Programming methods: 1. **STSW-STUSB002** GUI tool (requires STEVAL-ISC005V1 eval board) 2. **Arduino/MCU via I2C** using community libraries 3. **Pre-programmed parts** from some distributors
+  **Power Supply:** - `USB-C VBUS (pins A9, B9)` → `VBUS_IN Rail` → `STUSB4500 VDD (pin 24)` - `C1 (10µF ceramic)`: `VBUS_IN` ⟷ `GND` (bulk filtering) - `C2 (100nF ceramic)`: `VDD (pin 24)` ⟷ `GND` (close to IC) **Internal Regulators:** - `VREG_2V7 (pin 23)` → `C30 (1µF)` → `GND` - `VREG_1V2 (pin 21)` → `C34 (1µF)` → `GND` - `VSYS (pin 22)` → `GND` (connect to ground when not used) **CC Lines:** - `USB-C CC1 (pin A5)` → `STUSB4500 CC1 (pin 2)` → `CC1DB (pin 1)` (tie CC1 and CC1DB together) - `USB-C CC2 (pin B5)` → `STUSB4500 CC2 (pin 4)` → `CC2DB (pin 5)` (tie CC2 and CC2DB together) - `D4 (USBLC6-2SC6)`: Pin 1 → USB-C CC1, Pin 6 → STUSB4500 CC1/CC1DB, Pin 3 → USB-C CC2, Pin 4 → STUSB4500 CC2/CC2DB, Pin 2 → GND, Pin 5 → VBUS_IN **Load Switch (Power Path Control):** - `VBUS_IN` → `R11 (100kΩ)` → `Q1 Gate` (pull-up, default OFF) - `VBUS_EN_SNK (pin 16)` → `R12 (56kΩ)` → `Q1 Gate` - `Q1 Gate` → `C35 (100nF)` → `GND` (soft-start) - `Q1 (AO3401A)`: Source = VBUS_IN, Drain = VBUS_OUT - **Result**: Q1 conducts when VBUS_EN_SNK goes HIGH after PD success **VBUS Discharge:** - `DISCH (pin 9)` → `R13 (470Ω)` → `VBUS_OUT` - Purpose: Quickly discharge VBUS when cable disconnected **VBUS Voltage Sense:** - `VBUS_IN` → `R_VS (470Ω)` → `VBUS_VS_DISCH (pin 18)` - Purpose: VBUS voltage monitoring and secondary discharge path **Configuration:** - `RESET (pin 6)` → `GND` (or NC) - Active-HIGH, has internal pull-down - `ADDR0 (pin 12)` → `GND` - `ADDR1 (pin 13)` → `GND` - I2C address = 0x28 (for NVM programming) **Ground:** - `USB-C GND (pins A1, B12)` → `System GND` - `STUSB4500 GND (pin 10)` → `System GND` - `STUSB4500 EP (pin 25)` → `System GND` (thermal + ground) **NVM Programming (One-time Setup):** The STUSB4500 requires NVM programming to configure the 15V PDO: | PDO | Voltage | Current | Purpose | | ---- | ------- | ------- | ------------------ | | PDO1 | 5V | 1.5A | Fixed (mandatory) | | PDO2 | **15V** | **3A** | **Target voltage** | | PDO3 | 20V | 1.5A | Fallback option | Programming methods: 1. **STSW-STUSB002** GUI tool (requires STEVAL-ISC005V1 eval board) 2. **Arduino/MCU via I2C** using community libraries 3. **Pre-programmed parts** from some distributors
 </details>
 
 ## Diagram2: USB-PD +15V → +13.5V Buck Converter (LM2596S-ADJ #1)
