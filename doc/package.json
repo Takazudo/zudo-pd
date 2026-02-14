@@ -17,8 +17,8 @@
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint src --ext .ts,.tsx,.js,.jsx --fix",
     "typecheck": "tsc --noEmit",
-    "format": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md,mdx}\" \"!node_modules/**\" \"!.docusaurus/**\" \"!build/**\"",
-    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md,mdx}\" \"!node_modules/**\" \"!.docusaurus/**\" \"!build/**\"",
+    "format": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css}\" \"!node_modules/**\" \"!.docusaurus/**\" \"!build/**\" && npx @takazudo/mdx-formatter --check \"docs/**/*.{md,mdx}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css}\" \"!node_modules/**\" \"!.docusaurus/**\" \"!build/**\" && npx @takazudo/mdx-formatter --write \"docs/**/*.{md,mdx}\"",
     "check": "pnpm run typecheck && pnpm run lint && pnpm run format",
     "check:fix": "pnpm run lint:fix && pnpm run format:fix",
     "prepare": "cd .. && husky doc/.husky || true"
@@ -48,6 +48,7 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
+    "@takazudo/mdx-formatter": "^0.2.0",
     "globals": "^17.0.0",
     "gray-matter": "^4.0.3",
     "husky": "^9.1.7",
@@ -72,7 +73,7 @@
   },
   "lint-staged": {
     "docs/**/*.{md,mdx}": [
-      "node sub-packages/mdx-formatter/src/cli.js --write"
+      "npx @takazudo/mdx-formatter --write"
     ],
     "**/*.{ts,tsx,js,jsx,json,css}": [
       "prettier --write"
