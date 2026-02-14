@@ -446,7 +446,7 @@ Cost: Higher
 Pins: VBUS (2), GND (2), CC1, CC2
 Use case: Power delivery only (no data)
 Cost: Lower (~$0.036 vs $0.50+)
-Part: C2927029 (USB-TYPE-C-009)
+Part: C456012 (TYPE-C 6P)
 ```
 
 **Why 6-pin is sufficient for PD:**

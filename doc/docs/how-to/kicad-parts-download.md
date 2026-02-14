@@ -74,7 +74,7 @@ easyeda2kicad --lcsc_id <LCSC_ID> --footprint --symbol
 easyeda2kicad --lcsc_id C2678061 --footprint --symbol
 
 # Example: USB-C connector
-easyeda2kicad --lcsc_id C2927029 --footprint --symbol
+easyeda2kicad --lcsc_id C456012 --footprint --symbol
 ```
 
 ### Option 2: Download Only Footprint
@@ -141,7 +141,7 @@ Download all components with BOTH footprints and symbols:
 
 ```bash
 # USB-C Connector
-easyeda2kicad --lcsc_id C2927029 --footprint --symbol
+easyeda2kicad --lcsc_id C456012 --footprint --symbol
 
 # STUSB4500 - USB PD Controller
 easyeda2kicad --lcsc_id C2678061 --footprint --symbol

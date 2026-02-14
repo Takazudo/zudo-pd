@@ -14,7 +14,7 @@ This directory contains PCB footprint diagrams and package specifications for al
 | **CJ7912** | `CJ7912.png` | TO-252-2L (DPAK) | C94173 | SMD |
 | **SMAJ15A** | `SMAJ15A.png` | SMA (DO-214AC) | C571368 | SMD |
 | **PRTR5V0U2X** | `PRTR5V0U2X.png` | SOT-143 | C5199240 | SMD |
-| **USB-TYPE-C-009** | `USB-TYPE-C-009.png` | 6-pin Type-C | C2927029 | SMD |
+| **USB-TYPE-C-009** | `USB-TYPE-C-009.png` | 6-pin Type-C | C456012 | SMD |
 
 ## Package Documentation (PDFs)
 

@@ -6,7 +6,7 @@ This directory contains KiCad footprint files (.kicad_mod) for components used i
 
 ### USB-PD Stage
 - **QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.kicad_mod** - CH224D USB PD Controller (C3975094)
-- **TYPE-C-SMD_TYPE-C-6P.kicad_mod** - USB Type-C 6P Female Connector (C2927029)
+- **TYPE-C-SMD_TYPE-C-6P.kicad_mod** - USB Type-C 6P Female Connector (C456012)
 
 ### DC-DC Converter Stage
 - **TO-263-5_L10.2-W8.9-P1.70-BR.kicad_mod** - LM2596S-ADJ Buck Converter (C347423)

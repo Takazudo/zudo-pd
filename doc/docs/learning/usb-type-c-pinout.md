@@ -69,7 +69,7 @@ USB Type-C 6-Pin Connector (Power-Only)
 | **3**    | **CC1**  | Configuration Channel 1 (orientation & PD) |
 | **4**    | **CC2**  | Configuration Channel 2 (orientation & PD) |
 
-**This project uses a 6-pin connector** (JLCPCB C2927029) - see [J1 USB-C Connector documentation](/docs/components/usb-c-connector).
+**This project uses a 6-pin connector** (JLCPCB C456012) - see [J1 USB-C Connector documentation](/docs/components/usb-c-connector).
 
 ## Configuration Channel (CC) Pins
 
