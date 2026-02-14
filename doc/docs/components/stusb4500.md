@@ -85,33 +85,33 @@ Note: Pin 16 (VBUS_EN_SNK) is critical for load switch control
 
 ### Pin Descriptions
 
-| Pin | Name          | Function                             | Connection in Design              |
-| --- | ------------- | ------------------------------------ | --------------------------------- |
-| 25  | GND (EPAD)    | Ground / Thermal pad                 | System ground plane               |
-| 1   | CC1DB         | CC1 dead battery mode                | Connect to CC1                    |
-| 2   | CC1           | USB-C Configuration Channel 1        | USB-C CC1 via ESD protection (D4) |
-| 3   | NC            | No connection                        | Leave unconnected                 |
-| 4   | CC2           | USB-C Configuration Channel 2        | USB-C CC2 via ESD protection (D4) |
-| 5   | CC2DB         | CC2 dead battery mode                | Connect to CC2                    |
-| 6   | RESET         | Active-HIGH reset                    | GND (normal operation)            |
-| 7   | SCL           | I2C clock                            | NC (not used in this design)      |
-| 8   | SDA           | I2C data                             | NC (not used in this design)      |
-| 9   | DISCH         | VBUS discharge control               | Via R13 (470Ω) to VBUS_OUT        |
-| 10  | GND           | Ground                               | System ground                     |
-| 11  | ATTACH        | Cable attach indicator               | NC (optional LED/MCU)             |
-| 12  | ADDR0         | I2C address bit 0                    | GND (I2C address 0x28)            |
-| 13  | ADDR1         | I2C address bit 1                    | GND (I2C address 0x28)            |
-| 14  | POWER_OK3     | PDO3 selected indicator              | NC (optional LED/MCU)             |
-| 15  | GPIO          | General purpose I/O                  | NC                                |
-| 16  | VBUS_EN_SNK   | **Load switch enable (active HIGH)** | To P-MOSFET gate via R12 (56kΩ)   |
-| 17  | A_B_SIDE      | Cable orientation indicator          | NC                                |
-| 18  | VBUS_VS_DISCH | VBUS voltage sense / discharge       | NC                                |
-| 19  | ALERT         | Interrupt output (open-drain)        | NC                                |
-| 20  | POWER_OK2     | PDO2 selected indicator              | NC (optional LED/MCU)             |
-| 21  | VREG_1V2      | 1.2V internal regulator output       | C34 (1µF) to GND                  |
-| 22  | VSYS          | System voltage input (3.0-5.5V)      | Tie to VREG_2V7 (pin 23)          |
-| 23  | VREG_2V7      | 2.7V internal regulator output       | C30 (1µF) to GND, also to VSYS    |
-| 24  | VDD           | Main power supply (4.1-22V)          | VBUS_IN + C1 (10µF) + C2 (100nF)  |
+| Pin | Name          | Function                             | Connection in Design                  |
+| --- | ------------- | ------------------------------------ | ------------------------------------- |
+| 25  | GND (EPAD)    | Ground / Thermal pad                 | System ground plane                   |
+| 1   | CC1DB         | CC1 dead battery mode                | Connect to CC1                        |
+| 2   | CC1           | USB-C Configuration Channel 1        | USB-C CC1 via ESD protection (D4)     |
+| 3   | NC            | No connection                        | Leave unconnected                     |
+| 4   | CC2           | USB-C Configuration Channel 2        | USB-C CC2 via ESD protection (D4)     |
+| 5   | CC2DB         | CC2 dead battery mode                | Connect to CC2                        |
+| 6   | RESET         | Active-HIGH reset                    | GND (normal operation)                |
+| 7   | SCL           | I2C clock                            | NC (not used in this design)          |
+| 8   | SDA           | I2C data                             | NC (not used in this design)          |
+| 9   | DISCH         | VBUS discharge control               | Via R13 (470Ω) to VBUS_OUT            |
+| 10  | GND           | Ground                               | System ground                         |
+| 11  | ATTACH        | Cable attach indicator               | NC (optional LED/MCU)                 |
+| 12  | ADDR0         | I2C address bit 0                    | GND (I2C address 0x28)                |
+| 13  | ADDR1         | I2C address bit 1                    | GND (I2C address 0x28)                |
+| 14  | POWER_OK3     | PDO3 selected indicator              | NC (optional LED/MCU)                 |
+| 15  | GPIO          | General purpose I/O                  | NC                                    |
+| 16  | VBUS_EN_SNK   | **Load switch enable (active HIGH)** | To P-MOSFET gate via R12 (56kΩ)       |
+| 17  | A_B_SIDE      | Cable orientation indicator          | NC                                    |
+| 18  | VBUS_VS_DISCH | VBUS voltage sense / discharge       | NC                                    |
+| 19  | ALERT         | Interrupt output (open-drain)        | NC                                    |
+| 20  | POWER_OK2     | PDO2 selected indicator              | NC (optional LED/MCU)                 |
+| 21  | VREG_1V2      | 1.2V internal regulator output       | C34 (1µF) to GND                      |
+| 22  | VSYS          | System voltage input (3.0-5.5V)      | GND (connect to ground when not used) |
+| 23  | VREG_2V7      | 2.7V internal regulator output       | C30 (1µF) to GND                      |
+| 24  | VDD           | Main power supply (4.1-22V)          | VBUS_IN + C1 (10µF) + C2 (100nF)      |
 
 ## Application Circuit
 
@@ -132,8 +132,8 @@ VBUS_IN ───┬─── C1 (10µF) ─── GND
            └───→ VDD (pin 24)
 
 Internal Regulators:
-VREG_2V7 (pin 23) ─┬─ C30 (1µF) ─ GND
-                   └─→ VSYS (pin 22)
+VREG_2V7 (pin 23) ─── C30 (1µF) ─ GND
+VSYS (pin 22) ─────── GND
 VREG_1V2 (pin 21) ─── C34 (1µF) ─ GND
 
 Load Switch Control:
@@ -154,7 +154,7 @@ Configuration Pins:
 RESET (pin 6) ──── GND (active-HIGH, GND = normal operation)
 ADDR0 (pin 12) ─── GND
 ADDR1 (pin 13) ─── GND
-VSYS (pin 22) ──── VREG_2V7 (pin 23)
+VSYS (pin 22) ──── GND
 
 CC Line ESD Protection (D4 - USBLC6-2SC6):
 USB-C CC1 (A5) ───→ Pin 1 (I/O1) ───→ Pin 6 (I/O1) ───→ STUSB4500 CC1/CC1DB
@@ -172,7 +172,7 @@ USB-C CC2 (B5) ───→ Pin 3 (I/O2) ───→ Pin 4 (I/O2) ───→ 
 - `VBUS_IN` → `C2 (100nF)` → `GND`
 - `VREG_2V7 (pin 23)` → `C30 (1µF)` → `GND`
 - `VREG_1V2 (pin 21)` → `C34 (1µF)` → `GND`
-- `VSYS (pin 22)` → `VREG_2V7 (pin 23)`
+- `VSYS (pin 22)` → `GND`
 
 **CC Lines with ESD Protection (D4 - USBLC6-2SC6):**
 

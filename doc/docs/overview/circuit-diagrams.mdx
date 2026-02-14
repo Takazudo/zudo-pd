@@ -122,7 +122,7 @@ This section documents the **STUSB4500-based** design (v1.1). The STUSB4500 is U
     │   │        │           │                                          │
     │   │       GND          │                                          │
     │   │                    │                                          │
-    │   │  VSYS (pin 22) ────┼── VREG_2V7 (tie together)                │
+    │   │  VSYS (pin 22) ────┼── GND (not used)                         │
     │   │                    │                                          │
     │   │  RESET (pin 6) ────┼── GND (internal pull-down, NC also OK)   │
     │   │                    │                                          │
@@ -250,7 +250,7 @@ STUSB4500 (QFN-24) - USB-IF Certified PD Sink Controller:
               │                                       │
     CC1DB   1 │●                                   24│ VDD ─── VBUS_IN + C2 (100nF)
       CC1   2 │                                   23│ VREG_2V7 ── C30 (1µF) ── GND
-       NC   3 │                                   22│ VSYS ── VREG_2V7
+       NC   3 │                                   22│ VSYS ── GND
       CC2   4 │                                   21│ VREG_1V2 ── C34 (1µF) ── GND
     CC2DB   5 │                                   20│ POWER_OK2 (NC)
     RESET   6 │── GND (or NC)                    19│ ALERT (NC)
@@ -276,9 +276,9 @@ Critical Pin Connections:
 │ CC1DB (1)    │ Tie to CC1 (enables dead battery mode)               │
 │ CC2DB (5)    │ Tie to CC2 (enables dead battery mode)               │
 │ VBUS_EN_SNK (16) │ To gate drive (R12) → Q1 gate                    │
-│ VREG_2V7 (23)│ C30 (1µF) to GND, also to VSYS (pin 22)              │
+│ VREG_2V7 (23)│ C30 (1µF) to GND                                     │
 │ VREG_1V2 (21)│ C34 (1µF) to GND                                     │
-│ VSYS (22)    │ Tie to VREG_2V7                                      │
+│ VSYS (22)    │ GND (connect to ground when not used)                │
 │ RESET (6)    │ GND (or NC) - Active-HIGH, has internal pull-down    │
 │ DISCH (9)    │ R13 (470Ω) to VBUS_OUT (for VBUS discharge)          │
 │ ADDR0 (12)   │ GND                                                  │
@@ -302,7 +302,7 @@ Critical Pin Connections:
 
 - `VREG_2V7 (pin 23)` → `C30 (1µF)` → `GND`
 - `VREG_1V2 (pin 21)` → `C34 (1µF)` → `GND`
-- `VSYS (pin 22)` → `VREG_2V7 (pin 23)` (tie together)
+- `VSYS (pin 22)` → `GND` (connect to ground when not used)
 
 **CC Lines:**
 
