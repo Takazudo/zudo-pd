@@ -270,16 +270,16 @@ STUSB4500 stores PDO configuration in 40 bytes of non-volatile memory (NVM).
 ### Programming Methods
 
 1. **ST GUI Tool (STSW-STUSB002)**
-   - Requires STEVAL-ISC005V1 eval board
-   - Windows application
-   - Easy point-and-click configuration
+- Requires STEVAL-ISC005V1 eval board
+- Windows application
+- Easy point-and-click configuration
 
 2. **Arduino/MCU via I2C**
-   - Community libraries available
-   - [GitHub: usb-c/STUSB4500](https://github.com/usb-c/STUSB4500)
+- Community libraries available
+- [GitHub: usb-c/STUSB4500](https://github.com/usb-c/STUSB4500)
 
 3. **Pre-programmed Parts**
-   - Some distributors offer programming service
+- Some distributors offer programming service
 
 ### NVM Write Cycles
 

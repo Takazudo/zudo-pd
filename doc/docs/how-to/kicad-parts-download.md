@@ -190,17 +190,17 @@ cp ~/Documents/Kicad/easyeda2kicad/easyeda2kicad.kicad_sym \
 1. Preferences → Manage Symbol Libraries
 2. Click "Project Specific Libraries" tab
 3. Add library:
-   - Nickname: `zudo-pd`
-   - Library Path: `${KIPRJMOD}/symbols/zudo-pd.kicad_sym`
-   - Plugin Type: `KiCad`
+- Nickname: `zudo-pd`
+- Library Path: `${KIPRJMOD}/symbols/zudo-pd.kicad_sym`
+- Plugin Type: `KiCad`
 
 **Add Footprint Library** (if not done yet):
 
 1. Preferences → Manage Footprint Libraries
 2. Click "Project Specific Libraries" tab
 3. Add library:
-   - Nickname: `zudo-pd`
-   - Library Path: `${KIPRJMOD}/footprints/kicad/zudo-power.pretty`
+- Nickname: `zudo-pd`
+- Library Path: `${KIPRJMOD}/footprints/kicad/zudo-power.pretty`
 
 ### 4. Verify Files
 

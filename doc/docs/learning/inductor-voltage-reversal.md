@@ -488,20 +488,20 @@ They're **not** the same - they're **dual** to each other!
 ### The Three Core Principles
 
 1. **Inductor Voltage Reversal**
-   - V = L × di/dt fundamental law
-   - When current decreases, voltage polarity reverses
-   - This is basic physics of ALL inductors (not special components)
+- V = L × di/dt fundamental law
+- When current decreases, voltage polarity reverses
+- This is basic physics of ALL inductors (not special components)
 
 2. **Switching Creates Negative Voltage**
-   - Switch ON: L3 stores energy (+15V → GND)
-   - Switch OFF: L3 reverses voltage (OUT pin → -13.8V!)
-   - Repeating at 150kHz continuously generates negative voltage
+- Switch ON: L3 stores energy (+15V → GND)
+- Switch OFF: L3 reverses voltage (OUT pin → -13.8V!)
+- Repeating at 150kHz continuously generates negative voltage
 
 3. **Bootstrapped Ground**
-   - IC GND pin connected to -13.5V output
-   - IC operates with -13.5V as its ground reference
-   - FB pin at -13.5V + 1.23V = -12.27V (system GND reference)
-   - But IC sees +1.23V (normal operation)
+- IC GND pin connected to -13.5V output
+- IC operates with -13.5V as its ground reference
+- FB pin at -13.5V + 1.23V = -12.27V (system GND reference)
+- But IC sees +1.23V (normal operation)
 
 ### Complete Operation Flow
 

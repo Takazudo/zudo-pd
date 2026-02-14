@@ -85,32 +85,32 @@ Cheap no-brand adapters may:
 ### Product Links
 
 1. **[Anker Nano II 65W](https://www.amazon.co.jp/dp/B08X11GD52)** - Best overall choice
-   - Compact design with GaN II technology
-   - Proven reliability
-   - Output: 5V/3A, 9V/3A, 15V/3A, 20V/3.25A
+- Compact design with GaN II technology
+- Proven reliability
+- Output: 5V/3A, 9V/3A, 15V/3A, 20V/3.25A
 
 2. **[Anker Nano II 45W](https://www.amazon.co.jp/dp/B08X1M3JN9)** - Minimum spec, most compact
-   - Smallest form factor
-   - PPS support
-   - Output: 5V/3A, 9V/3A, 15V/3A, 20V/2.25A
+- Smallest form factor
+- PPS support
+- Output: 5V/3A, 9V/3A, 15V/3A, 20V/2.25A
 
 3. **[UGREEN Nexode 65W](https://www.amazon.co.jp/dp/B091BGMKYS)** - Best value with multiple ports
-   - 3 ports for versatility
-   - GaN II technology
-   - PD3.0 and PPS support
+- 3 ports for versatility
+- GaN II technology
+- PD3.0 and PPS support
 
 4. **[BESTEK G651CA1 65W](https://www.amazon.co.jp/dp/B0C36GJJY5)** - Budget option
-   - Explicitly lists 15V/3A support
-   - Compact design (~102g)
+- Explicitly lists 15V/3A support
+- Compact design (~102g)
 
 5. **[Belkin WCH013dq 65W](https://www.amazon.co.jp/dp/B0B5QKMCZD)** - Premium option
-   - Trusted brand
-   - 5V/9V/12V/15V/20V support
-   - Dual USB-C ports
+- Trusted brand
+- 5V/9V/12V/15V/20V support
+- Dual USB-C ports
 
 6. **[CIO NovaPort SLIM 45W](https://www.amazon.co.jp/dp/B0C42L9H78)** - Ultra-thin design
-   - Only 13mm thick
-   - Dual USB-C ports
+- Only 13mm thick
+- Dual USB-C ports
 
 ## Verification Before Purchase
 

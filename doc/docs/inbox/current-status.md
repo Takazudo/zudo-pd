@@ -93,15 +93,15 @@ Current state:
 Ready to proceed:
 
 1. ✅ **Complete BOM** - All parts have JLCPCB part numbers (all optimized to high-stock parts)
-   - Benefit: Footprint assignment possible
-   - Benefit: Accurate Gerber/BOM generation in one shot
-   - Benefit: All parts have 158K~272K stock for long-term procurement stability
+- Benefit: Footprint assignment possible
+- Benefit: Accurate Gerber/BOM generation in one shot
+- Benefit: All parts have 158K~272K stock for long-term procurement stability
 
 2. ✅ **Cost confirmed** - $4.68/board
-   - Prototype order estimates can be calculated accurately
+- Prototype order estimates can be calculated accurately
 
 3. 📐 **Next Action**: Create KiCad project
-   - Schematic entry → Footprint assignment → PCB layout
+- Schematic entry → Footprint assignment → PCB layout
 
 ## 📋 Next Steps (Priority Order)
 
@@ -112,12 +112,12 @@ Ready to proceed:
 **Parts found**:
 
 1. ✅ PTC Resettable Fuses × 3 types
-   - PTC1 (1.1A 16V, 1812): **C883148** - Stock: 11,029
-   - PTC2 (0.75A 16V, 1206): **C883128** - Stock: 51,532
-   - PTC3 (1.1A 16V, 1812): **C883148** - Stock: 11,029 ※0.9A part unavailable
+- PTC1 (1.1A 16V, 1812): **C883148** - Stock: 11,029
+- PTC2 (0.75A 16V, 1206): **C883128** - Stock: 51,532
+- PTC3 (1.1A 16V, 1812): **C883148** - Stock: 11,029 ※0.9A part unavailable
 
 2. ✅ SMD Fuse (2A 250V)
-   - **C5183824** (6125FA2A, 2410 package) - Stock: 744
+- **C5183824** (6125FA2A, 2410 package) - Stock: 744
 
 #### ~~Step 2: Finalize BOM~~ ✅ **Complete!**
 
@@ -148,25 +148,25 @@ Ready to proceed:
 **Layout Policy**:
 
 1. **4-Layer Board Structure**:
-   - Layer 1 (Top): Signals + component placement
-   - Layer 2 (Inner): GND plane
-   - Layer 3 (Inner): Power plane (+15V, +12V, etc.)
-   - Layer 4 (Bottom): Signals
+- Layer 1 (Top): Signals + component placement
+- Layer 2 (Inner): GND plane
+- Layer 3 (Inner): Power plane (+15V, +12V, etc.)
+- Layer 4 (Bottom): Signals
 
 2. **Power Layout**:
-   - Place USB-PD → DC-DC → LDO in sequence
-   - Physically separate high-noise (DC-DC) and low-noise (LDO) sections
-   - Make high-current paths thick and short
+- Place USB-PD → DC-DC → LDO in sequence
+- Physically separate high-noise (DC-DC) and low-noise (LDO) sections
+- Make high-current paths thick and short
 
 3. **Thermal Design**:
-   - LM2596S (TO-263) → Place thermal vias
-   - LM78xx/79xx (TO-220) → Reserve heatsink area
-   - Consider electrolytic capacitor heat dissipation
+- LM2596S (TO-263) → Place thermal vias
+- LM78xx/79xx (TO-220) → Reserve heatsink area
+- Consider electrolytic capacitor heat dissipation
 
 4. **JLCPCB Design Rules**:
-   - Minimum trace width: 6mil (0.15mm)
-   - Minimum clearance: 6mil
-   - Via diameter: 0.3mm (hole 0.2mm)
+- Minimum trace width: 6mil (0.15mm)
+- Minimum clearance: 6mil
+- Via diameter: 0.3mm (hole 0.2mm)
 
 ### 🟢 Priority: Low - Pre-Prototype Preparation
 
@@ -214,47 +214,47 @@ Ready to proceed:
 ### Items Not Yet Verified (Confirm with Prototype)
 
 1. ⚠️ **Thermal design**: Is LM2596S heat dissipation sufficient?
-   - Maximum loss: Each 1.5V × 1A = 1.5W
-   - TO-263 package should handle it but needs actual measurement
+- Maximum loss: Each 1.5V × 1A = 1.5W
+- TO-263 package should handle it but needs actual measurement
 
 2. ⚠️ **Ripple noise**: Can actual measurement achieve &lt;1mVp-p?
-   - Design should be fine but needs measurement
+- Design should be fine but needs measurement
 
 3. ⚠️ **Efficiency**: Can actual measurement achieve 75-80%?
-   - LM2596S: 85-90%
-   - LDO loss: 10-15%
-   - Calculated overall efficiency: 75-80%
+- LM2596S: 85-90%
+- LDO loss: 10-15%
+- Calculated overall efficiency: 75-80%
 
 4. ⚠️ **EMI/EMC**: DC-DC switching noise impact?
-   - Countermeasures with input/output filters but needs measurement
+- Countermeasures with input/output filters but needs measurement
 
 ## 📝 Design Philosophy Review
 
 ### Why This Design?
 
 1. **DC-DC + LDO 2-Stage Method**
-   - Reason: Balance efficiency and noise
-   - DC-DC only: Efficient but high ripple
-   - LDO only: Low noise but poor efficiency (high heat)
-   - **2-stage**: Best of both worlds ✨
+- Reason: Balance efficiency and noise
+- DC-DC only: Efficient but high ripple
+- LDO only: Low noise but poor efficiency (high heat)
+- **2-stage**: Best of both worlds ✨
 
 2. **USB-C PD 15V Input**
-   - Reason: Can use generic chargers
-   - No AC adapter needed → Easy to carry
-   - Any PD-compatible charger works
-   - 15V voltage optimal for generating ±12V
+- Reason: Can use generic chargers
+- No AC adapter needed → Easy to carry
+- Any PD-compatible charger works
+- 15V voltage optimal for generating ±12V
 
 3. **All Parts from JLCPCB**
-   - Reason: Stable supply, low cost, automated assembly
-   - Many Basic Parts → No extra fees
-   - Abundant stock → Long-term procurement possible
-   - SMT automated assembly → No hand soldering needed
+- Reason: Stable supply, low cost, automated assembly
+- Many Basic Parts → No extra fees
+- Abundant stock → Long-term procurement possible
+- SMT automated assembly → No hand soldering needed
 
 4. **PTC Auto-Reset Protection**
-   - Reason: Safe for beginners
-   - Module overload → Notice when LED goes out
-   - Auto-reset after 30 seconds → No repair needed
-   - Fuse for short circuits → Safety ensured
+- Reason: Safe for beginners
+- Module overload → Notice when LED goes out
+- Auto-reset after 30 seconds → No repair needed
+- Fuse for short circuits → Safety ensured
 
 ## 🎯 Project Goals
 

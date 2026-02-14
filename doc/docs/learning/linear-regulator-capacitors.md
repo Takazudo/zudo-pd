@@ -577,20 +577,20 @@ With proper capacitors:
 ### What to Check on PCB
 
 1. **Ceramic placement:** Measure distance from cap to IC pin
-   - ✓ Goal: &lt; 5mm
-   - ✗ Problem: &gt; 10mm
+- ✓ Goal: &lt; 5mm
+- ✗ Problem: &gt; 10mm
 
 2. **Output ripple:** Measure with oscilloscope (20MHz bandwidth)
-   - ✓ Goal: &lt; 1mVp-p at full load
-   - ✗ Problem: &gt; 10mVp-p (missing/far ceramic caps)
+- ✓ Goal: &lt; 1mVp-p at full load
+- ✗ Problem: &gt; 10mVp-p (missing/far ceramic caps)
 
 3. **Load transient:** Step load from 0% to 100%
-   - ✓ Goal: &lt; 100mV deviation, &lt; 50µs recovery
-   - ✗ Problem: &gt; 500mV deviation (missing bulk caps)
+- ✓ Goal: &lt; 100mV deviation, &lt; 50µs recovery
+- ✗ Problem: &gt; 500mV deviation (missing bulk caps)
 
 4. **Oscillation check:** Probe output with 100MHz scope, no load
-   - ✓ Goal: Clean DC, no oscillation
-   - ✗ Problem: MHz oscillation (ceramic too far or missing)
+- ✓ Goal: Clean DC, no oscillation
+- ✗ Problem: MHz oscillation (ceramic too far or missing)
 
 ## Summary: Quick Reference
 

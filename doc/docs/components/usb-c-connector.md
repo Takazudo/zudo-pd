@@ -76,20 +76,20 @@ In this power supply design, the 6-pin USB Type-C connector is used exclusively 
 ### Pin Connections
 
 1. **VBUS Pins (2, 5)**:
-   - Receive power from USB-C PD charger
-   - Initially at 5V (USB default)
-   - Negotiates up to 15V/3A via STUSB4500
-   - Both VBUS pins connected together for 3A current capacity
+- Receive power from USB-C PD charger
+- Initially at 5V (USB default)
+- Negotiates up to 15V/3A via STUSB4500
+- Both VBUS pins connected together for 3A current capacity
 
 2. **CC Pins (3, 4)**:
-   - CC1 (pin 3) → STUSB4500 CC1 (pin 2)
-   - CC2 (pin 4) → STUSB4500 CC2 (pin 3)
-   - Used for orientation detection and PD negotiation
-   - STUSB4500 uses CC pins to communicate with PD source
+- CC1 (pin 3) → STUSB4500 CC1 (pin 2)
+- CC2 (pin 4) → STUSB4500 CC2 (pin 3)
+- Used for orientation detection and PD negotiation
+- STUSB4500 uses CC pins to communicate with PD source
 
 3. **Ground Pins (1, 6)**:
-   - Both GND pins connected to system ground
-   - Provides solid ground reference for power and signal integrity
+- Both GND pins connected to system ground
+- Provides solid ground reference for power and signal integrity
 
 **Advantages of 6-pin connector**:
 
@@ -147,27 +147,27 @@ When connected to a standard USB power source:
 When connected to a USB-PD charger:
 
 1. **Initial State** (0-100ms):
-   - Connector establishes physical connection
-   - VBUS provides 5V default power
-   - VBUS_EN_SNK remains LOW (load switch OFF)
+- Connector establishes physical connection
+- VBUS provides 5V default power
+- VBUS_EN_SNK remains LOW (load switch OFF)
 
 2. **Orientation Detection** (100-200ms):
-   - STUSB4500 detects cable orientation via CC1/CC2
-   - Identifies which CC pin is active
+- STUSB4500 detects cable orientation via CC1/CC2
+- Identifies which CC pin is active
 
 3. **PD Negotiation** (200-500ms):
-   - STUSB4500 requests 15V/3A power profile via CC line
-   - PD source responds with available power profiles
-   - Negotiation completes (with retry logic if needed)
+- STUSB4500 requests 15V/3A power profile via CC line
+- PD source responds with available power profiles
+- Negotiation completes (with retry logic if needed)
 
 4. **Voltage Transition** (500-1000ms):
-   - VBUS transitions from 5V → 15V
-   - STUSB4500 monitors voltage stability
+- VBUS transitions from 5V → 15V
+- STUSB4500 monitors voltage stability
 
 5. **Power Ready** (>1000ms):
-   - VBUS stable at 15V
-   - VBUS_EN_SNK goes HIGH (load switch ON)
-   - System can draw up to 45W (15V × 3A)
+- VBUS stable at 15V
+- VBUS_EN_SNK goes HIGH (load switch ON)
+- System can draw up to 45W (15V × 3A)
 
 ## Design Considerations
 

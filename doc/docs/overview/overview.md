@@ -119,19 +119,19 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 ## Next Steps
 
 1. **Finalize Unsearched Components**:
-   - PTC Resettable Fuse (1.1A, 0.75A, 0.9A @ 16V)
-   - 2A SMD Fuse (+12V backup)
+- PTC Resettable Fuse (1.1A, 0.75A, 0.9A @ 16V)
+- 2A SMD Fuse (+12V backup)
 
 2. **PCB Design**:
-   - 4-layer PCB (power plane separation)
-   - Thermal via placement
-   - EMI countermeasure layout
+- 4-layer PCB (power plane separation)
+- Thermal via placement
+- EMI countermeasure layout
 
 3. **Prototype Manufacturing**:
-   - Use JLCPCB SMT service
-   - Initial lot of approximately 10 units
+- Use JLCPCB SMT service
+- Initial lot of approximately 10 units
 
 4. **Performance Verification**:
-   - Ripple noise measurement
-   - Load response characteristics
-   - Thermal design verification
+- Ripple noise measurement
+- Load response characteristics
+- Thermal design verification

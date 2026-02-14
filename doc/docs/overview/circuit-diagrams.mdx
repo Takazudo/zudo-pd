@@ -290,68 +290,9 @@ Critical Pin Connections:
 ```
 
 <details>
-<summary>Connection List</summary>
+  <summary>Connection List</summary>
 
-**Power Supply:**
-
-- `USB-C VBUS (pins A9, B9)` → `VBUS_IN Rail` → `STUSB4500 VDD (pin 24)`
-- `C1 (10µF ceramic)`: `VBUS_IN` ⟷ `GND` (bulk filtering)
-- `C2 (100nF ceramic)`: `VDD (pin 24)` ⟷ `GND` (close to IC)
-
-**Internal Regulators:**
-
-- `VREG_2V7 (pin 23)` → `C30 (1µF)` → `GND`
-- `VREG_1V2 (pin 21)` → `C34 (1µF)` → `GND`
-- `VSYS (pin 22)` → `GND` (connect to ground when not used)
-
-**CC Lines:**
-
-- `USB-C CC1 (pin A5)` → `STUSB4500 CC1 (pin 2)` → `CC1DB (pin 1)` (tie CC1 and CC1DB together)
-- `USB-C CC2 (pin B5)` → `STUSB4500 CC2 (pin 4)` → `CC2DB (pin 5)` (tie CC2 and CC2DB together)
-- `D4 (USBLC6-2SC6)`: Pin 1 → USB-C CC1, Pin 6 → STUSB4500 CC1/CC1DB, Pin 3 → USB-C CC2, Pin 4 → STUSB4500 CC2/CC2DB, Pin 2 → GND, Pin 5 → VBUS_IN
-
-**Load Switch (Power Path Control):**
-
-- `VBUS_IN` → `R11 (100kΩ)` → `Q1 Gate` (pull-up, default OFF)
-- `VBUS_EN_SNK (pin 16)` → `R12 (56kΩ)` → `Q1 Gate`
-- `Q1 Gate` → `C35 (100nF)` → `GND` (soft-start)
-- `Q1 (AO3401A)`: Source = VBUS_IN, Drain = VBUS_OUT
-- **Result**: Q1 conducts when VBUS_EN_SNK goes HIGH after PD success
-
-**VBUS Discharge:**
-
-- `DISCH (pin 9)` → `R13 (470Ω)` → `VBUS_OUT`
-- Purpose: Quickly discharge VBUS when cable disconnected
-
-**Configuration:**
-
-- `RESET (pin 6)` → `GND` (or NC) - Active-HIGH, has internal pull-down
-- `ADDR0 (pin 12)` → `GND`
-- `ADDR1 (pin 13)` → `GND`
-- I2C address = 0x28 (for NVM programming)
-
-**Ground:**
-
-- `USB-C GND (pins A1, B12)` → `System GND`
-- `STUSB4500 GND (pin 10)` → `System GND`
-- `STUSB4500 EP (pin 25)` → `System GND` (thermal + ground)
-
-**NVM Programming (One-time Setup):**
-
-The STUSB4500 requires NVM programming to configure the 15V PDO:
-
-| PDO  | Voltage | Current | Purpose            |
-| ---- | ------- | ------- | ------------------ |
-| PDO1 | 5V      | 1.5A    | Fixed (mandatory)  |
-| PDO2 | **15V** | **3A**  | **Target voltage** |
-| PDO3 | 20V     | 1.5A    | Fallback option    |
-
-Programming methods:
-
-1. **STSW-STUSB002** GUI tool (requires STEVAL-ISC005V1 eval board)
-2. **Arduino/MCU via I2C** using community libraries
-3. **Pre-programmed parts** from some distributors
-
+  **Power Supply:** - `USB-C VBUS (pins A9, B9)` → `VBUS_IN Rail` → `STUSB4500 VDD (pin 24)` - `C1 (10µF ceramic)`: `VBUS_IN` ⟷ `GND` (bulk filtering) - `C2 (100nF ceramic)`: `VDD (pin 24)` ⟷ `GND` (close to IC) **Internal Regulators:** - `VREG_2V7 (pin 23)` → `C30 (1µF)` → `GND` - `VREG_1V2 (pin 21)` → `C34 (1µF)` → `GND` - `VSYS (pin 22)` → `GND` (connect to ground when not used) **CC Lines:** - `USB-C CC1 (pin A5)` → `STUSB4500 CC1 (pin 2)` → `CC1DB (pin 1)` (tie CC1 and CC1DB together) - `USB-C CC2 (pin B5)` → `STUSB4500 CC2 (pin 4)` → `CC2DB (pin 5)` (tie CC2 and CC2DB together) - `D4 (USBLC6-2SC6)`: Pin 1 → USB-C CC1, Pin 6 → STUSB4500 CC1/CC1DB, Pin 3 → USB-C CC2, Pin 4 → STUSB4500 CC2/CC2DB, Pin 2 → GND, Pin 5 → VBUS_IN **Load Switch (Power Path Control):** - `VBUS_IN` → `R11 (100kΩ)` → `Q1 Gate` (pull-up, default OFF) - `VBUS_EN_SNK (pin 16)` → `R12 (56kΩ)` → `Q1 Gate` - `Q1 Gate` → `C35 (100nF)` → `GND` (soft-start) - `Q1 (AO3401A)`: Source = VBUS_IN, Drain = VBUS_OUT - **Result**: Q1 conducts when VBUS_EN_SNK goes HIGH after PD success **VBUS Discharge:** - `DISCH (pin 9)` → `R13 (470Ω)` → `VBUS_OUT` - Purpose: Quickly discharge VBUS when cable disconnected **Configuration:** - `RESET (pin 6)` → `GND` (or NC) - Active-HIGH, has internal pull-down - `ADDR0 (pin 12)` → `GND` - `ADDR1 (pin 13)` → `GND` - I2C address = 0x28 (for NVM programming) **Ground:** - `USB-C GND (pins A1, B12)` → `System GND` - `STUSB4500 GND (pin 10)` → `System GND` - `STUSB4500 EP (pin 25)` → `System GND` (thermal + ground) **NVM Programming (One-time Setup):** The STUSB4500 requires NVM programming to configure the 15V PDO: | PDO | Voltage | Current | Purpose | | ---- | ------- | ------- | ------------------ | | PDO1 | 5V | 1.5A | Fixed (mandatory) | | PDO2 | **15V** | **3A** | **Target voltage** | | PDO3 | 20V | 1.5A | Fallback option | Programming methods: 1. **STSW-STUSB002** GUI tool (requires STEVAL-ISC005V1 eval board) 2. **Arduino/MCU via I2C** using community libraries 3. **Pre-programmed parts** from some distributors
 </details>
 
 ## Diagram2: USB-PD +15V → +13.5V Buck Converter (LM2596S-ADJ #1)
@@ -359,58 +300,9 @@ Programming methods:
 <BuckU2Diagram />
 
 <details>
-<summary>Connection List</summary>
+  <summary>Connection List</summary>
 
-**Input Power:**
-
-- `+15V input` → `U2 (LM2596S-ADJ) pin 1 (VIN)`
-- `GND` → `U2 pin 5 (ON/OFF)` (always-on: tie to GND or leave floating)
-
-**Output Path (Buck Converter Topology):**
-
-1. `U2 pin 2 (OUTPUT)` → `L1 (100µH, 4.5A)` → Junction point
-2. Junction point → `C3 (470µF/25V)` → `GND` (output filter capacitor)
-3. Junction point → `+13.5V output` (to next stage)
-
-**Flyback Diode (Freewheeling Diode):**
-
-- `D1 (SS34 Schottky)`:
-  - Cathode → Junction between `OUTPUT (pin 2)` and `L1`
-  - Anode → `GND`
-  - Purpose: Provides path for inductor current when switch turns off
-
-**Input Capacitors:**
-
-- `C5 (100µF electrolytic)`: `+15V input` ⟷ `GND` (bulk input filter)
-- `C6 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling)
-
-**Output Capacitor:**
-
-- `C3 (470µF/25V electrolytic)`: Connected **in parallel** between `+13.5V output` ⟷ `GND`
-- Purpose: Output filtering, ripple reduction, and energy storage for transient response
-- **Important**: C3 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
-
-**Feedback Network (Voltage Setting):**
-
-- Voltage divider: `+13.5V output` → `R1 (10kΩ)` → **Tap point** → `R2 (1kΩ)` → `GND`
-- `U2 pin 4 (FB)` → Connected to **tap point** (junction between R1 and R2)
-- The tap point voltage = `13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V`
-- Chip maintains FB pin at 1.23V by adjusting duty cycle
-- Output voltage formula: `VOUT = 1.23V × (1 + R1/R2) = 1.23V × (1 + 10kΩ/1kΩ) = 13.53V`
-
-**Ground:**
-
-- `U2 pin 3 (GND)` → `System GND`
-- All capacitor negative terminals → `System GND`
-- `D1 anode` → `System GND`
-
-**Key Points:**
-
-- The inductor L1 is on the **OUTPUT side** of pin 2 (OUTPUT), not the input side
-- D1 cathode connects to the junction between OUTPUT (pin 2) and L1 (the "switching node")
-- When U2's internal switch is ON: Current flows VIN → Switch → OUTPUT → L1 → C3 → Load
-- When U2's internal switch is OFF: Inductor current flows through D1 (L1 → D1 → GND → L1)
-
+  **Input Power:** - `+15V input` → `U2 (LM2596S-ADJ) pin 1 (VIN)` - `GND` → `U2 pin 5 (ON/OFF)` (always-on: tie to GND or leave floating) **Output Path (Buck Converter Topology):** 1. `U2 pin 2 (OUTPUT)` → `L1 (100µH, 4.5A)` → Junction point 2. Junction point → `C3 (470µF/25V)` → `GND` (output filter capacitor) 3. Junction point → `+13.5V output` (to next stage) **Flyback Diode (Freewheeling Diode):** - `D1 (SS34 Schottky)`: - Cathode → Junction between `OUTPUT (pin 2)` and `L1` - Anode → `GND` - Purpose: Provides path for inductor current when switch turns off **Input Capacitors:** - `C5 (100µF electrolytic)`: `+15V input` ⟷ `GND` (bulk input filter) - `C6 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling) **Output Capacitor:** - `C3 (470µF/25V electrolytic)`: Connected **in parallel** between `+13.5V output` ⟷ `GND` - Purpose: Output filtering, ripple reduction, and energy storage for transient response - **Important**: C3 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND **Feedback Network (Voltage Setting):** - Voltage divider: `+13.5V output` → `R1 (10kΩ)` → **Tap point** → `R2 (1kΩ)` → `GND` - `U2 pin 4 (FB)` → Connected to **tap point** (junction between R1 and R2) - The tap point voltage = `13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V` - Chip maintains FB pin at 1.23V by adjusting duty cycle - Output voltage formula: `VOUT = 1.23V × (1 + R1/R2) = 1.23V × (1 + 10kΩ/1kΩ) = 13.53V` **Ground:** - `U2 pin 3 (GND)` → `System GND` - All capacitor negative terminals → `System GND` - `D1 anode` → `System GND` **Key Points:** - The inductor L1 is on the **OUTPUT side** of pin 2 (OUTPUT), not the input side - D1 cathode connects to the junction between OUTPUT (pin 2) and L1 (the "switching node") - When U2's internal switch is ON: Current flows VIN → Switch → OUTPUT → L1 → C3 → Load - When U2's internal switch is OFF: Inductor current flows through D1 (L1 → D1 → GND → L1)
 </details>
 
 ## Diagram3: +15V → +7.5V Buck Converter (LM2596S-ADJ #2, U3)
@@ -418,59 +310,9 @@ Programming methods:
 <BuckU3Diagram />
 
 <details>
-<summary>Connection List</summary>
+  <summary>Connection List</summary>
 
-**Input Power:**
-
-- `+15V input` → `U3 (LM2596S-ADJ) pin 1 (VIN)`
-- `GND` → `U3 pin 5 (ON/OFF)` (always-on: tie to GND or leave floating)
-
-**Output Path (Buck Converter Topology):**
-
-1. `U3 pin 2 (OUTPUT)` → `L2 (100µH, 4.5A)` → Junction point
-2. Junction point → `C4 (470µF/25V)` → `GND` (output filter capacitor)
-3. Junction point → `+7.5V output` (to L7805 linear regulator)
-
-**Flyback Diode (Freewheeling Diode):**
-
-- `D2 (SS34 Schottky)`:
-  - Cathode → Junction between `OUTPUT (pin 2)` and `L2`
-  - Anode → `GND`
-  - Purpose: Provides path for inductor current when switch turns off
-
-**Input Capacitors:**
-
-- `C5 (100µF electrolytic)`: `+15V input` ⟷ `GND` (bulk input filter, shared with U2)
-- `C6 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling, shared with U2)
-
-**Output Capacitor:**
-
-- `C4 (470µF/25V electrolytic)`: Connected **in parallel** between `+7.5V output` ⟷ `GND`
-- Purpose: Output filtering, ripple reduction, and energy storage for transient response
-- **Important**: C4 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND
-
-**Feedback Network (Voltage Setting):**
-
-- Voltage divider: `+7.5V output` → `R3 (5.1kΩ)` → **Tap point** → `R4 (1kΩ)` → `GND`
-- `U3 pin 4 (FB)` → Connected to **tap point** (junction between R3 and R4)
-- The tap point voltage = `7.5V × R4/(R3+R4) = 7.5V × 1kΩ/6.1kΩ = 1.23V`
-- Chip maintains FB pin at 1.23V by adjusting duty cycle
-- Output voltage formula: `VOUT = 1.23V × (1 + R3/R4) = 1.23V × (1 + 5.1kΩ/1kΩ) = 7.5V`
-
-**Ground:**
-
-- `U3 pin 3 (GND)` → `System GND`
-- All capacitor negative terminals → `System GND`
-- `D2 anode` → `System GND`
-
-**Key Points:**
-
-- The inductor L2 is on the **OUTPUT side** of pin 2 (OUTPUT), not the input side
-- D2 cathode connects to the junction between OUTPUT (pin 2) and L2 (the "switching node")
-- When U3's internal switch is ON: Current flows VIN → Switch → OUTPUT → L2 → C4 → Load
-- When U3's internal switch is OFF: Inductor current flows through D2 (L2 → D2 → GND → L2)
-- This stage provides +7.5V to the L7805 linear regulator for final +5V output
-
+  **Input Power:** - `+15V input` → `U3 (LM2596S-ADJ) pin 1 (VIN)` - `GND` → `U3 pin 5 (ON/OFF)` (always-on: tie to GND or leave floating) **Output Path (Buck Converter Topology):** 1. `U3 pin 2 (OUTPUT)` → `L2 (100µH, 4.5A)` → Junction point 2. Junction point → `C4 (470µF/25V)` → `GND` (output filter capacitor) 3. Junction point → `+7.5V output` (to L7805 linear regulator) **Flyback Diode (Freewheeling Diode):** - `D2 (SS34 Schottky)`: - Cathode → Junction between `OUTPUT (pin 2)` and `L2` - Anode → `GND` - Purpose: Provides path for inductor current when switch turns off **Input Capacitors:** - `C5 (100µF electrolytic)`: `+15V input` ⟷ `GND` (bulk input filter, shared with U2) - `C6 (100nF ceramic)`: `+15V input` ⟷ `GND` (high-frequency decoupling, shared with U2) **Output Capacitor:** - `C4 (470µF/25V electrolytic)`: Connected **in parallel** between `+7.5V output` ⟷ `GND` - Purpose: Output filtering, ripple reduction, and energy storage for transient response - **Important**: C4 is NOT in series with the output - it's a shunt element that allows AC ripple current to flow to GND **Feedback Network (Voltage Setting):** - Voltage divider: `+7.5V output` → `R3 (5.1kΩ)` → **Tap point** → `R4 (1kΩ)` → `GND` - `U3 pin 4 (FB)` → Connected to **tap point** (junction between R3 and R4) - The tap point voltage = `7.5V × R4/(R3+R4) = 7.5V × 1kΩ/6.1kΩ = 1.23V` - Chip maintains FB pin at 1.23V by adjusting duty cycle - Output voltage formula: `VOUT = 1.23V × (1 + R3/R4) = 1.23V × (1 + 5.1kΩ/1kΩ) = 7.5V` **Ground:** - `U3 pin 3 (GND)` → `System GND` - All capacitor negative terminals → `System GND` - `D2 anode` → `System GND` **Key Points:** - The inductor L2 is on the **OUTPUT side** of pin 2 (OUTPUT), not the input side - D2 cathode connects to the junction between OUTPUT (pin 2) and L2 (the "switching node") - When U3's internal switch is ON: Current flows VIN → Switch → OUTPUT → L2 → C4 → Load - When U3's internal switch is OFF: Inductor current flows through D2 (L2 → D2 → GND → L2) - This stage provides +7.5V to the L7805 linear regulator for final +5V output
 </details>
 
 ## Diagram4: +15V → -13.5V Inverting Buck-Boost (LM2596S-ADJ, U4)
@@ -482,27 +324,9 @@ Programming methods:
 <LdoU6Diagram />
 
 <details>
-<summary>Connection List</summary>
+  <summary>Connection List</summary>
 
-**Regulator:**
-
-- U6 (L7812CD2T-TR): `+13.5V input` → Pin 1 (IN), Pin 3 (OUT) → `+12V output`, Pin 2 (GND) → `GND`
-
-**Input Capacitors (connected in parallel between +13.5V and GND):**
-
-- C14 (470nF ceramic): High-frequency noise filtering
-- C20 (470µF electrolytic): Input bulk stabilization
-
-**Output Capacitors (connected in parallel between +12V and GND):**
-
-- C17 (100nF ceramic): High-frequency decoupling
-- C21 (470µF electrolytic): Output stabilization and transient response
-
-**Status LED:**
-
-- LED2 (Green): `+12V` → `R7 (1kΩ)` → `LED2 anode` → `LED2 cathode` → `GND`
-- LED current: `I = (12V - 2V) / 1kΩ ≈ 10mA`
-
+  **Regulator:** - U6 (L7812CD2T-TR): `+13.5V input` → Pin 1 (IN), Pin 3 (OUT) → `+12V output`, Pin 2 (GND) → `GND` **Input Capacitors (connected in parallel between +13.5V and GND):** - C14 (470nF ceramic): High-frequency noise filtering - C20 (470µF electrolytic): Input bulk stabilization **Output Capacitors (connected in parallel between +12V and GND):** - C17 (100nF ceramic): High-frequency decoupling - C21 (470µF electrolytic): Output stabilization and transient response **Status LED:** - LED2 (Green): `+12V` → `R7 (1kΩ)` → `LED2 anode` → `LED2 cathode` → `GND` - LED current: `I = (12V - 2V) / 1kΩ ≈ 10mA`
 </details>
 
 ## Diagram6: +7.5V → +5V Linear Regulator (L7805, U7)
@@ -510,27 +334,9 @@ Programming methods:
 <LdoU7Diagram />
 
 <details>
-<summary>Connection List</summary>
+  <summary>Connection List</summary>
 
-**Regulator:**
-
-- U7 (L7805ABD2T-TR): `+7.5V input` → Pin 1 (IN), Pin 3 (OUT) → `+5V output`, Pin 2 (GND) → `GND`
-
-**Input Capacitors (connected in parallel between +7.5V and GND):**
-
-- C15 (470nF ceramic): High-frequency noise filtering
-- C22 (470µF electrolytic): Input bulk stabilization
-
-**Output Capacitors (connected in parallel between +5V and GND):**
-
-- C18 (100nF ceramic): High-frequency decoupling
-- C23 (470µF electrolytic): Output stabilization and transient response
-
-**Status LED:**
-
-- LED3 (Blue): `+5V` → `R8 (330Ω)` → `LED3 anode` → `LED3 cathode` → `GND`
-- LED current: `I = (5V - 2.8V) / 330Ω = 6.67mA` (improved brightness, 3× brighter than previous 1kΩ design)
-
+  **Regulator:** - U7 (L7805ABD2T-TR): `+7.5V input` → Pin 1 (IN), Pin 3 (OUT) → `+5V output`, Pin 2 (GND) → `GND` **Input Capacitors (connected in parallel between +7.5V and GND):** - C15 (470nF ceramic): High-frequency noise filtering - C22 (470µF electrolytic): Input bulk stabilization **Output Capacitors (connected in parallel between +5V and GND):** - C18 (100nF ceramic): High-frequency decoupling - C23 (470µF electrolytic): Output stabilization and transient response **Status LED:** - LED3 (Blue): `+5V` → `R8 (330Ω)` → `LED3 anode` → `LED3 cathode` → `GND` - LED current: `I = (5V - 2.8V) / 330Ω = 6.67mA` (improved brightness, 3× brighter than previous 1kΩ design)
 </details>
 
 ## Diagram7: -13.5V → -12V Linear Regulator (CJ7912, U8)
@@ -538,29 +344,7 @@ Programming methods:
 <LdoU8Diagram />
 
 <details>
-<summary>Connection List</summary>
+  <summary>Connection List</summary>
 
-**Regulator:**
-
-- U8 (CJ7912): Pin 1 (GND) → `GND`, Pin 2 (IN) ← `-13.5V input`, Pin 3 (OUT) → `-12V output`
-- **Note:** LM7912 pinout differs from LM7812/7805: pin 1=GND, pin 2=IN, pin 3=OUT (79xx negative regulators)
-
-**Input Capacitors (connected in parallel between -13.5V and GND):**
-
-- C16 (470nF ceramic): High-frequency noise filtering
-- C24 (470µF electrolytic): Input bulk stabilization
-  - **Polarity:** Negative terminal to `-13.5V`, Positive terminal to `GND`
-
-**Output Capacitors (connected in parallel between -12V and GND):**
-
-- C19 (100nF ceramic): High-frequency decoupling
-- C25 (470µF electrolytic): Output stabilization and transient response
-  - **Polarity:** Negative terminal to `-12V`, Positive terminal to `GND`
-
-**Status LED:**
-
-- LED4 (Red): `GND` → `LED4 anode` → `LED4 cathode` → `R9 (1kΩ)` → `-12V`
-- LED current: `I = (0V - (-12V) - 2V) / 1kΩ = 10mA`
-- **Note:** LED is reversed compared to positive rails (anode to GND, cathode to negative voltage)
-
+  **Regulator:** - U8 (CJ7912): Pin 1 (GND) → `GND`, Pin 2 (IN) ← `-13.5V input`, Pin 3 (OUT) → `-12V output` - **Note:** LM7912 pinout differs from LM7812/7805: pin 1=GND, pin 2=IN, pin 3=OUT (79xx negative regulators) **Input Capacitors (connected in parallel between -13.5V and GND):** - C16 (470nF ceramic): High-frequency noise filtering - C24 (470µF electrolytic): Input bulk stabilization - **Polarity:** Negative terminal to `-13.5V`, Positive terminal to `GND` **Output Capacitors (connected in parallel between -12V and GND):** - C19 (100nF ceramic): High-frequency decoupling - C25 (470µF electrolytic): Output stabilization and transient response - **Polarity:** Negative terminal to `-12V`, Positive terminal to `GND` **Status LED:** - LED4 (Red): `GND` → `LED4 anode` → `LED4 cathode` → `R9 (1kΩ)` → `-12V` - LED current: `I = (0V - (-12V) - 2V) / 1kΩ = 10mA` - **Note:** LED is reversed compared to positive rails (anode to GND, cathode to negative voltage)
 </details>

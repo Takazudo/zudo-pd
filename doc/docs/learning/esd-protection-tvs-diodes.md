@@ -258,7 +258,6 @@ USB-C ──┬── TVS ──────────────── STUSB
 
 ESD enters here, immediately clamped ✓
 
-
 BAD placement:
 USB-C ──────────────── TVS ──┬── STUSB4500
                              │       │

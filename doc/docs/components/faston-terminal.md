@@ -47,24 +47,24 @@ This design uses **4 terminals** for the three power rails plus ground return:
 ### Advantages for Eurorack Power Distribution
 
 1. **Low-Noise Power Delivery**
-   - Supports thick gauge wire (18-22 AWG typical)
-   - Lower resistance than thin ribbon cables
-   - Reduces voltage drop under load
+- Supports thick gauge wire (18-22 AWG typical)
+- Lower resistance than thin ribbon cables
+- Reduces voltage drop under load
 
 2. **High Current Capacity**
-   - 7A per terminal far exceeds requirements
-   - +12V: 1.5A max (21% of capacity)
-   - Combined GND: ~4A max (57% of capacity)
+- 7A per terminal far exceeds requirements
+- +12V: 1.5A max (21% of capacity)
+- Combined GND: ~4A max (57% of capacity)
 
 3. **Industrial Reliability**
-   - TE Connectivity quality
-   - 10,000+ mating cycles typical
-   - Secure connection won't vibrate loose
+- TE Connectivity quality
+- 10,000+ mating cycles typical
+- Secure connection won't vibrate loose
 
 4. **Easy Busboard Connection**
-   - Standard FASTON receptacles widely available
-   - Quick connect/disconnect without tools
-   - Same connectors used on commercial busboards
+- Standard FASTON receptacles widely available
+- Quick connect/disconnect without tools
+- Same connectors used on commercial busboards
 
 ## Application in This Project
 

@@ -137,23 +137,23 @@ USB-C        DC-DC        LDO          Output
 ### Layout Principles
 
 1. **Separate high-noise and low-noise sections**
-   - DC-DC section: Left side of board
-   - LDO section: Right side of board
-   - Consider GND plane separation
+- DC-DC section: Left side of board
+- LDO section: Right side of board
+- Consider GND plane separation
 
 2. **Make high-current paths thick and short**
-   - USB input: Minimum 1mm width
-   - +12V/-12V: Minimum 0.8mm width
-   - +5V: Minimum 0.5mm width
+- USB input: Minimum 1mm width
+- +12V/-12V: Minimum 0.8mm width
+- +5V: Minimum 0.5mm width
 
 3. **Thermal via placement**
-   - LM2596S (TO-263): 4-6 vias under pad
-   - LM78xx/79xx: As needed
+- LM2596S (TO-263): 4-6 vias under pad
+- LM78xx/79xx: As needed
 
 4. **Capacitor placement**
-   - Input capacitors: Close to IC
-   - Output capacitors: Near load terminals
-   - Electrolytic capacitors: Mind polarity
+- Input capacitors: Close to IC
+- Output capacitors: Near load terminals
+- Electrolytic capacitors: Mind polarity
 
 ### Recommended Layer Stack (4-layer board)
 
