@@ -368,3 +368,33 @@ article.theme-doc-markdown {
 .menu__list-item-collapsible:has(.menu__link:not([href])):hover {
   background: none;
 }
+
+/* Sidebar filter input */
+.sidebar-filter-container {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  position: sticky;
+  top: var(--ifm-navbar-height);
+  background-color: var(--ifm-background-surface-color);
+  z-index: 1;
+}
+
+.sidebar-filter-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--ifm-font-color-base);
+}
+
+.sidebar-filter-input::placeholder {
+  color: var(--ifm-color-emphasis-500);
+}
+
+.sidebar-filter-input:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px var(--ifm-color-primary-light);
+}
