@@ -68,10 +68,10 @@ Without VBUS_VS_DISCH connected:
 
 ### Required Fix
 
-Connect VBUS_VS_DISCH (pin 18) to VBUS_IN through a 470ohm series resistor (R_VS):
+Connect VBUS_VS_DISCH (pin 18) to VBUS_IN through a 470ohm series resistor (R14):
 
 ```
-VBUS_IN ─── R_VS (470ohm) ─── VBUS_VS_DISCH (pin 18)
+VBUS_IN ─── R14 (470ohm) ─── VBUS_VS_DISCH (pin 18)
 ```
 
 The 470ohm resistor limits current during the discharge phase when the IC pulls this pin low through an internal MOSFET. This matches the ST reference design (STEVAL-ISC005V1).
@@ -172,10 +172,10 @@ For reworking v1 boards that already have the VSYS-VREG_2V7 trace cut:
 
 ### Fix 2: Connect VBUS_VS_DISCH
 
-1. Prepare a 470ohm 0402 or 0603 resistor (R_VS)
+1. Prepare a 470ohm 0402 or 0603 resistor (R14)
 2. Locate pin 18 (VBUS_VS_DISCH) on U3 - right side of the package, between pin 17 (A_B_SIDE) and pin 19 (ALERT)
-3. Solder one end of R_VS to pin 18
-4. Solder the other end of R_VS to VBUS_IN (e.g., the VBUS trace near VDD pin 24 or C1/C2)
+3. Solder one end of R14 to pin 18
+4. Solder the other end of R14 to VBUS_IN (e.g., the VBUS trace near VDD pin 24 or C1/C2)
 5. Secure the bodge wire/resistor with UV-cure adhesive or kapton tape
 
 ### Verification After Rework
@@ -183,7 +183,7 @@ For reworking v1 boards that already have the VSYS-VREG_2V7 trace cut:
 After bodge wires are applied:
 
 1. Continuity check: VSYS (pin 22) to GND should read &lt;1ohm
-2. Continuity check: VBUS_VS_DISCH (pin 18) through R_VS to VBUS_IN should read ~470ohm
+2. Continuity check: VBUS_VS_DISCH (pin 18) through R14 to VBUS_IN should read ~470ohm
 3. No shorts between adjacent pins (especially pin 22-23)
 4. Connect a USB-C PD charger and verify VBUS negotiation
 
@@ -191,7 +191,7 @@ After bodge wires are applied:
 
 Before ordering v1.1 PCBA:
 
-- [ ] Connect VBUS_VS_DISCH (pin 18) to VBUS_IN via new R_VS (470ohm) resistor
+- [ ] Connect VBUS_VS_DISCH (pin 18) to VBUS_IN via new R14 (470ohm) resistor
 - [ ] Connect VSYS (pin 22) to GND (not floating, not VREG_2V7)
 - [ ] Verify VREG_2V7 (pin 23) has only C30 (1uF) decoupling - no other connections
 - [ ] Run DRC (Design Rule Check) in KiCad

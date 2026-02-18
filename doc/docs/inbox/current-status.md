@@ -216,7 +216,7 @@ The first prototype PCBA (v1) failed during testing. The STUSB4500 USB-PD contro
 
 ### Required Schematic Fixes Before Next Order
 
-- [ ] Add R_VS (470ohm) from VBUS_IN to VBUS_VS_DISCH (pin 18)
+- [ ] Add R14 (470ohm) from VBUS_IN to VBUS_VS_DISCH (pin 18)
 - [ ] Connect VSYS (pin 22) to GND
 - [ ] Verify VREG_2V7 (pin 23) decoupling is correct (C30 only)
 - [ ] Run DRC and review all STUSB4500 connections

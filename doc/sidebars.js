@@ -28,6 +28,7 @@ const sidebars = {
     'inbox/current-status',
     'inbox/quick-reference',
     'inbox/pcba-v1-debug',
+    'inbox/nvm-programming',
   ],
   componentsSidebar: [
     'components/index',
