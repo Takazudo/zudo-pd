@@ -1,0 +1,27 @@
+{
+  "name": "zudopd",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --mac",
+    "build:dir": "electron-builder --mac --dir"
+  },
+  "devDependencies": {
+    "electron": "^35.7.5",
+    "electron-builder": "^26.8.0"
+  },
+  "build": {
+    "productName": "zudopd",
+    "appId": "com.takazudomodular.zudopd",
+    "mac": {
+      "target": ["dmg", "dir"]
+    },
+    "files": [
+      "main.js",
+      "splash.html",
+      "package.json"
+    ]
+  }
+}
