@@ -1,0 +1,243 @@
+---
+import SidebarToggle from "@/components/sidebar-toggle";
+import ThemeToggle from "@/components/theme-toggle";
+import Search from "@/components/search.astro";
+import { settings } from "@/config/settings";
+import { withBase, stripBase } from "@/utils/base";
+import { t, type Locale } from "@/config/i18n";
+
+interface Props {
+  lang?: Locale;
+  currentPath?: string;
+}
+
+const {
+  lang,
+  currentPath = "",
+} = Astro.props;
+const pathWithoutBase = stripBase(currentPath);
+
+const activeNavPath = settings.headerNav
+  .filter((item) => pathWithoutBase.startsWith(item.path))
+  .sort((a, b) => b.path.length - a.path.length)[0]?.path;
+---
+
+<header
+  class="sticky top-0 z-50 flex h-[3.5rem] items-center border-b border-muted bg-surface px-hsp-lg"
+  data-header
+>
+  <SidebarToggle client:media="(max-width: 1023px)">
+    <slot name="sidebar" />
+    <Fragment slot="bottomContent">
+      {
+        settings.colorMode && (
+          <ThemeToggle
+            defaultMode={settings.colorMode.defaultMode}
+            client:load
+          />
+        )
+      }
+    </Fragment>
+  </SidebarToggle>
+
+  <a
+    href={withBase("/")}
+    class="whitespace-nowrap text-subheading font-bold text-fg hover:underline focus:underline shrink-0"
+    data-header-logo
+  >
+    {settings.siteName}
+  </a>
+
+  <nav
+    aria-label="Main"
+    class="relative ml-hsp-xl hidden min-w-0 flex-1 items-center gap-x-hsp-2xs whitespace-nowrap lg:flex"
+    data-header-nav
+  >
+    {
+      settings.headerNav.map((item) => {
+        const isActive = item.path === activeNavPath;
+        const href = withBase(item.path);
+        return (
+          <a
+            href={href}
+            aria-current={isActive ? "page" : undefined}
+            data-nav-item
+            class:list={[
+              "px-hsp-md py-vsp-2xs text-small font-medium transition-colors shrink-0",
+              isActive
+                ? "bg-fg text-bg"
+                : "text-muted hover:underline focus:underline",
+            ]}
+          >
+            {item.labelKey ? t(item.labelKey, lang) : item.label}
+          </a>
+        );
+      })
+    }
+
+    <div class="relative shrink-0" data-nav-more style="display:none">
+      <button
+        type="button"
+        class="px-hsp-md py-vsp-2xs text-small font-medium text-muted hover:underline cursor-pointer"
+        data-nav-more-toggle
+        aria-expanded="false"
+      >
+        &middot;&middot;&middot;
+      </button>
+      <ul
+        class="absolute right-0 top-full z-10 mt-vsp-3xs hidden min-w-[8rem] border border-muted rounded bg-surface shadow-lg whitespace-nowrap"
+        data-nav-more-menu
+      >
+      </ul>
+    </div>
+  </nav>
+
+  <div
+    class="ml-auto flex shrink-0 items-center gap-x-hsp-md"
+    data-header-right
+  >
+    <Search />
+    <div class="hidden lg:flex items-center gap-x-hsp-md">
+      {
+        settings.colorMode && (
+          <ThemeToggle
+            defaultMode={settings.colorMode.defaultMode}
+            client:load
+          />
+        )
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  let cleanupNavOverflow: (() => void) | null = null;
+
+  function initNavOverflow() {
+    cleanupNavOverflow?.();
+
+    const nav = document.querySelector<HTMLElement>("[data-header-nav]");
+    const moreContainer =
+      document.querySelector<HTMLElement>("[data-nav-more]");
+    const moreMenu = document.querySelector<HTMLElement>(
+      "[data-nav-more-menu]",
+    );
+    const moreToggle = document.querySelector<HTMLButtonElement>(
+      "[data-nav-more-toggle]",
+    );
+    if (!nav || !moreContainer || !moreMenu || !moreToggle) return;
+
+    const items = Array.from(
+      nav.querySelectorAll<HTMLAnchorElement>(":scope > [data-nav-item]"),
+    );
+    if (items.length === 0) return;
+
+    const controller = new AbortController();
+
+    function update() {
+      items.forEach((el) => {
+        el.style.display = "";
+      });
+      moreContainer!.style.display = "";
+      moreMenu!.innerHTML = "";
+      moreMenu!.classList.add("hidden");
+      moreToggle!.setAttribute("aria-expanded", "false");
+
+      const itemWidths = items.map((el) => el.offsetWidth);
+      const moreWidth = moreContainer!.offsetWidth;
+      const navGap = parseFloat(getComputedStyle(nav!).columnGap) || 0;
+
+      const available = nav!.clientWidth;
+
+      if (available <= 0) {
+        moreContainer!.style.display = "none";
+        return;
+      }
+
+      let total = 0;
+      for (let i = 0; i < itemWidths.length; i++) {
+        total += itemWidths[i] + (i > 0 ? navGap : 0);
+      }
+
+      if (total <= available) {
+        moreContainer!.style.display = "none";
+        return;
+      }
+
+      let used = 0;
+      let cutoffIndex = 0;
+
+      for (let i = 0; i < items.length; i++) {
+        const w = itemWidths[i] + (i > 0 ? navGap : 0);
+        if (used + w > available - moreWidth - navGap) break;
+        used += w;
+        cutoffIndex = i + 1;
+      }
+
+      for (let i = cutoffIndex; i < items.length; i++) {
+        items[i].style.display = "none";
+      }
+
+      for (let i = cutoffIndex; i < items.length; i++) {
+        const el = items[i];
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = el.href;
+        a.textContent = el.textContent?.trim() || "";
+        a.className =
+          "block px-hsp-md py-vsp-3xs text-small hover:bg-accent/10 text-fg";
+        if (el.getAttribute("aria-current") === "page") {
+          a.className += " font-bold text-accent";
+        }
+        li.appendChild(a);
+        moreMenu!.appendChild(li);
+      }
+    }
+
+    moreToggle.addEventListener(
+      "click",
+      () => {
+        const isOpen = !moreMenu.classList.contains("hidden");
+        moreMenu.classList.toggle("hidden", isOpen);
+        moreToggle.setAttribute("aria-expanded", String(!isOpen));
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener(
+      "click",
+      (e) => {
+        if (!moreContainer.contains(e.target as Node)) {
+          moreMenu.classList.add("hidden");
+          moreToggle.setAttribute("aria-expanded", "false");
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Escape" && !moreMenu.classList.contains("hidden")) {
+          moreMenu.classList.add("hidden");
+          moreToggle.setAttribute("aria-expanded", "false");
+          moreToggle.focus();
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    const ro = new ResizeObserver(update);
+    ro.observe(nav);
+    controller.signal.addEventListener("abort", () => ro.disconnect());
+
+    document.fonts.ready.then(update);
+
+    update();
+
+    cleanupNavOverflow = () => controller.abort();
+  }
+
+  initNavOverflow();
+  document.addEventListener("astro:after-swap", initNavOverflow);
+</script>
