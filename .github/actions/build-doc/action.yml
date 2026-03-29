@@ -1,24 +1,24 @@
-name: 'Build Docusaurus Application'
-description: 'Setup environment, run quality checks, and build Docusaurus site'
+name: 'Build Documentation Site'
+description: 'Setup environment, run quality checks, and build Astro documentation site'
 
 inputs:
   node-version:
     description: 'Node.js version to use'
     required: false
-    default: '20'
+    default: '22'
   pnpm-version:
     description: 'pnpm version to use'
     required: false
     default: '10'
   working-directory:
-    description: 'Working directory containing the Docusaurus project'
+    description: 'Working directory containing the doc project'
     required: false
     default: 'doc'
 
 outputs:
   build-output-path:
     description: 'Path to the build output directory'
-    value: 'build'
+    value: 'dist'
 
 runs:
   using: 'composite'
@@ -40,45 +40,30 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
-    - name: Run code quality checks
-      run: |
-        echo "🔍 Running code quality checks..."
-        pnpm run typecheck
-        pnpm run lint
-        pnpm run format
-        echo "✅ Code quality checks passed"
+    - name: Type check
+      run: pnpm run check
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
-    - name: Build Docusaurus
+    - name: Format check
+      run: pnpm run format:check
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Build site
       run: pnpm build
       shell: bash
       working-directory: ${{ inputs.working-directory }}
       env:
         NODE_ENV: production
-        NODE_OPTIONS: '--max-old-space-size=4096'
 
     - name: Verify build output
       run: |
-        echo "📦 Build Output Verification"
-        echo "============================"
-
-        if [ ! -d "build" ]; then
-          echo "❌ Error: build/ directory not found"
+        if [ ! -d "dist" ]; then
+          echo "Error: dist/ directory not found"
           exit 1
         fi
-
-        # Count output files
-        HTML_COUNT=$(find build -name "*.html" | wc -l)
-        echo "📄 HTML files: $HTML_COUNT"
-
-        if [ -d "build/assets" ]; then
-          echo "✅ Docusaurus assets found"
-        else
-          echo "⚠️ Warning: assets/ directory not found (might be ok for minimal builds)"
-        fi
-
-        echo "============================"
-        echo "✅ Build output verified"
+        HTML_COUNT=$(find dist -name "*.html" | wc -l)
+        echo "HTML files: $HTML_COUNT"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
