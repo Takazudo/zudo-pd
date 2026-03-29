@@ -1,9 +1,15 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'preact/hooks';
 
-export default function CircuitDialog({ isOpen, onClose, children, alt }) {
-  const dialogRef = useRef(null);
+interface CircuitDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  alt: string;
+  src: string;
+}
 
-  // Open/close dialog
+export default function CircuitDialog({ isOpen, onClose, alt, src }: CircuitDialogProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -15,32 +21,12 @@ export default function CircuitDialog({ isOpen, onClose, children, alt }) {
     }
   }, [isOpen]);
 
-  // Handle backdrop click
-  const handleDialogClick = useCallback(
-    (event) => {
-      const rect = dialogRef.current?.getBoundingClientRect();
-      if (rect) {
-        const clickedInDialog =
-          event.clientX >= rect.left &&
-          event.clientX <= rect.right &&
-          event.clientY >= rect.top &&
-          event.clientY <= rect.bottom;
-
-        // If clicked outside the dialog content (on the backdrop)
-        if (!clickedInDialog || event.target === dialogRef.current) {
-          onClose();
-        }
-      }
-    },
-    [onClose],
-  );
-
-  // Handle ESC key
+  // Handle ESC key via the cancel event
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    const handleCancel = (event) => {
+    const handleCancel = (event: Event) => {
       event.preventDefault();
       onClose();
     };
@@ -54,7 +40,6 @@ export default function CircuitDialog({ isOpen, onClose, children, alt }) {
   return (
     <dialog
       ref={dialogRef}
-      onClick={handleDialogClick}
       aria-label={alt}
       style={{
         position: 'fixed',
@@ -70,25 +55,24 @@ export default function CircuitDialog({ isOpen, onClose, children, alt }) {
         border: 'none',
       }}
     >
-      <style>{`
-        dialog::backdrop {
-          background: rgba(0, 0, 0, 0.8);
-        }
-      `}</style>
-
+      {/* Backdrop: clicking here closes the dialog */}
       <div
+        onClick={onClose}
         style={{
-          position: 'relative',
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0, 0, 0, 0.8)',
           display: 'flex',
-          height: '100%',
-          width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         {/* Close button */}
         <button
-          onClick={onClose}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
           aria-label="Close dialog"
           style={{
             position: 'fixed',
@@ -103,30 +87,33 @@ export default function CircuitDialog({ isOpen, onClose, children, alt }) {
             fontSize: '24px',
             lineHeight: '1',
             cursor: 'pointer',
-            transition: 'background 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
           }}
         >
-          ×
+          &times;
         </button>
 
-        {/* Content */}
+        {/* Content: stop propagation so clicking image doesn't close */}
         <div
+          onClick={(e) => e.stopPropagation()}
           style={{
-            width: '100%',
-            height: '100%',
+            width: '90vw',
+            height: '90vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(0, 0, 0, 0.5)',
+            background: 'oklch(86.9% 0.005 56.366)',
+            padding: '20px',
           }}
         >
-          {children}
+          <img
+            src={src}
+            alt={alt}
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
+            }}
+          />
         </div>
       </div>
     </dialog>
