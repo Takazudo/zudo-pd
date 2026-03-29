@@ -22,6 +22,8 @@ interface Props {
   currentSlug?: string;
   headings?: Heading[];
   unlisted?: boolean;
+  hideSidebar?: boolean;
+  hideToc?: boolean;
 }
 
 const {
@@ -30,6 +32,8 @@ const {
   currentSlug,
   headings = [],
   unlisted = false,
+  hideSidebar = false,
+  hideToc = false,
 } = Astro.props;
 const fullTitle = `${title} | ${settings.siteName}`;
 const navSection = currentSlug ? getNavSectionForSlug(currentSlug) : undefined;
@@ -66,19 +70,26 @@ const htmlColorAttrs = settings.colorMode
 
     <div class="flex min-h-[calc(100vh-3.5rem)]">
       <!-- Desktop sidebar -->
-      <aside
-        id="desktop-sidebar"
-        transition:persist={`sidebar-${navSection ?? "default"}`}
-        class="hidden lg:block shrink-0 border-r border-muted sticky top-[3.5rem] h-[calc(100vh-3.5rem)] overflow-y-auto relative"
-        style="width: var(--zd-sidebar-w)"
-      >
-        <Sidebar currentSlug={currentSlug} navSection={navSection} />
-      </aside>
+      {
+        !hideSidebar && (
+          <aside
+            id="desktop-sidebar"
+            transition:persist={`sidebar-${navSection ?? "default"}`}
+            class="hidden lg:block shrink-0 border-r border-muted sticky top-[3.5rem] h-[calc(100vh-3.5rem)] overflow-y-auto relative"
+            style="width: var(--zd-sidebar-w)"
+          >
+            <Sidebar currentSlug={currentSlug} navSection={navSection} />
+          </aside>
+        )
+      }
 
       <!-- Content + TOC wrapper -->
       <div class="flex-1 min-w-0 flex justify-center">
         <div
-          class="flex w-full max-w-[clamp(50rem,75vw,90rem)] gap-[clamp(1.5rem,3vw,4rem)]"
+          class:list={[
+            "flex w-full gap-[clamp(1.5rem,3vw,4rem)]",
+            hideSidebar ? "max-w-[80rem]" : "max-w-[clamp(50rem,75vw,90rem)]",
+          ]}
         >
           <!-- Main content -->
           <main
@@ -86,14 +97,22 @@ const htmlColorAttrs = settings.colorMode
             transition:animate="fade"
           >
             <slot name="breadcrumb" />
-            <MobileToc headings={headings} title="On this page" client:load />
+            {
+              !hideToc && (
+                <MobileToc
+                  headings={headings}
+                  title="On this page"
+                  client:load
+                />
+              )
+            }
             <article class="zd-content max-w-none">
               <slot />
             </article>
           </main>
 
           <!-- Table of contents -->
-          <Toc headings={headings} client:load />
+          {!hideToc && <Toc headings={headings} client:load />}
         </div>
       </div>
     </div>
@@ -113,6 +132,6 @@ const htmlColorAttrs = settings.colorMode
         if (el) el.scrollTop = _sidebarScrollTop;
       });
     </script>
-    {settings.sidebarResizer && <SidebarResizerInit />}
+    {settings.sidebarResizer && !hideSidebar && <SidebarResizerInit />}
   </body>
 </html>

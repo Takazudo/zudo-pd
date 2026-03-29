@@ -74,6 +74,5 @@ export const settings = {
     { label: "Learning", path: "/docs/learning", categoryMatch: "learning" },
     { label: "How-To", path: "/docs/how-to", categoryMatch: "how-to" },
     { label: "Misc", path: "/docs/misc", categoryMatch: "misc" },
-    { label: "INBOX", path: "/docs/inbox", categoryMatch: "inbox" },
   ] satisfies HeaderNavItem[],
 };

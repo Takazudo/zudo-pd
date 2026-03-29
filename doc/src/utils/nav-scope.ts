@@ -1,5 +1,15 @@
 import { settings } from "@/config/settings";
 import type { NavNode } from "@/utils/docs";
+export type { HeaderNavItem } from "@/config/settings";
+
+/** Collect all categoryMatch strings from headerNav (ordered). */
+export function getCategoryOrder(): string[] {
+  return settings.headerNav.flatMap((item) => {
+    const matches: string[] = [];
+    if (item.categoryMatch) matches.push(item.categoryMatch);
+    return matches;
+  });
+}
 
 /**
  * Given a doc's slug, return the categoryMatch value of the headerNav item it belongs to.
