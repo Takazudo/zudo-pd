@@ -101,7 +101,7 @@ export default function CircuitDialog({ isOpen, onClose, alt, src }: CircuitDial
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'var(--color-bg)',
+            background: '#ffffff',
             padding: '20px',
           }}
         >

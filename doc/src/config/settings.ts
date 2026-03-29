@@ -1,10 +1,12 @@
 export type {
   HeaderNavItem,
   ColorModeConfig,
+  FooterConfig,
 } from "./settings-types";
 import type {
   HeaderNavItem,
   ColorModeConfig,
+  FooterConfig,
 } from "./settings-types";
 
 export const settings = {
@@ -40,7 +42,32 @@ export const settings = {
   claudeResources: {
     claudeDir: ".claude",
   } as { claudeDir: string; projectRoot?: string } | false,
-  footer: false as false,
+  footer: {
+    links: [
+      {
+        title: "Documentation",
+        items: [
+          { label: "Overview", href: "/docs/overview/" },
+          { label: "Components", href: "/docs/components/" },
+          { label: "Learning", href: "/docs/learning/" },
+        ],
+      },
+      {
+        title: "Resources",
+        items: [
+          { label: "How-To Guides", href: "/docs/how-to/" },
+          { label: "Quick Reference", href: "/docs/inbox/" },
+        ],
+      },
+      {
+        title: "Project",
+        items: [
+          { label: "GitHub", href: "https://github.com/Takazudo/zudo-pd" },
+        ],
+      },
+    ],
+    copyright: "\u00a9 2026 Takazudo Modular",
+  } as FooterConfig | false,
   headerNav: [
     { label: "Overview", path: "/docs/overview", categoryMatch: "overview" },
     { label: "Components", path: "/docs/components", categoryMatch: "components" },

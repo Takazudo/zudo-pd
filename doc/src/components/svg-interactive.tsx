@@ -27,7 +27,7 @@ export default function SvgInteractive({
     borderRadius: '2px',
     cursor: 'pointer',
     transition: 'border-color 0.2s',
-    background: 'var(--color-bg)',
+    background: '#ffffff',
     position: 'relative',
   };
 
