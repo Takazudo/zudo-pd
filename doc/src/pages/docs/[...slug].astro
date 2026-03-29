@@ -12,12 +12,21 @@ import TabItem from "@/components/tab-item.astro";
 import Details from "@/components/details.astro";
 import Breadcrumb from "@/components/breadcrumb.astro";
 import { toRouteSlug } from "@/utils/slug";
-import { buildNavTree, buildBreadcrumbs, flattenTree, findNode, loadCategoryMeta, collectAutoIndexNodes, type NavNode } from "@/utils/docs";
+import {
+  buildNavTree,
+  buildBreadcrumbs,
+  flattenTree,
+  findNode,
+  loadCategoryMeta,
+  collectAutoIndexNodes,
+  type NavNode,
+} from "@/utils/docs";
 import type { Heading } from "@/types/heading";
 import { getNavSectionForSlug, getNavSubtree } from "@/utils/nav-scope";
 import { settings } from "@/config/settings";
 import { docsUrl } from "@/utils/base";
 import EditLink from "@/components/edit-link.astro";
+import CategoryTreeNav from "@/components/category-tree-nav.astro";
 
 export async function getStaticPaths() {
   const allDocs = await getCollection("docs");
@@ -82,7 +91,18 @@ export async function getStaticPaths() {
 
 const { entry, breadcrumbs = [], prev, next, autoIndex } = Astro.props;
 
-const components = { Note, Tip, Info, Warning, Danger, CategoryNav, Tabs, TabItem, Details };
+const components = {
+  Note,
+  Tip,
+  Info,
+  Warning,
+  Danger,
+  CategoryNav,
+  CategoryTreeNav,
+  Tabs,
+  TabItem,
+  Details,
+};
 
 let Content: unknown;
 let headings: Heading[] = [];
@@ -93,7 +113,9 @@ if (entry) {
   headings = rendered.headings;
 }
 
-const slug = autoIndex ? autoIndex.slug : (entry!.data.slug ?? toRouteSlug(entry!.id));
+const slug = autoIndex
+  ? autoIndex.slug
+  : (entry!.data.slug ?? toRouteSlug(entry!.id));
 ---
 
 <DocLayout
@@ -104,66 +126,118 @@ const slug = autoIndex ? autoIndex.slug : (entry!.data.slug ?? toRouteSlug(entry
   unlisted={entry?.data?.unlisted}
 >
   <Breadcrumb slot="breadcrumb" items={breadcrumbs} />
-  {autoIndex ? (
-    <Fragment>
-      <h1 class="text-heading font-bold mb-vsp-xs">{autoIndex.label}</h1>
-      {autoIndex.description && (
-        <p class="mt-0 mb-vsp-lg text-subheading text-muted">{autoIndex.description}</p>
-      )}
-      <nav class="grid grid-cols-1 gap-x-hsp-lg gap-y-vsp-md sm:grid-cols-2">
-        {autoIndex.children.filter((c: NavNode) => c.hasPage || c.children.length > 0).map((child: NavNode) => (
-          <a
-            href={child.href ?? docsUrl(child.slug, "en")}
-            class="group block border border-muted bg-surface px-hsp-lg py-vsp-md hover:border-accent"
-          >
-            <span class="font-medium text-accent underline group-hover:underline">{child.label}</span>
-            {child.description && (
-              <span class="mt-vsp-2xs block text-small text-muted group-hover:underline decoration-muted">{child.description}</span>
-            )}
-          </a>
-        ))}
-      </nav>
-    </Fragment>
-  ) : (
-    <Fragment>
-      <h1 class="text-heading font-bold mb-vsp-xs">{entry.data.title}</h1>
+  {
+    autoIndex ? (
+      <Fragment>
+        <h1 class="text-heading font-bold mb-vsp-xs">{autoIndex.label}</h1>
+        {autoIndex.description && (
+          <p class="mt-0 mb-vsp-lg text-subheading text-muted">
+            {autoIndex.description}
+          </p>
+        )}
+        <nav class="grid grid-cols-1 gap-x-hsp-lg gap-y-vsp-md sm:grid-cols-2">
+          {autoIndex.children
+            .filter((c: NavNode) => c.hasPage || c.children.length > 0)
+            .map((child: NavNode) => (
+              <a
+                href={child.href ?? docsUrl(child.slug, "en")}
+                class="group block border border-muted bg-surface px-hsp-lg py-vsp-md hover:border-accent"
+              >
+                <span class="font-medium text-accent underline group-hover:underline">
+                  {child.label}
+                </span>
+                {child.description && (
+                  <span class="mt-vsp-2xs block text-small text-muted group-hover:underline decoration-muted">
+                    {child.description}
+                  </span>
+                )}
+              </a>
+            ))}
+        </nav>
+      </Fragment>
+    ) : (
+      <Fragment>
+        <h1 class="text-heading font-bold mb-vsp-xs">{entry.data.title}</h1>
 
-      {entry.data.description && (
-        <p class="mt-0 mb-vsp-lg text-subheading text-muted">{entry.data.description}</p>
-      )}
+        {entry.data.description && (
+          <p class="mt-0 mb-vsp-lg text-subheading text-muted">
+            {entry.data.description}
+          </p>
+        )}
 
-      <Content components={components} />
+        <Content components={components} />
 
-      {settings.editUrl && entry && (
-        <div class="mt-vsp-xl mb-vsp-md border-t border-muted pt-vsp-md">
-          <EditLink contentDir={settings.docsDir} entryId={entry.id} locale="en" />
-        </div>
-      )}
+        {settings.editUrl && entry && (
+          <div class="mt-vsp-xl mb-vsp-md border-t border-muted pt-vsp-md">
+            <EditLink
+              contentDir={settings.docsDir}
+              entryId={entry.id}
+              locale="en"
+            />
+          </div>
+        )}
 
-      <nav class="mt-vsp-2xl grid grid-cols-2 gap-hsp-xl">
-        {prev ? (
-          <a href={prev.href} class="group border border-muted rounded-lg p-hsp-lg hover:border-accent">
-            <div class="flex items-center gap-hsp-xs text-caption text-muted mb-vsp-2xs">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-[0.75rem] w-[0.75rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-              <span>Previous</span>
-            </div>
-            <p class="text-small font-semibold group-hover:text-accent">{prev.label}</p>
-          </a>
-        ) : <div />}
-        {next ? (
-          <a href={next.href} class="group border border-muted rounded-lg p-hsp-lg hover:border-accent text-right">
-            <div class="flex items-center justify-end gap-hsp-xs text-caption text-muted mb-vsp-2xs">
-              <span>Next</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-[0.75rem] w-[0.75rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-            <p class="text-small font-semibold group-hover:text-accent">{next.label}</p>
-          </a>
-        ) : <div />}
-      </nav>
-    </Fragment>
-  )}
+        <nav class="mt-vsp-2xl grid grid-cols-2 gap-hsp-xl">
+          {prev ? (
+            <a
+              href={prev.href}
+              class="group border border-muted rounded-lg p-hsp-lg hover:border-accent"
+            >
+              <div class="flex items-center gap-hsp-xs text-caption text-muted mb-vsp-2xs">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-[0.75rem] w-[0.75rem]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                <span>Previous</span>
+              </div>
+              <p class="text-small font-semibold group-hover:text-accent">
+                {prev.label}
+              </p>
+            </a>
+          ) : (
+            <div />
+          )}
+          {next ? (
+            <a
+              href={next.href}
+              class="group border border-muted rounded-lg p-hsp-lg hover:border-accent text-right"
+            >
+              <div class="flex items-center justify-end gap-hsp-xs text-caption text-muted mb-vsp-2xs">
+                <span>Next</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-[0.75rem] w-[0.75rem]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div>
+              <p class="text-small font-semibold group-hover:text-accent">
+                {next.label}
+              </p>
+            </a>
+          ) : (
+            <div />
+          )}
+        </nav>
+      </Fragment>
+    )
+  }
 </DocLayout>
