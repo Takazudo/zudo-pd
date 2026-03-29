@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  commands:
+    format-mdx:
+      root: doc
+      glob: "doc/**/*.{md,mdx}"
+      run: pnpm dlx @takazudo/mdx-formatter --write {staged_files} && git add {staged_files}
+    format-astro:
+      root: doc
+      glob: "doc/**/*.astro"
+      run: npx prettier --write {staged_files} && git add {staged_files}
