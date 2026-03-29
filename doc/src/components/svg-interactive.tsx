@@ -7,7 +7,7 @@ interface SvgInteractiveProps {
   padding?: string;
   minWidth?: string;
   minHeight?: string;
-  enlargeIconUrl: string;
+  enlargeIconUrl?: string;
 }
 
 export default function SvgInteractive({
@@ -63,9 +63,9 @@ export default function SvgInteractive({
           alt={alt}
           style={{
             display: 'block',
-            maxWidth: '100%',
-            ...(minWidth ? { width: '100%', minWidth, objectFit: 'contain' } : {}),
-            ...(minHeight ? { height: '100%', minHeight } : {}),
+            width: '100%',
+            height: 'auto',
+            objectFit: 'contain',
             pointerEvents: 'none',
           }}
         />
@@ -74,24 +74,17 @@ export default function SvgInteractive({
             position: 'absolute',
             top: '8px',
             right: '8px',
-            padding: '4px',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: '6px',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            borderRadius: '4px',
             zIndex: 20,
+            lineHeight: 0,
           }}
         >
-          <img
-            src={enlargeIconUrl}
-            alt="Enlarge"
-            style={{
-              width: '20px',
-              height: '20px',
-              filter: 'brightness(0) invert(1)',
-              border: '0',
-              margin: '0',
-              borderRadius: '0',
-              display: 'block',
-            }}
-          />
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 170 170" fill="white">
+            <path d="M160.7 114.85v45.85H9.3V9.3h45.85V0H0V170H170V114.85h-9.3z"/>
+            <path d="M160.7 0H86.11v9.3h68.01l-81.2 81.21 6.57 6.57 81.21-81.2v68.01h9.3V0h-9.3z"/>
+          </svg>
         </div>
       </div>
 
