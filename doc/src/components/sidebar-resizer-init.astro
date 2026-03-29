@@ -12,8 +12,9 @@
     const ACCENT_OUTLINE = "2px solid var(--zd-accent, rgba(128,128,128,0.5))";
 
     function readCurrentWidth(): number {
-      const raw =
-        getComputedStyle(document.documentElement).getPropertyValue(CSS_PROP);
+      const raw = getComputedStyle(document.documentElement).getPropertyValue(
+        CSS_PROP,
+      );
       return raw ? parseFloat(raw) || MIN_W : MIN_W;
     }
 
@@ -54,10 +55,7 @@
 
     function applyWidth(w: number): void {
       cachedWidth = Math.max(MIN_W, Math.min(MAX_W, w));
-      document.documentElement.style.setProperty(
-        CSS_PROP,
-        cachedWidth + "px",
-      );
+      document.documentElement.style.setProperty(CSS_PROP, cachedWidth + "px");
       try {
         localStorage.setItem(LS_KEY, String(Math.round(cachedWidth)));
       } catch (_e) {
@@ -74,10 +72,8 @@
       } else {
         handle.style.background = "";
       }
-      handle.style.outline =
-        focused && !dragging ? ACCENT_OUTLINE : "";
-      handle.style.outlineOffset =
-        focused && !dragging ? "1px" : "";
+      handle.style.outline = focused && !dragging ? ACCENT_OUTLINE : "";
+      handle.style.outlineOffset = focused && !dragging ? "1px" : "";
     }
 
     handle.addEventListener("focus", () => {

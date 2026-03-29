@@ -24,12 +24,21 @@ interface Props {
   unlisted?: boolean;
 }
 
-const { title, description, currentSlug, headings = [], unlisted = false } = Astro.props;
+const {
+  title,
+  description,
+  currentSlug,
+  headings = [],
+  unlisted = false,
+} = Astro.props;
 const fullTitle = `${title} | ${settings.siteName}`;
 const navSection = currentSlug ? getNavSectionForSlug(currentSlug) : undefined;
 const currentPath = Astro.url.pathname;
 const htmlColorAttrs = settings.colorMode
-  ? { "data-theme": settings.colorMode.defaultMode, style: `color-scheme: ${settings.colorMode.defaultMode}` }
+  ? {
+      "data-theme": settings.colorMode.defaultMode,
+      style: `color-scheme: ${settings.colorMode.defaultMode}`,
+    }
   : {};
 ---
 
@@ -48,7 +57,11 @@ const htmlColorAttrs = settings.colorMode
   </head>
   <body class="min-h-screen antialiased">
     <Header currentPath={currentPath}>
-      <Sidebar slot="sidebar" currentSlug={currentSlug} navSection={navSection} />
+      <Sidebar
+        slot="sidebar"
+        currentSlug={currentSlug}
+        navSection={navSection}
+      />
     </Header>
 
     <div class="flex min-h-[calc(100vh-3.5rem)]">
@@ -64,9 +77,14 @@ const htmlColorAttrs = settings.colorMode
 
       <!-- Content + TOC wrapper -->
       <div class="flex-1 min-w-0 flex justify-center">
-        <div class="flex w-full max-w-[clamp(50rem,75vw,90rem)] gap-[clamp(1.5rem,3vw,4rem)]">
+        <div
+          class="flex w-full max-w-[clamp(50rem,75vw,90rem)] gap-[clamp(1.5rem,3vw,4rem)]"
+        >
           <!-- Main content -->
-          <main class="flex-1 min-w-0 px-hsp-xl py-vsp-xl lg:px-hsp-2xl lg:py-vsp-2xl" transition:animate="fade">
+          <main
+            class="flex-1 min-w-0 px-hsp-xl py-vsp-xl lg:px-hsp-2xl lg:py-vsp-2xl"
+            transition:animate="fade"
+          >
             <slot name="breadcrumb" />
             <MobileToc headings={headings} title="On this page" client:load />
             <article class="zd-content max-w-none">
