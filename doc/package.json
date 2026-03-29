@@ -9,7 +9,7 @@
     "dev:network": "astro dev --host 0.0.0.0",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro sync && tsc --noEmit",
+    "check": "astro sync && pnpm run format:mdx && tsc --noEmit",
     "b4push": "./scripts/run-b4push.sh",
     "prepare": "lefthook install --reset-hooks-path",
     "format:mdx": "pnpm dlx @takazudo/mdx-formatter --write \"src/content/**/*.{md,mdx}\"",

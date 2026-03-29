@@ -209,9 +209,11 @@ footprints/kicad/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.kicad_mod
 
 1. Check that cleanup script ran successfully
 2. Some SVGs may have additional text elements - inspect manually:
+
    ```bash
    grep "REF\*\*" problem-file.svg
    ```
+
 3. Update cleanup script if needed
 
 ### Problem: SVG appears blank in documentation
@@ -219,10 +221,12 @@ footprints/kicad/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.kicad_mod
 **Solution**:
 
 1. Verify SVG file is not corrupted:
+
    ```bash
    head -5 footprint.svg
    # Should show valid SVG header
    ```
+
 2. Check import path is correct
 3. Verify file was copied to `doc/public/footprint-svg/`
 

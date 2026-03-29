@@ -260,6 +260,7 @@ python -m easyeda2kicad --version
 - Check internet connection
 - Try again (server might be temporarily down)
 - Use `--full` flag for more detailed error messages:
+
   ```bash
   easyeda2kicad --lcsc_id C3975094 --footprint --full
   ```
