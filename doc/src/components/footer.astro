@@ -1,23 +1,11 @@
 ---
 import { settings } from "@/config/settings";
 import { isExternal, resolveHref } from "@/utils/base";
-import { type Locale } from "@/config/i18n";
-
-interface Props {
-  lang?: Locale;
-}
-
-const { lang = "en" } = Astro.props;
 
 const footer = settings.footer;
 if (!footer) return;
 
 const { links, copyright } = footer;
-
-function localizeHref(href: string): string {
-  if (isExternal(href)) return href;
-  return resolveHref(href);
-}
 ---
 
 <footer class="border-t border-muted bg-surface">
@@ -36,7 +24,11 @@ function localizeHref(href: string): string {
                 {column.items.map((item) => (
                   <li class="mb-vsp-2xs">
                     <a
-                      href={localizeHref(item.href)}
+                      href={
+                        isExternal(item.href)
+                          ? item.href
+                          : resolveHref(item.href)
+                      }
                       class="text-caption text-muted hover:text-accent hover:underline"
                       {...(isExternal(item.href)
                         ? { target: "_blank", rel: "noopener noreferrer" }

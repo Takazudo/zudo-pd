@@ -29,7 +29,10 @@
       /* localStorage may be blocked */
     }
 
-    let cachedWidth = readCurrentWidth();
+    // Use the sidebar's actual rendered width so keyboard steps start from
+    // the correct value even before any localStorage entry exists.
+    let cachedWidth =
+      sidebar.getBoundingClientRect().width || readCurrentWidth();
 
     const handle = document.createElement("div");
     handle.setAttribute("data-sidebar-resizer", "");

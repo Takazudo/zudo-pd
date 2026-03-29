@@ -47,16 +47,16 @@ export const settings = {
       {
         title: "Documentation",
         items: [
-          { label: "Overview", href: "/docs/overview/" },
-          { label: "Components", href: "/docs/components/" },
-          { label: "Learning", href: "/docs/learning/" },
+          { label: "Overview", href: "/docs/overview" },
+          { label: "Components", href: "/docs/components" },
+          { label: "Learning", href: "/docs/learning" },
         ],
       },
       {
         title: "Resources",
         items: [
-          { label: "How-To Guides", href: "/docs/how-to/" },
-          { label: "Quick Reference", href: "/docs/inbox/" },
+          { label: "How-To Guides", href: "/docs/how-to" },
+          { label: "Quick Reference", href: "/docs/inbox" },
         ],
       },
       {
