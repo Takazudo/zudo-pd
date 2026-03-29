@@ -96,8 +96,8 @@ The script removes:
 ```bash
 cd /Users/takazudo/repos/personal/zudo-pd/footprints
 
-# Copy cleaned SVGs to documentation fragments
-cp images/*.svg ../doc/docs/_fragments/footprints/
+# Copy cleaned SVGs to documentation public directory
+cp images/*.svg ../doc/public/footprint-svg/
 ```
 
 ### Step 5: Verify Results
@@ -105,7 +105,7 @@ cp images/*.svg ../doc/docs/_fragments/footprints/
 Check that SVGs are clean:
 
 ```bash
-cd /Users/takazudo/repos/personal/zudo-pd/doc/docs/_fragments/footprints
+cd /Users/takazudo/repos/personal/zudo-pd/doc/public/footprint-svg
 
 # Quick check: should find NO instances of REF** in SVG files
 grep -l "REF\*\*" *.svg
@@ -126,10 +126,9 @@ project/
 │   └── scripts/
 │       └── clean-svg-refs.py        # Cleanup script
 └── doc/
-    └── docs/
-        └── _fragments/
-            └── footprints/
-                └── *.svg            # Final SVGs for documentation
+    └── public/
+        └── footprint-svg/
+            └── *.svg                # Final SVGs for documentation
 ```
 
 ## Cleanup Script Details
@@ -182,7 +181,7 @@ import FootprintSvg from '../../../components/footprint-svg.astro';
 ### Component Features
 
 - Click-to-enlarge (90vw × 90vh fullscreen dialog)
-- Background color: `oklch(86.9% 0.005 56.366)`
+- Background color: uses `--color-bg` design token
 - Padding: 20px
 - Maintains aspect ratio
 
@@ -225,7 +224,7 @@ footprints/kicad/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.kicad_mod
    # Should show valid SVG header
    ```
 2. Check import path is correct
-3. Verify file was copied to `docs/_fragments/footprints/`
+3. Verify file was copied to `doc/public/footprint-svg/`
 
 ## Complete Example Workflow
 
@@ -248,17 +247,17 @@ grep -l "REF\*\*" images/*.svg
 # (No output = success)
 
 # 6. Copy to documentation
-cp images/*.svg ../doc/docs/_fragments/footprints/
+cp images/*.svg ../doc/public/footprint-svg/
 
 # 7. Verify in documentation
 cd ../doc
-npm start
-# Open browser to http://localhost:3000/docs/components
+pnpm dev
+# Open browser to http://localhost:3800/pj/zudo-pd/docs/components
 ```
 
 ## Next Steps
 
-- [View Footprint Preview](../misc/footprint-preview.md) - See all footprints in the documentation
+- [View Footprint Preview](../misc/footprint-preview.mdx) - See all footprints in the documentation
 - Update component pages to include new footprints
 - Commit changes to git
 

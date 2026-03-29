@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useState } from 'react';
 import CircuitDialog from './circuit-dialog';
 
 interface SvgInteractiveProps {
@@ -22,12 +22,12 @@ export default function SvgInteractive({
 
   const containerStyle: Record<string, string | undefined> = {
     padding,
-    border: '1px solid white',
+    border: '1px solid var(--color-muted)',
     margin: '0 0 20px',
     borderRadius: '2px',
     cursor: 'pointer',
     transition: 'border-color 0.2s',
-    background: 'oklch(86.9% 0.005 56.366)',
+    background: 'var(--color-bg)',
     position: 'relative',
   };
 
@@ -52,10 +52,10 @@ export default function SvgInteractive({
         }}
         style={containerStyle}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.borderColor = '#888';
+          (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-fg)';
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.borderColor = 'white';
+          (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-muted)';
         }}
       >
         <img

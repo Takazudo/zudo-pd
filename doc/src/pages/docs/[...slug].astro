@@ -84,7 +84,7 @@ const { entry, breadcrumbs = [], prev, next, autoIndex } = Astro.props;
 
 const components = { Note, Tip, Info, Warning, Danger, CategoryNav, Tabs, TabItem, Details };
 
-let Content: any;
+let Content: unknown;
 let headings: Heading[] = [];
 
 if (entry) {

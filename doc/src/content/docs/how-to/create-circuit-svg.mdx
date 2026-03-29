@@ -135,10 +135,10 @@ with schemdraw.Drawing(
 
     # Add all other components following the connection list...
 
-    # Save to docs/_fragments
+    # Save to doc/public/circuits/
     import os
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_path = os.path.join(script_dir, '../docs/_fragments/buck-u2-diagram.svg')
+    output_path = os.path.join(script_dir, '../doc/public/circuits/buck-u2-diagram.svg')
     d.save(output_path)
 
 print("✓ Buck converter diagram generated with transparent background")
@@ -151,7 +151,7 @@ print("✓ Buck converter diagram generated with transparent background")
 cd /Users/takazudo/repos/personal/zudo-pd/diagram-sources
 python3 buck-u2-diagram.py
 
-# Output: SVG saved to /doc/docs/_fragments/buck-u2-diagram.svg
+# Output: SVG saved to doc/public/circuits/buck-u2-diagram.svg
 ```
 
 ### Step 5: Integrate into Documentation
@@ -190,11 +190,13 @@ project/
 ├── diagram-sources/
 │   └── *.py                        # Schemdraw Python source files
 ├── doc/
-│   └── docs/
-│       └── _fragments/
-│           ├── CircuitSvg.jsx      # Click-to-enlarge component
-│           ├── CircuitDialog.jsx   # Fullscreen dialog
-│           └── *.svg               # Generated circuit diagrams
+│   ├── public/
+│   │   └── circuits/
+│   │       └── *.svg               # Generated circuit diagrams
+│   └── src/
+│       └── components/
+│           ├── circuit-svg.astro   # Click-to-enlarge component
+│           └── circuit-dialog.tsx  # Fullscreen dialog
 ```
 
 ## Schemdraw Configuration
@@ -214,9 +216,9 @@ with schemdraw.Drawing(
 
 ### Why Transparent Background with Black Foreground?
 
-- Allows HTML container background (`oklch(86.9% 0.005 56.366)`) to show through
+- Allows HTML container background to show through
 - Black lines and text are visible on light container backgrounds
-- Works seamlessly with web-based documentation (Docusaurus)
+- Works seamlessly with web-based documentation (Astro)
 - Professional appearance with clean contrast
 - Integrates with any light-themed documentation
 
@@ -300,7 +302,7 @@ The `CircuitSvg` component provides click-to-enlarge functionality:
 **Features:**
 
 - Click to open fullscreen (90vw × 90vh)
-- Background color: `oklch(86.9% 0.005 56.366)`
+- Background color: uses `--color-bg` design token
 - Padding: 20px (both thumbnail and dialog)
 - Maintains aspect ratio
 - Keyboard accessible (Enter/Space to open)
@@ -372,16 +374,16 @@ cd /Users/takazudo/repos/personal/zudo-pd/diagram-sources
 python3 buck-u2-diagram.py
 
 # 5. Verify SVG output
-ls -l doc/docs/_fragments/buck-u2-diagram.svg
+ls -l doc/public/circuits/buck-u2-diagram.svg
 
 # 6. Test in documentation
 cd /Users/takazudo/repos/personal/zudo-pd/doc
-npm start
-# Open: http://localhost:3000/do../components/lm2596s-adj
+pnpm dev
+# Open: http://localhost:3800/pj/zudo-pd/docs/components/lm2596s-adj
 
 # 7. Commit both Python source and SVG
 git add diagram-sources/buck-u2-diagram.py
-git add doc/docs/_fragments/buck-u2-diagram.svg
+git add doc/public/circuits/buck-u2-diagram.svg
 git commit -m "Add LM2596S buck converter circuit diagram"
 ```
 

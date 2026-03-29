@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'preact/hooks';
+import { useEffect, useRef } from 'react';
 
 interface CircuitDialogProps {
   isOpen: boolean;
@@ -101,7 +101,7 @@ export default function CircuitDialog({ isOpen, onClose, alt, src }: CircuitDial
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'oklch(86.9% 0.005 56.366)',
+            background: 'var(--color-bg)',
             padding: '20px',
           }}
         >
