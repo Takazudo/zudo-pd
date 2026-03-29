@@ -1,0 +1,24 @@
+---
+import SvgInteractive from './svg-interactive';
+
+interface Props {
+  src: string;
+  alt: string;
+  padding?: string;
+  minWidth?: string;
+  minHeight?: string;
+}
+
+const { src, alt, padding = '20px', minWidth = '200px', minHeight = '200px' } = Astro.props;
+const enlargeIconUrl = `${import.meta.env.BASE_URL}img/enlarge.svg`;
+---
+
+<SvgInteractive
+  client:load
+  src={src}
+  alt={alt}
+  padding={padding}
+  minWidth={minWidth}
+  minHeight={minHeight}
+  enlargeIconUrl={enlargeIconUrl}
+/>

@@ -1,0 +1,18 @@
+import CircuitSvg from '../../../components/circuit-svg.astro';
+
+<CircuitSvg src="/pj/zudo-pd/circuits/buck-u2-diagram.svg" alt="LM2596S Buck Converter U2" padding="10px" />
+
+**Key Points:**
+
+- **Two-stage design**: Buck converter (U2) reduces voltage with high efficiency, then linear regulator (LM7812) provides low-noise final output
+- **Capacitor order**: C5/C6 (input filter) → [U2 + L1] → C3 (buck output filter) → [LM7812] → output capacitors
+- **C3 role**: Filters switching ripple from buck converter before feeding the linear regulator
+- **Switching node**: Junction at OUTPUT pin 2, where L1 and D1 cathode connect
+- **D1 flyback path**: Provides current path when U2's internal switch is OFF (D1 cathode → switching node; D1 anode → GND)
+- **L1 output and D1 anode are completely separate paths** - they do NOT connect to each other
+
+<details>
+  <summary>View ASCII art circuit</summary>
+
+  ``` Buck Converter IC: ┌──────────────────────┐ +15V IN ────────────┤1 VIN OUTPUT 2├─── Switching Node ──┬─→ L1 (100µH, 4.5A) ─→ +13.5V │ │ │ │ FB 4├─── Tap │ │ │ (feedback) │ ┌──┤3 GND │ │ │ │5 ON/OFF (tie to GND) │ D1 SS34 │ └──────────────────────┘ cathode GND LM2596S-ADJ │ (TO-263-5L) anode │ GND Input Capacitors (C6 closest to IC): +15V ──┬────────────────┬─── To IC Pin 1 │ │ C5 C6 100µF 100nF electrolytic ceramic (farther) (CLOSE!) │ │ GND GND Output Filter: ┌─── To Linear Regulator (LM7812) │ +13.5V ──────────┼─── C3 (470µF/25V) │ electrolytic │ │ │ GND │ Signal Path: +15V → [U2] → L1 → +13.5V → C3 → [LM7812] → +12V OUT Feedback Network (Voltage Divider with Compensation): +13.5V ──┬─── R1 (10kΩ) ───┬─── R2 (1kΩ) ─── GND │ │ └─── C31 (22nF) ──┤ │ Tap → To IC Pin 4 (FB) Components: - R1 (10kΩ) with C31 (22nF) in parallel: Creates pole-zero compensation (Type II) - R2 (1kΩ): Sets feedback tap voltage - C31 (22nF ceramic): Feedback compensation capacitor in parallel with R1 - Improves transient response and loop stability - Reduces switching noise on feedback line - Prevents oscillation Tap voltage = +13.5V × R2/(R1+R2) = 13.5V × 1kΩ/11kΩ = 1.23V U2 maintains FB pin at 1.23V reference by adjusting duty cycle ```
+</details>
