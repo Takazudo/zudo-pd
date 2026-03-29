@@ -42,11 +42,10 @@ export const settings = {
   } as { claudeDir: string; projectRoot?: string } | false,
   footer: false as false,
   headerNav: [
-    { label: "Overview", path: "/docs/overview", categoryMatch: "overview" },
-    { label: "Components", path: "/docs/components", categoryMatch: "components" },
-    { label: "Learning", path: "/docs/learning", categoryMatch: "learning" },
-    { label: "How-To", path: "/docs/how-to", categoryMatch: "how-to" },
-    { label: "Misc", path: "/docs/misc", categoryMatch: "misc" },
-    { label: "INBOX", path: "/docs/inbox", categoryMatch: "inbox" },
+    { label: "Overview", path: "/docs/overview/", categoryMatch: "overview" },
+    { label: "Components", path: "/docs/components/", categoryMatch: "components" },
+    { label: "Learning", path: "/docs/learning/", categoryMatch: "learning" },
+    { label: "How-To", path: "/docs/how-to/", categoryMatch: "how-to" },
+    { label: "Misc", path: "/docs/misc/", categoryMatch: "misc" },
   ] satisfies HeaderNavItem[],
 };
