@@ -32,8 +32,6 @@ runs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'pnpm'
-        cache-dependency-path: '${{ inputs.working-directory }}/pnpm-lock.yaml'
 
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
