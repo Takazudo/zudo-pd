@@ -121,9 +121,9 @@ export function remarkResolveMarkdownLinks(
   options: ResolveMarkdownLinksOptions,
 ) {
   const onBrokenLinks = options.onBrokenLinks ?? "warn";
+  const sourceMap = buildDocsSourceMap(options);
 
   return (tree: Root, file: { path?: string }) => {
-    const sourceMap = buildDocsSourceMap(options);
 
     const currentFilePath = file.path;
     if (!currentFilePath) return;
