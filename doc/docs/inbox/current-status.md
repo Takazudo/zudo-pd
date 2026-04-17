@@ -72,36 +72,46 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 - Stage 3: $0.37
 - Stage 4: $1.79 (all parts confirmed price)
 
+### 5. PCB Layout (100% Complete) ✅
+
+**PCBA v2 layout complete — DRC clean as of 2026-04-18**:
+
+- ✅ R14 (470 Ω) placed — VBUS_IN to VBUS_VS_DISCH (pin 18) pull
+- ✅ R15, R16 (4.7 k each) placed — I2C pull-ups for NVM programming interface
+- ✅ J2 placed — pogo pad footprint for NVM programming access
+- ✅ All components placed and routed
+- ✅ DRC run with zero errors
+
 ## 🔄 Current Status
 
 ### Where Are We Now?
 
-**Circuit design and parts selection phases complete** → **Next: PCB design phase**
+**PCBA v2 schematic and PCB layout complete — ready to generate manufacturing files**
 
-Current state:
+Full project history to date:
 
-1. ✅ Circuit design complete - Working design finalized
-2. ✅ **All parts selection complete** - JLCPCB part numbers confirmed (100%), optimized to high-stock parts
-3. ✅ **BOM fully confirmed** - Cost $4.68/board
-4. ⏳ PCB design not started - KiCad board design is next ← **This is next!**
-5. ⏳ Prototype not manufactured - JLCPCB order not yet placed
+1. ✅ Circuit design complete — Working 4-stage design finalized
+2. ✅ **All parts selection complete** — JLCPCB part numbers confirmed (100%), optimized to high-stock parts
+3. ✅ **BOM fully confirmed** — Cost $4.68/board
+4. ✅ **PCBA v1 ordered and tested** — Board powered up but STUSB4500 failed to negotiate USB-PD. Root cause: pin 18 (VBUS_VS_DISCH) unconnected, pin 22 (VSYS) shorted to VREG_2V7. Bodge wires applied for analysis.
+5. ✅ **v2 schematic fixes applied** — R14 (470 Ω, pin 18 pull), R15/R16 (4.7 k I2C pull-ups), J2 (pogo pads for NVM programming) added. VSYS connected to GND.
+6. ✅ **v2 PCB layout complete** — All components placed and routed. DRC clean as of 2026-04-18.
+7. ⏳ **Generate manufacturing files** — Gerbers, drill files, BOM, CPL for JLCPCB reorder ← **This is next!**
+
+### Hardware Acquired
+
+- **NUCLEO-F072RB** (STM32 Nucleo board, used as USB-to-I2C bridge for STUSB4500 NVM programming) — purchased
+- **4P 2.54 mm pogo pin clip** (AliExpress item 1005006108783889, mates with J2 pogo pads) — purchased
+- **PCBA v1 physical boards** — N boards retained for bodge reference (see JLCPCB order history)
 
 ### What's Next?
 
-**All parts confirmed! KiCad PCB design is the next step**
+**Generate Gerber/BOM/CPL files and place PCBA v2 order at JLCPCB**
 
-Ready to proceed:
-
-1. ✅ **Complete BOM** - All parts have JLCPCB part numbers (all optimized to high-stock parts)
-- Benefit: Footprint assignment possible
-- Benefit: Accurate Gerber/BOM generation in one shot
-- Benefit: All parts have 158K~272K stock for long-term procurement stability
-
-2. ✅ **Cost confirmed** - $4.68/board
-- Prototype order estimates can be calculated accurately
-
-3. 📐 **Next Action**: Create KiCad project
-- Schematic entry → Footprint assignment → PCB layout
+1. ✅ **Schematic and PCB layout done** — v2 schematic and layout with all debug fixes applied
+2. ✅ **DRC clean** — Zero errors as of 2026-04-18
+3. 📐 **Next Action**: Generate manufacturing files from KiCad
+   - Gerber files → Drill files → BOM (JLCPCB format) → CPL (component placement)
 
 ## 📋 Next Steps (Priority Order)
 
@@ -128,7 +138,7 @@ Ready to proceed:
 
 ### 🟡 Priority: Medium - Do Next
 
-#### Step 3: Prepare PCB Design (Time: 2-3 hours) ← **We are here!**
+#### ~~Step 3: Prepare PCB Design~~ ✅ **Complete!**
 
 **KiCad Project Setup**:
 
@@ -143,7 +153,7 @@ Ready to proceed:
 - `/footprints/USB-TYPE-C-009.png` - Already available
 - Other standard footprints use KiCad standard library
 
-#### Step 4: PCB Board Design (Time: 1-2 days)
+#### ~~Step 4: PCB Board Design~~ ✅ **Complete!**
 
 **Layout Policy**:
 
@@ -170,7 +180,7 @@ Ready to proceed:
 
 ### 🟢 Priority: Low - Pre-Prototype Preparation
 
-#### Step 5: Generate Manufacturing Files (Time: 1 hour)
+#### Step 5: Generate Manufacturing Files (Time: 1 hour) ← **We are here!**
 
 - Generate Gerber files
 - Generate Drill files
@@ -216,10 +226,10 @@ The first prototype PCBA (v1) failed during testing. The STUSB4500 USB-PD contro
 
 ### Required Schematic Fixes Before Next Order
 
-- [ ] Add R14 (470ohm) from VBUS_IN to VBUS_VS_DISCH (pin 18)
-- [ ] Connect VSYS (pin 22) to GND
-- [ ] Verify VREG_2V7 (pin 23) decoupling is correct (C30 only)
-- [ ] Run DRC and review all STUSB4500 connections
+- [x] Add R14 (470ohm) from VBUS_IN to VBUS_VS_DISCH (pin 18)
+- [x] Connect VSYS (pin 22) to GND
+- [x] Verify VREG_2V7 (pin 23) decoupling is correct (C30 only)
+- [x] Run DRC and review all STUSB4500 connections
 
 See the full [PCBA v1 Debug Report](/docs/inbox/pcba-v1-debug) for detailed analysis, bodge wire instructions, and reference design comparison.
 
@@ -305,7 +315,8 @@ See the full [PCBA v1 Debug Report](/docs/inbox/pcba-v1-debug) for detailed anal
 
 1. ~~**5 minutes**: Search for parts~~ ✅ **Complete!**
 2. ~~**30 minutes**: Update BOM~~ ✅ **Complete!**
-3. **1 hour**: Install KiCad and create new project ← **Start here!**
-4. **1 day**: Enter complete circuit in schematic editor
+3. ~~**1 hour**: Install KiCad and create new project~~ ✅ **Complete!**
+4. ~~**1 day**: Enter complete circuit in schematic editor~~ ✅ **Complete!**
+5. **1 hour**: Generate Gerber/BOM/CPL files in KiCad and place PCBA v2 order ← **Start here!**
 
-**All parts confirmed! Start with "Step 3: Prepare PCB Design"!** 🚀
+**PCBA v2 schematic + layout done and DRC clean! Generate manufacturing files and reorder!** 🚀
