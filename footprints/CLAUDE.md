@@ -60,3 +60,48 @@ cp ../images/*.svg ../../doc/docs/_fragments/footprints/
 ```
 
 **Note**: This is a manual process. Run after adding/updating footprints. Future automation may be added via CI/CD.
+
+## Dual-location sync rule
+
+> Every `.kicad_mod` file must exist in BOTH `footprints/kicad/*.kicad_mod` (source of truth) AND `footprints/kicad/zudo-power.pretty/*.kicad_mod` (KiCad library resolution path). A file only in the master dir will NOT resolve when KiCad opens the PCB. The Quick Workflow `cp *.kicad_mod zudo-power.pretty/` step is mandatory, not optional.
+
+## Hand-created footprints
+
+Some parts do not exist in LCSC or EasyEDA. For those, create the footprint by hand rather than running `easyeda2kicad`.
+
+### When to hand-create
+
+Create a footprint manually when the component is not a standard LCSC part:
+
+- Bare test pads
+- Card-edge / board-edge pads
+- Mechanical mounting features
+- Fiducial marks
+- Logos and silkscreen art
+- Pogo pin arrays for programming jigs
+
+### File format
+
+Use the legacy `(module ...)` S-expression format. Copy the style and layer assignments from an existing neighbor such as `footprints/kicad/R0603.kicad_mod` for consistency with the rest of the library.
+
+### Library prefix convention
+
+- **Hand-created footprints** can use the library tag `zudo-pd:<Name>` — this matches the `fp-lib-table` library name `zudo-pd`.
+- **Downloaded footprints** (via `easyeda2kicad`) keep their original `easyeda2kicad:<Name>` tag.
+
+Both prefix styles resolve correctly because the single `fp-lib-table` entry `zudo-pd` points at the `footprints/kicad/zudo-power.pretty/` directory. The library prefix stored inside the `.kicad_mod` file itself is documentation only — KiCad resolves footprints by directory, not by the prefix string inside the file.
+
+### Where to save
+
+Write the new footprint to **two locations**:
+
+1. `footprints/kicad/<Name>.kicad_mod` — master / source of truth
+2. `footprints/kicad/zudo-power.pretty/<Name>.kicad_mod` — KiCad library resolution path
+
+Then run the SVG export workflow above so documentation stays up to date.
+
+## Hand-created inventory
+
+The following footprints in this library were created by hand (not downloaded from LCSC/EasyEDA):
+
+- `PogoPad_1x04_P2.54mm` — 4P 2.54 mm pogo pad array for STUSB4500 NVM I2C programming (see `doc/docs/inbox/nvm-programming.md`)
