@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a hardware project for designing a USB-PD powered modular synthesizer power supply that converts USB-C PD 15V to +12V/1.2A, -12V/0.8A, and +5V/0.5A outputs for modular synthesizers. The project uses a multi-stage design with DC-DC converters followed by linear regulators for low-noise output.
 
+## Current Phase
+
+PCBA v2 schematic + PCB layout complete, DRC clean, ready to generate Gerbers/BOM/CPL for JLCPCB reorder.
+
+- For detailed current state, see `doc/docs/inbox/current-status.md`
+- For STUSB4500 NVM programming setup, see `doc/docs/inbox/nvm-programming.md`
+- For PCBA v1 debug findings (still referenced on v2), see `doc/docs/inbox/pcba-v1-debug.md`
+
 ## Repository Structure
 
 - `/doc/` - **Docusaurus documentation site** (has its own CLAUDE.md)
@@ -31,11 +39,11 @@ This is a hardware project for designing a USB-PD powered modular synthesizer po
 
 The power supply uses a 4-stage architecture:
 
-1. **USB-PD Stage**: CH224Q IC negotiates 15V from USB-C PD
+1. **USB-PD Stage**: STUSB4500 IC (USB-IF certified PD protocol controller) negotiates 15V from USB-C PD
 2. **DC-DC Stage**: Multiple LM2596S-ADJ converters create intermediate voltages
    - +15V → +13.5V (for +12V rail)
    - +15V → +7.5V (for +5V rail)
-   - +15V → -15V (ICL7660 voltage inverter) → -13.5V (for -12V rail)
+   - +15V → -15V (LM2586SX-ADJ inverted SEPIC) → -13.5V (for -12V rail)
 3. **Linear Regulator Stage**: LM78xx/LM79xx series for final low-noise outputs
    - LM7812: +13.5V → +12V
    - LM7805: +7.5V → +5V
