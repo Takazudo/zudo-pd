@@ -115,16 +115,9 @@ J2 is not a physical component - it is bare copper SMD pads on the PCB edge. No 
 | **Symbol** | `Connector_Generic:Conn_01x04` (built-in KiCad library) |
 | **Footprint** | Custom `zudo-pd:PogoPad_1x04_P2.54mm` (create in project footprint library) |
 
-**Custom footprint specifications:**
-
-- 4 SMD pads in a single row
-- Pad size: 1.5 mm × 2.5 mm (rectangular)
-- Pitch: 2.54 mm (0.1 inch)
-- **Must be placed at the PCB edge** so the pogo clip can grip the board
-- `F.Cu` + `F.Mask` only — no `F.Paste` (exposed copper for pogo contact)
-- Silkscreen labels: SCL, SDA, GND, NC
-
 **Pad placement on PCB:**
+
+The 4 SMD pads sit in a single row. **J2 must be placed at the PCB edge** so the pogo clip can grip the board — see the `PogoPad footprint design` subsection below for the concrete pad/layer/silkscreen spec.
 
 ```
                     PCB edge
