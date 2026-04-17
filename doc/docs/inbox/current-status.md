@@ -111,7 +111,7 @@ Full project history to date:
 1. ✅ **Schematic and PCB layout done** — v2 schematic and layout with all debug fixes applied
 2. ✅ **DRC clean** — Zero errors as of 2026-04-18
 3. 📐 **Next Action**: Generate manufacturing files from KiCad
-   - Gerber files → Drill files → BOM (JLCPCB format) → CPL (component placement)
+- Gerber files → Drill files → BOM (JLCPCB format) → CPL (component placement)
 
 ## 📋 Next Steps (Priority Order)
 
