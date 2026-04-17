@@ -46,6 +46,13 @@ A spring-loaded pogo pin clip clamps onto the PCB edge and contacts bare copper 
 | --- | --- | --- | --- |
 | Pogo pin clip | 4P single-row, 2.54mm pitch, with dupont wires | [AliExpress](https://ja.aliexpress.com/item/1005006108783889.html) | ~410 JPY |
 
+**Clip mechanical specs:**
+
+- **AliExpress item**: 1005006108783889 (equivalent to Adafruit 5433 / The Pi Hut variant)
+- **Max landing depth**: 25 mm from board edge — the clip body cannot reach further inward
+- **Recommended landing**: 2–3 mm inward from the board edge — gives the clip body a lip to grip and centers the pogo tips on the pad
+- **Minimum pad-to-edge clearance**: 0.3 mm for JLCPCB manufacturing (0.5 mm is safer to avoid routing issues)
+
 ### Option A: NUCLEO-F072RB + STSW-STUSB002 GUI (Recommended)
 
 Only one board is needed. The STEVAL-ISC005V1 eval board is **not required** since we program the STUSB4500 on our own PCB.
@@ -111,10 +118,10 @@ J2 is not a physical component - it is bare copper SMD pads on the PCB edge. No 
 **Custom footprint specifications:**
 
 - 4 SMD pads in a single row
-- Pad size: 2.0mm x 1.0mm (rectangular) or 1.5mm diameter (round)
-- Pitch: 2.54mm (0.1 inch)
+- Pad size: 1.5 mm × 2.5 mm (rectangular)
+- Pitch: 2.54 mm (0.1 inch)
 - **Must be placed at the PCB edge** so the pogo clip can grip the board
-- No solder mask on pads (exposed copper for contact)
+- `F.Cu` + `F.Mask` only — no `F.Paste` (exposed copper for pogo contact)
 - Silkscreen labels: SCL, SDA, GND, NC
 
 **Pad placement on PCB:**
@@ -130,6 +137,34 @@ J2 is not a physical component - it is bare copper SMD pads on the PCB edge. No 
                        │
 ───────────────────────┘
 ```
+
+### PogoPad footprint design
+
+The footprint `PogoPad_1x04_P2.54mm` records the concrete numbers used in the actual KiCad file:
+
+| Property | Value |
+| --- | --- |
+| Pad shape | Rectangular |
+| Pad size | 1.5 mm × 2.5 mm |
+| Pitch | 2.54 mm (0.1 inch) |
+| Layers | `F.Cu` + `F.Mask` only |
+| `F.Paste` | **Not included** |
+
+**Why no solder paste (`F.Paste`)?**
+Pogo pins contact bare copper directly — no solder joint is formed. Including `F.Paste` would deposit solder paste on these pads during SMT manufacturing, which would harden into a rough surface that prevents reliable pogo tip contact. JLCPCB also rejects paste on edge pads. Omitting `F.Paste` keeps the copper surface clean and exposed.
+
+**Silkscreen markings:**
+
+- Pin labels: `SCL`, `SDA`, `GND`, `NC` (one per pad)
+- An edge-side line running parallel to the pad row, indicating the board edge
+- A `<-- EDGE` text marker placed outside the board outline (for placement orientation only — this gets cut off during PCB fabrication, which is intentional)
+
+**File locations in this repo:**
+
+- `footprints/kicad/PogoPad_1x04_P2.54mm.kicad_mod` (master copy)
+- `footprints/kicad/zudo-power.pretty/PogoPad_1x04_P2.54mm.kicad_mod` (KiCad library path)
+
+Both locations must exist and stay in sync. See `footprints/CLAUDE.md` for the dual-location rule and the workflow for keeping them in sync.
 
 ### Circuit
 
@@ -211,14 +246,14 @@ The STUSB4500 NVM is rated for approximately **1,000 write cycles**. Configure o
 
 ## Schematic Fix Checklist
 
-- [ ] Remove no-connect markers from SCL (pin 7) and SDA (pin 8)
-- [ ] Add R15 (4.7kohm, 0603) from SCL to VREG_2V7
-- [ ] Add R16 (4.7kohm, 0603) from SDA to VREG_2V7
-- [ ] Add J2 symbol (`Connector_Generic:Conn_01x04`) connected to SCL, SDA, GND, NC
-- [ ] Create custom footprint `PogoPad_1x04_P2.54mm` in zudo-pd library
-- [ ] Assign footprint to J2
-- [ ] Place J2 pads at board edge in PCB layout
-- [ ] Run DRC
+- [x] Remove no-connect markers from SCL (pin 7) and SDA (pin 8)
+- [x] Add R15 (4.7kohm, 0603) from SCL to VREG_2V7
+- [x] Add R16 (4.7kohm, 0603) from SDA to VREG_2V7
+- [x] Add J2 symbol (`Connector_Generic:Conn_01x04`) connected to SCL, SDA, GND, NC
+- [x] Create custom footprint `PogoPad_1x04_P2.54mm` in zudo-pd library
+- [x] Assign footprint to J2
+- [x] Place J2 pads at board edge in PCB layout
+- [x] Run DRC
 
 ## References
 
