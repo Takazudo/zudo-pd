@@ -1,0 +1,10 @@
+pre-commit:
+  parallel: true
+  commands:
+    format-mdx:
+      glob: "doc/**/*.{md,mdx}"
+      run: pnpm dlx @takazudo/mdx-formatter --write {staged_files} && git add {staged_files}
+    format-astro:
+      root: doc
+      glob: "doc/**/*.astro"
+      run: node_modules/.bin/prettier --write {staged_files} && printf '%s\n' {staged_files} | sed 's|^|doc/|' | xargs -r git -C ../ add

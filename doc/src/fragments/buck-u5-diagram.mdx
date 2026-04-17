@@ -1,0 +1,18 @@
+import CircuitSvg from '../components/circuit-svg.astro';
+
+<CircuitSvg src="/pj/zudo-pd/circuits/buck-u5-diagram.svg" alt="LM2596S Buck Converter U4 (Negative Voltage)" padding="10px" />
+
+**Key Points:**
+
+- **Switching node** is the junction at OUTPUT pin 2
+- **Path 1**: Switching node → L3 → -13.5V output (main current path)
+- **Path 2**: Switching node → D3 cathode; D3 anode → GND (flyback/freewheeling path)
+- **D3** has exactly 2 connections: cathode to switching node, anode to GND
+- **L3 output and D3 anode are completely separate paths** - they do NOT connect to each other
+- **Negative voltage regulation**: All voltages are referenced to GND (0V); electrolytic capacitors must have correct polarity
+
+<details>
+  <summary>View ASCII art circuit</summary>
+
+  ``` Input: -15V ──┬─── C9 (100µF) ─── GND │ └─── C10 (100nF) ─── GND Controller: U4 (LM2596S-ADJ) -15V ──┬─────┤ VIN (1) └─────┤ ON/OFF (5) (floating - internal pull-up enables regulator) OUTPUT (2) ├─── Switching Node FB (4) ├───→ Tap (see feedback network below) GND (3) ├─── GND Switching Node splits into TWO paths: Path 1 (to output): Switching Node ──→ L3 (100µH, 4.5A) ──→ -13.5V Out Path 2 (flyback): Switching Node ──→ D3 cathode (SS34 Schottky) D3 anode ──→ GND Output Filter: -13.5V Out ──→ C11 (470µF/25V) ──→ GND Note: Electrolytic capacitor polarity - negative terminal to -13.5V, positive terminal to GND ``` ### Feedback Network (Voltage Divider with Compensation) ``` Feedback Network (Voltage Divider with Compensation): -13.5V ──┬─── R5 (10kΩ) ──┬─── R6 (1kΩ) ─── GND │ │ └─── C12 (22nF) ─┤ │ Tap → To IC Pin 4 (FB) Components: - R5 (10kΩ) with C12 (22nF) in parallel: Creates pole-zero compensation (Type II) - R6 (1kΩ): Sets feedback tap voltage - C12 (22nF ceramic): Feedback compensation capacitor in parallel with R5 - Improves transient response and loop stability - Reduces switching noise on feedback line - Prevents oscillation Tap voltage = -13.5V × R6/(R5+R6) = -13.5V × 1kΩ/11kΩ = -1.23V U4 maintains FB pin at 1.23V below GND by adjusting duty cycle ```
+</details>

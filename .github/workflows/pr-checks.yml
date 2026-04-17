@@ -1,0 +1,103 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build:
+    name: Build Site
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/build-doc
+        with:
+          node-version: '22'
+          pnpm-version: '10'
+          working-directory: 'doc'
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: doc-build-pr-${{ github.event.pull_request.number }}
+          path: doc/dist/
+          include-hidden-files: true
+          retention-days: 1
+
+  preview:
+    name: Deploy Preview
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v6
+        with:
+          name: doc-build-pr-${{ github.event.pull_request.number }}
+          path: doc/dist
+
+      - name: Deploy to Netlify Preview
+        id: deploy
+        uses: ./.github/actions/deploy-netlify
+        with:
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          deploy-alias: 'pr-${{ github.event.pull_request.number }}'
+          deploy-message: 'Preview: PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}'
+          build-dir: 'doc/dist'
+
+      - name: Comment preview URL on PR
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const deployUrl = '${{ steps.deploy.outputs.deploy-url }}';
+            const siteUrl = deployUrl ? deployUrl + '/pj/zudo-pd/' : '';
+            const sha = context.payload.pull_request.head.sha.substring(0, 7);
+            const body = [
+              `### Preview deployment`,
+              ``,
+              `| | |`,
+              `|---|---|`,
+              `| **URL** | ${siteUrl} |`,
+              `| **Commit** | \`${sha}\` |`,
+              `| **Branch** | \`${context.payload.pull_request.head.ref}\` |`,
+            ].join('\n');
+
+            // Find existing preview comment to update
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('### Preview deployment')
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

@@ -1,0 +1,36 @@
+import CircuitSvg from '../components/circuit-svg.astro';
+
+<CircuitSvg src="/pj/zudo-pd/circuits/ldo-u8-diagram.svg" alt="LM7912 Linear Regulator U8 (Negative Voltage)" padding="10px" />
+
+**Capacitor Placement (Critical for PCB layout):**
+
+- **C28/C19 (ceramic)**: Place RIGHT NEXT to IC pins (minimize trace length for high-freq filtering)
+- **C24/C25 (electrolytic)**: Can be placed farther from IC (bulk storage, less sensitive to distance)
+
+**Important: Negative Voltage Component Polarities**
+
+- **Electrolytic capacitors REVERSED**: C24 and C25 have negative terminal to negative voltage, positive terminal to GND
+- **LED polarity REVERSED**: LED4 anode to GND (0V, highest potential), cathode through R16 to -12V (lowest potential)
+
+**Key Points:**
+
+- **Two-stage design**: Buck converter (U4) provides efficient voltage reduction, linear regulator (U8) provides low-noise final output
+- **Input capacitor order**: C24 (bulk, farther) and C28 (ceramic, close to IC)
+- **Output capacitor order**: C19 (ceramic, close to IC) and C25 (bulk, farther)
+- **LED indicator**: Red LED (LED4) with 1kΩ current-limiting resistor shows -12V rail is active
+- **LED current**: I = (0V - 2V - (-12V)) / 1kΩ = 10mA (current flows from GND through LED to -12V)
+- **Dropout voltage**: LM7912 requires ~2V dropout, so -13.5V input provides 1.5V headroom
+- **LM7912 pinout**: Different from positive regulators - pin 1=GND, pin 2=IN, pin 3=OUT (79xx series)
+
+**Protection Circuit (-12V Rail, 0.8A target, 1A max):**
+
+- **Protection layers**: LM7912 current limiting (~1A max) → LM7912 thermal shutdown (150°C) → PTC3 trips (&gt;3.0A) → USB-PD adapter protection
+- **PTC3**: C883133 (BSMD1206-150-16V) - 1.5A hold, 3.0A trip, auto-reset fuse with 88% margin above 0.8A operation
+- **TVS3**: SMAJ15A (unidirectional, 15V) - **Anode to -12V OUT, Cathode to GND** (reversed for negative rail)
+- **Operation**: Normal (&lt;1.5A) = PTC low resistance, LED on; Overload (1.5A-3.0A) = PTC heats/trips in 1-5s; Short circuit (&gt;3.0A) = LM7912 current limiting + PTC trips in 0.5-5s; Auto-reset after 30-60s cooling
+
+<details>
+  <summary>View ASCII art circuit</summary>
+
+  ``` Regulator IC: ┌──────────────────┐ -13.5V IN ──────────┤2 IN OUT 3├──────────── -12V OUT │ │ ┌──┤1 GND │ │ └──────────────────┘ GND LM7912 (TO-252-3) Input Capacitors (C28 closest to IC): -13.5V ──┬────────────────┬─── To IC Pin 2 (IN) │ │ C24 C28 470µF 470nF electrolytic ceramic (farther) (CLOSE!) Polarity: - to -13.5V, + to GND │ │ GND GND Output Capacitors (C19 closest to IC): From IC Pin 3 (OUT) ──┬────────────────┬─── -12V │ │ C19 C25 100nF 470µF ceramic electrolytic (CLOSE!) (farther) Polarity: - to -12V, + to GND │ │ GND GND Status LED (reversed polarity for negative rail): GND ──── LED4 Anode (Red) ──── LED4 Cathode ──── R16 (1kΩ) ──── -12V Protection Circuit: -12V IN ─── PTC3 ───┬─→ -12V OUT BSMD1206-150-16V │ (1.5A hold) │ (3.0A trip) │ │ ┌┴┐ TVS3 (SMAJ15A) │ │ Anode up (reversed) └┬┘ Cathode down │ GND ```
+</details>
