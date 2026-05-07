@@ -75,6 +75,7 @@ const sidebars = {
     'how-to/kicad-parts-download',
     'how-to/create-footprint-svg',
     'how-to/create-circuit-svg',
+    'how-to/kicad-jlcpcb-tools',
   ],
   miscSidebar: ['misc/index', 'misc/footprint-preview'],
 };
