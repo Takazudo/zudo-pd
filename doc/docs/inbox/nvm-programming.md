@@ -24,17 +24,22 @@ The STUSB4500QTR ships from the factory with these default PDO profiles:
 
 ### Target NVM Configuration
 
-| PDO | Voltage | Current | Priority |
+The safest configuration **eliminates PDO3 entirely** so 20V is never an option, regardless of how the STUSB4500 prioritizes PDOs internally:
+
+| PDO | Voltage | Current | Notes |
 | --- | --- | --- | --- |
-| PDO1 | 5V | 1.5A | Lowest (3rd) |
-| PDO2 | **15V** | **3A** | **Highest (1st)** |
-| PDO3 | 20V | 1.5A | Lowest (2nd) |
+| PDO1 | 5V | 1.5A | Mandatory by USB-PD spec, always advertised |
+| PDO2 | **15V** | **3A** | Target operating point |
+| ~~PDO3~~ | ~~20V~~ | ~~–~~ | **Disabled** by setting `SNK_PDO_NUMB = 2` |
 
 Additional settings:
 
+- `SNK_PDO_NUMB` = **2** (only PDO1 + PDO2; PDO3 never advertised → 20V never requested)
 - `POWER_ONLY_ABOVE_5V` = **enabled** (VBUS_EN_SNK only activates after 15V negotiation succeeds)
-- `SNK_PDO_NUMB` = 3 (advertise all 3 PDOs)
-- PDO2 priority set to highest
+
+:::tip Why SNK_PDO_NUMB = 2 instead of 3?
+The STUSB4500's priority logic between PDOs is documented ambiguously across ST sources (some say PDO3 has highest priority by number, some say highest-power wins). The only way to *guarantee* 20V is never requested is to not advertise it at all. The design needs 15V, not 20V, and a charger lacking 15V wouldn't power this device usefully anyway.
+:::
 
 ## Hardware Required
 
@@ -197,45 +202,117 @@ Pull-ups connect to VREG_2V7 (2.7V) since this is the I2C bus voltage for the ST
 ### Step 1: Flash the Nucleo Firmware
 
 1. Download STSW-STUSB002 from [ST website](https://www.st.com/en/embedded-software/stsw-stusb002.html)
-2. Connect NUCLEO-F072RB to Windows PC via USB
-3. The Nucleo appears as a USB mass storage device
-4. Copy the included `.bin` file to the Nucleo drive
-5. The Nucleo LED blinks to confirm firmware is loaded
+2. Extract the archive — you'll find **two .bin files**:
+- `Nucleo_F072RB_STUSB_HID_NVM_config_*.bin` (HID variant)
+- `Nucleo_F072RB_STUSB_UART_NVM_config_*.bin` (UART variant)
+3. **Use the UART variant.** Reason explained in the callout below.
+4. Connect NUCLEO-F072RB to Windows PC via USB (CN1, the ST-Link USB Mini-B)
+5. The Nucleo appears as a USB mass storage device labeled `NODE_F072RB`
+6. Drag the UART `.bin` file onto the Nucleo drive
+7. The LD1 LED blinks rapidly during flashing, then settles. The drive will disappear/remount.
+8. **Unplug and replug USB** — the Nucleo needs to re-enumerate with the new firmware
+9. Verify in Windows Device Manager: **Ports (COM & LPT)** should show "STMicroelectronics STLink Virtual COM Port (COMx)". If no COM port appears, install the [ST-Link VCP driver](https://www.st.com/en/development-tools/stsw-link009.html).
+
+:::warning HID vs UART .bin choice (critical)
+The HID variant requires a **separate USB connection to the STM32F072's native USB pins (PA11/PA12)**, which on the NUCLEO-F072RB are only broken out to header pins — not wired to CN1. The HID firmware is intended for use with the **STEVAL-ISC005V1** daughter board, which provides this second USB connection.
+
+For our setup (bare NUCLEO-F072RB, no STEVAL daughter board), only the UART firmware works because it communicates through the **ST-Link's built-in Virtual COM Port (VCP)** over the same CN1 USB cable.
+
+Symptom of wrong choice: GUI shows "STM32-Nucleo-board not Detected" even after flash + replug. Only "ST-Link debug" appears in Device Manager. Fix: re-flash with the UART .bin.
+:::
+
+Sources:
+- [STSW-STUSB002 quick start guide (PDF)](https://www.st.com/resource/en/product_presentation/stswstusb002_quick_start_v3_2.pdf) — explicit UART vs HID guidance
+- [NUCLEO-F072RB schematic (MB1136-C03)](https://www.st.com/resource/en/schematic_pack/mb1136-default-c03_schematic.pdf) — confirms CN1 is ST-Link only
 
 ### Step 2: Connect to zudo-pd Board
 
-1. Plug a USB-C PD charger into the zudo-pd USB-C connector (to power the STUSB4500 via VDD)
-2. Connect the pogo clip's dupont wires to the Nucleo:
-- Nucleo D15 (SCL) &rarr; pogo clip wire for pad 1
-- Nucleo D14 (SDA) &rarr; pogo clip wire for pad 2
-- Nucleo GND &rarr; pogo clip wire for pad 3
-3. Clamp the pogo clip onto the zudo-pd board edge, aligning the pogo pins with J2 pads
-4. The STUSB4500 should be detected at I2C address 0x28
+1. **Use a low-power USB-C charger** for the programming session — see warning below
+2. Plug the charger into the zudo-pd USB-C connector (to power the STUSB4500 via VDD)
+3. Connect the pogo clip's dupont wires to the Nucleo's **Arduino-compatible CN5 header**:
+- Nucleo **D15** (SCL, labeled on board silkscreen) &rarr; pogo clip wire for pad 1
+- Nucleo **D14** (SDA) &rarr; pogo clip wire for pad 2
+- Nucleo **GND** (any GND pin) &rarr; pogo clip wire for pad 3
+- Pogo pad 4 unused
+4. Clamp the pogo clip onto the zudo-pd board edge, aligning the pogo pins with J2 pads
+5. The STUSB4500 should be detected at I2C address `0x28`
+
+:::warning Charger choice for initial programming
+The factory NVM in a fresh STUSB4500 advertises PDO3 = 20V/1.0A with **highest priority**. A full PD charger that supports 20V will negotiate 20V on first plug-in, sending **20V through your DC-DC converters designed for 15V** — likely damaging them.
+
+**Use a 5V-only USB-C charger** (any phone charger) or a PD charger that maxes out at 9V/15V (no 20V profile) for the initial programming session. The chip's VDD only needs 5V to communicate via I2C.
+
+After NVM is written with `SNK_PDO_NUMB = 2` (no 20V advertised), you can safely switch to your real PD charger.
+:::
+
+:::tip Detection sequence
+The GUI launch normally shows two dialogs in sequence:
+
+1. **"STM32-Nucleo-board not Detected"** — appears if no Nucleo is connected, GUI starts in "File Edition mode"
+2. **"STM32-Nucleo-board connected. But STUSB4500 not Detected"** — appears when Nucleo is found but no chip yet (i.e., pogo clip not connected to powered zudo-pd)
+
+After clipping the pogo onto the powered board, **close and reopen the GUI** — it scans for the chip on startup. Status bar should change to:
+
+```
+[OK] STUSB4500 Detected [COM3] ST-ii0244, at address 0x28 (I2C bus 1)
+```
+
+Once detected, the "Read device NVM" and "Write device NVM" buttons appear in the top-right.
+:::
 
 ### Step 3: Program NVM
 
-1. Open STSW-STUSB002 GUI on Windows
-2. The GUI should show "STUSB 45 is Detected"
-3. Click "Read device NVM" to verify communication
-4. Configure PDO settings:
-- SNK_PDO_NUMB: 3
-- PDO1: 5V, 1.5A (mandatory)
-- PDO2: 15V, 3A (target - set highest priority)
-- PDO3: 20V, 1.5A (fallback)
-5. Enable `POWER_ONLY_ABOVE_5V` checkbox
-6. Click "Write device NVM"
-7. Check "Verify after write" to confirm
+1. With chip detected (status bar shows `[OK] STUSB4500 Detected`), click **"Read device NVM"** to load actual chip values into the GUI
+2. The "SNK Parameters" tab will populate with the factory defaults — confirm they match the expected defaults (PDO1: 5V/1.5A, PDO2: 15V/1.5A, PDO3: 20V/1.0A)
+3. Configure target settings:
+
+| Field | New value | Reason |
+| --- | --- | --- |
+| **SNK_PDO_NUMB** | **`2`** | Only advertise PDO1 + PDO2. PDO3 (20V) never negotiated. |
+| **PDO2 Current** | **`3.00 A`** | Design needs 3A on the 15V rail |
+| **POWER_ONLY_ABOVE_5V** | **checked** | VBUS_EN_SNK only enables after 15V negotiated |
+| PDO1 (5V/1.5A) | keep | Mandatory USB-PD default |
+| PDO2 Voltage (15V) | keep | Target rail voltage |
+| Other settings | leave alone | Don't touch FLEX_I, UVLO/OVLO, GPIO, etc. |
+
+4. Verify "**Verify after write**" checkbox at top-right is checked (default)
+5. Click **"Write device NVM"**
+6. Wait for the write to complete and verification to succeed
 
 ### Step 4: Verify
 
-1. Remove the pogo clip from the board
-2. Reconnect the USB-C PD charger
-3. Measure VBUS_OUT with a multimeter - should read 15V
-4. Verify VBUS_EN_SNK behavior (should stay LOW at 5V, go HIGH only after 15V negotiation)
+1. Click **"Read device NVM"** again to confirm the new values stuck (especially `POWER_ONLY_ABOVE_5V` — it sometimes doesn't save on the first write)
+2. Remove the pogo clip from the board
+3. Reconnect a real USB-C PD charger that supports 15V
+4. Measure VBUS_OUT with a multimeter — should read **15V** (or 5V if charger doesn't support 15V — fallback behavior)
+5. Verify VBUS_EN_SNK behavior (should stay LOW at 5V, go HIGH only after 15V negotiation completes)
+
+### Verifying via the GUI's Dashboard tab
+
+The "Dashboard" tab shows real-time CC state — useful for diagnosis. With charger plugged in and pogo clip still attached:
+
+- **CC Connection** section should show **"Sink attached"** or similar (NOT "No device attached")
+- **CC Operation** should show the negotiated PD contract (voltage, current)
+- **Monitoring** shows live VBUS voltage and current
+
+If Dashboard says **"No device attached"** while a PD charger is plugged in, the chip's CC pins are not seeing a valid source termination — this is a hardware-level issue, not a NVM issue. See [PCBA v2 Debug Report](/docs/inbox/pcba-v2-debug) for the CC1DB internal short failure mode we encountered.
 
 ## NVM Write Cycle Limit
 
 The STUSB4500 NVM is rated for approximately **1,000 write cycles**. Configure once during production. Do not write NVM repeatedly in normal operation.
+
+## Common Pitfalls (from actual programming sessions)
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| GUI shows "STM32-Nucleo-board not Detected" after flashing | Flashed HID `.bin` instead of UART `.bin` | Re-flash with `Nucleo_F072RB_STUSB_UART_NVM_config_*.bin` |
+| Only "ST-Link debug" in Device Manager, no COM port | ST-Link VCP driver not installed | Install [STSW-LINK009](https://www.st.com/en/development-tools/stsw-link009.html) |
+| GUI launches but says "Offline - File Edition mode" | Nucleo not actually re-enumerated after flash | Unplug Nucleo USB and replug |
+| "I2C Read error. Error number: -2 (0xFFFFFFFE)" on GUI startup | Expected — fires when GUI tries to read NVM with no chip on bus yet | Click OK. Connect zudo-pd via pogo clip, then relaunch GUI. |
+| Status stays "STUSB4500 Not Detected" even with pogo clip on powered board | Charger may be negotiating 20V on factory NVM and chip is in error state | Switch to a 5V-only charger for the programming session |
+| Bin file remains visible on NODE_F072RB drive after drag | Flash failed (USB cable might be charge-only, no data) | Use a USB data cable, not charge-only |
+| "POWER_ONLY_ABOVE_5V" doesn't save after Write NVM | Sometimes the first write doesn't persist this bit | Click Read NVM to verify, then re-write if needed |
+| Dashboard says "No device attached" with charger plugged in | Chip's CC pins not seeing source termination (hardware issue, not NVM) | See [PCBA v2 Debug Report](/docs/inbox/pcba-v2-debug) for the CC1DB internal short failure |
 
 ## Schematic Fix Checklist
 
@@ -251,9 +328,13 @@ The STUSB4500 NVM is rated for approximately **1,000 write cycles**. Configure o
 ## References
 
 - [STSW-STUSB002 Data Brief (PDF)](https://www.st.com/resource/en/data_brief/stsw-stusb002.pdf) - GUI tool documentation
+- [STSW-STUSB002 Quick Start Guide (PDF)](https://www.st.com/resource/en/product_presentation/stswstusb002_quick_start_v3_2.pdf) - **HID vs UART .bin selection guidance**
 - [STSW-STUSB002 Download](https://www.st.com/en/embedded-software/stsw-stusb002.html) - Software download page
+- [STSW-LINK009 - ST-Link VCP Driver](https://www.st.com/en/development-tools/stsw-link009.html) - Required if COM port doesn't appear in Device Manager
+- [NUCLEO-F072RB Schematic (MB1136-C03 PDF)](https://www.st.com/resource/en/schematic_pack/mb1136-default-c03_schematic.pdf) - Confirms CN1 USB is wired to ST-Link only
 - [NUCLEO-F072RB on DigiKey Japan](https://www.digikey.jp/ja/products/detail/stmicroelectronics/NUCLEO-F072RB/5047984) - Board purchase
 - [SparkFun STUSB4500 Arduino Library](https://github.com/sparkfun/SparkFun_STUSB4500_Arduino_Library) - Alternative MCU-based programming
 - [GitHub: usb-c/STUSB4500](https://github.com/usb-c/STUSB4500) - Official ST reference code with NVM flasher
 - [STUSB4500 Datasheet](https://www.st.com/resource/en/datasheet/stusb4500.pdf) - NVM register map details
 - [Pogo Pin Clip (AliExpress)](https://ja.aliexpress.com/item/1005006108783889.html) - 4P 2.54mm programming clip tool
+- [PCBA v2 Debug Report](/docs/inbox/pcba-v2-debug) - CC1DB internal short failure mode discovered during v2 testing
