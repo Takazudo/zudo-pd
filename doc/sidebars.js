@@ -29,6 +29,7 @@ const sidebars = {
     'inbox/quick-reference',
     'inbox/pcba-v1-debug',
     'inbox/nvm-programming',
+    'inbox/pcba-v2-debug',
   ],
   componentsSidebar: [
     'components/index',
