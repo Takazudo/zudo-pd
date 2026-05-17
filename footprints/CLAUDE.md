@@ -105,3 +105,4 @@ Then run the SVG export workflow above so documentation stays up to date.
 The following footprints in this library were created by hand (not downloaded from LCSC/EasyEDA):
 
 - `PogoPad_1x04_P2.54mm` — 4P 2.54 mm pogo pad array for STUSB4500 NVM I2C programming (see `doc/docs/inbox/nvm-programming.md`)
+- `PogoPad_1x08_P2.54mm` — 8P 2.54 mm pogo pad array for STUSB4500 chip-side debug signals (CC1DB, CC2DB, VREG_2V7, VDD, RESET, ATTACH, PD_OK, VBUS_EN_SNK; see `doc/docs/inbox/test-points-v3.md`)
