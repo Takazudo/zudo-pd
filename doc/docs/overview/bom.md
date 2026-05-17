@@ -55,6 +55,10 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 | **R12** | **[C23168](https://jlcpcb.com/partdetail/C23168)** | 56kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Voltage Divider       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 | **R13** | **[C23179](https://jlcpcb.com/partdetail/C23179)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 | **R14** | **[C23179](https://jlcpcb.com/partdetail/C23179)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS_VS_DISCH Series R     | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R15** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 4.7kΩ | ±1% 100mW   | 0603    | **$0.0005** | I2C SCL Pull-up (to VREG_2V7) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R16** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 4.7kΩ | ±1% 100mW   | 0603    | **$0.0005** | I2C SDA Pull-up (to VREG_2V7) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R17** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | CC1 External Rd Pull-down (v3 fix) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R18** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | 10kΩ  | ±1% 100mW   | 0603    | **$0.0005** | CC2 External Rd Pull-down (v3 fix) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
 
 **Stage 1 Subtotal: ~$2.80**
 
