@@ -116,7 +116,7 @@ v2 (vulnerable):                          v3 (robust):
 
 USB-C CC1 ─┬─ D4 ─ STUSB4500 pin 2 (CC1)  USB-C CC1 ─┬─ D4 ─ STUSB4500 pin 2 (CC1)
            │                                          │
-           └─────── STUSB4500 pin 1 (CC1DB)           R_CC1 (10 kΩ)    ← NEW
+           └─────── STUSB4500 pin 1 (CC1DB)           R_CC1 (5.1 kΩ)   ← NEW
                                                       │
                                                      GND
 
@@ -129,28 +129,35 @@ USB-C CC1 ─┬─ D4 ─ STUSB4500 pin 2 (CC1)  USB-C CC1 ─┬─ D4 ─ STU
 
 | Change | Detail |
 | --- | --- |
-| **Add R_CC1 = 10 kΩ (0603, 1%)** | From CC1 net (USB-C connector side) to GND |
-| **Add R_CC2 = 10 kΩ (0603, 1%)** | From CC2 net (USB-C connector side) to GND |
+| **Add R_CC1 = 5.1 kΩ (0603, 1%)** | From CC1 net (USB-C connector side) to GND |
+| **Add R_CC2 = 5.1 kΩ (0603, 1%)** | From CC2 net (USB-C connector side) to GND |
 | **Disconnect U1 pin 1 (CC1DB) from CC1 net** | Tie pin 1 directly to GND |
 | **Disconnect U1 pin 5 (CC2DB) from CC2 net** | Tie pin 5 directly to GND |
 
-### Why 10 kΩ and not 5.1 kΩ?
+### Why 5.1 kΩ (and not 10 kΩ)?
 
-Two CC termination scenarios coexist with external + internal Rd:
+5.1 kΩ is the **USB-C spec Rd value** (±20%, valid range 4.08–6.12 kΩ). Every USB-C sink uses this.
+
+An earlier draft of this fix proposed 10 kΩ as a hedge in case a future chip batch ships with working internal Rd (so external + internal in parallel wouldn't drop too far below spec). That reasoning was rejected:
 
 | Scenario | Effective Rd | USB-C spec window: 4.08–6.12 kΩ |
 | --- | --- | --- |
-| Chip's internal Rd healthy (5.1 kΩ) + ext 5.1 kΩ in parallel | **2.55 kΩ** | ❌ Below spec — risk of misdetection as Ra |
-| Chip's internal Rd healthy (5.1 kΩ) + ext 10 kΩ in parallel | **3.4 kΩ** | ⚠️ Slightly below spec — most sources tolerate |
-| Chip's internal Rd broken (0 Ω → isolated via CC1DB→GND) + ext 10 kΩ alone | **10 kΩ** | ⚠️ Slightly above spec — most sources tolerate |
+| Broken chip (current batch, CC1DB → GND, internal Rd dead) + ext 5.1 kΩ | **5.1 kΩ** | ✅ In spec |
+| Broken chip + ext 10 kΩ | **10 kΩ** | ⚠️ Above spec — marginal on strict sources |
+| Good chip (hypothetical, internal Rd works) + ext 5.1 kΩ | **2.55 kΩ** | ❌ Below spec |
+| Good chip + ext 10 kΩ | **3.4 kΩ** | ❌ Below spec |
 
-**10 kΩ is the working compromise.** This value is also confirmed by an existing working JLCPCB-built design ([DIY Smart Hotplate on Instructables](https://www.instructables.com/DIY-Smart-Hotplate-Powered-by-STM32-USB-C-Power-De/)).
+**10 kΩ is out of spec in every scenario.** 5.1 kΩ is in spec for our actual reality (broken chips, external Rd carries the load alone).
 
-5.1 kΩ would be USB-PD-spec textbook value but produces 2.55 kΩ parallel — outside the spec window.
+The "good chip" parallel-resistance failure mode is **not** solved by picking a compromise external value — the proper fix is to **remove the external Rd entirely** (board respin, or a populate/DNP jumper) once you know the chip's internal Rd is healthy. So for v3 we use the spec value and don't try to compromise across two failure scenarios.
+
+**Sensitivity on 3 A USB-C sources:** sources advertising 3 A use Rp = 22 kΩ (tightest detection). The CC line voltage with Rp pull-up:
+- 5.1 kΩ Rd → 5 V × 5.1 / (5.1 + 22) ≈ **0.94 V** — comfortably below the ~1.7 V "sink connected" threshold
+- 10 kΩ Rd → 5 V × 10 / (10 + 22) ≈ **1.56 V** — borderline; some compliant sources will fail to detect
 
 ### Why disconnect CC1DB / CC2DB from CC1 / CC2?
 
-**This is the critical change.** If CC1DB stays on the CC1 net (v2 wiring), then a chip with internally-shorted CC1DB still drags the entire CC1 net to 0 Ω, and the external 10 kΩ is overpowered. The fault persists.
+**This is the critical change.** If CC1DB stays on the CC1 net (v2 wiring), then a chip with internally-shorted CC1DB still drags the entire CC1 net to 0 Ω, and the external 5.1 kΩ is overpowered (a 0 Ω short wins against any finite resistor). The fault persists.
 
 By routing CC1DB and CC2DB to GND directly:
 - The broken pin's internal short is isolated to the GND net (harmless)
@@ -185,8 +192,8 @@ Place R_CC1 and R_CC2 **physically close to the USB-C connector**, before D4. Th
 
 ## v3 Schematic Fix Checklist
 
-- [ ] Add R_CC1 (10 kΩ, 0603, 1%) from USB-C CC1 to GND
-- [ ] Add R_CC2 (10 kΩ, 0603, 1%) from USB-C CC2 to GND
+- [ ] Add R_CC1 (5.1 kΩ, 0603, 1%) from USB-C CC1 to GND
+- [ ] Add R_CC2 (5.1 kΩ, 0603, 1%) from USB-C CC2 to GND
 - [ ] Disconnect U1 pin 1 (CC1DB) from CC1 net; tie to GND
 - [ ] Disconnect U1 pin 5 (CC2DB) from CC2 net; tie to GND
 - [ ] Update QFN-24 footprint: window the EPAD F.Paste into a 4×4 grid of 0.5 mm² apertures
@@ -204,7 +211,7 @@ Place R_CC1 and R_CC2 **physically close to the USB-C connector**, before D4. Th
 | **ST STEVAL-ISC005V1** | CC1DB ↔ CC1 (dead-battery) | None | ST's own eval design; works with controlled chip sourcing |
 | **STUSB4500 datasheet Fig. 10** | CC1DB ↔ CC1 (dead-battery) | None | "Typical application" — same vulnerability |
 | **Instructables DIY Hotplate** | CC1DB ↔ CC1 (dead-battery) | R3 = 10 kΩ on CC1 only | Confirmed working JLCPCB build; asymmetric ext Rd |
-| **zudo-pd v3** (planned) | CC1DB → GND, CC2DB → GND | **10 kΩ on both CC1 and CC2** | Defensive against chip-side failures; symmetric |
+| **zudo-pd v3** (planned) | CC1DB → GND, CC2DB → GND | **5.1 kΩ on both CC1 and CC2** | Defensive against chip-side failures; USB-C spec Rd value; symmetric |
 
 ## References
 
