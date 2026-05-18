@@ -192,10 +192,10 @@ Place R_CC1 and R_CC2 **physically close to the USB-C connector**, before D4. Th
 
 ## v3 Schematic Fix Checklist
 
-- [ ] Add R_CC1 (5.1 kΩ, 0603, 1%) from USB-C CC1 to GND
-- [ ] Add R_CC2 (5.1 kΩ, 0603, 1%) from USB-C CC2 to GND
-- [ ] Disconnect U1 pin 1 (CC1DB) from CC1 net; tie to GND
-- [ ] Disconnect U1 pin 5 (CC2DB) from CC2 net; tie to GND
+- [x] Add R17 = R_CC1 (5.1 kΩ, 0603, 1%, C23186) from USB-C CC1 to GND
+- [x] Add R18 = R_CC2 (5.1 kΩ, 0603, 1%, C23186) from USB-C CC2 to GND
+- [x] Disconnect U1 pin 1 (CC1DB) from CC1 net; tie to GND via **R19 (0 Ω, 0603, C21189)** — uses a 0 Ω jumper instead of a direct GND tie so the chip-side net keeps the name `CC1DB`. That preserves a uniquely-named test point on the J3 pogo block (pin 1) for verifying chip-pin continuity, and lets us lift R19 for chip-isolation measurement during future debug
+- [x] Disconnect U1 pin 5 (CC2DB) from CC2 net; tie to GND via **R20 (0 Ω, 0603, C21189)** — same rationale, J3 pogo pin 2
 - [ ] Update QFN-24 footprint: window the EPAD F.Paste into a 4×4 grid of 0.5 mm² apertures
 - [ ] Update QFN-24 footprint: reduce EPAD GND vias from 16 to 9 (or 5)
 - [ ] Add via tenting / mask-plug on EPAD via-in-pad
@@ -211,7 +211,7 @@ Place R_CC1 and R_CC2 **physically close to the USB-C connector**, before D4. Th
 | **ST STEVAL-ISC005V1** | CC1DB ↔ CC1 (dead-battery) | None | ST's own eval design; works with controlled chip sourcing |
 | **STUSB4500 datasheet Fig. 10** | CC1DB ↔ CC1 (dead-battery) | None | "Typical application" — same vulnerability |
 | **Instructables DIY Hotplate** | CC1DB ↔ CC1 (dead-battery) | R3 = 10 kΩ on CC1 only | Confirmed working JLCPCB build; asymmetric ext Rd |
-| **zudo-pd v3** (planned) | CC1DB → GND, CC2DB → GND | **5.1 kΩ on both CC1 and CC2** | Defensive against chip-side failures; USB-C spec Rd value; symmetric |
+| **zudo-pd v3** | CC1DB → GND via R19 (0 Ω), CC2DB → GND via R20 (0 Ω) | **5.1 kΩ on both CC1 and CC2** (R17/R18) | Defensive against chip-side failures; USB-C spec Rd value; symmetric. 0 Ω jumper preserves named `CC1DB`/`CC2DB` nets for J3 pogo testing and chip-isolation rework |
 
 ## References
 
