@@ -143,12 +143,10 @@ import CapD63 from '../\_fragments/footprints/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
 **Used for:**
 
 - DC-DC converter input capacitors (C5, C7, C9: 100µF 25V)
-- DC-DC converter output filter (C4, C22, C23: 470µF 16V) — see note below
+- DC-DC converter output filter (C4, C22, C23: 470µF 16V)
 
-**LCSC:** [C970706](https://jlcpcb.com/partdetail/C970706) (470µF 16V, D8×L10.2mm), [C22383804](https://jlcpcb.com/partdetail/C22383804) (100µF 25V)
+**LCSC:** [C2977552](https://jlcpcb.com/partdetail/C2977552) (DMBJ RVT1C471M0607, 470µF 16V), [C22383804](https://jlcpcb.com/partdetail/C22383804) (100µF 25V)
 **Applications:** Bulk energy storage for DC-DC converters
-
-> **Note on C4 / C22 / C23:** The current part (DMBJ `C970706`) is physically a **D8×L10.2mm** can. It sits on this D6.3 footprint because the pad pattern (5.34mm pitch, 3.5mm-long pads) accommodates D8 terminals — the cap body overhangs the silkscreen outline by ~0.85mm on each side, but solder fillets are unaffected. Replace with the proper D8 footprint on the next board spin.
 
 #### D10mm Electrolytic Capacitor
 
