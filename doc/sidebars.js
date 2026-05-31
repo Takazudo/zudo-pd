@@ -31,6 +31,8 @@ const sidebars = {
     'inbox/nvm-programming',
     'inbox/pcba-v2-debug',
     'inbox/test-points-v3',
+    'inbox/v3-bringup-test-procedure',
+    'inbox/v3-pd-failure-diagnosis',
   ],
   componentsSidebar: [
     'components/index',
