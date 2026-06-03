@@ -25,6 +25,7 @@ const sidebars = {
   ],
   inboxSidebar: [
     'inbox/index',
+    'inbox/versioning',
     'inbox/current-status',
     'inbox/quick-reference',
     'inbox/pcba-v1-debug',
@@ -33,6 +34,7 @@ const sidebars = {
     'inbox/test-points-v3',
     'inbox/v3-bringup-test-procedure',
     'inbox/v3-pd-failure-diagnosis',
+    'inbox/stusb4500-pinout',
   ],
   componentsSidebar: [
     'components/index',
