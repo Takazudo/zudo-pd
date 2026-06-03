@@ -8,11 +8,29 @@ This is a hardware project for designing a USB-PD powered modular synthesizer po
 
 ## Current Phase
 
-PCBA v2 schematic + PCB layout complete, DRC clean, ready to generate Gerbers/BOM/CPL for JLCPCB reorder.
+**v0.4.0 (4th JLCPCB order) — ordering.** The v3 (0.3.0) board failed USB-PD negotiation
+because STUSB4500 pin 18 (VBUS_VS_DISCH) was tied to GND instead of sensing VBUS. Fixed in
+0.4.0: `VBUS_IN → R14 (470 Ω) → pin 18`. Schematic + PCB updated, footprint mismatch resolved.
 
-- For detailed current state, see `doc/docs/inbox/current-status.md`
+- For the versioning scheme (X.Y.Z), see `doc/docs/inbox/versioning.md`
+- For the v3 PD failure root cause + fix, see `doc/docs/inbox/v3-pd-failure-diagnosis.md`
+- For the bring-up/test procedure, see `doc/docs/inbox/v3-bringup-test-procedure.md`
+- For the STUSB4500 pin-by-pin guide, see `doc/docs/inbox/stusb4500-pinout.md`
 - For STUSB4500 NVM programming setup, see `doc/docs/inbox/nvm-programming.md`
-- For PCBA v1 debug findings (still referenced on v2), see `doc/docs/inbox/pcba-v1-debug.md`
+- For detailed current state, see `doc/docs/inbox/current-status.md`
+
+## Versioning (X.Y.Z)
+
+Custom scheme (not semver). Current version in the `VERSION` file at repo root.
+
+- **X** = product release (still `0`, nothing shipped). Bump: `/l-bump-version-x` — tag + GitHub release; resets Z; **keeps Y**.
+- **Y** = Nth JLCPCB PCBA order (lifetime counter). Bump: `/l-bump-version-y` — tag + GitHub release; resets Z.
+- **Z** = local checkpoint tag. Bump: `/l-bump-version-z` — git tag only, no release.
+
+Old labels map onto Y: v1→0.1.0, v2→0.2.0, v3→0.3.0, v4→**0.4.0** (current). When older docs
+say "v2/v3/v4" they mean the JLCPCB order = the Y digit. Bump skills live in
+`.claude/skills/l-bump-version-*`; shared logic in `.claude/scripts/bump-version.sh`. Full
+details: `doc/docs/inbox/versioning.md`.
 
 ## Repository Structure
 
