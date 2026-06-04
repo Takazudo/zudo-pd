@@ -19,10 +19,9 @@ Physical height reference for PCB layout and enclosure design.
 | **L7805ABD2T-TR** | U7                        | TO-263-2        | **4.5mm**  | +5V linear regulator   |
 | **CJ7912**        | U8                        | TO-252-3 (DPAK) | **2.3mm**  | -12V linear regulator  |
 | **CYA1265-100UH** | L1, L2, L3                | SMD 13.8x12.8mm | **~6-7mm** | Power inductors        |
-| **1217754-1**     | J6, J7, J8, J9            | FASTON 250 THT  | **8.89mm** | Power terminals        |
+| **63951-1**       | J6, J7, J8, J9            | FASTON 250 THT  | **8.89mm** | Power terminals        |
 | **470uF 25V**     | C3, C11, C20-C21, C24-C25 | D10xL10.2mm     | **10.2mm** | Electrolytic (tallest) |
-| **470uF 16V**     | C4                        | D6.3xL7.7mm     | **7.7mm**  | Electrolytic           |
-| **470uF 10V**     | C22, C23                  | D6.3xL7.7mm     | **7.7mm**  | Electrolytic           |
+| **470uF 16V**     | C4, C22, C23              | D6.3xL7.7mm     | **7.7mm**  | Electrolytic           |
 | **100uF 25V/50V** | C5, C7, C9                | D6.3xL7.7mm     | **7.7mm**  | Electrolytic           |
 
 ### Height Profile

@@ -6,8 +6,8 @@ sidebar_position: 15
 
 Heavy-duty FASTON 250 series PCB tab terminal for busboard power connection, supporting thick gauge wire for low-noise power delivery to Eurorack modules.
 
-- [View on JLCPCB: C305825](https://jlcpcb.com/partdetail/C305825)
-- [TE Connectivity Product Page](https://www.te.com/usa-en/product-1217754-1.html)
+- [View on JLCPCB: C591344](https://jlcpcb.com/partdetail/C591344)
+- [TE Connectivity Product Page](https://www.te.com/usa-en/product-63951-1.html)
 
 import FootprintSvg from '@site/src/components/FootprintSvg';
 import FASTON from '@site/docs/\_fragments/footprints/CONN-TH_1217754-1.svg';
@@ -16,7 +16,11 @@ import FASTON from '@site/docs/\_fragments/footprints/CONN-TH_1217754-1.svg';
 
 ## Overview
 
-The FASTON 250 terminal (1217754-1) is an industrial-grade quick-connect PCB tab terminal from TE Connectivity. It provides a robust power output interface for connecting the USB-PD power supply to a Eurorack busboard using standard FASTON 250 (6.35mm / 0.250") receptacle connectors.
+The FASTON 250 terminal (TE 63951-1) is an industrial-grade quick-connect PCB tab terminal from TE Connectivity. It provides a robust power output interface for connecting the USB-PD power supply to a Eurorack busboard using standard FASTON 250 (6.35mm / 0.250") receptacle connectors.
+
+:::note v0.4.0 part change
+The original `1217754-1` (LCSC C305825) went out of stock at JLCPCB. v0.4.0 switched to **`63951-1` (LCSC C591344)** — the *same physical tab*, supplied on strip/reel instead of loose piece (TE catalog 82004 lists both on the same row). Identical footprint: 2 right-angle legs at 5.08 mm pitch, 1.4 mm holes, 6.35 mm blade, 8.89 mm height — so the PCB land pattern is unchanged.
+:::
 
 This design uses **4 terminals** for the three power rails plus ground return:
 
@@ -31,9 +35,9 @@ This design uses **4 terminals** for the three power rails plus ground return:
 
 | Parameter                    | Value              | Notes                               |
 | ---------------------------- | ------------------ | ----------------------------------- |
-| **JLCPCB Part Number**       | C305825            | This design                         |
+| **JLCPCB Part Number**       | C591344            | This design (v0.4.0; was C305825)   |
 | **Manufacturer**             | TE Connectivity    |                                     |
-| **Manufacturer Part Number** | 1217754-1          | FASTON 250 Series                   |
+| **Manufacturer Part Number** | 63951-1            | FASTON 250 (strip pkg of 1217754-1) |
 | **Tab Width**                | 6.35mm (0.250")    | Standard FASTON 250 size            |
 | **Current Rating**           | 7A continuous      | Per terminal                        |
 | **Voltage Rating**           | 250V               | Far exceeds 15V requirement         |

@@ -333,9 +333,9 @@ import FASTON from '@site/docs/\_fragments/footprints/CONN-TH_1217754-1.svg';
 <FootprintSvg src={FASTON} alt="FASTON 250 PCB Terminal" minWidth="150px" minHeight="150px" />
 
 **Designators:** J6, J7, J8, J9 (4× units)
-**Component:** 1217754-1 - FASTON 250 PCB Tab Terminal
+**Component:** 63951-1 - FASTON 250 PCB Tab Terminal (strip pkg of 1217754-1)
 **Package:** Through-hole (6.35mm tab width)
-**LCSC:** [C305825](https://jlcpcb.com/partdetail/C305825)
+**LCSC:** [C591344](https://jlcpcb.com/partdetail/C591344)
 **Current Rating:** 7A continuous
 **Function:** Busboard power output (+12V, -12V, +5V, GND)
 

@@ -259,7 +259,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol    | Part Number                                          | Manufacturer Part Number                            | Description               | Package      | Stock     | Price         | Application             |
 | --------- | ---------------------------------------------------- | --------------------------------------------------- | ------------------------- | ------------ | --------- | ------------- | ----------------------- |
-| **J6-J9** | **[C305825](https://jlcpcb.com/partdetail/C305825)** | **[1217754-1](../components/faston-terminal)** (×4) | FASTON 250 PCB Tab 6.35mm | Through-hole | **4,044** | **$0.03 × 4** | Individual Power Output |
+| **J6-J9** | **[C591344](https://jlcpcb.com/partdetail/C591344)** | **[63951-1](../components/faston-terminal)** (×4) | FASTON 250 PCB Tab 6.35mm | Through-hole | **465** | **~$0.26 × 4** | Individual Power Output |
 
 **Individual Terminal Configuration:**
 
@@ -274,7 +274,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 **Note:** Requires matching FASTON receptacles. Combined GND return current is ~2.5A max (well within 7A rating).
 
-**Stage 5 Subtotal: $0.28** (Headers × 2: $0.16 + FASTON × 4: $0.12)
+**Stage 5 Subtotal: ~$1.20** (Headers × 2: $0.16 + FASTON × 4: ~$1.04)
 
 ## Performance Specifications
 
