@@ -237,6 +237,36 @@ Sources:
 4. Clamp the pogo clip onto the zudo-pd board edge, aligning the pogo pins with J2 pads
 5. The STUSB4500 should be detected at I2C address `0x28`
 
+### Step 2.5: If the GUI Still Says "STUSB4500 not Detected"
+
+Before debugging the Nucleo or STSW-STUSB002, first prove the zudo-pd board is actually
+powered on the STUSB4500 side.
+
+Do **not** use TP1 / TP3 / TP4 / TP5 for this check. TP1 is downstream of the Q1 load
+switch, and TP3-TP5 are downstream converter rails. These can all read **0 V** during NVM
+programming, especially before a valid PD contract enables `VBUS_EN_SNK`.
+
+Use the J3 debug pogo block instead:
+
+| Probe point | Expected with 5 V USB source | Meaning |
+| --- | --- | --- |
+| **J3 pad 4, VDD / VBUS_IN** to GND | about **5 V** | USB VBUS is reaching U1 pin 24 |
+| **J3 pad 3, VREG_2V7** to GND | about **2.7 V** | STUSB4500 is awake |
+| **J2 pad 1, SCL** to GND | about **2.7 V idle** | I2C pull-up R15 is present and powered |
+| **J2 pad 2, SDA** to GND | about **2.7 V idle** | I2C pull-up R16 is present and powered |
+
+Decision tree:
+
+| Measurement | Likely fault |
+| --- | --- |
+| J3 pad 4 = **0 V** | The USB source is not applying VBUS, or the USB-C connector / VBUS_IN path is open |
+| J3 pad 4 = **5 V**, J3 pad 3 = **0 V** | STUSB4500 not starting, VREG_2V7 short/open, bad U1 soldering, or bad U1 |
+| J3 pad 3 = **2.7 V**, but GUI does not detect chip | Pogo alignment, SCL/SDA swapped, missing GND between Nucleo and zudo-pd, or Nucleo firmware/COM issue |
+
+If J3 pad 4 is 0 V with a USB-C-to-USB-C charger, try a known-good **USB-A-to-USB-C 5 V**
+source. USB-A-to-C supplies 5 V directly through the cable, which separates "board cannot
+request VBUS over CC" from "VBUS trace or chip supply is physically broken."
+
 :::warning Charger choice for initial programming
 The factory NVM in a fresh STUSB4500 advertises PDO3 = 20V/1.0A with **highest priority**. A full PD charger that supports 20V will negotiate 20V on first plug-in, sending **20V through your DC-DC converters designed for 15V** — likely damaging them.
 
@@ -309,6 +339,9 @@ The STUSB4500 NVM is rated for approximately **1,000 write cycles**. Configure o
 | Only "ST-Link debug" in Device Manager, no COM port | ST-Link VCP driver not installed | Install [STSW-LINK009](https://www.st.com/en/development-tools/stsw-link009.html) |
 | GUI launches but says "Offline - File Edition mode" | Nucleo not actually re-enumerated after flash | Unplug Nucleo USB and replug |
 | "I2C Read error. Error number: -2 (0xFFFFFFFE)" on GUI startup | Expected — fires when GUI tries to read NVM with no chip on bus yet | Click OK. Connect zudo-pd via pogo clip, then relaunch GUI. |
+| TP1 / TP3 / TP4 / TP5 all read 0 V during programming | Expected if Q1 and the downstream converters are off | Check J3 pad 4 (VDD/VBUS_IN) and J3 pad 3 (VREG_2V7) instead |
+| J3 pad 4 reads 0 V with a USB-C charger | Source is not applying VBUS, CC termination is not being accepted, or USB-C connector/VBUS path is open | Try USB-A-to-C 5 V source; then check CC1/CC2 to GND are ~5.1kohm each |
+| J3 pad 4 reads 5 V but J3 pad 3 reads 0 V | U1 is powered but not awake | Inspect U1 soldering/EPAD, VREG_2V7 capacitor C30, and shorts on VREG_2V7 |
 | Status stays "STUSB4500 Not Detected" even with pogo clip on powered board | Charger may be negotiating 20V on factory NVM and chip is in error state | Switch to a 5V-only charger for the programming session |
 | Bin file remains visible on NODE_F072RB drive after drag | Flash failed (USB cable might be charge-only, no data) | Use a USB data cable, not charge-only |
 | "POWER_ONLY_ABOVE_5V" doesn't save after Write NVM | Sometimes the first write doesn't persist this bit | Click Read NVM to verify, then re-write if needed |

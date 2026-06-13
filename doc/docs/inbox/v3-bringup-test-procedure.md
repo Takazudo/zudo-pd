@@ -73,20 +73,13 @@ pogo block (chip-side signals) and the USB-C / D4 area.
 
 | # | Check | Expected | If wrong |
 | --- | --- | --- | --- |
-| 1 | U1 pin 18 → R14 → GND | **~470 Ω** to GND (not open) | v1 "pin 18 NC" bug — pin 18 unconnected |
+| 1 | U1 pin 18 / TP6 (`VBUS_VS_DISCH`) → R14 → J3 pad 4 (`VBUS_IN`) | **~470 Ω** | v1/v3 pin-18 bug — pin 18 not sensing VBUS |
 | 2 | U1 pin 22 (VSYS) → GND | **&lt;1 Ω** (hard tie) | VSYS floating (v1 bug) |
 | 3 | U1 pin 22 ↔ pin 23 | **OPEN** (no continuity) | v1 VSYS–VREG_2V7 short returned |
 | 4 | **CC1 → GND** and **CC2 → GND** | **~5.1 kΩ each, SYMMETRIC** | The v2 fault signature was CC1 = 0 Ω vs CC2 = 5.1 kΩ. **Asymmetry = the chip-short failure.** |
 | 5 | J3 pad 1 (CC1DB) ↔ CC1 net | **OPEN** (isolated) | CC1DB not isolated — v2 vulnerability persists |
 | 6 | J3 pad 1 (CC1DB) → GND (via R19) | **~0 Ω** | 0 Ω jumper R19 missing/open |
 | 7 | D4 across each CC line (pin1↔6, pin3↔4) | **~0 Ω** (diode passes) | Dead ESD diode |
-
-:::note R14 destination discrepancy (flag for your eyeball)
-The netlist shows R14 ties pin 18 → 470 Ω → **GND**, while the older debug docs say "→ VBUS_IN."
-Tying the VBUS-discharge sense pin to GND through a resistor is a datasheet-sane discharge
-config, so this is probably fine — but cross-check against the STUSB4500 reference design if
-PD behaves oddly. The fix being verified here (pin 18 is *not* NC) holds either way.
-:::
 
 **Pass**: checks 1–7 as expected, CC lines symmetric. → Stage 1.
 
@@ -120,7 +113,8 @@ Two valid sources; use whichever you have. **Watch the current draw** — a spik
 settle = a short; kill power immediately.
 
 - **Option A — bench supply into VBUS_IN**: set **5.0 V**, limit **~100–150 mA**. Good for a
-  gentle smoke test of the chip front-end.
+  gentle smoke test of the chip front-end. Use J3 pad 4 (`VDD` / `VBUS_IN`) as the positive
+  injection point and J3 pad 5 or TP2 as GND.
 - **Option B — 5 V-only / no-20V USB-C charger**.
 
 **Measure:**
@@ -147,7 +141,7 @@ Now the moment v2 failed at. **First, the acceptance test that proves the v3 Rd 
 
 1. With **un-programmed-acceptable** logic aside (NVM is already done), plug a USB-C source and
    confirm **VBUS appears (~5 V) at the connector and at TP1**.
-  - **v2's headline failure was 0 V here.** Any voltage appearing proves the external-Rd
+- **v2's headline failure was 0 V here.** Any voltage appearing proves the external-Rd
      bootstrap works even with a defective chip. ✅ This single test is the v3 vindication.
 2. Now connect the **real 15 V PD charger** (safe — the 20 V PDO is no longer advertised):
 
@@ -334,14 +328,14 @@ expected; the LDO is what cleans it up.
 
 ## Appendix — verified facts & open flags
 
-**Verified present in the v3 netlist (7/7 historical fixes):** R14 on pin 18; VSYS→GND;
+**Verified present in the current netlist (7/7 historical fixes):** R14 from pin 18 to `VBUS_IN`;
+VSYS→GND;
 no pin22–23 short; VREG_2V7 decoupled by C30 (1 µF); VREG_1V2 by C34 (1 µF); external Rd
 R17/R18 = 5.1 k (C23186) on CC1/CC2; CC1DB/CC2DB isolated and GND-tied via 0 Ω jumpers
 R19/R20 (C21189). Chip-side signals broken out on **J3** 1×8 pogo block
 (1:CC1DB 2:CC2DB 3:VREG_2V7 4:VDD 5:RESET 6:ATTACH 7:PD_OK 8:VBUS_EN_SNK).
 
 **Open flags to keep in mind:**
-- R14 far end is **GND**, not VBUS_IN as older docs state (probably fine; cross-check ref design).
 - +12 V / −12 V LDO headroom is **1.5 V** — marginal; watch under load.
 - U4 negative-feedback exact value/sign unresolved from the file — **confirm at TP5 on the bench.**
 - TP6–TP9 (CC1/CC2/−15V/VBUS_DISCH individual pads) were **planned but not placed** — only
