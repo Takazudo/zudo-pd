@@ -64,7 +64,7 @@ Being an adjustable output type (ADJ), the output voltage can be freely set usin
 | 2   | OUTPUT   | Switching Output (connect to inductor)                                                                                             |
 | 3   | GND      | Ground (also thermal tab)                                                                                                          |
 | 4   | FEEDBACK | Voltage Feedback Input (1.23V reference)                                                                                           |
-| 5   | ON/OFF   | Enable Control (Low or floating = ON; connection depends on topology - see [ON/OFF Pin Configuration](#8-onoff-pin-configuration)) |
+| 5   | ON/OFF   | Enable Control (Low or floating = ON; connection depends on topology - see [ON/OFF Pin Configuration](#design-considerations-8-on-off-pin-configuration)) |
 | TAB | GND      | Thermal Tab (must connect to GND plane)                                                                                            |
 
 ## Application in This Project
@@ -491,6 +491,6 @@ TO-263 package thermal resistance: ~40°C/W (without thermal vias), ~25°C/W (wi
 
 - The LM2596S-ADJ is a very common DC-DC converter, and many compatible parts exist
 - The 150kHz switching frequency avoids audible noise (below 20kHz)
-- ON/OFF pin connection differs between regular buck (U2, U3) and inverting buck-boost (U4) - see [ON/OFF Pin Configuration](#8-onoff-pin-configuration) for details
+- ON/OFF pin connection differs between regular buck (U2, U3) and inverting buck-boost (U4) - see [ON/OFF Pin Configuration](#design-considerations-8-on-off-pin-configuration) for details
 - This project uses the always-on configuration for all three converters
 - Feedback resistors with ±1% tolerance are recommended (directly affects output voltage accuracy)

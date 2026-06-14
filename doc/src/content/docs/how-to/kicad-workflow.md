@@ -523,8 +523,8 @@ cpl_jlcpcb.csv
 After completing the KiCad workflow:
 
 1. **Documentation:**
-- Export circuit diagram as SVG (see [Create Circuit SVG Files](./create-circuit-svg.md))
-- Export footprint previews (see [Create Footprint SVG Files](./create-footprint-svg.md))
+- Export circuit diagram as SVG (see [Create Circuit SVG Files](./create-circuit-svg.mdx))
+- Export footprint previews (see [Create Footprint SVG Files](./create-footprint-svg.mdx))
 - Update parts list with LCSC IDs
 
 2. **Testing plan:**
@@ -543,4 +543,4 @@ After completing the KiCad workflow:
 - [KiCad Documentation](https://docs.kicad.org/)
 - [KiCad Parts Download Guide](./kicad-parts-download.md)
 - [JLCPCB SMT Assembly](https://jlcpcb.com/smt-assembly)
-- [Create Footprint SVG Files](./create-footprint-svg.md)
+- [Create Footprint SVG Files](./create-footprint-svg.mdx)

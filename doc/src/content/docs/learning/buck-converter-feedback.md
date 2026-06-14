@@ -400,6 +400,6 @@ Best of both worlds:
 
 ## See Also
 
-- [LM2596S-ADJ Documentation](../components/lm2596s-adj.md) - Full component specifications
+- [LM2596S-ADJ Documentation](../components/lm2596s-adj.mdx) - Full component specifications
 - [Circuit Diagrams](../overview/circuit-diagrams.mdx) - See buck converters in context
 - [Open-Drain Outputs](./open-drain-pg-pin.md) - Another control mechanism explained

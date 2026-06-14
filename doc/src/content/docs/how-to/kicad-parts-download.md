@@ -287,7 +287,7 @@ easyeda2kicad --easyeda_id <EASYEDA_ID> --footprint
 
 After downloading footprints:
 
-1. [Create Footprint SVG Files](./create-footprint-svg.md) - Export SVGs for documentation
+1. [Create Footprint SVG Files](./create-footprint-svg.mdx) - Export SVGs for documentation
 2. Review footprints in KiCad PCB editor
 3. Add footprints to your PCB design
 

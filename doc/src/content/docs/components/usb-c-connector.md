@@ -99,7 +99,7 @@ In this power supply design, the 6-pin USB Type-C connector is used exclusively 
 
 ## Circuit Connections
 
-See [Diagram1: USB-PD Power Supply Section](../overview/circuit-diagrams.md#diagram1-usb-pd-power-supply-section) for complete wiring.
+See [Diagram1: USB-PD Power Supply Section](../overview/circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) for complete wiring.
 
 ```
 J1 (USB-C 6P Connector) Connections:
@@ -225,4 +225,4 @@ If C456012 is unavailable, consider these 6-pin power-only USB Type-C alternativ
 - [USB Type-C Cable and Connector Specification](https://www.usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-21)
 - [USB Power Delivery Specification 3.1](https://www.usb.org/document-library/usb-power-delivery)
 - [STUSB4500 USB-PD Controller](./stusb4500.md) - Companion IC for PD negotiation (v1.1)
-- [Diagram1: USB-PD Section](../overview/circuit-diagrams.md#diagram1-usb-pd-power-supply-section) - Circuit diagram
+- [Diagram1: USB-PD Section](../overview/circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) - Circuit diagram

@@ -15,7 +15,7 @@ Click on any footprint to view it in fullscreen.
 ![CH224D QFN-20 Package](/footprints/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.svg)
 
 **Designator:** U1
-**Component:** [CH224D](../components/ch224d) - USB PD Controller
+**Component:** [CH224D](../components/ch224d.md) - USB PD Controller
 **Package:** QFN-20 (3.0mm × 3.0mm, 0.40mm pitch)
 **LCSC:** [C3975094](https://jlcpcb.com/partdetail/C3975094)
 **Function:** Negotiates 15V from USB-C PD adapter
@@ -41,7 +41,7 @@ Click on any footprint to view it in fullscreen.
 ![LM2596S TO-263-5 Package](/footprints/TO-263-5_L10.2-W8.9-P1.70-BR.svg)
 
 **Designators:** U2, U3, U4 (3× units)
-**Component:** [LM2596S-ADJ(UMW)](../components/lm2596s-adj) - Adjustable 3A Buck Converter
+**Component:** [LM2596S-ADJ(UMW)](../components/lm2596s-adj.mdx) - Adjustable 3A Buck Converter
 **Package:** TO-263-5 (10.2mm × 8.9mm)
 **LCSC:** [C347423](https://jlcpcb.com/partdetail/C347423)
 **Function:** DC-DC conversion (+13.5V, +7.5V, -13.5V outputs)
@@ -67,7 +67,7 @@ Click on any footprint to view it in fullscreen.
 ![L7812CD2T TO-263-2 Package](/footprints/TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL.svg)
 
 **Designator:** U6
-**Component:** [L7812CD2T-TR](../components/l7812cv) - +12V 1.5A Linear Regulator
+**Component:** [L7812CD2T-TR](../components/l7812cv.md) - +12V 1.5A Linear Regulator
 **Package:** TO-263-2 (10.0mm × 9.1mm)
 **LCSC:** [C13456](https://jlcpcb.com/partdetail/C13456)
 **Function:** Regulates +13.5V to +12V with low noise
@@ -78,7 +78,7 @@ Click on any footprint to view it in fullscreen.
 ![L7805ABD2T TO-263-2 Package](/footprints/TO-263-2_L10.0-W9.2-P5.08-LS15.3-TL-CW.svg)
 
 **Designator:** U7
-**Component:** [L7805ABD2T-TR](../components/l7805abd2t) - +5V 1.5A Linear Regulator
+**Component:** [L7805ABD2T-TR](../components/l7805abd2t.md) - +5V 1.5A Linear Regulator
 **Package:** TO-263-2 (10.0mm × 9.2mm)
 **LCSC:** [C86206](https://jlcpcb.com/partdetail/C86206)
 **Function:** Regulates +7.5V to +5V with low noise
@@ -89,7 +89,7 @@ Click on any footprint to view it in fullscreen.
 ![CJ7912 TO-252-3 Package](/footprints/TO-252-3_L6.5-W5.8-P4.58-BL.svg)
 
 **Designator:** U8
-**Component:** [CJ7912](../components/cj7912) - -12V 1.5A Linear Regulator
+**Component:** [CJ7912](../components/cj7912.md) - -12V 1.5A Linear Regulator
 **Package:** TO-252-3 (6.5mm × 5.8mm)
 **LCSC:** [C94173](https://jlcpcb.com/partdetail/C94173)
 **Function:** Regulates -13.5V to -12V with low noise
@@ -247,7 +247,7 @@ Click on any footprint to view it in fullscreen.
 ![1812 PTC Resettable Fuse](/footprints/F1812.svg)
 
 **Designator:** PTC2
-**Component:** [mSMD110-33V](../components/ptc-5v) - PTC Resettable Fuse
+**Component:** [mSMD110-33V](../components/ptc-5v.md) - PTC Resettable Fuse
 **Package:** 1812 (4.5mm × 3.2mm)
 **Specification:** 1.1A hold / 2.2A trip
 **LCSC:** [C70119](https://jlcpcb.com/partdetail/C70119)
@@ -272,7 +272,7 @@ Click on any footprint to view it in fullscreen.
 ![SMAJ15A SMA TVS Diode](/footprints/D-FLAT_L4.3-W2.6-LS5.3-RD.svg)
 
 **Designators:** TVS1, TVS3
-**Component:** [SMAJ15A](../components/smaj15a) - 15V Unidirectional TVS Diode
+**Component:** [SMAJ15A](../components/smaj15a.md) - 15V Unidirectional TVS Diode
 **Package:** SMA (4.3mm × 2.6mm)
 **Specification:** 15V standoff, 400W peak power
 **LCSC:** [C571368](https://jlcpcb.com/partdetail/C571368)
@@ -284,7 +284,7 @@ Click on any footprint to view it in fullscreen.
 ![SD05 SOD-323 TVS Diode](/footprints/SOD-323_L1.8-W1.3-LS2.5-FD.svg)
 
 **Designator:** TVS2
-**Component:** [SD05](../components/sd05) - 5V Unidirectional TVS Diode
+**Component:** [SD05](../components/sd05.md) - 5V Unidirectional TVS Diode
 **Package:** SOD-323 (1.8mm × 1.3mm)
 **LCSC:** [C502527](https://jlcpcb.com/partdetail/C502527)
 **Function:** Overvoltage protection for +5V DC power rail

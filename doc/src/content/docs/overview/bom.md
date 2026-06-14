@@ -85,9 +85,9 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol | Part Number                                          | Manufacturer Part Number                          | Description        | Package  | Stock     | Price      | Application                      | Diagram                                                                                       |
 | ------ | ---------------------------------------------------- | ------------------------------------------------- | ------------------ | -------- | --------- | ---------- | -------------------------------- | --------------------------------------------------------------------------------------------- |
-| **U2** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.md)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+13.5V                      | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **U3** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.md)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+7.5V                       | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **U4** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.md)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→-13.5V Inverting Buck-Boost | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **U2** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.mdx)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+13.5V                      | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **U3** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.mdx)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+7.5V                       | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **U4** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.mdx)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→-13.5V Inverting Buck-Boost | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Inductors
 
