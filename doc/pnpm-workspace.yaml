@@ -1,2 +1,8 @@
+# pnpm 11+ reads build-script approval from here (pnpm 11 ignores the
+# package.json "pnpm" field; package.json keeps onlyBuiltDependencies for
+# pnpm 10 CI). esbuild is used by zfb's bundler; sharp backs image probing;
+# workerd backs the Cloudflare adapter build.
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
+  sharp: true
+  workerd: true
