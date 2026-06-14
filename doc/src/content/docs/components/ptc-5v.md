@@ -1,8 +1,7 @@
 ---
-sidebar_position: 11
+title: mSMD110-33V - +5V Rail PTC Resettable Fuse
+sidebar_position: 13
 ---
-
-# mSMD110-33V - +5V Rail PTC Resettable Fuse
 
 Auto-reset overcurrent protection for +5V power rail with 1.1A hold current.
 

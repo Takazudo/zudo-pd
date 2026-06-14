@@ -1,25 +1,21 @@
 ---
-sidebar_position: 15
+title: FASTON 250 PCB Power Terminal
+sidebar_position: 17
 ---
-
-# FASTON 250 PCB Power Terminal
 
 Heavy-duty FASTON 250 series PCB tab terminal for busboard power connection, supporting thick gauge wire for low-noise power delivery to Eurorack modules.
 
 - [View on JLCPCB: C591344](https://jlcpcb.com/partdetail/C591344)
 - [TE Connectivity Product Page](https://www.te.com/usa-en/product-63951-1.html)
 
-import FootprintSvg from '@site/src/components/FootprintSvg';
-import FASTON from '@site/docs/\_fragments/footprints/CONN-TH_1217754-1.svg';
-
-<FootprintSvg src={FASTON} alt="FASTON 250 Terminal Footprint" minWidth="150px" minHeight="150px" />
+![FASTON 250 Terminal Footprint](/footprints/CONN-TH_1217754-1.svg)
 
 ## Overview
 
 The FASTON 250 terminal (TE 63951-1) is an industrial-grade quick-connect PCB tab terminal from TE Connectivity. It provides a robust power output interface for connecting the USB-PD power supply to a Eurorack busboard using standard FASTON 250 (6.35mm / 0.250") receptacle connectors.
 
 :::note v0.4.0 part change
-The original `1217754-1` (LCSC C305825) went out of stock at JLCPCB. v0.4.0 switched to **`63951-1` (LCSC C591344)** — the *same physical tab*, supplied on strip/reel instead of loose piece (TE catalog 82004 lists both on the same row). Identical footprint: 2 right-angle legs at 5.08 mm pitch, 1.4 mm holes, 6.35 mm blade, 8.89 mm height — so the PCB land pattern is unchanged.
+The original `1217754-1` (LCSC C305825) went out of stock at JLCPCB. v0.4.0 switched to **`63951-1` (LCSC C591344)** — the _same physical tab_, supplied on strip/reel instead of loose piece (TE catalog 82004 lists both on the same row). Identical footprint: 2 right-angle legs at 5.08 mm pitch, 1.4 mm holes, 6.35 mm blade, 8.89 mm height — so the PCB land pattern is unchanged.
 :::
 
 This design uses **4 terminals** for the three power rails plus ground return:
@@ -51,21 +47,25 @@ This design uses **4 terminals** for the three power rails plus ground return:
 ### Advantages for Eurorack Power Distribution
 
 1. **Low-Noise Power Delivery**
+
 - Supports thick gauge wire (18-22 AWG typical)
 - Lower resistance than thin ribbon cables
 - Reduces voltage drop under load
 
 2. **High Current Capacity**
+
 - 7A per terminal far exceeds requirements
 - +12V: 1.5A max (21% of capacity)
 - Combined GND: ~4A max (57% of capacity)
 
 3. **Industrial Reliability**
+
 - TE Connectivity quality
 - 10,000+ mating cycles typical
 - Secure connection won't vibrate loose
 
 4. **Easy Busboard Connection**
+
 - Standard FASTON receptacles widely available
 - Quick connect/disconnect without tools
 - Same connectors used on commercial busboards
@@ -127,6 +127,6 @@ To connect to the FASTON tabs, use standard FASTON 250 receptacles:
 
 ## Related Components
 
-- [J1 - USB Type-C Connector](./usb-c-connector) - Power input
-- [J10, J11 - 2x8 Pin Headers](../overview/bom#eurorack-power-connectors-16-pin) - Direct module connection
-- [Bill of Materials](../overview/bom) - Complete parts list
+- [J1 - USB Type-C Connector](./usb-c-connector.md) - Power input
+- [J10, J11 - 2x8 Pin Headers](../overview/bom.md#eurorack-power-connectors-16-pin) - Direct module connection
+- [Bill of Materials](../overview/bom.md) - Complete parts list

@@ -1,8 +1,7 @@
 ---
-sidebar_position: 2
+title: STUSB4500 - USB Power Delivery Controller
+sidebar_position: 3
 ---
-
-# STUSB4500 - USB Power Delivery Controller
 
 USB-IF certified USB Power Delivery sink controller for reliable 15V/3A power negotiation from USB-C PD chargers.
 
@@ -105,7 +104,7 @@ Note: Pin 16 (VBUS_EN_SNK) is critical for load switch control
 | 15  | GPIO          | General purpose I/O                  | NC                                    |
 | 16  | VBUS_EN_SNK   | **Load switch enable (active HIGH)** | To P-MOSFET gate via R12 (56kΩ)       |
 | 17  | A_B_SIDE      | Cable orientation indicator          | NC                                    |
-| 18  | VBUS_VS_DISCH | VBUS voltage sense / discharge       | VBUS_IN via R14 (470ohm)             |
+| 18  | VBUS_VS_DISCH | VBUS voltage sense / discharge       | VBUS_IN via R14 (470ohm)              |
 | 19  | ALERT         | Interrupt output (open-drain)        | NC                                    |
 | 20  | POWER_OK2     | PDO2 selected indicator              | NC (optional LED/MCU)                 |
 | 21  | VREG_1V2      | 1.2V internal regulator output       | C34 (1µF) to GND                      |
@@ -234,7 +233,7 @@ The stored energy drains as heat through R13 (~0.5W briefly). This is required b
 | R11       | 100kΩ | ±1%       | 0603    | Gate pull-up                      |
 | R12       | 56kΩ  | ±1%       | 0603    | Gate voltage divider (Vgs margin) |
 | R13       | 470Ω  | ±1%       | 0603    | VBUS discharge (31mA @ 15V)       |
-| R14      | 470Ω  | ±1%       | 0603    | VBUS_VS_DISCH series resistor     |
+| R14       | 470Ω  | ±1%       | 0603    | VBUS_VS_DISCH series resistor     |
 
 :::info R12 Value Selection
 R12 was changed from 33kΩ to 56kΩ to provide adequate Vgs margin for Q1:
@@ -278,15 +277,18 @@ STUSB4500 stores PDO configuration in 40 bytes of non-volatile memory (NVM).
 ### Programming Methods
 
 1. **ST GUI Tool (STSW-STUSB002)**
+
 - Requires STEVAL-ISC005V1 eval board
 - Windows application
 - Easy point-and-click configuration
 
 2. **Arduino/MCU via I2C**
+
 - Community libraries available
 - [GitHub: usb-c/STUSB4500](https://github.com/usb-c/STUSB4500)
 
 3. **Pre-programmed Parts**
+
 - Some distributors offer programming service
 
 ### NVM Write Cycles
@@ -331,14 +333,14 @@ This eliminates inrush current issues during PD negotiation.
 
 ## Troubleshooting
 
-| Symptom                  | Possible Cause            | Solution                                   |
-| ------------------------ | ------------------------- | ------------------------------------------ |
-| No PD negotiation        | NVM not programmed        | Program NVM with correct PDO configuration |
-| Wrong voltage output     | PDO configuration error   | Verify NVM settings via I2C                |
-| Load switch always OFF   | VBUS_EN_SNK not connected | Check connection to gate network           |
-| Intermittent negotiation | Inadequate decoupling     | Check C_VDD, C1, C2 values and placement   |
-| Overheating              | Poor thermal connection   | Improve EPAD ground connection             |
-| I2C not responding       | Wrong address             | Check ADDR0/ADDR1 pin settings             |
+| Symptom                  | Possible Cause              | Solution                                      |
+| ------------------------ | --------------------------- | --------------------------------------------- |
+| No PD negotiation        | NVM not programmed          | Program NVM with correct PDO configuration    |
+| Wrong voltage output     | PDO configuration error     | Verify NVM settings via I2C                   |
+| Load switch always OFF   | VBUS_EN_SNK not connected   | Check connection to gate network              |
+| Intermittent negotiation | Inadequate decoupling       | Check C_VDD, C1, C2 values and placement      |
+| Overheating              | Poor thermal connection     | Improve EPAD ground connection                |
+| I2C not responding       | Wrong address               | Check ADDR0/ADDR1 pin settings                |
 | No VBUS voltage sense    | VBUS_VS_DISCH not connected | Connect pin 18 to VBUS_IN via 470ohm resistor |
 
 ## Known Issues / Design Errata
@@ -353,7 +355,7 @@ Three issues were found in the v1 PCBA that prevented STUSB4500 from operating c
 
 3. **VSYS (pin 22) left floating**: After the trace cut fix above, VSYS was left floating instead of being connected to GND. The datasheet recommends grounding VSYS when not used. Fixed by adding a bodge wire from pin 22 to GND.
 
-For full details, see the [PCBA v1 Debug Report](/docs/inbox/pcba-v1-debug).
+For full details, see the [PCBA v1 Debug Report](../inbox/pcba-v1-debug.md).
 
 ## References
 
