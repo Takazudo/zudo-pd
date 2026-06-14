@@ -1,8 +1,7 @@
 ---
-sidebar_position: 5
+title: STUSB4500 NVM Programming Setup
+sidebar_position: 6
 ---
-
-# STUSB4500 NVM Programming Setup
 
 The STUSB4500 requires NVM (non-volatile memory) programming to configure its USB-PD negotiation behavior. Factory defaults will negotiate **20V** (not 15V), which would damage downstream circuits. This page documents the hardware setup, required NVM values, and schematic changes needed.
 

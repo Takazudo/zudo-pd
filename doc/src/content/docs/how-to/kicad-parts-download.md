@@ -1,8 +1,7 @@
 ---
-sidebar_position: 2
+title: Download KiCad Footprints and Symbols
+sidebar_position: 3
 ---
-
-# Download KiCad Footprints and Symbols
 
 This guide explains how to download KiCad footprints and symbols from LCSC/EasyEDA using the easyeda2kicad.py tool.
 

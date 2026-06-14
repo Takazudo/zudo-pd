@@ -1,8 +1,7 @@
 ---
-sidebar_position: 7
+title: v3 Test Point Planning
+sidebar_position: 8
 ---
-
-# v3 Test Point Planning
 
 Adding deliberate test points to v3, driven by the v2 debug experience where QFN-24 chip pins were physically impossible to probe with a multimeter and we had to remove U1 with hot-air to confirm the chip-side fault. Pogo pads and labeled test pads cost essentially nothing on the BOM, and turn 30-minute scope hunts into 30-second multimeter checks.
 

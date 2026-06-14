@@ -1,8 +1,7 @@
 ---
-sidebar_position: 8
+title: "v3 Bring-Up & Test Procedure"
+sidebar_position: 9
 ---
-
-# v3 Bring-Up & Test Procedure
 
 Staged bench procedure for a freshly assembled **PCBA v3** board. Every stage gates the
 next: if a stage fails its pass criteria, **stop and debug before powering further** — the

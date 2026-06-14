@@ -1,8 +1,7 @@
 ---
-sidebar_position: 1
+title: Versioning Scheme (X.Y.Z)
+sidebar_position: 2
 ---
-
-# Versioning Scheme (X.Y.Z)
 
 This project uses a custom `X.Y.Z` version, **not** standard semver. The numbers track this
 hardware project's real-world milestones rather than software API compatibility.

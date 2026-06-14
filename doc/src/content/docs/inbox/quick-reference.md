@@ -1,8 +1,7 @@
 ---
-sidebar_position: 5
+title: Quick Reference
+sidebar_position: 4
 ---
-
-# Quick Reference
 
 A cheat sheet of frequently referenced information during design.
 

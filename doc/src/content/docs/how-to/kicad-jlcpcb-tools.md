@@ -1,8 +1,7 @@
 ---
-sidebar_position: 5
+title: Generate JLCPCB Files with kicad-jlcpcb-tools
+sidebar_position: 6
 ---
-
-# Generate JLCPCB Files with kicad-jlcpcb-tools
 
 This guide explains how to generate JLCPCB-ready manufacturing files (Gerbers, BOM, CPL) using the `kicad-jlcpcb-tools` KiCad plugin. The plugin replaces the manual export workflow and **automatically applies rotation corrections** that JLCPCB's part library requires.
 

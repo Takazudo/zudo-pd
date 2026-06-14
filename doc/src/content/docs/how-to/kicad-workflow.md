@@ -1,4 +1,7 @@
-# KiCad Project Workflow
+---
+title: KiCad Project Workflow
+sidebar_position: 2
+---
 
 Complete workflow for creating a PCB design in KiCad, from schematic to manufacturing files.
 

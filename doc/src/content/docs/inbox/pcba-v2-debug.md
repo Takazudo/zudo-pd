@@ -1,8 +1,7 @@
 ---
-sidebar_position: 6
+title: PCBA v2 Debug Report — STUSB4500 CC1DB Failure
+sidebar_position: 7
 ---
-
-# PCBA v2 Debug Report — STUSB4500 CC1DB Failure
 
 Debug analysis of the second PCBA prototype (v2) for the USB-PD modular synthesizer power supply. The STUSB4500 was successfully programmed via NVM, but the chip's **CC1DB pin is internally shorted to GND on every assembled board**, preventing USB-C source detection and blocking PD negotiation entirely. This page documents the failure mode, diagnostic sequence, root cause analysis, and the v3 design fix.
 

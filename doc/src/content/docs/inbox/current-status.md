@@ -1,8 +1,7 @@
 ---
-sidebar_position: 2
+title: Project Status and Plan
+sidebar_position: 3
 ---
-
-# Project Status and Plan
 
 Current progress and future plans for the USB-PD powered modular synthesizer power supply.
 
