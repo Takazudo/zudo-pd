@@ -1,4 +1,7 @@
-# PCB Trace Width and Copper Weight
+---
+title: PCB Trace Width and Copper Weight
+sidebar_position: 13
+---
 
 Understanding how trace width and copper weight affect current carrying capacity, and why USB-C connector pins are sized the way they are.
 
@@ -308,9 +311,9 @@ Consider 2oz copper when:
 
 ## Related Documentation
 
-- [PCB Layout Guidelines](/docs/learning/pcb-layout-power-circuits) - Complete layout rules for power circuits
-- [USB Type-C Pinout](/docs/learning/usb-type-c-pinout) - Why USB-C has multiple power pins
-- [Two-Stage Architecture](/docs/learning/two-stage-dc-dc-ldo-architecture) - Our power conversion strategy
+- [PCB Layout Guidelines](./pcb-layout-power-circuits.md) - Complete layout rules for power circuits
+- [USB Type-C Pinout](./usb-type-c-pinout.md) - Why USB-C has multiple power pins
+- [Two-Stage Architecture](./two-stage-dc-dc-ldo-architecture.md) - Our power conversion strategy
 
 ---
 

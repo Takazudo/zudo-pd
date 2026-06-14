@@ -1,8 +1,7 @@
 ---
-sidebar_position: 4
+title: GNDD/GNDA Split Ground Design
+sidebar_position: 3
 ---
-
-# GNDD/GNDA Split Ground Design
 
 Educational reference on split ground plane techniques for mixed-signal designs. **Note: This project uses unified ground approach - this document is for learning purposes only.**
 

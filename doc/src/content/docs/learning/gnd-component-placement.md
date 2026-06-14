@@ -1,8 +1,7 @@
 ---
-sidebar_position: 3
+title: GND and Component Placement Strategy
+sidebar_position: 2
 ---
-
-# GND and Component Placement Strategy
 
 Practical guide for 2-layer PCB layout using unified ground plane with noise control through component placement.
 

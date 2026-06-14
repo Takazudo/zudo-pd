@@ -1,8 +1,7 @@
 ---
-sidebar_position: 4
+title: "Protection Fuse Strategy: Multi-Stage Design"
+sidebar_position: 17
 ---
-
-# Protection Fuse Strategy: Multi-Stage Design
 
 Understanding overcurrent protection design for modular synthesizer power supplies, based on industry best practices and research into commercial Eurorack power supplies.
 
@@ -258,7 +257,7 @@ This inherent protection means **the linear regulator acts as a "smart current l
 **Compared to traditional PTC-only designs:**
 
 - ✅ **Linear regulator adds protection layer**: Current limiting + thermal shutdown
-- ✅ **No catastrophic shorts possible**: Regulators prevent >2A on module side
+- ✅ **No catastrophic shorts possible**: Regulators prevent &gt;2A on module side
 - ✅ **Defense in depth**: PTC + regulator + DC-DC + USB-PD
 
 **Compared to high-end electronic limiting:**
@@ -354,8 +353,8 @@ PTC:     heating...────────────► warming ────�
 **Protection layers working together:**
 
 1. **Normal overload (1.2-1.5A)**: PTC trips, auto-resets → User-friendly ✅
-2. **Module short (>1.5A)**: Regulator limits to 1.5-2A, PTC trips → Protected ✅
-3. **Circuit short (>3A)**: DC-DC limits to 3-5A, PTC trips → Protected ✅
+2. **Module short (&gt;1.5A)**: Regulator limits to 1.5-2A, PTC trips → Protected ✅
+3. **Circuit short (&gt;3A)**: DC-DC limits to 3-5A, PTC trips → Protected ✅
 4. **Catastrophic fault**: USB-PD adapter protection → System protected ✅
 
 ### Cost-Benefit Analysis

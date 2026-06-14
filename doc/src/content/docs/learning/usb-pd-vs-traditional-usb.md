@@ -1,8 +1,7 @@
 ---
-sidebar_position: 5
+title: "USB-PD vs Traditional USB: Why Power Hubs Don't Exist"
+sidebar_position: 6
 ---
-
-# USB-PD vs Traditional USB: Why Power Hubs Don't Exist
 
 This page explains the fundamental differences between traditional USB power distribution and USB Power Delivery (USB-PD), and why you can't simply use a "USB-C hub" to split USB-PD power.
 
@@ -193,4 +192,4 @@ For powering multiple zudo-PD units, use a **multi-port USB-PD charger** (not a 
 - Shared ground eliminates ground loops between cases
 - Central MCU manages power allocation
 
-See [USB-PD AC Adapter](/docs/overview/usb-pd-adapter#multi-case-setup-multiple-zudo-pd-units) for recommended multi-port chargers.
+See [USB-PD AC Adapter](../overview/usb-pd-adapter.md#multi-case-setup-multiple-zudo-pd-units) for recommended multi-port chargers.

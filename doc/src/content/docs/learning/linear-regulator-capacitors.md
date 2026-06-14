@@ -1,8 +1,7 @@
 ---
-sidebar_position: 4
+title: Linear Regulator Capacitor Selection
+sidebar_position: 15
 ---
-
-# Linear Regulator Capacitor Selection
 
 Understanding why linear regulators need specific capacitor values and placements for stable, low-noise operation.
 

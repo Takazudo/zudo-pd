@@ -1,8 +1,7 @@
 ---
-sidebar_position: 7
+title: "P-Channel MOSFET Load Switch: Gate Control Explained"
+sidebar_position: 8
 ---
-
-# P-Channel MOSFET Load Switch: Gate Control Explained
 
 Understanding how the AO3401A P-channel MOSFET works as a load switch to control power flow in the USB-PD circuit.
 
@@ -316,7 +315,7 @@ Time ~500ms:
 
 ## See Also
 
-- [AO3401A Documentation](../components/ao3401a) - Full MOSFET specifications
-- [STUSB4500 Documentation](../components/stusb4500) - USB-PD controller with VBUS_EN_SNK
-- [Open-Drain Outputs](./open-drain-pg-pin) - How open-drain control signals work
-- [Circuit Diagrams](../overview/circuit-diagrams) - See the load switch in context
+- [AO3401A Documentation](../components/ao3401a.md) - Full MOSFET specifications
+- [STUSB4500 Documentation](../components/stusb4500.md) - USB-PD controller with VBUS_EN_SNK
+- [Open-Drain Outputs](./open-drain-pg-pin.md) - How open-drain control signals work
+- [Circuit Diagrams](../overview/circuit-diagrams.mdx) - See the load switch in context

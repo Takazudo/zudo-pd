@@ -1,8 +1,7 @@
 ---
-sidebar_position: 7
+title: CH224D USB PD Sink Controller
+sidebar_position: 4
 ---
-
-# CH224D USB PD Sink Controller
 
 Understanding the CH224D USB Power Delivery sink controller and how it negotiates voltage with PD adapters.
 
@@ -162,7 +161,7 @@ CH224D has a **built-in MOSFET** (rated up to 5A) to switch VBUS power on/off.
 - CH224D's internal 5A MOSFET handles the switching
 - Simple and works great! ✅
 
-**For >5A applications (e.g., 100W chargers):**
+**For &gt;5A applications (e.g., 100W chargers):**
 
 - Pin 6 (NMOS#) → Configured for external mode
 - Pin 5 (GATE) → **Connected to external MOSFET gate**
@@ -558,7 +557,7 @@ Adapter gradually increases VBUS voltage
 - Downstream circuits must handle this transition
 - Input capacitors smooth the transition
 
-### Step 6: Power Ready (>1000ms)
+### Step 6: Power Ready (&gt;1000ms)
 
 ```
 VBUS = 15V stable
@@ -747,10 +746,10 @@ Our modular synth power supply needs:
 
 ## Related Documentation
 
-- [CH224D Component Page](/docs/components/ch224d) - Full specifications and pinout
-- [J1 USB-C Connector](/docs/components/usb-c-connector) - Connector specifications
-- [Diagram1: USB-PD Section](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) - Complete circuit
-- [USB Type-C Pinout](/docs/learning/usb-type-c-pinout) - Understanding USB-C pins
+- [CH224D Component Page](../components/ch224d.md) - Full specifications and pinout
+- [J1 USB-C Connector](../components/usb-c-connector.md) - Connector specifications
+- [Diagram1: USB-PD Section](../overview/circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) - Complete circuit
+- [USB Type-C Pinout](./usb-type-c-pinout.md) - Understanding USB-C pins
 - [CH224D Datasheet](/datasheets/CH224D-datasheet.pdf) - Official datasheet
 
 ## References

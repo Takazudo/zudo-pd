@@ -1,8 +1,7 @@
 ---
-sidebar_position: 3
+title: "How Buck Converters Work: Feedback Control Explained"
+sidebar_position: 10
 ---
-
-# How Buck Converters Work: Feedback Control Explained
 
 Understanding how the LM2596S-ADJ controls output voltage through feedback - it's like an op-amp, but with switching!
 
@@ -401,6 +400,6 @@ Best of both worlds:
 
 ## See Also
 
-- [LM2596S-ADJ Documentation](../components/lm2596s-adj) - Full component specifications
-- [Circuit Diagrams](/docs/overview/circuit-diagrams) - See buck converters in context
-- [Open-Drain Outputs](/docs/learning/open-drain-pg-pin) - Another control mechanism explained
+- [LM2596S-ADJ Documentation](../components/lm2596s-adj.md) - Full component specifications
+- [Circuit Diagrams](../overview/circuit-diagrams.mdx) - See buck converters in context
+- [Open-Drain Outputs](./open-drain-pg-pin.md) - Another control mechanism explained

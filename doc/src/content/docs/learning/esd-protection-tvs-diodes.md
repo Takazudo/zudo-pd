@@ -1,8 +1,7 @@
 ---
-sidebar_position: 8
+title: "ESD Protection: How TVS Diodes Save Your Circuit"
+sidebar_position: 9
 ---
-
-# ESD Protection: How TVS Diodes Save Your Circuit
 
 Understanding how TVS diodes protect sensitive IC pins from static electricity and voltage spikes.
 
@@ -107,7 +106,7 @@ Voltage
 ## CC Line ESD Protection
 
 :::info Current Design Uses USBLC6-2SC6
-The v1.1 design uses **[USBLC6-2SC6](../components/usblc6-2sc6)** (D4) instead of ESDA25L for CC line protection. USBLC6-2SC6 provides:
+The v1.1 design uses **[USBLC6-2SC6](../components/usblc6-2sc6.md)** (D4) instead of ESDA25L for CC line protection. USBLC6-2SC6 provides:
 
 - Lower clamping voltage (~17V vs ~44V)
 - Additional VBUS protection channel
@@ -319,8 +318,8 @@ Each TVS is matched to the voltage of the line it protects.
 
 ## See Also
 
-- [USBLC6-2SC6 Documentation](../components/usblc6-2sc6) - Full component specifications
-- [ESDA25L Documentation](../components/esda25l) - Legacy component (replaced by USBLC6-2SC6)
-- [SMAJ15A Documentation](../components/smaj15a) - VBUS protection TVS
-- [SD05 Documentation](../components/sd05) - 5V rail protection TVS
-- [USB Type-C Pinout](./usb-type-c-pinout) - Understanding CC and other pins
+- [USBLC6-2SC6 Documentation](../components/usblc6-2sc6.md) - Full component specifications
+- [ESDA25L Documentation](../components/esda25l.md) - Legacy component (replaced by USBLC6-2SC6)
+- [SMAJ15A Documentation](../components/smaj15a.md) - VBUS protection TVS
+- [SD05 Documentation](../components/sd05.md) - 5V rail protection TVS
+- [USB Type-C Pinout](./usb-type-c-pinout.md) - Understanding CC and other pins
