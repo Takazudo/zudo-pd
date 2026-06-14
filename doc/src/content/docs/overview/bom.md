@@ -1,8 +1,7 @@
 ---
+title: Bill of Materials (BOM)
 sidebar_position: 4
 ---
-
-# Bill of Materials (BOM)
 
 Complete parts configuration using JLCPCB SMT service.
 
@@ -20,45 +19,45 @@ Complete parts configuration using JLCPCB SMT service.
 ### Stage 1: USB-PD Voltage Acquisition (STUSB4500)
 
 :::info v1.1 Upgrade
-This stage was upgraded from CH224D to **STUSB4500** for significantly improved charger compatibility (~95%+ vs ~33%). See [CH224D](../components/ch224d) for the deprecated v1.0 design.
+This stage was upgraded from CH224D to **STUSB4500** for significantly improved charger compatibility (~95%+ vs ~33%). See [CH224D](../components/ch224d.md) for the deprecated v1.0 design.
 :::
 
 #### Main ICs
 
 | Symbol | Part Number                                            | Manufacturer Part Number                           | Description               | Package | Stock     | Price     | Application             | Diagram                                                                    |
 | ------ | ------------------------------------------------------ | -------------------------------------------------- | ------------------------- | ------- | --------- | --------- | ----------------------- | -------------------------------------------------------------------------- |
-| **U1** | **[C2678061](https://jlcpcb.com/partdetail/C2678061)** | **[STUSB4500QTR](../components/stusb4500)**        | USB-IF Certified PD Sink  | QFN-24  | **4,728** | **$2.50** | PD Negotiation (15V)    | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **Q1** | **[C347476](https://jlcpcb.com/partdetail/C347476)**   | **[AO3401A](../components/ao3401a)**               | P-Channel MOSFET -30V -4A | SOT-23  | **1.1M**  | **$0.02** | Load Switch (High-side) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **J1** | **[C456012](https://jlcpcb.com/partdetail/C456012)**   | **[USB-TYPE-C-6P](../components/usb-c-connector)** | 6P Type-C Female          | SMD     | **Stock** | **$0.05** | USB-C Input             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **U1** | **[C2678061](https://jlcpcb.com/partdetail/C2678061)** | **[STUSB4500QTR](../components/stusb4500.md)**        | USB-IF Certified PD Sink  | QFN-24  | **4,728** | **$2.50** | PD Negotiation (15V)    | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **Q1** | **[C347476](https://jlcpcb.com/partdetail/C347476)**   | **[AO3401A](../components/ao3401a.md)**               | P-Channel MOSFET -30V -4A | SOT-23  | **1.1M**  | **$0.02** | Load Switch (High-side) | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **J1** | **[C456012](https://jlcpcb.com/partdetail/C456012)**   | **[USB-TYPE-C-6P](../components/usb-c-connector.md)** | 6P Type-C Female          | SMD     | **Stock** | **$0.05** | USB-C Input             | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
 
 #### ESD Protection (Recommended)
 
 | Symbol | Part Number                                      | Manufacturer Part Number                     | Description                  | Package  | Stock       | Price     | Application             | Diagram                                                                    |
 | ------ | ------------------------------------------------ | -------------------------------------------- | ---------------------------- | -------- | ----------- | --------- | ----------------------- | -------------------------------------------------------------------------- |
-| **D4** | **[C7519](https://jlcpcb.com/partdetail/C7519)** | **[USBLC6-2SC6](../components/usblc6-2sc6)** | CC + VBUS TVS Array 5V 3.5pF | SOT-23-6 | **354,000** | **$0.13** | CC1/CC2/VBUS Protection | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **D4** | **[C7519](https://jlcpcb.com/partdetail/C7519)** | **[USBLC6-2SC6](../components/usblc6-2sc6.md)** | CC + VBUS TVS Array 5V 3.5pF | SOT-23-6 | **354,000** | **$0.13** | CC1/CC2/VBUS Protection | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
 
 #### Capacitors
 
 | Symbol  | Part Number                                            | Specification     | Package | Stock          | Price       | Application         | Diagram                                                                    |
 | ------- | ------------------------------------------------------ | ----------------- | ------- | -------------- | ----------- | ------------------- | -------------------------------------------------------------------------- |
-| **C1**  | **[C7432781](https://jlcpcb.com/partdetail/C7432781)** | 10µF 50V X5R ±10% | 1206    | **656,427**    | **$0.024**  | VBUS Bulk Filter    | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **C2**  | **[C1711](https://jlcpcb.com/partdetail/C1711)**     | 100nF 50V X7R     | 0805    | **23,309,869** | **$0.0021** | VDD HF Decoupling   | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **C30** | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | 1µF 16V X5R ±10%  | 0603    | **1,225,237**  | **$0.0012** | VREG_2V7 Decoupling | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **C34** | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | 1µF 16V X5R ±10%  | 0603    | **1,225,237**  | **$0.0012** | VREG_1V2 Decoupling | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **C35** | **[C1711](https://jlcpcb.com/partdetail/C1711)**     | 100nF 50V X7R     | 0805    | **23,309,869** | **$0.0021** | Gate Soft-start     | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **C1**  | **[C7432781](https://jlcpcb.com/partdetail/C7432781)** | 10µF 50V X5R ±10% | 1206    | **656,427**    | **$0.024**  | VBUS Bulk Filter    | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **C2**  | **[C1711](https://jlcpcb.com/partdetail/C1711)**     | 100nF 50V X7R     | 0805    | **23,309,869** | **$0.0021** | VDD HF Decoupling   | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **C30** | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | 1µF 16V X5R ±10%  | 0603    | **1,225,237**  | **$0.0012** | VREG_2V7 Decoupling | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **C34** | **[C6119849](https://jlcpcb.com/partdetail/C6119849)** | 1µF 16V X5R ±10%  | 0603    | **1,225,237**  | **$0.0012** | VREG_1V2 Decoupling | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **C35** | **[C1711](https://jlcpcb.com/partdetail/C1711)**     | 100nF 50V X7R     | 0805    | **23,309,869** | **$0.0021** | Gate Soft-start     | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
 
 #### Resistors
 
 | Symbol  | Part Number                                        | Value | Description | Package | Price       | Application                | Diagram                                                                    |
 | ------- | -------------------------------------------------- | ----- | ----------- | ------- | ----------- | -------------------------- | -------------------------------------------------------------------------- |
-| **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)** | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R12** | **[C23206](https://jlcpcb.com/partdetail/C23206)** | 56kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Voltage Divider       | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R13** | **[C23179](https://jlcpcb.com/partdetail/C23179)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R14** | **[C23179](https://jlcpcb.com/partdetail/C23179)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS_VS_DISCH Series R     | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R15** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 4.7kΩ | ±1% 100mW   | 0603    | **$0.0005** | I2C SCL Pull-up (to VREG_2V7) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R16** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 4.7kΩ | ±1% 100mW   | 0603    | **$0.0005** | I2C SDA Pull-up (to VREG_2V7) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R17** | **[C23186](https://jlcpcb.com/partdetail/C23186)** | 5.1kΩ | ±1% 100mW   | 0603    | **$0.0005** | CC1 External Rd Pull-down (v3 fix) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
-| **R18** | **[C23186](https://jlcpcb.com/partdetail/C23186)** | 5.1kΩ | ±1% 100mW   | 0603    | **$0.0005** | CC2 External Rd Pull-down (v3 fix) | [D1](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) |
+| **R11** | **[C14675](https://jlcpcb.com/partdetail/C14675)** | 100kΩ | ±1% 100mW   | 0603    | **$0.0005** | Gate Pull-up (default OFF) | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **R12** | **[C23206](https://jlcpcb.com/partdetail/C23206)** | 56kΩ  | ±1% 100mW   | 0603    | **$0.0005** | Gate Voltage Divider       | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **R13** | **[C23179](https://jlcpcb.com/partdetail/C23179)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS Discharge             | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **R14** | **[C23179](https://jlcpcb.com/partdetail/C23179)** | 470Ω  | ±1% 100mW   | 0603    | **$0.0005** | VBUS_VS_DISCH Series R     | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **R15** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 4.7kΩ | ±1% 100mW   | 0603    | **$0.0005** | I2C SCL Pull-up (to VREG_2V7) | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **R16** | **[C23162](https://jlcpcb.com/partdetail/C23162)** | 4.7kΩ | ±1% 100mW   | 0603    | **$0.0005** | I2C SDA Pull-up (to VREG_2V7) | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **R17** | **[C23186](https://jlcpcb.com/partdetail/C23186)** | 5.1kΩ | ±1% 100mW   | 0603    | **$0.0005** | CC1 External Rd Pull-down (v3 fix) | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
+| **R18** | **[C23186](https://jlcpcb.com/partdetail/C23186)** | 5.1kΩ | ±1% 100mW   | 0603    | **$0.0005** | CC2 External Rd Pull-down (v3 fix) | [D1](./circuit-diagrams.mdx#diagram1-usb-pd-power-supply-section) |
 
 **Stage 1 Subtotal: ~$2.80**
 
@@ -86,58 +85,58 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol | Part Number                                          | Manufacturer Part Number                          | Description        | Package  | Stock     | Price      | Application                      | Diagram                                                                                       |
 | ------ | ---------------------------------------------------- | ------------------------------------------------- | ------------------ | -------- | --------- | ---------- | -------------------------------- | --------------------------------------------------------------------------------------------- |
-| **U2** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+13.5V                      | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **U3** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+7.5V                       | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **U4** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→-13.5V Inverting Buck-Boost | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **U2** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.md)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+13.5V                      | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **U3** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.md)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→+7.5V                       | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **U4** | **[C347423](https://jlcpcb.com/partdetail/C347423)** | **[LM2596S-ADJ(UMW)](../components/lm2596s-adj.md)** | Adjustable 3A Buck | TO-263-5 | **12075** | **$0.266** | +15V→-13.5V Inverting Buck-Boost | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Inductors
 
 | Symbol | Part Number                                              | Manufacturer Part Number | Description | Package         | Stock    | Price      | Application       | Diagram                                                                                       |
 | ------ | -------------------------------------------------------- | ------------------------ | ----------- | --------------- | -------- | ---------- | ----------------- | --------------------------------------------------------------------------------------------- |
-| **L1** | **[C19268674](https://jlcpcb.com/partdetail/C19268674)** | **CYA1265-100UH**        | 100µH 4.5A  | SMD,13.8x12.8mm | **2763** | **$0.378** | U2 Energy Storage | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **L2** | **[C19268674](https://jlcpcb.com/partdetail/C19268674)** | **CYA1265-100UH**        | 100µH 4.5A  | SMD,13.8x12.8mm | **2763** | **$0.378** | U3 Energy Storage | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **L3** | **[C19268674](https://jlcpcb.com/partdetail/C19268674)** | **CYA1265-100UH**        | 100µH 4.5A  | SMD,13.8x12.8mm | **2763** | **$0.378** | U4 Energy Storage | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **L1** | **[C19268674](https://jlcpcb.com/partdetail/C19268674)** | **CYA1265-100UH**        | 100µH 4.5A  | SMD,13.8x12.8mm | **2763** | **$0.378** | U2 Energy Storage | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **L2** | **[C19268674](https://jlcpcb.com/partdetail/C19268674)** | **CYA1265-100UH**        | 100µH 4.5A  | SMD,13.8x12.8mm | **2763** | **$0.378** | U3 Energy Storage | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **L3** | **[C19268674](https://jlcpcb.com/partdetail/C19268674)** | **CYA1265-100UH**        | 100µH 4.5A  | SMD,13.8x12.8mm | **2763** | **$0.378** | U4 Energy Storage | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Diodes
 
 | Symbol | Part Number                                      | Manufacturer Part Number | Description     | Package | Stock         | Price      | Application     | Diagram                                                                                       |
 | ------ | ------------------------------------------------ | ------------------------ | --------------- | ------- | ------------- | ---------- | --------------- | --------------------------------------------------------------------------------------------- |
-| **D1** | **[C8678](https://jlcpcb.com/partdetail/C8678)** | **SS34**                 | 3A 40V Schottky | SMA     | **1,859,655** | **$0.012** | U2 Freewheeling | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **D2** | **[C8678](https://jlcpcb.com/partdetail/C8678)** | **SS34**                 | 3A 40V Schottky | SMA     | **1,859,655** | **$0.012** | U3 Freewheeling | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **D3** | **[C8678](https://jlcpcb.com/partdetail/C8678)** | **SS34**                 | 3A 40V Schottky | SMA     | **1,859,655** | **$0.012** | U4 Freewheeling | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **D1** | **[C8678](https://jlcpcb.com/partdetail/C8678)** | **SS34**                 | 3A 40V Schottky | SMA     | **1,859,655** | **$0.012** | U2 Freewheeling | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **D2** | **[C8678](https://jlcpcb.com/partdetail/C8678)** | **SS34**                 | 3A 40V Schottky | SMA     | **1,859,655** | **$0.012** | U3 Freewheeling | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **D3** | **[C8678](https://jlcpcb.com/partdetail/C8678)** | **SS34**                 | 3A 40V Schottky | SMA     | **1,859,655** | **$0.012** | U4 Freewheeling | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Feedback Resistors (Basic Parts)
 
 | Symbol | Part Number                                        | Value     | Description | Package | Price       | Application | Diagram                                                                                       |
 | ------ | -------------------------------------------------- | --------- | ----------- | ------- | ----------- | ----------- | --------------------------------------------------------------------------------------------- |
-| **R1** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | **10kΩ**  | ±1% 100mW   | 0603    | **$0.0005** | U2 FB Upper | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **R2** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**   | ±1% 100mW   | 0603    | **$0.0005** | U2 FB Lower | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **R3** | **[C23186](https://jlcpcb.com/partdetail/C23186)** | **5.1kΩ** | ±1% 100mW   | 0603    | **$0.0005** | U3 FB Upper | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **R4** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**   | ±1% 100mW   | 0603    | **$0.0005** | U3 FB Lower | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **R5** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | **10kΩ**  | ±1% 100mW   | 0603    | **$0.0005** | U4 FB Upper | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
-| **R6** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**   | ±1% 100mW   | 0603    | **$0.0005** | U4 FB Lower | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **R1** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | **10kΩ**  | ±1% 100mW   | 0603    | **$0.0005** | U2 FB Upper | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **R2** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**   | ±1% 100mW   | 0603    | **$0.0005** | U2 FB Lower | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **R3** | **[C23186](https://jlcpcb.com/partdetail/C23186)** | **5.1kΩ** | ±1% 100mW   | 0603    | **$0.0005** | U3 FB Upper | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **R4** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**   | ±1% 100mW   | 0603    | **$0.0005** | U3 FB Lower | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **R5** | **[C25804](https://jlcpcb.com/partdetail/C25804)** | **10kΩ**  | ±1% 100mW   | 0603    | **$0.0005** | U4 FB Upper | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **R6** | **[C21190](https://jlcpcb.com/partdetail/C21190)** | **1kΩ**   | ±1% 100mW   | 0603    | **$0.0005** | U4 FB Lower | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Electrolytic Capacitors
 
 | Symbol  | Part Number                                              | Specification      | Package     | Stock      | Price      | Application      | Diagram                                                                                       |
 | ------- | -------------------------------------------------------- | ------------------ | ----------- | ---------- | ---------- | ---------------- | --------------------------------------------------------------------------------------------- |
-| **C3**  | **[C2983319](https://jlcpcb.com/partdetail/C2983319)**   | **470µF 25V**      | D8xL10.5mm  | **46,748** | **$0.04**  | U2 Output Filter | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **C4**  | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V ±20%** | D6.3xL7.7mm | **4,862**   | **$0.05**  | U3 Output Filter | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **C5**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U2 Input Bulk    | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **C7**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U3 Input Bulk    | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **C9**  | **[C22383806](https://jlcpcb.com/partdetail/C22383806)** | **100µF 50V**      | D6.3xL7.7mm | **8,337**  | **TBD**    | U4 Input Bulk    | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
-| **C11** | **[C2983319](https://jlcpcb.com/partdetail/C2983319)**   | **470µF 25V**      | D8xL10.5mm  | **46,748** | **$0.04**  | U4 Output Filter | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **C3**  | **[C2983319](https://jlcpcb.com/partdetail/C2983319)**   | **470µF 25V**      | D8xL10.5mm  | **46,748** | **$0.04**  | U2 Output Filter | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **C4**  | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V ±20%** | D6.3xL7.7mm | **4,862**   | **$0.05**  | U3 Output Filter | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **C5**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U2 Input Bulk    | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **C7**  | **[C22383804](https://jlcpcb.com/partdetail/C22383804)** | **100µF 25V ±20%** | D6.3xL7.7mm | **43,359** | **$0.019** | U3 Input Bulk    | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **C9**  | **[C22383806](https://jlcpcb.com/partdetail/C22383806)** | **100µF 50V**      | D6.3xL7.7mm | **8,337**  | **TBD**    | U4 Input Bulk    | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **C11** | **[C2983319](https://jlcpcb.com/partdetail/C2983319)**   | **470µF 25V**      | D8xL10.5mm  | **46,748** | **$0.04**  | U4 Output Filter | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 #### Ceramic Capacitors (DC-DC Stage)
 
 | Symbol  | Part Number                                        | Specification     | Package | Stock          | Price       | Application              | Diagram                                                                                       |
 | ------- | -------------------------------------------------- | ----------------- | ------- | -------------- | ----------- | ------------------------ | --------------------------------------------------------------------------------------------- |
-| **C6**  | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U2 Input Decoupling      | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **C8**  | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U3 Input Decoupling      | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **C10** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U4 Input Decoupling      | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
-| **C31** | **[C1710](https://jlcpcb.com/partdetail/C1710)**   | **22nF 50V X7R**  | 0805    | **Rich Stock** | **$0.002**  | U2 Feedback Compensation | [D2](/docs/overview/circuit-diagrams#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
-| **C32** | **[C1710](https://jlcpcb.com/partdetail/C1710)**   | **22nF 50V X7R**  | 0805    | **Rich Stock** | **$0.002**  | U3 Feedback Compensation | [D3](/docs/overview/circuit-diagrams#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
-| **C33** | **[C1710](https://jlcpcb.com/partdetail/C1710)**   | **22nF 50V X7R**  | 0805    | **Rich Stock** | **$0.002**  | U4 Feedback Compensation | [D4](/docs/overview/circuit-diagrams#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **C6**  | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U2 Input Decoupling      | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **C8**  | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U3 Input Decoupling      | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **C10** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U4 Input Decoupling      | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
+| **C31** | **[C1710](https://jlcpcb.com/partdetail/C1710)**   | **22nF 50V X7R**  | 0805    | **Rich Stock** | **$0.002**  | U2 Feedback Compensation | [D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v--135v-buck-converter-lm2596s-adj-1)  |
+| **C32** | **[C1710](https://jlcpcb.com/partdetail/C1710)**   | **22nF 50V X7R**  | 0805    | **Rich Stock** | **$0.002**  | U3 Feedback Compensation | [D3](./circuit-diagrams.mdx#diagram3-15v--75v-buck-converter-lm2596s-adj-2-u3)       |
+| **C33** | **[C1710](https://jlcpcb.com/partdetail/C1710)**   | **22nF 50V X7R**  | 0805    | **Rich Stock** | **$0.002**  | U4 Feedback Compensation | [D4](./circuit-diagrams.mdx#diagram4-15v---135v-inverting-buck-boost-lm2596s-adj-u4) |
 
 **Note on C31/C32/C33:** These capacitors are not available in EasyEDA's symbol database. Use KiCad's built-in `Device:C` symbol paired with the `C0805.kicad_mod` footprint. This is standard practice for passive components in JLCPCB PCBA projects.
 
@@ -149,36 +148,36 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol | Part Number                                        | Manufacturer Part Number                      | Description | Package   | Stock       | Price     | Application | Diagram                                                                               |
 | ------ | -------------------------------------------------- | --------------------------------------------- | ----------- | --------- | ----------- | --------- | ----------- | ------------------------------------------------------------------------------------- |
-| **U6** | **[C13456](https://jlcpcb.com/partdetail/C13456)** | **[L7812CD2T-TR](../components/l7812cv)**     | +12V 1.5A   | TO-263-2  | **40,204**  | **$0.11** | +12V Output | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **U7** | **[C86206](https://jlcpcb.com/partdetail/C86206)** | **[L7805ABD2T-TR](../components/l7805abd2t)** | +5V 1.5A    | TO-263-2  | **272,379** | **$0.11** | +5V Output  | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **U8** | **[C94173](https://jlcpcb.com/partdetail/C94173)** | **[CJ7912](../components/cj7912)**            | -12V 1.5A   | TO-252-2L | **3,386**   | **$0.11** | -12V Output | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **U6** | **[C13456](https://jlcpcb.com/partdetail/C13456)** | **[L7812CD2T-TR](../components/l7812cv.md)**     | +12V 1.5A   | TO-263-2  | **40,204**  | **$0.11** | +12V Output | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **U7** | **[C86206](https://jlcpcb.com/partdetail/C86206)** | **[L7805ABD2T-TR](../components/l7805abd2t.md)** | +5V 1.5A    | TO-263-2  | **272,379** | **$0.11** | +5V Output  | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **U8** | **[C94173](https://jlcpcb.com/partdetail/C94173)** | **[CJ7912](../components/cj7912.md)**            | -12V 1.5A   | TO-252-2L | **3,386**   | **$0.11** | -12V Output | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 #### Input Capacitors (470nF) - Basic Parts
 
 | Symbol  | Part Number                                      | Specification     | Package | Stock         | Price       | Application     | Diagram                                                                               |
 | ------- | ------------------------------------------------ | ----------------- | ------- | ------------- | ----------- | --------------- | ------------------------------------------------------------------------------------- |
-| **C15** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U7 Input Filter | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C16** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U8 Input Filter | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C15** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U7 Input Filter | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **C16** | **[C1623](https://jlcpcb.com/partdetail/C1623)** | **470nF 25V X7R** | 0603    | **1,100,473** | **$0.0036** | U8 Input Filter | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 #### Output Capacitors (0.1µF) - Basic Parts
 
 | Symbol  | Part Number                                        | Specification     | Package | Stock          | Price       | Application      | Diagram                                                                               |
 | ------- | -------------------------------------------------- | ----------------- | ------- | -------------- | ----------- | ---------------- | ------------------------------------------------------------------------------------- |
-| **C17** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U6 Output Filter | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C18** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U7 Output Filter | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C19** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U8 Output Filter | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C17** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U6 Output Filter | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C18** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U7 Output Filter | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **C19** | **[C1711](https://jlcpcb.com/partdetail/C1711)** | **100nF 50V X7R** | 0805    | **23,309,869** | **$0.0021** | U8 Output Filter | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 #### Large Electrolytic Capacitors (Linear Regulator Stage)
 
 | Symbol  | Part Number                                              | Specification | Package     | Stock      | Price     | Application | Diagram                                                                               |
 | ------- | -------------------------------------------------------- | ------------- | ----------- | ---------- | --------- | ----------- | ------------------------------------------------------------------------------------- |
-| **C14** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C20** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C21** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Output   | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **C22** | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V** | D6.3xL7.7mm | **4,862**   | **$0.05** | U7 Input    | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C23** | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V** | D6.3xL7.7mm | **4,862**   | **$0.05** | U7 Output   | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **C24** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Input    | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
-| **C25** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Output   | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C14** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C20** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Input    | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C21** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U6 Output   | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **C22** | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V** | D6.3xL7.7mm | **4,862**   | **$0.05** | U7 Input    | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **C23** | **[C22383803](https://jlcpcb.com/partdetail/C22383803)** | **470µF 16V** | D6.3xL7.7mm | **4,862**   | **$0.05** | U7 Output   | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **C24** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Input    | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **C25** | **[C22387780](https://jlcpcb.com/partdetail/C22387780)** | **470µF 35V** | D10xL10.5mm | **13,862** | **$0.04** | U8 Output   | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 **Stage 3 Subtotal: $0.37** (Using high-stock regulators)
 
@@ -188,9 +187,9 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol   | Part Number                                          | Manufacturer Part Number                          | Specification             | Package | Stock      | Price     | Application          | Diagram                                                                               |
 | -------- | ---------------------------------------------------- | ------------------------------------------------- | ------------------------- | ------- | ---------- | --------- | -------------------- | ------------------------------------------------------------------------------------- |
-| **PTC1** | **[C20808](https://jlcpcb.com/partdetail/C20808)**   | **[SMD1210P200TF](../components/ptc-12v)**        | **2.0A hold / 4A trip**   | SMD1210 | **1,744**  | **$0.22** | +12V Rail Protection | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **PTC2** | **[C70119](https://jlcpcb.com/partdetail/C70119)**   | **[mSMD110-33V](../components/ptc-5v)**           | **1.1A hold / 2.2A trip** | 1812    | **44,459** | **$0.10** | +5V Rail Protection  | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **PTC3** | **[C883133](https://jlcpcb.com/partdetail/C883133)** | **[BSMD1206-150-16V](../components/ptc-12v-neg)** | **1.5A hold / 3.0A trip** | 1206    | **60,591** | **$0.14** | -12V Rail Protection | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **PTC1** | **[C20808](https://jlcpcb.com/partdetail/C20808)**   | **[SMD1210P200TF](../components/ptc-12v.md)**        | **2.0A hold / 4A trip**   | SMD1210 | **1,744**  | **$0.22** | +12V Rail Protection | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **PTC2** | **[C70119](https://jlcpcb.com/partdetail/C70119)**   | **[mSMD110-33V](../components/ptc-5v.md)**           | **1.1A hold / 2.2A trip** | 1812    | **44,459** | **$0.10** | +5V Rail Protection  | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **PTC3** | **[C883133](https://jlcpcb.com/partdetail/C883133)** | **[BSMD1206-150-16V](../components/ptc-12v-neg.md)** | **1.5A hold / 3.0A trip** | 1206    | **60,591** | **$0.14** | -12V Rail Protection | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 **Protection Philosophy:**
 
@@ -203,20 +202,20 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol   | Part Number                                          | Manufacturer Part Number             | Description            | Package | Estimated Price | Application     | Diagram                                                                               |
 | -------- | ---------------------------------------------------- | ------------------------------------ | ---------------------- | ------- | --------------- | --------------- | ------------------------------------------------------------------------------------- |
-| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](../components/smaj15a)** | 15V TVS Unidirectional | SMA     | **$0.15**       | +12V Protection | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **TVS2** | **[C502527](https://jlcpcb.com/partdetail/C502527)** | **[SD05](../components/sd05)**       | 5V TVS Unidirectional  | SOD-323 | **$0.02**       | +5V Protection  | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](../components/smaj15a)** | 15V TVS Unidirectional | SMA     | **$0.15**       | -12V Protection | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **TVS1** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](../components/smaj15a.md)** | 15V TVS Unidirectional | SMA     | **$0.15**       | +12V Protection | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **TVS2** | **[C502527](https://jlcpcb.com/partdetail/C502527)** | **[SD05](../components/sd05.md)**       | 5V TVS Unidirectional  | SOD-323 | **$0.02**       | +5V Protection  | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **TVS3** | **[C571368](https://jlcpcb.com/partdetail/C571368)** | **[SMAJ15A](../components/smaj15a.md)** | 15V TVS Unidirectional | SMA     | **$0.15**       | -12V Protection | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 #### Status Indicator LEDs (Using Basic Parts)
 
 | Symbol   | Part Number                                              | Specification | Package | Price       | Application           | Diagram                                                                               |
 | -------- | -------------------------------------------------------- | ------------- | ------- | ----------- | --------------------- | ------------------------------------------------------------------------------------- |
-| **LED2** | **[C19171392](https://jlcpcb.com/partdetail/C19171392)** | **Green LED** | 0603    | **$0.01**   | +12V Status Indicator | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **LED3** | **[C5382145](https://jlcpcb.com/partdetail/C5382145)**   | **Blue LED**  | 0603    | **$0.01**   | +5V Status Indicator  | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **LED4** | **[C2286](https://jlcpcb.com/partdetail/C2286)**         | **Red LED**   | 0603    | **$0.01**   | -12V Status Indicator | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
-| **R7**   | **[C25623](https://jlcpcb.com/partdetail/C25623)**       | **1kΩ 125mW** | 0805    | **$0.0010** | LED2 Current Limit    | [D5](/docs/overview/circuit-diagrams#diagram5-135v--12v-linear-regulator-l7812-u6)    |
-| **R8**   | **[C25623](https://jlcpcb.com/partdetail/C25623)**       | **1kΩ 125mW** | 0805    | **$0.0010** | LED3 Current Limit    | [D6](/docs/overview/circuit-diagrams#diagram6-75v--5v-linear-regulator-l7805-u7)      |
-| **R9**   | **[C25623](https://jlcpcb.com/partdetail/C25623)**       | **1kΩ 125mW** | 0805    | **$0.0010** | LED4 Current Limit    | [D7](/docs/overview/circuit-diagrams#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **LED2** | **[C19171392](https://jlcpcb.com/partdetail/C19171392)** | **Green LED** | 0603    | **$0.01**   | +12V Status Indicator | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **LED3** | **[C5382145](https://jlcpcb.com/partdetail/C5382145)**   | **Blue LED**  | 0603    | **$0.01**   | +5V Status Indicator  | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **LED4** | **[C2286](https://jlcpcb.com/partdetail/C2286)**         | **Red LED**   | 0603    | **$0.01**   | -12V Status Indicator | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
+| **R7**   | **[C25623](https://jlcpcb.com/partdetail/C25623)**       | **1kΩ 125mW** | 0805    | **$0.0010** | LED2 Current Limit    | [D5](./circuit-diagrams.mdx#diagram5-135v--12v-linear-regulator-l7812-u6)    |
+| **R8**   | **[C25623](https://jlcpcb.com/partdetail/C25623)**       | **1kΩ 125mW** | 0805    | **$0.0010** | LED3 Current Limit    | [D6](./circuit-diagrams.mdx#diagram6-75v--5v-linear-regulator-l7805-u7)      |
+| **R9**   | **[C25623](https://jlcpcb.com/partdetail/C25623)**       | **1kΩ 125mW** | 0805    | **$0.0010** | LED4 Current Limit    | [D7](./circuit-diagrams.mdx#diagram7--135v---12v-linear-regulator-cj7912-u8) |
 
 **Stage 4 Subtotal: $0.77** (PTC-only protection, no fuses needed)
 
@@ -259,7 +258,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 | Symbol    | Part Number                                          | Manufacturer Part Number                            | Description               | Package      | Stock     | Price         | Application             |
 | --------- | ---------------------------------------------------- | --------------------------------------------------- | ------------------------- | ------------ | --------- | ------------- | ----------------------- |
-| **J6-J9** | **[C591344](https://jlcpcb.com/partdetail/C591344)** | **[63951-1](../components/faston-terminal)** (×4) | FASTON 250 PCB Tab 6.35mm | Through-hole | **465** | **~$0.26 × 4** | Individual Power Output |
+| **J6-J9** | **[C591344](https://jlcpcb.com/partdetail/C591344)** | **[63951-1](../components/faston-terminal.md)** (×4) | FASTON 250 PCB Tab 6.35mm | Through-hole | **465** | **~$0.26 × 4** | Individual Power Output |
 
 **Individual Terminal Configuration:**
 
@@ -358,7 +357,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 
 ## Component Heights
 
-For detailed component height information and mechanical design considerations, see **[Mechanical Design](/docs/overview/mechanical-design)**.
+For detailed component height information and mechanical design considerations, see **[Mechanical Design](./mechanical-design.md)**.
 
 **Quick reference** (tallest components):
 
