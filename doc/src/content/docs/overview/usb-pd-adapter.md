@@ -1,8 +1,7 @@
 ---
-sidebar_position: 3
+title: USB-PD AC Adapter
+sidebar_position: 6
 ---
-
-# USB-PD AC Adapter
 
 This page describes the USB-PD AC adapter requirements for the Zudo Power USB-PD power supply module.
 

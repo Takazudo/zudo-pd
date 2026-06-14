@@ -1,9 +1,7 @@
 ---
+title: Project Overview
 sidebar_position: 2
-slug: project-overview
 ---
-
-# Project Overview
 
 A compact power supply module that provides ±12V/+5V power for modular synthesizers using USB-C PD 15V as input.
 

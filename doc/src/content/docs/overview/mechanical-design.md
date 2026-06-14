@@ -1,8 +1,7 @@
 ---
-sidebar_position: 6
+title: Mechanical Design
+sidebar_position: 5
 ---
-
-# Mechanical Design
 
 Physical dimensions and mechanical considerations for PCB layout and enclosure design.
 
