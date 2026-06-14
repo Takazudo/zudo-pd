@@ -1,8 +1,7 @@
 ---
-sidebar_position: 4
+title: "Transformer Polarity & Phasing: Why Direction Matters in Flyback Converters"
+sidebar_position: 14
 ---
-
-# Transformer Polarity & Phasing: Why Direction Matters in Flyback Converters
 
 Understanding transformer dot notation and why connecting a flyback transformer backwards will reverse your output voltage polarity!
 

@@ -1,8 +1,7 @@
 ---
-sidebar_position: 10
+title: Two-Stage DC-DC + LDO Power Supply Architecture for Low-Noise Audio
+sidebar_position: 16
 ---
-
-# Two-Stage DC-DC + LDO Power Supply Architecture for Low-Noise Audio
 
 Research and validation of the two-stage power supply topology used in this project: switching DC-DC converter followed by linear regulator for low-noise audio applications.
 
@@ -104,7 +103,7 @@ All rails meet or exceed the 1-1.5V recommendation for low-noise audio applicati
 At 100 kHz switching frequency:
 
 - **1V → 500 mV headroom:** PSRR drops **5 dB**
-- **500 mV → 300 mV headroom:** PSRR drops **>18 dB** (dramatic!)
+- **500 mV → 300 mV headroom:** PSRR drops **&gt;18 dB** (dramatic!)
 - **Below 300 mV:** PSRR → 0 dB (unusable for noise rejection)
 
 **Source:** [Analog Devices AN-1120: Noise Sources in Low Dropout (LDO) Regulators](https://www.analog.com/en/resources/app-notes/an-1120.html)

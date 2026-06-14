@@ -1,4 +1,7 @@
-# PCB Layout Guidelines for Power Circuits
+---
+title: PCB Layout Guidelines for Power Circuits
+sidebar_position: 12
+---
 
 This document explains component placement rules and PCB layout best practices for power supply circuits, covering both switching converters and linear regulators.
 
@@ -721,10 +724,10 @@ Best of both worlds! ✨
 
 ## Related Documentation
 
-- [Inductor Voltage Reversal](/docs/learning/inductor-voltage-reversal) - How switching converters work
-- [Buck Converter Feedback](/docs/learning/buck-converter-feedback) - Feedback network design
-- [Two-Stage DC-DC + LDO Architecture](/docs/learning/two-stage-dc-dc-ldo-architecture) - Why we use this approach
-- [Linear Regulator Capacitors](/docs/learning/linear-regulator-capacitors) - Capacitor selection for LDOs
+- [Inductor Voltage Reversal](./inductor-voltage-reversal.md) - How switching converters work
+- [Buck Converter Feedback](./buck-converter-feedback.md) - Feedback network design
+- [Two-Stage DC-DC + LDO Architecture](./two-stage-dc-dc-ldo-architecture.md) - Why we use this approach
+- [Linear Regulator Capacitors](./linear-regulator-capacitors.md) - Capacitor selection for LDOs
 
 ---
 

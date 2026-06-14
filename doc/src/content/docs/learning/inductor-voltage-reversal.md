@@ -1,4 +1,7 @@
-# Inductor Voltage Reversal and Negative Voltage Generation
+---
+title: Inductor Voltage Reversal and Negative Voltage Generation
+sidebar_position: 11
+---
 
 This document explains how inductors work in switching converters and how voltage polarity reversal enables negative voltage generation from positive input voltage.
 
@@ -48,7 +51,7 @@ di/dt : Rate of change of current [A/s]
 **Critical Points:**
 
 - Voltage depends on **rate of change of current**, NOT the current itself
-- When current increases (di/dt > 0): Voltage has one polarity
+- When current increases (di/dt &gt; 0): Voltage has one polarity
 - When current decreases (di/dt &lt; 0): **Voltage reverses polarity**
 
 ### Lenz's Law
@@ -533,9 +536,9 @@ This inverting buck-boost technique is widely used in:
 
 ## Related Documentation
 
-- [Circuit Diagrams](/docs/overview/circuit-diagrams) - Complete circuit schematics
-- [Buck Converter Feedback](/docs/learning/buck-converter-feedback) - How feedback regulation works
-- [LM2596S-ADJ Component](/docs/components/lm2596s-adj) - IC datasheet information
+- [Circuit Diagrams](../overview/circuit-diagrams.mdx) - Complete circuit schematics
+- [Buck Converter Feedback](./buck-converter-feedback.md) - How feedback regulation works
+- [LM2596S-ADJ Component](../components/lm2596s-adj.md) - IC datasheet information
 
 ---
 

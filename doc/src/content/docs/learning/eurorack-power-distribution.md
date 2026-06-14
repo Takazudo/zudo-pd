@@ -1,8 +1,7 @@
 ---
-sidebar_position: 3
+title: Eurorack Power Distribution Best Practices
+sidebar_position: 18
 ---
-
-# Eurorack Power Distribution Best Practices
 
 Lessons learned from commercial Eurorack power systems, particularly the Toppobrillo Eurobus.
 
@@ -115,7 +114,7 @@ Power Input
 
 **When to implement zones:**
 
-- Systems with >10 modules
+- Systems with &gt;10 modules
 - Multiple cases/busboards
 - High-power digital modules (sampling, DSP)
 
@@ -374,7 +373,7 @@ Sources:
 
 ### 2. PCB Design Matters
 
-**4-layer PCB with thick copper** significantly reduces noise and voltage drop. Worth the extra cost for >10 module systems.
+**4-layer PCB with thick copper** significantly reduces noise and voltage drop. Worth the extra cost for &gt;10 module systems.
 
 ### 3. Distributed Decoupling Works
 
