@@ -1,0 +1,132 @@
+---
+title: FASTON 250 PCB Power Terminal
+sidebar_position: 17
+---
+
+Heavy-duty FASTON 250 series PCB tab terminal for busboard power connection, supporting thick gauge wire for low-noise power delivery to Eurorack modules.
+
+- [View on JLCPCB: C591344](https://jlcpcb.com/partdetail/C591344)
+- [TE Connectivity Product Page](https://www.te.com/usa-en/product-63951-1.html)
+
+![FASTON 250 Terminal Footprint](/footprints/CONN-TH_1217754-1.svg)
+
+## Overview
+
+The FASTON 250 terminal (TE 63951-1) is an industrial-grade quick-connect PCB tab terminal from TE Connectivity. It provides a robust power output interface for connecting the USB-PD power supply to a Eurorack busboard using standard FASTON 250 (6.35mm / 0.250") receptacle connectors.
+
+:::note v0.4.0 part change
+The original `1217754-1` (LCSC C305825) went out of stock at JLCPCB. v0.4.0 switched to **`63951-1` (LCSC C591344)** — the _same physical tab_, supplied on strip/reel instead of loose piece (TE catalog 82004 lists both on the same row). Identical footprint: 2 right-angle legs at 5.08 mm pitch, 1.4 mm holes, 6.35 mm blade, 8.89 mm height — so the PCB land pattern is unchanged.
+:::
+
+This design uses **4 terminals** for the three power rails plus ground return:
+
+| Terminal | Signal | Purpose              |
+| -------- | ------ | -------------------- |
+| **J6**   | -12V   | Negative 12V output  |
+| **J7**   | +12V   | Positive 12V output  |
+| **J8**   | +5V    | Positive 5V output   |
+| **J9**   | GND    | Common ground return |
+
+## Key Specifications
+
+| Parameter                    | Value              | Notes                               |
+| ---------------------------- | ------------------ | ----------------------------------- |
+| **JLCPCB Part Number**       | C591344            | This design (v0.4.0; was C305825)   |
+| **Manufacturer**             | TE Connectivity    |                                     |
+| **Manufacturer Part Number** | 63951-1            | FASTON 250 (strip pkg of 1217754-1) |
+| **Tab Width**                | 6.35mm (0.250")    | Standard FASTON 250 size            |
+| **Current Rating**           | 7A continuous      | Per terminal                        |
+| **Voltage Rating**           | 250V               | Far exceeds 15V requirement         |
+| **Contact Material**         | Tin-plated brass   | Low resistance, corrosion-resistant |
+| **Mounting Type**            | Through-hole (THT) | Wave soldering                      |
+| **PCB Thickness**            | 1.57-2.36mm        | Standard PCB compatible             |
+| **Assembly Fee**             | $0.03/piece        | JLCPCB special component fee        |
+
+## Why FASTON Terminals?
+
+### Advantages for Eurorack Power Distribution
+
+1. **Low-Noise Power Delivery**
+
+- Supports thick gauge wire (18-22 AWG typical)
+- Lower resistance than thin ribbon cables
+- Reduces voltage drop under load
+
+2. **High Current Capacity**
+
+- 7A per terminal far exceeds requirements
+- +12V: 1.5A max (21% of capacity)
+- Combined GND: ~4A max (57% of capacity)
+
+3. **Industrial Reliability**
+
+- TE Connectivity quality
+- 10,000+ mating cycles typical
+- Secure connection won't vibrate loose
+
+4. **Easy Busboard Connection**
+
+- Standard FASTON receptacles widely available
+- Quick connect/disconnect without tools
+- Same connectors used on commercial busboards
+
+## Application in This Project
+
+### Power Output Configuration
+
+```
+USB-PD Power Supply                    Busboard
+┌─────────────────┐                   ┌─────────────────┐
+│                 │   FASTON cable    │                 │
+│  J6 [-12V] ─────┼───────────────────┼─→ -12V rail     │
+│  J7 [+12V] ─────┼───────────────────┼─→ +12V rail     │
+│  J8 [+5V]  ─────┼───────────────────┼─→ +5V rail      │
+│  J9 [GND]  ─────┼───────────────────┼─→ GND plane     │
+│                 │                   │                 │
+└─────────────────┘                   └─────────────────┘
+```
+
+### Current Flow Analysis
+
+| Terminal | Signal | Max Design Current | Terminal Rating | Margin |
+| -------- | ------ | ------------------ | --------------- | ------ |
+| J6       | -12V   | 0.8A               | 7A              | 775%   |
+| J7       | +12V   | 1.2A               | 7A              | 483%   |
+| J8       | +5V    | 0.5A               | 7A              | 1300%  |
+| J9       | GND    | 2.5A (combined)    | 7A              | 180%   |
+
+**Note:** GND terminal carries combined return current from all three rails. Even at maximum load, this is well within the 7A rating.
+
+### Single GND Terminal Rationale
+
+In Eurorack systems, all GND pins from module power connectors are tied together on the busboard. Using a single GND return terminal is appropriate because:
+
+1. The busboard already combines all GND connections
+2. Maximum combined return current (~2.5A) is well within 7A rating
+3. Reduces terminal count and simplifies wiring
+4. Matches common Eurorack busboard designs
+
+## Mating Connectors
+
+To connect to the FASTON tabs, use standard FASTON 250 receptacles:
+
+| Type                    | Wire Size | Insulation          | Typical Source           |
+| ----------------------- | --------- | ------------------- | ------------------------ |
+| **Crimp receptacle**    | 18-22 AWG | Fully insulated     | Electronics distributors |
+| **Quick-disconnect**    | 18-22 AWG | Partially insulated | Hardware stores          |
+| **Wire-to-board cable** | Pre-made  | Various             | Custom cable assemblies  |
+
+**Recommended:** Use fully-insulated crimp receptacles with 18 AWG wire for lowest resistance and best current capacity.
+
+## PCB Layout Considerations
+
+1. **Pad reinforcement**: Through-hole mounting provides mechanical strength
+2. **Trace width**: Use wide traces (&gt;1mm) for power connections to FASTON pads
+3. **Placement**: Position terminals at board edge for easy cable access
+4. **Spacing**: Maintain adequate clearance between terminals for insulated receptacles
+
+## Related Components
+
+- [J1 - USB Type-C Connector](./usb-c-connector.md) - Power input
+- [J10, J11 - 2x8 Pin Headers](../overview/bom.md#eurorack-power-connectors-16-pin) - Direct module connection
+- [Bill of Materials](../overview/bom.md) - Complete parts list

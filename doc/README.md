@@ -1,68 +1,77 @@
 # USB-PD Modular Synth Power Documentation
 
-This directory contains documentation for the USB-PD powered modular synthesizer power supply.
+This directory is the documentation site for the USB-PD powered modular
+synthesizer power supply. It is a [zudo-doc](https://github.com/takazudo) site
+(a zfb / MDX / Tailwind / Preact static-site framework) consuming
+`@takazudo/zfb` + `@takazudo/zdtp`, deployed to **Cloudflare Workers** (static
+assets).
 
 ## Setup
 
 ```bash
-# Install dependencies
-pnpm install
-
-# Start development server
-pnpm start
-
-# Production build
-pnpm build
+pnpm install        # install dependencies
+pnpm dev            # start dev server at http://localhost:4321
+pnpm build          # production build (emits dist/, incl. dist/_worker.js)
+pnpm preview        # preview the built dist/ locally
+pnpm check          # TypeScript typecheck
 ```
 
 ## Directory Structure
 
 ```
 doc/
-├── docs/              # Documentation Markdown files
-│   ├── overview/      # Project overview, circuit diagrams, BOM
-│   ├── components/    # Individual component specifications
-│   ├── learning/      # Circuit design learning notes
-│   ├── how-to/        # How-to guides
-│   ├── inbox/         # Quick reference and misc docs
-│   ├── misc/          # Miscellaneous documentation
-│   └── _fragments/    # Reusable fragments (SVGs, etc.)
-├── src/               # React components and styles
-│   ├── components/    # Custom React components
-│   ├── css/           # Custom CSS
-│   ├── pages/         # Custom pages
-│   └── theme/         # Theme customizations
-├── static/            # Static assets (images, etc.)
-│   ├── circuits/      # Circuit diagram SVGs
-│   ├── datasheets/    # Component datasheets (PDF)
-│   ├── footprints/    # Package preview images (PNG)
-│   └── img/           # General images
-└── plugins/           # Custom plugins
+├── src/
+│   ├── content/docs/   # Documentation content (the pages)
+│   │   ├── overview/   # Project overview, circuit diagrams, BOM
+│   │   ├── components/ # Individual component specifications
+│   │   ├── learning/   # Circuit design learning notes
+│   │   ├── how-to/     # How-to guides
+│   │   ├── misc/       # Footprint preview, misc
+│   │   └── inbox/      # Status, debug logs, quick reference
+│   ├── config/         # settings.ts (site config, nav), schemas
+│   ├── components/     # Framework Preact components (do not edit by hand)
+│   └── ...
+├── public/             # Static assets served at site root
+│   ├── circuits/       # Circuit diagram SVGs   → /circuits/<name>.svg
+│   ├── footprints/     # Footprint layout SVGs  → /footprints/<name>.svg
+│   ├── footprint-imgs/ # Footprint preview PNGs → /footprint-imgs/<name>.png
+│   ├── datasheets/     # Component datasheets (PDF)
+│   ├── img/            # General images
+│   └── kicad/          # KiCad screenshots
+├── pages/              # zfb route files (framework — do not edit by hand)
+├── plugins/            # zfb build plugins (search, doc-history, public copy)
+├── zfb.config.ts       # zfb build config (collections, adapter, features)
+└── wrangler.toml       # Cloudflare Workers deploy config
 ```
 
 ## Adding Documentation
 
-1. Create a new `.md` or `.mdx` file in the appropriate `docs/` subdirectory
-2. Set frontmatter:
+1. Create a `.md` (no JSX) or `.mdx` (with JSX) file in the appropriate
+   `src/content/docs/<section>/` directory.
+2. Add frontmatter — `title:` is required; `sidebar_position:` controls order:
    ```yaml
    ---
-   sidebar_position: 1
+   title: My Page
+   sidebar_position: 3
    ---
    ```
-3. Write content in Markdown/MDX
+3. Write content in Markdown/MDX. Start headings at `##` (the `title` renders as
+   the h1). See `CLAUDE.md` in this directory for the full authoring rules.
 
 ## Tech Stack
 
-- [Docusaurus 3](https://docusaurus.io/) - Documentation site generator
-- [React 19](https://react.dev/) - UI library
-- [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [Mermaid](https://mermaid.js.org/) - Diagram rendering
+- **zudo-doc** / **zfb** (`@takazudo/zfb`) — static-site framework
+- **Preact** — UI rendering (server-rendered, islands for interactivity)
+- **MDX** — Markdown + JSX content
+- **Tailwind CSS** — styling
+- **Mermaid** — diagram rendering
+- **TypeScript** — type safety
+- **Cloudflare Workers** — hosting (static assets via the zfb CF adapter)
 
 ## Commands
 
-- `pnpm start` - Start development server (http://localhost:3000)
-- `pnpm build` - Production build
-- `pnpm serve` - Preview built site locally
-- `pnpm clear` - Clear cache
-- `pnpm lint` - Lint code
-- `pnpm format` - Format code
+- `pnpm dev` — dev server at http://localhost:4321
+- `pnpm build` — production build → `dist/`
+- `pnpm preview` — preview the built `dist/`
+- `pnpm check` — TypeScript typecheck
+- `pnpm check:html` — validate built HTML

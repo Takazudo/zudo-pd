@@ -1,0 +1,1169 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+/* ========================================
+ * @takazudo/zudo-doc package safelist
+ *
+ * The package ships a build-generated safelist at `dist/safelist.css`
+ * (zudolab/zudo-doc#1993). Importing it via the module resolver is
+ * reliable across all consumer environments — same code path as the
+ * existing `@import "@takazudo/zdtp/styles.css"` below.
+ *
+ * Why not @source the package dist/ glob? The old approach
+ * (`@source "../../node_modules/@takazudo/zudo-doc/dist/**"`) was
+ * unreliable: pnpm stores packages in a content-addressable store and
+ * surfaces them to node_modules via symlinks. Tailwind v4's file
+ * scanner does not reliably traverse those symlinks, so arbitrary-value
+ * candidates (e.g. `w-[var(--zd-sidebar-w)]`, `h-[calc(100vh-3.5rem)]`)
+ * were intermittently dropped across rebuilds (zudolab/zudo-doc#1971,
+ * #1989). The package-generated `@source inline()` in dist/safelist.css
+ * contains the full set, extracted at package build time — no drift, no
+ * symlink traversal, auto-syncs on package upgrade (zudolab/zudo-doc#1994).
+ * ======================================== */
+
+@import "@takazudo/zudo-doc/safelist.css";
+
+/* ========================================
+ * Tailwind v4 content sources
+ *
+ * Without a `.git` directory in the project root Tailwind v4's content
+ * scanner falls back to explicit @source directives for class detection.
+ * Builds that run outside a git checkout (E2E fixtures, CI containers
+ * that copy the source tree without history, etc.) hit this fallback,
+ * and zfb's default content roots only cover `pages/`. Components live
+ * outside pages/, so these directives ensure the consumer's own code is
+ * always scanned for utility classes. The package's utilities are now
+ * covered by the @import above — these directives cover consumer code only.
+ * ======================================== */
+
+@source "src/components/**/*.{tsx,ts,jsx,js,mdx,md}";
+@source "src/content/**/*.{mdx,md}";
+@source "src/hooks/**/*.{tsx,ts,jsx,js}";
+@source "src/utils/**/*.{tsx,ts,jsx,js}";
+@source "pages/**/*.{tsx,ts,jsx,js}";
+
+/* ========================================
+ * Design Token System
+ *
+ * Tight token strategy: import preflight + utilities only (no default theme).
+ * Only project-specific tokens are available.
+ *
+ * Raw palette: --zd-0 to --zd-15 + bg/fg/sel (injected by ColorSchemeProvider)
+ * Tailwind tokens: registered below via @theme
+ *
+ * Palette slots:
+ *   0/8:  black / bright-black (surfaces, muted text, borders)
+ *   1/9:  red / bright-red
+ *   2/10: green / bright-green
+ *   3/11: yellow / bright-yellow
+ *   4/12: blue / bright-blue
+ *   5/13: magenta / bright-magenta
+ *   6/14: cyan / bright-cyan
+ *   7/15: white / bright-white
+ * ======================================== */
+
+@theme {
+  /* ========================================
+   * Colors — Three-tier token system
+   * ======================================== */
+
+  /* ── Base ── */
+  --color-bg: var(--zd-bg);
+  --color-fg: var(--zd-fg);
+  --color-sel-bg: var(--zd-sel-bg);
+  --color-sel-fg: var(--zd-sel-fg);
+
+  /* ── Raw palette (p0–p15) ── */
+  --color-p0: var(--zd-0);
+  --color-p1: var(--zd-1);
+  --color-p2: var(--zd-2);
+  --color-p3: var(--zd-3);
+  --color-p4: var(--zd-4);
+  --color-p5: var(--zd-5);
+  --color-p6: var(--zd-6);
+  --color-p7: var(--zd-7);
+  --color-p8: var(--zd-8);
+  --color-p9: var(--zd-9);
+  --color-p10: var(--zd-10);
+  --color-p11: var(--zd-11);
+  --color-p12: var(--zd-12);
+  --color-p13: var(--zd-13);
+  --color-p14: var(--zd-14);
+  --color-p15: var(--zd-15);
+
+  /* ── Semantic aliases ── */
+  --color-surface: var(--zd-surface);
+  --color-muted: var(--zd-muted);
+  --color-accent: var(--zd-accent);
+  --color-accent-hover: var(--zd-accent-hover);
+  --color-code-bg: var(--zd-code-bg);
+  --color-code-fg: var(--zd-code-fg);
+  --color-success: var(--zd-success);
+  --color-danger: var(--zd-danger);
+  --color-warning: var(--zd-warning);
+  --color-info: var(--zd-info);
+  /* Overlay is intentionally theme-independent (always dark, not scheme-driven) */
+  --color-overlay: #000;
+  --color-image-overlay-bg: var(--zd-image-overlay-bg);
+  --color-image-overlay-fg: var(--zd-image-overlay-fg);
+  --color-mermaid-node-bg: var(--zd-mermaid-node-bg);
+  --color-mermaid-text: var(--zd-mermaid-text);
+  --color-mermaid-line: var(--zd-mermaid-line);
+  --color-mermaid-label-bg: var(--zd-mermaid-label-bg);
+  --color-mermaid-note-bg: var(--zd-mermaid-note-bg);
+  --color-matched-keyword-bg: var(--zd-matched-keyword-bg);
+  --color-matched-keyword-fg: var(--zd-matched-keyword-fg);
+
+  /* ========================================
+   * Spacing — hsp (horizontal) + vsp (vertical)
+   * ======================================== */
+  --spacing-0: 0;
+  --spacing-px: 1px;
+
+  /* Horizontal spacing (7 steps) */
+  --spacing-hsp-2xs: 0.125rem;   /* 2px  — tight inline */
+  --spacing-hsp-xs: 0.375rem;   /* 6px  — compact inline */
+  --spacing-hsp-sm: 0.5rem;     /* 8px  — small padding */
+  --spacing-hsp-md: 0.75rem;    /* 12px — default gaps */
+  --spacing-hsp-lg: 1rem;       /* 16px — standard padding */
+  --spacing-hsp-xl: 1.5rem;     /* 24px — generous padding */
+  --spacing-hsp-2xl: 2rem;      /* 32px — large padding */
+
+  /* Vertical spacing (8 steps) */
+  --spacing-vsp-3xs: 0.25rem;     /* 4px — hairline gap */
+  --spacing-vsp-2xs: 0.4375rem;   /* 7px — tight gap */
+  --spacing-vsp-xs: 0.875rem;    /* 14px — small gap */
+  --spacing-vsp-sm: 1.25rem;     /* 20px — compact gap */
+  --spacing-vsp-md: 1.5rem;      /* 24px — standard gap */
+  --spacing-vsp-lg: 1.75rem;     /* 28px — section gap */
+  --spacing-vsp-xl: 2.5rem;      /* 40px — large section gap */
+  --spacing-vsp-2xl: 3.5rem;     /* 56px — page-level gap */
+
+  /* ========================================
+   * Element sizes — semantic icon dimensions
+   * ======================================== */
+  --spacing-icon-xs: 0.75rem;    /* 12px — inline meta icons, chevrons */
+  --spacing-icon-sm: 1rem;       /* 16px — standard UI icons */
+  --spacing-icon-md: 1.25rem;    /* 20px — medium emphasis icons */
+  --spacing-icon-lg: 1.5rem;     /* 24px — large / mobile icons */
+
+  /* Image overlay button chrome */
+  --spacing-image-overlay-inset: 0.5rem;  /* 8px — overlay button corner inset + internal padding */
+
+  /* ========================================
+   * Elevation — the tight `@import "tailwindcss/utilities"` (no default
+   * @theme) drops Tailwind's default shadow scale, so `shadow-*` utilities
+   * generate nothing. Re-add the one elevation the components use: header
+   * and version-switcher dropdown panels apply `shadow-lg`. Value is
+   * Tailwind v4's default shadow-lg; the black is intentionally
+   * theme-independent (a drop shadow is absence of light, not a themed color).
+   * ======================================== */
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* ========================================
+   * Typography
+   * ======================================== */
+
+  /* ── Tier 2: Semantic font-size tokens (reference Tier 1 scale only) ── */
+  --text-micro:      var(--text-scale-2xs);  /* 12px — compact panel labels, color swatch annotations */
+  --text-caption:    var(--text-scale-xs);   /* labels, timestamps */
+  --text-small:      var(--text-scale-sm);   /* secondary text, nav items */
+  --text-body:       var(--text-scale-md);   /* paragraphs, default */
+  --text-title: var(--text-scale-lg);   /* card titles, section labels */
+  --text-heading:    var(--text-scale-xl);   /* page headings */
+  --text-display:    var(--text-scale-2xl);  /* hero text */
+
+  /* Font families */
+  --font-sans: system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+
+  /* Font weights (4 steps) */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights (4 steps) */
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ========================================
+   * Border radius (3 steps)
+   * ======================================== */
+  --radius-DEFAULT: 0.25rem;    /* 4px — rounded */
+  --radius-lg: 0.5rem;          /* 8px — rounded-lg */
+  --radius-full: 9999px;        /* rounded-full */
+
+  /* ========================================
+   * Breakpoints (3 steps)
+   * ======================================== */
+  --breakpoint-sm: 640px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+:root {
+  /* Default responsive range; sidebar-resizer.ts allows 192–448px for explicit resizing */
+  --zd-sidebar-w: clamp(14rem, 20vw, 22rem);
+
+  /* ── Tier 1: Abstract font-size scale (raw values — NOT for direct component use) ── */
+  /* Used only as a source of truth for Tier 2 semantic tokens above. */
+  --text-scale-2xs: 0.75rem;    /* 12px */
+  --text-scale-xs:  0.875rem;   /* 14px */
+  --text-scale-sm:  1rem;       /* 16px */
+  --text-scale-md:  1.2rem;     /* 19.2px */
+  --text-scale-lg:  1.4rem;     /* 22.4px */
+  --text-scale-xl:  3rem;       /* 48px */
+  --text-scale-2xl: 3.75rem;    /* 60px */
+}
+
+/* ========================================
+ * Base styles
+ * ======================================== */
+
+[id] {
+  scroll-margin-top: 80px;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+::selection {
+  background-color: var(--color-sel-bg);
+  color: var(--color-sel-fg);
+}
+
+@layer base {
+  a {
+    text-underline-offset: 4px;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+/* ========================================
+ * Content typography (.zd-content)
+ *
+ * Direct element styling — no prose plugin.
+ * Uses :where() for zero specificity (easy to override).
+ * Font size pattern inspired by zpaper: paired size + line-height.
+ * ======================================== */
+
+.zd-content {
+  color: var(--color-fg);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Flow spacing (vertical rhythm) ── */
+
+.zd-content > :where(* + *) {
+  margin-top: var(--flow-space, var(--spacing-vsp-md));
+}
+
+/* ── Headings ── */
+
+.zd-content :where(h2) {
+  font-size: var(--text-title);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  margin-top: var(--spacing-vsp-2xl);
+  margin-bottom: var(--spacing-vsp-xs);
+  padding-top: var(--spacing-vsp-sm);
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(to right, var(--color-fg), transparent) 1;
+}
+
+.zd-content :where(h3) {
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-snug);
+  margin-top: var(--spacing-vsp-xl);
+  margin-bottom: var(--spacing-vsp-xs);
+  padding-top: var(--spacing-vsp-xs);
+  border-top: 2px solid transparent;
+  border-image: linear-gradient(to right, var(--color-muted), transparent) 1;
+}
+
+.zd-content :where(h4) {
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  margin-top: var(--spacing-vsp-lg);
+  margin-bottom: var(--spacing-vsp-xs);
+  padding-top: var(--spacing-vsp-xs);
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(to right, var(--color-muted), transparent) 1;
+}
+
+.zd-content :where(h5, h6) {
+  font-size: var(--text-small);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  margin-top: var(--spacing-vsp-md);
+  margin-bottom: var(--spacing-vsp-2xs);
+}
+
+/* ── Heading auto-links ── */
+
+.zd-content :where(h2, h3, h4, h5, h6) .hash-link {
+  text-decoration: none;
+  margin-left: var(--spacing-hsp-sm);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.zd-content :where(h2, h3, h4, h5, h6) .hash-link::after {
+  content: "#";
+  color: var(--color-accent);
+}
+
+.zd-content :where(h2, h3, h4, h5, h6):hover .hash-link {
+  opacity: 1;
+}
+
+.zd-content :where(h2, h3, h4, h5, h6) .hash-link:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Tighten spacing after headings */
+.zd-content :where(h2 + *, h3 + *, h4 + *, h5 + *, h6 + *) {
+  margin-top: 0;
+}
+
+/* ── Paragraphs ── */
+
+.zd-content :where(p) {
+  margin-top: 0;
+  margin-bottom: var(--spacing-vsp-md);
+}
+
+/* ── Links ── */
+
+.zd-content :where(a:not(.block):not([data-site-nav] *)) {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.zd-content :where(a:not(.block):not([data-site-nav] *):hover) {
+  color: var(--color-accent-hover);
+}
+
+/* ── Bold / Strong ── */
+
+.zd-content :where(strong) {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+}
+
+/* ── Lists ── */
+
+.zd-content :where(ul) {
+  list-style-type: disc;
+  padding-left: var(--spacing-hsp-xl);
+  margin-bottom: var(--spacing-vsp-md);
+}
+
+.zd-content :where(ol) {
+  list-style-type: decimal;
+  padding-left: var(--spacing-hsp-xl);
+  margin-bottom: var(--spacing-vsp-md);
+}
+
+.zd-content :where(li) {
+  margin-bottom: var(--spacing-vsp-xs);
+}
+
+.zd-content :where(li::marker) {
+  color: var(--color-muted);
+}
+
+.zd-content :where(li > ul, li > ol) {
+  margin-top: var(--spacing-vsp-xs);
+  margin-bottom: 0;
+}
+
+/* ── Blockquotes ── */
+
+.zd-content :where(blockquote) {
+  border-left: 3px solid var(--color-muted);
+  padding-left: var(--spacing-hsp-lg);
+  color: var(--color-muted);
+  font-style: italic;
+  margin-bottom: var(--spacing-vsp-md);
+}
+
+.zd-content :where(blockquote p) {
+  margin-bottom: var(--spacing-vsp-xs);
+}
+
+/* ── Inline code ── */
+
+.zd-content :where(code:not(pre code)) {
+  font-size: var(--text-small);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-mono);
+  background-color: var(--color-code-bg);
+  color: var(--color-code-fg);
+  border-radius: var(--radius-DEFAULT);
+  padding: 2px var(--spacing-hsp-xs);
+}
+
+/* ── Code blocks (pre) ── */
+
+.zd-content :where(pre) {
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  border: 1px solid var(--color-muted);
+  padding: var(--spacing-vsp-sm) var(--spacing-hsp-lg);
+  margin-bottom: var(--spacing-vsp-md);
+  overflow-x: auto;
+}
+
+.zd-content :where(pre code) {
+  background: transparent;
+  padding: 0;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* ── Tables ── */
+
+.zd-content :where(table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+  margin-bottom: var(--spacing-vsp-md);
+}
+
+.zd-content :where(th),
+.zd-content :where(td) {
+  padding: var(--spacing-vsp-xs) var(--spacing-hsp-md);
+  border-bottom: 1px solid var(--color-muted);
+  overflow-wrap: break-word;
+}
+
+.zd-content :where(th) {
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+  border-bottom-width: 2px;
+}
+
+/* ── Horizontal rules ── */
+
+.zd-content :where(hr) {
+  border: none;
+  border-top: 1px solid var(--color-muted);
+  margin: var(--spacing-vsp-xl) 0;
+}
+
+/* ── Images ── */
+
+.zd-content :where(img) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Definition lists ── */
+
+.zd-content :where(dt) {
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--spacing-vsp-md);
+}
+
+.zd-content :where(dd) {
+  padding-left: var(--spacing-hsp-xl);
+  margin-bottom: var(--spacing-vsp-xs);
+}
+
+/* ========================================
+ * Admonitions ([data-admonition])
+ *
+ * Variant→color mapping: note→accent, tip→success, info→info,
+ * warning→warning, danger→danger. Background tint uses
+ * `color-mix(in srgb, var(--color-X) 12%, var(--color-bg))` for an opaque
+ * per-theme tinted backdrop. Class names are dynamic (admonition-${variant})
+ * so Tailwind cannot scan them; rules must live here explicitly.
+ * See zudolab/zudo-doc#1357 / #1444 / #1456.
+ * ======================================== */
+
+[data-admonition] {
+  border-left: 4px solid var(--color-muted);
+  /* Asymmetric padding mirrors the Astro reference: generous top, snug bottom. */
+  padding: var(--spacing-vsp-md) var(--spacing-hsp-lg) var(--spacing-vsp-2xs);
+  background-color: color-mix(in srgb, var(--color-muted) 12%, var(--color-bg));
+  border-radius: 0 var(--radius-DEFAULT) var(--radius-DEFAULT) 0;
+}
+
+.admonition-title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-small);
+  margin-bottom: var(--spacing-vsp-2xs);
+}
+
+/* Variant icon — emoji rendered via ::before so the stub markup stays
+ * variant-agnostic and the icon vocabulary lives next to its color rule. */
+.admonition-title::before {
+  margin-right: var(--spacing-hsp-2xs);
+}
+
+.admonition-body > :first-child {
+  margin-top: 0;
+}
+
+.admonition-body > :last-child {
+  margin-bottom: 0;
+}
+
+[data-admonition="note"],
+.admonition-note {
+  border-left-color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg));
+}
+
+[data-admonition="note"] .admonition-title,
+.admonition-note .admonition-title {
+  color: var(--color-accent);
+}
+
+[data-admonition="note"] .admonition-title::before,
+.admonition-note .admonition-title::before {
+  content: "📝";
+}
+
+[data-admonition="tip"],
+.admonition-tip {
+  border-left-color: var(--color-success);
+  background-color: color-mix(in srgb, var(--color-success) 12%, var(--color-bg));
+}
+
+[data-admonition="tip"] .admonition-title,
+.admonition-tip .admonition-title {
+  color: var(--color-success);
+}
+
+[data-admonition="tip"] .admonition-title::before,
+.admonition-tip .admonition-title::before {
+  content: "💡";
+}
+
+[data-admonition="info"],
+.admonition-info {
+  border-left-color: var(--color-info);
+  background-color: color-mix(in srgb, var(--color-info) 12%, var(--color-bg));
+}
+
+[data-admonition="info"] .admonition-title,
+.admonition-info .admonition-title {
+  color: var(--color-info);
+}
+
+[data-admonition="info"] .admonition-title::before,
+.admonition-info .admonition-title::before {
+  content: "ℹ️";
+}
+
+[data-admonition="warning"],
+.admonition-warning {
+  border-left-color: var(--color-warning);
+  background-color: color-mix(in srgb, var(--color-warning) 12%, var(--color-bg));
+}
+
+[data-admonition="warning"] .admonition-title,
+.admonition-warning .admonition-title {
+  color: var(--color-warning);
+}
+
+[data-admonition="warning"] .admonition-title::before,
+.admonition-warning .admonition-title::before {
+  content: "⚠️";
+}
+
+[data-admonition="danger"],
+.admonition-danger {
+  border-left-color: var(--color-danger);
+  background-color: color-mix(in srgb, var(--color-danger) 12%, var(--color-bg));
+}
+
+[data-admonition="danger"] .admonition-title,
+.admonition-danger .admonition-title {
+  color: var(--color-danger);
+}
+
+[data-admonition="danger"] .admonition-title::before,
+.admonition-danger .admonition-title::before {
+  content: "🚨";
+}
+
+/* github-alerts [!IMPORTANT] → magenta/accent-adjacent (p5 = magenta palette slot) */
+[data-admonition="important"],
+.admonition-important {
+  border-left-color: var(--color-p5);
+  background-color: color-mix(in srgb, var(--color-p5) 12%, var(--color-bg));
+}
+
+[data-admonition="important"] .admonition-title,
+.admonition-important .admonition-title {
+  color: var(--color-p5);
+}
+
+[data-admonition="important"] .admonition-title::before,
+.admonition-important .admonition-title::before {
+  content: "❗";
+}
+
+/* github-alerts [!CAUTION] → danger-adjacent (high severity, distinct from danger/🚨) */
+[data-admonition="caution"],
+.admonition-caution {
+  border-left-color: var(--color-danger);
+  background-color: color-mix(in srgb, var(--color-danger) 12%, var(--color-bg));
+}
+
+[data-admonition="caution"] .admonition-title,
+.admonition-caution .admonition-title {
+  color: var(--color-danger);
+}
+
+[data-admonition="caution"] .admonition-title::before,
+.admonition-caution .admonition-title::before {
+  content: "⛔";
+}
+
+/* ========================================
+ * Code block buttons (copy + word wrap)
+ * ======================================== */
+
+.code-block-wrapper {
+  position: relative;
+}
+
+pre[class^="syntect-"].word-wrap {
+  overflow-x: hidden;
+}
+
+pre[class^="syntect-"].word-wrap code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.code-block-sr-announce {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.code-buttons {
+  position: absolute;
+  top: var(--spacing-hsp-sm);
+  right: var(--spacing-hsp-sm);
+  display: flex;
+  gap: var(--spacing-hsp-2xs);
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 1;
+}
+
+.code-block-wrapper:hover .code-buttons,
+.code-block-wrapper:focus-within .code-buttons {
+  opacity: 1;
+}
+
+.code-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-hsp-2xl);
+  height: var(--spacing-hsp-2xl);
+  padding: 0;
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-fg);
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.code-btn:hover {
+  color: var(--color-fg);
+  border-color: var(--color-fg);
+}
+
+.code-btn .code-icon {
+  width: var(--spacing-hsp-lg);
+  height: var(--spacing-hsp-lg);
+}
+
+/* Copy: icon swap */
+.code-btn-copy .code-icon-check {
+  display: none;
+}
+.code-btn-copy .code-icon-copy {
+  display: block;
+}
+.code-btn-copy.copied .code-icon-check {
+  display: block;
+  color: var(--color-success);
+}
+.code-btn-copy.copied .code-icon-copy {
+  display: none;
+}
+
+/* Word wrap active state */
+.code-btn-wrap.active {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+@media (scripting: none) {
+  .code-buttons {
+    display: none;
+  }
+}
+
+/* ========================================
+ * Code-block syntax-highlight token color rule
+ * ======================================== */
+
+/* Build-time: zfb's Rust pipeline runs SyntectPlugin and emits
+ * <pre class="syntect-..."> with inline style="color:#hex" on every token
+ * span. The inline hex is the desired token color — this rule must NOT
+ * override it (so: NO !important on `color`).
+ *
+ * Runtime (design-token-tweak panel, when enabled): Shiki re-highlights on
+ * demand and emits spans with inline style="--shiki-light:#X;--shiki-dark:#Y"
+ * — CSS custom properties only, no `color` declaration — depending on this
+ * rule to resolve light-dark(var(--shiki-light), var(--shiki-dark)) to the
+ * active theme. Shiki spans have no inline `color`, so the rule applies
+ * without needing !important. */
+[data-theme] .shiki,
+[data-theme] .shiki span,
+[data-theme] pre[class^="syntect-"],
+[data-theme] pre[class^="syntect-"] span {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
+  background-color: light-dark(var(--shiki-light-bg), var(--shiki-dark-bg));
+  font-style: light-dark(
+    var(--shiki-light-font-style, inherit),
+    var(--shiki-dark-font-style, inherit)
+  );
+}
+
+/* HtmlPreview component — Shiki code blocks
+ * Token colors inherit from the global [data-theme] .shiki rule above.
+ * These rules only adjust layout and background for the preview context. */
+.zd-html-preview-code pre.shiki {
+  margin: 0;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.zd-html-preview-code pre.shiki code {
+  font-family: var(--font-mono);
+  white-space: pre;
+}
+
+/* ========================================
+ * Code block line highlighting
+ * ======================================== */
+
+/* Line highlighting via {1,3-5} meta syntax.
+ * zfb emits data-line-highlight="true" on the <span class="line"> element
+ * (verified empirically at next.13). The .highlighted class form is kept for
+ * forward-compat in case a future zfb version emits both. */
+pre[class^="syntect-"] .line.highlighted,
+pre[class^="syntect-"] [data-line-highlight="true"] {
+  background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+}
+
+/* Word highlighting via /word/ meta syntax */
+pre[class^="syntect-"] .line .highlighted-word {
+  background-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
+  border-bottom: 1px solid var(--color-accent);
+}
+
+/* ========================================
+ * Code block titles
+ * ======================================== */
+
+.code-block-container {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.code-block-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-muted);
+  background-color: var(--color-code-bg);
+  border: 1px solid var(--color-muted);
+  border-bottom: none;
+  padding: var(--spacing-vsp-2xs) var(--spacing-hsp-lg);
+}
+
+.code-block-container pre[class^="syntect-"] {
+  margin-top: 0 !important;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* ========================================
+ * CodeGroup raw-code panels (codeTabs Option A)
+ *
+ * zfb's :::code-group emits <CodeGroup tabs={[...]}> with one
+ * <pre data-lang="…">{RAW text}</pre> child per fence. These <pre> elements
+ * are NOT syntect-highlighted (the Rust pipeline doesn't highlight inside
+ * code-group fences), so they get no `.syntect-*` class. Apply explicit
+ * code-block visual treatment via tokens to match the syntect-highlighted
+ * code blocks surrounding them.
+ * ======================================== */
+
+.code-group-panel pre[data-lang] {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  background-color: var(--color-code-bg);
+  color: var(--color-code-fg);
+  padding: var(--spacing-vsp-xs) var(--spacing-hsp-lg);
+  overflow-x: auto;
+  border-radius: 0 0 var(--radius-DEFAULT) var(--radius-DEFAULT);
+  margin: 0;
+}
+
+/* ========================================
+ * Mermaid diagrams
+ * ======================================== */
+
+.zd-content .mermaid {
+  @apply my-vsp-lg flex justify-center;
+}
+
+.zd-content .mermaid svg {
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Prevent mermaid edge labels from clipping text (foreignObject uses overflow:hidden) */
+.zd-content .mermaid foreignObject {
+  overflow: visible;
+}
+
+/* KaTeX math equations */
+.katex {
+  font-size: 1.1em;
+}
+
+.katex-display {
+  margin: var(--spacing-vsp-md) 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--spacing-vsp-xs) 0;
+}
+
+.katex-display > .katex {
+  white-space: nowrap;
+}
+
+/* Make KaTeX respect our color scheme */
+.katex .base {
+  color: var(--zd-fg);
+}
+
+/* ── Search highlight ── */
+[data-search-results] mark {
+  background-color: var(--color-matched-keyword-bg);
+  color: var(--color-matched-keyword-fg);
+  padding: 0;
+  border-radius: 2px;
+}
+
+/* ========================================
+ * Page transition animations
+ * ======================================== */
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes contentFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Root cross-fade for same-document View Transitions (Strategy B).
+ *
+ * @view-transition { navigation: auto; } (Strategy A, cross-document) is
+ * deleted — Strategy B uses <ClientRouter /> which drives same-document
+ * transitions via document.startViewTransition on each navigation.
+ *
+ * Chrome extraction via view-transition-name (Strategy B+, zudolab/zudo-doc#1558):
+ * <header>, <aside id="desktop-sidebar">, <footer>, and the desktop-sidebar-toggle
+ * button each carry a data-zfb-transition-persist attribute whose value is keyed
+ * by locale and nav-section. The four attribute selectors below assign a stable
+ * view-transition-name based on the attribute value prefix, extracting those
+ * elements from the root snapshot into their own named layers:
+ *   - header-{lang}          → zfb-header
+ *   - sidebar-{locale}-…     → zfb-sidebar
+ *   - footer-{lang}          → zfb-footer
+ *   - desktop-sidebar-toggle → zfb-sidebar-toggle
+ *
+ * Once extracted, the root cross-fade animates only non-chrome content (main,
+ * article, TOC, etc.). The twelve ::view-transition-{old,new,group}(<name>)
+ * rules disable animation for all four chrome layers. The group pseudo must be
+ * neutralised too — even when old/new are static the group container can still
+ * produce a geometry-morph animation when snapshot size/position differs. */
+
+/* Chrome extraction — assign view-transition-name from data-zfb-transition-persist */
+[data-zfb-transition-persist^="header-"]               { view-transition-name: zfb-header; }
+[data-zfb-transition-persist^="sidebar-"]              { view-transition-name: zfb-sidebar; }
+[data-zfb-transition-persist^="footer-"]               { view-transition-name: zfb-footer; }
+[data-zfb-transition-persist="desktop-sidebar-toggle"] { view-transition-name: zfb-sidebar-toggle; }
+
+/* Disable animation for all four chrome layers (old, new, and group) */
+::view-transition-old(zfb-header),
+::view-transition-new(zfb-header),
+::view-transition-group(zfb-header),
+::view-transition-old(zfb-sidebar),
+::view-transition-new(zfb-sidebar),
+::view-transition-group(zfb-sidebar),
+::view-transition-old(zfb-footer),
+::view-transition-new(zfb-footer),
+::view-transition-group(zfb-footer),
+::view-transition-old(zfb-sidebar-toggle),
+::view-transition-new(zfb-sidebar-toggle),
+::view-transition-group(zfb-sidebar-toggle) { animation: none; }
+
+/* Root cross-fade rules — animate only the non-chrome snapshot */
+::view-transition-old(root) {
+  animation: 150ms ease-in both contentFadeOut;
+}
+::view-transition-new(root) {
+  animation: 300ms ease-out both contentFadeIn;
+}
+
+/* Version-switcher responsive visibility (moved out of the component to
+ * avoid <style>-inside-<div> HTML5 content-model violation; required when
+ * the i18nVersion feature ships a <VersionSwitcher> wrapped in
+ * `<div class="hidden lg:block">`. Inert when no version-switcher is on
+ * the page. */
+@media (min-width: 64rem) {
+  .hidden:has(> [data-version-switcher]) {
+    display: block;
+  }
+}
+
+/* ========================================
+ * Desktop sidebar toggle (W7A: unconditional — feature gates at runtime)
+ * ======================================== */
+
+@media (min-width: 1024px) {
+  #desktop-sidebar {
+    transition:
+      transform 200ms ease-in-out,
+      visibility 200ms;
+  }
+
+  html[data-sidebar-hidden] #desktop-sidebar {
+    transform: translateX(calc(-1 * var(--zd-sidebar-w)));
+    visibility: hidden;
+  }
+
+  .zd-sidebar-content-wrapper {
+    transition: margin-left 200ms ease-in-out;
+  }
+
+  html[data-sidebar-hidden] .zd-sidebar-content-wrapper {
+    margin-left: 0;
+  }
+
+  /* When hidden via the toggle, narrow the content band to the
+   * hide_sidebar frontmatter width so it centers (the flex parent already
+   * applies justify-content: center) instead of leaving a dead gap where
+   * the sidebar was. 80rem must match the `max-w-[80rem]` hide_sidebar
+   * branch in doc-layout.tsx. These rules are unlayered, so they win over
+   * the Tailwind `max-w-[clamp(...)]` utility (utilities layer). (#2002) */
+  .zd-doc-content-band {
+    transition: max-width 200ms ease-in-out;
+  }
+
+  html[data-sidebar-hidden] .zd-doc-content-band {
+    max-width: 80rem;
+  }
+}
+
+/* Sidebar toggle button — left position uses CSS variable, needs global rule */
+@media (min-width: 1024px) {
+  .zd-desktop-sidebar-toggle {
+    left: var(--zd-sidebar-w);
+  }
+
+  html[data-sidebar-hidden] .zd-desktop-sidebar-toggle {
+    left: 0;
+  }
+}
+
+/* ── Find-in-page highlight (W7A: unconditional — Tauri feature gates at runtime) ── */
+.find-match {
+  background-color: color-mix(in oklch, var(--color-warning) 40%, transparent);
+  border-radius: 2px;
+}
+.find-match-active {
+  background-color: color-mix(in oklch, var(--color-warning) 70%, transparent);
+  border-radius: 2px;
+  outline: 2px solid color-mix(in oklch, var(--color-warning) 90%, transparent);
+}
+
+/* ========================================
+ * Image enlarge (.zd-enlargeable) — W7A: unconditional, runtime-gated
+ * ======================================== */
+
+.zd-enlargeable {
+  position: relative;
+  display: block;
+  margin-inline: 0;
+  margin-block-end: 0;
+  border: 1px solid transparent;
+  transition: border-color var(--default-transition-duration);
+}
+
+/* Eligible images (expand-btn visible): the entire image becomes the click target.
+ * Show a subtle border as the interactivity affordance, accent on hover. */
+.zd-enlargeable:has(.zd-enlarge-btn:not([hidden])) {
+  border-color: var(--color-muted);
+  cursor: pointer;
+}
+
+.zd-enlargeable:has(.zd-enlarge-btn:not([hidden])):hover {
+  border-color: var(--color-accent);
+}
+
+.zd-enlargeable img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.zd-enlarge-btn {
+  position: absolute;
+  top: var(--spacing-image-overlay-inset);
+  right: var(--spacing-image-overlay-inset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-image-overlay-inset);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 1;
+  transition: opacity var(--default-transition-duration);
+}
+
+.zd-enlarge-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklch, var(--color-image-overlay-bg) 80%, transparent);
+  z-index: 0;
+}
+
+.zd-enlarge-btn > svg {
+  position: relative;
+  z-index: 1;
+  width: var(--spacing-icon-sm);
+  height: var(--spacing-icon-sm);
+  color: var(--color-image-overlay-fg);
+  fill: currentColor;
+}
+
+.zd-enlarge-btn:hover {
+  opacity: 0.8;
+}
+
+.zd-enlarge-btn[hidden] {
+  display: none !important;
+}
+
+dialog.zd-enlarge-dialog::backdrop {
+  background: color-mix(in oklch, var(--color-overlay) 80%, transparent);
+}
+
+/* Close button is positioned to the VIEWPORT corner (not the dialog) so it
+ * stays visually distinct against any image, regardless of the dialog's size.
+ * This relies on the dialog being transform-free (see DIALOG_STYLE in
+ * image-enlarge.tsx) — a transform on the dialog would re-anchor this fixed
+ * button to the dialog corner. */
+.zd-enlarge-dialog-close {
+  position: fixed;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-image-overlay-inset);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 1;
+  transition: opacity var(--default-transition-duration);
+}
+
+.zd-enlarge-dialog-close:hover {
+  opacity: 0.8;
+}
+
+.zd-enlarge-dialog-close::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklch, var(--color-image-overlay-bg) 80%, transparent);
+  z-index: 0;
+}
+
+.zd-enlarge-dialog-close > svg {
+  position: relative;
+  z-index: 1;
+  width: var(--spacing-icon-lg);
+  height: var(--spacing-icon-lg);
+  color: var(--color-image-overlay-fg);
+  fill: currentColor;
+}
+
+/* Wide viewport: ~2× larger close button to read clearly against any image. */
+@media (min-width: 1024px) {
+  .zd-enlarge-dialog-close {
+    top: 10px;
+    right: 10px;
+  }
+
+  .zd-enlarge-dialog-close > svg {
+    width: calc(var(--spacing-icon-lg) * 2);
+    height: calc(var(--spacing-icon-lg) * 2);
+  }
+}
+
