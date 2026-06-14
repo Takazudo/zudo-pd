@@ -1,4 +1,7 @@
-# Footprint Preview
+---
+title: Footprint Preview
+sidebar_position: 2
+---
 
 Visual reference of all PCB footprints used in this USB-PD power supply project. All footprints are sourced from LCSC/EasyEDA and converted to KiCad format.
 
@@ -8,10 +11,8 @@ Click on any footprint to view it in fullscreen.
 
 ### U1 - CH224D USB PD Controller
 
-import FootprintSvg from '@site/src/components/FootprintSvg';
-import CH224D from '../\_fragments/footprints/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.svg';
 
-<FootprintSvg src={CH224D} alt="CH224D QFN-20 Package" minWidth="300px" minHeight="300px" />
+![CH224D QFN-20 Package](/footprints/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.svg)
 
 **Designator:** U1
 **Component:** [CH224D](../components/ch224d) - USB PD Controller
@@ -21,9 +22,8 @@ import CH224D from '../\_fragments/footprints/QFN-20_L3.0-W3.0-P0.40-BL-EP1.7.sv
 
 ### J1 - USB Type-C Connector
 
-import USBC from '../\_fragments/footprints/TYPE-C-SMD_TYPE-C-6P.svg';
 
-<FootprintSvg src={USBC} alt="USB Type-C 6P Connector" minWidth="300px" minHeight="200px" />
+![USB Type-C 6P Connector](/footprints/TYPE-C-SMD_TYPE-C-6P.svg)
 
 **Designator:** J1
 **Component:** USB-TYPE-C-009 - 6P Type-C Female Connector
@@ -37,9 +37,8 @@ import USBC from '../\_fragments/footprints/TYPE-C-SMD_TYPE-C-6P.svg';
 
 ### U2, U3, U4 - LM2596S-ADJ Buck Converter
 
-import LM2596S from '../\_fragments/footprints/TO-263-5_L10.2-W8.9-P1.70-BR.svg';
 
-<FootprintSvg src={LM2596S} alt="LM2596S TO-263-5 Package" minWidth="300px" minHeight="200px" />
+![LM2596S TO-263-5 Package](/footprints/TO-263-5_L10.2-W8.9-P1.70-BR.svg)
 
 **Designators:** U2, U3, U4 (3× units)
 **Component:** [LM2596S-ADJ(UMW)](../components/lm2596s-adj) - Adjustable 3A Buck Converter
@@ -49,9 +48,8 @@ import LM2596S from '../\_fragments/footprints/TO-263-5_L10.2-W8.9-P1.70-BR.svg'
 
 ### L1, L2, L3 - 100µH Power Inductor
 
-import Inductor from '../\_fragments/footprints/IND-SMD_L13.8-W12.8.svg';
 
-<FootprintSvg src={Inductor} alt="100µH Power Inductor" minWidth="300px" minHeight="300px" />
+![100µH Power Inductor](/footprints/IND-SMD_L13.8-W12.8.svg)
 
 **Designators:** L1, L2, L3 (3× units)
 **Component:** CYA1265-100UH - 100µH 4.5A Power Inductor
@@ -65,9 +63,8 @@ import Inductor from '../\_fragments/footprints/IND-SMD_L13.8-W12.8.svg';
 
 ### U6 - L7812CD2T-TR (+12V Linear Regulator)
 
-import LM7812 from '../\_fragments/footprints/TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL.svg';
 
-<FootprintSvg src={LM7812} alt="L7812CD2T TO-263-2 Package" minWidth="300px" minHeight="200px" />
+![L7812CD2T TO-263-2 Package](/footprints/TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL.svg)
 
 **Designator:** U6
 **Component:** [L7812CD2T-TR](../components/l7812cv) - +12V 1.5A Linear Regulator
@@ -77,9 +74,8 @@ import LM7812 from '../\_fragments/footprints/TO-263-2_L10.0-W9.1-P5.08-LS15.2-T
 
 ### U7 - L7805ABD2T-TR (+5V Linear Regulator)
 
-import LM7805 from '../\_fragments/footprints/TO-263-2_L10.0-W9.2-P5.08-LS15.3-TL-CW.svg';
 
-<FootprintSvg src={LM7805} alt="L7805ABD2T TO-263-2 Package" minWidth="300px" minHeight="200px" />
+![L7805ABD2T TO-263-2 Package](/footprints/TO-263-2_L10.0-W9.2-P5.08-LS15.3-TL-CW.svg)
 
 **Designator:** U7
 **Component:** [L7805ABD2T-TR](../components/l7805abd2t) - +5V 1.5A Linear Regulator
@@ -89,9 +85,8 @@ import LM7805 from '../\_fragments/footprints/TO-263-2_L10.0-W9.2-P5.08-LS15.3-T
 
 ### U8 - CJ7912 (-12V Linear Regulator)
 
-import LM7912 from '../\_fragments/footprints/TO-252-3_L6.5-W5.8-P4.58-BL.svg';
 
-<FootprintSvg src={LM7912} alt="CJ7912 TO-252-3 Package" minWidth="250px" minHeight="200px" />
+![CJ7912 TO-252-3 Package](/footprints/TO-252-3_L6.5-W5.8-P4.58-BL.svg)
 
 **Designator:** U8
 **Component:** [CJ7912](../components/cj7912) - -12V 1.5A Linear Regulator
@@ -107,9 +102,8 @@ import LM7912 from '../\_fragments/footprints/TO-252-3_L6.5-W5.8-P4.58-BL.svg';
 
 #### 0603 Ceramic Capacitor
 
-import C0603 from '../\_fragments/footprints/C0603.svg';
 
-<FootprintSvg src={C0603} alt="0603 Capacitor" minWidth="200px" minHeight="150px" />
+![0603 Capacitor](/footprints/C0603.svg)
 
 **Package:** 0603 (1.6mm × 0.8mm)
 **Used for:**
@@ -121,9 +115,8 @@ import C0603 from '../\_fragments/footprints/C0603.svg';
 
 #### 0805 Ceramic Capacitor
 
-import C0805 from '../\_fragments/footprints/C0805.svg';
 
-<FootprintSvg src={C0805} alt="0805 Capacitor" minWidth="200px" minHeight="150px" />
+![0805 Capacitor](/footprints/C0805.svg)
 
 **Package:** 0805 (2.0mm × 1.25mm)
 **Used for:**
@@ -135,9 +128,8 @@ import C0805 from '../\_fragments/footprints/C0805.svg';
 
 #### D6.3mm Electrolytic Capacitor
 
-import CapD63 from '../\_fragments/footprints/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
 
-<FootprintSvg src={CapD63} alt="D6.3mm SMD Electrolytic Capacitor" minWidth="250px" minHeight="250px" />
+![D6.3mm SMD Electrolytic Capacitor](/footprints/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg)
 
 **Package:** SMD Electrolytic (Ø6.3mm, 6.6mm × 6.6mm)
 **Used for:**
@@ -150,9 +142,8 @@ import CapD63 from '../\_fragments/footprints/CAP-SMD_BD6.3-L6.6-W6.6-FD.svg';
 
 #### D10mm Electrolytic Capacitor
 
-import CapD10 from '../\_fragments/footprints/CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-FD.svg';
 
-<FootprintSvg src={CapD10} alt="D10mm SMD Electrolytic Capacitor" minWidth="300px" minHeight="300px" />
+![D10mm SMD Electrolytic Capacitor](/footprints/CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-FD.svg)
 
 **Package:** SMD Electrolytic (Ø10.0mm, 10.3mm × 10.3mm)
 **Used for:**
@@ -165,9 +156,8 @@ import CapD10 from '../\_fragments/footprints/CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-
 
 #### 1206 Ceramic Capacitor
 
-import C1206 from '../\_fragments/footprints/C1206.svg';
 
-<FootprintSvg src={C1206} alt="1206 Capacitor" minWidth="200px" minHeight="150px" />
+![1206 Capacitor](/footprints/C1206.svg)
 
 **Designator:** C1
 **Package:** 1206 (3.2mm × 1.6mm)
@@ -179,9 +169,8 @@ import C1206 from '../\_fragments/footprints/C1206.svg';
 
 #### 0603 Resistor
 
-import R0603 from '../\_fragments/footprints/R0603.svg';
 
-<FootprintSvg src={R0603} alt="0603 Resistor" minWidth="200px" minHeight="150px" />
+![0603 Resistor](/footprints/R0603.svg)
 
 **Package:** 0603 (1.6mm × 0.8mm)
 **Used for:**
@@ -195,9 +184,8 @@ import R0603 from '../\_fragments/footprints/R0603.svg';
 
 #### 0805 Resistor
 
-import R0805 from '../\_fragments/footprints/R0805.svg';
 
-<FootprintSvg src={R0805} alt="0805 Resistor" minWidth="200px" minHeight="150px" />
+![0805 Resistor](/footprints/R0805.svg)
 
 **Package:** 0805 (2.0mm × 1.25mm)
 **Used for:**
@@ -211,9 +199,8 @@ import R0805 from '../\_fragments/footprints/R0805.svg';
 
 #### 0603 LED
 
-import LED0603 from '../\_fragments/footprints/LED0603-RD.svg';
 
-<FootprintSvg src={LED0603} alt="0603 LED" minWidth="200px" minHeight="150px" />
+![0603 LED](/footprints/LED0603-RD.svg)
 
 **Package:** 0603 (1.6mm × 0.8mm)
 **Used for:** Power rail status indicators
@@ -232,9 +219,8 @@ import LED0603 from '../\_fragments/footprints/LED0603-RD.svg';
 
 #### PTC3 - F1206 (1.5A Hold, -12V Rail)
 
-import PTC1206 from '../\_fragments/footprints/F1206.svg';
 
-<FootprintSvg src={PTC1206} alt="1206 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
+![1206 PTC Resettable Fuse](/footprints/F1206.svg)
 
 **Designator:** PTC3
 **Component:** BSMD1206-150-16V - PTC Resettable Fuse
@@ -245,9 +231,8 @@ import PTC1206 from '../\_fragments/footprints/F1206.svg';
 
 #### PTC1 - F1210 (2.0A Hold, +12V Rail)
 
-import PTC1210 from '../\_fragments/footprints/F1210.svg';
 
-<FootprintSvg src={PTC1210} alt="1210 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
+![1210 PTC Resettable Fuse](/footprints/F1210.svg)
 
 **Designator:** PTC1
 **Component:** SMD1210P200TF - PTC Resettable Fuse
@@ -258,9 +243,8 @@ import PTC1210 from '../\_fragments/footprints/F1210.svg';
 
 #### PTC2 - F1812 (1.1A Hold, +5V Rail)
 
-import PTC1812 from '../\_fragments/footprints/F1812.svg';
 
-<FootprintSvg src={PTC1812} alt="1812 PTC Resettable Fuse" minWidth="250px" minHeight="200px" />
+![1812 PTC Resettable Fuse](/footprints/F1812.svg)
 
 **Designator:** PTC2
 **Component:** [mSMD110-33V](../components/ptc-5v) - PTC Resettable Fuse
@@ -271,9 +255,8 @@ import PTC1812 from '../\_fragments/footprints/F1812.svg';
 
 ### Schottky Diode (SMA)
 
-import DiodeSMA from '../\_fragments/footprints/SMA_L4.3-W2.6-LS5.2-RD.svg';
 
-<FootprintSvg src={DiodeSMA} alt="SMA Diode Package" minWidth="250px" minHeight="150px" />
+![SMA Diode Package](/footprints/SMA_L4.3-W2.6-LS5.2-RD.svg)
 
 **Designators:** D1, D2, D3 (used in DC-DC converter flyback circuits)
 **Component:** SS34 - 3A 40V Schottky Barrier Diode
@@ -285,9 +268,8 @@ import DiodeSMA from '../\_fragments/footprints/SMA_L4.3-W2.6-LS5.2-RD.svg';
 
 #### TVS1, TVS3 - SMAJ15A (±12V Overvoltage Protection)
 
-import TVSSMA from '../\_fragments/footprints/D-FLAT_L4.3-W2.6-LS5.3-RD.svg';
 
-<FootprintSvg src={TVSSMA} alt="SMAJ15A SMA TVS Diode" minWidth="250px" minHeight="150px" />
+![SMAJ15A SMA TVS Diode](/footprints/D-FLAT_L4.3-W2.6-LS5.3-RD.svg)
 
 **Designators:** TVS1, TVS3
 **Component:** [SMAJ15A](../components/smaj15a) - 15V Unidirectional TVS Diode
@@ -298,9 +280,8 @@ import TVSSMA from '../\_fragments/footprints/D-FLAT_L4.3-W2.6-LS5.3-RD.svg';
 
 #### TVS2 - SD05 (+5V Overvoltage Protection)
 
-import TVSSOD323 from '../\_fragments/footprints/SOD-323_L1.8-W1.3-LS2.5-FD.svg';
 
-<FootprintSvg src={TVSSOD323} alt="SD05 SOD-323 TVS Diode" minWidth="200px" minHeight="150px" />
+![SD05 SOD-323 TVS Diode](/footprints/SOD-323_L1.8-W1.3-LS2.5-FD.svg)
 
 **Designator:** TVS2
 **Component:** [SD05](../components/sd05) - 5V Unidirectional TVS Diode
@@ -314,9 +295,8 @@ import TVSSOD323 from '../\_fragments/footprints/SOD-323_L1.8-W1.3-LS2.5-FD.svg'
 
 ### J10-J11 - Eurorack Power Connector (16-pin)
 
-import HeaderEuro from '../\_fragments/footprints/HDR-TH_16P-P2.54-H-M-R2-C8-S2.54.svg';
 
-<FootprintSvg src={HeaderEuro} alt="16-pin 2.54mm Header (Eurorack)" minWidth="400px" minHeight="200px" />
+![16-pin 2.54mm Header (Eurorack)](/footprints/HDR-TH_16P-P2.54-H-M-R2-C8-S2.54.svg)
 
 **Designators:** J10, J11 (2× units)
 **Component:** 2541WR-2x08P - 2×8 Pin Header (Standard)
@@ -328,9 +308,8 @@ import HeaderEuro from '../\_fragments/footprints/HDR-TH_16P-P2.54-H-M-R2-C8-S2.
 
 ### J6-J9 - FASTON 250 Power Terminals
 
-import FASTON from '@site/docs/\_fragments/footprints/CONN-TH_1217754-1.svg';
 
-<FootprintSvg src={FASTON} alt="FASTON 250 PCB Terminal" minWidth="150px" minHeight="150px" />
+![FASTON 250 PCB Terminal](/footprints/CONN-TH_1217754-1.svg)
 
 **Designators:** J6, J7, J8, J9 (4× units)
 **Component:** 63951-1 - FASTON 250 PCB Tab Terminal (strip pkg of 1217754-1)
