@@ -34,7 +34,7 @@ details: `doc/docs/inbox/versioning.md`.
 
 ## Repository Structure
 
-- `/doc/` - **Docusaurus documentation site** (has its own CLAUDE.md)
+- `/doc/` - **zudo-doc documentation site** (zfb/MDX/Tailwind/Preact, deployed to Cloudflare Workers; has its own CLAUDE.md)
 - `/footprints/` - **KiCad footprint library** (has its own CLAUDE.md)
 - `/symbols/` - **KiCad symbol library** (`zudo-pd.kicad_sym`)
 - `/diagram-sources/` - Python schemdraw scripts for circuit diagram generation

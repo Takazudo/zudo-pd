@@ -152,5 +152,10 @@ export default defineConfig({
       headingIds: { strategy: settings.headingIdStrategy },
     },
   },
+  // Cloudflare adapter — wraps the SSR bundle into `dist/_worker.js` (the
+  // explicit main entry for Workers static assets) plus a sidecar
+  // `dist/_zfb_inner.mjs`. Required so `pnpm build` emits a worker for the
+  // CF Workers static-assets deploy (see doc/wrangler.toml + main-deploy.yml).
+  adapter: "@takazudo/zfb-adapter-cloudflare",
   plugins: integrationPlugins,
 });

@@ -41,8 +41,10 @@ export const settings = {
   trailingSlash: false as boolean,
   noindex: false as boolean,
   editUrl: false as string | false,
-  githubUrl: false as string | false,
-  siteUrl: "https://takazudomodular.com" as string,
+  githubUrl: "https://github.com/Takazudo/zudo-pd" as string | false,
+  // Planned docs subdomain (apex takazudomodular.com is the main site). Keep
+  // this in sync with the real custom domain set in wrangler.toml at go-live.
+  siteUrl: "https://pd.takazudomodular.com" as string,
   docsDir: "src/content/docs",
   defaultLocale: "en" as const,
   locales: {} as Record<string, LocaleConfig>,

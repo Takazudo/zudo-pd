@@ -1,140 +1,103 @@
-name: Production Deploy
+name: Production Deploy (Cloudflare Workers)
 
-# Runs on pushes to main branch
-# Includes quality checks, build, and production deployment
+# Builds the zudo-doc site in /doc and deploys it to Cloudflare Workers
+# (static assets) on every push to main.
+#
+# The deploy is GUARDED: it runs only when BOTH Cloudflare secrets are present
+# AND the wrangler.toml domain placeholder has been replaced. Until then the
+# job still builds + typechecks (so merges to main stay green) but skips the
+# actual publish. See doc/wrangler.toml and the Cloudflare go-live checklist
+# in doc/CLAUDE.md.
+
 on:
   push:
     branches:
       - main
 
-# Prevent concurrent production deployments
 concurrency:
   group: production-deploy
   cancel-in-progress: false
 
-# Grant necessary permissions
 permissions:
   contents: read
-  deployments: write
-  statuses: write
 
 jobs:
-  # Step 1: Build for production
-  build:
-    name: Build Production Site
+  build-deploy:
+    name: Build & deploy docs
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: doc
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          lfs: false
+          # Full history so the doc-history plugin's preBuild can populate the
+          # Created/Updated/Author meta block (and, in CI, the per-page history
+          # JSON via postBuild — auto-enabled when GITHUB_ACTIONS is set).
+          fetch-depth: 0
 
-      - name: Build Docusaurus application
-        uses: ./.github/actions/build-docusaurus
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: '20'
-          pnpm-version: '10'
-          working-directory: 'doc'
+          version: 10
 
-      - name: Monitor Build Performance
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: doc/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm check
+
+      - name: Build (emits dist/_worker.js via the Cloudflare adapter)
+        run: pnpm build
+
+      - name: Evaluate deploy gate
+        id: gate
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "📊 Build Performance Metrics"
-          echo "================================"
-
-          # Calculate sizes (using portable commands)
-          BUILD_SIZE=$(du -sh doc/build 2>/dev/null | cut -f1 || echo "Unknown")
-
-          echo "📁 Build directory: $BUILD_SIZE"
-          echo "================================"
-
-          # Count files for metrics
-          if [ -d "doc/build" ]; then
-            PAGE_COUNT=$(find doc/build -name "*.html" | wc -l)
-            echo "📄 HTML pages: $PAGE_COUNT"
+          should=true
+          reason=""
+          if [ -z "$CF_TOKEN" ] || [ -z "$CF_ACCOUNT" ]; then
+            should=false
+            reason="CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secret(s) not set"
+          elif grep -q 'REPLACE_ME' wrangler.toml; then
+            should=false
+            reason="wrangler.toml still has the REPLACE_ME domain placeholder"
+          fi
+          echo "should_deploy=$should" >> "$GITHUB_OUTPUT"
+          if [ "$should" != "true" ]; then
+            echo "::notice::Skipping Cloudflare deploy — $reason. Build + typecheck ran; the site was NOT published. Complete the go-live checklist in doc/CLAUDE.md to enable deploys."
           fi
 
-          echo "================================"
+      - name: Prepare deploy artifact
+        if: steps.gate.outputs.should_deploy == 'true'
+        run: |
+          # Exclude the worker entry + sidecar from the public asset directory so
+          # they are not served as downloadable files (documented in wrangler.toml).
+          printf '%s\n' '_worker.js' '_zfb_inner.mjs' > dist/.assetsignore
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
-        with:
-          name: docusaurus-build-production
-          path: doc/build/
-          include-hidden-files: true
-          retention-days: 1
-
-  # Step 2: Deploy to production
-  deploy:
-    name: Deploy to Production
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-        with:
-          lfs: false
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v6
-        with:
-          name: docusaurus-build-production
-          path: doc/build
-
-      - name: Deploy to Netlify Production
-        id: deploy
-        uses: ./.github/actions/deploy-netlify
-        with:
-          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
-          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          deploy-production: 'true'
-          deploy-message: 'Production deploy: ${{ github.sha }}'
-          build-dir: 'doc/build'
-
-      - name: Create deployment record
-        uses: actions/github-script@v8
-        with:
-          script: |
-            // Create a deployment record
-            const deployment = await github.rest.repos.createDeployment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: context.sha,
-              environment: 'production',
-              description: 'Production deployment to Netlify',
-              production_environment: true,
-              auto_merge: false,
-              required_contexts: []
-            });
-
-            // Update deployment status
-            await github.rest.repos.createDeploymentStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              deployment_id: deployment.data.id,
-              state: 'success',
-              environment_url: '${{ steps.deploy.outputs.deploy-url }}',
-              description: 'Deployment successful'
-            });
-
-      - name: Notify deployment status
-        if: always()
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const success = '${{ job.status }}' === 'success';
-            const emoji = success ? '✅' : '❌';
-            const status = success ? 'success' : 'failure';
-
-            await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.sha,
-              state: status,
-              target_url: '${{ steps.deploy.outputs.deploy-url }}',
-              description: success ? 'Production deployment successful' : 'Production deployment failed',
-              context: 'netlify/production'
-            });
+      - name: Deploy to Cloudflare Workers (production)
+        if: steps.gate.outputs.should_deploy == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -o pipefail
+          n=0
+          until [ "$n" -ge 3 ]; do
+            npx wrangler@4 deploy --env production 2>&1 | tee deploy.log && break
+            n=$((n + 1))
+            echo "wrangler deploy failed (attempt $n/3); retrying in 10s..."
+            sleep 10
+          done
+          [ "$n" -lt 3 ]

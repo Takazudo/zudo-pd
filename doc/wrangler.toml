@@ -1,0 +1,48 @@
+# Cloudflare Workers Static Assets configuration for the zudo-PD docs site.
+# Pure static docs site (no AI-chat worker, KV, or service bindings).
+# Built by zfb's @takazudo/zfb-adapter-cloudflare → dist/_worker.js.
+
+name = "zudo-pd"
+main = "./dist/_worker.js"
+
+compatibility_date = "2024-12-01"
+# nodejs_compat is MANDATORY: the CF adapter bundle at dist/_worker.js imports
+# node:async_hooks (AsyncLocalStorage). Without this flag wrangler refuses to
+# load the worker even when dist/_worker.js exists.
+compatibility_flags = ["nodejs_compat"]
+
+# Static docs site: do not serve on *.workers.dev for production; keep
+# version-preview URLs enabled for PR/branch previews.
+workers_dev = false
+preview_urls = true
+
+# ---------------------------------------------------------------------------
+# Static asset serving (top-level keys MUST stay above [assets] — in TOML any
+# key after a table header is scoped into that table).
+#   not_found_handling = "404-page" serves dist/404.html for unmatched GETs.
+#   run_worker_first defaults to false: the asset layer is consulted before the
+#   worker; the worker only runs when no matching static asset is found.
+# ---------------------------------------------------------------------------
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "404-page"
+
+# ---------------------------------------------------------------------------
+# Production custom-domain route (deployed via `wrangler deploy --env production`).
+#
+# !! PLACEHOLDER !! — `REPLACE_ME` below must be changed to the real docs
+# subdomain before the first production deploy. The apex `takazudomodular.com`
+# is used by the main site, so use a docs subdomain, e.g. `pd.takazudomodular.com`.
+# Then bind that subdomain as a Cloudflare custom domain (Workers → your worker
+# → Settings → Domains & Routes → Add custom domain).
+#
+# The deploy job in .github/workflows/main-deploy.yml greps for `REPLACE_ME`
+# and SKIPS the deploy while the placeholder is unreplaced, so the merge to
+# main stays green until go-live config is complete.
+# account_id is intentionally omitted — wrangler reads CLOUDFLARE_ACCOUNT_ID
+# from the environment.
+# ---------------------------------------------------------------------------
+[[env.production.routes]]
+pattern = "REPLACE_ME.takazudomodular.com"
+custom_domain = true
