@@ -1,20 +1,16 @@
 ---
-sidebar_position: 0
+title: USB Type-C Receptacle Connector
+sidebar_position: 2
 ---
-
-# USB Type-C Receptacle Connector
 
 6-pin USB Type-C receptacle connector for USB Power Delivery (PD) input and power negotiation (power-only configuration).
 
-- 🔗 [View on JLCPCB: C456012](https://jlcpcb.com/partdetail/C456012)
-- 📘 [USB Type-C Specification](https://www.usb.org/usb-charger-pd)
+- [View on JLCPCB: C456012](https://jlcpcb.com/partdetail/C456012)
+- [USB Type-C Specification](https://www.usb.org/usb-charger-pd)
 
-import FootprintSvg from '@site/src/components/FootprintSvg';
-import USBC from '../\_fragments/footprints/TYPE-C-SMD_TYPE-C-6P.svg';
+![USB Type-C 6P Connector](/footprints/TYPE-C-SMD_TYPE-C-6P.svg)
 
-<FootprintSvg src={USBC} alt="USB Type-C 6P Connector" minWidth="300px" minHeight="200px" />
-
-![USB Type-C 6P Package Preview](/footprints/USB-TYPE-C-009.png)
+![USB Type-C 6P Package Preview](/footprint-imgs/USB-TYPE-C-009.png)
 
 ## Overview
 
@@ -76,18 +72,21 @@ In this power supply design, the 6-pin USB Type-C connector is used exclusively 
 ### Pin Connections
 
 1. **VBUS Pins (2, 5)**:
+
 - Receive power from USB-C PD charger
 - Initially at 5V (USB default)
 - Negotiates up to 15V/3A via STUSB4500
 - Both VBUS pins connected together for 3A current capacity
 
 2. **CC Pins (3, 4)**:
+
 - CC1 (pin 3) → STUSB4500 CC1 (pin 2)
 - CC2 (pin 4) → STUSB4500 CC2 (pin 3)
 - Used for orientation detection and PD negotiation
 - STUSB4500 uses CC pins to communicate with PD source
 
 3. **Ground Pins (1, 6)**:
+
 - Both GND pins connected to system ground
 - Provides solid ground reference for power and signal integrity
 
@@ -100,7 +99,7 @@ In this power supply design, the 6-pin USB Type-C connector is used exclusively 
 
 ## Circuit Connections
 
-See [Diagram1: USB-PD Power Supply Section](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) for complete wiring.
+See [Diagram1: USB-PD Power Supply Section](../overview/circuit-diagrams.md#diagram1-usb-pd-power-supply-section) for complete wiring.
 
 ```
 J1 (USB-C 6P Connector) Connections:
@@ -147,24 +146,29 @@ When connected to a standard USB power source:
 When connected to a USB-PD charger:
 
 1. **Initial State** (0-100ms):
+
 - Connector establishes physical connection
 - VBUS provides 5V default power
 - VBUS_EN_SNK remains LOW (load switch OFF)
 
 2. **Orientation Detection** (100-200ms):
+
 - STUSB4500 detects cable orientation via CC1/CC2
 - Identifies which CC pin is active
 
 3. **PD Negotiation** (200-500ms):
+
 - STUSB4500 requests 15V/3A power profile via CC line
 - PD source responds with available power profiles
 - Negotiation completes (with retry logic if needed)
 
 4. **Voltage Transition** (500-1000ms):
+
 - VBUS transitions from 5V → 15V
 - STUSB4500 monitors voltage stability
 
 5. **Power Ready** (>1000ms):
+
 - VBUS stable at 15V
 - VBUS_EN_SNK goes HIGH (load switch ON)
 - System can draw up to 45W (15V × 3A)
@@ -220,5 +224,5 @@ If C456012 is unavailable, consider these 6-pin power-only USB Type-C alternativ
 
 - [USB Type-C Cable and Connector Specification](https://www.usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-21)
 - [USB Power Delivery Specification 3.1](https://www.usb.org/document-library/usb-power-delivery)
-- [STUSB4500 USB-PD Controller](/docs/components/stusb4500) - Companion IC for PD negotiation (v1.1)
-- [Diagram1: USB-PD Section](/docs/overview/circuit-diagrams#diagram1-usb-pd-power-supply-section) - Circuit diagram
+- [STUSB4500 USB-PD Controller](./stusb4500.md) - Companion IC for PD negotiation (v1.1)
+- [Diagram1: USB-PD Section](../overview/circuit-diagrams.md#diagram1-usb-pd-power-supply-section) - Circuit diagram

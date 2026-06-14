@@ -1,8 +1,7 @@
 ---
-sidebar_position: 10
+title: SMD1210P150TF/16 - +12V Rail PTC Resettable Fuse
+sidebar_position: 12
 ---
-
-# SMD1210P150TF/16 - +12V Rail PTC Resettable Fuse
 
 Auto-reset overcurrent protection for +12V power rail with 1.5A hold current and fast trip response.
 

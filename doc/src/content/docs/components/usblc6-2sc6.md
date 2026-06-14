@@ -1,8 +1,7 @@
 ---
+title: USBLC6-2SC6 - USB ESD Protection (D4)
 sidebar_position: 5
 ---
-
-# USBLC6-2SC6 - USB ESD Protection (D4)
 
 TVS diode array for USB Type-C CC line and VBUS ESD protection. Replaces ESDA25L in v1.1 design.
 

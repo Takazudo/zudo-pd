@@ -1,8 +1,7 @@
 ---
-sidebar_position: 12
+title: JK-nSMD100/16V - -12V Rail PTC Resettable Fuse
+sidebar_position: 14
 ---
-
-# JK-nSMD100/16V - -12V Rail PTC Resettable Fuse
 
 Auto-reset overcurrent protection for -12V power rail with 1.0A hold current.
 
