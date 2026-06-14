@@ -1,82 +1,44 @@
 {
-  "name": "doc",
-  "version": "0.0.0",
+  "name": "zudo-pd",
+  "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
-    "docusaurus": "docusaurus",
-    "generate-doc-titles": "node scripts/generate-doc-titles.js",
-    "generate-category-nav": "node scripts/generate-category-nav.js",
-    "start": "docusaurus start --port 3800 --host zudopd.localhost",
-    "build": "npm run generate-doc-titles && npm run generate-category-nav && docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "eslint src --ext .ts,.tsx,.js,.jsx --fix",
-    "typecheck": "tsc --noEmit",
-    "format": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css}\" \"!node_modules/**\" \"!.docusaurus/**\" \"!build/**\" && npx @takazudo/mdx-formatter --check \"docs/**/*.{md,mdx}\"",
-    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css}\" \"!node_modules/**\" \"!.docusaurus/**\" \"!build/**\" && npx @takazudo/mdx-formatter --write \"docs/**/*.{md,mdx}\"",
-    "check": "pnpm run typecheck && pnpm run lint && pnpm run format",
-    "check:fix": "pnpm run lint:fix && pnpm run format:fix",
-    "prepare": "cd .. && husky doc/.husky || true"
+    "dev": "zfb dev",
+    "build": "zfb build",
+    "preview": "zfb preview",
+    "check": "zfb check",
+    "check:html": "html-validate \"dist/**/*.html\"",
+    "b4push": "pnpm check && pnpm build"
   },
   "dependencies": {
-    "@docusaurus/core": "3.9.2",
-    "@docusaurus/plugin-content-docs": "3.9.2",
-    "@docusaurus/preset-classic": "3.9.2",
-    "@docusaurus/theme-common": "3.9.2",
-    "@docusaurus/theme-mermaid": "^3.9.2",
-    "@mdx-js/react": "^3.1.1",
-    "clsx": "^2.1.1",
-    "prism-react-renderer": "^2.4.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "@takazudo/zfb": "0.1.0-next.41",
+    "@takazudo/zfb-runtime": "0.1.0-next.41",
+    "@takazudo/zfb-adapter-cloudflare": "0.1.0-next.41",
+    "@takazudo/zudo-doc": "^0.2.4",
+    "zod": "^4.0.0",
+    "preact": "^10.29.1",
+    "preact-render-to-string": "^6.6.6",
+    "shiki": "^4.0.2",
+    "@shikijs/transformers": "^4.0.0",
+    "clsx": "^2.1.0",
+    "gray-matter": "^4.0.0",
+    "mermaid": "^11.12.3",
+    "remark-cjk-friendly": "^2.0.1",
+    "remark-directive": "^3.0.0",
+    "katex": "^0.16.38",
+    "minisearch": "^7.2.0",
+    "diff": "^8.0.3",
+    "@takazudo/zudo-doc-history-server": "^0.2.4"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.9.2",
-    "@docusaurus/types": "3.9.2",
-    "@eslint/js": "^9.39.2",
-    "@types/react": "^19.2.8",
-    "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.53.0",
-    "@typescript-eslint/parser": "^8.53.0",
-    "eslint": "^9.39.2",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "@takazudo/mdx-formatter": "^0.2.0",
-    "globals": "^17.0.0",
-    "gray-matter": "^4.0.3",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "prettier": "^3.7.4",
-    "typescript": "^5.9.3"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
-  },
-  "engines": {
-    "node": ">=20.0"
-  },
-  "lint-staged": {
-    "docs/**/*.{md,mdx}": [
-      "npx @takazudo/mdx-formatter --write"
-    ],
-    "**/*.{ts,tsx,js,jsx,json,css}": [
-      "prettier --write"
-    ]
+    "@tailwindcss/vite": "^4.2.0",
+    "tailwindcss": "^4.2.0",
+    "typescript": "^5.9.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "html-validate": "^10.0.0",
+    "pagefind": "^1.4.0",
+    "tsx": "^4.21.0"
   }
 }
