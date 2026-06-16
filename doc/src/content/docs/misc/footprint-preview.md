@@ -108,7 +108,7 @@ Click on any footprint to view it in fullscreen.
 **Package:** 0603 (1.6mm × 0.8mm)
 **Used for:**
 
-- Ceramic capacitors (470nF for CH224D, 47nF for LM2586 compensation)
+- Ceramic capacitors (470nF for CH224D, 22nF for LM2596 feedback compensation)
 - High-frequency decoupling throughout circuit
   **Typical values:** 10µF, 470nF, 100nF, 47nF
   **Applications:** IC power supply decoupling, bypass capacitors, compensation networks

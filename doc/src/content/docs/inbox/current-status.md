@@ -25,11 +25,11 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             │
             ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
             │
-            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
+            └─→ -13.5V (inverting DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
 - ✅ Stage 1: USB-PD Power Supply (STUSB4500)
-- ✅ Stage 2: DC-DC Converters (LM2596S × 3 + LM2586 inverted SEPIC)
+- ✅ Stage 2: DC-DC Converters (LM2596S-ADJ × 3: two buck + one inverting buck-boost)
 - ✅ Stage 3: Linear Regulators (LM7812/7805/7912)
 - ✅ Stage 4: Protection Circuit (PTC + Fuse + TVS)
 
@@ -38,8 +38,8 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 **All parts confirmed**: All JLCPCB part numbers finalized
 
 - ✅ USB-PD Controller: STUSB4500 (C2678061)
-- ✅ DC-DC Converter: LM2596S-ADJ × 3 (C347423)
-- ✅ Voltage Inverter: LM2586SX-ADJ/NOPB (C181324)
+- ✅ DC-DC Converters (buck): LM2596S-ADJ × 2 (C347423) — U2 +13.5V, U3 +7.5V
+- ✅ Voltage Inverter: LM2596S-ADJ (C347423), inverting buck-boost — U4 -13.5V (same part as the bucks; no separate LM2586/-15V stage)
 - ✅ Linear Regulators: L7812CV-DG (C2914) / L7805ABD2T-TR (C86206) / CJ7912 (C94173)
 - ✅ Inductors: 100µH 4.5A × 3 (C19268674)
 - ✅ TVS Diodes: SMAJ15A, SD05
