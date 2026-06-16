@@ -20,9 +20,12 @@
 .param Rbot = 1.0k
 .param Rtop = 5.1k        ; swept below
 
-* FB pinned to Vref (regulator loop closed); read back VOUT vs R3.
-Vrefsrc vref_ref 0 DC {Vref}
-Eb   fb  0   vref_ref 0  1
+* Regulator loop closed via a high-gain error-amp behavioral source; read back
+* VOUT vs R3. VOUT must be loop-driven (Bout), NOT via an ideal FB pin — pinning
+* FB would float VOUT (KCL forces VOUT == FB ~= Vref) and every swept R3 would
+* print the same rail. With Bout, the .op solves VOUT = Vref*(1 + R3/Rbot).
+.param Again = 1e6
+Bout vout 0  V = {Again} * ({Vref} - V(fb))
 R3   vout  fb   {Rtop}
 R4   fb    0    {Rbot}
 

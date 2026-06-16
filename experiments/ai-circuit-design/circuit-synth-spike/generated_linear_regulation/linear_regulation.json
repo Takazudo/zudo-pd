@@ -1,7 +1,7 @@
 {
   "name": "linear_regulation",
   "description": "Top sheet: three LDO stages sharing GND, with the intermediate input\nrails and the final +12V/+5V/-12V output rails as named nets.",
-  "tstamps": "/linear_regulation-4475609376/",
+  "tstamps": "/linear_regulation-4479164704/",
   "source_file": "linear_regulation.kicad_sch",
   "components": {},
   "nets": {},
@@ -9,7 +9,7 @@
     {
       "name": "pos_12v_stage",
       "description": "U6 L7812: +13.5V -> +12V. Full topology (the reference stage).",
-      "tstamps": "/pos_12v_stage-4475566224/",
+      "tstamps": "/pos_12v_stage-4479121552/",
       "source_file": "pos_12v_stage.kicad_sch",
       "components": {
         "U6": {
@@ -472,8 +472,8 @@
           {
             "component": "LED1",
             "pin": {
-              "number": "2",
-              "name": "A",
+              "number": "1",
+              "name": "K",
               "type": "passive"
             }
           }
@@ -566,8 +566,8 @@
             {
               "component": "LED1",
               "pin": {
-                "number": "1",
-                "name": "K",
+                "number": "2",
+                "name": "A",
                 "type": "passive"
               }
             }
@@ -609,14 +609,14 @@
           "border_color": "black",
           "justify": "center center",
           "rotation": 0,
-          "uuid": "75b99a4c-6065-42c7-b0da-5736d0206bc9"
+          "uuid": "ffdd7d4e-da10-4779-b613-e5a03e05fa07"
         }
       ]
     },
     {
       "name": "pos_5v_stage",
       "description": "U7 L7805: +7.5V -> +5V.",
-      "tstamps": "/pos_5v_stage-4484908048/",
+      "tstamps": "/pos_5v_stage-4488465296/",
       "source_file": "pos_5v_stage.kicad_sch",
       "components": {
         "U7": {
@@ -1079,8 +1079,8 @@
           {
             "component": "LED2",
             "pin": {
-              "number": "2",
-              "name": "A",
+              "number": "1",
+              "name": "K",
               "type": "passive"
             }
           }
@@ -1173,8 +1173,8 @@
             {
               "component": "LED2",
               "pin": {
-                "number": "1",
-                "name": "K",
+                "number": "2",
+                "name": "A",
                 "type": "passive"
               }
             }
@@ -1216,14 +1216,14 @@
           "border_color": "black",
           "justify": "center center",
           "rotation": 0,
-          "uuid": "3918161d-bf30-4778-87d5-1e8893be7d23"
+          "uuid": "e6f79eff-ecef-49aa-9e8f-d390102a2289"
         }
       ]
     },
     {
       "name": "neg_12v_stage",
       "description": "U8 7912: -13.5V -> -12V (negative regulator).",
-      "tstamps": "/neg_12v_stage-4475647728/",
+      "tstamps": "/neg_12v_stage-4479203056/",
       "source_file": "neg_12v_stage.kicad_sch",
       "components": {
         "U8": {
@@ -1823,7 +1823,7 @@
           "border_color": "black",
           "justify": "center center",
           "rotation": 0,
-          "uuid": "11eecb81-edce-4702-a9d4-ad823ff8805c"
+          "uuid": "169b1901-2e2a-4061-a6fa-219996775220"
         }
       ]
     }
@@ -1857,7 +1857,7 @@
       "border_color": "black",
       "justify": "center center",
       "rotation": 0,
-      "uuid": "82a8f5e6-f91c-4ea0-84d9-f8ae53e42889"
+      "uuid": "449cf33a-e603-488e-944d-ba371b0bf293"
     }
   ]
 }

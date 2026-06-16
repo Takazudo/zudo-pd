@@ -33,7 +33,7 @@ from circuit_synth import circuit, Component, Net
 
 def regulator(symbol, ref, vin, vout, gnd,
               cin_bulk, cin_film, cout_bulk, cout_film,
-              led_color, pin_in, pin_gnd, pin_out):
+              led_color, pin_in, pin_gnd, pin_out, negative=False):
     """One LDO stage: reg + 4 caps + output PTC fuse + TVS clamp + indicator LED.
 
     `vin`/`vout`/`gnd` are the labeled rail Nets. The regulator OUT pin and its
@@ -80,14 +80,24 @@ def regulator(symbol, ref, vin, vout, gnd,
     tvs[1] += vout
     tvs[2] += gnd
 
-    # --- indicator: OUT_LOCAL -> R 1k -> LED -> GND ---
+    # --- indicator: rail -> R 1k -> LED -> GND (polarity depends on rail sign) ---
+    # Device:LED pin 1 = CATHODE, pin 2 = ANODE. The LED must be forward-biased:
+    # conventional current flows anode -> cathode, i.e. from the higher potential
+    # to the lower. For a positive rail the local OUT node is above GND; for a
+    # negative rail GND is above the (negative) OUT node, so the LED flips.
     r_led = Component(symbol="Device:R", ref="R", value="1k")
     led = Component(symbol="Device:LED", ref="LED", value=led_color)
     led_node = Net(f"{ref}_LED")
     r_led[1] += out_local
     r_led[2] += led_node
-    led[1] += led_node   # anode
-    led[2] += gnd        # cathode
+    if negative:
+        # negative rail: GND (high) -> anode -> cathode -> R -> OUT_LOCAL (low)
+        led[2] += gnd        # anode (pin 2)
+        led[1] += led_node   # cathode (pin 1)
+    else:
+        # positive rail: OUT_LOCAL (high) -> R -> anode -> cathode -> GND (low)
+        led[2] += led_node   # anode (pin 2)
+        led[1] += gnd        # cathode (pin 1)
 
 
 @circuit(name="pos_12v_stage")
@@ -126,6 +136,7 @@ def neg_12v_stage(vin_n13v5, vn12_out, gnd):
         cout_bulk="470uF", cout_film="100nF",    # C25 bulk, C19 100nF
         led_color="Red",                          # LED4
         pin_in="VI", pin_gnd="GND", pin_out="VO",    # L7912 negative: GND/VI/VO (1/2/3)
+        negative=True,                               # flip indicator LED for the negative rail
     )
 
 

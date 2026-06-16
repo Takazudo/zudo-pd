@@ -49,9 +49,12 @@ a human) can run it without re-deriving algebra each time.
    as `.param`s. The deck has two cross-checks:
    - **(A) forward** — apply `Vout_target`, confirm the FB node lands on Vref
      (proves the divider ratio is right);
-   - **(B) loop-closed** — pin FB to Vref with an ideal source (this is what the
-     regulator does in steady state) and **read back the Vout the divider
-     demands** (proves which rail the part will actually servo to).
+   - **(B) loop-closed** — model the regulator's error amp as a **high-gain
+     behavioural source** that drives Vout until FB = Vref, feeding the **real**
+     divider, and **read back the Vout the divider demands** (proves which rail
+     the part will actually servo to). Vout must be loop-driven, not pinned: an
+     ideal FB pin would float Vout (KCL forces Vout = FB ≈ Vref), so the
+     high-gain feedback is the correct minimal model.
 4. **Simulate.** `ngspice -b lm2596-divider.cir` runs the `.op` and prints
    `v(vout_*)`, `v(fb_*)`, and the ratio.
 5. **Read back.** Compare the printed `v(vout_b)` to the target.
@@ -126,8 +129,8 @@ result intact, as the issue permits).
 The same generate -> simulate -> read-back -> adjust loop scales up once a real
 simulator is in place, by swapping the analysis (not the methodology):
 
-- **Ripple / regulation on the rails** — replace the ideal FB pin with a buck
-  behavioural model (or the actual LM2596 SPICE subckt + L, catch diode, Cout),
+- **Ripple / regulation on the rails** — replace the divider-only error-amp
+  model with a buck behavioural model (or the actual LM2596 SPICE subckt + L, catch diode, Cout),
   run a `.tran`, and read back peak-to-peak output ripple; adjust **Cout / L**
   and re-check against the `<1 mVp-p` target. Value-sizing the **output cap**
   instead of the divider, same loop.

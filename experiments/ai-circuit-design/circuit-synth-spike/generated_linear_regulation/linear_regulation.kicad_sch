@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "circuit_synth")
 	(generator_version "0.8.36")
-	(uuid "dee5fd78-2d54-41fe-ba07-6c5be7c122e4")
+	(uuid "fde22f73-ec7e-4a79-83c1-d101e011a27c")
 	(paper "A3")
 	(title_block
 		(title "linear_regulation")
@@ -17,7 +17,7 @@
 			)
 			(justify left)
 		)
-		(uuid "87be31a0-94a9-47ed-a51c-a1933ef562ee")
+		(uuid "17447447-2fe4-409c-beec-307be05f026f")
 	)
 	(hierarchical_label "GND"
 		(shape input)
@@ -28,7 +28,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e692ae8f-8306-42d2-b4d7-71cb6fcce05e")
+		(uuid "93683a16-cd08-42c3-8caa-1f9d51494058")
 	)
 	(hierarchical_label "GND"
 		(shape input)
@@ -39,7 +39,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d1f69efe-2979-4c83-bd1e-38851892794b")
+		(uuid "76186b5c-df82-4c93-9106-3e4a67a81f6b")
 	)
 	(text_box "Top sheet: three LDO stages sharing GND, with the intermediate input\nrails and the final +12V/+5V/-12V output rails as named nets."
 		(exclude_from_sim no)
@@ -59,7 +59,7 @@
 			)
 			(justify left top)
 		)
-		(uuid "4a40218a-c899-4f19-a223-410433f11d7f")
+		(uuid "ed1c89ec-d0b7-4059-8012-9ed6f757241c")
 	)
 	(sheet
 		(at 25.4 12.7)
@@ -76,7 +76,7 @@
 		(fill
 			(color 0 0 0 0.0000)
 		)
-		(uuid "a00fa964-fcc6-46ad-ab97-2272b95a1111")
+		(uuid "372e7135-437f-4790-bd67-30e797fb6545")
 		(property "Sheetname" "pos_12v_stage"
 			(at 25.4 11.9884 0)
 			(effects
@@ -97,7 +97,7 @@
 		)
 		(pin "GND" bidirectional
 			(at 74.77 15.24 0)
-			(uuid "4076fb66-a1e2-4080-84f5-651b992eafeb")
+			(uuid "193e6ed1-294f-40d5-b76c-59a750aa0fc2")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -107,7 +107,7 @@
 		)
 		(instances
 			(project "linear_regulation"
-				(path "/dee5fd78-2d54-41fe-ba07-6c5be7c122e4"
+				(path "/fde22f73-ec7e-4a79-83c1-d101e011a27c"
 					(page "2")
 				)
 			)
@@ -128,7 +128,7 @@
 		(fill
 			(color 0 0 0 0.0000)
 		)
-		(uuid "f744ef92-40bb-442d-9874-46d0a9d8fa6f")
+		(uuid "6c8fbec5-5ec1-4eba-ab3d-0a31d99ff1f6")
 		(property "Sheetname" "pos_5v_stage"
 			(at 91.44 11.9884 0)
 			(effects
@@ -149,7 +149,7 @@
 		)
 		(pin "GND" bidirectional
 			(at 140.81 15.24 0)
-			(uuid "aec9a71b-5602-478a-b9fc-bc309716efab")
+			(uuid "9669ca44-3ebb-442f-8a95-690fbec235d4")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -159,7 +159,7 @@
 		)
 		(instances
 			(project "linear_regulation"
-				(path "/dee5fd78-2d54-41fe-ba07-6c5be7c122e4"
+				(path "/fde22f73-ec7e-4a79-83c1-d101e011a27c"
 					(page "2")
 				)
 			)
@@ -180,7 +180,7 @@
 		(fill
 			(color 0 0 0 0.0000)
 		)
-		(uuid "e095d0ab-1423-4974-8ee4-13d6d2b23241")
+		(uuid "55f139b1-41df-4a00-af9f-303ea778c188")
 		(property "Sheetname" "neg_12v_stage"
 			(at 156.21 11.9884 0)
 			(effects
@@ -201,7 +201,7 @@
 		)
 		(pin "GND" bidirectional
 			(at 205.58 15.24 0)
-			(uuid "93f10415-3efe-4c2b-9696-96fb357f3ed3")
+			(uuid "3ac7e546-3e2e-4600-a657-4ab4dda5ff79")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -211,7 +211,7 @@
 		)
 		(instances
 			(project "linear_regulation"
-				(path "/dee5fd78-2d54-41fe-ba07-6c5be7c122e4"
+				(path "/fde22f73-ec7e-4a79-83c1-d101e011a27c"
 					(page "2")
 				)
 			)

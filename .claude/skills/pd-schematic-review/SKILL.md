@@ -2,7 +2,7 @@
 name: pd-schematic-review
 description: "Datasheet-aware schematic review for this USB-PD power-supply board. Exports the KiCad schematic to a compact netlist, walks a power-supply checklist (VBUS sense paths, regulator EN/feedback dividers, dropout headroom, polarity, decoupling, abs-max), and writes a review report whose findings are LEADS to verify against the datasheet — never ground truth. Use when the user says 'review the schematic', 'schematic review', 'pd-schematic-review', 'check the design', or 'audit the circuit'. READ-ONLY against all *.kicad_sch / *.kicad_pcb."
 argument-hint: "[optional: a stage to focus on, e.g. 'usb-pd' or 'U6']"
-allowed-tools: Bash(/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist *), Bash(python3 *), Bash(grep *), Bash(git status --porcelain*), Bash(ls *), Read, WebSearch, WebFetch, Write
+allowed-tools: Bash(mkdir -p __inbox*), Bash(/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist *), Bash(python3 *), Bash(grep *), Bash(git status --porcelain*), Bash(ls *), Read, WebSearch, WebFetch, Write
 ---
 
 > **Read-only against the design.** This skill exports and analyzes the schematic; it
