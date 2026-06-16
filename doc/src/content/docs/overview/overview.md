@@ -36,7 +36,7 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             │
             ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
             │
-            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
+            └─→ -13.5V (inverting DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
 #### Stage 1: USB-PD Power Delivery
@@ -47,11 +47,10 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
 
 #### Stage 2: DC-DC Converter
 
-- **LM2596S-ADJ × 3**: High-efficiency buck converter
-  - +15V → +13.5V (for +12V rail)
-  - +15V → +7.5V (for +5V rail)
-  - -15V → -13.5V (for -12V rail)
-- **LM2586SX-ADJ**: Inverted SEPIC converter (+15V → -15V, 3A capable)
+- **LM2596S-ADJ × 3**: adjustable switching regulators (U2/U3 buck, U4 inverting)
+  - +15V → +13.5V buck (for +12V rail)
+  - +15V → +7.5V buck (for +5V rail)
+  - +15V → -13.5V inverting buck-boost (for -12V rail) — no separate LM2586/SEPIC, no -15V rail
 - **Efficiency**: Approx. 85-90%
 
 #### Stage 3: Linear Regulator
