@@ -13,20 +13,13 @@ end), so v3 is the first board where the DC-DC + LDO chain is exercised at all.
 1. **Does the v3 CC-termination fix work?** (external Rd + CC1DB/CC2DB isolation — the v2 killer)
 2. **Does the never-before-tested power chain behave?** (DC-DC + LDO + protection)
 
-These are separable, and you should test them separately. The cleanest way to de-risk
-gamble #2 without depending on #1 is to **inject 15 V from a bench supply at TP1 (VBUS_OUT)**,
-bypassing USB-PD entirely — see Stage 4.
+These are separable, and you should test them separately. The cleanest way to de-risk gamble #2 without depending on #1 is to **inject 15 V from a bench supply at TP1 (VBUS_OUT)**, bypassing USB-PD entirely — see Stage 4.
 
 </Danger>
 
 <Warning title="Before anything: the 20 V hazard">
 
-A **fresh, un-programmed** STUSB4500 advertises **20 V at highest priority**. On a
-20 V-capable PD charger it will negotiate 20 V within ~tens of ms of plug-in and push 20 V
-into a 15 V-rated DC-DC stage. **Never plug an un-programmed board into a full PD charger.**
-Use a current-limited bench supply, a 5 V-only charger, or a no-20V (max 9/15 V) source until
-the NVM is written. (USB-C always starts at 5 V vSafe5V, so the instant of plug-in is safe;
-the danger is the negotiation a few ms later.)
+A **fresh, un-programmed** STUSB4500 advertises **20 V at highest priority**. On a 20 V-capable PD charger it will negotiate 20 V within ~tens of ms of plug-in and push 20 V into a 15 V-rated DC-DC stage. **Never plug an un-programmed board into a full PD charger.** Use a current-limited bench supply, a 5 V-only charger, or a no-20V (max 9/15 V) source until the NVM is written. (USB-C always starts at 5 V vSafe5V, so the instant of plug-in is safe; the danger is the negotiation a few ms later.)
 
 </Warning>
 
@@ -129,12 +122,9 @@ settle = a short; kill power immediately.
 | VREG_2V7 (J3 pad 3) | **2.6–2.8 V** | Chip is alive and configured ("is the chip awake?") |
 | Idle current | settles to a low steady value | No short |
 
-<Warning title="Bench supply at VBUS_IN does **not** power the downstream rails">
+<Warning title="Bench supply at VBUS_IN does NOT power the downstream rails">
 
-VBUS_OUT is gated by Q1 (AO3401A load switch), and Q1 only turns on when the chip asserts
-**VBUS_EN_SNK** after a valid PD contract. Injecting at VBUS_IN with no CC handshake leaves
-Q1 **off**, so the DC-DC chain stays dark. That's expected. To test the power chain
-independently, inject at **VBUS_OUT / TP1** instead — see Stage 4.
+VBUS_OUT is gated by Q1 (AO3401A load switch), and Q1 only turns on when the chip asserts **VBUS_EN_SNK** after a valid PD contract. Injecting at VBUS_IN with no CC handshake leaves Q1 **off**, so the DC-DC chain stays dark. That's expected. To test the power chain independently, inject at **VBUS_OUT / TP1** instead — see Stage 4.
 
 </Warning>
 
@@ -163,9 +153,7 @@ Now the moment v2 failed at. **First, the acceptance test that proves the v3 Rd 
 
 <Tip title="If PD still fails on v3">
 
-Lift **R19** (or R20) to isolate the chip's CC1DB/CC2DB pin from GND — this is exactly why
-0 Ω jumpers (not hard ties) were used. Last resort: hot-air U1 and meter the empty pad
-(OPEN = the short is inside the chip, as in v2).
+Lift **R19** (or R20) to isolate the chip's CC1DB/CC2DB pin from GND — this is exactly why 0 Ω jumpers (not hard ties) were used. Last resort: hot-air U1 and meter the empty pad (OPEN = the short is inside the chip, as in v2).
 
 </Tip>
 
@@ -177,25 +165,13 @@ Lift **R19** (or R20) to isolate the chip's CC1DB/CC2DB pin from GND — this is
 
 <Tip title="Decouple from USB-PD — inject 15 V at TP1 (with one pre-check)">
 
-To test the power chain **without depending on PD**, you can feed a bench supply into
-**TP1 (+) / TP2 (GND)** at **15.0 V, limit ~200–300 mA**. TP1's net is the **`VBUS_OUT`**
-global label (downstream of the Q1 load switch), so this bypasses the USB-PD front end and
-drives the DC-DC + LDO chain directly. `VBUS_OUT` enters the DC-DC sheet as the
-`USB-PD-power IN` hierarchical pin and fans out to U2/U3/U4 VIN (local labels
-`+15V -> +13.5V gen`, `+15V -> +7.5V gen`, `+15V -> -13.5V gen`).
+To test the power chain **without depending on PD**, you can feed a bench supply into **TP1 (+) / TP2 (GND)** at **15.0 V, limit ~200–300 mA**. TP1's net is the **`VBUS_OUT`** global label (downstream of the Q1 load switch), so this bypasses the USB-PD front end and drives the DC-DC + LDO chain directly. `VBUS_OUT` enters the DC-DC sheet as the `USB-PD-power IN` hierarchical pin and fans out to U2/U3/U4 VIN (local labels `+15V -> +13.5V gen`, `+15V -> +7.5V gen`, `+15V -> -13.5V gen`).
 
-**⚠️ Mandatory pre-check before injecting (unpowered, ohmmeter):** measure between **TP1** and
-**U1's VDD pin (J3 pad 4)**.
+**⚠️ Mandatory pre-check before injecting (unpowered, ohmmeter):** measure between **TP1** and **U1's VDD pin (J3 pad 4)**.
 - **Open / high resistance** → TP1 is isolated from the chip supply. **Safe to inject 15 V.**
-- **Continuous (~0 Ω)** → `VBUS_OUT` back-feeds the STUSB4500 supply. **Do NOT inject 15 V at
-  TP1** — you'd put 15 V onto the chip. (The docs conflict: `test-points-v3.md` calls VDD
-  "post-MOSFET load switch," which would mean exactly this back-feed; the netlist trace
-  suggested VDD = VBUS_IN. Resolve it with this meter check before trusting TP1 injection.)
-  In that case, drive the chain through the normal PD path (Stage 3) instead.
+- **Continuous (~0 Ω)** → `VBUS_OUT` back-feeds the STUSB4500 supply. **Do NOT inject 15 V at TP1** — you'd put 15 V onto the chip. (The docs conflict: `test-points-v3.md` calls VDD "post-MOSFET load switch," which would mean exactly this back-feed; the netlist trace suggested VDD = VBUS_IN. Resolve it with this meter check before trusting TP1 injection.) In that case, drive the chain through the normal PD path (Stage 3) instead.
 
-Note: there is **no input fuse** on the VBUS path (the SMD fuses are all on the output rails).
-If you inject and a converter stays dark, confirm 15 V actually reaches *that* converter's VIN
-before suspecting the converter itself.
+Note: there is **no input fuse** on the VBUS path (the SMD fuses are all on the output rails). If you inject and a converter stays dark, confirm 15 V actually reaches *that* converter's VIN before suspecting the converter itself.
 
 </Tip>
 
@@ -209,16 +185,10 @@ Probe each intermediate at its test point:
 
 <Danger title="TP5 MUST read negative — the #1 module-killer risk">
 
-The **negative rail is the single most dangerous thing on this board to get wrong.** Older
-docs disagree on its topology (there is **no separate −15 V rail** on this build — the old
-LM2586 SEPIC two-step was replaced by U4's direct inversion; ignore "−15 V → −13.5 V"
-wording), and the U4 feedback-divider orientation could **not** be resolved from the file.
-Before you trust the −12 V chain or connect *any* module:
+The **negative rail is the single most dangerous thing on this board to get wrong.** Older docs disagree on its topology (there is **no separate −15 V rail** on this build — the old LM2586 SEPIC two-step was replaced by U4's direct inversion; ignore "−15 V → −13.5 V" wording), and the U4 feedback-divider orientation could **not** be resolved from the file. Before you trust the −12 V chain or connect *any* module:
 
 1. Meter TP5 and **confirm the reading is NEGATIVE**, ≈ −13.5 V (band −13.2 to −13.8 V).
-2. If TP5 reads **positive, near 0 V, or +15 V** → the inversion is not working. **Stop.**
-   Do not proceed to the −12 V LDO or the output connectors. A positive voltage on what
-   should be the −12 V rail destroys modules instantly.
+2. If TP5 reads **positive, near 0 V, or +15 V** → the inversion is not working. **Stop.** Do not proceed to the −12 V LDO or the output connectors. A positive voltage on what should be the −12 V rail destroys modules instantly.
 
 </Danger>
 
@@ -238,9 +208,7 @@ Measure each regulator output, then verify it survives the protection devices to
 
 <Note title="Headroom flag (watch under load in Stage 6)">
 
-+12 V and −12 V each have only **1.5 V dropout headroom** — marginal for a 78xx/79xx, which
-can want ~2 V at full load and high temperature. At light load they'll read fine; the risk
-shows up under load (Stage 6). +5 V has a comfortable 2.5 V headroom.
++12 V and −12 V each have only **1.5 V dropout headroom** — marginal for a 78xx/79xx, which can want ~2 V at full load and high temperature. At light load they'll read fine; the risk shows up under load (Stage 6). +5 V has a comfortable 2.5 V headroom.
 
 </Note>
 
@@ -253,11 +221,7 @@ BSMD1206-150-16V, ≈1.5 A hold.)
 
 <Danger title="Do NOT trust pin numbers — identify −12 V by meter, every time">
 
-A reversed ribbon swaps +12 V/−12 V and **instantly destroys** modules. The exact pin→net
-mapping on J10/J11 could not be resolved to a number I'd stake a module on (it depends on the
-header's physical orientation, which the board may mount face-down), so **treat pin numbers as
-unverified** and use the procedure below instead. The board's **silkscreen is the authority** —
-it was a hard design requirement — and the meter is the final check.
+A reversed ribbon swaps +12 V/−12 V and **instantly destroys** modules. The exact pin→net mapping on J10/J11 could not be resolved to a number I'd stake a module on (it depends on the header's physical orientation, which the board may mount face-down), so **treat pin numbers as unverified** and use the procedure below instead. The board's **silkscreen is the authority** — it was a hard design requirement — and the meter is the final check.
 
 </Danger>
 
