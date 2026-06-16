@@ -6,3 +6,19 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+# pnpm 11.5.2's default minimumReleaseAge gate (~24h cooldown) rejects packages
+# published within the cutoff, and CI's `pnpm install --frozen-lockfile` enforces
+# it (ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION). These first-party @takazudo packages
+# were published the same day as this bump, so each adopted version must be
+# explicitly approved here or CI fails. pnpm regenerates this list on the next bump.
+minimumReleaseAgeExclude:
+  - '@takazudo/zfb-adapter-cloudflare@0.1.0-next.49'
+  - '@takazudo/zfb-darwin-arm64@0.1.0-next.49'
+  - '@takazudo/zfb-darwin-x64@0.1.0-next.49'
+  - '@takazudo/zfb-linux-arm64-gnu@0.1.0-next.49'
+  - '@takazudo/zfb-linux-x64-gnu@0.1.0-next.49'
+  - '@takazudo/zfb-runtime@0.1.0-next.49'
+  - '@takazudo/zfb-win32-x64-msvc@0.1.0-next.49'
+  - '@takazudo/zfb@0.1.0-next.49'
+  - '@takazudo/zudo-doc-history-server@0.2.9'
+  - '@takazudo/zudo-doc@0.2.9'
