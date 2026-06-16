@@ -9,8 +9,7 @@ This directory contains KiCad footprint files (.kicad_mod) for components used i
 - **TYPE-C-SMD_TYPE-C-6P.kicad_mod** - USB Type-C 6P Female Connector (C456012)
 
 ### DC-DC Converter Stage
-- **TO-263-5_L10.2-W8.9-P1.70-BR.kicad_mod** - LM2596S-ADJ Buck Converter (C347423)
-- **SOP-8_L4.9-W3.9-P1.27-LS6.0-BL.kicad_mod** - ICL7660M Voltage Inverter (C356724)
+- **TO-263-5_L10.2-W8.9-P1.70-BR.kicad_mod** - LM2596S-ADJ Buck Converter (C347423) — also used for U4 in inverting buck-boost config
 
 ### Linear Regulator Stage
 - **TO-220-3_L10.0-W4.5-P2.54-L.kicad_mod** - LM7812CV +12V Regulator (C2914)
