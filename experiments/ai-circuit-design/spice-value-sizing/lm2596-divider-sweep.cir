@@ -1,0 +1,40 @@
+* LM2596-ADJ feedback-divider value-sizing — parametric SWEEP deck
+* ---------------------------------------------------------------------------
+* SCOPE: value-sizing only (DC divider). NOT a buck stability/ripple sim.
+*
+* This deck demonstrates the "adjust R3 -> re-check" step of the loop:
+* sweep the TOP resistor R3 and read back the rail Vout that the LM2596 will
+* servo to (FB held at Vref). Use it to pick the E24 R3 that lands the rail
+* closest to a new target without rebuilding the deck by hand.
+*
+*   Vout(R3) = Vref * (1 + R3/R4),  R4 = 1.0k, Vref = 1.23 V
+*
+* Worked targets this answers:
+*   +7.5 V  -> R3 ~ 5.1k  (as-designed)
+*   +13.5 V -> R3 ~ 10k   (would be the +12V-rail intermediate)
+* ---------------------------------------------------------------------------
+
+.title LM2596-ADJ divider R3 sweep
+
+.param Vref = 1.23
+.param Rbot = 1.0k
+.param Rtop = 5.1k        ; swept below
+
+* FB pinned to Vref (regulator loop closed); read back VOUT vs R3.
+Vrefsrc vref_ref 0 DC {Vref}
+Eb   fb  0   vref_ref 0  1
+R3   vout  fb   {Rtop}
+R4   fb    0    {Rbot}
+
+.control
+  echo "=== sweep R3 (top) over E24-ish values; read rail Vout (FB=Vref) ==="
+  foreach r3val 3.0k 3.3k 5.1k 9.1k 10k 11k
+    alterparam Rtop = $r3val
+    reset
+    op
+    echo "R3 = $r3val :"
+    print v(vout)
+  end
+.endc
+
+.end
