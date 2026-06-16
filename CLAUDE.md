@@ -86,6 +86,43 @@ The power supply uses a 4-stage architecture:
 
 Use English for all text to ensure international accessibility and collaboration. ASCII art diagrams should use English labels to avoid encoding issues.
 
+## Schematic Documentation Conventions
+
+When documenting circuit connectivity for AI→human handoff, use a **net-connectivity table + Mermaid block diagram** rather than ASCII-art schematics. The rationale: LLMs are unreliable at 2-D spatial layout (ASCII art), but reliable at connectivity (tabular data). Geometry-free artifacts are also regenerable from the KiCad netlist without opening the GUI.
+
+### Net-Table Schema
+
+One sub-table per hierarchical sheet. Column schema:
+
+| Net | Connected pins (Ref.Pin) | Value/Note |
+|-----|--------------------------|------------|
+
+- **Net**: the KiCad net name as it appears in the netlist (e.g. `+15V`, `-13.5V`, `GND`, `Net-(U6-OUT)`).
+- **Connected pins (Ref.Pin)**: space-separated list of `Ref.Pin` tokens for pins on that net that belong to the sheet being documented (e.g. `U8.VI`, `C14.1`). Cross-sheet pins may be omitted or noted as `<sheet>/Ref.Pin`.
+- **Value/Note**: component value, net role, or signal description (e.g. `LDO input`, `470 µF bulk cap`, `+12V LDO output`).
+
+Generate the table from the **KiCad netlist** (geometry-free), not by eyeballing symbol positions. Export with:
+
+```
+/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist \
+  --format kicadxml --output __inbox/<name>.xml zudo-pd.kicad_sch
+```
+
+Keep raw XML exports in `__inbox/` (gitignored). Only the rendered table goes in docs.
+
+### Mermaid Block Diagram
+
+Use a `flowchart TD` for stage-level topology — one node per functional block, edges labeled with net names or voltage levels:
+
+```mermaid
+flowchart TD
+  DCDC["+13.5V DC-DC output"] -->|"+13.5V"| U6["U6 L7812\n+12V LDO"]
+  U6 -->|"Net-(U6-OUT)"| PTC1["PTC1 polyfuse\n2A"]
+  PTC1 -->|"+12V rail"| OUT12["+12V output"]
+```
+
+This **replaces ASCII-art schematics** as the canonical AI→human connectivity handoff. ASCII art may still be used as an optional human-readable illustration, but it is not the authoritative connectivity record.
+
 ## File Types
 
 - `.kicad_pro` - KiCad project configuration

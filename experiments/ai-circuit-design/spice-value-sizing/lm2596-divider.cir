@@ -1,0 +1,77 @@
+* LM2596-ADJ feedback-divider value-sizing deck
+* ---------------------------------------------------------------------------
+* SCOPE: This is a VALUE-SIZING (DC operating-point / resistor-divider) demo.
+*        It is NOT a buck-converter stability / transient / ripple simulation.
+*        The switching power stage (inductor, catch diode, Cout, control loop)
+*        is intentionally abstracted away. We only verify that the FEEDBACK
+*        DIVIDER produces the intended Vfb (and hence selects the intended Vout)
+*        for the regulated rail.
+* ---------------------------------------------------------------------------
+* Part / circuit context (zudo-pd):
+*   U? = LM2596S-ADJ adjustable buck regulator.
+*   The LM2596-ADJ servos its output so that the FB pin sits at Vref.
+*   Real reference (datasheet, UMW/NS): Vref = 1.23 V (typ; spec 1.193..1.267).
+*   Feedback divider in THIS design (from dc-dc-conversion.kicad_sch):
+*       R3 = 5.1 kohm  (top:    Vout -> FB)
+*       R4 = 1.0 kohm  (bottom: FB   -> GND)
+*   Rail set by this divider: Vout = Vref * (1 + R3/R4)  = +7.5 V intermediate
+*   (this +7.5V feeds the LM7805 -> +5V output, per the 4-stage architecture).
+*
+* HOW THIS DECK MODELS THE LOOP-CLOSED REGULATOR WITHOUT SIMULATING THE BUCK:
+*   The LM2596 regulates Vout until FB == Vref. So in steady state we can pin
+*   the FB node to Vref with an ideal source and let SPICE solve for the Vout
+*   node that the divider demands. Reading VOUT back == reading the rail the
+*   divider selects. That is exactly the value-sizing question.
+*
+* Two independent DC checks are included:
+*   (A) FORWARD divider check: drive VOUT with the algebraic target, confirm
+*       the FB node lands on Vref. (Sanity: divider ratio is correct.)
+*   (B) INVERSE / loop-closed check: pin FB to Vref via a 0V-referenced ideal
+*       buffer, read back VOUT = the rail the LM2596 will actually servo to.
+* ---------------------------------------------------------------------------
+
+.title LM2596-ADJ feedback divider value sizing
+
+* ---- parameters (the knobs the value-sizing loop turns) --------------------
+.param Vref = 1.23
+.param Rtop = 5.1k     ; R3  (top, Vout -> FB)
+.param Rbot = 1.0k     ; R4  (bottom, FB -> GND)
+.param Vtarget = 7.503 ; algebraic target = Vref*(1+Rtop/Rbot)
+
+* ===========================================================================
+* (A) FORWARD CHECK: apply the target Vout, expect FB == Vref
+* ===========================================================================
+Vout_drv  vout_a  0  DC {Vtarget}
+R3a  vout_a  fb_a  {Rtop}
+R4a  fb_a    0     {Rbot}
+
+* ===========================================================================
+* (B) LOOP-CLOSED CHECK: model the regulator's error amp + output stage as a
+*   high-gain behavioral source driving the REAL divider. The LM2596 servos
+*   VOUT until FB == Vref, i.e. VOUT = A*(Vref - FB) with large gain A. The .op
+*   solves this (linear) feedback system: for large A, FB -> Vref and
+*   VOUT -> Vref*(1 + Rtop/Rbot).
+*   WHY NOT pin FB to Vref directly: VOUT then connects to the rest of the
+*   circuit only through R3b, so KCL forces I(R3b)=0 and VOUT collapses to FB
+*   (~Vref) instead of the divider rail. VOUT must be LOOP-DRIVEN, not pinned.
+* ===========================================================================
+.param Again = 1e6               ; error-amp gain (large -> FB converges to Vref)
+Bout vout_b 0  V = {Again} * ({Vref} - V(fb_b))   ; regulator error amp + output
+R3b  vout_b  fb_b  {Rtop}        ; top: VOUT -> FB
+R4b  fb_b    0     {Rbot}        ; bottom: FB -> GND (real divider, not bypassed)
+
+* ---- analysis --------------------------------------------------------------
+.control
+  op
+  echo "=== (A) forward divider check: VOUT applied, FB should = Vref ==="
+  print v(vout_a) v(fb_a)
+  let fb_err_a = v(fb_a) - Vref
+  print fb_err_a
+  echo "=== (B) loop-closed check: FB pinned to Vref, read back VOUT ==="
+  print v(vout_b) v(fb_b)
+  echo "=== ratio sanity: Vout/Vref should equal (1 + Rtop/Rbot) ==="
+  let ratio = v(vout_b)/Vref
+  print ratio
+.endc
+
+.end

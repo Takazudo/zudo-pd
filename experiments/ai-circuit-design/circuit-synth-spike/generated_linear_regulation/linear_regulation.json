@@ -1,0 +1,1863 @@
+{
+  "name": "linear_regulation",
+  "description": "Top sheet: three LDO stages sharing GND, with the intermediate input\nrails and the final +12V/+5V/-12V output rails as named nets.",
+  "tstamps": "/linear_regulation-4479164704/",
+  "source_file": "linear_regulation.kicad_sch",
+  "components": {},
+  "nets": {},
+  "subcircuits": [
+    {
+      "name": "pos_12v_stage",
+      "description": "U6 L7812: +13.5V -> +12V. Full topology (the reference stage).",
+      "tstamps": "/pos_12v_stage-4479121552/",
+      "source_file": "pos_12v_stage.kicad_sch",
+      "components": {
+        "U6": {
+          "symbol": "Regulator_Linear:L7812",
+          "ref": "U6",
+          "value": "",
+          "footprint": "",
+          "datasheet": "http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf",
+          "description": "Positive 1.5A 35V Linear Regulator, Fixed Output 12V, TO-220/TO-263/TO-252",
+          "properties": {
+            "ki_fp_filters": "TO?252* TO?263* TO?220*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "TO?252* TO?263* TO?220*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "IN",
+              "func": "power_in",
+              "unit": 1,
+              "x": -7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "GND",
+              "func": "power_in",
+              "unit": 1,
+              "x": 0.0,
+              "y": -7.62,
+              "length": 2.54,
+              "orientation": 90.0
+            },
+            {
+              "pin_id": "3",
+              "name": "OUT",
+              "func": "power_out",
+              "unit": 1,
+              "x": 7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            },
+            {
+              "pin_id": "IN",
+              "name": "IN",
+              "func": "power_in",
+              "unit": 1,
+              "x": -7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "GND",
+              "name": "GND",
+              "func": "power_in",
+              "unit": 1,
+              "x": 0.0,
+              "y": -7.62,
+              "length": 2.54,
+              "orientation": 90.0
+            },
+            {
+              "pin_id": "OUT",
+              "name": "OUT",
+              "func": "power_out",
+              "unit": 1,
+              "x": 7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        },
+        "C1": {
+          "symbol": "Device:C",
+          "ref": "C1",
+          "value": "470uF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C2": {
+          "symbol": "Device:C",
+          "ref": "C2",
+          "value": "470nF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C3": {
+          "symbol": "Device:C",
+          "ref": "C3",
+          "value": "470uF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C4": {
+          "symbol": "Device:C",
+          "ref": "C4",
+          "value": "100nF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "F1": {
+          "symbol": "Device:Polyfuse",
+          "ref": "F1",
+          "value": "",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Resettable fuse, polymeric positive temperature coefficient",
+          "properties": {
+            "ki_fp_filters": "*polyfuse* *PTC*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "*polyfuse* *PTC*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 1.27,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 1.27,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "D1": {
+          "symbol": "Device:D_TVS",
+          "ref": "D1",
+          "value": "",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Bidirectional transient-voltage-suppression diode",
+          "properties": {
+            "ki_fp_filters": "TO-???* *_Diode_* *SingleDiode* D_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "TO-???* *_Diode_* *SingleDiode* D_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "A1",
+              "func": "passive",
+              "unit": 1,
+              "x": -3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "A2",
+              "func": "passive",
+              "unit": 1,
+              "x": 3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        },
+        "R1": {
+          "symbol": "Device:R",
+          "ref": "R1",
+          "value": "1k",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Resistor",
+          "properties": {
+            "ki_fp_filters": "R_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "R_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 1.27,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 1.27,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "LED1": {
+          "symbol": "Device:LED",
+          "ref": "LED1",
+          "value": "Green",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Light emitting diode",
+          "properties": {
+            "ki_fp_filters": "LED* LED_SMD:* LED_THT:*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "LED* LED_SMD:* LED_THT:*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "K",
+              "func": "passive",
+              "unit": 1,
+              "x": -3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "A",
+              "func": "passive",
+              "unit": 1,
+              "x": 3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        }
+      },
+      "nets": {
+        "+13.5V IN": [
+          {
+            "component": "U6",
+            "pin": {
+              "number": "1",
+              "name": "IN",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "U6",
+            "pin": {
+              "number": "1",
+              "name": "IN",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "C1",
+            "pin": {
+              "number": "1",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C2",
+            "pin": {
+              "number": "1",
+              "name": "",
+              "type": "passive"
+            }
+          }
+        ],
+        "GND": [
+          {
+            "component": "U6",
+            "pin": {
+              "number": "2",
+              "name": "GND",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "U6",
+            "pin": {
+              "number": "2",
+              "name": "GND",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "C1",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C2",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C3",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C4",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "D1",
+            "pin": {
+              "number": "2",
+              "name": "A2",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "LED1",
+            "pin": {
+              "number": "1",
+              "name": "K",
+              "type": "passive"
+            }
+          }
+        ],
+        "U6_OUT_LOCAL": {
+          "nodes": [
+            {
+              "component": "U6",
+              "pin": {
+                "number": "3",
+                "name": "OUT",
+                "type": "power_out"
+              }
+            },
+            {
+              "component": "U6",
+              "pin": {
+                "number": "3",
+                "name": "OUT",
+                "type": "power_out"
+              }
+            },
+            {
+              "component": "C3",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "C4",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "F1",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "R1",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            }
+          ],
+          "is_power": false,
+          "power_symbol": null,
+          "trace_current": null,
+          "impedance": null,
+          "properties": {}
+        },
+        "+12V OUT": [
+          {
+            "component": "F1",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "D1",
+            "pin": {
+              "number": "1",
+              "name": "A1",
+              "type": "passive"
+            }
+          }
+        ],
+        "U6_LED": {
+          "nodes": [
+            {
+              "component": "R1",
+              "pin": {
+                "number": "2",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "LED1",
+              "pin": {
+                "number": "2",
+                "name": "A",
+                "type": "passive"
+              }
+            }
+          ],
+          "is_power": false,
+          "power_symbol": null,
+          "trace_current": null,
+          "impedance": null,
+          "properties": {}
+        }
+      },
+      "subcircuits": [],
+      "annotations": [
+        {
+          "type": "TextBox",
+          "text": "U6 L7812: +13.5V -> +12V. Full topology (the reference stage).",
+          "position": [
+            184.0,
+            110.0
+          ],
+          "size": [
+            80.0,
+            30.0
+          ],
+          "margins": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "text_size": 1.2,
+          "bold": true,
+          "italic": false,
+          "text_color": "black",
+          "background": true,
+          "background_color": "lightyellow",
+          "border": true,
+          "border_width": 0.1,
+          "border_color": "black",
+          "justify": "center center",
+          "rotation": 0,
+          "uuid": "ffdd7d4e-da10-4779-b613-e5a03e05fa07"
+        }
+      ]
+    },
+    {
+      "name": "pos_5v_stage",
+      "description": "U7 L7805: +7.5V -> +5V.",
+      "tstamps": "/pos_5v_stage-4488465296/",
+      "source_file": "pos_5v_stage.kicad_sch",
+      "components": {
+        "U7": {
+          "symbol": "Regulator_Linear:L7805",
+          "ref": "U7",
+          "value": "",
+          "footprint": "",
+          "datasheet": "http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf",
+          "description": "Positive 1.5A 35V Linear Regulator, Fixed Output 5V, TO-220/TO-263/TO-252",
+          "properties": {
+            "ki_fp_filters": "TO?252* TO?263* TO?220*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "TO?252* TO?263* TO?220*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "IN",
+              "func": "power_in",
+              "unit": 1,
+              "x": -7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "GND",
+              "func": "power_in",
+              "unit": 1,
+              "x": 0.0,
+              "y": -7.62,
+              "length": 2.54,
+              "orientation": 90.0
+            },
+            {
+              "pin_id": "3",
+              "name": "OUT",
+              "func": "power_out",
+              "unit": 1,
+              "x": 7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            },
+            {
+              "pin_id": "IN",
+              "name": "IN",
+              "func": "power_in",
+              "unit": 1,
+              "x": -7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "GND",
+              "name": "GND",
+              "func": "power_in",
+              "unit": 1,
+              "x": 0.0,
+              "y": -7.62,
+              "length": 2.54,
+              "orientation": 90.0
+            },
+            {
+              "pin_id": "OUT",
+              "name": "OUT",
+              "func": "power_out",
+              "unit": 1,
+              "x": 7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        },
+        "C5": {
+          "symbol": "Device:C",
+          "ref": "C5",
+          "value": "470uF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C6": {
+          "symbol": "Device:C",
+          "ref": "C6",
+          "value": "470nF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C7": {
+          "symbol": "Device:C",
+          "ref": "C7",
+          "value": "470uF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C8": {
+          "symbol": "Device:C",
+          "ref": "C8",
+          "value": "100nF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "F2": {
+          "symbol": "Device:Polyfuse",
+          "ref": "F2",
+          "value": "",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Resettable fuse, polymeric positive temperature coefficient",
+          "properties": {
+            "ki_fp_filters": "*polyfuse* *PTC*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "*polyfuse* *PTC*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 1.27,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 1.27,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "D2": {
+          "symbol": "Device:D_TVS",
+          "ref": "D2",
+          "value": "",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Bidirectional transient-voltage-suppression diode",
+          "properties": {
+            "ki_fp_filters": "TO-???* *_Diode_* *SingleDiode* D_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "TO-???* *_Diode_* *SingleDiode* D_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "A1",
+              "func": "passive",
+              "unit": 1,
+              "x": -3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "A2",
+              "func": "passive",
+              "unit": 1,
+              "x": 3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        },
+        "R2": {
+          "symbol": "Device:R",
+          "ref": "R2",
+          "value": "1k",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Resistor",
+          "properties": {
+            "ki_fp_filters": "R_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "R_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 1.27,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 1.27,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "LED2": {
+          "symbol": "Device:LED",
+          "ref": "LED2",
+          "value": "Blue",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Light emitting diode",
+          "properties": {
+            "ki_fp_filters": "LED* LED_SMD:* LED_THT:*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "LED* LED_SMD:* LED_THT:*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "K",
+              "func": "passive",
+              "unit": 1,
+              "x": -3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "A",
+              "func": "passive",
+              "unit": 1,
+              "x": 3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        }
+      },
+      "nets": {
+        "+7.5V IN": [
+          {
+            "component": "U7",
+            "pin": {
+              "number": "1",
+              "name": "IN",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "U7",
+            "pin": {
+              "number": "1",
+              "name": "IN",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "C5",
+            "pin": {
+              "number": "1",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C6",
+            "pin": {
+              "number": "1",
+              "name": "",
+              "type": "passive"
+            }
+          }
+        ],
+        "GND": [
+          {
+            "component": "U7",
+            "pin": {
+              "number": "2",
+              "name": "GND",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "U7",
+            "pin": {
+              "number": "2",
+              "name": "GND",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "C5",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C6",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C7",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C8",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "D2",
+            "pin": {
+              "number": "2",
+              "name": "A2",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "LED2",
+            "pin": {
+              "number": "1",
+              "name": "K",
+              "type": "passive"
+            }
+          }
+        ],
+        "U7_OUT_LOCAL": {
+          "nodes": [
+            {
+              "component": "U7",
+              "pin": {
+                "number": "3",
+                "name": "OUT",
+                "type": "power_out"
+              }
+            },
+            {
+              "component": "U7",
+              "pin": {
+                "number": "3",
+                "name": "OUT",
+                "type": "power_out"
+              }
+            },
+            {
+              "component": "C7",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "C8",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "F2",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "R2",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            }
+          ],
+          "is_power": false,
+          "power_symbol": null,
+          "trace_current": null,
+          "impedance": null,
+          "properties": {}
+        },
+        "+5V OUT": [
+          {
+            "component": "F2",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "D2",
+            "pin": {
+              "number": "1",
+              "name": "A1",
+              "type": "passive"
+            }
+          }
+        ],
+        "U7_LED": {
+          "nodes": [
+            {
+              "component": "R2",
+              "pin": {
+                "number": "2",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "LED2",
+              "pin": {
+                "number": "2",
+                "name": "A",
+                "type": "passive"
+              }
+            }
+          ],
+          "is_power": false,
+          "power_symbol": null,
+          "trace_current": null,
+          "impedance": null,
+          "properties": {}
+        }
+      },
+      "subcircuits": [],
+      "annotations": [
+        {
+          "type": "TextBox",
+          "text": "U7 L7805: +7.5V -> +5V.",
+          "position": [
+            184.0,
+            110.0
+          ],
+          "size": [
+            80.0,
+            30.0
+          ],
+          "margins": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "text_size": 1.2,
+          "bold": true,
+          "italic": false,
+          "text_color": "black",
+          "background": true,
+          "background_color": "lightyellow",
+          "border": true,
+          "border_width": 0.1,
+          "border_color": "black",
+          "justify": "center center",
+          "rotation": 0,
+          "uuid": "e6f79eff-ecef-49aa-9e8f-d390102a2289"
+        }
+      ]
+    },
+    {
+      "name": "neg_12v_stage",
+      "description": "U8 7912: -13.5V -> -12V (negative regulator).",
+      "tstamps": "/neg_12v_stage-4479203056/",
+      "source_file": "neg_12v_stage.kicad_sch",
+      "components": {
+        "U8": {
+          "symbol": "Regulator_Linear:L7912",
+          "ref": "U8",
+          "value": "",
+          "footprint": "",
+          "datasheet": "http://www.st.com/content/ccc/resource/technical/document/datasheet/c9/16/86/41/c7/2b/45/f2/CD00000450.pdf/files/CD00000450.pdf/jcr:content/translations/en.CD00000450.pdf",
+          "description": "Negative 1.5A 35V Linear Regulator, Fixed Output -12V, TO-220/TO-263",
+          "properties": {
+            "ki_fp_filters": "TO?220* TO?263*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "TO?220* TO?263*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "GND",
+              "func": "power_in",
+              "unit": 1,
+              "x": 0.0,
+              "y": 7.62,
+              "length": 2.54,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "VI",
+              "func": "power_in",
+              "unit": 1,
+              "x": -7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "3",
+              "name": "VO",
+              "func": "power_out",
+              "unit": 1,
+              "x": 7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            },
+            {
+              "pin_id": "VI",
+              "name": "VI",
+              "func": "power_in",
+              "unit": 1,
+              "x": -7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "GND",
+              "name": "GND",
+              "func": "power_in",
+              "unit": 1,
+              "x": 0.0,
+              "y": 7.62,
+              "length": 2.54,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "VO",
+              "name": "VO",
+              "func": "power_out",
+              "unit": 1,
+              "x": 7.62,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        },
+        "C9": {
+          "symbol": "Device:C",
+          "ref": "C9",
+          "value": "470uF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C10": {
+          "symbol": "Device:C",
+          "ref": "C10",
+          "value": "470nF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C11": {
+          "symbol": "Device:C",
+          "ref": "C11",
+          "value": "470uF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "C12": {
+          "symbol": "Device:C",
+          "ref": "C12",
+          "value": "100nF",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Unpolarized capacitor",
+          "properties": {
+            "ki_fp_filters": "C_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "C_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 2.794,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 2.794,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "F3": {
+          "symbol": "Device:Polyfuse",
+          "ref": "F3",
+          "value": "",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Resettable fuse, polymeric positive temperature coefficient",
+          "properties": {
+            "ki_fp_filters": "*polyfuse* *PTC*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "*polyfuse* *PTC*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 1.27,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 1.27,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "D3": {
+          "symbol": "Device:D_TVS",
+          "ref": "D3",
+          "value": "",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Bidirectional transient-voltage-suppression diode",
+          "properties": {
+            "ki_fp_filters": "TO-???* *_Diode_* *SingleDiode* D_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "TO-???* *_Diode_* *SingleDiode* D_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "A1",
+              "func": "passive",
+              "unit": 1,
+              "x": -3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "A2",
+              "func": "passive",
+              "unit": 1,
+              "x": 3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        },
+        "R3": {
+          "symbol": "Device:R",
+          "ref": "R3",
+          "value": "1k",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Resistor",
+          "properties": {
+            "ki_fp_filters": "R_*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "R_*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": 3.81,
+              "length": 1.27,
+              "orientation": 270.0
+            },
+            {
+              "pin_id": "2",
+              "name": "",
+              "func": "passive",
+              "unit": 1,
+              "x": 0.0,
+              "y": -3.81,
+              "length": 1.27,
+              "orientation": 90.0
+            }
+          ]
+        },
+        "LED3": {
+          "symbol": "Device:LED",
+          "ref": "LED3",
+          "value": "Red",
+          "footprint": "",
+          "datasheet": "",
+          "description": "Light emitting diode",
+          "properties": {
+            "ki_fp_filters": "LED* LED_SMD:* LED_THT:*"
+          },
+          "_extra_fields": {
+            "ki_fp_filters": "LED* LED_SMD:* LED_THT:*"
+          },
+          "pins": [
+            {
+              "pin_id": "1",
+              "name": "K",
+              "func": "passive",
+              "unit": 1,
+              "x": -3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 0.0
+            },
+            {
+              "pin_id": "2",
+              "name": "A",
+              "func": "passive",
+              "unit": 1,
+              "x": 3.81,
+              "y": 0.0,
+              "length": 2.54,
+              "orientation": 180.0
+            }
+          ]
+        }
+      },
+      "nets": {
+        "GND": [
+          {
+            "component": "U8",
+            "pin": {
+              "number": "1",
+              "name": "GND",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "U8",
+            "pin": {
+              "number": "1",
+              "name": "GND",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "C9",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C10",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C11",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C12",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "D3",
+            "pin": {
+              "number": "2",
+              "name": "A2",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "LED3",
+            "pin": {
+              "number": "2",
+              "name": "A",
+              "type": "passive"
+            }
+          }
+        ],
+        "-13.5V IN": [
+          {
+            "component": "U8",
+            "pin": {
+              "number": "2",
+              "name": "VI",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "U8",
+            "pin": {
+              "number": "2",
+              "name": "VI",
+              "type": "power_in"
+            }
+          },
+          {
+            "component": "C9",
+            "pin": {
+              "number": "1",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "C10",
+            "pin": {
+              "number": "1",
+              "name": "",
+              "type": "passive"
+            }
+          }
+        ],
+        "U8_OUT_LOCAL": {
+          "nodes": [
+            {
+              "component": "U8",
+              "pin": {
+                "number": "3",
+                "name": "VO",
+                "type": "power_out"
+              }
+            },
+            {
+              "component": "U8",
+              "pin": {
+                "number": "3",
+                "name": "VO",
+                "type": "power_out"
+              }
+            },
+            {
+              "component": "C11",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "C12",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "F3",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "R3",
+              "pin": {
+                "number": "1",
+                "name": "",
+                "type": "passive"
+              }
+            }
+          ],
+          "is_power": false,
+          "power_symbol": null,
+          "trace_current": null,
+          "impedance": null,
+          "properties": {}
+        },
+        "-12V OUT": [
+          {
+            "component": "F3",
+            "pin": {
+              "number": "2",
+              "name": "",
+              "type": "passive"
+            }
+          },
+          {
+            "component": "D3",
+            "pin": {
+              "number": "1",
+              "name": "A1",
+              "type": "passive"
+            }
+          }
+        ],
+        "U8_LED": {
+          "nodes": [
+            {
+              "component": "R3",
+              "pin": {
+                "number": "2",
+                "name": "",
+                "type": "passive"
+              }
+            },
+            {
+              "component": "LED3",
+              "pin": {
+                "number": "1",
+                "name": "K",
+                "type": "passive"
+              }
+            }
+          ],
+          "is_power": false,
+          "power_symbol": null,
+          "trace_current": null,
+          "impedance": null,
+          "properties": {}
+        }
+      },
+      "subcircuits": [],
+      "annotations": [
+        {
+          "type": "TextBox",
+          "text": "U8 7912: -13.5V -> -12V (negative regulator).",
+          "position": [
+            184.0,
+            110.0
+          ],
+          "size": [
+            80.0,
+            30.0
+          ],
+          "margins": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "text_size": 1.2,
+          "bold": true,
+          "italic": false,
+          "text_color": "black",
+          "background": true,
+          "background_color": "lightyellow",
+          "border": true,
+          "border_width": 0.1,
+          "border_color": "black",
+          "justify": "center center",
+          "rotation": 0,
+          "uuid": "169b1901-2e2a-4061-a6fa-219996775220"
+        }
+      ]
+    }
+  ],
+  "annotations": [
+    {
+      "type": "TextBox",
+      "text": "Top sheet: three LDO stages sharing GND, with the intermediate input\nrails and the final +12V/+5V/-12V output rails as named nets.",
+      "position": [
+        184.0,
+        110.0
+      ],
+      "size": [
+        80.0,
+        30.0
+      ],
+      "margins": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "text_size": 1.2,
+      "bold": true,
+      "italic": false,
+      "text_color": "black",
+      "background": true,
+      "background_color": "lightyellow",
+      "border": true,
+      "border_width": 0.1,
+      "border_color": "black",
+      "justify": "center center",
+      "rotation": 0,
+      "uuid": "449cf33a-e603-488e-944d-ba371b0bf293"
+    }
+  ]
+}

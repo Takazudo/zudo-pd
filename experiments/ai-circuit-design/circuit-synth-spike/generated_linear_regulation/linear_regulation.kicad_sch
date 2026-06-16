@@ -1,0 +1,226 @@
+(kicad_sch
+	(version 20250114)
+	(generator "circuit_synth")
+	(generator_version "0.8.36")
+	(uuid "fde22f73-ec7e-4a79-83c1-d101e011a27c")
+	(paper "A3")
+	(title_block
+		(title "linear_regulation")
+	)
+	(lib_symbols)
+	(hierarchical_label "GND"
+		(shape input)
+		(at 76.04 15.24 0.0000)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "17447447-2fe4-409c-beec-307be05f026f")
+	)
+	(hierarchical_label "GND"
+		(shape input)
+		(at 142.08 15.24 0.0000)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "93683a16-cd08-42c3-8caa-1f9d51494058")
+	)
+	(hierarchical_label "GND"
+		(shape input)
+		(at 206.85 15.24 0.0000)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "76186b5c-df82-4c93-9106-3e4a67a81f6b")
+	)
+	(text_box "Top sheet: three LDO stages sharing GND, with the intermediate input\nrails and the final +12V/+5V/-12V output rails as named nets."
+		(exclude_from_sim no)
+		(at 184 110 0)
+		(size 80 30)
+		(margins 1 1 1 1)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.2 1.2)
+			)
+			(justify left top)
+		)
+		(uuid "ed1c89ec-d0b7-4059-8012-9ed6f757241c")
+	)
+	(sheet
+		(at 25.4 12.7)
+		(size 50.64 22.86)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "372e7135-437f-4790-bd67-30e797fb6545")
+		(property "Sheetname" "pos_12v_stage"
+			(at 25.4 11.9884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "pos_12v_stage.kicad_sch"
+			(at 25.4 36.1446 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "GND" bidirectional
+			(at 74.77 15.24 0)
+			(uuid "193e6ed1-294f-40d5-b76c-59a750aa0fc2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "linear_regulation"
+				(path "/fde22f73-ec7e-4a79-83c1-d101e011a27c"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 91.44 12.7)
+		(size 50.64 22.86)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "6c8fbec5-5ec1-4eba-ab3d-0a31d99ff1f6")
+		(property "Sheetname" "pos_5v_stage"
+			(at 91.44 11.9884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "pos_5v_stage.kicad_sch"
+			(at 91.44 36.1446 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "GND" bidirectional
+			(at 140.81 15.24 0)
+			(uuid "9669ca44-3ebb-442f-8a95-690fbec235d4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "linear_regulation"
+				(path "/fde22f73-ec7e-4a79-83c1-d101e011a27c"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 156.21 12.7)
+		(size 50.64 22.86)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "55f139b1-41df-4a00-af9f-303ea778c188")
+		(property "Sheetname" "neg_12v_stage"
+			(at 156.21 11.9884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "neg_12v_stage.kicad_sch"
+			(at 156.21 36.1446 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "GND" bidirectional
+			(at 205.58 15.24 0)
+			(uuid "3ac7e546-3e2e-4600-a657-4ab4dda5ff79")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "linear_regulation"
+				(path "/fde22f73-ec7e-4a79-83c1-d101e011a27c"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

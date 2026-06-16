@@ -1,0 +1,105 @@
+circuit-synth spike — command log (issue #75, Approach B)
+=========================================================
+Host: macOS (darwin 25.5.0, arm64).  KiCad: 10.0.0.  python3: 3.14.4.
+Date: 2026-06-17.
+
+Only python3.14 was on PATH (no python3.11/3.12/3.13 installed). Per the
+timebox, we attempted the install once on 3.14 — it worked, so no pyenv /
+compile / Homebrew rabbit-hole was needed.
+
+----------------------------------------------------------------------
+1. Probe environment
+----------------------------------------------------------------------
+$ python3 --version
+Python 3.14.4
+
+$ which python3.12 python3.13 python3.11
+(all "not found" — only python3.14 present)
+
+$ grep -m1 "(version" linear-regulation.kicad_sch zudo-pd.kicad_sch
+linear-regulation.kicad_sch:	(version 20260306)   # repo = KiCad v10
+zudo-pd.kicad_sch:	(version 20260306)
+$ grep generator_version linear-regulation.kicad_sch
+	(generator_version "10.0")
+
+----------------------------------------------------------------------
+2. venv + install (ONE timeboxed attempt, in repo-root __inbox/, gitignored)
+----------------------------------------------------------------------
+$ python3 -m venv __inbox/cs-venv               # repo-root __inbox (gitignored)
+$ __inbox/cs-venv/bin/pip install --upgrade pip
+$ __inbox/cs-venv/bin/pip install circuit-synth
+...
+Successfully installed circuit-synth-0.12.1 kicad-sch-api-0.5.6
+  (+ ~120 deps: numpy 2.4.6, scipy 1.17.1, matplotlib, lxml 6.1.1, fastmcp,
+   openai, pydantic, sexpdata, ... — ALL had cp314 / pure-python wheels,
+   so NOTHING had to compile. Install completed in ~1 min.)
+
+RESULT: install SUCCEEDED on Python 3.14.4. No source build, no pyenv.
+
+----------------------------------------------------------------------
+3. Author the model + generate
+----------------------------------------------------------------------
+# linear_regulation.py models U6 L7812(+12V), U7 L7805(+5V), U8 7912(-12V),
+# each = reg + bulk/film input caps + bulk/HF output caps + series PTC fuse
+# + TVS clamp + indicator (R 1k -> LED -> GND).  3 hierarchical @circuit
+# subcircuits under one top @circuit, output ONLY under this experiment dir.
+
+# First run FAILED on a pin-name guess:
+#   ComponentError: Pin 'VI' not found in U6 (Regulator_Linear:L7812).
+#                   Available: 'GND', 'IN', 'OUT', 1, 2, 3
+# -> standard positive 78xx symbols use IN/GND/OUT; negative 79xx (L7912,
+#    extends L7905) use GND/VI/VO at pins 1/2/3.  Fixed the script to pass the
+#    real pin names per regulator type, then:
+
+$ /Users/.../__inbox/cs-venv/bin/python linear_regulation.py
+... (loaded power.kicad_sym: 631 power symbols; ran "TEXT-FLOW PLACEMENT")
+   "All components fit on A4"
+generate_kicad_project() returned without raising.
+
+Generated files under generated_linear_regulation/:
+  linear_regulation.kicad_pro
+  linear_regulation.kicad_sch        (root / hierarchy)
+  pos_12v_stage.kicad_sch            (U6 stage, 9 parts)
+  pos_5v_stage.kicad_sch             (U7 stage, 9 parts)
+  neg_12v_stage.kicad_sch            (U8 stage, 9 parts)
+  linear_regulation.net              (KiCad netlist)
+  linear_regulation.json             (circuit-synth IR)
+
+----------------------------------------------------------------------
+4. HEADLESS validation (kicad-cli, NO GUI)
+----------------------------------------------------------------------
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli version
+10.0.0
+
+$ kicad-cli sch export netlist --output /tmp/cs_spike_netlist.net \
+      generated_linear_regulation/linear_regulation.kicad_sch
+EXPORT_EXIT=0     # (one harmless "Fontconfig error" line on stderr — cosmetic)
+# KiCad v10 PARSED the circuit-synth output cleanly.
+
+# Sub-sheet export shows the full +12V stage parsed:
+$ kicad-cli sch export netlist --output /tmp/cs_sub.net \
+      generated_linear_regulation/pos_12v_stage.kicad_sch
+unique refs: C1 C2 C3 C4 D1 F1 LED1 R1 U6   # 9 parts as modeled
+
+----------------------------------------------------------------------
+5. Version-token check (generated vs repo v10)
+----------------------------------------------------------------------
+$ grep -m1 -oE '\(version [0-9]+\)' generated_linear_regulation/*.kicad_sch
+all four files: (version 20250114)            # KiCad v9-era token
+$ grep -m1 generator generated_linear_regulation/linear_regulation.kicad_sch
+	(generator "circuit_synth")
+REPO production: (version 20260306)            # KiCad v10
+=> emitted token is OLDER (v9) than the repo (v10), but kicad-cli v10 parsed
+   it fine — KiCad reads older file-format versions on open/import.
+
+----------------------------------------------------------------------
+6. Placement / wiring inspection
+----------------------------------------------------------------------
+$ grep -c '(wire'  ... pos_12v_stage.kicad_sch      -> 0
+$ grep -c '(junction' ...                           -> 0
+$ grep -c '(label' ...                              -> 0
+$ grep -c '(hierarchical_label' ...                 -> 22
+# i.e. ZERO drawn wires; ALL connectivity via 22 hierarchical-label stubs,
+# including auto-promoted internal nets (U6_OUT_LOCAL, U6_LED).
+# Symbols placed in one left-to-right "text-flow" row (y ~25-36 mm,
+# x from 38 to 262 mm). Electrically complete, visually a label rats-nest.
