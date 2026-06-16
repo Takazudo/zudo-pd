@@ -190,7 +190,7 @@ USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
             │
             ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
             │
-            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
+            └─→ -13.5V (inverting DC-DC) ──→ -12V (LDO) ──→ -12V OUT
 ```
 
 ### 3. Generating Circuit / Footprint SVGs
