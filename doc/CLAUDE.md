@@ -152,24 +152,25 @@ and name the offending file:line.
 
 When creating or updating circuit diagrams in the documentation:
 
-### 1. Use ASCII Art in Code Blocks
+### 1. Preferred AI→Human Handoff: Net Table + Mermaid Block Diagram
 
-Illustrate circuits with ASCII art inside fenced code blocks:
+The **primary** way to document circuit connectivity is a **net-connectivity
+table** (one row per net, columns: Net | Connected pins (Ref.Pin) | Value/Note)
+paired with a **Mermaid `flowchart TD`** for stage-level topology. This is the
+canonical AI→human connectivity handoff because:
 
-```
-USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
-            │
-            ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
-            │
-            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
-```
+- Net tables are generated from the KiCad netlist (geometry-free, verifiable).
+- LLMs are unreliable at 2-D spatial layout but reliable at tabular connectivity.
+- Mermaid renders as a diagram in the doc site (fenced ` ```mermaid ` blocks).
 
-### 2. Always Include a Full Connection List
+See `how-to/net-table-convention.md` for the full convention, worked example, and
+the `kicad-cli` export command.
 
-Under every diagram, list components (U1, R1, C1...), pin numbers/names,
-connection destinations, and signal/voltage levels.
+### 2. ASCII Art — Optional Human-Readable Illustration
 
-### 3. ASCII Art Golden Rules
+ASCII art inside fenced code blocks is acceptable as a supplementary, human-
+readable illustration, but it is **not** the authoritative connectivity record.
+When ASCII art is used, follow these golden rules:
 
 - **NEVER cross lines** unless they form an electrical junction.
 - **NEVER route a line over a text label** — it reads as a connection. Route
@@ -182,7 +183,17 @@ connection destinations, and signal/voltage levels.
 - Keep vertical bars `│` in the same character column (monospace alignment).
 - Label all voltage levels and current ratings.
 
-### 4. Generating Circuit / Footprint SVGs
+Example:
+
+```
+USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
+            │
+            ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
+            │
+            └─→ -15V (Inverter) ──→ -13.5V (DC-DC) ──→ -12V (LDO) ──→ -12V OUT
+```
+
+### 3. Generating Circuit / Footprint SVGs
 
 - Circuit diagrams are generated with schemdraw — Python sources live in
   `/diagram-sources/*.py` at the repo root. Output SVGs go into
