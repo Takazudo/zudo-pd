@@ -63,27 +63,40 @@ When the user provides a local docs URL like `http://localhost:4321/docs/...`:
 
 ## Authoring Rules (Markdown / MDX)
 
-1. **File extension**: use `.md` when the page has no JSX; use `.mdx` only when
-   it uses JSX components (`<Details>`, `<CategoryNav>`, etc.). Native `:::`
-   admonitions do NOT require `.mdx`.
+1. **File extension**: use `.md` by default; use `.mdx` when a page uses
+   interactive/nav JSX components (`<CategoryNav>`, `<PresetGenerator>`, etc.).
+   The admonition tags (`<Note>`/`<Tip>`/… and `<Details>`) and inline
+   `<MathBlock>` are the exception — they render in plain `.md` (the engine
+   compiles every page through the MDX pipeline), so a page that uses **only**
+   those does NOT need a `.mdx` rename. Renaming to `.mdx` also forces every
+   inbound internal link to update its extension (see rule 9), so prefer `.md`.
 2. **Frontmatter**: `title:` is **required** (it renders as the page h1).
    `sidebar_position:` controls sidebar order (lower = higher). Optional
    `sidebar_label:`, `description:`.
 3. **No `# H1` in the body** — start headings at `##` (the frontmatter `title`
    is the h1).
-4. **Admonitions** — use the native directive syntax (globally available, no
-   import):
-   ```mdx
-   :::note
+4. **Admonitions** — author as **JSX tags** (globally available, no import).
+   Works in plain `.md` too (no `.mdx` rename needed):
+   ```md
+   <Note>
    General information.
-   :::
+   </Note>
 
-   :::tip[Custom Title]
-   A helpful suggestion.
-   :::
+   <Tip title="Custom Title">
+   A helpful suggestion. Body is normal markdown — **bold**, lists, links,
+   code, and multiple paragraphs all render.
+   </Tip>
    ```
-   Available: `:::note`, `:::tip`, `:::info`, `:::warning`, `:::danger`
-   (and `:::caution`). Five core styles.
+   Available: `<Note>`, `<Tip>`, `<Info>`, `<Warning>`, `<Danger>`, `<Caution>`.
+   The optional `title="…"` attribute is the callout heading (defaults to the
+   capitalized variant name). Put the body on its own lines between the tags.
+
+   > **Do NOT use the `:::name` directive form.** The zfb next.49 engine does
+   > not transform container directives — `:::tip[Title]` leaks through as
+   > literal `:::tip[Title]` text in the rendered page. Upstream bug:
+   > Takazudo/zudo-front-builder#1085. The `directives` map in `zfb.config.ts`
+   > is kept (commented) so `:::` authoring can be restored in one revert once
+   > the engine is fixed. Until then, JSX is the only form that renders.
 5. **Collapsible blocks** — use `<Details title="...">...</Details>` (global,
    no import). Makes the file `.mdx`.
 6. **Category landing pages** — use `<CategoryNav category="<section>" />` in a

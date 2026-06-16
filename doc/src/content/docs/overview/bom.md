@@ -18,9 +18,11 @@ Complete parts configuration using JLCPCB SMT service.
 
 ### Stage 1: USB-PD Voltage Acquisition (STUSB4500)
 
-:::info v1.1 Upgrade
+<Info title="v1.1 Upgrade">
+
 This stage was upgraded from CH224D to **STUSB4500** for significantly improved charger compatibility (~95%+ vs ~33%). See [CH224D](../components/ch224d.md) for the deprecated v1.0 design.
-:::
+
+</Info>
 
 #### Main ICs
 

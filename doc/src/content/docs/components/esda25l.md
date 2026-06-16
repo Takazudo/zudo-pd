@@ -3,11 +3,13 @@ title: ESDA25L - TVS Diode (Legacy)
 sidebar_position: 6
 ---
 
-:::warning Not Used in Current Design
+<Warning title="Not Used in Current Design">
+
 ESDA25L has been **replaced by [USBLC6-2SC6](./usblc6-2sc6.md)** in v1.1 design.
 
 **Reason**: ESDA25L's clamping voltage (~44V) is too high for CC line protection. USBLC6-2SC6 clamps at ~17V and includes VBUS protection.
-:::
+
+</Warning>
 
 TVS diode for high-voltage ESD and overvoltage protection.
 

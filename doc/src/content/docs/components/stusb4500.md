@@ -8,7 +8,8 @@ USB-IF certified USB Power Delivery sink controller for reliable 15V/3A power ne
 - [View on JLCPCB: C2678061](https://jlcpcb.com/partdetail/C2678061)
 - [Download Datasheet (PDF)](https://www.st.com/resource/en/datasheet/stusb4500.pdf)
 
-:::tip Why STUSB4500 over CH224D?
+<Tip title="Why STUSB4500 over CH224D?">
+
 **STUSB4500 is USB-IF certified** with significantly better charger compatibility:
 
 | Feature          | CH224D   | STUSB4500       |
@@ -22,7 +23,8 @@ USB-IF certified USB Power Delivery sink controller for reliable 15V/3A power ne
 | Configuration    | Resistor | **NVM + I2C**   |
 
 CH224D failed with most modern GaN chargers. STUSB4500 is the recommended replacement for v1.1.
-:::
+
+</Tip>
 
 ## Overview
 
@@ -198,7 +200,8 @@ USB-C CC2 (B5) ───→ Pin 3 (I/O2) ───→ Pin 4 (I/O2) ───→ 
 
 - `VBUS_IN` → `R14 (470Ω)` → `VBUS_VS_DISCH (pin 18)`
 
-:::info How DISCH Works
+<Info title="How DISCH Works">
+
 When USB-C cable is disconnected, STUSB4500 opens an internal path from DISCH pin to GND. This allows capacitor charge to escape:
 
 ```
@@ -206,7 +209,8 @@ VBUS_OUT (15V) → R13 (470Ω) → DISCH → GND (inside STUSB4500)
 ```
 
 The stored energy drains as heat through R13 (~0.5W briefly). This is required by USB-C spec to bring VBUS to safe level (&lt;0.8V) quickly, preventing hot-plug hazards.
-:::
+
+</Info>
 
 **Configuration:**
 
@@ -235,12 +239,14 @@ The stored energy drains as heat through R13 (~0.5W briefly). This is required b
 | R13       | 470Ω  | ±1%       | 0603    | VBUS discharge (31mA @ 15V)       |
 | R14       | 470Ω  | ±1%       | 0603    | VBUS_VS_DISCH series resistor     |
 
-:::info R12 Value Selection
+<Info title="R12 Value Selection">
+
 R12 was changed from 33kΩ to 56kΩ to provide adequate Vgs margin for Q1:
 
 - With R12=56kΩ: Vgs = -15V × 100k/(100k+56k) = **-9.6V** (20% margin from ±12V max)
 - With R12=33kΩ: Vgs = -11.3V (only 6% margin - too close to limit)
-  :::
+
+</Info>
 
 ### Load Switch MOSFET
 
@@ -254,13 +260,15 @@ R12 was changed from 33kΩ to 56kΩ to provide adequate Vgs margin for Q1:
 | --------- | ----------- | --------------- | --- | -------- | ----------- | -------- | ----- |
 | D4        | USBLC6-2SC6 | TVS Diode Array | 5V  | 2 + VBUS | 3.5pF       | SOT-23-6 | C7519 |
 
-:::tip Why USBLC6-2SC6?
+<Tip title="Why USBLC6-2SC6?">
+
 
 - **Low clamping voltage** (~17V) - better protection for CC lines operating at ~1.7V
 - **Includes VBUS protection** - pin 5 can connect to VBUS_IN for additional transient protection
 - **USB-specific design** - optimized for USB-C applications
 - **Low capacitance** (3.5pF) - doesn't affect CC line signaling
-  :::
+
+</Tip>
 
 ## NVM Configuration
 
