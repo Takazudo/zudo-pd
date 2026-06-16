@@ -95,6 +95,16 @@ export default defineConfig({
   // CLAUDE.md and the Tauri dev wrappers assume 4321.
   port: 4321,
   tailwind: { enabled: true },
+  // Dual-theme syntect highlighting (zfb next.47 / zudo-doc 0.2.8). Both names
+  // are SYNTECT built-ins (NOT Shiki names); setting the pair makes the engine
+  // color tokens with `--shiki-light`/`--shiki-dark` CSS custom props instead of
+  // a single inline `color:`, which `src/styles/global.css` resolves via
+  // `light-dark()`. Without this the default single `base16-ocean.dark` theme
+  // renders near-invisible code on the light site theme.
+  codeHighlight: {
+    themeLight: "base16-ocean.light",
+    themeDark: "base16-ocean.dark",
+  },
   collections,
   stripMdExt: true,
   resolveMarkdownLinks: {
