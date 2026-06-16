@@ -190,7 +190,7 @@ When connecting zudo-PD to an incompatible charger:
 2. All LEDs turn off
 3. No output voltage on any rail
 
-**Explanation:** With only 5V input (failed negotiation), the DC-DC converters cannot produce proper voltages. The ICL7660 voltage inverter briefly attempts to invert whatever voltage exists, causing the -12V LED to flicker momentarily.
+**Explanation:** With only 5V input (failed negotiation), the DC-DC converters cannot produce proper voltages. The U4 inverting buck-boost (LM2596S-ADJ) briefly attempts to invert whatever voltage exists, causing the -12V LED to flicker momentarily.
 
 ### Recommendations
 

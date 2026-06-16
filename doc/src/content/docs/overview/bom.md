@@ -81,7 +81,7 @@ This stage was upgraded from CH224D to **STUSB4500** for significantly improved 
 - **Soft-start** via C35 (100nF) limits inrush current (τ = 56kΩ × 100nF = 5.6ms)
 - **NVM programming** required to configure 15V PDO (one-time setup)
 
-### Stage 2: DC-DC Converters (LM2596S-ADJ × 3 + ICL7660)
+### Stage 2: DC-DC Converters (LM2596S-ADJ × 3: U2/U3 buck, U4 inverting buck-boost)
 
 #### Main ICs
 

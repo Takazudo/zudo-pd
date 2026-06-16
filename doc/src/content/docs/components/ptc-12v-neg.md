@@ -48,7 +48,7 @@ The JK-nSMD100/16V is a PTC resettable fuse providing automatic overcurrent prot
 
 ```
 Layer 1: USB-PD Adapter → Overcurrent protection
-Layer 2: ICL7660M (-15V inverter) + LM2596S #3 → Current limiting
+Layer 2: U4 LM2596S-ADJ inverting buck-boost (+15V → -13.5V) → Current limiting
 Layer 3: LM7912 Linear Regulator → Current limiting ~1A, thermal shutdown
 Layer 4: This PTC (1.0A hold / 2.0A trip) → Auto-reset protection
     ↓
