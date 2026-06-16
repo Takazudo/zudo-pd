@@ -61,7 +61,7 @@ The power supply uses a 4-stage architecture:
 2. **DC-DC Stage**: Multiple LM2596S-ADJ converters create intermediate voltages
    - +15V → +13.5V (for +12V rail)
    - +15V → +7.5V (for +5V rail)
-   - +15V → -15V (LM2586SX-ADJ inverted SEPIC) → -13.5V (for -12V rail)
+   - +15V → -13.5V (LM2596S-ADJ in inverting buck-boost configuration) (for -12V rail)
 3. **Linear Regulator Stage**: LM78xx/LM79xx series for final low-noise outputs
    - LM7812: +13.5V → +12V
    - LM7805: +7.5V → +5V
