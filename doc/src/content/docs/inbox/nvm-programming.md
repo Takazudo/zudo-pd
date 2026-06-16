@@ -36,9 +36,11 @@ Additional settings:
 - `SNK_PDO_NUMB` = **2** (only PDO1 + PDO2; PDO3 never advertised → 20V never requested)
 - `POWER_ONLY_ABOVE_5V` = **enabled** (VBUS_EN_SNK only activates after 15V negotiation succeeds)
 
-:::tip Why SNK_PDO_NUMB = 2 instead of 3?
+<Tip title="Why SNK_PDO_NUMB = 2 instead of 3?">
+
 The STUSB4500's priority logic between PDOs is documented ambiguously across ST sources (some say PDO3 has highest priority by number, some say highest-power wins). The only way to *guarantee* 20V is never requested is to not advertise it at all. The design needs 15V, not 20V, and a charger lacking 15V wouldn't power this device usefully anyway.
-:::
+
+</Tip>
 
 ## Hardware Required
 
@@ -82,9 +84,11 @@ The pogo clip's dupont wires connect to the Nucleo's D14, D15, and GND pins. The
 
 The Nucleo I2C operates at 3.3V, compatible with STUSB4500's VREG_2V7 (2.7V) via open-drain I2C bus. No level shifter needed.
 
-:::info Why not STEVAL-ISC005V1?
+<Info title="Why not STEVAL-ISC005V1?">
+
 The STEVAL-ISC005V1 (~7,000 JPY on DigiKey Japan) has its own STUSB4500 and USB-C connector. It's designed for evaluating the IC standalone. Since we have our own PCB with the STUSB4500 already soldered, we only need the Nucleo as an I2C bridge. The GUI documentation confirms it works with "evaluation board, or custom board containing STUSB device."
-:::
+
+</Info>
 
 ### Option B: Arduino / MCU via I2C (Alternative)
 
@@ -108,9 +112,11 @@ The v1 schematic has SCL (pin 7) and SDA (pin 8) as NC (not connected). These mu
 | R15 | Resistor | [C23162](https://jlcpcb.com/partdetail/C23162) | 4.7kohm | 0603 | I2C SCL pull-up |
 | R16 | Resistor | [C23162](https://jlcpcb.com/partdetail/C23162) | 4.7kohm | 0603 | I2C SDA pull-up |
 
-:::info J2 Pogo Pads - No Assembly Cost
+<Info title="J2 Pogo Pads - No Assembly Cost">
+
 J2 is not a physical component - it is bare copper SMD pads on the PCB edge. No JLCPCB component or assembly fee is needed. The pogo pin clip (external tool) clamps onto these pads during programming. This saves ~$7 compared to a THT pin header (Extended part fee + hand-soldering fee).
-:::
+
+</Info>
 
 ### KiCad Symbol and Footprint
 
@@ -212,13 +218,15 @@ Pull-ups connect to VREG_2V7 (2.7V) since this is the I2C bus voltage for the ST
 8. **Unplug and replug USB** — the Nucleo needs to re-enumerate with the new firmware
 9. Verify in Windows Device Manager: **Ports (COM & LPT)** should show "STMicroelectronics STLink Virtual COM Port (COMx)". If no COM port appears, install the [ST-Link VCP driver](https://www.st.com/en/development-tools/stsw-link009.html).
 
-:::warning HID vs UART .bin choice (critical)
+<Warning title="HID vs UART .bin choice (critical)">
+
 The HID variant requires a **separate USB connection to the STM32F072's native USB pins (PA11/PA12)**, which on the NUCLEO-F072RB are only broken out to header pins — not wired to CN1. The HID firmware is intended for use with the **STEVAL-ISC005V1** daughter board, which provides this second USB connection.
 
 For our setup (bare NUCLEO-F072RB, no STEVAL daughter board), only the UART firmware works because it communicates through the **ST-Link's built-in Virtual COM Port (VCP)** over the same CN1 USB cable.
 
 Symptom of wrong choice: GUI shows "STM32-Nucleo-board not Detected" even after flash + replug. Only "ST-Link debug" appears in Device Manager. Fix: re-flash with the UART .bin.
-:::
+
+</Warning>
 
 Sources:
 - [STSW-STUSB002 quick start guide (PDF)](https://www.st.com/resource/en/product_presentation/stswstusb002_quick_start_v3_2.pdf) — explicit UART vs HID guidance
@@ -266,15 +274,18 @@ If J3 pad 4 is 0 V with a USB-C-to-USB-C charger, try a known-good **USB-A-to-US
 source. USB-A-to-C supplies 5 V directly through the cable, which separates "board cannot
 request VBUS over CC" from "VBUS trace or chip supply is physically broken."
 
-:::warning Charger choice for initial programming
+<Warning title="Charger choice for initial programming">
+
 The factory NVM in a fresh STUSB4500 advertises PDO3 = 20V/1.0A with **highest priority**. A full PD charger that supports 20V will negotiate 20V on first plug-in, sending **20V through your DC-DC converters designed for 15V** — likely damaging them.
 
 **Use a 5V-only USB-C charger** (any phone charger) or a PD charger that maxes out at 9V/15V (no 20V profile) for the initial programming session. The chip's VDD only needs 5V to communicate via I2C.
 
 After NVM is written with `SNK_PDO_NUMB = 2` (no 20V advertised), you can safely switch to your real PD charger.
-:::
 
-:::tip Detection sequence
+</Warning>
+
+<Tip title="Detection sequence">
+
 The GUI launch normally shows two dialogs in sequence:
 
 1. **"STM32-Nucleo-board not Detected"** — appears if no Nucleo is connected, GUI starts in "File Edition mode"
@@ -287,7 +298,8 @@ After clipping the pogo onto the powered board, **close and reopen the GUI** —
 ```
 
 Once detected, the "Read device NVM" and "Write device NVM" buttons appear in the top-right.
-:::
+
+</Tip>
 
 ### Step 3: Program NVM
 

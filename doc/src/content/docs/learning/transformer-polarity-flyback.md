@@ -222,11 +222,13 @@ Before PCB assembly:
 
 ## Practical Example: LM2586 Flyback Circuit (Historical Reference)
 
-:::warning Outdated Information
+<Warning title="Outdated Information">
+
 This section describes the **old LM2586 flyback converter design** that has been **replaced** with a simpler **LM2596S inverting buck-boost** topology. This information is kept for educational purposes only.
 
 **Current design**: See Diagram4 (+15V → -13.5V inverting buck-boost using LM2596S U4)
-:::
+
+</Warning>
 
 In the old USB-PD power supply design, the LM2586 flyback converter generated -15V from +15V:
 

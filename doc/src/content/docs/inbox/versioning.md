@@ -27,11 +27,13 @@ file at the repo root. Bumps are done with the project skills `/l-bump-version-x
 - **Z bump** (`/l-bump-version-z`): a local checkpoint. Creates a **git tag only** (no GitHub
   release).
 
-:::note Non-standard: Y is a lifetime counter
+<Note title="Non-standard: Y is a lifetime counter">
+
 In real semver, the major bump (X) would reset the minor (Y). Here it does **not** — Y is
 defined as "Nth JLCPCB order ever," which keeps climbing across product releases. This is
 intentional. If you'd rather Y reset on an X bump, change `l-bump-version-x`.
-:::
+
+</Note>
 
 ## Mapping from the old v1 / v2 / v3 / v4 labels
 

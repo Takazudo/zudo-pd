@@ -12,7 +12,8 @@ TVS diode array for USB Type-C CC line and VBUS ESD protection. Replaces ESDA25L
 
 The USBLC6-2SC6 is a 6-pin TVS diode array specifically designed for USB ESD protection. It provides 2 bidirectional channels for data/CC lines plus a VBUS protection channel, making it ideal for USB Type-C applications.
 
-:::tip Why USBLC6-2SC6 over ESDA25L?
+<Tip title="Why USBLC6-2SC6 over ESDA25L?">
+
 | Feature | ESDA25L | USBLC6-2SC6 |
 |---------|---------|-------------|
 | Clamping Voltage | ~44V | **~17V** |
@@ -22,7 +23,8 @@ The USBLC6-2SC6 is a 6-pin TVS diode array specifically designed for USB ESD pro
 | Design Target | High-voltage lines | **USB signals** |
 
 USBLC6-2SC6 has lower clamping voltage, providing better protection for CC lines operating at ~1.7V.
-:::
+
+</Tip>
 
 ## Key Specifications
 

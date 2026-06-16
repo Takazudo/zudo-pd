@@ -135,8 +135,20 @@ export default defineConfig({
       // Former-Core features (were always-on before zfb next.12).
       // imageEnlarge was a former-Core feature but was hard-removed in zfb
       // next.18 — it is now re-implemented via an MDX p-override.
+      //
       // Admonitions recipe: register the :::name directive vocabulary
       // (note/tip/info/warning/danger/caution/details) → components.
+      //
+      // KNOWN-BROKEN (zfb next.49): the native engine accepts this map (the
+      // loader validates the key + deserializes the entries) but does NOT
+      // transform `:::name` container directives into the mapped components —
+      // they leak through as literal `<p>:::tip[...]</p>` text. `githubAlerts`
+      // (the `> [!NOTE]` path) works, so only the user-directive path is dead.
+      // Upstream bug: Takazudo/zudo-front-builder#1085. Until that lands,
+      // admonitions in the corpus are authored as `<Note>` / `<Tip title="…">`
+      // JSX (which renders correctly) — see doc/CLAUDE.md "Admonitions".
+      // This map is kept so re-enabling `:::` authoring is a one-line revert
+      // once the engine is fixed.
       directives: {
         note: "Note",
         tip: "Tip",

@@ -105,7 +105,8 @@ Voltage
 
 ## CC Line ESD Protection
 
-:::info Current Design Uses USBLC6-2SC6
+<Info title="Current Design Uses USBLC6-2SC6">
+
 The v1.1 design uses **[USBLC6-2SC6](../components/usblc6-2sc6.md)** (D4) instead of ESDA25L for CC line protection. USBLC6-2SC6 provides:
 
 - Lower clamping voltage (~17V vs ~44V)
@@ -113,7 +114,8 @@ The v1.1 design uses **[USBLC6-2SC6](../components/usblc6-2sc6.md)** (D4) instea
 - Better suited for USB-C applications
 
 The principles below still apply - only the specific component has changed.
-:::
+
+</Info>
 
 ### Circuit connection (USBLC6-2SC6)
 

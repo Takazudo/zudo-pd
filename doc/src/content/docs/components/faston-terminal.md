@@ -14,9 +14,11 @@ Heavy-duty FASTON 250 series PCB tab terminal for busboard power connection, sup
 
 The FASTON 250 terminal (TE 63951-1) is an industrial-grade quick-connect PCB tab terminal from TE Connectivity. It provides a robust power output interface for connecting the USB-PD power supply to a Eurorack busboard using standard FASTON 250 (6.35mm / 0.250") receptacle connectors.
 
-:::note v0.4.0 part change
+<Note title="v0.4.0 part change">
+
 The original `1217754-1` (LCSC C305825) went out of stock at JLCPCB. v0.4.0 switched to **`63951-1` (LCSC C591344)** — the _same physical tab_, supplied on strip/reel instead of loose piece (TE catalog 82004 lists both on the same row). Identical footprint: 2 right-angle legs at 5.08 mm pitch, 1.4 mm holes, 6.35 mm blade, 8.89 mm height — so the PCB land pattern is unchanged.
-:::
+
+</Note>
 
 This design uses **4 terminals** for the three power rails plus ground return:
 
