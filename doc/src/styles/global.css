@@ -499,6 +499,10 @@ body {
   border-left: 4px solid var(--color-muted);
   /* Asymmetric padding mirrors the Astro reference: generous top, snug bottom. */
   padding: var(--spacing-vsp-md) var(--spacing-hsp-lg) var(--spacing-vsp-2xs);
+  /* Snug bottom *padding* keeps the body tight inside the box; this margin
+   * supplies the external gap to the next block, matching every other
+   * .zd-content content block (paragraphs zero their own margin-top). */
+  margin-bottom: var(--spacing-vsp-md);
   background-color: color-mix(in srgb, var(--color-muted) 12%, var(--color-bg));
   border-radius: 0 var(--radius-DEFAULT) var(--radius-DEFAULT) 0;
 }
