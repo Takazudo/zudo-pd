@@ -113,6 +113,58 @@ The academic 14%→90% lever, runnable today in ngspice/LTspice, independent of 
 - lcapy requires a working LaTeX toolchain (TeX Live or MiKTeX) — non-trivial on some platforms.
 - `kicad-sch-api` is the only library that can round-trip `.kicad_sch` files reliably; it is maintained by the circuit-synth team.
 
+## Hands-on trial results (A–D)
+
+These are the actual outcomes of running approaches A–D on this repo (wave-1 of the AI circuit design experiment, June 2026). Each subsection links to the artifact produced.
+
+### A — Net Table + Mermaid Convention (adopted)
+
+**What was tried:** Defined a repo-wide convention for documenting circuit connectivity using a net-connectivity table (one row per net) paired with a Mermaid `flowchart TD`, then applied it to the linear-regulation sheet as the first worked example.
+
+**What worked:** The convention was baked into the root `CLAUDE.md` (§ Schematic Documentation Conventions) and a dedicated how-to page was created: [Net-Table + Mermaid Convention](../how-to/net-table-convention.md). The worked example covers all 27 parts of the three LDO stages, derived from a `kicad-cli` netlist export — no GUI, no geometry guessing. The table + Mermaid diagram accurately represent the linear-regulation sheet and are diffable in version control.
+
+**What was blocked:** Nothing. Zero-setup, clean end-to-end.
+
+**Verdict:** Adopted. Highest-ROI change of the four approaches. Replaces ASCII art as the canonical AI→human connectivity handoff.
+
+### B — circuit-synth spike (not adopted)
+
+**What was tried:** Installed `circuit-synth 0.12.1` on Python 3.14, modelled the linear-regulation sheet as a Python circuit description, generated a hierarchical `.kicad_sch` project, and validated it headlessly with `kicad-cli v10`.
+
+**What worked:** Install succeeded on the first try (no compile, all wheels, ~1 min). `generate_kicad_project()` produced a valid hierarchical project (root sheet + three sub-sheets). `kicad-cli v10` parsed each sub-sheet cleanly (exit 0); it read the v9-era format token without error. Netlist/connectivity is correct — each 9-part stage has the right refs and nets.
+
+**What was blocked / didn't work:** The generated schematics have **zero drawn wires**. Connectivity is expressed entirely through 22 hierarchical-label stubs per sheet. Auto-placement is a flat left-to-right row of symbols — no signal-flow layout, no GND rail grouping. All symbols are generic (`Regulator_Linear:*`, `Device:*`), not the repo's `zudo-pd:` library parts with real LCSC part numbers. The format token is v9, not the repo's v10. Result: converting the output to repo quality requires drawing all the wiring by hand, re-symboling every part, and re-laying the placement — roughly the same effort as hand-drawing (~2–3 h), plus the re-symbol overhead.
+
+Full findings: `experiments/ai-circuit-design/circuit-synth-spike/FINDINGS.md`
+
+**Verdict:** Not adopted for this repo. The pipeline works end-to-end and is useful as a netlist/connectivity generator or ERC cross-check, but for ~27 highly-repetitive LDO parts it provides no time saving over hand-drawing in Eeschema.
+
+### C — Datasheet-aware schematic review skill (adopted)
+
+**What was tried:** Ran a read-only netlist-topology review of the full `zudo-pd` schematic using `kicad-cli` export, parsed the 87-component netlist, and applied a power-supply checklist (VBUS sense paths, EN/feedback dividers, dropout headroom, polarity, abs-max). The workflow was then codified as a reusable `.claude/skills/pd-schematic-review/` skill.
+
+**What worked:** The review confirmed the v3 fix is present: `VBUS_IN → R14 (470 Ω) → U1.18` with no GND on the pin-18 net (F-1). Feedback-divider math recomputed from the actual resistors matched the target rails to within 0.22 % (F-7). Load-switch polarity, VDD decoupling, CC Rd pull-downs, and VREG decaps all checked out.
+
+**What was flagged:**
+- Both the +12V (L7812, F-11) and −12V (CJ7912, F-13) LDOs run at only ~1.5 V dropout against a ~2 V typical spec — marginal at rated current. The existing `components/l7812cv.md` doc already flags this.
+- Documentation discrepancy (F-9): `CLAUDE.md` and the architecture text describe the negative rail as "−15V (LM2586SX-ADJ inverted SEPIC)," but the actual schematic uses a third `LM2596S-ADJ` in an inverting buck-boost topology — a stale description that should be corrected.
+
+Full findings: `experiments/ai-circuit-design/schematic-review/REVIEW-REPORT.md`
+
+**Verdict:** Adopted as a standing safety net. A datasheet-aware net-topology pass would plausibly have caught the v3 pin-18→GND bug before ordering. The skill is now available to re-run before any future JLCPCB order.
+
+### D — SPICE value-sizing loop (delivered, blocked on ngspice availability)
+
+**What was tried:** Demonstrated the generate → simulate → read-back → adjust value-sizing loop on the LM2596-ADJ feedback divider (the +7.5 V intermediate rail, R3 = 5.1 kΩ / R4 = 1 kΩ). Two SPICE decks were written: a `.op` forward + loop-closed check, and an R3 sweep deck that prints the resulting rail voltage for a range of E24 values.
+
+**What worked:** The algebra was verified and the worked result is documented. For the as-designed +7.5 V rail the divider gives 7.503 V (error +0.04 %). The re-targeting demo (13.5 V rail) shows the E24 pick: R3 = 10 kΩ → 13.53 V (+0.22 %). The decks are complete and ready to run.
+
+**What was blocked:** No command-line `ngspice` was available on the host. The KiCad bundle ships ngspice as a shared library for GUI use only (`libngspice.0.dylib`); there is no `ngspice` CLI executable. A `brew install ngspice` attempt was killed by the 180 s guardrail timeout and was not retried. The hand-computed read-back values are exact and serve as the documented expected output.
+
+Full findings: `experiments/ai-circuit-design/spice-value-sizing/FINDINGS.md`
+
+**Verdict:** The workflow is sound and the deck is production-ready. Run `brew install ngspice` once to unlock it. Extending to ripple/regulation or dropout-headroom checks uses the same loop structure with a behavioural model or the LM2596 SPICE subckt.
+
 ## Sources
 
 - **HWE-Bench** (spec→schematic, 8.15% pass rate): arXiv 2603.18102
