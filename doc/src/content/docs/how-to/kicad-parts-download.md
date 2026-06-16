@@ -148,9 +148,6 @@ easyeda2kicad --lcsc_id C2678061 --footprint --symbol
 # LM2596S-ADJ - Buck Converter
 easyeda2kicad --lcsc_id C347423 --footprint --symbol
 
-# ICL7660M - Voltage Inverter
-easyeda2kicad --lcsc_id C356724 --footprint --symbol
-
 # L7812CV - +12V Regulator
 easyeda2kicad --lcsc_id C2914 --footprint --symbol
 

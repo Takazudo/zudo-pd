@@ -8,7 +8,6 @@ This directory contains PCB footprint diagrams and package specifications for al
 |-----------|------|---------|-------------|------------|
 | **CH224D** | `CH224D.png` | QFN-20 (3×3mm) | C347423 | SMD |
 | **LM2596S-ADJ** | `LM2596S-ADJ.png` | TO-263-5 | C347423 | SMD |
-| **ICL7660M** | `ICL7660M.png` | SOP-8/SOIC-8 | C356724 | SMD |
 | **L7812CV** | `L7812CV.png` | TO-220 | C86206 | Through-hole |
 | **L7805ABD2T** | `L7805ABD2T.png` | TO-263-2 (D2PAK) | C2914 | SMD |
 | **CJ7912** | `CJ7912.png` | TO-252-2L (DPAK) | C94173 | SMD |
@@ -31,7 +30,6 @@ Reference documents for standard package types:
 - `SMA-package.pdf` - DO-214AC package dimensions (SMAJ15A)
 - `SMA-DO214AC.pdf` - Alternate SMA package specification
 - `SOT143-package.pdf` - SOT-143 package dimensions (PRTR5V0U2X)
-- `SOP8-package.pdf` - SOIC-8 package dimensions (ICL7660M)
 - `TO-220-package.pdf` - TO-220 package dimensions (L7812CV)
 
 ## Usage Notes
@@ -56,7 +54,7 @@ Reference documents for standard package types:
 - **TO-220 (L7812CV)**: Through-hole with optional heatsink mounting
 
 ### SMD vs Through-Hole
-- **8 SMD components**: CH224D, LM2596S-ADJ, ICL7660M, L7805ABD2T, CJ7912, SMAJ15A, PRTR5V0U2X, USB-C connector
+- **7 SMD components**: CH224D, LM2596S-ADJ, L7805ABD2T, CJ7912, SMAJ15A, PRTR5V0U2X, USB-C connector
 - **1 Through-hole**: L7812CV (TO-220) - can use heatsink if needed
 
 ## Sources
