@@ -203,7 +203,29 @@ Vout = 1.23V × (1 + R3/R4)
 - **R4**: 1kΩ ±1% 0603 (JLCPCB: C21190)
 - **C32**: 22nF Ceramic Capacitor (feedback compensation)
 
-### U4: -15V → -13.5V Conversion (for -12V rail)
+### U4: +15V → -13.5V Inverting Buck-Boost (for -12V rail)
+
+<Warning title="Topology corrected (was described as a −15V buck / LM2586 SEPIC)">
+Older docs drew this stage as a buck from a `−15V` intermediate (or an LM2586 SEPIC).
+The actual circuit, verified against the schematic netlist, is a **single inverting
+buck-boost** built from **U4 — an `LM2596S-ADJ`, the same part as U2/U3 (LCSC C347423)**.
+There is **no −15V rail and no LM2586**. In the inverting configuration the IC's GND
+pin floats at the negative output (−13.5V).
+</Warning>
+
+Pin → net, from the schematic netlist:
+
+| U4 pin | Net | Note |
+| --- | --- | --- |
+| 1 Vin | `VBUS_OUT` (+15V) | input, shared with U2/U3 Vin |
+| 2 Output (SW) | `Net-(D3-K)` → L3 + D3 | switch node |
+| 3 GND | `-13.5V OUT` | IC ground floats at −Vout (inverting config) |
+| 4 FB | `Net-(U4-Feedback)` (R5 / R6) | sets −13.5V |
+| 5 ~ON/OFF | `-13.5V OUT` | enabled |
+
+L3 (100µH) returns to GND; D3 (SS34) catches to `-13.5V OUT`; the 470µF bulk cap is across `-13.5V OUT`→GND.
+
+The sketch below is the **superseded `−15V`-buck view**, kept only for reference — it does not reflect the current inverting topology:
 
 ```
 -15V ─────┬─── L3: 100µH ──┬─── D3 ──┬─── C7: 470µF ──┬─→ -13.5V/0.9A

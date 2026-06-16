@@ -62,11 +62,10 @@ levels:
 flowchart TD
   IN["+15V USB-PD input"] -->|"+15V"| DCDC1["DC-DC +13.5V"]
   IN -->|"+15V"| DCDC2["DC-DC +7.5V"]
-  IN -->|"+15V"| DCDC3["DC-DC (inverting) -15V"]
-  DCDC3 -->|"-15V"| DCDC4["DC-DC -13.5V"]
+  IN -->|"+15V"| DCDC3["DC-DC (inverting buck-boost) -13.5V"]
   DCDC1 -->|"+13.5V"| U6["U6 L7812\n+12V LDO"]
   DCDC2 -->|"+7.5V"| U7["U7 L7805\n+5V LDO"]
-  DCDC4 -->|"-13.5V"| U8["U8 CJ7912\n-12V LDO"]
+  DCDC3 -->|"-13.5V"| U8["U8 CJ7912\n-12V LDO"]
 ```
 
 Keep the diagram at the **block level** — one node per functional stage, not
