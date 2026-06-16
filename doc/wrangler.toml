@@ -31,18 +31,20 @@ not_found_handling = "404-page"
 # ---------------------------------------------------------------------------
 # Production custom-domain route (deployed via `wrangler deploy --env production`).
 #
-# !! PLACEHOLDER !! — `REPLACE_ME` below must be changed to the real docs
-# subdomain before the first production deploy. The apex `takazudomodular.com`
-# is used by the main site, so use a docs subdomain, e.g. `pd.takazudomodular.com`.
-# Then bind that subdomain as a Cloudflare custom domain (Workers → your worker
-# → Settings → Domains & Routes → Add custom domain).
+# custom_domain = true tells wrangler to provision the Workers custom domain and
+# its DNS record automatically on first deploy. This requires the
+# takazudomodular.com zone to live on the same Cloudflare account as
+# CLOUDFLARE_ACCOUNT_ID. The apex takazudomodular.com is the main site, so the
+# docs are served from the pd. subdomain.
 #
-# The deploy job in .github/workflows/main-deploy.yml greps for `REPLACE_ME`
-# and SKIPS the deploy while the placeholder is unreplaced, so the merge to
-# main stays green until go-live config is complete.
+# Keep this hostname in sync with siteUrl in src/config/settings.ts.
 # account_id is intentionally omitted — wrangler reads CLOUDFLARE_ACCOUNT_ID
 # from the environment.
+#
+# NOTE: the deploy job in .github/workflows/main-deploy.yml skips the publish
+# while this file still contains the literal domain placeholder token, so do not
+# reintroduce that token here.
 # ---------------------------------------------------------------------------
 [[env.production.routes]]
-pattern = "REPLACE_ME.takazudomodular.com"
+pattern = "pd.takazudomodular.com"
 custom_domain = true

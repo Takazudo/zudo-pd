@@ -184,20 +184,24 @@ connection destinations, and signal/voltage levels.
 All documentation must be written in **English** (content, diagrams, labels,
 commit messages) for international accessibility.
 
-## Cloudflare Go-Live Checklist (manual, out-of-band)
+## Cloudflare Deploy (live)
 
-The deploy workflow stays a no-op (build only) until these are done:
+Go-live is complete — pushes to `main` build **and publish** the site to
+Cloudflare Workers static assets at **https://pd.takazudomodular.com**.
 
-1. **Add GitHub Actions secrets** (repo Settings → Secrets and variables →
-   Actions):
+What is wired up:
+
+1. **GitHub Actions secrets** (repo Settings → Secrets and variables → Actions):
    - `CLOUDFLARE_API_TOKEN` — token with **Workers: Edit** permission
-   - `CLOUDFLARE_ACCOUNT_ID` — your Cloudflare account id
-2. **Set the real docs subdomain** in `doc/wrangler.toml`
-   (`[[env.production.routes]]` → `pattern`), replacing the `REPLACE_ME`
-   placeholder. The apex `takazudomodular.com` is used by the main site, so use
-   a docs subdomain, e.g. `pd.takazudomodular.com`. Keep `siteUrl` in
-   `src/config/settings.ts` in sync.
-3. **Bind the custom domain** in Cloudflare (Workers → your worker → Settings →
-   Domains & Routes → Add custom domain) and ensure DNS for the subdomain is on
-   Cloudflare.
-4. Push to `main` — the deploy job now runs and publishes the site.
+   - `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account id
+2. **Docs subdomain** is set in `doc/wrangler.toml`
+   (`[[env.production.routes]]` → `pattern = "pd.takazudomodular.com"`). The apex
+   `takazudomodular.com` is the main site, so docs live on the `pd.` subdomain.
+   `siteUrl` in `src/config/settings.ts` is kept in sync.
+3. **Custom domain** — `custom_domain = true` makes wrangler provision the
+   Workers custom domain + DNS record automatically (the `takazudomodular.com`
+   zone must be on the same Cloudflare account as `CLOUDFLARE_ACCOUNT_ID`).
+
+The deploy job in `.github/workflows/main-deploy.yml` still self-guards: it skips
+the publish (build-only) if either secret is missing or `wrangler.toml` is
+reverted to the placeholder token, so `main` stays green either way.
