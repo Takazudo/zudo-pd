@@ -1,3 +1,5 @@
+> Historical v4 accessory. The renewed Board B uses DEALON DW254P-2X8-L0 (C4749189) headers and does not require this printed socket guard or its PCB cutouts.
+
 # Box Header Guard for Eurorack Power Connector
 
 3D printable shrouded/keyed box header frame that converts standard 2×8 pin headers into IDC-compatible Eurorack power connectors.

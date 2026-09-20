@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "name": "Adhesive PCB leg with proven M3 gripping profile",
+  "units": "mm",
+  "print_origin": "Pole axis at X0,Y0; flat adhesive face at Z0; PCB seating face at Z18",
+  "seat_height_mm": 18.0,
+  "base": {
+    "width_mm": 14.0,
+    "depth_mm": 14.0,
+    "thickness_mm": 2.0,
+    "corner_radius_mm": 2.0,
+    "adhesive_surface": "Entire flat underside; no recess or screw breakthrough"
+  },
+  "pole": {
+    "diameter_mm": 7.0,
+    "seating_diameter_mm": 7.0,
+    "top_taper_height_mm": 0.0,
+    "root_fillet_radius_mm": 2.0
+  },
+  "screw_bore": {
+    "reference": "reference-bore.json",
+    "gripping_depth_mm": 4.5,
+    "modeled_threads": false,
+    "entrance_chamfer_mm": 0.0,
+    "total_blind_depth_mm": 4.5,
+    "interpretation": "M3 screw enters from the PCB back into one 4.5 mm blind bore copying the supplied rail aperture exactly. The pole is solid below this bore; there is no enlarged lower pocket."
+  },
+  "assembly": {
+    "quantity": 4,
+    "board_b_pcb": "boards/board-b/board-b.kicad_pcb",
+    "board_b_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+    "populated_step": "boards/board-b/assembly-preview/populated-stack.step",
+    "populated_step_sha256": "fefefd855f6d369539f5d464a2c4b31cd87d4779ba1af7e19a8d546180d53a90",
+    "corner_centers_pcb_mm": {
+      "H4": [
+        106,
+        4
+      ],
+      "H5": [
+        4,
+        81
+      ],
+      "H6": [
+        106,
+        81
+      ],
+      "H7": [
+        4,
+        4
+      ]
+    },
+    "board_thickness_mm": 1.6,
+    "board_hole_nominal_mm": 3.0,
+    "initial_screw": "M3 x 5 mm, length under head; non-countersunk head",
+    "initial_screw_insertion_mm": 3.4,
+    "gripping_engagement_mm": 3.4,
+    "tip_clearance_to_blind_floor_mm": 1.1,
+    "adhesive_thickness_included": false,
+    "adhesive_footprint_mm": [
+      116,
+      91
+    ],
+    "note": "Screw/hole passage, printing and adhesive grip need the actual hardware check. The existing PCB is not modified.",
+    "alternate_screw": {
+      "screw": "M3 x 6 mm",
+      "minimum_washer_thickness_mm": 0.5,
+      "insertion_mm": 3.9,
+      "tip_clearance_to_blind_floor_mm": 0.6
+    }
+  },
+  "print": {
+    "orientation": "Flat adhesive base on the bed; screw opening upward",
+    "supports": "No supports required; straight vertical blind bore opens upward.",
+    "process": "Use the same material, printer and hole compensation as the proven reference when practical; dimensions are unscaled CAD geometry."
+  },
+  "revision": "straight-pole-short-blind-bore"
+}

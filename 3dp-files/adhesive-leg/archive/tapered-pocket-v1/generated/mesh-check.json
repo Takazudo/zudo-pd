@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "units": "mm",
+  "cad_valid": true,
+  "single_part": {
+    "triangles": 15292,
+    "watertight": true,
+    "winding_consistent": true,
+    "connected_solids": 1,
+    "bounds_mm": [
+      [
+        -7.0,
+        -7.0,
+        0.0
+      ],
+      [
+        7.0,
+        7.0,
+        18.0
+      ]
+    ],
+    "cad_volume_mm3": 1124.5659386616817,
+    "stl_volume_mm3": 1124.3370520459919
+  },
+  "four_up": {
+    "connected_solids": 4,
+    "watertight": true,
+    "bounds_mm": [
+      [
+        -7.0,
+        -7.0,
+        0.0
+      ],
+      [
+        26.0,
+        26.0,
+        18.0
+      ]
+    ]
+  },
+  "source_sha256": {
+    "generate.py": "b84aae2c2c5d90728e28f819f8b321fbdcb1805dc97e165737014eb9802e7a9c",
+    "spec.json": "a47350c9eef0edd690f5c6537b53e5c4535b700e8b9b9b382be0cdb13539e36e",
+    "reference-bore.json": "b477213a94f4b9d96af8c753022c90d40783c83c020cadf97e275d14c379e4c2"
+  },
+  "geometry_only": "Run verify.py for independent source-profile, mounting and populated-assembly checks."
+}

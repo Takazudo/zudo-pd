@@ -1,0 +1,730 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "units": "mm",
+  "source_inputs_sha256": {
+    "3dp-files/adhesive-leg/verify.py": "7b75c024ac695d5780f0f9ef5f86c939bd67651baefee053277a4ed5aada5d53",
+    "3dp-files/adhesive-leg/generate.py": "0f17e36e0081c3acf38f32483fa503337a8f46aaf98163883aa4958e12cb29c6",
+    "3dp-files/adhesive-leg/spec.json": "1133215aa9c0f49a70b719d99d1ba63a60adddeca0c31d9faf9abb90170d355e",
+    "3dp-files/adhesive-leg/reference-bore.json": "b477213a94f4b9d96af8c753022c90d40783c83c020cadf97e275d14c379e4c2",
+    "3dp-files/adhesive-leg/generated/adhesive-leg-18mm-m3.step": "0718827837b7a2ee48476746174c945467ce1767bbd20ee3d96ca82ab3bb7c9d",
+    "3dp-files/adhesive-leg/generated/adhesive-leg-18mm-m3.stl": "3135bbbc2e764cb138ca49316c711d986f2b5513a87ff527044f05143da39adc",
+    "3dp-files/adhesive-leg/generated/adhesive-leg-18mm-m3-4x.stl": "7c51a471722cec52c492aeb8cec16c46b3ebcaff5b54d6d2bc9f9e8ce84a7aa0",
+    "boards/board-b/assembly-preview/populated-stack.step": "fefefd855f6d369539f5d464a2c4b31cd87d4779ba1af7e19a8d546180d53a90",
+    "boards/board-b/assembly-preview/verification.json": "d2a268f24e38aafce6744f7f9ce138e49130058dba7d843c9d4c968a7b8e6b4b",
+    "boards/board-b/mechanical.json": "1104a1a3088069a1482b68504861ad1b65a56178cf639f9a85d3301649983a5a",
+    "boards/board-b/board-b.kicad_pcb": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+    "boards/board-p/board-p.kicad_pcb": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b",
+    "scripts/pcb/export-assembly-preview.py": "c39244af0d502698f0a20e2d275b7040788ebccfd06638f9c80f8ea530694fdb"
+  },
+  "source_pcb_sha256": {
+    "board-b": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+    "board-p": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b"
+  },
+  "profile_and_mesh": {
+    "status": "PASS",
+    "original_reference": {
+      "status": "PASS",
+      "basename": "bar-30hp.stl",
+      "sha256": "a6cd696a68c0c0cdcef1c7d2e57c43fc4f8828389d37110c6b515576ee14bc7b",
+      "source_hole_count": 30,
+      "selected_hole": 12,
+      "translated_source_vertex_max_error_mm": 0.0,
+      "source_file_reopened": true
+    },
+    "main_stl_watertight": true,
+    "four_up_watertight_solids": 4,
+    "stl_sections": [
+      {
+        "z_mm": 1,
+        "loop_count": 1,
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 4.1,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.499980270912786,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 7.9,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4994437800168576,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 8.1,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4994268362816094,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 9,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.49936456774653,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 10,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4993222084978886,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 12,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4993222084978886,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 13.4,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.499389418715891,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 13.499,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.499396266862431,
+          3.50000010332204
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 13.501,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.499396408060996,
+          3.50000010332204
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.4464111328125,
+            -1.4574356079101562
+          ],
+          [
+            1.4464111328125,
+            1.4574356079101562
+          ]
+        ],
+        "area_mm2": 5.9599442151375115,
+        "profile_to_section_max_sampled_mm": 5.551115123125783e-17,
+        "section_to_profile_max_sampled_mm": 2.2887833992611187e-16
+      },
+      {
+        "z_mm": 13.6,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.4994035385717948,
+          3.50000010332204
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.4464111328125,
+            -1.4574356079101562
+          ],
+          [
+            1.4464111328125,
+            1.4574356079101562
+          ]
+        ],
+        "area_mm2": 5.9599442151375115,
+        "profile_to_section_max_sampled_mm": 5.551115123125783e-17,
+        "section_to_profile_max_sampled_mm": 2.220446049250313e-16
+      },
+      {
+        "z_mm": 14,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.4994351669576846,
+          3.50000010332204
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.4464111328125,
+            -1.4574356079101562
+          ],
+          [
+            1.4464111328125,
+            1.4574356079101562
+          ]
+        ],
+        "area_mm2": 5.9599442151375115,
+        "profile_to_section_max_sampled_mm": 5.551115123125783e-17,
+        "section_to_profile_max_sampled_mm": 2.482534153247273e-16
+      },
+      {
+        "z_mm": 16,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.4996610748459553,
+          3.50000010332204
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.4464111328125,
+            -1.4574356079101562
+          ],
+          [
+            1.4464111328125,
+            1.4574356079101562
+          ]
+        ],
+        "area_mm2": 5.9599442151375115,
+        "profile_to_section_max_sampled_mm": 1.1102230246251565e-16,
+        "section_to_profile_max_sampled_mm": 2.482534153247273e-16
+      },
+      {
+        "z_mm": 17.5,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.499904603180922,
+          3.50000010332204
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.4464111328125,
+            -1.4574356079101562
+          ],
+          [
+            1.4464111328125,
+            1.4574356079101562
+          ]
+        ],
+        "area_mm2": 5.9599442151375115,
+        "profile_to_section_max_sampled_mm": 5.551115123125783e-17,
+        "section_to_profile_max_sampled_mm": 2.482534153247273e-16
+      },
+      {
+        "z_mm": 17.999,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.499999695863905,
+          3.50000010332204
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.4464111328125,
+            -1.4574356079101562
+          ],
+          [
+            1.4464111328125,
+            1.4574356079101562
+          ]
+        ],
+        "area_mm2": 5.9599442151375115,
+        "profile_to_section_max_sampled_mm": 5.551115123125783e-17,
+        "section_to_profile_max_sampled_mm": 2.2887833992611187e-16
+      }
+    ],
+    "step_sections": [
+      {
+        "z_mm": 1,
+        "loop_count": 1,
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 4.1,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4999950623384994,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 7.9,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4998600732106224,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 8.1,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4998558103112534,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 9,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4998401441114693,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 10,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4998294867926263,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 12,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.499829486792626,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 13.4,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4998463963900868,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 13.499,
+        "loop_count": 1,
+        "outer_radius_mm": [
+          3.4998481193207267,
+          3.5000000000000004
+        ],
+        "solid_below_grip": true
+      },
+      {
+        "z_mm": 13.501,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.499848154844988,
+          3.5000000000000004
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.446411132812,
+            -1.45743560791
+          ],
+          [
+            1.446411132812,
+            1.45743560791
+          ]
+        ],
+        "area_mm2": 5.959944215136604,
+        "profile_to_section_max_sampled_mm": 6.379159486790093e-13,
+        "section_to_profile_max_sampled_mm": 5.463466162265504e-13
+      },
+      {
+        "z_mm": 13.6,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.499849948816143,
+          3.5000000000000004
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.446411132812,
+            -1.45743560791
+          ],
+          [
+            1.446411132812,
+            1.45743560791
+          ]
+        ],
+        "area_mm2": 5.9599442151366055,
+        "profile_to_section_max_sampled_mm": 6.379159486790093e-13,
+        "section_to_profile_max_sampled_mm": 5.431442630587524e-13
+      },
+      {
+        "z_mm": 14,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.499857906237425,
+          3.5000000000000004
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.446411132812,
+            -1.45743560791
+          ],
+          [
+            1.446411132812,
+            1.45743560791
+          ]
+        ],
+        "area_mm2": 5.9599442151366055,
+        "profile_to_section_max_sampled_mm": 6.379159486790093e-13,
+        "section_to_profile_max_sampled_mm": 5.298107578489396e-13
+      },
+      {
+        "z_mm": 16,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.4999147444347223,
+          3.5000000000000004
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.446411132812,
+            -1.45743560791
+          ],
+          [
+            1.446411132812,
+            1.45743560791
+          ]
+        ],
+        "area_mm2": 5.9599442151366055,
+        "profile_to_section_max_sampled_mm": 6.379159486790093e-13,
+        "section_to_profile_max_sampled_mm": 5.000444502911705e-13
+      },
+      {
+        "z_mm": 17.5,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.499976022082169,
+          3.5000000000000004
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.446411132812,
+            -1.45743560791
+          ],
+          [
+            1.446411132812,
+            1.45743560791
+          ]
+        ],
+        "area_mm2": 5.959944215136605,
+        "profile_to_section_max_sampled_mm": 6.379159486790093e-13,
+        "section_to_profile_max_sampled_mm": 6.033888632077938e-13
+      },
+      {
+        "z_mm": 17.999,
+        "loop_count": 2,
+        "outer_radius_mm": [
+          3.4999999502717443,
+          3.5000000000000004
+        ],
+        "inner_vertices_after_collinear_reduction": 27,
+        "inner_bounds_mm": [
+          [
+            -1.446411132812,
+            -1.45743560791
+          ],
+          [
+            1.446411132812,
+            1.45743560791
+          ]
+        ],
+        "area_mm2": 5.959944215136605,
+        "profile_to_section_max_sampled_mm": 6.379159486790093e-13,
+        "section_to_profile_max_sampled_mm": 6.379159486790093e-13
+      }
+    ],
+    "exact_grip_sections": [
+      {
+        "format": "STL",
+        "z_mm": 14,
+        "ordered_vertex_max_error_mm": 0.0
+      },
+      {
+        "format": "STL",
+        "z_mm": 16,
+        "ordered_vertex_max_error_mm": 0.0
+      },
+      {
+        "format": "STL",
+        "z_mm": 17.9,
+        "ordered_vertex_max_error_mm": 0.0
+      },
+      {
+        "format": "STL",
+        "z_mm": 17.999,
+        "ordered_vertex_max_error_mm": 0.0
+      },
+      {
+        "format": "STEP tessellation",
+        "z_mm": 14,
+        "ordered_vertex_max_error_mm": 6.442844535651138e-13
+      },
+      {
+        "format": "STEP tessellation",
+        "z_mm": 16,
+        "ordered_vertex_max_error_mm": 6.442844535651138e-13
+      },
+      {
+        "format": "STEP tessellation",
+        "z_mm": 17.9,
+        "ordered_vertex_max_error_mm": 6.442844535651138e-13
+      },
+      {
+        "format": "STEP tessellation",
+        "z_mm": 17.999,
+        "ordered_vertex_max_error_mm": 6.442844535651138e-13
+      }
+    ],
+    "four_up_profile_checks": [
+      {
+        "center_xy_mm": [
+          0.0,
+          0.0
+        ],
+        "profile_error_mm": 0.0
+      },
+      {
+        "center_xy_mm": [
+          19.0,
+          0.0
+        ],
+        "profile_error_mm": 0.0
+      },
+      {
+        "center_xy_mm": [
+          0.0,
+          19.0
+        ],
+        "profile_error_mm": 0.0
+      },
+      {
+        "center_xy_mm": [
+          19.0,
+          19.0
+        ],
+        "profile_error_mm": 0.0
+      }
+    ],
+    "cad_volume_mm3": 995.3520003006204,
+    "stl_volume_mm3": 995.1990907643599,
+    "profile_tolerance_mm": 2e-06,
+    "straight_pole_diameter_mm": 7,
+    "blind_bore_depth_mm": 4.5,
+    "continuous_lower_solid_core_check": {
+      "diameter_mm": 3.6,
+      "z_interval_mm": [
+        0.01,
+        13.49
+      ],
+      "absent_volume_mm3": 0.0
+    },
+    "grip_assumption": "The user-proven untapped aperture is retained exactly for4.5mm. The bore now ends at a flat blind floor; no lower enlarged cavity remains."
+  },
+  "corner_fit": [
+    {
+      "reference": "H4",
+      "status": "PASS",
+      "bbox_overlap_pairs_tested": 1,
+      "collisions": [],
+      "closest_existing_geometry_excluding_seating_board": {
+        "component": "board_b_PTC1",
+        "distance_mm": 0.7953463189829127
+      }
+    },
+    {
+      "reference": "H5",
+      "status": "PASS",
+      "bbox_overlap_pairs_tested": 0,
+      "collisions": [],
+      "closest_existing_geometry_excluding_seating_board": {
+        "component": "board_b_J7",
+        "distance_mm": 8.158921497354907
+      }
+    },
+    {
+      "reference": "H6",
+      "status": "PASS",
+      "bbox_overlap_pairs_tested": 1,
+      "collisions": [],
+      "closest_existing_geometry_excluding_seating_board": {
+        "component": "board_b_C25",
+        "distance_mm": 3.5012141982659073
+      }
+    },
+    {
+      "reference": "H7",
+      "status": "PASS",
+      "bbox_overlap_pairs_tested": 0,
+      "collisions": [],
+      "closest_existing_geometry_excluding_seating_board": {
+        "component": "board_p_substrate",
+        "distance_mm": 3.491278419146775
+      }
+    }
+  ],
+  "maximum_terminal_envelope_checks": [
+    {
+      "leg": "H4",
+      "terminal": "J6",
+      "intersection_mm3": 0
+    },
+    {
+      "leg": "H5",
+      "terminal": "J6",
+      "intersection_mm3": 0
+    },
+    {
+      "leg": "H6",
+      "terminal": "J6",
+      "intersection_mm3": 0
+    },
+    {
+      "leg": "H7",
+      "terminal": "J6",
+      "intersection_mm3": 0
+    },
+    {
+      "leg": "H4",
+      "terminal": "J7",
+      "intersection_mm3": 0
+    },
+    {
+      "leg": "H5",
+      "terminal": "J7",
+      "intersection_mm3": 0
+    },
+    {
+      "leg": "H6",
+      "terminal": "J7",
+      "intersection_mm3": 0
+    },
+    {
+      "leg": "H7",
+      "terminal": "J7",
+      "intersection_mm3": 0
+    }
+  ],
+  "collision_frame": "Board B CAD: front planeZ0, positiveZ toward legs/floor; installed leg = X180 rotation + (holeX,-holeY,18)",
+  "output_frame": "Whole installed assembly rotatedX180 then translatedZ18; adhesive facesZ0, nominal PCB frontZ18/backZ19.6",
+  "source_files_unchanged": true,
+  "floor_clearance": {
+    "maximum_native_downward_projection_mm": 14.06,
+    "terminal_drawing_maximum_mm": 14.2,
+    "floor_plane_in_collision_frame_mm": 18,
+    "minimum_floor_gap_using_terminal_max_mm": 3.8000000000000007,
+    "minimum_gap_to_base_inner_plane_mm": 1.8000000000000007,
+    "adhesive_thickness_included": false
+  },
+  "adhesive_floor_footprint_mm": {
+    "bounds_pcb_xy": [
+      -3,
+      -3,
+      113,
+      88
+    ],
+    "size": [
+      116,
+      91
+    ],
+    "overhang_each_board_edge_mm": 3
+  },
+  "pcb_screw_passage": [
+    {
+      "reference": "H4",
+      "hole_nominal_mm": 3.0,
+      "screw_nominal_mm": 3,
+      "diametral_clearance_mm": 0,
+      "free_pass_qualification": "NOT ESTABLISHED; actual M3 passage must be checked. This does not fail print CAD or enlarge the PCB."
+    },
+    {
+      "reference": "H5",
+      "hole_nominal_mm": 3.0,
+      "screw_nominal_mm": 3,
+      "diametral_clearance_mm": 0,
+      "free_pass_qualification": "NOT ESTABLISHED; actual M3 passage must be checked. This does not fail print CAD or enlarge the PCB."
+    },
+    {
+      "reference": "H6",
+      "hole_nominal_mm": 3.0,
+      "screw_nominal_mm": 3,
+      "diametral_clearance_mm": 0,
+      "free_pass_qualification": "NOT ESTABLISHED; actual M3 passage must be checked. This does not fail print CAD or enlarge the PCB."
+    },
+    {
+      "reference": "H7",
+      "hole_nominal_mm": 3.0,
+      "screw_nominal_mm": 3,
+      "diametral_clearance_mm": 0,
+      "free_pass_qualification": "NOT ESTABLISHED; actual M3 passage must be checked. This does not fail print CAD or enlarge the PCB."
+    }
+  ],
+  "screw_engagement": {
+    "initial_screw": "M3x5",
+    "board_thickness_mm": 1.6,
+    "blind_depth_mm": 4.5,
+    "configurations": [
+      {
+        "configuration": "M3x5 without washer",
+        "length_under_head_mm": 5,
+        "washer_thickness_mm": 0,
+        "insertion_mm": 3.4,
+        "gripping_engagement_mm": 3.4,
+        "blind_floor_clearance_mm": 1.1,
+        "nominal_depth_fit": "PASS"
+      },
+      {
+        "configuration": "M3x6 with minimum0.5mm washer",
+        "length_under_head_mm": 6,
+        "washer_thickness_mm": 0.5,
+        "insertion_mm": 3.9,
+        "gripping_engagement_mm": 3.9,
+        "blind_floor_clearance_mm": 0.6,
+        "nominal_depth_fit": "PASS"
+      },
+      {
+        "configuration": "Previous M3x8 without washer",
+        "length_under_head_mm": 8,
+        "washer_thickness_mm": 0,
+        "insertion_mm": 6.4,
+        "gripping_engagement_mm": 4.5,
+        "blind_floor_clearance_mm": -1.9,
+        "nominal_depth_fit": "DOES NOT FIT"
+      }
+    ],
+    "optional_washer_note": "For M3x6, a washer at least0.5mm thick gives insertion at most3.9mm and floor clearance at least0.6mm.",
+    "scope": "Nominal under-head screw length and stack arithmetic; separate from the user-proven gripping profile and PCB free-pass check."
+  },
+  "limits": [
+    "The upper untapped grip copies the user-proven source geometry. No modeled threads or replacement circular pilot were introduced.",
+    "The printed bore is4.5mm deep with no lower enlarged pocket. M3x5 is the initial nominal choice; the previous M3x8 exceeds this depth.",
+    "The installed CAD includes existing illustrative component models and a14.2mm terminal envelope; wires, adhesive layers and metal screws are not modeled.",
+    "Zero nominal screw/PCB-hole clearance remains an actual free-pass check, separate from the proven printed grip."
+  ],
+  "artifact_sha256": {
+    "installed-assembly.step": "0f55fef45a9b298e40319cdfaffb33147f922eedb80b9da3348741a623b37392",
+    "installed.png": "9b0c76acd1f0ddb69a7d36e9893a4a68ff97cad89725ec01aa218fea06227b04"
+  }
+}

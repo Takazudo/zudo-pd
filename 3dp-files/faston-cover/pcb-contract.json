@@ -1,0 +1,879 @@
+{
+  "schema_version": 1,
+  "revision": "prototype-01",
+  "units": "mm",
+  "status": "DESIGN CONTRACT \u2014 fit and retention unmeasured",
+  "world": {
+    "pcb_xy": "KiCad front view: X right, Y down",
+    "cad_xyz": "X=PCB X, Y=-PCB Y; Z up",
+    "pcb_top_z_mm": 0,
+    "pcb_bottom_z_mm": -1.6,
+    "pcb_size_mm": [
+      110,
+      85
+    ]
+  },
+  "fastons": {
+    "footprint": "zudo-pd:CONN-TH_1217754-1",
+    "lcsc": "C591344",
+    "layer": "B.Cu",
+    "orientation_deg": 270,
+    "mating_direction_pcb": [
+      1,
+      0
+    ],
+    "model_rotation_xyz_deg": [
+      0,
+      0,
+      90
+    ],
+    "model_offset_xyz_mm": [
+      0,
+      0,
+      0
+    ],
+    "placements": [
+      {
+        "reference": "J6",
+        "center_mm": [
+          6,
+          37
+        ]
+      },
+      {
+        "reference": "J9",
+        "center_mm": [
+          6,
+          49
+        ]
+      },
+      {
+        "reference": "J7",
+        "center_mm": [
+          6,
+          61
+        ]
+      },
+      {
+        "reference": "J8",
+        "center_mm": [
+          6,
+          73
+        ]
+      }
+    ]
+  },
+  "notch_geometry": {
+    "description": "Three identical rounded T-shaped edge cut-ins. Retain all remaining rectangular board edges. Paths run from upper mouth to lower mouth; reverse them for an outline travelling upward along the left edge.",
+    "neck_width_mm": 3,
+    "pocket_width_mm": 6,
+    "neck_depth_mm": 2,
+    "total_depth_mm": 4,
+    "radius_mm": 0.5,
+    "key_clearance_mm": 0.2,
+    "notches": [
+      {
+        "center_y_mm": 43,
+        "edge_path_top_to_bottom": [
+          {
+            "type": "line",
+            "start": [
+              0,
+              41.5
+            ],
+            "end": [
+              1.5,
+              41.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              1.5,
+              41.5
+            ],
+            "mid": [
+              1.8535533905932737,
+              41.353553391
+            ],
+            "end": [
+              2,
+              41
+            ],
+            "center": [
+              1.5,
+              41
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2,
+              41
+            ],
+            "end": [
+              2,
+              40.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2,
+              40.5
+            ],
+            "mid": [
+              2.146446609406726,
+              40.146446609
+            ],
+            "end": [
+              2.5,
+              40
+            ],
+            "center": [
+              2.5,
+              40.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2.5,
+              40
+            ],
+            "end": [
+              3.5,
+              40
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              3.5,
+              40
+            ],
+            "mid": [
+              3.853553390593274,
+              40.146446609
+            ],
+            "end": [
+              4,
+              40.5
+            ],
+            "center": [
+              3.5,
+              40.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              4,
+              40.5
+            ],
+            "end": [
+              4,
+              45.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              4,
+              45.5
+            ],
+            "mid": [
+              3.853553390593274,
+              45.853553391
+            ],
+            "end": [
+              3.5,
+              46
+            ],
+            "center": [
+              3.5,
+              45.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              3.5,
+              46
+            ],
+            "end": [
+              2.5,
+              46
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2.5,
+              46
+            ],
+            "mid": [
+              2.146446609406726,
+              45.853553391
+            ],
+            "end": [
+              2,
+              45.5
+            ],
+            "center": [
+              2.5,
+              45.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2,
+              45.5
+            ],
+            "end": [
+              2,
+              45
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2,
+              45
+            ],
+            "mid": [
+              1.8535533905932737,
+              44.646446609
+            ],
+            "end": [
+              1.5,
+              44.5
+            ],
+            "center": [
+              1.5,
+              45
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              1.5,
+              44.5
+            ],
+            "end": [
+              0,
+              44.5
+            ]
+          }
+        ]
+      },
+      {
+        "center_y_mm": 55,
+        "edge_path_top_to_bottom": [
+          {
+            "type": "line",
+            "start": [
+              0,
+              53.5
+            ],
+            "end": [
+              1.5,
+              53.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              1.5,
+              53.5
+            ],
+            "mid": [
+              1.8535533905932737,
+              53.353553391
+            ],
+            "end": [
+              2,
+              53
+            ],
+            "center": [
+              1.5,
+              53
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2,
+              53
+            ],
+            "end": [
+              2,
+              52.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2,
+              52.5
+            ],
+            "mid": [
+              2.146446609406726,
+              52.146446609
+            ],
+            "end": [
+              2.5,
+              52
+            ],
+            "center": [
+              2.5,
+              52.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2.5,
+              52
+            ],
+            "end": [
+              3.5,
+              52
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              3.5,
+              52
+            ],
+            "mid": [
+              3.853553390593274,
+              52.146446609
+            ],
+            "end": [
+              4,
+              52.5
+            ],
+            "center": [
+              3.5,
+              52.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              4,
+              52.5
+            ],
+            "end": [
+              4,
+              57.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              4,
+              57.5
+            ],
+            "mid": [
+              3.853553390593274,
+              57.853553391
+            ],
+            "end": [
+              3.5,
+              58
+            ],
+            "center": [
+              3.5,
+              57.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              3.5,
+              58
+            ],
+            "end": [
+              2.5,
+              58
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2.5,
+              58
+            ],
+            "mid": [
+              2.146446609406726,
+              57.853553391
+            ],
+            "end": [
+              2,
+              57.5
+            ],
+            "center": [
+              2.5,
+              57.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2,
+              57.5
+            ],
+            "end": [
+              2,
+              57
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2,
+              57
+            ],
+            "mid": [
+              1.8535533905932737,
+              56.646446609
+            ],
+            "end": [
+              1.5,
+              56.5
+            ],
+            "center": [
+              1.5,
+              57
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              1.5,
+              56.5
+            ],
+            "end": [
+              0,
+              56.5
+            ]
+          }
+        ]
+      },
+      {
+        "center_y_mm": 67,
+        "edge_path_top_to_bottom": [
+          {
+            "type": "line",
+            "start": [
+              0,
+              65.5
+            ],
+            "end": [
+              1.5,
+              65.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              1.5,
+              65.5
+            ],
+            "mid": [
+              1.8535533905932737,
+              65.353553391
+            ],
+            "end": [
+              2,
+              65
+            ],
+            "center": [
+              1.5,
+              65
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2,
+              65
+            ],
+            "end": [
+              2,
+              64.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2,
+              64.5
+            ],
+            "mid": [
+              2.146446609406726,
+              64.146446609
+            ],
+            "end": [
+              2.5,
+              64
+            ],
+            "center": [
+              2.5,
+              64.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2.5,
+              64
+            ],
+            "end": [
+              3.5,
+              64
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              3.5,
+              64
+            ],
+            "mid": [
+              3.853553390593274,
+              64.146446609
+            ],
+            "end": [
+              4,
+              64.5
+            ],
+            "center": [
+              3.5,
+              64.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              4,
+              64.5
+            ],
+            "end": [
+              4,
+              69.5
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              4,
+              69.5
+            ],
+            "mid": [
+              3.853553390593274,
+              69.853553391
+            ],
+            "end": [
+              3.5,
+              70
+            ],
+            "center": [
+              3.5,
+              69.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              3.5,
+              70
+            ],
+            "end": [
+              2.5,
+              70
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2.5,
+              70
+            ],
+            "mid": [
+              2.146446609406726,
+              69.853553391
+            ],
+            "end": [
+              2,
+              69.5
+            ],
+            "center": [
+              2.5,
+              69.5
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              2,
+              69.5
+            ],
+            "end": [
+              2,
+              69
+            ]
+          },
+          {
+            "type": "arc",
+            "start": [
+              2,
+              69
+            ],
+            "mid": [
+              1.8535533905932737,
+              68.646446609
+            ],
+            "end": [
+              1.5,
+              68.5
+            ],
+            "center": [
+              1.5,
+              69
+            ],
+            "radius": 0.5
+          },
+          {
+            "type": "line",
+            "start": [
+              1.5,
+              68.5
+            ],
+            "end": [
+              0,
+              68.5
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "guard": {
+    "outer_xy_mm": [
+      0,
+      31,
+      36,
+      79
+    ],
+    "wall_mm": 1.6,
+    "inner_floor_z_mm": -12.1,
+    "outer_floor_z_mm": -13.7,
+    "wall_top_z_mm": -1.85,
+    "cap_xy_half_y_mm": 4.2,
+    "cap_x_bounds_mm": [
+      0,
+      5.4
+    ],
+    "cap_bottom_z_mm": 0.25,
+    "cap_thickness_mm": 2.0,
+    "pin_diameter_mm": 2.8,
+    "pin_height_mm": 1.2,
+    "socket_diameter_mm": 2.7,
+    "socket_depth_mm": 1.45,
+    "nominal_mating_envelope": {
+      "access_direction_pcb": [
+        1,
+        0
+      ],
+      "x_mm": [
+        15,
+        36
+      ],
+      "each_row_y_half_mm": 4.1,
+      "z_mm": [
+        -11.8,
+        -2.6
+      ],
+      "qualification": "Maximum stated clear envelope only; no exact female terminal or insulating sleeve selected. J8 head must stay belowZ=-3.3mm to clear the socket tails during insertion; crimp/wire is belowZ=-4.8mm under the separate shutter.",
+      "row_overrides": {
+        "J8": [
+          {
+            "x_mm": [
+              15,
+              29.7
+            ],
+            "z_mm": [
+              -11.8,
+              -3.3
+            ]
+          },
+          {
+            "x_mm": [
+              29.7,
+              36
+            ],
+            "z_mm": [
+              -11.8,
+              -4.8
+            ]
+          }
+        ]
+      },
+      "straight_insertion_distance_mm": 22
+    },
+    "pin_center_x_mm": 2.2,
+    "exit_shutter": {
+      "reference": "J8",
+      "name": "j8-exit-shutter",
+      "insertion_direction_pcb": [
+        -1,
+        0
+      ],
+      "insertion_distance_mm": 8,
+      "positive_stop_x_mm": 30,
+      "grooves": [
+        {
+          "x_mm": [
+            30,
+            36.2
+          ],
+          "y_mm": [
+            67.05,
+            67.85
+          ],
+          "z_mm": [
+            -4.4,
+            -3.4
+          ]
+        },
+        {
+          "x_mm": [
+            30,
+            36.2
+          ],
+          "y_mm": [
+            77.35,
+            78.15
+          ],
+          "z_mm": [
+            -4.4,
+            -3.4
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "x_mm": [
+            30,
+            36
+          ],
+          "y_mm": [
+            67.95,
+            77.25
+          ],
+          "z_mm": [
+            -4.5,
+            -3.3
+          ]
+        },
+        {
+          "x_mm": [
+            30,
+            36
+          ],
+          "y_mm": [
+            67.2,
+            68.1
+          ],
+          "z_mm": [
+            -4.2,
+            -3.6
+          ]
+        },
+        {
+          "x_mm": [
+            30,
+            36
+          ],
+          "y_mm": [
+            77.1,
+            78.0
+          ],
+          "z_mm": [
+            -4.2,
+            -3.6
+          ]
+        },
+        {
+          "x_mm": [
+            36,
+            38
+          ],
+          "y_mm": [
+            70.6,
+            74.6
+          ],
+          "z_mm": [
+            -4.5,
+            -3.3
+          ]
+        }
+      ],
+      "assembly": "Fit terminals and guard first; slide this separate shutter from+X above the crimp/wire tail and below the socket solder tails. Closed groove ends stop inward motion; outward retention is fit-based and unmeasured."
+    }
+  },
+  "retention": {
+    "xy": "T-key heads wider than edge mouths provide geometric XY interlock.",
+    "z": "Three removable press-fit caps; nominal 0.1 mm diametral interference requires coupon selection and physical retention testing. Not a rated cable strain relief."
+  },
+  "placement_keepouts": {
+    "board_p_xy_mm": [
+      0,
+      0,
+      40,
+      27
+    ],
+    "cover_to_board_p_y_gap_mm": 4,
+    "upper_cap_clearance_to_adjacent_faston_copper_mm": 0.7
+  },
+  "required_checks": [
+    "Compare PCB outline line/arc geometry and Faston side/orientation/XY against this contract.",
+    "Check all printed meshes are connected, watertight and positive volume.",
+    "Check printed bodies against PCB substrate, exact Faston meshes and populated component models.",
+    "Verify print fit, cap retention, actual female terminal seating and operating temperature on hardware."
+  ],
+  "manufacturing_sources": [
+    {
+      "url": "https://jlcpcb.com/capabilities/Capab",
+      "reviewed": "2026-09-20",
+      "claim": "Minimum non-plated slot1.0mm; routed outline and slot dimension tolerance\u00b10.2mm; routed copper clearance\u22650.2mm."
+    },
+    {
+      "url": "https://jlcpcb.com/blog/rounded-corners-pcb-design",
+      "reviewed": "2026-09-20",
+      "claim": "InternalR0.5mm is supported when using a1mm routing bit."
+    }
+  ]
+}

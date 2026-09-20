@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "negative_controls": [
+    {
+      "case": "archived tapered STEP/STL under straight-pole spec",
+      "status": "REJECTED",
+      "reason": "Outer pole must be straight\u00d87mm; no top taper or\u00d88 section"
+    },
+    {
+      "case": "archived lower pocket atZ10",
+      "status": "REJECTED",
+      "reason": "Two section loops remain where current4.5mm blind-bore design requires solid material",
+      "observed_loop_count": 2,
+      "required_loop_count": 1
+    }
+  ],
+  "archived_input_sha256": {
+    "adhesive-leg-18mm-m3.step": "fde14896f561b6724b9caa21cb782448658e1beab94340838c3cd6dc91e94782",
+    "adhesive-leg-18mm-m3.stl": "64bdc734509f6481a51962b4a6a3b9999157179092745fd37f3ffc20fcef0041",
+    "adhesive-leg-18mm-m3-4x.stl": "347d0b09eb6046643b87ea4cc0f951f11fbeac0c4ac57325b70251fc4cb5445f"
+  },
+  "verifier_sha256": "7b75c024ac695d5780f0f9ef5f86c939bd67651baefee053277a4ed5aada5d53",
+  "current_spec_sha256": "1133215aa9c0f49a70b719d99d1ba63a60adddeca0c31d9faf9abb90170d355e",
+  "source_files_not_written": true
+}
