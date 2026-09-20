@@ -1,0 +1,1691 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "review_sha256": "16680ff3924b9410160140d4b80795baf95ed26c521251cffdcb6012363a3264",
+  "boards": [
+    {
+      "path": "boards/board-p/board-p.kicad_pcb",
+      "sha256": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b"
+    },
+    {
+      "path": "boards/board-b/board-b.kicad_pcb",
+      "sha256": "26f62055ddd441f3b1dc59a036155455127b9a591c5ff8b7d36410b6cde491be"
+    }
+  ],
+  "verifier_sha256": "a561806cd0a7b2d1035234185f8db9fa22323e1da7885142669832f78c926949",
+  "cadquery_version": "2.6.1",
+  "vtk_version": "9.3.1",
+  "numpy_version": "2.5.3",
+  "maximum_external_surface_deviation_mm": 0.025,
+  "models": [
+    {
+      "wrl": "QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.wrl",
+      "step": "QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.step",
+      "uses_at_review": [
+        "board-p/U1"
+      ],
+      "wrl_sha256": "9ea79cd5048d38ecbeec20257a34113f0f2e441bfb6feded7ff53a6dafdda7b1",
+      "step_sha256": "9057661be7130af37402e30647602e467285870efe0b403443404628462cf576",
+      "input_step_sha256": "9057661be7130af37402e30647602e467285870efe0b403443404628462cf576",
+      "original_step_sha256": "9057661be7130af37402e30647602e467285870efe0b403443404628462cf576",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -2.010000000000005,
+          -2.0100000000000007,
+          0.0
+        ],
+        [
+          2.0100000000000153,
+          2.01000000000001,
+          0.9201001
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -2.010000000000005,
+          -2.0100000000000007,
+          0.0
+        ],
+        [
+          2.0100000000000153,
+          2.01000000000001,
+          0.9201001
+        ]
+      ],
+      "volume_before_mm3": 14.614596094440246,
+      "volume_after_mm3": 14.614596094440246,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0006493333333333906,
+        "step_to_wrl_max_mm": 0.0009879999999999889,
+        "wrl_to_step_p99_mm": 0.00012195403405527598,
+        "step_to_wrl_p99_mm": 0.0009879999999999889,
+        "wrl_samples": 2021,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "SMA_Vishay_SMAJ16A_C968650.wrl",
+      "step": "SMA_Vishay_SMAJ16A_C968650.step",
+      "uses_at_review": [
+        "board-p/D5"
+      ],
+      "wrl_sha256": "182bdfe16c250365c998a42967078bbe9204d0d7a7092594820fdfbe0465c388",
+      "step_sha256": "bcd3e4bf0159280b233508bd4141e7c35f6af8be32e605725ab5e715daa1514e",
+      "input_step_sha256": "bcd3e4bf0159280b233508bd4141e7c35f6af8be32e605725ab5e715daa1514e",
+      "original_step_sha256": "285e5b1c2911495b1f1f1dc19ba4f26e027f726117d08aaa565619c17d7230bb",
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        0.100036
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -2.3500000000000005,
+          -1.3000001,
+          3.599999999998049e-05
+        ],
+        [
+          2.3500000000000005,
+          1.3000001,
+          2.100036
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -2.3500000000000005,
+          -1.3000001,
+          3.599999999998049e-05
+        ],
+        [
+          2.3500000000000005,
+          1.3000001,
+          2.100036
+        ]
+      ],
+      "volume_before_mm3": 21.173263763317394,
+      "volume_after_mm3": 21.173263763317394,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0015986870417543954,
+        "step_to_wrl_max_mm": 0.0018061304124665208,
+        "wrl_to_step_p99_mm": 0.0005377507208653194,
+        "step_to_wrl_p99_mm": 0.0012700613341999289,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "C0603_L1.6-W0.8-H0.8.wrl",
+      "step": "C0603_L1.6-W0.8-H0.8.step",
+      "uses_at_review": [
+        "board-p/C30",
+        "board-p/C2",
+        "board-p/C34",
+        "board-p/C35",
+        "board-b/C15",
+        "board-b/C16"
+      ],
+      "wrl_sha256": "125791465c37d0e6cda3b2f45f84e01af226d81a462bfbecb7a4513327e9f22a",
+      "step_sha256": "f2b74e1ceda9af3ce8ac13e68f37164694e30a3792f6b6a8f0709c45c0ca28dc",
+      "input_step_sha256": "f2b74e1ceda9af3ce8ac13e68f37164694e30a3792f6b6a8f0709c45c0ca28dc",
+      "original_step_sha256": "f9918dd3888f5ca8b9c906b8cb10b9d8e335f6855513b3e235a18123ae353a78",
+      "reviewed_translation_mm": [
+        0.0,
+        -0.0,
+        0.40005
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -0.8,
+          -0.4000001000000013,
+          4.989999999999796e-05
+        ],
+        [
+          0.8,
+          0.4000001000000039,
+          0.8000501
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -0.8,
+          -0.4000001000000013,
+          4.989999999999796e-05
+        ],
+        [
+          0.8,
+          0.4000001000000039,
+          0.8000501
+        ]
+      ],
+      "volume_before_mm3": 0.9906815108560498,
+      "volume_after_mm3": 0.9906815108560498,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.006505109815951076,
+        "step_to_wrl_max_mm": 0.010110000000000063,
+        "wrl_to_step_p99_mm": 0.0008200357376292458,
+        "step_to_wrl_p99_mm": 0.010110000000000063,
+        "wrl_samples": 1884,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "R0603.wrl",
+      "step": "R0603.step",
+      "uses_at_review": [
+        "board-p/R19",
+        "board-p/R14",
+        "board-p/R15",
+        "board-p/R11",
+        "board-p/R20",
+        "board-p/R16",
+        "board-p/R12",
+        "board-p/R13",
+        "board-p/R18",
+        "board-p/R17",
+        "board-b/R25",
+        "board-b/R2",
+        "board-b/R22",
+        "board-b/R1",
+        "board-b/R21",
+        "board-b/R20",
+        "board-b/R6",
+        "board-b/R23",
+        "board-b/R24",
+        "board-b/R3",
+        "board-b/R4",
+        "board-b/R5"
+      ],
+      "wrl_sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+      "step_sha256": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
+      "input_step_sha256": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
+      "original_step_sha256": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -0.4100001000000003,
+          -0.8100000000000002,
+          -0.010000000000000009
+        ],
+        [
+          0.4,
+          0.8100000000000002,
+          0.44
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -0.4100001000000003,
+          -0.8100000000000002,
+          -0.010000000000000009
+        ],
+        [
+          0.4,
+          0.8100000000000002,
+          0.44
+        ]
+      ],
+      "volume_before_mm3": 0.5732351423942456,
+      "volume_after_mm3": 0.5732351423942456,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.011255023690543724,
+        "step_to_wrl_max_mm": 0.011439364389449912,
+        "wrl_to_step_p99_mm": 0.010868811165568256,
+        "step_to_wrl_p99_mm": 0.011247372433055607,
+        "wrl_samples": 2226,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.wrl",
+      "step": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.step",
+      "uses_at_review": [
+        "board-p/Q1"
+      ],
+      "wrl_sha256": "e07719fa926e604c1a91b88904426570afb92f7e51bbca24d40d0e7c4e4c62f8",
+      "step_sha256": "25a44f09c5a587e1dff6f7bdb8d2e573381bf1fb679eb41b07f112a5b3fd1a1f",
+      "input_step_sha256": "25a44f09c5a587e1dff6f7bdb8d2e573381bf1fb679eb41b07f112a5b3fd1a1f",
+      "original_step_sha256": "77ba908a82212855f2a6d38b120604e403137808eaba47113ce858f1831017e5",
+      "reviewed_translation_mm": [
+        0.0,
+        -0.000127,
+        -0.051261
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.252814618447,
+          -1.4501271,
+          -0.0004659972729509996
+        ],
+        [
+          1.252814618447,
+          1.4498731,
+          1.0497391
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.252814618447,
+          -1.4501271,
+          -0.0004659972729509996
+        ],
+        [
+          1.252814618447,
+          1.4498731,
+          1.0497391
+        ]
+      ],
+      "volume_before_mm3": 3.601471692521518,
+      "volume_after_mm3": 3.601471692521518,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0010385820456952546,
+        "step_to_wrl_max_mm": 0.0012348244230774585,
+        "wrl_to_step_p99_mm": 0.0007238481530310278,
+        "step_to_wrl_p99_mm": 0.0008161008541795343,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "SOD-523_L1.2-W0.8-H0.7-LS1.6.wrl",
+      "step": "SOD-523_L1.2-W0.8-H0.7-LS1.6.step",
+      "uses_at_review": [
+        "board-p/D7",
+        "board-p/D6"
+      ],
+      "wrl_sha256": "9894a1247b562d70c40061d6f7a70e512c0e44cf44768b814b60b01c926d6c69",
+      "step_sha256": "f82f40cbaa007f705d1d625cbd99c8b2c953d5b5aaec59687c06e34d4b77b37b",
+      "input_step_sha256": "f82f40cbaa007f705d1d625cbd99c8b2c953d5b5aaec59687c06e34d4b77b37b",
+      "original_step_sha256": "db577ce0ad0cfe606d0ba741eaca8f8f2e7b49fb55b6e87bd33aacd80d3fb808",
+      "reviewed_translation_mm": [
+        0.21324,
+        0.010919,
+        0.709965
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -0.8000004672550001,
+          -0.400000088319,
+          -3.500000000001e-05
+        ],
+        [
+          0.7999995327450001,
+          0.40000011168127225,
+          0.7099650000000001
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -0.8000004672550001,
+          -0.400000088319,
+          -3.500000000001e-05
+        ],
+        [
+          0.7999995327450001,
+          0.40000011168127225,
+          0.7099650000000001
+        ]
+      ],
+      "volume_before_mm3": 0.6492258482042792,
+      "volume_after_mm3": 0.6492258482042792,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.010101000000000002,
+        "step_to_wrl_max_mm": 0.0009975998123584818,
+        "wrl_to_step_p99_mm": 0.010101,
+        "step_to_wrl_p99_mm": 0.0009940883348213507,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "USB-C-SMD_10P-P1.00-L6.8-W8.9.wrl",
+      "step": "USB-C-SMD_10P-P1.00-L6.8-W8.9.step",
+      "uses_at_review": [
+        "board-p/J1"
+      ],
+      "wrl_sha256": "78b3a6c8533b3767f843c7c0e712b4d28b9d2675f44cc0a875592acb540b4c44",
+      "step_sha256": "1513d5fe63fea87ca6e8566ca8e416b828d3498c569bba3495aa936ab1bd2624",
+      "input_step_sha256": "1513d5fe63fea87ca6e8566ca8e416b828d3498c569bba3495aa936ab1bd2624",
+      "original_step_sha256": "78e05b327ed9cafeb90af4e2270b96f9884e86e391353cba6c005b2082d07545",
+      "reviewed_translation_mm": [
+        -0.000127,
+        -0.418184,
+        -0.060492
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -4.470127100000001,
+          -4.618184,
+          -1.000492
+        ],
+        [
+          4.469873100000001,
+          2.181816,
+          3.1605080999419997
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -4.470127100000001,
+          -4.618184,
+          -1.000492
+        ],
+        [
+          4.469873100000001,
+          2.181816,
+          3.1605080999419997
+        ]
+      ],
+      "volume_before_mm3": 111.9432757553286,
+      "volume_after_mm3": 111.9432757553286,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.01006399999999985,
+        "step_to_wrl_max_mm": 0.00404553661234205,
+        "wrl_to_step_p99_mm": 0.01006399999999985,
+        "step_to_wrl_p99_mm": 0.003637130385829429,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "HDR-TH_6P-P2.54-M-LI-1X6P.wrl",
+      "step": "HDR-TH_6P-P2.54-M-LI-1X6P.step",
+      "uses_at_review": [
+        "board-p/JOUT1"
+      ],
+      "wrl_sha256": "7598d387ea6611b225e6873936fa7289067a2965d4a9a8fa4be5f0790713a522",
+      "step_sha256": "dc269a9893939c6010e8f9d4632f8b55b6c641528794a5971dded9a0bc519136",
+      "input_step_sha256": "dc269a9893939c6010e8f9d4632f8b55b6c641528794a5971dded9a0bc519136",
+      "original_step_sha256": "dc269a9893939c6010e8f9d4632f8b55b6c641528794a5971dded9a0bc519136",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -7.505000099999998,
+          -1.2500000000000004,
+          -3.0
+        ],
+        [
+          7.495000100000002,
+          1.2500000000000004,
+          8.6
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -7.505000099999998,
+          -1.2500000000000004,
+          -3.0
+        ],
+        [
+          7.495000100000002,
+          1.2500000000000004,
+          8.6
+        ]
+      ],
+      "volume_before_mm3": 93.97067582351843,
+      "volume_after_mm3": 93.97067582351843,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0019314012802651454,
+        "step_to_wrl_max_mm": 0.009967999999999755,
+        "wrl_to_step_p99_mm": 0.0013741113486022201,
+        "step_to_wrl_p99_mm": 0.009967999999999755,
+        "wrl_samples": 1619,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "R0805_L2.0-W1.3-H0.6.wrl",
+      "step": "R0805_L2.0-W1.3-H0.6.step",
+      "uses_at_review": [
+        "board-p/R21",
+        "board-b/R9",
+        "board-b/R8",
+        "board-b/R7"
+      ],
+      "wrl_sha256": "76145163b8ad77c0f68aa2c4b6ced6a1f5008bab9c42bb2043539f815256d6ab",
+      "step_sha256": "001b6970d63e46474aa901afc1d8fe93ed3098f81f79d75f9019f417207be59b",
+      "input_step_sha256": "001b6970d63e46474aa901afc1d8fe93ed3098f81f79d75f9019f417207be59b",
+      "original_step_sha256": "001b6970d63e46474aa901afc1d8fe93ed3098f81f79d75f9019f417207be59b",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -0.9999999999999998,
+          -0.6500000000000002,
+          0.0
+        ],
+        [
+          1.0000000000000002,
+          0.6510001,
+          0.61
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -0.9999999999999998,
+          -0.6500000000000002,
+          0.0
+        ],
+        [
+          1.0000000000000002,
+          0.6510001,
+          0.61
+        ]
+      ],
+      "volume_before_mm3": 2.5536949488484915,
+      "volume_after_mm3": 2.5536949488484915,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.005118000000000088,
+        "step_to_wrl_max_mm": 0.0010139999999999594,
+        "wrl_to_step_p99_mm": 0.005118000000000088,
+        "step_to_wrl_p99_mm": 0.0010139999999999594,
+        "wrl_samples": 881,
+        "step_samples": 2924,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "C1206_L3.2-W1.6-H1.3.wrl",
+      "step": "C1206_L3.2-W1.6-H1.3.step",
+      "uses_at_review": [
+        "board-p/C1"
+      ],
+      "wrl_sha256": "1641b0be48933142193f9b658497e2ca292dbe52afd2b1083770c3012d1d4d02",
+      "step_sha256": "5490b3b6503db57694500df9e009f34739f841152e215280fb909979b014d4ab",
+      "input_step_sha256": "5490b3b6503db57694500df9e009f34739f841152e215280fb909979b014d4ab",
+      "original_step_sha256": "8c99630f2bb86b653b57c467d723383db2a61971d491692b1eb2a5768df02cef",
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        0.649986
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.6,
+          -0.8000001,
+          -1.4100000000290001e-05
+        ],
+        [
+          1.6,
+          0.8000001,
+          1.2999861000000001
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.6,
+          -0.8000001,
+          -1.4100000000290001e-05
+        ],
+        [
+          1.6,
+          0.8000001,
+          1.2999861000000001
+        ]
+      ],
+      "volume_before_mm3": 6.389003979571036,
+      "volume_after_mm3": 6.389003979571036,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.002002043740876917,
+        "step_to_wrl_max_mm": 0.001969434178509844,
+        "wrl_to_step_p99_mm": 0.0013526424717188758,
+        "step_to_wrl_p99_mm": 0.0007475816277385134,
+        "wrl_samples": 2782,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "CAP-SMD_BD10.0-L10.4-W10.4-LS11.2-FD.wrl",
+      "step": "CAP-SMD_BD10.0-L10.4-W10.4-LS11.2-FD.step",
+      "uses_at_review": [
+        "board-b/C24",
+        "board-b/C7",
+        "board-b/C12",
+        "board-b/C5",
+        "board-b/C25",
+        "board-b/C21"
+      ],
+      "wrl_sha256": "51fcfe68ed801a0eb705cf3fbab2a6880ca1888b5b1fde23207af2e40bccaac5",
+      "step_sha256": "ff0400b2df4a81792a739c0c08c2e744749cb30b7204cc5288ca9dee1ae096ed",
+      "input_step_sha256": "ff0400b2df4a81792a739c0c08c2e744749cb30b7204cc5288ca9dee1ae096ed",
+      "original_step_sha256": "6a41291b0a33fba40bbf8ca9cb3de0936e71364be88a7240227ca1613635cef0",
+      "reviewed_translation_mm": [
+        0.0,
+        -0.0005,
+        0.899977
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -5.600000000000006,
+          -5.200500000000057,
+          -2.300000000155e-05
+        ],
+        [
+          5.6,
+          5.200500100000002,
+          10.299977
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -5.600000000000006,
+          -5.200500000000057,
+          -2.300000000155e-05
+        ],
+        [
+          5.6,
+          5.200500100000002,
+          10.299977
+        ]
+      ],
+      "volume_before_mm3": 804.1368195051753,
+      "volume_after_mm3": 804.1368195051753,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.020062999999999998,
+        "step_to_wrl_max_mm": 0.009037709441366008,
+        "wrl_to_step_p99_mm": 0.020062999999999998,
+        "step_to_wrl_p99_mm": 0.008080224651387425,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "CAP-SMD_BD6.3-L6.6-W6.6-FD.wrl",
+      "step": "CAP-SMD_BD6.3-L6.6-W6.6-FD.step",
+      "uses_at_review": [
+        "board-b/C42",
+        "board-b/C22",
+        "board-b/C40",
+        "board-b/C41",
+        "board-b/C23",
+        "board-b/C4"
+      ],
+      "wrl_sha256": "4ee680f0588acb813e2b7612bd718481edf8e04c550ec528c0439021ec9445aa",
+      "step_sha256": "1724136082326ddee1cb19f39a7995ab0783ce5c0c3620e562259e17f3aa2529",
+      "input_step_sha256": "1724136082326ddee1cb19f39a7995ab0783ce5c0c3620e562259e17f3aa2529",
+      "original_step_sha256": "e5f9380751bec266bbd8fa8a7f22f4be3c976909087e570b7c7624a674decec1",
+      "reviewed_translation_mm": [
+        -0.0,
+        -0.0005,
+        0.050024
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -3.9,
+          -3.3005000000000004,
+          2.399999999998e-05
+        ],
+        [
+          3.9,
+          3.3005001,
+          7.750024
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -3.9,
+          -3.3005000000000004,
+          2.399999999998e-05
+        ],
+        [
+          3.9,
+          3.3005001,
+          7.750024
+        ]
+      ],
+      "volume_before_mm3": 248.47857700364108,
+      "volume_after_mm3": 248.47857700364108,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.006876630525553418,
+        "step_to_wrl_max_mm": 0.007513292392819154,
+        "wrl_to_step_p99_mm": 0.0058345797866369755,
+        "step_to_wrl_p99_mm": 0.0065293846964444395,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "F1206_L3.2-W1.7-H0.6.wrl",
+      "step": "F1206_L3.2-W1.7-H0.6.step",
+      "uses_at_review": [
+        "board-b/PTC3"
+      ],
+      "wrl_sha256": "5a8588b69860ec89f945d3e7fba389736280dec034ef3efc6cb1076186ff0e3b",
+      "step_sha256": "b4aa1c51737817cb825db00ace803703d2022f88e8062722a44807b791b94f1f",
+      "input_step_sha256": "b4aa1c51737817cb825db00ace803703d2022f88e8062722a44807b791b94f1f",
+      "original_step_sha256": "b4aa1c51737817cb825db00ace803703d2022f88e8062722a44807b791b94f1f",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.6000001000000001,
+          -0.8500000999999999,
+          0.0
+        ],
+        [
+          1.6000001000000001,
+          0.8500000999999999,
+          0.6
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.6000001000000001,
+          -0.8500000999999999,
+          0.0
+        ],
+        [
+          1.6000001000000001,
+          0.8500000999999999,
+          0.6
+        ]
+      ],
+      "volume_before_mm3": 2.995407407710482,
+      "volume_after_mm3": 2.995407407710482,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0019485114743936747,
+        "step_to_wrl_max_mm": 0.002143901150755931,
+        "wrl_to_step_p99_mm": 0.0019238529959016658,
+        "step_to_wrl_p99_mm": 0.0011180000000001744,
+        "wrl_samples": 995,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR.wrl",
+      "step": "TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR.step",
+      "uses_at_review": [
+        "board-b/U6",
+        "board-b/U7"
+      ],
+      "wrl_sha256": "a5c43d6ab3a6f71a0981882dc8be80dd5b6b1729d8c79854593ab2f79eedb382",
+      "step_sha256": "83d9867852cb177c7ab798698e5a7b858a811520ef3af5143e1ed55cc0faf06d",
+      "input_step_sha256": "83d9867852cb177c7ab798698e5a7b858a811520ef3af5143e1ed55cc0faf06d",
+      "original_step_sha256": "9f9be6e826bb65222d8cfe280cbd03d295f9e36348eb4fae1c397eda0c7b4f18",
+      "reviewed_translation_mm": [
+        -1.318006,
+        -7.103022,
+        0.014651
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -6.418006100000012,
+          -7.11427423059244,
+          -5.434997221684e-05
+        ],
+        [
+          3.781994100000348,
+          7.114274914887053,
+          4.514651
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -6.418006100000012,
+          -7.11427423059244,
+          -5.434997221684e-05
+        ],
+        [
+          3.781994100000348,
+          7.114274914887053,
+          4.514651
+        ]
+      ],
+      "volume_before_mm3": 397.84974442973567,
+      "volume_after_mm3": 397.84974442973567,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.009987000000000003,
+        "step_to_wrl_max_mm": 0.00534056925441984,
+        "wrl_to_step_p99_mm": 0.009987000000000001,
+        "step_to_wrl_p99_mm": 0.004778322871526919,
+        "wrl_samples": 2725,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "C0805_L2.0-W1.3-H1.3.wrl",
+      "step": "C0805_L2.0-W1.3-H1.3.step",
+      "uses_at_review": [
+        "board-b/C32",
+        "board-b/C18",
+        "board-b/C10",
+        "board-b/C33",
+        "board-b/C17",
+        "board-b/C19",
+        "board-b/C6",
+        "board-b/C8",
+        "board-b/C38"
+      ],
+      "wrl_sha256": "31b2ac9a40994188ebd20202214e75f004b604b0068b3dea50d8cf7940cadb1a",
+      "step_sha256": "58551cc98ed0dcaf69b5dd8201a96f52391df738765988f5224072fbef4da10a",
+      "input_step_sha256": "58551cc98ed0dcaf69b5dd8201a96f52391df738765988f5224072fbef4da10a",
+      "original_step_sha256": "99acc6b12df8e17000d6e7529bddac9ea44e1240f5635482742aae256f49b5df",
+      "reviewed_translation_mm": [
+        0.0,
+        -0.0,
+        0.649986
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.0,
+          -0.650000100000002,
+          -1.410000000018e-05
+        ],
+        [
+          1.0,
+          0.6500001000000062,
+          1.2999861000000001
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.0,
+          -0.650000100000002,
+          -1.410000000018e-05
+        ],
+        [
+          1.0,
+          0.6500001000000062,
+          1.2999861000000001
+        ]
+      ],
+      "volume_before_mm3": 3.261782389555481,
+      "volume_after_mm3": 3.261782389555481,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0012942832558890233,
+        "step_to_wrl_max_mm": 0.010079999999999978,
+        "wrl_to_step_p99_mm": 0.0010879609709253824,
+        "step_to_wrl_p99_mm": 0.010079999999999978,
+        "wrl_samples": 1885,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "C1210_L3.2-W2.5-H2.5.wrl",
+      "step": "C1210_L3.2-W2.5-H2.5.step",
+      "uses_at_review": [
+        "board-b/C36",
+        "board-b/C14",
+        "board-b/C39",
+        "board-b/C20",
+        "board-b/C46",
+        "board-b/C37",
+        "board-b/C3"
+      ],
+      "wrl_sha256": "274c61862210b47c2d53e186f06ed698975b2a3abd7743bab34581e6289a2313",
+      "step_sha256": "edbe9d046023f3de7de6feddb4c659b9f253148930c303ecd1d335d514dc4216",
+      "input_step_sha256": "edbe9d046023f3de7de6feddb4c659b9f253148930c303ecd1d335d514dc4216",
+      "original_step_sha256": "8a9bdc5145436e36ff7bbe00fc010c78c7d7be7dc50bd29ebd824c39672ce66b",
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        1.250061
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.6,
+          -1.2500001,
+          6.0899999999991614e-05
+        ],
+        [
+          1.6,
+          1.2500001,
+          2.5000611
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.6,
+          -1.2500001,
+          6.0899999999991614e-05
+        ],
+        [
+          1.6,
+          1.2500001,
+          2.5000611
+        ]
+      ],
+      "volume_before_mm3": 19.483634388746466,
+      "volume_after_mm3": 19.483634388746466,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0015693057459994966,
+        "step_to_wrl_max_mm": 0.001757401446213744,
+        "wrl_to_step_p99_mm": 0.0013511699771131568,
+        "step_to_wrl_p99_mm": 0.0016256424262034014,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "SMA_L4.3-W2.6-LS5.2-RD.wrl",
+      "step": "SMA_L4.3-W2.6-LS5.2-RD.step",
+      "uses_at_review": [
+        "board-b/D2"
+      ],
+      "wrl_sha256": "182bdfe16c250365c998a42967078bbe9204d0d7a7092594820fdfbe0465c388",
+      "step_sha256": "12c3b207861413f6a520b8c653b17add2189e479240cfbc2cfb834b5b02be763",
+      "input_step_sha256": "12c3b207861413f6a520b8c653b17add2189e479240cfbc2cfb834b5b02be763",
+      "original_step_sha256": "285e5b1c2911495b1f1f1dc19ba4f26e027f726117d08aaa565619c17d7230bb",
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        0.100036
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -2.3500000000000005,
+          -1.3000001,
+          3.599999999998049e-05
+        ],
+        [
+          2.3500000000000005,
+          1.3000001,
+          2.100036
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -2.3500000000000005,
+          -1.3000001,
+          3.599999999998049e-05
+        ],
+        [
+          2.3500000000000005,
+          1.3000001,
+          2.100036
+        ]
+      ],
+      "volume_before_mm3": 21.173263763317394,
+      "volume_after_mm3": 21.173263763317394,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0015986870417543954,
+        "step_to_wrl_max_mm": 0.0018061304124665208,
+        "wrl_to_step_p99_mm": 0.0005377507208653194,
+        "step_to_wrl_p99_mm": 0.0012700613341999289,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR.wrl",
+      "step": "DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR.step",
+      "uses_at_review": [
+        "board-b/U8"
+      ],
+      "wrl_sha256": "93a386d2b9a200dcd9f919e5672d5335dd15673c1944f0b1af25b88eacaadd2d",
+      "step_sha256": "40d52877228905cb62b44c6b044beee73d96b87e244382dca6d679f4fa04de88",
+      "input_step_sha256": "40d52877228905cb62b44c6b044beee73d96b87e244382dca6d679f4fa04de88",
+      "original_step_sha256": "2a436d9f227624104d32d0b25eda8d1ef1ab317cb32a30a7345c9ff267ecc0b3",
+      "reviewed_translation_mm": [
+        -1.570863,
+        -0.001,
+        0.101537
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -6.6708631,
+          -7.028,
+          -0.000463
+        ],
+        [
+          3.5291371000000016,
+          7.028,
+          4.4025371
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -6.6708631,
+          -7.028,
+          -0.000463
+        ],
+        [
+          3.5291371000000016,
+          7.028,
+          4.4025371
+        ]
+      ],
+      "volume_before_mm3": 398.67296484614207,
+      "volume_after_mm3": 398.67296484614207,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.006512750459578104,
+        "step_to_wrl_max_mm": 0.007331893445564846,
+        "wrl_to_step_p99_mm": 0.006323883878405125,
+        "step_to_wrl_p99_mm": 0.006832768949144634,
+        "wrl_samples": 1676,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "SMA_L4.2-W2.6-LS5.3-RD.wrl",
+      "step": "SMA_L4.2-W2.6-LS5.3-RD.step",
+      "uses_at_review": [
+        "board-b/TVS2",
+        "board-b/TVS3",
+        "board-b/TVS1"
+      ],
+      "wrl_sha256": "2760e81a823d6a0f5d79b313f579d89a717e2f17f774a72634776ed22093df0f",
+      "step_sha256": "b101ce0a09d95257c3efe30e7039a4799b8bda59721b9f56209bc52673bd38a0",
+      "input_step_sha256": "b101ce0a09d95257c3efe30e7039a4799b8bda59721b9f56209bc52673bd38a0",
+      "original_step_sha256": "cae76c7a440b48c6e959dcfd5b9b8e8ed6dd731b7cf5fcb58a2b767283b138df",
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        1.183032
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -2.6026074496789997,
+          -1.3125001,
+          3.200000000003e-05
+        ],
+        [
+          2.6026074496789997,
+          1.3125001000002408,
+          2.1630321000000095
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -2.6026074496789997,
+          -1.3125001,
+          3.200000000003e-05
+        ],
+        [
+          2.6026074496789997,
+          1.3125001000002408,
+          2.1630321000000095
+        ]
+      ],
+      "volume_before_mm3": 20.10871806014091,
+      "volume_after_mm3": 20.10871806014091,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0026039305197036212,
+        "step_to_wrl_max_mm": 0.002951257652248457,
+        "wrl_to_step_p99_mm": 0.0023577572136462975,
+        "step_to_wrl_p99_mm": 0.0020849243272012988,
+        "wrl_samples": 1307,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "IND-SMD_L13.8-W12.8.wrl",
+      "step": "IND-SMD_L13.8-W12.8.step",
+      "uses_at_review": [
+        "board-b/L3",
+        "board-b/L2"
+      ],
+      "wrl_sha256": "06436bab3fbd7fcc4f9cbae5509d0f69f32d1a55ece138067b04866346284a5f",
+      "step_sha256": "9f0aac5ab8de0ed994633527c2750231c0da14e4d5cf935932fa1a6a80d1e877",
+      "input_step_sha256": "9f0aac5ab8de0ed994633527c2750231c0da14e4d5cf935932fa1a6a80d1e877",
+      "original_step_sha256": "48184c82fe2f5c60a7d7e6a1faaea29dd3ecdea4ac5ded3f987cf86f355f4c09",
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        0.150051
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -6.9,
+          -6.400000100000001,
+          5.100000000002325e-05
+        ],
+        [
+          6.9,
+          6.400000100000001,
+          6.150051100000001
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -6.9,
+          -6.400000100000001,
+          5.100000000002325e-05
+        ],
+        [
+          6.9,
+          6.400000100000001,
+          6.150051100000001
+        ]
+      ],
+      "volume_before_mm3": 989.0442087471517,
+      "volume_after_mm3": 989.0442087471517,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.002815609796636332,
+        "step_to_wrl_max_mm": 0.009962000000000693,
+        "wrl_to_step_p99_mm": 0.0027487083439848435,
+        "step_to_wrl_p99_mm": 0.009962000000000693,
+        "wrl_samples": 1319,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "ASPI-0630LR_MaxEnvelope_L7.5-W6.85-H3.0.wrl",
+      "step": "ASPI-0630LR_MaxEnvelope_L7.5-W6.85-H3.0.step",
+      "uses_at_review": [
+        "board-b/L1"
+      ],
+      "wrl_sha256": "cda7beb94decf0ba47391f1aec30f1a59bf3734b2fc5216ed240dcf44aa054ad",
+      "step_sha256": "54f141a85b41ad4d0a66284e0e99fd9769fe8b55418642b6ec24556ef039b852",
+      "input_step_sha256": "54f141a85b41ad4d0a66284e0e99fd9769fe8b55418642b6ec24556ef039b852",
+      "original_step_sha256": "54f141a85b41ad4d0a66284e0e99fd9769fe8b55418642b6ec24556ef039b852",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -3.75,
+          -3.425,
+          0.0
+        ],
+        [
+          3.75,
+          3.425,
+          3.0
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -3.75,
+          -3.425,
+          0.0
+        ],
+        [
+          3.75,
+          3.425,
+          3.0
+        ]
+      ],
+      "volume_before_mm3": 154.125,
+      "volume_after_mm3": 154.125,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 1.1999734539358542e-11,
+        "step_to_wrl_max_mm": 1.2041300551069786e-11,
+        "wrl_to_step_p99_mm": 1.1999734539358542e-11,
+        "step_to_wrl_p99_mm": 1.2041300549513854e-11,
+        "wrl_samples": 20,
+        "step_samples": 20,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "TSOT-23-6_L2.9-W1.6-H1.1-LS2.8-P0.95.wrl",
+      "step": "TSOT-23-6_L2.9-W1.6-H1.1-LS2.8-P0.95.step",
+      "uses_at_review": [
+        "board-b/U2"
+      ],
+      "wrl_sha256": "7beff80751f40bfe5e0800c15c62acf6f813c4c49164c30999b77d88628ca436",
+      "step_sha256": "77b5cd562f8bfb64a01a66bc21509238c22eb2c128bbce5e257d7cdc3ebd0845",
+      "input_step_sha256": "77b5cd562f8bfb64a01a66bc21509238c22eb2c128bbce5e257d7cdc3ebd0845",
+      "original_step_sha256": "dd29784c04129b052f7e155281493d618169bcca7010a3be75a40dc34da74ce1",
+      "reviewed_translation_mm": [
+        -0.000127,
+        0.0,
+        -0.051261
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.402941618447,
+          -1.4500001,
+          -0.0004659972729520005
+        ],
+        [
+          1.402687618447,
+          1.4500001,
+          1.0497391
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.402941618447,
+          -1.4500001,
+          -0.0004659972729520005
+        ],
+        [
+          1.402687618447,
+          1.4500001,
+          1.0497391
+        ]
+      ],
+      "volume_before_mm3": 4.5565471119584755,
+      "volume_after_mm3": 4.5565471119584755,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0009429308399501455,
+        "step_to_wrl_max_mm": 0.0011600443767727617,
+        "wrl_to_step_p99_mm": 0.0007184648758591444,
+        "step_to_wrl_p99_mm": 0.0007861427118366529,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "SMA_Diodes_SDT5A60SA_C3024223.wrl",
+      "step": "SMA_Diodes_SDT5A60SA_C3024223.step",
+      "uses_at_review": [
+        "board-b/D3"
+      ],
+      "wrl_sha256": "182bdfe16c250365c998a42967078bbe9204d0d7a7092594820fdfbe0465c388",
+      "step_sha256": "e3b4234239118669f5373559d7f5d96fc9a51a10fffa01c8f7fe7722a9703733",
+      "input_step_sha256": "e3b4234239118669f5373559d7f5d96fc9a51a10fffa01c8f7fe7722a9703733",
+      "original_step_sha256": "285e5b1c2911495b1f1f1dc19ba4f26e027f726117d08aaa565619c17d7230bb",
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        0.100036
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -2.3500000000000005,
+          -1.3000001,
+          3.599999999998049e-05
+        ],
+        [
+          2.3500000000000005,
+          1.3000001,
+          2.100036
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -2.3500000000000005,
+          -1.3000001,
+          3.599999999998049e-05
+        ],
+        [
+          2.3500000000000005,
+          1.3000001,
+          2.100036
+        ]
+      ],
+      "volume_before_mm3": 21.173263763317394,
+      "volume_after_mm3": 21.173263763317394,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0015986870417543954,
+        "step_to_wrl_max_mm": 0.0018061304124665208,
+        "wrl_to_step_p99_mm": 0.0005377507208653194,
+        "step_to_wrl_p99_mm": 0.0012700613341999289,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.1-FD.wrl",
+      "step": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.1-FD.step",
+      "uses_at_review": [
+        "board-b/C11",
+        "board-b/C9"
+      ],
+      "wrl_sha256": "3d25bdc5a33b42288b33b955225194cb8c73a25c89af2ebd7c166edcda49f9a5",
+      "step_sha256": "91f68b869bd845088c2801cc3f085176055df19de8b7a751709c362870f5cbf7",
+      "input_step_sha256": "91f68b869bd845088c2801cc3f085176055df19de8b7a751709c362870f5cbf7",
+      "original_step_sha256": "30ea62cc25ee6d5520f76176650412aac743c202bfb945626520b41c02b52ee2",
+      "reviewed_translation_mm": [
+        0.0,
+        -0.0,
+        0.799939
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -4.550000000000006,
+          -4.150000100000001,
+          -6.100000000175e-05
+        ],
+        [
+          4.55,
+          4.150000100000001,
+          10.199939
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -4.550000000000006,
+          -4.150000100000001,
+          -6.100000000175e-05
+        ],
+        [
+          4.55,
+          4.150000100000001,
+          10.199939
+        ]
+      ],
+      "volume_before_mm3": 510.2222761937024,
+      "volume_after_mm3": 510.2222761937024,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.6001610000000001,
+        "step_to_wrl_max_mm": 0.008158460825634598,
+        "wrl_to_step_p99_mm": 0.020024999999999987,
+        "step_to_wrl_p99_mm": 0.007319408595164561,
+        "wrl_samples": 3072,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 28
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "LED0603-RD.wrl",
+      "step": "LED0603-RD.step",
+      "uses_at_review": [
+        "board-b/LED3",
+        "board-b/LED2",
+        "board-b/LED4"
+      ],
+      "wrl_sha256": "faeab91c393eb8cc93f5c901584a2a59bedbc638abaf30fd54745c77444390c1",
+      "step_sha256": "e859d1f709b2460cc373dac1da175c8c2d9e3ff67763451e9b881eb3346f407a",
+      "input_step_sha256": "e859d1f709b2460cc373dac1da175c8c2d9e3ff67763451e9b881eb3346f407a",
+      "original_step_sha256": "e859d1f709b2460cc373dac1da175c8c2d9e3ff67763451e9b881eb3346f407a",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -0.8099999999999999,
+          -0.41,
+          -0.010000000000000026
+        ],
+        [
+          0.8099999999999999,
+          0.41000010000000003,
+          0.55
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -0.8099999999999999,
+          -0.41,
+          -0.010000000000000026
+        ],
+        [
+          0.8099999999999999,
+          0.41000010000000003,
+          0.55
+        ]
+      ],
+      "volume_before_mm3": 0.5480330952813403,
+      "volume_after_mm3": 0.5480330952813403,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.010070708842392593,
+        "step_to_wrl_max_mm": 0.01000012499921876,
+        "wrl_to_step_p99_mm": 0.010000000000000026,
+        "step_to_wrl_p99_mm": 0.01,
+        "wrl_samples": 1603,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "IDC-TH_16P-P2.54_321016RG0ABK00A01.wrl",
+      "step": "IDC-TH_16P-P2.54_321016RG0ABK00A01.step",
+      "uses_at_review": [
+        "board-b/J10",
+        "board-b/J11"
+      ],
+      "wrl_sha256": "3fa601b3b97df0f4db234b961c86507826da8fa3eaaedf3f3a20c72cd7338c4c",
+      "step_sha256": "0c79bc26f2ac6e9d48a700111b2e4c2637343e97668901e98477eb96ad9fd0ac",
+      "input_step_sha256": "0c79bc26f2ac6e9d48a700111b2e4c2637343e97668901e98477eb96ad9fd0ac",
+      "original_step_sha256": null,
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -13.9600001,
+          -12.076000100000044,
+          -3.0000000000005196
+        ],
+        [
+          13.960000100000062,
+          1.5840000000001235,
+          8.7010001
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -13.9600001,
+          -12.076000100000044,
+          -3.0000000000005196
+        ],
+        [
+          13.960000100000062,
+          1.5840000000001235,
+          8.7010001
+        ]
+      ],
+      "volume_before_mm3": 1021.7142439618465,
+      "volume_after_mm3": 1021.7142439618465,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.006392058083485701,
+        "step_to_wrl_max_mm": 0.007162551489929367,
+        "wrl_to_step_p99_mm": 0.006151714569812222,
+        "step_to_wrl_p99_mm": 0.006859300221496526,
+        "wrl_samples": 2708,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS",
+      "normalization_owner": "3dp-files/faston-cover/normalize-socket-step.py"
+    },
+    {
+      "wrl": "TO-263-5-5P_L10.2-W8.7-H4.5-LS14.4-P1.70.wrl",
+      "step": "TO-263-5-5P_L10.2-W8.7-H4.5-LS14.4-P1.70.step",
+      "uses_at_review": [
+        "board-b/U3",
+        "board-b/U4"
+      ],
+      "wrl_sha256": "69a9ea0285faaf4bd65ecb6a9b7161f3e156740e3087fd52e79a5c47fb46613c",
+      "step_sha256": "984c015417bc6e94da0da58812b524b6bc2c1319513613a0b181474a18202b2d",
+      "input_step_sha256": "984c015417bc6e94da0da58812b524b6bc2c1319513613a0b181474a18202b2d",
+      "original_step_sha256": "9f9be6e826bb65222d8cfe280cbd03d295f9e36348eb4fae1c397eda0c7b4f18",
+      "reviewed_translation_mm": [
+        -1.149985,
+        -7.103022,
+        0.014651
+      ],
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -6.249985100000012,
+          -7.11427423059244,
+          -5.434997221684e-05
+        ],
+        [
+          3.950015100000348,
+          7.114274914887053,
+          4.514651
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -6.249985100000012,
+          -7.11427423059244,
+          -5.434997221684e-05
+        ],
+        [
+          3.950015100000348,
+          7.114274914887053,
+          4.514651
+        ]
+      ],
+      "volume_before_mm3": 397.8497444297363,
+      "volume_after_mm3": 397.8497444297363,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.009987000000000005,
+        "step_to_wrl_max_mm": 0.005340596311392062,
+        "wrl_to_step_p99_mm": 0.009987000000000001,
+        "step_to_wrl_p99_mm": 0.004778444900402316,
+        "wrl_samples": 2725,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "F1210_L3.2-W2.6-H0.6.wrl",
+      "step": "F1210_L3.2-W2.6-H0.6.step",
+      "uses_at_review": [
+        "board-b/PTC1"
+      ],
+      "wrl_sha256": "38a2b1eca02307537053ff3a641082125dcee93af17bf6f7fa99128648a68294",
+      "step_sha256": "6141c80b0381bf4983728befd23b40d787668fb36cf5e24b6d624d661deef658",
+      "input_step_sha256": "6141c80b0381bf4983728befd23b40d787668fb36cf5e24b6d624d661deef658",
+      "original_step_sha256": "6141c80b0381bf4983728befd23b40d787668fb36cf5e24b6d624d661deef658",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.6000001,
+          -1.3000000999999999,
+          0.0
+        ],
+        [
+          1.6000001000000004,
+          1.3000001,
+          0.62
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.6000001,
+          -1.3000000999999999,
+          0.0
+        ],
+        [
+          1.6000001000000004,
+          1.3000001,
+          0.62
+        ]
+      ],
+      "volume_before_mm3": 4.8066958624966665,
+      "volume_after_mm3": 4.8066958624966665,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0019485114743932144,
+        "step_to_wrl_max_mm": 0.002143901150755483,
+        "wrl_to_step_p99_mm": 0.0019238529959016708,
+        "step_to_wrl_p99_mm": 0.001052000000000053,
+        "wrl_samples": 995,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "F1812_L4.5-W3.2-H1.0.wrl",
+      "step": "F1812_L4.5-W3.2-H1.0.step",
+      "uses_at_review": [
+        "board-b/PTC2"
+      ],
+      "wrl_sha256": "b6a770fde82248375dbd05db89903cb76bb43d3d9bdc427222865cc7432c3d2d",
+      "step_sha256": "c524c7b000487143cdc277d888c687ffa6ef907bacc9dfde14924b5fbd5f574c",
+      "input_step_sha256": "c524c7b000487143cdc277d888c687ffa6ef907bacc9dfde14924b5fbd5f574c",
+      "original_step_sha256": "c524c7b000487143cdc277d888c687ffa6ef907bacc9dfde14924b5fbd5f574c",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -2.2500001000000003,
+          -1.6000001000000001,
+          0.0
+        ],
+        [
+          2.2500000999999994,
+          1.6000001000000001,
+          1.04
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -2.2500001000000003,
+          -1.6000001000000001,
+          0.0
+        ],
+        [
+          2.2500000999999994,
+          1.6000001000000001,
+          1.04
+        ]
+      ],
+      "volume_before_mm3": 14.28274434841558,
+      "volume_after_mm3": 14.28274434841558,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.0023535675875917365,
+        "step_to_wrl_max_mm": 0.0025765082939770627,
+        "wrl_to_step_p99_mm": 0.0022505178399077814,
+        "step_to_wrl_p99_mm": 0.0009359999999998259,
+        "wrl_samples": 995,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "HDR-TH_6P-P2.54-V-F.wrl",
+      "step": "HDR-TH_6P-P2.54-V-F.step",
+      "uses_at_review": [
+        "board-b/J5"
+      ],
+      "wrl_sha256": "c376ab438bd847cbe63e90aa4024a2b05db6fb9ea7aa3929c57cb7c29662c583",
+      "step_sha256": "6101de529b83a8e40d64b9e05257aaeaa86d39c19e3ce22019d66e50f42541db",
+      "input_step_sha256": "6101de529b83a8e40d64b9e05257aaeaa86d39c19e3ce22019d66e50f42541db",
+      "original_step_sha256": "6101de529b83a8e40d64b9e05257aaeaa86d39c19e3ce22019d66e50f42541db",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -7.8700001,
+          -1.2000001,
+          -3.2000000000000015
+        ],
+        [
+          7.8800001,
+          1.2000001000000073,
+          8.5000001
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -7.8700001,
+          -1.2000001,
+          -3.2000000000000015
+        ],
+        [
+          7.8800001,
+          1.2000001000000073,
+          8.5000001
+        ]
+      ],
+      "volume_before_mm3": 265.10604374265114,
+      "volume_after_mm3": 265.10604374265114,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.007273184055674644,
+        "step_to_wrl_max_mm": 0.01006399999999985,
+        "wrl_to_step_p99_mm": 0.007223647732529314,
+        "step_to_wrl_p99_mm": 0.01006399999999985,
+        "wrl_samples": 1737,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "WJ500V-5.08-2P_C8465.wrl",
+      "step": "WJ500V-5.08-2P_C8465.step",
+      "uses_at_review": [
+        "board-b/J6",
+        "board-b/J7"
+      ],
+      "wrl_sha256": "240f6bc006ee3db4ba725b610924e1b8dcb0105f8e30c1cbb719eed66ee9b41e",
+      "step_sha256": "e7ab1216723bbee032969a27b7c8752922a7ac8325b97c1b581d801c9293070d",
+      "input_step_sha256": "e7ab1216723bbee032969a27b7c8752922a7ac8325b97c1b581d801c9293070d",
+      "original_step_sha256": "e7ab1216723bbee032969a27b7c8752922a7ac8325b97c1b581d801c9293070d",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -5.6800000000000965,
+          -4.500000000000209,
+          -3.500000000000011
+        ],
+        [
+          5.081000100000001,
+          5.500000000000001,
+          14.0
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -5.6800000000000965,
+          -4.500000000000209,
+          -3.500000000000011
+        ],
+        [
+          5.081000100000001,
+          5.500000000000001,
+          14.0
+        ]
+      ],
+      "volume_before_mm3": 913.9005027423228,
+      "volume_after_mm3": 913.9005027423228,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.012300844040522896,
+        "step_to_wrl_max_mm": 0.013801874298281823,
+        "wrl_to_step_p99_mm": 0.011876206083427208,
+        "step_to_wrl_p99_mm": 0.008675275438513383,
+        "wrl_samples": 2876,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Sampled triangle-surface correspondence is a datum/orientation screen, not an exact Hausdorff proof.",
+    "STEP tessellation uses 0.02 mm linear and0.08 rad angular deflection; each direction samples up to2048 distinct vertices and1024 face centers.",
+    "Only STEP companions can change; WRL, model-node transforms, footprints, PCB copper and placements are preserved.",
+    "Agreement with existing WRL does not certify manufacturer accuracy, normalized land-pattern fit, unseen geometry or physical mating. ASPI remains a conservative illustrative envelope.",
+    "The exact BD8 capacitor retains internal WRL faces contained within the STEP solid; its outer STEP-to-WRL screen must still pass."
+  ],
+  "model_pairs_checked": 31,
+  "step_translations_applied_this_run": 0
+}

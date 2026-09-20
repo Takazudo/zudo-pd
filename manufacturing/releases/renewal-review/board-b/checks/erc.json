@@ -1,0 +1,1463 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-09-20T04:58:43",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.0",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/3d627066-684f-577a-80b2-2a76742d5147",
+            "violations": [
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U3 Pin 1 [Vin, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.3147,
+                                "y": 0.4572
+                            },
+                            "uuid": "224f0ea8-7aff-52cb-b3ca-54a32ae3f0c0"
+                        },
+                        {
+                            "description": "Symbol C6 Pin 1 [1, Passive, Line]",
+                            "pos": {
+                                "x": 3.3782,
+                                "y": 1.524
+                            },
+                            "uuid": "4fa178d7-2b83-5078-a2c6-19d46156f9e3"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U3 Pin 2 [Output, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.3147,
+                                "y": 0.4826
+                            },
+                            "uuid": "87408545-0a8a-5f42-85f9-4b769dbac6f4"
+                        },
+                        {
+                            "description": "Symbol D2 Pin 1 [K, Passive, Line]",
+                            "pos": {
+                                "x": 4.2672,
+                                "y": 0.508
+                            },
+                            "uuid": "204f84a9-aae9-54d3-a087-43c457ee4054"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U3 Pin 3 [Gnd, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.3147,
+                                "y": 0.508
+                            },
+                            "uuid": "90523207-8bfc-5655-ba28-8a45b4cc333e"
+                        },
+                        {
+                            "description": "Symbol U3 Pin 5 [~{ON}/OFF, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.3147,
+                                "y": 0.5588
+                            },
+                            "uuid": "4e32e60b-7b07-5271-947a-4e757bc3c58f"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U3 Pin 4 [Feedback, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.3147,
+                                "y": 0.5334
+                            },
+                            "uuid": "33a5dac6-2aca-5452-81a0-b9ef44b80ea7"
+                        },
+                        {
+                            "description": "Symbol C32 Pin 1 [1, Passive, Line]",
+                            "pos": {
+                                "x": 4.2672,
+                                "y": 2.54
+                            },
+                            "uuid": "eb0fb8f6-00d0-537c-8a92-193eec3bacb5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U3 Pin 5 [~{ON}/OFF, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.3147,
+                                "y": 0.5588
+                            },
+                            "uuid": "4e32e60b-7b07-5271-947a-4e757bc3c58f"
+                        },
+                        {
+                            "description": "Symbol U3 Pin 6 [TAB, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.5433,
+                                "y": 0.508
+                            },
+                            "uuid": "167f1001-a994-5636-bda5-9e27aed93fcd"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J5 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.4925
+                            },
+                            "uuid": "435b6b85-f107-5e86-aa93-336a2bfb076d"
+                        },
+                        {
+                            "description": "Symbol J5 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.5179
+                            },
+                            "uuid": "45b1a35f-f7c4-5c3a-8dd1-7a1cdcfe351b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U3 Pin 6 [TAB, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.5433,
+                                "y": 0.508
+                            },
+                            "uuid": "167f1001-a994-5636-bda5-9e27aed93fcd"
+                        },
+                        {
+                            "description": "Symbol D2 Pin 2 [A, Passive, Line]",
+                            "pos": {
+                                "x": 4.3688,
+                                "y": 0.508
+                            },
+                            "uuid": "54479258-2b30-5916-94c5-afc805ab6d7a"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Power output are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J5 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.5179
+                            },
+                            "uuid": "45b1a35f-f7c4-5c3a-8dd1-7a1cdcfe351b"
+                        },
+                        {
+                            "description": "Symbol #FLG002 Pin 1 [Power output, Line]",
+                            "pos": {
+                                "x": 1.651,
+                                "y": 5.461
+                            },
+                            "uuid": "c4ff3ce1-39b6-5be5-ba30-2cd7d852d4ea"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J5 Pin 3 [3, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.5433
+                            },
+                            "uuid": "9146268a-2f24-5696-ba14-7c7c75aa61bb"
+                        },
+                        {
+                            "description": "Symbol P1 Pin 1 [SCL, Passive, Line]",
+                            "pos": {
+                                "x": 1.6002,
+                                "y": 3.5179
+                            },
+                            "uuid": "08c5c62e-a3a6-5601-92da-41fa21306402"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J5 Pin 4 [4, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.5687
+                            },
+                            "uuid": "393d9504-cae1-5dac-b762-4aefd7e2c2b8"
+                        },
+                        {
+                            "description": "Symbol P1 Pin 2 [SDA, Passive, Line]",
+                            "pos": {
+                                "x": 1.6002,
+                                "y": 3.5433
+                            },
+                            "uuid": "ebf6b197-0848-56ae-b03b-ce7528b51b69"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J5 Pin 5 [5, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.5941
+                            },
+                            "uuid": "0acbd32a-41d1-5c8e-aaa4-9f1bf46e0c41"
+                        },
+                        {
+                            "description": "Symbol J5 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.6195
+                            },
+                            "uuid": "ab173b2e-179c-5c73-bf8d-bc679691ed9b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J5 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 0.7239,
+                                "y": 3.6195
+                            },
+                            "uuid": "ab173b2e-179c-5c73-bf8d-bc679691ed9b"
+                        },
+                        {
+                            "description": "Symbol R4 Pin 2 [2, Passive, Line]",
+                            "pos": {
+                                "x": 0.8128,
+                                "y": 3.048
+                            },
+                            "uuid": "951c6f48-b906-5f2b-974a-400188b6ef57"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U4 Pin 1 [Vin, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.9817,
+                                "y": 0.4572
+                            },
+                            "uuid": "3fcb0afc-ee7d-5fbe-9f71-c8b9925da173"
+                        },
+                        {
+                            "description": "Symbol C9 Pin 1 [1, Passive, Line]",
+                            "pos": {
+                                "x": 6.0452,
+                                "y": 1.524
+                            },
+                            "uuid": "2db63bb8-7ce1-5e4b-ad1e-bbb5bb77cb04"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U4 Pin 2 [Output, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.9817,
+                                "y": 0.4826
+                            },
+                            "uuid": "558ddda9-3e5d-538d-b50a-811bcc3e0b6e"
+                        },
+                        {
+                            "description": "Symbol D3 Pin 1 [K, Passive, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 0.508
+                            },
+                            "uuid": "7a9c30d0-ce2f-5211-a5d1-c4557d103fc5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U4 Pin 3 [Gnd, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.9817,
+                                "y": 0.508
+                            },
+                            "uuid": "f5846fd2-9f94-5085-8c2b-6136795fdd5c"
+                        },
+                        {
+                            "description": "Symbol U4 Pin 5 [~{ON}/OFF, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.9817,
+                                "y": 0.5588
+                            },
+                            "uuid": "b376dc84-57b0-5252-8047-efe65876fde8"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U4 Pin 4 [Feedback, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.9817,
+                                "y": 0.5334
+                            },
+                            "uuid": "bb2924c8-288f-57fb-ac30-dd2ee134f9f9"
+                        },
+                        {
+                            "description": "Symbol C33 Pin 1 [1, Passive, Line]",
+                            "pos": {
+                                "x": 5.1562,
+                                "y": 2.54
+                            },
+                            "uuid": "d68f4063-54af-523b-9da7-80cca4606232"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U4 Pin 5 [~{ON}/OFF, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.9817,
+                                "y": 0.5588
+                            },
+                            "uuid": "b376dc84-57b0-5252-8047-efe65876fde8"
+                        },
+                        {
+                            "description": "Symbol U4 Pin 6 [TAB, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.2103,
+                                "y": 0.508
+                            },
+                            "uuid": "ae658e67-3db2-5fe4-a051-9e2e29dcd9a7"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U4 Pin 6 [TAB, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.2103,
+                                "y": 0.508
+                            },
+                            "uuid": "ae658e67-3db2-5fe4-a051-9e2e29dcd9a7"
+                        },
+                        {
+                            "description": "Symbol D3 Pin 2 [A, Passive, Line]",
+                            "pos": {
+                                "x": 7.0358,
+                                "y": 0.508
+                            },
+                            "uuid": "cafeb573-7c29-5e62-a34a-30cdc270179b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J6 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.1562,
+                                "y": 3.5433
+                            },
+                            "uuid": "93bf3439-e95b-593d-a3a7-d2f944def97d"
+                        },
+                        {
+                            "description": "Symbol J6 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.1562,
+                                "y": 3.5687
+                            },
+                            "uuid": "7662b677-7ba9-5ced-a9cb-1b6def27181e"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J6 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 5.1562,
+                                "y": 3.5687
+                            },
+                            "uuid": "7662b677-7ba9-5ced-a9cb-1b6def27181e"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.8481
+                            },
+                            "uuid": "b72b17b7-fa3a-5606-84c3-2f2806833f70"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol LED2 Pin 2 [K, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0452,
+                                "y": 3.048
+                            },
+                            "uuid": "c2affcbb-7b1a-51e8-bdb4-d4ae2144a98d"
+                        },
+                        {
+                            "description": "Symbol LED3 Pin 1 [K, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 3.0607
+                            },
+                            "uuid": "1ccbc16d-6adb-5e85-b25f-b7fa5df49e98"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol LED2 Pin 1 [A, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1468,
+                                "y": 3.048
+                            },
+                            "uuid": "07dce3cc-9a7c-5867-9414-b26dd4467aea"
+                        },
+                        {
+                            "description": "Symbol R7 Pin 2 [2, Passive, Line]",
+                            "pos": {
+                                "x": 3.4798,
+                                "y": 3.048
+                            },
+                            "uuid": "9a6613cf-3f77-51ae-876f-d664a63a3450"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J7 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0452,
+                                "y": 3.5433
+                            },
+                            "uuid": "a769eee5-e53d-5bff-af6d-ee3408fdf335"
+                        },
+                        {
+                            "description": "Symbol J7 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0452,
+                                "y": 3.5687
+                            },
+                            "uuid": "a3d1118d-c85f-51f4-83b0-febfd1cf8c84"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J7 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0452,
+                                "y": 3.5687
+                            },
+                            "uuid": "a3d1118d-c85f-51f4-83b0-febfd1cf8c84"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 9 [9, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.9497
+                            },
+                            "uuid": "4f57dd2a-698c-50e7-9c0d-81c790574177"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.8481
+                            },
+                            "uuid": "b72b17b7-fa3a-5606-84c3-2f2806833f70"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.8481
+                            },
+                            "uuid": "7b20b741-f498-5c4f-920e-302fcf5118d5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 3 [3, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.8735
+                            },
+                            "uuid": "ef4c6369-a923-52a4-a97e-05729c8c77eb"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 5 [5, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.8989
+                            },
+                            "uuid": "e83de4ef-065d-5581-9553-212c9659f471"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 5 [5, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.8989
+                            },
+                            "uuid": "e83de4ef-065d-5581-9553-212c9659f471"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 7 [7, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.9243
+                            },
+                            "uuid": "55634300-8367-563a-b193-9323df8be577"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 7 [7, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.9243
+                            },
+                            "uuid": "55634300-8367-563a-b193-9323df8be577"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 8 [8, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9243
+                            },
+                            "uuid": "c030ec33-9076-52ff-beec-fbc55e7a04bb"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 9 [9, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.9497
+                            },
+                            "uuid": "4f57dd2a-698c-50e7-9c0d-81c790574177"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 10 [10, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9497
+                            },
+                            "uuid": "714eca0b-1a40-5dcf-b195-904f385a6e9d"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 11 [11, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 3.9751
+                            },
+                            "uuid": "1d9c25b0-6fdb-5d67-a3a0-5308bbc0bfb3"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 12 [12, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9751
+                            },
+                            "uuid": "af662cc5-9ac5-5b6e-8780-0860b28b455e"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 13 [13, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 4.0005
+                            },
+                            "uuid": "e210b74b-ed1f-5380-88da-ead8b8f7001e"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 14 [14, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 4.0005
+                            },
+                            "uuid": "b21a86af-e4e9-551f-9c4f-a1895b4547e4"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 15 [15, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.0198,
+                                "y": 4.0259
+                            },
+                            "uuid": "d1980198-69da-50ac-b2e1-437c0f29aaad"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 16 [16, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 4.0259
+                            },
+                            "uuid": "3131ad76-3d12-56ac-b051-d9054566d204"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.8481
+                            },
+                            "uuid": "7b20b741-f498-5c4f-920e-302fcf5118d5"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.8481
+                            },
+                            "uuid": "6b5cc755-9403-5753-8943-23b70e67178b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 4 [4, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.8735
+                            },
+                            "uuid": "290efc14-006d-5d32-a102-4b3e0466a326"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.8989
+                            },
+                            "uuid": "ef101193-9e63-5450-9561-ebb4439066e9"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.8989
+                            },
+                            "uuid": "ef101193-9e63-5450-9561-ebb4439066e9"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 8 [8, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9243
+                            },
+                            "uuid": "c030ec33-9076-52ff-beec-fbc55e7a04bb"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 8 [8, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9243
+                            },
+                            "uuid": "c030ec33-9076-52ff-beec-fbc55e7a04bb"
+                        },
+                        {
+                            "description": "Symbol C40 Pin 2 [2, Passive, Line]",
+                            "pos": {
+                                "x": 6.1341,
+                                "y": 4.318
+                            },
+                            "uuid": "f39892a5-1290-5438-bf35-eb1a2b9905a7"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 10 [10, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9497
+                            },
+                            "uuid": "714eca0b-1a40-5dcf-b195-904f385a6e9d"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 9 [9, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.9497
+                            },
+                            "uuid": "90b229b4-5d0c-53da-b00e-274381677eeb"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 12 [12, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9751
+                            },
+                            "uuid": "af662cc5-9ac5-5b6e-8780-0860b28b455e"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 11 [11, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.9751
+                            },
+                            "uuid": "3469165f-0490-5700-9fec-6f20e1fec027"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 14 [14, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 4.0005
+                            },
+                            "uuid": "b21a86af-e4e9-551f-9c4f-a1895b4547e4"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 13 [13, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 4.0005
+                            },
+                            "uuid": "320d4880-60b3-5484-9731-a76fb710680a"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J10 Pin 16 [16, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 4.0259
+                            },
+                            "uuid": "3131ad76-3d12-56ac-b051-d9054566d204"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 15 [15, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 4.0259
+                            },
+                            "uuid": "92a588c5-c262-5e8f-81d5-92f76b5e0e3a"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol LED3 Pin 1 [K, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 3.0607
+                            },
+                            "uuid": "1ccbc16d-6adb-5e85-b25f-b7fa5df49e98"
+                        },
+                        {
+                            "description": "Symbol R2 Pin 1 [1, Input, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 2.54
+                            },
+                            "uuid": "6fc24c91-4e3f-5b1b-8331-022b5cef45de"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol LED3 Pin 2 [A, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.0358,
+                                "y": 3.0607
+                            },
+                            "uuid": "a4f1ff52-5c55-5629-a680-b28cceabd77f"
+                        },
+                        {
+                            "description": "Symbol R8 Pin 2 [2, Passive, Line]",
+                            "pos": {
+                                "x": 4.3688,
+                                "y": 3.048
+                            },
+                            "uuid": "152ff317-5915-59a2-9c27-6d52a5f976f1"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J8 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 3.5433
+                            },
+                            "uuid": "8d8c3e93-9ecd-530c-8ed1-9879834cc6ae"
+                        },
+                        {
+                            "description": "Symbol J8 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 3.5687
+                            },
+                            "uuid": "12ecb300-f2f8-51f2-b776-7e0ecde24733"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J8 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 3.5687
+                            },
+                            "uuid": "12ecb300-f2f8-51f2-b776-7e0ecde24733"
+                        },
+                        {
+                            "description": "Symbol J10 Pin 12 [12, Unspecified, Line]",
+                            "pos": {
+                                "x": 6.1722,
+                                "y": 3.9751
+                            },
+                            "uuid": "af662cc5-9ac5-5b6e-8780-0860b28b455e"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol LED4 Pin 1 [K, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.8232,
+                                "y": 3.048
+                            },
+                            "uuid": "18897346-4055-5fcd-aed1-bc655daa266f"
+                        },
+                        {
+                            "description": "Symbol R9 Pin 2 [2, Passive, Line]",
+                            "pos": {
+                                "x": 5.2578,
+                                "y": 3.048
+                            },
+                            "uuid": "84633e97-a767-5569-a179-22905772f6bb"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol LED4 Pin 2 [A, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9248,
+                                "y": 3.048
+                            },
+                            "uuid": "755b752d-e34c-5b0d-b80f-44f77669b8b5"
+                        },
+                        {
+                            "description": "Symbol C22 Pin 2 [2, Passive, Line]",
+                            "pos": {
+                                "x": 7.874,
+                                "y": 2.0828
+                            },
+                            "uuid": "05727c0c-f32c-5913-b61e-39d620e003d9"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J9 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.8232,
+                                "y": 3.5433
+                            },
+                            "uuid": "2e383b9d-c777-55e7-bc81-e95fa4cf9ebd"
+                        },
+                        {
+                            "description": "Symbol J9 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.8232,
+                                "y": 3.5687
+                            },
+                            "uuid": "0b9a2866-c88b-5cf3-89d4-5f9e4eacd43b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J9 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.8232,
+                                "y": 3.5687
+                            },
+                            "uuid": "0b9a2866-c88b-5cf3-89d4-5f9e4eacd43b"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 3 [3, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.8735
+                            },
+                            "uuid": "5eee521c-f940-57fb-a588-a8ed0c8d731a"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.8481
+                            },
+                            "uuid": "6b5cc755-9403-5753-8943-23b70e67178b"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.8481
+                            },
+                            "uuid": "47e775d4-b1c0-5204-9f21-38441b0d02d0"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 3 [3, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.8735
+                            },
+                            "uuid": "5eee521c-f940-57fb-a588-a8ed0c8d731a"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 5 [5, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.8989
+                            },
+                            "uuid": "0a11d022-22d1-51b3-8566-a132af643cb5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 5 [5, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.8989
+                            },
+                            "uuid": "0a11d022-22d1-51b3-8566-a132af643cb5"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 7 [7, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.9243
+                            },
+                            "uuid": "48492f73-b721-5aba-a396-a031b579da80"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 7 [7, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.9243
+                            },
+                            "uuid": "48492f73-b721-5aba-a396-a031b579da80"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 8 [8, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.9243
+                            },
+                            "uuid": "9fe395fb-7feb-502a-8d95-1eeaffef94a5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 9 [9, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.9497
+                            },
+                            "uuid": "90b229b4-5d0c-53da-b00e-274381677eeb"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 10 [10, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.9497
+                            },
+                            "uuid": "2f035b6e-6f97-511a-862a-bd2b159a6560"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 11 [11, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 3.9751
+                            },
+                            "uuid": "3469165f-0490-5700-9fec-6f20e1fec027"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 12 [12, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.9751
+                            },
+                            "uuid": "cc310a5a-b9f5-58bd-a5eb-b5549c3caceb"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 13 [13, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 4.0005
+                            },
+                            "uuid": "320d4880-60b3-5484-9731-a76fb710680a"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 14 [14, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 4.0005
+                            },
+                            "uuid": "3e00beb0-62fd-5a73-bde6-269f9c906834"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 15 [15, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.7978,
+                                "y": 4.0259
+                            },
+                            "uuid": "92a588c5-c262-5e8f-81d5-92f76b5e0e3a"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 16 [16, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 4.0259
+                            },
+                            "uuid": "8e457c1b-13ed-5476-8d6a-b7a8a3bfcbc3"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.8481
+                            },
+                            "uuid": "47e775d4-b1c0-5204-9f21-38441b0d02d0"
+                        },
+                        {
+                            "description": "Symbol TVS3 Pin 2 [A, Passive, Line]",
+                            "pos": {
+                                "x": 7.9248,
+                                "y": 1.016
+                            },
+                            "uuid": "464560f3-5435-52fb-beb7-9f3658f4b615"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 4 [4, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.8735
+                            },
+                            "uuid": "7cf324f8-4ffd-5d7d-9871-dcd4786df29e"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.8989
+                            },
+                            "uuid": "78e901d1-9c70-59c4-a014-d41f71679f14"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.8989
+                            },
+                            "uuid": "78e901d1-9c70-59c4-a014-d41f71679f14"
+                        },
+                        {
+                            "description": "Symbol J11 Pin 8 [8, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.9243
+                            },
+                            "uuid": "9fe395fb-7feb-502a-8d95-1eeaffef94a5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 8 [8, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.9243
+                            },
+                            "uuid": "9fe395fb-7feb-502a-8d95-1eeaffef94a5"
+                        },
+                        {
+                            "description": "Symbol C42 Pin 1 [1, Passive, Line]",
+                            "pos": {
+                                "x": 7.8359,
+                                "y": 4.318
+                            },
+                            "uuid": "e4896f6c-77a0-5b87-a294-085819f08b32"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 10 [10, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.9497
+                            },
+                            "uuid": "2f035b6e-6f97-511a-862a-bd2b159a6560"
+                        },
+                        {
+                            "description": "Symbol TVS1 Pin 1 [C, Passive, Line]",
+                            "pos": {
+                                "x": 6.0452,
+                                "y": 1.016
+                            },
+                            "uuid": "fc33a2db-949d-5a94-b559-d464230f9ec9"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol J11 Pin 12 [12, Unspecified, Line]",
+                            "pos": {
+                                "x": 7.9502,
+                                "y": 3.9751
+                            },
+                            "uuid": "cc310a5a-b9f5-58bd-a5eb-b5549c3caceb"
+                        },
+                        {
+                            "description": "Symbol TVS2 Pin 1 [C, Passive, Line]",
+                            "pos": {
+                                "x": 6.9342,
+                                "y": 1.016
+                            },
+                            "uuid": "ace5423c-5da7-5461-b395-c72033cc1e01"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                }
+            ]
+        }
+    ],
+    "source": "board-b.kicad_sch"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "pcb_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+  "positive_cases": 2,
+  "negative_controls": [
+    "missing new ground stitch",
+    "wrong ground stitch net",
+    "wrong ground stitch drill",
+    "ground stitch overlaps paste-pad keepout",
+    "aggregate width below 20 mm with a sufficient single run",
+    "largest run below 10 mm despite sufficient aggregate width",
+    "unplated terminal cannot bridge copper layers",
+    "narrowed PD input feed"
+  ],
+  "pcb_and_project_files_not_written": true
+}

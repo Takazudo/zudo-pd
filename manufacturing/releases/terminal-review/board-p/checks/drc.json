@@ -1,0 +1,809 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-09-20T21:20:15",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Duplicate footprints",
+            "key": "duplicate_footprints"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [
+        {
+            "description": "Extra footprint",
+            "items": [
+                {
+                    "description": "Footprint MH1",
+                    "pos": {
+                        "x": 4.0,
+                        "y": 4.0
+                    },
+                    "uuid": "058fd6f4-0a71-4846-95a0-de373a58db3c"
+                }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+        },
+        {
+            "description": "Extra footprint",
+            "items": [
+                {
+                    "description": "Footprint MH3",
+                    "pos": {
+                        "x": 12.8,
+                        "y": 32.6
+                    },
+                    "uuid": "82586680-3bb4-4f93-af5d-30ce589b0874"
+                }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+        },
+        {
+            "description": "Extra footprint",
+            "items": [
+                {
+                    "description": "Footprint MH2",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 4.0
+                    },
+                    "uuid": "c22d9e4e-418d-44e5-96ee-83a0420ef7bc"
+                }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+        }
+    ],
+    "source": "board-p.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "3acc2a21-5031-4635-b093-ce078ab52c56"
+                },
+                {
+                    "description": "Segment of J3 on F.Silkscreen",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 16.8
+                    },
+                    "uuid": "8aec3efe-2c38-4019-814a-0f7ae7131f02"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "3acc2a21-5031-4635-b093-ce078ab52c56"
+                },
+                {
+                    "description": "Segment of J2 on F.Silkscreen",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 35.3
+                    },
+                    "uuid": "2b9c468f-3d5c-4af1-840b-51f2f6185052"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Footprint 'QFN-24_L4.0-W4.0-P0.50-BL-EP2.8' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint U1",
+                    "pos": {
+                        "x": 11.728,
+                        "y": 23.288
+                    },
+                    "uuid": "1ae234a7-755e-4744-87dc-2b6bff1447f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'C0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint C30",
+                    "pos": {
+                        "x": 17.378,
+                        "y": 23.034
+                    },
+                    "uuid": "2479e3b7-1e04-4c37-b06f-183c3237e1bf"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R19",
+                    "pos": {
+                        "x": 14.014,
+                        "y": 17.192
+                    },
+                    "uuid": "2ce6b8dc-1b03-4fd4-94cb-9470fba71004"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'PogoPad_1x08_P2.54mm' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint J3",
+                    "pos": {
+                        "x": 25.2,
+                        "y": 27.4
+                    },
+                    "uuid": "2f2259fe-835f-48bd-9907-7db209d7894d"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R14",
+                    "pos": {
+                        "x": 15.792,
+                        "y": 17.192
+                    },
+                    "uuid": "4b84731e-98b2-4868-87f6-108e0dfd6846"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'SOT-23_L2.9-W1.3-P1.90-LS2.4-BR' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint Q1",
+                    "pos": {
+                        "x": 18.586,
+                        "y": 13.636
+                    },
+                    "uuid": "55cae3f9-ae1e-41b9-953e-1f95e4164a1f"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'C0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint C2",
+                    "pos": {
+                        "x": 17.378,
+                        "y": 21.002
+                    },
+                    "uuid": "5d46c962-7e92-47fc-91b4-3d96f8d258a6"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R15",
+                    "pos": {
+                        "x": 17.378,
+                        "y": 26.59
+                    },
+                    "uuid": "5dbef52c-4ad2-49cb-b8d1-463ad637d6a0"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R11",
+                    "pos": {
+                        "x": 22.142,
+                        "y": 16.176
+                    },
+                    "uuid": "67937895-9c9b-475f-9f1a-dc596418aec8"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'SOD-523_L1.2-W0.8-LS1.6-RD' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint D7",
+                    "pos": {
+                        "x": 4.87,
+                        "y": 16.684
+                    },
+                    "uuid": "70c0d304-2803-4d2e-86ca-38fbfea818d9"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'USB-C-SMD_10P-P1.00-L6.8-W8.9' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint J1",
+                    "pos": {
+                        "x": 13.506,
+                        "y": 5.0
+                    },
+                    "uuid": "7db58a56-c28b-4466-80a8-df0fd8f7d69c"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R20",
+                    "pos": {
+                        "x": 8.83,
+                        "y": 16.684
+                    },
+                    "uuid": "9a2111d2-481e-4c80-a24e-d1e9a563ccb7"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R16",
+                    "pos": {
+                        "x": 17.378,
+                        "y": 24.812
+                    },
+                    "uuid": "a3f9d4ce-0e31-4d55-a7a6-a1456f9e48e2"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R12",
+                    "pos": {
+                        "x": 23.412,
+                        "y": 12.62
+                    },
+                    "uuid": "a5bd070f-b84a-477e-b496-771e791e8260"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'C0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint C34",
+                    "pos": {
+                        "x": 17.378,
+                        "y": 28.368
+                    },
+                    "uuid": "a80107df-4b3b-4b59-8874-93d433498245"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'HDR-TH_6P-P2.54-V-M' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint JOUT1",
+                    "pos": {
+                        "x": 12.9,
+                        "y": 37.7
+                    },
+                    "uuid": "baa6fdd4-42d6-4981-be18-8a5c254bcdfe"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R13",
+                    "pos": {
+                        "x": 5.632,
+                        "y": 23.288
+                    },
+                    "uuid": "c4c20c10-10d4-4488-8926-56df9174914c"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'C0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint C35",
+                    "pos": {
+                        "x": 22.142,
+                        "y": 14.398
+                    },
+                    "uuid": "d35fe62c-dbae-4365-aa15-4dc68ee8cecf"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'PogoPad_1x04_P2.54mm' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint J2",
+                    "pos": {
+                        "x": 1.8,
+                        "y": 29.8
+                    },
+                    "uuid": "d573666a-20af-49fd-8e1e-e499a93e07ed"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R18",
+                    "pos": {
+                        "x": 7.13,
+                        "y": 16.718
+                    },
+                    "uuid": "e012cda5-c939-4004-a2e5-9289e0dac866"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0805' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R21",
+                    "pos": {
+                        "x": 4.362,
+                        "y": 20.494
+                    },
+                    "uuid": "e2516a72-552c-46c5-b582-6f5cf3332078"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'SOD-523_L1.2-W0.8-LS1.6-RD' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint D6",
+                    "pos": {
+                        "x": 12.33,
+                        "y": 16.684
+                    },
+                    "uuid": "f1e0f963-df63-4825-95de-e98c50a2d389"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'R0603' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint R17",
+                    "pos": {
+                        "x": 10.73,
+                        "y": 16.684
+                    },
+                    "uuid": "f6b4d9c6-c9f3-4c90-9694-af2c6eda01b1"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'C1206' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint C1",
+                    "pos": {
+                        "x": 3.854,
+                        "y": 12.62
+                    },
+                    "uuid": "fd9aee8e-4e82-4c2d-9e9d-9271aea59939"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of C30",
+                    "pos": {
+                        "x": 19.73,
+                        "y": 22.272
+                    },
+                    "uuid": "0c3d1234-0c42-43a4-bf4a-56d8a0a0c0c9"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (CC1D)",
+                    "pos": {
+                        "x": 22.086,
+                        "y": 18.566
+                    },
+                    "uuid": "e5c224b4-e0da-4123-8cee-b03cc97fec6c"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (PDOK)",
+                    "pos": {
+                        "x": 22.086,
+                        "y": 33.75
+                    },
+                    "uuid": "b44191b4-326e-4e78-9831-678a3a3cca9b"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (CC2D)",
+                    "pos": {
+                        "x": 22.186,
+                        "y": 20.966
+                    },
+                    "uuid": "64725007-4594-481b-88f4-fe380f50a696"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (VREG)",
+                    "pos": {
+                        "x": 22.186,
+                        "y": 23.59
+                    },
+                    "uuid": "6b1d5c4f-9ceb-4bbd-aa84-854a351a8700"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (VBEN)",
+                    "pos": {
+                        "x": 22.286,
+                        "y": 36.29
+                    },
+                    "uuid": "d2fdef6b-3d01-4277-9ef1-ca418ac7b4b5"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (VBUS)",
+                    "pos": {
+                        "x": 22.406,
+                        "y": 26.13
+                    },
+                    "uuid": "f4bf3a32-a5c1-4eae-b34e-ebf87f0d04bb"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (GND)",
+                    "pos": {
+                        "x": 22.66,
+                        "y": 28.67
+                    },
+                    "uuid": "2b1bcfc0-3f88-4358-84a7-d5e2d64ecc4e"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (ATT)",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 31.21
+                    },
+                    "uuid": "75f0e052-a6b5-4d07-b8fe-e3c54364c8b6"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (<-- EDGE)",
+                    "pos": {
+                        "x": 39.17,
+                        "y": 29.94
+                    },
+                    "uuid": "c959ea49-9ba6-4594-a44f-adb355beeb4f"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of R11",
+                    "pos": {
+                        "x": 24.73,
+                        "y": 15.618
+                    },
+                    "uuid": "9aecffc4-f790-4c47-83e8-e34a123dd65f"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of R16",
+                    "pos": {
+                        "x": 19.73,
+                        "y": 24.218
+                    },
+                    "uuid": "286b8278-1505-4014-ba07-9cbcf1cd2150"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of C35",
+                    "pos": {
+                        "x": 24.682,
+                        "y": 14.398
+                    },
+                    "uuid": "3938c37c-d083-414a-8287-43c06695aa8c"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (<-- EDGE)",
+                    "pos": {
+                        "x": -9.63,
+                        "y": 30.816
+                    },
+                    "uuid": "28e6a56f-faaf-4eed-9dec-33841ebd0b1e"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (RST)",
+                    "pos": {
+                        "x": 4.338,
+                        "y": 26.002
+                    },
+                    "uuid": "dd4e9755-ed20-47fe-9c17-401da7c03d15"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (SDA)",
+                    "pos": {
+                        "x": 4.438,
+                        "y": 31.07
+                    },
+                    "uuid": "0c71436f-3a7f-469e-aa36-6135d3ecf449"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (SCL)",
+                    "pos": {
+                        "x": 4.438,
+                        "y": 33.602
+                    },
+                    "uuid": "4287f4e0-dd2a-4b1a-ac36-142931cf0cb3"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (GND)",
+                    "pos": {
+                        "x": 4.538,
+                        "y": 28.53
+                    },
+                    "uuid": "12960105-1afd-46bb-a85f-8588430010a2"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Circle of J1 on F.Silkscreen",
+                    "pos": {
+                        "x": 17.976,
+                        "y": 7.25
+                    },
+                    "uuid": "200b9cc8-dcac-4c55-9342-6e5ef59d02ea"
+                },
+                {
+                    "description": "PTH pad 0 [GND] of J1",
+                    "pos": {
+                        "x": 17.826,
+                        "y": 6.75
+                    },
+                    "uuid": "43b98e3e-86eb-4a42-8ee4-bcdadc385e7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R12",
+                    "pos": {
+                        "x": 23.424,
+                        "y": 10.588
+                    },
+                    "uuid": "d581389a-dfa3-43f8-a039-2300b9ed7737"
+                },
+                {
+                    "description": "Pad 2 [GND] of D5 on F.Cu",
+                    "pos": {
+                        "x": 24.05,
+                        "y": 10.08
+                    },
+                    "uuid": "c97432a1-12fe-5ab9-b7d4-296a0a06b217"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+  "board": "board-b",
+  "pcb_sha256": "07918ec1219dd28fa42634334a9f62d5ee1fab4f954ee6e4f4fd04adb02dae75",
+  "status": "PASS",
+  "thermal_connections": [
+    {
+      "regulator": "U4",
+      "tab_net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    },
+    {
+      "regulator": "U6",
+      "tab_net": "GND",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    },
+    {
+      "regulator": "U7",
+      "tab_net": "GND",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    },
+    {
+      "regulator": "U8",
+      "tab_net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    }
+  ],
+  "negative_filled_zone_areas": [
+    {
+      "regulator": "U4",
+      "layer": "F.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 371.8378535999275
+    },
+    {
+      "regulator": "U4",
+      "layer": "B.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 648.7275176541535
+    },
+    {
+      "regulator": "U8",
+      "layer": "F.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 553.6579219772125
+    },
+    {
+      "regulator": "U8",
+      "layer": "B.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 805.6082413091515
+    }
+  ],
+  "ground_filled_zone_areas_mm2": {
+    "F.Cu": 13568.658453340186,
+    "B.Cu": 14449.999625021357
+  },
+  "output_power_paths": [
+    {
+      "regulator": "U6",
+      "capacitor": "C40",
+      "ptc": "PTC1",
+      "minimum_trace_width_mm": 1.0,
+      "narrow_feedback_and_zones_excluded": true,
+      "capacitor_and_ptc_reachable": true,
+      "qualifying_tracks": 19,
+      "qualifying_vias": 3
+    },
+    {
+      "regulator": "U7",
+      "capacitor": "C41",
+      "ptc": "PTC2",
+      "minimum_trace_width_mm": 1.0,
+      "narrow_feedback_and_zones_excluded": true,
+      "capacitor_and_ptc_reachable": true,
+      "qualifying_tracks": 15,
+      "qualifying_vias": 3
+    },
+    {
+      "regulator": "U8",
+      "capacitor": "C42",
+      "ptc": "PTC3",
+      "minimum_trace_width_mm": 1.0,
+      "narrow_feedback_and_zones_excluded": true,
+      "capacitor_and_ptc_reachable": true,
+      "qualifying_tracks": 14,
+      "qualifying_vias": 3
+    }
+  ],
+  "back_ground_corridor_samples": [
+    {
+      "y_mm": 68,
+      "longest_sampled_run_mm": 36.0
+    },
+    {
+      "y_mm": 78,
+      "longest_sampled_run_mm": 36.0
+    },
+    {
+      "y_mm": 90,
+      "longest_sampled_run_mm": 36.0
+    }
+  ],
+  "assumptions": [
+    "Thermal-via centers follow the current tab perimeter plus 1 mm placement rule.",
+    "Filled zone area excludes separate tracks/pads outside the zone and is not thetaJA.",
+    "Copper area and connected vias do not qualify continuous current or temperature.",
+    "Power-path checks exclude zones and all traces below 1 mm; narrow sensing branches cannot satisfy them.",
+    "Ground corridor screen samples x=53..89 mm in 0.5 mm steps at three Y coordinates.",
+    "Native DRC, schematic identity, manufacturing checks and electrical bench qualification remain separate."
+  ]
+}

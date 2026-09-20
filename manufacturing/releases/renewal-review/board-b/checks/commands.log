@@ -1,0 +1,247 @@
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/checks/drc.json /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb
+Found 29 violations
+Found 0 unconnected items
+Found 0 schematic parity issues
+Saved DRC Report to /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/checks/drc.json
+Saved board
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/verify-board-b.py /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/checks/mechanical-identity.json
+{
+  "board": "board-b",
+  "size_mm": [
+    150,
+    115
+  ],
+  "component_count": 78,
+  "schematic_pad_identity": "PASS",
+  "eurorack_pin_contract": "PASS",
+  "pd_mating_xy": "PASS",
+  "shared_mounting_holes": "PASS",
+  "simple_outline": "PASS",
+  "mating_pads": [
+    {
+      "pin": 1,
+      "center_mm": [
+        6.55,
+        37.7
+      ],
+      "board_b_net": "+15V INPUT"
+    },
+    {
+      "pin": 2,
+      "center_mm": [
+        9.09,
+        37.7
+      ],
+      "board_b_net": "+15V INPUT"
+    },
+    {
+      "pin": 3,
+      "center_mm": [
+        11.63,
+        37.7
+      ],
+      "board_b_net": "ATT"
+    },
+    {
+      "pin": 4,
+      "center_mm": [
+        14.17,
+        37.7
+      ],
+      "board_b_net": "PDOK"
+    },
+    {
+      "pin": 5,
+      "center_mm": [
+        16.71,
+        37.7
+      ],
+      "board_b_net": "GND"
+    },
+    {
+      "pin": 6,
+      "center_mm": [
+        19.25,
+        37.7
+      ],
+      "board_b_net": "GND"
+    }
+  ],
+  "physical_stack_and_cable_fit": "NOT MEASURED"
+}
+04:58:38 AM: Debug: Adding duplicate image handler for 'PNG file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'JPEG file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'TIFF file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'GIF file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'PNM file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'PCX file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'IFF file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'Windows icon file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'Windows cursor file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'Windows animated cursor file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'TGA file'
+04:58:38 AM: Debug: Adding duplicate image handler for 'XPM file'
+
+$ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/verify-power-layout.py /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/checks/power-layout.json
+{
+  "board": "board-b",
+  "pcb_sha256": "07918ec1219dd28fa42634334a9f62d5ee1fab4f954ee6e4f4fd04adb02dae75",
+  "status": "PASS",
+  "thermal_connections": [
+    {
+      "regulator": "U4",
+      "tab_net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    },
+    {
+      "regulator": "U6",
+      "tab_net": "GND",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    },
+    {
+      "regulator": "U7",
+      "tab_net": "GND",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    },
+    {
+      "regulator": "U8",
+      "tab_net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "thermal_vias": 12,
+      "tab_and_vias_in_connected_pours_both_layers": true
+    }
+  ],
+  "negative_filled_zone_areas": [
+    {
+      "regulator": "U4",
+      "layer": "F.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 371.8378535999275
+    },
+    {
+      "regulator": "U4",
+      "layer": "B.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 648.7275176541535
+    },
+    {
+      "regulator": "U8",
+      "layer": "F.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 553.6579219772125
+    },
+    {
+      "regulator": "U8",
+      "layer": "B.Cu",
+      "net": "{slash}DC-DC Conversion{slash}-14.145V PRE",
+      "filled_zone_area_mm2": 805.6082413091515
+    }
+  ],
+  "ground_filled_zone_areas_mm2": {
+    "F.Cu": 13568.658453340186,
+    "B.Cu": 14449.999625021357
+  },
+  "output_power_paths": [
+    {
+      "regulator": "U6",
+      "capacitor": "C40",
+      "ptc": "PTC1",
+      "minimum_trace_width_mm": 1.0,
+      "narrow_feedback_and_zones_excluded": true,
+      "capacitor_and_ptc_reachable": true,
+      "qualifying_tracks": 19,
+      "qualifying_vias": 3
+    },
+    {
+      "regulator": "U7",
+      "capacitor": "C41",
+      "ptc": "PTC2",
+      "minimum_trace_width_mm": 1.0,
+      "narrow_feedback_and_zones_excluded": true,
+      "capacitor_and_ptc_reachable": true,
+      "qualifying_tracks": 15,
+      "qualifying_vias": 3
+    },
+    {
+      "regulator": "U8",
+      "capacitor": "C42",
+      "ptc": "PTC3",
+      "minimum_trace_width_mm": 1.0,
+      "narrow_feedback_and_zones_excluded": true,
+      "capacitor_and_ptc_reachable": true,
+      "qualifying_tracks": 14,
+      "qualifying_vias": 3
+    }
+  ],
+  "back_ground_corridor_samples": [
+    {
+      "y_mm": 68,
+      "longest_sampled_run_mm": 36.0
+    },
+    {
+      "y_mm": 78,
+      "longest_sampled_run_mm": 36.0
+    },
+    {
+      "y_mm": 90,
+      "longest_sampled_run_mm": 36.0
+    }
+  ],
+  "assumptions": [
+    "Thermal-via centers follow the current tab perimeter plus 1 mm placement rule.",
+    "Filled zone area excludes separate tracks/pads outside the zone and is not thetaJA.",
+    "Copper area and connected vias do not qualify continuous current or temperature.",
+    "Power-path checks exclude zones and all traces below 1 mm; narrow sensing branches cannot satisfy them.",
+    "Ground corridor screen samples x=53..89 mm in 0.5 mm steps at three Y coordinates.",
+    "Native DRC, schematic identity, manufacturing checks and electrical bench qualification remain separate."
+  ]
+}
+./src/common/stdpbase.cpp(59): assert ""traits"" failed in Get(): create wxApp before calling this
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch erc --format json -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/checks/erc.json /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_sch
+Found 62 violations
+Saved ERC Report to /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/checks/erc.json
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export pdf -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/schematic.pdf /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_sch
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/schematic.pdf'.
+Done.
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist --format kicadsexpr -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/raw/board-b.net /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_sch
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/scripts/schgen/verify_netlist.py board_b_spec /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/raw/board-b.net
+PASS: 30 nets, 211 nodes (29 expected nets + 1 unconnected)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-F_Cu.gtl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-B_Cu.gbl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-F_Paste.gtp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-B_Paste.gbp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-F_Silkscreen.gto'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-B_Silkscreen.gbo'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-F_Mask.gts'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-B_Mask.gbs'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-Edge_Cuts.gm1'.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb
+Created file '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-PTH.drl'
+Created file '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/gerbers/board-b-NPTH.drl'
+Done.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/raw/positions.csv /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb
+Wrote position data to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/raw/positions.csv'.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/assembly-top.svg /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/assembly-top.svg'.
+Done.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/assembly-bottom.svg --mirror /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/source/board-b.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/renewal-review/board-b/assembly-bottom.svg'.
+Done.

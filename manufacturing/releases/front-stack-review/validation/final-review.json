@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "board_b_sha256": "4e6e97f685d4a275c2a51a3130ec2c08da5122932800bc6f25a4fd119d807a3d",
+  "board_p_sha256": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b",
+  "visual_inspection": [
+    "Native Board B top and bottom renders",
+    "Independent Gerber bottom render: four terminal rails readable and pad-correlated",
+    "Canonical assembled top render: PD on component side, C5 outside module area",
+    "PTC1/PTC2 opaque bodies on their pads in native render"
+  ],
+  "doc_gate": {
+    "status": "PASS",
+    "tests": 512,
+    "browser_cases": 48,
+    "component_records": 60,
+    "model_packages": 34,
+    "sources": 154,
+    "facts": 620,
+    "integration_rules": 11,
+    "fragment_links": 2188,
+    "canary_cases": 633,
+    "leaks": 0
+  },
+  "physical_qualification": "Not performed; see RELEASE.md and ORDER-NOTES.md"
+}

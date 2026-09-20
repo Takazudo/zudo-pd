@@ -1,0 +1,150 @@
+{
+  "board": "board-b",
+  "size_mm": [
+    110,
+    95
+  ],
+  "component_count": 78,
+  "schematic_pad_identity": "PASS",
+  "eurorack_pin_contract": "PASS",
+  "pd_mating_xy": "PASS",
+  "shared_mounting_holes": "PASS",
+  "simple_outline": "PASS",
+  "mating_pads": [
+    {
+      "pin": 1,
+      "center_mm": [
+        6.55,
+        37.7
+      ],
+      "board_b_net": "+15V INPUT"
+    },
+    {
+      "pin": 2,
+      "center_mm": [
+        9.09,
+        37.7
+      ],
+      "board_b_net": "+15V INPUT"
+    },
+    {
+      "pin": 3,
+      "center_mm": [
+        11.63,
+        37.7
+      ],
+      "board_b_net": "ATT"
+    },
+    {
+      "pin": 4,
+      "center_mm": [
+        14.17,
+        37.7
+      ],
+      "board_b_net": "PDOK"
+    },
+    {
+      "pin": 5,
+      "center_mm": [
+        16.71,
+        37.7
+      ],
+      "board_b_net": "GND"
+    },
+    {
+      "pin": 6,
+      "center_mm": [
+        19.25,
+        37.7
+      ],
+      "board_b_net": "GND"
+    }
+  ],
+  "physical_stack_and_cable_fit": "NOT MEASURED",
+  "compact_mechanics": {
+    "status": "PASS",
+    "outline_mm": [
+      0.0,
+      0.0,
+      110.0,
+      95.0
+    ],
+    "fastons": [
+      {
+        "reference": "J6",
+        "origin_mm": [
+          6.0,
+          47.0
+        ],
+        "rotation_deg": 270,
+        "rail": "-12V rail",
+        "blade_tip_x_mm": -11.059909999999999,
+        "mating_shoulder_x_mm": -3.1399099999999986,
+        "minimum_pad_edge_clearance_mm": 2.36,
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/CONN-TH_63951-1.wrl"
+      },
+      {
+        "reference": "J9",
+        "origin_mm": [
+          6.0,
+          59.0
+        ],
+        "rotation_deg": 270,
+        "rail": "GND",
+        "blade_tip_x_mm": -11.059909999999999,
+        "mating_shoulder_x_mm": -3.1399099999999986,
+        "minimum_pad_edge_clearance_mm": 2.36,
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/CONN-TH_63951-1.wrl"
+      },
+      {
+        "reference": "J7",
+        "origin_mm": [
+          6.0,
+          71.0
+        ],
+        "rotation_deg": 270,
+        "rail": "+12V rail",
+        "blade_tip_x_mm": -11.059909999999999,
+        "mating_shoulder_x_mm": -3.1399099999999986,
+        "minimum_pad_edge_clearance_mm": 2.36,
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/CONN-TH_63951-1.wrl"
+      },
+      {
+        "reference": "J8",
+        "origin_mm": [
+          6.0,
+          83.0
+        ],
+        "rotation_deg": 270,
+        "rail": "+5V rail",
+        "blade_tip_x_mm": -11.059909999999999,
+        "mating_shoulder_x_mm": -3.1399099999999986,
+        "minimum_pad_edge_clearance_mm": 2.36,
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/CONN-TH_63951-1.wrl"
+      }
+    ],
+    "pogo": {
+      "origin_mm": [
+        40.0,
+        1.8
+      ],
+      "rotation_deg": 0,
+      "pad_count": 4,
+      "pitch_mm": 2.54,
+      "center_to_top_edge_mm": 1.8,
+      "copper_to_top_edge_mm": 0.55,
+      "left_to_right": [
+        "ATT",
+        "PDOK",
+        "GND",
+        "NC"
+      ],
+      "solder_paste": false
+    },
+    "errors": [],
+    "qualification_limits": [
+      "Female Faston receptacle/housing envelope is not specified.",
+      "Actual programming clip fit and repeated insertion force remain unmeasured."
+    ]
+  }
+}

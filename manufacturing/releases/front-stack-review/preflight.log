@@ -1,0 +1,6 @@
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/.claude/skills/component-spec-audit/scripts/validate.py --strict
+PASS: component-spec contract; mode=strict; 60 lines; 12 candidates; 30 bundles; offline=True; refreshed=none
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/.claude/skills/circuit-spec-integration/scripts/check_forward_tests.py --strict
+PASS: mode=strict; 6 integration cases; 9 negative routes

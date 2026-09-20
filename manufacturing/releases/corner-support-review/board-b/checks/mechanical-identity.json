@@ -1,0 +1,339 @@
+{
+  "board": "board-b",
+  "size_mm": [
+    110,
+    85
+  ],
+  "component_count": 76,
+  "schematic_pad_identity": "PASS",
+  "eurorack_pin_contract": "PASS",
+  "pd_mating_xy": "PASS",
+  "shared_mounting_holes": "PASS",
+  "mating_pads": [
+    {
+      "pin": 1,
+      "board_p_center_mm": [
+        6.55,
+        37.7
+      ],
+      "center_mm": [
+        37.2,
+        18.55
+      ],
+      "board_b_net": "+15V INPUT"
+    },
+    {
+      "pin": 2,
+      "board_p_center_mm": [
+        9.09,
+        37.7
+      ],
+      "center_mm": [
+        37.2,
+        21.09
+      ],
+      "board_b_net": "+15V INPUT"
+    },
+    {
+      "pin": 3,
+      "board_p_center_mm": [
+        11.63,
+        37.7
+      ],
+      "center_mm": [
+        37.2,
+        23.63
+      ],
+      "board_b_net": "ATT"
+    },
+    {
+      "pin": 4,
+      "board_p_center_mm": [
+        14.17,
+        37.7
+      ],
+      "center_mm": [
+        37.2,
+        26.17
+      ],
+      "board_b_net": "PDOK"
+    },
+    {
+      "pin": 5,
+      "board_p_center_mm": [
+        16.71,
+        37.7
+      ],
+      "center_mm": [
+        37.2,
+        28.71
+      ],
+      "board_b_net": "GND"
+    },
+    {
+      "pin": 6,
+      "board_p_center_mm": [
+        19.25,
+        37.7
+      ],
+      "center_mm": [
+        37.2,
+        31.25
+      ],
+      "board_b_net": "GND"
+    }
+  ],
+  "physical_stack_and_cable_fit": "NOT MEASURED",
+  "plain_rectangular_outline": "PASS",
+  "compact_mechanics": {
+    "status": "PASS",
+    "outline_mm": [
+      0.0,
+      0.0,
+      110.0,
+      85.0
+    ],
+    "mechanical_contract_sha256": "1104a1a3088069a1482b68504861ad1b65a56178cf639f9a85d3301649983a5a",
+    "plain_rectangular_outline": "PASS",
+    "terminal_blocks": [
+      {
+        "reference": "J6",
+        "origin_mm": [
+          7.0,
+          48.0
+        ],
+        "rotation_deg": 90,
+        "layer": "F.Cu",
+        "wire_entry_direction_pcb": [
+          -1,
+          0
+        ],
+        "body_xy_bounds_mm": [
+          1.4998839999999998,
+          42.92,
+          11.500118,
+          53.679948
+        ],
+        "pins": [
+          {
+            "pin": "1",
+            "center_mm": [
+              7.0,
+              50.54
+            ],
+            "rail": "GND"
+          },
+          {
+            "pin": "2",
+            "center_mm": [
+              7.0,
+              45.46
+            ],
+            "rail": "-12V rail"
+          }
+        ],
+        "minimum_pad_edge_clearance_mm": 6.0,
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
+        "maximum_tail_projection_screen_mm": 4.7
+      },
+      {
+        "reference": "J7",
+        "origin_mm": [
+          7.0,
+          61.0
+        ],
+        "rotation_deg": 90,
+        "layer": "F.Cu",
+        "wire_entry_direction_pcb": [
+          -1,
+          0
+        ],
+        "body_xy_bounds_mm": [
+          1.4998839999999998,
+          55.92,
+          11.500118,
+          66.679948
+        ],
+        "pins": [
+          {
+            "pin": "1",
+            "center_mm": [
+              7.0,
+              63.54
+            ],
+            "rail": "+5V rail"
+          },
+          {
+            "pin": "2",
+            "center_mm": [
+              7.0,
+              58.46
+            ],
+            "rail": "+12V rail"
+          }
+        ],
+        "minimum_pad_edge_clearance_mm": 6.0,
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
+        "maximum_tail_projection_screen_mm": 4.7
+      }
+    ],
+    "rail_labels": [
+      {
+        "side": "front",
+        "text": "-12V",
+        "pin": "J6.2",
+        "center_mm": [
+          0.8,
+          45.46
+        ],
+        "mirrored": false,
+        "size_mm": 0.8
+      },
+      {
+        "side": "back",
+        "text": "-12V",
+        "pin": "J6.2",
+        "center_mm": [
+          2.8,
+          45.46
+        ],
+        "mirrored": true,
+        "size_mm": 1.2
+      },
+      {
+        "side": "front",
+        "text": "GND",
+        "pin": "J6.1",
+        "center_mm": [
+          0.8,
+          50.54
+        ],
+        "mirrored": false,
+        "size_mm": 0.8
+      },
+      {
+        "side": "back",
+        "text": "GND",
+        "pin": "J6.1",
+        "center_mm": [
+          2.8,
+          50.54
+        ],
+        "mirrored": true,
+        "size_mm": 1.2
+      },
+      {
+        "side": "front",
+        "text": "+12V",
+        "pin": "J7.2",
+        "center_mm": [
+          0.8,
+          58.46
+        ],
+        "mirrored": false,
+        "size_mm": 0.8
+      },
+      {
+        "side": "back",
+        "text": "+12V",
+        "pin": "J7.2",
+        "center_mm": [
+          2.8,
+          58.46
+        ],
+        "mirrored": true,
+        "size_mm": 1.2
+      },
+      {
+        "side": "front",
+        "text": "+5V",
+        "pin": "J7.1",
+        "center_mm": [
+          0.8,
+          63.54
+        ],
+        "mirrored": false,
+        "size_mm": 0.8
+      },
+      {
+        "side": "back",
+        "text": "+5V",
+        "pin": "J7.1",
+        "center_mm": [
+          2.8,
+          63.54
+        ],
+        "mirrored": true,
+        "size_mm": 1.2
+      }
+    ],
+    "corner_supports": [
+      {
+        "reference": "H4",
+        "center_mm": [
+          106,
+          4
+        ],
+        "drill_mm": 3.0,
+        "independent_from_pd_mounts": true
+      },
+      {
+        "reference": "H5",
+        "center_mm": [
+          4,
+          81
+        ],
+        "drill_mm": 3.0,
+        "independent_from_pd_mounts": true
+      },
+      {
+        "reference": "H6",
+        "center_mm": [
+          106,
+          81
+        ],
+        "drill_mm": 3.0,
+        "independent_from_pd_mounts": true
+      },
+      {
+        "reference": "H7",
+        "center_mm": [
+          4,
+          4
+        ],
+        "drill_mm": 3.0,
+        "independent_from_pd_mounts": true
+      }
+    ],
+    "pogo": {
+      "origin_mm": [
+        60.0,
+        1.8
+      ],
+      "rotation_deg": 0,
+      "pad_count": 4,
+      "pitch_mm": 2.54,
+      "center_to_top_edge_mm": 1.8,
+      "copper_to_top_edge_mm": 0.55,
+      "left_to_right": [
+        "ATT",
+        "PDOK",
+        "GND",
+        "NC",
+        "+13.44V",
+        "+6.519V",
+        "-14.145V"
+      ],
+      "total_contact_count": 7,
+      "shared_return": "P1.3",
+      "bom_cpl_excluded": true,
+      "solder_paste": false
+    },
+    "errors": [],
+    "qualification_limits": [
+      "Catalog terminal models are illustrations; their 3.5 mm tails are shorter than the manufacturer 4.50\u00b10.20 mm dimension. Stack clearance uses 4.7 mm maximum tail projection.",
+      "Actual wire, screwdriver and installed housing/stack fit remain unmeasured.",
+      "Actual programming clip fit and repeated insertion force remain unmeasured."
+    ]
+  }
+}

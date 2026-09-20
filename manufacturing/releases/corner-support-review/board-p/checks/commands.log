@@ -1,0 +1,167 @@
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/checks/drc.json /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb
+Found 46 violations
+Found 0 unconnected items
+Found 3 schematic parity issues
+Saved DRC Report to /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/checks/drc.json
+Saved board
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/check-model-paths.py /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/checks/model-paths.json
+{
+  "pcb": "board-p.kicad_pcb",
+  "pcb_sha256": "49b7c0edd41e5b5fb9728f34e0195f53cfb51781ffef1c1ea5fd498037186f77",
+  "status": "PASS",
+  "fitted_components": 19,
+  "fitted_components_with_visible_models": 19,
+  "model_references": 23,
+  "errors": [],
+  "scope": "Model paths, file availability, visible fitted-part coverage and finite/nonzero transforms only. Models are visualization assets; physical dimensions, polarity, assembly fit and exact-part provenance require separate review."
+}
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/check-model-bodies.py /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/checks/model-bodies.json
+{
+  "status": "PASS",
+  "scope": "Opaque-body placement sanity screen only; not exact manufacturer geometry, collision/occlusion certification, native pixel coverage or physical fit.",
+  "pcb_sha256": "49b7c0edd41e5b5fb9728f34e0195f53cfb51781ffef1c1ea5fd498037186f77",
+  "checker_sha256": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
+  "fitted_components": 19,
+  "screened_components": 19,
+  "errors": []
+}
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb render --width 1800 --height 1400 --quality high --rotate 20,0,-15 --zoom 0.8 -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/3d-top.png /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb
+Loading…
+Build board outline
+
+Create layers
+Create tracks and vias
+Create zones
+Build Tech layers
+Build Tech layer 11
+Build Tech layer 9
+Build Tech layer 15
+Build Tech layer 13
+Build Tech layer 7
+Build Tech layer 5
+Build Tech layer 3
+Build Tech layer 1
+Build Tech layer 17
+Build Tech layer 19
+Build Tech layer 21
+Build Tech layer 23
+Build Tech layer 39
+Build Tech layer 41
+Build Tech layer 43
+Build Tech layer 45
+Build Tech layer 47
+Build Tech layer 49
+Build Tech layer 51
+Build Tech layer 53
+Build Tech layer 55
+Build Tech layer 57
+Build Tech layer 59
+Build Tech layer 61
+Build Tech layer 63
+Build Tech layer 65
+Build Tech layer 67
+Build Tech layer 69
+Build Tech layer 71
+Build Tech layer 73
+Build Tech layer 75
+Build Tech layer 77
+Build Tech layer 79
+Build Tech layer 81
+Build Tech layer 83
+Build Tech layer 85
+Build Tech layer 87
+Build Tech layer 89
+Build Tech layer 91
+Build Tech layer 93
+Build Tech layer 95
+Build Tech layer 97
+Build Tech layer 99
+Build Tech layer 101
+Build Tech layer 103
+Build Tech layer 105
+Build Tech layer 107
+Build Tech layer 109
+Build Tech layer 111
+Build Tech layer 113
+Build Tech layer 115
+Build Tech layer 117
+Build Tech layer 119
+Build Tech layer 121
+Build Tech layer 123
+Build Tech layer 125
+Build Tech layer 127
+Simplifying copper layer polygons
+Calculating plated copper
+Simplify holes contours
+Build BVH for holes and vias
+Load Raytracing: board
+Load Raytracing: layers
+Loading 3D models...
+Reload time 0.106 s
+Rendering: 11 %
+Rendering: 16 %
+Rendering: 20 %
+Rendering: 24 %
+Rendering: 27 %
+Rendering: 31 %
+Rendering: 40 %
+Rendering: 51 %
+Rendering: 57 %
+Rendering: 59 %
+Rendering: 66 %
+Rendering: 77 %
+Rendering: 79 %
+Rendering: 86 %
+Rendering: 95 %
+Rendering: 100 %
+Rendering: Post processing shader
+Rendering time 6.541 s
+Successfully created 3D render image
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch erc --format json -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/checks/erc.json /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_sch
+Found 29 violations
+Saved ERC Report to /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/checks/erc.json
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export pdf -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/schematic.pdf /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_sch
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/schematic.pdf'.
+Done.
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist --format kicadsexpr -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/raw/board-p.net /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_sch
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/scripts/schgen/verify_netlist.py board_p_spec /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/raw/board-p.net
+PASS: 23 nets, 91 nodes (18 expected nets + 5 unconnected)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-F_Cu.gtl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-B_Cu.gbl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-F_Paste.gtp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-B_Paste.gbp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-F_Silkscreen.gto'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-B_Silkscreen.gbo'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-F_Mask.gts'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-B_Mask.gbs'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-Edge_Cuts.gm1'.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb
+Created file '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-PTH.drl'
+Created file '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/gerbers/board-p-NPTH.drl'
+Done.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/raw/positions.csv /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb
+Wrote position data to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/raw/positions.csv'.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/assembly-top.svg /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/assembly-top.svg'.
+Done.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/assembly-bottom.svg --mirror /Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/manufacturing/releases/corner-support-review/board-p/assembly-bottom.svg'.
+Done.
