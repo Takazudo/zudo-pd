@@ -297,7 +297,7 @@ def main():
     verify_power_report_freshness()
     check_step_datums()
     output = args.output.resolve()
-    require(not output.exists(), 'Choose a new output directory; releases are immutable')
+    require(not output.exists(), 'Choose a new staging directory; replace the current prototype outputs only after validation')
     if 'board-b' in args.boards:check_assembly_freshness()
     output.mkdir(parents=True)
     run([sys.executable, ROOT / '.claude/skills/component-spec-audit/scripts/validate.py', '--strict'], output / 'preflight.log')

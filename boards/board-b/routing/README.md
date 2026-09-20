@@ -16,19 +16,14 @@ The complete seven-contact pogo row moves 20 mm right: P1 center (60,1.8),
 TP3/TP4/TP5 at (66.35,1.8)/(68.89,1.8)/(71.43,1.8). Its voltage legend is
 centered at (88,2). Preserve all electrical assignments and both-side terminal labels.
 
-The source snapshot is `../archive/110x85-front-stack/`. `update-corner-support.py`
-replays the placement and reviewed routes from `corner-support-routes.json`.
+The active `../board-b.kicad_pcb` is the layout source. Current placement rules
+are in `scripts/pcb/board_b_layout.py`; do not reconstruct the PCB from a
+superseded migration input or route session.
 Input paths use 1.5 mm traces; measurement and status branches use 0.25 mm.
 Load outputs retain the 1 mm screen. Measurement branches are excluded from
 current-path proofs. Existing ground pours remain; affected old ground branches
 are removed so the filled planes reconnect their pads. All existing ground,
 thermal, connectivity and current-path checks still apply.
-
-With KiCad 10's bundled Python (`pcbnew` and `wx`):
-
-```sh
-python3 scripts/pcb/update-corner-support.py boards/board-b/archive/110x85-front-stack/board-b.kicad_pcb tmp/corner-support-new.kicad_pcb --routes boards/board-b/routing/corner-support-routes.json
-```
 
 Copy the active `.kicad_pro` beside a temporary PCB after generation, because a
 native pcbnew save can reset project defaults. Refill and check the candidate,
@@ -41,11 +36,10 @@ For a fresh route, `place-board-b.py` generates current placement,
 imports the new session and adds pours. Do not apply a prior session's special
 completion paths. Every new route requires native and geometry checks.
 
-The old Faston and underside-terminal scripts/inputs are historical and remain
-in their matching archive directories, as does the prior front-stack revision.
-They do not describe the active layout. The PCB is implemented and native layout
+Only the latest PCB and its current workflow are maintained. The PCB is implemented and native layout
 and power-path checks pass. Package reports determine CAD and export status; the
-destination is `manufacturing/releases/corner-support-review/`.
+destination is `manufacturing/releases/corner-support-review/`. This is a prototype
+review package, not a released product or submitted order.
 
 HC-11's 11 mm height does not clear the front-down assembly over a flat floor.
 P's back substrate reaches 12.7 mm and the terminal drawing maximum is 14.2 mm.
@@ -53,4 +47,4 @@ The [support evidence](../supports/README.md) records that earlier option's heig
 and head/base envelope limits. The separately developed
 [18 mm printed leg](../../../3dp-files/adhesive-leg/README.md) addresses the nominal
 height conflict without changing the PCB or routing. Its own CAD verification and
-physical fit checks must not be confused with the frozen HC-11 support reports.
+physical fit checks are separate from the HC-11 support-option evidence.

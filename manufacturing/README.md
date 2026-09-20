@@ -12,8 +12,9 @@ on legs with its front/component face down. The separately developed
 [18 mm printed-leg prototype](../3dp-files/adhesive-leg/README.md) addresses the
 earlier HC-11 option's nominal floor-height conflict without changing the PCB or
 JLCPCB package. Physical wire fit, tightening torque, retention, connector
-seating and full-load qualification remain open. Earlier release packages,
-including `front-stack-review`, are immutable records of older assembly geometry.
+seating and full-load qualification remain open. Only the current prototype
+package is maintained. No renewal hardware has been released or ordered; the
+active PCB and component records are the design authority.
 
 ## Generate files from checked sources
 
@@ -21,16 +22,16 @@ including `front-stack-review`, are immutable records of older assembly geometry
 
 Large `populated-stack.step` and `installed-assembly.step` files are local-only
 generated previews. Git LFS is prohibited. The
-[omission inventory](local-only-assembly-previews.json) records all ten paths,
-sizes and original hashes; local copies are retained and ignored. Component
+[omission inventory](local-only-assembly-previews.json) records the three current paths
+and two distinct assembled objects, with sizes and expected hashes. Local copies
+are retained and ignored. Component
 models, native KiCad previews, printable STLs, Gerbers, drills, BOMs and CPLs
 remain tracked.
 
-The `guarded-review`, `terminal-review`, `front-stack-review` and
-`corner-support-review` snapshots each omit one large assembly STEP from Git.
-Their frozen manifests, checksum lists and historical links still identify it.
-Full snapshot verification therefore requires the original local file; a fresh
-clone alone is not a complete mechanical review snapshot. Checks deliberately
+The active Board B assembly preview, current prototype package and printed-leg
+assembly each omit their large assembled STEP from Git. Their reports still
+identify the expected local bytes. Full verification therefore requires those
+local files; a fresh clone alone is not a complete mechanical review. Checks
 continue to reject a missing or changed required file.
 
 For a new current-board assembly review on the documented macOS KiCad setup,
@@ -41,7 +42,7 @@ uv run scripts/pcb/export-assembly-preview.py --output tmp/local-assembly-previe
 ```
 
 This writes new STEP and verification outputs. STEP creation timestamps mean
-these are not byte-identical replacements for the frozen assemblies. The leg's
+these are not byte-identical replacements for the existing assemblies. The leg's
 existing verifier requires its original local assembly hash; it has no override
 for substituting a newly generated assembly. Preserve that check and establish
 new verification separately when revising the design.
@@ -49,12 +50,14 @@ new verification separately when revising the design.
 ### New fabrication export
 
 ```sh
-python3 scripts/pcb/export-jlcpcb.py manufacturing/releases/corner-support-review
-uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py manufacturing/releases/corner-support-review
+python3 scripts/pcb/export-jlcpcb.py tmp/current-prototype-export
+uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py tmp/current-prototype-export
 ```
 
 Use `--boards board-p` to export the PD module alone. Output directories must be
-new. The exporter refuses missing PCB files, PCB/schematic/registry differences,
+new. Validate the temporary export before replacing the sole current package in
+`manufacturing/releases/corner-support-review/`; do not retain superseded renewal
+packages as backup sets. The exporter refuses missing PCB files, PCB/schematic/registry differences,
 DRC errors, unrouted connections, and ERC errors. It preserves intentional DNP
 parts and excludes bare test pads and mounting holes from both BOM and CPL.
 
@@ -65,13 +68,10 @@ The manifest locks source and exported artifact hashes. Review drawings and warn
 files. An electrically unqualified prototype does not become qualified by passing
 DRC, ERC, or a file-format check.
 
-The frozen `corner-support-review` package predates the printed-leg documentation
-and removal of inherited comparison prose from the historical JST component
-record. Its artifact checksums still match; its live-source hashes intentionally
-differ for that record's `coverage.json`, `facts.json` and `interactions.json`,
-this guide, `power-budget.md` and Board B's routing README. These prose corrections
-do not change the PCB, electrical values or exported fabrication files. Preserve
-the frozen manifest; a fresh export needs a new destination and new source locks.
+The directory name `releases` is an output convention, not a claim that the
+prototype has been released. Refresh the current package's source locks and
+validation reports whenever its source or supporting evidence changes. A package
+must describe the actual current files and its remaining qualification limits.
 
 ## Fabrication and assembly
 
@@ -86,8 +86,8 @@ the frozen manifest; a fresh export needs a new destination and new source locks
   wire entries facing left. J6.1=GND, J6.2=−12 V, J7.1=+5 V and J7.2=+12 V.
   Verify actual wire-entry orientation, pin numbering and termination against the
   exact component record and assembly drawing. J8/J9 are retired.
-- The left edge is plain. No printed terminal guard is required. The earlier
-  [Faston guard](../3dp-files/README.md) and its notched PCB contract are historical.
+- The left edge is plain. No printed terminal guard is required. The current
+  [printed accessory](../3dp-files/README.md) is the adhesive leg.
 - P1 and TP3/TP4/TP5 form seven top-edge contacts at 2.54 mm pitch and y=1.8 mm:
   ATT, PDOK, GND, NC, +13.44 V PRE, +6.519 V PRE, −14.145 V PRE. Use P1.3 as the
   shared measurement return. The NC contact stays unconnected. The complete row
@@ -139,9 +139,9 @@ is 14.0 mm nominal and 14.2 mm at the drawing maximum, exceeding that plane by
 3.0–3.2 mm. P solder tails may extend farther. Moving P in X/Y frees the corner
 but cannot resolve this vertical conflict. The selected 18 mm printed leg provides
 3.8 mm nominal clearance over the terminal drawing maximum. Its model does not
-qualify physical fit, retention or temperature performance. Existing release and
-support reports retain the earlier HC-11 assumption; do not rewrite those records
-to imply they tested the printed leg.
+qualify physical fit, retention or temperature performance. The HC-11 support
+record documents that option's limitations; the printed leg has its own CAD
+verification. Neither establishes physical testing of the printed accessory.
 
 ## Native 3D review
 

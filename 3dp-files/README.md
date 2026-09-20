@@ -13,23 +13,11 @@ This taller prototype addresses the nominal height conflict of the earlier 11 mm
 HC-11 support. Printing, adhesive strength, M3 passage and retention still require
 physical checks. The existing PCB corner holes remain nominally 3.0 mm, giving
 zero nominal diametral clearance for an M3 screw. The accessory does not change
-the PCB or the frozen JLCPCB package. See its README and verification artifacts
+the PCB or the current JLCPCB prototype package. See its README and verification artifacts
 for the prototype's scope and limits.
 
-## Historical accessories
-
 The current 110 × 85 mm Board B uses two top-side WJ500V-5.08-2P / C8465 screw-terminal
-blocks and shrouded DEALON synth headers. It requires neither the old printed socket
-guards nor the later underside Faston guard.
-
-These files remain intact for revision history:
-
-- [Faston guard](faston-cover/README.md): the superseded four-terminal guard,
-  retaining caps, J8 shutter, fit coupons and rounded T-notch contract. Its generated
-  PCB preview and verification reports apply only to that earlier revision.
-- [Box-header accessories](box-header/README.md): historical printed synth-socket
-  parts from the combined-board design.
-
-Do not apply these edge cutouts, assembly models or fit results to the current
-plain-edge screw-terminal board. Preserve the old source and generated files;
-current manufacturing work belongs in `manufacturing/releases/corner-support-review/`.
+blocks and shrouded DEALON synth headers. It requires no printed connector guard.
+Only the current adhesive-leg design is maintained here. Current prototype
+manufacturing outputs are in `manufacturing/releases/corner-support-review/`;
+no renewal hardware has been released or ordered.

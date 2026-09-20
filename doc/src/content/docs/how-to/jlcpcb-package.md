@@ -14,11 +14,11 @@ printed leg addresses the earlier HC-11 option's nominal height conflict without
 changing the PCB or package. Check the
 [support contract](../architecture/board-contract.md#independent-corner-supports),
 including actual M3 passage through the existing Ø3.0 mm PCB holes.
-Earlier release packages belong
-to different geometry.
+Only the current prototype package is maintained; no renewal hardware has been
+released or ordered.
 
 Export each board independently from its final KiCad project. Retain validation
-reports and exports in a revision-specific release directory. Record source revision,
+reports and exports with the current prototype package. Record source revision,
 board dimensions and tool versions.
 
 | File | Review |
@@ -49,8 +49,8 @@ J6.1=GND, J6.2=−12 V, J7.1=+5 V and J7.2=+12 V in both the schematic and assem
 preview. Confirm both the retained front voltage labels and normally readable back
 labels against those pins. Check the front-down installation and front-side J5
 stack in the assembly preview. The current left edge is plain. The
-[old printed accessories](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/README.md)
-and their notch contract remain archived and are not assembly requirements.
+[printed accessory](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/README.md)
+is the adhesive leg; no printed connector guard is required.
 
 A package can exist while its design still has blockers. Its manifest must list
 those blockers and must not label it ready to order until the
@@ -62,15 +62,18 @@ workflow. Preparing files alone does not count as a PCBA order.
 
 ## Repository export and independent rendering
 
-Preserve the existing review package. To regenerate, run the gated exporter from
-the repository root with a new output directory, for example:
+Generate a temporary candidate from the current design using a new output directory:
 
 ```sh
-python3 scripts/pcb/export-jlcpcb.py manufacturing/releases/corner-support-next-review --boards board-p board-b
-uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py manufacturing/releases/corner-support-next-review
+python3 scripts/pcb/export-jlcpcb.py tmp/current-prototype-export --boards board-p board-b
+uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py tmp/current-prototype-export
 ```
 
 The exporter checks ERC, DRC and schematic/PCB parity. Inspect its reports and
 the [manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md) for actual release status. The independent rendering step
 checks the manufactured layer files separately from KiCad. Both commands operate
 on local files and do not submit an order.
+After validation, replace the sole current package in
+`manufacturing/releases/corner-support-review/`; do not accumulate renewal backup
+sets. Keep the current package's source locks, checksums and reports consistent
+with its actual files.

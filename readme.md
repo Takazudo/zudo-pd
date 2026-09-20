@@ -82,13 +82,13 @@ records exactly what is omitted from Git. The combined KiCad preview, individual
 component models, standalone leg STEP, printable STLs and fabrication files remain
 in ordinary Git.
 
-A fresh clone does not contain those large review assemblies. Full historical
+A fresh clone does not contain those large review assemblies. Full prototype
 checksum checks and the leg's whole-assembly verification require the original
 local STEP bytes; they must fail if those bytes are missing or different. See the
 [manufacturing guide](manufacturing/README.md#local-assembly-previews) for generating
-a new assembly review, whose hashes are separate from the frozen reports.
+a new assembly review with its own source and output hashes.
 
 The root `zudo-pd.kicad_*` project and `jlcpcb-order-snapshots/` preserve the old
-combined-board orders. The [printed accessories](3dp-files/README.md) include the
-current adhesive legs and the superseded Faston guard. The current screw-terminal
-board does not require that guard.
+combined-board orders and their evidence. The [printed accessories](3dp-files/README.md)
+contain the current adhesive legs. Only the latest renewal PCB, prototype outputs
+and leg design are maintained; no renewal hardware has been released or ordered.

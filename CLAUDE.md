@@ -6,7 +6,7 @@ Never use Git LFS. Large assembled STEP previews are ignored local derivatives;
 do not track them or upload them through another storage service without an
 explicit user request. Keep source CAD, component models and printable STLs in
 ordinary Git. See `manufacturing/local-only-assembly-previews.json` for the exact
-omitted files and their original hashes. Frozen verification must still fail if
+omitted files and their expected hashes. Verification must still fail if
 a required original local file is absent or changed; do not silently skip it.
 
 ## Current work and evidence boundary
@@ -44,9 +44,9 @@ WJ500V-5.08-2P / C8465 blocks replace the four Fastons, with wire entries facing
 left. J6.1=GND, J6.2=−12 V, J7.1=+5 V and J7.2=+12 V. J8/J9 are retired.
 Exact C8465 routing and evidence are owned by
 `.claude/skills/component-kangnex-wj500v-5-08-2p-c8465/`.
-The current board requires no printed terminal guard. Preserve earlier releases
-and `3dp-files/faston-cover/` as historical artifacts; never apply its T-notch
-contract or underside Faston positions to the active PCB.
+The current board requires no printed terminal guard. Maintain only the latest
+PCB, prototype package and printed-leg files; do not add renewal backup copies
+or restore superseded T-notch edges and underside Faston positions.
 
 Board B is installed on legs with its front/component face DOWN. J5 is on F.Cu.
 Board P mates face-to-face on that side, front face down in CAD at nominal
@@ -71,15 +71,14 @@ The exact 27-vertex untapped M3 aperture from the user's supplied reference
 forms a 4.5 mm blind bore, with no taper or larger lower cavity. Use an M3 × 5 mm
 screw as the initial fit candidate: through the 1.6 mm PCB it inserts 3.4 mm,
 leaving 1.1 mm nominal clearance to the blind floor. The earlier M3 × 8 mm
-recommendation is invalid for this bore; the previous design is archived under
-`3dp-files/adhesive-leg/archive/tapered-pocket-v1/`.
+recommendation is invalid for this bore.
 Do not replace that profile with a fitted circular bore or add modeled threads.
 The taller prototype addresses the nominal HC-11 height conflict, while printing,
 adhesive strength, M3 passage and retention remain physically unmeasured. Existing
 PCB corner holes remain 3.0 mm, with zero nominal diametral clearance for M3.
 This accessory does not change the PCB or JLCPCB package. Keep its source and
-verification separate from the frozen HC-11 evidence, board mechanical reports
-and release files; those retain the earlier support assumption.
+verification separate from the HC-11 evidence and board mechanical reports;
+the support-option evidence does not establish the printed leg's physical fit.
 
 Retain front voltage labels and duplicate the four screw-terminal rail labels on
 B.SilkS. Back text must read normally when viewed from the back, using mirrored
@@ -88,8 +87,10 @@ seven front-edge contacts: ATT, PDOK, GND, NC, +13.44 V PRE, +6.519 V PRE and
 −14.145 V PRE. The row is shifted 20 mm right, with contact centers x=56.19–71.43 mm
 at y=1.8 mm. P1.3 is their shared probe ground; preserve NC.
 
-The current export destination is `manufacturing/releases/corner-support-review/`.
-Earlier front-stack/terminal/guarded/compact/renewal review packages describe older revisions.
+The sole current prototype export destination is `manufacturing/releases/corner-support-review/`.
+Despite the directory name, these are development review files, not a released
+product or a submitted order. Active board files are authoritative. Keep useful
+design notes and evidence from actual earlier orders, but no renewal backup sets.
 Ground-layout reports distinguish aggregate sampled copper width
 from the largest individual run; neither proves one continuous corridor or rated
 current. Require polygon-connectivity and specified ground-stitch checks as well.
@@ -169,5 +170,5 @@ a local checkpoint. Preparing an export is not a new order. Use the existing
 
 Repository map: `boards/` projects; `scripts/schgen/` specs and checks; `.claude/skills/`
 evidence; `symbols/` and `footprints/kicad/` assets; `doc/` documentation; `3dp-files/`
-the current adhesive-leg prototype and historical printed parts, including the
-superseded Faston guard. `doc/CLAUDE.md` and `footprints/CLAUDE.md` provide local rules.
+the current adhesive-leg prototype. `doc/CLAUDE.md` and `footprints/CLAUDE.md`
+provide local rules.

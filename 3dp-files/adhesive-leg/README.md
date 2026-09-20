@@ -69,8 +69,7 @@ uv run 3dp-files/adhesive-leg/verify.py
 ```
 
 [spec.json](spec.json) holds the editable dimensions. The generator emits the
-single STL, four-part plate, STEP and rendered views. The superseded tapered
-version with the larger pocket is retained in `archive/tapered-pocket-v1/`. The verifier checks the
+single STL, four-part plate, STEP and rendered views for the current design. The verifier checks the
 actual exported geometry and assembly; its optional reference-STL argument can
 also recheck the user-supplied rail. Existing PCB and manufacturing files are
 read-only inputs.

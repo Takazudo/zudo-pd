@@ -92,9 +92,9 @@ numbering, wire entry and actual termination on the assembly before applying pow
 Front voltage labels are retained and duplicated on B.SilkS. The back labels must
 read normally from the back and identify these same four pins. Check label-to-pin
 alignment from both sides before wiring the installed board.
-J8/J9 are retired. The former Faston guard and T-notch contract are retained in the
-[printed-accessory archive](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/README.md);
-the current board needs no printed terminal guard.
+J8/J9 are retired. The current board has a plain left edge and needs no printed
+terminal guard. The [printed accessory](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/README.md)
+is the adhesive leg described below.
 
 ## Independent corner supports
 
@@ -134,8 +134,8 @@ that plane; P solder tails may extend farther. Moving P in X/Y frees the corner
 but does not solve this height conflict. The selected 18 mm printed leg addresses
 the nominal height issue, leaving 3.8 mm above the terminal drawing maximum.
 Its separate CAD report does not qualify printing, adhesive retention, temperature
-or physical fit. The PCB and existing JLCPCB package are unchanged; their retained
-support reports describe the earlier HC-11 assumption.
+or physical fit. The leg does not change the PCB's electrical design or fabrication
+files. Its CAD verification is separate from the evidence for the HC-11 option.
 
 ## Seven top-edge contacts
 

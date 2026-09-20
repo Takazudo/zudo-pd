@@ -30,15 +30,16 @@ plane reaches 12.7 mm and the terminal drawing maximum is 14.2 mm. The PCB remai
 unchanged, including its Ø3.0 mm corner holes. M3 screw passage has zero nominal
 diametral clearance and needs an actual fit check. Printed fit, screw retention,
 adhesive loading and temperature behavior remain unqualified; see the
-[support contract](./board-contract.md#independent-corner-supports). Existing release
-reports retain the earlier HC-11 assumption; the leg has separate CAD verification.
+[support contract](./board-contract.md#independent-corner-supports). The HC-11
+support record documents that option's limitations; the leg has separate CAD verification.
 
 Use the [manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md) and
 [corner-support review destination](https://github.com/Takazudo/zudo-pd/tree/main/manufacturing/releases/corner-support-review) for source snapshots,
 BOM/CPL scope, drawings and check reports. Local paths are `manufacturing/README.md`
 and `manufacturing/releases/corner-support-review/`. Package reports determine final ERC,
-DRC and fabrication-file status. Earlier `front-stack-review`, `terminal-review`, `guarded-review`, `compact-review` and
-`renewal-review` packages are immutable records of older geometry.
+DRC and fabrication-file status. Maintain only this current prototype package and
+the active design files. No renewal hardware has been released or ordered; the
+directory name `releases` does not establish product-release status.
 
 The [STEP datum audit](https://github.com/Takazudo/zudo-pd/blob/main/footprints/kicad/step-datum-verification.json) covers the reviewed active STEP/WRL pairs.
 Its sampled surface checks establish model consistency, with the documented BD8

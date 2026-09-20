@@ -1,1 +1,0 @@
-Review-only assembly. Open preview.kicad_pcb in KiCad and use its 3D viewer. Component models are bundled locally; no global model path is needed. This file adds one BOM/CPL-excluded display footprint for Board P and must not be used for fabrication. The source PCBs are unchanged. Nominal CAD fit does not qualify installed hardware, wire/screwdriver access or powered behavior.

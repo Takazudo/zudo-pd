@@ -41,8 +41,8 @@ terminal drawing maximum is 14.2 mm. The selected
 nominal height conflict with separate CAD verification. It leaves the PCB and
 JLCPCB package unchanged. Check actual M3 passage through the existing Ø3.0 mm
 holes, printed fit, screw retention and adhesive loading. Its four bases require
-a 116 × 91 mm adhesive footprint. Frozen support reports retain the earlier
-HC-11 assumption.
+a 116 × 91 mm adhesive footprint. The HC-11 evidence describes that earlier
+support option, not physical testing of the printed leg.
 
 Both front and back carry the screw-terminal voltage labels. Back labels use
 B.SilkS mirroring so they read normally when viewed from the back. Validate them
@@ -58,12 +58,10 @@ and [manufacturing guide](../manufacturing/README.md) track the current prototyp
 The PCB is implemented and native layout and power-path checks pass; package
 reports determine CAD and export status. Physical wire fit, tightening
 torque, support clearance and retention, connector seating and full-load behavior
-remain unmeasured. The previous front-stack board is retained under
-`board-b/archive/110x85-front-stack/` and in its immutable review package.
-
-The old guard and T-notch contract remain in the [3D-print archive](../3dp-files/README.md).
-Preserve those source files and earlier release packages; do not apply their
-notched edge or underside Faston placement to the active board.
+remain unmeasured. Active board files are authoritative; maintain only the latest
+renewal PCB and prototype outputs. No renewal hardware has been released or ordered.
+The current [printed accessory](../3dp-files/README.md) is the adhesive leg;
+the plain-edge screw-terminal board requires no printed connector guard.
 
 Board P D5 is now Vishay SMAJ16A-E3/61 / C968650, with a 16 V standoff. **20 V
 negotiation is unsafe.** First power and program P at 5 V only with B disconnected;

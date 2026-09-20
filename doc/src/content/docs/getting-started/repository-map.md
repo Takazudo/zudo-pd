@@ -18,7 +18,7 @@ sidebar_position: 3
 | `boards/board-b/supports/` | Retained HC-11 drawing and the earlier 11 mm support's height conflict |
 | `jlcpcb-order-snapshots/` | Historical as-ordered files |
 | Root `zudo-pd.kicad_*` and sheet files | Historical v0.4.0 combined-board project |
-| [Printed accessories](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/README.md) | Current 18 mm adhesive-leg prototype plus historical socket accessories and Faston guard |
+| [Printed accessories](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/README.md) | Current 18 mm adhesive-leg prototype |
 
 ## Run the documentation locally
 

@@ -1,12 +1,21 @@
 {
   "revision": "Independent corner supports and accessible top-edge probes",
-  "method": "Reviewed local rerouting of translated PD header, input bulk and local U3 feedback; seven edge contacts moved right",
-  "base_pcb": "boards/board-b/archive/110x85-front-stack/board-b.kicad_pcb",
-  "base_sha256": "4e6e97f685d4a275c2a51a3130ec2c08da5122932800bc6f25a4fd119d807a3d",
-  "generator": "scripts/pcb/update-corner-support.py",
-  "generator_sha256": "e49e60264881c35024415af7d407693f8160aa5370c725a6d84bf61c6973fb88",
+  "method": "The current routed PCB is authoritative. Its translated PD header, input bulk, local U3 feedback and seven top-edge contacts were reviewed together with the retained power stages.",
+  "source_pcb": "boards/board-b/board-b.kicad_pcb",
+  "source_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+  "fresh_routing_workflow": {
+    "placement": "scripts/pcb/place-board-b.py",
+    "preparation": "scripts/pcb/prepare-routing.py",
+    "finishing": "scripts/pcb/finish-board-b.py",
+    "scope": "Generate current placement, create a new routing session and finish that session. This is not a byte-identical replay of the checked routed PCB. Native DRC/parity, power geometry and populated assembly checks are required before replacing the current source."
+  },
+  "development_history": {
+    "previous_pcb_sha256": "4e6e97f685d4a275c2a51a3130ec2c08da5122932800bc6f25a4fd119d807a3d",
+    "note": "This hash identifies the earlier development input in Git history only. Superseded local PCB snapshots and one-time migration scripts were removed; neither is a dependency of the current design."
+  },
   "route_polylines": "boards/board-b/routing/corner-support-routes.json",
   "route_polylines_sha256": "f84145e8785fd9463aa7d9b5154b986fa5107332c30bb65c3709f8acaa2c2a06",
+  "route_polylines_scope": "Retained coordinates of the reviewed local rerouting only; not a complete board router session or a script to apply to the current PCB.",
   "final_pcb_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
   "native_drc_required": true,
   "power_geometry_checks_required": true,
