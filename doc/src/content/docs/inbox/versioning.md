@@ -3,6 +3,15 @@ title: Versioning Scheme (X.Y.Z)
 sidebar_position: 2
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 This project uses a custom `X.Y.Z` version, **not** standard semver. The numbers track this
 hardware project's real-world milestones rather than software API compatibility.
 

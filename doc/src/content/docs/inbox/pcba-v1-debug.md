@@ -3,6 +3,15 @@ title: PCBA v1 Debug Report
 sidebar_position: 5
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Debug analysis of the first PCBA prototype (v1) for the USB-PD modular synthesizer power supply. The STUSB4500 USB-PD controller stage failed to negotiate power delivery. This report documents the root causes, required fixes, and rework instructions.
 
 <Note title="Superseded — v1 is three revisions behind the current v4/2-board-split work">

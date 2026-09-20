@@ -1,16 +1,8 @@
 /**
- * The reference contract against the REAL corpus.
- *
- * led-lamp's version of this file asserts a curated document for every record
- * and a resolved WRL for every package. The document half holds for 40 of 41
- * records here (one honest gap, see below); the model half was a documented
- * exception through wave 6 (zero `.wrl`/`.step` files existed) and now also
- * holds in full since wave 7 sourced one for every package — so the same
- * questions are asked in both directions: a curated record must produce the
- * reviewed label and its source's own URL, an excepted one must reach an
- * explicitly unresolved state that names its reason, and the collapse figure
- * is retargeted from led-lamp's 32 records → 22 packages to zudo-pd's
- * 41 → 27.
+ * The reference contract against the reviewed current corpus.
+ * Curated documents must retain their labels and exact source URLs; document
+ * and model gaps must have explicit reasons. Cardinality is locked by the
+ * committed publication selection, not by a historical board's part count.
  */
 
 import assert from "node:assert/strict";
@@ -45,13 +37,13 @@ before(async () => {
 });
 
 describe("reviewed document shortcuts", () => {
-  it("partitions all 41 records into 40 curated and 1 excepted", () => {
-    assert.equal(CIRCUIT_SELECTION.documentSelections.length, 40);
+  it("partitions every reviewed record into a curated document or explicit exception", () => {
+    assert.equal(CIRCUIT_SELECTION.documentSelections.length, 59);
     assert.equal(CIRCUIT_SELECTION.documentExceptions.length, 1);
-    assert.equal(model.records.length, 41);
+    assert.equal(model.records.length, CIRCUIT_SELECTION.expect.records);
     const curated = new Set(CIRCUIT_SELECTION.documentSelections.map((entry) => entry.recordId));
     const excepted = new Set(CIRCUIT_SELECTION.documentExceptions.map((entry) => entry.recordId));
-    assert.equal(curated.size, 40);
+    assert.equal(curated.size, CIRCUIT_SELECTION.documentSelections.length);
     assert.equal(excepted.size, 1);
     for (const recordId of CIRCUIT_SELECTION.recordIds) {
       assert.equal(
@@ -82,7 +74,7 @@ describe("reviewed document shortcuts", () => {
       assert.equal(String(document.url), source?.authoritative_url);
       assert.equal(record.reference.documentUnresolvedReason, null);
     }
-    assert.equal(model.records.filter((record) => record.reference.document !== null).length, 40);
+    assert.equal(model.records.filter((record) => record.reference.document !== null).length, CIRCUIT_SELECTION.documentSelections.length);
   });
 
   it("leaves rec-c335982 unresolved with a reason naming the missing document", () => {
@@ -113,16 +105,16 @@ describe("reviewed document shortcuts", () => {
       assert.match(String(record?.reference.document?.sourceId), /-datasheet$/u);
     }
     const drawing = model.records.find(
-      (entry) => entry.identity.recordId === "rec-hdr-2541wr-2x08p-c5383092",
+      (entry) => entry.identity.recordId === "rec-dealon-dw254p-2x8-l0-c4749189",
     );
     assert.equal(String(drawing?.reference.document?.label), "Mechanical drawing PDF");
   });
 
-  it("publishes the four mirror selections as mirrors, not as primaries", () => {
+  it("publishes the seven mirror selections as mirrors, not as primaries", () => {
     // Each of these is the best document that exists for its part, and the
     // card has to keep saying so — silently reading as MANUFACTURER_PRIMARY
     // would overstate the evidence.
-    assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds.length, 4);
+    assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds.length, 7);
     for (const sourceId of CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds) {
       const record = model.records.find(
         (entry) => String(entry.reference.document?.sourceId) === sourceId,
@@ -134,14 +126,13 @@ describe("reviewed document shortcuts", () => {
     const mirrors = model.records.filter(
       (entry) => String(entry.reference.document?.authorityClass) === "MANUFACTURER_MIRROR",
     );
-    assert.equal(mirrors.length, 4);
+    assert.equal(mirrors.length, 7);
   });
 
   it("records how the document audit was performed, at its real strength", () => {
-    // led-lamp downloaded and parsed every PDF. This audit read the evidence
-    // bundles' recorded metadata instead, and the constant must not be
-    // mistakable for the stronger check.
-    assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.checkedOn, "2026-08-15");
+    // This aggregate audit checks recorded evidence metadata. Individual
+    // component owners retain their own primary document retrieval evidence.
+    assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.checkedOn, "2026-09-20");
     assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.expectedContent, "PDF");
     assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.method, "EVIDENCE_BUNDLE_METADATA");
     assert.deepEqual(
@@ -237,55 +228,44 @@ describe("reviewed document shortcuts", () => {
 });
 
 describe("KiCad preview manifest", () => {
-  it("maps every record to one descriptor and collapses 41 records to 27 packages", () => {
-    assert.equal(references.packages.length, 27);
-    assert.equal(new Set(references.packages.map((entry) => entry.packageId)).size, 27);
-    assert.equal(references.packages.flatMap((entry) => entry.recordIds).length, 41);
-    assert.equal(references.packageByRecordId.size, 41);
+  it("maps every record to exactly one reviewed package descriptor", () => {
+    assert.equal(references.packages.length, CIRCUIT_SELECTION.expect.footprintPackages);
+    assert.equal(new Set(references.packages.map((entry) => entry.packageId)).size, CIRCUIT_SELECTION.expect.footprintPackages);
+    assert.equal(references.packages.flatMap((entry) => entry.recordIds).length, CIRCUIT_SELECTION.expect.records);
+    assert.equal(references.packageByRecordId.size, CIRCUIT_SELECTION.expect.records);
     for (const record of model.records) {
       assert.ok(String(record.reference.footprint.footprintName).length > 0);
     }
   });
 
   it("reads the collapse figure from the reviewed selection, not a literal", () => {
-    // led-lamp hardcodes 22 inside `references.ts`. Here the number lives in
+    // The reviewed package count lives in
     // `selection.ts` next to the record list it is derived from, so promoting
     // a candidate cannot change one without the other being looked at.
-    assert.equal(CIRCUIT_SELECTION.expect.footprintPackages, 27);
+    assert.equal(CIRCUIT_SELECTION.expect.footprintPackages, 34);
     assert.equal(references.packages.length, CIRCUIT_SELECTION.expect.footprintPackages);
   });
 
   it("shares one package descriptor across every record that uses it", () => {
-    // R0603 is the worst case: eight records on one footprint. Each of them
+    // R0603 is shared by seventeen records. Each of them
     // must see the SAME descriptor carrying the complete shared-record list,
-    // not a partial one built when the first of the eight was reached.
+    // not a partial descriptor built for an earlier record.
     const r0603 = references.packages.find((entry) => entry.footprintName === "R0603");
     assert.ok(r0603 !== undefined);
-    assert.equal(r0603.recordIds.length, 8);
+    assert.equal(r0603.recordIds.length, 17);
     for (const recordId of r0603.recordIds) {
       assert.deepEqual(references.packageByRecordId.get(recordId)?.recordIds, r0603.recordIds);
     }
   });
 });
 
-describe("the 3D model is optional, and best-effort resolved it in full", () => {
-  it("resolves a reviewed model for every package (27 of 27, wave 7)", () => {
-    // Wave 7 sourced a reviewed `.wrl`/`.step` pair via `easyeda2kicad` for
-    // every package the tool could supply one for, against the central
-    // inventory's LCSC ids — including the 3 packages that previously carried
-    // no `(model …)` line at all. The real corpus therefore has zero
-    // unresolved packages today; `readPackage()`'s unresolved branches (no
-    // `(model …)` line, or one pointing outside `MODEL_ROOT`) stay live code
-    // for whatever a future promoted/candidate part cannot supply, but this
-    // corpus no longer exercises either case — see the wave-7 coverage
-    // manifest for the one LCSC substitution that made this possible
-    // (`CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-FD`'s first inventory line returns a
-    // mismatched, undersized model; its sibling line does not).
-    for (const entry of references.packages) {
-      assert.notEqual(entry.model, undefined, `${entry.packageId} did not resolve a model`);
+describe("reviewed 3D models preserve their evidence limits", () => {
+  it("resolves every selected visualization without claiming exact inductor CAD", () => {
+    const unresolved = references.packages.filter((entry) => entry.model === undefined);
+    assert.deepEqual(unresolved, []);
+    for (const entry of references.packages.filter((entry) => entry.model !== undefined)) {
       assert.equal(entry.modelUnresolvedReason, undefined, `${entry.packageId} has a stale unresolved reason`);
-      const modelPath = String(entry.model?.modelPath);
-      assert.match(modelPath, /^footprints\/kicad\/zudo-pd\.3dshapes\/[^/]+\.wrl$/u, entry.packageId);
+      assert.match(String(entry.model?.modelPath), /^footprints\/kicad\/zudo-pd\.3dshapes\/[^/]+\.wrl$/u, entry.packageId);
       for (const axis of ["x", "y", "z"] as const) {
         for (const transform of [entry.model?.offset, entry.model?.rotation, entry.model?.scale]) {
           assert.equal(typeof transform?.[axis], "number", entry.packageId);
@@ -293,10 +273,18 @@ describe("the 3D model is optional, and best-effort resolved it in full", () => 
         }
       }
     }
+    assert.deepEqual(model.records.filter((record) => record.reference.footprint.model === null)
+      .map((record) => record.identity.recordId), []);
     for (const record of model.records) {
-      assert.notEqual(record.reference.footprint.model, null);
       assert.equal(record.reference.footprint.modelUnresolvedReason, null);
     }
+    const inductor = model.records.find((record) => record.identity.recordId === "rec-aspi-0630lr-100m-t15");
+    assert.ok(inductor);
+    const visualization = inductor.facts.find((fact) => fact.factId === "fact-aspi-0630lr-100m-t15-visualization-envelope");
+    assert.match(String(visualization?.value), /not exact manufacturer CAD/u);
+    assert.equal(String(visualization?.provenance), "PROJECT-CHOICE");
+    const unavailable = inductor.sources.find((source) => source.sourceId === "src-aspi-0630lr-100m-t15-manufacturer-step-attempt");
+    assert.equal(String(unavailable?.availability), "SOURCE UNAVAILABLE");
   });
 });
 

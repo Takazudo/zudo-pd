@@ -4,6 +4,15 @@ sidebar_position: 16
 description: Evidence-grounded connectivity review of Board A and Board B against the wave-3 component fact bundles and wave-4 cross-component rules — findings are leads with fact IDs and locators, never verdicts.
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 This page is the wave-5 evidence review of the two-board split (epic #86). Each board
 section reviews the locked baseline connectivity against the full fact base: the 20
 component bundles (`.claude/skills/component-*`), the 9 cross-component rules

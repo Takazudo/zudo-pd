@@ -4,6 +4,15 @@ sidebar_position: 104
 description: Pre-power inspection, staged power-up, load regulation, thermal, ripple and transient tests for the +12V, +5V and -12V linear regulator outputs.
 ---
 
+<Note title="Historical board procedure">
+
+This procedure describes the previous hardware and may name retired parts, nets,
+pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
+[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
+[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+
+</Note>
+
 Bench procedure for validating the Board B linear regulator stage once a board is
 assembled: U6 (+12V, L7812CD2T-TR), U7 (+5V, L7805ABD2T-TR) and U8 (-12V, CJ7912).
 

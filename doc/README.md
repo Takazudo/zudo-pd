@@ -1,77 +1,25 @@
-# USB-PD Modular Synth Power Documentation
+# zudo-pd documentation
 
-This directory is the documentation site for the USB-PD powered modular
-synthesizer power supply. It is a [zudo-doc](https://github.com/takazudo) site
-(a zfb / MDX / Tailwind / Preact static-site framework) consuming
-`@takazudo/zfb` + `@takazudo/zdtp`, deployed to **Cloudflare Workers** (static
-assets).
+A component-first zudo-doc site built with zfb, MDX and Preact. Layout and navigation
+come from the framework; this directory owns project content and the reviewed
+component publication pipeline.
 
-## Setup
-
-```bash
-pnpm install        # install dependencies
-pnpm dev            # start dev server at http://localhost:4321
-pnpm build          # production build (emits dist/, incl. dist/_worker.js)
-pnpm preview        # preview the built dist/ locally
-pnpm check          # TypeScript typecheck
+```sh
+pnpm install
+pnpm dev       # site :4321, history :4322, component watcher
+pnpm build     # models + component records + static site in dist/
+pnpm b4push    # complete local documentation validation
 ```
 
-## Directory Structure
+The current reading path is **Getting Started → Architecture → Components → How-To**.
+The Archive groups previous overview, diagnosis and learning pages at their stable
+URLs. Old claims never override the current inventory or schematic.
 
-```
-doc/
-├── src/
-│   ├── content/docs/   # Documentation content (the pages)
-│   │   ├── overview/   # Project overview, circuit diagrams, BOM
-│   │   ├── components/ # Individual component specifications
-│   │   ├── learning/   # Circuit design learning notes
-│   │   ├── how-to/     # How-to guides
-│   │   ├── misc/       # Footprint preview, misc
-│   │   └── inbox/      # Status, debug logs, quick reference
-│   ├── chrome-bindings.tsx    # MDX component registry for generated pages
-│   ├── component-model-viewer/ # 3D model viewer island
-│   ├── component-preview/     # Footprint/component preview island
-│   └── styles/                # Global CSS
-├── public/             # Static assets served at site root
-│   ├── circuits/       # Circuit diagram SVGs   → /circuits/<name>.svg
-│   ├── footprints/     # Footprint layout SVGs  → /footprints/<name>.svg
-│   ├── footprint-imgs/ # Footprint preview PNGs → /footprint-imgs/<name>.png
-│   ├── datasheets/     # Component datasheets (PDF)
-│   ├── img/            # General images
-│   └── kicad/          # KiCad screenshots
-├── pages/              # two package-owned route stubs (index, docs catch-all)
-├── zfb.config.ts       # site config — one zudoDoc({...}) call
-└── wrangler.toml       # Cloudflare Workers deploy config
-```
+`src/content/docs/components/` is generated from repo-root `.claude/skills/` evidence.
+Edit exact records or `component-docs/`, then regenerate; do not hand-edit generated
+pages, SVG previews or model manifests. See [component-docs/README.md](component-docs/README.md)
+and [CLAUDE.md](CLAUDE.md) for authoring and validation details.
 
-## Adding Documentation
-
-1. Create a `.md` (no JSX) or `.mdx` (with JSX) file in the appropriate
-   `src/content/docs/<section>/` directory.
-2. Add frontmatter — `title:` is required; `sidebar_position:` controls order:
-   ```yaml
-   ---
-   title: My Page
-   sidebar_position: 3
-   ---
-   ```
-3. Write content in Markdown/MDX. Start headings at `##` (the `title` renders as
-   the h1). See `CLAUDE.md` in this directory for the full authoring rules.
-
-## Tech Stack
-
-- **zudo-doc** / **zfb** (`@takazudo/zfb`) — static-site framework
-- **Preact** — UI rendering (server-rendered, islands for interactivity)
-- **MDX** — Markdown + JSX content
-- **Tailwind CSS** — styling
-- **Mermaid** — diagram rendering
-- **TypeScript** — type safety
-- **Cloudflare Workers** — hosting (static assets via the zfb CF adapter)
-
-## Commands
-
-- `pnpm dev` — dev server at http://localhost:4321
-- `pnpm build` — production build → `dist/`
-- `pnpm preview` — preview the built `dist/`
-- `pnpm check` — TypeScript typecheck
-- `pnpm check:html` — validate built HTML
+`zfb.config.ts` owns site settings and navigation. `pages/` contains package route
+stubs. `src/chrome-bindings.tsx` registers the component previews. `public/` contains
+reviewed static assets; deployment configuration remains in `wrangler.toml`.

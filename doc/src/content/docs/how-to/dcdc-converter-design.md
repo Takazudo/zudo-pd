@@ -4,6 +4,15 @@ sidebar_position: 101
 description: Per-position design, feedback compensation, component selection, layout, and ON/OFF pin wiring for the three LM2596S-ADJ converters on Board B.
 ---
 
+<Note title="Historical board procedure">
+
+This procedure describes the previous hardware and may name retired parts, nets,
+pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
+[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
+[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+
+</Note>
+
 Design procedure for the three LM2596S-ADJ switching converters that generate the
 intermediate rails on **Board B**: U2 (+15V to +13.5V), U3 (+15V to +7.5V), and
 U4 (+15V to -13.5V, inverting buck-boost).

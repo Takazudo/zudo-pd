@@ -3,6 +3,15 @@ title: GNDD/GNDA Split Ground Design
 sidebar_position: 3
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Educational reference on split ground plane techniques for mixed-signal designs. **Note: This project uses unified ground approach - this document is for learning purposes only.**
 
 ## Overview

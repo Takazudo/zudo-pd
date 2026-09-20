@@ -3,6 +3,15 @@ title: Project Overview
 sidebar_position: 2
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 A compact power supply that provides ±12 V and +5 V for modular synthesizers from a
 USB-C PD 15 V input. Since epic
 [#86](https://github.com/Takazudo/zudo-pd/issues/86) the design is **two boards**, not

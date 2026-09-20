@@ -4,6 +4,15 @@ sidebar_position: 15
 description: Locked decisions from the wave-2 decision pass (#90) - the front-end fix list for the existing KiCad project / Board A, the Board A to Board B interface contract with current-rating math, and the doc-structure assumption.
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 This page is the **single source of truth** for the three decision sets locked by the
 board-split decision task (epic #86, sub-issue #90). It consumes the three wave-1
 analysis artifacts:

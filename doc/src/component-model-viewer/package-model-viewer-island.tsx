@@ -108,7 +108,10 @@ function ModelViewerSurface({
       aria-labelledby={captionId}
     >
       <figcaption id={captionId} className="zld-model-viewer__caption">
-        <strong>Shared footprint package:</strong> {descriptor.packageLabel}
+        <strong>Shared footprint package:</strong>{" "}
+        {descriptor.packageLabel.split(/(?<=[_\/-])/u).map((segment, index) => (
+          <span key={index}>{segment}<wbr /></span>
+        ))}
       </figcaption>
       <div className="zld-model-viewer__viewport-frame">
         <div

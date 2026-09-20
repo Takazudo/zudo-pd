@@ -3,6 +3,15 @@ title: Board B Architecture Review (DC-DC + LDO + Output)
 sidebar_position: 14
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Datasheet-aware review of the circuitry that will carry forward into **Board B** of the
 2-board split: `dc-dc-conversion.kicad_sch`, `linear-regulation.kicad_sch`, and
 `output.kicad_sch`. Scope, method, and checklist follow

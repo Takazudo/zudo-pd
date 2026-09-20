@@ -89,7 +89,10 @@ export function space(): PhrasingContent {
 }
 
 export function code(value: SafeText): PhrasingContent {
-  return { type: "inlineCode", value };
+  // KiCad active-low names such as ~{SHDN} contain MDX delimiters. The final
+  // publication guard deliberately rejects those even in code spans. Preserve
+  // the literal label as escaped text instead of weakening that guard.
+  return /[<{]/u.test(value) ? { type: "text", value } : { type: "inlineCode", value };
 }
 
 export function strong(value: SafeText): PhrasingContent {

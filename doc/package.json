@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@11.5.2",
   "scripts": {
-    "dev": "zfb dev",
+    "dev": "pnpm generate:components && run-p dev:zfb dev:history dev:components",
     "build": "pnpm generate:models && pnpm generate:components && zfb build",
     "preview": "zfb preview",
     "check": "zfb check",
@@ -25,26 +25,29 @@
     "b4push": "pnpm check && pnpm test:components && pnpm check:footprint-previews && pnpm check:models && pnpm build && pnpm check:built-component-references && pnpm check:fragment-links && pnpm check:components && pnpm scan:components",
     "format:md": "../scripts/mdx-format.sh --write \"src/content/docs/**/*.{md,mdx}\" --ignore \"node_modules/**,dist/**,build/**,.git/**,worktrees/**,src/content/docs/components/**\"",
     "format:md:check": "../scripts/mdx-format.sh --check \"src/content/docs/**/*.{md,mdx}\" --ignore \"node_modules/**,dist/**,build/**,.git/**,worktrees/**,src/content/docs/components/**\"",
-    "prepare": "cd .. && lefthook install --reset-hooks-path"
+    "prepare": "cd .. && lefthook install --reset-hooks-path",
+    "dev:zfb": "zfb dev",
+    "dev:history": "doc-history-server --port 4322 --content-dir src/content/docs"
   },
   "dependencies": {
-    "@takazudo/zfb": "^2.5.1",
-    "@takazudo/zfb-runtime": "^2.5.1",
-    "@takazudo/zfb-adapter-cloudflare": "^2.5.1",
-    "@takazudo/zfb-md-wasm": "^2.5.1",
-    "@takazudo/zudo-doc": "^5.5.1",
+    "@takazudo/zfb": "2.16.0",
+    "@takazudo/zfb-runtime": "2.16.0",
+    "@takazudo/zfb-adapter-cloudflare": "2.16.0",
+    "@takazudo/zfb-md-wasm": "2.16.0",
+    "@takazudo/zudo-doc": "5.21.0",
     "zod": "^4.0.0",
     "preact": "^10.29.1",
     "preact-render-to-string": "^6.6.6",
     "gray-matter": "^4.0.0",
-    "mermaid": "^11.12.3",
+    "mermaid": "11.15.0",
     "katex": "^0.16.38",
     "diff": "^8.0.3",
-    "@takazudo/zudo-doc-history-server": "^5.5.1",
+    "@takazudo/zudo-doc-history-server": "5.21.0",
     "mdast-util-to-markdown": "^2.1.2",
     "mdast-util-mdx": "^3.0.0",
     "mdast-util-gfm-table": "^2.0.0",
-    "three": "0.185.1"
+    "three": "0.185.1",
+    "@takazudo/zdtp": "0.7.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.0",
@@ -55,9 +58,15 @@
     "@types/mdast": "^4.0.4",
     "html-validate": "^10.0.0",
     "lefthook": "^2.1.9",
-    "@types/three": "0.185.3"
+    "@types/three": "0.185.3",
+    "npm-run-all2": "^7.0.2"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "lefthook", "sharp", "workerd"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook",
+      "sharp",
+      "workerd"
+    ]
   }
 }

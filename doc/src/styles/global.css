@@ -74,10 +74,8 @@
  * Styles for the UI components component-record pages emit
  * (`component-docs/ui/evidence-{anchor,details,table}.tsx`,
  * `component-docs/ui/component-references.tsx` and
- * `component-docs/ui/package-model-viewer.tsx`). Ported from zudo-led-lamp's
- * equivalent rules. The `--z-index-local-*` tokens led-lamp uses do not exist
- * here, so the two stacked overlays carry plain z-index values rather than
- * token references.
+ * `component-docs/ui/package-model-viewer.tsx`). The two stacked overlays
+ * use explicit z-index values within this project's component-preview UI.
  *
  * This and the task-list rule above are the only hand-authored blocks left in
  * this file — everything else (tokens, preflight, content typography,
@@ -331,6 +329,8 @@
 
 .zld-model-viewer {
   display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--spacing-vsp-xs);
   padding: var(--spacing-hsp-lg);
   border: 1px solid var(--color-muted);
@@ -339,6 +339,7 @@
 
 .zld-model-viewer__caption {
   color: var(--color-fg);
+  overflow-wrap: break-word;
 }
 
 .zld-model-viewer__viewport {

@@ -3,6 +3,15 @@ title: Inductor Voltage Reversal and Negative Voltage Generation
 sidebar_position: 11
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 This document explains how inductors work in switching converters and how voltage polarity reversal enables negative voltage generation from positive input voltage.
 
 ## Overview

@@ -3,6 +3,15 @@ title: USB Type-C Pinout and Power Delivery
 sidebar_position: 5
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Understanding USB Type-C connector pinout and how it enables USB Power Delivery (PD) negotiation.
 
 ## Full USB Type-C Pinout (24-pin)

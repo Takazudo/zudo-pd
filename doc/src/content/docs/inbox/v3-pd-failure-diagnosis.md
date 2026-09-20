@@ -3,6 +3,15 @@ title: v3 USB-PD Failure Diagnosis (pin 18 root cause)
 sidebar_position: 10
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Why the v3 board still fails to negotiate USB-PD even after (a) the STUSB4500 NVM was
 correctly reprogrammed (`SNK_PDO_NUMB=2`, 15 V/3 A) and (b) pin 18 was bodged.
 

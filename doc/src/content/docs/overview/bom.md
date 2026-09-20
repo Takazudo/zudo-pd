@@ -3,6 +3,15 @@ title: Bill of Materials (BOM)
 sidebar_position: 4
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Complete parts configuration for JLCPCB SMT assembly, across both boards of the
 [two-board split](./two-board-plan.md).
 

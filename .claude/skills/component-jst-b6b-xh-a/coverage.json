@@ -24,7 +24,7 @@
       "record_id": "rec-jst-b6b-xh-a",
       "domain": "Board A and Board B signal mapping",
       "status": "COVERED",
-      "reason": "board-split-decision.md locks the J4 (board-a)/J5 (board-b) pinout (pins 1-2 +15V, 3 ATT, 4 PDOK, 5-6 GND) and the 2-contact current-derating math; this converts the led-lamp port's OPEN 'Board P and Board L signal mapping' domain to COVERED for zudo-pd since the interface contract is a ratified project decision, not merely a per-bundle project note.",
+      "reason": "board-split-decision.md records the historical J4 (board-a)/J5 (board-b) cable pinout (pins 1-2 +15V, 3 ATT, 4 PDOK, 5-6 GND) and its two-contact current-derating calculation. This covers the documented project mapping, not an assembled harness or the renewed Board P stacking interface. C144397 remains placed only at Board A J4 in the current inventory.",
       "fact_ids": ["fact-jst-b6b-xh-a-identity", "fact-jst-b6b-xh-a-dimensions", "fact-jst-b6b-xh-a-locked-contract", "fact-jst-b6b-xh-a-current-derating-math"],
       "blocking_fact_ids": []
     },

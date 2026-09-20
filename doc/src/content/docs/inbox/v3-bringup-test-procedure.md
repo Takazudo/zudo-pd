@@ -3,6 +3,15 @@ title: v3 Bring-Up & Test Procedure
 sidebar_position: 9
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 <Note title="Superseded by the 2-board split / v4 diagnosis (2026-07)">
 
 This page's framing — "does the v3 CC-termination fix work?" — is stale: that fix

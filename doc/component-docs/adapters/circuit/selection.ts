@@ -7,20 +7,12 @@
  * does NOT silently add a public page — the reviewed `expect` assertions fail
  * the build until someone explicitly updates this selection and its counts.
  *
- * The `expect` counts are the other half of that guarantee, in the opposite
- * direction: if the provider corpus shrinks or grows, generation fails instead
- * of quietly publishing a different set. The provider corpus is the
- * inventory's line-holder records (replacement-candidate records are
- * excluded in `evidence.ts`): 41 records and 126 of their sources, plus
- * the 9 cross-component rules (#118). The wave-3 figures were 41/128
- * (#107-#117); the #132 repoint of the wave-6 part-swap decisions traded
- * the 4 demoted records' 8 sources (SD05, the old PTC1, and the
- * C22383803/C22383804 passive aliases) for the 3 replacement records' 4
- * (C335982, C7529589, C87267 -- the fitted C22387780 sources were already
- * selected), and the wave-6 inventory itself swapped 4 lines for 4.
+ * The `expect` counts also reject unreviewed corpus growth or shrinkage.
+ * The provider selects inventory line-holder records; replacement candidates
+ * stay outside publication until they are explicitly promoted and reviewed.
  *
  * `documentSelections` and `documentExceptions` are the curated document audit
- * (#143). Together they partition `recordIds` exactly — 40 records name one
+ * Together they partition `recordIds` exactly — 59 records name one
  * reviewed PDF-representing source, 1 names why it has none — and
  * `core/publication.ts`'s `PublicationPolicy` constructor refuses a record
  * that appears in neither or in both. So the audit is per-record opt-in
@@ -30,55 +22,37 @@
  * `linkableSourceIds` is a SEPARATE, narrower opt-in: selecting a source
  * publishes its title, revision, locator and availability; it does not by
  * itself publish an outbound link. Every entry here was checked to carry an
- * absolute `http:`/`https:` `authoritative_url` — including six sources
+ * absolute `http:`/`https:` `authoritative_url` — including sources
  * recorded as SOURCE UNAVAILABLE, which still publish their (unreachable)
- * URL next to the stated unavailability, matching led-lamp's convention.
+ * URL next to the stated unavailability.
  */
 
 import type { InstanceSelection } from "../../core/publication.ts";
 
 /**
- * Committed evidence for how the document selection below was reached.
- *
- * Deliberately not consumed by generation: a docs build must stay offline.
- *
- * ## This audit is narrower than led-lamp's, and says so
- *
- * led-lamp's equivalent constant carries `downloadedPdfSourceIds` — sources it
- * retrieved and parsed live, so its selection was based on observed content
- * rather than URL spelling. This audit did NOT re-retrieve anything. It was
- * performed against the evidence bundles' recorded metadata: each source's
- * `authority_class`, `availability`, `document_title`, `locator`,
- * `evidence_extract`, `refresh_policy` and locked `sha256`. That is weaker
- * evidence and is named as such rather than dressed up as a live check —
- * `method` is the field that keeps the two apart if the lists are ever
- * compared.
- *
- * The bundles are still the right basis for it. Every one of the 40 selected
- * sources declares `refresh_policy: HASH-LOCKED` with a non-sentinel `sha256`
- * — the evidence contract's way of saying "a fixed document, not a live page"
- * — and none of the volatile distributor HTML sources was selected. Note the
- * limit of that: `validate.py` compares those hashes against the real bytes
- * only under its opt-in `--online` mode, so offline the declaration is a
- * reviewed claim in the data rather than a re-verified fact.
- *
- * Re-auditing at led-lamp's strength means performing the retrieval and
- * updating this artifact and the selection in one review.
+ * Evidence for the document-card selections. Builds stay offline and check the
+ * retained source metadata and hashes. Individually retrieved PDF IDs below
+ * record additional byte/content review; they do not turn all legacy metadata
+ * into a fresh online audit. Mirrors and gated documents remain explicit.
  */
 export const CIRCUIT_DOCUMENT_VERIFICATION = {
-  checkedOn: "2026-08-15",
+  checkedOn: "2026-09-20",
+  individuallyRetrievedPdfSourceIds: ["src-c8465-drawing", "src-c968650-primary", "src-c3024223-primary", "src-dw254p-drawing", "src-c492405-drawing", "src-c2832269-drawing"],
   expectedContent: "PDF",
   method: "EVIDENCE_BUNDLE_METADATA",
   /**
-   * The four selected sources that are MANUFACTURER_MIRROR rather than
+   * Selected sources that are MANUFACTURER_MIRROR rather than
    * MANUFACTURER_PRIMARY. Each is the best document that exists for its part,
    * and each record's card publishes `authorityClass` verbatim, so the page
    * tells the reader it is reading a mirror. Listed here because "why is this
    * one not primary?" is the first question a re-auditor will ask.
    */
   mirrorSourceIds: [
-    "src-faston-te-mirror-spec",
-    "src-hdr-hanelec-drawing",
+    "src-c8465-drawing",
+    "src-grm32er71h106ka12l-datasheet",
+    "src-c107286-mirror",
+    "src-c666307-mirror",
+    "src-dw254p-drawing",
     "src-stusb-ds12499",
     "src-usb-type-c-009-mirror-spec",
   ],
@@ -91,13 +65,40 @@ export const CIRCUIT_DOCUMENT_VERIFICATION = {
    * reviewed label would hide the manufacturer's only document without
    * sparing the reader the gate. Revisit if an ungated mirror appears.
    */
-  refererGatedSourceIds: ["src-usb-type-c-009-mirror-spec"],
+  refererGatedSourceIds: ["src-usb-type-c-009-mirror-spec", "src-type-c-primary-drawing"],
   /** Records the audit deliberately left without a document — see below. */
   unresolvedRecordIds: ["rec-c335982"],
 } as const;
 
 export const CIRCUIT_SELECTION: InstanceSelection = {
   recordIds: [
+    "rec-c968650",
+    "rec-c3024223",
+
+    "rec-ap63201wu-7",
+    "rec-aspi-0630lr-100m-t15",
+    "rec-grm32er71h106ka12l",
+    "rec-rt0603bre07158kl",
+    "rec-rt0603brd0710kl",
+
+    // User-authorized renewal linear stages and dividers.
+    "rec-c107286",
+    "rec-c666307",
+    "rec-c110776",
+    "rec-c861589",
+    "rec-c861519",
+    "rec-c861371",
+    "rec-c861332",
+    "rec-c861077",
+    "rec-c23159",
+    "rec-c136280",
+    // Reviewed reusable PD-module records.
+    "rec-type-c-31-m-17",
+    "rec-c492405",
+    "rec-c2832269",
+    "rec-c14663",
+    "rec-c22807",
+    "rec-c17414",
     // component-stusb4500qtr
     "rec-stusb4500qtr",
     // component-usb-type-c-009-c456012
@@ -111,7 +112,6 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     "rec-c23206",
     "rec-c23179",
     "rec-c23162",
-    "rec-c25804",
     "rec-c21190",
     "rec-c17513",
     "rec-c23186",
@@ -141,11 +141,8 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     // component-ss34-c8678
     "rec-ss34-c8678",
     // component-l7812cd2t-c13456
-    "rec-l7812cd2t-c13456",
     // component-l7805abd2t-c86206
-    "rec-l7805abd2t-c86206",
     // component-cj7912-c94173
-    "rec-cj7912-c94173",
     // component-ptc-smd1210p200tf-c20808 (decision g replacement: RUILON SMD1210P150TF/16, C7529589)
     "rec-ptc-smd1210p150tf16-c7529589",
     // component-ptc-msmd110-33v-c70119
@@ -156,13 +153,82 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     "rec-smaj15a-c571368",
     // component-sd05-c502527 (decision a replacement: Brightking SMAJ6.5A, C87267)
     "rec-cand-smaj6-5a-c87267",
-    // component-faston-c591344
-    "rec-faston-c591344",
-    // component-hdr-2541wr-2x08p-c5383092
-    "rec-hdr-2541wr-2x08p-c5383092",
+    // component-kangnex-wj500v-5-08-2p-c8465
+    "rec-c8465",
+    // component-dealon-dw254p-2x8-l0-c4749189
+    "rec-dealon-dw254p-2x8-l0-c4749189",
   ],
 
   sourceIds: [
+    "src-c7529589-model-review",
+    "src-c70119-model-review",
+    "src-c883133-model-review",
+    "src-c8465-catalog",
+    "src-c8465-drawing",
+    "src-c8465-project",
+    "src-c8465-model",
+    "src-c968650-primary",
+    "src-c968650-identity",
+    "src-c3024223-primary",
+    "src-c3024223-identity",
+
+    "src-ap63201wu-7-datasheet",
+    "src-ap63201wu-7-catalog",
+    "src-ap63201wu-7-project",
+    "src-aspi-0630lr-100m-t15-datasheet",
+    "src-aspi-0630lr-100m-t15-catalog",
+    "src-aspi-0630lr-100m-t15-project",
+    "src-aspi-0630lr-100m-t15-manufacturer-step-attempt",
+    "src-aspi-0630lr-100m-t15-model-generator",
+    "src-grm32er71h106ka12l-datasheet",
+    "src-grm32er71h106ka12l-catalog",
+    "src-grm32er71h106ka12l-project",
+    "src-rt0603bre07158kl-datasheet",
+    "src-rt0603bre07158kl-catalog",
+    "src-rt0603bre07158kl-project",
+    "src-rt0603brd0710kl-datasheet",
+    "src-rt0603brd0710kl-catalog",
+    "src-rt0603brd0710kl-project",
+
+    "src-c107286-mirror",
+    "src-c107286-primary-attempt",
+    "src-c107286-identity",
+    "src-c666307-mirror",
+    "src-c666307-primary-attempt",
+    "src-c666307-identity",
+    "src-c110776-primary",
+    "src-c110776-identity",
+    "src-c861589-primary",
+    "src-c861589-identity",
+    "src-c861519-primary",
+    "src-c861519-identity",
+    "src-c861371-primary",
+    "src-c861371-identity",
+    "src-c861332-primary",
+    "src-c861332-identity",
+    "src-c861077-primary",
+    "src-c861077-identity",
+    "src-c23159-primary",
+    "src-c23159-identity",
+    "src-c136280-panasonic",
+    "src-c136280-identity",
+    // Reviewed reusable PD-module records.
+    "src-type-c-c283540",
+    "src-type-c-primary-page",
+    "src-type-c-primary-drawing",
+    "src-type-c-board-p-generator",
+    "src-c492405-drawing",
+    "src-c492405-page",
+    "src-c492405-lcsc",
+    "src-c2832269-drawing",
+    "src-c2832269-page",
+    "src-c2832269-lcsc",
+    "src-c14663-yageo",
+    "src-c14663-generator",
+    "src-c22807-uniroyal",
+    "src-c22807-generator",
+    "src-c17414-uniroyal",
+    "src-c17414-generator",
     // component-stusb4500qtr
     "src-stusb-ds12499", // rec-stusb4500qtr
     "src-stusb-ds12499-ratings", // rec-stusb4500qtr
@@ -197,8 +263,6 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     "src-c23179-boardadoc", // rec-c23179
     "src-c23162-uniroyal", // rec-c23162
     "src-c23162-boardadoc", // rec-c23162
-    "src-c25804-uniroyal", // rec-c25804
-    "src-c25804-boardadoc", // rec-c25804
     "src-c21190-uniroyal", // rec-c21190
     "src-c21190-boardadoc", // rec-c21190
     "src-c17513-uniroyal", // rec-c17513
@@ -253,32 +317,8 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     // component-ss34-c8678
     "src-ss34-datasheet", // rec-ss34-c8678
     // component-l7812cd2t-c13456
-    "src-l7812cd2t-ds0422-identity", // rec-l7812cd2t-c13456
-    "src-l7812cd2t-ds0422-pinout", // rec-l7812cd2t-c13456
-    "src-l7812cd2t-ds0422-absmax", // rec-l7812cd2t-c13456
-    "src-l7812cd2t-ds0422-thermal", // rec-l7812cd2t-c13456
-    "src-l7812cd2t-ds0422-elec", // rec-l7812cd2t-c13456
-    "src-l7812cd2t-ds0422-appinfo", // rec-l7812cd2t-c13456
-    "src-l7812cd2t-project-blocker", // rec-l7812cd2t-c13456
     // component-l7805abd2t-c86206
-    "src-l7805abd2t-ds0422-identity", // rec-l7805abd2t-c86206
-    "src-l7805abd2t-ds0422-pinout", // rec-l7805abd2t-c86206
-    "src-l7805abd2t-ds0422-absmax", // rec-l7805abd2t-c86206
-    "src-l7805abd2t-ds0422-thermal", // rec-l7805abd2t-c86206
-    "src-l7805abd2t-ds0422-elec", // rec-l7805abd2t-c86206
-    "src-l7805abd2t-ds0422-appinfo", // rec-l7805abd2t-c86206
-    "src-l7805abd2t-project-rail", // rec-l7805abd2t-c86206
-    "src-l7805abd2t-project-rating", // rec-l7805abd2t-c86206
     // component-cj7912-c94173
-    "src-cj7912-ds-identity", // rec-cj7912-c94173
-    "src-cj7912-ds-pinout", // rec-cj7912-c94173
-    "src-cj7912-ds-absmax", // rec-cj7912-c94173
-    "src-cj7912-ds-electrical", // rec-cj7912-c94173
-    "src-cj7912-ds-application", // rec-cj7912-c94173
-    "src-cj7912-ds-package", // rec-cj7912-c94173
-    "src-cj7912-project-baseline", // rec-cj7912-c94173
-    "src-cj7912-project-docs", // rec-cj7912-c94173
-    "src-cj7912-schematic", // rec-cj7912-c94173
     // component-ptc-smd1210p200tf-c20808 (decision g replacement)
     "src-ptc1b-smd1210-datasheet", // rec-ptc-smd1210p150tf16-c7529589
     // component-ptc-msmd110-33v-c70119
@@ -291,32 +331,72 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     // component-sd05-c502527 (decision a replacement)
     "src-cand-smaj6-5a-brightking-primary", // rec-cand-smaj6-5a-c87267
     "src-cand-smaj6-5a-lcsc-identity", // rec-cand-smaj6-5a-c87267
-    // component-faston-c591344
-    "src-faston-te-mirror-spec", // rec-faston-c591344
-    "src-faston-lcsc-catalog", // rec-faston-c591344
-    "src-faston-te-primary-attempt", // rec-faston-c591344  // SOURCE UNAVAILABLE
-    "src-faston-catalog-1654369-1", // rec-faston-c591344
-    "src-faston-lcsc-c305825-catalog", // rec-faston-c591344
-    "src-faston-kicad-symbol", // rec-faston-c591344
-    "src-faston-kicad-footprint", // rec-faston-c591344
-    "src-faston-board-b-synthpower-doc", // rec-faston-c591344
-    "src-faston-board-b-baseline", // rec-faston-c591344
-    "src-faston-bom-v040", // rec-faston-c591344
-    // component-hdr-2541wr-2x08p-c5383092
-    "src-hdr-hanelec-drawing", // rec-hdr-2541wr-2x08p-c5383092
-    "src-hdr-lcsc-catalog", // rec-hdr-2541wr-2x08p-c5383092
-    "src-hdr-kicad-symbol", // rec-hdr-2541wr-2x08p-c5383092
-    "src-hdr-kicad-footprint", // rec-hdr-2541wr-2x08p-c5383092
-    "src-hdr-board-b-synthpower-doc", // rec-hdr-2541wr-2x08p-c5383092
-    "src-hdr-board-b-baseline", // rec-hdr-2541wr-2x08p-c5383092
-    "src-hdr-bom-v040", // rec-hdr-2541wr-2x08p-c5383092
+    // component-kangnex-wj500v-5-08-2p-c8465
+    // component-dealon-dw254p-2x8-l0-c4749189
+    "src-dw254p-drawing", // rec-dealon-dw254p-2x8-l0-c4749189
+    "src-dw254p-catalog", // rec-dealon-dw254p-2x8-l0-c4749189
+    "src-dw254p-project", // rec-dealon-dw254p-2x8-l0-c4749189
+    "src-dw254p-step-normalization",
+    "src-dw254p-doepfer", // rec-dealon-dw254p-2x8-l0-c4749189
   ],
 
-  // Every selected source carries an absolute http(s) authoritative_url
-  // (verified against `sources.json` for every bundle), so all are linkable —
-  // matching led-lamp's own selection, whose `linkableSourceIds` list is
-  // identical to its `sourceIds` list.
+  // Only reviewed absolute http(s) URLs are outbound links. Local generator
+  // and model-transform evidence remains published without a synthetic URL.
   linkableSourceIds: [
+    "src-c8465-catalog",
+    "src-c8465-drawing",
+    "src-c968650-primary",
+    "src-c968650-identity",
+    "src-c3024223-primary",
+    "src-c3024223-identity",
+
+    "src-ap63201wu-7-datasheet",
+    "src-ap63201wu-7-catalog",
+    "src-aspi-0630lr-100m-t15-datasheet",
+    "src-aspi-0630lr-100m-t15-catalog",
+    "src-aspi-0630lr-100m-t15-manufacturer-step-attempt",
+    "src-grm32er71h106ka12l-datasheet",
+    "src-grm32er71h106ka12l-catalog",
+    "src-rt0603bre07158kl-datasheet",
+    "src-rt0603bre07158kl-catalog",
+    "src-rt0603brd0710kl-datasheet",
+    "src-rt0603brd0710kl-catalog",
+
+    "src-c107286-mirror",
+    "src-c107286-primary-attempt",
+    "src-c107286-identity",
+    "src-c666307-mirror",
+    "src-c666307-primary-attempt",
+    "src-c666307-identity",
+    "src-c110776-primary",
+    "src-c110776-identity",
+    "src-c861589-primary",
+    "src-c861589-identity",
+    "src-c861519-primary",
+    "src-c861519-identity",
+    "src-c861371-primary",
+    "src-c861371-identity",
+    "src-c861332-primary",
+    "src-c861332-identity",
+    "src-c861077-primary",
+    "src-c861077-identity",
+    "src-c23159-primary",
+    "src-c23159-identity",
+    "src-c136280-panasonic",
+    "src-c136280-identity",
+    // Reviewed reusable PD-module records.
+    "src-type-c-c283540",
+    "src-type-c-primary-page",
+    "src-type-c-primary-drawing",
+    "src-c492405-drawing",
+    "src-c492405-page",
+    "src-c492405-lcsc",
+    "src-c2832269-drawing",
+    "src-c2832269-page",
+    "src-c2832269-lcsc",
+    "src-c14663-yageo",
+    "src-c22807-uniroyal",
+    "src-c17414-uniroyal",
     // component-stusb4500qtr
     "src-stusb-ds12499",
     "src-stusb-ds12499-ratings",
@@ -351,8 +431,6 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     "src-c23179-boardadoc",
     "src-c23162-uniroyal",
     "src-c23162-boardadoc",
-    "src-c25804-uniroyal",
-    "src-c25804-boardadoc",
     "src-c21190-uniroyal",
     "src-c21190-boardadoc",
     "src-c17513-uniroyal",
@@ -407,32 +485,8 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     // component-ss34-c8678
     "src-ss34-datasheet",
     // component-l7812cd2t-c13456
-    "src-l7812cd2t-ds0422-identity",
-    "src-l7812cd2t-ds0422-pinout",
-    "src-l7812cd2t-ds0422-absmax",
-    "src-l7812cd2t-ds0422-thermal",
-    "src-l7812cd2t-ds0422-elec",
-    "src-l7812cd2t-ds0422-appinfo",
-    "src-l7812cd2t-project-blocker",
     // component-l7805abd2t-c86206
-    "src-l7805abd2t-ds0422-identity",
-    "src-l7805abd2t-ds0422-pinout",
-    "src-l7805abd2t-ds0422-absmax",
-    "src-l7805abd2t-ds0422-thermal",
-    "src-l7805abd2t-ds0422-elec",
-    "src-l7805abd2t-ds0422-appinfo",
-    "src-l7805abd2t-project-rail",
-    "src-l7805abd2t-project-rating",
     // component-cj7912-c94173
-    "src-cj7912-ds-identity",
-    "src-cj7912-ds-pinout",
-    "src-cj7912-ds-absmax",
-    "src-cj7912-ds-electrical",
-    "src-cj7912-ds-application",
-    "src-cj7912-ds-package",
-    "src-cj7912-project-baseline",
-    "src-cj7912-project-docs",
-    "src-cj7912-schematic",
     // component-ptc-smd1210p200tf-c20808 (decision g replacement)
     "src-ptc1b-smd1210-datasheet",
     // component-ptc-msmd110-33v-c70119
@@ -445,25 +499,12 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     // component-sd05-c502527 (decision a replacement)
     "src-cand-smaj6-5a-brightking-primary",
     "src-cand-smaj6-5a-lcsc-identity",
-    // component-faston-c591344
-    "src-faston-te-mirror-spec",
-    "src-faston-lcsc-catalog",
-    "src-faston-te-primary-attempt",
-    "src-faston-catalog-1654369-1",
-    "src-faston-lcsc-c305825-catalog",
-    "src-faston-kicad-symbol",
-    "src-faston-kicad-footprint",
-    "src-faston-board-b-synthpower-doc",
-    "src-faston-board-b-baseline",
-    "src-faston-bom-v040",
-    // component-hdr-2541wr-2x08p-c5383092
-    "src-hdr-hanelec-drawing",
-    "src-hdr-lcsc-catalog",
-    "src-hdr-kicad-symbol",
-    "src-hdr-kicad-footprint",
-    "src-hdr-board-b-synthpower-doc",
-    "src-hdr-board-b-baseline",
-    "src-hdr-bom-v040",
+    // component-kangnex-wj500v-5-08-2p-c8465
+    // component-dealon-dw254p-2x8-l0-c4749189
+    "src-dw254p-drawing",
+    "src-dw254p-catalog",
+    "src-dw254p-project",
+    "src-dw254p-doepfer",
   ],
 
   /**
@@ -477,12 +518,35 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
    * both are `specification` despite the `-datasheet` in their IDs.
    */
   documentSelections: [
+    { recordId: "rec-c968650", sourceId: "src-c968650-primary", documentKind: "datasheet" },
+    { recordId: "rec-c3024223", sourceId: "src-c3024223-primary", documentKind: "datasheet" },
+    { recordId: "rec-ap63201wu-7", sourceId: "src-ap63201wu-7-datasheet", documentKind: "datasheet" },
+    { recordId: "rec-aspi-0630lr-100m-t15", sourceId: "src-aspi-0630lr-100m-t15-datasheet", documentKind: "datasheet" },
+    { recordId: "rec-grm32er71h106ka12l", sourceId: "src-grm32er71h106ka12l-datasheet", documentKind: "datasheet" },
+    { recordId: "rec-rt0603bre07158kl", sourceId: "src-rt0603bre07158kl-datasheet", documentKind: "specification" },
+    { recordId: "rec-rt0603brd0710kl", sourceId: "src-rt0603brd0710kl-datasheet", documentKind: "specification" },
+
+    { recordId: "rec-c107286", sourceId: "src-c107286-mirror", documentKind: "datasheet" },
+    { recordId: "rec-c666307", sourceId: "src-c666307-mirror", documentKind: "datasheet" },
+    { recordId: "rec-c110776", sourceId: "src-c110776-primary", documentKind: "specification" },
+    { recordId: "rec-c861589", sourceId: "src-c861589-primary", documentKind: "specification" },
+    { recordId: "rec-c861519", sourceId: "src-c861519-primary", documentKind: "specification" },
+    { recordId: "rec-c861371", sourceId: "src-c861371-primary", documentKind: "specification" },
+    { recordId: "rec-c861332", sourceId: "src-c861332-primary", documentKind: "specification" },
+    { recordId: "rec-c861077", sourceId: "src-c861077-primary", documentKind: "specification" },
+    { recordId: "rec-c23159", sourceId: "src-c23159-primary", documentKind: "specification" },
+    { recordId: "rec-c136280", sourceId: "src-c136280-panasonic", documentKind: "datasheet" },
+    { recordId: "rec-type-c-31-m-17", sourceId: "src-type-c-primary-drawing", documentKind: "drawing" },
+    { recordId: "rec-c492405", sourceId: "src-c492405-drawing", documentKind: "drawing" },
+    { recordId: "rec-c2832269", sourceId: "src-c2832269-drawing", documentKind: "drawing" },
+    { recordId: "rec-c14663", sourceId: "src-c14663-yageo", documentKind: "specification" },
+    { recordId: "rec-c22807", sourceId: "src-c22807-uniroyal", documentKind: "datasheet" },
+    { recordId: "rec-c17414", sourceId: "src-c17414-uniroyal", documentKind: "datasheet" },
     // component-stusb4500qtr
     // DS12499 Rev 8 via a web.archive.org `id_` raw-byte replay of ST's own
     // PDF path. Two dated direct-from-st.com attempts failed (2026-08-02,
     // 2026-08-14) with control fetches proving egress was up, so the document
-    // is blocked, not withdrawn. led-lamp selected this same source ID and URL
-    // as its STUSB4500 datasheet.
+    // is blocked, not withdrawn. The selected source retains its mirror status.
     { recordId: "rec-stusb4500qtr", sourceId: "src-stusb-ds12499", documentKind: "datasheet" },
     // component-usb-type-c-009-c456012
     // Manufacturer-authored "FOR APPROVAL" sheet hosted by the distributor.
@@ -503,7 +567,6 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     { recordId: "rec-c23206", sourceId: "src-c23206-uniroyal", documentKind: "specification" },
     { recordId: "rec-c23179", sourceId: "src-c23179-uniroyal", documentKind: "specification" },
     { recordId: "rec-c23162", sourceId: "src-c23162-uniroyal", documentKind: "specification" },
-    { recordId: "rec-c25804", sourceId: "src-c25804-uniroyal", documentKind: "specification" },
     { recordId: "rec-c21190", sourceId: "src-c21190-uniroyal", documentKind: "specification" },
     { recordId: "rec-c17513", sourceId: "src-c17513-uniroyal", documentKind: "specification" },
     { recordId: "rec-c23186", sourceId: "src-c23186-uniroyal", documentKind: "specification" },
@@ -542,10 +605,7 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     // Six fragments each, all of ST's DS0422. The ordering-information
     // fragment is the one that binds the exact order code to the record, so
     // it stands for the datasheet.
-    { recordId: "rec-l7812cd2t-c13456", sourceId: "src-l7812cd2t-ds0422-identity", documentKind: "datasheet" },
-    { recordId: "rec-l7805abd2t-c86206", sourceId: "src-l7805abd2t-ds0422-identity", documentKind: "datasheet" },
     // component-cj7912-c94173 — same six-fragment shape, one JSCJ PDF
-    { recordId: "rec-cj7912-c94173", sourceId: "src-cj7912-ds-identity", documentKind: "datasheet" },
     // The three PTCs land on two kinds because their documents describe
     // themselves differently: SMD1210 and BSMD1206 are series datasheets,
     // mSMD110-33V is a "Specification Sheet".
@@ -556,18 +616,15 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     { recordId: "rec-smaj15a-c571368", sourceId: "src-smaj15a-hdiode-primary", documentKind: "datasheet" },
     // component-sd05-c502527 (decision a replacement)
     { recordId: "rec-cand-smaj6-5a-c87267", sourceId: "src-cand-smaj6-5a-brightking-primary", documentKind: "datasheet" },
-    // component-faston-c591344
-    // TE's own per-part product specification for 63951-1 (ACTIVE, printed
-    // 2024-09-22), mirrored by the distributor because te.com answers 403 to
-    // automated retrieval. Preferred over the 2010 FASTON section catalog,
-    // which is a family document rather than this MPN's.
-    { recordId: "rec-faston-c591344", sourceId: "src-faston-te-mirror-spec", documentKind: "specification" },
-    // component-hdr-2541wr-2x08p-c5383092
+    // component-kangnex-wj500v-5-08-2p-c8465
+    // Manufacturer-authored C8465 drawing, retrieved from the exact JLC listing.
+    { recordId: "rec-c8465", sourceId: "src-c8465-drawing", documentKind: "drawing" },
+    // component-dealon-dw254p-2x8-l0-c4749189
     // A single-sheet engineering drawing — dimensions, PCB layout and a notes
-    // block — so `drawing`, the one record that earns that label. It covers
-    // the 2541WR-2xXXP family generically; the exact 16-position identity is
+    // block, published as a `drawing`. It covers
+    // the DEALON DW254P family with an explicit 16P dimension row; identity is
     // bound by the distributor source, which stays in Sources.
-    { recordId: "rec-hdr-2541wr-2x08p-c5383092", sourceId: "src-hdr-hanelec-drawing", documentKind: "drawing" },
+    { recordId: "rec-dealon-dw254p-2x8-l0-c4749189", sourceId: "src-dw254p-drawing", documentKind: "drawing" },
   ],
 
   /**
@@ -599,14 +656,14 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     },
   ],
 
+  // PD additions use retained manufacturer extracts; current retrieval audit is in
+  // boards/board-p/README.md. Local generator sources are deliberately not outbound links.
   expect: {
-    records: 41,
-    sources: 126,
-    integrationRules: 9,
-    // The 41 selected records collapse onto 27 distinct KiCad footprints —
-    // `R0603` alone carries 8 of them. Read by `references.ts` instead of a
-    // literal in that file, so a promotion that changes the package set has
-    // to be acknowledged in the same reviewed place as the record list.
-    footprintPackages: 27,
+    records: 60,
+    sources: 154,
+    integrationRules: 11,
+    // Read by references.ts, so a changed package set requires the same
+    // explicit review as a changed record or source selection.
+    footprintPackages: 34,
   },
 };

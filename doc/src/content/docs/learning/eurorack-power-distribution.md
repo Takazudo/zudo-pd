@@ -3,6 +3,15 @@ title: Eurorack Power Distribution Best Practices
 sidebar_position: 18
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Lessons learned from commercial Eurorack power systems, particularly the Toppobrillo Eurobus.
 
 ## Introduction

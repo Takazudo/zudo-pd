@@ -3,6 +3,15 @@ title: PCB Trace Width and Copper Weight
 sidebar_position: 13
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Understanding how trace width and copper weight affect current carrying capacity, and why USB-C connector pins are sized the way they are.
 
 ## Overview

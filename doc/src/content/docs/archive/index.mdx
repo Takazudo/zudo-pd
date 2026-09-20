@@ -1,0 +1,37 @@
+---
+title: Historical Design Archive
+sidebar_position: 1
+description: Previous design narratives, physical-board diagnostics and learning notes retained for traceability.
+---
+
+These pages preserve earlier reasoning and physical-board history. They may describe
+superseded parts, the combined-board layout, untested estimates or previous split-board
+states. Use the [current architecture](../architecture/index.mdx) and
+[component catalog](/docs/components/catalog/) for renewed work.
+
+Old URLs remain because component evidence and bench records cite them. An archived
+design statement does not override an exact current component record or schematic spec.
+
+| Collection | Use |
+| --- | --- |
+| [Previous design](../overview/index.mdx) | Earlier board descriptions, BOM and mechanical assumptions |
+| [Diagnosis and decisions](../inbox/index.mdx) | Failure investigations, as-built audits and decision records |
+| [Learning notes](../learning/index.mdx) | Background; verify parts and calculations before reuse |
+| [Legacy resources](../misc/index.mdx) | Retained links from the earlier site |
+
+## Superseded mechanical revisions
+
+The [printed-accessory archive](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/README.md)
+retains the earlier synth-socket accessories and the later Faston guard, caps and
+J8 shutter. Their source, generated previews and verification reports remain intact.
+The current board uses screw terminals and a plain left edge; the historical
+notch contract does not apply. Earlier release packages remain immutable.
+
+## Useful retained procedures
+
+- [NVM programming](../inbox/nvm-programming.md): confirm actual pads and voltage domains.
+- [v0.4.0 diagnosis](../inbox/v4-pd-failure-diagnosis.md): applies to old physical boards.
+- [Versioning](../inbox/versioning.md): X.Y.Z retains the PCBA-order counter in Y.
+- [Earlier rail bench tests](../how-to/power-rail-bench-test.md): historical regulator-stage procedure.
+
+Use [Renewal Prototype Bring-Up](../how-to/renewal-bring-up.md) for current hardware.

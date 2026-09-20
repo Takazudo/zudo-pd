@@ -3,6 +3,15 @@ title: Linear Regulator Capacitor Selection
 sidebar_position: 15
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Understanding why linear regulators need specific capacitor values and placements for stable, low-noise operation.
 
 ## Overview

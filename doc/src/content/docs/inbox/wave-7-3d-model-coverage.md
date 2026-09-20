@@ -4,6 +4,15 @@ sidebar_position: 17
 description: "Coverage manifest for the wave-7 3D package model sourcing pass (issue #145) — every published footprint package's sourcing outcome, the one LCSC data-quality substitution found, and the two architecture decisions the pass made."
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 This page is the coverage manifest required by issue #145 (S7 of the
 components-docs-restructure epic). It records, for every one of the 27
 published footprint packages, whether a reviewed `.wrl`/`.step` 3D model pair

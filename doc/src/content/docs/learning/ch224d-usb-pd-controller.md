@@ -3,6 +3,15 @@ title: CH224D USB PD Sink Controller
 sidebar_position: 4
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Understanding the CH224D USB Power Delivery sink controller and how it negotiates voltage with PD adapters.
 
 <Warning title="Historical: CH224D was replaced by the STUSB4500 (v1.1)">

@@ -1,99 +1,85 @@
-# USB-PD Powered Modular Synthesizer Power Supply
+# zudo-pd
 
-A low-noise power module design that takes USB-C PD 15V input and provides ±12V/+5V power for modular synthesizers.
+A USB-C PD power-supply design for modular synthesizers, with a separate input board
+and a synth conversion board for +12 V, −12 V and +5 V.
+
+This is development hardware. The rail budgets are +12 V / 1.2 A, −12 V / 0.8 A and
++5 V / 0.5 A; they are targets, not measured capabilities. The renewed conversion
+circuit uses AP63201, LT1963A and LT3015-12 parts with explicit headroom and thermal
+qualification conditions.
+
+Board B's screw-terminal revision is 110 × 85 mm, with two copper layers and
+2 oz copper. Two top-side WJ500V-5.08-2P / C8465 blocks replace the four Fastons;
+the wire entries face left. The board returns to a plain left edge and needs no
+printed terminal guard. In the installed device, Board B stands on legs with its
+front/component face downward. J5 is on that same front face, mating to the
+face-down 27 × 40 mm Board P above B in CAD coordinates and below B when installed.
+Front voltage labels remain, with normally readable duplicates on the back.
+The PD module moves down to free an independent top-left support hole. All four
+Ø3.0 mm corner-hole centers are 4 mm from the adjacent edges; the three Ø3.2 mm
+PD mounting holes remain separate. P1 and TP3/TP4/TP5 move right together,
+retaining seven top-edge contacts on 2.54 mm pitch.
+
+See the [manufacturing guide](manufacturing/README.md) and
+[corner-support review destination](manufacturing/releases/corner-support-review/) for prototype
+fabrication and assembly review. The PCB is implemented and its native layout
+and power-path checks pass; use the package reports for CAD and export status.
+The previous front-stack package records the earlier geometry.
+
+**HC-11's 11 mm support height does not clear this front-down assembly over a flat
+floor:** the PD substrate reaches 12.7 mm and the terminal drawing maximum is
+14.2 mm. The [printed adhesive leg](3dp-files/adhesive-leg/README.md) provides an
+18 mm support height, a straight Ø7 mm pole and a 4.5 mm blind screw hole for
+M3 × 5 mm screws through the nominal 1.6 mm PCB. See the
+[support evidence](boards/board-b/supports/README.md). Physical wire fit, tightening
+torque, adhesive retention, connector seating and full-load performance remain unmeasured.
+
+**Board P requires verified 15 V-only operation.** Its new SMAJ16A-E3/61 / C968650
+TVS has a 16 V standoff; factory 20 V negotiation is unsafe. First power and program
+P from a current-limited 5 V-only source with B disconnected. Read back the NVM,
+confirm all 20 V requests are disabled, and verify the configuration after a power
+cycle before 15 V use. See the [Board P procedure](doc/src/content/docs/architecture/board-p.md).
+The 26 V clamp test point and new 60 V D3 improve the conditioned stress screen;
+actual surge, hot behavior and overshoot still require qualification.
+
+## Start with the current design
+
+- [Project brief](doc/src/content/docs/getting-started/project-brief.md)
+- [Board roles and interface](doc/src/content/docs/architecture/board-contract.md)
+- [Component catalog](doc/src/content/docs/components/catalog/index.mdx)
+- [Component-first workflow](doc/src/content/docs/how-to/component-first-design.md)
+- [Release readiness](doc/src/content/docs/architecture/release-readiness.md)
+- [Historical design archive](doc/src/content/docs/archive/index.mdx)
+
+The renewal reuses a separate Board P input module and replaces the previous synth
+headers and custom printed guards with DEALON DW254P-2X8-L0 / C4749189. Exact part
+records, pin maps and source evidence live in `.claude/skills/` and generate the
+human-readable component catalog.
 
 ## Documentation
 
-**Main documentation is in the `/doc/` Docusaurus site**
+The [documentation site](https://pd.takazudomodular.com) uses zudo-doc, MDX and Preact.
 
-```bash
+```sh
 cd doc
 pnpm install
-pnpm start
+pnpm dev
 ```
 
-Open http://localhost:3000 in your browser to view the documentation.
+Open `http://localhost:4321`. Run `pnpm b4push` for documentation validation.
 
-### Key Documents
+## Design files
 
-- **[Project Overview](doc/src/content/docs/overview/overview.md)** - Design goals, architecture, features
-- **[Board A — USB-PD Sink Core](doc/src/content/docs/overview/board-a-usb-pd-core.md)** - PD negotiation, load switch, A↔B interface
-- **[Board B — Synth Power Conversion](doc/src/content/docs/overview/board-b-synth-power.md)** - DC-DCs, LDOs, protection, outputs
-- **[Circuit Diagrams](doc/src/content/docs/overview/circuit-diagrams.mdx)** - Complete circuit configuration
-- **[Bill of Materials](doc/src/content/docs/overview/bom.md)** - JLCPCB-compatible BOM
-- **[Component Records](doc/src/content/docs/components/index.mdx)** - Generated per-component evidence pages
+`boards/` holds independent board projects. `scripts/schgen/` owns generated schematic
+specs and checks. `symbols/` and `footprints/kicad/` hold canonical KiCad assets.
+Read [boards/README.md](boards/README.md) before editing or regenerating a board.
+The [portable assembly preview](boards/board-b/assembly-preview/preview.kicad_pcb)
+opens the P/B stack in KiCad for mechanical review.
 
-## Project Overview
+Large assembled STEP previews are local generated files, omitted from Git.
+Individual component models and printable STLs remain ordinary Git files.
 
-### Design Goals
-
-A modular synthesizer power supply powered by USB-C PD chargers.
-
-- **Input**: USB-C PD 15V 3A (max 45W)
-- **Output**: +12V/1.2A, -12V/1.0A, +5V/1.2A
-- **Ripple**: <1mVp-p (low noise optimized for modular synths)
-- **Protection**: PTC auto-reset + fuse backup (beginner-friendly)
-- **Sourcing**: All parts JLCPCB-compatible (reliable supply, low cost)
-
-### 4-Stage Architecture
-
-```
-USB-C 15V ──┬─→ +13.5V (DC-DC) ──→ +12V (LDO) ──→ +12V OUT
-            │
-            ├─→ +7.5V  (DC-DC) ──→ +5V  (LDO) ──→ +5V OUT
-            │
-            └─→ -13.5V (inverting DC-DC) ──→ -12V (LDO) ──→ -12V OUT
-```
-
-**DC-DC + LDO Two-Stage Design**: Balancing efficiency and noise
-
-- DC-DC ensures efficiency (85-90%)
-- LDO removes noise (<1mVp-p)
-- Overall efficiency: 75-80%
-
-## Current Status
-
-### Completed
-
-- Circuit design complete (4-stage architecture)
-- Main component selection complete (JLCPCB part numbers confirmed)
-- Detailed documentation complete
-
-### Next Steps
-
-1. **Search for remaining parts** (PTC fuses × 3, 2A fuse × 1)
-2. **KiCad PCB design** (4-layer board recommended)
-3. **Order prototype** (JLCPCB SMT)
-4. **Performance testing** (ripple, efficiency, thermal)
-
-## Repository Structure
-
-- `/doc/` - Docusaurus documentation site **← Main documentation**
-- `/footprints/` - PCB footprint images (CH224Q, USB-C)
-- `/diagram-sources/` - Python schemdraw scripts for circuit diagrams
-- `/symbols/` - KiCad symbol library
-- `/3dp-files/` - 3D printable files
-- `/jlcpcb-templates/` - JLCPCB order templates
-- `/__inbox/` - Working directory (temporary files, gitignored)
-
-## Original Concept
-
-The reliable Doepfer power supplies use DC-DC converters for voltage conversion, with linear regulators (LM7812/LM7912) and capacitors at the final stage to reduce switching noise.
-
-Following this design philosophy, this project obtains 15V power from USB-PD and provides low-noise ±12V/+5V power required by modular synthesizers.
-
-- **+12V**: 1200mA (most commonly used voltage in modular synths)
-- **-12V**: 800mA (used by VCOs/VCAs)
-- **+5V**: 500mA (used by digital modules)
-
-These values are based on typical usage ratios in standard modular synthesizer systems.
-
-## Reference Links
-
-- [JLCPCB Parts Library](https://jlcpcb.com/parts)
-- [KiCad Official Site](https://www.kicad.org/)
-- [CH224Q Datasheet](https://www.wch-ic.com/products/CH224.html)
-
-## License
-
-This project is open source. Hardware design files can be freely used and modified.
+The root `zudo-pd.kicad_*` project and `jlcpcb-order-snapshots/` preserve the old
+combined-board orders. The [printed accessories](3dp-files/README.md) include the
+current adhesive legs and the superseded Faston guard. The current screw-terminal
+board does not require that guard.

@@ -4,6 +4,15 @@ sidebar_position: 19
 description: Why zudo-pd is splitting from one PCBA into a reusable USB-PD core board plus a synth power conversion board, and how the two fit together.
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 The single-board zudo-pd design went through four JLCPCB orders (v1 → v4) and never
 reached a working USB-PD negotiation — see the
 [failure history](../inbox/current-status.md#failure-history-v1-→-v4) and the

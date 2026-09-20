@@ -3,15 +3,8 @@
  *
  * ## Why the unresolved path gets as much attention as the resolved one
  *
- * Wave 7 sourced a reviewed `.wrl`/`.step` pair for all 27 packages, so the
- * real corpus exercises only the RESOLVED path. That is exactly the condition
- * under which a regression in the unresolved path goes unnoticed until a
- * future part arrives that `easyeda2kicad` cannot supply a model for — at
- * which point the build fails on a component nobody touched. So the unresolved
- * path is asserted here against synthetic inputs: `planModelAssets` skips a
- * package with no model without failing, and `renderRecord` on a corpus whose
- * records all carry `model: null` still produces a page, with a model card
- * that is explicitly unresolved and names its reason.
+ * The current inductor has no reviewed 3D model. Both the real gap and synthetic
+ * gaps must keep publishing the component with an explicit reason.
  *
  * ## Why the rendered markup is asserted as source text
  *
@@ -22,7 +15,7 @@
  */
 
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, symlink, unlink, writeFile } from "node:fs/promises";
+import { realpath, mkdtemp, readFile, symlink, unlink, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
@@ -127,8 +120,8 @@ describe("model viewer descriptor", () => {
     }));
   });
 
-  it("projects 41 records onto 27 safe local package models and preserves rotations", () => {
-    assert.equal(model.records.length, 41);
+  it("projects current records onto reviewed local package models and preserves rotations", () => {
+    assert.equal(model.records.length, CIRCUIT_SELECTION.expect.records);
     const packageIds = new Set(model.records.map((record) => String(record.reference.footprint.packageId)));
     assert.equal(packageIds.size, CIRCUIT_SELECTION.expect.footprintPackages);
     assert.ok(model.records.some((record) => {
@@ -139,15 +132,16 @@ describe("model viewer descriptor", () => {
 });
 
 describe("the resolved model reaches the page as a viewer descriptor", () => {
-  it("gives every record a resolved model card whose URL is a published WRL", () => {
+  it("gives every reviewed visualization its published WRL URL", () => {
     const index = buildRecordIndex(model);
     const published = new Set(
-      model.records.map((record) => String(record.reference.footprint.model?.modelPath).split("/").at(-1)),
+      model.records.filter((record) => record.reference.footprint.model !== null)
+        .map((record) => String(record.reference.footprint.model?.modelPath).split("/").at(-1)),
     );
     assert.equal(published.size, CIRCUIT_SELECTION.expect.footprintPackages);
     for (const record of model.records) {
       const card = referenceDescriptorOn(renderRecord(record, index).contents).model;
-      assert.ok(card.resolved, `${record.identity.recordId} rendered an unresolved model card`);
+      assert.ok(card.resolved, `${record.identity.recordId} has no reviewed visualization`);
       const viewer = decodeModelDescriptor(card.descriptor);
       assert.ok(viewer.modelUrl.startsWith(MODEL_ASSET_BASE));
       assert.ok(published.has(viewer.modelUrl.slice(MODEL_ASSET_BASE.length)));
@@ -208,7 +202,7 @@ describe("a package with no reviewed model still renders, and still publishes", 
 
 describe("model asset publication", () => {
   it("copies byte-identically and reports missing, changed, and extra output", async () => {
-    const temp = await mkdtemp(join(tmpdir(), "zpd-model-assets-"));
+    const temp = await realpath(await mkdtemp(join(tmpdir(), "zpd-model-assets-")));
     const source = join(temp, "source.wrl");
     const output = join(temp, "public");
     await writeFile(source, "#VRML V2.0 utf8\nShape {}\n");
@@ -235,7 +229,7 @@ describe("model asset publication", () => {
   it("publishes an empty plan without touching an empty output root", async () => {
     // The floor of the best-effort path: a corpus where nothing resolved a
     // model publishes nothing and reports no drift.
-    const temp = await mkdtemp(join(tmpdir(), "zpd-model-empty-"));
+    const temp = await realpath(await mkdtemp(join(tmpdir(), "zpd-model-empty-")));
     const result = await syncModelAssets([], join(temp, "public"), true);
     assert.deepEqual(result.drift, []);
     assert.equal(result.expected, 0);

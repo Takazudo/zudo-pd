@@ -3,6 +3,15 @@ title: GND and Component Placement Strategy
 sidebar_position: 2
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Practical guide for 2-layer PCB layout using unified ground plane with noise control through component placement.
 
 ## Overview

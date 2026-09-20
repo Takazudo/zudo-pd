@@ -3,6 +3,15 @@ title: PCBA v2 Debug Report — STUSB4500 CC1DB Failure
 sidebar_position: 7
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 <Note title="Superseded by the 2-board split / v4 diagnosis (2026-07)">
 
 The "v3 design fix" documented on this page — external 5.1 kΩ Rd on CC1/CC2 plus

@@ -1,0 +1,23 @@
+---
+title: Current Architecture
+sidebar_position: 1
+description: Board boundaries, component choices and manufacturing readiness for the renewed design.
+---
+
+The USB-PD input module supplies switched DC power. The synth board owns conversion,
+protection and output connectors.
+
+```mermaid
+flowchart TD
+  SOURCE["USB-C PD source"] --> INPUT["Separate USB-PD input board"]
+  INPUT -->|"Configured 15 V and GND"| SYNTH["Synth conversion board"]
+  SYNTH --> POS["+12 V output"]
+  SYNTH --> NEG["−12 V output"]
+  SYNTH --> FIVE["+5 V output"]
+```
+
+Start with the [board contract](./board-contract.md), then the
+[component map](./component-map.md) and [release readiness](./release-readiness.md).
+Part facts and provenance live in the [component records](/docs/components/records/).
+
+<CategoryNav category="architecture" />

@@ -3,6 +3,15 @@ title: v4 As-Built Order Verification & Footprint Geometry Audit
 sidebar_position: 13
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 This page answers two separate questions about the v0.4.0 (4th JLCPCB order) hardware, both
 at the **as-built / geometry** level rather than the schematic-correctness level (see
 [v3 USB-PD Failure Diagnosis](./v3-pd-failure-diagnosis.md) for the schematic-level pin-18 root

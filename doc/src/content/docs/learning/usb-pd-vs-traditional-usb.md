@@ -3,6 +3,15 @@ title: "USB-PD vs Traditional USB: Why Power Hubs Don't Exist"
 sidebar_position: 6
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 This page explains the fundamental differences between traditional USB power distribution and USB Power Delivery (USB-PD), and why you can't simply use a "USB-C hub" to split USB-PD power.
 
 ## Traditional USB (2.0/3.0) - Simple Power Distribution

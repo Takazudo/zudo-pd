@@ -3,6 +3,15 @@ title: "How Buck Converters Work: Feedback Control Explained"
 sidebar_position: 10
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Understanding how the LM2596S-ADJ controls output voltage through feedback - it's like an op-amp, but with switching!
 
 ## The Question

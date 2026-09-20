@@ -1,18 +1,9 @@
 /**
  * The projection against the real `.claude/skills/**` corpus.
  *
- * The figures asserted here are zudo-pd's own — 41 records across the 20
- * wave-3 bundles (#107-#117), not led-lamp's. They are not cosmetic: a drift
- * in any of them means the evidence moved and the committed selection needs
- * a human decision, which is exactly what should fail a build.
- *
- * The Python validator is NOT run here — `pipeline.test.ts` owns that path.
- * These tests read the evidence and project it, so a failure points at the
- * adapter rather than at the interpreter.
- *
- * zudo-pd's current corpus has no subordinate records and no record with more
- * than one pin map, unlike led-lamp's — those code paths are still exercised
- * generically, against synthetic fixtures, in `render.test.ts`.
+ * Snapshot of the renewed component publication. Changes to these counts require
+ * reviewing the evidence selection; synthetic fixtures cover other record shapes.
+ * The Python validator is exercised by pipeline.test.ts.
  */
 
 import assert from "node:assert/strict";
@@ -43,52 +34,49 @@ function record(slug: string): PublicRecord {
 }
 
 describe("the corpus normalizes to the figures the epic states", () => {
-  it("counts 21 bundles and 41 records, all standalone", () => {
-    assert.equal(model.corpus.ownerBundles, 21);
-    assert.equal(model.corpus.records, 41);
-    assert.equal(model.corpus.standaloneRecords, 41);
+  it("counts 25 bundles and 60 records, all standalone", () => {
+    assert.equal(model.corpus.ownerBundles, 25);
+    assert.equal(model.corpus.records, 60);
+    assert.equal(model.corpus.standaloneRecords, 60);
     assert.equal(model.corpus.subordinateRecords, 0);
-    assert.equal(model.corpus.inventoryLines, 41);
-    assert.equal(model.corpus.fittedLines, 40);
+    assert.equal(model.corpus.inventoryLines, 60);
+    assert.equal(model.corpus.fittedLines, 58);
     assert.equal(model.corpus.dnpOrHandFitLines, 2);
   });
 
-  it("counts 126 sources, 471 facts, 147 coverage domains, 36 interactions", () => {
-    assert.equal(model.corpus.sources, 126);
-    assert.equal(model.corpus.facts, 471);
-    assert.equal(model.corpus.coverageDomains, 147);
-    assert.equal(model.corpus.interactions, 36);
+  it("counts 154 sources, 620 facts, 175 coverage domains, 41 interactions", () => {
+    assert.equal(model.corpus.sources, 154);
+    assert.equal(model.corpus.facts, 620);
+    assert.equal(model.corpus.coverageDomains, 175);
+    assert.equal(model.corpus.interactions, 41);
   });
 
-  it("counts 41 routes, 41 pin maps and 136 pins", () => {
-    assert.equal(index.totals.routes, 41);
-    assert.equal(model.corpus.pinMaps, 41);
-    assert.equal(model.corpus.pins, 136);
+  it("counts 60 routes, 60 pin maps and 196 pins", () => {
+    assert.equal(index.totals.routes, 60);
+    assert.equal(model.corpus.pinMaps, 60);
+    assert.equal(model.corpus.pins, 196);
   });
 
   it("publishes every instance without duplicating or dropping one", () => {
-    assert.equal(model.records.length, 41);
-    assert.equal(sum(model.records, (entry) => entry.sources.length), 126);
-    assert.equal(sum(model.records, (entry) => entry.facts.length), 471);
-    assert.equal(sum(model.records, (entry) => entry.coverage.length), 147);
-    assert.equal(sum(model.records, (entry) => entry.pinMaps.length), 41);
+    assert.equal(model.records.length, 60);
+    assert.equal(sum(model.records, (entry) => entry.sources.length), 154);
+    assert.equal(sum(model.records, (entry) => entry.facts.length), 620);
+    assert.equal(sum(model.records, (entry) => entry.coverage.length), 175);
+    assert.equal(sum(model.records, (entry) => entry.pinMaps.length), 60);
     assert.equal(
       sum(model.records, (entry) => sum(entry.pinMaps, (map) => map.pins.length)),
-      136,
+      196,
     );
 
-    // Interactions are the one relation that fans out: 36 distinct interactions
-    // land on 39 record pages, because three of them span two records each
-    // (a resistor and the record it drives) and every participant must show
-    // its own involvement.
+    // Each participant must show its involvement when an interaction spans records.
     const interactions = model.records.flatMap((entry) => entry.interactions);
-    assert.equal(interactions.length, 39);
-    assert.equal(new Set(interactions.map((entry) => entry.interactionId)).size, 36);
+    assert.equal(interactions.length, 47);
+    assert.equal(new Set(interactions.map((entry) => entry.interactionId)).size, 41);
   });
 
   it("gives every record a unique, route-safe slug and page-unique anchors", () => {
     const slugs = model.records.map((entry) => entry.identity.slug);
-    assert.equal(new Set(slugs).size, 41);
+    assert.equal(new Set(slugs).size, 60);
     for (const slug of slugs) assert.match(slug, SLUG_PATTERN);
 
     // Anchors become HTML ids, so uniqueness is a per-document invariant.
@@ -105,7 +93,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
       assert.equal(new Set(anchors).size, anchors.length, entry.identity.slug);
       total += anchors.length;
     }
-    assert.equal(total, 41 + 126 + 471 + 147 + 39 + 41);
+    assert.equal(total, 60 + 154 + 620 + 175 + 47 + 60);
 
     // Record-scoped anchors stay globally unique — each belongs to one page.
     const scoped = model.records.flatMap((entry) => [
@@ -143,23 +131,20 @@ describe("the real records the epic calls out", () => {
     assert.equal(controller.identity.dnp, false);
     assert.deepEqual(
       controller.identity.placements.map((placement) => `${placement.board}.${placement.refdes}`),
-      ["board-a.U1"],
+      ["board-a.U1", "board-p.U1"],
     );
     assert.notEqual(controller.identity.identityState, "");
     assert.notEqual(controller.identity.sourceState, "");
   });
 
-  it("collapses a per-placement DNP line to fitted-if-fitted-anywhere", () => {
-    // `dnp` lives per placement in zudo-pd's inventory (`evidence.ts`), so a
-    // line with a fitted placement and a DNP placement is not simply "DNP" —
-    // see `line-c23186` in `inventory.json` (two DNP resistor positions, one
-    // fitted). `pesd24vs1ub-c85382` is the unambiguous case: BOTH of its
-    // placements are DNP.
+  it("publishes currently unpopulated lines as full records", () => {
+    // DNP is recorded per placement; all current placements of these two
+    // lines are unpopulated. Their evidence must remain available.
     const esd = record("pesd24vs1ub-c85382");
     assert.equal(esd.identity.dnp, true);
     assert.deepEqual(
       esd.identity.placements.map((placement) => `${placement.board}.${placement.refdes}`),
-      ["board-a.D6", "board-a.D7"],
+      ["board-a.D6", "board-a.D7", "board-p.D6", "board-p.D7"],
     );
     // A DNP line is still a full record: it keeps its evidence, not a stub.
     assert.ok(esd.facts.length > 0);
@@ -168,14 +153,14 @@ describe("the real records the epic calls out", () => {
     const dnp = model.records.filter((entry) => entry.identity.dnp);
     assert.deepEqual(
       dnp.map((entry) => entry.identity.slug),
-      ["pesd24vs1ub-c85382"],
+      ["c23186", "pesd24vs1ub-c85382"],
     );
   });
 
   it("publishes every unavailable source, with its unavailability visible", () => {
     const sources = model.records.flatMap((entry) => entry.sources);
     const unavailable = sources.filter((source) => source.availability === "SOURCE UNAVAILABLE");
-    assert.equal(unavailable.length, 6);
+    assert.equal(unavailable.length, 8);
     for (const source of unavailable) {
       assert.notEqual(source.documentTitle, "");
       assert.notEqual(source.locator, "");
@@ -192,13 +177,13 @@ describe("the real records the epic calls out", () => {
   it("publishes open coverage, both with and without applicable blockers", () => {
     const coverage = model.records.flatMap((entry) => entry.coverage);
     const open = coverage.filter((entry) => entry.status === "OPEN");
-    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 88);
-    assert.equal(open.length, 59);
+    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 97);
+    assert.equal(open.length, 78);
 
     const withBlockers = open.filter((entry) => entry.blockingFactIds.length > 0);
     const withoutBlockers = open.filter((entry) => entry.blockingFactIds.length === 0);
-    assert.equal(withBlockers.length, 55);
-    assert.equal(withoutBlockers.length, 4);
+    assert.equal(withBlockers.length, 67);
+    assert.equal(withoutBlockers.length, 11);
 
     // An open domain never publishes without saying why it is open.
     for (const entry of open) assert.notEqual(entry.reason, "");
@@ -211,8 +196,8 @@ describe("the real records the epic calls out", () => {
     );
 
     const calculated = facts.filter((fact) => fact.expression !== "");
-    assert.equal(calculated.length, 53);
-    assert.equal(facts.filter((fact) => fact.dependsOn.length > 0).length, 53);
+    assert.equal(calculated.length, 43);
+    assert.equal(facts.filter((fact) => fact.dependsOn.length > 0).length, 43);
 
     const crossRecord = facts.flatMap((fact) =>
       fact.dependsOn.filter((id) => factRecord.get(id) !== fact.recordId),
@@ -233,9 +218,9 @@ describe("the real records the epic calls out", () => {
 
   it("keeps numeric, string and structured fact values in their own shapes", () => {
     const values = model.records.flatMap((entry) => entry.facts).map((fact) => fact.value);
-    assert.equal(values.filter((value) => typeof value === "number").length, 255);
-    assert.equal(values.filter((value) => typeof value === "string").length, 208);
-    assert.equal(values.filter((value) => Array.isArray(value)).length, 8);
+    assert.equal(values.filter((value) => typeof value === "number").length, 333);
+    assert.equal(values.filter((value) => typeof value === "string").length, 234);
+    assert.equal(values.filter((value) => Array.isArray(value)).length, 53);
 
     const identity = model.records
       .flatMap((entry) => entry.facts)
@@ -293,18 +278,14 @@ describe("the real records the epic calls out", () => {
     );
   });
 
-  it("carries 9 cross-component rules, each naming published records", () => {
-    assert.equal(model.integration.length, 9);
+  it("carries 11 cross-component rules, each naming published records", () => {
+    assert.equal(model.integration.length, 11);
     const rail = model.integration.find((rule) => rule.ruleId === "rule-rail-envelope");
     assert.ok(rail);
     assert.deepEqual(rail.recordIds, [
-      "rec-stusb4500qtr",
-      "rec-usb-type-c-009-c456012",
-      "rec-lm2596s-adj-c347423",
-      "rec-l7812cd2t-c13456",
-      "rec-l7805abd2t-c86206",
-      "rec-cj7912-c94173",
-      "rec-jst-b6b-xh-a",
+      "rec-stusb4500qtr", "rec-type-c-31-m-17", "rec-c492405", "rec-c2832269",
+      "rec-lm2596s-adj-c347423", "rec-c861077", "rec-c110776", "rec-c23159",
+      "rec-c107286", "rec-c666307", "rec-ap63201wu-7",
     ]);
     const published = new Set(model.records.map((entry) => entry.identity.recordId));
     for (const rule of model.integration) {
@@ -375,6 +356,11 @@ describe("denied evidence never reaches the public model", () => {
     // misclassified as a leak of the denied `owner_skill` value it happens to
     // contain as a substring.
     collectStrings({ interactions: [...index.interactionById.values()] }, false, buckets);
+    // Integration conditions are another explicitly published source of prose.
+    // A manufacturer + MPN can occur both there and in a denied routing prompt;
+    // that legitimate occurrence must not be mistaken for a prompt leak.
+    assert.equal(CIRCUIT_PUBLICATION_MATRIX["integration.conditions"], "PUBLISH");
+    collectStrings(index.integrationRules.map((rule) => ({ conditions: rule.conditions })), false, buckets);
 
     const [denied, published] = buckets;
     // Joined with a separator no published string may contain, so a match
@@ -418,7 +404,7 @@ describe("denied evidence never reaches the public model", () => {
     }
   });
 
-  it("publishes only http(s) citation URLs, and records all 126 decisions", () => {
+  it("publishes only http(s) citation URLs, and records all 154 decisions", () => {
     const report = policy.buildReport({
       viewModelVersion: model.version,
       providerId: "circuit-component-spec",
@@ -428,12 +414,16 @@ describe("denied evidence never reaches the public model", () => {
       selectedSlugs: [],
       counts: {},
     });
-    assert.equal(report.urls.length, 126);
-    assert.equal(report.urls.filter((entry) => entry.decision === "ALLOW").length, 126);
+    assert.equal(report.urls.length, 154);
+    assert.equal(report.urls.filter((entry) => entry.decision === "ALLOW").length, 138);
 
     for (const source of model.records.flatMap((entry) => entry.sources)) {
-      assert.ok(source.url, `${source.sourceId} has no URL`);
-      assert.match(source.url, /^https?:\/\//u);
+      if (source.url === null) {
+        assert.equal(source.authorityClass, "PROJECT_GENERATOR", String(source.sourceId));
+        assert.ok(!CIRCUIT_SELECTION.linkableSourceIds.includes(String(source.sourceId)));
+      } else {
+        assert.match(source.url, /^https?:\/\//u);
+      }
     }
   });
 });

@@ -4,6 +4,15 @@ sidebar_position: 103
 description: Assembly-critical warnings, soldering profiles, inspection points and a pre-power checklist for the Board B linear regulator stage - including the negative-rail capacitor polarity trap.
 ---
 
+<Note title="Historical board procedure">
+
+This procedure describes the previous hardware and may name retired parts, nets,
+pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
+[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
+[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+
+</Note>
+
 Assembly procedure for the Board B linear regulator stage: U6 (L7812CD2T-TR, C13456),
 U7 (L7805ABD2T-TR, C86206) and U8 (CJ7912, C94173), plus their surrounding
 capacitors.

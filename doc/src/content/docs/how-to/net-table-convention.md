@@ -4,6 +4,15 @@ sidebar_position: 50
 description: How to document circuit connectivity using net tables derived from the KiCad netlist and Mermaid block diagrams.
 ---
 
+<Note title="Historical board procedure">
+
+This procedure describes the previous hardware and may name retired parts, nets,
+pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
+[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
+[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+
+</Note>
+
 ## Overview
 
 This page explains the repo convention for documenting circuit connectivity.

@@ -3,6 +3,15 @@ title: USB-PD AC Adapter
 sidebar_position: 6
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 USB-PD AC adapter requirements for zudo-pd. The adapter plugs into
 **[Board A](./board-a-usb-pd-core.md)**, the USB-PD sink core, which negotiates 15 V and
 hands the switched rail to [Board B](./board-b-synth-power.md).

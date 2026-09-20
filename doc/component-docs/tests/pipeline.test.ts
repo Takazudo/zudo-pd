@@ -32,16 +32,16 @@ describe("the real circuit adapter", () => {
 
     // Corpus figures the epic states. A mismatch means evidence moved and the
     // committed selection needs review — exactly what should fail a build.
-    assert.equal(result.report.records.available, 41);
-    assert.equal(result.report.records.selected, 41);
-    assert.equal(result.report.sources.available, 126);
-    assert.equal(result.report.sources.selected, 126);
+    assert.equal(result.report.records.available, 60);
+    assert.equal(result.report.records.selected, 60);
+    assert.equal(result.report.sources.available, 154);
+    assert.equal(result.report.sources.selected, 154);
     assert.equal(result.report.viewModelVersion, VIEW_MODEL_VERSION);
     assert.equal(result.report.provider.id, "circuit-component-spec");
 
-    // Nine cross-component rules, the same way: the ruleset lives outside every
+    // Ten cross-component rules, the same way: the ruleset lives outside every
     // owner bundle, so nothing else in this report would notice it shrinking.
-    assert.equal(result.report.counts.publishedIntegrationRules, 9);
+    assert.equal(result.report.counts.publishedIntegrationRules, 11);
 
     // The landing page, the catalog, the records index, the integration page,
     // and one page per selected record. A change in this count means a renderer

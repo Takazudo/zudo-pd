@@ -11,11 +11,8 @@
  * does, over CDP against headless Chrome — a plain node script driving the
  * DevTools protocol directly, with no browser-automation dependency.
  *
- * Forked from led-lamp's version, retargeted at this corpus: its four
- * representatives are this project's, and its document card is allowed to be
- * unresolved (`rec-c335982` has no manufacturer document — see
- * `adapters/circuit/selection.ts`), which led-lamp's fail-closed corpus never
- * produces.
+ * Exercises this project's passive, controller and connector records, plus
+ * the explicit document gap and illustrative inductor model provenance.
  *
  * Requires `pnpm build` first, and a Chrome on PATH (or `CHROME_BIN`).
  */
@@ -32,7 +29,15 @@ const AWAY = "/docs/components/catalog";
 const REPRESENTATIVES = [
   { kind: "passive", path: "/docs/components/records/c1623/" },
   { kind: "IC", path: RECORD },
-  { kind: "connector", path: "/docs/components/records/usb-type-c-009-c456012/" },
+  { kind: "synth connector", path: "/docs/components/records/dealon-dw254p-2x8-l0-c4749189/" },
+  { kind: "PD connector", path: "/docs/components/records/type-c-31-m-17/" },
+  { kind: "input TVS", path: "/docs/components/records/c968650/" },
+  { kind: "inverting rectifier", path: "/docs/components/records/c3024223/" },
+  { kind: "screw terminal", path: "/docs/components/records/c8465/" },
+  { kind: "PTC1", path: "/docs/components/records/ptc-smd1210p150tf16-c7529589/" },
+  { kind: "PTC2", path: "/docs/components/records/ptc-msmd110-33v-c70119/" },
+  { kind: "PTC3", path: "/docs/components/records/ptc-bsmd1206-150-16v-c883133/" },
+  { kind: "illustrative inductor", path: "/docs/components/records/aspi-0630lr-100m-t15/", evidenceText: "not exact manufacturer CAD" },
   // The one record in this corpus with no manufacturer document at all. Its
   // model and footprint cards must still resolve in full.
   { kind: "document-less", path: "/docs/components/records/c335982/", documentResolved: false },
@@ -81,6 +86,11 @@ async function main() {
     "--no-sandbox",
     "--disable-dev-shm-usage",
     "--disable-extensions",
+    // An occluded headless renderer can pause rAF on desktop hosts, making
+    // delivered pointer events appear inert. Keep this test target active.
+    "--disable-background-timer-throttling",
+    "--disable-renderer-backgrounding",
+    "--disable-backgrounding-occluded-windows",
     // No GPU in CI: SwiftShader is what makes the WebGL path testable at all.
     "--enable-unsafe-swiftshader",
     "--remote-debugging-port=0",
@@ -97,6 +107,7 @@ async function main() {
     const cdp = await connectCdp(page.webSocketDebuggerUrl);
     try {
       await cdp.send("Page.enable");
+      await cdp.send("Page.bringToFront");
       await cdp.send("Runtime.enable");
       await cdp.send("Network.enable");
 
@@ -304,6 +315,7 @@ async function inspectReferencePage(cdp, representative, width, theme) {
     const footprintImage = footprintLink.querySelector('img');
     const modelViewport = section.querySelector('[data-model-viewer-viewport]');
     const modelRoot = section.querySelector('[data-component-model-viewer-root]');
+    const modelCaption = modelRoot.querySelector('.zld-model-viewer__caption');
     const footprintTrigger = section.querySelector('[data-component-preview-enlarge="footprint"]');
     const modelTrigger = section.querySelector('[data-component-preview-enlarge="model"]');
     const documentLink = section.querySelector('.zld-component-references__document-title a');
@@ -330,6 +342,9 @@ async function inspectReferencePage(cdp, representative, width, theme) {
       footprintRect,
       imageRect,
       modelRect,
+      captionRect: rect(modelCaption),
+      captionPackage: modelCaption.textContent.replace('Shared footprint package:', '').trim(),
+      captionOverflows: modelCaption.scrollWidth > modelCaption.clientWidth + 1,
       footprintTrigger: {
         rect: rect(footprintTrigger),
         display: getComputedStyle(footprintTrigger).display,
@@ -359,10 +374,14 @@ async function inspectReferencePage(cdp, representative, width, theme) {
       themeSignature: [getComputedStyle(document.body).color, getComputedStyle(document.body).backgroundColor, cardStyle.color, cardStyle.backgroundColor].join('|'),
       sectionBeforeEvidence: evidence !== null && Boolean(section.compareDocumentPosition(evidence) & Node.DOCUMENT_POSITION_FOLLOWING),
       sourcesPresent: document.getElementById('sources') !== null,
+      pageText: document.body.innerText,
       theme: document.documentElement.dataset.theme,
     };
   })()`);
 
+  if (representative.evidenceText !== undefined) {
+    assertEqual(report.pageText.includes(representative.evidenceText), true, `${representative.kind} retains illustrative provenance`);
+  }
   assertEqual(report.viewport.inner, width, `${representative.kind} ${width}/${theme} viewport width`);
   assertEqual(report.viewport.scroll <= report.viewport.client + 1, true, `${representative.kind} ${width}/${theme} page overflow`);
   if (representative.documentResolved === false) {
@@ -404,6 +423,9 @@ async function inspectReferencePage(cdp, representative, width, theme) {
   assertContained(report.footprintRect, footprintCard, `${representative.kind} footprint at ${width}/${theme}`);
   assertContained(report.imageRect, report.footprintRect, `${representative.kind} footprint image at ${width}/${theme}`);
   assertContained(report.modelRect, modelCard, `${representative.kind} model viewport at ${width}/${theme}`);
+  assertContained(report.captionRect, modelCard, `${representative.kind} model caption at ${width}/${theme}`);
+  assertEqual(report.captionOverflows, false, `${representative.kind} package name wraps within caption`);
+  assertEqual(report.modelTrigger.label, `Enlarge 3D preview for ${report.captionPackage}`, `${representative.kind} wrapped package identity remains complete`);
   assertContained(report.footprintTrigger.rect, report.footprintRect, `${representative.kind} footprint enlarge at ${width}/${theme}`);
   assertContained(report.modelTrigger.rect, report.modelRect, `${representative.kind} model enlarge at ${width}/${theme}`);
   assertEqual(report.footprintTrigger.rect.width >= 44 && report.footprintTrigger.rect.height >= 44, true, `${representative.kind} footprint target size`);

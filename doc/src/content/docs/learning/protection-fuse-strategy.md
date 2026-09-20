@@ -3,6 +3,15 @@ title: "Protection Fuse Strategy: Multi-Stage Design"
 sidebar_position: 17
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Understanding overcurrent protection design for modular synthesizer power supplies, based on industry best practices and research into commercial Eurorack power supplies.
 
 ## Overview

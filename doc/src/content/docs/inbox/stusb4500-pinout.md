@@ -3,6 +3,15 @@ title: STUSB4500 Pin Cheat-Sheet (beginner)
 sidebar_position: 11
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 A rough "what is each pin for" guide for the STUSB4500 USB-PD sink controller (U1, QFN-24)
 as wired on this board. Grouped by function so the whole chip makes sense, not just 24
 isolated pins. For the authoritative electrical detail see the ST datasheet (DS12499) Table 1

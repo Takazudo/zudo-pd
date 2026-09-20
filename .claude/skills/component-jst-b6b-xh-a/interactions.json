@@ -9,7 +9,7 @@
         "fact-jst-b6b-xh-a-dimensions",
         "fact-jst-b6b-xh-a-locked-contract"
       ],
-      "conditions": "Assert the locked #90 A-to-B interface contract exactly: J4 (board-a) pins 1-2 = +15V (Board A VBUS_OUT, post-Q1-load-switch, paired A->B conductors), 3 = ATT (STUSB4500 U1.11/ATTACH, open-drain active-low, no on-board pull-up), 4 = PDOK (STUSB4500 U1.20/POWER_OK2, open-drain active-low, asserts on a live PDO2 15V contract), 5-6 = GND (paired return). J5 (board-b) carries the identical pinout as the mating end of the same cable -- unlike the led-lamp port's Board P/Board L split, zudo-pd's contract is uniform at both ends. Verify pin-1 orientation on both layouts and end-to-end cable continuity before interconnecting boards; the connector's mechanical polarization and single-6-position-XH uniqueness rule (board-split-decision.md Keying/foolproofing) prevent a wrong-header mate, but not a miswired cable.",
+      "conditions": "For the historical #90 A-to-B cable contract, J4 (board-a) pins 1-2 = +15V (Board A VBUS_OUT, post-Q1-load-switch, paired A->B conductors), 3 = ATT (STUSB4500 U1.11/ATTACH, open-drain active-low, no on-board pull-up), 4 = PDOK (STUSB4500 U1.20/POWER_OK2, open-drain active-low, asserts on a live PDO2 15V contract), and 5-6 = GND (paired return). The former JST J5 (board-b) used the identical cable pinout; the renewed Board B J5 is a different stacking header. Before using the historical cable interface, verify both pin-1 orientations, end-to-end continuity and actual mating polarization. A polarized housing does not establish correct internal conductor mapping.",
       "verdict": "NEEDS BENCH"
     },
     {

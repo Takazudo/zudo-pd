@@ -28,7 +28,9 @@ import { join, relative, resolve, sep } from "node:path";
 const DIST = resolve("dist");
 const RECORDS_ROOT = join(DIST, "docs", "components", "records");
 const CATALOG = join(DIST, "docs", "components", "catalog", "index.html");
-const EXPECTED_RECORDS = 41;
+const publicationReport = JSON.parse(await readFile(resolve("component-docs/preflight.json"), "utf8"));
+const EXPECTED_RECORDS = publicationReport.records.selected;
+assert.ok(Number.isSafeInteger(EXPECTED_RECORDS) && EXPECTED_RECORDS > 0);
 const ALLOWED_PDF_LABELS = new Set([
   "Datasheet PDF",
   "Specification PDF",

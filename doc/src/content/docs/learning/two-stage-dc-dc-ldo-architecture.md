@@ -3,6 +3,15 @@ title: Two-Stage DC-DC + LDO Power Supply Architecture for Low-Noise Audio
 sidebar_position: 16
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Research and validation of the two-stage power supply topology used in this project: switching DC-DC converter followed by linear regulator for low-noise audio applications.
 
 ## Overview

@@ -4,6 +4,15 @@ sidebar_position: 102
 description: Footprint, pad, copper-pour, thermal-via and capacitor-placement guidance for the U6/U7/U8 linear regulators, with the thermal budget recomputed from the recorded datasheet facts.
 ---
 
+<Note title="Historical board procedure">
+
+This procedure describes the previous hardware and may name retired parts, nets,
+pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
+[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
+[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+
+</Note>
+
 Layout input for the three final-stage linear regulators on **Board B**:
 
 | Ref | Part            | LCSC   | Package    | Rail             |
@@ -269,6 +278,6 @@ The +5V rail in a modular synthesizer feeds two quite different kinds of load.
 - [DC-DC Converter Stage Design (LM2596S-ADJ)](./dcdc-converter-design.md) - the stage upstream
 - [Regulator Assembly, Soldering, and Inspection](./regulator-assembly-and-inspection.md)
 - [Power Rail Bench Test Procedure](./power-rail-bench-test.md)
-- [L7812CD2T record](../components/records/l7812cd2t-c13456/index.mdx),
-  [L7805ABD2T record](../components/records/l7805abd2t-c86206/index.mdx),
-  [CJ7912 record](../components/records/cj7912-c94173/index.mdx)
+- L7812CD2T, L7805ABD2T and CJ7912 are retired selections. Their owner evidence
+  remains in the repository; use the [renewed power stage](../architecture/power-stage-options.md)
+  for current regulator records.

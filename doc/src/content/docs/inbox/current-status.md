@@ -3,6 +3,15 @@ title: Project Status and Plan
 sidebar_position: 3
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Current progress and plan for the USB-PD powered modular synthesizer power supply — now in
 the **2-board split era** following the v4 diagnosis (epic
 [#86](https://github.com/Takazudo/zudo-pd/issues/86)), with both boards now generated

@@ -6,6 +6,7 @@ import {
   assertMdxSafe,
   bulletList,
   component,
+  code,
   evidenceAnchor,
   heading,
   link,
@@ -28,6 +29,13 @@ function round(raw: string): string {
 }
 
 describe("serializeBody escapes MDX-active syntax", () => {
+  it("preserves KiCad active-low pin labels without weakening the delimiter guard", () => {
+    const body = serializeBody([paragraph([code(literal("~{SHDN}"))])]);
+    assertMdxSafe(body, "pin-map.mdx");
+    assert.ok(body.includes("\\{SHDN}"));
+    assert.deepEqual(code(literal("VIN")), { type: "inlineCode", value: "VIN" });
+  });
+
   it("escapes braces so evidence never becomes an MDX expression", () => {
     const out = round("threshold {vref} volts");
     assert.match(out, /\\\{vref\}/u);

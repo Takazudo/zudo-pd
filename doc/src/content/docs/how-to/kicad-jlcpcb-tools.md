@@ -3,6 +3,15 @@ title: Generate JLCPCB Files with kicad-jlcpcb-tools
 sidebar_position: 6
 ---
 
+<Note title="Historical board procedure">
+
+This procedure describes the previous hardware and may name retired parts, nets,
+pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
+[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
+[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+
+</Note>
+
 This guide explains how to generate JLCPCB-ready manufacturing files (Gerbers, BOM, CPL) using the `kicad-jlcpcb-tools` KiCad plugin. The plugin replaces the manual export workflow and **automatically applies rotation corrections** that JLCPCB's part library requires.
 
 ## Why This Plugin

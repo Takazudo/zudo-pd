@@ -4,6 +4,15 @@ sidebar_position: 20
 description: The small, cheap, reusable USB-PD 15V sink board (STUSB4500 + USB-C + load switch + NVM/debug pads) — the fixed circuit per the board-split decision (#90).
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Board A is the USB-PD front end split out of the single-board zudo-pd design (epic
 [#86](https://github.com/Takazudo/zudo-pd/issues/86)). It negotiates a 15 V/3 A USB-PD
 contract with a STUSB4500, load-switches it, and hands the switched rail to Board B (the

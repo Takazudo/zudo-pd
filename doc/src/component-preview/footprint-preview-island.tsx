@@ -15,7 +15,7 @@ export type FootprintPreviewIslandProps = {
 
 /**
  * `data-footprint-preview-state` flips "no-js" -> "ready" once the image has
- * actually decoded, matching led-lamp's contract. The enlarge trigger is
+ * actually decoded. The enlarge trigger is
  * scoped to the "ready" state in CSS, so a reader whose JavaScript never runs
  * is never offered a control that cannot work — the `<img>` link and the
  * caption's "Open SVG" link remain their whole affordance.

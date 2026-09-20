@@ -84,6 +84,14 @@ export function PreviewEnlargeDialog({
     returnFocusRef,
   });
 
+  const closeExplicitly = useCallback(() => {
+    dialogRef.current?.close();
+    // Native close events are queued; clear controlled content in the same action.
+    closeNotifiedRef.current = true;
+    onClose();
+    returnFocusRef.current?.focus();
+  }, [dialogRef, onClose, returnFocusRef]);
+
   const handleBackdropClick = useCallback((event: JSX.TargetedMouseEvent<HTMLDialogElement>) => {
     const dialog = event.currentTarget;
     // A click on the ::backdrop is reported with the dialog as its target, so
@@ -98,9 +106,9 @@ export function PreviewEnlargeDialog({
       event.clientY < rect.top ||
       event.clientY > rect.bottom
     ) {
-      dialog.close();
+      closeExplicitly();
     }
-  }, []);
+  }, [closeExplicitly]);
 
   const handleKeyDown = useCallback((event: JSX.TargetedKeyboardEvent<HTMLDialogElement>) => {
     if (event.key !== "Tab") return;
@@ -138,7 +146,7 @@ export function PreviewEnlargeDialog({
         type="button"
         className="zld-preview-dialog__close"
         aria-label={`Close enlarged ${variant} preview`}
-        onClick={() => dialogRef.current?.close()}
+        onClick={closeExplicitly}
       >
         <svg
           className="zld-preview-dialog__close-icon"

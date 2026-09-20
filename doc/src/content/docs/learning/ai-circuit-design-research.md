@@ -3,6 +3,15 @@ title: "AI-Assisted Circuit Design: Workflows for the Idea → KiCad Schematic H
 sidebar_position: 19
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Research for a solo hobbyist building a USB-PD modular-synth power supply in KiCad, driven by an LLM coding agent (Claude Code). Three approaches were already tried and rejected: letting the AI write `.kicad_sch` directly, schemdraw, and improving ASCII-art schematics. This page documents why those failed and what the field actually does instead.
 
 ## The Core Finding: LLMs Can't Do 2-D, So Stop Asking Them to Draw

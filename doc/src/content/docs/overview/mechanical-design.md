@@ -3,6 +3,15 @@ title: Mechanical Design
 sidebar_position: 5
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Physical dimensions and mechanical considerations for PCB layout and enclosure design.
 
 Every component on this page lives on **[Board B](./board-b-synth-power.md)** — the

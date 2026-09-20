@@ -3,6 +3,15 @@ title: "Open-Drain Outputs: Understanding the PG Pin"
 sidebar_position: 7
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 How the CH224D's Power Good (PG) pin works and why the LED circuit is connected the way it is.
 
 <Warning title="Historical: CH224D was replaced by the STUSB4500 (v1.1)">

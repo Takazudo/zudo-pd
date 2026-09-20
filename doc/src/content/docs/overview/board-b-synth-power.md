@@ -4,6 +4,15 @@ sidebar_position: 21
 description: Design doc for Board B of the 2-board split — the DC-DC, LDO, protection, and Eurorack output stages that carry the expensive parts, fed by a stable 15 V from Board A.
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 Board B is the **synth power conversion** half of the 2-board split (epic
 [#86](https://github.com/Takazudo/zudo-pd/issues/86)). It receives a regulated
 15 V from Board A (the USB-PD sink core) over a 6-pin cable and converts it into

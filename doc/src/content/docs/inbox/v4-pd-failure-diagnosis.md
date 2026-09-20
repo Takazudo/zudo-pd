@@ -4,6 +4,15 @@ sidebar_position: 12
 description: Ranked root-cause candidates for the v4 (0.4.0) PD failure, verified against the real netlist and the ST datasheets, plus a bench discrimination procedure for the dead v4 boards.
 ---
 
+<Note title="Historical reference">
+
+This page is retained from the previous design documentation. Parts, geometry,
+status and numerical claims may be superseded. Start with the
+[current architecture](/docs/architecture/) and verify exact components in the
+[catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
+
+</Note>
+
 The v4 (0.4.0) board still fails USB-PD even though the v3 pin-18 bug is fixed and the
 NVM is programmed for 15 V. This page ranks root-cause candidates for the v4 failure
 from a datasheet-aware review of the USB-PD front end (`usb-pd-input.kicad_sch`), and
