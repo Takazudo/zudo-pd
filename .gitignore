@@ -87,3 +87,9 @@ _jlcpcb-files
 # Electron app build artifacts
 electron-app/dist/
 electron-app/package-lock.json
+
+# Large assembled STEP previews are local generated files. Never use Git LFS.
+/boards/board-b/**/populated-stack.step
+/manufacturing/releases/**/populated-stack.step
+/3dp-files/**/populated-stack.step
+/3dp-files/**/installed-assembly.step

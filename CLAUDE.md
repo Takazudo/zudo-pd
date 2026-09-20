@@ -1,5 +1,14 @@
 # zudo-pd project guidance
 
+## Repository storage
+
+Never use Git LFS. Large assembled STEP previews are ignored local derivatives;
+do not track them or upload them through another storage service without an
+explicit user request. Keep source CAD, component models and printable STLs in
+ordinary Git. See `manufacturing/local-only-assembly-previews.json` for the exact
+omitted files and their original hashes. Frozen verification must still fail if
+a required original local file is absent or changed; do not silently skip it.
+
 ## Current work and evidence boundary
 
 This repository designs a USB-C PD supply for modular synthesizers. The renewal

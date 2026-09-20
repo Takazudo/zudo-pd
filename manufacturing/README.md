@@ -17,6 +17,37 @@ including `front-stack-review`, are immutable records of older assembly geometry
 
 ## Generate files from checked sources
 
+### Local assembly previews
+
+Large `populated-stack.step` and `installed-assembly.step` files are local-only
+generated previews. Git LFS is prohibited. The
+[omission inventory](local-only-assembly-previews.json) records all ten paths,
+sizes and original hashes; local copies are retained and ignored. Component
+models, native KiCad previews, printable STLs, Gerbers, drills, BOMs and CPLs
+remain tracked.
+
+The `guarded-review`, `terminal-review`, `front-stack-review` and
+`corner-support-review` snapshots each omit one large assembly STEP from Git.
+Their frozen manifests, checksum lists and historical links still identify it.
+Full snapshot verification therefore requires the original local file; a fresh
+clone alone is not a complete mechanical review snapshot. Checks deliberately
+continue to reject a missing or changed required file.
+
+For a new current-board assembly review on the documented macOS KiCad setup,
+use a new output directory:
+
+```sh
+uv run scripts/pcb/export-assembly-preview.py --output tmp/local-assembly-preview --kicad-cli /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli
+```
+
+This writes new STEP and verification outputs. STEP creation timestamps mean
+these are not byte-identical replacements for the frozen assemblies. The leg's
+existing verifier requires its original local assembly hash; it has no override
+for substituting a newly generated assembly. Preserve that check and establish
+new verification separately when revising the design.
+
+### New fabrication export
+
 ```sh
 python3 scripts/pcb/export-jlcpcb.py manufacturing/releases/corner-support-review
 uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py manufacturing/releases/corner-support-review

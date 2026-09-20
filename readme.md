@@ -76,8 +76,17 @@ Read [boards/README.md](boards/README.md) before editing or regenerating a board
 The [portable assembly preview](boards/board-b/assembly-preview/preview.kicad_pcb)
 opens the P/B stack in KiCad for mechanical review.
 
-Large assembled STEP previews are local generated files, omitted from Git.
-Individual component models and printable STLs remain ordinary Git files.
+**Never use Git LFS.** Large assembled STEP previews are ignored local generated
+files. Their [path and hash inventory](manufacturing/local-only-assembly-previews.json)
+records exactly what is omitted from Git. The combined KiCad preview, individual
+component models, standalone leg STEP, printable STLs and fabrication files remain
+in ordinary Git.
+
+A fresh clone does not contain those large review assemblies. Full historical
+checksum checks and the leg's whole-assembly verification require the original
+local STEP bytes; they must fail if those bytes are missing or different. See the
+[manufacturing guide](manufacturing/README.md#local-assembly-previews) for generating
+a new assembly review, whose hashes are separate from the frozen reports.
 
 The root `zudo-pd.kicad_*` project and `jlcpcb-order-snapshots/` preserve the old
 combined-board orders. The [printed accessories](3dp-files/README.md) include the

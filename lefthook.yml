@@ -1,3 +1,6 @@
+# Repository policy: never use Git LFS or invoke its hooks.
+skip_lfs: true
+
 pre-commit:
   commands:
     format-mdx:
