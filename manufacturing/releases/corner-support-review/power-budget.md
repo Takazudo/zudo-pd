@@ -142,6 +142,8 @@ orientations do not establish cooling in this installed configuration.
 The current PD translation and fourth independent corner support do not resolve
 the HC-11 floor-height conflict: an 11 mm support is shorter than P's 12.7 mm
 back substrate plane and the terminal drawing's 14.2 mm maximum. See
-[the support record](../boards/board-b/supports/README.md). Select and check the
-actual support/enclosure clearance before treating that installed configuration
-as a thermal-test setup.
+[the retained support record](../boards/board-b/supports/README.md). The selected
+[18 mm printed-leg prototype](../3dp-files/adhesive-leg/README.md) addresses that
+nominal height conflict. Its separate CAD verification does not qualify printing,
+adhesive retention or thermal behavior. Check the actual accessory and enclosure
+before treating the installed configuration as a thermal-test setup.

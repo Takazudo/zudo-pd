@@ -9,6 +9,10 @@ ordinary Git. See `manufacturing/local-only-assembly-previews.json` for the exac
 omitted files and their expected hashes. Verification must still fail if
 a required original local file is absent or changed; do not silently skip it.
 
+Before the first release, keep only the latest renewal PCB, printed accessory
+and prototype-order outputs. Use Git history for earlier revisions; do not create
+backup snapshot folders or retain superseded generated packages.
+
 ## Current work and evidence boundary
 
 This repository designs a USB-C PD supply for modular synthesizers. The renewal
