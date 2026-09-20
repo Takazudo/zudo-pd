@@ -1086,6 +1086,751 @@
         }
       ],
       "reviewer": "issue-124 worktree child (Claude Fable 5), DS18004 polarity + generator-spec lock review"
+    },
+    {
+      "record_id": "rec-dealon-dw254p-2x8-l0-c4749189",
+      "pin_map_id": "pinmap-dw254p-2x8-l0",
+      "canonical_sha256": "500518824de33beb631e88318489bf455646c96c8c9a6680bd3ac52bc73da5bf",
+      "evidence_fact_ids": [
+        "fact-dw254p-pin-map",
+        "fact-dw254p-orientation"
+      ],
+      "trust_status": "NEEDS BENCH",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "-12V rail"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "-12V rail"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "3",
+          "footprint_pad": "3",
+          "function": "GND"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "4",
+          "footprint_pad": "4",
+          "function": "GND"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "5",
+          "footprint_pad": "5",
+          "function": "GND"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "6",
+          "footprint_pad": "6",
+          "function": "GND"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "7",
+          "footprint_pad": "7",
+          "function": "GND"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "8",
+          "footprint_pad": "8",
+          "function": "GND"
+        },
+        {
+          "symbol_pin": "9",
+          "name": "9",
+          "footprint_pad": "9",
+          "function": "+12V rail"
+        },
+        {
+          "symbol_pin": "10",
+          "name": "10",
+          "footprint_pad": "10",
+          "function": "+12V rail"
+        },
+        {
+          "symbol_pin": "11",
+          "name": "11",
+          "footprint_pad": "11",
+          "function": "+5V rail"
+        },
+        {
+          "symbol_pin": "12",
+          "name": "12",
+          "footprint_pad": "12",
+          "function": "+5V rail"
+        },
+        {
+          "symbol_pin": "13",
+          "name": "13",
+          "footprint_pad": "13",
+          "function": "CV rail (shared isolated bus)"
+        },
+        {
+          "symbol_pin": "14",
+          "name": "14",
+          "footprint_pad": "14",
+          "function": "CV rail (shared isolated bus)"
+        },
+        {
+          "symbol_pin": "15",
+          "name": "15",
+          "footprint_pad": "15",
+          "function": "GATE rail (shared isolated bus)"
+        },
+        {
+          "symbol_pin": "16",
+          "name": "16",
+          "footprint_pad": "16",
+          "function": "GATE rail (shared isolated bus)"
+        }
+      ],
+      "reviewer": "2026-09-20 exact C4749189 EasyEDA import, visually inspected DEALON mirror drawing and Doepfer red-stripe convention; physical cable/key check remains NEEDS BENCH"
+    },
+    {
+      "record_id": "rec-c492405",
+      "pin_map_id": "pinmap-c492405",
+      "canonical_sha256": "b054ccfbc97acd54e839c14b174987fa56c119150d0bc51a03539f6f23ea47fa",
+      "evidence_fact_ids": [
+        "fact-c492405-dimensions"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "Board P VBUS_OUT conductor A"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "Board P VBUS_OUT conductor B"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "3",
+          "footprint_pad": "3",
+          "function": "Board P ATT"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "4",
+          "footprint_pad": "4",
+          "function": "Board P PDOK"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "5",
+          "footprint_pad": "5",
+          "function": "Board P GND conductor A"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "6",
+          "footprint_pad": "6",
+          "function": "Board P GND conductor B"
+        }
+      ],
+      "reviewer": "Renewal import: exact part evidence retained, current generator pin mapping checked"
+    },
+    {
+      "record_id": "rec-c2832269",
+      "pin_map_id": "pinmap-c2832269",
+      "canonical_sha256": "3c9e7dd865f134f0ba8d28367b155869ec8d067585a5c4cf8183c35a8f27ca14",
+      "evidence_fact_ids": [
+        "fact-c2832269-dimensions"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "Board B +15V conductor A"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "Board B +15V conductor B"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "3",
+          "footprint_pad": "3",
+          "function": "Board B ATT"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "4",
+          "footprint_pad": "4",
+          "function": "Board B PDOK"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "5",
+          "footprint_pad": "5",
+          "function": "Board B GND conductor A"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "6",
+          "footprint_pad": "6",
+          "function": "Board B GND conductor B"
+        }
+      ],
+      "reviewer": "Renewal import: exact part evidence retained, current generator pin mapping checked"
+    },
+    {
+      "record_id": "rec-c14663",
+      "pin_map_id": "pinmap-c14663",
+      "canonical_sha256": "48ff494f74eefe94a4b5eaac566cbbc937c3a10799dc835ee8c7fdbec51e7f9a",
+      "evidence_fact_ids": [
+        "fact-c14663-c35-topology"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "Renewal import: exact part evidence retained, current generator pin mapping checked"
+    },
+    {
+      "record_id": "rec-c22807",
+      "pin_map_id": "pinmap-c22807",
+      "canonical_sha256": "208948c426a1dbef2807ba63e1fba21b5d479e0557a6c3abb3dc994d9015bed0",
+      "evidence_fact_ids": [
+        "fact-c22807-r12-topology"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "Renewal import: exact part evidence retained, current generator pin mapping checked"
+    },
+    {
+      "record_id": "rec-c17414",
+      "pin_map_id": "pinmap-c17414",
+      "canonical_sha256": "6d4e9bce9c84222a23866443e6728a5ac3ad014bececd61f25854d467b0d3c73",
+      "evidence_fact_ids": [
+        "fact-c17414-reset-ctrl-topology"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "Renewal import: exact part evidence retained, current generator pin mapping checked"
+    },
+    {
+      "record_id": "rec-type-c-31-m-17",
+      "pin_map_id": "pinmap-type-c-31-m-17",
+      "canonical_sha256": "b23c96902ad7b39ddedabb140b9da455d3878d6ca28a3f3ac8143f48cb51e520",
+      "evidence_fact_ids": [
+        "fact-type-c-31-m-17-contacts"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "0",
+          "name": "SHIELD",
+          "footprint_pad": "0",
+          "function": "shell/ground project mapping"
+        },
+        {
+          "symbol_pin": "1",
+          "name": "GND1",
+          "footprint_pad": "1",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "VBUS1",
+          "footprint_pad": "2",
+          "function": "VBUS_IN"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "CC1",
+          "footprint_pad": "3",
+          "function": "configuration channel 1"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "CC2",
+          "footprint_pad": "4",
+          "function": "configuration channel 2"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "VBUS2",
+          "footprint_pad": "5",
+          "function": "VBUS_IN duplicate"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "GND2",
+          "footprint_pad": "6",
+          "function": "ground duplicate"
+        }
+      ],
+      "reviewer": "Renewal import: exact part evidence retained, current generator pin mapping checked"
+    },
+    {
+      "record_id": "rec-c107286",
+      "pin_map_id": "pinmap-c107286",
+      "canonical_sha256": "71dd30ae807de3a3042d460ddfa1e5e468d5b23cfc178c2fce69f2ebe26bab08",
+      "evidence_fact_ids": [
+        "fact-c107286-pinout"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "~{SHDN}",
+          "footprint_pad": "1",
+          "function": "Shutdown, tied to input"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "IN",
+          "footprint_pad": "2",
+          "function": "Positive regulator input"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "GND",
+          "footprint_pad": "3",
+          "function": "System ground"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "OUT",
+          "footprint_pad": "4",
+          "function": "Positive output"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "SENSE/ADJ",
+          "footprint_pad": "5",
+          "function": "Adjust divider"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "TAB",
+          "footprint_pad": "6",
+          "function": "Ground thermal tab"
+        }
+      ],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c666307",
+      "pin_map_id": "pinmap-c666307",
+      "canonical_sha256": "6429089fe6fe04f350e88db0199e345ea38ae4e282388c82b53e2e1b6a7f8bb3",
+      "evidence_fact_ids": [
+        "fact-c666307-pinout"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "~{SHDN}",
+          "footprint_pad": "1",
+          "function": "Shutdown, tied to negative input"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "GND",
+          "footprint_pad": "2",
+          "function": "System ground"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "IN",
+          "footprint_pad": "3",
+          "function": "Negative input"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "SENSE/ADJ",
+          "footprint_pad": "4",
+          "function": "Sense tied to local negative output"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "OUT",
+          "footprint_pad": "5",
+          "function": "Negative output"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "IN",
+          "footprint_pad": "6",
+          "function": "Negative input thermal tab"
+        }
+      ],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c110776",
+      "pin_map_id": "pinmap-c110776",
+      "canonical_sha256": "6de6d7fa6e7ca61307c97cb08c205b0d294873fc812e66df20db3c4ab2b05cae",
+      "evidence_fact_ids": [
+        "fact-c110776-manufacturer"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c861589",
+      "pin_map_id": "pinmap-c861589",
+      "canonical_sha256": "d4c04b354a7a7e5a429c8164c1999a898a85fc884a447ab42e734e769cb4f89b",
+      "evidence_fact_ids": [
+        "fact-c861589-manufacturer"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c861519",
+      "pin_map_id": "pinmap-c861519",
+      "canonical_sha256": "0649d0a7878092fbedd0b9ed188b953bc8544241829b267fad9d0ae6a4fb89b8",
+      "evidence_fact_ids": [
+        "fact-c861519-manufacturer"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c861371",
+      "pin_map_id": "pinmap-c861371",
+      "canonical_sha256": "4a70b062b99f1fedf180d84c11806ccef6cb304ac93132010d3c743d2e069228",
+      "evidence_fact_ids": [
+        "fact-c861371-manufacturer"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c861332",
+      "pin_map_id": "pinmap-c861332",
+      "canonical_sha256": "7bb22ee5d1c7a7ef486301976dc867bf37741788c9fef1d9b562eebb0a57e42b",
+      "evidence_fact_ids": [
+        "fact-c861332-manufacturer"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c861077",
+      "pin_map_id": "pinmap-c861077",
+      "canonical_sha256": "4bf5ec2517920795ff3163a31ea51ea66fa8673a7963359023fd755da415d958",
+      "evidence_fact_ids": [
+        "fact-c861077-manufacturer"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c23159",
+      "pin_map_id": "pinmap-c23159",
+      "canonical_sha256": "f0d35a16d3e185305a398842b0b7ebae246c6072f19769f46fece5cdf2d83f3d",
+      "evidence_fact_ids": [
+        "fact-c23159-manufacturer"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-c136280",
+      "pin_map_id": "pinmap-c136280",
+      "canonical_sha256": "2dd506f08ecfb71471df59a4a26b5df1561bc27fe0c7f5eff09c4e52fd25d362",
+      "evidence_fact_ids": [
+        "fact-c136280-voltage"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "Positive capacitor terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "Negative capacitor terminal"
+        }
+      ],
+      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "record_id": "rec-ap63201wu-7",
+      "pin_map_id": "pinmap-ap63201wu-7",
+      "canonical_sha256": "abc776a1d883119d0c68a9e5c1477c70f84ddb11ee65115625861931786a3943",
+      "evidence_fact_ids": [
+        "fact-ap63201wu-7-pins"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "FB",
+          "footprint_pad": "1",
+          "function": "divider sense"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "EN",
+          "footprint_pad": "2",
+          "function": "tied to VIN for automatic startup"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "VIN",
+          "footprint_pad": "3",
+          "function": "input rail"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "GND",
+          "footprint_pad": "4",
+          "function": "return"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "SW",
+          "footprint_pad": "5",
+          "function": "switching node"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "BST",
+          "footprint_pad": "6",
+          "function": "bootstrap positive"
+        }
+      ],
+      "reviewer": "Renewal exact manufacturer pinout and KiCad pad parity review"
+    },
+    {
+      "record_id": "rec-aspi-0630lr-100m-t15",
+      "pin_map_id": "pinmap-aspi-0630lr-100m-t15",
+      "canonical_sha256": "6a349fa37c2ea4a160f8fe80f852362f5c42f526341def7202961846958099e3",
+      "evidence_fact_ids": [
+        "fact-aspi-0630lr-100m-t15-pins"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "switch node terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "output terminal; winding nonpolar"
+        }
+      ],
+      "reviewer": "Renewal exact manufacturer pinout and KiCad pad parity review"
+    },
+    {
+      "record_id": "rec-grm32er71h106ka12l",
+      "pin_map_id": "pinmap-grm32er71h106ka12l",
+      "canonical_sha256": "5c30f8e84a1c7a2506097697f5e5f2084e841116f00f25b902488e9f3801a759",
+      "evidence_fact_ids": [
+        "fact-grm32er71h106ka12l-pins"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "nonpolar terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "nonpolar terminal"
+        }
+      ],
+      "reviewer": "Renewal exact manufacturer pinout and KiCad pad parity review"
+    },
+    {
+      "record_id": "rec-rt0603bre07158kl",
+      "pin_map_id": "pinmap-rt0603bre07158kl",
+      "canonical_sha256": "ff5dffb7b72473d874a4b3e9a94256c1dd48d228cd5bcf44ed7913fd20309b89",
+      "evidence_fact_ids": [
+        "fact-rt0603bre07158kl-pins"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "feedback node"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "13.44 V pre-rail"
+        }
+      ],
+      "reviewer": "Renewal exact manufacturer pinout and KiCad pad parity review"
+    },
+    {
+      "record_id": "rec-rt0603brd0710kl",
+      "pin_map_id": "pinmap-rt0603brd0710kl",
+      "canonical_sha256": "d99c7aa313530340019e6bc60819b83eb491415bb0b5ca79d9b1401dd29be5e3",
+      "evidence_fact_ids": [
+        "fact-rt0603brd0710kl-pins"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "feedback node"
+        }
+      ],
+      "reviewer": "Renewal exact manufacturer pinout and KiCad pad parity review"
+    },
+    {
+      "record_id": "rec-c968650",
+      "pin_map_id": "pinmap-c968650",
+      "canonical_sha256": "eec36dc00963940a7ec0f6150a83d202fc816e08e3384013a3f49acbc2d059cc",
+      "evidence_fact_ids": [
+        "fact-c968650-polarity"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "cathode, banded end, local negative X"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "anode, local positive X"
+        }
+      ],
+      "reviewer": "2026-09-20 Codex: manufacturer cathode-band drawing, symbol pins and canonical pads reviewed independently; numeric mapping is a project lock"
+    },
+    {
+      "record_id": "rec-c3024223",
+      "pin_map_id": "pinmap-c3024223",
+      "canonical_sha256": "c36dde8ba3f8b0928ffac76f77262160d94d6d876dcd372d33e135f36449b4c4",
+      "evidence_fact_ids": [
+        "fact-c3024223-polarity"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "cathode, banded end, local negative X"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "anode, local positive X"
+        }
+      ],
+      "reviewer": "2026-09-20 Codex: manufacturer cathode-band drawing, symbol pins and canonical pads reviewed independently; numeric mapping is a project lock"
+    },
+    {
+      "record_id": "rec-c8465",
+      "pin_map_id": "pinmap-c8465",
+      "canonical_sha256": "362e112bb057117ae07ed4c80a9741dcc35979f916f6765eb95126686c03fdd7",
+      "evidence_fact_ids": [
+        "fact-c8465-pin-map",
+        "fact-c8465-orientation"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "independent terminal1: J6 GND; J7 +5V rail"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "independent terminal2: J6 -12V rail; J7 +12V rail"
+        }
+      ],
+      "reviewer": "2026-09-20 Codex exact fresh import with distinct-pole project wiring; mirrored drawing does not number contacts"
     }
   ]
 }

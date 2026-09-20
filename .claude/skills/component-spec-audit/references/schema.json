@@ -3,7 +3,8 @@
   "project": {
     "boards": [
       "board-a",
-      "board-b"
+      "board-b",
+      "board-p"
     ],
     "library_nickname": "zudo-pd",
     "symbol_library": "symbols/zudo-pd.kicad_sym",
@@ -198,18 +199,19 @@
     "q1-gate-drive-vs-contract",
     "inverting-startup-vs-pd-source",
     "pptc-vmax-vs-rail",
-    "source-to-bench-chain"
+    "source-to-bench-chain",
+    "eurorack-output-harness"
   ],
   "integration_evidence_chain_stages": [
-  "official-source",
-  "conditioned-requirement",
-  "generated-netlist",
-  "symbol-footprint",
-  "pcb-orientation",
-  "bom-cpl",
-  "as-built",
-  "programmed",
-  "bench"
- ],
- "integration_domains_contract": "Exact cross-component rule domains required by circuit-spec-integration/references/rules.json; strict and staged modes both enforce exact parity with that file."
+    "official-source",
+    "conditioned-requirement",
+    "generated-netlist",
+    "symbol-footprint",
+    "pcb-orientation",
+    "bom-cpl",
+    "as-built",
+    "programmed",
+    "bench"
+  ],
+  "integration_domains_contract": "Exact cross-component rule domains required by circuit-spec-integration/references/rules.json; strict and staged modes both enforce exact parity with that file."
 }

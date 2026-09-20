@@ -109,6 +109,7 @@ class ComponentSpecValidatorTests(unittest.TestCase):
         changed["generator_specs"] = [
             {"board": "board-a", "spec": "absent_board_a_spec.py"},
             {"board": "board-b", "spec": "absent_board_b_spec.py"},
+            {"board": "board-p", "spec": "absent_board_p_spec.py"},
         ]
         lines, generated = validator.validate_inventory(changed, self.schema, staged=True, root=validator.SYNTHETIC)
         self.assertIsNone(generated)
@@ -690,7 +691,7 @@ class ComponentSpecValidatorTests(unittest.TestCase):
     # --- port hygiene ----------------------------------------------------------------
 
     def test_no_led_lamp_identifiers_survived_the_port(self):
-        forbidden = re.compile(r"board-p\b|board-l\b|zudo-led-lamp|led-lamp|al8860|stm32g031|ap63203|honglitronic", re.I)
+        forbidden = re.compile(r"board-l\b|zudo-led-lamp|led-lamp|al8860|stm32g031|ap63203|honglitronic", re.I)
         roots = (validator.AUDIT, validator.INTEGRATION)
         offenders = []
         for root in roots:

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "interactions": [
+    {
+      "interaction_id": "int-dw254p-eurorack-harness",
+      "record_ids": [
+        "rec-dealon-dw254p-2x8-l0-c4749189"
+      ],
+      "fact_ids": [
+        "fact-dw254p-current",
+        "fact-dw254p-pin-map",
+        "fact-dw254p-orientation",
+        "fact-dw254p-red-stripe"
+      ],
+      "conditions": "J10/J11 share protected +12V1.2A,+5V0.5A,-12V0.8A total board budgets; these are not per-output budgets. Pin1/2 -12V is mandatory for new keyed connector; continuity and contact heating remain unmeasured.",
+      "verdict": "NEEDS BENCH"
+    }
+  ]
+}

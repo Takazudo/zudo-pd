@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "board": "board-b",
+  "size_mm": [
+    110,
+    85
+  ],
+  "thickness_mm": 1.6,
+  "pd_stack": {
+    "point_transform": "P(x,y) -> B(y,x)",
+    "nominal_board_p_top_z_mm": 12.6,
+    "qualification": "Nominal face-to-face CAD assembly; installed mating depth, standoff tolerance and mechanical retention unmeasured",
+    "pads": [
+      {
+        "pin": 1,
+        "center_mm": [
+          37.7,
+          6.55
+        ]
+      },
+      {
+        "pin": 2,
+        "center_mm": [
+          37.7,
+          9.09
+        ]
+      },
+      {
+        "pin": 3,
+        "center_mm": [
+          37.7,
+          11.63
+        ]
+      },
+      {
+        "pin": 4,
+        "center_mm": [
+          37.7,
+          14.17
+        ]
+      },
+      {
+        "pin": 5,
+        "center_mm": [
+          37.7,
+          16.71
+        ]
+      },
+      {
+        "pin": 6,
+        "center_mm": [
+          37.7,
+          19.25
+        ]
+      }
+    ],
+    "mounting_holes": [
+      {
+        "ref": "H1",
+        "center_mm": [
+          4,
+          4
+        ],
+        "drill_mm": 3.2
+      },
+      {
+        "ref": "H2",
+        "center_mm": [
+          4,
+          23
+        ],
+        "drill_mm": 3.2
+      },
+      {
+        "ref": "H3",
+        "center_mm": [
+          32.6,
+          12.8
+        ],
+        "drill_mm": 3.2
+      }
+    ],
+    "cad_rotation_axis": [
+      1,
+      -1,
+      0
+    ],
+    "cad_rotation_deg": 180,
+    "j5_side": "F.Cu",
+    "j5_orientation_deg": 270,
+    "j5_center_mm": [
+      37.7,
+      12.9
+    ],
+    "board_p_component_face": "down, facing Board B front",
+    "collision_policy": {
+      "scope": "All fitted component solids and opposite substrate across P and B; no own-board solder-tail/core collision test",
+      "maximum_unintended_intersection_mm3": 0.005,
+      "allowed_mating_pair": [
+        "board-b/J5",
+        "board-p/JOUT1"
+      ],
+      "mating_contact_xy_half_width_mm": 0.5,
+      "mating_contact_z_interval_mm": [
+        3.5,
+        8.7
+      ],
+      "note": "Only intersection volumes contained in the six contact columns may be excluded; connector-body interference remains a failure."
+    },
+    "c5_envelope": {
+      "reference": "C5",
+      "size_mm": [
+        11.2,
+        11.2,
+        11.0
+      ],
+      "origin_z_mm": 0,
+      "source_fact_id": "fact-c22387780-case-size",
+      "qualification": "Conservative square envelope uses maximum listed footprint/body span 11.2mm and height10.5+0.5mm; planar tolerance/assembly seating additional fit uncertainty."
+    }
+  },
+  "ground_stitches_mm": [
+    [
+      40,
+      54
+    ],
+    [
+      48,
+      56
+    ],
+    [
+      58,
+      60
+    ],
+    [
+      50,
+      64
+    ],
+    [
+      48,
+      62
+    ],
+    [
+      52,
+      64
+    ],
+    [
+      54,
+      64
+    ]
+  ],
+  "revision": "front-mating-two-pole-screw-terminals",
+  "outline": "Plain 110 x 85 mm rectangle; no cover-retention notches",
+  "edge_primitives": [
+    {
+      "type": "line",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        110,
+        0
+      ]
+    },
+    {
+      "type": "line",
+      "start": [
+        110,
+        0
+      ],
+      "end": [
+        110,
+        85
+      ]
+    },
+    {
+      "type": "line",
+      "start": [
+        110,
+        85
+      ],
+      "end": [
+        0,
+        85
+      ]
+    },
+    {
+      "type": "line",
+      "start": [
+        0,
+        85
+      ],
+      "end": [
+        0,
+        0
+      ]
+    }
+  ],
+  "terminal_blocks": {
+    "mpn": "WJ500V-5.08-2P",
+    "lcsc": "C8465",
+    "footprint": "zudo-pd:WJ500V-5.08-2P_C8465",
+    "layer": "F.Cu",
+    "orientation_deg": 90,
+    "entry_direction_pcb": [
+      -1,
+      0
+    ],
+    "local_entry_direction": [
+      0,
+      -1
+    ],
+    "pad_pitch_mm": 5.08,
+    "pad_size_mm": [
+      2.0,
+      2.0
+    ],
+    "drill_mm": 1.3,
+    "pad_centers_local_mm": {
+      "1": [
+        -2.54,
+        0
+      ],
+      "2": [
+        2.54,
+        0
+      ]
+    },
+    "placements": [
+      {
+        "reference": "J6",
+        "center_mm": [
+          7,
+          36
+        ],
+        "pins": {
+          "1": "GND",
+          "2": "-12V rail"
+        }
+      },
+      {
+        "reference": "J7",
+        "center_mm": [
+          7,
+          49
+        ],
+        "pins": {
+          "1": "+5V rail",
+          "2": "+12V rail"
+        }
+      }
+    ],
+    "model": {
+      "file": "WJ500V-5.08-2P_C8465.wrl",
+      "rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "offset_xyz_mm": [
+        0,
+        0,
+        0
+      ],
+      "scale_xyz": [
+        1,
+        1,
+        1
+      ],
+      "raw_bounds_mm": [
+        [
+          -5.679948,
+          -4.500118,
+          -3.50012
+        ],
+        [
+          5.08,
+          5.500116,
+          13.999972
+        ]
+      ],
+      "qualification": "Catalog visualization; model tail length 3.5 mm differs from manufacturer4.50\u00b10.20mm. Use 4.7 mm maximum tail projection for conservative stack clearance, not this shorter mesh alone."
+    },
+    "maximum_tail_projection_mm": 4.7,
+    "qualification": "Top-side wire entries face left. Housing, stripped wire, screwdriver access and installed stack fit remain unmeasured."
+  },
+  "edge_pogo": {
+    "references": [
+      "P1",
+      "TP3",
+      "TP4",
+      "TP5"
+    ],
+    "contact_count": 7,
+    "pitch_mm": 2.54,
+    "center_y_mm": 1.8,
+    "copper_to_top_edge_mm": 0.55,
+    "shared_ground": "P1.3",
+    "left_to_right": [
+      "ATT",
+      "PDOK",
+      "GND",
+      "NC",
+      "+13.44V PRE",
+      "+6.519V PRE",
+      "-14.145V PRE"
+    ]
+  },
+  "assembly_preview": "assembly-preview/preview.kicad_pcb"
+}

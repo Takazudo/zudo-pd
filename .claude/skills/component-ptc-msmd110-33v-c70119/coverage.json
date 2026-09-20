@@ -7,7 +7,16 @@
       "domain": "electrical-limits",
       "status": "COVERED",
       "reason": "Ihold (1.10A), Itrip (2.20A), Vmax (33.0V), Imax (100A), Pd typ (0.8W), time-to-trip (0.30s at 8.0A), Rimin (0.050 ohm), and R1max (0.250 ohm) are all primary-source confirmed from the Techfuse Table II. Performance Ratings, row mSMD110-33V.",
-      "fact_ids": ["fact-ptc2-ihold", "fact-ptc2-itrip", "fact-ptc2-vmax", "fact-ptc2-imax", "fact-ptc2-pd-typ", "fact-ptc2-time-to-trip", "fact-ptc2-rimin", "fact-ptc2-r1max"],
+      "fact_ids": [
+        "fact-ptc2-ihold",
+        "fact-ptc2-itrip",
+        "fact-ptc2-vmax",
+        "fact-ptc2-imax",
+        "fact-ptc2-pd-typ",
+        "fact-ptc2-time-to-trip",
+        "fact-ptc2-rimin",
+        "fact-ptc2-r1max"
+      ],
       "blocking_fact_ids": []
     },
     {
@@ -16,7 +25,10 @@
       "domain": "5v-rail-application",
       "status": "COVERED",
       "reason": "Ihold leaves a 0.6A margin above the +5V/0.5A rail current budget and Vmax leaves a 28V margin above the +5V nominal rail voltage; both margins are large and healthy, so PTC2 passes its rail-application check without qualification.",
-      "fact_ids": ["fact-ptc2-ihold-margin", "fact-ptc2-vmax-margin"],
+      "fact_ids": [
+        "fact-ptc2-ihold-margin",
+        "fact-ptc2-vmax-margin"
+      ],
       "blocking_fact_ids": []
     },
     {
@@ -27,6 +39,21 @@
       "reason": "The single-page Techfuse specification sheet does not tabulate ambient-temperature-derated hold current or environmental/aging test data (unlike the RUILON and BHFUSE datasheets for PTC1/PTC3), and no board-b generator spec exists yet to bound upstream fault current/energy, in-enclosure ambient, or trip-cycling history at PTC2.",
       "fact_ids": [],
       "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c70119-model-geometry",
+      "record_id": "rec-ptc-msmd110-33v-c70119",
+      "domain": "illustrative model datum and physical package clearance",
+      "status": "OPEN",
+      "reason": "Exact catalog asset, visibility and pad registration checked; manufacturer maximum-tolerance geometry and physical assembly fit remain unqualified.",
+      "fact_ids": [
+        "fact-c70119-model-bounds",
+        "fact-c70119-model-transform"
+      ],
+      "blocking_fact_ids": [
+        "fact-c70119-model-bounds",
+        "fact-c70119-model-transform"
+      ]
     }
   ]
 }

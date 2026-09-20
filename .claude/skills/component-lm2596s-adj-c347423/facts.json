@@ -558,6 +558,34 @@
         "fact-lm2596-u4-effective-input"
       ],
       "expression": "fact_lm2596_vin_operating_max - fact_lm2596_u4_effective_input"
+    },
+    {
+      "fact_id": "fact-lm2596-fb-vref-min-full-temp",
+      "record_id": "rec-lm2596s-adj-c347423",
+      "source_id": "src-lm2596-umw-ds",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 1.18,
+      "unit": "V",
+      "conditions": "ADJ feedback voltage minimum, boldface full operating temperature range limit; 4.5V<=VIN<=40V, 0.2A<=ILOAD<=3A, VOUT programmed for3V. The application converter still needs line/load/ripple validation.",
+      "locator": "src-lm2596-umw-ds: Electrical Characteristics 10.1 table row Feedback Voltage V(min) 1.193/1.180 (printed page 5)",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-lm2596-fb-vref-max-full-temp",
+      "record_id": "rec-lm2596s-adj-c347423",
+      "source_id": "src-lm2596-umw-ds",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 1.28,
+      "unit": "V",
+      "conditions": "ADJ feedback voltage maximum, boldface full operating temperature range limit; 4.5V<=VIN<=40V, 0.2A<=ILOAD<=3A, VOUT programmed for3V. The application converter still needs line/load/ripple validation.",
+      "locator": "src-lm2596-umw-ds: Electrical Characteristics 10.1 table row Feedback Voltage V(max) 1.267/1.280 (printed page 5)",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

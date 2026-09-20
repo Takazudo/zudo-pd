@@ -1,0 +1,26 @@
+{
+  "revision": "Independent corner supports and accessible top-edge probes",
+  "method": "Reviewed local rerouting of translated PD header, input bulk and local U3 feedback; seven edge contacts moved right",
+  "base_pcb": "boards/board-b/archive/110x85-front-stack/board-b.kicad_pcb",
+  "base_sha256": "4e6e97f685d4a275c2a51a3130ec2c08da5122932800bc6f25a4fd119d807a3d",
+  "generator": "scripts/pcb/update-corner-support.py",
+  "generator_sha256": "e49e60264881c35024415af7d407693f8160aa5370c725a6d84bf61c6973fb88",
+  "route_polylines": "boards/board-b/routing/corner-support-routes.json",
+  "route_polylines_sha256": "f84145e8785fd9463aa7d9b5154b986fa5107332c30bb65c3709f8acaa2c2a06",
+  "final_pcb_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+  "native_drc_required": true,
+  "power_geometry_checks_required": true,
+  "populated_stack_check_required": true,
+  "measurement_and_signal_branch_width_mm": 0.25,
+  "main_input_feed_width_mm": 1.5,
+  "local_divider_ground_via": {
+    "center_mm": [
+      26,
+      24
+    ],
+    "diameter_mm": 1,
+    "drill_mm": 0.4,
+    "trace_width_mm": 0.4
+  },
+  "support_fit_boundary": "Three PD mounts use 3.2mm holes; four corner supports use the exact HC11 drawing nominal 3.0mm holes. The 11mm HC11 does not clear the downward-facing assembly above a flat floor."
+}

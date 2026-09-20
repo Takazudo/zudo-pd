@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-c107286",
+      "record_id": "rec-c107286",
+      "symbol": "LT1963AEQ#PBF",
+      "footprint": "TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "~{SHDN}",
+          "footprint_pad": "1",
+          "function": "Shutdown, tied to input"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "IN",
+          "footprint_pad": "2",
+          "function": "Positive regulator input"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "GND",
+          "footprint_pad": "3",
+          "function": "System ground"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "OUT",
+          "footprint_pad": "4",
+          "function": "Positive output"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "SENSE/ADJ",
+          "footprint_pad": "5",
+          "function": "Adjust divider"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "TAB",
+          "footprint_pad": "6",
+          "function": "Ground thermal tab"
+        }
+      ],
+      "reviewed_by": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    },
+    {
+      "pin_map_id": "pinmap-c666307",
+      "record_id": "rec-c666307",
+      "symbol": "LT3015EQ-12#PBF",
+      "footprint": "DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "~{SHDN}",
+          "footprint_pad": "1",
+          "function": "Shutdown, tied to negative input"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "GND",
+          "footprint_pad": "2",
+          "function": "System ground"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "IN",
+          "footprint_pad": "3",
+          "function": "Negative input"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "SENSE/ADJ",
+          "footprint_pad": "4",
+          "function": "Sense tied to local negative output"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "OUT",
+          "footprint_pad": "5",
+          "function": "Negative output"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "IN",
+          "footprint_pad": "6",
+          "function": "Negative input thermal tab"
+        }
+      ],
+      "reviewed_by": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+    }
+  ]
+}

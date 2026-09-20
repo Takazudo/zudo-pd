@@ -7,7 +7,13 @@
       "domain": "electrical-limits",
       "status": "COVERED",
       "reason": "VRRM (40V), I(AV) (3.0A), VF at 3.0A/25C (0.55V max), and reverse leakage IR at 25C/125C (0.5mA/5mA max) are all primary-source confirmed from the MDD datasheet ratings table for the SS34 column.",
-      "fact_ids": ["fact-ss34-vrrm", "fact-ss34-if-avg", "fact-ss34-vf", "fact-ss34-ir-25c", "fact-ss34-ir-125c"],
+      "fact_ids": [
+        "fact-ss34-vrrm",
+        "fact-ss34-if-avg",
+        "fact-ss34-vf",
+        "fact-ss34-ir-25c",
+        "fact-ss34-ir-125c"
+      ],
       "blocking_fact_ids": []
     },
     {
@@ -15,8 +21,10 @@
       "record_id": "rec-ss34-c8678",
       "domain": "inverting-rail-application",
       "status": "COVERED",
-      "reason": "D3's -13.5V inverting-rail reverse-voltage stress (Vin + |Vout| = 28.5V) leaves an 11.5V margin against the 40V VRRM rating, a smaller but still positive margin than D1/D2's non-inverting Vin-only stress (15V, 25V margin).",
-      "fact_ids": ["fact-ss34-d3-reverse-margin"],
+      "reason": "Historical pre-renewal calculation only: SS34 no longer occupies Board B D3; current D3 is SDT5A60SA-13, and current D2 retains SS34. D3's -13.5V inverting-rail reverse-voltage stress (Vin + |Vout| = 28.5V) leaves an 11.5V margin against the 40V VRRM rating, a smaller but still positive margin than D1/D2's non-inverting Vin-only stress (15V, 25V margin).",
+      "fact_ids": [
+        "fact-ss34-d3-reverse-margin"
+      ],
       "blocking_fact_ids": []
     },
     {
@@ -25,8 +33,12 @@
       "domain": "vf-temperature-derating",
       "status": "OPEN",
       "reason": "The datasheet gives only a single VF@3.0A/TA=25C maximum rating plus a qualitative per-family forward-characteristic curve; no numeric VF-vs-temperature coefficient is tabulated, so a temperature-derated VF value needs bench characterization or curve digitization.",
-      "fact_ids": ["fact-ss34-vf-temp-note"],
-      "blocking_fact_ids": ["fact-ss34-vf-temp-note"]
+      "fact_ids": [
+        "fact-ss34-vf-temp-note"
+      ],
+      "blocking_fact_ids": [
+        "fact-ss34-vf-temp-note"
+      ]
     }
   ]
 }

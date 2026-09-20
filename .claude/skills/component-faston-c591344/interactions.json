@@ -15,7 +15,7 @@
         "fact-faston-j6-minus12v-margin",
         "fact-faston-j8-plus5v-margin"
       ],
-      "conditions": "series-level FASTON .250 current rating (20 A) vs the project's +12V/1.2A, +5V/0.5A, -12V/0.8A rail budgets gives large nominal margin, but the rating is UNSOURCED at primary-manufacturer level (te.com blocked) and not broken out per exact MPN; contact resistance and thermal rise under sustained rail current needs a bench check",
+      "conditions": "Historical four-Faston guarded revision; no current placement. series-level FASTON .250 current rating (20 A) vs the project's +12V/1.2A, +5V/0.5A, -12V/0.8A rail budgets gives large nominal margin, but the rating is UNSOURCED at primary-manufacturer level (te.com blocked) and not broken out per exact MPN; contact resistance and thermal rise under sustained rail current needs a bench check",
       "verdict": "NEEDS BENCH"
     },
     {
@@ -27,7 +27,7 @@
         "fact-faston-rail-assignment",
         "fact-faston-baseline-unresolved"
       ],
-      "conditions": "the doc-level rail assignment table (J6=-12V, J7=+12V, J8=+5V, J9=GND) is not promoted into the Ref.Pin-granularity board-b.json baseline; the baseline explicitly lists +12V/+5V/-12V rail and GND(output stage) as unresolved for J6-J9 pending an exact Ref.Pin net-table entry -- assert only the doc-table assignment, not a netlist-verified connection",
+      "conditions": "Historical four-Faston guarded revision; no current placement. the doc-level rail assignment table (J6=-12V, J7=+12V, J8=+5V, J9=GND) is not promoted into the Ref.Pin-granularity board-b.json baseline; the baseline explicitly lists +12V/+5V/-12V rail and GND(output stage) as unresolved for J6-J9 pending an exact Ref.Pin net-table entry -- assert only the doc-table assignment, not a netlist-verified connection",
       "verdict": "NEEDS BENCH"
     }
   ]

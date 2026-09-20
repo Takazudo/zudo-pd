@@ -8,14 +8,18 @@
     {
       "board": "board-b",
       "spec": "scripts/schgen/board_b_spec.py"
+    },
+    {
+      "board": "board-p",
+      "spec": "scripts/schgen/board_p_spec.py"
     }
   ],
   "assertions": {
-    "orderable_lines": 41,
-    "fitted_lines": 40,
+    "orderable_lines": 60,
+    "fitted_lines": 58,
     "dnp_or_hand_fit_lines": 2,
-    "fitted_placements": 81,
-    "dnp_placements": 4
+    "fitted_placements": 110,
+    "dnp_placements": 8
   },
   "exclusions": [
     {
@@ -46,22 +50,32 @@
     {
       "board": "board-b",
       "refdes": "TP3",
-      "reason": "bare-copper test pad; no orderable/LCSC line"
+      "reason": "bare-copper +13.44 V edge pogo contact, 1.5 x 2.5 mm F.Cu/F.Mask only; shared GND probe return P1.3; no paste, physical component, BOM/CPL or orderable/LCSC line"
     },
     {
       "board": "board-b",
       "refdes": "TP4",
-      "reason": "bare-copper test pad; no orderable/LCSC line"
+      "reason": "bare-copper +6.519 V edge pogo contact, 1.5 x 2.5 mm F.Cu/F.Mask only; shared GND probe return P1.3; no paste, physical component, BOM/CPL or orderable/LCSC line"
     },
     {
       "board": "board-b",
       "refdes": "TP5",
-      "reason": "bare-copper test pad; no orderable/LCSC line"
+      "reason": "bare-copper -14.145 V edge pogo contact, 1.5 x 2.5 mm F.Cu/F.Mask only; shared GND probe return P1.3; no paste, physical component, BOM/CPL or orderable/LCSC line"
     },
     {
       "board": "board-b",
       "refdes": "P1",
       "reason": "ATT/PDOK provision, bare-copper PogoPad_1x04 per locked decision dec-p1-att-pdok-provision (pins: ATT/PDOK/GND/NC); no orderable/LCSC line"
+    },
+    {
+      "board": "board-p",
+      "refdes": "J2",
+      "reason": "bare-copper programming/debug pogo pads; no orderable component"
+    },
+    {
+      "board": "board-p",
+      "refdes": "J3",
+      "reason": "bare-copper programming/debug pogo pads; no orderable component"
     }
   ],
   "lines": [
@@ -78,6 +92,11 @@
       "placements": [
         {
           "board": "board-a",
+          "refdes": "U1",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
           "refdes": "U1",
           "dnp": false
         }
@@ -114,6 +133,11 @@
       "placements": [
         {
           "board": "board-a",
+          "refdes": "Q1",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
           "refdes": "Q1",
           "dnp": false
         }
@@ -170,6 +194,11 @@
           "board": "board-a",
           "refdes": "R11",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R11",
+          "dnp": false
         }
       ]
     },
@@ -211,6 +240,16 @@
           "board": "board-a",
           "refdes": "R14",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R13",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R14",
+          "dnp": false
         }
       ]
     },
@@ -232,6 +271,16 @@
         },
         {
           "board": "board-a",
+          "refdes": "R16",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R15",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
           "refdes": "R16",
           "dnp": false
         }
@@ -259,9 +308,14 @@
           "dnp": true
         },
         {
-          "board": "board-b",
-          "refdes": "R3",
-          "dnp": false
+          "board": "board-p",
+          "refdes": "R17",
+          "dnp": true
+        },
+        {
+          "board": "board-p",
+          "refdes": "R18",
+          "dnp": true
         }
       ]
     },
@@ -285,6 +339,16 @@
           "board": "board-a",
           "refdes": "R20",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R19",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R20",
+          "dnp": false
         }
       ]
     },
@@ -301,6 +365,11 @@
       "placements": [
         {
           "board": "board-a",
+          "refdes": "C1",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
           "refdes": "C1",
           "dnp": false
         }
@@ -356,6 +425,11 @@
           "board": "board-b",
           "refdes": "C19",
           "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C38",
+          "dnp": false
         }
       ]
     },
@@ -379,6 +453,16 @@
           "board": "board-a",
           "refdes": "C34",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C30",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C34",
+          "dnp": false
         }
       ]
     },
@@ -396,11 +480,6 @@
         {
           "board": "board-a",
           "refdes": "J4",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
-          "refdes": "J5",
           "dnp": false
         }
       ]
@@ -425,6 +504,16 @@
           "board": "board-a",
           "refdes": "D7",
           "dnp": true
+        },
+        {
+          "board": "board-p",
+          "refdes": "D6",
+          "dnp": true
+        },
+        {
+          "board": "board-p",
+          "refdes": "D7",
+          "dnp": true
         }
       ]
     },
@@ -439,11 +528,6 @@
       "source_state": "AVAILABLE",
       "function": "Adjustable buck/inverting DC-DC converter IC, intermediate-rail generation",
       "placements": [
-        {
-          "board": "board-b",
-          "refdes": "U2",
-          "dnp": false
-        },
         {
           "board": "board-b",
           "refdes": "U3",
@@ -469,11 +553,6 @@
       "placements": [
         {
           "board": "board-b",
-          "refdes": "L1",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
           "refdes": "L2",
           "dnp": false
         },
@@ -497,17 +576,7 @@
       "placements": [
         {
           "board": "board-b",
-          "refdes": "D1",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
           "refdes": "D2",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
-          "refdes": "D3",
           "dnp": false
         }
       ]
@@ -523,11 +592,6 @@
       "source_state": "AVAILABLE",
       "function": "470 uF 25V aluminum electrolytic capacitor, +13.5V and -13.5V DC-DC output bulk filter",
       "placements": [
-        {
-          "board": "board-b",
-          "refdes": "C3",
-          "dnp": false
-        },
         {
           "board": "board-b",
           "refdes": "C11",
@@ -594,40 +658,12 @@
       "placements": [
         {
           "board": "board-b",
-          "refdes": "C31",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
           "refdes": "C32",
           "dnp": false
         },
         {
           "board": "board-b",
           "refdes": "C33",
-          "dnp": false
-        }
-      ]
-    },
-    {
-      "line_id": "line-c25804",
-      "mpn": "0603WAF1002T5E",
-      "manufacturer": "UNI-ROYAL",
-      "lcsc": "C25804",
-      "package": "R0603",
-      "owner_skill": "component-project-passives",
-      "identity_state": "VERIFIED",
-      "source_state": "AVAILABLE",
-      "function": "10 kOhm resistor, DC-DC feedback divider bottom resistor",
-      "placements": [
-        {
-          "board": "board-b",
-          "refdes": "R1",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
-          "refdes": "R5",
           "dnp": false
         }
       ]
@@ -645,71 +681,7 @@
       "placements": [
         {
           "board": "board-b",
-          "refdes": "R2",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
           "refdes": "R4",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
-          "refdes": "R6",
-          "dnp": false
-        }
-      ]
-    },
-    {
-      "line_id": "line-c13456",
-      "mpn": "L7812CD2T",
-      "manufacturer": "ST (STMicroelectronics)",
-      "lcsc": "C13456",
-      "package": "TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL",
-      "owner_skill": "component-l7812cd2t-c13456",
-      "identity_state": "VERIFIED",
-      "source_state": "AVAILABLE",
-      "function": "+12V linear regulator, final +12V output stage",
-      "placements": [
-        {
-          "board": "board-b",
-          "refdes": "U6",
-          "dnp": false
-        }
-      ]
-    },
-    {
-      "line_id": "line-c86206",
-      "mpn": "L7805ABD2T",
-      "manufacturer": "ST (STMicroelectronics)",
-      "lcsc": "C86206",
-      "package": "TO-263-2_L10.0-W9.2-P5.08-LS15.3-TL-CW",
-      "owner_skill": "component-l7805abd2t-c86206",
-      "identity_state": "VERIFIED",
-      "source_state": "AVAILABLE",
-      "function": "+5V linear regulator, final +5V output stage",
-      "placements": [
-        {
-          "board": "board-b",
-          "refdes": "U7",
-          "dnp": false
-        }
-      ]
-    },
-    {
-      "line_id": "line-c94173",
-      "mpn": "CJ7912",
-      "manufacturer": "JSCJ",
-      "lcsc": "C94173",
-      "package": "TO-252-3_L6.5-W5.8-P4.58-BL",
-      "owner_skill": "component-cj7912-c94173",
-      "identity_state": "VERIFIED",
-      "source_state": "AVAILABLE",
-      "function": "-12V linear regulator, final -12V output stage",
-      "placements": [
-        {
-          "board": "board-b",
-          "refdes": "U8",
           "dnp": false
         }
       ]
@@ -837,16 +809,6 @@
         },
         {
           "board": "board-b",
-          "refdes": "C14",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
-          "refdes": "C20",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
           "refdes": "C21",
           "dnp": false
         },
@@ -968,15 +930,15 @@
       ]
     },
     {
-      "line_id": "line-c591344",
-      "mpn": "63951-1",
-      "manufacturer": "TE Connectivity",
-      "lcsc": "C591344",
-      "package": "CONN-TH_1217754-1",
-      "owner_skill": "component-faston-c591344",
+      "line_id": "line-c8465",
+      "mpn": "WJ500V-5.08-2P",
+      "manufacturer": "Ningbo Kangnex Elec",
+      "lcsc": "C8465",
+      "package": "WJ500V-5.08-2P_C8465",
+      "owner_skill": "component-kangnex-wj500v-5-08-2p-c8465",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "FASTON 250 through-hole quick-connect terminal, output rail power tab",
+      "function": "two-pole screw terminal, separate protected output rails",
       "placements": [
         {
           "board": "board-b",
@@ -987,29 +949,19 @@
           "board": "board-b",
           "refdes": "J7",
           "dnp": false
-        },
-        {
-          "board": "board-b",
-          "refdes": "J8",
-          "dnp": false
-        },
-        {
-          "board": "board-b",
-          "refdes": "J9",
-          "dnp": false
         }
       ]
     },
     {
-      "line_id": "line-c5383092",
-      "mpn": "2541WR-2X08P",
-      "manufacturer": "HanElectricity",
-      "lcsc": "C5383092",
-      "package": "HDR-TH_16P-P2.54-H-M-R2-C8-S2.54",
-      "owner_skill": "component-hdr-2541wr-2x08p-c5383092",
+      "line_id": "line-c4749189",
+      "mpn": "DW254P-2X8-L0",
+      "manufacturer": "DEALON",
+      "lcsc": "C4749189",
+      "package": "IDC-TH_16P-P2.54_321016RG0ABK00A01",
+      "owner_skill": "component-dealon-dw254p-2x8-l0-c4749189",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "16-pin 2.54mm dual-row through-hole header, Eurorack power bus connector",
+      "function": "16-pin 2.54mm shrouded right-angle through-hole Eurorack power header",
       "placements": [
         {
           "board": "board-b",
@@ -1019,6 +971,480 @@
         {
           "board": "board-b",
           "refdes": "J11",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c283540",
+      "mpn": "TYPE-C-31-M-17",
+      "manufacturer": "HRO",
+      "lcsc": "C283540",
+      "package": "USB-C-SMD_10P-P1.00-L6.8-W8.9",
+      "owner_skill": "component-type-c-31-m-17",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "USB-C receptacle",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "J1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c14663",
+      "mpn": "CC0603KRX7R9BB104",
+      "manufacturer": "Yageo",
+      "lcsc": "C14663",
+      "package": "C0603",
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "100 nF 50 V MLCC",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "C2",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C35",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c22807",
+      "mpn": "0603WAF1503T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C22807",
+      "package": "R0603",
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "150 kOhm resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R12",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c17414",
+      "mpn": "0805W8F1002T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C17414",
+      "package": "R0805",
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "10 kOhm resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R21",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c492405",
+      "mpn": "PZ254V-11-06P",
+      "manufacturer": "XFCN",
+      "lcsc": "C492405",
+      "package": "HDR-TH_6P-P2.54-V-M",
+      "owner_skill": "component-xfcn-board-headers",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "male board-to-board header",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "JOUT1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2832269",
+      "mpn": "PM254V-11-06-H85",
+      "manufacturer": "XFCN",
+      "lcsc": "C2832269",
+      "package": "HDR-TH_6P-P2.54-V-F",
+      "owner_skill": "component-xfcn-board-headers",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "female board-to-board header",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "J5",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c107286",
+      "mpn": "LT1963AEQ#PBF",
+      "manufacturer": "Analog Devices",
+      "lcsc": "C107286",
+      "package": "TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR",
+      "owner_skill": "component-renewal-ldos",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "LT1963AEQ#PBF renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "U6",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "U7",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c666307",
+      "mpn": "LT3015EQ-12#PBF",
+      "manufacturer": "Analog Devices",
+      "lcsc": "C666307",
+      "package": "DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR",
+      "owner_skill": "component-renewal-ldos",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "LT3015EQ-12#PBF renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "U8",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c110776",
+      "mpn": "RT0603BRD071KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C110776",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "RT0603BRD071KL renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R6",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "R22",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "R25",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861589",
+      "mpn": "RT0603BRD078K2L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861589",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "RT0603BRD078K2L renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R20",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861519",
+      "mpn": "RT0603BRD07680RL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861519",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "RT0603BRD07680RL renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R21",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861371",
+      "mpn": "RT0603BRD073K09L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861371",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "RT0603BRD073K09L renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R23",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861332",
+      "mpn": "RT0603BRD0733RL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861332",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "RT0603BRD0733RL renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R24",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861077",
+      "mpn": "RT0603BRD0710K5L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861077",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "RT0603BRD0710K5L renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R5",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23159",
+      "mpn": "0603WAF4301T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C23159",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "0603WAF4301T5E renewal power-stage component",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R3",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c136280",
+      "mpn": "25SVPF47M",
+      "manufacturer": "Panasonic",
+      "lcsc": "C136280",
+      "package": "CAP-SMD_BD6.3-L6.6-W6.6-FD",
+      "owner_skill": "component-panasonic-25svpf47m-c136280",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "47uF25VlowESRpolymerLDOoutputcapacitor",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "C40",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C41",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C42",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2071044",
+      "mpn": "AP63201WU-7",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C2071044",
+      "package": "TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+      "owner_skill": "component-ap63201-power-stage",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "synchronous positive pre-regulator",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "U2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c1334133",
+      "mpn": "ASPI-0630LR-100M-T15",
+      "manufacturer": "Abracon",
+      "lcsc": "C1334133",
+      "package": "ASPI-0630LR_L7.5-W6.85",
+      "owner_skill": "component-ap63201-power-stage",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "10 uH shielded buck inductor",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "L1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c77102",
+      "mpn": "GRM32ER71H106KA12L",
+      "manufacturer": "Murata",
+      "lcsc": "C77102",
+      "package": "C1210",
+      "owner_skill": "component-ap63201-power-stage",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "10 uF 50 V ceramic power capacitor",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "C14",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C20",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C3",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C36",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C37",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C39",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "C46",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861679",
+      "mpn": "RT0603BRE07158KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861679",
+      "package": "R0603",
+      "owner_skill": "component-ap63201-power-stage",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "158 kOhm precision feedback resistor",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c95204",
+      "mpn": "RT0603BRD0710KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C95204",
+      "package": "R0603",
+      "owner_skill": "component-ap63201-power-stage",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "10 kOhm precision feedback resistor",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "R2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c968650",
+      "mpn": "SMAJ16A-E3/61",
+      "manufacturer": "Vishay",
+      "lcsc": "C968650",
+      "package": "SMA_Vishay_SMAJ16A_C968650",
+      "owner_skill": "component-renewal-input-protection",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "15V-only input surge TVS",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D5",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c3024223",
+      "mpn": "SDT5A60SA-13",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C3024223",
+      "package": "SMA_Diodes_SDT5A60SA_C3024223",
+      "owner_skill": "component-renewal-input-protection",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "inverting converter60V catch diode",
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "D3",
           "dnp": false
         }
       ]

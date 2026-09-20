@@ -72,7 +72,7 @@
       "record_id": "rec-ptc-smd1210p150tf16-c7529589",
       "domain": "12v-rail-application",
       "status": "COVERED",
-      "reason": "Vmax margin is +4V at the 12V nominal rail and ~2.5V at the tripped-passthrough corner (vs the removed SMD1210P200TF's deterministic -6V violation), and Ihold leaves 0.3A (25%) margin over the 1.2A rail budget at 25C \u2014 the accepted trade recorded in decisions.json dec-g-ptc1-replacement.",
+      "reason": "Vmax margin is +4V at the 12V nominal rail and ~2.5V at the tripped-passthrough corner (vs the removed SMD1210P200TF's deterministic -6V violation), and Ihold leaves 0.3A (25%) margin over the 1.2A rail budget at 25C — the accepted trade recorded in decisions.json dec-g-ptc1-replacement.",
       "fact_ids": [
         "fact-ptc1b-ihold-margin",
         "fact-ptc1b-vmax-margin"
@@ -84,12 +84,27 @@
       "record_id": "rec-ptc-smd1210p150tf16-c7529589",
       "domain": "hold-derating-and-fault-duty",
       "status": "OPEN",
-      "reason": "No 85C derated hold figure is retained for the /16 variant (UNSOURCED \u2014 the family derating table has no /16 row), and upstream fault current/energy, enclosure ambient, and trip-cycle duty are unbounded until the Board B bench plan runs; bench fallback is SMD1812P200TF16 (C20812, 1812 footprint change).",
+      "reason": "No 85C derated hold figure is retained for the /16 variant (UNSOURCED — the family derating table has no /16 row), and upstream fault current/energy, enclosure ambient, and trip-cycle duty are unbounded until the Board B bench plan runs; bench fallback is SMD1812P200TF16 (C20812, 1812 footprint change).",
       "fact_ids": [
         "fact-ptc1b-hold-85c"
       ],
       "blocking_fact_ids": [
         "fact-ptc1b-hold-85c"
+      ]
+    },
+    {
+      "coverage_id": "cov-c7529589-model-geometry",
+      "record_id": "rec-ptc-smd1210p150tf16-c7529589",
+      "domain": "illustrative model datum and physical package clearance",
+      "status": "OPEN",
+      "reason": "Exact catalog asset, visibility and pad registration checked; manufacturer maximum-tolerance geometry and physical assembly fit remain unqualified.",
+      "fact_ids": [
+        "fact-c7529589-model-bounds",
+        "fact-c7529589-model-transform"
+      ],
+      "blocking_fact_ids": [
+        "fact-c7529589-model-bounds",
+        "fact-c7529589-model-transform"
       ]
     }
   ]

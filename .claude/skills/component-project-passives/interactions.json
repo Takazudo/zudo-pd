@@ -39,6 +39,47 @@
       ],
       "conditions": "R9 (C17513, 1 kOhm) as the current-limit resistor for LED4 (KT-0603R) on the 12V-magnitude rail: drive current = 9.9mA",
       "verdict": "PASS - primary-source confirmed"
+    },
+    {
+      "interaction_id": "int-c14663-c35",
+      "record_ids": [
+        "rec-c14663"
+      ],
+      "fact_ids": [
+        "fact-c14663-c35-topology",
+        "fact-c14663-simulation-caveat",
+        "fact-c14663-voltage"
+      ],
+      "conditions": "Board P C35 connects gate to VBUS_IN; C2 is input-rail decoupling with the same orderable line.",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-c22807-r12",
+      "record_ids": [
+        "rec-c22807"
+      ],
+      "fact_ids": [
+        "fact-c22807-r12-topology",
+        "fact-c22807-resistance",
+        "fact-c22807-rcwv-squared",
+        "fact-c22807-pulse-caveat"
+      ],
+      "conditions": "Current R12 is 150 kOhm, not stale 56 kOhm prose; confirm active-device threshold and transient stress separately",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-c17414-reset-ctrl",
+      "record_ids": [
+        "rec-c17414"
+      ],
+      "fact_ids": [
+        "fact-c17414-reset-ctrl-topology",
+        "fact-c17414-resistance",
+        "fact-c17414-rcwv-squared",
+        "fact-c17414-pulse-caveat"
+      ],
+      "conditions": "Board P R21 reset pull-down topology does not establish the controller reset active polarity.",
+      "verdict": "NEEDS BENCH"
     }
   ]
 }

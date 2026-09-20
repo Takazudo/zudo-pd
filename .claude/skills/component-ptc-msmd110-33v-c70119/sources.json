@@ -19,6 +19,24 @@
       "locator": "Page 1 (only page) title block (SEA&LAND ELECTRONIC CORP., Taiwan; brand line 'Techfuse PTC Devices Resettable Fuse'; DOCUMENT QR0429, REV DATE 2021-4-30) and Table II. Performance Ratings, row mSMD110-33V",
       "evidence_extract": "Manufacturer datasheet (retrieved via LCSC's datasheet.lcsc.com PDF host; title block bears SEA&LAND ELECTRONIC CORP.'s Taiwan address and the 'Techfuse PTC Devices Resettable Fuse' brand line; DOCUMENT QR0429, no REV LETTER printed, REV DATE 2021-4-30 is the only revision marker; PAGE NO. 1 of 1, a single-page specification sheet). Table II. Performance Ratings, row 'mSMD110-33V': Vmax=33.0V, Imax=100A, Ihold@25C=1.10A, Itrip@25C=2.20A, Pd typ=0.8W, Maximum Time To Trip Current=8.0A/Time=0.30 Sec, Rimin=0.050 ohm, R1max=0.250 ohm. Order Information block: 'mSMD1812 110-33v', Size 4532mm/1812 mils, Hold Current 1.10A, Max voltage 33V, confirming package/orderable identity matches LCSC C70119. Marking on the part body per Table figure: alpha logo over '110'. UL/TUV recognition E201504/E319079 and RoHS/Pb-free/EN14582 marks are printed but not extracted as electrical facts. This single-page sheet contains no ambient-temperature derating chart and no environmental/aging/cycling test table (unlike the RUILON SMD1210 and BHFUSE BSMD1206 series datasheets used for the other two board-b PTCs).",
       "refresh_policy": "HASH-LOCKED"
+    },
+    {
+      "source_id": "src-c70119-model-review",
+      "record_id": "rec-ptc-msmd110-33v-c70119",
+      "document_title": "C70119 exact catalog model visibility and datum review",
+      "document_number": ".claude/skills/component-ptc-msmd110-33v-c70119/references/c70119-model-review.json",
+      "revision": "2026-09-20",
+      "document_date": "2026-09-20",
+      "authoritative_url": ".claude/skills/component-ptc-msmd110-33v-c70119/references/c70119-model-review.json",
+      "alternate_authoritative_url": "https://jlcpcb.com/partdetail/C70119",
+      "retrieval_date": "2026-09-20",
+      "authority_class": "PROJECT_GENERATOR",
+      "sha256": "1f3e6c40210f010f92d585678d444112b080123f17d3f76677b35a9a8d690813",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "source",
+      "locator": "section: fresh exact-LCSC model bounds, opacity, footprint offset and retained STEP datum",
+      "evidence_extract": "Fresh exact C70119 EasyEDA acquisition produced byte-identical WRL to the retained model and a zero-offset model node. Raw opaque geometry is centered above the seating plane; terminal ends overlap their footprint pad lands. Removed stale lateral offset [-12.94, 11.05, 0]mm, which placed the body away from its pads. Retained STEP already independently normalized to WRL. No pad, drill, courtyard, connectivity or model mesh changes. Manufacturer maximum package dimensions and physical clearance must not be inferred from this illustrative mesh."
     }
   ]
 }

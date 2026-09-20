@@ -94,6 +94,22 @@ def run_check(spec, sch_path):
     for s in spec.NO_CONNECT:
         spec_net_of[s] = 'NC'
 
+    # Power flags are schematic-only declarations, not physical NETS members.
+    # Still verify their exact pin, label, library and position; never ignore
+    # arbitrary #FLG symbols because a stray flag can conceal a real ERC fault.
+    flag_pins = {}
+    for index, (net, position) in enumerate(getattr(spec, 'ERC_POWER_FLAGS', {}).items(), 1):
+        ref = f'#FLG{index:03d}'
+        if net not in spec.NETS:
+            problems.append(f'{ref}: power flag references unknown net "{net}"')
+        flag_pins[f'{ref}.1'] = net
+        matching = [instance for instance in instances if instance[0] == ref]
+        if len(matching) != 1:
+            problems.append(f'{ref}: expected exactly one declared power flag, found {len(matching)}')
+        elif matching[0][1] != 'zudo-pd:PWR_FLAG' or _key(*matching[0][2:4]) != _key(*position):
+            problems.append(f'{ref}: power flag library or position differs from spec')
+    spec_net_of.update(flag_pins)
+
     # every pin endpoint, derived from the file alone
     endpoint_pins = {}  # coordinate key -> ['REF.PIN', ...]
     for ref, lib_id, X, Y, angle in instances:
@@ -133,6 +149,7 @@ def run_check(spec, sch_path):
 
     # 3: derived net map == spec.NETS exactly
     expected_net_of = {s: net for net, pins in spec.NETS.items() for s in pins}
+    expected_net_of.update(flag_pins)
     for s, net in sorted(expected_net_of.items()):
         got = derived_net_of.pop(s, None)
         if got is None:

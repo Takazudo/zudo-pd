@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "check": "Renewal Board P revision2 layout changes",
+  "current_sha256": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b",
+  "initial_import_record": "archive/initial-import-layout-verification.json",
+  "initial_reference_sha256": "1d7086674da8ece700207d9b49256c11fe52ab57ba2c091e75bddf22d7fb33e4",
+  "retained_contract": [
+    "27x40mm outline",
+    "Three M3 NPTH mounting-hole centers",
+    "JOUT1 mating position,rotation and six pad nets",
+    "Component placement except manufacturer-specific TVS pad geometry"
+  ],
+  "changes": [
+    "D5 changed to C968650 with manufacturer-derived1.8mm-square pads at localX+/-1.8mm",
+    "Removed one exact duplicate SCL via at9.43,28.518mm",
+    "Removed a0.0877mm dangling Q1_G stub",
+    "Corrected pogo labels and added15V-only/5V-programming markings",
+    "Moved D5 reference clear of Q1 marker",
+    "Corrected 22 embedded 3D model paths for the active two-level Board P project; all 19 fitted components now resolve models",
+    "Corrected only J1 model offset to (0,-2.468,0) mm, aligning modeled shell legs with the four slots; PCB copper and component placement are unchanged"
+  ],
+  "current_counts": {
+    "footprints": 28,
+    "segments": 302,
+    "vias": 47,
+    "pads": 97
+  },
+  "validation": "Native final DRC:0errors,0unconnected; exact schematic netlist/identity checked by release exporter. Three bare mounting footprints are reported as intentional parity extras.",
+  "scope": "This replaces the initial exact-geometry import claim. Filled copper and prototype electrical/thermal qualification remain separate.",
+  "model_only_verification": "model-only-verification.json"
+}

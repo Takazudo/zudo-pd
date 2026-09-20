@@ -3,7 +3,11 @@ name: component-hdr-2541wr-2x08p-c5383092
 description: Audit the exact board-b 2x8 Eurorack power headers J10/J11 (project value 2541WR-2X08P, LCSC C5383092, HanElectricity 16-pin dual-row THT header, footprint HDR-TH_16P-P2.54-H-M-R2-C8-S2.54). Use for pin-pair rail assignment, GND moat, current rating per contact vs the rail budgets, PCB hole fit, or the not-netlist-verifiable key/polarization orientation.
 ---
 
-# HanElectricity 2541WR-2X08P (LCSC C5383092)
+# HanElectricity 2541WR-2X08P (LCSC C5383092) — retired
+
+Historical v0.4.0 evidence only. The renewal replaces J10/J11 with DEALON
+DW254P-2X8-L0 C4749189 under its own owner skill and conventional pin1/2=-12V
+assignment. Numeric pin groups below describe the retired part, not the new PCB.
 
 Run the central validator and read every local artifact. LCSC catalogs C5383092 as
 manufacturer HanElectricity, model `2541WR-2x08P` (distributor renders lowercase x; the
@@ -27,9 +31,8 @@ silkscreen or a physical board before Board B layout is finalized.
 
 ## Human component reference
 
-Human projection of this bundle:
-[rec-hdr-2541wr-2x08p-c5383092](/docs/components/records/hdr-2541wr-2x08p-c5383092/).
-Those pages are generated from the JSON files here and add nothing to them -- where the
-two disagree, this bundle is correct. See also the
-[component catalog](/docs/components/catalog/) and the
+The retired record remains in this local evidence bundle as a rejected candidate;
+it has no current public component page. See the
+[current socket record](/docs/components/records/dealon-dw254p-2x8-l0-c4749189/),
+[component catalog](/docs/components/catalog/), and
 [cross-component rules](/docs/components/integration/).

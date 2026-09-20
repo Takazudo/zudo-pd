@@ -1,8 +1,8 @@
 # Offline validation of the frozen component contract for the zudo-pd
-# board-a / board-b split: the canonical Python validator, its unit tests
+# Board P / Board B renewal and historical Board A: the canonical Python validator, its unit tests
 # and self-tests, the cross-component routing/refusal forward tests, the
 # schgen smoke test, schematic regen-idempotency + label-geometry checks
-# for both boards, connectivity-baseline drift for both boards, the wave-6
+# for all boards, connectivity-baseline drift for all boards, the retained
 # decision-lock contract, and the doc-engine test suite. No credentials,
 # no network, no KiCad.
 #
@@ -82,27 +82,34 @@ jobs:
         run: python3 scripts/schgen/check_baseline.py --self-test
       - name: Smoke-test the schematic generator (temp dir, geometry checks included)
         run: bash scripts/schgen/run_smoke_test.sh
-      - name: Regen-idempotency check — board A + board B (pure Python, no KiCad)
+      - name: Schematic verifier regression tests
+        run: python3 -m unittest discover -s scripts/schgen -p 'test_*.py'
+      - name: Regen-idempotency check — boards A, B and P (pure Python, no KiCad)
         # `--intent-to-add` first: a generator change that emits a NEW file
         # leaves it untracked, and `git diff` cannot see untracked files on
         # its own — without this the gate passes on a real drift.
         run: |
           python3 scripts/schgen/gen_schematic.py board_a_spec
           python3 scripts/schgen/gen_schematic.py board_b_spec
+          python3 scripts/schgen/gen_schematic.py board_p_spec
           git add --intent-to-add -A -- boards/
           git diff --exit-code -- boards/
-      - name: Label-geometry check — board A + board B (labels on pin endpoints, no cross-net collisions)
+      - name: Label-geometry check — boards A, B and P (labels on pin endpoints, no cross-net collisions)
         run: |
           python3 scripts/schgen/verify_geometry.py scripts/schgen/board_a_spec.py boards/board-a/board-a.kicad_sch
           python3 scripts/schgen/verify_geometry.py scripts/schgen/board_b_spec.py boards/board-b/board-b.kicad_sch
-      - name: Connectivity-baseline drift check — board A + board B
+          python3 scripts/schgen/verify_geometry.py scripts/schgen/board_p_spec.py boards/board-p/board-p.kicad_sch
+      - name: Connectivity-baseline drift check — boards A, B and P
         run: |
           python3 scripts/schgen/check_baseline.py scripts/schgen/board_a_spec.py scripts/schgen/baselines/board-a.json --allow scripts/schgen/baselines/board-a-allowed-deltas.json
           python3 scripts/schgen/check_baseline.py scripts/schgen/board_b_spec.py scripts/schgen/baselines/board-b.json --allow scripts/schgen/baselines/board-b-allow.json
+          python3 scripts/schgen/check_baseline.py scripts/schgen/board_p_spec.py scripts/schgen/baselines/board-p.json
       - name: Validate wave-6 decision lock (decisions.json)
         run: python3 scripts/schgen/check_decisions.py
       - name: Courtyards enclose every pad (footprint library)
         run: python3 footprints/scripts/gen_courtyards.py --check
+      - name: Courtyard geometry and library synchronization regressions
+        run: python3 -m unittest discover -s footprints/scripts -p 'test_gen_courtyards.py'
       - name: Bare-copper footprints carry CPL/BOM exclusion attrs
         run: python3 footprints/scripts/check_bare_copper_attrs.py
 

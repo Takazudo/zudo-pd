@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c968650-primary-specification",
+      "record_id": "rec-c968650",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Exact manufacturer PDF bytes retained and reviewed.",
+      "fact_ids": [
+        "fact-c968650-manufacturer",
+        "fact-c968650-identity",
+        "fact-c968650-standoff",
+        "fact-c968650-vbr-min",
+        "fact-c968650-vbr-max",
+        "fact-c968650-clamp",
+        "fact-c968650-ipp",
+        "fact-c968650-peak-power",
+        "fact-c968650-vbr-tempco-max",
+        "fact-c968650-pad-gap-max",
+        "fact-c968650-polarity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c968650-assembled-qualification",
+      "record_id": "rec-c968650",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Prototype pulse/thermal/NVM and model limits are explicit; no universal protection closure.",
+      "fact_ids": [
+        "fact-c968650-prototype-qualification",
+        "fact-c968650-model-provenance"
+      ],
+      "blocking_fact_ids": [
+        "fact-c968650-prototype-qualification",
+        "fact-c968650-model-provenance"
+      ]
+    },
+    {
+      "coverage_id": "cov-c3024223-primary-specification",
+      "record_id": "rec-c3024223",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Exact manufacturer PDF bytes retained and reviewed.",
+      "fact_ids": [
+        "fact-c3024223-manufacturer",
+        "fact-c3024223-identity",
+        "fact-c3024223-vrrm",
+        "fact-c3024223-average-current",
+        "fact-c3024223-ifsm",
+        "fact-c3024223-vf-max-5a-25c",
+        "fact-c3024223-vf-max-5a-125c",
+        "fact-c3024223-leakage-max-25c",
+        "fact-c3024223-leakage-typ-125c",
+        "fact-c3024223-theta-ja",
+        "fact-c3024223-pad-center-pitch",
+        "fact-c3024223-polarity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c3024223-assembled-qualification",
+      "record_id": "rec-c3024223",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Prototype pulse/thermal/NVM and model limits are explicit; no universal protection closure.",
+      "fact_ids": [
+        "fact-c3024223-prototype-qualification",
+        "fact-c3024223-model-provenance"
+      ],
+      "blocking_fact_ids": [
+        "fact-c3024223-prototype-qualification",
+        "fact-c3024223-model-provenance"
+      ]
+    }
+  ]
+}

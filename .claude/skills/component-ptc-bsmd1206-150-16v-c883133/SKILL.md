@@ -40,3 +40,7 @@ Human projection of this bundle: [rec-ptc-bsmd1206-150-16v-c883133](/docs/compon
 See also the [component catalog](/docs/components/catalog/) and [cross-component
 rules](/docs/components/integration/).
 These pages are generated from this bundle's JSON files and add nothing to them.
+
+## Model placement review
+
+The exact C883133 catalog model was freshly downloaded and compared byte-for-byte on2026-09-20. Use offset(0,0,0), rotation(0,0,0), scale1. Its existing centered node and mesh were correct and remain unchanged. Both opaque terminal ends register over the footprint lands. The STEP companion remains aligned with the WRL. The nominal mesh is an illustration, not a manufacturer maximum-tolerance package or physical-fit certificate. See the model-review source/facts and local JSON proof.

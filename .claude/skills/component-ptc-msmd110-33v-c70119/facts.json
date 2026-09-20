@@ -138,7 +138,9 @@
       "locator": "CALCULATED from fact-ptc2-ihold and the project's +5V/0.5A rail current budget (CLAUDE.md Project Overview)",
       "provenance": "CALCULATED",
       "verdict": "PASS - primary-source confirmed",
-      "depends_on": ["fact-ptc2-ihold"],
+      "depends_on": [
+        "fact-ptc2-ihold"
+      ],
       "expression": "fact_ptc2_ihold - 0.5"
     },
     {
@@ -152,8 +154,51 @@
       "locator": "CALCULATED from fact-ptc2-vmax and the project's +5V nominal output rail (CLAUDE.md Project Overview and Technical Architecture; board-b PTC2 downstream of U7 L7805ABD2T)",
       "provenance": "CALCULATED",
       "verdict": "PASS - primary-source confirmed",
-      "depends_on": ["fact-ptc2-vmax"],
+      "depends_on": [
+        "fact-ptc2-vmax"
+      ],
       "expression": "fact_ptc2_vmax - 5"
+    },
+    {
+      "fact_id": "fact-c70119-model-bounds",
+      "record_id": "rec-ptc-msmd110-33v-c70119",
+      "source_id": "src-c70119-model-review",
+      "class": "PROJECT_STATE",
+      "value": {
+        "length": 4.499864,
+        "width": 3.199892,
+        "height": 1.039876,
+        "z_min": 0.0
+      },
+      "unit": "mm",
+      "conditions": "Measured from opaque exact-LCSC catalog WRL mesh in millimetres; both end metallizations align over pad lands at the reviewed zero offset. Representative package illustration only, not a maximum-tolerance envelope.",
+      "locator": "section: fresh exact-LCSC model bounds, opacity, footprint offset and retained STEP datum",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c70119-model-transform",
+      "record_id": "rec-ptc-msmd110-33v-c70119",
+      "source_id": "src-c70119-model-review",
+      "class": "PROJECT_STATE",
+      "value": {
+        "offset_x": 0,
+        "offset_y": 0,
+        "offset_z": 0,
+        "rotation_x": 0,
+        "rotation_y": 0,
+        "rotation_z": 0,
+        "scale": 1
+      },
+      "unit": "NONE",
+      "conditions": "Fresh exact-part import confirms zero model offset/rotation. Prior offset [-12.94, 11.05, 0]mm displaced the body from its pads. STEP/WRL bytes preserved; native assembly must use the same node and be rendered again. No physical fit qualification is claimed.",
+      "locator": "section: fresh exact-LCSC model bounds, opacity, footprint offset and retained STEP datum",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-type-c-identity",
+      "record_id": "rec-type-c-31-m-17",
+      "domain": "manufacturer-and-MPN identity",
+      "status": "COVERED",
+      "reason": "Official current HRO product page identifies exact TYPE-C-31-M-17.",
+      "fact_ids": [
+        "fact-type-c-31-m-17-manufacturer"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-type-c-orderable",
+      "record_id": "rec-type-c-31-m-17",
+      "domain": "exact C283540 distributor binding",
+      "status": "COVERED",
+      "reason": "Available stable distributor evidence confirms only the C283540-to-TYPE-C-31-M-17 orderable identity binding.",
+      "fact_ids": [
+        "fact-type-c-31-m-17-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-type-c-ratings",
+      "record_id": "rec-type-c-31-m-17",
+      "domain": "electrical ratings and durability",
+      "status": "COVERED",
+      "reason": "Official Rev A drawing supplies atomic conditioned electrical and durability ratings; conflicting +85 C locale is conservatively excluded.",
+      "fact_ids": [
+        "fact-type-c-31-m-17-ratings",
+        "fact-type-c-31-m-17-current",
+        "fact-type-c-31-m-17-dielectric",
+        "fact-type-c-31-m-17-insulation",
+        "fact-type-c-31-m-17-contact-initial",
+        "fact-type-c-31-m-17-contact-after",
+        "fact-type-c-31-m-17-cycles",
+        "fact-type-c-31-m-17-temperature"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-type-c-contacts",
+      "record_id": "rec-type-c-31-m-17",
+      "domain": "contact/shell numbering and duplicate-pin topology",
+      "status": "OPEN",
+      "reason": "Official USB contact names and generator numeric nets are retained separately, but their physical equivalence, shell mapping and orientation require incoming continuity.",
+      "fact_ids": [
+        "fact-type-c-31-m-17-contacts",
+        "fact-type-c-31-m-17-project-map"
+      ],
+      "blocking_fact_ids": [
+        "fact-type-c-31-m-17-project-map"
+      ]
+    },
+    {
+      "coverage_id": "cov-type-c-mechanical",
+      "record_id": "rec-type-c-31-m-17",
+      "domain": "manufacturer mechanical drawing",
+      "status": "COVERED",
+      "reason": "Official Rev A dimensions, contact sketch and recommended PCB layout are retained.",
+      "fact_ids": [
+        "fact-type-c-31-m-17-mechanical"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-type-c-project-fit",
+      "record_id": "rec-type-c-31-m-17",
+      "domain": "project footprint orientation and incoming fit",
+      "status": "OPEN",
+      "reason": "Controlled drawing does not prove numeric project mapping, footprint orientation or received-part fit/continuity.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    }
+  ]
+}

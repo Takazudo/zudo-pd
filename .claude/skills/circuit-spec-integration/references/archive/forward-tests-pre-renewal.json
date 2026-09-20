@@ -1,0 +1,449 @@
+{
+  "schema_version": 1,
+  "contract": "Deterministic forward fixtures: each case names the rules a realistic prompt must select, the records and facts that must be loaded, the routing queries that must resolve exactly, and the observed run it is locked against. negative_routes prove that near-miss identifiers resolve nothing.",
+  "cases": [
+    {
+      "case_id": "u4-inverting-envelope-change",
+      "observed_run_id": "observed-u4-inverting-envelope-change",
+      "prompt": "Deepen the LM2596S-ADJ C347423 U4 negative rail below -13.5 V and prove the effective input voltage, the RVT1H101M0810 C970687 bridge capacitor, a SMAJ20A C571370 clamp event, and inverting startup against the 3 A PD contract all stay safe.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-lm2596s-adj-c347423",
+        "component-project-passives",
+        "component-high-diode-smaj20a-c571370",
+        "component-usb-type-c-009-c456012"
+      ],
+      "routing_queries": [
+        {
+          "query": "LM2596S-ADJ C347423",
+          "expected_line_ids": [
+            "line-c347423"
+          ]
+        },
+        {
+          "query": "RVT1H101M0810 C970687",
+          "expected_line_ids": [
+            "line-c970687"
+          ]
+        },
+        {
+          "query": "SMAJ20A C571370",
+          "expected_line_ids": [
+            "line-c571370"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-c970687",
+        "rec-high-diode-smaj20a-c571370",
+        "rec-lm2596s-adj-c347423",
+        "rec-usb-type-c-009-c456012"
+      ],
+      "subordinate_record_ids": [],
+      "required_source_ids": [
+        "src-lm2596-umw-ds",
+        "src-lm2596-board-b-baseline",
+        "src-c970687-datasheet",
+        "src-smaj20a-c571370-primary",
+        "src-usb-type-c-009-mirror-spec"
+      ],
+      "rule_ids": [
+        "rule-u4-inverting-stress",
+        "rule-inverting-startup-vs-pd-source"
+      ],
+      "required_fact_ids": [
+        "fact-lm2596-u4-effective-input",
+        "fact-lm2596-vin-absmax",
+        "fact-lm2596-u4-vout-setpoint-magnitude",
+        "fact-c970687-voltage",
+        "fact-high-diode-smaj20a-clamp",
+        "fact-lm2596-inverting-startup-current",
+        "fact-lm2596-current-limit",
+        "fact-usb-type-c-009-rating-current"
+      ],
+      "required_calculation_ids": [
+        "calc-u4-effective-input-envelope",
+        "calc-u4-absmax-margin-envelope",
+        "calc-u4-c9-bridge-margin",
+        "calc-inverting-startup-overdraw"
+      ],
+      "expected_observed_conditions": [
+        "U4 GND pin rides at the negative output, so effective input is VIN plus output magnitude: 28.53 V nominal, 45.93 V at the conditioned 32.4 V SMAJ20A clamp table point, 0.93 V past the 45 V absolute maximum",
+        "C9 bridges +15 V to the -13.5 V rail with 28.5 V of applied stress at nominal, leaving 21.5 V of margin to its 50 V rating",
+        "documented inverting startup demand up to ~4.5 A for >=2 ms exceeds the 3.0 A PD contract by 1.5 A; ringing, startup, and clamp waveforms unmeasured"
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH",
+        "NEEDS BENCH"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "plus12-rail-power-on",
+      "observed_run_id": "observed-plus12-rail-power-on",
+      "prompt": "Power on the +12 V output rail through the SMD1210P150TF/16 C7529589 polyfuse and certify the L7812CD2T C13456 and CJ7912 C94173 linear regulators deliver their rated output currents from the documented DC-DC intermediate rails.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-ptc-smd1210p200tf-c20808",
+        "component-ptc-msmd110-33v-c70119",
+        "component-ptc-bsmd1206-150-16v-c883133",
+        "component-l7812cd2t-c13456",
+        "component-l7805abd2t-c86206",
+        "component-cj7912-c94173"
+      ],
+      "routing_queries": [
+        {
+          "query": "SMD1210P150TF/16 C7529589",
+          "expected_line_ids": [
+            "line-c7529589"
+          ]
+        },
+        {
+          "query": "L7812CD2T C13456",
+          "expected_line_ids": [
+            "line-c13456"
+          ]
+        },
+        {
+          "query": "CJ7912 C94173",
+          "expected_line_ids": [
+            "line-c94173"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-cj7912-c94173",
+        "rec-l7805abd2t-c86206",
+        "rec-l7812cd2t-c13456",
+        "rec-ptc-bsmd1206-150-16v-c883133",
+        "rec-ptc-msmd110-33v-c70119",
+        "rec-ptc-smd1210p150tf16-c7529589"
+      ],
+      "subordinate_record_ids": [],
+      "required_source_ids": [
+        "src-ptc1b-smd1210-datasheet",
+        "src-ptc2-msmd110-datasheet",
+        "src-ptc3-bsmd1206-datasheet",
+        "src-l7812cd2t-ds0422-elec",
+        "src-l7812cd2t-project-blocker",
+        "src-l7805abd2t-ds0422-elec",
+        "src-cj7912-ds-electrical",
+        "src-cj7912-project-docs"
+      ],
+      "rule_ids": [
+        "rule-pptc-vmax-vs-rail",
+        "rule-ldo-dropout-chain"
+      ],
+      "required_fact_ids": [
+        "fact-ptc1b-vmax",
+        "fact-ptc1b-vmax-margin",
+        "fact-ptc1b-ihold-margin",
+        "fact-ptc1b-hold-85c",
+        "fact-ptc2-vmax-margin",
+        "fact-ptc3-vmax-margin",
+        "fact-l7812cd2t-vin-rail",
+        "fact-l7812cd2t-vout-25c",
+        "fact-l7812cd2t-dropout-1a2",
+        "fact-l7805abd2t-dropout-05a",
+        "fact-cj7912-rail-input",
+        "fact-cj7912-vi-guarantee-band"
+      ],
+      "required_calculation_ids": [
+        "calc-pptc1-vmax-margin",
+        "calc-ldo-7812-typ-dropout-deficit",
+        "calc-ldo-cj7912-guarantee-shortfall"
+      ],
+      "expected_observed_conditions": [
+        "PTC1 (decision g replacement, SMD1210P150TF/16 C7529589) 16 VDC maximum on the +12 V rail is +4 V of margin, PASS; PTC2/PTC3 voltage margins also PASS; PTC1's 0.3 A hold margin has no retained 85 C derating row for the /16 variant",
+        "L7812 headroom is 0.5 V short of its 2 V typical 1 A dropout and no 1.2 A dropout is specified",
+        "CJ7912's -13.5 V input sits 1.0 V outside its -14.5 to -27 V guaranteed band; L7805 margin is typical-only"
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH",
+        "NEEDS BENCH"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "q1-20v-nvm-mis-contract",
+      "observed_run_id": "observed-q1-20v-nvm-mis-contract",
+      "prompt": "Reprogram the STUSB4500QTR C2678061 NVM to accept a 20 V PDO3 and prove the AO3401A C347476 load switch gate network and the SMAJ20A C571370 and SMAJ6.5A C87267 protection chain keep every downstream absolute maximum safe.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-umw-ao3401a-c347476",
+        "component-stusb4500qtr",
+        "component-project-passives",
+        "component-high-diode-smaj20a-c571370",
+        "component-smaj15a-c571368",
+        "component-sd05-c502527",
+        "component-lm2596s-adj-c347423",
+        "component-l7805abd2t-c86206"
+      ],
+      "routing_queries": [
+        {
+          "query": "STUSB4500QTR C2678061",
+          "expected_line_ids": [
+            "line-c2678061"
+          ]
+        },
+        {
+          "query": "AO3401A C347476",
+          "expected_line_ids": [
+            "line-c347476"
+          ]
+        },
+        {
+          "query": "SMAJ6.5A C87267",
+          "expected_line_ids": [
+            "line-c87267"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-c23206",
+        "rec-c25803",
+        "rec-cand-smaj6-5a-c87267",
+        "rec-high-diode-smaj20a-c571370",
+        "rec-l7805abd2t-c86206",
+        "rec-lm2596s-adj-c347423",
+        "rec-smaj15a-c571368",
+        "rec-stusb4500qtr",
+        "rec-umw-ao3401a-c347476"
+      ],
+      "subordinate_record_ids": [],
+      "required_source_ids": [
+        "src-umw-ao3401a-c347476-datasheet",
+        "src-c25803-uniroyal",
+        "src-c23206-uniroyal",
+        "src-stusb-ds12499-ratings",
+        "src-smaj20a-c571370-primary",
+        "src-smaj15a-hdiode-primary",
+        "src-cand-smaj6-5a-brightking-primary",
+        "src-l7805abd2t-ds0422-elec"
+      ],
+      "rule_ids": [
+        "rule-q1-gate-drive-vs-contract",
+        "rule-tvs-clamp-vs-absmax"
+      ],
+      "required_fact_ids": [
+        "fact-umw-ao3401a-vgs",
+        "fact-umw-ao3401a-vgs-pdo3-margin",
+        "fact-umw-ao3401a-vds",
+        "fact-c25803-resistance",
+        "fact-c23206-resistance",
+        "fact-stusb-vdd-absolute-max",
+        "fact-high-diode-smaj20a-clamp",
+        "fact-high-diode-smaj20a-standoff",
+        "fact-smaj15a-margin-percent",
+        "fact-cand-smaj6-5a-plus5-margin",
+        "fact-cand-smaj6-5a-clamp",
+        "fact-l7805abd2t-vout-band"
+      ],
+      "required_calculation_ids": [
+        "calc-q1-vgs-vben-low",
+        "calc-q1-vgs-margin-vben-low",
+        "calc-tvs-d5-clamp-vs-stusb-vdd",
+        "calc-tvs-d5-clamp-vs-q1-vds",
+        "calc-tvs-d5-standoff-vs-pdo",
+        "calc-tvs-smaj6-5a-standoff-vs-plus5"
+      ],
+      "expected_observed_conditions": [
+        "ideal VBEN-low divider gives VGS -9.62 V at 15 V (2.38 V margin) and -12.82 V at 20 V, 0.82 V past the +/-12 V absolute maximum - the deterministic BLOCKER that feeds the 20 V contract decision",
+        "SMAJ20A 32.4 V clamp table point sits 4.4 V above the mirror-only 28 V STUSB4500 absolute maxima and 2.4 V past the Q1 -30 V VDS rating with the switch off; the D5 20 V standoff has zero margin at a 20 V contract",
+        "TVS2 (decision a replacement, SMAJ6.5A/C87267) standoff clears the +5 V rail by 1.5 V and the L7805 5.2 V upper band by 1.3 V; its 11.2 V clamp table point has no retained downstream +5 V absolute maximum to compare against; SMAJ15A holds 25 percent standoff margin"
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH",
+        "UNSOURCED"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "board-split-interface-bringup",
+      "observed_run_id": "observed-board-split-interface-bringup",
+      "prompt": "Bring up the board split: route +15 V from board A over the B6B-XH-A(LF)(SN) C144397 interface into the USB-TYPE-C-009 C456012 fed rail chain and declare the STUSB4500QTR C2678061 negotiation, the interface current margin, and every output rail proven.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-stusb4500qtr",
+        "component-usb-type-c-009-c456012",
+        "component-lm2596s-adj-c347423",
+        "component-l7812cd2t-c13456",
+        "component-l7805abd2t-c86206",
+        "component-cj7912-c94173",
+        "component-jst-b6b-xh-a",
+        "component-umw-ao3401a-c347476"
+      ],
+      "routing_queries": [
+        {
+          "query": "B6B-XH-A(LF)(SN) C144397",
+          "expected_line_ids": [
+            "line-c144397"
+          ]
+        },
+        {
+          "query": "USB-TYPE-C-009 C456012",
+          "expected_line_ids": [
+            "line-c456012"
+          ]
+        },
+        {
+          "query": "STUSB4500QTR C2678061",
+          "expected_line_ids": [
+            "line-c2678061"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-cj7912-c94173",
+        "rec-jst-b6b-xh-a",
+        "rec-l7805abd2t-c86206",
+        "rec-l7812cd2t-c13456",
+        "rec-lm2596s-adj-c347423",
+        "rec-stusb4500qtr",
+        "rec-umw-ao3401a-c347476",
+        "rec-usb-type-c-009-c456012"
+      ],
+      "subordinate_record_ids": [],
+      "required_source_ids": [
+        "src-jst-board-split-decision",
+        "src-jst-xh-catalog",
+        "src-usb-type-c-009-board-a-baseline",
+        "src-usb-type-c-009-mirror-spec",
+        "src-lm2596-umw-ds",
+        "src-l7812cd2t-project-blocker",
+        "src-cj7912-project-docs",
+        "src-stusb-board-a-baseline"
+      ],
+      "rule_ids": [
+        "rule-rail-envelope",
+        "rule-ab-interface-current",
+        "rule-evidence-chain"
+      ],
+      "required_fact_ids": [
+        "fact-jst-b6b-xh-a-locked-contract",
+        "fact-jst-b6b-xh-a-current-derating-math",
+        "fact-jst-b6b-xh-a-harness",
+        "fact-usb-type-c-009-pd-contract-stress",
+        "fact-usb-type-c-009-rating-current",
+        "fact-lm2596-u2-vout-setpoint",
+        "fact-l7812cd2t-vin-rail",
+        "fact-cj7912-rail-input",
+        "fact-stusb-cc-termination"
+      ],
+      "required_calculation_ids": [
+        "calc-ab-derated-margin-ratio",
+        "calc-rail-u2-setpoint-error"
+      ],
+      "expected_observed_conditions": [
+        "no v4 board ever completed PD negotiation, so every rail in the envelope is bench-unproven and the diagnosed CC-termination root cause is netlist-stage evidence only",
+        "locked A-to-B contract: two 3 A XH contacts at 80 percent derating give 4.8 A vs the 3.0 A PD cap, a 1.6x derated margin with the harness unbuilt",
+        "every evidence stage from PCB orientation through bench remains OPEN"
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH",
+        "NEEDS BENCH",
+        "NEEDS BENCH"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "eurorack-keyed-socket-renewal",
+      "observed_run_id": "observed-eurorack-keyed-socket-renewal",
+      "prompt": "Replace J10/J11 with DW254P-2X8-L0 C4749189 and certify a keyed Eurorack ribbon cable can safely power modules with the old pin-number mapping and a 6 A connector rating.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "component-dealon-dw254p-2x8-l0-c4749189",
+        "circuit-spec-integration"
+      ],
+      "routing_queries": [
+        {
+          "query": "DEALON DW254P-2X8-L0 C4749189",
+          "expected_line_ids": [
+            "line-c4749189"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-dealon-dw254p-2x8-l0-c4749189"
+      ],
+      "subordinate_record_ids": [],
+      "required_source_ids": [
+        "src-dw254p-project",
+        "src-dw254p-doepfer",
+        "src-dw254p-drawing"
+      ],
+      "rule_ids": [
+        "rule-eurorack-output-harness"
+      ],
+      "required_fact_ids": [
+        "fact-dw254p-pin-map",
+        "fact-dw254p-orientation",
+        "fact-dw254p-red-stripe",
+        "fact-dw254p-current",
+        "fact-dw254p-drill",
+        "fact-dw254p-soldering"
+      ],
+      "required_calculation_ids": [],
+      "expected_observed_conditions": [
+        "New pins1/2=-12V,3..8=GND,9/10=+12V,11/12=+5V,13/14=CV,15/16=GATE; the old numeric map must not be retained.",
+        "Doepfer pin1/red stripe=-12V cannot prove an untested third-party cable crimp or imported key orientation.",
+        "The mirrored 3A/contact family claim does not certify6A assembled capacity; finished-hole fit and solder profile remain open.",
+        "Whole-board targets +12V1.2A,+5V0.5A,-12V0.8A are shared between J10/J11."
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH"
+      ],
+      "must_refuse": true
+    }
+  ],
+  "negative_routes": [
+    {
+      "kind": "conflicting-identifiers",
+      "query": "SMAJ15A C571370",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "conflicting-identifiers",
+      "query": "L7805ABD2T C13456",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "wrong-vendor",
+      "query": "Vishay SMAJ20A C571370",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "wrong-vendor-lowercase",
+      "query": "vishay SMAJ6.5A C87267",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "wrong-vendor-suffix",
+      "query": "LM2596S-ADJ from Vishay C347423",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "unknown-lcsc",
+      "query": "SMAJ20A C9999999",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "ambiguous-alias",
+      "query": "UNI-ROYAL resistor",
+      "expected_line_ids": []
+    },
+    {
+      "query": "DW254P-2X8-L0 C5383092",
+      "expected_line_ids": []
+    }
+  ]
+}

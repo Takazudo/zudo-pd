@@ -308,12 +308,53 @@
       "record_id": "rec-ptc-smd1210p150tf16-c7529589",
       "source_id": "src-ptc1b-smd1210-datasheet",
       "class": "THERMAL_SOA",
-      "value": "no 85C derated hold figure is retained for the /16 suffixed variant; scaling the family's published derating (SMD1210P200TF 2.00A -> 0.98A at 85C, 49%) estimates ~0.74A with the 1.2A rail crossing near ~48C ambient (decisions.json dec-g-ptc1-replacement rationale) \u2014 estimate only, not a datasheet row",
+      "value": "no 85C derated hold figure is retained for the /16 suffixed variant; scaling the family's published derating (SMD1210P200TF 2.00A -> 0.98A at 85C, 49%) estimates ~0.74A with the 1.2A rail crossing near ~48C ambient (decisions.json dec-g-ptc1-replacement rationale) — estimate only, not a datasheet row",
       "unit": "NONE",
       "conditions": "85 degC ambient hold-current derating; the retained family datasheet's Thermal Derating Chart-Ih(A) table has no row for the /16 variant",
       "locator": "Page 3, Thermal Derating Chart-Ih(A) table (no SMD1210P150TF/16 row present)",
       "provenance": "UNVERIFIED",
       "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c7529589-model-bounds",
+      "record_id": "rec-ptc-smd1210p150tf16-c7529589",
+      "source_id": "src-c7529589-model-review",
+      "class": "PROJECT_STATE",
+      "value": {
+        "length": 3.199892,
+        "width": 2.599944,
+        "height": 0.620014,
+        "z_min": 0.0
+      },
+      "unit": "mm",
+      "conditions": "Measured from opaque exact-LCSC catalog WRL mesh in millimetres; both end metallizations align over pad lands at the reviewed zero offset. Representative package illustration only, not a maximum-tolerance envelope.",
+      "locator": "section: fresh exact-LCSC model bounds, opacity, footprint offset and retained STEP datum",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c7529589-model-transform",
+      "record_id": "rec-ptc-smd1210p150tf16-c7529589",
+      "source_id": "src-c7529589-model-review",
+      "class": "PROJECT_STATE",
+      "value": {
+        "offset_x": 0,
+        "offset_y": 0,
+        "offset_z": 0,
+        "rotation_x": 0,
+        "rotation_y": 0,
+        "rotation_z": 0,
+        "scale": 1
+      },
+      "unit": "NONE",
+      "conditions": "Fresh exact-part import confirms zero model offset/rotation. Prior offset [-4.39, 14.35, 0]mm displaced the body from its pads. STEP/WRL bytes preserved; native assembly must use the same node and be rendered again. No physical fit qualification is claimed.",
+      "locator": "section: fresh exact-LCSC model bounds, opacity, footprint offset and retained STEP datum",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
     }

@@ -106,11 +106,13 @@
       "class": "PROJECT_STATE",
       "value": 11.5,
       "unit": "V",
-      "conditions": "D3 is the catch/freewheeling diode on the -13.5V LM2596S-ADJ inverting buck-boost rail (board-b dc-dc-conversion stage). Unlike D1/D2 on the non-inverting +13.5V/+7.5V buck rails, whose catch diode blocks only Vin during switch-off, D3's inverting topology reverses the blocking-voltage reference so it blocks Vin + |Vout| = 15V (project PD-negotiated input) + 13.5V (project intermediate rail target) = 28.5V during switch-off. Calculated margin = fact-ss34-vrrm (40V) minus 28.5V stress.",
+      "conditions": "Historical pre-renewal calculation only: SS34 no longer occupies Board B D3; current D3 is SDT5A60SA-13, and current D2 retains SS34. D3 was the catch/freewheeling diode on the -13.5V LM2596S-ADJ inverting buck-boost rail (board-b dc-dc-conversion stage). Unlike D1/D2 on the non-inverting +13.5V/+7.5V buck rails, whose catch diode blocks only Vin during switch-off, D3's inverting topology reverses the blocking-voltage reference so it blocks Vin + |Vout| = 15V (project PD-negotiated input) + 13.5V (project intermediate rail target) = 28.5V during switch-off. Calculated margin = fact-ss34-vrrm (40V) minus 28.5V stress.",
       "locator": "Calculated from fact-ss34-vrrm and the project's LM2596S-ADJ inverting buck-boost topology for the -13.5V rail (dc-dc-conversion.kicad_sch D3 placement; architecture per CLAUDE.md DC-DC Stage description: '+15V -> -13.5V (LM2596S-ADJ in inverting buck-boost configuration)')",
       "provenance": "CALCULATED",
       "verdict": "PASS - primary-source confirmed",
-      "depends_on": ["fact-ss34-vrrm"],
+      "depends_on": [
+        "fact-ss34-vrrm"
+      ],
       "expression": "fact_ss34_vrrm - (15 + 13.5)"
     }
   ]

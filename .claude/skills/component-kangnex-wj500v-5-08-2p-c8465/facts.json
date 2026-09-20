@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "fact_id": "fact-c8465-identity",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-catalog",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C8465",
+        "manufacturer": "Ningbo Kangnex Elec",
+        "mpn": "WJ500V-5.08-2P",
+        "variant": "2-pole 5.08 mm pitch through-hole screw terminal, WJ500V series"
+      },
+      "unit": "NONE",
+      "conditions": "Exact distributor identity only; no current stock or shipment guarantee.",
+      "locator": "identity, package and assembly type tables",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-ratings",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "RECOMMENDED_OPERATION",
+      "value": {
+        "UL_current_A": 15,
+        "UL_voltage_V": 300,
+        "IEC_current_A": 18,
+        "IEC_voltage_V": 250
+      },
+      "unit": "NONE",
+      "conditions": "Mirrored family technical table, distinct standard rows. Housing illustration differs; exact shipped variant and wire conditions require confirmation. Not a board-current guarantee.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-wire",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "PROJECT_STATE",
+      "value": {
+        "AWG_min": 14,
+        "AWG_max": 30,
+        "area_mm2": 2.5,
+        "strip_min_mm": 6,
+        "strip_max_mm": 7
+      },
+      "unit": "NONE",
+      "conditions": "Technical table; confirm selected stranded/solid wire and termination, no ferrule-specific qualification.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-torque",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "RECOMMENDED_OPERATION",
+      "value": 0.4,
+      "unit": "N*m",
+      "conditions": "Mirrored drawing M2.5 screw recommended torque; verify actual terminal retention. ",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-temperature",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "RECOMMENDED_OPERATION",
+      "value": {
+        "min": -40,
+        "max": 105
+      },
+      "unit": "C",
+      "conditions": "Operating-range headline; no current derating curve or installed temperature validation.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-soldering",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "RECOMMENDED_OPERATION",
+      "value": {
+        "temperature_C": 250,
+        "duration_s": 5
+      },
+      "unit": "NONE",
+      "conditions": "Mirrored drawing; JLC lists wave soldering, confirm actual assembly process.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-dimensions",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "PROJECT_STATE",
+      "value": {
+        "pitch": 5.08,
+        "body_width": 10.16,
+        "body_depth": 10,
+        "body_height": 14,
+        "body_tolerance": 0.2,
+        "interlock_projection": 0.6,
+        "rear_to_pinrow": 4.5
+      },
+      "unit": "mm",
+      "conditions": "Two-pole geometry from N×5.08; wire entry opposite rear face; physical fit unmeasured.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-lead-length-max",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "PROJECT_STATE",
+      "value": 4.7,
+      "unit": "mm",
+      "conditions": "Drawing4.50±.20mm solder tail measured below body seating plane. Conservative clearance uses maximum, not shorter downloadedmodel.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-drill-drawing",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "PROJECT_STATE",
+      "value": {
+        "nominal": 1.2,
+        "tolerance": 0.05,
+        "pin_width": 0.9,
+        "pin_depth": 0.8,
+        "pin_tolerance": 0.05
+      },
+      "unit": "mm",
+      "conditions": "Drawing PCB layout and pin cross section; do not confuse with project1.30mm drill.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-drill-project",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-project",
+      "class": "PROJECT_STATE",
+      "value": 1.3,
+      "unit": "mm",
+      "conditions": "User-authorized project hole allowance beyond drawing1.20±.05mm,2mm pads. Diagonal rectangular-lead fit and finished-hole tolerance remain physical checks.",
+      "locator": "section: project-contract.json, board_b_spec.py J6/J7 and footprint pads",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-pin-map",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-project",
+      "class": "PROJECT_STATE",
+      "value": {
+        "J6.1": "GND",
+        "J6.2": "-12V rail",
+        "J7.1": "+5V rail",
+        "J7.2": "+12V rail"
+      },
+      "unit": "NONE",
+      "conditions": "The two poles are electrically separate. J6.1GND,J6.2−12V,J7.1+5V,J7.2+12V. Remove former J8/J9; never short pin1 to pin2 as old Faston legs were shorted. Meter-check before power.",
+      "locator": "section: project-contract.json, board_b_spec.py J6/J7 and footprint pads",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-orientation",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-project",
+      "class": "PROJECT_STATE",
+      "value": {
+        "pad1_x": -2.54,
+        "pad1_y": 0,
+        "pad2_x": 2.54,
+        "pad2_y": 0,
+        "entry": "local -Y",
+        "front_rotation_deg": 90
+      },
+      "unit": "NONE",
+      "conditions": "Topside90degree placement sends entryleft and pin2upper. Screwdriver access fromabove and cable bend clearance require actual assembly check.",
+      "locator": "section: project-contract.json, board_b_spec.py J6/J7 and footprint pads",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-model-datum",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-model",
+      "class": "PROJECT_STATE",
+      "value": {
+        "translation_x_mm": 2.54,
+        "translation_y_mm": 0,
+        "translation_z_mm": 0,
+        "solids": 14,
+        "illustrative_tail_mm": 3.5,
+        "drawing_tail_max_mm": 4.7
+      },
+      "unit": "NONE",
+      "conditions": "STEP aligned rigidly to unchanged WRL; body14mm; model tail discrepancyexplicit. CAD alignment is not physical verification.",
+      "locator": "section: model-normalization.json and canonical STEP/WRL",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-rail-budget",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-project",
+      "class": "PROJECT_STATE",
+      "value": {
+        "plus12_A": 1.2,
+        "plus5_A": 0.5,
+        "minus12_A": 0.8,
+        "absolute_return_sum_A": 2.5
+      },
+      "unit": "NONE",
+      "conditions": "Whole-board targets shared with J10/J11, not additional capacity per terminal.2.5A is sum-of-magnitudes conservative return screen; real signed current depends onloads. Terminal headline rating cannot qualify copper, regulator or harness.",
+      "locator": "section: project-contract.json, board_b_spec.py J6/J7 and footprint pads",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c8465-manufacturer",
+      "record_id": "rec-c8465",
+      "source_id": "src-c8465-drawing",
+      "class": "PROJECT_STATE",
+      "value": "Ningbo Kangnex Elec",
+      "unit": "NONE",
+      "conditions": "Manufacturer-authored WJ500V family drawing retrieved from distributor mirror; exact distributor identity confirmed separately. Direct manufacturer-hosted source not retrieved.",
+      "locator": "sheet1 technical table, 2P dimensions, PCB layout and title block",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    }
+  ]
+}

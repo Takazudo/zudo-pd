@@ -33,6 +33,16 @@ FROZEN_INVOCATION = {
 }
 
 
+# An independent Codex agent may assess only a supplied frozen packet in an
+# existing session. Preserve this provenance rather than claiming a fresh CLI run.
+FROZEN_MESSAGE_INVOCATION = {
+    "skill": "circuit-spec-integration",
+    "tools": "not used for assessment",
+    "session_persistence": True,
+    "evidence_packet": "frozen-message",
+}
+
+
 def load(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -57,7 +67,9 @@ def validate_observed_run(validator, case, run):
     require(run["runner"].strip(), f"{case_id}: runner is blank")
     require(run["model"].strip(), f"{case_id}: model is blank")
     require(run["run_date"].strip(), f"{case_id}: run_date is blank")
-    require(run["invocation"] == FROZEN_INVOCATION, f"{case_id}: invocation is not the frozen no-tools skill invocation")
+    require(run["invocation"] in (FROZEN_INVOCATION, FROZEN_MESSAGE_INVOCATION), f"{case_id}: invocation is not a supported frozen no-tools assessment")
+    if run["invocation"] == FROZEN_MESSAGE_INVOCATION:
+        require(run.get("independent_assessor") is True and run.get("assessment_scope") == "supplied packet only; no tool inspection", f"{case_id}: message assessment needs explicit independent-assessor provenance")
     response = run["response"]
     require(response["trigger_skill"] == case["expected_trigger_skill"], f"{case_id}: trigger_skill {response['trigger_skill']!r} != expected {case['expected_trigger_skill']!r}")
     require(response["loaded_skills"] == case["expected_loaded_skills"], f"{case_id}: loaded_skills differ from expected_loaded_skills")
@@ -98,6 +110,15 @@ def run_checks(validator, staged):
         selected_calculation_ids = {item["calculation_id"] for rule in selected for item in rule.get("conditioned_calculations", [])}
         require(len(case["prompt"].split()) >= 18, f"{case_id}: prompt must be at least 18 words")
         validate_observed_run(validator, case, run)
+        if run["invocation"] == FROZEN_MESSAGE_INVOCATION:
+            incomplete_provenance = copy.deepcopy(run)
+            incomplete_provenance["independent_assessor"] = False
+            try:
+                validate_observed_run(validator, case, incomplete_provenance)
+            except validator.ContractError:
+                pass
+            else:
+                raise validator.ContractError(f"{case_id}: missing independent provenance passed")
         require(case["expected_trigger_skill"] == "circuit-spec-integration", f"{case_id}: expected_trigger_skill must be circuit-spec-integration")
         require([rule["verdict"] for rule in selected] == case["expected_verdicts"], f"{case_id}: selected rules' verdicts differ from expected_verdicts")
         require(set(case["direct_record_ids"]) == selected_record_ids, f"{case_id}: direct_record_ids differ from the union of the selected rules' record_ids")

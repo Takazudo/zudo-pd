@@ -1,0 +1,693 @@
+{
+  "schema_version": 1,
+  "contract": "One rule per cross-component domain, naming the exact records and facts it reasons over, its conditions, a conditioned refusal, and a verdict limited to NEEDS BENCH or UNSOURCED. Conditioned calculations recompute from raw fact values on every run. The domains listed in component-spec-audit/references/schema.json integration_domains must match this file exactly.",
+  "rules": [
+    {
+      "rule_id": "rule-rail-envelope",
+      "domain": "rail-envelope",
+      "record_ids": [
+        "rec-stusb4500qtr",
+        "rec-usb-type-c-009-c456012",
+        "rec-lm2596s-adj-c347423",
+        "rec-l7812cd2t-c13456",
+        "rec-l7805abd2t-c86206",
+        "rec-cj7912-c94173",
+        "rec-jst-b6b-xh-a"
+      ],
+      "fact_ids": [
+        "fact-usb-type-c-009-pd-contract-stress",
+        "fact-stusb-supplies",
+        "fact-jst-b6b-xh-a-locked-contract",
+        "fact-lm2596-project-placements",
+        "fact-lm2596-vin-project",
+        "fact-lm2596-u2-vout-setpoint",
+        "fact-lm2596-u3-vout-setpoint",
+        "fact-lm2596-u4-vout-setpoint",
+        "fact-lm2596-u4-vout-target",
+        "fact-l7812cd2t-vin-rail",
+        "fact-l7812cd2t-vout-25c",
+        "fact-l7805abd2t-vin-rail",
+        "fact-l7805abd2t-vout-25c",
+        "fact-cj7912-rail-input",
+        "fact-cj7912-vout-nominal"
+      ],
+      "conditions": "Trace the full envelope 15 V PD contract -> +13.5/+7.5/-13.5 V DC-DC intermediates -> +12/+5/-12 V LDO outputs, with the +15 V hop crossing the locked A-to-B J4/J5 interface. Every setpoint is nominal-resistor arithmetic at the 1.23 V typical reference; no v4 board ever completed PD negotiation, so no rail in this envelope has ever been energized from a negotiated contract, and load/line/thermal state remains separate per stage.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not declare any rail voltage correct from setpoint arithmetic; no v4 board has ever reached a negotiated 15 V contract, so every intermediate and output rail remains bench-unproven end to end.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-rail-u2-setpoint-error",
+          "fact_ids": [
+            "fact-lm2596-u2-vout-setpoint",
+            "fact-l7812cd2t-vin-rail"
+          ],
+          "expression": "fact_lm2596_u2_vout_setpoint - fact_l7812cd2t_vin_rail",
+          "result_key": "error_v",
+          "conditions": "nominal U2 feedback-divider setpoint minus the documented +13.5 V rail target at the 1.23 V typical reference; reference tolerance band and load/line regulation excluded",
+          "error_v": 0.02999999999999936
+        },
+        {
+          "calculation_id": "calc-rail-u3-setpoint-error",
+          "fact_ids": [
+            "fact-lm2596-u3-vout-setpoint",
+            "fact-l7805abd2t-vin-rail"
+          ],
+          "expression": "fact_lm2596_u3_vout_setpoint - fact_l7805abd2t_vin_rail",
+          "result_key": "error_v",
+          "conditions": "nominal U3 feedback-divider setpoint minus the documented +7.5 V rail target at the 1.23 V typical reference; reference tolerance band and load/line regulation excluded",
+          "error_v": 0.0029999999999992255
+        },
+        {
+          "calculation_id": "calc-rail-u4-setpoint-error",
+          "fact_ids": [
+            "fact-lm2596-u4-vout-setpoint",
+            "fact-lm2596-u4-vout-target"
+          ],
+          "expression": "fact_lm2596_u4_vout_setpoint + fact_lm2596_u4_vout_target",
+          "result_key": "error_v",
+          "conditions": "signed nominal U4 inverting setpoint plus the 13.5 V magnitude target: negative result means the negative rail sits slightly deeper than -13.5 V at nominal resistors; reference tolerance band excluded",
+          "error_v": -0.02999999999999936
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-tvs-clamp-vs-absmax",
+      "domain": "tvs-clamp-vs-absmax",
+      "record_ids": [
+        "rec-high-diode-smaj20a-c571370",
+        "rec-smaj15a-c571368",
+        "rec-cand-smaj6-5a-c87267",
+        "rec-stusb4500qtr",
+        "rec-lm2596s-adj-c347423",
+        "rec-umw-ao3401a-c347476",
+        "rec-l7805abd2t-c86206"
+      ],
+      "fact_ids": [
+        "fact-high-diode-smaj20a-standoff",
+        "fact-high-diode-smaj20a-clamp",
+        "fact-smaj20a-d5-nets",
+        "fact-stusb-vdd-absolute-max",
+        "fact-stusb-vbus-pin-absolute-max",
+        "fact-lm2596-vin-absmax",
+        "fact-umw-ao3401a-vds",
+        "fact-smaj15a-clamp",
+        "fact-smaj15a-margin-plus12",
+        "fact-smaj15a-margin-percent",
+        "fact-smaj15a-tvs3-orientation",
+        "fact-cand-smaj6-5a-standoff",
+        "fact-cand-smaj6-5a-breakdown",
+        "fact-cand-smaj6-5a-clamp",
+        "fact-cand-smaj6-5a-plus5-margin",
+        "fact-l7805abd2t-vout-band"
+      ],
+      "conditions": "Compare each TVS clamp/standoff against its downstream absolute maxima: D5 SMAJ20A on VBUS_IN clamps at the 32.4 V table point, 4.4 V above the mirror-only 28 V STUSB4500 VDD/VBUS-pin absolute maxima and 2.4 V past the Q1 -30 V VDS rating when the load switch is off with VBUS_OUT near 0 V, but 12.6 V under the LM2596 45 V input rating; D5's 20 V standoff leaves 5 V of margin at the 15 V contract and zero at a 20 V contract; SMAJ15A holds a 3 V / 25 percent standoff margin on the +/-12 V rails while the TVS3 orientation on -12 V is not yet locked; TVS2 (decision a replacement, Brightking SMAJ6.5A/C87267) holds a 1.5 V / 30 percent standoff margin over the +5 V rail, clears the L7805 5.2 V guaranteed upper output band by 1.3 V with its 7.22 V minimum breakdown 2.02 V above that band top, resolving the demoted SD05's zero-margin BLOCKER standoff fact; its 11.2 V maximum clamp at the 35.7 A 10/1000 us table point has no retained downstream +5 V absolute maximum to compare against (the L7805 bundle retains no output-pin absolute maximum, the coverage gap decision a records), so the TVS2 clamp exposure stays unverifiable rather than PASS. All clamp values are 10/1000 us table points, not the installed surge waveform.",
+      "verdict": "UNSOURCED",
+      "refusal": "Do not clear the TVS protection chain: the STUSB4500 absolute maxima are mirror-only, no installed clamp or surge waveform has been measured, and a clamp event arithmetically exceeds the Q1 VDS rating. TVS2's decision-a replacement (SMAJ6.5A/C87267) resolves the demoted SD05's zero-margin standoff BLOCKER, but the D5-side findings above remain open and the SMAJ6.5A 11.2 V clamp point cannot be cleared while no downstream +5 V absolute maximum is retained.",
+      "notes": "Resolved-BLOCKER history: the TVS2 slot previously held MDD SD05 (C502527), whose 5 V standoff exactly equaled the +5 V rail - zero margin at nominal and -0.2 V at the L7805 5.2 V band (BLOCKER facts fact-sd05-plus5-margin and fact-sd05-plus5-margin-percent, retained on the demoted rec-sd05-c502527 in component-sd05-c502527). Wave-6 decision dec-a-tvs2-replacement fitted Brightking SMAJ6.5A (C87267). The superseded_calculations entry below preserves the original SD05 computation verbatim because locked decisions.json dec-a cites calc-tvs-sd05-standoff-vs-plus5 as evidence of why the swap happened; the live calculation for the fitted part is calc-tvs-smaj6-5a-standoff-vs-plus5.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-tvs-d5-clamp-vs-stusb-vdd",
+          "fact_ids": [
+            "fact-high-diode-smaj20a-clamp",
+            "fact-stusb-vdd-absolute-max"
+          ],
+          "expression": "fact_high_diode_smaj20a_clamp - fact_stusb_vdd_absolute_max",
+          "result_key": "overage_v",
+          "conditions": "conditioned subtraction of the mirror-only 28 V STUSB4500 VDD absolute maximum from the SMAJ20A 32.4 V clamp table point; UNSOURCED downstream limit and no claim about the real transient waveform",
+          "overage_v": 4.399999999999999
+        },
+        {
+          "calculation_id": "calc-tvs-d5-clamp-vs-q1-vds",
+          "fact_ids": [
+            "fact-high-diode-smaj20a-clamp",
+            "fact-umw-ao3401a-vds"
+          ],
+          "expression": "fact_high_diode_smaj20a_clamp + fact_umw_ao3401a_vds",
+          "result_key": "overage_v",
+          "conditions": "conditioned magnitude overage above the -30 V Q1 VDS absolute maximum at the 32.4 V clamp table point, for the off-state case where Q1's source rides VBUS_IN while VBUS_OUT sits near 0 V; actual polarity, waveform, and parasitics remain open",
+          "overage_v": 2.3999999999999986
+        },
+        {
+          "calculation_id": "calc-tvs-d5-clamp-vs-lm2596-vin-absmax",
+          "fact_ids": [
+            "fact-lm2596-vin-absmax",
+            "fact-high-diode-smaj20a-clamp"
+          ],
+          "expression": "fact_lm2596_vin_absmax - fact_high_diode_smaj20a_clamp",
+          "result_key": "margin_v",
+          "conditions": "LM2596 45 V absolute-maximum input minus the SMAJ20A clamp table point; positive margin at the table point only, and the clamp event reaches board-b solely through the Q1 load switch and A-to-B interface",
+          "margin_v": 12.600000000000001
+        },
+        {
+          "calculation_id": "calc-tvs-d5-standoff-vs-pdo",
+          "fact_ids": [
+            "fact-high-diode-smaj20a-standoff"
+          ],
+          "expression": "fact_high_diode_smaj20a_standoff - vbus_v",
+          "result_key": "margin_v",
+          "conditions": "D5 20 V standoff minus the contract VBUS: 5 V of margin at the 15 V contract and zero at a 20 V contract, where the TVS sits at the very edge of its guaranteed non-conducting region with no tolerance for supply overshoot",
+          "results": [
+            {
+              "vbus_v": 15,
+              "margin_v": 5
+            },
+            {
+              "vbus_v": 20,
+              "margin_v": 0
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-tvs-smaj6-5a-standoff-vs-plus5",
+          "fact_ids": [
+            "fact-cand-smaj6-5a-standoff",
+            "fact-l7805abd2t-vout-band"
+          ],
+          "expression": "fact_cand_smaj6_5a_standoff - rail_v",
+          "result_key": "margin_v",
+          "conditions": "TVS2 (decision a replacement, SMAJ6.5A/C87267) 6.5 V standoff minus the +5 V rail: 1.5 V margin at the 5.0 V nominal and 1.3 V at rail_v 5.2, the guaranteed upper output band from fact-l7805abd2t-vout-band -- both positive, resolving the demoted SD05's zero/negative margin; deterministic from primary-sourced values",
+          "results": [
+            {
+              "rail_v": 5,
+              "margin_v": 1.5
+            },
+            {
+              "rail_v": 5.2,
+              "margin_v": 1.2999999999999998
+            }
+          ]
+        }
+      ],
+      "superseded_calculations": [
+        {
+          "calculation_id": "calc-tvs-sd05-standoff-vs-plus5",
+          "fact_ids": [
+            "fact-sd05-standoff",
+            "fact-l7805abd2t-vout-band"
+          ],
+          "expression": "fact_sd05_standoff - rail_v",
+          "result_key": "margin_v",
+          "conditions": "SD05 5 V standoff minus the +5 V rail: zero margin at the 5.0 V nominal and negative at rail_v 5.2, the guaranteed upper output band from fact-l7805abd2t-vout-band, so the TVS can conduct inside normal regulation; deterministic from primary-sourced values",
+          "results": [
+            {
+              "rail_v": 5,
+              "margin_v": 0
+            },
+            {
+              "rail_v": 5.2,
+              "margin_v": -0.20000000000000018
+            }
+          ],
+          "superseded": "Tombstone, not a live calculation: the SD05 (C502527) it computes over was demoted by wave-6 decision dec-a-tvs2-replacement and its record is no longer named by this rule. Kept verbatim so the locked decisions.json evidence ref calc-tvs-sd05-standoff-vs-plus5 still resolves in the fact base; fact-sd05-standoff lives on in component-sd05-c502527. Successor: calc-tvs-smaj6-5a-standoff-vs-plus5."
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-u4-inverting-stress",
+      "domain": "u4-inverting-stress",
+      "record_ids": [
+        "rec-lm2596s-adj-c347423",
+        "rec-c970687",
+        "rec-high-diode-smaj20a-c571370"
+      ],
+      "fact_ids": [
+        "fact-lm2596-u4-inverting-nets",
+        "fact-lm2596-inverting-topology-support",
+        "fact-lm2596-vin-project",
+        "fact-lm2596-u4-vout-setpoint-magnitude",
+        "fact-lm2596-u4-effective-input",
+        "fact-lm2596-u4-effective-input-setpoint",
+        "fact-lm2596-vin-absmax",
+        "fact-lm2596-vin-operating-max",
+        "fact-lm2596-u4-absmax-margin",
+        "fact-lm2596-u4-operating-margin",
+        "fact-c970687-voltage",
+        "fact-c970687-topology",
+        "fact-high-diode-smaj20a-clamp"
+      ],
+      "conditions": "U4's GND pin rides at the -13.5 V output, so the device sees VIN plus the output magnitude: 28.53 V nominal against the 40 V operating and 45 V absolute-maximum input ratings. At the SMAJ20A 32.4 V clamp table point the same chain reaches 45.93 V, 0.93 V past the absolute maximum - a conditioned table-point subtraction, not a waveform claim. C9 bridges +15 V to the -13.5 V rail: 28.5 V of applied stress at nominal, leaving 21.5 V of margin to its 50 V rating. Switching-node ringing, startup overshoot, and any real clamp waveform at U4 are unmeasured.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not treat the nominal 16.47 V absolute-maximum margin as proof: a VBUS clamp event arithmetically exceeds the U4 effective-input rating, and no ringing, startup, or surge waveform has been measured on the inverting stage.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-u4-effective-input-envelope",
+          "fact_ids": [
+            "fact-lm2596-u4-vout-setpoint-magnitude"
+          ],
+          "expression": "vbus_v + fact_lm2596_u4_vout_setpoint_magnitude",
+          "result_key": "effective_v",
+          "conditions": "effective U4 input across the VBUS envelope: 15 V nominal contract, 20 V mis-contract, and the 32.4 V SMAJ20A clamp table point (fact-high-diode-smaj20a-clamp); ideal steady arithmetic on the nominal setpoint magnitude only",
+          "results": [
+            {
+              "vbus_v": 15,
+              "effective_v": 28.53
+            },
+            {
+              "vbus_v": 20,
+              "effective_v": 33.53
+            },
+            {
+              "vbus_v": 32.4,
+              "effective_v": 45.93
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-u4-absmax-margin-envelope",
+          "fact_ids": [
+            "fact-lm2596-vin-absmax",
+            "fact-lm2596-u4-vout-setpoint-magnitude"
+          ],
+          "expression": "fact_lm2596_vin_absmax - vbus_v - fact_lm2596_u4_vout_setpoint_magnitude",
+          "result_key": "margin_v",
+          "conditions": "margin to the 45 V absolute maximum across the same VBUS envelope; the negative 32.4 V result is a conditioned table-point finding, not a measured transient, and the absolute maximum is not an operating target",
+          "results": [
+            {
+              "vbus_v": 15,
+              "margin_v": 16.47
+            },
+            {
+              "vbus_v": 20,
+              "margin_v": 11.47
+            },
+            {
+              "vbus_v": 32.4,
+              "margin_v": -0.9299999999999979
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-u4-c9-bridge-margin",
+          "fact_ids": [
+            "fact-c970687-voltage",
+            "fact-lm2596-u4-effective-input"
+          ],
+          "expression": "fact_c970687_voltage - fact_lm2596_u4_effective_input",
+          "result_key": "margin_v",
+          "conditions": "C9 50 V rating minus the 28.5 V nominal bridge stress between +15 V and the -13.5 V rail; ripple current at 150 kHz and clamp-event stress remain open",
+          "margin_v": 21.5
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-ldo-dropout-chain",
+      "domain": "ldo-dropout-chain",
+      "record_ids": [
+        "rec-l7812cd2t-c13456",
+        "rec-l7805abd2t-c86206",
+        "rec-cj7912-c94173"
+      ],
+      "fact_ids": [
+        "fact-l7812cd2t-vin-rail",
+        "fact-l7812cd2t-vout-25c",
+        "fact-l7812cd2t-dropout-typ-1a",
+        "fact-l7812cd2t-dropout-1a2",
+        "fact-l7812cd2t-iout-rating",
+        "fact-l7812cd2t-headroom",
+        "fact-l7805abd2t-vin-rail",
+        "fact-l7805abd2t-vout-25c",
+        "fact-l7805abd2t-vout-band",
+        "fact-l7805abd2t-dropout-typ-1a",
+        "fact-l7805abd2t-dropout-05a",
+        "fact-l7805abd2t-iout-rating",
+        "fact-l7805abd2t-headroom",
+        "fact-cj7912-rail-input",
+        "fact-cj7912-vout-nominal",
+        "fact-cj7912-vi-guarantee-band",
+        "fact-cj7912-dropout-typ",
+        "fact-cj7912-rail-headroom",
+        "fact-cj7912-project-io-max"
+      ],
+      "conditions": "Evaluate each LDO's input headroom against its dropout evidence at the project load: L7812 has 1.5 V of headroom from +13.5 V, 0.5 V short of even the 2 V typical 1 A dropout, and DS0422 specifies no dropout at the 1.2 A project rating; L7805 clears its typical dropout by 0.5 V at the 5.0 V nominal output but only 0.3 V at the 5.2 V guaranteed upper band with no guaranteed-maximum dropout, leaving zero guaranteed input margin at 7.5 V; CJ7912's -13.5 V input sits 1.0 V outside its -14.5 to -27 V guaranteed operation band, so its 1.1 V typical dropout is the only evidence it can regulate at all. All three depend on unverified upstream DC-DC setpoints.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not claim any regulated output at rated load: the +12 V dropout at 1.2 A is unspecified, the +5 V margin is typical-only, and the -12 V regulator operates outside its guaranteed input band, so only bench measurement or a design change can close this chain.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-ldo-7812-typ-dropout-deficit",
+          "fact_ids": [
+            "fact-l7812cd2t-vin-rail",
+            "fact-l7812cd2t-vout-25c",
+            "fact-l7812cd2t-dropout-typ-1a"
+          ],
+          "expression": "fact_l7812cd2t_vin_rail - fact_l7812cd2t_vout_25c - fact_l7812cd2t_dropout_typ_1a",
+          "result_key": "deficit_v",
+          "conditions": "headroom minus the 2 V typical dropout at 1 A: negative means the +13.5 V rail cannot support even typical dropout at the tabulated current, and the 1.2 A project-rated dropout is not specified at all",
+          "deficit_v": -0.5
+        },
+        {
+          "calculation_id": "calc-ldo-7805-typ-dropout-headroom",
+          "fact_ids": [
+            "fact-l7805abd2t-vin-rail",
+            "fact-l7805abd2t-vout-25c",
+            "fact-l7805abd2t-dropout-typ-1a"
+          ],
+          "expression": "fact_l7805abd2t_vin_rail - fact_l7805abd2t_vout_25c - fact_l7805abd2t_dropout_typ_1a",
+          "result_key": "headroom_v",
+          "conditions": "headroom above the 2 V typical 1 A dropout at the 5.0 V nominal output; shrinks to 0.3 V at the 5.2 V guaranteed upper output band and DS0422 gives no dropout maximum and no 0.5 A dropout row",
+          "headroom_v": 0.5
+        },
+        {
+          "calculation_id": "calc-ldo-cj7912-guarantee-shortfall",
+          "fact_ids": [
+            "fact-cj7912-rail-input",
+            "fact-cj7912-vi-guarantee-band"
+          ],
+          "expression": "fact_cj7912_rail_input - band_min_v",
+          "result_key": "shortfall_v",
+          "conditions": "signed distance from the -13.5 V input to the shallow edge of the -14.5 to -27 V guaranteed VI band: a positive result is volts outside guaranteed operation; band_min_v is the shallow band edge from fact-cj7912-vi-guarantee-band",
+          "results": [
+            {
+              "band_min_v": -14.5,
+              "shortfall_v": 1.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-ab-interface-current",
+      "domain": "ab-interface-current",
+      "record_ids": [
+        "rec-jst-b6b-xh-a",
+        "rec-usb-type-c-009-c456012",
+        "rec-umw-ao3401a-c347476"
+      ],
+      "fact_ids": [
+        "fact-jst-b6b-xh-a-current",
+        "fact-jst-b6b-xh-a-locked-contract",
+        "fact-jst-b6b-xh-a-current-derating-math",
+        "fact-jst-b6b-xh-a-harness",
+        "fact-usb-type-c-009-rating-current",
+        "fact-usb-type-c-009-pd-contract-stress",
+        "fact-umw-ao3401a-current"
+      ],
+      "conditions": "The locked A-to-B contract carries the full +15 V feed on J4/J5 pins 1-2 with a paired GND return on pins 5-6: two 3 A nameplate XH contacts at 80 percent continuous derating give 4.8 A against the 3.0 A PD-contract cap, a 1.6x derated margin (2.0x nameplate). The same 3.0 A cap is the receptacle's zero-margin mirror rating and flows through Q1 (-4.2 A continuous rating). The mating housing, crimp contacts, and wire gauge are unselected, so no installed harness capacity exists to measure.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not promote the 1.6x derated nameplate margin to an installed-capacity PASS: the harness is unbuilt, the derating factor is assumed rather than measured, and the receptacle carries the same 3 A with zero margin.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-ab-derated-capacity",
+          "fact_ids": [
+            "fact-jst-b6b-xh-a-current"
+          ],
+          "expression": "2 * fact_jst_b6b_xh_a_current * derating",
+          "result_key": "capacity_a",
+          "conditions": "two paired +15 V contacts at the locked 80 percent continuous derating; nameplate catalog rating with an unbuilt harness, not a measured capacity",
+          "results": [
+            {
+              "derating": 0.8,
+              "capacity_a": 4.800000000000001
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-ab-derated-margin-ratio",
+          "fact_ids": [
+            "fact-jst-b6b-xh-a-current",
+            "fact-usb-type-c-009-rating-current"
+          ],
+          "expression": "2 * fact_jst_b6b_xh_a_current * derating / fact_usb_type_c_009_rating_current",
+          "result_key": "margin_ratio",
+          "conditions": "derated two-contact capacity over the 3.0 A PD-contract worst-case load (the receptacle's own mirror-rated maximum); matches the locked board-split contract arithmetic",
+          "results": [
+            {
+              "derating": 0.8,
+              "margin_ratio": 1.6000000000000003
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-q1-gate-drive-vs-contract",
+      "domain": "q1-gate-drive-vs-contract",
+      "record_ids": [
+        "rec-umw-ao3401a-c347476",
+        "rec-stusb4500qtr",
+        "rec-c25803",
+        "rec-c23206"
+      ],
+      "fact_ids": [
+        "fact-umw-ao3401a-vgs",
+        "fact-umw-ao3401a-vgs-pdo3-margin",
+        "fact-umw-ao3401a-gate-network",
+        "fact-umw-ao3401a-gate-resistor-values",
+        "fact-stusb-gate-network",
+        "fact-c25803-resistance",
+        "fact-c23206-resistance"
+      ],
+      "conditions": "With VBEN asserted low, the R11/R12 divider sets VGS = -VBUS x R11/(R11+R12): -9.62 V at the 15 V contract (2.38 V of margin to the +/-12 V absolute maximum) and -12.82 V at a 20 V contract, 0.82 V past the absolute maximum - the deterministic BLOCKER margin fact that feeds the wave-6 20 V-contract decision. Ideal steady divider only: MOSFET capacitance, the real VBEN waveform, and parasitics remain open, and the absolute maximum is not an operating target.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not authorize any 20 V-capable PDO or NVM image while the present gate network arithmetically exceeds the Q1 VGS absolute maximum at 20 V, and do not certify 15 V-only operation without a measured gate waveform.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-q1-vgs-vben-low",
+          "fact_ids": [
+            "fact-c25803-resistance",
+            "fact-c23206-resistance"
+          ],
+          "expression": "-(vbus_v * fact_c25803_resistance) / (fact_c25803_resistance + fact_c23206_resistance)",
+          "result_key": "vgs_v",
+          "conditions": "ideal steady gate-source voltage with VBEN held low through R12 56k against the R11 100k pull-up to VBUS; no device or waveform model",
+          "results": [
+            {
+              "vbus_v": 15,
+              "vgs_v": -9.615384615384615
+            },
+            {
+              "vbus_v": 20,
+              "vgs_v": -12.820512820512821
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-q1-vgs-margin-vben-low",
+          "fact_ids": [
+            "fact-umw-ao3401a-vgs",
+            "fact-c25803-resistance",
+            "fact-c23206-resistance"
+          ],
+          "expression": "fact_umw_ao3401a_vgs - vbus_v * fact_c25803_resistance / (fact_c25803_resistance + fact_c23206_resistance)",
+          "result_key": "margin_v",
+          "conditions": "magnitude margin to the 12 V VGS absolute maximum; the negative 20 V result reproduces fact-umw-ao3401a-vgs-pdo3-margin and is an ideal-steady finding, not a measured transient",
+          "results": [
+            {
+              "vbus_v": 15,
+              "margin_v": 2.384615384615385
+            },
+            {
+              "vbus_v": 20,
+              "margin_v": -0.8205128205128212
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-inverting-startup-vs-pd-source",
+      "domain": "inverting-startup-vs-pd-source",
+      "record_ids": [
+        "rec-lm2596s-adj-c347423",
+        "rec-usb-type-c-009-c456012"
+      ],
+      "fact_ids": [
+        "fact-lm2596-inverting-startup-current",
+        "fact-lm2596-current-limit",
+        "fact-lm2596-project-placements",
+        "fact-usb-type-c-009-rating-current",
+        "fact-usb-type-c-009-pd-contract-stress"
+      ],
+      "conditions": "The manufacturer documents that U4's inverting startup can draw input current up to the ~4.5 A device current limit for 2 ms or more, 1.5 A beyond the 3.0 A PD-contract cap that the source, receptacle, and A-to-B interface share, and warns that current-limited sources may not start correctly. Whether a real adapter folds back, hard-resets the contract, or rides through on input capacitance is source-dependent; the datasheet's own mitigations (delayed startup, enlarged CIN) are not presently designed in. Decision neg-rail-cap-bank (issue #155) raised the -13.5 V output bulk 940 uF -> 1410 uF, lengthening the current-limited startup charge transient in the same direction this rule warns about -- the bench capture must use the 3-can bank.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not assume the -13.5 V stage starts on a compliant 3 A PD source: the documented startup demand exceeds the contract by 1.5 A and only bench startup capture on a current-limited source can prove behavior.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-inverting-startup-overdraw",
+          "fact_ids": [
+            "fact-lm2596-current-limit",
+            "fact-usb-type-c-009-rating-current"
+          ],
+          "expression": "fact_lm2596_current_limit - fact_usb_type_c_009_rating_current",
+          "result_key": "overdraw_a",
+          "conditions": "typical device current limit minus the 3.0 A PD-contract cap: the amount by which a >=2 ms inverting startup transient can exceed what the source guarantees; typical limit value, no waveform or source model",
+          "overdraw_a": 1.5
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-pptc-vmax-vs-rail",
+      "domain": "pptc-vmax-vs-rail",
+      "record_ids": [
+        "rec-ptc-smd1210p150tf16-c7529589",
+        "rec-ptc-msmd110-33v-c70119",
+        "rec-ptc-bsmd1206-150-16v-c883133",
+        "rec-l7812cd2t-c13456",
+        "rec-l7805abd2t-c86206",
+        "rec-cj7912-c94173"
+      ],
+      "fact_ids": [
+        "fact-ptc1b-vmax",
+        "fact-ptc1b-vmax-margin",
+        "fact-ptc1b-ihold",
+        "fact-ptc1b-ihold-margin",
+        "fact-ptc1b-hold-85c",
+        "fact-ptc2-vmax",
+        "fact-ptc2-vmax-margin",
+        "fact-ptc2-ihold",
+        "fact-ptc2-ihold-margin",
+        "fact-ptc3-vmax",
+        "fact-ptc3-vmax-margin",
+        "fact-ptc3-ihold",
+        "fact-ptc3-ihold-margin",
+        "fact-l7812cd2t-vout-25c",
+        "fact-l7805abd2t-vout-25c",
+        "fact-cj7912-vout-nominal"
+      ],
+      "conditions": "A tripped PPTC absorbs its full rail voltage, so Vmax must cover the rail: PTC1 (decision g replacement, RUILON SMD1210P150TF/16 C7529589, demoting the SMD1210P200TF/C20808) rates 16 VDC on the +12 V rail, +4 V of margin; PTC2 (33 V on +5 V, +28 V) and PTC3 (16 V on -12 V, +4 V) also PASS on voltage. Hold-current margins of 0.3/0.6/0.7 A over the 1.2/0.5/0.8 A rail ratings PASS at 25 C but derate toward 85 C -- PTC1's thinner 0.3 A margin (vs the demoted part's 0.8 A) has no retained 85 C hold figure for the /16 variant, and tripped-state behavior at the real fault waveform is unmeasured for all three.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "PTC1's decision-g replacement (SMD1210P150TF/16, C7529589) resolves the deterministic Vmax BLOCKER the demoted part carried, but do not treat this rail as bench-cleared: no 85 C hold-current figure is retained for the /16 variant, the family's derating curve estimates the 1.2 A rail budget could be crossed near ~48 C ambient (decisions.json dec-g-ptc1-replacement), and tripped-state behavior at the real fault waveform remains unmeasured for all three PPTCs.",
+      "notes": "Resolved-BLOCKER history: the PTC1 slot previously held RUILON SMD1210P200TF (C20808), whose 6 VDC maximum voltage on the +12 V rail was -6 V of margin, a deterministic primary-sourced BLOCKER (fact-ptc1-vmax-margin, retained on the demoted rec-ptc-smd1210p200tf-c20808 in component-ptc-smd1210p200tf-c20808, whose earlier refusal here demanded a part change before any rail power-on). Wave-6 decision dec-g-ptc1-replacement fitted RUILON SMD1210P150TF/16 (C7529589). calc-pptc1-vmax-margin is slot-scoped, so it recomputes from the fitted part's facts and is the same calculation ID the locked decisions.json dec-g cites.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-pptc1-vmax-margin",
+          "fact_ids": [
+            "fact-ptc1b-vmax",
+            "fact-l7812cd2t-vout-25c"
+          ],
+          "expression": "fact_ptc1b_vmax - fact_l7812cd2t_vout_25c",
+          "result_key": "margin_v",
+          "conditions": "PTC1 rated maximum voltage (decision g replacement, SMD1210P150TF/16 C7529589) minus the +12 V rail it protects: the positive result reproduces the bundle's PASS margin fact and holds whenever the fuse trips",
+          "margin_v": 4
+        },
+        {
+          "calculation_id": "calc-pptc2-vmax-margin",
+          "fact_ids": [
+            "fact-ptc2-vmax",
+            "fact-l7805abd2t-vout-25c"
+          ],
+          "expression": "fact_ptc2_vmax - fact_l7805abd2t_vout_25c",
+          "result_key": "margin_v",
+          "conditions": "PTC2 rated maximum voltage minus the +5 V rail; PASS-class margin on voltage only, interrupt rating and fault waveform unexamined here",
+          "margin_v": 28.0
+        },
+        {
+          "calculation_id": "calc-pptc3-vmax-margin",
+          "fact_ids": [
+            "fact-ptc3-vmax",
+            "fact-cj7912-vout-nominal"
+          ],
+          "expression": "fact_ptc3_vmax + fact_cj7912_vout_nominal",
+          "result_key": "margin_v",
+          "conditions": "PTC3 rated maximum voltage minus the 12 V magnitude of the -12 V rail (signed rail value added); PASS-class margin on voltage only",
+          "margin_v": 4
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-evidence-chain",
+      "domain": "source-to-bench-chain",
+      "record_ids": [
+        "rec-stusb4500qtr",
+        "rec-usb-type-c-009-c456012",
+        "rec-umw-ao3401a-c347476",
+        "rec-lm2596s-adj-c347423"
+      ],
+      "fact_ids": [
+        "fact-stusb-ds12499-primary-attempt",
+        "fact-umw-ao3401a-vgs",
+        "fact-usb-type-c-009-pd-contract-stress",
+        "fact-lm2596-inverting-startup-current",
+        "fact-stusb-cc-termination",
+        "fact-umw-ao3401a-gate-network",
+        "fact-lm2596-u4-inverting-nets",
+        "fact-usb-type-c-009-pad-set",
+        "fact-usb-type-c-009-cc-pins"
+      ],
+      "conditions": "Trace every cross-component claim through official source, conditioned requirement, generated netlist, symbol/footprint, PCB orientation, BOM/CPL identity, as-built inspection, programmed NVM state, and bench evidence. The v4 root-cause diagnosis (CC termination) is netlist-stage evidence only; every stage from PCB orientation through bench is OPEN and the board-split respin is explicitly gated on bench-confirming the root cause on the dead v4 boards.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "A completed upstream stage never implies a later as-built, programmed, or measured stage; every downstream stage stays open until the dead v4 boards confirm the diagnosed root cause on the bench.",
+      "evidence_chain": [
+        {
+          "stage": "official-source",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-stusb-ds12499-primary-attempt",
+            "fact-umw-ao3401a-vgs"
+          ]
+        },
+        {
+          "stage": "conditioned-requirement",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-usb-type-c-009-pd-contract-stress",
+            "fact-lm2596-inverting-startup-current"
+          ]
+        },
+        {
+          "stage": "generated-netlist",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-stusb-cc-termination",
+            "fact-umw-ao3401a-gate-network",
+            "fact-lm2596-u4-inverting-nets"
+          ]
+        },
+        {
+          "stage": "symbol-footprint",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-usb-type-c-009-pad-set",
+            "fact-usb-type-c-009-cc-pins"
+          ]
+        },
+        {
+          "stage": "pcb-orientation",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "bom-cpl",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "as-built",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "programmed",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "bench",
+          "status": "OPEN",
+          "fact_ids": []
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-eurorack-output-harness",
+      "domain": "eurorack-output-harness",
+      "record_ids": [
+        "rec-dealon-dw254p-2x8-l0-c4749189"
+      ],
+      "fact_ids": [
+        "fact-dw254p-pin-map",
+        "fact-dw254p-orientation",
+        "fact-dw254p-red-stripe",
+        "fact-dw254p-current",
+        "fact-dw254p-drill",
+        "fact-dw254p-soldering"
+      ],
+      "conditions": "J10/J11 C4749189 replaces the old connector and guard. New pin groups1/2=-12V,3..8=GND,9/10=+12V,11/12=+5V,13/14=CV,15/16=GATE. Doepfer pin1/red stripe convention is primary confirmed; imported numeric pad map, actual keyed cable continuity, finished-hole fit, wave solder compatibility and loaded contact temperature remain physical checks. Rail budgets are total board capacity shared by both outputs.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not connect modules or certify polarity from a keyed housing alone; meter every rail through the actual cable and confirm solder process and loaded contact temperature before use.",
+      "conditioned_calculations": []
+    }
+  ],
+  "status": "SUPERSEDED historical design evidence; not current Board P/B qualification",
+  "superseded_on": "2026-09-20",
+  "replacement": "rules.json"
+}

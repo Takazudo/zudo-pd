@@ -23,7 +23,7 @@
       "owner_skill": "component-sd05-c502527",
       "status": "REJECTED",
       "replaces_line_id": "line-c87267",
-      "rationale": "Meets the deterministic TVS2 replacement criteria at the 2026-08-14 research date: VRWM 6.0 V (>= 6.0 V, 20% standoff margin over the nominal +5 V rail), VC 10.3 V max at IPP 38.8 A (400 W; the FOSAN document does not explicitly state the pulse waveform \u2014 recorded as-is in the fact conditions), SMA/DO-214AC package in the same D-FLAT footprint family already used for TVS1/TVS3/D5, LCSC in stock (6,400 units, dated fact). Note: the Littelfuse SMAJ6.0A listing (C223993) was evaluated first but rejected for sourcing: LCSC attaches Slkor- and Brightking-authored PDFs to that listing and littelfuse.com blocks direct retrieval, so no genuine Littelfuse primary datasheet could be retained. Selection is deferred to the wave-6 decision task. Wave-6 decision (a) selected the Brightking SMAJ6.5A (C87267, now inventory line-c87267) over this candidate; retained as the runner-up record per decisions.json dec-a-tvs2-replacement."
+      "rationale": "Meets the deterministic TVS2 replacement criteria at the 2026-08-14 research date: VRWM 6.0 V (>= 6.0 V, 20% standoff margin over the nominal +5 V rail), VC 10.3 V max at IPP 38.8 A (400 W; the FOSAN document does not explicitly state the pulse waveform — recorded as-is in the fact conditions), SMA/DO-214AC package in the same D-FLAT footprint family already used for TVS1/TVS3/D5, LCSC in stock (6,400 units, dated fact). Note: the Littelfuse SMAJ6.0A listing (C223993) was evaluated first but rejected for sourcing: LCSC attaches Slkor- and Brightking-authored PDFs to that listing and littelfuse.com blocks direct retrieval, so no genuine Littelfuse primary datasheet could be retained. Selection is deferred to the wave-6 decision task. Wave-6 decision (a) selected the Brightking SMAJ6.5A (C87267, now inventory line-c87267) over this candidate; retained as the runner-up record per decisions.json dec-a-tvs2-replacement."
     },
     {
       "candidate_id": "cand-sd05-c502527",
@@ -72,6 +72,78 @@
       "status": "REJECTED",
       "replaces_line_id": "line-c22387780",
       "rationale": "Removed from C5/C7 by wave-6 decision (d) (decisions.json dec-d-c5-c7-swap, review finding BB-6): the 25V rating is exceeded by 7.4V at the D5 32.4V clamp table point and holds only 5V of margin at the 20V mis-contract edge. Replaced by the 470uF/35V FOLLON line (C22387780) already fitted at five positions. Demoted to candidate record so the retained evidence stays auditable."
+    },
+    {
+      "mpn": "2541WR-2X08P",
+      "manufacturer": "HanElectricity",
+      "lcsc": "C5383092",
+      "package": "HDR-TH_16P-P2.54-H-M-R2-C8-S2.54",
+      "function": "16-pin 2.54mm dual-row through-hole header, Eurorack power bus connector",
+      "owner_skill": "component-hdr-2541wr-2x08p-c5383092",
+      "candidate_id": "cand-hdr-2541wr-2x08p-c5383092",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c4749189",
+      "rationale": "Retired 2026-09-20 by the requested renewal: replace J10/J11 with the stocked shrouded DEALON DW254P-2X8-L0 C4749189 and conventional pin1/red-stripe -12V assignment. Kept only as historical evidence for the v0.4.0 as-built connector; not a current BOM placement."
+    },
+    {
+      "mpn": "L7812CD2T",
+      "manufacturer": "ST (STMicroelectronics)",
+      "lcsc": "C13456",
+      "package": "TO-263-2_L10.0-W9.1-P5.08-LS15.2-TL",
+      "function": "+12V linear regulator, final +12V output stage",
+      "owner_skill": "component-l7812cd2t-c13456",
+      "candidate_id": "cand-retired-c13456",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c107286",
+      "rationale": "Removed fromrenewalBoardB byuser-authorizedpower-stage redesign; retainedonlyashistoricalevidence for the former regulator, not a current BOM component."
+    },
+    {
+      "mpn": "L7805ABD2T",
+      "manufacturer": "ST (STMicroelectronics)",
+      "lcsc": "C86206",
+      "package": "TO-263-2_L10.0-W9.2-P5.08-LS15.3-TL-CW",
+      "function": "+5V linear regulator, final +5V output stage",
+      "owner_skill": "component-l7805abd2t-c86206",
+      "candidate_id": "cand-retired-c86206",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c107286",
+      "rationale": "Removed fromrenewalBoardB byuser-authorizedpower-stage redesign; retainedonlyashistoricalevidence for the former regulator, not a current BOM component."
+    },
+    {
+      "mpn": "CJ7912",
+      "manufacturer": "JSCJ",
+      "lcsc": "C94173",
+      "package": "TO-252-3_L6.5-W5.8-P4.58-BL",
+      "function": "-12V linear regulator, final -12V output stage",
+      "owner_skill": "component-cj7912-c94173",
+      "candidate_id": "cand-retired-c94173",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c666307",
+      "rationale": "Removed fromrenewalBoardB byuser-authorizedpower-stage redesign; retainedonlyashistoricalevidence for the former regulator, not a current BOM component."
+    },
+    {
+      "candidate_id": "cand-c25804-retired",
+      "mpn": "0603WAF1002T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C25804",
+      "package": "R0603",
+      "function": "10 kOhm resistor, DC-DC feedback divider bottom resistor",
+      "owner_skill": "component-project-passives",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c861679",
+      "rationale": "Former LM2596 U2 R1 10 kOhm divider was superseded by the AP63201 158 kOhm/10 kOhm precision divider. Retained solely as historical evidence."
+    },
+    {
+      "mpn": "63951-1",
+      "manufacturer": "TE Connectivity",
+      "lcsc": "C591344",
+      "package": "CONN-TH_1217754-1",
+      "function": "FASTON 250 through-hole quick-connect terminal, output rail power tab",
+      "owner_skill": "component-faston-c591344",
+      "candidate_id": "cand-retired-c591344",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c8465",
+      "rationale": "User-selected two-pole screw terminals replace all four Fastons in the current board. Retained only as historical guarded-revision evidence and CAD assets; no active BOM placement."
     }
   ],
   "promoted_candidates": [

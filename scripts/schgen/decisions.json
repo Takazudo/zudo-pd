@@ -3,7 +3,24 @@
   "source_issue": 123,
   "locked_date": "2026-08-14",
   "review_report": "doc/src/content/docs/inbox/spec-architecture-review.md",
-  "required_decision_keys": ["a", "b", "c", "d", "e", "f", "g", "p1-form", "tvs3-orientation", "bb3-disposition", "ba2-disposition", "neg-rail-cap-bank"],
+  "required_decision_keys": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "p1-form",
+    "tvs3-orientation",
+    "bb3-disposition",
+    "ba2-disposition",
+    "neg-rail-cap-bank",
+    "renewal-eurorack-sockets",
+    "renewal-ldos",
+    "renewal-input-protection",
+    "renewal-screw-terminals"
+  ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
     {
@@ -11,7 +28,10 @@
       "id": "dec-a-tvs2-replacement",
       "title": "TVS2 replacement: Brightking SMAJ6.5A (C87267) replaces SD05 (C502527)",
       "status": "LOCKED",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "Replace TVS2 SD05 (LCSC C502527) with Brightking SMAJ6.5A, LCSC C87267 (orderable model SMAJ6.5A/TR13), SMA (DO-214AC), fitted, on the +5V output rail.",
       "rationale": "Deterministic criteria walk over the three primary-sourced candidates (all retrieved 2026-08-14). (1) Standoff >= 6V: all pass; SMAJ6.5A has the largest margin -- VRWM 6.5V sits 1.5V over the 5.0V nominal and 1.3V over the L7805 guaranteed 5.2V band top, and its 7.22V breakdown minimum clears the band top by 2.02V. Since BB-2's defect is exactly conduction inside normal regulation (SD05: 0V margin nominal, -0.2V at band top), the standoff/breakdown gap is weighted first, and SMAJ6.5A doubles the 6.0V candidates' band-top clearance. (2) Clamp vs downstream abs-max chain: VC 11.2V at IPP 35.7A (10/1000us) crosses no retained downstream limit -- the L7805 bundle retains no output-pin abs-max (coverage gap, noted); the 0.9V VC penalty vs the 6.0V candidates (10.3V) is accepted. (3) Package/rework: SMA (DO-214AC) is the same D-FLAT footprint family already used by TVS1/TVS3/D5 -- no new footprint, larger hand-reworkable pads than SMF6.0A's SOD-123FL, and SMAJ-series naming consistency with TVS1/TVS3 (SMAJ15A). (4) Power class: 400W minimum on a fully specified 10/1000us waveform, matching the SMAJ15A family class; the FOSAN SMAJ6.0A's 400W has no stated pulse waveform in its datasheet, and SMF6.0A is 200W. (5) Leakage trade per BB-2: 500uA max at VRWM 6.5V vs the SD05's 10uA -- accepted as budgetable on the 500mA rail; the 5.0-5.2V operating point sits 1.3-1.5V below the knee, farther in relative terms than either 6.0V candidate, so the in-circuit leakage is plausibly the lowest of the three (not fact-provable, recorded as reasoning only). (6) Dated stock: 8,450 units at LCSC on 2026-08-14 -- second of the shortlist, ample for prototype quantities.",
       "runners_up": [
@@ -66,7 +86,10 @@
       "id": "dec-b-topology-label",
       "title": "Topology label verdict: LM2596S-ADJ inverting buck-boost (resolves #46's question)",
       "status": "LOCKED",
-      "applies_to": ["#126", "doc"],
+      "applies_to": [
+        "#126",
+        "doc"
+      ],
       "decision": "The canonical description of the -12V-rail converter is 'LM2596S-ADJ in inverting buck-boost configuration'. The schematic is authoritative: all three converter positions place zudo-pd:LM2596S-ADJ and no LM2586 symbol exists anywhere in the repo. Doc claims of 'LM2586SX-ADJ' are wrong on the chip, and 'inverted SEPIC' is wrong on the topology -- U4's manufacturer-documented arrangement (single inductor L3 to system GND, catch diode D3 to the negative output, device GND bootstrapped to -13.5V) is an inverting buck-boost, while a SEPIC requires two inductors (or a coupled pair) plus a coupling capacitor. Doc edits land in the wave-8 docs sub-issue (#126).",
       "rationale": "Schematic-vs-doc conflict resolves toward the schematic on three independent grounds: the placed symbols (property-level reads, three LM2596S-ADJ instances), the netlist-derived baseline reproducing the manufacturer-documented inverting buck-boost node arrangement (verified in the wave-5 review's locked-items table), and the absence of any LM2586 artifact in the repo. The wave-5 review re-verified U4's inverting referencing as LOCKED with catch-diode sense and inductor-to-GND arrangement exactly matching the LM2596 datasheet's inverting application section.",
       "evidence": [
@@ -81,7 +104,10 @@
       "id": "dec-c-canonical-470uf-lcsc",
       "title": "Canonical 470uF-10V LCSC for C4/C22/C23: C335982 (ROQANG); C22383803 is the alias",
       "status": "LOCKED",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "C335982 (ROQANG RVT1A471M0607, 470uF 10V) is the canonical LCSC number for C4/C22/C23; C22383803 (ACMECON RVT1C471M0607) is recorded as the alias. The Board B spec (#125) must emit 'LCSC Part' = C335982 (and a matching Datasheet link) at all three positions -- the schematic property migration is board_b_spec scope, not a legacy-sheet edit.",
       "rationale": "Applies the passives bundle's PROJECT-CHOICE fact verbatim. Note this REVERSED the original issue-117 assumption that both listings are 10V parts: per the dated 2026-08-14 listings, C22383803 is actually a 16V-rated part with ~3,790 units of stock, while C335982 is the 10V part matching the drawn symbol (RVT1A471M0607_C335982), the #93-fixed '470uF 10V' Value fields, and shows ~368,560-490,460 units of stock (two orders of magnitude more). The legacy sheets' 'LCSC Part' fields currently reading C22383803 are the pre-existing documentation mismatch the bundle surfaced (fact-c22383803-schematic-lcsc-field); the generated Board B project is where the correction lands.",
       "evidence": [
@@ -95,7 +121,10 @@
       "id": "dec-d-c5-c7-swap",
       "title": "C5/C7 verdict: swap to FOLLON 470uF/35V (C22387780), the line already fitted at five positions",
       "status": "LOCKED",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "Swap C5/C7 (the +15V input-bus electrolytics) from 100uF/25V ACMECON C22383804 to 470uF/35V FOLLON EFVH035ADA471M10B0, LCSC C22387780 -- the exact line already fitted at C14/C20/C21/C24/C25. Board B spec (#125) scope.",
       "rationale": "Voltage-margin arithmetic per BB-6: the 25V part holds 10V of margin at the 15V contract, 5V at the 20V mis-contract edge (#89 lead 6c, still open), and is exceeded by 7.4V at the D5 32.4V clamp table point that reaches Board B through the on-state Q1 path. The 35V part makes those 20V / 15V / +2.6V -- every exposure positive, including the transient one. Secondary gains: (1) input bulk rises from 200uF to 940uF total, moving toward the LM2596 datasheet's own enlarged-CIN mitigation for inverting startup against a current-limited source (BB-4; the 3.0A PD contract is exactly the warned case) -- directionally right but NOT sized proof, so BB-4 stays NEEDS BENCH; (2) BOM consolidation, zero new line items. This decision is NOT conditional on decision (e): (e) is a Q1 gate-side clamp and D5 stays SMAJ20A per the ba2-disposition, so 32.4V remains the transient design point either way. Residuals: a 150kHz-derated ripple rating for this line was later retained by the issue #155 wave (fact-c22387780-ripple-hf-derate), so BB-7 stays NEEDS BENCH unresolved by the swap; the larger can is a layout-phase cost (Board B has no layout yet). Dated stock 2026-08-14 (LCSC API): 935 units -- LOW; sufficient for prototype scale at 7 pieces/board, and it is the same already-committed exposure as the five existing positions, but stock MUST be re-verified at order time.",
       "dated_observations": [
@@ -122,7 +151,10 @@
       "id": "dec-e-q1-20v-gate-guard",
       "title": "Q1 20V-contract gate guard: FITTED gate-source zener clamp provision (D8); NVM stays locked <= 15V",
       "status": "LOCKED",
-      "applies_to": ["#124", "board_a_spec"],
+      "applies_to": [
+        "#124",
+        "board_a_spec"
+      ],
       "decision": "Board A spec (#124) adds D8: a zener diode across Q1 gate-source (cathode to VBUS_IN / Q1 source, anode to Net-(Q1-G)), Vz window 10.4-11.6V (11V nominal, BZT52C11 class), SOD-123-class two-pad package, FITTED by default. Exact-orderable selection (manufacturer, LCSC number, primary datasheet, dated stock) is #124 scope under the same evidence discipline as the TVS2 pick -- no pre-researched candidate bundle exists for this slot, so locking an LCSC number here would be evidence-free. NVM stays locked <= 15V regardless. The complementary documented-note (program NVM before first attach to a >15V-capable source) goes to the docs pass (#126).",
       "rationale": "Why a fitted hardware guard rather than the DNP-provision or documented-note options: (1) BA-1's core finding is that a factory-default (unprogrammed) STUSB4500 advertises PDO3 = 20V/1A at highest priority, so the first plug-in of an assembled-but-unprogrammed Board A into a 20V-capable charger drives Vgs to -12.82V (0.82V past the +/-12V abs-max) with no hardware interlock -- a DNP part is absent in exactly that window, so DNP guards nothing, and the note-only option merely restates the procedural guard BA-1 already found insufficient. (2) The same divider reaches -20.77V during a D5 clamp event with VBEN asserted -- on a PROGRAMMED board at the legal 15V contract. No procedure can guard that path; only a fitted clamp bounds it. (3) Consistency: BA-1 is BLOCKER-class deterministic arithmetic of the same class as BB-1 (PTC1) and BB-2 (TVS2), both of which receive hardware fixes in this same decision set. Why this does not violate the locked '#90: do not touch the Q1 gate network': review finding BA-1 explicitly assigns the disposition to this wave-6 task ('reprogram-before-first-attach gate, divider change, clamp, or other mitigation' -- 'this is not a reopen'); the clamp is purely additive -- R11/R12 values and topology are untouched, the zener sits below its knee at the 15V operating point (|Vgs| 9.62V vs >= 10.4V minimum knee), and removing the two-pad part reverts to the exact v4-re-confirmed network. Clamp arithmetic: when conducting, zener current is limited by R12 (56k) to ~161uA at a 20V contract and ~382uA at the 32.4V clamp table point, holding |Vgs| ~10.4-11.2V -- inside the +/-12V abs-max in every reachable state. NEEDS BENCH residuals for the Board A bring-up plan: gate soft-start / turn-on behavior with the added junction capacitance; sub-knee zener leakage shifting the divider point (0.78V of margin between the 9.62V operating point and the 10.4V minimum knee is thin -- if bench shows conduction at 15V, step the window up one E24 value, e.g. 12V nominal, accepting clamp-at-abs-max-edge).",
       "evidence": [
@@ -159,7 +191,10 @@
       "id": "dec-f-l7812-margin",
       "title": "L7812 margin: math recorded; setpoint stays 13.5V -- explicitly NO spec change (NEEDS BENCH)",
       "status": "NO-SPEC-CHANGE-NEEDS-BENCH",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "NO spec change. R1 stays 10k; the U2 rail stays at the 13.53V setpoint in the Board B spec. The setpoint change candidate (e.g. R1 10k -> 11k, giving Vout = 1.23 x 12 = 14.76V and +2.76V of headroom at an added ~3.3W LDO dissipation at 1.2A) stays NEEDS BENCH per the locked #90 A5#1 deferral -- bench must first establish whether the L7812 actually drops out at real loads on a live rail.",
       "rationale": "The recorded math (BB-5): headroom 13.5 - 12.0 = 1.5V against the 2.0V TYPICAL dropout at 1A gives a -0.5V typical-value deficit, and DS0422 specifies no dropout figure at all at the 1.2A project load. Tolerance stacking makes it worse: the LM2596's +/-4% line/load tolerance puts the rail as low as 12.99V (deficit -1.01V), and the guaranteed VFB minimum (1.193V) alone gives 13.12V (deficit -0.88V). All of this is arithmetic on typical/limit values feeding an unverified upstream setpoint -- rule-ldo-dropout-chain refuses to promote it to a verdict, and no rail has ever been energized from a negotiated contract. The deficit is real on paper but the fix choice (raise the rail vs accept degraded PSRR-marginal operation vs an LDO part change) is a bench decision with a thermal cost attached; deciding it now would replace one unmeasured operating point with another.",
       "evidence": [
@@ -178,7 +213,10 @@
       "id": "dec-g-ptc1-replacement",
       "title": "PTC1 replacement: RUILON SMD1210P150TF/16 (C7529589) replaces SMD1210P200TF (C20808)",
       "status": "LOCKED",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "Replace PTC1 SMD1210P200TF (LCSC C20808, Vmax 6VDC -- BLOCKER on the +12V rail) with RUILON SMD1210P150TF/16, LCSC C7529589 (Vmax 16V, Ihold 1.5A, Itrip 3.0A, 1210 package), fitted, on the +12V output rail. Board B spec (#125) scope.",
       "rationale": "Deterministic criteria walk, same discipline as the TVS2 pick. (1) Vmax >= rail: 16V gives +4V at the 12V nominal and +2.5V at the ~13.5V tripped-passthrough corner (U6 out of regulation) -- the same corner-margin class BB-8 records as passing for PTC3's identical 16V rating; the fitted part's -6V margin was the deterministic BLOCKER (rule-pptc-vmax-vs-rail refusal: replace before any rail power-on). (2) Hold fit: Ihold 1.5A >= the 1.2A rail budget with 0.3A (25%) margin at 25C -- passes the required gate. The hold-margin trade BB-1 flags (0.3A vs the P200TF's 0.8A) is weighed and accepted because no better 16V option exists in the package class: the RUILON table lists /16 suffixes only at the P150/P110 hold ratings (bundle SKILL.md), and a web check on 2026-08-14 confirms no SMD1210P200TF/16 orderable exists at LCSC -- the 2A/16V family member is SMD1812P200TF16 (C20812), an 1812 package requiring a footprint change, recorded as the fallback if bench shows nuisance trips. (3) Trip coordination: Itrip 3.0A (vs the P200TF's 4.0A) is more likely reachable by a fault fed through the L7812's internal current limit, improving the odds the PPTC actually trips rather than the LDO thermal-cycling indefinitely. (4) Package/footprint: 1210 unchanged (F1210 footprint coverage verified in the wave-4 library pass); same manufacturer, same primary-retained family datasheet as the fitted part. (5) Doc convergence: components/ptc-12v.md already documents this exact part (BB-10) -- the pick resolves that doc-vs-fitted mismatch in the doc's favor. Derating residual (NEEDS BENCH, BB-8 class): no 85C hold fact is retained for the /16 part; scaling the family's published derating (P200TF 2.0A -> 0.98A at 85C, 49%) estimates ~0.74A at 85C with the 1.2A crossing near ~48C ambient -- enclosure-ambient measurement belongs in the Board B bench plan, with the 1812 fallback as the escape hatch.",
       "winner": {
@@ -222,7 +260,10 @@
       "id": "dec-p1-att-pdok-provision",
       "title": "Board B P1 ATT/PDOK provision: single PogoPad_1x04, bare pads, ATT/PDOK/GND/NC",
       "status": "LOCKED",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "Board B spec (#125) places refdes P1, symbol zudo-pd:PogoPad_1x04, as BARE PADS (no fitted component; in_bom = no, on_board = yes). Pin map: 1 = ATT (same net as J5.3), 2 = PDOK (same net as J5.4), 3 = GND (probe return), 4 = no-connect (listed in the spec's NO_CONNECT table).",
       "rationale": "The library carries no 2-pin test symbol (TestPoint is 1-pin; pogo pads come as 1x04/1x08), so the epic's 'P1 2-pin provision' resolves to a single-refdes 1x04 pad row: it keeps the single P1 identity the epic language reserves, matches the pogo-pad hardware form Board A already uses for J2/J3, and the third pad gives a probe ground return at zero BOM cost; the unused fourth pad is an explicit no-connect so check_baseline/verify_netlist sees it declared. Contract note carried from the locked A-B interface: ATT and PDOK are open-drain with no on-board pull-up on either board -- any future consumer wired to P1 must provide its own pull-up to its own logic rail.",
       "evidence": [
@@ -235,7 +276,10 @@
       "id": "dec-tvs3-orientation-lock",
       "title": "TVS3 orientation lock-point for the Board B spec: cathode to GND, anode to -12V",
       "status": "LOCKED",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "The Board B spec (#125) must lock TVS3 (SMAJ15A, unidirectional, on the -12V output rail) as: CATHODE to GND (0V), ANODE to the -12V rail, expressed as explicit pin-to-net rows in board_b_spec.py's NETS table so the generated netlist and check_baseline carry it. This closes the output-stage baseline gap for this position (every output-stage net is currently in board-b.json's unresolved list).",
       "rationale": "BB-9: the orientation is 'not yet locked by any spec artifact' and a reversed TVS3 would be forward-biased at -12V -- a dead short through one diode drop across the rail. With the correct orientation the part stands off 15V against the rail's 12.0V nominal (3V / 25%) and 2.4V (19%) at the CJ7912-fed band edge proxy of 12.6V, with breakdown minimum 16.7V staying 4.1V above -- clear, unlike the SD05 case. This is a required lock-point, not a detected defect: no Ref.Pin record exists yet to be wrong.",
       "evidence": [
@@ -251,7 +295,10 @@
       "id": "dec-bb3-u4-clamp-overage",
       "title": "BB-3 disposition: U4 clamp-point overage accepted as transient-class residual; not bounded by decision (e)",
       "status": "DISPOSITION",
-      "applies_to": ["#125", "board_b_spec"],
+      "applies_to": [
+        "#125",
+        "board_b_spec"
+      ],
       "decision": "No part or topology change for U4. The -0.93V overage past U4's 45V absolute maximum (device-seen 45.93V = 32.4V clamp table point + 13.53V output magnitude) is accepted as a transient-class residual, recorded in the Board B spec notes and the bench plan (surge test must observe the U4 effective-input node). Decision (e) does NOT bound this exposure -- it clamps only the Q1 gate-source voltage, not VBUS; decision (d)'s C5/C7 swap restores positive input-capacitor margin (+2.6V) at the same table point. Revisit only if Board A layout later adopts a lower-clamping D5 (see ba2-disposition's recorded SMBJ20A upgrade path, which shrinks this overage at its source).",
       "rationale": "Both compared values are primary-sourced (45V abs-max; 32.4V table point), but the 32.4V figure is a 10/1000us waveform point at 12.3A, not the installed surge -- rule-u4-inverting-stress holds the comparison NEEDS BENCH. A 0.93V overage on a millisecond-class transient against an absolute-maximum (not operating) limit does not justify changing a LOCKED inverting topology whose referencing the review re-verified as correct; the #90 A2 text's '40V abs-max' defect (it is the operating maximum; abs-max is 45V, and the U4 comparison must add the output magnitude) is recorded for the docs pass via the review report.",
       "evidence": [
@@ -270,7 +317,10 @@
       "id": "dec-ba2-d5-clamp-vs-stusb",
       "title": "BA-2 disposition: D5 stays SMAJ20A (locked #90); clamp-vs-28V overage accepted as mirror-conditioned residual; SMBJ20A recorded as the layout-phase upgrade path",
       "status": "DISPOSITION",
-      "applies_to": ["#124", "board_a_spec"],
+      "applies_to": [
+        "#124",
+        "board_a_spec"
+      ],
       "decision": "D5 stays SMAJ20A (LCSC C571370) -- the locked #90 A2 selection is unchanged and the BLOCKER-contradiction path is NOT triggered: BA-2 is a HIGH lead capped by mirror-only evidence, not a BLOCKER contradiction of a locked item. Options analysis recorded: (i) CHOSEN -- accept the 4.4V clamp-table-point overage against the STUSB4500 28V grouped abs-max as a transient-class residual, with the caveat that the 28V ceiling itself is UNSOURCED mirror evidence (primary DS12499 retrieval failed on both dated attempts) and 32.4V is a 10/1000us table point, not the installed waveform; (ii) SMBJ20A upgrade (floated in #90 itself): identical 20V standoff (BA-4 requires >= 20V to stay non-conducting at the 20V mis-contract edge, so no lower-standoff part is eligible), but the 600W class sits lower on its V-I curve at any given surge current, giving a lower real clamp -- deferred to Board A layout as the recorded upgrade path (SMB footprint change) where it can be adopted without reopening #90's electrical rationale; (iii) primary DS12499 retrieval to firm or move the 28V ceiling -- remains open. Bench scope: surge behavior observation on the dead v4 boards, which carry the identical network.",
       "rationale": "The #90 A2 residual text audits Q1's VDS overage but never mentions the STUSB4500 28V family -- BA-2's four-pins-across-two-states extension is new arithmetic, not a reopen. Severity stays HIGH (not BLOCKER) because the comparison ceiling is mirror-only and the stress is a rated-waveform table point; a part change on that evidence grade would swap a locked, bench-untested selection for an equally bench-untested one while the actual project gate (bench root-cause confirmation on v4 boards) is still open. Decision (e)'s fitted gate clamp independently removes the worst BA-2-adjacent consequence (the -20.77V gate-source transient); the remaining exposed pins (VDD, pin 18, DISCH) have no cheaper guard than a lower-clamping D5, which option (ii) provides at layout time.",
       "evidence": [
@@ -315,6 +365,97 @@
         "fact-lm2596-inverting-startup-current",
         "calc-inverting-startup-overdraw",
         "rule-inverting-startup-vs-pd-source"
+      ]
+    },
+    {
+      "key": "renewal-eurorack-sockets",
+      "id": "dec-renewal-eurorack-sockets",
+      "title": "J10/J11 shrouded DEALON socket replacement and conventional red-stripe pinout",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_b_spec",
+        "doc"
+      ],
+      "decision": "Replace J10/J11 with DW254P-2X8-L0 C4749189, exact imported footprint corrected to1.02mm drill; new pin groups1/2=-12V,3..8=GND,9/10=+12V,11/12=+5V,13/14=CV,15/16=GATE. Remove printed socket-guard dependency and edge-cut notches from renewal board.",
+      "rationale": "User selected the purchased shrouded header. Doepfer primary bus convention ties pin1/red stripe to-12V; old numeric ordering must not be copied to this new keyed header. Manufacturer mirror dimensional row and imported contact map reviewed, actual cable/pin1 and process confirmation remain NEEDS BENCH.",
+      "evidence": [
+        "fact-dw254p-identity",
+        "fact-dw254p-pin-map",
+        "fact-dw254p-red-stripe",
+        "fact-dw254p-drill",
+        "fact-dw254p-orientation"
+      ]
+    },
+    {
+      "key": "renewal-ldos",
+      "id": "dec-renewal-ldos",
+      "title": "Replace legacy linear regulators and select guaranteed low-dropout families",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_b_spec",
+        "doc"
+      ],
+      "decision": "U6/U7=LT1963AEQ#PBF C107286;U8=LT3015EQ-12#PBF C666307 with corrected manufacturer pin mapping. U6 divider top8.2k+680/bottom1k;U7top3.09k+33/bottom1k;all0.1%YAGEO. U3feedback4.3k/1k=>6.519Vnominal;U4feedback10.5k/1kboth0.1%=>-14.145Vnominal. C40/C41/C42=25SVPF47M47uF25Vpolymer on respective linear outputs,positivepadgroundfornegativeoutput.",
+      "rationale": "User authorized retaining12V1.2A,-12V0.8A,5V0.5A targets and redesigning parts. Remove legacy dropout limitations; retain source-lock,thermal,current,temperature and assembly limits explicitly. ADI manufacturer text independently reviewed but primarybinarySHAunavailable: exactmirrorhashesretainedwithoutpromotingmirrorauthority. Numerical envelopes remain qualification evidence with statedconditions; physical performance not claimed.",
+      "evidence": [
+        "fact-c107286-dropout-max-1a5",
+        "fact-c107286-adj-bias-max",
+        "fact-c666307-input-guarantee-band",
+        "fact-c666307-pinout",
+        "fact-c136280-capacitance",
+        "fact-c136280-esr",
+        "fact-c861077-resistance",
+        "fact-c110776-tolerance"
+      ]
+    },
+    {
+      "key": "renewal-input-protection",
+      "id": "dec-renewal-input-protection",
+      "title": "Prototype protection coordination: SMAJ16A and 60 V catch diode",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "board_b_spec"
+      ],
+      "decision": "Board P D5 uses Vishay SMAJ16A-E3/61 C968650; Board B D3 uses Diodes SDT5A60SA-13 C3024223. Preserve existing cathode/anode net mapping and board origins, use separately reviewed manufacturer-derived lands. Board A SMAJ20A and Board B D2 SS34 remain unchanged.",
+      "rationale": "At the specified 25 C pulse point, a 26 V TVS and 60 V catch diode remove the earlier 32.4 V coordination mismatch. This is a bounded prototype improvement, not universal surge qualification: first NVM programming uses 5 V-only input, 15 V-only policy must be verified before operation, and 20 V is unsupported. Actual hot clamping, overshoot, source energy, thermal behavior and repeated-pulse performance remain open.",
+      "evidence": [
+        "fact-c968650-standoff",
+        "fact-c968650-clamp",
+        "fact-c968650-polarity",
+        "fact-c968650-pad-gap-max",
+        "fact-c968650-prototype-qualification",
+        "fact-c3024223-vrrm",
+        "fact-c3024223-vf-max-5a-25c",
+        "fact-c3024223-polarity",
+        "fact-c3024223-pad-center-pitch",
+        "fact-c3024223-prototype-qualification"
+      ],
+      "dated_observations": [
+        {
+          "date": "2026-09-20",
+          "observation": "Exact manufacturer PDF binaries retrieved and hashed; both drawings required distinct replacement lands. Current stock remains unconfirmed."
+        }
+      ]
+    },
+    {
+      "key": "renewal-screw-terminals",
+      "id": "dec-renewal-screw-terminals",
+      "title": "Replace four Fastons with two distinct-pole screw terminals",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_b_spec"
+      ],
+      "decision": "Use C8465 WJ500V-5.08-2P at J6/J7; J6.1=GND,J6.2=-12V,J7.1=+5V,J7.2=+12V. Delete J8/J9. Topside90degree orientation points entriesleft, pin2upper. Adopt reviewed separate footprint with1.30mm project drill and2mm pads.",
+      "rationale": "User selected compact screw wiring. Two poles must stay electrically separate, unlike former Faston legs. Mirror ratings/physicalfit/torque/process remain open. Model tails3.50mm are shorter than drawing4.50±.20mm; mechanical checks use4.70mm maximum. Shared rail targets unchanged.",
+      "evidence": [
+        "fact-c8465-identity",
+        "fact-c8465-pin-map",
+        "fact-c8465-orientation",
+        "fact-c8465-drill-project",
+        "fact-c8465-lead-length-max",
+        "fact-c8465-model-datum",
+        "fact-c8465-rail-budget"
       ]
     }
   ]

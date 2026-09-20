@@ -2,7 +2,7 @@
 # Export a kicad-cli netlist for a board and diff it against the board spec's
 # expected net table via verify_netlist.py.
 #
-# Usage: scripts/schgen/verify.sh <board-a|board-b>
+# Usage: scripts/schgen/verify.sh <board-a|board-b|board-p>
 #
 # Exit codes:
 #   0  PASS, or kicad-cli is not installed (prints a SKIPPED marker and
@@ -15,9 +15,9 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 board="${1:-}"
 case "$board" in
-  board-a|board-b) ;;
+  board-a|board-b|board-p) ;;
   *)
-    echo "Usage: $(basename "$0") <board-a|board-b>" >&2
+    echo "Usage: $(basename "$0") <board-a|board-b|board-p>" >&2
     exit 1
     ;;
 esac

@@ -30,8 +30,8 @@ dropout, and thermal figures differ. Three domains are OPEN on purpose:
 
 ## Human component reference
 
-Human projection of this bundle:
-[rec-cj7912-c94173](/docs/components/records/cj7912-c94173/).
-See also the [component catalog](/docs/components/catalog/) and
-[cross-component rules](/docs/components/integration/).
-These pages are generated from this bundle's JSON files and add nothing to them.
+This retired regulator remains a local historical candidate record. Its current
+replacement is documented under [LT1963A](/docs/components/records/c107286/) or
+[LT3015](/docs/components/records/c666307/). See the
+[current catalog](/docs/components/catalog/) and
+[integration rules](/docs/components/integration/).

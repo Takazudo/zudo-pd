@@ -6,7 +6,7 @@
       "record_id": "rec-faston-c591344",
       "domain": "orderable MPN identity (LCSC C591344 = TE 63951-1)",
       "status": "COVERED",
-      "reason": "LCSC's own distributor catalog page names MPN 63951-1 for C591344, matching the schematic Value field and the v0.4.0 as-ordered BOM row exactly, so the CONFIRMED distributor-identity lane closes this domain",
+      "reason": "Historical four-Faston guarded revision; no current placement. LCSC's own distributor catalog page names MPN 63951-1 for C591344, matching the schematic Value field and the v0.4.0 as-ordered BOM row exactly, so the CONFIRMED distributor-identity lane closes this domain",
       "fact_ids": [
         "fact-faston-lcsc-identity"
       ],
@@ -17,14 +17,13 @@
       "record_id": "rec-faston-c591344",
       "domain": "KiCad symbol/footprint naming alias (1217754-1 / LCSC C305825)",
       "status": "OPEN",
-      "reason": "the alias identity (1217754-1/C305825) rests on an LCSC distributor catalog page only; no manufacturer-primary source was retrievable for either MPN (te.com blocked, 403), so the mismatch is documented but stays UNSOURCED at primary level",
+      "reason": "Historical four-Faston guarded revision; no current placement. Exact primary drawings now confirm matching strip/loose-piece geometry. Separate LCSC identities remain explicit; historical shared-symbol metadata is not the canonical placement identity.",
       "fact_ids": [
         "fact-faston-manufacturer",
         "fact-faston-1217754-1-alias-identity",
         "fact-faston-symbol-lcsc-mismatch"
       ],
       "blocking_fact_ids": [
-        "fact-faston-manufacturer",
         "fact-faston-1217754-1-alias-identity",
         "fact-faston-symbol-lcsc-mismatch"
       ]
@@ -34,7 +33,7 @@
       "record_id": "rec-faston-c591344",
       "domain": "electrical ratings vs the +12V/1.2A, +5V/0.5A, -12V/0.8A rail current budgets",
       "status": "OPEN",
-      "reason": "the 20 A FASTON .250-series current rating is a mirror-hosted, series-level figure (not broken out per exact MPN) with no manufacturer-primary confirmation, so the J6/J7/J8 margin calculations stay nominal until a bench/thermal check",
+      "reason": "Historical four-Faston guarded revision; no current placement. the 20 A FASTON .250-series current rating is a mirror-hosted, series-level figure (not broken out per exact MPN) with no manufacturer-primary confirmation, so the J6/J7/J8 margin calculations stay nominal until a bench/thermal check",
       "fact_ids": [
         "fact-faston-current-rating-family",
         "fact-faston-plus12v-rail-current",
@@ -59,13 +58,13 @@
       "record_id": "rec-faston-c591344",
       "domain": "mechanical form and THT retention",
       "status": "OPEN",
-      "reason": "tab/hole dimensions come from the mirror-hosted spec only, and retention under repeated field-cable insertion force has no printed pull-out spec, so both need a bench pull-test before production use",
+      "reason": "Historical four-Faston guarded revision; no current placement. Primary customer drawing now confirms tab, hole and profile geometry. Retention under repeated cable insertion/extraction and the unspecified mating receptacle require physical qualification.",
       "fact_ids": [
         "fact-faston-tab-dimensions",
-        "fact-faston-thru-hole-retention"
+        "fact-faston-thru-hole-retention",
+        "fact-faston-profile-drawing"
       ],
       "blocking_fact_ids": [
-        "fact-faston-tab-dimensions",
         "fact-faston-thru-hole-retention"
       ]
     },
@@ -74,7 +73,7 @@
       "record_id": "rec-faston-c591344",
       "domain": "rail assignment and board-b baseline connectivity",
       "status": "OPEN",
-      "reason": "the doc-level rail-assignment table is not promoted into the Ref.Pin-granularity board-b.json baseline, which explicitly lists J6-J9's nets as unresolved pending an exact net-table entry",
+      "reason": "Historical four-Faston guarded revision; no current placement. Current generated NETS and native netlist/PCB checks explicitly verify both legs on the assigned rail. The cited original connectivity baseline is historical; physical joint/connector behavior remains unmeasured.",
       "fact_ids": [
         "fact-faston-rail-assignment",
         "fact-faston-baseline-unresolved"
@@ -82,6 +81,20 @@
       "blocking_fact_ids": [
         "fact-faston-rail-assignment",
         "fact-faston-baseline-unresolved"
+      ]
+    },
+    {
+      "coverage_id": "cov-faston-model-and-mating",
+      "record_id": "rec-faston-c591344",
+      "domain": "installed model and mating mechanics",
+      "status": "OPEN",
+      "reason": "Historical four-Faston guarded revision; no current placement. Model/pad transform is verified computationally against the primary drawing; actual female receptacle housing, clip access and insertion force remain unmeasured.",
+      "fact_ids": [
+        "fact-faston-profile-drawing",
+        "fact-faston-model-transform"
+      ],
+      "blocking_fact_ids": [
+        "fact-faston-model-transform"
       ]
     }
   ]

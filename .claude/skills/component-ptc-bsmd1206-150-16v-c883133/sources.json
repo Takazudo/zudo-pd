@@ -19,6 +19,24 @@
       "locator": "Page 1 title block (BHFUSE / 佰宏保险丝 logo, sales@bhfuse.com, www.bhfuse.com, 'Revision 2025' printed in every page footer) and Page 2 Electrical Characteristics (25C) table, row BSMD1206-150-16V; no separate document/revision code beyond the printed 'Revision 2025' is given anywhere in the file",
       "evidence_extract": "Manufacturer datasheet (retrieved via LCSC's datasheet.lcsc.com PDF host; title block bears the BHFUSE logo, TEL 86-755-85259917, sales@bhfuse.com, www.bhfuse.com; every page footer prints 'Revision 2025' with no separate document/file number or day/month). Page 2 (printed '2 / 10') Electrical Characteristics (25C) table, row 'BSMD1206-150-16V': Ihold=1.50A, Itrip=3.00A, Vmax=16 Vdc, Imax=40A, Pd typ=1.0W, Time to trip Current=8.00A/Time=0.30 Sec, Rmin=0.025 ohm, R1max=0.130 ohm. Page 5 (printed '5 / 10') Environmental Specifications table: passive aging +85C/1000hrs ~5% typical resistance change, humidity aging +85C/85%RH/168h ~5% typical, thermal shock +85C to -40C x20 ~33% typical, resistance to solvent/vibration per MIL-STD-202 no change; ambient operating conditions -40C to +85C; maximum device surface temperature in tripped state 125C. Page 5 Thermal Derating Chart table, row BSMD1206-150, 85C ambient column = 0.77A. Page 10 Warning item 3: operation beyond Vmax/Imax in a fault condition may cause device damage, arcing, or flame.",
       "refresh_policy": "HASH-LOCKED"
+    },
+    {
+      "source_id": "src-c883133-model-review",
+      "record_id": "rec-ptc-bsmd1206-150-16v-c883133",
+      "document_title": "C883133 exact catalog model visibility and datum review",
+      "document_number": ".claude/skills/component-ptc-bsmd1206-150-16v-c883133/references/c883133-model-review.json",
+      "revision": "2026-09-20",
+      "document_date": "2026-09-20",
+      "authoritative_url": ".claude/skills/component-ptc-bsmd1206-150-16v-c883133/references/c883133-model-review.json",
+      "alternate_authoritative_url": "https://jlcpcb.com/partdetail/C883133",
+      "retrieval_date": "2026-09-20",
+      "authority_class": "PROJECT_GENERATOR",
+      "sha256": "e59145c5dd2c7627f5bfa3213555f138d695bd04ce529a95b01fb66a4c80bc73",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "source",
+      "locator": "section: fresh exact-LCSC model bounds, opacity, footprint offset and retained STEP datum",
+      "evidence_extract": "Fresh exact C883133 EasyEDA acquisition produced byte-identical WRL to the retained model and a zero-offset model node. Raw opaque geometry is centered above the seating plane; terminal ends overlap their footprint pad lands. PTC3 was already correctly centered and requires no node or geometry change. Retained STEP already independently normalized to WRL. No pad, drill, courtyard, connectivity or model mesh changes. Manufacturer maximum package dimensions and physical clearance must not be inferred from this illustrative mesh."
     }
   ]
 }

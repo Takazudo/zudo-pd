@@ -4,8 +4,8 @@
   "records": [
     {
       "record_id": "rec-l7812cd2t-c13456",
-      "line_id": "line-c13456",
-      "candidate_id": null,
+      "line_id": null,
+      "candidate_id": "cand-retired-c13456",
       "kind": "standalone",
       "parent_record_id": null,
       "mpn": "L7812CD2T",
@@ -39,8 +39,12 @@
         "fact-l7812cd2t-cap-input",
         "fact-l7812cd2t-cap-output"
       ],
-      "interaction_ids": ["int-l7812cd2t-dropout-headroom"],
-      "open_domains": ["dropout-operating-point"]
+      "interaction_ids": [
+        "int-l7812cd2t-dropout-headroom"
+      ],
+      "open_domains": [
+        "dropout-operating-point"
+      ]
     }
   ]
 }

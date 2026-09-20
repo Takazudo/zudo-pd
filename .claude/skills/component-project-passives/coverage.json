@@ -775,6 +775,128 @@
       "blocking_fact_ids": [
         "fact-c335982-manufacturer"
       ]
+    },
+    {
+      "coverage_id": "cov-c14663-identity",
+      "record_id": "rec-c14663",
+      "domain": "identity-and-rated-capacitance",
+      "status": "COVERED",
+      "reason": "fact-c14663-manufacturer; fact-c14663-capacitance; fact-c14663-voltage",
+      "fact_ids": [
+        "fact-c14663-manufacturer",
+        "fact-c14663-capacitance",
+        "fact-c14663-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c14663-temp",
+      "record_id": "rec-c14663",
+      "domain": "dielectric-temperature-and-termination",
+      "status": "COVERED",
+      "reason": "fact-c14663-dielectric; fact-c14663-termination",
+      "fact_ids": [
+        "fact-c14663-dielectric",
+        "fact-c14663-termination"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c14663-bias",
+      "record_id": "rec-c14663",
+      "domain": "effective-capacitance-under-installed-bias",
+      "status": "OPEN",
+      "reason": "fact-c14663-simulation-caveat: simulation is not specification",
+      "fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c14663-aging",
+      "record_id": "rec-c14663",
+      "domain": "aging-at-installed-condition",
+      "status": "OPEN",
+      "reason": "fact-c14663-simulation-caveat: exact aging condition is not retained",
+      "fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c14663-ripple",
+      "record_id": "rec-c14663",
+      "domain": "ripple-current-under-installed-layout",
+      "status": "OPEN",
+      "reason": "fact-c14663-simulation-caveat: simulation is not a maximum capability",
+      "fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c22807-rating",
+      "record_id": "rec-c22807",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c22807-manufacturer; fact-c22807-resistance; fact-c22807-tolerance; fact-c22807-power; fact-c22807-tcr; fact-c22807-voltage",
+      "fact_ids": [
+        "fact-c22807-manufacturer",
+        "fact-c22807-resistance",
+        "fact-c22807-tolerance",
+        "fact-c22807-power",
+        "fact-c22807-tcr",
+        "fact-c22807-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c22807-pulse",
+      "record_id": "rec-c22807",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c22807-pulse-caveat",
+      "fact_ids": [
+        "fact-c22807-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c22807-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c17414-rating",
+      "record_id": "rec-c17414",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c17414-manufacturer; fact-c17414-resistance; fact-c17414-tolerance; fact-c17414-power; fact-c17414-tcr; fact-c17414-voltage",
+      "fact_ids": [
+        "fact-c17414-manufacturer",
+        "fact-c17414-resistance",
+        "fact-c17414-tolerance",
+        "fact-c17414-power",
+        "fact-c17414-tcr",
+        "fact-c17414-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c17414-pulse",
+      "record_id": "rec-c17414",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c17414-pulse-caveat",
+      "fact_ids": [
+        "fact-c17414-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c17414-pulse-caveat"
+      ]
     }
   ]
 }

@@ -23,8 +23,8 @@ the L7812 bench gate, not from this bundle.
 
 ## Human component reference
 
-Human projection of this bundle:
-[rec-l7805abd2t-c86206](/docs/components/records/l7805abd2t-c86206/).
-See also the [component catalog](/docs/components/catalog/) and
-[cross-component rules](/docs/components/integration/).
-These pages are generated from this bundle's JSON files and add nothing to them.
+This retired regulator remains a local historical candidate record. Its current
+replacement is documented under [LT1963A](/docs/components/records/c107286/) or
+[LT3015](/docs/components/records/c666307/). See the
+[current catalog](/docs/components/catalog/) and
+[integration rules](/docs/components/integration/).

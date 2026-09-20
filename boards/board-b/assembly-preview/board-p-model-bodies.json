@@ -1,0 +1,866 @@
+{
+  "status": "PASS",
+  "scope": "Opaque-body placement sanity screen only; not exact manufacturer geometry, collision/occlusion certification, native pixel coverage or physical fit.",
+  "pcb_sha256": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b",
+  "checker_sha256": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
+  "fitted_components": 19,
+  "screened_components": 19,
+  "footprints": [
+    {
+      "reference": "U1",
+      "models": [
+        {
+          "file": "QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.wrl",
+          "sha256": "9ea79cd5048d38ecbeec20257a34113f0f2e441bfb6feded7ff53a6dafdda7b1",
+          "status": "PASS",
+          "opaque_vertices": 2238,
+          "mesh_shapes": 15,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -2.009902,
+              -2.009902,
+              0.0
+            ],
+            [
+              2.009902,
+              2.009902,
+              0.919988
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -1.999996,
+              -1.999996,
+              0.020066000000000004
+            ],
+            [
+              1.999996,
+              1.999996,
+              0.919988
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            4.019804,
+            4.019804
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "D5",
+      "models": [
+        {
+          "file": "SMA_Vishay_SMAJ16A_C968650.wrl",
+          "sha256": "182bdfe16c250365c998a42967078bbe9204d0d7a7092594820fdfbe0465c388",
+          "status": "PASS",
+          "opaque_vertices": 2798,
+          "mesh_shapes": 4,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -2.350008,
+              -1.2999720000000001,
+              0.0
+            ],
+            [
+              2.350008,
+              1.2999720000000001,
+              2.100072
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -2.15011,
+              -1.2999720000000001,
+              0.100076
+            ],
+            [
+              2.15011,
+              1.2999720000000001,
+              2.100072
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            4.700016,
+            1.8
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C30",
+      "models": [
+        {
+          "file": "C0603_L1.6-W0.8-H0.8.wrl",
+          "sha256": "125791465c37d0e6cda3b2f45f84e01af226d81a462bfbecb7a4513327e9f22a",
+          "status": "PASS",
+          "opaque_vertices": 1326,
+          "mesh_shapes": 11,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8001,
+              -0.40005,
+              0.0
+            ],
+            [
+              0.8001,
+              0.40005,
+              0.8001
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.549656,
+              -0.39725600000000005,
+              0.002794
+            ],
+            [
+              0.554482,
+              0.39725600000000005,
+              0.7973060000000001
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6002,
+            0.8001
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R19",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R14",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "Q1",
+      "models": [
+        {
+          "file": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.wrl",
+          "sha256": "e07719fa926e604c1a91b88904426570afb92f7e51bbca24d40d0e7c4e4c62f8",
+          "status": "PASS",
+          "opaque_vertices": 5473,
+          "mesh_shapes": 8,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -1.252728,
+              -1.449832,
+              0.0
+            ],
+            [
+              1.2527280000000003,
+              1.450086,
+              1.049274
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.6499860000000003,
+              -1.449832,
+              0.049276
+            ],
+            [
+              0.6499860000000003,
+              1.450086,
+              1.049274
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            2.5054560000000006,
+            2.7
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C2",
+      "models": [
+        {
+          "file": "C0603_L1.6-W0.8-H0.8.wrl",
+          "sha256": "125791465c37d0e6cda3b2f45f84e01af226d81a462bfbecb7a4513327e9f22a",
+          "status": "PASS",
+          "opaque_vertices": 1326,
+          "mesh_shapes": 11,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8001,
+              -0.40005,
+              0.0
+            ],
+            [
+              0.8001,
+              0.40005,
+              0.8001
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.549656,
+              -0.39725600000000005,
+              0.002794
+            ],
+            [
+              0.554482,
+              0.39725600000000005,
+              0.7973060000000001
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6002,
+            0.8001
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R15",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R11",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "J1",
+      "models": [
+        {
+          "file": "USB-C-SMD_10P-P1.00-L6.8-W8.9.wrl",
+          "sha256": "78b3a6c8533b3767f843c7c0e712b4d28b9d2675f44cc0a875592acb540b4c44",
+          "status": "PASS",
+          "opaque_vertices": 7320,
+          "mesh_shapes": 8,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -4.469892,
+              -4.64986,
+              -0.999998
+            ],
+            [
+              4.470146000000001,
+              2.150228000000001,
+              3.160014
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -4.469892,
+              -4.64986,
+              -0.999998
+            ],
+            [
+              4.470146000000001,
+              2.150228000000001,
+              3.160014
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            8.940038000000001,
+            5.100228000000001
+          ],
+          "offset_mm": [
+            0.0,
+            -2.468,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R20",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R16",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R12",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C34",
+      "models": [
+        {
+          "file": "C0603_L1.6-W0.8-H0.8.wrl",
+          "sha256": "125791465c37d0e6cda3b2f45f84e01af226d81a462bfbecb7a4513327e9f22a",
+          "status": "PASS",
+          "opaque_vertices": 1326,
+          "mesh_shapes": 11,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8001,
+              -0.40005,
+              0.0
+            ],
+            [
+              0.8001,
+              0.40005,
+              0.8001
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.549656,
+              -0.39725600000000005,
+              0.002794
+            ],
+            [
+              0.554482,
+              0.39725600000000005,
+              0.7973060000000001
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6002,
+            0.8001
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "JOUT1",
+      "models": [
+        {
+          "file": "HDR-TH_6P-P2.54-M-LI-1X6P.wrl",
+          "sha256": "7598d387ea6611b225e6873936fa7289067a2965d4a9a8fa4be5f0790713a522",
+          "status": "PASS",
+          "opaque_vertices": 1040,
+          "mesh_shapes": 37,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -7.495032,
+              -1.2499339999999999,
+              -2.999994
+            ],
+            [
+              7.495032,
+              1.2499339999999999,
+              8.599932
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -7.495032,
+              -1.2499339999999999,
+              0.0
+            ],
+            [
+              7.495032,
+              1.2499339999999999,
+              2.5001219999999997
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            14.399999999999999,
+            1.7
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R13",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C35",
+      "models": [
+        {
+          "file": "C0603_L1.6-W0.8-H0.8.wrl",
+          "sha256": "125791465c37d0e6cda3b2f45f84e01af226d81a462bfbecb7a4513327e9f22a",
+          "status": "PASS",
+          "opaque_vertices": 1326,
+          "mesh_shapes": 11,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8001,
+              -0.40005,
+              0.0
+            ],
+            [
+              0.8001,
+              0.40005,
+              0.8001
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.549656,
+              -0.39725600000000005,
+              0.002794
+            ],
+            [
+              0.554482,
+              0.39725600000000005,
+              0.7973060000000001
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6002,
+            0.8001
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R21",
+      "models": [
+        {
+          "file": "R0805_L2.0-W1.3-H0.6.wrl",
+          "sha256": "76145163b8ad77c0f68aa2c4b6ced6a1f5008bab9c42bb2043539f815256d6ab",
+          "status": "PASS",
+          "opaque_vertices": 458,
+          "mesh_shapes": 8,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.999998,
+              -0.6499860000000001,
+              0.0
+            ],
+            [
+              0.999998,
+              0.6499860000000001,
+              0.610108
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.94996,
+              -0.6499860000000001,
+              0.050038
+            ],
+            [
+              0.94996,
+              0.6499860000000001,
+              0.54991
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.999996,
+            1.2999720000000001
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "C1",
+      "models": [
+        {
+          "file": "C1206_L3.2-W1.6-H1.3.wrl",
+          "sha256": "1641b0be48933142193f9b658497e2ca292dbe52afd2b1083770c3012d1d4d02",
+          "status": "PASS",
+          "opaque_vertices": 2572,
+          "mesh_shapes": 19,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -1.599946,
+              -0.8001,
+              0.0
+            ],
+            [
+              1.599946,
+              0.8001,
+              1.2999720000000001
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -1.599946,
+              -0.8001,
+              0.0
+            ],
+            [
+              1.599946,
+              0.8001,
+              1.2999720000000001
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            3.199892,
+            1.6002
+          ],
+          "offset_mm": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

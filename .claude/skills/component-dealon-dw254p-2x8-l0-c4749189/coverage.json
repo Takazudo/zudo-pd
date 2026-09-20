@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-dw254p-identity",
+      "record_id": "rec-dealon-dw254p-2x8-l0-c4749189",
+      "domain": "exact orderable identity",
+      "status": "COVERED",
+      "reason": "Exact distributor identity confirmed.",
+      "fact_ids": [
+        "fact-dw254p-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-dw254p-electrical",
+      "record_id": "rec-dealon-dw254p-2x8-l0-c4749189",
+      "domain": "per-contact rating and loaded temperature",
+      "status": "OPEN",
+      "reason": "Mirror-only rating remains UNSOURCED; loaded cable/contact temperature needs measurement.",
+      "fact_ids": [
+        "fact-dw254p-current",
+        "fact-dw254p-manufacturer"
+      ],
+      "blocking_fact_ids": [
+        "fact-dw254p-current",
+        "fact-dw254p-manufacturer"
+      ]
+    },
+    {
+      "coverage_id": "cov-dw254p-mechanical",
+      "record_id": "rec-dealon-dw254p-2x8-l0-c4749189",
+      "domain": "PCB hole and enclosure fit",
+      "status": "OPEN",
+      "reason": "Mirror-only geometry remains UNSOURCED; imported pin geometry is reviewed but physical pin1, key, mating clearance and drill fit remain NEEDS BENCH.",
+      "fact_ids": [
+        "fact-dw254p-drill",
+        "fact-dw254p-dimensions",
+        "fact-dw254p-orientation",
+        "fact-dw254p-guard-removal"
+      ],
+      "blocking_fact_ids": [
+        "fact-dw254p-drill",
+        "fact-dw254p-dimensions",
+        "fact-dw254p-orientation",
+        "fact-dw254p-guard-removal"
+      ]
+    },
+    {
+      "coverage_id": "cov-dw254p-process",
+      "record_id": "rec-dealon-dw254p-2x8-l0-c4749189",
+      "domain": "through-hole assembly temperature",
+      "status": "OPEN",
+      "reason": "Mirrored solder temperature is UNSOURCED at primary level; quote must confirm compatible process.",
+      "fact_ids": [
+        "fact-dw254p-soldering"
+      ],
+      "blocking_fact_ids": [
+        "fact-dw254p-soldering"
+      ]
+    },
+    {
+      "coverage_id": "cov-dw254p-harness",
+      "record_id": "rec-dealon-dw254p-2x8-l0-c4749189",
+      "domain": "Eurorack harness continuity and polarity",
+      "status": "OPEN",
+      "reason": "Conventional red stripe is primary confirmed; actual connector/cable continuity and correct crimp remain NEEDS BENCH.",
+      "fact_ids": [
+        "fact-dw254p-pin-map",
+        "fact-dw254p-orientation",
+        "fact-dw254p-red-stripe"
+      ],
+      "blocking_fact_ids": [
+        "fact-dw254p-pin-map",
+        "fact-dw254p-orientation"
+      ]
+    }
+  ]
+}

@@ -4,8 +4,8 @@
   "records": [
     {
       "record_id": "rec-l7805abd2t-c86206",
-      "line_id": "line-c86206",
-      "candidate_id": null,
+      "line_id": null,
+      "candidate_id": "cand-retired-c86206",
       "kind": "standalone",
       "parent_record_id": null,
       "mpn": "L7805ABD2T",
@@ -40,8 +40,12 @@
         "fact-l7805abd2t-cap-input",
         "fact-l7805abd2t-cap-output"
       ],
-      "interaction_ids": ["int-l7805abd2t-dropout-headroom"],
-      "open_domains": ["dropout-operating-point"]
+      "interaction_ids": [
+        "int-l7805abd2t-dropout-headroom"
+      ],
+      "open_domains": [
+        "dropout-operating-point"
+      ]
     }
   ]
 }

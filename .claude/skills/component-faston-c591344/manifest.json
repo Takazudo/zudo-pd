@@ -4,8 +4,8 @@
   "records": [
     {
       "record_id": "rec-faston-c591344",
-      "line_id": "line-c591344",
-      "candidate_id": null,
+      "line_id": null,
+      "candidate_id": "cand-retired-c591344",
       "kind": "standalone",
       "parent_record_id": null,
       "mpn": "63951-1",
@@ -22,7 +22,11 @@
         "src-faston-kicad-footprint",
         "src-faston-board-b-synthpower-doc",
         "src-faston-board-b-baseline",
-        "src-faston-bom-v040"
+        "src-faston-bom-v040",
+        "src-faston-te-63951-drawing",
+        "src-faston-te-1217754-drawing",
+        "src-faston-renewal-model-transform",
+        "src-faston-step-normalization"
       ],
       "fact_ids": [
         "fact-faston-manufacturer",
@@ -39,7 +43,10 @@
         "fact-faston-j8-plus5v-margin",
         "fact-faston-thru-hole-retention",
         "fact-faston-rail-assignment",
-        "fact-faston-baseline-unresolved"
+        "fact-faston-baseline-unresolved",
+        "fact-faston-profile-drawing",
+        "fact-faston-model-transform",
+        "fact-faston-step-datum"
       ],
       "interaction_ids": [
         "int-faston-rail-margins",
@@ -49,7 +56,8 @@
         "KiCad symbol/footprint naming alias (1217754-1 / LCSC C305825)",
         "electrical ratings vs the +12V/1.2A, +5V/0.5A, -12V/0.8A rail current budgets",
         "mechanical form and THT retention",
-        "rail assignment and board-b baseline connectivity"
+        "rail assignment and board-b baseline connectivity",
+        "installed model and mating mechanics"
       ]
     }
   ]

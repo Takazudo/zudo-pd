@@ -38,6 +38,24 @@
       "locator": "Page 2 Performance Specification table, row SMD1210P150TF/16 (the 16V special-voltage suffixed sibling of the SMD1210P200TF row); Page 1 title block (RUILON ELECTRONICS logo)",
       "evidence_extract": "Same retained RUILON SMD1210 Series family datasheet as src-ptc1-smd1210-datasheet (File Number SP-PTC-007, Version A4/2026-03-11; identical retained PDF, identical SHA-256). Its Page 2 Performance Specification table encodes higher special-voltage variants with a '/xx' suffix, including the row 'SMD1210P150TF/16': Ihold=1.50A, Itrip=3.00A, Vmax=16 VDC, Package=1210. These row values are independently corroborated by the LCSC C7529589 product listing ('PTC RESET FUSE 16V 1.5A 1210, RUILON', dated API observation 2026-08-14 recorded in scripts/schgen/decisions.json dec-g-ptc1-replacement) and by the project's overview/board-b-synth-power.md Protection Stage documentation (PTC1 row), which documents this exact orderable (C7529589) with the same 1.5A hold / 3.0A trip / 16V maximum voltage figures. The Page 3 Thermal Derating Chart-Ih(A) table has no retained row for the /16 suffixed variant, so no 85C derated hold figure is recorded for this part.",
       "refresh_policy": "HASH-LOCKED"
+    },
+    {
+      "source_id": "src-c7529589-model-review",
+      "record_id": "rec-ptc-smd1210p150tf16-c7529589",
+      "document_title": "C7529589 exact catalog model visibility and datum review",
+      "document_number": ".claude/skills/component-ptc-smd1210p200tf-c20808/references/c7529589-model-review.json",
+      "revision": "2026-09-20",
+      "document_date": "2026-09-20",
+      "authoritative_url": ".claude/skills/component-ptc-smd1210p200tf-c20808/references/c7529589-model-review.json",
+      "alternate_authoritative_url": "https://jlcpcb.com/partdetail/C7529589",
+      "retrieval_date": "2026-09-20",
+      "authority_class": "PROJECT_GENERATOR",
+      "sha256": "e3d645f4ed043aab8a9687ab01a61a701d350855b4aeef219907e637e5bd68fe",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "source",
+      "locator": "section: fresh exact-LCSC model bounds, opacity, footprint offset and retained STEP datum",
+      "evidence_extract": "Fresh exact C7529589 EasyEDA acquisition produced byte-identical WRL to the retained model and a zero-offset model node. Raw opaque geometry is centered above the seating plane; terminal ends overlap their footprint pad lands. Removed stale lateral offset [-4.39, 14.35, 0]mm, which placed the body away from its pads. Retained STEP already independently normalized to WRL. No pad, drill, courtyard, connectivity or model mesh changes. Manufacturer maximum package dimensions and physical clearance must not be inferred from this illustrative mesh."
     }
   ]
 }

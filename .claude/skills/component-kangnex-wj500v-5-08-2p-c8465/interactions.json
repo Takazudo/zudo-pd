@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "interactions": [
+    {
+      "interaction_id": "int-c8465-output-wiring",
+      "record_ids": [
+        "rec-c8465"
+      ],
+      "fact_ids": [
+        "fact-c8465-pin-map",
+        "fact-c8465-rail-budget",
+        "fact-c8465-ratings",
+        "fact-c8465-wire"
+      ],
+      "conditions": "J6/J7 share rail budgets with J10/J11. Distinct poles replace old same-node double-leg Fastons. Verify polarity, stripped-wire retention, torque, conductor suitability and loaded temperature before modules.",
+      "verdict": "NEEDS BENCH"
+    }
+  ]
+}

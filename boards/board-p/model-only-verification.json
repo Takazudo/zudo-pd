@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "check": "Board P model-reference and alignment changes only",
+  "before_pcb_sha256": "8b9d4c0a3defbe325396be9198807e511444ffaeed4fceb3ae22c498f75ae651",
+  "after_pcb_sha256": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b",
+  "comparison_method": "Parse both PCB files with scripts/schgen/sexp.py; recursively remove only model nodes; require exact equality of every remaining s-expression. Hash the resulting tree serialized with compact JSON separators.",
+  "all_non_model_sexpressions_identical": true,
+  "before_non_model_structure_sha256": "69921767aba0a3bf62b4e56b51c8b638709eda17c7a08a96645468b7ef14003a",
+  "after_non_model_structure_sha256": "69921767aba0a3bf62b4e56b51c8b638709eda17c7a08a96645468b7ef14003a",
+  "changed_model_paths": 22,
+  "model_path_change": "Rebased embedded model references from five parent levels to the two levels required by the active boards/board-p project directory. Canonical footprint paths already used two levels.",
+  "usb_model_offset_mm": [
+    0,
+    -2.468,
+    0
+  ],
+  "usb_alignment_method": "Compare the four WRL shell-leg bounding-box centers (vertices at X magnitude >4 mm and Z<-0.59 mm) against footprint slot centers. Imported WRL coordinates are scaled by2.54 mm and the existing180 degree model rotation is retained.",
+  "usb_shell_leg_alignment_max_residual_mm": 0.000178,
+  "model_references": 23,
+  "fitted_components": 19,
+  "fitted_components_with_resolving_models": 19,
+  "scope": "Only model references and J1 model translation changed. This adds no electrical, thermal, surge, assembly or exact manufacturer-model qualification."
+}

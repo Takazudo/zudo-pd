@@ -12,7 +12,10 @@
       "manufacturer": "TECHFUSE",
       "lcsc": "C70119",
       "package": "F1812",
-      "source_ids": ["src-ptc2-msmd110-datasheet"],
+      "source_ids": [
+        "src-ptc2-msmd110-datasheet",
+        "src-c70119-model-review"
+      ],
       "fact_ids": [
         "fact-ptc2-manufacturer",
         "fact-ptc2-ihold",
@@ -24,10 +27,17 @@
         "fact-ptc2-rimin",
         "fact-ptc2-r1max",
         "fact-ptc2-ihold-margin",
-        "fact-ptc2-vmax-margin"
+        "fact-ptc2-vmax-margin",
+        "fact-c70119-model-bounds",
+        "fact-c70119-model-transform"
       ],
-      "interaction_ids": ["int-ptc2-5v-rail-protection"],
-      "open_domains": ["ambient-derating-fault-current-and-cycling"]
+      "interaction_ids": [
+        "int-ptc2-5v-rail-protection"
+      ],
+      "open_domains": [
+        "ambient-derating-fault-current-and-cycling",
+        "illustrative model datum and physical package clearance"
+      ]
     }
   ]
 }

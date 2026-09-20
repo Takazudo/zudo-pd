@@ -13,6 +13,14 @@ it is a DRC keepout, not artwork, and a rectangle cannot accidentally cut inside
 the pads the way a body-shaped outline does. Silkscreen and fab artwork -- the
 chamfer that marks electrolytic polarity included -- are left untouched.
 
+Checks compare closed rectangle geometry and stroke width, not serialization.
+An explicitly reviewed nominal project rectangle may differ from the generic
+silkscreen-derived result. It must still enclose pads and nominal Fab
+geometry with the normal clearance, and every silkscreen graphic itself. A
+changed physical envelope invalidates that review rather than silently growing
+or accepting its courtyard. These artwork-based checks do not establish maximum
+manufacturer tolerances or physical assembly clearance.
+
 Parsing goes through scripts/schgen/sexp.py rather than regexes so both the
 legacy easyeda2kicad `(module ...)` layout and the modern multi-line KiCad
 `(footprint ...)` layout are handled identically.
@@ -49,6 +57,21 @@ PRETTY_DIR = MASTER_DIR / "zudo-power.pretty"
 
 BODY_LAYERS = {"F.Fab", "B.Fab", "F.SilkS", "B.SilkS"}
 GRAPHIC_NODES = {"fp_line", "fp_rect", "fp_circle", "fp_arc", "fp_poly"}
+
+# Exact reviewed NOMINAL project geometry, not permission for arbitrary boxes
+# and NOT a manufacturer maximum-tolerance envelope. C8465's nominal body and
+# interlock are represented by its Fab artwork. These frozen project bounds
+# enclose that artwork and all pads with >=0.25mm clearance, and enclose silk.
+# The generic silk-based result differs by0.02mm on three edges and0.10mm at
+# the interlock edge. The real body's tolerance relative to the pin row is
+# not resolved by these nominal graphics; maximum-envelope/physical-fit review
+# remains open. Never describe this exception as covering those tolerances.
+# Evidence: component-kangnex-wj500v-5-08-2p-c8465/facts.json,
+# fact-c8465-dimensions and references/project-contract.json.
+REVIEWED_RECTANGLES = {
+    "WJ500V-5.08-2P_C8465": (-6.03, -5.85, 5.43, 4.85),
+}
+GEOMETRY_TOLERANCE_MM = 1e-6
 
 
 def node_name(node):
@@ -101,9 +124,9 @@ def pad_box(pad):
     return (x - w / 2, y - h / 2, x + w / 2, y + h / 2)
 
 
-def graphic_box(node):
+def graphic_box(node, body_layers=BODY_LAYERS):
     """Bounding box of one body graphic, or None if it is not body artwork."""
-    if not layers_of(node) & BODY_LAYERS:
+    if not layers_of(node) & body_layers:
         return None
     name = node_name(node)
     points = []
@@ -141,8 +164,7 @@ def walk(node):
             yield from walk(item)
 
 
-def compute_courtyard(text):
-    tree = parse(tokenize(text))
+def envelope(tree, body_layers=BODY_LAYERS, clearance=CLEARANCE_MM, rounded=True):
     boxes, pads = [], 0
     for node in walk(tree):
         name = node_name(node)
@@ -153,17 +175,91 @@ def compute_courtyard(text):
                 raise ValueError("a pad has no parseable at/size")
             boxes.append(box)
         elif name in GRAPHIC_NODES:
-            box = graphic_box(node)
+            box = graphic_box(node, body_layers)
             if box:
                 boxes.append(box)
     if not pads:
         raise ValueError("no pads found")
-    return (
-        round(min(b[0] for b in boxes) - CLEARANCE_MM, 2),
-        round(min(b[1] for b in boxes) - CLEARANCE_MM, 2),
-        round(max(b[2] for b in boxes) + CLEARANCE_MM, 2),
-        round(max(b[3] for b in boxes) + CLEARANCE_MM, 2),
+    box = (
+        min(b[0] for b in boxes) - clearance,
+        min(b[1] for b in boxes) - clearance,
+        max(b[2] for b in boxes) + clearance,
+        max(b[3] for b in boxes) + clearance,
     )
+    return tuple(round(v, 2) for v in box) if rounded else box
+
+
+def contains_box(outer, inner):
+    eps = GEOMETRY_TOLERANCE_MM
+    return (outer[0] <= inner[0] + eps and outer[1] <= inner[1] + eps
+            and outer[2] >= inner[2] - eps and outer[3] >= inner[3] - eps)
+
+
+def compute_courtyard(text):
+    tree = parse(tokenize(text))
+    name = atom(tree[1]).split(":")[-1]
+    if name not in REVIEWED_RECTANGLES:
+        return envelope(tree)
+    reviewed = REVIEWED_RECTANGLES[name]
+    if not contains_box(reviewed, envelope(tree, {"F.Fab", "B.Fab"}, rounded=False)):
+        raise ValueError("reviewed courtyard no longer encloses pads/Fab plus clearance")
+    if not contains_box(reviewed, envelope(tree, clearance=0, rounded=False)):
+        raise ValueError("reviewed courtyard no longer encloses body/silkscreen artwork")
+    return reviewed
+
+
+def courtyard_box(text):
+    """Read one closed rectangle, rejecting gaps, duplicates and wrong strokes."""
+    graphics = [node for node in walk(parse(tokenize(text)))
+                if node_name(node) in GRAPHIC_NODES and "F.CrtYd" in layers_of(node)]
+    for node in graphics:
+        width = child(node, "width")
+        stroke = child(node, "stroke")
+        if stroke:
+            width = child(stroke, "width")
+            style = child(stroke, "type")
+            if style and atom(style[1]) not in {"solid", "default"}:
+                raise ValueError("courtyard stroke must be solid")
+        if not width or len(numbers(width)) != 1 or not math.isclose(
+                numbers(width)[0], LINE_WIDTH_MM, abs_tol=GEOMETRY_TOLERANCE_MM):
+            raise ValueError("courtyard stroke width differs")
+        fill = child(node, "fill")
+        if fill and atom(fill[1]) != "none":
+            raise ValueError("courtyard must be an unfilled outline")
+
+    def point(node, key):
+        value = child(node, key)
+        result = numbers(value) if value else []
+        if len(result) != 2 or not all(math.isfinite(v) for v in result):
+            raise ValueError("invalid courtyard endpoint")
+        return tuple(result)
+
+    if len(graphics) == 1 and node_name(graphics[0]) == "fp_rect":
+        a, b = point(graphics[0], "start"), point(graphics[0], "end")
+        box = min(a[0], b[0]), min(a[1], b[1]), max(a[0], b[0]), max(a[1], b[1])
+    elif len(graphics) == 4 and all(node_name(n) == "fp_line" for n in graphics):
+        edges = [tuple(sorted((point(n, "start"), point(n, "end")))) for n in graphics]
+        points = [p for edge in edges for p in edge]
+        box = (min(p[0] for p in points), min(p[1] for p in points),
+               max(p[0] for p in points), max(p[1] for p in points))
+        x0, y0, x1, y1 = box
+        corners = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+        expected = {tuple(sorted((a, b))) for a, b in zip(corners, corners[1:])}
+        if len(set(edges)) != 4 or set(edges) != expected:
+            raise ValueError("courtyard lines do not form one closed rectangle")
+    else:
+        raise ValueError("courtyard must be one rectangle or four closed rectangle edges")
+    if box[0] >= box[2] or box[1] >= box[3]:
+        raise ValueError("courtyard rectangle has no area")
+    return box
+
+
+def courtyard_matches(text, expected):
+    try:
+        actual = courtyard_box(text)
+    except (ValueError, IndexError):
+        return False
+    return all(math.isclose(a, b, abs_tol=GEOMETRY_TOLERANCE_MM) for a, b in zip(actual, expected))
 
 
 def render(box, indent, quoted):
@@ -212,6 +308,8 @@ def strip_courtyard(text):
 
 def rewrite(text):
     box = compute_courtyard(text)
+    if courtyard_matches(text, box):
+        return text
     stripped = strip_courtyard(text)
     quoted = '(layer "' in stripped
     body = re.search(r"^([ \t]+)\(pad", stripped, re.M)
@@ -224,12 +322,12 @@ def rewrite(text):
     return stripped[:anchor] + render(box, indent, quoted) + stripped[anchor:]
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="report drift without writing")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
-    drift, skipped = [], []
+    drift, skipped, mirror_drift = [], [], []
     for path in sorted(MASTER_DIR.glob("*.kicad_mod")):
         original = path.read_text(encoding="utf-8")
         try:
@@ -244,8 +342,14 @@ def main():
             if not args.check:
                 path.write_text(updated, encoding="utf-8", newline="")
         mirror = PRETTY_DIR / path.name
-        if mirror.exists() and not args.check and mirror.read_text(encoding="utf-8") != updated:
-            mirror.write_text(updated, encoding="utf-8", newline="")
+        expected_copy = original if args.check else updated
+        if not mirror.exists() or mirror.read_bytes() != expected_copy.encode("utf-8"):
+            mirror_drift.append(path.name)
+            if args.check:
+                print(f"SYNC  {path.name}: missing or byte-different library copy")
+            else:
+                mirror.parent.mkdir(parents=True, exist_ok=True)
+                mirror.write_text(updated, encoding="utf-8", newline="")
         print(f"{'DRIFT' if changed else '  ok '} {path.name:48s} {box[2] - box[0]:6.2f} x {box[3] - box[1]:6.2f} mm")
 
     for note in skipped:
@@ -253,8 +357,9 @@ def main():
     if skipped:
         print(f"\n{len(skipped)} footprint(s) could not be parsed — fix before relying on courtyard DRC")
         return 1
-    if args.check and drift:
-        print(f"\n{len(drift)} footprint(s) need a courtyard refresh; run without --check")
+    if args.check and (drift or mirror_drift):
+        print(f"\n{len(drift)} footprint(s) need a courtyard refresh; "
+              f"{len(mirror_drift)} library copies need synchronization; run without --check")
         return 1
     print(f"\n{len(drift)} footprint(s) {'would be ' if args.check else ''}updated")
     return 0

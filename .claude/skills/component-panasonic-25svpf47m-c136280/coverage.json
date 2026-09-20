@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c136280-primary-specification",
+      "record_id": "rec-c136280",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Exact primary specification and distributor identity reviewed.",
+      "fact_ids": [
+        "fact-c136280-manufacturer",
+        "fact-c136280-identity",
+        "fact-c136280-capacitance",
+        "fact-c136280-tolerance",
+        "fact-c136280-voltage",
+        "fact-c136280-esr",
+        "fact-c136280-ripple",
+        "fact-c136280-endurance-cap-change"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c136280-installed-loop-stability",
+      "record_id": "rec-c136280",
+      "domain": "installed-loop-stability",
+      "status": "OPEN",
+      "reason": "Explicit manufacturer/source/physical qualification limits are retained.",
+      "fact_ids": [
+        "fact-c136280-ldo-output-use"
+      ],
+      "blocking_fact_ids": [
+        "fact-c136280-ldo-output-use"
+      ]
+    }
+  ]
+}

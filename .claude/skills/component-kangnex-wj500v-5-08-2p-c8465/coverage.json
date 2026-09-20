@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c8465-identity",
+      "record_id": "rec-c8465",
+      "domain": "exact orderable identity",
+      "status": "COVERED",
+      "reason": "Exact distributor identity confirmed.",
+      "fact_ids": [
+        "fact-c8465-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c8465-electrical",
+      "record_id": "rec-c8465",
+      "domain": "rating, wire and loaded terminal temperature",
+      "status": "OPEN",
+      "reason": "Mirror evidence and explicit project geometry require production/bench confirmation; no physical qualification claimed.",
+      "fact_ids": [
+        "fact-c8465-ratings",
+        "fact-c8465-wire",
+        "fact-c8465-torque",
+        "fact-c8465-temperature",
+        "fact-c8465-rail-budget"
+      ],
+      "blocking_fact_ids": [
+        "fact-c8465-ratings",
+        "fact-c8465-wire",
+        "fact-c8465-torque",
+        "fact-c8465-temperature",
+        "fact-c8465-rail-budget"
+      ]
+    },
+    {
+      "coverage_id": "cov-c8465-mechanical",
+      "record_id": "rec-c8465",
+      "domain": "finished holes, housing and tail clearance",
+      "status": "OPEN",
+      "reason": "Mirror evidence and explicit project geometry require production/bench confirmation; no physical qualification claimed.",
+      "fact_ids": [
+        "fact-c8465-dimensions",
+        "fact-c8465-lead-length-max",
+        "fact-c8465-drill-drawing",
+        "fact-c8465-drill-project",
+        "fact-c8465-model-datum"
+      ],
+      "blocking_fact_ids": [
+        "fact-c8465-dimensions",
+        "fact-c8465-lead-length-max",
+        "fact-c8465-drill-drawing",
+        "fact-c8465-drill-project",
+        "fact-c8465-model-datum"
+      ]
+    },
+    {
+      "coverage_id": "cov-c8465-assembly",
+      "record_id": "rec-c8465",
+      "domain": "soldering and process compatibility",
+      "status": "OPEN",
+      "reason": "Mirror evidence and explicit project geometry require production/bench confirmation; no physical qualification claimed.",
+      "fact_ids": [
+        "fact-c8465-soldering"
+      ],
+      "blocking_fact_ids": [
+        "fact-c8465-soldering"
+      ]
+    },
+    {
+      "coverage_id": "cov-c8465-polarity",
+      "record_id": "rec-c8465",
+      "domain": "distinct poles, rail polarity and wire access",
+      "status": "OPEN",
+      "reason": "Mirror evidence and explicit project geometry require production/bench confirmation; no physical qualification claimed.",
+      "fact_ids": [
+        "fact-c8465-pin-map",
+        "fact-c8465-orientation"
+      ],
+      "blocking_fact_ids": [
+        "fact-c8465-pin-map",
+        "fact-c8465-orientation"
+      ]
+    }
+  ]
+}

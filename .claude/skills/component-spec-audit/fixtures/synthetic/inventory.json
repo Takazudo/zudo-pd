@@ -2,8 +2,18 @@
   "schema_version": 1,
   "note": "Synthetic inventory paired with the board_a_spec.py / board_b_spec.py fixtures. Not project evidence.",
   "generator_specs": [
-    { "board": "board-a", "spec": "board_a_spec.py" },
-    { "board": "board-b", "spec": "board_b_spec.py" }
+    {
+      "board": "board-a",
+      "spec": "board_a_spec.py"
+    },
+    {
+      "board": "board-b",
+      "spec": "board_b_spec.py"
+    },
+    {
+      "board": "board-p",
+      "spec": "board_p_spec.py"
+    }
   ],
   "assertions": {
     "orderable_lines": 3,
@@ -31,9 +41,21 @@
       "source_state": "AVAILABLE",
       "function": "5.1 kOhm resistor",
       "placements": [
-        { "board": "board-a", "refdes": "R17", "dnp": true },
-        { "board": "board-a", "refdes": "R18", "dnp": true },
-        { "board": "board-b", "refdes": "R3", "dnp": false }
+        {
+          "board": "board-a",
+          "refdes": "R17",
+          "dnp": true
+        },
+        {
+          "board": "board-a",
+          "refdes": "R18",
+          "dnp": true
+        },
+        {
+          "board": "board-b",
+          "refdes": "R3",
+          "dnp": false
+        }
       ]
     },
     {
@@ -47,8 +69,16 @@
       "source_state": "AVAILABLE",
       "function": "board-to-board interface connector",
       "placements": [
-        { "board": "board-a", "refdes": "J9", "dnp": false },
-        { "board": "board-b", "refdes": "J9", "dnp": false }
+        {
+          "board": "board-a",
+          "refdes": "J9",
+          "dnp": false
+        },
+        {
+          "board": "board-b",
+          "refdes": "J9",
+          "dnp": false
+        }
       ]
     },
     {
@@ -61,7 +91,13 @@
       "identity_state": "UNRESOLVED",
       "source_state": "SOURCE UNAVAILABLE",
       "function": "synthetic TVS diode",
-      "placements": [{ "board": "board-b", "refdes": "D1", "dnp": false }]
+      "placements": [
+        {
+          "board": "board-b",
+          "refdes": "D1",
+          "dnp": false
+        }
+      ]
     }
   ]
 }

@@ -3,9 +3,13 @@
   "interactions": [
     {
       "interaction_id": "int-ss34-d3-rail-reversal",
-      "record_ids": ["rec-ss34-c8678"],
-      "fact_ids": ["fact-ss34-d3-reverse-margin"],
-      "conditions": "D3 as the -13.5V LM2596S-ADJ inverting buck-boost rail catch diode: reverse-voltage margin against the SS34 VRRM rating",
+      "record_ids": [
+        "rec-ss34-c8678"
+      ],
+      "fact_ids": [
+        "fact-ss34-d3-reverse-margin"
+      ],
+      "conditions": "Historical pre-renewal calculation only: SS34 no longer occupies Board B D3; current D3 is SDT5A60SA-13, and current D2 retains SS34. D3 as the -13.5V LM2596S-ADJ inverting buck-boost rail catch diode: reverse-voltage margin against the SS34 VRRM rating",
       "verdict": "PASS - primary-source confirmed"
     }
   ]

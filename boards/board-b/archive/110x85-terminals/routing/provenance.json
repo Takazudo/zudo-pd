@@ -1,0 +1,18 @@
+{
+  "revision": "two-pole screw terminals",
+  "method": "Local branch replacement on the archived reviewed power-stage layout",
+  "base_pcb": "boards/board-b/archive/110x85-guarded/board-b.kicad_pcb",
+  "base_sha256": "542ddf8d3d6cd25dacc79a87f5e4a205c8f30865874f90bd7c469684f2e1578e",
+  "generator": "scripts/pcb/update-output-terminals.py",
+  "stage_copper_policy": "Preserve all stage routing,48 thermal vias and7 central ground stitches; replace only four output-connector branches and refill zones.",
+  "native_drc_required": true,
+  "power_geometry_checks_required": true,
+  "final_pcb_sha256": "26f62055ddd441f3b1dc59a036155455127b9a591c5ff8b7d36410b6cde491be",
+  "preserved_geometry": {
+    "nonterminal_footprints": 83,
+    "track_segments": 619,
+    "all_vias": 99,
+    "removed_terminal_segments": 12,
+    "new_terminal_segments": 9
+  }
+}

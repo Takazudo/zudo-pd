@@ -7,7 +7,16 @@
       "domain": "electrical-limits",
       "status": "COVERED",
       "reason": "Ihold (1.50A), Itrip (3.00A), Vmax (16 Vdc), Imax (40A), Pd typ (1.0W), time-to-trip (0.30s at 8.00A), Rmin (0.025 ohm), and R1max (0.130 ohm) are all primary-source confirmed from the BHFUSE BSMD1206 Series Electrical Characteristics (25C) table, row BSMD1206-150-16V.",
-      "fact_ids": ["fact-ptc3-ihold", "fact-ptc3-itrip", "fact-ptc3-vmax", "fact-ptc3-imax", "fact-ptc3-pd-typ", "fact-ptc3-time-to-trip", "fact-ptc3-rimin", "fact-ptc3-r1max"],
+      "fact_ids": [
+        "fact-ptc3-ihold",
+        "fact-ptc3-itrip",
+        "fact-ptc3-vmax",
+        "fact-ptc3-imax",
+        "fact-ptc3-pd-typ",
+        "fact-ptc3-time-to-trip",
+        "fact-ptc3-rimin",
+        "fact-ptc3-r1max"
+      ],
       "blocking_fact_ids": []
     },
     {
@@ -16,7 +25,12 @@
       "domain": "ambient-derating-and-cycling",
       "status": "COVERED",
       "reason": "Ambient operating range (-40 to +85C), maximum tripped-state surface temperature (125C), 85C-ambient derated hold current (0.77A), and qualitative aging/thermal-shock/repeated-trip resistance-change data are all primary-source confirmed from the same datasheet's Environmental Specifications and Thermal Derating Chart tables.",
-      "fact_ids": ["fact-ptc3-temperature", "fact-ptc3-surface-temperature", "fact-ptc3-hold-85c", "fact-ptc3-cycling"],
+      "fact_ids": [
+        "fact-ptc3-temperature",
+        "fact-ptc3-surface-temperature",
+        "fact-ptc3-hold-85c",
+        "fact-ptc3-cycling"
+      ],
       "blocking_fact_ids": []
     },
     {
@@ -25,7 +39,10 @@
       "domain": "neg12v-rail-application",
       "status": "COVERED",
       "reason": "Ihold leaves a 0.7A margin above the -12V/0.8A rail current budget magnitude and Vmax leaves a 4V margin above the 12V nominal rail voltage magnitude; both are positive but the voltage margin (33% headroom) is the tightest of board-b's three PTCs and does not account for switching-rail ripple or transients upstream of the LDO.",
-      "fact_ids": ["fact-ptc3-ihold-margin", "fact-ptc3-vmax-margin"],
+      "fact_ids": [
+        "fact-ptc3-ihold-margin",
+        "fact-ptc3-vmax-margin"
+      ],
       "blocking_fact_ids": []
     },
     {
@@ -36,6 +53,21 @@
       "reason": "No board-b generator spec exists yet to bound upstream fault current/energy at PTC3, in-enclosure ambient temperature, local heat sources, expected trip count over product life, or the cooling interval between faults.",
       "fact_ids": [],
       "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c883133-model-geometry",
+      "record_id": "rec-ptc-bsmd1206-150-16v-c883133",
+      "domain": "illustrative model datum and physical package clearance",
+      "status": "OPEN",
+      "reason": "Exact catalog asset, visibility and pad registration checked; manufacturer maximum-tolerance geometry and physical assembly fit remain unqualified.",
+      "fact_ids": [
+        "fact-c883133-model-bounds",
+        "fact-c883133-model-transform"
+      ],
+      "blocking_fact_ids": [
+        "fact-c883133-model-bounds",
+        "fact-c883133-model-transform"
+      ]
     }
   ]
 }

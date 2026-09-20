@@ -31,7 +31,7 @@ REQUIRED_TOP_KEYS = {
 }
 REQUIRED_FIELDS = {"key", "id", "title", "status", "applies_to", "decision", "rationale", "evidence"}
 STATUS_ENUM = {"LOCKED", "NO-SPEC-CHANGE-NEEDS-BENCH", "DISPOSITION"}
-APPLIES_TO_RE = re.compile(r"^(#\d+|board_[ab]_spec|doc)$")
+APPLIES_TO_RE = re.compile(r"^(#\d+|board_[abp]_spec|doc)$")
 LCSC_RE = re.compile(r"^C\d+$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 ID_VALUE_RE = re.compile(r"^(fact|int|cov|rule|calc|cand|rec|src|line)-[A-Za-z0-9./+-]+$")
@@ -134,7 +134,7 @@ def main() -> int:
             errors.append(f"{label}: empty applies_to")
         for target in d["applies_to"]:
             if not APPLIES_TO_RE.match(target):
-                errors.append(f"{label}: applies_to target {target!r} not '#N', 'board_a_spec', 'board_b_spec', or 'doc'")
+                errors.append(f"{label}: applies_to target {target!r} not '#N', 'board_a_spec', 'board_b_spec', 'board_p_spec', or 'doc'")
         if not d["evidence"]:
             errors.append(f"{label}: empty evidence")
         for ref in d["evidence"]:

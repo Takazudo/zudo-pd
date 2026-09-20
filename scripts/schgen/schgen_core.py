@@ -182,7 +182,37 @@ def _emit_lib_symbols(spec, lib):
         raw = lib.extract_symbol_raw(symname)
         raw = raw.replace(f'(symbol "{symname}"', f'(symbol "zudo-pd:{symname}"', 1)
         embedded.append('\t\t' + raw.replace('\n', '\n\t\t'))
+    if getattr(spec, 'ERC_POWER_FLAGS', {}):
+        raw = lib.extract_symbol_raw('PWR_FLAG')
+        raw = raw.replace('(symbol "PWR_FLAG"', '(symbol "zudo-pd:PWR_FLAG"', 1)
+        embedded.append('\t\t' + raw.replace('\n', '\n\t\t'))
     return ['\t(lib_symbols'] + embedded + ['\t)']
+
+
+def _emit_power_flags(spec, root_uuid):
+    """Declare externally/converter-supplied nets without adding PCB/BOM parts."""
+    parts = []
+    for index, (net, (x, y)) in enumerate(getattr(spec, 'ERC_POWER_FLAGS', {}).items(), 1):
+        if net not in spec.NETS:
+            raise SchgenError(f'ERC power flag references unknown net {net}')
+        ref = f'#FLG{index:03d}'
+        uid = new_uuid(f'{spec.PROJECT_NAME}:power-flag:{net}')
+        parts.append(f'''\t(symbol
+        (lib_id "zudo-pd:PWR_FLAG") (at {x:g} {y:g} 0) (unit 1)
+        (exclude_from_sim no) (in_bom no) (on_board no) (dnp no)
+        (uuid "{uid}")
+        (property "Reference" "{ref}" (at {x:g} {y + 1.905:g} 0)
+            (effects (font (size 1.27 1.27)) (hide yes)))
+        (property "Value" "PWR_FLAG" (at {x:g} {y + 3.81:g} 0)
+            (effects (font (size 1.27 1.27))))
+        (pin "1" (uuid "{new_uuid(uid + ':pin')}"))
+        (instances (project "{spec.PROJECT_NAME}"
+            (path "/{root_uuid}" (reference "{ref}") (unit 1))))
+    )
+    (global_label "{net}" (shape input) (at {x:g} {y:g} 0)
+        (effects (font (size 1.27 1.27)) (justify left))
+        (uuid "{new_uuid(uid + ':label')}"))''')
+    return parts
 
 
 def _emit_symbol_instances(spec, pin_cache, root_uuid):
@@ -285,6 +315,7 @@ def generate(spec):
     parts.extend(_emit_header(spec, root_uuid))
     parts.extend(_emit_lib_symbols(spec, lib))
     parts.extend(_emit_symbol_instances(spec, pin_cache, root_uuid))
+    parts.extend(_emit_power_flags(spec, root_uuid))
     parts.extend(_emit_global_labels(spec, pin_cache))
     parts.extend(_emit_no_connects(spec, pin_cache))
     parts.append('\t(sheet_instances\n\t\t(path "/"\n\t\t\t(page "1")\n\t\t)\n\t)')

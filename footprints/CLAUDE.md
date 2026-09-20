@@ -63,19 +63,42 @@ longer exists.
 
 ## Courtyards are generated, not hand-drawn
 
-Every `.kicad_mod` carries an `F.CrtYd` rectangle produced by
+Every `.kicad_mod` carries an `F.CrtYd` rectangle checked by
 `footprints/scripts/gen_courtyards.py`. Do not hand-edit courtyard geometry —
-change the script (or the pads/body artwork it derives from) and re-run it.
+change the script's reviewed policy (or the pads/body artwork it derives from)
+and re-run it. The check compares the closed rectangular geometry and 0.05 mm
+stroke, accepting equivalent `fp_rect` and four-line representations without
+rewriting valid files. It still rejects gaps, duplicate/extra edges, incorrect
+dimensions and wrong stroke widths. Both library copies must remain byte-identical.
 
 ```bash
 python3 footprints/scripts/gen_courtyards.py --check   # report drift, write nothing
 python3 footprints/scripts/gen_courtyards.py           # rewrite in place, both locations
 ```
 
-The rule is IPC-7351 density-B: the courtyard is the bounding box of **every pad
-plus every body graphic**, expanded by 0.25 mm, drawn at 0.05 mm width. It is a
+The default nominal rule uses the IPC-style 0.25 mm courtyard excess: the
+courtyard is the bounding box of **every pad plus every body graphic**, expanded
+by 0.25 mm, drawn at 0.05 mm width. It is a
 plain rectangle on purpose — a courtyard is a DRC keepout, not artwork, and a
 body-shaped outline can end up *smaller* than the pads it is meant to protect.
+This checks the supplied nominal artwork; it does not independently establish
+manufacturer maximum dimensions, their position relative to pads, or physical fit.
+
+`WJ500V-5.08-2P_C8465` has one explicit **nominal project** exception in
+`REVIEWED_RECTANGLES`: `(-6.03, -5.85)` to `(5.43, 4.85)` mm. The checker requires
+those exact bounds, every pad and nominal Fab/body graphic plus at least 0.25 mm
+clearance, and enclosure of the silkscreen itself. This preserves the reviewed
+interlock allowance instead of deriving the rectangle from decorative silk.
+It is **not a maximum-tolerance terminal envelope**: manufacturer tolerance
+relative to the pin row and physical assembly clearance remain open. A changed
+pad or body that violates containment fails rather than inheriting a blanket
+override. Do not add another exception without explicit geometry review.
+
+Run its geometry, malformed-outline and dual-copy regression tests with:
+
+```sh
+python3 -m unittest discover -s footprints/scripts -p 'test_gen_courtyards.py'
+```
 
 That is exactly what the library had before: most footprints carried no courtyard
 at all, and the four that did (inherited from easyeda2kicad) drew it around the

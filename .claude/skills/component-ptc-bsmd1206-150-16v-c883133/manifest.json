@@ -12,7 +12,10 @@
       "manufacturer": "BHFUSE",
       "lcsc": "C883133",
       "package": "F1206",
-      "source_ids": ["src-ptc3-bsmd1206-datasheet"],
+      "source_ids": [
+        "src-ptc3-bsmd1206-datasheet",
+        "src-c883133-model-review"
+      ],
       "fact_ids": [
         "fact-ptc3-manufacturer",
         "fact-ptc3-ihold",
@@ -28,10 +31,17 @@
         "fact-ptc3-hold-85c",
         "fact-ptc3-cycling",
         "fact-ptc3-ihold-margin",
-        "fact-ptc3-vmax-margin"
+        "fact-ptc3-vmax-margin",
+        "fact-c883133-model-bounds",
+        "fact-c883133-model-transform"
       ],
-      "interaction_ids": ["int-ptc3-neg12v-rail-protection"],
-      "open_domains": ["fault-current-ambient-and-cycling"]
+      "interaction_ids": [
+        "int-ptc3-neg12v-rail-protection"
+      ],
+      "open_domains": [
+        "fault-current-ambient-and-cycling",
+        "illustrative model datum and physical package clearance"
+      ]
     }
   ]
 }

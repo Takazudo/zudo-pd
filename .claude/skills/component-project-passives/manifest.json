@@ -123,8 +123,8 @@
     },
     {
       "record_id": "rec-c25804",
-      "line_id": "line-c25804",
-      "candidate_id": null,
+      "line_id": null,
+      "candidate_id": "cand-c25804-retired",
       "kind": "standalone",
       "parent_record_id": null,
       "mpn": "0603WAF1002T5E",
@@ -686,6 +686,103 @@
       "open_domains": [
         "manufacturer-primary-datasheet"
       ]
+    },
+    {
+      "record_id": "rec-c14663",
+      "line_id": "line-c14663",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "CC0603KRX7R9BB104",
+      "manufacturer": "Yageo",
+      "lcsc": "C14663",
+      "package": "C0603",
+      "source_ids": [
+        "src-c14663-yageo",
+        "src-c14663-generator"
+      ],
+      "fact_ids": [
+        "fact-c14663-manufacturer",
+        "fact-c14663-capacitance",
+        "fact-c14663-tolerance",
+        "fact-c14663-voltage",
+        "fact-c14663-dielectric",
+        "fact-c14663-termination",
+        "fact-c14663-simulation-caveat",
+        "fact-c14663-c35-topology"
+      ],
+      "interaction_ids": [
+        "int-c14663-c35"
+      ],
+      "open_domains": [
+        "effective-capacitance-under-installed-bias",
+        "aging-at-installed-condition",
+        "ripple-current-under-installed-layout"
+      ],
+      "candidate_id": null
+    },
+    {
+      "record_id": "rec-c22807",
+      "line_id": "line-c22807",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "0603WAF1503T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C22807",
+      "package": "R0603",
+      "source_ids": [
+        "src-c22807-uniroyal",
+        "src-c22807-generator"
+      ],
+      "fact_ids": [
+        "fact-c22807-manufacturer",
+        "fact-c22807-resistance",
+        "fact-c22807-tolerance",
+        "fact-c22807-power",
+        "fact-c22807-tcr",
+        "fact-c22807-voltage",
+        "fact-c22807-rcwv-squared",
+        "fact-c22807-r12-topology",
+        "fact-c22807-pulse-caveat"
+      ],
+      "interaction_ids": [
+        "int-c22807-r12"
+      ],
+      "open_domains": [
+        "pulse-energy-at-installed-waveform"
+      ],
+      "candidate_id": null
+    },
+    {
+      "record_id": "rec-c17414",
+      "line_id": "line-c17414",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "0805W8F1002T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C17414",
+      "package": "R0805",
+      "source_ids": [
+        "src-c17414-uniroyal",
+        "src-c17414-generator"
+      ],
+      "fact_ids": [
+        "fact-c17414-manufacturer",
+        "fact-c17414-resistance",
+        "fact-c17414-tolerance",
+        "fact-c17414-power",
+        "fact-c17414-tcr",
+        "fact-c17414-voltage",
+        "fact-c17414-rcwv-squared",
+        "fact-c17414-reset-ctrl-topology",
+        "fact-c17414-pulse-caveat"
+      ],
+      "interaction_ids": [
+        "int-c17414-reset-ctrl"
+      ],
+      "open_domains": [
+        "pulse-energy-at-installed-waveform"
+      ],
+      "candidate_id": null
     }
   ]
 }

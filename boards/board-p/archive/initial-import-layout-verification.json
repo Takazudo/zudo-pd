@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "check": "Retained routed module geometry vs adapted current Board P",
+  "source_sha256": "1d7086674da8ece700207d9b49256c11fe52ab57ba2c091e75bddf22d7fb33e4",
+  "current_sha256": "e744aa459906d2235851f57157d66364d33f5caf8e7fb0d16d6e64e2562c01f5",
+  "results": {
+    "pads": {
+      "equal": true,
+      "item_count": 97,
+      "geometry_sha256": "6aeac2300ed9217ff5178ebf9e2118a693b3648acb9216b613a418c14179f0d6"
+    },
+    "tracks": {
+      "equal": true,
+      "item_count": 351,
+      "geometry_sha256": "3da1bbbef1ceda691a6c8f19cf3f9cde378df8bc86ce37f1fec49f602972b2d1"
+    },
+    "zones": {
+      "equal": true,
+      "item_count": 1,
+      "geometry_sha256": "4d1a5a7be86a612e16e782bd51f433db75b6b4b3955b1a16380f0ff2219530aa"
+    },
+    "board_shapes": {
+      "equal": true,
+      "item_count": 4,
+      "geometry_sha256": "cd828f91cfafed3f68a536d966f1acd8f8220212e68a454996b315f6e265cb41"
+    }
+  },
+  "scope": "Pad size, position, rotation, number, drill, net and type; tracks and vias including diameters and drills; zone net/layer/corner count; board shapes. Does not certify zone filled polygon parity or electrical/thermal performance. DRC checks current fill connectivity separately.",
+  "metadata_changes": [
+    "Project/library paths adapted",
+    "D5 canonical shared footprint ID (embedded pads retained)",
+    "Mounting-hole references MH1/MH2/MH3 and assembly exclusions",
+    "Population and LCSC properties normalized to spec"
+  ]
+}

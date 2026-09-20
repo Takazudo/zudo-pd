@@ -37,3 +37,7 @@ Human projection of this bundle: [rec-ptc-smd1210p200tf-c20808](/docs/components
 See also the [component catalog](/docs/components/catalog/) and [cross-component
 rules](/docs/components/integration/).
 These pages are generated from this bundle's JSON files and add nothing to them.
+
+## Model placement review
+
+The exact C7529589 catalog model was freshly downloaded and compared byte-for-byte on2026-09-20. Use offset(0,0,0), rotation(0,0,0), scale1. The former footprint node displaced the visible body far from its pads; only that node was corrected. Both opaque terminal ends register over the footprint lands. The STEP companion remains aligned with the WRL. The nominal mesh is an illustration, not a manufacturer maximum-tolerance package or physical-fit certificate. See the model-review source/facts and local JSON proof.

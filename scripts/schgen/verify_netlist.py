@@ -18,7 +18,12 @@ def read_netlist_nets(netlist_path):
     nets_node = find_all(nl, 'nets')[0]
     actual = {}
     for net in find_all(nets_node, 'net'):
-        name = atom(find_all(net, 'name')[0][1])
+        # KiCad escapes literal label slashes to distinguish them from hierarchy
+        # separators in netlist names (KiCad issue 12959 / UnescapeString).
+        # Decode the known representation, retaining all connectivity checks.
+        name = atom(find_all(net, 'name')[0][1]).replace('{slash}', '/')
+        if name in actual:
+            raise ValueError(f'duplicate net name after KiCad slash decoding: {name}')
         nodes = set()
         for node in find_all(net, 'node'):
             ref = atom(find_all(node, 'ref')[0][1])
