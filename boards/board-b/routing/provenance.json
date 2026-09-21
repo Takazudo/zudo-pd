@@ -2,12 +2,14 @@
   "revision": "Independent corner supports and accessible top-edge probes",
   "method": "The current routed PCB is authoritative. Its translated PD header, input bulk, local U3 feedback and seven top-edge contacts were reviewed together with the retained power stages.",
   "source_pcb": "boards/board-b/board-b.kicad_pcb",
-  "source_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+  "source_sha256": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
+  "silkscreen_only_change_proof": "boards/board-b/artwork/verification.json",
   "fresh_routing_workflow": {
     "placement": "scripts/pcb/place-board-b.py",
     "preparation": "scripts/pcb/prepare-routing.py",
     "finishing": "scripts/pcb/finish-board-b.py",
-    "scope": "Generate current placement, create a new routing session and finish that session. This is not a byte-identical replay of the checked routed PCB. Native DRC/parity, power geometry and populated assembly checks are required before replacing the current source."
+    "back_silkscreen": "scripts/pcb/apply-back-silkscreen.py",
+    "scope": "Generate current placement, create a new routing session and finish that session. Apply the back-silkscreen artwork after final routing and before checks/export. This is not a byte-identical replay of the checked routed PCB. Native DRC/parity, power geometry and populated assembly checks are required before replacing the current source."
   },
   "development_history": {
     "previous_pcb_sha256": "4e6e97f685d4a275c2a51a3130ec2c08da5122932800bc6f25a4fd119d807a3d",
@@ -16,7 +18,7 @@
   "route_polylines": "boards/board-b/routing/corner-support-routes.json",
   "route_polylines_sha256": "f84145e8785fd9463aa7d9b5154b986fa5107332c30bb65c3709f8acaa2c2a06",
   "route_polylines_scope": "Retained coordinates of the reviewed local rerouting only; not a complete board router session or a script to apply to the current PCB.",
-  "final_pcb_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+  "final_pcb_sha256": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
   "native_drc_required": true,
   "power_geometry_checks_required": true,
   "populated_stack_check_required": true,
@@ -31,5 +33,6 @@
     "drill_mm": 0.4,
     "trace_width_mm": 0.4
   },
-  "support_fit_boundary": "Three PD mounts use 3.2mm holes; four corner supports use the exact HC11 drawing nominal 3.0mm holes. The 11mm HC11 does not clear the downward-facing assembly above a flat floor."
+  "support_fit_boundary": "Three PD mounts use 3.2mm holes; four corner supports use the exact HC11 drawing nominal 3.0mm holes. The 11mm HC11 does not clear the downward-facing assembly above a flat floor.",
+  "physical_geometry_verification": "boards/board-b/assembly-preview/verification.json"
 }

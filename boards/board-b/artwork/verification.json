@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "layer": "B.SilkS",
+  "source_pcb_sha256": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
+  "result_pcb_sha256": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
+  "non_artwork_structure_sha256": "e37364c36d3f151007d1b8d21b2841a6f4168e03b572aeff192aedd9358fe83a",
+  "preserved": "Every original node except the replaced branding/title/group, including existing pattern polygons when branding-only, all copper, zones/fill, footprints, pads, models, holes, rail labels and front silk.",
+  "branding_only": true,
+  "preserved_pattern_uuids": [
+    "08a0cab6-51a2-5371-8183-390c90917ea4",
+    "5099991e-d424-56a7-983c-b16361f3ceb7",
+    "a3a153be-318b-5023-999b-d595d61f765b"
+  ],
+  "sources": {
+    "boards/board-b/artwork/logo.svg": "41c045b4c235b0eb5da12dad4ac335e5445628352cb4488d4c352d55c6a522f9",
+    "boards/board-b/artwork/pattern.svg": "bd03ad8f175bcaa6a9cabd3ccd8aae6ba7b92bc123af4ebf973a0a1777f267af",
+    "scripts/pcb/apply-back-silkscreen.py": "5ff81ae14a3944a566067208d3119177c6e795c0e5d93922f69b88d8b1b54cc7"
+  },
+  "pattern_bounds_pcb_mm": [
+    18.2,
+    0.8,
+    109.2,
+    84.2
+  ],
+  "pattern_uniform_scale": 0.24415110538742218,
+  "mask_gap_mm": 0.3,
+  "row_extra_gap_mm": 0.3,
+  "edge_gap_mm": 0.8,
+  "polygon_count": 30,
+  "filled_area_mm2": 91.70024449765239,
+  "board_title": {
+    "lines": [
+      "zudo-pd v1",
+      "+12V : 1.2A",
+      "-12V : 0.8A",
+      "+5V : 0.5A"
+    ],
+    "centers_mm": [
+      [
+        9.4,
+        68.8
+      ],
+      [
+        9.4,
+        71.6
+      ],
+      [
+        9.4,
+        74.4
+      ],
+      [
+        9.4,
+        77.2
+      ]
+    ],
+    "mirrored": true
+  },
+  "branding": {
+    "portrait_back_view": "U=PCB Y, V=PCB X; emblem left, two-line brand name right",
+    "emblem_uv_mm": [
+      6,
+      6
+    ],
+    "emblem_width_mm": 11.5,
+    "brand_uv_mm": [
+      19,
+      7
+    ],
+    "brand_width_mm": 17.5
+  },
+  "limits": [
+    "Fine logo feather/fish details are retained vector artwork, not guaranteed printed detail.",
+    "Native DRC and final Gerber/render inspection are separate checks."
+  ],
+  "generated_candidate_sha256": "55df2074cc312f37231b0a090ee13f9debc836726b9ef3c9772d2531ea783e91",
+  "verification_method": "Temporary regeneration fully matched the preserved user PCB: exact Decimal numeric values, verified model-path resolution, independent top-level/group-member ordering, explicit/default text angle zero and native polygon filled yes/solid spellings normalized. No PCB source was written.",
+  "user_title_position_adjustment_mm": {
+    "x": 0.6,
+    "y": 1.0
+  },
+  "complete_normalized_pcb_sha256": "62087ceab876cff5a2772d0ce07e0c3afd39beb90035bfdafcf2ee8dabe497e0"
+}

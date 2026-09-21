@@ -193,10 +193,14 @@ def main():
                           ('+12',65.8,76.5,.8),('+5',65.8,79.9,.8),('-12',65.8,83.3,.8),
                           ('TP3 13.44V / TP4 6.519V / TP5 -14.145V',*POGO_LEGEND_CENTER,.8)]:
         item=p.PCB_TEXT(board);item.SetText(text);item.SetPosition(mm(x,y));item.SetTextSize(mm(size,size));item.SetTextThickness(p.FromMM(.15));item.SetLayer(p.F_SilkS);board.Add(item)
+    back_labels=json.loads((ROOT/'boards/board-b/mechanical.json').read_text())['terminal_blocks']['rail_labels']['back_labels']
     for name,y in [('-12V',45.46),('GND',50.54),('+12V',58.46),('+5V',63.54)]:
         item=p.PCB_TEXT(board);item.SetText(name);item.SetPosition(mm(.8,y))
         item.SetTextAngle(p.EDA_ANGLE(90,p.DEGREES_T));item.SetTextSize(mm(.8,.8));item.SetTextThickness(p.FromMM(.15));item.SetLayer(p.F_SilkS);board.Add(item)
-        back=p.PCB_TEXT(board);back.SetText(name);back.SetPosition(mm(2.8,y));back.SetLayer(p.B_SilkS);back.SetMirrored(True);back.SetTextSize(mm(1.2,1.2));back.SetTextThickness(p.FromMM(.15));board.Add(back)
+        reviewed=back_labels[name]
+        back=p.PCB_TEXT(board);back.SetText(name);back.SetPosition(mm(*reviewed['center_mm']))
+        back.SetLayer(p.B_SilkS);back.SetMirrored(True);back.SetTextSize(mm(reviewed['size_mm'],reviewed['size_mm']))
+        back.SetBold(reviewed['bold']);back.SetTextThickness(p.FromMM(reviewed['thickness_mm']));board.Add(back)
     back=p.PCB_TEXT(board);back.SetText('zudo-pd B / rev1');back.SetPosition(mm(96.6,83.2));back.SetLayer(p.B_SilkS);back.SetMirrored(True);back.SetTextSize(mm(.8,.8));back.SetTextThickness(p.FromMM(.15));board.Add(back)
     for fp in board.GetFootprints():
         if fp.GetReference()=='PTC1':fp.Reference().SetPosition(mm(103.5,7.5));fp.Reference().SetTextAngle(p.EDA_ANGLE(90,p.DEGREES_T))

@@ -27,6 +27,12 @@ TERMINAL_NETS = {'J6': {'1':'GND','2':'-12V rail'}, 'J7': {'1':'+5V rail','2':'+
 POGO_NETS = {'1': 'ATT', '2': 'PDOK', '3': 'GND', '4': None}
 RAIL_CONTACTS = {'TP3': '+13.44V PRE', 'TP4': '+6.519V PRE', 'TP5': '-14.145V PRE'}
 RAIL_LABEL_PINS = {'-12V':('J6','2'),'GND':('J6','1'),'+12V':('J7','2'),'+5V':('J7','1')}
+BACK_RAIL_LABELS = {
+    '-12V': {'center_mm':[12.2,46.0], 'size_mm':1.5, 'thickness_mm':.3, 'bold':True},
+    'GND': {'center_mm':[11.6,50.5], 'size_mm':1.5, 'thickness_mm':.3, 'bold':True},
+    '+12V': {'center_mm':[12.2,58.4], 'size_mm':1.5, 'thickness_mm':.3, 'bold':True},
+    '+5V': {'center_mm':[11.8,63.8], 'size_mm':1.5, 'thickness_mm':.24, 'bold':True},
+}
 CONTRACT_PATH = ROOT / 'boards/board-b/mechanical.json'
 TOL = .01
 
@@ -209,7 +215,7 @@ def verify_compact_mechanics(board, pcb_path, width=WIDTH, height=HEIGHT,
     rail_labels=[]
     try:
         label_contract=contract['terminal_blocks']['rail_labels']
-        if label_contract!={'back_x_mm':2.8,'back_size_mm':1.2,'back_rotation_deg':0,'back_mirrored':True,
+        if label_contract!={'back_labels':BACK_RAIL_LABELS,'back_rotation_deg':0,'back_mirrored':True,
                             'front_x_mm':.8,'front_size_mm':.8,'front_rotation_deg':90,'front_mirrored':False}:
             raise ValueError('unreviewed front/back rail-label contract')
         for text,(ref,pin) in RAIL_LABEL_PINS.items():
@@ -218,14 +224,21 @@ def verify_compact_mechanics(board, pcb_path, width=WIDTH, height=HEIGHT,
                 labels=[v for v in board.GetDrawings() if isinstance(v,p.PCB_TEXT) and v.GetLayer()==layer and v.GetText()==text]
                 if len(labels)!=1:raise ValueError(f'{side} {text}: expected exactly one board text label')
                 label=labels[0];position=xy(label)
-                if not (close(position[0],label_contract[side+'_x_mm']) and close(position[1],target_y)):
-                    raise ValueError(f'{side} {text}: must align with {ref}.{pin}')
+                reviewed=label_contract['back_labels'][text] if side=='back' else None
+                target=reviewed['center_mm'] if reviewed else [label_contract['front_x_mm'],target_y]
+                size=reviewed['size_mm'] if reviewed else label_contract['front_size_mm']
+                if not all(close(a,b) for a,b in zip(position,target)):
+                    raise ValueError(f'{side} {text}: reviewed label position for {ref}.{pin} differs')
                 if (label.IsMirrored()!=label_contract[side+'_mirrored']
                         or not close(angle(label.GetTextAngle().AsDegrees()),label_contract[side+'_rotation_deg'])
-                        or not all(close(p.ToMM(v),label_contract[side+'_size_mm']) for v in [label.GetTextSize().x,label.GetTextSize().y])):
+                        or not all(close(p.ToMM(v),size) for v in [label.GetTextSize().x,label.GetTextSize().y])):
                     raise ValueError(f'{side} {text}: wrong mirror, orientation or text size')
+                if reviewed and (label.IsBold()!=reviewed['bold']
+                                 or not close(p.ToMM(label.GetTextThickness()),reviewed['thickness_mm'],.001)):
+                    raise ValueError(f'{side} {text}: reviewed bold weight or stroke thickness differs')
                 rail_labels.append({'side':side,'text':text,'pin':ref+'.'+pin,'center_mm':position,
-                                    'mirrored':label.IsMirrored(),'size_mm':label_contract[side+'_size_mm']})
+                                    'mirrored':label.IsMirrored(),'size_mm':size,
+                                    'bold':label.IsBold(),'thickness_mm':p.ToMM(label.GetTextThickness())})
     except (KeyError,ValueError,StopIteration) as error:errors.append('Rail labels: '+str(error))
     pogo = {}
     try:
@@ -334,9 +347,13 @@ def self_test():
             for q in f.Pads():q.SetNet(nets[TERMINAL_NETS[item['reference']][q.GetNumber()]])
         for text,(ref,pin) in RAIL_LABEL_PINS.items():
             pad=next(q for q in b.FindFootprintByReference(ref).Pads() if q.GetNumber()==pin)
-            for layer,x,size,rotation,mirror in [(p.F_SilkS,.8,.8,90,False),(p.B_SilkS,2.8,1.2,0,True)]:
-                label=p.PCB_TEXT(b);label.SetText(text);label.SetLayer(layer);label.SetPosition(point(x,xy(pad)[1]))
+            reviewed=BACK_RAIL_LABELS[text]
+            for layer,center,size,rotation,mirror in [(p.F_SilkS,(.8,xy(pad)[1]),.8,90,False),
+                                                     (p.B_SilkS,reviewed['center_mm'],reviewed['size_mm'],0,True)]:
+                label=p.PCB_TEXT(b);label.SetText(text);label.SetLayer(layer);label.SetPosition(point(*center))
                 label.SetTextSize(point(size,size));label.SetTextAngle(p.EDA_ANGLE(rotation,p.DEGREES_T));label.SetMirrored(mirror);b.Add(label)
+                if layer==p.B_SilkS:
+                    label.SetBold(reviewed['bold']);label.SetTextThickness(p.FromMM(reviewed['thickness_mm']))
         f=footprint('P1','PogoEdge_BoardB_1x04_P2.54mm',P1_CENTER)
         for q in f.Pads():
             if POGO_NETS[q.GetNumber()]:q.SetNet(nets[POGO_NETS[q.GetNumber()]])
@@ -392,6 +409,9 @@ def self_test():
            ('back rail label wrong mirror',lambda b:back_label(b).SetMirrored(False)),
            ('back rail label swapped position',lambda b:back_label(b).SetPosition(back_label(b,'GND').GetPosition())),
            ('back rail label missing',lambda b:back_label(b).SetLayer(p.Dwgs_User)),
+           ('back rail label old text size',lambda b:back_label(b).SetTextSize(point(1.2,1.2))),
+           ('back rail label wrong bold weight',lambda b:back_label(b).SetBold(False)),
+           ('back plus5 label wrong stroke thickness',lambda b:back_label(b,'+5V').SetTextThickness(p.FromMM(.3))),
            ('front rail label missing',lambda b:next(v for v in b.GetDrawings() if isinstance(v,p.PCB_TEXT) and v.GetLayer()==p.F_SilkS and v.GetText()=='-12V').SetLayer(p.Dwgs_User)),
            ('missing independent upper-left support',lambda b:b.FindFootprintByReference('H7').SetReference('RETIRED_H7')),
            ('wrong corner offset',lambda b:b.FindFootprintByReference('H7').SetPosition(point(5,4))),
