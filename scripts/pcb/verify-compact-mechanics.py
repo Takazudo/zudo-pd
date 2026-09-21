@@ -279,8 +279,16 @@ def verify_compact_mechanics(board, pcb_path, width=WIDTH, height=HEIGHT,
                 raise ValueError('visible P1 label/guide protrudes outside the board')
             if hasattr(item, 'GetText'):
                 labels[item.GetText()] = xy(item)
-        for text, dx in [('ATT', -3.81), ('PDOK', -1.27), ('GND', 1.27), ('NC', 3.81)]:
-            if text not in labels or not close(labels[text][0], fx + dx, .3) or labels[text][1] <= fy + 1.25:
+        # A label may sit below its pad or beside an end pad; it must stay clear of the
+        # pad row's copper and be nearer to its own contact than to any other of the seven.
+        row = {'ATT': -3.81, 'PDOK': -1.27, 'GND': 1.27, 'NC': 3.81, **{ref: 6.35 + i * 2.54 for i, ref in enumerate(RAIL_CONTACTS)}}
+        for text in ['ATT', 'PDOK', 'GND', 'NC']:
+            if text not in labels:
+                raise ValueError('missing/misplaced per-pad label ' + text)
+            lx, ly = labels[text]
+            nearest = min(row, key=lambda name: (lx - fx - row[name]) ** 2 + (ly - fy) ** 2)
+            on_copper = any(abs(lx - fx - dx) < .75 and abs(ly - fy) < 1.25 for dx in row.values())
+            if nearest != text or on_copper or (lx - fx - row[text]) ** 2 + (ly - fy) ** 2 > 3.0 ** 2:
                 raise ValueError('missing/misplaced per-pad label ' + text)
         if any(t in labels for t in ['SCL', 'SDA', 'RESET', '<-- EDGE']):
             raise ValueError('P1 retains misleading programming labels or edge guide')

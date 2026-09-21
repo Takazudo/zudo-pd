@@ -20,7 +20,9 @@
     "U6 ADJ",
     "U6 FB upper series",
     "U7 ADJ",
-    "U7 FB upper series"
+    "U7 FB upper series",
+    "U8 ADJ",
+    "U8 FB upper series"
   ],
   "removed_nets": [
     "+15V -> +13.5V gen",
@@ -59,12 +61,13 @@
       "J5.5",
       "J5.6",
       "J6.1",
-      "LED2.2",
+      "LED2.1",
       "LED3.1",
       "LED4.2",
       "P1.3",
       "R22.2",
       "R25.2",
+      "R28.2",
       "R5.2",
       "TVS1.2",
       "TVS2.2",
@@ -91,7 +94,7 @@
     ],
     "Net-(U8-OUT)": [
       "C42.2",
-      "U8.4",
+      "R26.1",
       "U8.5"
     ]
   },
@@ -125,16 +128,16 @@
     "GND added pins (D1.2, D2.2)": "review finding BB-11: buck catch-diode anode ground returns, omitted from the doc net tables and the baseline's own unresolved list.",
     "GND added pins (C3.2, C4.2, C11.1, R5.2, C33.2)": "baseline unresolved row 7 (doc-implied DC-DC GND pins: output-cap far plates, U4 bottom FB resistor, C33 feedforward mirror).",
     "C12 pins (-13.5V OUT: C12.2, GND: C12.1)": "decisions.json neg-rail-cap-bank: third can added to the -13.5V output bank so no output electrolytic exceeds 85% of its 150kHz-derated ripple rating at the 0.8 A rated load. C12 is not in the netlist-derived baseline because it did not exist at v0.4.0. Pin sense mirrors C24 (pin 2 on the rail, pin 1 on GND).",
-    "GND added pins (LED2.2, LED3.1, LED4.2) and Net-(R7-LED2)/Net-(R8-LED3)/Net-(R9-LED4)": "review finding BB-13: LED indicator wiring absent from the baseline; polarity per the component-project-passives pin maps (KT-0603YG green pin1=A/pin2=K reversed numbering; KT-0603B and KT-0603R pin1=K/pin2=A). LED4 anode on GND so the red indicator conducts into the negative rail.",
     "J5 pins (+15V gen: J5.1/J5.2, GND: J5.5/J5.6) and ATT/PDOK nets": "locked A-B interface contract (board-split-decision.md #90 decision set (b), mirrored in board-b-synth-power.md): pins 1-2 +15V, 3 ATT, 4 PDOK, 5-6 GND. ATT/PDOK are open-drain with no on-board pull-up.",
     "P1 pins (ATT: P1.1, PDOK: P1.2, GND: P1.3)": "decisions.json dec-p1-att-pdok-provision: PogoPad_1x04 bare pads, pin 4 declared NO_CONNECT.",
-    "TP3.1 / TP4.1 / TP5.1": "bare-copper rail test pads carried from the legacy dc-dc-conversion sheet (TP3 +13.5V, TP4 +7.5V, TP5 -13.5V); pre-declared as board-b exclusions in the component-spec-audit inventory."
+    "TP3.1 / TP4.1 / TP5.1": "bare-copper rail test pads carried from the legacy dc-dc-conversion sheet (TP3 +13.5V, TP4 +7.5V, TP5 -13.5V); pre-declared as board-b exclusions in the component-spec-audit inventory.",
+    "GND added pins (LED2.1, LED3.1, LED4.2) and Net-(R7-LED2)/Net-(R8-LED3)/Net-(R9-LED4)": "review finding BB-13: LED indicator wiring absent from the baseline; polarity per the component-project-passives pin maps (KT-0603YG green pin1=A/pin2=K reversed numbering; KT-0603B and KT-0603R pin1=K/pin2=A). LED4 anode on GND so the red indicator conducts into the negative rail. 2026-09-21: LED2 pin numbers corrected to pin 1 = K after the LCSC library and the JLCPCB placement preview showed the imported green-LED symbol had reversed numbering; copper unchanged."
   },
   "_sources": {
     "renewal socket pin pairs": "dec-renewal-eurorack-sockets: J10/J11 exact DEALON keyed header requires conventional pin1/red stripe -12V, pins3-8 GND,9-10 +12V,11-12 +5V,13-14 CV,15-16 GATE. This intentionally replaces the legacy numeric map.",
     "renamed input and intermediate nets": "dec-renewal-ldos and current AP63201 component owner: +15V INPUT feeds AP63201 +13.44V PRE, LM2596 +6.519V PRE, and inverting LM2596 -14.145V PRE. Numeric labels follow nominal setpoints, not measured voltages.",
     "U2 switcher topology": "AP63201 replaces nonsynchronous LM2596 U2: remove D1/C31, use FB pin1, EN pin2 tied to VIN, VIN pin3, GND pin4, SW pin5, BST pin6 with C38 to SW. C3/C14/C20/C36/C37 form the ceramic output bank; C39/C46 are ceramic input bypass.",
-    "regulator pins and new feedback": "dec-renewal-ldos: U6/U7 LT1963A pins1/2 input,3/6 ground,4 output,5 ADJ; R20/R21/R22 and R23/R24/R25 are explicit series-top dividers. U8 LT3015 pins1/3/6 negative input,2 ground,4/5 output. Imported U8 pin functions were corrected to the manufacturer Q-package drawing.",
+    "regulator pins and new feedback": "dec-renewal-ldos: U6/U7 LT1963A pins1/2 input,3/6 ground,4 output,5 ADJ; R20/R21/R22 and R23/R24/R25 are explicit series-top dividers. U8 adjustable LT3015 pins1/3/6 negative input,2 ground,5 output,4 ADJ; R26/R27/R28 is its explicit series-top divider, replacing the out-of-stock fixed -12 V part whose pin 4 sensed the output. Imported U8 pin functions were corrected to the manufacturer Q-package drawing.",
     "independent LDO output capacitors": "C40/C41/C42 are exact Panasonic 25SVPF47M polymer capacitors. Negative output C42 uses pin1 positive to GND and pin2 negative to U8 OUT. Existing bulk banks remain.",
     "preserved earlier derived connectivity": "The historical source notes below retain rail output, TVS/PTC, LED, J5/P1 and testpad derivations. Their old intermediate names and replaced parts describe the earlier design only.",
     "two-pole output replacement": "dec-renewal-screw-terminals: J6.1GND/J6.2−12V,J7.1+5V/J7.2+12V; separate contacts, old J8/J9 removed."

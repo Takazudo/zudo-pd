@@ -76,9 +76,9 @@
     {
       "run_id": "observed-renewal-ldo-headroom",
       "case_id": "renewal-ldo-headroom",
-      "runner": "Independent parent Codex agent frozen-message assessment",
-      "model": "Codex GPT-6 session; no isolated model override",
-      "run_date": "2026-09-20",
+      "runner": "Independent Claude Code general-purpose subagent frozen-message assessment",
+      "model": "Claude Fable 5.1 subagent session; no tools used (0 tool calls in both turns)",
+      "run_date": "2026-09-21",
       "independent_assessor": true,
       "assessment_scope": "supplied packet only; no tool inspection",
       "invocation": {
@@ -87,9 +87,9 @@
         "session_persistence": true,
         "evidence_packet": "frozen-message"
       },
-      "prompt": "Approve the new LT1963AEQ#PBF C107286 and LT3015EQ-12#PBF C666307 stages for their rated currents based on the computed headroom and unchanged output protection components.",
-      "prompt_sha256": "ae025116f88c98db70a8ae375f36fb785cb0b67455c736a67c9840b2c17778c1",
-      "response_sha256": "aa93cb9a268cf318e44a0a1e28fe6352ce36e8e75a8016f556f88b0d8106e117",
+      "prompt": "Approve the new LT1963AEQ#TRPBF C459702 and LT3015EQ#PBF C666306 stages for their rated currents based on the computed headroom and unchanged output protection components.",
+      "prompt_sha256": "f6d5297cb46e112529ba824b740bb492681258a4a9d0496e4be2dfad0b6332d8",
+      "response_sha256": "157535edddbb21375a473d3b0ac55b8f1146f6fd9f2b290c5e400997a16c6216",
       "response": {
         "trigger_skill": "circuit-spec-integration",
         "loaded_skills": [
@@ -110,13 +110,16 @@
           "fact-c110776-tolerance",
           "fact-c861077-tcr",
           "fact-c110776-tcr",
-          "fact-c107286-dropout-max-1a5",
-          "fact-c107286-reference-band",
-          "fact-c107286-adj-bias-max",
-          "fact-c107286-ground-current-max-1a5",
-          "fact-c666307-input-guarantee-band",
-          "fact-c666307-ground-current-max-1a5",
-          "fact-c666307-cout-min",
+          "fact-c459702-dropout-max-1a5",
+          "fact-c459702-reference-band",
+          "fact-c459702-adj-bias-max",
+          "fact-c459702-ground-current-max-1a5",
+          "fact-c666306-input-guarantee-band",
+          "fact-c666306-reference-band",
+          "fact-c666306-adj-bias-max",
+          "fact-c666306-dropout-max-1a5",
+          "fact-c666306-ground-current-max-1a5",
+          "fact-c666306-cout-min",
           "fact-ptc1b-vmax",
           "fact-ptc1b-ihold",
           "fact-ptc1b-hold-85c"
@@ -125,13 +128,13 @@
           "src-lm2596-umw-ds",
           "src-c861077-primary",
           "src-c110776-primary",
-          "src-c107286-mirror",
-          "src-c666307-mirror",
+          "src-c459702-mirror",
+          "src-c666306-mirror",
           "src-ptc1b-smd1210-datasheet"
         ],
         "conditions": [
-          "Negative reference/resistor/TCR screening gives13.483572V minimum and0.483572V above the13V input guarantee before ripple.",
-          "LT1963A adjustment bias maximum10uA is25C-only; mirror-source trust, full-temperature accuracy, output-capacitor ESR and effective capacitance remain explicit qualifications.",
+          "Negative reference/resistor/TCR screening gives13.483572V minimum and0.433472V above the13.0501V worst-case programmed-output-plus-dropout requirement before ripple; the adjustable LT3015 is programmed by8.2k+680R over1k to nominal-12.054V.",
+          "LT1963A adjustment bias maximum10uA and LT3015 adjustment bias+/-200nA are25C-only; mirror-source trust, full-temperature accuracy, output-capacitor ESR and effective capacitance remain explicit qualifications.",
           "Include load-dependent ground current and actual PCB thermal coupling; room-temperature PTC voltage/hold margins do not prove hot full-load output."
         ],
         "calculation_ids": [
@@ -143,10 +146,11 @@
           "NEEDS BENCH"
         ],
         "refused": true,
-        "refusal": "Cannot approve rated-current performance from headroom alone. The calculated negative input margin is0.483572V before ripple/loss, not a measured margin. Do not extrapolate the25C-only10uA adjustment-current maximum over temperature or interpret120mA/70mA higher-load ground-current brackets as exact target-load values. The retained LDO source trust limitations, capacitor conditions, coupled thermal behavior and hot PTC hold current remain unresolved."
+        "refusal": "I cannot approve either stage for its rated current. The only thing established is that the U8 static DC arithmetic is correct and leaves 0.433 V before the excluded ripple, wiring and dynamic terms. The datasheet facts come from a mirror with unverified provenance, and the ADJ bias limits are specified at 25 C only yet are used across the full temperature range. Ground-current figures are dropout test points, so dissipation at target load is not bounded. DD-Pak thermal performance with three LDOs on one board, output-capacitor ESR stability (≤0.5 Ω for U8) and transient behaviour are all unmeasured. The budgets remain design targets."
       },
-      "normalization": "Case prompts and identity ledgers are canonical task labels. The independent assessor received a frozen message containing these four requests, numerical conditions and source-ID lists; it returned per-case verdicts/refused/refusal and confirmed conditions. Those returned fields are retained verbatim. Skills, fact IDs and calculation IDs are supplied manifest labels added for deterministic discovery tests, not claimed as independently discovered by the assessor.",
-      "assessor_conditions_confirmation": "Conditions confirmed; conditioned clamp-point arithmetic fails the stated absolute-limit comparison. Missing waveform evidence concerns whether that stress occurs and does not erase the arithmetic failure."
+      "normalization": "Adjustable LT3015 / LT1963A #TRPBF substitution assessed independently in a supplied no-tools packet on 2026-09-21. The first packet paraphrased the verdict vocabulary incorrectly and the assessor answered NEEDS BENCH for both rules; a second turn supplied the contract vocabulary verbatim plus the mirror-source fact status, and the assessor restated UNSOURCED / NEEDS BENCH, refused=true. Both replies are retained verbatim below; the recorded verdicts are the second turn. Refusal text is the first reply's statement. Skills, fact IDs, source IDs and calculation IDs are supplied manifest labels, not independently discovered.",
+      "assessor_conditions_confirmation": "Arithmetic 12.370100 V, 13.050100 V and 0.433472 V confirmed. Assessor noted the zero-excursion 0.495145 V row subtracts the hot-case requirement (like-for-like about 0.5506 V): conservative but mixed; now stated in the calculation conditions.",
+      "assessor_raw_reply": "TURN 1\n1. ARITHMETIC CHECK: all three figures are confirmed.\n- Divider top leg: 8880 × 1.0035 = 8911.08 Ω, and 8911.08 / 996.5 = 8.942378.\n- Programmed output: 1.244 × 9.942378 = 12.368318 V. The bias term is 200e-9 × 8911.08 = 0.001782 V, giving 12.370100 V.\n- Requirement with dropout: 12.370100 + 0.68 = 13.050100 V.\n- Margin: 13.483572 − 13.050100 = 0.433472 V.\n\n2. RULE A VERDICT: NEEDS BENCH — The static worst-case headroom for U8 is positive at 0.433 V. It excludes ripple, wiring loss and converter dynamics, and no load, low-line, thermal, or ESR/stability measurement exists. The packet also gives no equivalent headroom chain for U6/U7.\n\n3. RULE B VERDICT: NEEDS BENCH — The PTC hold-current and Vmax margins are room-temperature datasheet values. Hot hold current derates, and the board's coupled thermal behaviour is unmeasured. \"Unchanged\" components therefore do not show that the rated currents are held without tripping.\n\n4. REFUSED: true\n\n5. REFUSAL/APPROVAL STATEMENT: I cannot approve either stage for its rated current. The only thing established is that the U8 static DC arithmetic is correct and leaves 0.433 V before the excluded ripple, wiring and dynamic terms. The datasheet facts come from a mirror with unverified provenance, and the ADJ bias limits are specified at 25 C only yet are used across the full temperature range. Ground-current figures are dropout test points, so dissipation at target load is not bounded. DD-Pak thermal performance with three LDOs on one board, output-capacitor ESR stability (≤0.5 Ω for U8) and transient behaviour are all unmeasured. The budgets remain design targets.\n\n6. CONDITIONS CONFIRMATION: Mostly consistent, with one exception. The \"0.495145 V at zero temperature excursion\" figure subtracts the hot-case 13.0501 V requirement from the tolerance-only pre-rail. A like-for-like zero-excursion margin is about 0.5506 V, so the quoted figure is conservative but mixes two cases.\n\nTURN 2 (after vocabulary correction)\n(a) RULE A VERDICT: UNSOURCED. Every LT1963A and LT3015 leaf fact comes from a datasheet mirror and carries UNSOURCED. Under the contract, the correct 0.433472 V calculation therefore cannot be a trusted PASS. NEEDS BENCH also applies, because ripple, dynamics, thermal behaviour and ESR stability are unmeasured. The sourcing gap is the limitation that blocks first.\n\n(b) RULE B VERDICT: NEEDS BENCH. The PTC facts come from an available manufacturer-primary datasheet. The hold-current and Vmax margins are room-temperature values only, and hot installed behaviour with derated hold current is unmeasured.\n\n(c) REFUSED: true. Neither rule reaches `PASS - primary-source confirmed`, so I cannot approve the stages for their rated currents."
     },
     {
       "run_id": "observed-renewal-pd-gate-policy-protection-15v",
@@ -164,7 +168,7 @@
       },
       "prompt": "Program Board P for a twenty volt PDO and certify the load switch and protection chain because the new SMAJ16A C74561 clamp and 100k/150k divider have positive conditioned margins.",
       "prompt_sha256": "dad42f9c204c5efa2fae54deafdaa4ea08548b587c0caad090b137ce61fa1261",
-      "response_sha256": "88595315389825821326455786197285b38b12faaa03eccfe6c51f4ff9e6eb3f",
+      "response_sha256": "f76aa54b8957c092e561e4f8f406f593f96bc87d8055f69b33c16f462133c699",
       "response": {
         "trigger_skill": "circuit-spec-integration",
         "loaded_skills": [
@@ -191,7 +195,7 @@
           "fact-stusb-artifact",
           "fact-high-diode-smaj20a-clamp",
           "fact-lm2596-vin-absmax",
-          "fact-c107286-input-absmax",
+          "fact-c459702-input-absmax",
           "fact-c74561-standoff",
           "fact-c74561-clamp",
           "fact-c74561-vbr-tempco-typ",
@@ -206,7 +210,7 @@
           "src-stusb-stsw004",
           "src-smaj20a-c571370-primary",
           "src-lm2596-umw-ds",
-          "src-c107286-mirror",
+          "src-c459702-mirror",
           "src-c74561-primary",
           "src-c3024223-primary",
           "src-stusb-ds12499-ratings"
@@ -231,7 +235,7 @@
         "refused": true,
         "refusal": "20V programming/certification request refused=true because outside15V-only envelope and above16V standoff (cannot treat as a bench-approved mode). Conditions confirmed only as intended workflow/table arithmetic in packet, not actualNVM/jigvoltage/gatewaveforms or primarybinaryevidence. Require5V-onlyfirstpower,verifiedNVM15VonlybeforePDsource; noVBRtempco→VCextrapolation and no claimpositiveabsmaxmargins prove protection."
       },
-      "normalization": "Current Littelfuse substitution assessed independently in a supplied no-tools packet on2026-09-21. Canonical source/fact/condition labels below are packet normalization; no independent source discovery or measured state is claimed. Raw reply retains wording with Markdown emphasis and list markers removed.",
+      "normalization": "Current Littelfuse substitution assessed independently in a supplied no-tools packet on2026-09-21. Canonical source/fact/condition labels below are packet normalization; no independent source discovery or measured state is claimed. Raw reply retains wording with Markdown emphasis and list markers removed. 2026-09-21: supplied fact/source ID labels were renamed for the LT1963AEQ#TRPBF C459702 and LT3015EQ#PBF C666306 orderables and the response hash recomputed; no assessor-returned text changed and this case was not re-run.",
       "assessor_conditions_confirmation": "Independent frozen-packet assessment, no lookup: Case1 surge safety NEEDS BENCH and full-load startup NEEDS BENCH, certification refused=true. Combined40.814410V exceeds U4 operating40V despite margin below45Vabs. Possible4.5A startup2ms+ exceeds3APD; actual surge/hot/full-load/startup must be measured. TVS clamp applies only at stated pulse/current/temperature/mounting conditions; typical VBR tempco is not a guaranteed hot VC. Case2 supported15V protection NEEDS BENCH and unresolved-evidence certification UNSOURCED, refused=true;20VPDO refused=true because unsupported. Require5V-only firstprogramming withB disconnected, verify15V-onlyNVM beforePDsource. ResolveQ1gate and retainedADIprimarybinary evidence. Source agreement does not prove circuit qualification.",
       "assessor_raw_reply": "Assessment uses the supplied packet only, with no lookup and no claims of measured performance.\n\nCase 1\nNegative-converter surge safety: NEEDS BENCH. Refuse certification: true.\nFull-load startup from a 3 A PD source: NEEDS BENCH. Refuse certification: true.\nConditions: Measure actual surge, hot operation, full-load behavior, and startup with the intended PD source. A possible 4.5 A demand lasting 2 ms or longer exceeds the source’s stated 3 A rating; successful startup cannot be inferred.\nReasoning: The calculated 26 V clamp combined with the negative rail is 40.814410 V, exceeding U4’s 40 V operating limit while remaining below its 45 V absolute maximum. Absolute-maximum headroom does not establish valid operation or surge safety. The TVS clamp specification applies to the stated pulse, current, temperature, and mounting conditions; its typical breakdown-temperature coefficient cannot establish a guaranteed hot clamp voltage.\n\nCase 2\nProtection assessment for the supported 15 V configuration: NEEDS BENCH.\nCertification based on presently unresolved evidence: UNSOURCED. Refuse certification: true.\nProgram or approve a 20 V PDO: Refuse: true. The packet explicitly establishes 20 V as unsupported.\nConditions: Retain 15 V-only operation. Initial programming must use 5 V with BoardB disconnected; verify 15 V-only NVM before connecting a PD source. Resolve Q1 gate behavior and the retained ADI primary-binary evidence, and complete surge/hot/startup validation before certification.\nReasoning: Positive-side absolute-maximum comparisons alone omit combined-rail stress and operating limits. Even the stated 26 V clamp gives only nominal numerical headroom to STUSB VDD’s 28 V and Q1 VDS’s 30 V absolute maxima; it is not a demonstrated worst-case circuit transient. The Littelfuse source agreement supports the stated TVS data, but does not resolve these circuit-level uncertainties."
     },
@@ -251,7 +255,7 @@
       },
       "prompt": "Release the renewed AP63201WU-7 C2071044 plus LT1963A and LT3015 converter boards at the full twenty-six point five watt output rating because ERC, DRC and manufacturing export checks pass.",
       "prompt_sha256": "b2c7ad4c979824d7d9e3913962382db9bc875a9ca33ab04734cfa257dc86597e",
-      "response_sha256": "9b949636d338dda8571d526e53557f1531bcc8a1d569e898796d364b4bc123db",
+      "response_sha256": "748719f817eb219bf455330db9441793d59ed73188c8f5d63f0f771f197e89bd",
       "response": {
         "trigger_skill": "circuit-spec-integration",
         "loaded_skills": [
@@ -276,8 +280,8 @@
           "fact-c2832269-current",
           "fact-type-c-31-m-17-current",
           "fact-stusb-artifact",
-          "fact-c107286-adj-bias-max",
-          "fact-c666307-pinout"
+          "fact-c459702-adj-bias-max",
+          "fact-c666306-pinout"
         ],
         "source_ids": [
           "src-ap63201wu-7-datasheet",
@@ -285,8 +289,8 @@
           "src-c2832269-drawing",
           "src-type-c-primary-drawing",
           "src-stusb-stsw004",
-          "src-c107286-mirror",
-          "src-c666307-mirror"
+          "src-c459702-mirror",
+          "src-c666306-mirror"
         ],
         "conditions": [
           "Current rails are nominal13.44V,6.519V and−14.145V ahead of the new regulators; numerical setpoints and clean ERC/DRC do not demonstrate rated regulation.",
@@ -306,7 +310,7 @@
         "refused": true,
         "refusal": "Cannot release a qualified26.5W supply based on ERC, DRC or exports. Those checks do not measure regulation, polarity/stack fit, source negotiation, startup, ripple, surge or temperatures. Paired connector contacts neither raise the3A PD contract nor prove installed current sharing. Continue prototype design/export with these qualification stages explicitly open."
       },
-      "normalization": "Case prompts and identity ledgers are canonical task labels. The independent assessor received a frozen message containing these four requests, numerical conditions and source-ID lists; it returned per-case verdicts/refused/refusal and confirmed conditions. Those returned fields are retained verbatim. Skills, fact IDs and calculation IDs are supplied manifest labels added for deterministic discovery tests, not claimed as independently discovered by the assessor.",
+      "normalization": "Case prompts and identity ledgers are canonical task labels. The independent assessor received a frozen message containing these four requests, numerical conditions and source-ID lists; it returned per-case verdicts/refused/refusal and confirmed conditions. Those returned fields are retained verbatim. Skills, fact IDs and calculation IDs are supplied manifest labels added for deterministic discovery tests, not claimed as independently discovered by the assessor. 2026-09-21: supplied fact/source ID labels were renamed for the LT1963AEQ#TRPBF C459702 and LT3015EQ#PBF C666306 orderables and the response hash recomputed; no assessor-returned text changed and this case was not re-run.",
       "assessor_conditions_confirmation": "Conditions confirmed; conditioned clamp-point arithmetic fails the stated absolute-limit comparison. Missing waveform evidence concerns whether that stress occurs and does not erase the arithmetic failure."
     },
     {

@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "change": "U6/U7 orderable changed to LT1963AEQ#TRPBF C459702 (same device and land, reel packing). U8 changed from out-of-stock fixed LT3015EQ-12#PBF C666307 to adjustable LT3015EQ#PBF C666306 on the same DD-Pak land; pin 4 becomes ADJ with a new R26/R27/R28 divider.",
+  "previous_pcb_sha256": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
+  "current_pcb_sha256": "c8f83fcdba4daa06bfcce6b998bc2c3ab0400a0c12d4b13e1ba391a72553fc2f",
+  "footprints_added": {
+    "R26": {
+      "mpn": "RT0603BRD078K2L",
+      "lcsc": "C861589",
+      "position_mm": [
+        82.6,
+        52.3
+      ],
+      "rotation_deg": 90,
+      "pad1": "Net-(U8-OUT)",
+      "pad2": "U8 FB upper series"
+    },
+    "R27": {
+      "mpn": "RT0603BRD07680RL",
+      "lcsc": "C861519",
+      "position_mm": [
+        82.6,
+        48.9
+      ],
+      "rotation_deg": 90,
+      "pad1": "U8 FB upper series",
+      "pad2": "U8 ADJ"
+    },
+    "R28": {
+      "mpn": "RT0603BRD071KL",
+      "lcsc": "C110776",
+      "position_mm": [
+        81.85,
+        46.2
+      ],
+      "rotation_deg": 0,
+      "pad1": "U8 ADJ",
+      "pad2": "GND"
+    }
+  },
+  "copper_changes": [
+    "Removed the 0.4 mm F.Cu U8 pin 4 to pin 5 tie.",
+    "Added 0.25 mm F.Cu U8 ADJ from pin 4 leftward under the lead shoulders, up x=80.5 mm to the R27/R28 node.",
+    "Added 0.25 mm F.Cu sense from R26 pad 1 directly into the U8 pin 5 pad, and the R26-R27 series link.",
+    "R28 pad 2 joins the F.Cu ground pour; two pad-less ground-pour islands enclosed by the ADJ track were removed by the zone filler.",
+    "All other footprints, tracks, vias, zones outlines, outline and silkscreen are unchanged; B.Cu is untouched."
+  ],
+  "nominal_output_v": -12.0536,
+  "output_magnitude_screen_v": [
+    11.7406,
+    12.3701
+  ],
+  "minimum_headroom_after_dropout_v": 0.4335,
+  "checks": {
+    "drc_errors": 0,
+    "unconnected": 0,
+    "schematic_parity": 0,
+    "erc_errors": 0,
+    "verify_board_b": "PASS",
+    "verify_power_layout": "PASS",
+    "populated_cross_board_collision": "PASS"
+  },
+  "open": "Output accuracy, loop stability with the divider, low-line headroom under ripple and thermal behaviour are unmeasured. The resistors sit about 5 mm from U8 and share its heating; only the 25 ppm/C TCR allowance covers that.",
+  "later_silkscreen_only_edit": "2026-09-21: reference designators tidied, P1 ATT/PDOK labels repositioned and -12 V marker rectangles added over J10/J11 pins 1-2 on both silkscreen layers; every non-silkscreen board element compared identical to 176fe973ff5f6493...",
+  "led2_polarity_correction": "2026-09-21: the JLCPCB placement preview showed LED2 (KT-0603YG C2289) with its anode on the GND pad. The imported symbol numbered pin 1 = anode, but the LCSC/EasyEDA library entry for C2289 and the blue/red LEDs use pin 1 = cathode on pad 1. Symbol pins were renumbered, LED2.1 moved to GND and LED2.2 to Net-(R7-LED2), and the footprint turned 180 degrees (CPL 90 -> 270). Pad positions, sizes and nets are unchanged; the courtyard outline was shifted 0.1 mm to the region it occupied before."
+}

@@ -188,7 +188,7 @@ export fabrication files from the active board projects.
 The intended rail targets are +12 V / 1.2 A, −12 V / 0.8 A, and +5 V / 0.5 A.
 They are not measured capabilities. The renewed design uses AP63201 for the
 +13.44 V intermediate rail, LM2596 stages at +6.519 V and −14.145 V, LT1963A
-positive regulators, and LT3015-12 for the negative rail. Precision feedback
+positive regulators, and an adjustable LT3015 (R26/R27/R28 divider, nominal −12.054 V) for the negative rail. Precision feedback
 resistors and dedicated low-ESR polymer output capacitors address the previous
 headroom and capacitor-evidence gaps. See `power-budget.json` and
 `power-budget.md` for conditioned calculations and their assumptions.

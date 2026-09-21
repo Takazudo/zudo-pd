@@ -14,8 +14,8 @@
         "rec-c861077",
         "rec-c110776",
         "rec-c23159",
-        "rec-c107286",
-        "rec-c666307",
+        "rec-c459702",
+        "rec-c666306",
         "rec-ap63201wu-7"
       ],
       "fact_ids": [
@@ -27,9 +27,9 @@
         "fact-c861077-resistance",
         "fact-c110776-resistance",
         "fact-c23159-resistance",
-        "fact-c107286-reference-band",
-        "fact-c107286-adj-bias-max",
-        "fact-c666307-input-guarantee-band",
+        "fact-c459702-reference-band",
+        "fact-c459702-adj-bias-max",
+        "fact-c666306-input-guarantee-band",
         "fact-ap63201wu-7-vfb-min",
         "fact-ap63201wu-7-vfb-max",
         "fact-ap63201wu-7-input-max",
@@ -38,7 +38,7 @@
         "fact-ap63201wu-7-cout-min",
         "fact-ap63201wu-7-layout-qualification"
       ],
-      "conditions": "Current chain: Board P nominal 15 V / 3 A -> AP63201 +13.44 V, LM2596 +6.519 V and -14.145 V intermediates -> LT1963A +12/+5 V and LT3015-12 -12 V. R5/R6 are 10.5 k/1 k 0.1%; tolerance/TCR/reference calculations are screening, with actual low-line dropout, ripple and thermal coupling open. Board A and original regulator facts are historical and are not current-stage proof. Prototype normal source envelope is15 V±5%,20 V unsupported; first power/programming uses5 V-only with B disconnected and retained15 V-only NVM readback before a PD-capable source.",
+      "conditions": "Current chain: Board P nominal 15 V / 3 A -> AP63201 +13.44 V, LM2596 +6.519 V and -14.145 V intermediates -> LT1963A +12/+5 V and adjustable LT3015 -12.054 V nominal. R5/R6 are 10.5 k/1 k 0.1%; tolerance/TCR/reference calculations are screening, with actual low-line dropout, ripple and thermal coupling open. Board A and original regulator facts are historical and are not current-stage proof. Prototype normal source envelope is15 V±5%,20 V unsupported; first power/programming uses5 V-only with B disconnected and retained15 V-only NVM readback before a PD-capable source.",
       "verdict": "NEEDS BENCH",
       "refusal": "Do not certify regulated output or the 26.5 W rated total until all three outputs pass low-line, full-load, ripple and thermal tests with the programmed PD core.",
       "conditioned_calculations": [
@@ -67,8 +67,8 @@
         "rec-ss34-c8678",
         "rec-smaj15a-c571368",
         "rec-cand-smaj6-5a-c87267",
-        "rec-c107286",
-        "rec-c666307",
+        "rec-c459702",
+        "rec-c666306",
         "rec-c861077",
         "rec-c110776",
         "rec-c74561",
@@ -89,8 +89,8 @@
         "fact-ss34-vrrm",
         "fact-smaj15a-clamp",
         "fact-cand-smaj6-5a-clamp",
-        "fact-c107286-input-absmax",
-        "fact-c666307-input-absmax",
+        "fact-c459702-input-absmax",
+        "fact-c666306-input-absmax",
         "fact-lm2596-fb-vref",
         "fact-c861077-resistance",
         "fact-c110776-resistance",
@@ -417,8 +417,10 @@
         "rec-lm2596s-adj-c347423",
         "rec-c861077",
         "rec-c110776",
-        "rec-c107286",
-        "rec-c666307"
+        "rec-c459702",
+        "rec-c666306",
+        "rec-c861589",
+        "rec-c861519"
       ],
       "fact_ids": [
         "fact-lm2596-fb-vref-min-full-temp",
@@ -428,23 +430,27 @@
         "fact-c110776-tolerance",
         "fact-c861077-tcr",
         "fact-c110776-tcr",
-        "fact-c107286-dropout-max-1a5",
-        "fact-c107286-dropout-max-0a5",
-        "fact-c107286-reference-band",
-        "fact-c107286-adj-bias-max",
-        "fact-c107286-ground-current-max-1a5",
-        "fact-c107286-ground-current-max-0a5",
-        "fact-c107286-cout-min",
-        "fact-c666307-input-guarantee-band",
-        "fact-c666307-output-guarantee-band",
-        "fact-c666307-dropout-max-1a5",
-        "fact-c666307-ground-current-max-1a5",
-        "fact-c666307-cout-min",
-        "fact-c666307-theta-ja-layout"
+        "fact-c459702-dropout-max-1a5",
+        "fact-c459702-dropout-max-0a5",
+        "fact-c459702-reference-band",
+        "fact-c459702-adj-bias-max",
+        "fact-c459702-ground-current-max-1a5",
+        "fact-c459702-ground-current-max-0a5",
+        "fact-c459702-cout-min",
+        "fact-c666306-input-guarantee-band",
+        "fact-c666306-reference-band",
+        "fact-c666306-adj-bias-max",
+        "fact-c666306-divider-r1-max",
+        "fact-c861589-resistance",
+        "fact-c861519-resistance",
+        "fact-c666306-dropout-max-1a5",
+        "fact-c666306-ground-current-max-1a5",
+        "fact-c666306-cout-min",
+        "fact-c666306-theta-ja-layout"
       ],
-      "conditions": "LT1963A replaces both positive regulators and LT3015-12 replaces the negative regulator. AP pre-rail arithmetic is 13.219794..13.6624 V with the selected resistor/TCR envelope. Negative minimum is 13.483572 V with full-temperature reference and 0.35% combined resistor tolerance/TCR, leaving 0.483572 V above the fixed-12 input guarantee boundary before ripple. LT1963A adjustment-bias maximum is only specified at 25C; do not extrapolate it as a full-temperature limit. Include load-dependent ground current in thermal screens and verify output capacitor ESR/effective capacitance.",
+      "conditions": "LT1963A replaces both positive regulators and adjustable LT3015 replaces the negative regulator, programmed by R26+R27 = 8.88 k over R28 = 1 k to nominal -12.054 V. AP pre-rail arithmetic is 13.219794..13.6624 V with the selected resistor/TCR envelope. Negative minimum is 13.483572 V with full-temperature reference and 0.35% combined resistor tolerance/TCR, leaving 0.433472 V above the 13.0501 V worst-case output-plus-dropout requirement before ripple. The LT3015 ADJ bias limit is specified at 25C only. LT1963A adjustment-bias maximum is only specified at 25C; do not extrapolate it as a full-temperature limit. Include load-dependent ground current in thermal screens and verify output capacitor ESR/effective capacitance.",
       "verdict": "UNSOURCED",
-      "refusal": "The new parts improve DC headroom, but mirror-source trust, full-temperature adjustment bias, actual low-line ripple, capacitor stability and coupled thermal behavior remain open.",
+      "refusal": "The new parts improve DC headroom, but mirror-source trust, full-temperature adjustment bias on both regulator types, actual low-line ripple, capacitor stability and coupled thermal behavior remain open.",
       "conditioned_calculations": [
         {
           "calculation_id": "calc-renewal-negative-guarantee-margin",
@@ -459,17 +465,17 @@
           ],
           "expression": "fact_lm2596_fb_vref_min_full_temp * (1 + fact_c861077_resistance * (1 - fact_c861077_tolerance / 100 - fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 + fact_c110776_tolerance / 100 + fact_c110776_tcr * temperature_delta_c / 1000000))) - input_requirement_v",
           "result_key": "margin_v",
-          "conditions": "Requirement input 13 V from fixed-12 guarantee row; temperature excursions are explicit, and ripple/wiring losses are excluded.",
+          "conditions": "Requirement input 13.0501 V = worst-case programmed output magnitude 12.3701 V (-1.244 V reference, 0.35% opposed resistor tolerance/TCR, 200 nA ADJ bias taken from its 25 C-only limit) plus the 0.68 V full-temperature 1.5 A dropout; temperature excursions are explicit, and ripple/wiring losses are excluded. Both result rows use this single hot-case requirement, so the zero-excursion row is conservative rather than like-for-like.",
           "results": [
             {
               "temperature_delta_c": 0,
-              "input_requirement_v": 13,
-              "margin_v": 0.5452447552447559
+              "input_requirement_v": 13.0501,
+              "margin_v": 0.49514475524475543
             },
             {
               "temperature_delta_c": 100,
-              "input_requirement_v": 13,
-              "margin_v": 0.4835724962630792
+              "input_requirement_v": 13.0501,
+              "margin_v": 0.4334724962630787
             }
           ]
         }
@@ -675,8 +681,8 @@
         "rec-c22807",
         "rec-c14663",
         "rec-lm2596s-adj-c347423",
-        "rec-c107286",
-        "rec-c666307"
+        "rec-c459702",
+        "rec-c666306"
       ],
       "fact_ids": [
         "fact-stusb-ds12499-primary-attempt",
@@ -686,8 +692,8 @@
         "fact-c22807-r12-topology",
         "fact-c14663-c35-topology",
         "fact-lm2596-inverting-startup-current",
-        "fact-c107286-pinout",
-        "fact-c666307-pinout"
+        "fact-c459702-pinout",
+        "fact-c666306-pinout"
       ],
       "conditions": "Board P routed geometry and current generated schematics have distinct evidence from incoming-part orientation, assembled boards, programmed NVM and measured behavior. Primary/retained-mirror trust is explicit; a clean netlist/ERC/DRC does not prove full-load performance. Historical four-order diagnosis remains history and does not qualify this renewal.",
       "verdict": "UNSOURCED",
@@ -721,8 +727,8 @@
           "status": "MIXED",
           "fact_ids": [
             "fact-type-c-31-m-17-project-map",
-            "fact-c107286-pinout",
-            "fact-c666307-pinout"
+            "fact-c459702-pinout",
+            "fact-c666306-pinout"
           ]
         },
         {

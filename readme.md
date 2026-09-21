@@ -5,7 +5,7 @@ and a synth conversion board for +12 V, −12 V and +5 V.
 
 This is development hardware. The rail budgets are +12 V / 1.2 A, −12 V / 0.8 A and
 +5 V / 0.5 A; they are targets, not measured capabilities. The renewed conversion
-circuit uses AP63201, LT1963A and LT3015-12 parts with explicit headroom and thermal
+circuit uses AP63201, LT1963A and adjustable LT3015 parts with explicit headroom and thermal
 qualification conditions.
 
 Board B's screw-terminal revision is 110 × 85 mm, with two copper layers and

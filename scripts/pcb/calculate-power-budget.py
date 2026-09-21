@@ -78,11 +78,24 @@ def main():
     clamp = protection_facts['fact-c74561-clamp']['value']
     diode_reverse = protection_facts['fact-c3024223-vrrm']['value']
     standoff = protection_facts['fact-c74561-standoff']['value']
+    ldo_facts = {fact['fact_id']: fact for fact in json.loads((ROOT/'.claude/skills/component-renewal-ldos/facts.json').read_text())['facts']}
+    negative_reference = ldo_facts['fact-c666306-reference-band']['value']
+    negative_bias_a = ldo_facts['fact-c666306-adj-bias-max']['value']['max'] * 1e-9
+    negative_dropout = ldo_facts['fact-c666306-dropout-max-1a5']['value']
+    negative_top, negative_bottom, negative_resistor_hot_tolerance = 8200 + 680, 1000, .0035
+    # Adjustable LT3015: |VOUT| = |VADJ| * (1 + Rtop/Rbottom) +/- IADJ * Rtop; the bias limit is a 25 C-only figure.
+    out_negative = {
+        'minimum_magnitude_v': -negative_reference['max'] * (1 + negative_top * (1 - negative_resistor_hot_tolerance) / (negative_bottom * (1 + negative_resistor_hot_tolerance))) - negative_bias_a * negative_top * (1 + negative_resistor_hot_tolerance),
+        'nominal_magnitude_v': 1.22 * (1 + negative_top / negative_bottom),
+        'maximum_magnitude_v': -negative_reference['min'] * (1 + negative_top * (1 + negative_resistor_hot_tolerance) / (negative_bottom * (1 - negative_resistor_hot_tolerance))) + negative_bias_a * negative_top * (1 + negative_resistor_hot_tolerance),
+        'divider': {'top_refs': ['R26', 'R27'], 'top_ohm': negative_top, 'bottom_ref': 'R28', 'bottom_ohm': negative_bottom, 'tolerance_plus_tcr_fraction': negative_resistor_hot_tolerance},
+        'conditions': 'Full-temperature ADJ reference band with opposed 0.35% resistor tolerance/TCR and the 25°C-only 200 nA ADJ-bias limit; not a guaranteed full-temperature output band.',
+    }
     scenarios = []
     for top, tolerance in [(10600, .01), (10500, .001), (10600, .001), (10500, .0035)]:
         bounds = divider(top, 1000, tolerance)
         high = bounds['maximum_v']
-        pass_loss = (high - 11.76) * .8
+        pass_loss = (high - out_negative['minimum_magnitude_v']) * .8
         # 70 mA is a published 1.5 A/dropout test maximum, not an interpolated
         # guaranteed 0.8 A normal-operation value. Both cases stay explicitly open.
         ground_loss_screen = high * .07
@@ -93,8 +106,7 @@ def main():
             'resistor_temperature_note': '0.35% combines initial 0.1% and 25 ppm/°C over 100 °C; other rows use initial tolerance only' if tolerance == .0035 else 'Initial tolerance only; see combined TCR case for hot-operation screening',
             'formula': 'Vref * (1 + Rtop/Rbottom); reference 1.18/1.23/1.28 V, resistor extrema opposed',
             'reference_conditions': 'UMW LM2596S-ADJ full-temperature limits; reference test at VOUT=3V, 0.2..3A load; application regulation/ripple still requires verification',
-            'headroom_to_13v_guarantee_input_v': bounds['minimum_v'] - 13,
-            'headroom_to_max12v_output_plus_dropout_v': bounds['minimum_v'] - 12.24 - .68,
+            'headroom_to_max_programmed_output_plus_dropout_v': bounds['minimum_v'] - out_negative['maximum_magnitude_v'] - negative_dropout,
             'negative_ldo_pass_loss_w': pass_loss,
             'negative_ldo_ground_loss_screen_w': ground_loss_screen,
             'negative_ldo_total_thermal_screen_w': thermal_screen,
@@ -137,10 +149,10 @@ def main():
     out12, out5 = adjusted_output(8200 + 680), adjusted_output(3090 + 33)
     pre5_hot = divider(4300, 1000, .02)
     pre_negative_hot = scenarios[3]['bounds']
-    led12, led5, led_negative = out12['maximum_v']/980, out5['maximum_v']/980, 12.24/980
+    led12, led5, led_negative = out12['maximum_v']/980, out5['maximum_v']/980, out_negative['maximum_magnitude_v']/980
     load12 = 1.2 + led12 + 1.246 / (1000 * (1 - resistor_hot_tolerance))
     load5 = .5 + led5 + 1.246 / (1000 * (1 - resistor_hot_tolerance))
-    load_negative = .8 + led_negative
+    load_negative = .8 + led_negative + out_negative['maximum_magnitude_v'] / (negative_top + negative_bottom)
     input12 = load12 + .12 + positive_pre['maximum_v']/(168000 * .997375)
     input5 = load5 + .12 + pre5_hot['maximum_v']/(5300 * .98)  # conservative 1.5 A table bracket; fitted load exceeds 0.5 A
     input_negative = load_negative + .07 + .00013 + pre_negative_hot['maximum_v']/(11500 * .9965)
@@ -150,7 +162,7 @@ def main():
     stage_total = stage_power12 + stage_power5 + stage_power_negative
     thermal12 = (positive_pre['maximum_v'] - out12['minimum_v']) * load12 + positive_pre['maximum_v'] * .12
     thermal5 = (pre5_hot['maximum_v'] - out5['minimum_v']) * load5 + pre5_hot['maximum_v'] * .12
-    thermal_negative = (pre_negative_hot['maximum_v'] - 11.76) * load_negative + pre_negative_hot['maximum_v'] * .07
+    thermal_negative = (pre_negative_hot['maximum_v'] - out_negative['minimum_magnitude_v']) * load_negative + pre_negative_hot['maximum_v'] * .07
     negative_screens = [inverter(vin,pre_negative_hot['maximum_v'],input_negative,vf) for vin in (14,14.25,15,15.75)]
     for screen in negative_screens:
         remaining = screen['vin_v']*3 - screen['modeled_input_power_w']
@@ -165,7 +177,7 @@ def main():
         'rated_targets': {'plus12': {'voltage_v':12,'current_a':1.2}, 'minus12': {'voltage_v':-12,'current_a':.8}, 'plus5': {'voltage_v':5,'current_a':.5}},
         'nominal_output_power_w': 26.5,
         'whole_chain_current_thermal_screen': {
-            'plus12_output_band_conditional':out12, 'plus5_output_band_conditional':out5,
+            'plus12_output_band_conditional':out12, 'plus5_output_band_conditional':out5, 'minus12_output_band_conditional':out_negative,
             'plus5_pre_hot_tolerance_bounds':pre5_hot,
             'led_current_upper_bounds_a':{'plus12':led12,'plus5':led5,'minus12':led_negative},
             'led_assumption':'Zero LED forward drop and 1 kΩ resistor at 980 Ω deliberately overestimate indicator current; includes initial 1% plus 100 ppm/°C over 100°C.',

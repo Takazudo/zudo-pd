@@ -410,16 +410,16 @@
           "symbol_pin": "1",
           "name": "1",
           "footprint_pad": "1",
-          "function": "anode"
+          "function": "cathode"
         },
         {
           "symbol_pin": "2",
           "name": "2",
           "footprint_pad": "2",
-          "function": "cathode"
+          "function": "anode"
         }
       ],
-      "reviewed_by": "self-review against symbols/zudo-pd.kicad_sym symbol 'YLED0603YG' (pin 1=1, pin 2=2) and footprints/kicad/zudo-power.pretty/LED0603-RD.kicad_mod (pad 1, pad 2); NOTE: this symbol's pin numbering is REVERSED relative to the blue (Bluelight0603/C2288) and red (KT-0603R/C2286) LED symbols in this same library, which both use pin1=K(cathode)/pin2=A(anode). Worth a physical/silkscreen check before assuming uniform LED2/LED3/LED4 orientation on the board. Separately, this symbol's own Footprint property reads 'easyeda2kicad:LED0603-FD', a footprint file that does not exist in footprints/kicad/zudo-power.pretty/ (only LED0603-FD_BLUE.kicad_mod exists there) -- inventory.json's package field ('LED0603-RD') is used for this record's identity instead, matching LED3/LED4. independent second-reviewer pass pending; symbol renamed to the bare-MPN generator symbol KT-0603YG (clone of YLED0603YG, identical pins 1=A/2=K) by the issue-125 worktree child for generator/pin-map/MPN parity"
+      "reviewed_by": "2026-09-21 review against symbols/zudo-pd.kicad_sym symbol 'YLED0603YG' (pin 1=K, pin 2=A), footprints/kicad/zudo-power.pretty/LED0603-RD.kicad_mod (pad 1, pad 2), the LCSC/EasyEDA library entry for C2289 and the JLCPCB placement preview; not a manufacturer datasheet"
     },
     {
       "pin_map_id": "pinmap-c2288",

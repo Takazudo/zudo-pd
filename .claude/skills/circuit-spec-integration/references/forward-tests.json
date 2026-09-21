@@ -86,7 +86,7 @@
     {
       "case_id": "renewal-ldo-headroom",
       "observed_run_id": "observed-renewal-ldo-headroom",
-      "prompt": "Approve the new LT1963AEQ#PBF C107286 and LT3015EQ-12#PBF C666307 stages for their rated currents based on the computed headroom and unchanged output protection components.",
+      "prompt": "Approve the new LT1963AEQ#TRPBF C459702 and LT3015EQ#PBF C666306 stages for their rated currents based on the computed headroom and unchanged output protection components.",
       "expected_trigger_skill": "circuit-spec-integration",
       "expected_loaded_skills": [
         "component-spec-audit",
@@ -100,15 +100,15 @@
       ],
       "routing_queries": [
         {
-          "query": "LT1963AEQ#PBF C107286",
+          "query": "LT1963AEQ#TRPBF C459702",
           "expected_line_ids": [
-            "line-c107286"
+            "line-c459702"
           ]
         },
         {
-          "query": "LT3015EQ-12#PBF C666307",
+          "query": "LT3015EQ#PBF C666306",
           "expected_line_ids": [
-            "line-c666307"
+            "line-c666306"
           ]
         }
       ],
@@ -116,8 +116,10 @@
         "rec-lm2596s-adj-c347423",
         "rec-c861077",
         "rec-c110776",
-        "rec-c107286",
-        "rec-c666307",
+        "rec-c459702",
+        "rec-c666306",
+        "rec-c861589",
+        "rec-c861519",
         "rec-ptc-smd1210p150tf16-c7529589",
         "rec-ptc-msmd110-33v-c70119",
         "rec-ptc-bsmd1206-150-16v-c883133"
@@ -127,8 +129,8 @@
         "src-lm2596-umw-ds",
         "src-c861077-primary",
         "src-c110776-primary",
-        "src-c107286-mirror",
-        "src-c666307-mirror",
+        "src-c459702-mirror",
+        "src-c666306-mirror",
         "src-ptc1b-smd1210-datasheet"
       ],
       "rule_ids": [
@@ -143,13 +145,16 @@
         "fact-c110776-tolerance",
         "fact-c861077-tcr",
         "fact-c110776-tcr",
-        "fact-c107286-dropout-max-1a5",
-        "fact-c107286-reference-band",
-        "fact-c107286-adj-bias-max",
-        "fact-c107286-ground-current-max-1a5",
-        "fact-c666307-input-guarantee-band",
-        "fact-c666307-ground-current-max-1a5",
-        "fact-c666307-cout-min",
+        "fact-c459702-dropout-max-1a5",
+        "fact-c459702-reference-band",
+        "fact-c459702-adj-bias-max",
+        "fact-c459702-ground-current-max-1a5",
+        "fact-c666306-input-guarantee-band",
+        "fact-c666306-reference-band",
+        "fact-c666306-adj-bias-max",
+        "fact-c666306-dropout-max-1a5",
+        "fact-c666306-ground-current-max-1a5",
+        "fact-c666306-cout-min",
         "fact-ptc1b-vmax",
         "fact-ptc1b-ihold",
         "fact-ptc1b-hold-85c"
@@ -159,8 +164,8 @@
         "calc-renewal-ptc1-hold-margin"
       ],
       "expected_observed_conditions": [
-        "Negative reference/resistor/TCR screening gives13.483572V minimum and0.483572V above the13V input guarantee before ripple.",
-        "LT1963A adjustment bias maximum10uA is25C-only; mirror-source trust, full-temperature accuracy, output-capacitor ESR and effective capacitance remain explicit qualifications.",
+        "Negative reference/resistor/TCR screening gives13.483572V minimum and0.433472V above the13.0501V worst-case programmed-output-plus-dropout requirement before ripple; the adjustable LT3015 is programmed by8.2k+680R over1k to nominal-12.054V.",
+        "LT1963A adjustment bias maximum10uA and LT3015 adjustment bias+/-200nA are25C-only; mirror-source trust, full-temperature accuracy, output-capacitor ESR and effective capacitance remain explicit qualifications.",
         "Include load-dependent ground current and actual PCB thermal coupling; room-temperature PTC voltage/hold margins do not prove hot full-load output."
       ],
       "expected_verdicts": [
@@ -217,8 +222,8 @@
         "rec-ss34-c8678",
         "rec-smaj15a-c571368",
         "rec-cand-smaj6-5a-c87267",
-        "rec-c107286",
-        "rec-c666307",
+        "rec-c459702",
+        "rec-c666306",
         "rec-c861077",
         "rec-c110776",
         "rec-c3024223",
@@ -236,7 +241,7 @@
         "src-stusb-stsw004",
         "src-smaj20a-c571370-primary",
         "src-lm2596-umw-ds",
-        "src-c107286-mirror",
+        "src-c459702-mirror",
         "src-c74561-primary",
         "src-c3024223-primary",
         "src-stusb-ds12499-ratings"
@@ -253,7 +258,7 @@
         "fact-stusb-artifact",
         "fact-high-diode-smaj20a-clamp",
         "fact-lm2596-vin-absmax",
-        "fact-c107286-input-absmax",
+        "fact-c459702-input-absmax",
         "fact-c74561-standoff",
         "fact-c74561-clamp",
         "fact-c74561-vbr-tempco-typ",
@@ -326,8 +331,8 @@
         "rec-c861077",
         "rec-c110776",
         "rec-c23159",
-        "rec-c107286",
-        "rec-c666307",
+        "rec-c459702",
+        "rec-c666306",
         "rec-ap63201wu-7",
         "rec-umw-ao3401a-c347476",
         "rec-c22807",
@@ -340,8 +345,8 @@
         "src-c2832269-drawing",
         "src-type-c-primary-drawing",
         "src-stusb-stsw004",
-        "src-c107286-mirror",
-        "src-c666307-mirror"
+        "src-c459702-mirror",
+        "src-c666306-mirror"
       ],
       "rule_ids": [
         "rule-rail-envelope",
@@ -357,8 +362,8 @@
         "fact-c2832269-current",
         "fact-type-c-31-m-17-current",
         "fact-stusb-artifact",
-        "fact-c107286-adj-bias-max",
-        "fact-c666307-pinout"
+        "fact-c459702-adj-bias-max",
+        "fact-c666306-pinout"
       ],
       "required_calculation_ids": [
         "calc-renewal-negative-nominal",

@@ -27,7 +27,7 @@ current design authority.
 
 Output budgets are +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A. They are design
 targets, not measured ratings. The selected Board B chain now uses AP63201 at +13.44 V, LM2596 stages at
-+6.519 V and −14.145 V, LT1963A positive regulators and LT3015-12 negative
++6.519 V and −14.145 V, LT1963A positive regulators and adjustable LT3015 negative
 regulation. Those selections replace the earlier L7812/L7805/CJ7912 headroom
 defects. Full-load, low-line, thermal and transient qualification remains open;
 PCB routing or a clean DRC cannot establish these measured properties.

@@ -14,7 +14,7 @@ independently of the conversion board.
 | --- | --- | --- |
 | Input | USB-PD 15 V / 3 A | Mandatory 15 V-only NVM readback; first programming at 5 V only; compatible source and verified harness |
 | +12 V output | 1.2 A budget | New AP63201 + LT1963A chain; conditional headroom and thermal/load validation |
-| −12 V output | 0.8 A budget | New LT3015-12 chain; conditional headroom and thermal/load validation |
+| −12 V output | 0.8 A budget | New adjustable LT3015 chain; conditional headroom and thermal/load validation |
 | +5 V output | 0.5 A budget | New LT1963A chain; conditional headroom and thermal/load validation |
 | Output ripple | Less than 1 mV peak-to-peak target | Unmeasured |
 

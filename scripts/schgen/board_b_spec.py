@@ -2,12 +2,13 @@
 
 U2 provides nominal +13.44 V for LT1963A U6. U3 remains LM2596S-ADJ,
 retargeted to +6.519 V for LT1963A U7. U4 remains the inverting LM2596,
-retargeted to -14.145 V for LT3015-12 U8. Divider tolerances, source locks,
+retargeted to -14.145 V for adjustable LT3015 U8, set to nominal -12.054 V. Divider tolerances, source locks,
 startup and installed thermal/loop limits remain explicit in component evidence.
 
 U4 pins 3/5/6 ride the negative intermediate; its inductor L3.2 returns to
 system ground. LT3015 pins 3/6 are the negative input and thermal tab, pin 2
-is system ground, pin 4 senses pin 5 output, and pin 1 enables from input.
+is system ground, pin 5 is output, pin 4 is the ADJ divider midpoint set by
+R26/R27/R28, and pin 1 enables from input.
 LT1963A pins 1/2 connect to its positive intermediate, pins 3/6 to ground,
 pin 4 is output and pin 5 is the precision divider midpoint.
 
@@ -55,9 +56,9 @@ COMPONENTS = {
     'D3': ('SDT5A60SA-13', 'SDT5A60SA-13', 'C3024223', 'zudo-pd:SMA_Diodes_SDT5A60SA_C3024223', False, (698.5, 50.8)),
     'L3':   (*_L100U, False, (787.4, 50.8)),
     # LDOs + protection (row B)
-    'U6':   ('LT1963AEQ#PBF', 'LT1963AEQ#PBF', 'C107286', 'zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR', False, (76.2, 101.6)),
-    'U7':   ('LT1963AEQ#PBF', 'LT1963AEQ#PBF', 'C107286', 'zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR', False, (165.1, 101.6)),
-    'U8':   ('LT3015EQ-12#PBF', 'LT3015EQ-12#PBF', 'C666307', 'zudo-pd:DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR', False, (254, 101.6)),
+    'U6':   ('LT1963AEQ#TRPBF', 'LT1963AEQ#TRPBF', 'C459702', 'zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR', False, (76.2, 101.6)),
+    'U7':   ('LT1963AEQ#TRPBF', 'LT1963AEQ#TRPBF', 'C459702', 'zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR', False, (165.1, 101.6)),
+    'U8':   ('LT3015EQ#PBF', 'LT3015EQ#PBF', 'C666306', 'zudo-pd:DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR', False, (254, 101.6)),
     'PTC1': ('SMD1210P150TF/16', 'SMD1210P150TF/16', 'C7529589', 'zudo-pd:F1210', False, (342.9, 101.6)),
     'PTC2': ('mSMD110-33V', 'mSMD110-33V', 'C70119', 'zudo-pd:F1812', False, (431.8, 101.6)),
     'PTC3': ('BSMD1206-150-16V', 'BSMD1206-150-16V', 'C883133', 'zudo-pd:F1206', False, (520.7, 101.6)),
@@ -124,6 +125,10 @@ COMPONENTS = {
     'R23': ('RT0603BRD073K09L', '3090R 0.1%', 'C861371', 'zudo-pd:R0603', False, (342.9, 431.8)),
     'R24': ('RT0603BRD0733RL', '33R 0.1%', 'C861332', 'zudo-pd:R0603', False, (431.8, 431.8)),
     'R25': ('RT0603BRD071KL', '1000R 0.1%', 'C110776', 'zudo-pd:R0603', False, (520.7, 431.8)),
+    # U8 ADJ divider reuses the U6 divider orderables: -1.22 V * (1 + 8880/1000).
+    'R26': ('RT0603BRD078K2L', '8200R 0.1%', 'C861589', 'zudo-pd:R0603', False, (609.6, 482.6)),
+    'R27': ('RT0603BRD07680RL', '680R 0.1%', 'C861519', 'zudo-pd:R0603', False, (698.5, 482.6)),
+    'R28': ('RT0603BRD071KL', '1000R 0.1%', 'C110776', 'zudo-pd:R0603', False, (787.4, 482.6)),
     # AP63201 local ceramic bank and bootstrap, per DS41326 sections 9-13.
     'C36': (*_C10U_50, False, (76.2, 482.6)),
     'C37': (*_C10U_50, False, (165.1, 482.6)),
@@ -169,7 +174,7 @@ NETS = {
         'U3.3', 'U3.5', 'U3.6', 'R4.2', 'C7.2', 'C8.2',
         'L3.2',
         'C14.2', 'C15.2', 'C17.1', 'C18.2', 'C20.2', 'C21.2', 'C22.2', 'C23.2',
-        'U6.3', 'U6.6', 'U7.3', 'U7.6', 'U8.2', 'R22.2', 'R25.2', 'C40.2', 'C41.2', 'C42.1',
+        'U6.3', 'U6.6', 'U7.3', 'U7.6', 'U8.2', 'R22.2', 'R25.2', 'R28.2', 'C40.2', 'C41.2', 'C42.1',
         'C16.2', 'C24.1', 'C19.2', 'C25.1',
         # derived: BB-11 buck catch-diode ground returns
         'D2.2',
@@ -179,8 +184,8 @@ NETS = {
         'C12.1',
         # derived: A-B interface GND pair + P1 probe return
         'J5.5', 'J5.6', 'P1.3',
-        # derived: indicator LED ground legs (green 2=K; blue 1=K; red 2=A on GND)
-        'LED2.2', 'LED3.1', 'LED4.2',
+        # derived: indicator LED ground legs (green 1=K; blue 1=K; red 2=A on GND)
+        'LED2.1', 'LED3.1', 'LED4.2',
         # derived: TVS ground legs (TVS3 cathode-to-GND is the locked orientation)
         'TVS1.2', 'TVS2.2', 'TVS3.1',
         # derived: output-stage GND (J6 screw terminal, J10/J11 pins 3-8 GND moat)
@@ -190,11 +195,13 @@ NETS = {
     ],
     'Net-(U6-OUT)': ['U6.4', 'C40.1', 'R20.1', 'C17.2', 'C21.1', 'R7.1', 'PTC1.1'],
     'Net-(U7-OUT)': ['U7.4', 'C41.1', 'R23.1', 'C18.1', 'C23.1', 'R8.1', 'PTC2.1'],
-    'Net-(U8-OUT)': ['U8.5', 'U8.4', 'C42.2', 'C19.1', 'C25.2', 'R9.1', 'PTC3.1'],
+    'Net-(U8-OUT)': ['U8.5', 'R26.1', 'C42.2', 'C19.1', 'C25.2', 'R9.1', 'PTC3.1'],
     'U6 FB upper series': ['R20.2', 'R21.1'],
     'U6 ADJ': ['R21.2', 'R22.1', 'U6.5'],
     'U7 FB upper series': ['R23.2', 'R24.1'],
     'U7 ADJ': ['R24.2', 'R25.1', 'U7.5'],
+    'U8 FB upper series': ['R26.2', 'R27.1'],
+    'U8 ADJ': ['R27.2', 'R28.1', 'U8.4'],
     # --- derived output-stage rails (post-PTC; baseline lists these as unresolved) ---
     '+12V rail': ['PTC1.2', 'TVS1.1', 'J7.2', 'J10.10', 'J10.9', 'J11.10', 'J11.9'],
     '+5V rail':  ['PTC2.2', 'TVS2.1', 'J7.1', 'J10.12', 'J10.11', 'J11.12', 'J11.11'],
@@ -204,8 +211,8 @@ NETS = {
     # --- derived interface signals (open-drain, no on-board pull-up on either board) ---
     'ATT':  ['J5.3', 'P1.1'],
     'PDOK': ['J5.4', 'P1.2'],
-    # --- derived indicator midpoints (LED2 green: pin 1 = A; LED3/LED4: pin 1 = K) ---
-    'Net-(R7-LED2)': ['R7.2', 'LED2.1'],
+    # --- derived indicator midpoints (all three: pin 1 = K per the LCSC library; LED4 red sits on the negative rail, so its anode is on GND) ---
+    'Net-(R7-LED2)': ['R7.2', 'LED2.2'],
     'Net-(R8-LED3)': ['R8.2', 'LED3.2'],
     'Net-(R9-LED4)': ['R9.2', 'LED4.1'],
 }

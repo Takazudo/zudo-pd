@@ -23,7 +23,7 @@ must be closed on the bench, not from this bundle.
 ## Human component reference
 
 This retired regulator remains a local historical candidate record. Its current
-replacement is documented under [LT1963A](/docs/components/records/c107286/) or
-[LT3015](/docs/components/records/c666307/). See the
+replacement is documented under [LT1963A](/docs/components/records/c459702/) or
+[LT3015](/docs/components/records/c666306/). See the
 [current catalog](/docs/components/catalog/) and
 [integration rules](/docs/components/integration/).

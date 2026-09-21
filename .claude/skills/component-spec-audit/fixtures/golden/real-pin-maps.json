@@ -970,7 +970,7 @@
     {
       "record_id": "rec-c2289",
       "pin_map_id": "pinmap-c2289",
-      "canonical_sha256": "0e92b23ee9806b29a20df72c6d8a14d6b04dab8901350174b642d50d2629ae0f",
+      "canonical_sha256": "02e4f979c5eabce420b5d0f0d192d5dfd3f0125f3f2e4b50418cebf12863c6a7",
       "evidence_fact_ids": [
         "fact-c2289-polarity-note"
       ],
@@ -980,16 +980,16 @@
           "symbol_pin": "1",
           "name": "1",
           "footprint_pad": "1",
-          "function": "anode"
+          "function": "cathode"
         },
         {
           "symbol_pin": "2",
           "name": "2",
           "footprint_pad": "2",
-          "function": "cathode"
+          "function": "anode"
         }
       ],
-      "reviewer": "component-project-passives self-review against symbols/zudo-pd.kicad_sym 'YLED0603YG' and the project footprint file; NOTE: this symbol's pin numbering is REVERSED relative to the blue (Bluelight0603/C2288) and red (KT-0603R/C2286) LED symbols in this same library, which both use pin1=K(cathode)/pin2=A(anode). Worth a physical/silkscreen check before assuming uniform LED2/LED3/LED4 orientation on the board. Separately, this symbol's own Footprint property reads 'easyeda2kicad:LED0603-FD', a footprint file that does not exist in footprints/kicad/zudo-power.pretty/ (only LED0603-FD_BLUE.kicad_mod exists there) -- inventory.json's package field ('LED0603-RD') is used for this record's identity instead, matching LED3/LED4."
+      "reviewer": "2026-09-21 review against symbols/zudo-pd.kicad_sym symbol 'YLED0603YG' (pin 1=K, pin 2=A), footprints/kicad/zudo-power.pretty/LED0603-RD.kicad_mod (pad 1, pad 2), the LCSC/EasyEDA library entry for C2289 and the JLCPCB placement preview; not a manufacturer datasheet"
     },
     {
       "record_id": "rec-c2288",
@@ -1419,11 +1419,11 @@
       "reviewer": "Renewal import: exact part evidence retained, current generator pin mapping checked"
     },
     {
-      "record_id": "rec-c107286",
-      "pin_map_id": "pinmap-c107286",
-      "canonical_sha256": "71dd30ae807de3a3042d460ddfa1e5e468d5b23cfc178c2fce69f2ebe26bab08",
+      "record_id": "rec-c459702",
+      "pin_map_id": "pinmap-c459702",
+      "canonical_sha256": "012dff5235d83ead83a2c84c009f560f6d884a55a25733c9856a3d89f4388a2a",
       "evidence_fact_ids": [
-        "fact-c107286-pinout"
+        "fact-c459702-pinout"
       ],
       "trust_status": "UNSOURCED",
       "critical_pins": [
@@ -1467,11 +1467,11 @@
       "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
     },
     {
-      "record_id": "rec-c666307",
-      "pin_map_id": "pinmap-c666307",
-      "canonical_sha256": "6429089fe6fe04f350e88db0199e345ea38ae4e282388c82b53e2e1b6a7f8bb3",
+      "record_id": "rec-c666306",
+      "pin_map_id": "pinmap-c666306",
+      "canonical_sha256": "04ee2609be257bc4862fe9908634ccef1b8f6f08879e5f16f9ea7e655a505813",
       "evidence_fact_ids": [
-        "fact-c666307-pinout"
+        "fact-c666306-pinout"
       ],
       "trust_status": "UNSOURCED",
       "critical_pins": [
@@ -1497,7 +1497,7 @@
           "symbol_pin": "4",
           "name": "SENSE/ADJ",
           "footprint_pad": "4",
-          "function": "Sense tied to local negative output"
+          "function": "ADJ divider midpoint of the adjustable version; R27/R28 node, R26+R27 to local negative output"
         },
         {
           "symbol_pin": "5",
@@ -1512,7 +1512,7 @@
           "function": "Negative input thermal tab"
         }
       ],
-      "reviewer": "2026-09-20 exact manufacturer drawing and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
+      "reviewer": "2026-09-21 adjustable-version pin 4 ADJ per manufacturer Q-package drawing note and KiCad numeric pin/pad review; project connectivity remains bench-unqualified"
     },
     {
       "record_id": "rec-c110776",

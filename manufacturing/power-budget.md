@@ -10,10 +10,13 @@ qualification remain open.
 
 For the retained inverting LM2596 stage, a 10.5 kΩ / 1 kΩ divider with both resistors
 at 0.1% gives a nominal −14.145 V intermediate rail. Full-temperature reference and
-opposed resistor tolerances give magnitudes of 13.545–14.747 V. That leaves 0.545 V
-above the LT3015-12's 13 V input guarantee boundary before rail ripple and wiring
+opposed resistor tolerances give magnitudes of 13.545–14.747 V. U8 is now the adjustable LT3015 (the fixed −12 V orderables were out of stock), programmed by
+R26 8.2 kΩ + R27 680 Ω over R28 1 kΩ, all 0.1%, to a nominal −12.054 V. Its full-temperature
+−1.196 to −1.244 V reference, 0.35% opposed resistor tolerance/TCR and the 25 °C-only 200 nA
+ADJ-bias limit give an output magnitude screen of 11.741–12.370 V, so the input requirement is
+13.050 V including the 0.68 V maximum dropout. That leaves 0.495 V before rail ripple and wiring
 loss. Including a 25 ppm/°C resistor TCR over a 100 °C excursion expands the
-negative range to 13.484–14.814 V, retaining 0.484 V before ripple and wiring loss. The initial-tolerance comparison using a 10.6 kΩ top resistor (also 0.1%,
+negative range to 13.484–14.814 V, retaining 0.433 V before ripple and wiring loss. The initial-tolerance comparison using a 10.6 kΩ top resistor (also 0.1%,
 without the TCR addition) gives a nominal magnitude of 14.268 V and a lower bound
 of 13.663 V, with slightly more dissipation.
 
@@ -37,12 +40,12 @@ typical. Actual hot reverse loss requires measurement.
 
 For the selected 10.5 kΩ divider, use the report's full-chain thermal screen:
 14.814410 V negative intermediate magnitude includes the TCR allowance, and the
-0.812490 A LDO output load includes the indicator. Against the LT3015's 11.76 V
-minimum output magnitude, series-pass loss is about 2.482 W. Its published
+0.813875 A LDO output load includes the indicator and the 1.22 mA-class feedback divider. Against the
+programmed LT3015's 11.741 V minimum output magnitude screen, series-pass loss is about 2.502 W. Its published
 1.5 A/dropout ground-current maximum of 70 mA contributes another 1.037 W as a
 conservative screening bracket, not an interpolated guarantee at the target load.
-The resulting 3.519 W requires effective junction-to-ambient thermal resistance
-below 24.157 °C/W at 40 °C ambient to remain below 125 °C.
+The resulting 3.539 W requires effective junction-to-ambient thermal resistance
+below 24.020 °C/W at 40 °C ambient to remain below 125 °C.
 
 The simpler initial-tolerance-only, 0.8 A load comparison remains in the JSON at
 3.422 W and 24.841 °C/W; it omits the TCR and indicator additions and must not be

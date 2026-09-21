@@ -395,13 +395,13 @@
         "board_b_spec",
         "doc"
       ],
-      "decision": "U6/U7=LT1963AEQ#PBF C107286;U8=LT3015EQ-12#PBF C666307 with corrected manufacturer pin mapping. U6 divider top8.2k+680/bottom1k;U7top3.09k+33/bottom1k;all0.1%YAGEO. U3feedback4.3k/1k=>6.519Vnominal;U4feedback10.5k/1kboth0.1%=>-14.145Vnominal. C40/C41/C42=25SVPF47M47uF25Vpolymer on respective linear outputs,positivepadgroundfornegativeoutput.",
+      "decision": "U6/U7=LT1963AEQ#TRPBF C459702;U8=LT3015EQ#PBF C666306 with corrected manufacturer pin mapping. U6 divider top8.2k+680/bottom1k;U7top3.09k+33/bottom1k;U8 adjustable divider top R26 8.2k+R27 680/bottom R28 1k=>-12.054Vnominal,replacing the out-of-stock fixed-12V orderable whose pin4 sensed the output;all0.1%YAGEO. U3feedback4.3k/1k=>6.519Vnominal;U4feedback10.5k/1kboth0.1%=>-14.145Vnominal. C40/C41/C42=25SVPF47M47uF25Vpolymer on respective linear outputs,positivepadgroundfornegativeoutput.",
       "rationale": "User authorized retaining12V1.2A,-12V0.8A,5V0.5A targets and redesigning parts. Remove legacy dropout limitations; retain source-lock,thermal,current,temperature and assembly limits explicitly. ADI manufacturer text independently reviewed but primarybinarySHAunavailable: exactmirrorhashesretainedwithoutpromotingmirrorauthority. Numerical envelopes remain qualification evidence with statedconditions; physical performance not claimed.",
       "evidence": [
-        "fact-c107286-dropout-max-1a5",
-        "fact-c107286-adj-bias-max",
-        "fact-c666307-input-guarantee-band",
-        "fact-c666307-pinout",
+        "fact-c459702-dropout-max-1a5",
+        "fact-c459702-adj-bias-max",
+        "fact-c666306-input-guarantee-band",
+        "fact-c666306-pinout",
         "fact-c136280-capacitance",
         "fact-c136280-esr",
         "fact-c861077-resistance",

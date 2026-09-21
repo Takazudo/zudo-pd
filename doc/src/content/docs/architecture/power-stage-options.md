@@ -15,9 +15,9 @@ continuous-load rating.
 | U2 positive buck | AP63201WU-7, C2071044 | +13.44 V |
 | U3 positive buck | LM2596S-ADJ, C347423 | +6.519 V |
 | U4 inverting buck-boost | LM2596S-ADJ, C347423 | −14.145 V |
-| U6 positive LDO | LT1963AEQ#PBF, C107286 | About +11.981 V with typical adjustment current |
-| U7 positive LDO | LT1963AEQ#PBF, C107286 | About +4.998 V with typical adjustment current |
-| U8 negative LDO | LT3015EQ-12#PBF, C666307 | −12 V fixed |
+| U6 positive LDO | LT1963AEQ#TRPBF, C459702 | About +11.981 V with typical adjustment current |
+| U7 positive LDO | LT1963AEQ#TRPBF, C459702 | About +4.998 V with typical adjustment current |
+| U8 negative LDO | LT3015EQ#PBF, C666306 | About −12.054 V from R26 8.2 kΩ + R27 680 Ω over R28 1 kΩ |
 
 U6 uses 8.2 kΩ + 680 Ω above ADJ and 1 kΩ below it. U7 uses 3.09 kΩ + 33 Ω
 above ADJ and 1 kΩ below it. These are exact YAGEO RT0603BRD parts with 0.1%
@@ -70,8 +70,8 @@ requires 2500 mm² of copper on **each** side in the datasheet layout. Copper
 area, thermal vias, adjacent converter heat and enclosure airflow need review
 and full-load measurement on the actual PCB.
 
-Exact identities are linked at [JLCPCB C107286](https://jlcpcb.com/partdetail/AnalogDevices-LT1963AEQPBF/C107286)
-and [JLCPCB C666307](https://jlcpcb.com/partdetail/AnalogDevices-LT3015EQ_12PBF/C666307).
+Exact identities are linked at [JLCPCB C459702](https://jlcpcb.com/partdetail/AnalogDevices-LT1963AEQTRPBF/C459702)
+and [JLCPCB C666306](https://jlcpcb.com/partdetail/AnalogDevices-LT3015EQPBF/C666306).
 Current stock and assembly availability remain unconfirmed. Manufacturer PDF
 text was independently reviewed, but direct binary retention repeatedly failed;
 the evidence owner retains genuine mirror hashes and marks the missing primary

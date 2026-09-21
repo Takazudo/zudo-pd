@@ -56,7 +56,7 @@ hot, installed surge and overshoot behavior remain unqualified.
 ## The selected power stage requires qualification
 
 The output targets remain +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A. The
-selected chain now uses AP63201, LT1963A and LT3015-12 parts to address the old
+selected chain now uses AP63201, LT1963A and adjustable LT3015 parts to address the old
 regulator-headroom constraints. The schematic, catalog and layout must describe
 those same selections. Selection research is retained in
 [Power Stage Options](./power-stage-options.md).

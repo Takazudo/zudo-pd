@@ -22,13 +22,13 @@ first programming power is 5 V only, followed by NVM readback that disables ever
 Board B uses an AP63201WU-7 synchronous buck for the +12 V pre-rail, one
 LM2596S-ADJ buck for the +5 V pre-rail and another LM2596S-ADJ inverting buck-boost
 for the negative pre-rail. LT1963A adjustable regulators produce the positive rails;
-a fixed LT3015-12 produces the negative rail. There is no SEPIC in the circuit.
+an adjustable LT3015 with an R26/R27/R28 divider produces the negative rail. There is no SEPIC in the circuit.
 
 | Stage | Nominal intermediate | Final regulator |
 | --- | --- | --- |
 | U2 AP63201 synchronous buck | +13.44 V | U6 LT1963A, adjusted for the +12 V target |
 | U3 LM2596 buck | +6.519 V | U7 LT1963A, adjusted for the +5 V target |
-| U4 LM2596 inverting buck-boost | −14.145 V | U8 LT3015-12 |
+| U4 LM2596 inverting buck-boost | −14.145 V | U8 adjustable LT3015, adjusted for the −12 V target |
 
 These nominal values come from the selected feedback networks. The previous
 L7812/L7805/CJ7912 chain is retired. The new selections address its headroom

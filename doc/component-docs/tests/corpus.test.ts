@@ -44,9 +44,9 @@ describe("the corpus normalizes to the figures the epic states", () => {
     assert.equal(model.corpus.dnpOrHandFitLines, 2);
   });
 
-  it("counts 154 sources, 620 facts, 175 coverage domains, 41 interactions", () => {
+  it("counts 154 sources, 622 facts, 175 coverage domains, 41 interactions", () => {
     assert.equal(model.corpus.sources, 154);
-    assert.equal(model.corpus.facts, 620);
+    assert.equal(model.corpus.facts, 622);
     assert.equal(model.corpus.coverageDomains, 175);
     assert.equal(model.corpus.interactions, 41);
   });
@@ -60,7 +60,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
   it("publishes every instance without duplicating or dropping one", () => {
     assert.equal(model.records.length, 60);
     assert.equal(sum(model.records, (entry) => entry.sources.length), 154);
-    assert.equal(sum(model.records, (entry) => entry.facts.length), 620);
+    assert.equal(sum(model.records, (entry) => entry.facts.length), 622);
     assert.equal(sum(model.records, (entry) => entry.coverage.length), 175);
     assert.equal(sum(model.records, (entry) => entry.pinMaps.length), 60);
     assert.equal(
@@ -93,7 +93,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
       assert.equal(new Set(anchors).size, anchors.length, entry.identity.slug);
       total += anchors.length;
     }
-    assert.equal(total, 60 + 154 + 620 + 175 + 47 + 60);
+    assert.equal(total, 60 + 154 + 622 + 175 + 47 + 60);
 
     // Record-scoped anchors stay globally unique — each belongs to one page.
     const scoped = model.records.flatMap((entry) => [
@@ -218,9 +218,9 @@ describe("the real records the epic calls out", () => {
 
   it("keeps numeric, string and structured fact values in their own shapes", () => {
     const values = model.records.flatMap((entry) => entry.facts).map((fact) => fact.value);
-    assert.equal(values.filter((value) => typeof value === "number").length, 333);
+    assert.equal(values.filter((value) => typeof value === "number").length, 334);
     assert.equal(values.filter((value) => typeof value === "string").length, 234);
-    assert.equal(values.filter((value) => Array.isArray(value)).length, 53);
+    assert.equal(values.filter((value) => Array.isArray(value)).length, 54);
 
     const identity = model.records
       .flatMap((entry) => entry.facts)
@@ -285,7 +285,7 @@ describe("the real records the epic calls out", () => {
     assert.deepEqual(rail.recordIds, [
       "rec-stusb4500qtr", "rec-type-c-31-m-17", "rec-c492405", "rec-c2832269",
       "rec-lm2596s-adj-c347423", "rec-c861077", "rec-c110776", "rec-c23159",
-      "rec-c107286", "rec-c666307", "rec-ap63201wu-7",
+      "rec-c459702", "rec-c666306", "rec-ap63201wu-7",
     ]);
     const published = new Set(model.records.map((entry) => entry.identity.recordId));
     for (const rule of model.integration) {

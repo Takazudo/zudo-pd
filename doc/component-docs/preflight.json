@@ -11,7 +11,6 @@
       "ap63201wu-7",
       "aspi-0630lr-100m-t15",
       "bzt52c11-c92321",
-      "c107286",
       "c110776",
       "c13585",
       "c136280",
@@ -39,8 +38,9 @@
       "c2983319",
       "c3024223",
       "c335982",
+      "c459702",
       "c492405",
-      "c666307",
+      "c666306",
       "c74561",
       "c8465",
       "c861077",
@@ -87,9 +87,6 @@
       "src-aspi-0630lr-100m-t15-project",
       "src-bzt52c11-diodes-primary",
       "src-bzt52c11-lcsc-identity",
-      "src-c107286-identity",
-      "src-c107286-mirror",
-      "src-c107286-primary-attempt",
       "src-c110776-identity",
       "src-c110776-primary",
       "src-c13585-boardadoc",
@@ -148,12 +145,15 @@
       "src-c3024223-identity",
       "src-c3024223-primary",
       "src-c335982-identity",
+      "src-c459702-identity",
+      "src-c459702-mirror",
+      "src-c459702-primary-attempt",
       "src-c492405-drawing",
       "src-c492405-lcsc",
       "src-c492405-page",
-      "src-c666307-identity",
-      "src-c666307-mirror",
-      "src-c666307-primary-attempt",
+      "src-c666306-identity",
+      "src-c666306-mirror",
+      "src-c666306-primary-attempt",
       "src-c70119-model-review",
       "src-c74561-identity",
       "src-c74561-primary",
@@ -451,61 +451,61 @@
     {
       "key": "fact.factId",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.class",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.value",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.unit",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.conditions",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.locator",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.provenance",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.verdict",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.dependsOn",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
       "key": "fact.expression",
       "decision": "PUBLISH",
-      "emitted": 620,
+      "emitted": 622,
       "withheld": 0
     },
     {
@@ -889,24 +889,6 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
-      "sourceId": "src-c107286-identity",
-      "url": "https://www.lcsc.com/product-detail/C107286.html",
-      "decision": "ALLOW",
-      "reason": "ABSOLUTE_HTTP_URL"
-    },
-    {
-      "sourceId": "src-c107286-mirror",
-      "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Analog-Devices-LT1963AEQ-PBF_C107286.pdf",
-      "decision": "ALLOW",
-      "reason": "ABSOLUTE_HTTP_URL"
-    },
-    {
-      "sourceId": "src-c107286-primary-attempt",
-      "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/1963aff.pdf",
-      "decision": "ALLOW",
-      "reason": "ABSOLUTE_HTTP_URL"
-    },
-    {
       "sourceId": "src-c110776-identity",
       "url": "https://www.lcsc.com/product-detail/C110776.html",
       "decision": "ALLOW",
@@ -1255,6 +1237,24 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
+      "sourceId": "src-c459702-identity",
+      "url": "https://www.lcsc.com/product-detail/C459702.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c459702-mirror",
+      "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Analog-Devices-LT1963AEQ-TRPBF_C459702.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c459702-primary-attempt",
+      "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/1963aff.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
       "sourceId": "src-c492405-drawing",
       "url": "https://www.xfconn.com/uploads/soft/20240711/4-240G11122102R.pdf",
       "decision": "ALLOW",
@@ -1273,19 +1273,19 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
-      "sourceId": "src-c666307-identity",
-      "url": "https://www.lcsc.com/product-detail/C666307.html",
+      "sourceId": "src-c666306-identity",
+      "url": "https://www.lcsc.com/product-detail/C666306.html",
       "decision": "ALLOW",
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
-      "sourceId": "src-c666307-mirror",
-      "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Analog-Devices-LT3015EQ-12-PBF_C666307.pdf",
+      "sourceId": "src-c666306-mirror",
+      "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Analog-Devices-LT3015EQ-PBF_C666306.pdf",
       "decision": "ALLOW",
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
-      "sourceId": "src-c666307-primary-attempt",
+      "sourceId": "src-c666306-primary-attempt",
       "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/3015fb.pdf",
       "decision": "ALLOW",
       "reason": "ABSOLUTE_HTTP_URL"
@@ -1744,7 +1744,7 @@
   "counts": {
     "generatedPages": 64,
     "publishedCoverageDomains": 175,
-    "publishedFacts": 620,
+    "publishedFacts": 622,
     "publishedIntegrationRules": 11,
     "publishedInteractions": 41,
     "publishedPinMaps": 60,

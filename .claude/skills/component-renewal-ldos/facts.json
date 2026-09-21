@@ -2,9 +2,9 @@
   "schema_version": 1,
   "facts": [
     {
-      "fact_id": "fact-c107286-manufacturer",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-manufacturer",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "PROJECT_STATE",
       "value": "Analog Devices",
       "unit": "NONE",
@@ -16,18 +16,18 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-identity",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-identity",
+      "fact_id": "fact-c459702-identity",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-identity",
       "class": "PROJECT_STATE",
       "value": {
-        "lcsc": "C107286",
+        "lcsc": "C459702",
         "manufacturer": "Analog Devices",
-        "mpn": "LT1963AEQ#PBF",
+        "mpn": "LT1963AEQ#TRPBF",
         "variant": "Q-package 5-lead DD-Pak linear regulator"
       },
       "unit": "NONE",
-      "conditions": "Exact distributor orderable identity; current stock and JLC quote must be checked.",
+      "conditions": "Exact distributor orderable identity; #TRPBF is the tape-and-reel packing of the same E-grade Q-package device, selected 2026-09-21 because #PBF C107286 was out of stock at JLCPCB. Current stock and JLC quote must be checked.",
       "locator": "LT1963A Rev F printed p. 2 Absolute Maximum Ratings and Q-package Pin Configuration",
       "provenance": "DISTRIBUTOR-IDENTITY",
       "verdict": "CONFIRMED - distributor identity only",
@@ -35,9 +35,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-dropout-max-1a5",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-dropout-max-1a5",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": 0.55,
       "unit": "V",
@@ -49,9 +49,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-dropout-max-0a5",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-dropout-max-0a5",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": 0.35,
       "unit": "V",
@@ -63,9 +63,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-reference-band",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-reference-band",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": {
         "min": 1.174,
@@ -80,9 +80,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-adj-bias-max",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-adj-bias-max",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": 10,
       "unit": "uA",
@@ -94,9 +94,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-ground-current-max-1a5",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-ground-current-max-1a5",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": 0.12,
       "unit": "A",
@@ -108,9 +108,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-ground-current-max-0a5",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-ground-current-max-0a5",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": 0.025,
       "unit": "A",
@@ -122,9 +122,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-input-absmax",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-input-absmax",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "ABSOLUTE_MAXIMUM",
       "value": 20,
       "unit": "V",
@@ -136,9 +136,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-cout-min",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-cout-min",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "RECOMMENDED_OPERATION",
       "value": 10,
       "unit": "uF",
@@ -150,9 +150,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-pinout",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-pinout",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "PROJECT_STATE",
       "value": {
         "1": "Shutdown, tied to input",
@@ -171,9 +171,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-manufacturer",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-manufacturer",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "PROJECT_STATE",
       "value": "Analog Devices",
       "unit": "NONE",
@@ -185,18 +185,18 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-identity",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-identity",
+      "fact_id": "fact-c666306-identity",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-identity",
       "class": "PROJECT_STATE",
       "value": {
-        "lcsc": "C666307",
+        "lcsc": "C666306",
         "manufacturer": "Analog Devices",
-        "mpn": "LT3015EQ-12#PBF",
+        "mpn": "LT3015EQ#PBF",
         "variant": "Q-package 5-lead DD-Pak linear regulator"
       },
       "unit": "NONE",
-      "conditions": "Exact distributor orderable identity; current stock and JLC quote must be checked.",
+      "conditions": "Exact distributor orderable identity, adjustable output; selected 2026-09-21 because every fixed -12 V LT3015 orderable was out of stock at JLCPCB. Current stock and JLC quote must be checked.",
       "locator": "LT3015 Rev B printed p. 2 Absolute Maximum Ratings and Q-package Pin Configuration",
       "provenance": "DISTRIBUTOR-IDENTITY",
       "verdict": "CONFIRMED - distributor identity only",
@@ -204,9 +204,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-dropout-max-1a5",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-dropout-max-1a5",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": 0.68,
       "unit": "V",
@@ -218,43 +218,74 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-input-guarantee-band",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-input-guarantee-band",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "RECOMMENDED_OPERATION",
       "value": {
         "min": -30,
-        "max": -13
+        "max": -2.3
       },
       "unit": "V",
-      "conditions": "Fixed -12 V output regulation row, load 1 mA to 1.5 A. Thermal and foldback limits still apply.",
-      "locator": "LT3015 Rev B printed pp. 5-6 Electrical Characteristics table and notes; input guarantee band row",
+      "conditions": "Adjustable-version ADJ Pin Voltage regulation row, load 1 mA to 1.5 A. Output must also satisfy dropout below the programmed voltage. Thermal and foldback limits still apply.",
+      "locator": "LT3015 Rev B printed p. 5 Electrical Characteristics table and notes; ADJ Pin Voltage input-range condition",
       "provenance": "UNVERIFIED",
       "verdict": "UNSOURCED",
       "depends_on": [],
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-output-guarantee-band",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-reference-band",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": {
-        "min": -12.24,
-        "max": -11.76
+        "min": -1.244,
+        "max": -1.196
       },
       "unit": "V",
-      "conditions": "Fixed -12 V output over the specified input-voltage, load-current and temperature-grade conditions.",
-      "locator": "LT3015 Rev B printed pp. 5-6 Electrical Characteristics table and notes; output guarantee band row",
+      "conditions": "Adjustable version, full-temperature marked row: -30 V < VIN < -2.3 V and -1.5 A < ILOAD < -1 mA. Tested with ADJ tied to OUT; typical -1.22 V. The 25 C row at VIN -2.3 V, -1 mA is -1.208 to -1.232 V. Note 3 foldback and junction-temperature limits still bound the usable input/load combinations. Include divider tolerance, TCR and ADJ bias in any output envelope; a fixed -12 V guarantee band does not apply to this orderable.",
+      "locator": "LT3015 Rev B printed p. 5 Electrical Characteristics table, ADJ Pin Voltage rows, Notes 2 and 3",
       "provenance": "UNVERIFIED",
       "verdict": "UNSOURCED",
       "depends_on": [],
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-ground-current-max-1a5",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-adj-bias-max",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": {
+        "min": -200,
+        "max": 200
+      },
+      "unit": "nA",
+      "conditions": "VIN = -2.3 V; typical 30 nA flowing into ADJ (Note 7). The row carries no full-temperature marker: the +/-200 nA limits apply at 25 C only and do not establish a full-temperature maximum.",
+      "locator": "LT3015 Rev B printed p. 6 Electrical Characteristics table, ADJ Pin Bias Current row, Notes 2 and 7",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c666306-divider-r1-max",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
+      "class": "RECOMMENDED_OPERATION",
+      "value": 50,
+      "unit": "kOhm",
+      "conditions": "Applications guidance: R1 from ADJ to GND should be less than 50 k to limit ADJ-bias output error; R2 from OUT to ADJ. VOUT = -1.22 V x (1 + R2/R1) + IADJ x R2 with the device holding ADJ at -1.22 V referred to ground. Specifications scale with VOUT/-1.22 V. Divider current is zero in shutdown.",
+      "locator": "LT3015 Rev B printed p. 15 Applications Information, Adjustable Operation and Figure 2",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c666306-ground-current-max-1a5",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "GUARANTEED_ELECTRICAL",
       "value": 0.07,
       "unit": "A",
@@ -266,13 +297,13 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-input-absmax",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-input-absmax",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "ABSOLUTE_MAXIMUM",
       "value": 33,
       "unit": "V",
-      "conditions": "Magnitude of \u00b133V IN absolute maximum; OUT/SHDN/SENSE differential restrictions also apply.",
+      "conditions": "Magnitude of ±33V IN absolute maximum; OUT/SHDN/SENSE differential restrictions also apply.",
       "locator": "LT3015 Rev B printed p. 2 Absolute Maximum Ratings and Q-package Pin Configuration",
       "provenance": "UNVERIFIED",
       "verdict": "UNSOURCED",
@@ -280,9 +311,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-cout-min",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-cout-min",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "RECOMMENDED_OPERATION",
       "value": 10,
       "unit": "uF",
@@ -294,9 +325,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-theta-ja-layout",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-theta-ja-layout",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "THERMAL_SOA",
       "value": 14,
       "unit": "C/W",
@@ -308,20 +339,20 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-pinout",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-pinout",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "PROJECT_STATE",
       "value": {
         "1": "Shutdown, tied to negative input",
         "2": "System ground",
         "3": "Negative input",
-        "4": "Sense tied to local negative output",
+        "4": "ADJ divider midpoint: R28 to system ground, R27+R26 to local negative output",
         "5": "Negative output",
         "6": "Negative input thermal tab"
       },
       "unit": "NONE",
-      "conditions": "Manufacturer Q-package pins 1 SHDN, 2 GND, 3 IN, 4 SENSE, 5 OUT; tab IN is footprint pad 6. Imported pins 1/5 and 2/4 had reversed functional assignments and were corrected. Local lead direction +X, pin 1 at +Y.",
+      "conditions": "Manufacturer Q-package pins 1 SHDN, 2 GND, 3 IN, 4 ADJ for the adjustable LT3015 (SENSE only on fixed-voltage versions), 5 OUT; tab IN is footprint pad 6. Imported pins 1/5 and 2/4 had reversed functional assignments and were corrected. Do not drive ADJ more than 0.3 V below IN. Local lead direction +X, pin 1 at +Y.",
       "locator": "LT3015 Rev B printed p. 2 Q-package front view and p. 14 Pin Functions",
       "provenance": "UNVERIFIED",
       "verdict": "UNSOURCED",
@@ -329,9 +360,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c107286-land-pattern",
-      "record_id": "rec-c107286",
-      "source_id": "src-c107286-mirror",
+      "fact_id": "fact-c459702-land-pattern",
+      "record_id": "rec-c459702",
+      "source_id": "src-c459702-mirror",
       "class": "PROJECT_STATE",
       "value": {
         "lead_pitch_mm": 1.7018,
@@ -350,9 +381,9 @@
       "expression": ""
     },
     {
-      "fact_id": "fact-c666307-land-pattern",
-      "record_id": "rec-c666307",
-      "source_id": "src-c666307-mirror",
+      "fact_id": "fact-c666306-land-pattern",
+      "record_id": "rec-c666306",
+      "source_id": "src-c666306-mirror",
       "class": "PROJECT_STATE",
       "value": {
         "lead_pitch_mm": 1.7018,
