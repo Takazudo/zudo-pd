@@ -294,8 +294,12 @@
     "maximum_tail_projection_mm": 4.7,
     "qualification": "Top-side wire entries face left. Housing, stripped wire, screwdriver access and installed stack fit remain unmeasured.",
     "rail_labels": {
-      "back_x_mm": 2.8,
-      "back_size_mm": 1.2,
+      "back_labels": {
+        "-12V": {"center_mm": [12.2, 46.0], "size_mm": 1.5, "thickness_mm": 0.3, "bold": true},
+        "GND": {"center_mm": [11.6, 50.5], "size_mm": 1.5, "thickness_mm": 0.3, "bold": true},
+        "+12V": {"center_mm": [12.2, 58.4], "size_mm": 1.5, "thickness_mm": 0.3, "bold": true},
+        "+5V": {"center_mm": [11.8, 63.8], "size_mm": 1.5, "thickness_mm": 0.24, "bold": true}
+      },
       "back_rotation_deg": 0,
       "back_mirrored": true,
       "front_x_mm": 0.8,

@@ -1,8 +1,8 @@
 (export
 	(version "E")
 	(design
-		(source "/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-p/source/board-p.kicad_sch")
-		(date "2026-09-21T02:27:21")
+		(source "/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-p/source/board-p.kicad_sch")
+		(date "2026-09-21T05:13:17")
 		(tool "Eeschema 10.0.0")
 		(sheet
 			(number "1")
@@ -328,13 +328,13 @@
 		)
 		(comp
 			(ref "D5")
-			(value "SMAJ16A-E3/61")
-			(footprint "zudo-pd:SMA_Vishay_SMAJ16A_C968650")
+			(value "SMAJ16A")
+			(footprint "zudo-pd:SMA_Littelfuse_SMAJ16A_C74561")
 			(fields
 				(field
-					(name "LCSC") "C968650")
+					(name "LCSC") "C74561")
 				(field
-					(name "Footprint") "zudo-pd:SMA_Vishay_SMAJ16A_C968650")
+					(name "Footprint") "zudo-pd:SMA_Littelfuse_SMAJ16A_C74561")
 				(field
 					(name "Datasheet")
 				)
@@ -344,12 +344,12 @@
 			)
 			(libsource
 				(lib "zudo-pd")
-				(part "SMAJ16A-E3/61")
+				(part "SMAJ16A")
 				(description "")
 			)
 			(property
 				(name "LCSC")
-				(value "C968650")
+				(value "C74561")
 			)
 			(property
 				(name "Sheetname")
@@ -2110,22 +2110,22 @@
 		)
 		(libpart
 			(lib "zudo-pd")
-			(part "SMAJ16A-E3/61")
-			(docs "https://www.vishay.com/docs/88390/smaj50a.pdf")
+			(part "SMAJ16A")
+			(docs "https://www.littelfuse.com/assetdocs/tvs-diodes-smaj-datasheet?assetguid=13c2a823-03b8-4d1f-9ddc-9b44670aed9d")
 			(fields
 				(field
 					(name "Reference") "D")
 				(field
-					(name "Value") "SMAJ16A-E3/61")
+					(name "Value") "SMAJ16A")
 				(field
-					(name "Footprint") "zudo-pd:SMA_Vishay_SMAJ16A_C968650")
+					(name "Footprint") "zudo-pd:SMA_Littelfuse_SMAJ16A_C74561")
 				(field
-					(name "Datasheet") "https://www.vishay.com/docs/88390/smaj50a.pdf")
+					(name "Datasheet") "https://www.littelfuse.com/assetdocs/tvs-diodes-smaj-datasheet?assetguid=13c2a823-03b8-4d1f-9ddc-9b44670aed9d")
 				(field
 					(name "Description")
 				)
 				(field
-					(name "LCSC Part") "C968650")
+					(name "LCSC Part") "C74561")
 			)
 			(pins
 				(pin
@@ -2352,7 +2352,7 @@
 	(libraries
 		(library
 			(logical "zudo-pd")
-			(uri "${KIPRJMOD}/../../../../../symbols/zudo-pd.kicad_sym")
+			(uri "${KIPRJMOD}/../../../../symbols/zudo-pd.kicad_sym")
 		)
 	)
 	(nets

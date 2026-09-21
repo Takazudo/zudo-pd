@@ -8,21 +8,21 @@
   "source_sha256": {
     "generate.py": "0f17e36e0081c3acf38f32483fa503337a8f46aaf98163883aa4958e12cb29c6",
     "verify.py": "7b75c024ac695d5780f0f9ef5f86c939bd67651baefee053277a4ed5aada5d53",
-    "spec.json": "1133215aa9c0f49a70b719d99d1ba63a60adddeca0c31d9faf9abb90170d355e",
+    "spec.json": "4400e89c9b6813e9ee56960883f3aeaa2cc2cea4241382907947f33e5a2eec67",
     "reference-bore.json": "b477213a94f4b9d96af8c753022c90d40783c83c020cadf97e275d14c379e4c2",
     "README.md": "72a31a2261528267a0f2c2c41fbf8efc18b4c2dcf0b345d7aefba489956c5c12"
   },
   "artifact_sha256": {
     "PRINT.md": "a31d2c2297ac80bac1065100ce9f919acfb3c7ab38c2e5adc85fbf11b7e68e16",
     "adhesive-leg-18mm-m3-4x.stl": "7c51a471722cec52c492aeb8cec16c46b3ebcaff5b54d6d2bc9f9e8ce84a7aa0",
-    "adhesive-leg-18mm-m3.step": "0718827837b7a2ee48476746174c945467ce1767bbd20ee3d96ca82ab3bb7c9d",
+    "adhesive-leg-18mm-m3.step": "2655096c3fb56b5b020ba9b5a3ade0e2d6455f48ba4c847494532fa982e59568",
     "adhesive-leg-18mm-m3.stl": "3135bbbc2e764cb138ca49316c711d986f2b5513a87ff527044f05143da39adc",
-    "fit-check.json": "ae8957adab2d4a2deb5c2068d4b0edc24c07f81bd8cf361e6a50e20085cbb7f1",
+    "fit-check.json": "429244d83b6c377e7d70cb7c5b3515fc3a9367654730a392541b6980cdca09e7",
     "four-up.png": "1b43a6d9d1446039bae83f4327486d373d87ee927aacb7779ebcac31f0ca494d",
-    "installed-assembly.step": "0f55fef45a9b298e40319cdfaffb33147f922eedb80b9da3348741a623b37392",
-    "installed.png": "9b0c76acd1f0ddb69a7d36e9893a4a68ff97cad89725ec01aa218fea06227b04",
-    "mesh-check.json": "c8d567eb3b1c0f1f43ad74b4173fb533b087156ca7146d8e0dcd7f4a4afad8f8",
-    "negative-controls.json": "4c044d71a98c87b0bd0c1603da688999fb2698aafec9ad66c3a5a92ded30987d",
+    "installed-assembly.step": "17638acf8fdfca38229049d86fb4108304a75ffbc6ca0e7622206f2c5c9bc39f",
+    "installed.png": "502014058eac2d393ce371f88281aa5f342c1535f31a05ed2bf252f682fe1b8b",
+    "mesh-check.json": "07e1e92eed0f9a403fd86a38fb9225442d302bdb6e13f16b602ba3999fead684",
+    "negative-controls.json": "34a8323344420d6225b226245442507f23d3e16aeaf545ad63fe018c2048d641",
     "preview.png": "df4bf5853ca32944c04ac902806fbe47f657460db6c99aa5c0495eaa205a6111",
     "print-files.zip": "a32f4da4fc0d4c64a624daed68cd59dcb27221f98768daf616df803d10b128ba",
     "section.png": "38770db892c4ac4defb2810c7beba6d19c98f9ce05e970868500d1ce1e713329"
@@ -30,7 +30,7 @@
   "checks": {
     "mesh": "mesh-check.json",
     "profile_and_assembly": "fit-check.json",
-    "old_revision_rejection": "negative-controls.json"
+    "current_geometry_mutation_rejection": "negative-controls.json"
   },
   "screw": "M3 x 5 mm through nominal 1.6 mm PCB; previous M3 x 8 mm is too long",
   "physical_checks": "Printed grip, screw passage through nominal 3.0 mm PCB holes and adhesive retention remain actual-hardware checks."

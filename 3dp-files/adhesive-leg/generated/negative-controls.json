@@ -1,25 +1,36 @@
 {
   "status": "PASS",
+  "positive_control": {
+    "case": "current produced STEP",
+    "status": "PASS",
+    "sections_checked": 15
+  },
   "negative_controls": [
     {
-      "case": "archived tapered STEP/STL under straight-pole spec",
+      "case": "current leg with disposable outer diameter enlarged to 8 mm from Z4 to Z16",
       "status": "REJECTED",
-      "reason": "Outer pole must be straight\u00d87mm; no top taper or\u00d88 section"
+      "reason": "Outer pole must be straight\u00d87mm; no top taper or\u00d88 section",
+      "mutated_step_volume_mm3": 1136.7236697121423,
+      "mutation_storage": "in-memory only; no archived or production CAD written"
     },
     {
-      "case": "archived lower pocket atZ10",
+      "case": "current leg with disposable diameter 3.4 mm lower pocket from Z8 to Z14",
       "status": "REJECTED",
-      "reason": "Two section loops remain where current4.5mm blind-bore design requires solid material",
-      "observed_loop_count": 2,
-      "required_loop_count": 1
+      "reason": "Unexpected cavity below the4.5mm gripping bore",
+      "mutated_step_volume_mm3": 943.8567557949407,
+      "mutation_storage": "in-memory only; no archived or production CAD written"
     }
   ],
-  "archived_input_sha256": {
-    "adhesive-leg-18mm-m3.step": "fde14896f561b6724b9caa21cb782448658e1beab94340838c3cd6dc91e94782",
-    "adhesive-leg-18mm-m3.stl": "64bdc734509f6481a51962b4a6a3b9999157179092745fd37f3ffc20fcef0041",
-    "adhesive-leg-18mm-m3-4x.stl": "347d0b09eb6046643b87ea4cc0f951f11fbeac0c4ac57325b70251fc4cb5445f"
+  "source_inputs_sha256": {
+    "3dp-files/adhesive-leg/verify.py": "7b75c024ac695d5780f0f9ef5f86c939bd67651baefee053277a4ed5aada5d53",
+    "3dp-files/adhesive-leg/spec.json": "4400e89c9b6813e9ee56960883f3aeaa2cc2cea4241382907947f33e5a2eec67",
+    "3dp-files/adhesive-leg/reference-bore.json": "b477213a94f4b9d96af8c753022c90d40783c83c020cadf97e275d14c379e4c2",
+    "3dp-files/adhesive-leg/generated/adhesive-leg-18mm-m3.step": "2655096c3fb56b5b020ba9b5a3ade0e2d6455f48ba4c847494532fa982e59568",
+    "3dp-files/adhesive-leg/generated/adhesive-leg-18mm-m3.stl": "3135bbbc2e764cb138ca49316c711d986f2b5513a87ff527044f05143da39adc",
+    "3dp-files/adhesive-leg/generated/adhesive-leg-18mm-m3-4x.stl": "7c51a471722cec52c492aeb8cec16c46b3ebcaff5b54d6d2bc9f9e8ce84a7aa0"
   },
   "verifier_sha256": "7b75c024ac695d5780f0f9ef5f86c939bd67651baefee053277a4ed5aada5d53",
-  "current_spec_sha256": "1133215aa9c0f49a70b719d99d1ba63a60adddeca0c31d9faf9abb90170d355e",
-  "source_files_not_written": true
+  "current_spec_sha256": "4400e89c9b6813e9ee56960883f3aeaa2cc2cea4241382907947f33e5a2eec67",
+  "source_files_not_written": true,
+  "scope": "Fresh execution of existing measure_mesh section guards against two in-memory geometric mutations. Assembly collision and complete STEP/STL checks are separately rerun by verify.py."
 }

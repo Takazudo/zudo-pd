@@ -93,7 +93,7 @@
       110.0,
       85.0
     ],
-    "mechanical_contract_sha256": "1104a1a3088069a1482b68504861ad1b65a56178cf639f9a85d3301649983a5a",
+    "mechanical_contract_sha256": "2dceea6453bb22d301218e4aed1b616512e55fdc4bc0afb0b140a703c7e446ee",
     "plain_rectangular_outline": "PASS",
     "terminal_blocks": [
       {
@@ -133,7 +133,7 @@
           }
         ],
         "minimum_pad_edge_clearance_mm": 6.0,
-        "model": "/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
         "maximum_tail_projection_screen_mm": 4.7
       },
       {
@@ -173,7 +173,7 @@
           }
         ],
         "minimum_pad_edge_clearance_mm": 6.0,
-        "model": "/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
         "maximum_tail_projection_screen_mm": 4.7
       }
     ],
@@ -187,18 +187,22 @@
           45.46
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "-12V",
         "pin": "J6.2",
         "center_mm": [
-          2.8,
-          45.46
+          12.2,
+          46.0
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.3
       },
       {
         "side": "front",
@@ -209,18 +213,22 @@
           50.54
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "GND",
         "pin": "J6.1",
         "center_mm": [
-          2.8,
-          50.54
+          11.6,
+          50.5
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.3
       },
       {
         "side": "front",
@@ -231,18 +239,22 @@
           58.46
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "+12V",
         "pin": "J7.2",
         "center_mm": [
-          2.8,
-          58.46
+          12.2,
+          58.4
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.3
       },
       {
         "side": "front",
@@ -253,18 +265,22 @@
           63.54
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "+5V",
         "pin": "J7.1",
         "center_mm": [
-          2.8,
-          63.54
+          11.8,
+          63.8
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.24
       }
     ],
     "corner_supports": [

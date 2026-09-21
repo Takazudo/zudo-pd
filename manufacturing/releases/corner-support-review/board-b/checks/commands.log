@@ -1,13 +1,13 @@
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/drc.json /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/drc.json /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb
 Found 29 violations
 Found 0 unconnected items
 Found 0 schematic parity issues
-Saved DRC Report to /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/drc.json
+Saved DRC Report to /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/drc.json
 Saved board
 Fontconfig error: Cannot load default config file: No such file: (null)
 
-$ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3 /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/scripts/pcb/verify-board-b.py /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/mechanical-identity.json
+$ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/verify-board-b.py /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/mechanical-identity.json
 {
   "board": "board-b",
   "size_mm": [
@@ -103,7 +103,7 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
       110.0,
       85.0
     ],
-    "mechanical_contract_sha256": "1104a1a3088069a1482b68504861ad1b65a56178cf639f9a85d3301649983a5a",
+    "mechanical_contract_sha256": "2dceea6453bb22d301218e4aed1b616512e55fdc4bc0afb0b140a703c7e446ee",
     "plain_rectangular_outline": "PASS",
     "terminal_blocks": [
       {
@@ -143,7 +143,7 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
           }
         ],
         "minimum_pad_edge_clearance_mm": 6.0,
-        "model": "/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
         "maximum_tail_projection_screen_mm": 4.7
       },
       {
@@ -183,7 +183,7 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
           }
         ],
         "minimum_pad_edge_clearance_mm": 6.0,
-        "model": "/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
+        "model": "/Users/takazudo/repos/circuits/zudo-pd/footprints/kicad/zudo-pd.3dshapes/WJ500V-5.08-2P_C8465.wrl",
         "maximum_tail_projection_screen_mm": 4.7
       }
     ],
@@ -197,18 +197,22 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
           45.46
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "-12V",
         "pin": "J6.2",
         "center_mm": [
-          2.8,
-          45.46
+          12.2,
+          46.0
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.3
       },
       {
         "side": "front",
@@ -219,18 +223,22 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
           50.54
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "GND",
         "pin": "J6.1",
         "center_mm": [
-          2.8,
-          50.54
+          11.6,
+          50.5
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.3
       },
       {
         "side": "front",
@@ -241,18 +249,22 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
           58.46
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "+12V",
         "pin": "J7.2",
         "center_mm": [
-          2.8,
-          58.46
+          12.2,
+          58.4
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.3
       },
       {
         "side": "front",
@@ -263,18 +275,22 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
           63.54
         ],
         "mirrored": false,
-        "size_mm": 0.8
+        "size_mm": 0.8,
+        "bold": false,
+        "thickness_mm": 0.15
       },
       {
         "side": "back",
         "text": "+5V",
         "pin": "J7.1",
         "center_mm": [
-          2.8,
-          63.54
+          11.8,
+          63.8
         ],
         "mirrored": true,
-        "size_mm": 1.2
+        "size_mm": 1.5,
+        "bold": true,
+        "thickness_mm": 0.24
       }
     ],
     "corner_supports": [
@@ -347,23 +363,23 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
     ]
   }
 }
-02:27:38 AM: Debug: Adding duplicate image handler for 'PNG file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'JPEG file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'TIFF file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'GIF file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'PNM file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'PCX file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'IFF file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'Windows icon file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'Windows cursor file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'Windows animated cursor file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'TGA file'
-02:27:38 AM: Debug: Adding duplicate image handler for 'XPM file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'PNG file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'JPEG file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'TIFF file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'GIF file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'PNM file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'PCX file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'IFF file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'Windows icon file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'Windows cursor file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'Windows animated cursor file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'TGA file'
+05:13:26 AM: Debug: Adding duplicate image handler for 'XPM file'
 
-$ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3 /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/scripts/pcb/verify-power-layout.py /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/power-layout.json
+$ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/verify-power-layout.py /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/power-layout.json
 {
   "board": "board-b",
-  "pcb_sha256": "876e1f86a2f8c744f354d1bb4753e8ce1dacbbc873b648b0dc6f310ce73e2861",
+  "pcb_sha256": "f1176283a4f371d89a046168957f2152517ecc43da8495711f06428d7c9024b2",
   "terminal_load_paths": [
     {
       "ptc": "PTC1",
@@ -770,23 +786,23 @@ $ /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Cu
     "Native DRC, schematic identity, manufacturing checks and electrical bench qualification remain separate."
   ]
 }
-02:27:39 AM: Debug: Adding duplicate image handler for 'PNG file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'JPEG file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'TIFF file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'GIF file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'PNM file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'PCX file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'IFF file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'Windows icon file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'Windows cursor file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'Windows animated cursor file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'TGA file'
-02:27:39 AM: Debug: Adding duplicate image handler for 'XPM file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'PNG file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'JPEG file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'TIFF file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'GIF file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'PNM file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'PCX file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'IFF file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'Windows icon file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'Windows cursor file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'Windows animated cursor file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'TGA file'
+05:13:27 AM: Debug: Adding duplicate image handler for 'XPM file'
 
-$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/scripts/pcb/check-model-paths.py /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/model-paths.json
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/check-model-paths.py /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/model-paths.json
 {
   "pcb": "board-b.kicad_pcb",
-  "pcb_sha256": "876e1f86a2f8c744f354d1bb4753e8ce1dacbbc873b648b0dc6f310ce73e2861",
+  "pcb_sha256": "f1176283a4f371d89a046168957f2152517ecc43da8495711f06428d7c9024b2",
   "status": "PASS",
   "fitted_components": 72,
   "fitted_components_with_visible_models": 72,
@@ -795,18 +811,18 @@ $ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zu
   "scope": "Model paths, file availability, visible fitted-part coverage and finite/nonzero transforms only. Models are visualization assets; physical dimensions, polarity, assembly fit and exact-part provenance require separate review."
 }
 
-$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/scripts/pcb/check-model-bodies.py /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/model-bodies.json
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/scripts/pcb/check-model-bodies.py /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb --output /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/model-bodies.json
 {
   "status": "PASS",
   "scope": "Opaque-body placement sanity screen only; not exact manufacturer geometry, collision/occlusion certification, native pixel coverage or physical fit.",
-  "pcb_sha256": "876e1f86a2f8c744f354d1bb4753e8ce1dacbbc873b648b0dc6f310ce73e2861",
+  "pcb_sha256": "f1176283a4f371d89a046168957f2152517ecc43da8495711f06428d7c9024b2",
   "checker_sha256": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
   "fitted_components": 72,
   "screened_components": 72,
   "errors": []
 }
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb render --width 1800 --height 1400 --quality high --rotate 20,0,-15 --zoom 0.8 -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/3d-top.png /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb render --width 1800 --height 1400 --quality high --rotate 20,0,-15 --zoom 0.8 -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/3d-top.png /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb
 Loading…
 Build board outline
 
@@ -878,112 +894,76 @@ Build BVH for holes and vias
 Load Raytracing: board
 Load Raytracing: layers
 Loading 3D models...
-Reload time 0.414 s
-Rendering: 5 %
-Rendering: 7 %
-Rendering: 10 %
-Rendering: 14 %
-Rendering: 16 %
-Rendering: 17 %
+Reload time 0.306 s
+Rendering: 9 %
 Rendering: 17 %
 Rendering: 18 %
-Rendering: 18 %
 Rendering: 19 %
-Rendering: 19 %
-Rendering: 20 %
-Rendering: 21 %
-Rendering: 21 %
-Rendering: 22 %
 Rendering: 22 %
 Rendering: 23 %
-Rendering: 23 %
-Rendering: 24 %
-Rendering: 25 %
 Rendering: 25 %
 Rendering: 26 %
-Rendering: 26 %
-Rendering: 26 %
 Rendering: 27 %
-Rendering: 27 %
-Rendering: 28 %
-Rendering: 29 %
 Rendering: 30 %
-Rendering: 31 %
 Rendering: 32 %
-Rendering: 35 %
-Rendering: 35 %
 Rendering: 36 %
-Rendering: 36 %
-Rendering: 37 %
-Rendering: 42 %
-Rendering: 46 %
-Rendering: 49 %
-Rendering: 53 %
-Rendering: 55 %
-Rendering: 56 %
+Rendering: 38 %
+Rendering: 47 %
+Rendering: 54 %
 Rendering: 58 %
-Rendering: 61 %
 Rendering: 67 %
-Rendering: 72 %
 Rendering: 75 %
 Rendering: 77 %
-Rendering: 78 %
 Rendering: 79 %
-Rendering: 80 %
 Rendering: 81 %
-Rendering: 82 %
-Rendering: 85 %
-Rendering: 87 %
+Rendering: 84 %
 Rendering: 88 %
 Rendering: 89 %
-Rendering: 89 %
-Rendering: 90 %
 Rendering: 93 %
-Rendering: 99 %
 Rendering: 100 %
 Rendering: Post processing shader
-Rendering time 26.602 s
+Rendering time 10.837 s
 Successfully created 3D render image
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch erc --format json -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/erc.json /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_sch
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch erc --format json -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/erc.json /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_sch
 Found 54 violations
-Saved ERC Report to /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/checks/erc.json
+Saved ERC Report to /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/checks/erc.json
 Fontconfig error: Cannot load default config file: No such file: (null)
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export pdf -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/schematic.pdf /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_sch
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/schematic.pdf'.
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export pdf -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/schematic.pdf /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_sch
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/schematic.pdf'.
 Done.
 Fontconfig error: Cannot load default config file: No such file: (null)
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist --format kicadsexpr -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/raw/board-b.net /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_sch
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist --format kicadsexpr -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/raw/board-b.net /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_sch
 Fontconfig error: Cannot load default config file: No such file: (null)
 
-$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/scripts/schgen/verify_netlist.py board_b_spec /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/raw/board-b.net
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-pd/scripts/schgen/verify_netlist.py board_b_spec /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/raw/board-b.net
 PASS: 30 nets, 207 nodes (29 expected nets + 1 unconnected)
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-F_Cu.gtl'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-B_Cu.gbl'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-F_Paste.gtp'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-B_Paste.gbp'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-F_Silkscreen.gto'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-B_Silkscreen.gbo'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-F_Mask.gts'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-B_Mask.gbs'.
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-Edge_Cuts.gm1'.
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-F_Cu.gtl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-B_Cu.gbl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-F_Paste.gtp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-B_Paste.gbp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-F_Silkscreen.gto'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-B_Silkscreen.gbo'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-F_Mask.gts'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-B_Mask.gbs'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-Edge_Cuts.gm1'.
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb
-Created file '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-PTH.drl'
-Created file '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/gerbers/board-b-NPTH.drl'
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb
+Created file '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-PTH.drl'
+Created file '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/gerbers/board-b-NPTH.drl'
 Done.
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/raw/positions.csv /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb
-Wrote position data to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/raw/positions.csv'.
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/raw/positions.csv /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb
+Wrote position data to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/raw/positions.csv'.
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/assembly-top.svg /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/assembly-top.svg'.
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/assembly-top.svg /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/assembly-top.svg'.
 Done.
 
-$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/assembly-bottom.svg --mirror /Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/source/board-b.kicad_pcb
-Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/current-prototype-checkout/manufacturing/releases/corner-support-review/board-b/assembly-bottom.svg'.
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/assembly-bottom.svg --mirror /Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/assembly-bottom.svg'.
 Done.

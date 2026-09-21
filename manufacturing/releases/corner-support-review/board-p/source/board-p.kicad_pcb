@@ -709,7 +709,7 @@
 			(uuid "ceae9bee-4d76-4330-918c-e3b6e0e0478e")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -721,7 +721,7 @@
 			)
 		)
 	)
-	(footprint "zudo-pd:SMA_Vishay_SMAJ16A_C968650"
+	(footprint "zudo-pd:SMA_Littelfuse_SMAJ16A_C74561"
 		(layer "F.Cu")
 		(uuid "1ff4d5b7-22a0-4af9-a4c5-c5791ecf1e2a")
 		(at 22.25 10.08)
@@ -736,7 +736,7 @@
 				)
 			)
 		)
-		(property "Value" "SMAJ16A-E3/61"
+		(property "Value" "SMAJ16A"
 			(at 0 4 0)
 			(layer "F.Fab")
 			(uuid "9ec6bac7-e6c4-47d8-8c64-31c4d56de244")
@@ -769,7 +769,7 @@
 				)
 			)
 		)
-		(property "LCSC Part" "C968650"
+		(property "LCSC Part" "C74561"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -781,7 +781,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C968650"
+		(property "LCSC" "C74561"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -813,7 +813,7 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "fc1e6436-b029-5643-b710-6a3a8076fd36")
+			(uuid "8c479de1-d7c2-5253-99db-8961290283ae")
 		)
 		(fp_line
 			(start -2.25 -1.4)
@@ -823,7 +823,7 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "7e7273a6-14e0-5720-b2af-caca625e8e20")
+			(uuid "cb03aaf0-e48f-5a30-8377-40735de421d9")
 		)
 		(fp_line
 			(start -2.25 1.15)
@@ -833,7 +833,7 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "f7bfa1b2-f07e-5515-8171-4c427a602b99")
+			(uuid "bd00b31e-1893-5f1c-86fc-ce2ef8a40c5a")
 		)
 		(fp_line
 			(start -2.25 1.4)
@@ -843,47 +843,47 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "7987211e-0c82-5546-9b18-7d48fa1045e3")
+			(uuid "56cc6574-2dbb-5c62-a96f-7866c566fa4e")
 		)
 		(fp_line
-			(start -2.95 -1.65)
-			(end 2.95 -1.65)
+			(start -3.1 -1.65)
+			(end 3.1 -1.65)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "62299c40-8d94-5fde-a4d2-3d9740ce3fe1")
+			(uuid "5256c554-1526-5441-808e-1fd0a8b1fa2c")
 		)
 		(fp_line
-			(start -2.95 1.65)
-			(end -2.95 -1.65)
+			(start -3.1 1.65)
+			(end -3.1 -1.65)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "b6cfb7a9-3db1-5b33-90ab-c6a13bbfd719")
+			(uuid "c6ff5bf4-78b3-5ded-9d6b-e2a59d5ca6cd")
 		)
 		(fp_line
-			(start 2.95 -1.65)
-			(end 2.95 1.65)
+			(start 3.1 -1.65)
+			(end 3.1 1.65)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "bf56dac5-6fb6-588d-9215-5c1be72445d4")
+			(uuid "88d3c10a-055d-5e38-80a0-a323253b9e5f")
 		)
 		(fp_line
-			(start 2.95 1.65)
-			(end -2.95 1.65)
+			(start 3.1 1.65)
+			(end -3.1 1.65)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "2baef37f-673c-566c-aa42-219cbd9baab4")
+			(uuid "6caebf07-daba-5f66-96cf-60c27ca6cd51")
 		)
 		(fp_line
 			(start -1.75 -1.3)
@@ -893,12 +893,12 @@
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "e87349cc-68c3-5c13-a7f2-d435e566f0ce")
+			(uuid "621afe46-2d73-56cb-bd20-4204887a8618")
 		)
 		(fp_text user "${REFERENCE}"
 			(at 0 0 0)
 			(layer "F.Fab")
-			(uuid "92d5a7ff-f825-5903-9bd7-a0bfa7abc160")
+			(uuid "8cafa58e-20c0-5cf0-93ca-d5c875d79915")
 			(effects
 				(font
 					(size 1 1)
@@ -908,20 +908,20 @@
 		)
 		(pad "1" smd rect
 			(at -1.8 0)
-			(size 1.8 1.8)
+			(size 2.1 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "VBUS_IN")
-			(uuid "18c10b6b-a6ea-571a-8211-bbdd17abfe9f")
+			(uuid "655c1648-84b7-58a8-8db3-57954824cc97")
 		)
 		(pad "2" smd rect
 			(at 1.8 0)
-			(size 1.8 1.8)
+			(size 2.1 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "GND")
-			(uuid "c97432a1-12fe-5ab9-b7d4-296a0a06b217")
+			(uuid "948da7ff-b414-57b2-a9b5-4da1b889d8c6")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/SMA_Vishay_SMAJ16A_C968650.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/SMA_Littelfuse_SMAJ16A_C74561.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1203,7 +1203,7 @@
 			(uuid "760cabc3-e82a-42c9-81ab-d76dea94594c")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1441,7 +1441,7 @@
 			(uuid "92e49682-24aa-44a5-9472-0d30f390ce71")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -1934,7 +1934,7 @@
 			(uuid "63646c91-b953-46e9-9aba-1c8c9f3f88e3")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2181,7 +2181,7 @@
 			(uuid "49cac656-1e69-48d1-aa87-ccf8c2230fef")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2463,7 +2463,7 @@
 			(uuid "f3e125dd-5d6a-4773-89e3-7a6f5758fc08")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2701,7 +2701,7 @@
 			(uuid "3be666d7-4635-42df-b2d6-46ee2cc3f75c")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2939,7 +2939,7 @@
 			(uuid "3e959097-c0ae-4db3-87ac-a45553840d12")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -3202,7 +3202,7 @@
 			(uuid "ef01fd75-cfd3-471a-b789-22ece18203c9")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/SOD-523_L1.2-W0.8-H0.7-LS1.6.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/SOD-523_L1.2-W0.8-H0.7-LS1.6.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -3509,7 +3509,7 @@
 			(uuid "2e973f8d-da1c-47b8-b21f-5eea3671cf4e")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/USB-C-SMD_10P-P1.00-L6.8-W8.9.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/USB-C-SMD_10P-P1.00-L6.8-W8.9.wrl"
 			(offset
 				(xyz 0 -2.468 0)
 			)
@@ -3853,7 +3853,7 @@
 			(uuid "9d32f042-60d3-4c2e-b0dd-9d2c8f568781")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4091,7 +4091,7 @@
 			(uuid "fdf67bed-6ff5-47c7-8a43-3320c4e9e38c")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4329,7 +4329,7 @@
 			(uuid "0791314f-5f8c-46a0-8308-7f7909a03f03")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4611,7 +4611,7 @@
 			(uuid "3aa952c3-6930-4d04-ad5d-0c8b794254ec")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4886,7 +4886,7 @@
 			(uuid "269eea3f-fa9e-407a-bb6a-df5406f7a1d0")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/HDR-TH_6P-P2.54-M-LI-1X6P.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/HDR-TH_6P-P2.54-M-LI-1X6P.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -5230,7 +5230,7 @@
 			(uuid "799c5124-3e43-4eb8-a110-15096bce1c8d")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -5512,7 +5512,7 @@
 			(uuid "1af8e475-7d00-4258-921c-a10358b6d6b3")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -5925,7 +5925,7 @@
 			(uuid "785ab1b1-f52a-49a7-a542-75057732e54d")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -6163,7 +6163,7 @@
 			(uuid "f8d91514-5618-4736-a5c6-5fa16e136406")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0805_L2.0-W1.3-H0.6.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0805_L2.0-W1.3-H0.6.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -6426,7 +6426,7 @@
 			(uuid "38135940-a2ac-4c09-9f63-76663f93fd28")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/SOD-523_L1.2-W0.8-H0.7-LS1.6.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/SOD-523_L1.2-W0.8-H0.7-LS1.6.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -6664,7 +6664,7 @@
 			(uuid "0e060110-97d5-401d-94e2-19f2c36d2c64")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/R0603.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -6946,7 +6946,7 @@
 			(uuid "ac4f7d42-ec8f-40ef-85d0-cf6ab7d6ce1e")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/../../../../../footprints/kicad/zudo-pd.3dshapes/C1206_L3.2-W1.6-H1.3.wrl"
+		(model "${KIPRJMOD}/../../../../footprints/kicad/zudo-pd.3dshapes/C1206_L3.2-W1.6-H1.3.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
