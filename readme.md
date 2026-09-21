@@ -34,7 +34,7 @@ M3 × 5 mm screws through the nominal 1.6 mm PCB. See the
 [support evidence](boards/board-b/supports/README.md). Physical wire fit, tightening
 torque, adhesive retention, connector seating and full-load performance remain unmeasured.
 
-**Board P requires verified 15 V-only operation.** Its new SMAJ16A-E3/61 / C968650
+**Board P requires verified 15 V-only operation.** Its new SMAJ16A / C74561
 TVS has a 16 V standoff; factory 20 V negotiation is unsafe. First power and program
 P from a current-limited 5 V-only source with B disconnected. Read back the NVM,
 confirm all 20 V requests are disabled, and verify the configuration after a power

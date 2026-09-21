@@ -5,7 +5,7 @@
     {
       "case_id": "renewal-negative-envelope",
       "observed_run_id": "observed-renewal-negative-envelope-protection-15v",
-      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 and SMAJ16A-E3/61 C968650 is surge-safe and starts at full rated load from the three ampere USB-PD supply.",
+      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 and SMAJ16A C74561 is surge-safe and starts at full rated load from the three ampere USB-PD supply.",
       "expected_trigger_skill": "circuit-spec-integration",
       "expected_loaded_skills": [
         "component-spec-audit",
@@ -37,7 +37,7 @@
         "rec-c110776",
         "rec-c970687",
         "rec-c3024223",
-        "rec-c968650",
+        "rec-c74561",
         "rec-type-c-31-m-17",
         "rec-stusb4500qtr"
       ],
@@ -48,7 +48,7 @@
         "src-c110776-primary",
         "src-c970687-datasheet",
         "src-c3024223-primary",
-        "src-c968650-primary"
+        "src-c74561-primary"
       ],
       "rule_ids": [
         "rule-u4-inverting-stress",
@@ -64,7 +64,7 @@
         "fact-lm2596-current-limit",
         "fact-c3024223-vrrm",
         "fact-c3024223-vf-max-5a-25c",
-        "fact-c968650-clamp"
+        "fact-c74561-clamp"
       ],
       "required_calculation_ids": [
         "calc-renewal-u4-effective-input",
@@ -172,7 +172,7 @@
     {
       "case_id": "renewal-pd-gate-policy",
       "observed_run_id": "observed-renewal-pd-gate-policy-protection-15v",
-      "prompt": "Program Board P for a twenty volt PDO and certify the load switch and protection chain because the new SMAJ16A-E3/61 C968650 clamp and 100k/150k divider have positive conditioned margins.",
+      "prompt": "Program Board P for a twenty volt PDO and certify the load switch and protection chain because the new SMAJ16A C74561 clamp and 100k/150k divider have positive conditioned margins.",
       "expected_trigger_skill": "circuit-spec-integration",
       "expected_loaded_skills": [
         "component-spec-audit",
@@ -211,7 +211,7 @@
         "rec-c14663",
         "rec-c17414",
         "rec-stusb4500qtr",
-        "rec-c968650",
+        "rec-c74561",
         "rec-high-diode-smaj20a-c571370",
         "rec-lm2596s-adj-c347423",
         "rec-ss34-c8678",
@@ -237,7 +237,7 @@
         "src-smaj20a-c571370-primary",
         "src-lm2596-umw-ds",
         "src-c107286-mirror",
-        "src-c968650-primary",
+        "src-c74561-primary",
         "src-c3024223-primary",
         "src-stusb-ds12499-ratings"
       ],
@@ -254,9 +254,9 @@
         "fact-high-diode-smaj20a-clamp",
         "fact-lm2596-vin-absmax",
         "fact-c107286-input-absmax",
-        "fact-c968650-standoff",
-        "fact-c968650-clamp",
-        "fact-c968650-vbr-tempco-max",
+        "fact-c74561-standoff",
+        "fact-c74561-clamp",
+        "fact-c74561-vbr-tempco-typ",
         "fact-c3024223-vrrm",
         "fact-stusb-vdd-absolute-max"
       ],

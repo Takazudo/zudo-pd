@@ -11,7 +11,7 @@ records checked against schematic specs.
 | Circuit function | Existing selection | Review focus |
 | --- | --- | --- |
 | USB-PD controller | STUSB4500QTR | NVM, CC connections, sense and enable behavior |
-| Board P input TVS | SMAJ16A-E3/61 / C968650 | Mandatory 15 V-only NVM; conditioned clamp, hot behavior and overshoot |
+| Board P input TVS | SMAJ16A / C74561 | Mandatory 15 V-only NVM; conditioned clamp, hot behavior and overshoot |
 | Input switch | UMW AO3401A | Gate clamp, startup and dissipation |
 | +12 V pre-regulator | AP63201WU-7 / C2071044 | Low-line regulation, ceramic-bank assumptions and switching layout |
 | +5 V and negative pre-regulators | LM2596S-ADJ | Buck and inverting-stage stress at actual load |

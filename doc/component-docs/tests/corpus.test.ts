@@ -177,12 +177,12 @@ describe("the real records the epic calls out", () => {
   it("publishes open coverage, both with and without applicable blockers", () => {
     const coverage = model.records.flatMap((entry) => entry.coverage);
     const open = coverage.filter((entry) => entry.status === "OPEN");
-    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 97);
-    assert.equal(open.length, 78);
+    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 96);
+    assert.equal(open.length, 79);
 
     const withBlockers = open.filter((entry) => entry.blockingFactIds.length > 0);
     const withoutBlockers = open.filter((entry) => entry.blockingFactIds.length === 0);
-    assert.equal(withBlockers.length, 67);
+    assert.equal(withBlockers.length, 68);
     assert.equal(withoutBlockers.length, 11);
 
     // An open domain never publishes without saying why it is open.

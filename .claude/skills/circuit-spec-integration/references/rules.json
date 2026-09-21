@@ -71,7 +71,7 @@
         "rec-c666307",
         "rec-c861077",
         "rec-c110776",
-        "rec-c968650",
+        "rec-c74561",
         "rec-c3024223",
         "rec-c970687",
         "rec-c22387780",
@@ -99,9 +99,9 @@
         "fact-c110776-tolerance",
         "fact-c861077-tcr",
         "fact-c110776-tcr",
-        "fact-c968650-standoff",
-        "fact-c968650-clamp",
-        "fact-c968650-vbr-tempco-max",
+        "fact-c74561-standoff",
+        "fact-c74561-clamp",
+        "fact-c74561-vbr-tempco-typ",
         "fact-c3024223-vrrm",
         "fact-c970687-voltage",
         "fact-c22387780-voltage",
@@ -110,7 +110,7 @@
         "fact-grm32er71h106ka12l-voltage",
         "fact-lm2596-vin-operating-max"
       ],
-      "conditions": "Current P D5 is Vishay SMAJ16A-E3/61 C968650 and B D3 is Diodes SDT5A60SA-13 C3024223. Normal prototype source input is 15 V ±5% (14.25..15.75 V), leaving only 0.25 V below 16 V standoff. The 26 V maximum clamp is specified at 15.4 A,10/1000 us,25C; it is not a universal hot/installed-surge ceiling, and VBR temperature coefficient cannot be applied as a VC correction. With selected full-temperature reference and 0.35% resistor/TCR negative maximum 14.814410 V, conditioned combined stress is40.814410 V: below U4 absolute45 V,D3 reverse60 V,C9 50 V, but above U4 operating40 V. STUSB28 V,Q1 VDS30 V and input capacitors35/50 V have conditioned margin. Output TVS/load limits and actual waveforms remain separate; old SMAJ20A32.4 V/SS34 40 V comparison is explicitly retired.",
+      "conditions": "Current P D5 is Littelfuse SMAJ16A C74561 and B D3 is Diodes SDT5A60SA-13 C3024223. Normal prototype source input is 15 V ±5% (14.25..15.75 V), leaving only 0.25 V below 16 V standoff. The 26 V maximum clamp is specified at 15.4 A,10/1000 us,25C; it is not a universal hot/installed-surge ceiling, and VBR temperature coefficient cannot be applied as a VC correction. With selected full-temperature reference and 0.35% resistor/TCR negative maximum 14.814410 V, conditioned combined stress is40.814410 V: below U4 absolute45 V,D3 reverse60 V,C9 50 V, but above U4 operating40 V. STUSB28 V,Q1 VDS30 V and input capacitors35/50 V have conditioned margin. Output TVS/load limits and actual waveforms remain separate; old SMAJ20A32.4 V/SS34 40 V comparison is explicitly retired.",
       "verdict": "UNSOURCED",
       "refusal": "Do not certify hot or installed surge survival from the25C table point or enable20V operation; measure source/gate/switch/rail transients and preserve downstream source-trust and attached-load limits.",
       "conditioned_calculations": [
@@ -125,16 +125,16 @@
           ],
           "expression": "fact_lm2596_vin_absmax - fact_high_diode_smaj20a_clamp - (fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance))",
           "result_key": "margin_v",
-          "conditions": "RETIRED COMPARISON ONLY: old SMAJ20A32.4 V and nominal negative setpoint before the C968650/C3024223 substitution. Historical arithmetic remains a failure; it is not current-part stress.",
+          "conditions": "RETIRED COMPARISON ONLY: old SMAJ20A32.4 V and nominal negative setpoint before the C74561/C3024223 substitution. Historical arithmetic remains a failure; it is not current-part stress.",
           "margin_v": -1.5449999999999982
         },
         {
           "calculation_id": "calc-protection-stusb-clamp-margin",
           "fact_ids": [
             "fact-stusb-vdd-absolute-max",
-            "fact-c968650-clamp"
+            "fact-c74561-clamp"
           ],
-          "expression": "fact_stusb_vdd_absolute_max - fact_c968650_clamp",
+          "expression": "fact_stusb_vdd_absolute_max - fact_c74561_clamp",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
           "results": [
@@ -147,9 +147,9 @@
           "calculation_id": "calc-protection-q1-vds-clamp-margin",
           "fact_ids": [
             "fact-umw-ao3401a-vds",
-            "fact-c968650-clamp"
+            "fact-c74561-clamp"
           ],
-          "expression": "-fact_umw_ao3401a_vds - fact_c968650_clamp",
+          "expression": "-fact_umw_ao3401a_vds - fact_c74561_clamp",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
           "results": [
@@ -162,9 +162,9 @@
           "calculation_id": "calc-protection-input35-clamp-margin",
           "fact_ids": [
             "fact-c22387780-voltage",
-            "fact-c968650-clamp"
+            "fact-c74561-clamp"
           ],
-          "expression": "fact_c22387780_voltage - fact_c968650_clamp",
+          "expression": "fact_c22387780_voltage - fact_c74561_clamp",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
           "results": [
@@ -177,9 +177,9 @@
           "calculation_id": "calc-protection-input50-clamp-margin",
           "fact_ids": [
             "fact-c13585-voltage",
-            "fact-c968650-clamp"
+            "fact-c74561-clamp"
           ],
-          "expression": "fact_c13585_voltage - fact_c968650_clamp",
+          "expression": "fact_c13585_voltage - fact_c74561_clamp",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
           "results": [
@@ -192,7 +192,7 @@
           "calculation_id": "calc-protection-u4-abs-hot-negative-margin",
           "fact_ids": [
             "fact-lm2596-vin-absmax",
-            "fact-c968650-clamp",
+            "fact-c74561-clamp",
             "fact-lm2596-fb-vref-max-full-temp",
             "fact-c861077-resistance",
             "fact-c110776-resistance",
@@ -201,7 +201,7 @@
             "fact-c861077-tcr",
             "fact-c110776-tcr"
           ],
-          "expression": "fact_lm2596_vin_absmax - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "expression": "fact_lm2596_vin_absmax - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
           "results": [
@@ -215,7 +215,7 @@
           "calculation_id": "calc-protection-u4-operating-hot-negative-margin",
           "fact_ids": [
             "fact-lm2596-vin-operating-max",
-            "fact-c968650-clamp",
+            "fact-c74561-clamp",
             "fact-lm2596-fb-vref-max-full-temp",
             "fact-c861077-resistance",
             "fact-c110776-resistance",
@@ -224,7 +224,7 @@
             "fact-c861077-tcr",
             "fact-c110776-tcr"
           ],
-          "expression": "fact_lm2596_vin_operating_max - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "expression": "fact_lm2596_vin_operating_max - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
           "results": [
@@ -238,7 +238,7 @@
           "calculation_id": "calc-protection-d3-reverse-hot-negative-margin",
           "fact_ids": [
             "fact-c3024223-vrrm",
-            "fact-c968650-clamp",
+            "fact-c74561-clamp",
             "fact-lm2596-fb-vref-max-full-temp",
             "fact-c861077-resistance",
             "fact-c110776-resistance",
@@ -247,7 +247,7 @@
             "fact-c861077-tcr",
             "fact-c110776-tcr"
           ],
-          "expression": "fact_c3024223_vrrm - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "expression": "fact_c3024223_vrrm - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
           "results": [
@@ -261,7 +261,7 @@
           "calculation_id": "calc-protection-c9-hot-negative-margin",
           "fact_ids": [
             "fact-c970687-voltage",
-            "fact-c968650-clamp",
+            "fact-c74561-clamp",
             "fact-lm2596-fb-vref-max-full-temp",
             "fact-c861077-resistance",
             "fact-c110776-resistance",
@@ -270,7 +270,7 @@
             "fact-c861077-tcr",
             "fact-c110776-tcr"
           ],
-          "expression": "fact_c970687_voltage - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "expression": "fact_c970687_voltage - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
           "result_key": "margin_v",
           "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
           "results": [
@@ -283,9 +283,9 @@
         {
           "calculation_id": "calc-protection-standoff-margin",
           "fact_ids": [
-            "fact-c968650-standoff"
+            "fact-c74561-standoff"
           ],
-          "expression": "fact_c968650_standoff - normal_high_v",
+          "expression": "fact_c74561_standoff - normal_high_v",
           "result_key": "margin_v",
           "conditions": "Prototype15V±5% normal source envelope;20V unsupported. Standoff is not the clamp level.",
           "results": [
@@ -306,7 +306,7 @@
         "rec-c110776",
         "rec-c970687",
         "rec-c3024223",
-        "rec-c968650"
+        "rec-c74561"
       ],
       "fact_ids": [
         "fact-lm2596-fb-vref",
@@ -319,7 +319,7 @@
         "fact-c3024223-vrrm",
         "fact-c3024223-vf-max-5a-25c",
         "fact-c3024223-vf-max-5a-125c",
-        "fact-c968650-clamp",
+        "fact-c74561-clamp",
         "fact-lm2596-fb-vref-max-full-temp",
         "fact-c861077-tolerance",
         "fact-c110776-tolerance",
@@ -540,7 +540,7 @@
         "rec-c14663",
         "rec-c17414",
         "rec-stusb4500qtr",
-        "rec-c968650"
+        "rec-c74561"
       ],
       "fact_ids": [
         "fact-umw-ao3401a-vgs",
@@ -551,8 +551,8 @@
         "fact-c17414-reset-ctrl-topology",
         "fact-stusb-vben",
         "fact-stusb-artifact",
-        "fact-c968650-standoff",
-        "fact-c968650-clamp"
+        "fact-c74561-standoff",
+        "fact-c74561-clamp"
       ],
       "conditions": "Board P uses100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35. Ideal asserted drive is-6 V at15 V,-6.3 V at15.75 V and-10.4 V at the26 V conditioned clamp point. These steady numbers do not establish transient gate safety. This prototype is15 V±5% only;20 V is unsupported and exceeds the new16 V TVS standoff. First power/programming must use a current-limited5 V-only source with B disconnected. Resolve jig voltage/pull-up loading and verify15 V-only NVM image/readback/reload before attaching any15 V-capable PD source. The archived-12.96 V result belongs to the retired32.4 V comparison.",
       "verdict": "NEEDS BENCH",

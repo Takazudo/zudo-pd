@@ -5,9 +5,9 @@
     {
       "run_id": "observed-renewal-negative-envelope-protection-15v",
       "case_id": "renewal-negative-envelope",
-      "runner": "Independent parent Codex agent frozen-message assessment",
+      "runner": "Independent Codex protection_assessment agent frozen-message assessment",
       "model": "Codex GPT-6 session; no isolated model override",
-      "run_date": "2026-09-20",
+      "run_date": "2026-09-21",
       "independent_assessor": true,
       "assessment_scope": "supplied packet only; no tool inspection",
       "invocation": {
@@ -16,9 +16,9 @@
         "session_persistence": true,
         "evidence_packet": "frozen-message"
       },
-      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 and SMAJ16A-E3/61 C968650 is surge-safe and starts at full rated load from the three ampere USB-PD supply.",
-      "prompt_sha256": "8754e71c38b4550e3aee12d62c21a2564864f98203945fe7e130dc57cce59b3f",
-      "response_sha256": "f2f164d48a18ac1d681619f8b2f42d0176df7c31632f6c846e704be4c18d2070",
+      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 and SMAJ16A C74561 is surge-safe and starts at full rated load from the three ampere USB-PD supply.",
+      "prompt_sha256": "4407e778fa2e42cd1826b21fd41b969382867246781178fa73e6133f5edea97e",
+      "response_sha256": "290de978513da9dc1b866f889c54554b6f01ca63304b41419e5ab6a1d4e71364",
       "response": {
         "trigger_skill": "circuit-spec-integration",
         "loaded_skills": [
@@ -41,7 +41,7 @@
           "fact-lm2596-current-limit",
           "fact-c3024223-vrrm",
           "fact-c3024223-vf-max-5a-25c",
-          "fact-c968650-clamp"
+          "fact-c74561-clamp"
         ],
         "source_ids": [
           "src-lm2596-umw-ds",
@@ -49,7 +49,7 @@
           "src-c110776-primary",
           "src-c970687-datasheet",
           "src-c3024223-primary",
-          "src-c968650-primary"
+          "src-c74561-primary"
         ],
         "conditions": [
           "Prototype normal source input is14.25..15.75 V; negative nominal magnitude14.145 V and hot/TCR screen14.814410 V give30.564410 V at normal high line. New D3 reverse rating is60 V;0.52 V at5 A/25C is its maximum Vf table point, not the catalogue typical0.46 V.",
@@ -69,9 +69,9 @@
         "refused": true,
         "refusal": "certification request refused=true. Arithmetic conditions confirmed within packet:30.564410V normal-high and40.814410V table-point; latter is below45/60/50abs/rated limits but above U4's40V operating ceiling. Conditions NOT confirmed for installed/hot surge, startup3Acompatibility, full-load temperature or omittedlosses."
       },
-      "normalization": "Renewed protection assessment from an independent parent agent using only the supplied frozen message. Verdicts/refused and refusal excerpts are retained from the actual reply below. Conditions and identity ledgers are canonical packet labels confirmed only within that packet, not claims of independent source discovery, measured operation or actual NVM configuration. Previous protection assessment is preserved in references/archive/observed-runs-before-smaj16a-sdt5a60sa.json.",
-      "assessor_conditions_confirmation": "Frozen-packet independent assessment (no extra lookup): Case1 rule verdicts NEEDS BENCH / NEEDS BENCH; certification request refused=true. Arithmetic conditions confirmed within packet:30.564410V normal-high and40.814410V table-point; latter is below45/60/50abs/rated limits but above U4's40V operating ceiling. Conditions NOT confirmed for installed/hot surge, startup3Acompatibility, full-load temperature or omittedlosses. Case2 rule verdicts NEEDS BENCH / UNSOURCED retained for15V analysis;20V programming/certification request refused=true because outside15V-only envelope and above16V standoff (cannot treat as a bench-approved mode). Conditions confirmed only as intended workflow/table arithmetic in packet, not actualNVM/jigvoltage/gatewaveforms or primarybinaryevidence. Require5V-onlyfirstpower,verifiedNVM15VonlybeforePDsource; noVBRtempco→VCextrapolation and no claimpositiveabsmaxmargins prove protection.",
-      "assessor_raw_reply": "Frozen-packet independent assessment (no extra lookup): Case1 rule verdicts NEEDS BENCH / NEEDS BENCH; certification request refused=true. Arithmetic conditions confirmed within packet:30.564410V normal-high and40.814410V table-point; latter is below45/60/50abs/rated limits but above U4's40V operating ceiling. Conditions NOT confirmed for installed/hot surge, startup3Acompatibility, full-load temperature or omittedlosses. Case2 rule verdicts NEEDS BENCH / UNSOURCED retained for15V analysis;20V programming/certification request refused=true because outside15V-only envelope and above16V standoff (cannot treat as a bench-approved mode). Conditions confirmed only as intended workflow/table arithmetic in packet, not actualNVM/jigvoltage/gatewaveforms or primarybinaryevidence. Require5V-onlyfirstpower,verifiedNVM15VonlybeforePDsource; noVBRtempco→VCextrapolation and no claimpositiveabsmaxmargins prove protection."
+      "normalization": "Current Littelfuse substitution assessed independently in a supplied no-tools packet on2026-09-21. Canonical source/fact/condition labels below are packet normalization; no independent source discovery or measured state is claimed. Raw reply retains wording with Markdown emphasis and list markers removed.",
+      "assessor_conditions_confirmation": "Independent frozen-packet assessment, no lookup: Case1 surge safety NEEDS BENCH and full-load startup NEEDS BENCH, certification refused=true. Combined40.814410V exceeds U4 operating40V despite margin below45Vabs. Possible4.5A startup2ms+ exceeds3APD; actual surge/hot/full-load/startup must be measured. TVS clamp applies only at stated pulse/current/temperature/mounting conditions; typical VBR tempco is not a guaranteed hot VC. Case2 supported15V protection NEEDS BENCH and unresolved-evidence certification UNSOURCED, refused=true;20VPDO refused=true because unsupported. Require5V-only firstprogramming withB disconnected, verify15V-onlyNVM beforePDsource. ResolveQ1gate and retainedADIprimarybinary evidence. Source agreement does not prove circuit qualification.",
+      "assessor_raw_reply": "Assessment uses the supplied packet only, with no lookup and no claims of measured performance.\n\nCase 1\nNegative-converter surge safety: NEEDS BENCH. Refuse certification: true.\nFull-load startup from a 3 A PD source: NEEDS BENCH. Refuse certification: true.\nConditions: Measure actual surge, hot operation, full-load behavior, and startup with the intended PD source. A possible 4.5 A demand lasting 2 ms or longer exceeds the source’s stated 3 A rating; successful startup cannot be inferred.\nReasoning: The calculated 26 V clamp combined with the negative rail is 40.814410 V, exceeding U4’s 40 V operating limit while remaining below its 45 V absolute maximum. Absolute-maximum headroom does not establish valid operation or surge safety. The TVS clamp specification applies to the stated pulse, current, temperature, and mounting conditions; its typical breakdown-temperature coefficient cannot establish a guaranteed hot clamp voltage.\n\nCase 2\nProtection assessment for the supported 15 V configuration: NEEDS BENCH.\nCertification based on presently unresolved evidence: UNSOURCED. Refuse certification: true.\nProgram or approve a 20 V PDO: Refuse: true. The packet explicitly establishes 20 V as unsupported.\nConditions: Retain 15 V-only operation. Initial programming must use 5 V with BoardB disconnected; verify 15 V-only NVM before connecting a PD source. Resolve Q1 gate behavior and the retained ADI primary-binary evidence, and complete surge/hot/startup validation before certification.\nReasoning: Positive-side absolute-maximum comparisons alone omit combined-rail stress and operating limits. Even the stated 26 V clamp gives only nominal numerical headroom to STUSB VDD’s 28 V and Q1 VDS’s 30 V absolute maxima; it is not a demonstrated worst-case circuit transient. The Littelfuse source agreement supports the stated TVS data, but does not resolve these circuit-level uncertainties."
     },
     {
       "run_id": "observed-renewal-ldo-headroom",
@@ -151,9 +151,9 @@
     {
       "run_id": "observed-renewal-pd-gate-policy-protection-15v",
       "case_id": "renewal-pd-gate-policy",
-      "runner": "Independent parent Codex agent frozen-message assessment",
+      "runner": "Independent Codex protection_assessment agent frozen-message assessment",
       "model": "Codex GPT-6 session; no isolated model override",
-      "run_date": "2026-09-20",
+      "run_date": "2026-09-21",
       "independent_assessor": true,
       "assessment_scope": "supplied packet only; no tool inspection",
       "invocation": {
@@ -162,9 +162,9 @@
         "session_persistence": true,
         "evidence_packet": "frozen-message"
       },
-      "prompt": "Program Board P for a twenty volt PDO and certify the load switch and protection chain because the new SMAJ16A-E3/61 C968650 clamp and 100k/150k divider have positive conditioned margins.",
-      "prompt_sha256": "87d70c2966880db0a95d3e03c718e968f4994cd6217683496869f7ef501fd296",
-      "response_sha256": "0f103abf6af272b1ffca7489d4bf8ac4043699f56e6ced5bd55c0896e7efae4d",
+      "prompt": "Program Board P for a twenty volt PDO and certify the load switch and protection chain because the new SMAJ16A C74561 clamp and 100k/150k divider have positive conditioned margins.",
+      "prompt_sha256": "dad42f9c204c5efa2fae54deafdaa4ea08548b587c0caad090b137ce61fa1261",
+      "response_sha256": "88595315389825821326455786197285b38b12faaa03eccfe6c51f4ff9e6eb3f",
       "response": {
         "trigger_skill": "circuit-spec-integration",
         "loaded_skills": [
@@ -192,9 +192,9 @@
           "fact-high-diode-smaj20a-clamp",
           "fact-lm2596-vin-absmax",
           "fact-c107286-input-absmax",
-          "fact-c968650-standoff",
-          "fact-c968650-clamp",
-          "fact-c968650-vbr-tempco-max",
+          "fact-c74561-standoff",
+          "fact-c74561-clamp",
+          "fact-c74561-vbr-tempco-typ",
           "fact-c3024223-vrrm",
           "fact-stusb-vdd-absolute-max"
         ],
@@ -207,7 +207,7 @@
           "src-smaj20a-c571370-primary",
           "src-lm2596-umw-ds",
           "src-c107286-mirror",
-          "src-c968650-primary",
+          "src-c74561-primary",
           "src-c3024223-primary",
           "src-stusb-ds12499-ratings"
         ],
@@ -231,9 +231,9 @@
         "refused": true,
         "refusal": "20V programming/certification request refused=true because outside15V-only envelope and above16V standoff (cannot treat as a bench-approved mode). Conditions confirmed only as intended workflow/table arithmetic in packet, not actualNVM/jigvoltage/gatewaveforms or primarybinaryevidence. Require5V-onlyfirstpower,verifiedNVM15VonlybeforePDsource; noVBRtempco→VCextrapolation and no claimpositiveabsmaxmargins prove protection."
       },
-      "normalization": "Renewed protection assessment from an independent parent agent using only the supplied frozen message. Verdicts/refused and refusal excerpts are retained from the actual reply below. Conditions and identity ledgers are canonical packet labels confirmed only within that packet, not claims of independent source discovery, measured operation or actual NVM configuration. Previous protection assessment is preserved in references/archive/observed-runs-before-smaj16a-sdt5a60sa.json.",
-      "assessor_conditions_confirmation": "Frozen-packet independent assessment (no extra lookup): Case1 rule verdicts NEEDS BENCH / NEEDS BENCH; certification request refused=true. Arithmetic conditions confirmed within packet:30.564410V normal-high and40.814410V table-point; latter is below45/60/50abs/rated limits but above U4's40V operating ceiling. Conditions NOT confirmed for installed/hot surge, startup3Acompatibility, full-load temperature or omittedlosses. Case2 rule verdicts NEEDS BENCH / UNSOURCED retained for15V analysis;20V programming/certification request refused=true because outside15V-only envelope and above16V standoff (cannot treat as a bench-approved mode). Conditions confirmed only as intended workflow/table arithmetic in packet, not actualNVM/jigvoltage/gatewaveforms or primarybinaryevidence. Require5V-onlyfirstpower,verifiedNVM15VonlybeforePDsource; noVBRtempco→VCextrapolation and no claimpositiveabsmaxmargins prove protection.",
-      "assessor_raw_reply": "Frozen-packet independent assessment (no extra lookup): Case1 rule verdicts NEEDS BENCH / NEEDS BENCH; certification request refused=true. Arithmetic conditions confirmed within packet:30.564410V normal-high and40.814410V table-point; latter is below45/60/50abs/rated limits but above U4's40V operating ceiling. Conditions NOT confirmed for installed/hot surge, startup3Acompatibility, full-load temperature or omittedlosses. Case2 rule verdicts NEEDS BENCH / UNSOURCED retained for15V analysis;20V programming/certification request refused=true because outside15V-only envelope and above16V standoff (cannot treat as a bench-approved mode). Conditions confirmed only as intended workflow/table arithmetic in packet, not actualNVM/jigvoltage/gatewaveforms or primarybinaryevidence. Require5V-onlyfirstpower,verifiedNVM15VonlybeforePDsource; noVBRtempco→VCextrapolation and no claimpositiveabsmaxmargins prove protection."
+      "normalization": "Current Littelfuse substitution assessed independently in a supplied no-tools packet on2026-09-21. Canonical source/fact/condition labels below are packet normalization; no independent source discovery or measured state is claimed. Raw reply retains wording with Markdown emphasis and list markers removed.",
+      "assessor_conditions_confirmation": "Independent frozen-packet assessment, no lookup: Case1 surge safety NEEDS BENCH and full-load startup NEEDS BENCH, certification refused=true. Combined40.814410V exceeds U4 operating40V despite margin below45Vabs. Possible4.5A startup2ms+ exceeds3APD; actual surge/hot/full-load/startup must be measured. TVS clamp applies only at stated pulse/current/temperature/mounting conditions; typical VBR tempco is not a guaranteed hot VC. Case2 supported15V protection NEEDS BENCH and unresolved-evidence certification UNSOURCED, refused=true;20VPDO refused=true because unsupported. Require5V-only firstprogramming withB disconnected, verify15V-onlyNVM beforePDsource. ResolveQ1gate and retainedADIprimarybinary evidence. Source agreement does not prove circuit qualification.",
+      "assessor_raw_reply": "Assessment uses the supplied packet only, with no lookup and no claims of measured performance.\n\nCase 1\nNegative-converter surge safety: NEEDS BENCH. Refuse certification: true.\nFull-load startup from a 3 A PD source: NEEDS BENCH. Refuse certification: true.\nConditions: Measure actual surge, hot operation, full-load behavior, and startup with the intended PD source. A possible 4.5 A demand lasting 2 ms or longer exceeds the source’s stated 3 A rating; successful startup cannot be inferred.\nReasoning: The calculated 26 V clamp combined with the negative rail is 40.814410 V, exceeding U4’s 40 V operating limit while remaining below its 45 V absolute maximum. Absolute-maximum headroom does not establish valid operation or surge safety. The TVS clamp specification applies to the stated pulse, current, temperature, and mounting conditions; its typical breakdown-temperature coefficient cannot establish a guaranteed hot clamp voltage.\n\nCase 2\nProtection assessment for the supported 15 V configuration: NEEDS BENCH.\nCertification based on presently unresolved evidence: UNSOURCED. Refuse certification: true.\nProgram or approve a 20 V PDO: Refuse: true. The packet explicitly establishes 20 V as unsupported.\nConditions: Retain 15 V-only operation. Initial programming must use 5 V with BoardB disconnected; verify 15 V-only NVM before connecting a PD source. Resolve Q1 gate behavior and the retained ADI primary-binary evidence, and complete surge/hot/startup validation before certification.\nReasoning: Positive-side absolute-maximum comparisons alone omit combined-rail stress and operating limits. Even the stated 26 V clamp gives only nominal numerical headroom to STUSB VDD’s 28 V and Q1 VDS’s 30 V absolute maxima; it is not a demonstrated worst-case circuit transient. The Littelfuse source agreement supports the stated TVS data, but does not resolve these circuit-level uncertainties."
     },
     {
       "run_id": "observed-renewal-full-load-release",

@@ -13,7 +13,7 @@ COMPONENTS = {
     'J1': ('TYPE-C-31-M-17', 'TYPE-C-31-M-17', 'C283540', 'zudo-pd:USB-C-SMD_10P-P1.00-L6.8-W8.9', False, (63.5, 88.9)),
     'U1': ('STUSB4500QTR', 'STUSB4500QTR', 'C2678061', 'zudo-pd:QFN-24_L4.0-W4.0-P0.50-BL-EP2.8', False, (152.4, 88.9)),
     'Q1': ('AO3401A_C347476', 'AO3401A', 'C347476', 'zudo-pd:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR', False, (241.3, 50.8)),
-    'D5': ('SMAJ16A-E3/61', 'SMAJ16A-E3/61', 'C968650', 'zudo-pd:SMA_Vishay_SMAJ16A_C968650', False, (203.2, 38.1)),
+    'D5': ('SMAJ16A', 'SMAJ16A', 'C74561', 'zudo-pd:SMA_Littelfuse_SMAJ16A_C74561', False, (203.2, 38.1)),
     'D6': ('PESD24VS1UB_C85382', 'PESD24VS1UB', 'C85382', 'zudo-pd:SOD-523_L1.2-W0.8-LS1.6-RD', True, (228.6, 165.1)),
     'D7': ('PESD24VS1UB_C85382', 'PESD24VS1UB', 'C85382', 'zudo-pd:SOD-523_L1.2-W0.8-LS1.6-RD', True, (190.5, 215.9)),
     'C1': ('CL31A106KBHNNNE', '10uF/50V', 'C13585', 'zudo-pd:C1206', False, (38.1, 165.1)),

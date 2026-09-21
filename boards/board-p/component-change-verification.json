@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "change": "D5 exact part replacement; routing, outline, other footprints and markings retained",
+  "previous_pcb_sha256": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b",
+  "current_pcb_sha256": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278",
+  "nonmodel_footprints_changed": [
+    "D5"
+  ],
+  "tracks_vias_outline_text_unchanged": true,
+  "replacement": {
+    "reference": "D5",
+    "mpn": "SMAJ16A",
+    "manufacturer": "Littelfuse",
+    "lcsc": "C74561",
+    "position_mm": [
+      22.25,
+      10.08
+    ],
+    "rotation_deg": 0,
+    "pad_size_mm": [
+      2.1,
+      1.8
+    ],
+    "pad_centers_x_mm": [
+      -1.8,
+      1.8
+    ],
+    "pad1": "cathode / VBUS_IN",
+    "pad2": "anode / GND"
+  },
+  "model": "Existing illustrative SMA mesh reused and renamed; not an exact Littelfuse model",
+  "checks": {
+    "drc_errors": 0,
+    "unconnected": 0,
+    "erc_errors": 0
+  }
+}

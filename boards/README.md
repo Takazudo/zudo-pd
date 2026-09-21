@@ -63,7 +63,7 @@ renewal PCB and prototype outputs. No renewal hardware has been released or orde
 The current [printed accessory](../3dp-files/README.md) is the adhesive leg;
 the plain-edge screw-terminal board requires no printed connector guard.
 
-Board P D5 is now Vishay SMAJ16A-E3/61 / C968650, with a 16 V standoff. **20 V
+Board P D5 is now Littelfuse SMAJ16A / C74561, with a 16 V standoff. **20 V
 negotiation is unsafe.** First power and program P at 5 V only with B disconnected;
 read back the NVM, disable every 20 V request and verify the 15 V-only policy after
 a power cycle before connecting a higher-voltage-capable PD source. Follow the

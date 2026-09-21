@@ -11,7 +11,7 @@ The source spec is `scripts/schgen/board_p_spec.py`.
 
 ## A verified 15 V-only configuration is mandatory
 
-Board P D5 now uses [Vishay SMAJ16A-E3/61, C968650](/docs/components/records/c968650/),
+Board P D5 now uses [Littelfuse SMAJ16A, C74561](/docs/components/records/c74561/),
 a 16 V standoff TVS. **Factory 20 V negotiation is unsafe for this board** and can
 cause sustained TVS conduction. The input TVS sees negotiated VBUS even while the
 output switch is off, so output gating does not remove this requirement.

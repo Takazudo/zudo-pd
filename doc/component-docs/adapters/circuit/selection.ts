@@ -37,7 +37,7 @@ import type { InstanceSelection } from "../../core/publication.ts";
  */
 export const CIRCUIT_DOCUMENT_VERIFICATION = {
   checkedOn: "2026-09-20",
-  individuallyRetrievedPdfSourceIds: ["src-c8465-drawing", "src-c968650-primary", "src-c3024223-primary", "src-dw254p-drawing", "src-c492405-drawing", "src-c2832269-drawing"],
+  individuallyRetrievedPdfSourceIds: ["src-c8465-drawing", "src-c74561-primary", "src-c3024223-primary", "src-dw254p-drawing", "src-c492405-drawing", "src-c2832269-drawing"],
   expectedContent: "PDF",
   method: "EVIDENCE_BUNDLE_METADATA",
   /**
@@ -48,6 +48,7 @@ export const CIRCUIT_DOCUMENT_VERIFICATION = {
    * one not primary?" is the first question a re-auditor will ask.
    */
   mirrorSourceIds: [
+    "src-c74561-primary",
     "src-c8465-drawing",
     "src-grm32er71h106ka12l-datasheet",
     "src-c107286-mirror",
@@ -72,7 +73,7 @@ export const CIRCUIT_DOCUMENT_VERIFICATION = {
 
 export const CIRCUIT_SELECTION: InstanceSelection = {
   recordIds: [
-    "rec-c968650",
+    "rec-c74561",
     "rec-c3024223",
 
     "rec-ap63201wu-7",
@@ -167,8 +168,8 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
     "src-c8465-drawing",
     "src-c8465-project",
     "src-c8465-model",
-    "src-c968650-primary",
-    "src-c968650-identity",
+    "src-c74561-primary",
+    "src-c74561-identity",
     "src-c3024223-primary",
     "src-c3024223-identity",
 
@@ -345,8 +346,8 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
   linkableSourceIds: [
     "src-c8465-catalog",
     "src-c8465-drawing",
-    "src-c968650-primary",
-    "src-c968650-identity",
+    "src-c74561-primary",
+    "src-c74561-identity",
     "src-c3024223-primary",
     "src-c3024223-identity",
 
@@ -518,7 +519,7 @@ export const CIRCUIT_SELECTION: InstanceSelection = {
    * both are `specification` despite the `-datasheet` in their IDs.
    */
   documentSelections: [
-    { recordId: "rec-c968650", sourceId: "src-c968650-primary", documentKind: "datasheet" },
+    { recordId: "rec-c74561", sourceId: "src-c74561-primary", documentKind: "datasheet" },
     { recordId: "rec-c3024223", sourceId: "src-c3024223-primary", documentKind: "datasheet" },
     { recordId: "rec-ap63201wu-7", sourceId: "src-ap63201wu-7-datasheet", documentKind: "datasheet" },
     { recordId: "rec-aspi-0630lr-100m-t15", sourceId: "src-aspi-0630lr-100m-t15-datasheet", documentKind: "datasheet" },

@@ -115,7 +115,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **This rule refuses to conclude:** Do not certify hot or installed surge survival from the25C table point or enable20V operation; measure source/gate/switch/rail transients and preserve downstream source-trust and attached-load limits.
 
-**Conditions:** Current P D5 is Vishay SMAJ16A-E3/61 C968650 and B D3 is Diodes SDT5A60SA-13 C3024223. Normal prototype source input is 15 V ±5% (14.25..15.75 V), leaving only 0.25 V below 16 V standoff. The 26 V maximum clamp is specified at 15.4 A,10/1000 us,25C; it is not a universal hot/installed-surge ceiling, and VBR temperature coefficient cannot be applied as a VC correction. With selected full-temperature reference and 0.35% resistor/TCR negative maximum 14.814410 V, conditioned combined stress is40.814410 V: below U4 absolute45 V,D3 reverse60 V,C9 50 V, but above U4 operating40 V. STUSB28 V,Q1 VDS30 V and input capacitors35/50 V have conditioned margin. Output TVS/load limits and actual waveforms remain separate; old SMAJ20A32.4 V/SS34 40 V comparison is explicitly retired.
+**Conditions:** Current P D5 is Littelfuse SMAJ16A C74561 and B D3 is Diodes SDT5A60SA-13 C3024223. Normal prototype source input is 15 V ±5% (14.25..15.75 V), leaving only 0.25 V below 16 V standoff. The 26 V maximum clamp is specified at 15.4 A,10/1000 us,25C; it is not a universal hot/installed-surge ceiling, and VBR temperature coefficient cannot be applied as a VC correction. With selected full-temperature reference and 0.35% resistor/TCR negative maximum 14.814410 V, conditioned combined stress is40.814410 V: below U4 absolute45 V,D3 reverse60 V,C9 50 V, but above U4 operating40 V. STUSB28 V,Q1 VDS30 V and input capacitors35/50 V have conditioned margin. Output TVS/load limits and actual waveforms remain separate; old SMAJ20A32.4 V/SS34 40 V comparison is explicitly retired.
 
 **Records this rule spans:**
 
@@ -130,7 +130,7 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-c666307`](/docs/components/records/c666307/) — LT3015EQ-12#PBF
 - [`rec-c861077`](/docs/components/records/c861077/) — RT0603BRD0710K5L
 - [`rec-c110776`](/docs/components/records/c110776/) — RT0603BRD071KL
-- [`rec-c968650`](/docs/components/records/c968650/) — SMAJ16A-E3/61
+- [`rec-c74561`](/docs/components/records/c74561/) — SMAJ16A
 - [`rec-c3024223`](/docs/components/records/c3024223/) — SDT5A60SA-13
 - [`rec-c970687`](/docs/components/records/c970687/) — RVT1H101M0810
 - [`rec-c22387780`](/docs/components/records/c22387780/) — EFVH035ADA471M10B0
@@ -159,9 +159,9 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
 - [`fact-c861077-tcr`](/docs/components/records/c861077/#fact-c861077-tcr) on RT0603BRD0710K5L
 - [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
-- [`fact-c968650-standoff`](/docs/components/records/c968650/#fact-c968650-standoff) on SMAJ16A-E3/61
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
-- [`fact-c968650-vbr-tempco-max`](/docs/components/records/c968650/#fact-c968650-vbr-tempco-max) on SMAJ16A-E3/61
+- [`fact-c74561-standoff`](/docs/components/records/c74561/#fact-c74561-standoff) on SMAJ16A
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
+- [`fact-c74561-vbr-tempco-typ`](/docs/components/records/c74561/#fact-c74561-vbr-tempco-typ) on SMAJ16A
 - [`fact-c3024223-vrrm`](/docs/components/records/c3024223/#fact-c3024223-vrrm) on SDT5A60SA-13
 - [`fact-c970687-voltage`](/docs/components/records/c970687/#fact-c970687-voltage) on RVT1H101M0810
 - [`fact-c22387780-voltage`](/docs/components/records/c22387780/#fact-c22387780-voltage) on EFVH035ADA471M10B0
@@ -181,7 +181,7 @@ Arithmetic across the facts above. The expression and every input are published 
 - **Expression:** `fact_lm2596_vin_absmax - fact_high_diode_smaj20a_clamp - (fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance))`
 - **Result:** `margin_v`
 
-**Conditions:** RETIRED COMPARISON ONLY: old SMAJ20A32.4 V and nominal negative setpoint before the C968650/C3024223 substitution. Historical arithmetic remains a failure; it is not current-part stress.
+**Conditions:** RETIRED COMPARISON ONLY: old SMAJ20A32.4 V and nominal negative setpoint before the C74561/C3024223 substitution. Historical arithmetic remains a failure; it is not current-part stress.
 
 **Inputs:**
 
@@ -199,7 +199,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-stusb-clamp-margin" />
 
-- **Expression:** `fact_stusb_vdd_absolute_max - fact_c968650_clamp`
+- **Expression:** `fact_stusb_vdd_absolute_max - fact_c74561_clamp`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
@@ -207,7 +207,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-stusb-vdd-absolute-max`](/docs/components/records/stusb4500qtr/#fact-stusb-vdd-absolute-max) on STUSB4500QTR
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 
 | margin\_v |
 | --------- |
@@ -217,7 +217,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-q1-vds-clamp-margin" />
 
-- **Expression:** `-fact_umw_ao3401a_vds - fact_c968650_clamp`
+- **Expression:** `-fact_umw_ao3401a_vds - fact_c74561_clamp`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
@@ -225,7 +225,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-umw-ao3401a-vds`](/docs/components/records/umw-ao3401a-c347476/#fact-umw-ao3401a-vds) on AO3401A
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 
 | margin\_v |
 | --------- |
@@ -235,7 +235,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-input35-clamp-margin" />
 
-- **Expression:** `fact_c22387780_voltage - fact_c968650_clamp`
+- **Expression:** `fact_c22387780_voltage - fact_c74561_clamp`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
@@ -243,7 +243,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-c22387780-voltage`](/docs/components/records/c22387780/#fact-c22387780-voltage) on EFVH035ADA471M10B0
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 
 | margin\_v |
 | --------- |
@@ -253,7 +253,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-input50-clamp-margin" />
 
-- **Expression:** `fact_c13585_voltage - fact_c968650_clamp`
+- **Expression:** `fact_c13585_voltage - fact_c74561_clamp`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
@@ -261,7 +261,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-c13585-voltage`](/docs/components/records/c13585/#fact-c13585-voltage) on CL31A106KBHNNNE
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 
 | margin\_v |
 | --------- |
@@ -271,7 +271,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-u4-abs-hot-negative-margin" />
 
-- **Expression:** `fact_lm2596_vin_absmax - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
+- **Expression:** `fact_lm2596_vin_absmax - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
@@ -279,7 +279,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-lm2596-vin-absmax`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-vin-absmax) on LM2596S-ADJ
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 - [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
 - [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
 - [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
@@ -296,7 +296,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-u4-operating-hot-negative-margin" />
 
-- **Expression:** `fact_lm2596_vin_operating_max - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
+- **Expression:** `fact_lm2596_vin_operating_max - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
@@ -304,7 +304,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-lm2596-vin-operating-max`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-vin-operating-max) on LM2596S-ADJ
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 - [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
 - [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
 - [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
@@ -321,7 +321,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-d3-reverse-hot-negative-margin" />
 
-- **Expression:** `fact_c3024223_vrrm - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
+- **Expression:** `fact_c3024223_vrrm - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
@@ -329,7 +329,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-c3024223-vrrm`](/docs/components/records/c3024223/#fact-c3024223-vrrm) on SDT5A60SA-13
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 - [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
 - [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
 - [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
@@ -346,7 +346,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-c9-hot-negative-margin" />
 
-- **Expression:** `fact_c970687_voltage - fact_c968650_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
+- **Expression:** `fact_c970687_voltage - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
 - **Result:** `margin_v`
 
 **Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
@@ -354,7 +354,7 @@ Arithmetic across the facts above. The expression and every input are published 
 **Inputs:**
 
 - [`fact-c970687-voltage`](/docs/components/records/c970687/#fact-c970687-voltage) on RVT1H101M0810
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 - [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
 - [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
 - [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
@@ -371,14 +371,14 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-protection-standoff-margin" />
 
-- **Expression:** `fact_c968650_standoff - normal_high_v`
+- **Expression:** `fact_c74561_standoff - normal_high_v`
 - **Result:** `margin_v`
 
 **Conditions:** Prototype15V±5% normal source envelope;20V unsupported. Standoff is not the clamp level.
 
 **Inputs:**
 
-- [`fact-c968650-standoff`](/docs/components/records/c968650/#fact-c968650-standoff) on SMAJ16A-E3/61
+- [`fact-c74561-standoff`](/docs/components/records/c74561/#fact-c74561-standoff) on SMAJ16A
 
 | normal\_high\_v | margin\_v |
 | --------------- | --------- |
@@ -402,7 +402,7 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-c110776`](/docs/components/records/c110776/) — RT0603BRD071KL
 - [`rec-c970687`](/docs/components/records/c970687/) — RVT1H101M0810
 - [`rec-c3024223`](/docs/components/records/c3024223/) — SDT5A60SA-13
-- [`rec-c968650`](/docs/components/records/c968650/) — SMAJ16A-E3/61
+- [`rec-c74561`](/docs/components/records/c74561/) — SMAJ16A
 
 **Facts this rule rests on:** each is published in full on the record page that owns it, at the anchor linked here.
 
@@ -416,7 +416,7 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c3024223-vrrm`](/docs/components/records/c3024223/#fact-c3024223-vrrm) on SDT5A60SA-13
 - [`fact-c3024223-vf-max-5a-25c`](/docs/components/records/c3024223/#fact-c3024223-vf-max-5a-25c) on SDT5A60SA-13
 - [`fact-c3024223-vf-max-5a-125c`](/docs/components/records/c3024223/#fact-c3024223-vf-max-5a-125c) on SDT5A60SA-13
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 - [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
 - [`fact-c861077-tolerance`](/docs/components/records/c861077/#fact-c861077-tolerance) on RT0603BRD0710K5L
 - [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
@@ -656,7 +656,7 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-c14663`](/docs/components/records/c14663/) — CC0603KRX7R9BB104
 - [`rec-c17414`](/docs/components/records/c17414/) — 0805W8F1002T5E
 - [`rec-stusb4500qtr`](/docs/components/records/stusb4500qtr/) — STUSB4500QTR
-- [`rec-c968650`](/docs/components/records/c968650/) — SMAJ16A-E3/61
+- [`rec-c74561`](/docs/components/records/c74561/) — SMAJ16A
 
 **Facts this rule rests on:** each is published in full on the record page that owns it, at the anchor linked here.
 
@@ -668,8 +668,8 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c17414-reset-ctrl-topology`](/docs/components/records/c17414/#fact-c17414-reset-ctrl-topology) on 0805W8F1002T5E
 - [`fact-stusb-vben`](/docs/components/records/stusb4500qtr/#fact-stusb-vben) on STUSB4500QTR
 - [`fact-stusb-artifact`](/docs/components/records/stusb4500qtr/#fact-stusb-artifact) on STUSB4500QTR
-- [`fact-c968650-standoff`](/docs/components/records/c968650/#fact-c968650-standoff) on SMAJ16A-E3/61
-- [`fact-c968650-clamp`](/docs/components/records/c968650/#fact-c968650-clamp) on SMAJ16A-E3/61
+- [`fact-c74561-standoff`](/docs/components/records/c74561/#fact-c74561-standoff) on SMAJ16A
+- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 
 ### Conditioned calculations
 

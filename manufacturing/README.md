@@ -218,7 +218,7 @@ Board P's reused pogo artwork has application-specific label corrections:
 J2.4 is `RST` (RESET), J3.4 is `VBUS`, and J3.5 is `GND`. Their electrical pinout
 is unchanged; library-mismatch warnings retain this intentional artwork difference.
 
-The renewed input TVS is Vishay SMAJ16A-E3/61, paired with a 60 V
+The renewed input TVS is Littelfuse SMAJ16A, paired with a 60 V
 SDT5A60SA-13 catch diode at Board B D3. The specified 26 V clamp at 15.4 A,
 10/1000 µs and 25 °C leaves conditional absolute-maximum margin; it is not a
 universal voltage ceiling. Adapter/cable overshoot, hot behavior and protection

@@ -31,7 +31,7 @@ const REPRESENTATIVES = [
   { kind: "IC", path: RECORD },
   { kind: "synth connector", path: "/docs/components/records/dealon-dw254p-2x8-l0-c4749189/" },
   { kind: "PD connector", path: "/docs/components/records/type-c-31-m-17/" },
-  { kind: "input TVS", path: "/docs/components/records/c968650/" },
+  { kind: "input TVS", path: "/docs/components/records/c74561/" },
   { kind: "inverting rectifier", path: "/docs/components/records/c3024223/" },
   { kind: "screw terminal", path: "/docs/components/records/c8465/" },
   { kind: "PTC1", path: "/docs/components/records/ptc-smd1210p150tf16-c7529589/" },

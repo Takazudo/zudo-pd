@@ -78,10 +78,32 @@ def verify_power_report_freshness(root=ROOT):
             'Stale power-budget.json: copper measurements differ from power-layout.json')
 
 
+def check_reused_geometry(report):
+    """Cached solid evidence must retain its checked silk-only binding."""
+    reuse = report.get('geometry_evidence_reuse')
+    if reuse is None:
+        return
+    require(reuse.get('mode') == 'REUSED_VERIFIED_GEOMETRY', 'Unknown geometry evidence reuse mode')
+    proof_path = ROOT/'boards/board-b/artwork/geometry-reuse-verification.json'
+    require(reuse.get('proof') == str(proof_path.relative_to(ROOT))
+            and reuse.get('proof_sha256') == digest(proof_path), 'Geometry reuse proof changed')
+    proof = json.loads(proof_path.read_text())
+    require(proof.get('status') == 'PASS' and proof.get('mode') == 'BACK_SILK_ONLY_GEOMETRY_EQUIVALENCE', 'Geometry equivalence did not pass')
+    for name in ('board-b', 'board-p'):
+        require(proof.get('current_pcb_sha256', {}).get(name) == digest(ROOT/'boards'/name/(name+'.kicad_pcb')), 'Geometry reuse PCB changed: '+name)
+    require(proof.get('current_mechanical_spec_sha256') == digest(ROOT/'boards/board-b/mechanical.json'), 'Geometry reuse contract changed')
+    require(proof.get('generator') == 'scripts/pcb/rebind-silkscreen-evidence.py'
+            and proof.get('generator_sha256') == digest(ROOT/proof['generator']), 'Geometry reuse verifier changed')
+    require(proof.get('bound_source_sha256'), 'Geometry reuse lacks dependency locks')
+    for name, expected in proof['bound_source_sha256'].items():
+        require(digest(ROOT/name) == expected, 'Geometry reuse dependency changed: '+name)
+
+
 def check_assembly_freshness():
     """Require the portable assembly preview to match the current PCB and models."""
     folder=ROOT/'boards/board-b/assembly-preview'
     report=json.loads((folder/'verification.json').read_text())
+    check_reused_geometry(report)
     require(report.get('status')=='PASS','Assembly preview checks must pass')
     require(report.get('pd_transform')=='P(x,y) -> B(y-0.5,x+12)' and math.isclose(report.get('board_p_top_z_mm',0),11.1,abs_tol=1e-6),'Assembly must use the reviewed front-side PD stack')
     require(report.get('populated_cross_board_clearance',{}).get('status')=='PASS','Full populated cross-board collision proof is required')
@@ -102,6 +124,7 @@ def check_assembly_freshness():
 def check_step_datums():
     """Require the sampled model-datum proof to cover the current populated boards."""
     report=json.loads((ROOT/'footprints/kicad/step-datum-verification.json').read_text())
+    check_reused_geometry(report)
     require(report.get('status')=='PASS', 'STEP datum verification must pass')
     require(report.get('review_sha256')==digest(ROOT/'scripts/pcb/step-datum-normalizations.json'), 'STEP datum review changed')
     require(report.get('verifier_sha256')==digest(ROOT/'scripts/pcb/verify-step-datums.py'), 'STEP datum verifier changed')
@@ -181,6 +204,8 @@ def export_board(name, output, cli, inventory, kicad_python):
     dependencies.update((ROOT / 'boards/board-p').rglob('*.json'))
     dependencies.update((ROOT / 'boards/board-b').glob('*.json'))
     dependencies.update(path for path in (ROOT/'boards/board-b/supports').rglob('*') if path.is_file())
+    dependencies.update(path for path in (ROOT/'boards/board-b/artwork').rglob('*')
+                        if path.is_file() and path.suffix.lower() in ('.svg', '.md', '.json', '.png'))
     if name=='board-b':
         dependencies.update(path for path in (ROOT/'boards/board-b/assembly-preview').rglob('*') if path.is_file() and '__pycache__' not in path.parts and path.suffix in ('.py','.json','.md','.stl','.step','.wrl','.png','.zip','.kicad_pcb','.kicad_pro'))
     dependencies.update(p for p in (ROOT / 'boards/board-b/routing').glob('*') if p.is_file())

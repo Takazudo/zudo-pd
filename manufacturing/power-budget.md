@@ -56,7 +56,7 @@ part evidence: LT3015 requires at least 10 µF effective capacitance and ESR no 
 than 0.5 Ω; LT1963A requires at least 10 µF and ESR no more than 3 Ω. A nominal
 capacitor value alone does not close ESR, bias, temperature or load-step stability.
 
-The current protection pair is Board P D5 **Vishay SMAJ16A-E3/61 (C968650)** and
+The current protection pair is Board P D5 **Littelfuse SMAJ16A (C74561)** and
 Board B D3 **Diodes SDT5A60SA-13 (C3024223)**. The prototype permits normal source
 input of **15 V ±5%**, or 14.25–15.75 V. The TVS's 16 V standoff leaves only 0.25 V
 above that normal high endpoint. **20 V is unsupported.**

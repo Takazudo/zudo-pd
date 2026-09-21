@@ -110,11 +110,11 @@ describe("reviewed document shortcuts", () => {
     assert.equal(String(drawing?.reference.document?.label), "Mechanical drawing PDF");
   });
 
-  it("publishes the seven mirror selections as mirrors, not as primaries", () => {
+  it("publishes the eight mirror selections as mirrors, not as primaries", () => {
     // Each of these is the best document that exists for its part, and the
     // card has to keep saying so — silently reading as MANUFACTURER_PRIMARY
     // would overstate the evidence.
-    assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds.length, 7);
+    assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds.length, 8);
     for (const sourceId of CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds) {
       const record = model.records.find(
         (entry) => String(entry.reference.document?.sourceId) === sourceId,
@@ -126,7 +126,7 @@ describe("reviewed document shortcuts", () => {
     const mirrors = model.records.filter(
       (entry) => String(entry.reference.document?.authorityClass) === "MANUFACTURER_MIRROR",
     );
-    assert.equal(mirrors.length, 7);
+    assert.equal(mirrors.length, 8);
   });
 
   it("records how the document audit was performed, at its real strength", () => {

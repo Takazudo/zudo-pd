@@ -75,9 +75,9 @@ def main():
     protection_facts = {fact['fact_id']: fact for fact in json.loads(protection_path.read_text())['facts']}
     vf_fact = protection_facts['fact-c3024223-vf-max-5a-25c']
     vf = vf_fact['value']
-    clamp = protection_facts['fact-c968650-clamp']['value']
+    clamp = protection_facts['fact-c74561-clamp']['value']
     diode_reverse = protection_facts['fact-c3024223-vrrm']['value']
-    standoff = protection_facts['fact-c968650-standoff']['value']
+    standoff = protection_facts['fact-c74561-standoff']['value']
     scenarios = []
     for top, tolerance in [(10600, .01), (10500, .001), (10600, .001), (10500, .0035)]:
         bounds = divider(top, 1000, tolerance)
@@ -113,10 +113,10 @@ def main():
         })
     spec = runpy.run_path(str(ROOT / 'scripts/schgen/board_b_spec.py'))
     pd_spec = runpy.run_path(str(ROOT / 'scripts/schgen/board_p_spec.py'))
-    if spec['COMPONENTS']['D3'][2] != 'C3024223' or pd_spec['COMPONENTS']['D5'][2] != 'C968650':
+    if spec['COMPONENTS']['D3'][2] != 'C3024223' or pd_spec['COMPONENTS']['D5'][2] != 'C74561':
         raise ValueError('Protection screen requires the selected D3/D5 identities in both current specs')
     protected_pcbs = {'board-b': require_pcb_part('board-b','D3','C3024223'),
-                      'board-p': require_pcb_part('board-p','D5','C968650')}
+                      'board-p': require_pcb_part('board-p','D5','C74561')}
     selected_negative = {
         'top': {'ref': 'R5', 'mpn': 'RT0603BRD0710K5L', 'lcsc': 'C861077', 'resistance_ohm': 10500, 'tolerance_fraction': .001},
         'bottom': {'ref': 'R6', 'mpn': 'RT0603BRD071KL', 'lcsc': 'C110776', 'resistance_ohm': 1000, 'tolerance_fraction': .001},
@@ -197,7 +197,7 @@ def main():
             {'owner':'component-lm2596s-adj-c347423','fact_ids':['fact-lm2596-fb-vref-min-full-temp','fact-lm2596-fb-vref-max-full-temp','fact-lm2596-current-limit','fact-lm2596-vsat-max','fact-lm2596-oscillator-frequency','fact-lm2596-inverting-startup-current']},
             {'owner':'component-cya1265-100uh-c19268674','fact_ids':['fact-cya1265-inductance','fact-cya1265-isat','fact-cya1265-idc-heat-rating','fact-cya1265-rdc-max']},
             {'owner':'component-ss34-c8678','scope':'Retained B D2 and retired old D3 comparison only','fact_ids':['fact-ss34-vrrm','fact-ss34-vf']},
-            {'owner':'component-renewal-input-protection','fact_ids':['fact-c968650-standoff','fact-c968650-clamp','fact-c968650-vbr-tempco-max','fact-c3024223-vrrm','fact-c3024223-vf-max-5a-25c','fact-c3024223-vf-max-5a-125c','fact-c3024223-leakage-max-25c','fact-c3024223-leakage-typ-125c']},
+            {'owner':'component-renewal-input-protection','fact_ids':['fact-c74561-standoff','fact-c74561-clamp','fact-c74561-vbr-tempco-typ','fact-c3024223-vrrm','fact-c3024223-vf-max-5a-25c','fact-c3024223-vf-max-5a-125c','fact-c3024223-leakage-max-25c','fact-c3024223-leakage-typ-125c']},
             {'url':'https://www.analog.com/media/en/technical-documentation/data-sheets/3015fb.pdf','locator':'printed pages 5, 16, 19: output guarantee/dropout/GND current, COUT ESR, DD-Pak thermal test boards','retrieved':'2026-09-20'},
             {'url':'https://www.analog.com/media/en/technical-documentation/data-sheets/1963aff.pdf','locator':'printed pages 14-15: output capacitor minimum and ESR; high-output-voltage minimum ESR','retrieved':'2026-09-20'},
         ],
@@ -209,7 +209,7 @@ def main():
     negative_high = pre_negative_hot['maximum_v']
     effective = clamp + negative_high
     data['input_protection_screen'] = {
-        'selected_p_tvs': {'mpn':'SMAJ16A-E3/61','lcsc':'C968650','standoff_v':standoff,'conditioned_clamp_v':clamp,'conditions':protection_facts['fact-c968650-clamp']['conditions']},
+        'selected_p_tvs': {'mpn':'SMAJ16A','lcsc':'C74561','standoff_v':standoff,'conditioned_clamp_v':clamp,'conditions':protection_facts['fact-c74561-clamp']['conditions']},
         'selected_b_d3': {'mpn':'SDT5A60SA-13','lcsc':'C3024223','reverse_rating_v':diode_reverse,'vf_screen_v':vf,'vf_conditions':vf_fact['conditions']},
         'normal_input_high_v':15.75, 'standoff_margin_over_normal_high_v':standoff-15.75,
         'negative_rail_hot_tcr_max_v':negative_high, 'conditioned_effective_u4_d3_c9_v':effective,

@@ -621,9 +621,9 @@
     {
       "owner": "component-renewal-input-protection",
       "fact_ids": [
-        "fact-c968650-standoff",
-        "fact-c968650-clamp",
-        "fact-c968650-vbr-tempco-max",
+        "fact-c74561-standoff",
+        "fact-c74561-clamp",
+        "fact-c74561-vbr-tempco-typ",
         "fact-c3024223-vrrm",
         "fact-c3024223-vf-max-5a-25c",
         "fact-c3024223-vf-max-5a-125c",
@@ -644,18 +644,18 @@
   ],
   "source_generator": "scripts/pcb/calculate-power-budget.py",
   "board_b_spec_sha256": "2864f9dc5a59b40af12d76c8104a32f166ecb409fdc567741913edefb88fc8c8",
-  "board_p_spec_sha256": "a6c33ec5a05647374b303c5aff36fabd63134d548fd749fccebc5d8275356334",
+  "board_p_spec_sha256": "104f5c6abb8dc4ac555cccbe68981799b19ad3d1bdd6a006072ed60d0266ef94",
   "protection_pcb_source_sha256": {
-    "board-b": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
-    "board-p": "63e6b8c8027dc94a2a1ae62cbadd44ad90f6163fade6c1d83bb7544b73c2de1b"
+    "board-b": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
+    "board-p": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278"
   },
   "input_protection_screen": {
     "selected_p_tvs": {
-      "mpn": "SMAJ16A-E3/61",
-      "lcsc": "C968650",
+      "mpn": "SMAJ16A",
+      "lcsc": "C74561",
       "standoff_v": 16,
       "conditioned_clamp_v": 26,
-      "conditions": "Maximum clamping VC at IPPM = 15.4 A, 10/1000 us waveform, TA = 25 C. This is not an all-temperature or arbitrary-waveform voltage ceiling."
+      "conditions": "Maximum clamping VC at IPPM = 15.4 A, 10/1000 us waveform, TA = 25 C. This is not an all-temperature or arbitrary-waveform voltage ceiling. Manufacturer-authored mirror and independently reviewed primary text agree; primary binary hash is unavailable."
     },
     "selected_b_d3": {
       "mpn": "SDT5A60SA-13",
@@ -692,7 +692,7 @@
     }
   },
   "actual_filled_copper": {
-    "pcb_sha256": "9d58c31dd2e364224abdb6918624f6f8a40be4586dd0eef110984119664be6bc",
+    "pcb_sha256": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
     "negative_zones": [
       {
         "regulator": "U4",

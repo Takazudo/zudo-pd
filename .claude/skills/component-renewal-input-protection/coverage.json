@@ -2,39 +2,50 @@
   "schema_version": 1,
   "coverage": [
     {
-      "coverage_id": "cov-c968650-primary-specification",
-      "record_id": "rec-c968650",
+      "coverage_id": "cov-c74561-primary-specification",
+      "record_id": "rec-c74561",
       "domain": "primary-specification",
-      "status": "COVERED",
-      "reason": "Exact manufacturer PDF bytes retained and reviewed.",
+      "status": "OPEN",
+      "reason": "Manufacturer-authored mirror is hash-locked and agrees with primary web text; primary PDF binary download denied403. No primary-binary verification is claimed.",
       "fact_ids": [
-        "fact-c968650-manufacturer",
-        "fact-c968650-identity",
-        "fact-c968650-standoff",
-        "fact-c968650-vbr-min",
-        "fact-c968650-vbr-max",
-        "fact-c968650-clamp",
-        "fact-c968650-ipp",
-        "fact-c968650-peak-power",
-        "fact-c968650-vbr-tempco-max",
-        "fact-c968650-pad-gap-max",
-        "fact-c968650-polarity"
+        "fact-c74561-manufacturer",
+        "fact-c74561-identity",
+        "fact-c74561-standoff",
+        "fact-c74561-vbr-min",
+        "fact-c74561-vbr-max",
+        "fact-c74561-clamp",
+        "fact-c74561-ipp",
+        "fact-c74561-peak-power",
+        "fact-c74561-vbr-tempco-typ",
+        "fact-c74561-pad-gap-max",
+        "fact-c74561-polarity"
       ],
-      "blocking_fact_ids": []
+      "blocking_fact_ids": [
+        "fact-c74561-manufacturer",
+        "fact-c74561-standoff",
+        "fact-c74561-vbr-min",
+        "fact-c74561-vbr-max",
+        "fact-c74561-clamp",
+        "fact-c74561-ipp",
+        "fact-c74561-peak-power",
+        "fact-c74561-vbr-tempco-typ",
+        "fact-c74561-pad-gap-max",
+        "fact-c74561-polarity"
+      ]
     },
     {
-      "coverage_id": "cov-c968650-assembled-qualification",
-      "record_id": "rec-c968650",
+      "coverage_id": "cov-c74561-assembled-qualification",
+      "record_id": "rec-c74561",
       "domain": "assembled-qualification",
       "status": "OPEN",
       "reason": "Prototype pulse/thermal/NVM and model limits are explicit; no universal protection closure.",
       "fact_ids": [
-        "fact-c968650-prototype-qualification",
-        "fact-c968650-model-provenance"
+        "fact-c74561-prototype-qualification",
+        "fact-c74561-model-provenance"
       ],
       "blocking_fact_ids": [
-        "fact-c968650-prototype-qualification",
-        "fact-c968650-model-provenance"
+        "fact-c74561-prototype-qualification",
+        "fact-c74561-model-provenance"
       ]
     },
     {
