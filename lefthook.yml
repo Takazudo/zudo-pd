@@ -20,6 +20,7 @@ pre-push:
         BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
         if [ "$BRANCH" = "main" ]; then
           echo "Running doc quality checks before pushing to main..."
-          pnpm -C doc run check || exit 1
+          # Run from doc/ so its pinned packageManager pnpm is selected; a newer global pnpm rejects `-C doc`.
+          (cd doc && pnpm run check) || exit 1
           echo "Quality checks passed!"
         fi
