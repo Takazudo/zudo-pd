@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "PASS",
   "pcb_sha256": {
-    "board-b": "3400d77af810d664b248dd8d9064133c07bee460197f95256eed17b510a7e617",
+    "board-b": "c8f83fcdba4daa06bfcce6b998bc2c3ab0400a0c12d4b13e1ba391a72553fc2f",
     "board-p": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278"
   },
   "generator_sha256": "c39244af0d502698f0a20e2d275b7040788ebccfd06638f9c80f8ea530694fdb",
@@ -73,12 +73,12 @@
   },
   "verification_sources_sha256": {
     "scripts/pcb/verify-board-b.py": "54de74d58f3de2037e1a230d38384808cb69cc6eaf66c5e89ec92de24646c827",
-    "scripts/pcb/verify-compact-mechanics.py": "3dda7e636d0511194d4b8e560c4449467eb52a9b28ad72c2113e6cc3500ee329",
-    "scripts/pcb/board_b_layout.py": "a3e6bda9cbd38e8958df311d73d4168251f0ad235bbe07c8c7ec35a558c9600a",
+    "scripts/pcb/verify-compact-mechanics.py": "5b75c1ee825a2538c0356a98b14ef50f57d1e4b69fadebfd67287a90b31e4d83",
+    "scripts/pcb/board_b_layout.py": "0ef9eb9393892c107cf3c276277d71b1a59b8193b57db218d2fc3e8a0cfec821",
     "scripts/pcb/check-model-bodies.py": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
     "boards/board-p/mechanical.json": "fc629fef7fd540e0d8d2aa53486538d140b95269bf8a801ba9a3f3e31d5926e7",
     "boards/board-b/supports/hc11-evidence.json": "cd0ed4e4f13a0d68c6a52062f801d43f512ae4d05dbe84da5c8fcdef3d10b434",
-    ".claude/skills/component-project-passives/facts.json": "daaa8da47388f98e3f5505d0716d1293c47bf2bea1f36379f52f0af01be3874c",
+    ".claude/skills/component-project-passives/facts.json": "86405e87fcbdbc34825e02f1c65e6fdb8207aba3ef0f8647bef84cbe6597da4a",
     ".claude/skills/component-kangnex-wj500v-5-08-2p-c8465/facts.json": "48e16e6fe43f39ff39cb6a44304730b03bd2eeee9c0b0dbe1c396072130d0cfc"
   },
   "original_B_nonmodel_geometry_unchanged": true,
@@ -97,13 +97,13 @@
         1.44
       ],
       "world_z_translation_mm": -1.52,
-      "fitted_components": 72,
-      "component_solids": 269,
+      "fitted_components": 75,
+      "component_solids": 281,
       "hierarchy_geometry_check": {
         "status": "PASS",
-        "solid_count_including_core": 270,
-        "sum_individual_volume_mm3": 29244.173455246215,
-        "flat_sum_individual_volume_mm3": 29244.173455246215,
+        "solid_count_including_core": 282,
+        "sum_individual_volume_mm3": 29245.893160683067,
+        "flat_sum_individual_volume_mm3": 29245.893160683067,
         "every_solid_bounds_match": true
       },
       "component_bounds_mm": {
@@ -203,6 +203,14 @@
           -17.029999899999996,
           8.5400001
         ],
+        "R27": [
+          82.19999999999999,
+          -49.71,
+          0.02999999999999997,
+          83.01000009999998,
+          -48.089999999999996,
+          0.48
+        ],
         "C18": [
           83.59,
           -42.6500001,
@@ -266,6 +274,14 @@
           58.950000100000004,
           -13.9,
           2.5400611
+        ],
+        "R28": [
+          81.03999999999999,
+          -46.6100001,
+          0.02999999999999997,
+          82.66,
+          -45.800000000000004,
+          0.48
         ],
         "C39": [
           41.4,
@@ -539,6 +555,14 @@
           -4.899999899999999,
           0.66
         ],
+        "R26": [
+          82.19999999999999,
+          -53.11,
+          0.02999999999999997,
+          83.01000009999998,
+          -51.489999999999995,
+          0.48
+        ],
         "C25": [
           97.30000000000001,
           -74.0005001,
@@ -668,10 +692,10 @@
           0.8400501
         ],
         "LED2": [
-          62.5899999,
+          62.589999999999996,
           -77.31,
           0.030000000000000027,
-          63.410000000000004,
+          63.4100001,
           -75.69,
           0.5900000000000001
         ],
@@ -918,7 +942,7 @@
   ],
   "populated_cross_board_clearance": {
     "status": "PASS",
-    "cross_board_pairs": 1460,
+    "cross_board_pairs": 1520,
     "overlapping_bbox_pairs_checked": 1,
     "maximum_unintended_intersection_mm3": 0,
     "allowed_mating_contact_intersections": [
@@ -1088,12 +1112,12 @@
   ],
   "artifact_sha256": {
     "README.md": "9174f19d03feb3790f3f38deb16bd95178dfd5755eea86cc7f8bf7917a6cbf88",
-    "board-b-model-bodies.json": "234325519adf43b08ab96eb7a8697482e340d65f0bc1659c044d74b8e0f98f8d",
+    "board-b-model-bodies.json": "c39d365c9d00a170c73166868bb68112e592364d4bd2528c7a2d5638e44c0615",
     "board-p-model-bodies.json": "bfe6f474026cedfc5abdeda911443b8f234452b6f57a52b4789115b3018cc36a",
-    "board-p-stacked.step": "06bf58aa34ae3c22b9c5daf99edcf5214dca294058dd1c88752ad9cf7d5dde5a",
-    "bottom.png": "698f09a42c43c405558356dfc64146362e78915213a05791bab81a775615e0b1",
-    "mechanical-check.json": "b8f9db9591c247f3b86e8f8776280daff71a2ecd351cdc70a83a711bcd491368",
-    "model-paths.json": "6f8c952f63bacc7c5521530329f527eaad786aecd7d92f0b056f1dadef2ecc3f",
+    "board-p-stacked.step": "1e1b06620b800ae7d89edbce6e1d6a7a2def9a4a5cf2afc6de3527cbed06f137",
+    "bottom.png": "a7618c430eb586db91ebc5b8e71dcac90e246fc63020408ea4642495aed6cb94",
+    "mechanical-check.json": "0f388e18d7270ee5d4c0e60b5e3a83733c4c2c12e112e4e2096716215b9f666b",
+    "model-paths.json": "c89b0db9d7a20b6e40e50b9043062d1c16a58f41c6218ddafb02cf5be10283d7",
     "models/ASPI-0630LR_MaxEnvelope_L7.5-W6.85-H3.0.step": "54f141a85b41ad4d0a66284e0e99fd9769fe8b55418642b6ec24556ef039b852",
     "models/ASPI-0630LR_MaxEnvelope_L7.5-W6.85-H3.0.wrl": "cda7beb94decf0ba47391f1aec30f1a59bf3734b2fc5216ed240dcf44aa054ad",
     "models/C0603_L1.6-W0.8-H0.8.step": "f2b74e1ceda9af3ce8ac13e68f37164694e30a3792f6b6a8f0709c45c0ca28dc",
@@ -1142,10 +1166,10 @@
     "models/TSOT-23-6_L2.9-W1.6-H1.1-LS2.8-P0.95.wrl": "7beff80751f40bfe5e0800c15c62acf6f813c4c49164c30999b77d88628ca436",
     "models/WJ500V-5.08-2P_C8465.step": "e7ab1216723bbee032969a27b7c8752922a7ac8325b97c1b581d801c9293070d",
     "models/WJ500V-5.08-2P_C8465.wrl": "240f6bc006ee3db4ba725b610924e1b8dcb0105f8e30c1cbb719eed66ee9b41e",
-    "populated-collision-check.json": "b022365d631f8a74b1d911923769ce3ecc2e575cdd52fdef846c01188c6edc1e",
-    "populated-stack.step": "db6b68bece9f99ade83950e28a2269617a142432b790d1f316f429243162650e",
-    "preview.kicad_pcb": "d57adfd63e10091438a03102d8629b8995ec487e16474668e3c92d8b67e11ba9",
+    "populated-collision-check.json": "85295edcca5a8c780d08535cb267a5f042a9bbc659bccd3de4613ca9dd02787c",
+    "populated-stack.step": "e910b1764c22a6b2102ce21d1104c2e6064fc07cc3b8ee909e791f8c63fc1be7",
+    "preview.kicad_pcb": "84f30fce1824667b26630081739bb4f8de1672a7671e3bb2ec789ced8b812c8f",
     "preview.kicad_pro": "26d2c4c929d4dd46a0d3ff8fb350295f0dc9c3cef01acfc7aefc5eb7a3957129",
-    "top.png": "4ea880119ea9ac9a1761c5cd2af9b13ad5a53342e23978ce0d7fa6e6a3321747"
+    "top.png": "c2300961507871871417cef8460d6d7ee374d3eb7c26d7d6cc137e37202f47a7"
   }
 }

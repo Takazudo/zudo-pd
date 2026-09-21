@@ -1,8 +1,8 @@
 (export
 	(version "E")
 	(design
-		(source "/Users/takazudo/repos/circuits/zudo-pd/tmp/d5-littelfuse-export/board-b/source/board-b.kicad_sch")
-		(date "2026-09-21T05:13:42")
+		(source "/Users/takazudo/repos/circuits/zudo-pd/tmp/led2-export/board-b/source/board-b.kicad_sch")
+		(date "2026-09-21T23:19:18")
 		(tool "Eeschema 10.0.0")
 		(sheet
 			(number "1")
@@ -3554,6 +3554,162 @@
 			)
 		)
 		(comp
+			(ref "R26")
+			(value "8200R 0.1%")
+			(footprint "zudo-pd:R0603")
+			(fields
+				(field
+					(name "LCSC") "C861589")
+				(field
+					(name "Footprint") "zudo-pd:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-pd")
+				(part "RT0603BRD078K2L")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C861589")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-b.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "2f6fb1de-6721-530c-8124-df035a8495cc")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R27")
+			(value "680R 0.1%")
+			(footprint "zudo-pd:R0603")
+			(fields
+				(field
+					(name "LCSC") "C861519")
+				(field
+					(name "Footprint") "zudo-pd:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-pd")
+				(part "RT0603BRD07680RL")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C861519")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-b.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "1b436765-b0c9-548c-a590-c691557144fe")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R28")
+			(value "1000R 0.1%")
+			(footprint "zudo-pd:R0603")
+			(fields
+				(field
+					(name "LCSC") "C110776")
+				(field
+					(name "Footprint") "zudo-pd:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-pd")
+				(part "RT0603BRD071KL")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C110776")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-b.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "c49602a7-4809-5248-932b-f61ae44ea37c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "TP3")
 			(value "+13.44V")
 			(footprint "zudo-pd:PogoEdge_1x01_1.5x2.5mm")
@@ -4049,11 +4205,11 @@
 		)
 		(comp
 			(ref "U6")
-			(value "LT1963AEQ#PBF")
+			(value "LT1963AEQ#TRPBF")
 			(footprint "zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR")
 			(fields
 				(field
-					(name "LCSC") "C107286")
+					(name "LCSC") "C459702")
 				(field
 					(name "Footprint") "zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR")
 				(field
@@ -4065,12 +4221,12 @@
 			)
 			(libsource
 				(lib "zudo-pd")
-				(part "LT1963AEQ#PBF")
+				(part "LT1963AEQ#TRPBF")
 				(description "")
 			)
 			(property
 				(name "LCSC")
-				(value "C107286")
+				(value "C459702")
 			)
 			(property
 				(name "Sheetname")
@@ -4117,11 +4273,11 @@
 		)
 		(comp
 			(ref "U7")
-			(value "LT1963AEQ#PBF")
+			(value "LT1963AEQ#TRPBF")
 			(footprint "zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR")
 			(fields
 				(field
-					(name "LCSC") "C107286")
+					(name "LCSC") "C459702")
 				(field
 					(name "Footprint") "zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR")
 				(field
@@ -4133,12 +4289,12 @@
 			)
 			(libsource
 				(lib "zudo-pd")
-				(part "LT1963AEQ#PBF")
+				(part "LT1963AEQ#TRPBF")
 				(description "")
 			)
 			(property
 				(name "LCSC")
-				(value "C107286")
+				(value "C459702")
 			)
 			(property
 				(name "Sheetname")
@@ -4185,11 +4341,11 @@
 		)
 		(comp
 			(ref "U8")
-			(value "LT3015EQ-12#PBF")
+			(value "LT3015EQ#PBF")
 			(footprint "zudo-pd:DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR")
 			(fields
 				(field
-					(name "LCSC") "C666307")
+					(name "LCSC") "C666306")
 				(field
 					(name "Footprint") "zudo-pd:DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR")
 				(field
@@ -4201,12 +4357,12 @@
 			)
 			(libsource
 				(lib "zudo-pd")
-				(part "LT3015EQ-12#PBF")
+				(part "LT3015EQ#PBF")
 				(description "")
 			)
 			(property
 				(name "LCSC")
-				(value "C666307")
+				(value "C666306")
 			)
 			(property
 				(name "Sheetname")
@@ -4995,26 +5151,26 @@
 		)
 		(libpart
 			(lib "zudo-pd")
-			(part "LT1963AEQ#PBF")
-			(docs "https://lcsc.com/product-detail/Low-Dropout-Regulators-LDO_LINEAR_LT1963AEQ-PBF_LT1963AEQ-PBF_C107286.html")
+			(part "LT1963AEQ#TRPBF")
+			(docs "https://www.lcsc.com/product-detail/voltage-regulators-linear-low-drop-out-ldo-regulators_analog-devices-lt1963aeq-trpbf_C459702.html")
 			(fields
 				(field
 					(name "Reference") "U")
 				(field
-					(name "Value") "LT1963AEQ#PBF")
+					(name "Value") "LT1963AEQ#TRPBF")
 				(field
 					(name "Footprint") "zudo-pd:TO-263-5_L10.6-W9.6-P1.70-LS15.9-BR")
 				(field
-					(name "Datasheet") "https://lcsc.com/product-detail/Low-Dropout-Regulators-LDO_LINEAR_LT1963AEQ-PBF_LT1963AEQ-PBF_C107286.html")
+					(name "Datasheet") "https://www.lcsc.com/product-detail/voltage-regulators-linear-low-drop-out-ldo-regulators_analog-devices-lt1963aeq-trpbf_C459702.html")
 				(field
 					(name "Description")
 				)
 				(field
 					(name "Manufacturer") "ADI(亚德诺)")
 				(field
-					(name "MPN") "LT1963AEQ#PBF")
+					(name "MPN") "LT1963AEQ#TRPBF")
 				(field
-					(name "LCSC Part") "C107286")
+					(name "LCSC Part") "C459702")
 			)
 			(pins
 				(pin
@@ -5051,26 +5207,26 @@
 		)
 		(libpart
 			(lib "zudo-pd")
-			(part "LT3015EQ-12#PBF")
-			(docs "https://lcsc.com/product-detail/presales_Analog-Devices-ADI-LT3015EQ-12-PBF_C666307.html")
+			(part "LT3015EQ#PBF")
+			(docs "https://www.lcsc.com/product-detail/voltage-regulators-linear-low-drop-out-ldo-regulators_analog-devices-lt3015eq-pbf_C666306.html")
 			(fields
 				(field
 					(name "Reference") "U")
 				(field
-					(name "Value") "LT3015EQ-12#PBF")
+					(name "Value") "LT3015EQ#PBF")
 				(field
 					(name "Footprint") "zudo-pd:DD-PAK-5_L10.2-W8.9-P1.70-LS14.0-BR")
 				(field
-					(name "Datasheet") "https://lcsc.com/product-detail/presales_Analog-Devices-ADI-LT3015EQ-12-PBF_C666307.html")
+					(name "Datasheet") "https://www.lcsc.com/product-detail/voltage-regulators-linear-low-drop-out-ldo-regulators_analog-devices-lt3015eq-pbf_C666306.html")
 				(field
 					(name "Description")
 				)
 				(field
 					(name "Manufacturer") "ADI(亚德诺)")
 				(field
-					(name "MPN") "LT3015EQ-12#PBF")
+					(name "MPN") "LT3015EQ#PBF")
 				(field
-					(name "LCSC Part") "C666307")
+					(name "LCSC Part") "C666306")
 			)
 			(pins
 				(pin
@@ -6404,8 +6560,8 @@
 			)
 			(node
 				(ref "LED2")
-				(pin "2")
-				(pinfunction "K_2")
+				(pin "1")
+				(pinfunction "A_1")
 				(pintype "unspecified")
 			)
 			(node
@@ -6440,6 +6596,12 @@
 			)
 			(node
 				(ref "R25")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R28")
 				(pin "2")
 				(pinfunction "2_2")
 				(pintype "passive")
@@ -6581,8 +6743,8 @@
 			(class "Default")
 			(node
 				(ref "LED2")
-				(pin "1")
-				(pinfunction "A_1")
+				(pin "2")
+				(pinfunction "K_2")
 				(pintype "unspecified")
 			)
 			(node
@@ -6830,16 +6992,16 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R9")
+				(ref "R26")
 				(pin "1")
 				(pinfunction "1_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "U8")
-				(pin "4")
-				(pinfunction "SENSE/ADJ_4")
-				(pintype "input")
+				(ref "R9")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
 			)
 			(node
 				(ref "U8")
@@ -6987,6 +7149,46 @@
 		)
 		(net
 			(code "27")
+			(name "U8 ADJ")
+			(class "Default")
+			(node
+				(ref "R27")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R28")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U8")
+				(pin "4")
+				(pinfunction "SENSE/ADJ_4")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "28")
+			(name "U8 FB upper series")
+			(class "Default")
+			(node
+				(ref "R26")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R27")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "29")
 			(name "unconnected-(P1-NC-Pad4)")
 			(class "Default")
 			(node
@@ -6997,7 +7199,7 @@
 			)
 		)
 		(net
-			(code "28")
+			(code "30")
 			(name "{slash}DC-DC Conversion{slash}+6.519V PRE")
 			(class "Power")
 			(node
@@ -7056,7 +7258,7 @@
 			)
 		)
 		(net
-			(code "29")
+			(code "31")
 			(name "{slash}DC-DC Conversion{slash}+13.44V PRE")
 			(class "Power")
 			(node
@@ -7121,7 +7323,7 @@
 			)
 		)
 		(net
-			(code "30")
+			(code "32")
 			(name "{slash}DC-DC Conversion{slash}-14.145V PRE")
 			(class "Power")
 			(node

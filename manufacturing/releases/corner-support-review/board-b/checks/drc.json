@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-09-21T05:13:25",
+    "date": "2026-09-21T23:18:56",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -62,6 +62,251 @@
             ],
             "severity": "warning",
             "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'LED0603-RD' does not match copy in library 'zudo-pd'",
+            "items": [
+                {
+                    "description": "Footprint LED2",
+                    "pos": {
+                        "x": 63.0,
+                        "y": 76.5
+                    },
+                    "uuid": "fbbdac76-8972-4054-be10-0815eab9dfd7"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Segment of J11 on F.Silkscreen",
+                    "pos": {
+                        "x": 67.53,
+                        "y": 76.0
+                    },
+                    "uuid": "88f4f2c6-ad81-4cdd-82c1-244a173860f8"
+                },
+                {
+                    "description": "Rectangle on F.Silkscreen",
+                    "pos": {
+                        "x": 88.9,
+                        "y": 68.5
+                    },
+                    "uuid": "a2171528-e23a-4432-8094-389c2e55f1da"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Rectangle on F.Silkscreen",
+                    "pos": {
+                        "x": 49.0,
+                        "y": 68.3
+                    },
+                    "uuid": "5c7964c1-50ba-4aec-b297-9a037803fb18"
+                },
+                {
+                    "description": "Segment of J10 on F.Silkscreen",
+                    "pos": {
+                        "x": 27.43,
+                        "y": 76.0
+                    },
+                    "uuid": "8e1a0725-e234-4568-82c6-d0750357d962"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C24 on F.Silkscreen",
+                    "pos": {
+                        "x": 64.59,
+                        "y": 73.03
+                    },
+                    "uuid": "2f132e2c-6950-4d94-b4e5-d79bc7400b50"
+                },
+                {
+                    "description": "Pad 1 [GND] of C24 on F.Cu",
+                    "pos": {
+                        "x": 61.5,
+                        "y": 72.3
+                    },
+                    "uuid": "b871c48f-130a-442d-a33b-d05aa34a24c6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C24 on F.Silkscreen",
+                    "pos": {
+                        "x": 58.41,
+                        "y": 73.03
+                    },
+                    "uuid": "6d41385e-99d2-45fe-9231-a670bc0b37c4"
+                },
+                {
+                    "description": "Pad 1 [GND] of C24 on F.Cu",
+                    "pos": {
+                        "x": 61.5,
+                        "y": 72.3
+                    },
+                    "uuid": "b871c48f-130a-442d-a33b-d05aa34a24c6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C24 on F.Silkscreen",
+                    "pos": {
+                        "x": 60.65,
+                        "y": 62.58
+                    },
+                    "uuid": "3b76d6be-c543-4a76-a559-b95e66013d88"
+                },
+                {
+                    "description": "Pad 2 [/DC-DC Conversion/-14.145V PRE] of C24 on F.Cu",
+                    "pos": {
+                        "x": 61.5,
+                        "y": 63.3
+                    },
+                    "uuid": "5026a28d-25ed-4e5c-8707-a3cbbe7c1786"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Rectangle on F.Silkscreen",
+                    "pos": {
+                        "x": 88.9,
+                        "y": 68.5
+                    },
+                    "uuid": "a2171528-e23a-4432-8094-389c2e55f1da"
+                },
+                {
+                    "description": "PTH pad 1 [-12V rail] of J11",
+                    "pos": {
+                        "x": 90.39,
+                        "y": 71.5
+                    },
+                    "uuid": "cf66edfc-3c71-486c-b820-390b61b17143"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Rectangle on F.Silkscreen",
+                    "pos": {
+                        "x": 88.9,
+                        "y": 68.5
+                    },
+                    "uuid": "a2171528-e23a-4432-8094-389c2e55f1da"
+                },
+                {
+                    "description": "PTH pad 2 [-12V rail] of J11",
+                    "pos": {
+                        "x": 90.39,
+                        "y": 74.04
+                    },
+                    "uuid": "9e955faa-ac73-4492-acff-8de78903e3b2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Rectangle on F.Silkscreen",
+                    "pos": {
+                        "x": 49.0,
+                        "y": 68.3
+                    },
+                    "uuid": "5c7964c1-50ba-4aec-b297-9a037803fb18"
+                },
+                {
+                    "description": "PTH pad 1 [-12V rail] of J10",
+                    "pos": {
+                        "x": 50.29,
+                        "y": 71.5
+                    },
+                    "uuid": "2ecb1fcb-4c14-4502-82b9-b63ecded69bd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Rectangle on F.Silkscreen",
+                    "pos": {
+                        "x": 49.0,
+                        "y": 68.3
+                    },
+                    "uuid": "5c7964c1-50ba-4aec-b297-9a037803fb18"
+                },
+                {
+                    "description": "PTH pad 2 [-12V rail] of J10",
+                    "pos": {
+                        "x": 50.29,
+                        "y": 74.04
+                    },
+                    "uuid": "607b869b-3f9d-497d-921c-4947abee601e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C24 on F.Silkscreen",
+                    "pos": {
+                        "x": 62.35,
+                        "y": 62.58
+                    },
+                    "uuid": "0622ddc3-77da-414c-aefb-2d3b4007eb2a"
+                },
+                {
+                    "description": "Pad 2 [/DC-DC Conversion/-14.145V PRE] of C24 on F.Cu",
+                    "pos": {
+                        "x": 61.5,
+                        "y": 63.3
+                    },
+                    "uuid": "5026a28d-25ed-4e5c-8707-a3cbbe7c1786"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
         },
         {
             "description": "Silkscreen clipped by solder mask",
@@ -136,20 +381,181 @@
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
-                    "description": "Segment of C12 on F.Silkscreen",
+                    "description": "Segment of TVS1 on F.Silkscreen",
                     "pos": {
-                        "x": 42.77,
-                        "y": 43.91
+                        "x": 108.0,
+                        "y": 16.23
                     },
-                    "uuid": "7aa740bb-a137-44fc-9bdf-03c69b26194e"
+                    "uuid": "bedf3fbd-6eb8-4f86-b536-be476a8cadce"
                 },
                 {
-                    "description": "Pad 1 [GND] of C12 on F.Cu",
+                    "description": "Pad 2 [GND] of TVS1 on F.Cu",
                     "pos": {
-                        "x": 43.5,
-                        "y": 47.0
+                        "x": 108.0,
+                        "y": 15.17
                     },
-                    "uuid": "50e2fb75-7126-4652-bf20-dc88dde828bd"
+                    "uuid": "9bd36e70-5a08-4143-b8a0-5f28eebf052e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C21 on F.Silkscreen",
+                    "pos": {
+                        "x": 99.85,
+                        "y": 12.78
+                    },
+                    "uuid": "965f5da7-274e-43d0-ae32-8a17a98b08d3"
+                },
+                {
+                    "description": "Pad 2 [GND] of C21 on F.Cu",
+                    "pos": {
+                        "x": 99.0,
+                        "y": 13.5
+                    },
+                    "uuid": "563f9df0-2003-4a39-afc6-b5bfd3b27ff0"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of TVS2 on F.Silkscreen",
+                    "pos": {
+                        "x": 106.0,
+                        "y": 35.73
+                    },
+                    "uuid": "aea661cd-867f-4fa1-a4d8-56027b0c292e"
+                },
+                {
+                    "description": "Pad 2 [GND] of TVS2 on F.Cu",
+                    "pos": {
+                        "x": 106.0,
+                        "y": 34.67
+                    },
+                    "uuid": "753f3710-6cf6-4b47-a52f-f79315dabf67"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C25 on F.Silkscreen",
+                    "pos": {
+                        "x": 97.68,
+                        "y": 69.65
+                    },
+                    "uuid": "d23093c8-cca3-4d94-bbdc-2efbc0260214"
+                },
+                {
+                    "description": "Pad 2 [Net-(U8-OUT)] of C25 on F.Cu",
+                    "pos": {
+                        "x": 98.4,
+                        "y": 68.8
+                    },
+                    "uuid": "78a9ba49-8edd-48fd-9400-a2dba0f75c02"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C25 on F.Silkscreen",
+                    "pos": {
+                        "x": 97.68,
+                        "y": 67.95
+                    },
+                    "uuid": "0ac78b1e-c63b-40cf-86be-06dd26dc1058"
+                },
+                {
+                    "description": "Pad 2 [Net-(U8-OUT)] of C25 on F.Cu",
+                    "pos": {
+                        "x": 98.4,
+                        "y": 68.8
+                    },
+                    "uuid": "78a9ba49-8edd-48fd-9400-a2dba0f75c02"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C25 on F.Silkscreen",
+                    "pos": {
+                        "x": 108.13,
+                        "y": 71.89
+                    },
+                    "uuid": "a9b3f757-0e63-4dda-ac98-65ee5442fa5c"
+                },
+                {
+                    "description": "Pad 1 [GND] of C25 on F.Cu",
+                    "pos": {
+                        "x": 107.4,
+                        "y": 68.8
+                    },
+                    "uuid": "96ad2e62-5fd7-4c6d-9c2f-d14d0cbebdc2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C25 on F.Silkscreen",
+                    "pos": {
+                        "x": 108.13,
+                        "y": 65.71
+                    },
+                    "uuid": "3d4f382b-7d4c-44f8-99bb-71d35a122e82"
+                },
+                {
+                    "description": "Pad 1 [GND] of C25 on F.Cu",
+                    "pos": {
+                        "x": 107.4,
+                        "y": 68.8
+                    },
+                    "uuid": "96ad2e62-5fd7-4c6d-9c2f-d14d0cbebdc2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of TVS3 on F.Silkscreen",
+                    "pos": {
+                        "x": 106.0,
+                        "y": 58.43
+                    },
+                    "uuid": "7566475d-68b6-4b77-9cb4-0583e930bf18"
+                },
+                {
+                    "description": "Pad 2 [-12V rail] of TVS3 on F.Cu",
+                    "pos": {
+                        "x": 106.0,
+                        "y": 57.37
+                    },
+                    "uuid": "16840800-59f5-4f31-8400-c0ef7420fcd1"
                 }
             ],
             "severity": "warning",
@@ -300,6 +706,29 @@
                     "description": "Segment of C7 on F.Silkscreen",
                     "pos": {
                         "x": 18.78,
+                        "y": 47.15
+                    },
+                    "uuid": "1d6c2c35-2e9e-470d-81a8-df966e2fb1cd"
+                },
+                {
+                    "description": "Pad 2 [GND] of C7 on F.Cu",
+                    "pos": {
+                        "x": 19.5,
+                        "y": 48.0
+                    },
+                    "uuid": "928ca98f-c51c-4768-9591-fe40212a9dd0"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C7 on F.Silkscreen",
+                    "pos": {
+                        "x": 18.78,
                         "y": 48.85
                     },
                     "uuid": "de87c1c0-1b61-4d61-848c-7b0af6054c99"
@@ -343,20 +772,43 @@
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
-                    "description": "Segment of C7 on F.Silkscreen",
+                    "description": "Segment of C12 on F.Silkscreen",
                     "pos": {
-                        "x": 18.78,
-                        "y": 47.15
+                        "x": 42.77,
+                        "y": 50.09
                     },
-                    "uuid": "1d6c2c35-2e9e-470d-81a8-df966e2fb1cd"
+                    "uuid": "8cb68183-deb7-4870-9ed7-df56e09cfaac"
                 },
                 {
-                    "description": "Pad 2 [GND] of C7 on F.Cu",
+                    "description": "Pad 1 [GND] of C12 on F.Cu",
                     "pos": {
-                        "x": 19.5,
-                        "y": 48.0
+                        "x": 43.5,
+                        "y": 47.0
                     },
-                    "uuid": "928ca98f-c51c-4768-9591-fe40212a9dd0"
+                    "uuid": "50e2fb75-7126-4652-bf20-dc88dde828bd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of C12 on F.Silkscreen",
+                    "pos": {
+                        "x": 42.77,
+                        "y": 43.91
+                    },
+                    "uuid": "7aa740bb-a137-44fc-9bdf-03c69b26194e"
+                },
+                {
+                    "description": "Pad 1 [GND] of C12 on F.Cu",
+                    "pos": {
+                        "x": 43.5,
+                        "y": 47.0
+                    },
+                    "uuid": "50e2fb75-7126-4652-bf20-dc88dde828bd"
                 }
             ],
             "severity": "warning",
@@ -389,20 +841,20 @@
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
-                    "description": "Segment of C12 on F.Silkscreen",
+                    "description": "Rectangle on B.Silkscreen",
                     "pos": {
-                        "x": 42.77,
-                        "y": 50.09
+                        "x": 49.3,
+                        "y": 70.393294
                     },
-                    "uuid": "8cb68183-deb7-4870-9ed7-df56e09cfaac"
+                    "uuid": "7ace8abe-81bf-47c7-923b-1b5a765bcb5a"
                 },
                 {
-                    "description": "Pad 1 [GND] of C12 on F.Cu",
+                    "description": "PTH pad 1 [-12V rail] of J10",
                     "pos": {
-                        "x": 43.5,
-                        "y": 47.0
+                        "x": 50.29,
+                        "y": 71.5
                     },
-                    "uuid": "50e2fb75-7126-4652-bf20-dc88dde828bd"
+                    "uuid": "2ecb1fcb-4c14-4502-82b9-b63ecded69bd"
                 }
             ],
             "severity": "warning",
@@ -412,20 +864,20 @@
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
-                    "description": "Segment of C24 on F.Silkscreen",
+                    "description": "Rectangle on B.Silkscreen",
                     "pos": {
-                        "x": 60.65,
-                        "y": 62.58
+                        "x": 49.3,
+                        "y": 70.393294
                     },
-                    "uuid": "3b76d6be-c543-4a76-a559-b95e66013d88"
+                    "uuid": "7ace8abe-81bf-47c7-923b-1b5a765bcb5a"
                 },
                 {
-                    "description": "Pad 2 [/DC-DC Conversion/-14.145V PRE] of C24 on F.Cu",
+                    "description": "PTH pad 2 [-12V rail] of J10",
                     "pos": {
-                        "x": 61.5,
-                        "y": 63.3
+                        "x": 50.29,
+                        "y": 74.04
                     },
-                    "uuid": "5026a28d-25ed-4e5c-8707-a3cbbe7c1786"
+                    "uuid": "607b869b-3f9d-497d-921c-4947abee601e"
                 }
             ],
             "severity": "warning",
@@ -435,20 +887,20 @@
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
-                    "description": "Segment of C24 on F.Silkscreen",
+                    "description": "Rectangle on B.Silkscreen",
                     "pos": {
-                        "x": 62.35,
-                        "y": 62.58
+                        "x": 89.307219,
+                        "y": 70.447501
                     },
-                    "uuid": "0622ddc3-77da-414c-aefb-2d3b4007eb2a"
+                    "uuid": "61354a00-b0a5-4d3c-ab9d-ab68fe701161"
                 },
                 {
-                    "description": "Pad 2 [/DC-DC Conversion/-14.145V PRE] of C24 on F.Cu",
+                    "description": "PTH pad 1 [-12V rail] of J11",
                     "pos": {
-                        "x": 61.5,
-                        "y": 63.3
+                        "x": 90.39,
+                        "y": 71.5
                     },
-                    "uuid": "5026a28d-25ed-4e5c-8707-a3cbbe7c1786"
+                    "uuid": "cf66edfc-3c71-486c-b820-390b61b17143"
                 }
             ],
             "severity": "warning",
@@ -458,227 +910,20 @@
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
-                    "description": "Segment of C24 on F.Silkscreen",
+                    "description": "Rectangle on B.Silkscreen",
                     "pos": {
-                        "x": 58.41,
-                        "y": 73.03
+                        "x": 89.307219,
+                        "y": 70.447501
                     },
-                    "uuid": "6d41385e-99d2-45fe-9231-a670bc0b37c4"
+                    "uuid": "61354a00-b0a5-4d3c-ab9d-ab68fe701161"
                 },
                 {
-                    "description": "Pad 1 [GND] of C24 on F.Cu",
+                    "description": "PTH pad 2 [-12V rail] of J11",
                     "pos": {
-                        "x": 61.5,
-                        "y": 72.3
+                        "x": 90.39,
+                        "y": 74.04
                     },
-                    "uuid": "b871c48f-130a-442d-a33b-d05aa34a24c6"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of C24 on F.Silkscreen",
-                    "pos": {
-                        "x": 64.59,
-                        "y": 73.03
-                    },
-                    "uuid": "2f132e2c-6950-4d94-b4e5-d79bc7400b50"
-                },
-                {
-                    "description": "Pad 1 [GND] of C24 on F.Cu",
-                    "pos": {
-                        "x": 61.5,
-                        "y": 72.3
-                    },
-                    "uuid": "b871c48f-130a-442d-a33b-d05aa34a24c6"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of C25 on F.Silkscreen",
-                    "pos": {
-                        "x": 97.68,
-                        "y": 69.65
-                    },
-                    "uuid": "d23093c8-cca3-4d94-bbdc-2efbc0260214"
-                },
-                {
-                    "description": "Pad 2 [Net-(U8-OUT)] of C25 on F.Cu",
-                    "pos": {
-                        "x": 98.4,
-                        "y": 68.8
-                    },
-                    "uuid": "78a9ba49-8edd-48fd-9400-a2dba0f75c02"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of TVS3 on F.Silkscreen",
-                    "pos": {
-                        "x": 106.0,
-                        "y": 58.43
-                    },
-                    "uuid": "7566475d-68b6-4b77-9cb4-0583e930bf18"
-                },
-                {
-                    "description": "Pad 2 [-12V rail] of TVS3 on F.Cu",
-                    "pos": {
-                        "x": 106.0,
-                        "y": 57.37
-                    },
-                    "uuid": "16840800-59f5-4f31-8400-c0ef7420fcd1"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of C25 on F.Silkscreen",
-                    "pos": {
-                        "x": 97.68,
-                        "y": 67.95
-                    },
-                    "uuid": "0ac78b1e-c63b-40cf-86be-06dd26dc1058"
-                },
-                {
-                    "description": "Pad 2 [Net-(U8-OUT)] of C25 on F.Cu",
-                    "pos": {
-                        "x": 98.4,
-                        "y": 68.8
-                    },
-                    "uuid": "78a9ba49-8edd-48fd-9400-a2dba0f75c02"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of C25 on F.Silkscreen",
-                    "pos": {
-                        "x": 108.13,
-                        "y": 65.71
-                    },
-                    "uuid": "3d4f382b-7d4c-44f8-99bb-71d35a122e82"
-                },
-                {
-                    "description": "Pad 1 [GND] of C25 on F.Cu",
-                    "pos": {
-                        "x": 107.4,
-                        "y": 68.8
-                    },
-                    "uuid": "96ad2e62-5fd7-4c6d-9c2f-d14d0cbebdc2"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of C25 on F.Silkscreen",
-                    "pos": {
-                        "x": 108.13,
-                        "y": 71.89
-                    },
-                    "uuid": "a9b3f757-0e63-4dda-ac98-65ee5442fa5c"
-                },
-                {
-                    "description": "Pad 1 [GND] of C25 on F.Cu",
-                    "pos": {
-                        "x": 107.4,
-                        "y": 68.8
-                    },
-                    "uuid": "96ad2e62-5fd7-4c6d-9c2f-d14d0cbebdc2"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of C21 on F.Silkscreen",
-                    "pos": {
-                        "x": 99.85,
-                        "y": 12.78
-                    },
-                    "uuid": "965f5da7-274e-43d0-ae32-8a17a98b08d3"
-                },
-                {
-                    "description": "Pad 2 [GND] of C21 on F.Cu",
-                    "pos": {
-                        "x": 99.0,
-                        "y": 13.5
-                    },
-                    "uuid": "563f9df0-2003-4a39-afc6-b5bfd3b27ff0"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of TVS1 on F.Silkscreen",
-                    "pos": {
-                        "x": 108.0,
-                        "y": 16.23
-                    },
-                    "uuid": "bedf3fbd-6eb8-4f86-b536-be476a8cadce"
-                },
-                {
-                    "description": "Pad 2 [GND] of TVS1 on F.Cu",
-                    "pos": {
-                        "x": 108.0,
-                        "y": 15.17
-                    },
-                    "uuid": "9bd36e70-5a08-4143-b8a0-5f28eebf052e"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of TVS2 on F.Silkscreen",
-                    "pos": {
-                        "x": 106.0,
-                        "y": 35.73
-                    },
-                    "uuid": "aea661cd-867f-4fa1-a4d8-56027b0c292e"
-                },
-                {
-                    "description": "Pad 2 [GND] of TVS2 on F.Cu",
-                    "pos": {
-                        "x": 106.0,
-                        "y": 34.67
-                    },
-                    "uuid": "753f3710-6cf6-4b47-a52f-f79315dabf67"
+                    "uuid": "9e955faa-ac73-4492-acff-8de78903e3b2"
                 }
             ],
             "severity": "warning",

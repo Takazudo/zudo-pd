@@ -1,10 +1,10 @@
 {
   "status": "PASS",
   "scope": "Opaque-body placement sanity screen only; not exact manufacturer geometry, collision/occlusion certification, native pixel coverage or physical fit.",
-  "pcb_sha256": "f1176283a4f371d89a046168957f2152517ecc43da8495711f06428d7c9024b2",
+  "pcb_sha256": "cd3677c93c9db89193ae6031625c02d881333a1a734bf920d4138a58ddfa97bd",
   "checker_sha256": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
-  "fitted_components": 72,
-  "screened_components": 72,
+  "fitted_components": 75,
+  "screened_components": 75,
   "footprints": [
     {
       "reference": "C24",
@@ -547,6 +547,51 @@
       ]
     },
     {
+      "reference": "R27",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            -0.0,
+            -0.0
+          ]
+        }
+      ]
+    },
+    {
       "reference": "C18",
       "models": [
         {
@@ -902,6 +947,51 @@
             0.0,
             0.0,
             0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R28",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            -0.0,
+            -0.0
           ]
         }
       ]
@@ -2432,6 +2522,51 @@
             0.0,
             0.0,
             0.0
+          ]
+        }
+      ]
+    },
+    {
+      "reference": "R26",
+      "models": [
+        {
+          "file": "R0603.wrl",
+          "sha256": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
+          "status": "PASS",
+          "opaque_vertices": 1783,
+          "mesh_shapes": 17,
+          "opaque_bounds_local_CAD_mm": [
+            [
+              -0.8100060000000001,
+              -0.4048760000000001,
+              0.0
+            ],
+            [
+              0.8100060000000001,
+              0.4048759999999999,
+              0.450088
+            ]
+          ],
+          "largest_body_bounds_local_CAD_mm": [
+            [
+              -0.8001000000000001,
+              -0.4048760000000001,
+              0.009906
+            ],
+            [
+              0.8001000000000001,
+              0.39497000000000015,
+              0.439928
+            ]
+          ],
+          "pad_region_overlap_xy_mm": [
+            1.6200120000000002,
+            0.809752
+          ],
+          "offset_mm": [
+            0.0,
+            -0.0,
+            -0.0
           ]
         }
       ]
