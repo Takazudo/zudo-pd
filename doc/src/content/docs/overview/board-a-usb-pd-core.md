@@ -83,7 +83,7 @@ flowchart TD
 
 ## Net-connectivity table (fixed circuit)
 
-Per [Net-Table + Mermaid Convention](../how-to/net-table-convention.md). Read directly
+Per [Net-Table + Mermaid Convention](../project/net-table-convention.md). Read directly
 from `scripts/schgen/board_a_spec.py`'s `NETS` table — the spec module that generates
 `boards/board-a/board-a.kicad_sch` — so, unlike the wave-3 version of this page, the #90
 fix-list deltas (D4 removed; R17/R18 DNP; R19/R20 rewired; D5-D7 added; J4 added as
@@ -543,7 +543,7 @@ test points accessible and silkscreened for bring-up on whatever host this ends 
 - `scripts/schgen/decisions.json` and `scripts/schgen/board_a_spec.py` — the locked wave-6 decision record and the spec module that generates `boards/board-a/board-a.kicad_sch`
 - [NVM Programming Setup](../inbox/nvm-programming.md) — full NVM programming procedure, hardware, and pitfalls
 - [STUSB4500 Pin Cheat-Sheet](../inbox/stusb4500-pinout.md) — per-pin rationale for U1
-- [Net-Table + Mermaid Convention](../how-to/net-table-convention.md) — the documentation convention used above
+- [Net-Table + Mermaid Convention](../project/net-table-convention.md) — the documentation convention used above
 - [Bill of Materials](./bom.md) — general JLCPCB fee structure and the (currently full single-board) BOM
 - STUSB4500 (U1) is documented throughout this page; the [Q1 load switch (AO3401A) gate network](#load-switch-q1-gate-network-and-soft-start) and [J1 USB-C connector substitution options](#component-list-lcsc-parts-and-rough-cost-j1-substitution-options) are documented above; SMAJ15A (cloned pattern for D5) is documented on [Board B's Protection Stage](./board-b-synth-power.md#protection-stage); USBLC6-2SC6 (D4, removed) — see the [deltas above](#deltas-vs-the-current-single-board-circuit) for removal background
 - `.claude/skills/component-bzt52c11-c92321` — full primary-sourced evidence bundle for D8; [generated component records](/docs/components/) index the validated evidence for every part on both boards

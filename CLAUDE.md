@@ -20,7 +20,7 @@ separates a reusable **Board P** USB-PD input module from **Board B** synth conv
 The previous generated **Board A** input design remains a reference. The root
 combined-board KiCad project is the historical v0.4.0 assembly, not the renewed layout.
 
-Start with `doc/src/content/docs/getting-started/` and `architecture/`. Earlier
+Start with `doc/src/content/docs/project/` and `architecture/`. Earlier
 `overview/`, `inbox/`, `learning/` and `misc/` pages are archived at stable URLs because
 component records and bench history cite them. Do not use an archived assertion as
 current design authority.

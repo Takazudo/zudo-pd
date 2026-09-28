@@ -83,6 +83,6 @@ ripple assumptions. A clean DRC cannot prove the output targets are achievable.
 The root PCB and `jlcpcb-order-snapshots/` are historical order artifacts. Do not
 mix their Gerbers or assembly tables with renewed board files.
 
-See [JLCPCB package preparation](../how-to/jlcpcb-package.md) for file-level review.
+See [JLCPCB package preparation](../project/jlcpcb-package.md) for file-level review.
 Every package must state its blockers instead of presenting a partial layout as
 ready to order.

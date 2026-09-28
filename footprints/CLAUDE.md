@@ -19,7 +19,7 @@ This project uses [easyeda2kicad.py](https://github.com/uPesy/easyeda2kicad.py) 
 ## Downloading Footprints and Symbols
 
 **For detailed instructions, see:**
-- **[Download KiCad Footprints and Symbols Guide](/doc/src/content/docs/how-to/kicad-parts-download.md)**
+- **[Download KiCad Footprints and Symbols Guide](/doc/src/content/docs/project/kicad-parts-download.md)**
 
 **Quick reference:**
 ```bash

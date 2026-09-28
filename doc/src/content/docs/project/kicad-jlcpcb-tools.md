@@ -7,8 +7,8 @@ sidebar_position: 6
 
 This procedure describes the previous hardware and may name retired parts, nets,
 pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
-[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
-[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+[prototype bring-up procedure](/docs/verification/renewal-bring-up/) and
+[current manufacturing workflow](/docs/project/jlcpcb-package/) for renewed boards.
 
 </Note>
 

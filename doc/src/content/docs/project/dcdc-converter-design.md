@@ -8,8 +8,8 @@ description: Per-position design, feedback compensation, component selection, la
 
 This procedure describes the previous hardware and may name retired parts, nets,
 pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
-[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
-[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+[prototype bring-up procedure](/docs/verification/renewal-bring-up/) and
+[current manufacturing workflow](/docs/project/jlcpcb-package/) for renewed boards.
 
 </Note>
 
@@ -365,5 +365,5 @@ bench - do not quote a junction temperature from an assumed copper area.
 ## Related
 
 - [Linear Regulator PCB Layout and Thermal Design](./linear-regulator-layout.md) - the LDO stage these converters feed
-- [Power Rail Bench Test Procedure](./power-rail-bench-test.md)
+- [Power Rail Bench Test Procedure](../verification/power-rail-bench-test.md)
 - [Board B - synth power conversion](../overview/board-b-synth-power.md)

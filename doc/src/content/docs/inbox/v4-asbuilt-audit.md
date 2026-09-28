@@ -47,7 +47,7 @@ working directory on this machine. No KiCad GUI was used.
 
 These 4 PNGs are **not** JLCPCB order-confirmation screenshots. They are placement-preview
 renders with a JLCPCB-style watermark, produced locally by the `kicad-jlcpcb-tools` KiCad
-plugin (see [Generate JLCPCB Files with kicad-jlcpcb-tools](../how-to/kicad-jlcpcb-tools.md)) —
+plugin (see [Generate JLCPCB Files with kicad-jlcpcb-tools](../project/kicad-jlcpcb-tools.md)) —
 the same plugin run that produced `jlcpcb/production_files/`. They show component placement for
 visual sanity-checking before upload; they carry no order number, price, or "submitted"
 confirmation UI. They corroborate the manufacturing-file generation step, nothing more.
@@ -155,7 +155,7 @@ jlcpcb-order-snapshots/v0_4_0/
 The `used-for-order/` files are **not** placeholders — they are the actual locally-generated
 manufacturing package recovered from this machine's gitignored `jlcpcb/` directory (per the
 "Repository Convention" section of
-[Generate JLCPCB Files with kicad-jlcpcb-tools](../how-to/kicad-jlcpcb-tools.md), that directory
+[Generate JLCPCB Files with kicad-jlcpcb-tools](../project/kicad-jlcpcb-tools.md), that directory
 is meant to be copied into `jlcpcb-order-snapshots/` for exactly this reason, and never was for
 v0.4.0). `from-order-detail/` only gets a `README.md` placeholder, since the manufacturer-side
 confirmation cannot be recovered from local files — it requires the JLCPCB account lookup
@@ -196,7 +196,7 @@ the CCW pad numbering survives placement, so this is not a mirrored footprint.
 <Tip title="Independently confirmed by this project's own JLCPCB tooling history">
 
 `zudo-pd.kicad_pcb`'s raw rotation for U1 (180°) is **not** what gets sent to JLCPCB — and that
-mismatch is expected, not a bug. [Generate JLCPCB Files with kicad-jlcpcb-tools](../how-to/kicad-jlcpcb-tools.md)
+mismatch is expected, not a bug. [Generate JLCPCB Files with kicad-jlcpcb-tools](../project/kicad-jlcpcb-tools.md)
 documents that PCBA v2 hit exactly this failure mode (U1 placed at 180° in the CPL when JLCPCB's
 library expected 270°; JLCPCB's pre-production review caught it), and that the project's
 `kicad-jlcpcb-tools` correction rule for this footprint (`QFN-24_L4.0-W4.0-P0.50-BL-EP2.8` → +270°,

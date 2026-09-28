@@ -38,5 +38,5 @@ Records distinguish manufacturer facts, project connectivity and calculations.
 An unavailable source stays unavailable; a candidate is not a fitted BOM line;
 DNP belongs to a placement. Read a fact's source revision, locator and conditions.
 
-Use the [component-first workflow](../how-to/component-first-design.md) to add or
+Use the [component-first workflow](../project/component-first-design.md) to add or
 replace parts. The generated catalog is never edited by hand.
