@@ -32,7 +32,9 @@ Additional runtime CSS bridge source: https://github.com/Takazudo/zudo-circuit-d
 identity while containing the model at375px; remove only when published CSS and unchanged
 48-case browser assertions pass per runtime tracker #210.
 
-Additional runtime accessibility bridge source:
-https://github.com/Takazudo/zudo-circuit-doc/issues/110 (enlarged footprint image alt text).
-Keep the hunk until a published runtime retains the exact image description and the
-unchanged ordinary package/project browser gates pass under tracker #210.
+Footprint modal accessibility correction:
+https://github.com/Takazudo/zudo-circuit-doc/issues/110 records intentional SDK design.
+The temporary enlarged-image alt bridge was removed. The named modal supplies the exact
+inline image description, and its child image stays decorative. The project browser and
+installed-island contracts now verify that complete identity and no removed-title reference.
+There is no #110 patch hunk or removal prerequisite under runtime tracker #210.
