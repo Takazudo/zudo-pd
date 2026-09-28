@@ -1,0 +1,9 @@
+packages: [ "doc" ]
+minimumReleaseAge: 0
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  sharp: true
+  workerd: true
+patchedDependencies:
+  '@takazudo/zudo-circuit-doc@0.1.0': patches/@takazudo__zudo-circuit-doc@0.1.0.patch
