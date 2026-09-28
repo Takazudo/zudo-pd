@@ -3,32 +3,35 @@
 # and self-tests, the cross-component routing/refusal forward tests, the
 # schgen smoke test, schematic regen-idempotency + label-geometry checks
 # for all boards, connectivity-baseline drift for all boards, the retained
-# decision-lock contract, and the doc-engine test suite. No credentials,
+# decision-lock contract, and installed-package/project regressions. No credentials,
 # no network, no KiCad.
 #
 # This is the source of truth for component evidence; main-deploy.yml's
-# build depends on the same validator (`pnpm generate:components` shells
-# out to validate.py --strict), which is why both workflows pin the same
-# Python 3.12.
+# build depends on the same project strict gate before package preparation,
+# which is why all workflows pin Python 3.12.
 
 name: Component spec skills
 
 on:
   pull_request:
     paths:
+      - 'readme.md'
       - 'CLAUDE.md'
+      - 'AGENTS.md'
       - '.claude/skills/**'
-      - '.github/workflows/component-spec-skills.yml'
+      - '.github/workflows/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'patches/**'
+      - 'circuit.config.ts'
+      - 'circuit/**'
+      - 'lefthook.yml'
+      - 'scripts/mdx-format.sh'
       - 'scripts/schgen/**'
       - 'boards/**'
       - 'symbols/**'
-      # Narrowed to the geometry files the footprint/model manifests actually
-      # hash — a footprint's .kicad_sym or unrelated library metadata
-      # shouldn't invalidate check:footprint-previews / check:models below.
-      - 'footprints/**/*.kicad_mod'
-      - 'footprints/scripts/**'
-      - 'footprints/**/*.wrl'
-      - 'footprints/**/*.step'
+      - 'footprints/**'
       - 'doc/**'
   push:
     # main only: a push to a topic branch with an open PR already runs the
@@ -38,16 +41,23 @@ on:
     branches:
       - main
     paths:
+      - 'readme.md'
       - 'CLAUDE.md'
+      - 'AGENTS.md'
       - '.claude/skills/**'
-      - '.github/workflows/component-spec-skills.yml'
+      - '.github/workflows/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'patches/**'
+      - 'circuit.config.ts'
+      - 'circuit/**'
+      - 'lefthook.yml'
+      - 'scripts/mdx-format.sh'
       - 'scripts/schgen/**'
       - 'boards/**'
       - 'symbols/**'
-      - 'footprints/**/*.kicad_mod'
-      - 'footprints/scripts/**'
-      - 'footprints/**/*.wrl'
-      - 'footprints/**/*.step'
+      - 'footprints/**'
       - 'doc/**'
 
 concurrency:
@@ -113,16 +123,11 @@ jobs:
       - name: Bare-copper footprints carry CPL/BOM exclusion attrs
         run: python3 footprints/scripts/check_bare_copper_attrs.py
 
-  # The doc-engine suite (~9k lines under doc/component-docs/tests/) is the
-  # only guard on the TypeScript projection — including the two-place MDX
-  # component-registry sync that fails silently at runtime. It needs Node AND
-  # Python (pipeline tests shell out to validate.py), hence its own job.
+  # The installed package, project host and compatibility regressions need
+  # Node and Python, hence their own root-workspace job.
   doc-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: doc
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
@@ -131,14 +136,18 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Doc-engine test suite
-        run: pnpm test:components
-      - name: Footprint previews are current and safe
-        run: pnpm check:footprint-previews
-      - name: Published package models are safe and up to date
-        run: pnpm check:models
+      - name: Strict project and package validation
+        run: pnpm circuit:check
+      - name: Retained circuit tests
+        run: pnpm test:circuit
+      - name: Installed package compatibility and declarations
+        run: pnpm test:compatibility
+      - name: Host, CAD and model checks
+        run: pnpm check

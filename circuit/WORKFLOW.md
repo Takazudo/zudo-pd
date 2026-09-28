@@ -1,6 +1,6 @@
 # Circuit workflow
 
-This is the canonical working agreement between this project and its AI agents. `CLAUDE.md` and `AGENTS.md` only point here. Every agent, whatever tool it runs in, follows this file.
+This is the canonical working agreement for circuit evidence and design tasks. Root `AGENTS.md` points here; root `CLAUDE.md` remains authoritative for current hardware state, evidence boundaries and repository storage. Every agent, whatever tool it runs in, follows both.
 
 The goal is that a short request such as "download this datasheet", "get the 3D model" or "check this spec" becomes durable, honest project knowledge: exact identity, retained evidence, regenerated documentation and a truthful statement of what is still unknown.
 
@@ -10,7 +10,7 @@ Routine work that the request already covers (downloads, evidence updates, regen
 
 Do this at the start of every task.
 
-1. Read the project brief [`project/index.mdx`](../doc/src/content/docs/project/index.mdx) and [`project/next-actions.mdx`](../doc/src/content/docs/project/next-actions.mdx).
+1. Read [`project/project-brief.md`](../doc/src/content/docs/project/project-brief.md), [`project/repository-map.md`](../doc/src/content/docs/project/repository-map.md), [`architecture/index.mdx`](../doc/src/content/docs/architecture/index.mdx) and [`architecture/release-readiness.md`](../doc/src/content/docs/architecture/release-readiness.md). The last page records current release gates; use the active issue or accepted decision as the task ledger when work is unrelated to release readiness.
 2. Read the inventory (`.claude/skills/component-spec-audit/references/inventory.json`) and the owner bundles and integration rules relevant to the request.
 3. Run `pnpm circuit:check` **before** editing anything. Note what already fails, so pre-existing gaps are not confused with the ones your edit introduces.
 4. Route by **exact manufacturer + complete MPN (including package/suffix) + supplier order code + project role**. A bare base name, family name or package name is not enough to resolve an identity, even when only one match seems plausible. When more than one record could match, report the ambiguity.
@@ -23,8 +23,8 @@ Do this at the start of every task.
 | `doc/src/content/docs/{project,architecture,research,decisions,verification}/` | Authored narrative: intent, rationale, decisions, plans, handoff | Project | Yes |
 | `circuit/WORKFLOW.md`, `circuit/agent-task-examples.md`, `circuit/templates/` | This agreement, request examples, unpublished authoring templates | Project | Yes |
 | `.claude/skills/component-*/` | Owner evidence bundles (v1 contract), one per exact component or group | Project | Yes, following the contract |
-| `.claude/skills/component-spec-audit/references/inventory.json` | Orderable identities and declared placements | Project | Yes |
-| `.claude/skills/component-spec-audit/references/direct-routing.json`, `external-vendor-qualifiers.json` | Routing cases and vendor qualifiers | Project | Yes |
+| `.claude/skills/component-spec-audit/references/inventory.json` | Orderable identities and placements bound by the `led-generator-v1` provider to three board specs | Project | Yes |
+| `.claude/skills/component-spec-audit/fixtures/direct-routing.json`, `.claude/skills/component-spec-audit/references/external-vendor-qualifiers.json` | Routing cases and vendor qualifiers | Project | Yes |
 | `.claude/skills/circuit-spec-integration/references/rules.json` | Cross-component integration rules | Project | Yes |
 | `circuit/publication/selection.json` | What is published: record, source and linkable-source IDs, document selections, `expect` count locks | Project | Yes, as a reviewed diff |
 | `circuit/publication/assets.json` | Allowlist of files deliberately published under `doc/public/` | Project | Yes, as a reviewed diff |
@@ -51,7 +51,7 @@ A project may add its own top-level authored section (for example `testing/` or 
 1. Add the content under `doc/src/content/docs/<section>/`, with an `index.mdx` as the section's landing page.
 2. Give it a matching `categoryMatch` (equal to the section's directory name) wherever it appears in `headerNav` in `doc/zfb.config.ts`. Without a matching `categoryMatch`, the section's sidebar stays empty even though the pages exist.
 3. The header nav is capped at **6 top-level items** (zudo-doc 5.27.0; the zudo-circuit-doc project documentation's "Getting started → What you get" page states the same cap). Project, Architecture, Research, Decisions, Verification and Components already fill it, so add the new section as a `children` entry under one of the existing dropdown items instead of a seventh top-level entry.
-4. `project/index.mdx` and `project/next-actions.mdx` stay required regardless of what you add — the Shared entry above reads them first, on every task.
+4. The project brief, repository map, architecture overview and release-readiness page remain the shared starting context. Update release-readiness only when a release gate changes; use the active issue or accepted decision for other task handoffs.
 
 ## Commands
 
@@ -61,10 +61,12 @@ Run these from the project root.
 | --- | --- | --- |
 | `pnpm circuit:check` | Canonical offline validation of the evidence contract (`zudo-circuit-doc validate`) | No |
 | `pnpm circuit:generate` | Regenerate component pages and the preflight report (`zudo-circuit-doc generate`) | No |
+| `pnpm circuit:check-generated` | Re-run configured preparation and fail on generated drift, untracked output, deletion or non-idempotent output | No |
 | `pnpm circuit:doctor` | Report required and optional tools (`zudo-circuit-doc doctor`) | No |
 | `pnpm check` | Validate, compare a dry-run generation against committed output, check previews, type-check the doc site | No |
 | `pnpm build` | Publish selected models, generate, build the site | No |
 | `pnpm check:site` | Post-build checks: built references, publication scan, strict link check | No |
+| `pnpm b4push` | Retained circuit tests, strict project gates, host/CAD/model checks, build, site checks and generated-output determinism under one outer heavy guard | No |
 | `pnpm dev` | Dev server with generation in watch mode | No |
 | `pnpm previews:generate` | Render footprint SVG previews with the pinned KiCad Docker image (`zudo-circuit-doc footprints generate`) | Image pull only |
 | `pnpm exec zudo-circuit-doc new-component <suffix>` | Create an owner bundle `.claude/skills/component-<suffix>/` from the package template | No |
@@ -73,11 +75,18 @@ Run these from the project root.
 | `pnpm exec zudo-circuit-doc validate --json` | Same validation, machine-readable | No |
 | `pnpm exec zudo-circuit-doc models` / `models --check` | Publish or check the selected WRL models | No |
 | `pnpm exec zudo-circuit-doc footprints check` | Check committed footprint previews against their inputs | No |
-| `pnpm exec zudo-circuit-doc check-browser` | Browser smoke of the built site with system Chrome, using `browserSmoke.representatives` or, absent that, up to 3 derived representatives | No |
+| `pnpm test:model-viewer:browser` | Project browser smoke over 12 named representatives, two widths and two themes; requires a built site and Chrome | No |
+| `pnpm exec zudo-circuit-doc check-browser` | Additional scaffold browser smoke using configured representatives or up to 3 derived representatives | No |
 
 Exit codes: `0` pass, `1` check failed, `2` usage or config error, `4` not run because an optional tool (Docker, Chrome) is missing. Exit `4` is "not run", never "passed". What each check does and does not prove is in [checks/README.md](./checks/README.md).
 
-The documentation build never goes online. `--online` and `--refresh-source` are explicit agent operations for acquisition and refresh only.
+The documentation build never goes online. `--online` and `--refresh-source` are explicit agent operations for acquisition and refresh only. Run `pnpm b4push` as one guarded operation; do not wrap its individual subcommands in nested heavy guards. Run a browser check with both machine guards, for example:
+
+```sh
+bash "$HOME/.codex/scripts/heavy-guard.sh" -- bash "$HOME/.claude/scripts/playwright-guard.sh" --wait 300 -- pnpm test:model-viewer:browser
+```
+
+Use the same wrapper with `pnpm exec zudo-circuit-doc check-browser` when running the additional scaffold check. Heavy-guard exit 75 means the suite did not run; read `verdict=` first, retry `ENV_SUSPECT` once, and defer a persistent environmental failure instead of calling it passed. Playwright-guard exit 75 is browser contention; wait and retry without bypassing it. Exit 4 because Chrome is unavailable is not a pass, and does not satisfy an issue's mandatory browser acceptance. Never run browser checks on a held-open local dev server; build first and serve the built output.
 
 ## Evidence contract essentials
 
@@ -143,14 +152,14 @@ The validator recomputes the arithmetic. **Arithmetic is not dimensional proof:*
 
 **Input:** an idea, constraints, sketches or an existing design.
 
-1. Fill the brief in `doc/src/content/docs/project/index.mdx`: intended behavior, interfaces, power source, dimensions, environment, quantity, constraints and unknowns. Keep "Not entered" where the owner has not said.
-2. Draft functional blocks and operating states in `doc/src/content/docs/architecture/overview.mdx`. Name the decisions that constrain component selection. Start from responsibilities, not IC names.
+1. Update `doc/src/content/docs/project/project-brief.md`: intended behavior, interfaces, power source, dimensions, environment, quantity, constraints and unknowns. Keep "Not entered" where the owner has not said.
+2. Draft functional blocks and operating states in `doc/src/content/docs/architecture/index.mdx`. Name the decisions that constrain component selection. Start from responsibilities, not IC names.
 3. Record candidate components as authored research (copy `circuit/templates/project-docs/research/component-candidate.mdx` into `doc/src/content/docs/research/`). Candidates stay out of the inventory until selected.
-4. Put the most consequential uncertainties and the next bounded task in `doc/src/content/docs/project/next-actions.mdx`.
+4. Update `doc/src/content/docs/architecture/release-readiness.md` when a release gate changes. For other work, update the relevant authored decision or active issue handoff; this repository has no `project/next-actions.mdx` page.
 5. Add integration rules only when a real interaction exists (see [Integration rules](#integration-rules)).
 6. Run `pnpm circuit:check` and `pnpm check`.
 
-**Done:** another agent can explain the goal and the next decision from the brief, the overview and next actions alone, without the original conversation. Unknown electrical values remain unknown; none was invented to fill a table.
+**Done:** another agent can explain the goal, architecture and current release gates from the brief, architecture and release-readiness pages, without the original conversation. Unknown electrical values remain unknown; none was invented to fill a table.
 
 ## Workflow B — add or replace an exact component
 
@@ -166,15 +175,15 @@ The validator recomputes the arithmetic. **Arithmetic is not dimensional proof:*
    This copies the package template to `.claude/skills/component-<suffix>/`. It contains deliberate placeholder values; replace **every** one. The validator fails on any placeholder left behind.
 3. **Obtain evidence** through Workflow C. Record identity, ratings, pinout, defaults, conditions and relevant behavior at the granularity the design needs.
 4. **Map pins:** symbol pins, footprint pads and current nets in `pin-map.json`. Board placement is project state with its own revision.
-5. **Update the inventory** (`.claude/skills/component-spec-audit/references/inventory.json`, manual profile):
-   - One line per orderable identity. Identity is a unique `line_id` plus a unique (manufacturer, complete MPN) pair. The line's `mpn`, `manufacturer`, `lcsc` and `package` must equal the owner record's.
-   - `lcsc` is required but may be `""`. A non-empty value must be a real LCSC C-number read from the supplier listing for this exact part. **Never fabricate or guess a C-number**; leave it empty when the part is not on LCSC or not yet checked.
-   - `suppliers: [{ "supplier": …, "order_code": … }]` is optional and display-only; it does not create routing aliases.
-   - `placements` lists board and reference designator. It may be `[]`. Placements are **declared, not verified**: the manual profile does not bind them to a schematic.
-   - Update the reviewed `assertions` counts. Add the line's direct-routing cases to `direct-routing.json` (one set per line is mandatory once the file is configured).
-6. **Read the `SCOPE:` line** printed by `pnpm circuit:check`. It states that the manual inventory provider performed no schematic or placement binding, how many lines and declared placements it saw, and whether the pin-asset check ran or was skipped because CAD is disabled. That line is the honest limit of what the check proved; repeat it in the report.
+5. **Update the inventory** (`.claude/skills/component-spec-audit/references/inventory.json`) under the configured `led-generator-v1` provider:
+   - Keep one line per orderable identity, with a unique `line_id` and unique (manufacturer, complete MPN) pair. The line identity fields must match its owner bundle. This project requires a canonical non-empty LCSC C-number for an inventory line; never fabricate or guess one. If exact identity is unresolved, retain it as a candidate or ask for the missing supplier identity before adding an inventory line.
+   - Unselected parts belong in `.claude/skills/component-spec-audit/references/candidates.json`; the current 12 candidate records remain validated research and are not published inventory identities.
+   - The finite `inventoryProvider.mpnFromValueLcsc` exceptions are `C144397` and `C591344`; preserve those reviewed value-field identities and do not expand the exception without evidence and review.
+   - Record actual placements in `placements[]` with their own board, reference designator and `dnp` state. The provider binds the three generated board specs `scripts/schgen/board_a_spec.py`, `board_b_spec.py` and `board_p_spec.py`; placement binding and DNP are project-checked, not merely declared.
+   - Update reviewed assertion counts and all affected board generator expectations. Add direct-routing cases to `.claude/skills/component-spec-audit/fixtures/direct-routing.json` for each line.
+6. **Read the `SCOPE:` line** printed by `pnpm circuit:check`. It names the `led-generator-v1` provider, its three bound specs, line/placement/exclusion counts and pin-asset check result. Repeat the actual scope in the report; it proves the declared generator and asset checks ran, not that a physical board was assembled or measured.
 7. **Obtain CAD** through Workflow D if the part goes on a board.
-8. **Update the publication selection in the same task** (see [Publication policy](#publication-policy)), then `pnpm circuit:generate`, `pnpm check`, and `pnpm build` followed by `pnpm check:site`.
+8. **Update the publication selection in the same task** (see [Publication policy](#publication-policy)), then run `pnpm circuit:generate`, `pnpm circuit:check`, `pnpm check`, `pnpm build` and `pnpm check:site` from the repository root.
 9. **For a substitution,** compare electrical, firmware, startup, thermal and mechanical dependencies of both exact parts, and record changed design decisions explicitly (use a change-impact note).
 
 **Done:** one exact identity is traceable from the inventory through its owner bundle, pin map and published page; every outstanding gap is visible as an `OPEN` domain or a non-PASS verdict; the selection diff is part of the change. "Added to the catalog" does not mean "suitable for production".
@@ -226,27 +235,7 @@ If acquisition is blocked (paywall, login, bot wall, dead link, transport error)
 
 **Input:** the exact orderable variant and its intended board or mechanical use. CAD checks run only when `cad.enabled` is `true` in `circuit.config.ts`, with its symbol libraries, footprint roots and model root configured; otherwise the pin-asset check is reported as SKIPPED.
 
-A complete enabled block, with real values taken from this repository's own `examples/minimal/circuit.config.ts`:
-
-```ts
-import type { CircuitConfig } from "@takazudo/zudo-circuit-doc/config";
-import { DEFAULT_PREVIEW_RENDERER } from "@takazudo/zudo-circuit-doc/config";
-
-export default {
-  // ...
-  cad: {
-    enabled: true,
-    libraryName: "example-minimal-circuit-lib",
-    symbolLibraries: ["symbols/example-minimal-circuit-lib.kicad_sym"],
-    footprintMasterRoot: "footprints/kicad",
-    footprintLibraryRoot: "footprints/kicad/example-minimal-circuit-lib.pretty",
-    modelRoot: "footprints/kicad/example-minimal-circuit-lib.3dshapes",
-    modelLocatorPrefix: "${KIPRJMOD}/../../footprints/kicad/example-minimal-circuit-lib.3dshapes/",
-    previewRenderer: DEFAULT_PREVIEW_RENDERER,
-  },
-  // ...
-} satisfies CircuitConfig;
-```
+The live project configuration is [`circuit.config.ts`](../circuit.config.ts): library `zudo-pd`, symbol library `symbols/zudo-pd.kicad_sym`, master root `footprints/kicad`, KiCad library `footprints/kicad/zudo-power.pretty`, model root `footprints/kicad/zudo-pd.3dshapes`, and the reviewed KiCad 9.0.9 preview renderer. Read those exact values before changing CAD configuration; do not copy an upstream minimal example's library names or paths into this project.
 
 - `libraryName` — the KiCad library name the project's symbols and footprints live under.
 - `symbolLibraries` — one or more `.kicad_sym` paths merged for pin lookups.
@@ -320,7 +309,7 @@ A preview is a rendering result. **A preview is not dimensional proof**, and a f
 
 ## Integration rules
 
-`.claude/skills/circuit-spec-integration/references/rules.json` starts as `{ "schema_version": 1, "rules": [] }`. An empty rule list is valid.
+`.claude/skills/circuit-spec-integration/references/rules.json` currently contains 11 reviewed project rules. Preserve existing rules and update only the specific real interaction affected by the change; an empty rule list is a schema-valid hypothetical state, not this project's starting point.
 
 - Add a rule **only when a real interaction exists** between exact components (a shared rail, a logic-level boundary, a startup dependency, a thermal coupling). Name its records, fact IDs, conditions, verdict and refusal text, and any conditioned calculation.
 - An evidence chain lists stages from official source through conditioned requirement, netlist, symbol/footprint, PCB orientation, BOM and placement, as-built, programmed and bench. **Stages stay `OPEN` with empty `fact_ids` until real evidence exists.** A completed early stage never implies a later one; a generated netlist is never `CONFIRMED`.
@@ -340,14 +329,14 @@ Adding evidence does not publish it. `circuit/publication/selection.json` lists 
 | --- | --- | --- |
 | Node.js ≥22.18 | Required | Everything |
 | pnpm 11 (via corepack) | Required | Install and scripts |
-| Python ≥3.10 (stdlib only) | Required | `pnpm circuit:check` (override the interpreter with `CIRCUIT_DOC_PYTHON`) |
+| Python ≥3.12 (stdlib only) | Required | `pnpm circuit:check` and the project strict validator |
 | git | Required | History, review diffs, doc history |
 | Docker + the pinned KiCad image | Optional | `pnpm previews:generate` |
-| Chrome (or `CHROME_BIN`) | Optional | `zudo-circuit-doc check-browser` |
+| Chrome (or `CHROME_BIN`) | Optional | `pnpm test:model-viewer:browser` and the additional `zudo-circuit-doc check-browser` |
 | Network | Optional | Acquisition and `--online` refresh only; never the build |
 | easyeda2kicad | Optional | Importing assets for LCSC-listed parts |
 
-`pnpm circuit:doctor` reports which of these are present. A missing optional tool gives exit `4` ("not run") for the command that needs it. The dev server must be restarted after adding an asset to `doc/public/` (zudo-doc behavior).
+`pnpm circuit:doctor` reports which of these are present. A missing optional tool gives exit `4` ("not run") for the package command that needs it; it is not a pass. Run browser suites separately from the full guarded b4push. The dev server must be restarted after adding an asset to `doc/public/` (zudo-doc behavior).
 
 ## Completion report
 
@@ -362,7 +351,7 @@ Keep routine tool chatter out of the report. Update next actions when the projec
 
 ## zudo-pd authority and publication
 
-Read the root `CLAUDE.md` and exact owner skills before component or hardware work.
+Root `CLAUDE.md` is authoritative for current hardware state, evidence limits, no-LFS storage and local derivative rules. In particular, do not use Git LFS, track large ignored assembled STEP previews, or upload local derivatives elsewhere. Read it and the exact owner skills before component or hardware work.
 `pnpm circuit:check` runs the strict project audit and forward-test gates before package validation.
 The build repeats these gates before copying models or generating pages. Raw agent resources are withheld.
 The generated catalog is a reviewed projection; it does not establish assembled or measured behavior.

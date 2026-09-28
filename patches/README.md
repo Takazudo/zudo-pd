@@ -2,7 +2,7 @@
 
 Removal tracker: [zudo-pd #210](https://github.com/Takazudo/zudo-pd/issues/210).
 The runtime request is `^0.1.0`; the root lock resolves the npm 0.1.0 tarball with
-its registry integrity and one pnpm patch hash. This patch edits the **shipped**
+its registry integrity and its circuit-package patch hash. This patch edits the **shipped**
 `lib/*.js`, their matching `.d.ts`, Python modules and packaged contract schema.
 It does not import the upstream TypeScript source or the project validator.
 Source review pin: `Takazudo/zudo-circuit-doc@5d0e2b630776489d394be341586b889dfe0d1cb8`.
@@ -25,9 +25,33 @@ and deliberate existing public assets are reconciled in #207.
 `pnpm circuit:prepare` and `pnpm circuit:check` run the project's strict validator
 and strict forward tests before invoking package operations. The installed CLI's
 validator remains an additional contract gate. `circuit:doctor` is diagnostic.
-The legacy doc generator remains active until #207/#208 integrate the consumers.
-Root runtime peers are pinned to the upstream scaffold versions for meaningful
-SSR tests; the existing doc manifest remains unchanged for this wave.
+The root workspace lock resolves both the repository and `doc/` to the same
+patched installed modules. The circuit runtime patch and scaffold heading-extractor
+patch are separate package boundaries; the old `doc/component-docs/` implementation
+was retired in [zudo-pd #208](https://github.com/Takazudo/zudo-pd/issues/208). Root
+runtime peers remain pinned to the scaffold versions for meaningful SSR tests.
+
+## Zudo-doc 5.27.0 heading parity
+
+The separate `@takazudo/zudo-doc` 5.27.0 patch is tracked for removal by
+[zudo-pd #211](https://github.com/Takazudo/zudo-pd/issues/211). Its source behavior
+is reviewed in [zudolab/zudo-doc #4428](https://github.com/zudolab/zudo-doc/issues/4428).
+It aligns the built heading extractor with the zfb/CommonMark headings used by this
+site, including inline code, character references and the depth window. The retained
+strict source-link, built-fragment and redirect checks exercise the installed
+scaffold behavior. Do not replace these checks with an allowlist or a looser link
+warning rule.
+
+The circuit package patch is temporary compatibility work tracked by
+[zudo-pd #210](https://github.com/Takazudo/zudo-pd/issues/210). The scaffold removal
+tracker is #211. Follow-up package work covers foreground Chrome scheduling
+([#108](https://github.com/Takazudo/zudo-circuit-doc/issues/108)) and responsive
+reference-card layout ([#109](https://github.com/Takazudo/zudo-circuit-doc/issues/109)).
+The package's enlarged-media contract deliberately uses an empty image alt when the
+dialog supplies the full accessible label; the project browser smoke asserts that
+contract under [#110](https://github.com/Takazudo/zudo-circuit-doc/issues/110). This
+is not a local #110 patch. Keep the project regressions enabled until released
+upstream versions supply the contracts owned by each package.
 
 `pnpm test:compatibility` exercises installed package files, never a source clone:
 real CLI doctor/validate/generate/check/models/footprints, idempotency, exact corpus
@@ -45,8 +69,11 @@ changed field identified. Its `files` map is the exact list of hash-covered path
 The candidate-only evidence stays on disk and under both validators; it is never
 silently treated as inventory or as an independent reason to suppress a leak.
 
-Full site build/scan, site redirects, package island registration, deployment
-wiring and browser representatives remain #207 onward. Browser verification must
-include the missing-document record, resolved cards, model and footprint dialogs,
-keyboard/focus/no-JS states and the 12 selected representatives. No hardware,
-authored docs, canonical validators or generated published content changed here.
+The root command surface owns strict project checks, generation, CAD/model parity,
+site publication/link checks and guarded b4push. The retained project browser smoke
+covers the document-gap record, resolved cards, model and footprint dialogs,
+keyboard/focus/no-JS states, the illustrative inductor note and all 12 named
+representatives. The PR workflow keeps the Cloudflare preview alias; the production
+workflow keeps its guarded domain deployment. Neither workflow deploys from a local
+build. Canonical evidence, hardware designs and generated component pages remain
+owned by their existing project workflows and contracts.

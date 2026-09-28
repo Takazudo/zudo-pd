@@ -2,7 +2,7 @@
 
 These are nine short requests an owner can give an agent in this project, each in English and Japanese. They are **task examples**, not an installed skill. The agent handles each one by following [WORKFLOW.md](./WORKFLOW.md); the "Workflow and commands" line under each example names the section and the project commands involved.
 
-The everyday request should remain short. This project supplies the shared conventions for exact identity, evidence retention, asset checks, generated documentation, and truthful status reporting. The “completion expectations” below explain what those short requests should produce. Every task starts with the shared entry (`pnpm circuit:check` before editing) and ends with the four-part completion report.
+The everyday request should remain short. This project supplies the shared conventions for exact identity, evidence retention, asset checks, generated documentation, and truthful status reporting. The “completion expectations” below explain what those short requests should produce. Every task starts with the project context and `pnpm circuit:check` before editing, then ends with the four-part completion report.
 
 Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with the actual project references. None of the examples selects a part or assumes a circuit rating. If a user names a component in ordinary language, the local agent should resolve it through the project's component evidence bundle and report ambiguity when there is more than one plausible match.
 
@@ -175,4 +175,4 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 - Resolve or reopen questions only with supporting evidence or a recorded decision.
 - End with a concrete next result, not a broad request to “continue investigating.”
 
-**Workflow and commands:** Shared entry, then whichever workflow the next action needs; update `doc/src/content/docs/project/next-actions.mdx` and run `pnpm check`.
+**Workflow and commands:** Shared entry, then whichever workflow the next action needs; update the relevant decision or the release-readiness page when a release gate changes, then run `pnpm circuit:check` and `pnpm check`.

@@ -38,17 +38,21 @@ Python specs for generated schematics, not their `.kicad_sch` output files.
 
 ## Publish the human reference
 
-Run from `doc/`:
+Run from the repository root:
 
 ```sh
-pnpm generate:models
-pnpm generate:components
+pnpm circuit:check
+pnpm test:circuit
+pnpm circuit:prepare
+pnpm build
 pnpm b4push
 ```
 
-When footprint geometry changes, also regenerate SVG previews using the documented
-KiCad toolchain (`pnpm generate:footprint-previews`). Offline checks detect stale
-previews but cannot create them.
+`pnpm circuit:prepare` validates the selected source records, prepares the selected
+local models and generates the component pages through the installed package. When
+footprint geometry changes, regenerate SVG previews with the documented KiCad
+toolchain (`pnpm previews:generate`); `pnpm previews:check` detects stale previews
+without creating them.
 
 The [catalog](/docs/components/catalog/) publishes unresolved domains alongside
 facts. Publishing a component page does not close its open design questions.

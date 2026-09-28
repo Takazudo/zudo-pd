@@ -5,9 +5,9 @@ pre-commit:
   commands:
     format-mdx:
       glob: 'doc/src/content/docs/**/*.{md,mdx}'
-      # Generated component-record pages (doc/component-docs/cli/generate.ts)
-      # are byte-exact against `check:components`'s drift check. Formatting
-      # them at commit time would drift them from the next `generate:components`
+      # Generated component-record pages (pnpm circuit:generate)
+      # are byte-exact against the committed-output drift check. Formatting
+      # them at commit time would drift them from the next circuit:prepare
       # run and turn CI red on every PR touching the tree.
       exclude: 'doc/src/content/docs/components/**'
       stage_fixed: true
@@ -15,12 +15,11 @@ pre-commit:
 
 pre-push:
   commands:
-    check-doc:
+    b4push:
       run: |
         BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
         if [ "$BRANCH" = "main" ]; then
-          echo "Running doc quality checks before pushing to main..."
-          # Run from doc/ so its pinned packageManager pnpm is selected; a newer global pnpm rejects `-C doc`.
-          (cd doc && pnpm run check) || exit 1
-          echo "Quality checks passed!"
+          echo "Running the guarded repository b4push gate before pushing to main..."
+          pnpm b4push || exit 1
+          echo "Repository quality gates passed!"
         fi

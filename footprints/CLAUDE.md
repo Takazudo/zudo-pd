@@ -7,11 +7,11 @@ This project uses [easyeda2kicad.py](https://github.com/uPesy/easyeda2kicad.py) 
 **Footprints (PCB physical pads):**
 - **KiCad source files**: `/footprints/kicad/*.kicad_mod` (individual footprint files)
 - **Documentation previews**: generated automatically into
-  `/doc/public/assets/component-previews/footprints/*.svg` by
-  `doc/component-docs/footprint-previews/generate.ts` (`pnpm generate:footprint-previews`
-  from `doc/`) — do not hand-export or hand-edit
-- **Package previews**: `/doc/static/footprints/*.png` (datasheet images)
-- **Datasheets**: `/doc/static/datasheets/*.pdf` (component specs)
+  `doc/public/assets/component-previews/footprints/*.svg` by the installed
+  `@takazudo/zudo-circuit-doc` package using `circuit.config.ts` (`pnpm
+  previews:generate` from the repository root) — do not hand-export or hand-edit
+- **Historical package drawings**: `doc/public/datasheets/packages/*.pdf`
+- **Public retained datasheets**: `doc/public/datasheets/*.pdf`; evidence sources stay in their owner bundles
 
 **Symbols (schematic symbols):**
 - **Symbol library**: `/symbols/zudo-pd.kicad_sym` (single file containing all project symbols)
@@ -40,18 +40,18 @@ cp ~/Documents/Kicad/easyeda2kicad/easyeda2kicad.kicad_sym ./symbols/zudo-pd.kic
 ## Generating SVG Files for Documentation
 
 Documentation footprint previews are **generated automatically**, not hand-exported.
-When a footprint is added or updated, regenerate previews from `doc/`:
+When a footprint is added or updated, regenerate previews from the repository root:
 
 ```bash
-pnpm generate:footprint-previews
+pnpm previews:generate
 ```
 
 This renders each footprint straight from `footprints/kicad/*.kicad_mod` (via a
 digest-pinned KiCad container) into
 `doc/public/assets/component-previews/footprints/*.svg`, and the generated component
-record pages embed it automatically. `pnpm check:footprint-previews` fails the build
-on drift. Do not hand-export a footprint SVG and link it from navigation — update the
-footprint file or the component evidence and re-run the generator instead.
+record pages embed it automatically. `pnpm previews:check` fails on drift. Do not
+hand-export a footprint SVG and link it from navigation — update the footprint file
+or component configuration and re-run the generator instead.
 
 The former Docusaurus-era manual workflow (`footprints/scripts/generate-footprint-svgs.sh`,
 copying into `doc/docs/_fragments/footprints/`) has been removed — that directory no

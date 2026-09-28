@@ -6,7 +6,7 @@ set -euo pipefail
 # ## Why this exists instead of `failOnBroken: true`
 #
 # zfb's `linkValidation` resolves `#fragment` targets against HEADING-derived
-# anchors only. Every anchor the component-docs generator emits is an
+# anchors only. Every anchor the package evidence generator emits is an
 # `<EvidenceAnchor>` component id, and all three markup forms were probed
 # directly: a heading anchor validates, a raw-HTML `id` warns, an MDX component
 # id warns. No markup this generator can emit satisfies the checker, so every
@@ -53,7 +53,7 @@ set -euo pipefail
 #
 # Usage: bash check-zfb-link-warnings.sh <build-log>
 #   Locally:  pnpm build 2>&1 | tee /tmp/doc-build.log
-#             bash component-docs/scripts/check-zfb-link-warnings.sh /tmp/doc-build.log
+#             bash circuit/scripts/check-zfb-link-warnings.sh /tmp/doc-build.log
 
 LOG="${1:-${ZUDO_DOC_BUILD_LOG:-.circuit-cache/doc-build.log}}"
 if [ -z "$LOG" ] || [ ! -f "$LOG" ]; then
