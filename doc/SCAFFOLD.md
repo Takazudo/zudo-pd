@@ -47,7 +47,7 @@ Source link warnings remain active and have a retained project log gate; strict 
 HTML/anchor checks run in check:site. Public assets retain individual reviewed reasons and
 all served paths. Historical PDF attachments do not establish fresh manufacturer verification.
 
-The initializer README's stale “not on npm” paragraph (upstream #102) is deliberately omitted:
+The initializer README's stale “not on npm” paragraph ([upstream #102](https://github.com/Takazudo/zudo-circuit-doc/issues/102)) is deliberately omitted:
 initializer/runtime 0.1.0 are published npm packages. Existing project README remains authoritative.
 The root lock/workspace is authoritative; both consumers resolve patched runtime 0.1.0.
 The global release-age bypass was removed; only observed too-fresh transitive hono@4.13.10
@@ -61,7 +61,7 @@ and model bytes remain unchanged. Project browser coverage stays separate: 12 re
 1440/375 widths, light/dark, missing-document c335982 and illustrative ASPI provenance. Three
 explicit package representatives are supplementary.
 
-Temporary runtime bridge: project #210 and upstream #103–107. Keep the committed patch until
+Temporary runtime bridge: project #210 and [upstream reports #103–107](../patches/README.md). Keep the committed patch until
 released behavior passes the retained compatibility regressions; upstream issue closure alone
 is insufficient. No records, candidates, evidence fields or hardware checks were dropped.
 The retired `doc/component-docs/` generator, callers and implementation tests are removed by
@@ -76,13 +76,15 @@ using recursively sorted object keys and preserved array order. It was captured 
 from the legacy adapter at merged base `88c113ef9acd59e6c6fd6cee099686adf5e1d179` before
 legacy retirement. Runtime tests compare the installed package projection to these hashes.
 `runtime-anchor-baseline.json` captures every explicit EvidenceAnchor from all 64 committed
-legacy pages at that same base. These baselines supplement #205's 313 canonical evidence
+legacy pages at that same base. These baselines supplement #205's 313 covered project
 file hashes and IDs; they do not assert generated MDX byte identity.
 
 The bridge additionally rejects document exceptions naming nonexistent records, preserving
 the old reference contract. The installed package regression is retained in references.test.ts.
-Remaining legacy test/caller retirement belongs to #208; 193 relocated project assertions,
-14 compatibility regressions and the new runtime contracts exercise the package now.
+At the initial #207 integration, legacy test/caller retirement remained for #208;
+193 relocated project assertions, 14 compatibility regressions and the new runtime
+contracts exercised the package. Cutover subsequently retained the remaining project
+contracts and removed the legacy implementation.
 
 ## Asset-viewer publication boundary follow-up
 
@@ -173,3 +175,21 @@ exact identity, decorative image and meaningful error fallback with only hooks/m
 effects controlled, without launching a browser. This is the documented package UI
 adaptation; no component identity is hidden or truncated. Correction tracking:
 https://github.com/Takazudo/zudo-circuit-doc/issues/110.
+
+## Root host lifecycle context
+
+Root build, dev and host checks enter `doc/` through
+`circuit/scripts/doc-command.sh`. The wrapper clears the inherited root pnpm
+`INIT_CWD` before starting the doc lifecycle, so the history CLI resolves
+`src/content/docs` in the actual host. Root PR CI exposed the old context as an
+invalid workspace-root history candidate; the strict warning gate remains
+unchanged. Explicit local `GEN_DOC_HISTORY=1` verification covers the CI history
+path as well as ordinary builds.
+
+Cutover deliberately updates the hash for the live workflow guide
+`.claude/skills/component-spec-audit/references/new-component-workflow.md` from
+`d47eee9d71c50b15756b1e39236c613027d6ccf285a4aefcd69aa900efbb92b0` to
+`73cdc1e7f34e0a3fc72d7260626354b7e2aa74a6c548a521daf4e7a1fd757891`.
+The reviewed change describes the actual A/B/P provider and root commands; the
+other 312 covered files, canonical evidence, validators and hardware inputs
+remain unchanged.
