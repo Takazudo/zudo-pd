@@ -26,6 +26,10 @@ export default defineConfig(
     imageEnlarge: true,
     tocToggle: true,
     assetViewer: true,
+    // Relative to public/assets; package previews keep their own publication path.
+    assetViewerExclude: ["component-previews/**"],
+    assetViewerIndex: false,
+    assetViewerIndexing: false,
     strictContentBridge: true,
     sitemap: false,
     dynamicPageTransition: true,
