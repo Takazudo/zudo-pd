@@ -81,3 +81,21 @@ The bridge additionally rejects document exceptions naming nonexistent records, 
 the old reference contract. The installed package regression is retained in references.test.ts.
 Remaining legacy test/caller retirement belongs to #208; 193 relocated project assertions,
 14 compatibility regressions and the new runtime contracts exercise the package now.
+
+## Asset-viewer publication boundary follow-up
+
+The manager's guarded production build succeeded, but the subsequent real publication
+scan rejected `dist/files/component-previews/footprints/manifest.json/index.html`: generic
+asset-viewer HTML mirrored a package preview manifest and exposed a denied evidence
+`[29].sources[2].sha256` value. The reviewed package manifest hash allowance applies only
+to the package-owned artifact; it must not excuse another generated HTML projection.
+
+The host now uses `assetViewerExclude: ["component-previews/**"]`, relative to the
+installed zudo-doc 5.27.0 asset directory `public/assets` (verified in its `scanAssets`
+and routes-plugin implementation). It excludes footprint SVGs, WRL models and manifests
+from generic viewer route generation while retaining their existing public URLs and
+package reference cards/inline dialogs. Generic manually authored asset viewing stays
+enabled. Asset viewer listing and all indexing are explicitly false. No public assets,
+canonical evidence, package patch or scanner/hash checks were changed. A retained
+installed-snapshot regression proves an unexcluded manifest becomes viewer HTML, then
+proves the host exclusion removes that mirror while a manual asset still renders.
