@@ -175,30 +175,9 @@ jobs:
         working-directory: doc
         run: |
           PR_NUMBER="${{ github.event.pull_request.number }}"
-          ALIAS="pr-${PR_NUMBER}"
-          # wrangler versions upload prints the stable preview-alias URL
-          # (on *.workers.dev — requires workers_dev = true and
-          # preview_urls = true in wrangler.toml) to stdout/stderr. Capture
-          # both via tee and grep the alias URL line. Pinned to the same
-          # `wrangler@4` main-deploy.yml uses — zudo-pd has no `wrangler` in
-          # devDependencies to read a version from.
-          DEPLOY_LOG=$(mktemp)
-          npx wrangler@4 versions upload \
-            --preview-alias "$ALIAS" \
-            2>&1 | tee "$DEPLOY_LOG"
-          # `|| true` is required: under GitHub Actions' default `bash -eo pipefail`,
-          # grep finding no match makes this assignment's pipeline fail, which would
-          # abort the script here (skipping the graceful "no URL yet" handling below)
-          # instead of falling through to it.
-          DEPLOY_URL=$(grep -oE "https://${ALIAS}-[a-z0-9.-]+\.workers\.dev" "$DEPLOY_LOG" | head -1 || true)
-          echo "deploy_url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
-          if [ -z "$DEPLOY_URL" ]; then
-            # Non-fatal: the worker upload can succeed with no printed
-            # preview-alias URL (e.g. workers.dev subdomain not enabled yet).
-            echo "::warning::No preview-alias URL found in wrangler output. Worker upload succeeded."
-            exit 0
-          fi
-          echo "Preview URL: $DEPLOY_URL"
+          # Explicit top-level environment; only bootstrap a missing preview
+          # Worker. Failed uploads and missing URLs must fail this gate.
+          bash ../circuit/scripts/deploy-preview.sh "$PR_NUMBER"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

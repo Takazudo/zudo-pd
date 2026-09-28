@@ -193,3 +193,16 @@ Cutover deliberately updates the hash for the live workflow guide
 The reviewed change describes the actual A/B/P provider and root commands; the
 other 312 covered files, canonical evidence, validators and hardware inputs
 remain unchanged.
+
+## PR preview first deployment
+
+The PR preview uses the top-level `zudo-pd` Worker; production uses the separate
+`production` environment and custom-domain route. Version upload requires an
+existing Worker. The CI-only preview helper propagates pipeline failures,
+bootstraps the top-level Worker only on Wrangler's specific missing-Worker
+error, and requires a returned alias URL before the route smoke can run.
+Authentication, bootstrap and retry failures remain failures. All preview calls
+explicitly use the empty top-level environment; production commands are unchanged.
+
+References: [Wrangler environments](https://developers.cloudflare.com/workers/wrangler/environments/)
+and [aliased version URLs](https://developers.cloudflare.com/workers/versions-and-deployments/version-urls/).
