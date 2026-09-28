@@ -8,8 +8,8 @@ description: Pre-power inspection, staged power-up, load regulation, thermal, ri
 
 This procedure describes the previous hardware and may name retired parts, nets,
 pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
-[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
-[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+[prototype bring-up procedure](/docs/verification/renewal-bring-up/) and
+[current manufacturing workflow](/docs/project/jlcpcb-package/) for renewed boards.
 
 </Note>
 
@@ -145,7 +145,7 @@ well clear of the 125 °C junction limit, and record it as the bench evidence th
 
 Also record the measured case temperature and ambient for U6 and U7. Together with
 the dissipation they give the **effective thetaJA of the actual board**, which is the
-number the [thermal budget](./linear-regulator-layout.md#thermal-budget) needs and
+number the [thermal budget](../project/linear-regulator-layout.md#thermal-budget) needs and
 which the datasheet does not supply for either part.
 
 Finally: confirm thermal shutdown does not trigger during the 30-minute soak.
@@ -203,5 +203,5 @@ back into the component records rather than staying in a notebook.
 ## Related
 
 - [Regulator Assembly, Soldering, and Inspection](./regulator-assembly-and-inspection.md)
-- [Linear Regulator PCB Layout and Thermal Design](./linear-regulator-layout.md)
-- [DC-DC Converter Stage Design (LM2596S-ADJ)](./dcdc-converter-design.md)
+- [Linear Regulator PCB Layout and Thermal Design](../project/linear-regulator-layout.md)
+- [DC-DC Converter Stage Design (LM2596S-ADJ)](../project/dcdc-converter-design.md)

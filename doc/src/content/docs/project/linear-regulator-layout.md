@@ -8,8 +8,8 @@ description: Footprint, pad, copper-pour, thermal-via and capacitor-placement gu
 
 This procedure describes the previous hardware and may name retired parts, nets,
 pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
-[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
-[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+[prototype bring-up procedure](/docs/verification/renewal-bring-up/) and
+[current manufacturing workflow](/docs/project/jlcpcb-package/) for renewed boards.
 
 </Note>
 
@@ -276,8 +276,8 @@ The +5V rail in a modular synthesizer feeds two quite different kinds of load.
 ## Related
 
 - [DC-DC Converter Stage Design (LM2596S-ADJ)](./dcdc-converter-design.md) - the stage upstream
-- [Regulator Assembly, Soldering, and Inspection](./regulator-assembly-and-inspection.md)
-- [Power Rail Bench Test Procedure](./power-rail-bench-test.md)
+- [Regulator Assembly, Soldering, and Inspection](../verification/regulator-assembly-and-inspection.md)
+- [Power Rail Bench Test Procedure](../verification/power-rail-bench-test.md)
 - L7812CD2T, L7805ABD2T and CJ7912 are retired selections. Their owner evidence
   remains in the repository; use the [renewed power stage](../architecture/power-stage-options.md)
   for current regulator records.

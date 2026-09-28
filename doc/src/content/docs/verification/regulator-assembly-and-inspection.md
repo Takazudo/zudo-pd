@@ -8,8 +8,8 @@ description: Assembly-critical warnings, soldering profiles, inspection points a
 
 This procedure describes the previous hardware and may name retired parts, nets,
 pin assignments or export assumptions. Use the [current architecture](/docs/architecture/),
-[prototype bring-up procedure](/docs/how-to/renewal-bring-up/) and
-[current manufacturing workflow](/docs/how-to/jlcpcb-package/) for renewed boards.
+[prototype bring-up procedure](/docs/verification/renewal-bring-up/) and
+[current manufacturing workflow](/docs/project/jlcpcb-package/) for renewed boards.
 
 </Note>
 
@@ -47,7 +47,7 @@ Prevention:
 
 Note that the tab is the pin 2 position, so the U8 tab is at **-13.5V**, not at
 ground and not at the -12V output. See
-[Linear Regulator PCB Layout and Thermal Design](./linear-regulator-layout.md#terminal-functions).
+[Linear Regulator PCB Layout and Thermal Design](../project/linear-regulator-layout.md#terminal-functions).
 
 ## Trap 2: negative-rail electrolytic polarity is reversed
 
@@ -194,6 +194,6 @@ easiest one to get wrong, because it looks like a ground pour and is not.
 
 ## Related
 
-- [Linear Regulator PCB Layout and Thermal Design](./linear-regulator-layout.md)
+- [Linear Regulator PCB Layout and Thermal Design](../project/linear-regulator-layout.md)
 - [Power Rail Bench Test Procedure](./power-rail-bench-test.md)
 - [Board B - synth power conversion](../overview/board-b-synth-power.md)

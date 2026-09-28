@@ -44,10 +44,10 @@ actual surge, hot behavior and overshoot still require qualification.
 
 ## Start with the current design
 
-- [Project brief](doc/src/content/docs/getting-started/project-brief.md)
+- [Project brief](doc/src/content/docs/project/project-brief.md)
 - [Board roles and interface](doc/src/content/docs/architecture/board-contract.md)
 - [Component catalog](doc/src/content/docs/components/catalog/index.mdx)
-- [Component-first workflow](doc/src/content/docs/how-to/component-first-design.md)
+- [Component-first workflow](doc/src/content/docs/project/component-first-design.md)
 - [Release readiness](doc/src/content/docs/architecture/release-readiness.md)
 - [Historical design archive](doc/src/content/docs/archive/index.mdx)
 

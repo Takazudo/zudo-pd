@@ -7,10 +7,12 @@ are registered through `src/chrome-bindings.tsx`.
 
 ## Content ownership
 
-- `getting-started/`: project brief, evidence limits and repository entry points.
+- `project/`: project brief, evidence limits, repeatable design procedures and repository entry points.
 - `architecture/`: current board roles, interfaces, component map and release gates.
+- `research/`: orientation to existing research and exploratory records.
+- `decisions/`: project decisions linked to their retained rationale.
+- `verification/`: assembly, bring-up and test procedures with explicit evidence limits.
 - `components/`: generated catalog, exact records and integration evidence; never hand-edit.
-- `how-to/`: repeatable design and manufacturing procedures.
 - `archive/`: guide to historical material. `overview/`, `inbox/`, `learning/` and
   `misc/` keep stable URLs and explicit historical banners.
 

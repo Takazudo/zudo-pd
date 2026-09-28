@@ -32,4 +32,4 @@ The site runs at `http://localhost:4321`. A component watcher regenerates the ca
 when source evidence changes; the history service runs on port 4322.
 
 Use `pnpm b4push` for documentation checks. Hardware checks are separate; see the
-[component-first workflow](../how-to/component-first-design.md).
+[component-first workflow](./component-first-design.md).
