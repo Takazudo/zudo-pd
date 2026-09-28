@@ -58,7 +58,7 @@
  *
  * Usage:
  *   pnpm build                       # dist/ must be current
- *   node component-docs/scripts/check-built-fragment-links.mjs
+ *   node circuit/scripts/check-built-fragment-links.mjs
  *   node …/check-built-fragment-links.mjs --docs <dir> --dist <dir> [--quiet]
  */
 

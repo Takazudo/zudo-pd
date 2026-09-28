@@ -8,20 +8,30 @@ What each project check establishes, and what it does not. Report a check's actu
 | `pnpm circuit:generate` | Generated component pages and `circuit/generated/preflight.json` reflect the current evidence and selection | That the evidence is current with its remote sources |
 | `pnpm check` | Validation passes, committed generated output matches a dry-run generation (drift and ownership conflicts), selected models and footprint previews match their inputs, the doc site type-checks | Anything about the built HTML |
 | `pnpm build` then `pnpm check:site` | The built site references only files that exist, publishes nothing outside the selection and the assets allowlist, and has no broken links or anchors | Visual rendering or island behavior in a browser |
-| `pnpm exec zudo-circuit-doc check-browser` | Islands hydrate and the built pages behave in system Chrome, for whichever representative pages it resolved | Anything about a representative it never resolved (reported `SKIP`), and anything at all when it exits `4` |
+| `pnpm b4push` | Retained circuit tests, strict project Python gates, host types and CAD/model checks, build, site checks and generated output drift/idempotency under one outer heavy guard | Browser behavior; run a browser suite separately |
+| `pnpm test:model-viewer:browser` | The project's 12 named component representatives render at two widths and two themes, with viewer, dialog, no-JS, navigation and illustrative-model assertions | Anything about electrical performance or hardware fit; it requires a built site and Chrome |
+| `pnpm exec zudo-circuit-doc check-browser` | Additional scaffold browser coverage for configured representatives or up to 3 derived representatives | Anything about a representative it never resolved (reported `SKIP`), and anything at all when it exits `4` |
 | `pnpm exec zudo-circuit-doc validate --online` | Retained non-volatile source hashes still match the bytes the URLs serve today | That the documents support the recorded claims; it never alters retained evidence |
 | `pnpm previews:generate`, `pnpm exec zudo-circuit-doc footprints check` | Footprint SVG previews are rendered from, and match, the selected footprints | Dimensional correctness or pin correspondence; a preview is a rendering |
 | `pnpm circuit:doctor` | Which required and optional tools are present | That any check passes |
 
 ### `check-browser` representative pages
 
-`check-browser` resolves which pages to exercise in this order:
+The scaffold `check-browser` resolves which pages to exercise in this order:
 
 1. `--representatives <json>` on the command line.
 2. `browserSmoke.representatives` in `circuit.config.ts`, used exactly as configured — even an explicit empty list.
 3. Otherwise, up to 3 representatives **derived** from the preflight report: published record slugs, sorted, filtered to the ones whose generated page has a decodable component-references section (a reviewed PDF, a footprint and a WRL model), and, once the site is built, whose built output carries the matching marker and assets. A derived run prints `INFO: using derived representatives: ...`.
 
 A declared-zero project (nothing published) is a `SKIP`, not a failure. If records are published but derivation finds none that qualifies, the command exits `4` rather than silently checking nothing — set `browserSmoke.representatives` in `circuit.config.ts` to name pages explicitly.
+
+The project smoke is separate because its 12 representative list also covers the `rec-c335982` document gap and the illustrative inductor model note. For a local browser run, serialize both the heavy process and browser launch:
+
+```sh
+bash "$HOME/.codex/scripts/heavy-guard.sh" -- bash "$HOME/.claude/scripts/playwright-guard.sh" --wait 300 -- pnpm test:model-viewer:browser
+```
+
+Exit 75 from `heavy-guard` means the suite did not run; read its `verdict=` line first, retry `ENV_SUSPECT` once, and defer a persistent environment failure. Exit 75 from `playwright-guard` means another browser session owns the slot; wait and retry. Exit 4 for a missing optional browser is `not run`, never a pass, and does not satisfy a mandatory issue or PR browser gate.
 
 ## Exit codes
 

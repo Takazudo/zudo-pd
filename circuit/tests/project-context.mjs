@@ -11,6 +11,6 @@ export const CIRCUIT_PUBLICATION_MATRIX = mapped.matrix;
 export const CIRCUIT_SELECTION = mapped.selection;
 export const CIRCUIT_DOCUMENT_VERIFICATION = await json(join(root, "circuit/publication/document-verification.json"));
 export const readEvidenceIndex = (options = {}) => packageRead({paths: mapped.paths, selection: mapped.selection, reference: mapped.reference, ...options});
-export const createCircuitAdapter = (options = {}) => packageAdapter({paths: mapped.paths, selection: mapped.selection, reference: mapped.reference, ...options});
+export const createCircuitAdapter = (options = {}) => packageAdapter({paths: mapped.paths, selection: mapped.selection, reference: mapped.reference, matrix: mapped.matrix, ...options});
 
 export * from "@takazudo/zudo-circuit-doc";

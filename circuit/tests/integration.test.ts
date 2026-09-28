@@ -509,7 +509,8 @@ describe("evidence-chain stages with nothing recorded against them", () => {
   it("marks every barren stage on the committed page for the real corpus", async () => {
     // The fixture carries one; the real chain carries five, and those five are
     // the ones a reader actually meets. The committed page is deterministic and
-    // `check:components` proves it is fresh, so asserting on it is cheap.
+    // The root package contract and generated-output gate prove it is current,
+    // so asserting on this committed page is cheap.
     const committed = await readFile(
       join(GENERATED_ROOT, "integration", "index.mdx"),
       "utf8",

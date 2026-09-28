@@ -151,7 +151,17 @@ python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py -
 ```
 
 Run schematic verification per `scripts/schgen/README.md` after connectivity changes.
-Run `pnpm b4push` inside `doc/` after component publication or documentation changes.
+For documentation changes, run `pnpm circuit:check`, `pnpm check`, `pnpm build`,
+and `pnpm check:site` from the repository root. The root `pnpm b4push` composes
+those checks with the retained circuit tests and project Python gates under one
+outer heavy-run guard. Run browser smoke separately through both machine guards:
+
+```sh
+bash "$HOME/.codex/scripts/heavy-guard.sh" -- bash "$HOME/.claude/scripts/playwright-guard.sh" --wait 300 -- pnpm test:model-viewer:browser
+```
+
+Report an unavailable optional browser as a skip or deferred check, never as a
+pass; it does not satisfy a mandatory browser acceptance gate.
 A staged validator PASS may skip gates; read every printed skip and use strict mode
 for final validation.
 
@@ -173,6 +183,7 @@ a local checkpoint. Preparing an export is not a new order. Use the existing
 `.claude/skills/l-bump-version-*` workflows only when that versioning action is requested.
 
 Repository map: `boards/` projects; `scripts/schgen/` specs and checks; `.claude/skills/`
-evidence; `symbols/` and `footprints/kicad/` assets; `doc/` documentation; `3dp-files/`
-the current adhesive-leg prototype. `doc/CLAUDE.md` and `footprints/CLAUDE.md`
-provide local rules.
+evidence; `symbols/` and `footprints/kicad/` assets; `circuit/` package config,
+project checks and publication contracts; `doc/` authored/generated documentation;
+`3dp-files/` the current adhesive-leg prototype. `doc/CLAUDE.md` and
+`footprints/CLAUDE.md` provide local rules.

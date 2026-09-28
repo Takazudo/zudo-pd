@@ -11,7 +11,9 @@ sidebar_position: 3
 | `.claude/skills/component-*/` | Evidence bundles for parts and owned subordinate records |
 | `.claude/skills/circuit-spec-integration/` | Cross-component rules and open validation domains |
 | `symbols/`, `footprints/kicad/` | Canonical symbols, footprints and models |
-| `doc/component-docs/` | Component catalog and preview generation |
+| `circuit.config.ts`, `circuit/` | Installed package configuration, reviewed publication policy, project checks and retained regressions |
+| `@takazudo/zudo-circuit-doc` | Installed component validator, renderer, preview UI and CLI; package patch provenance is in `patches/README.md` |
+| `doc/src/content/docs/components/` | Generated component catalog; never hand-edit |
 | `doc/src/content/docs/` | Current documentation and historical references |
 | [Manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md) | Fabrication stack, assembly scope and qualification limits |
 | [Corner-support review destination](https://github.com/Takazudo/zudo-pd/tree/main/manufacturing/releases/corner-support-review) | Current prototype export destination and reports; native PCB layout and power-path checks pass |
@@ -23,13 +25,13 @@ sidebar_position: 3
 ## Run the documentation locally
 
 ```sh
-cd doc
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
 The site runs at `http://localhost:4321`. A component watcher regenerates the catalog
 when source evidence changes; the history service runs on port 4322.
 
-Use `pnpm b4push` for documentation checks. Hardware checks are separate; see the
-[component-first workflow](./component-first-design.md).
+Use `pnpm b4push` for the guarded repository quality gate. Hardware checks remain
+separate; see the [component-first workflow](./component-first-design.md) and
+`circuit/ARCHITECTURE.md` at the repository root.

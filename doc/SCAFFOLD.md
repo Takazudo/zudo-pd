@@ -64,7 +64,9 @@ explicit package representatives are supplementary.
 Temporary runtime bridge: project #210 and upstream #103–107. Keep the committed patch until
 released behavior passes the retained compatibility regressions; upstream issue closure alone
 is insufficient. No records, candidates, evidence fields or hardware checks were dropped.
-Legacy component-docs is inert for generation/build/dev and remains for #208 caller/test retirement.
+The retired `doc/component-docs/` generator, callers and implementation tests are removed by
+#208. The committed component pages and their stable history remain under
+`doc/src/content/docs/components/`.
 
 ## Retained baseline origin
 

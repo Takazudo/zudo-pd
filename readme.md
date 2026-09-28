@@ -60,13 +60,16 @@ human-readable component catalog.
 
 The [documentation site](https://pd.takazudomodular.com) uses zudo-doc, MDX and Preact.
 
+Run from the repository root after a frozen workspace install:
+
 ```sh
-cd doc
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `http://localhost:4321`. Run `pnpm b4push` for documentation validation.
+Open `http://localhost:4321`. `pnpm build` prepares the selected models and
+component pages before the site build; `pnpm b4push` runs the complete guarded
+repository check.
 
 ## Design files
 

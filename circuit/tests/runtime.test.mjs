@@ -52,11 +52,13 @@ test('thin host imports package SSR, islands and stylesheet; project browser kee
  assert.equal(mapped.config.browserSmoke.representatives.length,3);
  const styles=await readFile(join(packageRoot,'styles.css'),'utf8');assert.match(styles,/\.zcd-evidence-table\s*\{[^}]*overflow-x:\s*auto/u);assert.match(styles,/\.zcd-evidence-table table\s*\{[^}]*min-width:/u);
 });
-test('root gates precede writers, host build stays zfb-only and dev uses package watch',async()=>{
+test('root gates precede writers, host build stays zfb-only and dev uses the package watcher',async()=>{
  const p=await json(join(root,'package.json')),d=await json(join(root,'doc/package.json'));
  assert.match(p.scripts['circuit:prepare'],/^pnpm circuit:project-check && zudo-circuit-doc models && zudo-circuit-doc generate$/u);
  assert.match(p.scripts.build,/^pnpm circuit:prepare &&/u);assert.match(p.scripts['circuit:project-check'],/validate.py --strict.*check_forward_tests.py --strict/u);
- assert.equal(d.scripts.build,'zfb build');assert.match(d.scripts['dev:circuit'],/zudo-circuit-doc generate --watch/u);
- for(const key of ['build','dev','generate:components','generate:models','dev:components'])assert.doesNotMatch(d.scripts[key],/component-docs\//u,key);
+ assert.match(p.scripts['b4push'],/circuit\/scripts\/run-b4push\.sh/u);assert.match(p.scripts['circuit:check-generated'],/check-generated-drift\.sh/u);
+ assert.equal(d.scripts.build,'zfb build');assert.match(d.scripts['dev:circuit'],/zudo-circuit-doc generate --watch --config circuit\.config\.ts/u);
+ for(const key of ['generate:components','generate:models','test:components','b4push'])assert.equal(d.scripts[key],undefined,`legacy doc alias ${key} remains`);
+ for(const key of ['build','circuit:generate','circuit:models','circuit:check-generated','b4push'])assert.doesNotMatch(p.scripts[key]??'',/doc\/component-docs\//u,key);
  assert.match(p.scripts.check,/footprints check/u);assert.match(p.scripts.check,/models --check/u);assert.match(p.scripts['check:site'],/strict-anchors --strict-broken/u);assert.match(p.scripts['check:site'],/check-built-fragment-links/u);assert.match(p.scripts['check:site'],/check-zfb-link-warnings/u);
 });
