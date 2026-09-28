@@ -31,3 +31,8 @@ Additional runtime CSS bridge source: https://github.com/Takazudo/zudo-circuit-d
 (long package-caption intrinsic sizing). The controlled live-CSS experiment preserves full
 identity while containing the model at375px; remove only when published CSS and unchanged
 48-case browser assertions pass per runtime tracker #210.
+
+Additional runtime accessibility bridge source:
+https://github.com/Takazudo/zudo-circuit-doc/issues/110 (enlarged footprint image alt text).
+Keep the hunk until a published runtime retains the exact image description and the
+unchanged ordinary package/project browser gates pass under tracker #210.

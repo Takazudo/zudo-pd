@@ -149,3 +149,18 @@ the manager reruns all 48 project width/theme cases as the actual geometry proof
 CSS guidance applied: `flexbox-and-grid/grid-patterns.mdx` and
 `text-control/long-url-and-path-wrapping.mdx` from zudo-css-wisdom. Identity remains plain
 copyable text; no new renderer or host-specific preview stylesheet was introduced.
+
+## Enlarged footprint image alternative text
+
+The ordinary package 24-case browser gate passed on integrated base 14b015b, and the
+project 48-case suite passed representative geometry before finding an accessibility
+regression in the controller footprint dialog: the installed island used an empty
+`alt` on its enlarged image while the inline image and named modal used
+`Footprint preview for <exact footprint name>`. The legacy baseline retained this image
+description. The runtime bridge now reuses the same exact descriptive alt on the enlarged
+image; named media-only modal structure, error fallback, focus/interaction behavior and
+browser assertions/timeouts remain unchanged. Upstream:
+https://github.com/Takazudo/zudo-circuit-doc/issues/110; runtime removal tracker #210.
+A controlled-state installed-island regression reproduces the empty-alt failure, then
+exercises the actual trigger, exact inline/enlarged/title identity, rendered image alt,
+media-only children and meaningful error fallback without launching a browser.
