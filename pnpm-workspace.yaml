@@ -6,6 +6,7 @@ allowBuilds:
   workerd: true
 patchedDependencies:
   '@takazudo/zudo-circuit-doc@0.1.0': patches/@takazudo__zudo-circuit-doc@0.1.0.patch
+  '@takazudo/zudo-doc@5.27.0': patches/@takazudo__zudo-doc@5.27.0.patch
 # Frozen-install evidence: hono 4.13.10 published 2026-09-28T08:20:13Z;
 # this reviewed transitive lock entry is the sole release-age exception.
 minimumReleaseAgeExclude:
