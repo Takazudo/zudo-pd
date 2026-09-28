@@ -1,0 +1,13 @@
+import config from '../../circuit.config.ts';
+import type { CircuitConfig } from '@takazudo/zudo-circuit-doc/config';
+import type { ComponentReferencesDescriptor, InventoryLine, PublicPlacement, PublicRecordIdentity, PublicRecordReference, PublicPackagePreview, InstanceSelection } from '@takazudo/zudo-circuit-doc';
+const compatibleConfig: CircuitConfig = config;
+const placements: PublicPlacement[] = [{ board: 'a' as PublicPlacement['board'], refdes: 'R1' as PublicPlacement['refdes'], dnp: true }];
+const optionalCards: ComponentReferencesDescriptor = { version: 1, document: null, footprint: null, modelDescriptor: null };
+const deniedOwner: PublicRecordIdentity['ownerSkill'] = null;
+const deniedMembership: PublicPackagePreview['recordIds'] = null;
+const unavailableDocument: PublicRecordReference['document'] = null;
+const unavailableModel: PublicPackagePreview['modelPath'] = null;
+const lineWithoutLegacyDnp: Pick<InventoryLine, 'placements'> = {placements: [{board:'a',refdes:'R1',dnp:false}]};
+const exceptions: InstanceSelection['documentExceptions'] = [{recordId:'rec-example',reason:'No reviewed manufacturer document.'}];
+void [compatibleConfig,placements,optionalCards,deniedOwner,deniedMembership,unavailableDocument,unavailableModel,lineWithoutLegacyDnp,exceptions];

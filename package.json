@@ -1,0 +1,22 @@
+{
+  "name": "zudo-pd-workspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "circuit:project-check": "python3 .claude/skills/component-spec-audit/scripts/validate.py --strict && python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py --strict",
+    "circuit:prepare": "pnpm circuit:project-check && zudo-circuit-doc models && zudo-circuit-doc generate",
+    "circuit:check": "pnpm circuit:project-check && zudo-circuit-doc validate && zudo-circuit-doc check",
+    "circuit:doctor": "zudo-circuit-doc doctor",
+    "test:compatibility": "node --test circuit/tests/compatibility*.test.mjs && tsc --noEmit --strict --skipLibCheck --allowImportingTsExtensions --module NodeNext --moduleResolution NodeNext --target ES2023 circuit/tests/compatibility-types.ts"
+  },
+  "devDependencies": {
+    "@takazudo/zudo-circuit-doc": "^0.1.0",
+    "@takazudo/zfb": "2.21.0",
+    "@takazudo/zudo-doc": "5.27.0",
+    "preact": "^10.29.1",
+    "preact-render-to-string": "^6.6.6",
+    "esbuild": "^0.28.0",
+    "typescript": "^5.9.0"
+  }
+}
