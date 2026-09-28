@@ -14,3 +14,20 @@ patched 0.1.0 resolution. Registry-only dependencies have no vendored file copy;
 are recorded where the scaffold supplies them. See doc/SCAFFOLD.md for every copied/derived
 path, deliberate sitemap disablement and initializer README #102 correction. Never change
 the KiCad renderer pin while updating host dependencies without separate byte/hash review.
+
+Additional runtime bridge source: https://github.com/Takazudo/zudo-circuit-doc/issues/108
+(headless foreground launcher restoration); still tracked under project #210.
+
+| Path | Source | Full commit / version | Date | Track | Sync | Reason |
+|---|---|---|---|---|---|---|
+| patches/@takazudo__zudo-doc@5.27.0.patch; root workspace/lock | zudolab/zudo-doc registry, shipped dist/extract-headings/index.js | 5.27.0; source pin 50cbd5c6c9e5a795d72a74a855e105e4939d4eab | 2026-09-29 | temporary project bridge | Inspect released native-heading parity; remove only after #211 checks | Complete protected entity decoding and correct code fences; upstream #4428 |
+
+Both root/doc consumers resolve this same patched SDK. This bridge is independent of runtime
+#210; see https://github.com/Takazudo/zudo-pd/issues/211 and
+https://github.com/zudolab/zudo-doc/issues/4428 for release prerequisites. All exported
+synchronous helper signatures and declarations are unchanged.
+
+Additional runtime CSS bridge source: https://github.com/Takazudo/zudo-circuit-doc/issues/109
+(long package-caption intrinsic sizing). The controlled live-CSS experiment preserves full
+identity while containing the model at375px; remove only when published CSS and unchanged
+48-case browser assertions pass per runtime tracker #210.

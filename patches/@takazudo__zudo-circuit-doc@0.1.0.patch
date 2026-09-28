@@ -11,6 +11,34 @@ index 7106cf94f7ad63e2709aeadd9dd2aa7765ea1792..1f27fd63fa7704787f56215dcad45c1b
 +  "candidate_required": ["candidate_id", "mpn", "manufacturer", "lcsc", "package", "function", "owner_skill", "status", "replaces_line_id", "rationale"],
 +  "candidate_states": ["SHORTLISTED", "REJECTED", "NEEDS EVIDENCE"]
  }
+diff --git a/lib/browser-smoke/chrome.js b/lib/browser-smoke/chrome.js
+index be497c78ba10df2e4979e144716ae825e85210aa..2019dd178f71f8a7d85f98e87f78b4fa187c95f3 100644
+--- a/lib/browser-smoke/chrome.js
++++ b/lib/browser-smoke/chrome.js
+@@ -1,3 +1,4 @@
++// Temporary launcher bridge: https://github.com/Takazudo/zudo-circuit-doc/issues/108; https://github.com/Takazudo/zudo-pd/issues/210.
+ /**
+  * System Chrome discovery and lifecycle (ADR-017): headless, sandboxed by
+  * `--no-sandbox` (containers/CI never have user namespaces for the real
+@@ -58,6 +59,10 @@ export async function launchChrome(bin) {
+         "--no-sandbox",
+         "--disable-dev-shm-usage",
+         "--disable-extensions",
++        // Project #210 bridge: preserve baseline foreground rAF scheduling.
++        "--disable-background-timer-throttling",
++        "--disable-renderer-backgrounding",
++        "--disable-backgrounding-occluded-windows",
+         "--enable-unsafe-swiftshader",
+         "--remote-debugging-port=0",
+         `--user-data-dir=${profile}`,
+@@ -73,6 +78,7 @@ export async function launchChrome(bin) {
+             throw new Error("Chrome page target was not available");
+         cdp = await connectCdp(page.webSocketDebuggerUrl);
+         await cdp.send("Page.enable");
++        await cdp.send("Page.bringToFront");
+         await cdp.send("Runtime.enable");
+         await cdp.send("Network.enable");
+     }
 diff --git a/lib/cli/commands/scan.js b/lib/cli/commands/scan.js
 index 8c8a95bf98677068eb29dd3b300949a3ecdb5dce..9ad4c79447b8b8e65a10a1b59030855c1d23b09a 100644
 --- a/lib/cli/commands/scan.js
@@ -1528,3 +1556,40 @@ index 277991902f05b69d3907dd3a25ecb4b7f9ed5308..868b7b6e4e74f6699ea47aa6f9a7a5df
  
      # 5. inventory provider
      context.provider_result = context.provider.validate(context.inventory, context.aggregate, config)
+diff --git a/styles.css b/styles.css
+index 9897554c8ac2aa98f5d6b0800d6e31722b933bf7..cd6327cd947fca90297c120baec7c1792d697ae4 100644
+--- a/styles.css
++++ b/styles.css
+@@ -1,3 +1,4 @@
++/* Temporary layout bridge: https://github.com/Takazudo/zudo-circuit-doc/issues/109; https://github.com/Takazudo/zudo-pd/issues/210. */
+ /* @takazudo/zudo-circuit-doc — component-evidence page styles.
+ 
+    Provenance: Takazudo/zudo-led-lamp @ 194d8a297e3545588197342130c3111a66c10973,
+@@ -221,18 +222,27 @@
+ 
+ .zcd-model-viewer {
+   display: grid;
++  grid-template-columns: minmax(0, 1fr);
++  min-width: 0;
+   gap: var(--spacing-vsp-xs);
+   padding: var(--spacing-hsp-lg);
+   border: 1px solid var(--color-muted);
+   background: var(--color-surface);
+ }
+ 
++.zcd-model-viewer > * {
++  min-width: 0;
++}
++
+ .zcd-model-viewer__caption {
+   color: var(--color-fg);
++  overflow-wrap: anywhere;
+ }
+ 
+ .zcd-model-viewer__viewport {
+   width: 100%;
++  min-width: 0;
++  box-sizing: border-box;
+   aspect-ratio: 16 / 9;
+   min-height: 12rem;
+   overflow: hidden;
