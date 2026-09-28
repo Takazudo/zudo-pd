@@ -1,0 +1,1766 @@
+{
+  "viewModelVersion": 2,
+  "provider": {
+    "id": "circuit-component-spec",
+    "contractVersion": 1
+  },
+  "records": {
+    "available": 60,
+    "selected": 60,
+    "slugs": [
+      "ap63201wu-7",
+      "aspi-0630lr-100m-t15",
+      "bzt52c11-c92321",
+      "c110776",
+      "c13585",
+      "c136280",
+      "c14663",
+      "c15849",
+      "c1623",
+      "c1711",
+      "c1729",
+      "c17414",
+      "c17513",
+      "c21189",
+      "c21190",
+      "c22387780",
+      "c22807",
+      "c2286",
+      "c2288",
+      "c2289",
+      "c23159",
+      "c23162",
+      "c23179",
+      "c23186",
+      "c23206",
+      "c25803",
+      "c2832269",
+      "c2983319",
+      "c3024223",
+      "c335982",
+      "c459702",
+      "c492405",
+      "c666306",
+      "c74561",
+      "c8465",
+      "c861077",
+      "c861332",
+      "c861371",
+      "c861519",
+      "c861589",
+      "c970687",
+      "cand-smaj6-5a-c87267",
+      "cya1265-100uh-c19268674",
+      "dealon-dw254p-2x8-l0-c4749189",
+      "grm32er71h106ka12l",
+      "high-diode-smaj20a-c571370",
+      "jst-b6b-xh-a",
+      "lm2596s-adj-c347423",
+      "pesd24vs1ub-c85382",
+      "ptc-bsmd1206-150-16v-c883133",
+      "ptc-msmd110-33v-c70119",
+      "ptc-smd1210p150tf16-c7529589",
+      "rt0603brd0710kl",
+      "rt0603bre07158kl",
+      "smaj15a-c571368",
+      "ss34-c8678",
+      "stusb4500qtr",
+      "type-c-31-m-17",
+      "umw-ao3401a-c347476",
+      "usb-type-c-009-c456012"
+    ]
+  },
+  "sources": {
+    "available": 154,
+    "selected": 154,
+    "linkable": 138,
+    "ids": [
+      "src-ao3401a-board-a-baseline",
+      "src-ao3401a-usb-pd-input-sch",
+      "src-ap63201wu-7-catalog",
+      "src-ap63201wu-7-datasheet",
+      "src-ap63201wu-7-project",
+      "src-aspi-0630lr-100m-t15-catalog",
+      "src-aspi-0630lr-100m-t15-datasheet",
+      "src-aspi-0630lr-100m-t15-manufacturer-step-attempt",
+      "src-aspi-0630lr-100m-t15-model-generator",
+      "src-aspi-0630lr-100m-t15-project",
+      "src-bzt52c11-diodes-primary",
+      "src-bzt52c11-lcsc-identity",
+      "src-c110776-identity",
+      "src-c110776-primary",
+      "src-c13585-boardadoc",
+      "src-c13585-catalog",
+      "src-c13585-page",
+      "src-c136280-identity",
+      "src-c136280-panasonic",
+      "src-c14663-generator",
+      "src-c14663-yageo",
+      "src-c15849-boardadoc",
+      "src-c15849-catalog",
+      "src-c15849-page",
+      "src-c1623-boardbdoc",
+      "src-c1623-catalog",
+      "src-c1623-page",
+      "src-c1711-boardadoc",
+      "src-c1711-yageo",
+      "src-c1729-boardbdoc",
+      "src-c1729-catalog",
+      "src-c1729-page",
+      "src-c17414-generator",
+      "src-c17414-uniroyal",
+      "src-c17513-boardadoc",
+      "src-c17513-uniroyal",
+      "src-c21189-boardadoc",
+      "src-c21189-uniroyal",
+      "src-c21190-boardadoc",
+      "src-c21190-uniroyal",
+      "src-c22387780-boardbdoc",
+      "src-c22387780-datasheet",
+      "src-c22807-generator",
+      "src-c22807-uniroyal",
+      "src-c2286-boardbdoc",
+      "src-c2286-datasheet",
+      "src-c2288-boardbdoc",
+      "src-c2288-datasheet",
+      "src-c2289-boardbdoc",
+      "src-c2289-datasheet",
+      "src-c23159-identity",
+      "src-c23159-primary",
+      "src-c23162-boardadoc",
+      "src-c23162-uniroyal",
+      "src-c23179-boardadoc",
+      "src-c23179-uniroyal",
+      "src-c23186-boardadoc",
+      "src-c23186-uniroyal",
+      "src-c23206-boardadoc",
+      "src-c23206-uniroyal",
+      "src-c25803-boardadoc",
+      "src-c25803-uniroyal",
+      "src-c2832269-drawing",
+      "src-c2832269-lcsc",
+      "src-c2832269-page",
+      "src-c2983319-boardbdoc",
+      "src-c2983319-datasheet",
+      "src-c3024223-identity",
+      "src-c3024223-primary",
+      "src-c335982-identity",
+      "src-c459702-identity",
+      "src-c459702-mirror",
+      "src-c459702-primary-attempt",
+      "src-c492405-drawing",
+      "src-c492405-lcsc",
+      "src-c492405-page",
+      "src-c666306-identity",
+      "src-c666306-mirror",
+      "src-c666306-primary-attempt",
+      "src-c70119-model-review",
+      "src-c74561-identity",
+      "src-c74561-primary",
+      "src-c7529589-model-review",
+      "src-c8465-catalog",
+      "src-c8465-drawing",
+      "src-c8465-model",
+      "src-c8465-project",
+      "src-c861077-identity",
+      "src-c861077-primary",
+      "src-c861332-identity",
+      "src-c861332-primary",
+      "src-c861371-identity",
+      "src-c861371-primary",
+      "src-c861519-identity",
+      "src-c861519-primary",
+      "src-c861589-identity",
+      "src-c861589-primary",
+      "src-c883133-model-review",
+      "src-c970687-boardbdoc",
+      "src-c970687-datasheet",
+      "src-cand-smaj6-5a-brightking-primary",
+      "src-cand-smaj6-5a-lcsc-identity",
+      "src-cya1265-datasheet",
+      "src-dw254p-catalog",
+      "src-dw254p-doepfer",
+      "src-dw254p-drawing",
+      "src-dw254p-project",
+      "src-dw254p-step-normalization",
+      "src-grm32er71h106ka12l-catalog",
+      "src-grm32er71h106ka12l-datasheet",
+      "src-grm32er71h106ka12l-project",
+      "src-jst-board-split-decision",
+      "src-jst-xh-catalog",
+      "src-jst-xh-header",
+      "src-lm2596-board-b-baseline",
+      "src-lm2596-schematic-dcdc",
+      "src-lm2596-umw-ds",
+      "src-pesd24vs1ub-lcsc-identity",
+      "src-pesd24vs1ub-nexperia-primary",
+      "src-ptc1b-smd1210-datasheet",
+      "src-ptc2-msmd110-datasheet",
+      "src-ptc3-bsmd1206-datasheet",
+      "src-rt0603brd0710kl-catalog",
+      "src-rt0603brd0710kl-datasheet",
+      "src-rt0603brd0710kl-project",
+      "src-rt0603bre07158kl-catalog",
+      "src-rt0603bre07158kl-datasheet",
+      "src-rt0603bre07158kl-project",
+      "src-smaj15a-hdiode-primary",
+      "src-smaj15a-lcsc-identity",
+      "src-smaj20a-board-a-baseline",
+      "src-smaj20a-c571370-distributor",
+      "src-smaj20a-c571370-primary",
+      "src-ss34-datasheet",
+      "src-stusb-board-a-baseline",
+      "src-stusb-ds12499",
+      "src-stusb-ds12499-primary-attempt",
+      "src-stusb-ds12499-ratings",
+      "src-stusb-stsw004",
+      "src-stusb-um2398",
+      "src-stusb-um2650",
+      "src-stusb-um2650-primary-attempt",
+      "src-type-c-board-p-generator",
+      "src-type-c-c283540",
+      "src-type-c-primary-drawing",
+      "src-type-c-primary-page",
+      "src-umw-ao3401a-c347476-datasheet",
+      "src-usb-type-c-009-board-a-baseline",
+      "src-usb-type-c-009-bom-v040",
+      "src-usb-type-c-009-kicad-footprint",
+      "src-usb-type-c-009-kicad-symbol",
+      "src-usb-type-c-009-lcsc-catalog",
+      "src-usb-type-c-009-mirror-spec",
+      "src-usb-type-c-009-primary-attempt"
+    ]
+  },
+  "fields": [
+    {
+      "key": "record.recordId",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.slug",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.kind",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.parentRecordId",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.lineId",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.ownerSkill",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 60
+    },
+    {
+      "key": "record.mpn",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.manufacturer",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.lcsc",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.package",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.function",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.identityState",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.sourceState",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.dnp",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "record.placements",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "alias.mpn",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "alias.lcsc",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "alias.manufacturer",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "alias.function",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "routing.positivePrompts",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 60
+    },
+    {
+      "key": "routing.negativePrompts",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 60
+    },
+    {
+      "key": "source.sourceId",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.documentTitle",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.documentNumber",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.revision",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.documentDate",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.retrievalDate",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.authorityClass",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.availability",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.locator",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.printedPageLabel",
+      "decision": "PUBLISH",
+      "emitted": 154,
+      "withheld": 0
+    },
+    {
+      "key": "source.physicalPdfPageIndex",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 154
+    },
+    {
+      "key": "source.authoritativeUrl",
+      "decision": "PUBLISH",
+      "emitted": 138,
+      "withheld": 0
+    },
+    {
+      "key": "source.alternateAuthoritativeUrl",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 154
+    },
+    {
+      "key": "source.sha256",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 154
+    },
+    {
+      "key": "source.evidenceExtract",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 154
+    },
+    {
+      "key": "fact.factId",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.class",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.value",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.unit",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.conditions",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.locator",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.provenance",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.verdict",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.dependsOn",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "fact.expression",
+      "decision": "PUBLISH",
+      "emitted": 622,
+      "withheld": 0
+    },
+    {
+      "key": "coverage.coverageId",
+      "decision": "PUBLISH",
+      "emitted": 175,
+      "withheld": 0
+    },
+    {
+      "key": "coverage.domain",
+      "decision": "PUBLISH",
+      "emitted": 175,
+      "withheld": 0
+    },
+    {
+      "key": "coverage.status",
+      "decision": "PUBLISH",
+      "emitted": 175,
+      "withheld": 0
+    },
+    {
+      "key": "coverage.reason",
+      "decision": "PUBLISH",
+      "emitted": 175,
+      "withheld": 0
+    },
+    {
+      "key": "coverage.factIds",
+      "decision": "PUBLISH",
+      "emitted": 175,
+      "withheld": 0
+    },
+    {
+      "key": "coverage.blockingFactIds",
+      "decision": "PUBLISH",
+      "emitted": 175,
+      "withheld": 0
+    },
+    {
+      "key": "interaction.interactionId",
+      "decision": "PUBLISH",
+      "emitted": 47,
+      "withheld": 0
+    },
+    {
+      "key": "interaction.recordIds",
+      "decision": "PUBLISH",
+      "emitted": 47,
+      "withheld": 0
+    },
+    {
+      "key": "interaction.factIds",
+      "decision": "PUBLISH",
+      "emitted": 47,
+      "withheld": 0
+    },
+    {
+      "key": "interaction.conditions",
+      "decision": "PUBLISH",
+      "emitted": 47,
+      "withheld": 0
+    },
+    {
+      "key": "interaction.verdict",
+      "decision": "PUBLISH",
+      "emitted": 47,
+      "withheld": 0
+    },
+    {
+      "key": "integration.ruleId",
+      "decision": "PUBLISH",
+      "emitted": 11,
+      "withheld": 0
+    },
+    {
+      "key": "integration.ownerSkill",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 11
+    },
+    {
+      "key": "integration.domain",
+      "decision": "PUBLISH",
+      "emitted": 11,
+      "withheld": 0
+    },
+    {
+      "key": "integration.recordIds",
+      "decision": "PUBLISH",
+      "emitted": 11,
+      "withheld": 0
+    },
+    {
+      "key": "integration.factIds",
+      "decision": "PUBLISH",
+      "emitted": 11,
+      "withheld": 0
+    },
+    {
+      "key": "integration.conditions",
+      "decision": "PUBLISH",
+      "emitted": 11,
+      "withheld": 0
+    },
+    {
+      "key": "integration.verdict",
+      "decision": "PUBLISH",
+      "emitted": 11,
+      "withheld": 0
+    },
+    {
+      "key": "integration.refusal",
+      "decision": "PUBLISH",
+      "emitted": 11,
+      "withheld": 0
+    },
+    {
+      "key": "integration.calculationId",
+      "decision": "PUBLISH",
+      "emitted": 20,
+      "withheld": 0
+    },
+    {
+      "key": "integration.calculationFactIds",
+      "decision": "PUBLISH",
+      "emitted": 20,
+      "withheld": 0
+    },
+    {
+      "key": "integration.calculationExpression",
+      "decision": "PUBLISH",
+      "emitted": 20,
+      "withheld": 0
+    },
+    {
+      "key": "integration.calculationResultKey",
+      "decision": "PUBLISH",
+      "emitted": 20,
+      "withheld": 0
+    },
+    {
+      "key": "integration.calculationResults",
+      "decision": "PUBLISH",
+      "emitted": 20,
+      "withheld": 0
+    },
+    {
+      "key": "integration.calculationConditions",
+      "decision": "PUBLISH",
+      "emitted": 20,
+      "withheld": 0
+    },
+    {
+      "key": "integration.evidenceChainStage",
+      "decision": "PUBLISH",
+      "emitted": 9,
+      "withheld": 0
+    },
+    {
+      "key": "integration.evidenceChainStatus",
+      "decision": "PUBLISH",
+      "emitted": 9,
+      "withheld": 0
+    },
+    {
+      "key": "integration.evidenceChainFactIds",
+      "decision": "PUBLISH",
+      "emitted": 9,
+      "withheld": 0
+    },
+    {
+      "key": "pinMap.pinMapId",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "pinMap.symbol",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "pinMap.footprint",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "pinMap.pins",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "pinMap.reviewedBy",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 60
+    },
+    {
+      "key": "reference.document.sourceId",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "reference.document.documentTitle",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "reference.document.label",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "reference.document.authorityClass",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "reference.document.url",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "reference.document.availability",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "reference.document.documentKind",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "reference.footprint.packageId",
+      "decision": "PUBLISH",
+      "emitted": 94,
+      "withheld": 0
+    },
+    {
+      "key": "reference.footprint.name",
+      "decision": "PUBLISH",
+      "emitted": 94,
+      "withheld": 0
+    },
+    {
+      "key": "reference.footprint.path",
+      "decision": "PUBLISH",
+      "emitted": 94,
+      "withheld": 0
+    },
+    {
+      "key": "reference.model.path",
+      "decision": "PUBLISH",
+      "emitted": 94,
+      "withheld": 0
+    },
+    {
+      "key": "reference.model.offset",
+      "decision": "PUBLISH",
+      "emitted": 94,
+      "withheld": 0
+    },
+    {
+      "key": "reference.model.rotation",
+      "decision": "PUBLISH",
+      "emitted": 94,
+      "withheld": 0
+    },
+    {
+      "key": "reference.model.scale",
+      "decision": "PUBLISH",
+      "emitted": 94,
+      "withheld": 0
+    },
+    {
+      "key": "reference.package.recordIds",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 34
+    },
+    {
+      "key": "corpus.counts",
+      "decision": "PUBLISH",
+      "emitted": 1,
+      "withheld": 0
+    },
+    {
+      "key": "asset.datasheetPdf",
+      "decision": "PUBLISH",
+      "emitted": 59,
+      "withheld": 0
+    },
+    {
+      "key": "asset.footprintPreview",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "asset.modelPreview",
+      "decision": "PUBLISH",
+      "emitted": 60,
+      "withheld": 0
+    },
+    {
+      "key": "asset.binary",
+      "decision": "DENY",
+      "emitted": 0,
+      "withheld": 0
+    }
+  ],
+  "urls": [
+    {
+      "sourceId": "src-ao3401a-board-a-baseline",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/c89c1541fbd6315c9d41fd4f55737368ebcb7bbf/scripts/schgen/baselines/board-a.json",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ao3401a-usb-pd-input-sch",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/9f4d6240f1f5c14660e0bbb62c256139e15c54ef/usb-pd-input.kicad_sch",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ap63201wu-7-catalog",
+      "url": "https://www.lcsc.com/product-detail/C2071044.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ap63201wu-7-datasheet",
+      "url": "https://www.diodes.com/datasheet/download/AP63200-AP63201-AP63203-AP63205.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ap63201wu-7-project",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-aspi-0630lr-100m-t15-catalog",
+      "url": "https://www.lcsc.com/product-detail/C1334133.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-aspi-0630lr-100m-t15-datasheet",
+      "url": "https://abracon.com/Magnetics/power/ASPI-0630LR.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-aspi-0630lr-100m-t15-manufacturer-step-attempt",
+      "url": "https://abracon.com/Support/STEP/Magnetics/ASPI-0630LR.STEP.zip",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-aspi-0630lr-100m-t15-model-generator",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-aspi-0630lr-100m-t15-project",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-bzt52c11-diodes-primary",
+      "url": "https://www.diodes.com/assets/Datasheets/ds18004.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-bzt52c11-lcsc-identity",
+      "url": "https://www.lcsc.com/product-detail/C92321.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c110776-identity",
+      "url": "https://www.lcsc.com/product-detail/C110776.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c110776-primary",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD071KL",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c13585-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c13585-catalog",
+      "url": "https://www.samsungsem.com/resources/file/jp/support/product_catalog/MLCC_2512.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c13585-page",
+      "url": "https://product.samsungsem.com/part/download.do?masterKey=CL31A106KBHNNN&type=specsheet",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c136280-identity",
+      "url": "https://www.lcsc.com/product-detail/C136280.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c136280-panasonic",
+      "url": "https://industrial.panasonic.com/cdbs/www-data/pdf/AAB8000/AAB8000C177.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c14663-generator",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c14663-yageo",
+      "url": "https://yageogroup.com/download/specsheet/CC0603KRX7R9BB104",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c15849-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c15849-catalog",
+      "url": "https://www.samsungsem.com/resources/file/jp/support/product_catalog/MLCC_2512.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c15849-page",
+      "url": "https://product.samsungsem.com/part/download.do?masterKey=CL10A105KB8NNN&type=specsheet",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1623-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1623-catalog",
+      "url": "https://www.samsungsem.com/resources/file/jp/support/product_catalog/MLCC_2512.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1623-page",
+      "url": "https://product.samsungsem.com/part/download.do?masterKey=CL10B474KA8NNN&type=specsheet",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1711-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1711-yageo",
+      "url": "https://yageogroup.com/download/specsheet/CC0805KRX7R9BB104",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1729-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1729-catalog",
+      "url": "https://www.samsungsem.com/resources/file/jp/support/product_catalog/MLCC_2512.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c1729-page",
+      "url": "https://product.samsungsem.com/part/download.do?masterKey=CL21B223KBANNN&type=specsheet",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c17414-generator",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c17414-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c17513-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c17513-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c21189-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c21189-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c21190-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c21190-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c22387780-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c22387780-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/30f4522801a8597017c6a369f1ae2a55.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c22807-generator",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c22807-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2286-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2286-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/011ec3e8cb1e825f6961d29bc4db4c7a.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2288-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2288-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/1096dc34dcf507e4677a7d79542be828.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2289-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2289-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/26e5131f4b051119ebc8b24acf5eb4fa.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23159-identity",
+      "url": "https://www.lcsc.com/product-detail/C23159.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23159-primary",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23162-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23162-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23179-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23179-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23186-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23186-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23206-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c23206-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c25803-boardadoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c25803-uniroyal",
+      "url": "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2832269-drawing",
+      "url": "https://www.xfconn.com/uploads/soft/20240726/4-240H6142542948.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2832269-lcsc",
+      "url": "https://www.lcsc.com/product-detail/C2832269.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2832269-page",
+      "url": "https://www.xfconn.com/index.php?a=index&aid=1953&c=View&m=home",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2983319-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c2983319-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/f76751dd68fab11b5416a14bab337a4c.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c3024223-identity",
+      "url": "https://jlcpcb.com/partdetail/DiodesIncorporated-SDT5A60SA13/C3024223",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c3024223-primary",
+      "url": "https://www.diodes.com/datasheet/download/SDT5A60SA.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c335982-identity",
+      "url": "https://www.lcsc.com/product-detail/C335982.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c459702-identity",
+      "url": "https://www.lcsc.com/product-detail/C459702.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c459702-mirror",
+      "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Analog-Devices-LT1963AEQ-TRPBF_C459702.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c459702-primary-attempt",
+      "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/1963aff.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c492405-drawing",
+      "url": "https://www.xfconn.com/uploads/soft/20240711/4-240G11122102R.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c492405-lcsc",
+      "url": "https://www.lcsc.com/product-detail/C492405.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c492405-page",
+      "url": "https://www.xfconn.com/Product/1737.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c666306-identity",
+      "url": "https://www.lcsc.com/product-detail/C666306.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c666306-mirror",
+      "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Analog-Devices-LT3015EQ-PBF_C666306.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c666306-primary-attempt",
+      "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/3015fb.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c70119-model-review",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c74561-identity",
+      "url": "https://jlcpcb.com/partdetail/Littelfuse-SMAJ16A/C74561",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c74561-primary",
+      "url": "https://jlc-prod-smt.oss-eu-central-1.aliyuncs.com/smtDataManualFile/8588880421753139200-C74561.pdf?response-content-disposition=attachment%3B%20filename%3DC74561.pdf%3B%20filename%2A%3DUTF-8%27%27C74561.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c7529589-model-review",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c8465-catalog",
+      "url": "https://jlcpcb.com/partdetail/C8465",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c8465-drawing",
+      "url": "https://jlcpcb.com/api/file/downloadByFileSystemAccessId/8588887098661752832",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c8465-model",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c8465-project",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c861077-identity",
+      "url": "https://www.lcsc.com/product-detail/C861077.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861077-primary",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD0710K5L",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861332-identity",
+      "url": "https://www.lcsc.com/product-detail/C861332.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861332-primary",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD0733RL",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861371-identity",
+      "url": "https://www.lcsc.com/product-detail/C861371.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861371-primary",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD073K09L",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861519-identity",
+      "url": "https://www.lcsc.com/product-detail/C861519.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861519-primary",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD07680RL",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861589-identity",
+      "url": "https://www.lcsc.com/product-detail/C861589.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c861589-primary",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD078K2L",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c883133-model-review",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c970687-boardbdoc",
+      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c970687-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/f0a865b841864fb1f67292a6eb3bf84a.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-cand-smaj6-5a-brightking-primary",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/19d0bf098ced4b4fbeb7d738e7c6c181.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-cand-smaj6-5a-lcsc-identity",
+      "url": "https://www.lcsc.com/product-detail/C87267.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-cya1265-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/a6999c23fb11ed816e56e7de88bdbdc8.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-dw254p-catalog",
+      "url": "https://jlcpcb.com/partdetail/DEALON-DW254P_2X8L0/C4749189",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-dw254p-doepfer",
+      "url": "https://doepfer.de/faq/a100_faq.htm",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-dw254p-drawing",
+      "url": "https://atta.szlcsc.com/upload/public/pdf/source/20220715/13406C65796E725EF3D69163836E583E.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-dw254p-project",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/main/footprints/kicad/IDC-TH_16P-P2.54_321016RG0ABK00A01.kicad_mod",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-dw254p-step-normalization",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-grm32er71h106ka12l-catalog",
+      "url": "https://www.lcsc.com/product-detail/C77102.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-grm32er71h106ka12l-datasheet",
+      "url": "https://datasheets.b-cdn.net/files/GRM32ER71H106KA12L-Murata-datasheet-12553172.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-grm32er71h106ka12l-project",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-jst-board-split-decision",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/078a7bf13bfba95bd92acdaab59cc4debcd26ce5/doc/src/content/docs/inbox/board-split-decision.md",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-jst-xh-catalog",
+      "url": "https://www.jst.com/wp-content/uploads/2025/06/eXH.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-jst-xh-header",
+      "url": "https://www.jst.com/wp-content/uploads/2025/06/eXH.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-lm2596-board-b-baseline",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/c89c1541fbd6315c9d41fd4f55737368ebcb7bbf/scripts/schgen/baselines/board-b.json",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-lm2596-schematic-dcdc",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/1e053e1ae1b943ac9539e0d5f79a180e4dceabe1/dc-dc-conversion.kicad_sch",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-lm2596-umw-ds",
+      "url": "https://www.umw-ic.com/static/pdf/08a395a0d66ae7472f74e2947a1d8a0f.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-pesd24vs1ub-lcsc-identity",
+      "url": "https://www.lcsc.com/product-detail/C85382.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-pesd24vs1ub-nexperia-primary",
+      "url": "https://assets.nexperia.com/documents/data-sheet/PESD24VS1UB.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ptc1b-smd1210-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/95664877074e59702390e7479561744e.pdf?productCode=C20808",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ptc2-msmd110-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/83a52b00a3fb00da0260c29eb7f73d7d.pdf?productCode=C70119",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ptc3-bsmd1206-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/536516336d784fb8e1d4d3f7dabf668c.pdf?productCode=C883133",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-rt0603brd0710kl-catalog",
+      "url": "https://www.lcsc.com/product-detail/C95204.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-rt0603brd0710kl-datasheet",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD0710KL",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-rt0603brd0710kl-project",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-rt0603bre07158kl-catalog",
+      "url": "https://www.lcsc.com/product-detail/C861679.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-rt0603bre07158kl-datasheet",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRE07158KL",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-rt0603bre07158kl-project",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-smaj15a-hdiode-primary",
+      "url": "http://www.h-diode.com/upload/202506/10/202506100145085933.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-smaj15a-lcsc-identity",
+      "url": "https://www.lcsc.com/product-detail/C571368.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-smaj20a-board-a-baseline",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/c89c1541fbd6315c9d41fd4f55737368ebcb7bbf/scripts/schgen/baselines/board-a.json",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-smaj20a-c571370-distributor",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/491c1abda5fbc387430efce58160a2e0.pdf?productCode=C571370",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-smaj20a-c571370-primary",
+      "url": "http://www.h-diode.com/upload/202506/10/202506100145085933.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-ss34-datasheet",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/dfa1ff67dea875d0135103ba9ada713a.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-board-a-baseline",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/c89c1541fbd6315c9d41fd4f55737368ebcb7bbf/scripts/schgen/baselines/board-a.json",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-ds12499",
+      "url": "https://web.archive.org/web/20231016233405id_/http://www.st.com/resource/en/datasheet/stusb4500.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-ds12499-primary-attempt",
+      "url": "https://www.st.com/resource/en/datasheet/stusb4500.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-ds12499-ratings",
+      "url": "https://web.archive.org/web/20231016233405id_/http://www.st.com/resource/en/datasheet/stusb4500.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-stsw004",
+      "url": "https://www.st.com/resource/en/data_brief/stsw-stusb004.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-um2398",
+      "url": "https://www.st.com/resource/en/user_manual/um2398-getting-started-with-the-stevalisc005v1-evaluation-board-for-stusb4500-stmicroelectronics.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-um2650",
+      "url": "https://web.archive.org/web/20231016233356id_/http://www.st.com/resource/en/user_manual/um2650-the-stusb4500-software-programing-guide-stmicroelectronics.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-stusb-um2650-primary-attempt",
+      "url": "https://www.st.com/resource/en/user_manual/um2650-the-stusb4500-software-programing-guide-stmicroelectronics.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-type-c-board-p-generator",
+      "url": "",
+      "decision": "DENY",
+      "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-type-c-c283540",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/26d9c5bff410f020782d77a1fd4062b2.pdf?productCode=C283540",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-type-c-primary-drawing",
+      "url": "https://omo-oss-file110.thefastfile.com/portal-saas/new2023011311465142457/cms/file/134891b2-9b01-4104-89d3-96207243f692.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-type-c-primary-page",
+      "url": "https://en.krhro.com/Product-Details/722.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-umw-ao3401a-c347476-datasheet",
+      "url": "https://www.umw-ic.com/static/pdf/c9d58224f731ff9fc35c005d79a7a9bf.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-usb-type-c-009-board-a-baseline",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/38b5a44f3a5b948ad16f4343eefc31cb50ec91ac/scripts/schgen/baselines/board-a.json",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-usb-type-c-009-bom-v040",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/38b5a44f3a5b948ad16f4343eefc31cb50ec91ac/jlcpcb-order-snapshots/v0_4_0/used-for-order/BOM-zudo-pd.csv",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-usb-type-c-009-kicad-footprint",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/38b5a44f3a5b948ad16f4343eefc31cb50ec91ac/footprints/kicad/zudo-power.pretty/TYPE-C-SMD_TYPE-C-6P.kicad_mod",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-usb-type-c-009-kicad-symbol",
+      "url": "https://raw.githubusercontent.com/Takazudo/zudo-pd/38b5a44f3a5b948ad16f4343eefc31cb50ec91ac/symbols/zudo-pd.kicad_sym",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-usb-type-c-009-lcsc-catalog",
+      "url": "https://www.lcsc.com/product-detail/C456012.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-usb-type-c-009-mirror-spec",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/68548ae186bce8dcee36d39654e737cb.pdf?productCode=C456012",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-usb-type-c-009-primary-attempt",
+      "url": "https://www.sohantech.com/usb-type-c-connector/",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    }
+  ],
+  "counts": {
+    "generatedPages": 64,
+    "publishedCoverageDomains": 175,
+    "publishedFacts": 622,
+    "publishedIntegrationRules": 11,
+    "publishedInteractions": 41,
+    "publishedPinMaps": 60,
+    "publishedRecords": 60,
+    "publishedSources": 154
+  }
+}

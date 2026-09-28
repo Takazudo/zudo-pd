@@ -38,5 +38,10 @@ export default {
   },
   cad: { enabled: true, libraryName: "zudo-pd", symbolLibraries: ["symbols/zudo-pd.kicad_sym"], footprintMasterRoot: "footprints/kicad", footprintLibraryRoot: "footprints/kicad/zudo-power.pretty", modelRoot: "footprints/kicad/zudo-pd.3dshapes", modelLocatorPrefix: "${KIPRJMOD}/../../footprints/kicad/zudo-pd.3dshapes/", previewRenderer: { image: "kicad/kicad@sha256:e638b79b0321f29395a5b783e94bb9f3c73303e8da15da27b8f5cb4b67a37729", version: "9.0.9", platform: "linux/amd64", layers: ["F.Cu", "F.Silkscreen", "F.Fabrication", "F.Courtyard"], theme: "KiCad Default", options: ["--black-and-white"] } },
   validation: { pythonMinVersion: "3.12" },
+  browserSmoke: { representatives: [
+    { kind: "passive", path: "/docs/components/records/c1623/", slug: "c1623", identity: "CL10B474KA8NNNC" },
+    { kind: "controller", path: "/docs/components/records/stusb4500qtr/", slug: "stusb4500qtr", identity: "STUSB4500QTR" },
+    { kind: "synth connector", path: "/docs/components/records/dealon-dw254p-2x8-l0-c4749189/", slug: "dealon-dw254p-2x8-l0-c4749189", identity: "DW254P-2X8-L0" },
+  ] },
   scan: { minimumSiteCanaries: 150, minimumSiteFiles: 50, positiveControlRecord: "stusb4500qtr" },
 } satisfies CircuitConfig;

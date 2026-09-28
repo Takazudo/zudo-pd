@@ -1,5 +1,4 @@
 packages: [ "doc" ]
-minimumReleaseAge: 0
 allowBuilds:
   esbuild: true
   lefthook: true
@@ -7,3 +6,7 @@ allowBuilds:
   workerd: true
 patchedDependencies:
   '@takazudo/zudo-circuit-doc@0.1.0': patches/@takazudo__zudo-circuit-doc@0.1.0.patch
+# Frozen-install evidence: hono 4.13.10 published 2026-09-28T08:20:13Z;
+# this reviewed transitive lock entry is the sole release-age exception.
+minimumReleaseAgeExclude:
+  - 'hono@4.13.10'

@@ -24,7 +24,10 @@ export default defineConfig(
     sidebarResizer: true,
     sidebarToggle: true,
     imageEnlarge: true,
-    sitemap: true,
+    tocToggle: true,
+    assetViewer: true,
+    strictContentBridge: true,
+    sitemap: false,
     dynamicPageTransition: true,
     // The publication matrix exposes reviewed component evidence, not raw skills.
     claudeResources: false,

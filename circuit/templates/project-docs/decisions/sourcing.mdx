@@ -1,0 +1,57 @@
+---
+title: "BOM and sourcing decisions"
+description: "Population policy, assembly choices, dated supply observations, and procurement rationale."
+sidebar_position: 20
+---
+
+This page explains procurement and population choices. It is not a manually maintained replacement for the canonical component inventory or a generated assembly BOM. No order, quote, stock check, or assembly plan exists by virtue of this template.
+
+## Intended build
+
+| Field | Entry |
+|---|---|
+| Build or prototype ID | Not assigned |
+| Design revision being considered | Not entered |
+| Quantity and purpose | Not entered |
+| Assembly method or provider | Not entered |
+| Required delivery date, if any | Not entered |
+| Applicable generated BOM and placement outputs | Not generated or not entered |
+| Quote reference and observation date | Not obtained or not entered |
+
+## Population policy
+
+Describe how this project distinguishes fitted assembly parts, hand-fitted parts, intentionally unpopulated positions, test-only features, and geometry with no purchased part. Record population per placement in the inventory (`dnp`, `mounting`) and explain the reasoning here.
+
+| Design feature or placement reference | Intended population | Reason | Design or decision reference |
+|---|---|---|---|
+| Not entered | Not decided | Not entered | Not entered |
+
+Population belongs to a particular design revision or build variant. The same component may be fitted in one build and omitted in another. Do not encode the project's selection by modifying a shared generic footprint's supplier identity.
+
+## Sourcing observations
+
+| Component record | Supplier observation reference | Checked at | Quantity or assembly assumption | Recheck trigger |
+|---|---|---|---|---|
+| No component entered | Not obtained | Not entered | Not entered | Not entered |
+
+Store exact part mapping, observed stock, pricing, tier, currency, and source provenance in the component evidence bundle (inventory `suppliers` entries are display-only order codes). This page explains why those observations matter to the build. A dated observation does not reserve parts or establish that the assembler supports the intended process.
+
+## Cost reasoning
+
+Explain which costs drive the decision: parts, setup charges, minimum quantities, board runs, tooling, manual assembly, shipping, or rework. Link a dated estimate or quote and identify the quantity and assumptions behind it.
+
+If changing the build arrangement is expected to reduce cost, describe the new constraints it creates. Preserve the difference between a rough estimate, a supplier quotation, and a completed purchase.
+
+## Alternate parts and unavailable items
+
+| Affected component | Procurement problem | Candidate alternative record | Compatibility work required | Decision reference |
+|---|---|---|---|---|
+| Not entered | Not entered | Not researched | Not assessed | Not entered |
+
+A similar label, package, or catalog number is a candidate for investigation. Evaluate exact identity, pin mapping, ratings under applicable conditions, behavior, mechanical fit, firmware implications, and assembly compatibility before treating it as a replacement.
+
+## Build reconciliation
+
+Before an order or handoff is prepared, record which source revision produced the BOM and placement data, how population exclusions were handled, and whether the exported identities match the intended placements. If orientation or assembler conventions apply, link their explicit review rather than assuming the preview proves all fields.
+
+Save each order or manufacturing handoff against its own revision. Changes after ordering belong in a new change note, not in a silently revised description of the ordered assembly.
