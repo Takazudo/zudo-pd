@@ -574,7 +574,17 @@ async function exerciseFootprintDialog(cdp) {
   await waitFor(cdp, `document.querySelector(${JSON.stringify(dialogSelector)})?.open`);
   assertEqual(await evaluate(cdp, `document.activeElement === document.querySelector(${JSON.stringify(dialogSelector)}).querySelector('.zcd-preview-dialog__close')`), true, "footprint dialog moves focus to close");
   assertEqual(await evaluate(cdp, `document.querySelector(${JSON.stringify(dialogSelector)}).matches(':modal')`), true, "footprint dialog is modal");
-  assertEqual(await evaluate(cdp, `document.querySelector(${JSON.stringify(dialogSelector)}).querySelector('img')?.alt.startsWith('Footprint preview for ')`), true, "enlarged footprint retains alt text");
+  const footprintIdentity = await evaluate(cdp, `(() => {
+    const inline = document.querySelector('.zcd-component-references__footprint img');
+    const footprintName = document.querySelector('.zcd-component-references__footprint figcaption code')?.textContent.trim();
+    const dialog = document.querySelector(${JSON.stringify(dialogSelector)});
+    return { footprintName, inlineAlt: inline?.alt, dialogLabel: dialog.getAttribute('aria-label'), imageAlt: dialog.querySelector('img')?.alt, labelledBy: dialog.hasAttribute('aria-labelledby') };
+  })()`);
+  assertEqual(Boolean(footprintIdentity.footprintName), true, "inline footprint names the complete shared package");
+  assertEqual(footprintIdentity.inlineAlt, `Footprint preview for ${footprintIdentity.footprintName}`, "inline footprint retains exact complete image identity");
+  assertEqual(footprintIdentity.dialogLabel, footprintIdentity.inlineAlt, "named footprint modal preserves exact inline image identity");
+  assertEqual(footprintIdentity.imageAlt, "", "enlarged footprint is decorative within its exactly named media modal");
+  assertEqual(footprintIdentity.labelledBy, false, "footprint modal does not reference a removed title");
   const layout = await evaluate(cdp, `(() => {
     const content = document.querySelector(${JSON.stringify(dialogSelector)}).querySelector('.zcd-preview-dialog__content');
     const image = content.querySelector(':scope > img');

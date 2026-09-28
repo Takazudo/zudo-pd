@@ -150,17 +150,24 @@ CSS guidance applied: `flexbox-and-grid/grid-patterns.mdx` and
 `text-control/long-url-and-path-wrapping.mdx` from zudo-css-wisdom. Identity remains plain
 copyable text; no new renderer or host-specific preview stylesheet was introduced.
 
-## Enlarged footprint image alternative text
+## Named footprint modal accessibility contract (supersedes the alt bridge)
 
-The ordinary package 24-case browser gate passed on integrated base 14b015b, and the
-project 48-case suite passed representative geometry before finding an accessibility
-regression in the controller footprint dialog: the installed island used an empty
-`alt` on its enlarged image while the inline image and named modal used
-`Footprint preview for <exact footprint name>`. The legacy baseline retained this image
-description. The runtime bridge now reuses the same exact descriptive alt on the enlarged
-image; named media-only modal structure, error fallback, focus/interaction behavior and
-browser assertions/timeouts remain unchanged. Upstream:
-https://github.com/Takazudo/zudo-circuit-doc/issues/110; runtime removal tracker #210.
-A controlled-state installed-island regression reproduces the empty-alt failure, then
-exercises the actual trigger, exact inline/enlarged/title identity, rendered image alt,
-media-only children and meaningful error fallback without launching a browser.
+The earlier migration directive interpreted the project prefix-only enlarged-image alt
+assertion as an SDK defect and temporarily restored nonempty image alt under #110.
+The combined manager gate then proved that conflicts with the intentional SDK contract:
+the media-only modal carries the full accessible description through `aria-label`, while
+its enlarged image is decorative (`alt=""`) to avoid a duplicate description. That
+inappropriate bridge is removed; the shipped footprint island and first-line client
+directive are restored unchanged. #110 is an intentional-design correction, not a runtime
+#210 removal prerequisite.
+
+The separate project browser contract now checks the complete semantic identity rather
+than the old prefix: inline image alt exactly equals `Footprint preview for <full package
+name>`; modal aria-label exactly equals that inline description; enlarged image alt is
+empty; no aria-labelledby points at the removed visible title. All other modal, focus,
+media containment, load/error, gesture, no-JS, idle assertions and timings are retained.
+The installed-island regression exercises the actual trigger, real dialog SSR markup,
+exact identity, decorative image and meaningful error fallback with only hooks/modal
+effects controlled, without launching a browser. This is the documented package UI
+adaptation; no component identity is hidden or truncated. Correction tracking:
+https://github.com/Takazudo/zudo-circuit-doc/issues/110.
