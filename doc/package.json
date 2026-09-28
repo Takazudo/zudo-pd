@@ -5,49 +5,40 @@
   "type": "module",
   "packageManager": "pnpm@11.5.2",
   "scripts": {
-    "dev": "pnpm generate:components && run-p dev:zfb dev:history dev:components",
-    "build": "pnpm generate:models && pnpm generate:components && zfb build",
+    "dev": "pnpm --dir .. circuit:prepare && run-p dev:zfb dev:history dev:circuit",
+    "build": "zfb build",
     "preview": "zfb preview",
     "check": "zfb check",
     "check:html": "html-validate \"dist/**/*.html\"",
-    "generate:components": "node --experimental-strip-types component-docs/cli/generate.ts",
-    "check:components": "node --experimental-strip-types component-docs/cli/check.ts",
-    "scan:components": "node --experimental-strip-types component-docs/cli/scan.ts",
-    "test:components": "node --experimental-strip-types --test \"component-docs/tests/*.test.ts\"",
-    "dev:components": "node --experimental-strip-types component-docs/cli/generate.ts --watch",
-    "generate:footprint-previews": "node --experimental-strip-types component-docs/footprint-previews/generate.ts",
-    "check:footprint-previews": "node --experimental-strip-types component-docs/footprint-previews/check.ts",
-    "generate:models": "node --experimental-strip-types component-docs/cli/models.ts",
-    "check:models": "node --experimental-strip-types component-docs/cli/models.ts --check",
-    "test:model-viewer:browser": "node component-docs/scripts/model-viewer-browser-smoke.mjs",
-    "check:built-component-references": "node scripts/check-built-component-references.mjs",
-    "check:fragment-links": "node component-docs/scripts/check-built-fragment-links.mjs",
-    "b4push": "pnpm check && pnpm test:components && pnpm check:footprint-previews && pnpm check:models && pnpm build && pnpm check:built-component-references && pnpm check:fragment-links && pnpm check:components && pnpm scan:components",
-    "format:md": "../scripts/mdx-format.sh --write \"src/content/docs/**/*.{md,mdx}\" --ignore \"node_modules/**,dist/**,build/**,.git/**,worktrees/**,src/content/docs/components/**\"",
-    "format:md:check": "../scripts/mdx-format.sh --check \"src/content/docs/**/*.{md,mdx}\" --ignore \"node_modules/**,dist/**,build/**,.git/**,worktrees/**,src/content/docs/components/**\"",
-    "prepare": "cd .. && lefthook install --reset-hooks-path",
+    "format:md": "pnpm --dir .. format:md",
+    "format:md:check": "pnpm --dir .. format:md:check",
     "dev:zfb": "zfb dev",
-    "dev:history": "doc-history-server --port 4322 --content-dir src/content/docs"
+    "dev:history": "doc-history-server --port 4322 --content-dir src/content/docs",
+    "check:links": "node scripts/check-links.js",
+    "dev:zfb:network": "zfb dev --host 0.0.0.0",
+    "dev:network": "run-parallel dev:zfb:network dev:history",
+    "dev:circuit": "pnpm --dir .. exec zudo-circuit-doc generate --watch --config circuit.config.ts"
   },
   "dependencies": {
-    "@takazudo/zfb": "2.16.0",
-    "@takazudo/zfb-runtime": "2.16.0",
-    "@takazudo/zfb-adapter-cloudflare": "2.16.0",
-    "@takazudo/zfb-md-wasm": "2.16.0",
-    "@takazudo/zudo-doc": "5.21.0",
-    "zod": "^4.0.0",
+    "@takazudo/zfb": "2.21.0",
+    "@takazudo/zfb-runtime": "2.21.0",
+    "@takazudo/zfb-adapter-cloudflare": "2.21.0",
+    "@takazudo/zfb-md-wasm": "2.21.0",
+    "@takazudo/zudo-doc": "5.27.0",
+    "zod": "^4.3.6",
     "preact": "^10.29.1",
     "preact-render-to-string": "^6.6.6",
     "gray-matter": "^4.0.0",
     "mermaid": "11.15.0",
     "katex": "^0.16.38",
     "diff": "^8.0.3",
-    "@takazudo/zudo-doc-history-server": "5.21.0",
+    "@takazudo/zudo-doc-history-server": "5.27.0",
     "mdast-util-to-markdown": "^2.1.2",
     "mdast-util-mdx": "^3.0.0",
     "mdast-util-gfm-table": "^2.0.0",
     "three": "0.185.1",
-    "@takazudo/zdtp": "0.7.0"
+    "@takazudo/zdtp": "0.7.0",
+    "@takazudo/zudo-circuit-doc": "^0.1.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.0",
@@ -60,13 +51,5 @@
     "lefthook": "^2.1.9",
     "@types/three": "0.185.3",
     "npm-run-all2": "^7.0.2"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lefthook",
-      "sharp",
-      "workerd"
-    ]
   }
 }

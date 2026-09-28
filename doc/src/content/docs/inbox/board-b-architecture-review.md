@@ -357,7 +357,7 @@ verification before Board B's design is frozen.
 
 ## Reference
 
-- Net tables above follow [Net-Table + Mermaid Convention](../how-to/net-table-convention.md).
+- Net tables above follow [Net-Table + Mermaid Convention](../project/net-table-convention.md).
 - `.claude/skills/pd-schematic-review/SKILL.md` — the checklist this review implements.
 - Raw netlist export used: `__inbox/zudo-pd-netlist.xml` (gitignored; regenerate with
   `kicad-cli sch export netlist --format kicadxml`).

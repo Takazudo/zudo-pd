@@ -2,19 +2,14 @@
 #
 # Triggered on PRs targeting `main` or any `base/**` worktree base branch (so
 # topic PRs that target a base branch also get a preview), when the PR touches
-# doc/, component evidence under .claude/skills/, canonical footprint
-# geometry, or this workflow. Pipeline: type check -> footprint/model checks
-# -> component generator tests -> build -> built-reference check -> link
-# check -> fragment check -> generated-docs drift check -> component
-# projection drift check -> denied-value scan over the built bytes -> deploy
-# preview (wrangler versions upload --preview-alias) -> route smoke test ->
-# sticky PR comment.
+# site sources, circuit configuration/evidence/CAD, the root workspace or a
+# workflow. Pipeline: root strict checks -> retained project tests -> build ->
+# publication/link/browser checks -> generated drift/idempotency -> Cloudflare
+# preview alias -> route smoke test -> sticky PR comment.
 #
-# Everything up to and including the scan is CREDENTIAL-FREE and mandatory,
-# and it is `pnpm b4push` plus two steps b4push cannot express as one command:
-# the generated-output drift check (it needs a clean git index, not a script)
-# and the link check (it needs the build's captured log). Only the last three
-# steps need Cloudflare secrets.
+# Every build, publication, strict link and project browser gate is credential-
+# free and mandatory. Only preview upload and its route smoke need Cloudflare
+# credentials.
 #
 # Secret gating: same readiness-step pattern as main-deploy.yml — the
 # `secrets` context is not available in job-level `if:` expressions. Until
@@ -35,17 +30,24 @@ on:
       - main
       - "base/**"
     paths:
+      - "readme.md"
+      - "package.json"
+      - "pnpm-workspace.yaml"
+      - "pnpm-lock.yaml"
+      - "patches/**"
+      - "circuit.config.ts"
+      - "circuit/**"
       - "doc/**"
-      # Component evidence outside doc/ that generate:components reads —
-      # see CLAUDE.md "Component & Circuit Work — Route to Skills".
       - ".claude/skills/**"
-      # Canonical package geometry is outside doc/, but is hashed by the
-      # committed footprint-preview / model manifests.
-      - "footprints/**/*.kicad_mod"
-      - "footprints/**/*.wrl"
-      - "footprints/**/*.step"
+      - "boards/**"
+      - "symbols/**"
+      - "footprints/**"
+      - "scripts/schgen/**"
       - "CLAUDE.md"
-      - ".github/workflows/pr-checks.yml"
+      - "AGENTS.md"
+      - "lefthook.yml"
+      - "scripts/mdx-format.sh"
+      - ".github/workflows/**"
 
 concurrency:
   group: pr-checks-${{ github.event.pull_request.number }}
@@ -59,22 +61,12 @@ jobs:
   checks-and-preview:
     name: Check and Preview Deploy
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     env:
-      # Written by "Build site", read by "Hand-authored links resolve". Just
-      # the filename: the steps put it under $RUNNER_TEMP themselves, which
-      # keeps it outside the workspace — a stray log file inside it would be
-      # one more thing the generated-output drift check has to not trip over.
-      #
-      # The directory cannot be baked in here. `${{ runner.temp }}` does not
-      # resolve in job-level `env` (the `runner` context does not exist yet),
-      # and it does not merely fail the step — GitHub rejects the entire
-      # workflow file, so no job runs and the failure surfaces as the bare
-      # filename with no logs to read. `RUNNER_TEMP` is an ordinary
-      # environment variable in every `run:` step, so the steps below join
-      # the two at the point of use.
-      BUILD_LOG_NAME: doc-build.log
+      # Captures the build command's combined output separately from the
+      # ZUDO_DOC_BUILD_LOG written by the root build wrapper for link checks.
+      BUILD_LOG_NAME: build-output.log
 
     steps:
       # SHA-pinned like the other two workflows — a mutable tag is a
@@ -82,6 +74,9 @@ jobs:
       # disagree about which checkout/pnpm/node/python they get.
       - name: Checkout repository
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          # doc-history needs complete history to populate authored page metadata.
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
@@ -93,40 +88,28 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: doc/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
-      # `pnpm build` runs `generate:components` first, which shells out to the
-      # component-spec validator (python3). Pinned to the same 3.12 as
-      # component-spec-skills.yml and main-deploy.yml so the three never
-      # disagree, rather than relying on whatever the runner image ships.
+      # The project contract and generator require Python 3.12.
       - name: Setup Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
 
       - name: Install dependencies
-        working-directory: doc
         run: pnpm install --frozen-lockfile
 
-      - name: Type check
-        working-directory: doc
+      - name: Strict project and package validation
+        run: pnpm circuit:check
+
+      - name: Host, CAD and model checks
         run: pnpm check
 
-      # The doc-engine generator's own suites: publication matrix, branded
-      # types, adapter joins, renderers, denied-field canaries. Runs before
-      # the build because a matrix regression is easier to read as a failing
-      # assertion than as a diff in generated MDX.
-      - name: Component generator tests
-        working-directory: doc
-        run: pnpm test:components
+      - name: Retained circuit tests
+        run: pnpm test:circuit
 
-      - name: Footprint previews are current and safe
-        working-directory: doc
-        run: pnpm check:footprint-previews
-
-      - name: Published package models are safe and up to date
-        working-directory: doc
-        run: pnpm check:models
+      - name: Installed package compatibility and declarations
+        run: pnpm test:compatibility
 
       # The build log is written to a file rather than the console: it
       # carries ~2500+ zfb link warnings that are all false (see the next
@@ -134,7 +117,8 @@ jobs:
       # hides in. On failure the whole log is printed, so nothing is lost
       # when it matters.
       - name: Build site
-        working-directory: doc
+        env:
+          ZUDO_DOC_BUILD_LOG: ${{ runner.temp }}/doc-build.log
         run: |
           BUILD_LOG="$RUNNER_TEMP/$BUILD_LOG_NAME"
           if pnpm build >"$BUILD_LOG" 2>&1; then
@@ -150,74 +134,19 @@ jobs:
             exit "$status"
           fi
 
-      - name: Built component references are complete and minimal
-        working-directory: doc
-        run: pnpm check:built-component-references
-
-      - name: Package model viewer browser smoke
-        working-directory: doc
+      - name: Project model viewer browser smoke
         run: pnpm test:model-viewer:browser
 
-      # LINK INTEGRITY — the decision, because neither obvious option is
-      # right. See doc/component-docs/scripts/check-zfb-link-warnings.sh for
-      # the full rationale and the three known-false classes it tolerates
-      # (generated-record `#fact-*` anchors, schemdraw circuit-SVG
-      # dimension-probe warnings, and doc-history plugin progress output).
-      - name: Hand-authored links resolve
-        working-directory: doc
-        run: bash component-docs/scripts/check-zfb-link-warnings.sh "$RUNNER_TEMP/$BUILD_LOG_NAME"
+      - name: Additional package browser smoke
+        run: pnpm exec zudo-circuit-doc check-browser
 
-      # FRAGMENT INTEGRITY — the half the log gate structurally cannot cover.
-      # zfb resolves `#fragment` against heading anchors only and, with
-      # `onBrokenLinks: "warn"`, never fails a build; a dead hand-authored
-      # anchor is not even WARNED about, so the step above sees a clean log
-      # and passes. Verified by injecting one: build exit 0, zero warning
-      # lines naming it, log gate exit 0, this step exit 1.
-      #
-      # This reads the ids out of `dist/` rather than slugifying headings —
-      # zfb's strategy is HIERARCHICAL (an h3's id carries its parent h2's
-      # slug) and keeps unicode, which is exactly what 18 hand-written
-      # anchors got wrong. See the script header.
-      - name: Hand-authored fragments resolve against built ids
-        working-directory: doc
-        run: pnpm check:fragment-links
+      - name: Built publication, links and fragments
+        env:
+          ZUDO_DOC_BUILD_LOG: ${{ runner.temp }}/doc-build.log
+        run: pnpm check:site
 
-      # THE drift authority for every committed generated file. `pnpm build`
-      # rewrites doc/src/content/docs/components/ AND
-      # doc/component-docs/preflight.json via generate:components. A source
-      # edit under .claude/skills/, a CLAUDE.md, or the generator itself that
-      # lands without a rebuild leaves the committed output stale; this fails
-      # the PR instead of merging it. The preview-asset tree is included too
-      # — check:footprint-previews / check:models above verify hashes against
-      # the committed manifest, but nothing before this step proves the
-      # SVG/WRL bytes themselves are the ones actually committed. Same
-      # contract as main-deploy.yml.
-      #
-      # `--intent-to-add` is required: a newly generated page arrives
-      # UNTRACKED, and `git diff` cannot see untracked files on its own — a PR
-      # adding a record without committing its page would otherwise pass.
-      - name: Generated output is committed and up to date
-        run: |
-          git add --intent-to-add -A -- doc/src/content/docs doc/component-docs/preflight.json doc/public/assets/component-previews
-          git diff --exit-code -- doc/src/content/docs doc/component-docs/preflight.json doc/public/assets/component-previews
-
-      # The SECOND generation run, which makes this pair the two-run
-      # idempotency check: `build` projected and wrote the tree, this
-      # re-projects from the evidence and proves the result byte-identical.
-      # Run-to-run nondeterminism would otherwise surface as an intermittent
-      # diff on some unrelated PR; here it fails where it is caused, naming
-      # the files that moved.
-      - name: Component generation is deterministic
-        working-directory: doc
-        run: pnpm check:components
-
-      # Denied-value scan over the BUILT bytes — after the MDX compiler, the
-      # HTML minifier and the search indexer have each had a turn. Runs here,
-      # after `build`, because `dist/` is its input, and it has no skip path:
-      # a missing `dist/` fails rather than passing silently.
-      - name: Denied-value scan over the built site
-        working-directory: doc
-        run: pnpm scan:components
+      - name: Generated output is committed and deterministic
+        run: pnpm circuit:check-generated
 
       - name: Check secret readiness
         id: readiness
@@ -246,30 +175,9 @@ jobs:
         working-directory: doc
         run: |
           PR_NUMBER="${{ github.event.pull_request.number }}"
-          ALIAS="pr-${PR_NUMBER}"
-          # wrangler versions upload prints the stable preview-alias URL
-          # (on *.workers.dev — requires workers_dev = true and
-          # preview_urls = true in wrangler.toml) to stdout/stderr. Capture
-          # both via tee and grep the alias URL line. Pinned to the same
-          # `wrangler@4` main-deploy.yml uses — zudo-pd has no `wrangler` in
-          # devDependencies to read a version from.
-          DEPLOY_LOG=$(mktemp)
-          npx wrangler@4 versions upload \
-            --preview-alias "$ALIAS" \
-            2>&1 | tee "$DEPLOY_LOG"
-          # `|| true` is required: under GitHub Actions' default `bash -eo pipefail`,
-          # grep finding no match makes this assignment's pipeline fail, which would
-          # abort the script here (skipping the graceful "no URL yet" handling below)
-          # instead of falling through to it.
-          DEPLOY_URL=$(grep -oE "https://${ALIAS}-[a-z0-9.-]+\.workers\.dev" "$DEPLOY_LOG" | head -1 || true)
-          echo "deploy_url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
-          if [ -z "$DEPLOY_URL" ]; then
-            # Non-fatal: the worker upload can succeed with no printed
-            # preview-alias URL (e.g. workers.dev subdomain not enabled yet).
-            echo "::warning::No preview-alias URL found in wrangler output. Worker upload succeeded."
-            exit 0
-          fi
-          echo "Preview URL: $DEPLOY_URL"
+          # Explicit top-level environment; only bootstrap a missing preview
+          # Worker. Failed uploads and missing URLs must fail this gate.
+          bash ../circuit/scripts/deploy-preview.sh "$PR_NUMBER"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -310,7 +218,7 @@ jobs:
           # A status code alone would still pass if the worker answered with
           # a rendered shell carrying no evidence. One exact MPN from the
           # record route makes the check non-vacuous — the same identity
-          # string scan:components asserts in the built page.
+          # built-site text check asserts on the rendered page.
           # Captured into a variable rather than piped into `grep -q`: under
           # this shell's `pipefail`, grep exiting on the first match kills
           # curl with SIGPIPE and the pipeline reports failure on a

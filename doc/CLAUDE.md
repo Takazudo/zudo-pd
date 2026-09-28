@@ -7,10 +7,12 @@ are registered through `src/chrome-bindings.tsx`.
 
 ## Content ownership
 
-- `getting-started/`: project brief, evidence limits and repository entry points.
+- `project/`: project brief, evidence limits, repeatable design procedures and repository entry points.
 - `architecture/`: current board roles, interfaces, component map and release gates.
+- `research/`: orientation to existing research and exploratory records.
+- `decisions/`: project decisions linked to their retained rationale.
+- `verification/`: assembly, bring-up and test procedures with explicit evidence limits.
 - `components/`: generated catalog, exact records and integration evidence; never hand-edit.
-- `how-to/`: repeatable design and manufacturing procedures.
 - `archive/`: guide to historical material. `overview/`, `inbox/`, `learning/` and
   `misc/` keep stable URLs and explicit historical banners.
 
@@ -20,26 +22,33 @@ and diagnostic records, including their evidence anchors.
 
 The catalog is a reviewed projection of repo-root `.claude/skills/`. Its publication
 matrix deliberately leaves raw skills unpublished (`claudeResources: false`). Read
-`component-docs/ARCHITECTURE.md` before changing the projection. Generated evidence
-already carries source provenance, so generated-page git history is excluded from
-the history UI.
+[`circuit/ARCHITECTURE.md`](../circuit/ARCHITECTURE.md) before changing the projection.
+The installed `@takazudo/zudo-circuit-doc` package owns the renderer and generated
+component runtime; `circuit.config.ts` and `circuit/publication/` hold this project's
+configuration and reviewed publication choices. Generated evidence already carries
+source provenance, so generated-page git history is excluded from the history UI.
 
 ## Commands
 
 ```sh
 pnpm dev                       # zfb :4321 + history :4322 + component watcher
-pnpm dev:zfb                   # zfb alone, accepts additional zfb flags
-pnpm generate:components       # regenerate human component pages
-pnpm generate:models           # copy reviewed public models
-pnpm generate:footprint-previews # regenerate SVG geometry with the KiCad toolchain
-pnpm check                     # TypeScript
-pnpm build                     # generated assets/pages + static HTML
-pnpm b4push                    # component tests, assets, build, links and publication scans
+pnpm --dir doc dev:zfb         # zfb alone, accepts additional zfb flags
+pnpm circuit:generate          # regenerate component pages and preflight report
+pnpm circuit:models            # publish reviewed public models
+pnpm previews:generate         # render SVGs with the pinned KiCad toolchain
+pnpm check                     # generated drift, CAD/model parity and site types
+pnpm build                     # validate, publish models, generate and build
+pnpm check:site                # publication, scan, link and fragment gates
+pnpm b4push                    # complete guarded local repository quality gate
 ```
 
-Use the committed lockfile. Deployment is configured by `wrangler.toml` and the
-repository workflow; local builds do not deploy. A successful doc build does not
-validate hardware or authorize an order.
+Run `pnpm install --frozen-lockfile` from the repository root; the root lockfile
+pins the patched package and zudo-doc scaffold. Deployment uses the Cloudflare
+adapter in `wrangler.toml` and the repository workflows; local builds do not deploy.
+A successful doc build does not validate hardware or authorize an order. The root
+`pnpm b4push` is wrapped by one outer heavy guard when available. Browser checks run
+separately through the guard; report `SKIP`, exit 4, contention and deferred results
+accurately rather than as passes.
 
 ## Authoring rules
 

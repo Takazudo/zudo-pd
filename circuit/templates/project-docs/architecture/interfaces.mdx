@@ -1,0 +1,52 @@
+---
+title: "Interfaces and connections"
+description: "Explicit boundaries between circuit blocks, external devices, firmware, and mechanical parts."
+sidebar_position: 20
+---
+
+This page explains interface contracts for the [architecture](./overview.mdx). Populate only interfaces that exist or are actively proposed. It is not a generated pin catalog.
+
+## Interface inventory
+
+| Interface ID | Endpoint A | Endpoint B | Purpose | Intended representation | Current status |
+|---|---|---|---|---|---|
+| Not entered | Not entered | Not entered | Not entered | Schematic, cable drawing, firmware API, or mechanical drawing | Unspecified |
+
+Identify whether each connection is internal, external, removable, accessible during service, or part of a test fixture. State its direction from a named endpoint so “input” and “output” are unambiguous.
+
+## Electrical and configuration contract
+
+For each interface, describe the following in a small section or a linked canonical integration record:
+
+| Question | Project answer | Evidence or design reference |
+|---|---|---|
+| What carries energy, signal, reference, or shielding? | Not entered | Not entered |
+| Which side supplies power or drives each signal? | Not entered | Not entered |
+| Which operating conditions must both endpoints tolerate? | Not entered | Not entered |
+| What happens if only one endpoint is powered? | Not entered | Not entered |
+| What are the startup, reset, and disconnected states? | Not entered | Not entered |
+| Are external pulls, termination, or configuration required? | Not entered | Not entered |
+| Does programming or service equipment create another power path? | Not entered | Not entered |
+| Which conditions remain unproven? | Not entered | Not entered |
+
+Write project-specific requirements here and link exact pin functions, thresholds, defaults, and ratings to the component evidence bundle. If a circuit condition combines several components, link the integration calculation or rule that covers those components together.
+
+## Connector and cable mapping
+
+| Mapping subject | What must be recorded |
+|---|---|
+| Physical identification | Exact connector and mating-part records, keying, orientation and pin-1 reference |
+| View convention | Mating face, cable side, component top, or board side; include a drawing when needed |
+| Electrical mapping | Connector terminal, schematic pin, footprint pad, and intended net reference |
+| Cable construction | Endpoint-to-endpoint mapping, conductor identification and assembly revision |
+| Verification | Continuity or orientation report for the actual assembly, when performed |
+
+A model that visually mates and a footprint that imports successfully do not establish numeric pin correspondence. Keep visual fit, numeric mapping, electrical compatibility, and observed continuity as separately traceable checks.
+
+## Mechanical and firmware boundaries
+
+Record the project constraints that cross disciplines: component height, mounting datum, actuator travel, insertion direction, finger clearance, enclosure opening, sensor location, firmware pin assignment, initialization order, and any persistent configuration. Do not copy a full mechanical drawing into prose; link the asset and its dimensional audit.
+
+## Change triggers
+
+Name changes that require revisiting this contract. Common examples are a new package variant, different mating connector, board-side mounting change, changed signal direction, different default configuration, or an altered service connection. Use a [change-impact note](../project/change-impact.mdx) when applying one of these changes.

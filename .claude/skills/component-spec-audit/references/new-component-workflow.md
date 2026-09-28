@@ -14,16 +14,18 @@ workflow progress; stop and obtain the missing design or review decision.
 ## 1. Lock the circuit identity
 
 1. Add the exact MPN, LCSC ID, symbol, footprint, fields, pins, and connectivity to
-   `scripts/schgen/board_a_spec.py` or `scripts/schgen/board_b_spec.py`, then regenerate
-   the matching committed schematic with the schgen entry point for that board and
-   commit the edited spec and generated `.kicad_sch` together. The footprint field is
+   the matching spec among `scripts/schgen/board_a_spec.py`, `board_b_spec.py`, and
+   `board_p_spec.py`, then regenerate the matching committed schematic with the schgen
+   entry point for that board and commit the edited spec and generated `.kicad_sch`
+   together. The footprint field is
    `zudo-pd:<package>`; the validator rejects any other library nickname.
 2. Add or update the exact line in
    `.claude/skills/component-spec-audit/references/inventory.json`, with one
-   `placements[]` entry per board/refdes carrying its own reviewed `dnp` flag. Update the
-   reviewed `assertions` — including the placement-granular counts, which are the only
-   DNP guard while the generator specs are absent. Do not change validator constants to
-   accommodate corpus growth, and never put `dnp` on the line.
+   `placements[]` entry per board/refdes carrying its own reviewed `dnp` flag. The
+   `led-generator-v1` provider binds placements against the Board A, Board B and Board P
+   generator specs. Update the reviewed `assertions` and generator expectations through
+   their normal reviewed workflow; do not change validator constants to accommodate
+   corpus growth, and never put `dnp` on the line.
 3. For a replacement part that no board places yet, add it to
    `references/candidates.json` instead. It carries the same identity fields plus the
    line it would replace, and it never reuses a placed LCSC.
@@ -75,7 +77,8 @@ workflow progress; stop and obtain the missing design or review decision.
 
 ## 4. Choose what becomes public
 
-1. Explicitly add the record and every public source to the component-docs selection,
+1. Explicitly add the record and every public source to
+   `circuit/publication/selection.json`,
    with exactly one audited document source plus its truthful document kind. Inspect the
    retrieved content: a product page or HTML denial is not a datasheet because its URL
    ends in `.pdf`. Retrieve the candidate only into ignored `tmp/pdfs/`, follow
@@ -96,11 +99,12 @@ workflow progress; stop and obtain the missing design or review decision.
    PYTHONDONTWRITEBYTECODE=1 python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py
    ```
 
-   Read every `STAGED-SKIP:` line before believing a PASS. Once both boards and all
-   owners exist, run the validator with `--strict` and keep it strict.
-2. Regenerate the component documentation and its committed report, review the exact
-   corpus counts, then run the doc gates (`pnpm --dir doc check`, `pnpm --dir doc b4push`).
+   Read every `STAGED-SKIP:` line before believing a PASS. This project already binds
+   Board A, Board B and Board P and validates all 30 owner bundles; keep the validator
+   in strict mode for each change.
+2. From the repository root, run `pnpm circuit:generate`, review the exact corpus counts,
+   then run `pnpm circuit:check`, `pnpm check`, `pnpm build`, and `pnpm check:site`.
    Commit reviewed generated output with its authored source changes; never hand-edit a
-   generated file.
+   generated file. Run `pnpm b4push` for the complete guarded local quality gate.
 3. Opening the regenerated schematic in Eeschema, running ERC, and performing a visual
    pin/orientation review is still required. No offline gate substitutes for it.

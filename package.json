@@ -1,0 +1,41 @@
+{
+  "name": "zudo-pd-workspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "circuit:project-check": "python3 .claude/skills/component-spec-audit/scripts/validate.py --strict && python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py --strict",
+    "circuit:prepare": "pnpm circuit:project-check && zudo-circuit-doc models && zudo-circuit-doc generate",
+    "circuit:check": "pnpm circuit:project-check && zudo-circuit-doc validate",
+    "circuit:check-generated": "bash circuit/scripts/check-generated-drift.sh",
+    "circuit:doctor": "zudo-circuit-doc doctor",
+    "test:compatibility": "node --test circuit/tests/compatibility*.test.mjs && tsc --noEmit --strict --skipLibCheck --allowImportingTsExtensions --module NodeNext --moduleResolution NodeNext --target ES2023 circuit/tests/compatibility-types.ts",
+    "test:model-viewer:browser": "node circuit/scripts/model-viewer-browser-smoke.mjs",
+    "b4push": "bash circuit/scripts/run-b4push.sh",
+    "format:md": "bash scripts/mdx-format.sh --write 'doc/src/content/docs/**/*.{md,mdx}' --ignore 'node_modules/**,dist/**,build/**,.git/**,worktrees/**,doc/src/content/docs/components/**'",
+    "format:md:check": "bash scripts/mdx-format.sh --check 'doc/src/content/docs/**/*.{md,mdx}' --ignore 'node_modules/**,dist/**,build/**,.git/**,worktrees/**,doc/src/content/docs/components/**'",
+    "dev": "bash circuit/scripts/doc-command.sh dev",
+    "build": "pnpm circuit:prepare && bash circuit/scripts/build-doc.sh",
+    "check": "zudo-circuit-doc check && zudo-circuit-doc footprints check && zudo-circuit-doc models --check && node circuit/scripts/check-cad-pairs.mjs && bash circuit/scripts/doc-command.sh check",
+    "circuit:generate": "zudo-circuit-doc generate",
+    "check:site": "zudo-circuit-doc check-built && zudo-circuit-doc scan && pnpm --dir doc check:links -- --strict-anchors --strict-broken && node circuit/scripts/check-built-fragment-links.mjs && bash circuit/scripts/check-zfb-link-warnings.sh",
+    "previews:generate": "zudo-circuit-doc footprints generate",
+    "circuit:models": "zudo-circuit-doc models",
+    "previews:check": "zudo-circuit-doc footprints check",
+    "test:circuit": "node --experimental-strip-types --test circuit/tests/*.test.mjs circuit/tests/*.test.ts",
+    "prepare": "lefthook install --reset-hooks-path"
+  },
+  "devDependencies": {
+    "@takazudo/zudo-circuit-doc": "^0.1.0",
+    "@takazudo/zfb": "2.21.0",
+    "@takazudo/zudo-doc": "5.27.0",
+    "preact": "^10.29.1",
+    "preact-render-to-string": "^6.6.6",
+    "esbuild": "^0.28.0",
+    "typescript": "^5.9.0",
+    "lefthook": "^2.1.9"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

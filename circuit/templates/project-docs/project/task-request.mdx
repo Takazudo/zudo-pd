@@ -1,0 +1,56 @@
+---
+title: "Agent task request"
+description: "A reusable brief for a bounded component, documentation, asset, or verification task."
+sidebar_position: 30
+---
+
+Copy the useful sections of this page into a request to a local AI agent. Fill exact references before execution. This is a task brief template, not an installed skill or active repository instruction file.
+
+## Request
+
+| Field | Entry |
+|---|---|
+| Task title | Not entered |
+| Desired result | Not entered |
+| Why this result matters now | Not entered |
+| Exact component, interface, or revision in scope | Not entered |
+| Work already authorized by this request | Not entered |
+| Deliverables | Not entered |
+
+Ask for the result in ordinary language. Examples include obtaining the exact datasheet, finding and auditing a 3D model, verifying a specific claim, or assessing the impact of a proposed replacement.
+
+## Minimum context to read
+
+List the project brief, current task or question, exact component evidence records, relevant integration records, and design files needed for this task. Point to the narrow records that matter; do not ask the agent to rediscover the entire repository without a reason.
+
+## Research or implementation scope
+
+State which exact question to answer and how broad the search should be. Identify the operating conditions or revision if they affect the answer. If the question is ambiguous, ask the agent to first report the concrete ambiguity with the useful work already completed.
+
+When the task is component research, specify whether a recommendation is wanted. When the task changes the design, state the desired behavior and any selection decisions already made. Do not require extra permission for routine work already covered by the request.
+
+## Evidence to retain
+
+Describe the evidence needed for the requested conclusion. Typical fields are the exact source and revision, URL, access date, local file and checksum when acquired, precise page or section, claim type and conditions, and the link from the claim to the exact component.
+
+For an asset, include its origin, exact or family-level applicability, transformations, dimensional checks, numeric mapping where relevant, and the limitation of any preview. If a resource cannot be obtained or validated, report the attempt and the remaining gap without inventing a completed download or verified state.
+
+## Output locations and generated content
+
+Use the locations defined in `circuit/WORKFLOW.md`. Update exact facts in the component evidence bundle (`.claude/skills/component-*/`) and write explanatory rationale in authored documentation. Regenerate derived catalogs and previews with the project commands (`pnpm circuit:generate`, `pnpm previews:generate`), never by editing generated pages.
+
+State which files were created or updated and why. Keep the final answer readable enough that the owner can review the conclusion without opening every raw source.
+
+## Definition of done
+
+| Required result | Evidence of completion |
+|---|---|
+| The exact research question is answered within available evidence | Supported conclusion or explicitly bounded unresolved result |
+| Sources or assets are retained as requested | Actual file and provenance records, or a concrete retrieval failure |
+| Relevant project implications are described | Affected decisions, interfaces, calculations, or follow-up tasks |
+| Requested records and authored pages agree | Updated references and no unsupported promotion of status |
+| Checks are reported accurately | Commands and outcomes actually observed; unperformed checks identified |
+
+## Suggested final response
+
+Ask the agent to return: the conclusion; files changed; evidence supporting the conclusion; what remains uncertain; and the one next action that would materially improve confidence. A failed retrieval can still be a completed bounded research task if the result and next step are documented honestly.

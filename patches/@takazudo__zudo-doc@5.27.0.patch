@@ -1,0 +1,72 @@
+diff --git a/dist/extract-headings/index.js b/dist/extract-headings/index.js
+index 02390589107740dd77a7032a73d2617b06cc92a1..7016c2079763f03980376feeaf32e377c38446a3 100644
+--- a/dist/extract-headings/index.js
++++ b/dist/extract-headings/index.js
+@@ -1,3 +1,25 @@
++// Temporary native-heading parity bridge: https://github.com/zudolab/zudo-doc/issues/4428; https://github.com/Takazudo/zudo-pd/issues/211.
++import { parseFragment } from "parse5";
++// Markdown character references require the semicolon. Decode exactly once;
++// parse5 supplies the complete declared entity table without treating heading tags as HTML.
++function decodeCharacterReferences(value) {
++  return value.replace(/&(?:#[0-9]{1,7}|#[xX][0-9a-fA-F]{1,6}|[A-Za-z][A-Za-z0-9]+);/g, (reference) => {
++    const numeric = /^&#(?:([0-9]+)|[xX]([0-9a-fA-F]+));$/.exec(reference);
++    if (numeric) {
++      const cp = Number.parseInt(numeric[1] ?? numeric[2], numeric[1] ? 10 : 16);
++      // CommonMark/native zfb replaces invalid scalar/control references rather
++      // than applying HTML's legacy Windows-1252 remapping of C1 controls.
++      if (cp === 0 || (cp < 32 && cp !== 9 && cp !== 10 && cp !== 13) || (cp >= 127 && cp <= 159) || (cp >= 55296 && cp <= 57343) || cp > 1114111) return "\uFFFD";
++    }
++    const errors = [];
++    const parsed = parseFragment(reference, { onParseError: (error) => errors.push(error.code) });
++    // HTML permits legacy prefix matches without a semicolon; Markdown does
++    // not. Unknown names stay literal, even if their prefix is a valid entity.
++    if (!numeric && errors.length !== 0) return reference;
++    return parsed.childNodes.map((node) => node.value ?? "").join("");
++  });
++}
++
+ const SLUGIFY_STRIPPED = new Set(
+   "!\"#$%&'()*+,./:;<=>?@[\\]^`{|}~".split("")
+ );
+@@ -84,7 +106,7 @@ function stripInlineMarkdown(raw) {
+     masked += raw[i];
+     i++;
+   }
+-  return masked.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/(?<![A-Za-z0-9])__([^_]+)__(?![A-Za-z0-9])/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/(?<![A-Za-z0-9])_([^_]+)_(?![A-Za-z0-9])/g, "$1").replace(/\uE000(\d+)\uE001/g, (_match, index) => protectedText[Number(index)] ?? "").trim();
++  return decodeCharacterReferences(masked.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/(?<![A-Za-z0-9])__([^_]+)__(?![A-Za-z0-9])/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/(?<![A-Za-z0-9])_([^_]+)_(?![A-Za-z0-9])/g, "$1")).replace(/\uE000(\d+)\uE001/g, (_match, index) => protectedText[Number(index)] ?? "").trim();
+ }
+ function resolveDepthWindow(rawMin, rawMax) {
+   const min = Math.trunc(Number(rawMin));
+@@ -109,20 +131,24 @@ function collectHeadings(body, lo, hi) {
+   const headings = [];
+   let codeFenceOpener = null;
+   for (const line of body.split("\n")) {
+-    const trimmed = line.trimStart();
+-    const fenceMatch = /^([`~]{3,})/.exec(trimmed);
++    // Block fences allow up to three leading spaces and homogeneous markers.
++    // A backtick opener cannot have backticks in its info string: one-line
++    // triple-backtick spans in archived prose are inline code, not block fences.
++    const fenceMatch = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line);
+     if (fenceMatch) {
+-      const fence = fenceMatch[1];
+-      if (fence === void 0) continue;
++      const [, fence, tail] = fenceMatch;
+       if (codeFenceOpener === null) {
+-        codeFenceOpener = fence;
+-      } else if (fence[0] === codeFenceOpener[0] && fence.length >= codeFenceOpener.length) {
++        if (fence[0] === "~" || !tail.includes("`")) {
++          codeFenceOpener = fence;
++          continue;
++        }
++      } else if (fence[0] === codeFenceOpener[0] && fence.length >= codeFenceOpener.length && /^[ \t]*$/.test(tail)) {
+         codeFenceOpener = null;
++        continue;
+       }
+-      continue;
+     }
+     if (codeFenceOpener !== null) continue;
+-    const match = /^(#{2,6})[ \t]+(.+)$/.exec(line.trim());
++    const match = /^ {0,3}(#{2,6})[ \t]+(.+)$/.exec(line);
+     if (!match) continue;
+     const hashes = match[1];
+     const rawText = match[2];

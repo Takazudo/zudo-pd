@@ -1,0 +1,1595 @@
+diff --git a/contract/schema.json b/contract/schema.json
+index 7106cf94f7ad63e2709aeadd9dd2aa7765ea1792..1f27fd63fa7704787f56215dcad45c1b29e549eb 100644
+--- a/contract/schema.json
++++ b/contract/schema.json
+@@ -13,5 +13,7 @@
+   "authority_classes": ["MANUFACTURER_PRIMARY", "MANUFACTURER_MIRROR", "REFERENCE_DESIGN", "DISTRIBUTOR_IDENTITY", "PROJECT_GENERATOR", "BENCH_RECORD"],
+   "fact_classes": ["ABSOLUTE_MAXIMUM", "RECOMMENDED_OPERATION", "GUARANTEED_ELECTRICAL", "TYPICAL_CURVE", "TRANSIENT", "PROTECTION_STANDOFF", "PROTECTION_BREAKDOWN", "PROTECTION_CLAMP", "THERMAL_SOA", "PROJECT_STATE"],
+   "provenance": ["PRIMARY-SPEC", "DISTRIBUTOR-IDENTITY", "REFERENCE-DESIGN", "CALCULATED", "PROJECT-CHOICE", "BENCH-OBSERVED", "UNVERIFIED"],
+-  "verdicts": ["PASS - primary-source confirmed", "CONFIRMED - distributor identity only", "BLOCKER - deterministic spec violation", "NEEDS BENCH", "UNSOURCED", "NOT APPLICABLE"]
++  "verdicts": ["PASS - primary-source confirmed", "CONFIRMED - distributor identity only", "BLOCKER - deterministic spec violation", "NEEDS BENCH", "UNSOURCED", "NOT APPLICABLE"],
++  "candidate_required": ["candidate_id", "mpn", "manufacturer", "lcsc", "package", "function", "owner_skill", "status", "replaces_line_id", "rationale"],
++  "candidate_states": ["SHORTLISTED", "REJECTED", "NEEDS EVIDENCE"]
+ }
+diff --git a/lib/browser-smoke/chrome.js b/lib/browser-smoke/chrome.js
+index be497c78ba10df2e4979e144716ae825e85210aa..2019dd178f71f8a7d85f98e87f78b4fa187c95f3 100644
+--- a/lib/browser-smoke/chrome.js
++++ b/lib/browser-smoke/chrome.js
+@@ -1,3 +1,4 @@
++// Temporary launcher bridge: https://github.com/Takazudo/zudo-circuit-doc/issues/108; https://github.com/Takazudo/zudo-pd/issues/210.
+ /**
+  * System Chrome discovery and lifecycle (ADR-017): headless, sandboxed by
+  * `--no-sandbox` (containers/CI never have user namespaces for the real
+@@ -58,6 +59,10 @@ export async function launchChrome(bin) {
+         "--no-sandbox",
+         "--disable-dev-shm-usage",
+         "--disable-extensions",
++        // Project #210 bridge: preserve baseline foreground rAF scheduling.
++        "--disable-background-timer-throttling",
++        "--disable-renderer-backgrounding",
++        "--disable-backgrounding-occluded-windows",
+         "--enable-unsafe-swiftshader",
+         "--remote-debugging-port=0",
+         `--user-data-dir=${profile}`,
+@@ -73,6 +78,7 @@ export async function launchChrome(bin) {
+             throw new Error("Chrome page target was not available");
+         cdp = await connectCdp(page.webSocketDebuggerUrl);
+         await cdp.send("Page.enable");
++        await cdp.send("Page.bringToFront");
+         await cdp.send("Runtime.enable");
+         await cdp.send("Network.enable");
+     }
+diff --git a/lib/cli/commands/scan.js b/lib/cli/commands/scan.js
+index 8c8a95bf98677068eb29dd3b300949a3ecdb5dce..9ad4c79447b8b8e65a10a1b59030855c1d23b09a 100644
+--- a/lib/cli/commands/scan.js
++++ b/lib/cli/commands/scan.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/106, https://github.com/Takazudo/zudo-circuit-doc/issues/107.
+ /**
+  * `zudo-circuit-doc scan [--agent-skill <dir>]`: the post-build publication
+  * scan — replaces the #18 stub wholesale (#19).
+@@ -57,7 +58,7 @@ async function run(context) {
+         });
+         const policy = new PublicationPolicy(project.matrix, project.selection);
+         const model = projectIndex(index, policy, { integrationOwnerSkill: project.integrationOwnerSkill });
+-        const canaries = await readCanaries(project.paths);
++        const canaries = await readCanaries(project.paths, project.matrix);
+         const scanPolicy = buildScanPolicy(project.config.scan, {
+             agentResources: project.config.docs.agentResources,
+         });
+diff --git a/lib/config/define.d.ts b/lib/config/define.d.ts
+index 30e9c8cb1e0ee240dc7f905d0e217156dfa12943..680965d9f0e847932e97e743cef7fd23f7dbbd9c 100644
+--- a/lib/config/define.d.ts
++++ b/lib/config/define.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ export declare const CONFIG_VERSION = 1;
+ export declare const EVIDENCE_CONTRACT_VERSION = 1;
+ export declare const DEFAULT_CONFIG_FILENAME = "circuit.config.ts";
+@@ -46,6 +47,7 @@ export type EvidenceConfig = {
+     /** Directory name under `bundlesRoot`. */
+     readonly integrationSkill: string;
+     readonly inventory: ConfigPath;
++    readonly candidates?: ConfigPath | null;
+     readonly integrationRules: ConfigPath;
+     readonly directRouting: ConfigPath;
+     readonly vendorQualifiers: ConfigPath;
+@@ -61,6 +63,7 @@ export type LedGeneratorSpecConfig = {
+ export type LedGeneratorInventoryProviderConfig = {
+     readonly kind: "led-generator-v1";
+     readonly specs: readonly LedGeneratorSpecConfig[];
++    readonly mpnFromValueLcsc?: readonly string[];
+ };
+ export type InventoryProviderConfig = ManualInventoryProviderConfig | LedGeneratorInventoryProviderConfig;
+ export type PublicationConfig = {
+diff --git a/lib/config/map.js b/lib/config/map.js
+index 66e48555be280b9e6576eb39bf852ce98a9d14e4..5db081617370bbb41d82a025c99ec984ada18cb6 100644
+--- a/lib/config/map.js
++++ b/lib/config/map.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104, https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ // Maps a resolved `circuit.config.ts` onto the inputs every engine seam takes:
+ // provider paths, the committed selection, the publication matrix, the
+ // validator's resolved-config input, render options and CAD reference options.
+@@ -36,6 +37,7 @@ export function declaredProjectFiles(config) {
+         { field: "publication.assets", path: config.publication.assets, kind: "file" },
+     ];
+     const optional = [
++        ["evidence.candidates", config.evidence.candidates],
+         ["evidence.forwardTests", config.evidence.forwardTests],
+         ["docs.integrationGloss", config.docs.integrationGloss],
+         ["validation.policy", config.validation.policy],
+@@ -119,6 +121,7 @@ export function projectPathsFor(config) {
+         projectRoot: config.root,
+         bundlesRoot: config.evidence.bundlesRoot,
+         inventoryFile: config.evidence.inventory,
++        candidatesFile: config.evidence.candidates,
+         integrationRulesFile: config.evidence.integrationRules,
+         generatedRoot: config.docs.generatedContent,
+         preflightFile: config.docs.preflight,
+@@ -145,9 +148,10 @@ export function validatorInputFor(config) {
+         },
+         inventory: {
+             path: evidence.inventory,
++            candidatesPath: evidence.candidates,
+             provider: config.inventoryProvider.kind === "manual"
+                 ? { kind: "manual" }
+-                : { kind: "led-generator-v1", specs: config.inventoryProvider.specs.map((spec) => ({ path: spec.path })) },
++                : { kind: "led-generator-v1", mpnFromValueLcsc: config.inventoryProvider.mpnFromValueLcsc, specs: config.inventoryProvider.specs.map((spec) => ({ path: spec.path })) },
+         },
+         routing: { directRouting: evidence.directRouting, vendorQualifiers: evidence.vendorQualifiers },
+         cad: config.cad.enabled
+@@ -244,13 +248,21 @@ export async function readSelection(config) {
+     const problems = [];
+     if (!isPlainObject(data))
+         invalid(config, "publication.selection", path, ["must be a JSON object"]);
+-    checkKeys(data, "", ["schema_version", "recordIds", "sourceIds", "linkableSourceIds", "documentSelections", "expect"], ["comment"], problems);
++    checkKeys(data, "", ["schema_version", "recordIds", "sourceIds", "linkableSourceIds", "documentSelections", "expect"], ["comment", "documentExceptions"], problems);
+     if ("schema_version" in data && data.schema_version !== SELECTION_SCHEMA_VERSION) {
+         problems.push(`schema_version: must be ${SELECTION_SCHEMA_VERSION}`);
+     }
+     const recordIds = stringArray(data.recordIds ?? [], "recordIds", problems);
+     const sourceIds = stringArray(data.sourceIds ?? [], "sourceIds", problems);
+     const linkableSourceIds = stringArray(data.linkableSourceIds ?? [], "linkableSourceIds", problems);
++    const documentExceptions = [];
++    for (const [i, entry] of (Array.isArray(data.documentExceptions) ? data.documentExceptions : []).entries()) {
++        if (!isPlainObject(entry)) { problems.push(`documentExceptions[${i}]: must be an object`); continue; }
++        checkKeys(entry, `documentExceptions[${i}].`, ["recordId", "reason"], [], problems);
++        if (typeof entry.recordId !== "string" || !entry.recordId || typeof entry.reason !== "string" || !entry.reason.trim()) problems.push(`documentExceptions[${i}]: non-empty recordId and reason required`);
++        documentExceptions.push(entry);
++    }
++    if (data.documentExceptions !== undefined && !Array.isArray(data.documentExceptions)) problems.push("documentExceptions: must be an array");
+     const documentSelections = [];
+     const rawDocuments = data.documentSelections ?? [];
+     if (!Array.isArray(rawDocuments)) {
+@@ -297,7 +309,7 @@ export async function readSelection(config) {
+     }
+     if (problems.length > 0)
+         invalid(config, "publication.selection", path, problems);
+-    return { recordIds, sourceIds, linkableSourceIds, documentSelections, expect };
++    return { recordIds, sourceIds, linkableSourceIds, documentSelections, documentExceptions, expect };
+ }
+ /** `assets.json`: `{schema_version: 1, assets: [{path, reason, source_id?}]}`. */
+ export async function readAssets(config) {
+diff --git a/lib/config/resolve.d.ts b/lib/config/resolve.d.ts
+index 91c3943dfabce2dd4c62a2acb50db242cabbba49..fbeea3c91b7288ce2484489639e7c9389da08262 100644
+--- a/lib/config/resolve.d.ts
++++ b/lib/config/resolve.d.ts
+@@ -1,8 +1,10 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ import { type BrowserSmokeConfig, type CircuitConfig, type PreviewRendererConfig, type ProjectConfig, type ReferenceLimitsConfig, type ScanPolicyConfig } from "./define.ts";
+ export type ResolvedInventoryProvider = {
+     readonly kind: "manual";
+ } | {
+     readonly kind: "led-generator-v1";
++    readonly mpnFromValueLcsc: readonly string[];
+     readonly specs: readonly {
+         readonly path: string;
+     }[];
+@@ -51,6 +53,7 @@ export type ResolvedCircuitConfig = {
+         readonly integrationRules: string;
+         readonly directRouting: string;
+         readonly vendorQualifiers: string;
++        readonly candidates: string | null;
+         readonly forwardTests: string | null;
+         readonly sourceCache: string;
+     };
+diff --git a/lib/config/resolve.js b/lib/config/resolve.js
+index e718b0d03f39f81b3dbe61488d53e84ab025ed20..91e13875f86602ae168d674469f11dc878aad452 100644
+--- a/lib/config/resolve.js
++++ b/lib/config/resolve.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ // Turns a validated config into absolute paths. No existence checks here: the
+ // adapter/CLI owns them, so "absent file" vs "empty file" is decided in one place.
+ import { resolve } from "node:path";
+@@ -43,6 +44,7 @@ export function resolveCircuitConfig(config, configDir) {
+             integrationRules: at(evidence.integrationRules, "evidence.integrationRules"),
+             directRouting: at(evidence.directRouting, "evidence.directRouting"),
+             vendorQualifiers: at(evidence.vendorQualifiers, "evidence.vendorQualifiers"),
++            candidates: atOrNull(evidence.candidates, "evidence.candidates"),
+             forwardTests: atOrNull(evidence.forwardTests, "evidence.forwardTests"),
+             sourceCache: at(evidence.sourceCache, "evidence.sourceCache"),
+         },
+@@ -50,6 +52,7 @@ export function resolveCircuitConfig(config, configDir) {
+             ? { kind: "manual" }
+             : {
+                 kind: "led-generator-v1",
++                mpnFromValueLcsc: inventoryProvider.mpnFromValueLcsc ?? [],
+                 specs: inventoryProvider.specs.map((spec, index) => ({
+                     path: at(spec.path, `inventoryProvider.specs[${index}].path`),
+                 })),
+diff --git a/lib/config/schema.js b/lib/config/schema.js
+index b0f259519c3fc6518c637e640548c47e4a8e22be..6e3aae45592f41f4c8927e1500d64f91e7b07f4b 100644
+--- a/lib/config/schema.js
++++ b/lib/config/schema.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ // Strict, hand-written validation of `circuit.config.ts` (zod is not in the
+ // peer set). It collects every issue with its field path instead of stopping
+ // at the first one. Path checks are lexical only: existence is checked by the
+@@ -191,6 +192,7 @@ const EVIDENCE_SHAPE = {
+     auditSkill: required(segment),
+     integrationSkill: required(segment),
+     inventory: required(configPath),
++    candidates: optional(nullable(configPath)),
+     integrationRules: required(configPath),
+     directRouting: required(configPath),
+     vendorQualifiers: required(configPath),
+@@ -202,6 +204,7 @@ const MANUAL_PROVIDER_SHAPE = {
+ };
+ const LED_GENERATOR_PROVIDER_SHAPE = {
+     kind: required(() => { }),
++    mpnFromValueLcsc: optional(array((value, path, issues) => { if (typeof value !== "string" || !/^C[0-9]+$/.test(value)) issues.push({path, message: "must be an LCSC ID"}); })),
+     specs: required(array(object({ path: required(configPath) }), { nonEmpty: true })),
+ };
+ const inventoryProvider = (value, path, issues) => {
+diff --git a/lib/core/publication.d.ts b/lib/core/publication.d.ts
+index 33cbf70c635221c4d1c9243bbd5f660f8209a0c6..413f9f807a087749ff0d24fb1f52e701f7f0ea5f 100644
+--- a/lib/core/publication.d.ts
++++ b/lib/core/publication.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ /**
+  * Instance-level publication policy: default-zero, opt-in, and exhaustive.
+  *
+@@ -48,6 +49,7 @@ export type InstanceSelection = {
+      * audit decision, not a URL heuristic or a request to perform network I/O at
+      * generation time.
+      */
++    readonly documentExceptions?: readonly {readonly recordId: string; readonly reason: string}[];
+     readonly documentSelections: readonly {
+         readonly recordId: string;
+         readonly sourceId: string;
+diff --git a/lib/core/publication.js b/lib/core/publication.js
+index fcde8cbc5034580e02eeb84a142c233a66ffee26..2894a07ea836ca0e5ecbd08febaf1ba9c4d4498f 100644
+--- a/lib/core/publication.js
++++ b/lib/core/publication.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ /**
+  * Instance-level publication policy: default-zero, opt-in, and exhaustive.
+  *
+@@ -197,6 +198,10 @@ export class PublicationPolicy {
+             }
+             documentRecords.add(document.recordId);
+         }
++        for (const exception of selection.documentExceptions ?? []) {
++            if (!this.#recordIds.has(exception.recordId) || documentRecords.has(exception.recordId) || typeof exception.reason !== "string" || !exception.reason.trim()) fail("PUBLICATION_POLICY", "invalid or overlapping document exception", {recordId: exception.recordId});
++            documentRecords.add(exception.recordId);
++        }
+         const recordsWithoutDocument = selection.recordIds.filter((id) => !documentRecords.has(id));
+         if (recordsWithoutDocument.length > 0 || documentRecords.size !== selection.recordIds.length) {
+             fail("PUBLICATION_POLICY", "every selected record must have exactly one document selection", {
+diff --git a/lib/core/reference-descriptor.d.ts b/lib/core/reference-descriptor.d.ts
+index 6f7973984218c01dadb6fd3eb50268fbb589ebb0..79fc63b72aa94d6aa1046ed485204f99f0a588f2 100644
+--- a/lib/core/reference-descriptor.d.ts
++++ b/lib/core/reference-descriptor.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ import { type ModelViewerDescriptor } from "./model-descriptor.ts";
+ import { FOOTPRINT_ASSET_BASE } from "./site.ts";
+ export { FOOTPRINT_ASSET_BASE };
+@@ -9,20 +10,20 @@ export type ComponentReferencesDescriptor = {
+         readonly authority: string;
+         readonly availability: string;
+         readonly url: string;
+-    };
++    } | null;
+     readonly footprint: {
+         readonly name: string;
+         readonly assetUrl: string;
+-    };
++    } | null;
+     /** Kept encoded so the same validated descriptor reaches the client island. */
+-    readonly modelDescriptor: string;
++    readonly modelDescriptor: string | null;
+ };
+ export declare function footprintAssetUrl(footprintName: string): string;
+ export declare function encodeComponentReferencesDescriptor(descriptor: ComponentReferencesDescriptor): string;
+ export declare function decodeComponentReferencesDescriptor(encoded: string): ComponentReferencesDescriptor;
+ export declare function createComponentReferencesDescriptor(input: {
+     readonly document: ComponentReferencesDescriptor["document"];
+-    readonly footprintName: string;
+-    readonly model: ModelViewerDescriptor;
++    readonly footprintName: string | null;
++    readonly model: ModelViewerDescriptor | null;
+ }): ComponentReferencesDescriptor;
+ export declare function assertComponentReferencesDescriptor(value: unknown): asserts value is ComponentReferencesDescriptor;
+diff --git a/lib/core/reference-descriptor.js b/lib/core/reference-descriptor.js
+index c5d41f6ffb036edc64dcab24b8733b3ceec7ac7a..cc4fd30dd29d585b8fbefc2b0a60781af70919d7 100644
+--- a/lib/core/reference-descriptor.js
++++ b/lib/core/reference-descriptor.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ import { decodeModelDescriptor, encodeModelDescriptor } from "./model-descriptor.js";
+ import { FOOTPRINT_ASSET_BASE } from "./site.js";
+ export { FOOTPRINT_ASSET_BASE };
+@@ -35,8 +36,8 @@ export function createComponentReferencesDescriptor(input) {
+     return {
+         version: 1,
+         document: input.document,
+-        footprint: { name: input.footprintName, assetUrl: footprintAssetUrl(input.footprintName) },
+-        modelDescriptor: encodeModelDescriptor(input.model),
++        footprint: input.footprintName === null ? null : { name: input.footprintName, assetUrl: footprintAssetUrl(input.footprintName) },
++        modelDescriptor: input.model === null ? null : encodeModelDescriptor(input.model),
+     };
+ }
+ export function assertComponentReferencesDescriptor(value) {
+@@ -46,11 +47,11 @@ export function assertComponentReferencesDescriptor(value) {
+     if (Object.keys(descriptor).sort().join(",") !== "document,footprint,modelDescriptor,version" || descriptor.version !== 1) {
+         throw new Error("Component references descriptor has unexpected fields");
+     }
+-    assertDocument(descriptor.document);
+-    assertFootprint(descriptor.footprint);
+-    if (typeof descriptor.modelDescriptor !== "string")
++    if (descriptor.document !== null) assertDocument(descriptor.document);
++    if (descriptor.footprint !== null) assertFootprint(descriptor.footprint);
++    if (descriptor.modelDescriptor !== null && typeof descriptor.modelDescriptor !== "string")
+         throw new Error("Component references model descriptor is invalid");
+-    decodeModelDescriptor(descriptor.modelDescriptor);
++    if (descriptor.modelDescriptor !== null) decodeModelDescriptor(descriptor.modelDescriptor);
+ }
+ function assertDocument(value) {
+     if (typeof value !== "object" || value === null)
+diff --git a/lib/core/render/catalog.js b/lib/core/render/catalog.js
+index 198f24c36124958306b9efccd56ac8b6beb713f5..d0020ac0f651eef4468feeb14df7d9ec38494895 100644
+--- a/lib/core/render/catalog.js
++++ b/lib/core/render/catalog.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103.
+ /**
+  * `/docs/components/catalog/` — every published record on one page.
+  *
+@@ -106,7 +107,7 @@ function indexRow(record) {
+         part,
+         [code(identity.recordId)],
+         [text(identity.function)],
+-        [text(fitLabel(identity.dnp))],
++        [text(fitLabel(identity.dnp, identity.placements))],
+         [text(identity.identityState)],
+         [text(identity.sourceState)],
+         [text(openDomainRatio(record.coverage))],
+@@ -152,7 +153,7 @@ function entry(record, options) {
+         heading(3, identity.mpn),
+         table([literal("Field"), literal("Recorded value")], details),
+         paragraph(field("Placements", [text(placementSummary(identity.placements))])),
+-        paragraph(field("Fit", [text(fitLabel(identity.dnp))])),
++        paragraph(field("Fit", [text(fitLabel(identity.dnp, identity.placements))])),
+         paragraph(field("Identity state", [text(identity.identityState)])),
+         paragraph(field("Source state", [text(identity.sourceState)])),
+         paragraph(field("Open coverage domains", [text(openDomainSummary(record.coverage))])),
+diff --git a/lib/core/render/record.js b/lib/core/render/record.js
+index 9cf89b01ca1c5f65282e537a263d919a7ad5bad2..83fa7db97f85bde861e896050f59bef71dcabe94 100644
+--- a/lib/core/render/record.js
++++ b/lib/core/render/record.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ /**
+  * `/docs/components/records/<slug>/` — one record's complete published evidence.
+  *
+@@ -102,50 +103,21 @@ function componentReferencesSection(record) {
+         heading(2, literal("Documents and package")),
+         evidenceAnchor(anchor("component-references-heading")),
+     ];
+-    if (footprint === null) {
+-        return [
+-            ...headingBlocks,
+-            evidenceAnchor(anchor("component-references")),
+-            paragraph([link(document.url, document.label), space(), text(literal("—")), space(), text(document.documentTitle)]),
+-            paragraph(field("Selected source ID", [code(document.sourceId)])),
+-            paragraph(field("Authority", [text(document.authorityClass)])),
+-            paragraph(field("Availability", [text(document.availability)])),
+-            paragraph([text(literal(PACKAGELESS_REFERENCE_TEXT[record.reference.mounting]))]),
+-        ];
+-    }
+-    const modelName = String(footprint.modelPath).split("/").at(-1);
+-    if (modelName === undefined)
+-        throw new Error("Published model path has no basename");
+-    const descriptor = encodeComponentReferencesDescriptor(createComponentReferencesDescriptor({
+-        document: {
+-            label: document.label,
+-            title: document.documentTitle,
+-            authority: document.authorityClass,
+-            availability: document.availability,
+-            url: document.url,
+-        },
+-        footprintName: footprint.footprintName,
+-        model: {
+-            version: 1,
+-            packageId: footprint.packageId,
+-            packageLabel: footprint.footprintName,
+-            modelUrl: `${MODEL_ASSET_BASE}${modelName}`,
+-            offset: footprint.offset,
+-            rotation: footprint.rotation,
+-            scale: footprint.scale,
+-        },
+-    }));
+-    return [
+-        ...headingBlocks,
+-        component("ComponentReferences", { descriptor }),
+-        paragraph([strong(literal("Selected document:")), space(), link(document.url, document.label), space(), text(literal("—")), space(), text(document.documentTitle)]),
++    const documentBlocks = document === null ? [paragraph([text(literal(record.reference.documentUnavailableReason ?? "No reviewed document is available; see Sources for retained evidence."))])] : [
++        paragraph([link(document.url, document.label), space(), text(literal("—")), space(), text(document.documentTitle)]),
+         paragraph(field("Selected source ID", [code(document.sourceId)])),
+         paragraph(field("Authority", [text(document.authorityClass)])),
+         paragraph(field("Availability", [text(document.availability)])),
+-        paragraph(field("Package footprint", [code(footprint.footprintName)])),
+-        paragraph([text(literal("This geometry represents a shared footprint package and may not exactly match the manufacturer part."))]),
+     ];
++    const descriptor = encodeComponentReferencesDescriptor(createComponentReferencesDescriptor({
++        document: document === null ? null : {label: document.label, title: document.documentTitle, authority: document.authorityClass, availability: document.availability, url: document.url},
++        footprintName: footprint?.footprintName ?? null,
++        model: footprint?.modelPath == null ? null : {version: 1, packageId: footprint.packageId, packageLabel: footprint.footprintName, modelUrl: `${MODEL_ASSET_BASE}${String(footprint.modelPath).split("/").at(-1)}`, offset: footprint.offset, rotation: footprint.rotation, scale: footprint.scale},
++    }));
++    return [...headingBlocks, evidenceAnchor(anchor("component-references")), component("ComponentReferences", {descriptor}), ...documentBlocks,
++        ...(footprint === null ? [paragraph([text(literal(PACKAGELESS_REFERENCE_TEXT[record.reference.mounting]))])] : [paragraph(field("Package footprint", [code(footprint.footprintName)])), paragraph([text(literal("This geometry represents a shared footprint package and may not exactly match the manufacturer part."))])])];
+ }
++
+ function orientation(record) {
+     return [
+         paragraph([
+@@ -213,7 +185,7 @@ function identitySection(record) {
+             ...(aliases.length === 0 ? [] : [metadataRow("Also known as", termList(aliases))]),
+             ...(ownerSkill === null ? [] : [metadataRow("Owner skill", [code(ownerSkill)])]),
+         ]),
+-        paragraph(field("Fit", [text(fitLabel(identity.dnp))])),
++        paragraph(field("Fit", [text(fitLabel(identity.dnp, identity.placements))])),
+         paragraph(field("Identity state", [text(identity.identityState)])),
+         paragraph(field("Source state", [text(identity.sourceState)])),
+         paragraph(field("Coverage", [text(openDomainSummary(record.coverage))])),
+diff --git a/lib/core/render/shared.d.ts b/lib/core/render/shared.d.ts
+index d32ef28dd8a875f20ea64123fc2b2e4ca0d3f7e0..18052fadfa4c0466d502389040c701e2b4d5003e 100644
+--- a/lib/core/render/shared.d.ts
++++ b/lib/core/render/shared.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/106.
+ /**
+  * The vocabulary the catalog and the record pages share.
+  *
+@@ -109,7 +110,7 @@ export declare function factReference(index: RecordIndex, factId: SafeText, curr
+  * a part deliberately not fitted, and one fitted by hand rather than by the
+  * assembler — so the label names both instead of asserting the wrong one.
+  */
+-export declare function fitLabel(dnp: boolean): SafeText;
++export declare function fitLabel(dnp: boolean, placements?: readonly PublicPlacement[]): SafeText;
+ /**
+  * How much of a record's coverage is unresolved.
+  *
+diff --git a/lib/core/render/shared.js b/lib/core/render/shared.js
+index 27af730fb6267bb3203d0c8a1ff9e983cb96dbc8..41225adfdbfe886d20fc4f89d794ce99cae7355e 100644
+--- a/lib/core/render/shared.js
++++ b/lib/core/render/shared.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/106.
+ /**
+  * The vocabulary the catalog and the record pages share.
+  *
+@@ -152,7 +153,8 @@ export function factReference(index, factId, currentRecordId) {
+  * a part deliberately not fitted, and one fitted by hand rather than by the
+  * assembler — so the label names both instead of asserting the wrong one.
+  */
+-export function fitLabel(dnp) {
++export function fitLabel(dnp, placements = []) {
++    if (placements.some(p => p.dnp === true) && placements.some(p => p.dnp === false)) return literal("Mixed fitted and DNP or hand-fit placements");
+     return dnp ? literal("DNP or hand-fit") : literal("Fitted");
+ }
+ /**
+@@ -195,10 +197,10 @@ export function placementSummary(placements) {
+         const bucket = byBoard.get(placement.board);
+         if (bucket === undefined) {
+             boards.push(placement.board);
+-            byBoard.set(placement.board, [placement.refdes]);
++            byBoard.set(placement.board, [`${placement.refdes}${placement.dnp ? " (DNP or hand-fit)" : " (fitted)"}`]);
+         }
+         else {
+-            bucket.push(placement.refdes);
++            bucket.push(`${placement.refdes}${placement.dnp ? " (DNP or hand-fit)" : " (fitted)"}`);
+         }
+     }
+     const parts = boards.map((board) => safeText(`${board} ${(byBoard.get(board) ?? []).join(", ")}`, {
+diff --git a/lib/core/view-model.d.ts b/lib/core/view-model.d.ts
+index 6a98d4bdcbb56125594b3fb8fcb0d99c80d2e3c8..1a2c87ba0049b8c47a9203022a96c9697c8825cb 100644
+--- a/lib/core/view-model.d.ts
++++ b/lib/core/view-model.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/105, https://github.com/Takazudo/zudo-circuit-doc/issues/106.
+ /**
+  * The provider-neutral public view model.
+  *
+@@ -68,6 +69,7 @@ export type CorpusSummary = {
+ };
+ /** Where a record's part is placed on a board. */
+ export type PublicPlacement = {
++    readonly dnp: boolean;
+     readonly board: SafeText;
+     readonly refdes: SafeText;
+ };
+@@ -87,7 +89,7 @@ export type PublicRecordIdentity = {
+      * cover 34 records and one of them owns eleven — and it is what lets a record
+      * page link back to its raw agent resource at `/docs/claude-skills/<name>/`.
+      */
+-    readonly ownerSkill: SafeText;
++    readonly ownerSkill: SafeText | null;
+     readonly mpn: SafeText;
+     readonly manufacturer: SafeText;
+     readonly lcsc: SafeText;
+@@ -225,13 +227,14 @@ export type PublicFootprintReference = {
+     readonly packageId: SafeText;
+     readonly footprintName: SafeText;
+     readonly footprintPath: SafeText;
+-    readonly modelPath: SafeText;
+-    readonly offset: PublicTransform3d;
+-    readonly rotation: PublicTransform3d;
+-    readonly scale: PublicTransform3d;
++    readonly modelPath: SafeText | null;
++    readonly offset: PublicTransform3d | null;
++    readonly rotation: PublicTransform3d | null;
++    readonly scale: PublicTransform3d | null;
+ };
+ export type PublicRecordReference = {
+-    readonly document: PublicDocumentReference;
++    readonly document: PublicDocumentReference | null;
++    readonly documentUnavailableReason: string | null;
+     /**
+      * Structural discriminator for rendering `footprint: null`: an `external`
+      * part has no PCB footprint at all, a `pcb` part may simply have no package
+@@ -244,7 +247,7 @@ export type PublicRecordReference = {
+ };
+ /** The deduplicated renderer input; records retain lookup through packageId. */
+ export type PublicPackagePreview = PublicFootprintReference & {
+-    readonly recordIds: readonly SafeText[];
++    readonly recordIds: readonly SafeText[] | null;
+ };
+ /** One published record page's complete data. */
+ export type PublicRecord = {
+@@ -317,7 +320,7 @@ export type PublicIntegrationRule = {
+      * what lets the integration page link back to the raw agent resource it is a
+      * projection of, without `core/` knowing any provider's directory names.
+      */
+-    readonly ownerSkill: SafeText;
++    readonly ownerSkill: SafeText | null;
+     readonly domain: SafeText;
+     readonly recordIds: readonly SafeText[];
+     readonly factIds: readonly SafeText[];
+diff --git a/lib/provider/v1/canaries.d.ts b/lib/provider/v1/canaries.d.ts
+index 1eb989aea812d131a2af69acb48cf9c94a55908f..1d753ba8d773f438a1fbdc9f61a5a25a263d773e 100644
+--- a/lib/provider/v1/canaries.d.ts
++++ b/lib/provider/v1/canaries.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/106.
+ /**
+  * The denied-value canary set, harvested from this provider's raw evidence.
+  *
+@@ -39,4 +40,4 @@ export declare const DENIED_PROVIDER_KEYS: readonly string[];
+  * skill, which are not component bundles. Their own reference files are read
+  * explicitly below, so nothing is missed by the skip.
+  */
+-export declare function readCanaries(paths: Pick<CircuitProjectPaths, "bundlesRoot" | "inventoryFile" | "integrationRulesFile">): Promise<readonly Canary[]>;
++export declare function readCanaries(paths: Pick<CircuitProjectPaths, "bundlesRoot" | "inventoryFile" | "integrationRulesFile" | "candidatesFile">, matrix?: import("../../core/publication.js").PublicationMatrix): Promise<readonly Canary[]>;
+diff --git a/lib/provider/v1/canaries.js b/lib/provider/v1/canaries.js
+index 5afa84da936ec8e05afe7a2ef8b1356be642c3a0..f67ae33603af0bcaa43879e4269bf61ff9c1f0d8 100644
+--- a/lib/provider/v1/canaries.js
++++ b/lib/provider/v1/canaries.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/106.
+ /**
+  * The denied-value canary set, harvested from this provider's raw evidence.
+  *
+@@ -69,7 +70,7 @@ async function listBundleDirectories(bundlesRoot) {
+  * skill, which are not component bundles. Their own reference files are read
+  * explicitly below, so nothing is missed by the skip.
+  */
+-export async function readCanaries(paths) {
++export async function readCanaries(paths, matrix) {
+     const { bundlesRoot } = paths;
+     const documents = [];
+     for (const bundle of await listBundleDirectories(bundlesRoot)) {
+@@ -85,8 +86,8 @@ export async function readCanaries(paths) {
+             }
+         }
+     }
+-    for (const path of [paths.inventoryFile, paths.integrationRulesFile]) {
++    for (const path of [paths.inventoryFile, paths.integrationRulesFile, ...(paths.candidatesFile ? [paths.candidatesFile] : [])]) {
+         documents.push(await readContainedJson(bundlesRoot, path));
+     }
+-    return harvestCanaries(documents, { deniedKeys: DENIED_PROVIDER_KEYS });
++    return harvestCanaries(documents, { deniedKeys: [...DENIED_PROVIDER_KEYS, ...(matrix?.["record.ownerSkill"] === "DENY" || matrix?.["integration.ownerSkill"] === "DENY" ? ["owner_skill"] : [])] });
+ }
+diff --git a/lib/provider/v1/evidence.d.ts b/lib/provider/v1/evidence.d.ts
+index 93840a80b81712b31867a30a658ef4375f0b4279..b87814cb26a493e5184d824f6c0b67f69879283d 100644
+--- a/lib/provider/v1/evidence.d.ts
++++ b/lib/provider/v1/evidence.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ /**
+  * Reading the `.claude/skills/**` bundles and joining them into one index.
+  *
+@@ -38,7 +39,7 @@ export type InventoryLine = {
+     manufacturer: string;
+     lcsc: string;
+     package: string;
+-    dnp: boolean;
++    dnp?: boolean;
+     mounting?: "pcb" | "external";
+     owner_skill: string;
+     identity_state: string;
+@@ -47,6 +48,7 @@ export type InventoryLine = {
+     placements: {
+         board: string;
+         refdes: string;
++        dnp?: boolean;
+     }[];
+ };
+ export type Inventory = {
+@@ -60,7 +62,8 @@ export type Inventory = {
+ };
+ export type ProviderRecord = {
+     record_id: string;
+-    line_id: string;
++    line_id: string | null;
++    candidate_id?: string | null;
+     kind: "standalone" | "subordinate";
+     parent_record_id: string | null;
+     source_ids: string[];
+@@ -230,3 +233,5 @@ export declare function parseBundle(skill: string, files: Readonly<Record<Bundle
+  * relationship the projection could not render honestly.
+  */
+ export declare function indexEvidence(inventory: Inventory, bundles: readonly ProviderBundle[], integrationRules: readonly ProviderIntegrationRule[]): EvidenceIndex;
++
++export declare function partitionBundles(bundles: readonly ProviderBundle[], lines: readonly InventoryLine[], candidates: readonly Record<string, unknown>[]): ProviderBundle[];
+diff --git a/lib/provider/v1/evidence.js b/lib/provider/v1/evidence.js
+index 3b876d2093af995cc8ce56db3b250fe3aebca8ae..a5d10d1c15922b427407daf6f75cc638d03ea4ed 100644
+--- a/lib/provider/v1/evidence.js
++++ b/lib/provider/v1/evidence.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ /**
+  * Reading the `.claude/skills/**` bundles and joining them into one index.
+  *
+@@ -546,3 +547,62 @@ function expectArray(value, file, key) {
+     }
+     return list;
+ }
++
++export function partitionBundles(bundles, lines, candidates) {
++    const lineById = new Map(lines.map(l => [l.line_id, l]));
++    const candidateById = new Map(candidates.map(c => [c.candidate_id, c]));
++    const recordIds = new Set(), publishedIds = new Set(), factIds = new Map(), sourceById = new Map(), candidateClaims = new Set();
++    if (candidateById.size !== candidates.length || lineById.size !== lines.length) fail("IDENTITY_COLLISION", "duplicate central identities");
++    for (const bundle of bundles) {
++        for (const record of bundle.records) {
++            const owner = record.line_id ? lineById.get(record.line_id) : candidateById.get(record.candidate_id);
++            if (!owner || owner.owner_skill !== bundle.skill || recordIds.has(record.record_id) || (record.line_id && record.candidate_id)) fail("ADAPTER_CONTRACT", "unregistered or duplicate record ownership", {recordId: record.record_id});
++            for (const key of ["mpn", "manufacturer", "lcsc", "package"]) if (owner[key] !== record[key]) fail("ADAPTER_CONTRACT", "central record identity mismatch", {recordId: record.record_id, key});
++            if (record.candidate_id) {
++                if (candidateClaims.has(record.candidate_id)) fail("IDENTITY_COLLISION", "duplicate candidate ownership");
++                candidateClaims.add(record.candidate_id);
++            }
++            recordIds.add(record.record_id);
++            if (record.line_id) publishedIds.add(record.record_id);
++        }
++        for (const fact of bundle.facts) {
++            if (factIds.has(fact.fact_id)) fail("IDENTITY_COLLISION", "duplicate global fact");
++            factIds.set(fact.fact_id, fact);
++        }
++    }
++    if (candidateClaims.size !== candidateById.size) fail("ADAPTER_CONTRACT", "registered candidate has no evidence record");
++    for (const b of bundles) {
++        for (const source of b.sources) sourceById.set(source.source_id, source);
++        for (const field of ["sources", "facts", "coverage", "routes", "pinMaps"]) for (const entity of b[field]) {
++            if (!recordIds.has(entity.record_id)) fail("ADAPTER_CONTRACT", "orphan entity before publication partition", {field, recordId: entity.record_id});
++        }
++    }
++    for (const b of bundles) {
++        for (const record of b.records) if (record.parent_record_id && (!recordIds.has(record.parent_record_id) || publishedIds.has(record.parent_record_id) !== publishedIds.has(record.record_id))) fail("ADAPTER_CONTRACT", "cross-partition parent record");
++        for (const f of b.facts) if (f.source_id) {
++            const source=sourceById.get(f.source_id);
++            if (!source || publishedIds.has(source.record_id) !== publishedIds.has(f.record_id)) fail("ADAPTER_CONTRACT", "cross-partition source reference");
++        }
++        for (const field of ["coverage", "interactions"]) for (const entity of b[field]) for (const id of [...(entity.fact_ids ?? []), ...(entity.blocking_fact_ids ?? [])]) {
++            const fact=factIds.get(id);
++            const owners=field === "interactions" ? entity.record_ids : [entity.record_id];
++            if (!fact || owners.some(owner => !recordIds.has(owner) || publishedIds.has(owner) !== publishedIds.has(fact.record_id))) fail("ADAPTER_CONTRACT", "cross-partition evidence reference");
++        }
++    }
++    for (const field of ["sources", "coverage", "routes", "pinMaps", "interactions"]) {
++        const key = {sources: "source_id", coverage: "coverage_id", routes: "route_id", pinMaps: "pin_map_id", interactions: "interaction_id"}[field];
++        const ids = new Set();
++        for (const b of bundles) for (const value of b[field]) {
++            if (ids.has(value[key])) fail("IDENTITY_COLLISION", "duplicate global evidence ID", {id: value[key]});
++            ids.add(value[key]);
++        }
++    }
++    for (const fact of factIds.values()) for (const dep of fact.depends_on ?? []) {
++        const parent = factIds.get(dep);
++        if (!parent || publishedIds.has(parent.record_id) !== publishedIds.has(fact.record_id)) fail("ADAPTER_CONTRACT", "cross-partition fact dependency", {factId: fact.fact_id});
++    }
++    return bundles.map(b => {
++        for (const i of b.interactions) if (i.record_ids.some(id => publishedIds.has(id)) && i.record_ids.some(id => !publishedIds.has(id))) fail("ADAPTER_CONTRACT", "cross-partition interaction");
++        return {...b, records: b.records.filter(v => publishedIds.has(v.record_id)), sources: b.sources.filter(v => publishedIds.has(v.record_id)), facts: b.facts.filter(v => publishedIds.has(v.record_id)), coverage: b.coverage.filter(v => publishedIds.has(v.record_id)), routes: b.routes.filter(v => publishedIds.has(v.record_id)), pinMaps: b.pinMaps.filter(v => publishedIds.has(v.record_id)), interactions: b.interactions.filter(v => v.record_ids.every(id => publishedIds.has(id)))};
++    }).filter(b => b.records.length > 0);
++}
+diff --git a/lib/provider/v1/index.js b/lib/provider/v1/index.js
+index aed85d3963bcfb40eb6a6ecc2393b09577e76dcf..96b5fd32c43d582469a5a85ef744dd1c9ef865ce 100644
+--- a/lib/provider/v1/index.js
++++ b/lib/provider/v1/index.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104, https://github.com/Takazudo/zudo-circuit-doc/issues/105, https://github.com/Takazudo/zudo-circuit-doc/issues/106.
+ /**
+  * The circuit adapter: `.claude/skills/**` evidence to the public view model.
+  *
+@@ -17,6 +18,8 @@
+ import { anchor, byCodeUnit, recordSlug } from "../../core/ids.js";
+ import { classifyUrl } from "../../core/url.js";
+ import { fail } from "../../core/errors.js";
++import { readContainedJson } from "./read.js";
++import { partitionBundles } from "./evidence.js";
+ import { safeText } from "../../core/text.js";
+ import { VIEW_MODEL_VERSION } from "../../core/view-model.js";
+ import { CIRCUIT_PUBLICATION_MATRIX } from "./matrix.js";
+@@ -54,12 +57,13 @@ export function createCircuitAdapter(options) {
+ export async function readEvidenceIndex(options) {
+     const { paths, selection, reference } = options;
+     const inventory = await readInventory(paths.bundlesRoot, paths.inventoryFile);
+-    const ownerSkills = uniqueInOrder(inventory.lines.map((line) => line.owner_skill));
++    const candidates = paths.candidatesFile ? (await readContainedJson(paths.bundlesRoot, paths.candidatesFile)).candidates : [];
++    const ownerSkills = uniqueInOrder([...inventory.lines, ...candidates].map((line) => line.owner_skill));
+     const [bundles, rules] = await Promise.all([
+         Promise.all(ownerSkills.map((skill) => readBundle(paths.bundlesRoot, skill))),
+         readIntegrationRules(paths.bundlesRoot, paths.integrationRulesFile),
+     ]);
+-    const index = indexEvidence(inventory, bundles, rules.rules);
++    const index = indexEvidence(inventory, partitionBundles(bundles, inventory.lines, candidates), rules.rules);
+     return {
+         ...index,
+         references: await readCircuitReferenceContract(index, selection, paths, reference),
+@@ -147,7 +151,7 @@ function projectRecordReference(entry, references, policy) {
+     if (document === undefined || (footprint === undefined && mounting === "pcb" && !declaredUnpublished)) {
+         fail("ADAPTER_CONTRACT", "record has no complete reference descriptor", { recordId });
+     }
+-    const classified = classifyUrl(document.source.authoritative_url);
++    const classified = document.source ? classifyUrl(document.source.authoritative_url) : {decision: "ALLOW"};
+     if (classified.decision === "DENY") {
+         fail("UNSAFE_VALUE", "selected document URL failed classification", {
+             recordId,
+@@ -155,10 +159,10 @@ function projectRecordReference(entry, references, policy) {
+             reason: classified.reason,
+         });
+     }
+-    policy.publishRequired("asset.datasheetPdf", true);
++    if (document.source) policy.publishRequired("asset.datasheetPdf", true);
+     if (footprint !== undefined) {
+         policy.publishRequired("asset.footprintPreview", true);
+-        policy.publishRequired("asset.modelPreview", true);
++        if (footprint.modelPath !== null) policy.publishRequired("asset.modelPreview", true);
+     }
+     const labels = {
+         datasheet: "Datasheet PDF",
+@@ -166,7 +170,8 @@ function projectRecordReference(entry, references, policy) {
+         drawing: "Mechanical drawing PDF",
+     };
+     return {
+-        document: {
++        documentUnavailableReason: document.unresolvedReason ?? null,
++        document: document.source ? {
+             sourceId: policy.publishRequired("reference.document.sourceId", safeText(document.source.source_id, { field: `${recordId}.reference.sourceId` })),
+             documentTitle: policy.publishRequired("reference.document.documentTitle", safeText(document.source.document_title, { field: `${recordId}.reference.documentTitle` })),
+             label: policy.publishRequired("reference.document.label", safeText(labels[document.documentKind], { field: `${recordId}.reference.label` })),
+@@ -174,7 +179,7 @@ function projectRecordReference(entry, references, policy) {
+             url: policy.publishRequired("reference.document.url", classified.url),
+             availability: policy.publishRequired("reference.document.availability", safeText(document.source.availability, { field: `${recordId}.reference.availability` })),
+             documentKind: policy.publishRequired("reference.document.documentKind", document.documentKind),
+-        },
++        } : null,
+         mounting,
+         footprint: footprint === undefined ? null : projectFootprint(footprint, policy),
+     };
+@@ -182,7 +187,7 @@ function projectRecordReference(entry, references, policy) {
+ function projectPackage(entry, policy) {
+     return {
+         ...projectFootprint(entry, policy),
+-        recordIds: policy.publishRequired("reference.package.recordIds", entry.recordIds.map((recordId) => safeText(recordId, { field: `${entry.packageId}.recordId` }))),
++        recordIds: policy.publish("reference.package.recordIds", entry.recordIds.map((recordId) => safeText(recordId, { field: `${entry.packageId}.recordId` }))) ?? null,
+     };
+ }
+ function projectFootprint(entry, policy) {
+@@ -191,7 +196,7 @@ function projectFootprint(entry, policy) {
+         packageId: policy.publishRequired("reference.footprint.packageId", safeText(entry.packageId, { field: `${at}.packageId` })),
+         footprintName: policy.publishRequired("reference.footprint.name", safeText(entry.footprintName, { field: `${at}.footprintName` })),
+         footprintPath: policy.publishRequired("reference.footprint.path", safeText(entry.footprintPath, { field: `${at}.footprintPath` })),
+-        modelPath: policy.publishRequired("reference.model.path", safeText(entry.modelPath, { field: `${at}.modelPath` })),
++        modelPath: policy.publishRequired("reference.model.path", entry.modelPath === null ? null : safeText(entry.modelPath, { field: `${at}.modelPath` })),
+         offset: policy.publishRequired("reference.model.offset", entry.offset),
+         rotation: policy.publishRequired("reference.model.rotation", entry.rotation),
+         scale: policy.publishRequired("reference.model.scale", entry.scale),
+@@ -227,7 +232,7 @@ function buildIdentity(entry, slugByRecordId, policy) {
+             : safeText(parentRecordId, { field: "parent_record_id" }),
+         parentSlug,
+         lineId: policy.publishRequired("record.lineId", safeText(line.line_id, { field: "line_id" })),
+-        ownerSkill: policy.publishRequired("record.ownerSkill", safeText(line.owner_skill, { field: "owner_skill" })),
++        ownerSkill: policy.publish("record.ownerSkill", safeText(line.owner_skill, { field: "owner_skill" })) ?? null,
+         mpn: policy.publishRequired("record.mpn", safeText(line.mpn, { field: "mpn" })),
+         manufacturer: policy.publishRequired("record.manufacturer", safeText(line.manufacturer, { field: "manufacturer" })),
+         // Empty is legal for external parts and for generic-v1 (manual) lines (ADR-010);
+@@ -238,8 +243,9 @@ function buildIdentity(entry, slugByRecordId, policy) {
+         function: policy.publishRequired("record.function", safeText(line.function, { field: "function" })),
+         identityState: policy.publishRequired("record.identityState", safeText(line.identity_state, { field: "identity_state" })),
+         sourceState: policy.publishRequired("record.sourceState", safeText(line.source_state, { field: "source_state" })),
+-        dnp: policy.publishRequired("record.dnp", line.dnp),
++        dnp: policy.publishRequired("record.dnp", line.placements.every(p => p.dnp ?? line.dnp)),
+         placements: policy.publishRequired("record.placements", line.placements.map((placement) => ({
++            dnp: placement.dnp ?? line.dnp,
+             board: safeText(placement.board, { field: "placement.board" }),
+             refdes: safeText(placement.refdes, { field: "placement.refdes" }),
+         }))),
+diff --git a/lib/provider/v1/integration.js b/lib/provider/v1/integration.js
+index ffe9db03634456fcb567aa84bf5b26f204b5d384..6ed20c6ce332558b4331f91ac9a1267908c6e184 100644
+--- a/lib/provider/v1/integration.js
++++ b/lib/provider/v1/integration.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/106.
+ /**
+  * Cross-component integration rules: `circuit-spec-integration` to the public
+  * view model.
+@@ -48,7 +49,7 @@ function projectRule(rule, ownerSkill, policy) {
+     return {
+         ruleId: policy.publishRequired("integration.ruleId", safeText(rule.rule_id, { field: at("rule_id") })),
+         anchor: anchor(rule.rule_id),
+-        ownerSkill: policy.publishRequired("integration.ownerSkill", safeText(ownerSkill, { field: at("owner_skill") })),
++        ownerSkill: policy.publish("integration.ownerSkill", safeText(ownerSkill, { field: at("owner_skill") })) ?? null,
+         domain: policy.publishRequired("integration.domain", safeText(rule.domain, { field: at("domain") })),
+         recordIds: policy.publishRequired("integration.recordIds", rule.record_ids.map((id) => safeText(id, { field: at("record_ids") }))),
+         factIds: policy.publishRequired("integration.factIds", rule.fact_ids.map((id) => safeText(id, { field: at("fact_ids") }))),
+diff --git a/lib/provider/v1/model-assets.js b/lib/provider/v1/model-assets.js
+index e03130bb8fbf6e69ea640b8a2605d678f9b615ba..d74023db83a4a4c041639cca35687857cb47e1ee 100644
+--- a/lib/provider/v1/model-assets.js
++++ b/lib/provider/v1/model-assets.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ /** Deterministic publication of the manifest-selected, validated WRL models. */
+ import { copyFile, lstat, mkdir, readdir, readFile } from "node:fs/promises";
+ import { basename, extname, join, resolve } from "node:path";
+@@ -37,6 +38,7 @@ export async function buildModelAssetPlan(options) {
+     const names = new Set();
+     const entries = [];
+     for (const descriptor of packages) {
++        if (descriptor.modelPath === null) continue;
+         const name = basename(descriptor.modelPath);
+         assertSafePreviewAssetName(name, descriptor.recordIds[0] ?? descriptor.packageId);
+         if (extname(name).toLowerCase() !== ".wrl" || names.has(name)) {
+diff --git a/lib/provider/v1/paths.d.ts b/lib/provider/v1/paths.d.ts
+index b4013fcab88b7d0f70652e7bc9822f3b82785140..42c7c3f27538ee30d0b06a1d2427ed7e798845d5 100644
+--- a/lib/provider/v1/paths.d.ts
++++ b/lib/provider/v1/paths.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ /**
+  * Every filesystem location this provider is allowed to touch, injected by the
+  * caller as absolute paths.
+@@ -13,6 +14,7 @@ export type CircuitProjectPaths = {
+     /** The only directory evidence is read from (`.claude/skills` in v1). */
+     readonly bundlesRoot: string;
+     readonly inventoryFile: string;
++    readonly candidatesFile?: string | null;
+     readonly integrationRulesFile: string;
+     /** The exclusively-owned generated page tree. */
+     readonly generatedRoot: string;
+diff --git a/lib/provider/v1/references.d.ts b/lib/provider/v1/references.d.ts
+index 74699beae210f14a57d000def0a95008ba7e674e..1b3edd0e6d070b25715f51785ca29f9a39fc64ef 100644
+--- a/lib/provider/v1/references.d.ts
++++ b/lib/provider/v1/references.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ /**
+  * Fail-closed construction of the circuit's reviewed document and KiCad
+  * preview contract. Network verification is deliberately NOT performed here:
+@@ -20,18 +21,19 @@ export type Transform3d = {
+     readonly z: number;
+ };
+ export type CircuitDocumentReference = {
++    readonly unresolvedReason?: string;
+     readonly recordId: string;
+-    readonly source: ProviderSource;
+-    readonly documentKind: "datasheet" | "specification" | "drawing";
++    readonly source?: ProviderSource;
++    readonly documentKind?: "datasheet" | "specification" | "drawing";
+ };
+ export type CircuitPackageReference = {
+     readonly packageId: string;
+     readonly footprintName: string;
+     readonly footprintPath: string;
+-    readonly modelPath: string;
+-    readonly offset: Transform3d;
+-    readonly rotation: Transform3d;
+-    readonly scale: Transform3d;
++    readonly modelPath: string | null;
++    readonly offset: Transform3d | null;
++    readonly rotation: Transform3d | null;
++    readonly scale: Transform3d | null;
+     readonly recordIds: readonly string[];
+ };
+ export type CircuitReferenceContract = {
+diff --git a/lib/provider/v1/references.js b/lib/provider/v1/references.js
+index 9b7d099e352fda79c4879a5dd71edcd3964a44ca..5662535067ec84904bbe98f3109205510065138f 100644
+--- a/lib/provider/v1/references.js
++++ b/lib/provider/v1/references.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ /**
+  * Fail-closed construction of the circuit's reviewed document and KiCad
+  * preview contract. Network verification is deliberately NOT performed here:
+@@ -44,6 +45,10 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
+     // Asset paths are reported relative to the canonical path base, because the
+     // files themselves are canonicalised before the relative path is taken.
+     const canonicalPathBase = await realpath(options.footprintPathBase ?? roots.projectRoot);
++    // Project #210 parity: exceptions must name real selected records.
++    for (const exception of selection.documentExceptions ?? []) {
++        if (!index.recordById.has(exception.recordId)) fail("STALE_SELECTION", "document exception names missing record", {recordId: exception.recordId});
++    }
+     const documentsByRecordId = selectDocuments(index, selection);
+     const packageByRecordId = new Map();
+     const packagesByName = new Map();
+@@ -70,7 +75,7 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
+         let packageReference = packagesByName.get(footprintName);
+         if (packageReference === undefined) {
+             packageReference = await readPackage(footprintName, recordId, roots, canonicalPathBase, modelLocatorPrefix, limits);
+-            aggregateModelBytes += await fileSize(join(canonicalPathBase, packageReference.modelPath), "model", recordId);
++            if (packageReference.modelPath !== null) aggregateModelBytes += await fileSize(join(canonicalPathBase, packageReference.modelPath), "model", recordId);
+             assertReferenceSize("aggregate", aggregateModelBytes, recordId, limits);
+             packagesByName.set(footprintName, packageReference);
+         }
+@@ -94,7 +99,7 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
+     return { documentsByRecordId, packages, packageByRecordId, unpublishedPackageRecordIds };
+ }
+ function selectDocuments(index, selection) {
+-    const result = new Map();
++    const result = new Map((selection.documentExceptions ?? []).map(e => [e.recordId, {recordId: e.recordId, unresolvedReason: e.reason}]));
+     for (const selected of selection.documentSelections) {
+         const record = index.recordById.get(selected.recordId);
+         const source = record?.sources.find((candidate) => candidate.source_id === selected.sourceId);
+@@ -142,13 +147,14 @@ async function readPackage(footprintName, recordId, roots, canonicalPathBase, mo
+     assertReferenceSize("footprint", footprintStat.size, recordId, limits);
+     const footprint = await readFile(footprintFile, "utf8");
+     const models = [...footprint.matchAll(/\(model\s+"([^"]+)"/gu)];
+-    if (models.length !== 1) {
++    if (models.length > 1) {
+         fail("ADAPTER_CONTRACT", "footprint must reference exactly one model", {
+             recordId,
+             footprint: footprintName,
+             modelCount: models.length,
+         });
+     }
++    if (models.length === 0) return {packageId: footprintName, footprintName, footprintPath: relative(canonicalPathBase, footprintFile).split(sep).join("/"), modelPath: null, offset: null, rotation: null, scale: null, recordIds: []};
+     const modelLocator = models[0]?.[1] ?? "";
+     if (!modelLocator.startsWith(modelLocatorPrefix)) {
+         fail("PATH_CONTAINMENT", "footprint model is not a safe local WRL", {
+diff --git a/lib/scan/artifacts.d.ts b/lib/scan/artifacts.d.ts
+index 28f5ce5da15d996a0b8666b5f13d0120e81f9eaf..77593effc3ebf2be28ff2ed8b8116a878e1d3e9c 100644
+--- a/lib/scan/artifacts.d.ts
++++ b/lib/scan/artifacts.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/107.
+ /**
+  * The publication-safety scan on the BUILT site (port of upstream
+  * `scan-artifacts.ts`, generalized: see the epic #1 planning note
+@@ -43,7 +44,7 @@ export type Control = {
+ };
+ export type ArtifactScanInput = {
+     readonly policy: ScanPolicy;
+-    readonly paths: Pick<CircuitProjectPaths, "distRoot" | "generatedRoot" | "preflightFile">;
++    readonly paths: Pick<CircuitProjectPaths, "distRoot" | "generatedRoot" | "preflightFile" | "publicRoot" | "projectRoot" | "footprintLibraryRoot">;
+     /** Resolved `config.docs.root`; the authored-content subtraction corpus lives under it. */
+     readonly docsRoot: string;
+     /** From `readCanaries(paths)` — the full denied-value canary set. */
+@@ -98,3 +99,6 @@ export declare function buildPositiveControls(record: PublicRecord): readonly Co
+  * searches BY.
+  */
+ export declare function buildDiscoveryControls(record: PublicRecord): readonly Control[];
++
++export declare function independentContentTargets(docsRoot: string, generatedRoot: string): Promise<import("../core/scan.ts").ScanTarget[]>;
++export declare function scanSiteTargets(targets: readonly import("../core/scan.ts").ScanTarget[], canaries: readonly Canary[], paths: CircuitProjectPaths, model: PublicViewModel): Promise<import("../core/scan.ts").ScanResult>;
+diff --git a/lib/scan/artifacts.js b/lib/scan/artifacts.js
+index d4d7bb6e84776fdf182f56ebf3c075ceb89f1f51..12211d80a0a235438f6bf962ac55699d789fc4d4 100644
+--- a/lib/scan/artifacts.js
++++ b/lib/scan/artifacts.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/107.
+ /**
+  * The publication-safety scan on the BUILT site (port of upstream
+  * `scan-artifacts.ts`, generalized: see the epic #1 planning note
+@@ -33,8 +34,11 @@
+  * publishes (`subtractPublishedElsewhere` against the project's own authored
+  * docs, outside the generated component tree).
+  */
++import { createHash } from "node:crypto";
++import { lstat, realpath } from "node:fs/promises";
+ import { readFile } from "node:fs/promises";
+-import { join } from "node:path";
++import { join, relative, resolve, sep, isAbsolute } from "node:path";
++import { assertPathNotSymlinked } from "../core/emit.js";
+ import { fail } from "../core/errors.js";
+ import { byCodeUnit } from "../core/ids.js";
+ import { assertNoLeaks, assertPositiveControls, assertRequiredRoutes, readScanTargets, scanTargets, subtractPublishedElsewhere, } from "../core/scan.js";
+@@ -152,7 +156,7 @@ export async function runArtifactScan(input) {
+         lines.push(`positive controls      ${controls.length} per full-text surface, ${discovery.length} on discovery surfaces (record ${controlRecord.identity.slug})`);
+     }
+     // --- SITE tier: canaries no other content source publishes ---------------
+-    const contentTargets = (await readScanTargetsOrMissing(join(input.docsRoot, "src/content/docs"), "content")).filter((target) => !target.label.startsWith(`content${GENERATED_ROUTE_PREFIX}`));
++    const contentTargets = await independentContentTargets(input.docsRoot, paths.generatedRoot);
+     const siteCanaries = subtractPublishedElsewhere(canaries, contentTargets);
+     const withheld = canaries.length - siteCanaries.length;
+     if (policy.expectedWithheld !== null && withheld !== policy.expectedWithheld) {
+@@ -162,8 +166,9 @@ export async function runArtifactScan(input) {
+             why: "another content source started or stopped publishing a denied-only value; review the change, then update scan.expectedWithheld",
+         });
+     }
+-    const siteTargets = [...distTargets, ...agentTargets];
+-    const siteResult = scanTargets(siteTargets, siteCanaries);
++    const publicTargets = await readScanTargetsOrMissing(paths.publicRoot, "public");
++    const siteTargets = [...distTargets, ...agentTargets, ...publicTargets];
++    const siteResult = await scanSiteTargets(siteTargets, siteCanaries, paths, model);
+     const siteFloors = deriveFloors(policy, "site", model);
+     assertNoLeaks(siteResult, siteFloors);
+     if (declaredEmpty && policy.minimumSiteCanaries === null && policy.minimumSiteFiles === null) {
+@@ -290,7 +295,7 @@ function controlScore(record) {
+     return score;
+ }
+ function control(label, value) {
+-    return value === "" ? null : { label, value };
++    return value == null || value === "" ? null : { label, value };
+ }
+ /**
+  * Positive controls: one value per field class the acceptance criteria name.
+@@ -505,3 +510,53 @@ function assertSearchIndex(targets, model, policy) {
+     }
+     return componentEntries.length;
+ }
++
++export async function independentContentTargets(docsRoot, generatedRoot) {
++    const contentRoot = join(docsRoot, "src/content/docs");
++    const generatedPrefix = relative(contentRoot, generatedRoot).split(sep).join("/");
++    return (await readScanTargetsOrMissing(contentRoot, "content")).filter(t => {
++        const path = t.label.slice("content/".length);
++        return path !== generatedPrefix && !path.startsWith(`${generatedPrefix}/`);
++    });
++}
++
++// Hash overlap is excused only inside the verified preview manifest. A copy
++// into any other file remains a leak; the OWNED canary set is never changed.
++export async function scanSiteTargets(targets, canaries, paths, model) {
++    const results = [];
++    for (const target of targets) {
++        let allowed = new Set();
++        if (/^(?:dist|public)\/assets\/component-previews\/footprints\/manifest\.json$/.test(target.label)) {
++            if (target.text === null) fail("PUBLICATION_POLICY", "preview hash proof is not text");
++            const manifest = JSON.parse(target.text);
++            if (manifest.formatVersion !== 1 || !Array.isArray(manifest.packages)) fail("PUBLICATION_POLICY", "malformed preview hash proof");
++            const reviewed = new Map(model.packagePreviews.map(p => [p.packageId, p]));
++            if (manifest.packages.length !== reviewed.size) fail("PUBLICATION_POLICY", "preview hash proof package count mismatch");
++            const seen = new Set();
++            for (const entry of manifest.packages) {
++                const descriptor = reviewed.get(entry.packageId);
++                if (!descriptor || seen.has(entry.packageId) || entry.footprintPath !== descriptor.footprintPath || entry.footprintName !== descriptor.footprintName || !/^[0-9a-f]{64}$/.test(entry.canonicalInputSha256)) fail("PUBLICATION_POLICY", "unreviewed preview hash proof");
++                seen.add(entry.packageId);
++                const file = resolve(paths.projectRoot, entry.footprintPath);
++                await assertPathNotSymlinked(paths.projectRoot, file);
++                const root = await realpath(paths.footprintLibraryRoot);
++                const canonical = await realpath(file);
++                const rel = relative(root, canonical);
++                if (isAbsolute(rel) || rel.startsWith("..") || (await lstat(file)).isSymbolicLink() || !(await lstat(file)).isFile()) fail("PATH_CONTAINMENT", "preview hash proof escapes canonical library");
++                const hash = createHash("sha256").update(await readFile(file)).digest("hex");
++                if (hash !== entry.canonicalInputSha256) fail("PUBLICATION_POLICY", "preview canonical hash proof mismatch");
++                allowed.add(hash);
++            }
++        }
++        // Remove proved occurrences only from the precise structured field;
++        // any same hash planted in another manifest field still fails.
++        let provenTarget = target;
++        if (allowed.size) {
++            const data = JSON.parse(target.text);
++            for (const entry of data.packages) entry.canonicalInputSha256 = "";
++            provenTarget = {...target, text: JSON.stringify(data)};
++        }
++        results.push(scanTargets([provenTarget], canaries));
++    }
++    return {canaries: canaries.length, filesScanned: results.reduce((n,r) => n+r.filesScanned,0), filesSkippedBinary: results.reduce((n,r) => n+r.filesSkippedBinary,0), hits: results.flatMap(r => r.hits)};
++}
+diff --git a/lib/scan/built-references.js b/lib/scan/built-references.js
+index 5be1cc8806c8a8ebdc60fe723922c3ab9cf7bf68..298aa373fbbc55b77da0908844705526f513a80d 100644
+--- a/lib/scan/built-references.js
++++ b/lib/scan/built-references.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ /**
+  * The built-output reference checker (port of upstream
+  * `check-built-component-references.mjs`; see
+@@ -71,11 +72,7 @@ export async function checkBuiltReferences(input) {
+     for (const slug of recordDirectories) {
+         const html = await readFile(join(recordsRoot, slug, "index.html"), "utf8");
+         const record = recordsBySlug.get(slug);
+-        if (record !== undefined && record.reference.footprint === null) {
+-            checkPackagelessRecordPage(slug, html, record);
+-            continue;
+-        }
+-        checkRecordPage(slug, html, referencedFootprints, referencedModels);
++        checkRecordPage(slug, html, referencedFootprints, referencedModels, record);
+     }
+     if (!setsEqual(referencedFootprints, manifest.names)) {
+         fail("PUBLICATION_POLICY", "record pages do not use exactly the manifest-selected footprint SVGs", {
+@@ -83,7 +80,7 @@ export async function checkBuiltReferences(input) {
+             actual: [...referencedFootprints].sort(byCodeUnit),
+         });
+     }
+-    if (referencedModels.size !== expectedPackages) {
++    if (referencedModels.size !== model.packagePreviews.filter(p => p.modelPath !== null).length) {
+         fail("PUBLICATION_POLICY", "record pages must deduplicate to exactly the selected package models", {
+             expected: expectedPackages,
+             actual: referencedModels.size,
+@@ -228,7 +225,10 @@ function checkPackagelessRecordPage(slug, html, record) {
+     }
+ }
+ // --- per-record structural assertions (kept verbatim from upstream) --------
+-function checkRecordPage(slug, html, referencedFootprints, referencedModels) {
++function checkRecordPage(slug, html, referencedFootprints, referencedModels, record) {
++    const hasDocument = record.reference.document !== null;
++    const hasFootprint = record.reference.footprint !== null;
++    const hasModel = record.reference.footprint?.modelPath != null;
+     const sections = extractReferenceSections(html);
+     if (sections.length !== 1) {
+         fail("PUBLICATION_POLICY", `${slug} must render exactly one Component references section`, {
+@@ -240,6 +240,7 @@ function checkRecordPage(slug, html, referencedFootprints, referencedModels) {
+     if (html.indexOf(section) >= html.indexOf("zcd-evidence-table")) {
+         fail("PUBLICATION_POLICY", `${slug} must render Component references before evidence tables`, { slug });
+     }
++    if (hasDocument) {
+     const labels = [
+         ...section.matchAll(/<p\b[^>]*class=(?:"zcd-component-references__document-label"|zcd-component-references__document-label)[^>]*>([^<]+)<\/p>/gu),
+     ];
+@@ -258,6 +259,10 @@ function checkRecordPage(slug, html, referencedFootprints, referencedModels) {
+     if (documentUrl.protocol !== "https:" && documentUrl.protocol !== "http:") {
+         fail("PUBLICATION_POLICY", `${slug} document URL must be HTTP(S)`, { slug, url: documentUrl.href });
+     }
++    } else if (/zcd-component-references__document-label|zcd-component-references__document-title/.test(section) || !section.includes("No reviewed manufacturer document is available.")) {
++        fail("PUBLICATION_POLICY", `${slug} must retain honest unavailable document state`, {slug});
++    }
++    if (hasFootprint) {
+     const footprintImages = [
+         ...section.matchAll(/<img\b[^>]*\balt=(?:"Footprint preview for [^"]+"|'Footprint preview for [^']+'|Footprint[^\s>]*)[^>]*>/gu),
+     ];
+@@ -277,6 +282,10 @@ function checkRecordPage(slug, html, referencedFootprints, referencedModels) {
+     if (!section.includes(">Open SVG</a>")) {
+         fail("PUBLICATION_POLICY", `${slug} must retain the direct footprint link without JavaScript`, { slug });
+     }
++    } else if (section.includes(FOOTPRINT_ASSET_BASE) || !section.includes("Footprint preview unavailable.")) {
++        fail("PUBLICATION_POLICY", `${slug} must retain unavailable footprint state`, {slug});
++    }
++    if (hasModel) {
+     const modelTags = section.match(/<[^>]+\bdata-model-url=(?:"[^"]+"|'[^']+'|[^\s>]+)[^>]*>/gu) ?? [];
+     const modelPaths = modelTags.map((tag) => decodeHtml(readAttribute(tag, "data-model-url", slug)));
+     if (modelPaths.length !== 1)
+@@ -295,11 +304,16 @@ function checkRecordPage(slug, html, referencedFootprints, referencedModels) {
+     if (!/data-zfb-island=(?:"PackageModelViewerIsland"|PackageModelViewerIsland)(?:\s|>)/u.test(section)) {
+         fail("PUBLICATION_POLICY", `${slug} must register the model island`, { slug });
+     }
++    } else if (section.includes(MODEL_ASSET_BASE) || !section.includes("Package model unavailable.")) {
++        fail("PUBLICATION_POLICY", `${slug} must retain unavailable model state`, {slug});
++    }
++    const expectedKinds = [...(hasFootprint ? ["footprint"] : []), ...(hasModel ? ["model"] : [])].sort(byCodeUnit).join(",");
++    const expectedPreviewCount = Number(hasFootprint) + Number(hasModel);
+     const enlargeTriggers = section.match(/<button\b[^>]*\bdata-component-preview-enlarge=(?:"[^"]+"|'[^']+'|[^\s>]+)[^>]*>/gu) ?? [];
+-    if (enlargeTriggers.length !== 2)
++    if (enlargeTriggers.length !== expectedPreviewCount)
+         fail("PUBLICATION_POLICY", `${slug} must render footprint and model enlarge controls`, { slug });
+     const enlargeKinds = enlargeTriggers.map((tag) => readAttribute(tag, "data-component-preview-enlarge", slug)).sort(byCodeUnit);
+-    if (enlargeKinds.join(",") !== "footprint,model") {
++    if (enlargeKinds.join(",") !== expectedKinds) {
+         fail("PUBLICATION_POLICY", `${slug} enlarge controls must target both preview kinds`, { slug, kinds: enlargeKinds });
+     }
+     for (const tag of enlargeTriggers) {
+@@ -308,10 +322,10 @@ function checkRecordPage(slug, html, referencedFootprints, referencedModels) {
+         }
+     }
+     const dialogs = section.match(/<dialog\b[^>]*\bdata-component-preview-dialog=(?:"[^"]+"|'[^']+'|[^\s>]+)[^>]*>/gu) ?? [];
+-    if (dialogs.length !== 2)
++    if (dialogs.length !== expectedPreviewCount)
+         fail("PUBLICATION_POLICY", `${slug} must render two closed preview dialog shells`, { slug });
+     const dialogKinds = dialogs.map((tag) => readAttribute(tag, "data-component-preview-dialog", slug)).sort(byCodeUnit);
+-    if (dialogKinds.join(",") !== "footprint,model") {
++    if (dialogKinds.join(",") !== expectedKinds) {
+         fail("PUBLICATION_POLICY", `${slug} dialog shells must cover both preview kinds`, { slug, kinds: dialogKinds });
+     }
+     for (const tag of dialogs) {
+@@ -326,7 +340,7 @@ function checkRecordPage(slug, html, referencedFootprints, referencedModels) {
+     if (section.includes("zcd-preview-dialog__title")) {
+         fail("PUBLICATION_POLICY", `${slug} enlarged media must not include a visible title`, { slug });
+     }
+-    if (!/Interactive inspection requires JavaScript and WebGL\. The package identity remains available in this page\./u.test(section)) {
++    if (hasModel && !/Interactive inspection requires JavaScript and WebGL\. The package identity remains available in this page\./u.test(section)) {
+         fail("PUBLICATION_POLICY", `${slug} must retain a useful static viewer explanation`, { slug });
+     }
+     if (!/id=(?:"sources"|sources)(?:\s|>)/u.test(html)) {
+diff --git a/lib/ui/component-references.js b/lib/ui/component-references.js
+index d69245f499c3924272effdf4a2a83b1795be1ab9..ef1ef0041b80408bba67b6ba37b85d68a1517d14 100644
+--- a/lib/ui/component-references.js
++++ b/lib/ui/component-references.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/105.
+ import { jsx as _jsx, jsxs as _jsxs } from "preact/jsx-runtime";
+ /** @jsxRuntime automatic */
+ /** @jsxImportSource preact */
+@@ -12,5 +13,23 @@ import { PackageModelViewer } from "./package-model-viewer.js";
+ export function ComponentReferences({ descriptor: encoded }) {
+     const descriptor = decodeComponentReferencesDescriptor(encoded);
+     const { document, footprint } = descriptor;
+-    return (_jsxs("section", { className: "zcd-component-references", "aria-label": "Selected document and package previews", children: [_jsxs("div", { className: "zcd-component-references__document", children: [_jsxs("div", { children: [_jsx("p", { className: "zcd-component-references__document-label", children: document.label }), _jsx("p", { className: "zcd-component-references__document-title", children: _jsx("a", { href: document.url, children: document.title }) })] }), _jsxs("dl", { className: "zcd-component-references__metadata", children: [_jsxs("div", { children: [_jsx("dt", { children: "Authority" }), _jsx("dd", { children: document.authority })] }), _jsxs("div", { children: [_jsx("dt", { children: "Availability" }), _jsx("dd", { children: document.availability })] })] })] }), _jsxs("div", { className: "zcd-component-references__previews", children: [_jsxs("article", { className: "zcd-component-references__preview", children: [_jsx("h3", { className: "zcd-component-references__card-heading", children: "Footprint preview" }), _jsx(FootprintPreview, { assetUrl: footprint.assetUrl, footprintName: footprint.name })] }), _jsxs("article", { className: "zcd-component-references__preview zcd-component-references__model-card", children: [_jsx("h3", { className: "zcd-component-references__card-heading", children: "Package model" }), _jsx(PackageModelViewer, { descriptor: descriptor.modelDescriptor })] })] })] }));
++    return _jsxs("section", {className: "zcd-component-references", "aria-label": "Selected document and package previews", children: [
++        _jsxs("div", {className: "zcd-component-references__document", children: document === null ? [
++            _jsx("h3", {className: "zcd-component-references__card-heading", children: "Selected document"}),
++            _jsx("p", {children: "No reviewed manufacturer document is available. See Sources for retained evidence."})
++        ] : [
++            _jsxs("div", {children: [
++                _jsx("p", {className: "zcd-component-references__document-label", children: document.label}),
++                _jsx("p", {className: "zcd-component-references__document-title", children: _jsx("a", {href: document.url, children: document.title})})
++            ]}),
++            _jsxs("dl", {className: "zcd-component-references__metadata", children: [
++                _jsxs("div", {children: [_jsx("dt", {children: "Authority"}), _jsx("dd", {children: document.authority})]}),
++                _jsxs("div", {children: [_jsx("dt", {children: "Availability"}), _jsx("dd", {children: document.availability})]})
++            ]})
++        ]}),
++        _jsxs("div", {className: "zcd-component-references__previews", children: [
++            _jsxs("article", {className: "zcd-component-references__preview", children: [_jsx("h3", {className: "zcd-component-references__card-heading", children: "Footprint preview"}), footprint === null ? _jsx("p", {children: "Footprint preview unavailable."}) : _jsx(FootprintPreview, {assetUrl: footprint.assetUrl, footprintName: footprint.name})]}),
++            _jsxs("article", {className: "zcd-component-references__preview zcd-component-references__model-card", children: [_jsx("h3", {className: "zcd-component-references__card-heading", children: "Package model"}), descriptor.modelDescriptor === null ? _jsx("p", {children: "Package model unavailable."}) : _jsx(PackageModelViewer, {descriptor: descriptor.modelDescriptor})]})
++        ]})
++    ]});
+ }
+diff --git a/lib/validate/resolved-config.d.ts b/lib/validate/resolved-config.d.ts
+index 6552e0f0c6c48e0ad2f69628e30ae8ab6ccaad05..da12e6e2ba72e72f3e02f72e1cfdd1646c288e97 100644
+--- a/lib/validate/resolved-config.d.ts
++++ b/lib/validate/resolved-config.d.ts
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ /**
+  * The resolved-config JSON `circuit_validate.py` reads (ADR-007), built from a
+  * plain, package-independent `ValidatorInput`.
+@@ -41,6 +42,7 @@ export type ValidatorInput = {
+     };
+     readonly inventory: {
+         readonly path: string;
++        readonly candidatesPath?: string | null;
+         readonly provider: ValidatorInventoryProvider;
+     };
+     readonly routing: {
+@@ -87,6 +89,7 @@ export type ResolvedValidatorConfig = {
+     };
+     readonly inventory: {
+         readonly path: string;
++        readonly candidatesPath?: string | null;
+         readonly provider: ValidatorInventoryProvider;
+     };
+     readonly routing: {
+diff --git a/lib/validate/resolved-config.js b/lib/validate/resolved-config.js
+index 38ead788a64f8d4c07b777059b9ba1642071f546..fbc7d0c79eb01d5432d38ee4abc5149aad17b32e 100644
+--- a/lib/validate/resolved-config.js
++++ b/lib/validate/resolved-config.js
+@@ -1,3 +1,4 @@
++// Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ /**
+  * The resolved-config JSON `circuit_validate.py` reads (ADR-007), built from a
+  * plain, package-independent `ValidatorInput`.
+@@ -49,7 +50,7 @@ export function buildResolvedValidatorConfig(input) {
+             auditSkillDir: input.bundles.auditSkillDir,
+             requireSkillMd: input.bundles.requireSkillMd ?? true,
+         },
+-        inventory: { path: input.inventory.path, provider: input.inventory.provider },
++        inventory: { path: input.inventory.path, candidatesPath: input.inventory.candidatesPath ?? null, provider: input.inventory.provider },
+         routing: {
+             directRouting: input.routing.directRouting,
+             vendorQualifiers: input.routing.vendorQualifiers,
+diff --git a/python/circuit_evidence/aggregate.py b/python/circuit_evidence/aggregate.py
+index 2dac6c90897a0a564934d7be70faa56b92545b5f..a799550fa979b8af27577dc433c368e6699be8b0 100644
+--- a/python/circuit_evidence/aggregate.py
++++ b/python/circuit_evidence/aggregate.py
+@@ -1,3 +1,4 @@
++# Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ """Discover and validate every owner bundle under a project's bundles root."""
+ 
+ from __future__ import annotations
+@@ -5,7 +6,9 @@ from __future__ import annotations
+ from pathlib import Path
+ 
+ from .bundle import BUNDLE_FILES, load_skill_bundle, validate_bundle
+-from .errors import ContractError, require
++from .errors import ContractError, require, required_keys, load
++from .sources import ID
++import re
+ from .routing import NO_ROUTING_POLICY
+ from .skillmd import frontmatter
+ from .template import check_placeholder_leak
+@@ -42,10 +45,10 @@ def _owner_directory_mismatch_message(owners, actual_component_dirs, bundles_roo
+     return message
+ 
+ 
+-def validate_owner_bundles(schema, inventory, bundles_root, *, owner_prefix="component-", reserved_dirs=(), routing=NO_ROUTING_POLICY):
++def validate_owner_bundles(schema, inventory, bundles_root, *, owner_prefix="component-", reserved_dirs=(), routing=NO_ROUTING_POLICY, candidates=()):
+     """Validate the owner bundles and return ``(aggregate, bundles_by_owner)``."""
+     required = schema["required_skill_files"]
+-    owners = {line["owner_skill"] for line in inventory}
++    owners = {line["owner_skill"] for line in [*inventory, *candidates]}
+     bundles_root = Path(bundles_root)
+     reserved = set(reserved_dirs)
+     actual_component_dirs = {
+@@ -66,10 +69,13 @@ def validate_owner_bundles(schema, inventory, bundles_root, *, owner_prefix="com
+         bundle = load_skill_bundle(skill_dir)
+         validate_bundle(bundle, schema, routing)
+         expected = {line["line_id"]: line for line in inventory if line["owner_skill"] == skill_dir.name}
+-        actual = {record["line_id"]: record for record in bundle["records"]}
+-        require(set(actual) == set(expected), f"{skill_dir.name}: local manifest does not own exactly its assigned inventory lines")
+-        for line_id, record in actual.items():
+-            line = expected[line_id]
++        expected_candidates = {c["candidate_id"]: c for c in candidates if c["owner_skill"] == owner}
++        actual = {r["line_id"]: r for r in bundle["records"] if r.get("line_id")}
++        actual_candidates = {r["candidate_id"]: r for r in bundle["records"] if r.get("candidate_id")}
++        require(len(actual) + len(actual_candidates) == len(bundle["records"]), f"{owner}: duplicate or unregistered ownership")
++        require(set(actual) == set(expected) and set(actual_candidates) == set(expected_candidates), f"{owner}: exact inventory/candidate assignment required")
++        for line_id, record in {**actual, **actual_candidates}.items():
++            line = expected.get(line_id) or expected_candidates[line_id]
+             for key in ("mpn", "manufacturer", "lcsc", "package"):
+                 require(record[key] == line[key], f"{skill_dir.name}/{line_id}: {key} differs from inventory")
+         current = {
+@@ -85,7 +91,7 @@ def validate_owner_bundles(schema, inventory, bundles_root, *, owner_prefix="com
+             aggregate[key].extend(bundle[key])
+         bundles_by_owner[owner] = bundle
+     expected_line_ids = {line["line_id"] for line in inventory}
+-    actual_line_ids = [record["line_id"] for record in aggregate["records"]]
++    actual_line_ids = [record["line_id"] for record in aggregate["records"] if record.get("line_id")]
+     require(len(actual_line_ids) == len(inventory) and set(actual_line_ids) == expected_line_ids, "owner skills: exact global inventory-record parity required")
+     return aggregate, bundles_by_owner
+ 
+@@ -93,3 +99,40 @@ def validate_owner_bundles(schema, inventory, bundles_root, *, owner_prefix="com
+ def validate_local_skills(schema, inventory, bundles_root, *, owner_prefix="component-", reserved_dirs=(), routing=NO_ROUTING_POLICY):
+     aggregate, _bundles = validate_owner_bundles(schema, inventory, bundles_root, owner_prefix=owner_prefix, reserved_dirs=reserved_dirs, routing=routing)
+     return aggregate
++
++
++def validate_candidates(path, schema, lines, provider):
++    if path is None:
++        return []
++    require(Path(path).is_file(), "candidates: configured file is missing")
++    data = load(path)
++    required_keys(data, ("schema_version", "candidates"), "candidates")
++    require(data["schema_version"] == 1 and isinstance(data["candidates"], list), "candidates: invalid schema")
++    candidates = data["candidates"]
++    placed = {l["lcsc"] for l in lines}
++    generated = set(provider.generated()[0]) if hasattr(provider, "generated") else set()
++    for c in candidates:
++        required_keys(c, schema["candidate_required"], "candidate")
++        require(all(isinstance(c[k], str) and c[k].strip() for k in ("candidate_id", "mpn", "manufacturer", "lcsc", "package", "function", "owner_skill", "rationale")), "candidate: blank identity")
++        require(ID.fullmatch(c["candidate_id"]) and re.fullmatch(r"C[0-9]+", c["lcsc"]), "candidate: invalid ID")
++        require(re.fullmatch(r"component-[a-z0-9-]+", c["owner_skill"]) and c["owner_skill"] != "component-spec-audit", "candidate: invalid owner")
++        require(c["status"] in schema["candidate_states"], "candidate: invalid state")
++        require(c["lcsc"] not in placed | generated, "candidate: identity placed by inventory/generator")
++        require(c["replaces_line_id"] is None or c["replaces_line_id"] in {l["line_id"] for l in lines}, "candidate: unknown replacement line")
++    for key in ("candidate_id", "lcsc"):
++        require(len({c[key] for c in candidates}) == len(candidates), f"candidates: duplicate {key}")
++    return candidates
++
++
++def inventory_partition(aggregate):
++    # Validate all bundles first, then explicitly reject dependencies crossing the
++    # publication partition. Candidate evidence remains in bundles for audit.
++    ids = {r["record_id"] for r in aggregate["records"] if r.get("line_id")}
++    candidate_ids = {r["record_id"] for r in aggregate["records"]} - ids
++    facts = {f["fact_id"]: f for f in aggregate["facts"]}
++    for f in facts.values():
++        for dep in f.get("depends_on", []):
++            require(dep in facts and ((facts[dep]["record_id"] in ids) == (f["record_id"] in ids)), "cross-partition fact dependency")
++    for i in aggregate["interactions"]:
++        require(not (set(i["record_ids"]) & ids and set(i["record_ids"]) & candidate_ids), "cross-partition interaction")
++    return {k: [v for v in values if (set(v["record_ids"]) <= ids if k == "interactions" else v["record_id"] in ids)] for k, values in aggregate.items()}
+diff --git a/python/circuit_evidence/inventory/common.py b/python/circuit_evidence/inventory/common.py
+index c10e15cc9176f3ad3d5ebdc6ff05a6f1fcecc0f6..8a469d51fb2ae5e90f115d04fff66fe0d1138b66 100644
+--- a/python/circuit_evidence/inventory/common.py
++++ b/python/circuit_evidence/inventory/common.py
+@@ -1,3 +1,4 @@
++# Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ """Inventory checks every provider shares: file shape, enums, counts and owner-bundle parity."""
+ 
+ from __future__ import annotations
+@@ -11,7 +12,7 @@ from ..sources import ID
+ 
+ INVENTORY_KEYS = ("schema_version", "generator_specs", "assertions", "exclusions", "lines")
+ ASSERTION_KEYS = ("orderable_lines", "fitted_lines", "dnp_or_hand_fit_lines")
+-LINE_KEYS = ("line_id", "mpn", "manufacturer", "lcsc", "package", "dnp", "owner_skill", "identity_state", "source_state", "function", "placements")
++LINE_KEYS = ("line_id", "mpn", "manufacturer", "lcsc", "package", "owner_skill", "identity_state", "source_state", "function", "placements")
+ IDENTITY_STATES = ("VERIFIED", "UNRESOLVED")
+ SOURCE_STATES = ("AVAILABLE", "SOURCE UNAVAILABLE")
+ MOUNTINGS = ("pcb", "external")
+@@ -85,13 +86,16 @@ def validate_line_shape(line):
+     require(all(isinstance(line[key], str) and line[key].strip() for key in ("line_id", "mpn", "manufacturer", "package", "owner_skill", "function")), f"{context}: blank identity field")
+     require(ID.fullmatch(line["line_id"]), f"{line['line_id']}: invalid line ID")
+     require(isinstance(line["lcsc"], str), f"{line['line_id']}: lcsc must be a string")
+-    require(isinstance(line["dnp"], bool), f"{line['line_id']}: dnp must be a boolean")
++    require("dnp" not in line or isinstance(line["dnp"], bool), f"{line['line_id']}: dnp must be a boolean")
+     require(line["source_state"] in SOURCE_STATES, f"{line['line_id']}: source availability state")
+     require(line["identity_state"] in IDENTITY_STATES, f"{line['line_id']}: identity state")
+     require(line.get("mounting", "pcb") in MOUNTINGS, f"{line['line_id']}: unknown mounting")
+     require(isinstance(line["placements"], list), f"{line['line_id']}: placements must be a list")
+     for placement in line["placements"]:
+         require(isinstance(placement, dict), f"{line['line_id']}: placement must be an object")
++        require(isinstance(placement.get("dnp", line.get("dnp")), bool), f"{context}: placement dnp must be a boolean")
++        if "dnp" in line and "dnp" in placement:
++            require(line["dnp"] == placement["dnp"], f"{context}: conflicting legacy and placement dnp")
+         required_keys(placement, ("board", "refdes"), f"{line['line_id']} placement")
+         require(all(isinstance(placement[key], str) and placement[key].strip() for key in ("board", "refdes")), f"{line['line_id']}: blank placement board/refdes")
+ 
+@@ -99,8 +103,8 @@ def validate_line_shape(line):
+ def validate_counts(data):
+     lines, assertions = data["lines"], data["assertions"]
+     require(len(lines) == assertions["orderable_lines"], "inventory: orderable line count differs from reviewed assertion")
+-    require(sum(not line["dnp"] for line in lines) == assertions["fitted_lines"], "inventory: fitted line count differs from reviewed assertion")
+-    require(sum(line["dnp"] for line in lines) == assertions["dnp_or_hand_fit_lines"], "inventory: DNP/hand-fit line count differs from reviewed assertion")
++    require(sum(any(not p.get("dnp", line.get("dnp")) for p in line["placements"]) for line in lines) == assertions["fitted_lines"], "inventory: fitted line count differs from reviewed assertion")
++    require(sum(any(p.get("dnp", line.get("dnp")) for p in line["placements"]) for line in lines) == assertions["dnp_or_hand_fit_lines"], "inventory: DNP/hand-fit line count differs from reviewed assertion")
+ 
+ 
+ def validate_owner_parity(lines, aggregate):
+diff --git a/python/circuit_evidence/inventory/led_generator_v1.py b/python/circuit_evidence/inventory/led_generator_v1.py
+index cc0c730d192b247f4d53f7a7250171493fa06ae7..6185b8a1170d0fc914b90dbb83d9ee1187e2ea09 100644
+--- a/python/circuit_evidence/inventory/led_generator_v1.py
++++ b/python/circuit_evidence/inventory/led_generator_v1.py
+@@ -1,3 +1,4 @@
++# Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ """The led-generator-v1 inventory profile (ADR-010): inventory lines are bound to schgen
+ generator specs, which are read by a declarative AST interpreter and never executed.
+ 
+@@ -135,7 +136,7 @@ def parse_components(path):
+     return ComponentDsl(Path(path)).parse()
+ 
+ 
+-def generator_inventory(specs):
++def generator_inventory(specs, mpn_from_value=()):
+     """Group every spec's components by inventory key.
+ 
+     ``specs`` is ``[{path, board?}]``; ``[]`` means no generator. Returns
+@@ -162,7 +163,7 @@ def generator_inventory(specs):
+                 excluded.append((board, refdes))
+                 continue
+             else:
+-                key, mpn, package = lcsc, expected_mpn(symbol), footprint.split(":", 1)[-1]
++                key, mpn, package = lcsc, (value if lcsc in mpn_from_value else expected_mpn(symbol)), footprint.split(":", 1)[-1]
+             entry = grouped.setdefault(key, {"mpn": mpn, "package": package, "symbols": set(), "placements": []})
+             require(entry["mpn"] == mpn and entry["package"] == package, f"generator LCSC {lcsc}: conflicting identity")
+             if external is not None:
+@@ -188,7 +189,7 @@ def validate_generator_parity(data, generated, excluded):
+     require(set(generated) == {inventory_key(line) for line in lines}, "inventory: LCSC identity differs from generator specs")
+     for line in lines:
+         if line.get("mounting") == "external":
+-            require(line["lcsc"] == "" and not line["dnp"], f"{line['line_id']}: external identity must have no LCSC and be fitted")
++            require(line["lcsc"] == "" and not any(p.get("dnp", line.get("dnp")) for p in line["placements"]), f"{line['line_id']}: external identity must have no LCSC and be fitted")
+         else:
+             require(re.fullmatch(r"C[0-9]+", line["lcsc"]), f"{line['line_id']}: PCB line needs LCSC")
+         expected = generated[inventory_key(line)]
+@@ -199,7 +200,7 @@ def validate_generator_parity(data, generated, excluded):
+         require(line["mpn"] == expected["mpn"], f"{line['line_id']}: wrong MPN against generator")
+         require(line["package"] == expected["package"], f"{line['line_id']}: wrong package against generator")
+         want_places = {(x["board"], x["refdes"], x["dnp"]) for x in expected["placements"]}
+-        got_places = {(x["board"], x["refdes"], line["dnp"]) for x in line["placements"]}
++        got_places = {(x["board"], x["refdes"], x.get("dnp", line.get("dnp"))) for x in line["placements"]}
+         require(got_places == want_places, f"{line['line_id']}: board/refdes or DNP mismatch")
+     validate_counts(data)
+     exclusions = {(x["board"], x["refdes"]) for x in data["exclusions"]}
+@@ -221,16 +222,18 @@ class LedGeneratorProvider(InventoryProvider):
+ 
+     def __init__(self, options):
+         super().__init__(options)
+-        unexpected = set(options) - {"kind", "specs"}
++        unexpected = set(options) - {"kind", "specs", "mpnFromValueLcsc"}
+         require(not unexpected, f"inventory provider led-generator-v1: unexpected options {sorted(unexpected)}")
+         require("specs" in options, "inventory provider led-generator-v1: specs option is required")
++        mpn_values = options.get("mpnFromValueLcsc", [])
++        require(isinstance(mpn_values, list) and all(isinstance(value, str) and re.fullmatch(r"C[0-9]+", value) for value in mpn_values) and len(set(mpn_values)) == len(mpn_values), "inventory provider: mpnFromValueLcsc must be distinct LCSC IDs")
+         self.specs = _spec_options(options["specs"])
+         self._generated = None
+ 
+     def generated(self):
+         """``(grouped, excluded, boards)`` from the configured specs, parsed once per run."""
+         if self._generated is None:
+-            self._generated = generator_inventory(self.specs)
++            self._generated = generator_inventory(self.specs, self.options.get("mpnFromValueLcsc", []))
+         return self._generated
+ 
+     def board_names(self, inventory):
+@@ -248,7 +251,21 @@ class LedGeneratorProvider(InventoryProvider):
+     def validate_inventory(self, inventory, config):
+         """The inventory-only part: spec-path consistency plus full generator parity."""
+         configured = self.relative_spec_paths(config["projectRoot"])
+-        require(inventory["generator_specs"] == configured, f"inventory: generator_specs {inventory['generator_specs']} differ from the configured specs {configured}")
++        declared = inventory["generator_specs"]
++        normalized = []
++        for entry in declared:
++            require(isinstance(entry, str) or (isinstance(entry, dict) and set(entry) == {"board", "spec"}), "inventory: invalid generator declaration")
++            name = entry if isinstance(entry, str) else entry["spec"]
++            require(isinstance(name, str), "inventory: generator path must be a string")
++            path = (Path(config["projectRoot"]) / name).resolve()
++            root = Path(config["projectRoot"]).resolve()
++            require(path.is_relative_to(root), "inventory: generator declaration escapes project")
++            normalized.append(path.relative_to(root).as_posix())
++            if isinstance(entry, dict):
++                dsl = ComponentDsl(path)
++                dsl.parse()
++                require(entry["board"] == dsl.env.get("PROJECT_NAME"), "inventory: board differs from PROJECT_NAME")
++        require(normalized == configured, f"inventory: generator_specs {inventory['generator_specs']} differ from the configured specs {configured}")
+         grouped, excluded, _boards = self.generated()
+         validate_generator_parity(inventory, grouped, excluded)
+ 
+diff --git a/python/circuit_evidence/orchestrator.py b/python/circuit_evidence/orchestrator.py
+index 277991902f05b69d3907dd3a25ecb4b7f9ed5308..868b7b6e4e74f6699ea47aa6f9a7a5dfed657c8c 100644
+--- a/python/circuit_evidence/orchestrator.py
++++ b/python/circuit_evidence/orchestrator.py
+@@ -1,3 +1,4 @@
++# Temporary compatibility: https://github.com/Takazudo/zudo-pd/issues/210; https://github.com/Takazudo/zudo-circuit-doc/issues/103, https://github.com/Takazudo/zudo-circuit-doc/issues/104.
+ """Config-driven validation run: the resolved-config JSON (RESOLVED_CONFIG.md) decides every path,
+ the inventory provider and the project policy; the check order is fixed here.
+ """
+@@ -9,7 +10,7 @@ from dataclasses import dataclass, field
+ from pathlib import Path
+ 
+ from . import cad as cad_checks
+-from .aggregate import validate_owner_bundles
++from .aggregate import validate_owner_bundles, validate_candidates, inventory_partition
+ from .bundle import validate_bundle
+ from .errors import load, require, required_keys
+ from .golden import SELFTEST_DIR, run_seeded_fixtures
+@@ -167,11 +168,13 @@ def validate(config, *, online=False, refresh_source_ids=(), opener=urllib.reque
+     context.routing = RoutingPolicy.load(vendor_qualifiers, context.provider.board_names(context.inventory))
+     bundles_root = Path(bundles_cfg["root"])
+     require(bundles_root.is_dir(), f"bundles: configured directory is missing: {bundles_root}")
++    candidates = validate_candidates(config["inventory"].get("candidatesPath"), schema, context.lines, context.provider)
+     context.aggregate, context.bundles = validate_owner_bundles(
+         schema, context.lines, bundles_root,
+-        owner_prefix=bundles_cfg["ownerPrefix"], reserved_dirs=bundles_cfg["reservedDirs"], routing=context.routing,
++        owner_prefix=bundles_cfg["ownerPrefix"], reserved_dirs=bundles_cfg["reservedDirs"], routing=context.routing, candidates=candidates,
+     )
+     check_placeholder_leak(context.bundles)
++    context.aggregate = inventory_partition(context.aggregate)
+ 
+     # 5. inventory provider
+     context.provider_result = context.provider.validate(context.inventory, context.aggregate, config)
+diff --git a/styles.css b/styles.css
+index 9897554c8ac2aa98f5d6b0800d6e31722b933bf7..cd6327cd947fca90297c120baec7c1792d697ae4 100644
+--- a/styles.css
++++ b/styles.css
+@@ -1,3 +1,4 @@
++/* Temporary layout bridge: https://github.com/Takazudo/zudo-circuit-doc/issues/109; https://github.com/Takazudo/zudo-pd/issues/210. */
+ /* @takazudo/zudo-circuit-doc — component-evidence page styles.
+ 
+    Provenance: Takazudo/zudo-led-lamp @ 194d8a297e3545588197342130c3111a66c10973,
+@@ -221,18 +222,27 @@
+ 
+ .zcd-model-viewer {
+   display: grid;
++  grid-template-columns: minmax(0, 1fr);
++  min-width: 0;
+   gap: var(--spacing-vsp-xs);
+   padding: var(--spacing-hsp-lg);
+   border: 1px solid var(--color-muted);
+   background: var(--color-surface);
+ }
+ 
++.zcd-model-viewer > * {
++  min-width: 0;
++}
++
+ .zcd-model-viewer__caption {
+   color: var(--color-fg);
++  overflow-wrap: anywhere;
+ }
+ 
+ .zcd-model-viewer__viewport {
+   width: 100%;
++  min-width: 0;
++  box-sizing: border-box;
+   aspect-ratio: 16 / 9;
+   min-height: 12rem;
+   overflow: hidden;

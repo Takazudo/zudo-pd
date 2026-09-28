@@ -718,7 +718,7 @@ carried into this doc, with its locked disposition from
   for the DC-DC ([D2](./circuit-diagrams.mdx#diagram2-usb-pd-15v-→-13-5v-buck-converter-lm2596s-adj-1)/[D3](./circuit-diagrams.mdx#diagram3-15v-→-7-5v-buck-converter-lm2596s-adj-2-u3)/[D4](./circuit-diagrams.mdx#diagram4-15v-→--13-5v-inverting-buck-boost-lm2596s-adj-u4))
   and LDO ([D5](./circuit-diagrams.mdx#diagram5-13-5v-→-12v-linear-regulator-l7812-u6)/[D6](./circuit-diagrams.mdx#diagram6-7-5v-→-5v-linear-regulator-l7805-u7)/[D7](./circuit-diagrams.mdx#diagram7--13-5v-→--12v-linear-regulator-cj7912-u8))
   stages, still valid for Board B
-- [Net-Table + Mermaid Convention](../how-to/net-table-convention.md) — the
+- [Net-Table + Mermaid Convention](../project/net-table-convention.md) — the
   documentation convention followed above
 - Board A (USB-PD core) design doc — `overview/board-a-usb-pd-core.md`
   (sibling doc, #91)

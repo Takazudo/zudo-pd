@@ -130,7 +130,7 @@ These are the actual outcomes of running approaches A–D on this repo (wave-1 o
 
 **What was tried:** Defined a repo-wide convention for documenting circuit connectivity using a net-connectivity table (one row per net) paired with a Mermaid `flowchart TD`, then applied it to the linear-regulation sheet as the first worked example.
 
-**What worked:** The convention was baked into the root `CLAUDE.md` (§ Schematic Documentation Conventions) and a dedicated how-to page was created: [Net-Table + Mermaid Convention](../how-to/net-table-convention.md). The worked example covers all 27 parts of the three LDO stages, derived from a `kicad-cli` netlist export — no GUI, no geometry guessing. The table + Mermaid diagram accurately represent the linear-regulation sheet and are diffable in version control.
+**What worked:** The convention was baked into the root `CLAUDE.md` (§ Schematic Documentation Conventions) and a dedicated guide was created: [Net-Table + Mermaid Convention](../project/net-table-convention.md). The worked example covers all 27 parts of the three LDO stages, derived from a `kicad-cli` netlist export — no GUI, no geometry guessing. The table + Mermaid diagram accurately represent the linear-regulation sheet and are diffable in version control.
 
 **What was blocked:** Nothing. Zero-setup, clean end-to-end.
 

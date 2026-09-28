@@ -44,10 +44,10 @@ actual surge, hot behavior and overshoot still require qualification.
 
 ## Start with the current design
 
-- [Project brief](doc/src/content/docs/getting-started/project-brief.md)
+- [Project brief](doc/src/content/docs/project/project-brief.md)
 - [Board roles and interface](doc/src/content/docs/architecture/board-contract.md)
 - [Component catalog](doc/src/content/docs/components/catalog/index.mdx)
-- [Component-first workflow](doc/src/content/docs/how-to/component-first-design.md)
+- [Component-first workflow](doc/src/content/docs/project/component-first-design.md)
 - [Release readiness](doc/src/content/docs/architecture/release-readiness.md)
 - [Historical design archive](doc/src/content/docs/archive/index.mdx)
 
@@ -60,13 +60,16 @@ human-readable component catalog.
 
 The [documentation site](https://pd.takazudomodular.com) uses zudo-doc, MDX and Preact.
 
+Run from the repository root after a frozen workspace install:
+
 ```sh
-cd doc
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `http://localhost:4321`. Run `pnpm b4push` for documentation validation.
+Open `http://localhost:4321`. `pnpm build` prepares the selected models and
+component pages before the site build; `pnpm b4push` runs the complete guarded
+repository check.
 
 ## Design files
 
