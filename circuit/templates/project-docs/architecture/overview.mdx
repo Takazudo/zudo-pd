@@ -1,0 +1,55 @@
+---
+title: "Architecture overview"
+description: "Functional blocks, operating states, design boundaries, and unresolved architecture questions."
+sidebar_position: 10
+---
+
+This page describes an architecture proposal. No topology, component, board split, power source, or operating limit has been chosen by this template.
+
+## Intended behavior
+
+Summarize the user-visible behavior from the [project brief](../project/index.mdx). Explain which physical or electrical functions are required to produce it.
+
+## Functional blocks
+
+| Block ID | Responsibility | Receives | Produces | Current design basis |
+|---|---|---|---|---|
+| Not entered | Not entered | Not entered | Not entered | Requirement, proposed approach, or decision reference |
+
+Start with responsibilities rather than IC names. Introduce selected components only after the relevant evidence and decision exist. If a diagram adds clarity, derive it from these same blocks and their interfaces; do not let a diagram silently introduce another net name or voltage domain.
+
+## Physical partitioning
+
+Describe the proposed physical arrangement: boards, external modules, cables, enclosure, mounting surfaces, and any user-accessible conductors. State why each boundary exists and whether it is fixed or still a candidate.
+
+| Boundary | Reason for separating it | Consequence for assembly or testing | Decision reference |
+|---|---|---|---|
+| Not entered | Not entered | Not entered | Not entered |
+
+Do not assume that a visually convenient board split is electrically or mechanically neutral. Record the interface work it creates in the [interface page](./interfaces.mdx).
+
+## Operating states and transitions
+
+| State | How it is entered | Required outputs or behavior | Defaults and stored configuration | Evidence or test still needed |
+|---|---|---|---|---|
+| State not yet defined | Not entered | Not entered | Not entered | Not entered |
+
+Consider only states that apply to this project. Possibilities include unpowered, initial connection, reset, normal operation, deliberate shutdown, service/programming, and recovery from interrupted power. Delete inapplicable cases after recording why they do not apply.
+
+Defaults deserve explicit evidence. Separate manufacturer-documented defaults, intended programming, actual readback, firmware initialization, and observed hardware behavior.
+
+## Project envelopes and calculations
+
+| Analysis question | Related blocks | Required inputs | Evidence or calculation reference | Current limitation |
+|---|---|---|---|---|
+| Not entered | Not entered | Not entered | Not entered | Not entered |
+
+Keep exact component limits in the component evidence bundle. Link any cross-component calculation with its input facts, units, conditions, and current design revision. An operating target, a recommended range, a typical value, an absolute maximum, a simulated result, and a measured result are different kinds of information.
+
+If an analysis uses an assumed source impedance, load, thermal condition, tolerance, or configuration, state it next to the conclusion. A calculation cannot close a hardware question it did not model.
+
+## Architecture choices still open
+
+List choices that could change the block structure, interfaces, layout, firmware, or procurement. Link each to [next actions](../project/next-actions.mdx) and name the evidence or owner decision needed to close it.
+
+When a choice is made, capture the alternatives and conditions in a [decision record](../decisions/decision.mdx). Keep the architecture page current and preserve the historical reasoning in the decision.

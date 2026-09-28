@@ -1,0 +1,55 @@
+---
+title: "Verification and bring-up report"
+description: "A revision-specific test plan and execution record with evidence, results, and remaining limits."
+sidebar_position: 10
+---
+
+Duplicate this page for a bounded verification or a specific hardware run. The initial state is **plan only; no procedure has been performed**. A new project must define its own sequence, operating limits, and acceptance criteria.
+
+## Test identity
+
+| Field | Entry |
+|---|---|
+| Report ID | Not assigned |
+| Question or behavior being tested | Not entered |
+| Plan or execution state | Plan only; not run |
+| Date, operator and location | Not entered |
+| Physical unit or specimen ID | Not entered |
+| Schematic and PCB revision | Not entered |
+| Firmware and stored configuration | Not entered |
+| Assembly deviations or rework | Not entered |
+| Related requirements and open questions | Not entered |
+
+If no hardware is available, record the work as a proposed procedure, document review, simulation, or other appropriate activity. Do not report a calculated prediction as a measurement.
+
+## Scope and prerequisites
+
+State what this activity can establish and what it cannot. Identify the actual setup, instruments, source, loads, fixtures, connection mapping, and relevant environmental conditions. Record instrument mode and measurement method where they change the meaning of a result.
+
+List prerequisites in the order needed for this project. Link the evidence that defines initial configuration and allowable conditions. Identify any unresolved prerequisite before execution; limits and sequences from another project or a reference design are not defaults for this circuit.
+
+## Acceptance criteria and observations
+
+| Check ID | Setup and action | Expected criterion and basis | Observation or raw evidence | Outcome |
+|---|---|---|---|---|
+| Not assigned | Not planned | Not defined | Not recorded | Not run |
+
+Define each criterion before evaluating the result. A useful outcome distinguishes pass, fail, inconclusive, blocked, and not run, keeping it separate from the evidence verdicts listed in `circuit/WORKFLOW.md`. A check can pass within its scope while a broader design question remains open.
+
+Where a staged sequence is necessary, state which result permits the next stage, why that dependency exists, and what action follows an unexpected result. Select the actual limits from this project's evidence and engineering review.
+
+## Captured evidence
+
+| Evidence reference | What it contains | Capture conditions | Revision or configuration association |
+|---|---|---|---|
+| None recorded | Not entered | Not entered | Not entered |
+
+Examples include meter readings, scope captures, logs, photographs, configuration readback, or dimensional measurements. Preserve raw observations and link them from the component evidence bundle or verification records. A filename alone does not establish what setup produced it.
+
+## Result and interpretation
+
+No result is recorded. Once executed, write what was directly observed, what was inferred, and what remains unresolved. Describe any unexpected behavior before proposing its cause. If a test changes the setup or the hardware partway through, preserve that transition and identify which observations belong to which state.
+
+## Follow-up and affected claims
+
+List claims, calculations, decisions, or next actions that this result supports or reopens. Update the canonical evidence coverage only for the scope actually demonstrated. Link a separate report for a repeated test or another physical revision.

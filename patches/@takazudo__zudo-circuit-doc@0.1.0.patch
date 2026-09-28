@@ -883,7 +883,7 @@ index 74699beae210f14a57d000def0a95008ba7e674e..1b3edd0e6d070b25715f51785ca29f9a
  };
  export type CircuitReferenceContract = {
 diff --git a/lib/provider/v1/references.js b/lib/provider/v1/references.js
-index 9b7d099e352fda79c4879a5dd71edcd3964a44ca..66884e36604d4b604afddbbe65a3db837f4baa9d 100644
+index 9b7d099e352fda79c4879a5dd71edcd3964a44ca..5662535067ec84904bbe98f3109205510065138f 100644
 --- a/lib/provider/v1/references.js
 +++ b/lib/provider/v1/references.js
 @@ -1,3 +1,4 @@
@@ -891,7 +891,18 @@ index 9b7d099e352fda79c4879a5dd71edcd3964a44ca..66884e36604d4b604afddbbe65a3db83
  /**
   * Fail-closed construction of the circuit's reviewed document and KiCad
   * preview contract. Network verification is deliberately NOT performed here:
-@@ -70,7 +71,7 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
+@@ -44,6 +45,10 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
+     // Asset paths are reported relative to the canonical path base, because the
+     // files themselves are canonicalised before the relative path is taken.
+     const canonicalPathBase = await realpath(options.footprintPathBase ?? roots.projectRoot);
++    // Project #210 parity: exceptions must name real selected records.
++    for (const exception of selection.documentExceptions ?? []) {
++        if (!index.recordById.has(exception.recordId)) fail("STALE_SELECTION", "document exception names missing record", {recordId: exception.recordId});
++    }
+     const documentsByRecordId = selectDocuments(index, selection);
+     const packageByRecordId = new Map();
+     const packagesByName = new Map();
+@@ -70,7 +75,7 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
          let packageReference = packagesByName.get(footprintName);
          if (packageReference === undefined) {
              packageReference = await readPackage(footprintName, recordId, roots, canonicalPathBase, modelLocatorPrefix, limits);
@@ -900,7 +911,7 @@ index 9b7d099e352fda79c4879a5dd71edcd3964a44ca..66884e36604d4b604afddbbe65a3db83
              assertReferenceSize("aggregate", aggregateModelBytes, recordId, limits);
              packagesByName.set(footprintName, packageReference);
          }
-@@ -94,7 +95,7 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
+@@ -94,7 +99,7 @@ export async function readCircuitReferenceContract(index, selection, roots, opti
      return { documentsByRecordId, packages, packageByRecordId, unpublishedPackageRecordIds };
  }
  function selectDocuments(index, selection) {
@@ -909,7 +920,7 @@ index 9b7d099e352fda79c4879a5dd71edcd3964a44ca..66884e36604d4b604afddbbe65a3db83
      for (const selected of selection.documentSelections) {
          const record = index.recordById.get(selected.recordId);
          const source = record?.sources.find((candidate) => candidate.source_id === selected.sourceId);
-@@ -142,13 +143,14 @@ async function readPackage(footprintName, recordId, roots, canonicalPathBase, mo
+@@ -142,13 +147,14 @@ async function readPackage(footprintName, recordId, roots, canonicalPathBase, mo
      assertReferenceSize("footprint", footprintStat.size, recordId, limits);
      const footprint = await readFile(footprintFile, "utf8");
      const models = [...footprint.matchAll(/\(model\s+"([^"]+)"/gu)];

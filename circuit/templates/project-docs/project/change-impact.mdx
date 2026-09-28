@@ -1,0 +1,61 @@
+---
+title: "Change-impact note"
+description: "The intended scope, dependencies, evidence changes, and verification of one proposed design update."
+sidebar_position: 20
+---
+
+Use this note when a change may invalidate evidence, derived files, or prior test results. It starts as an unfilled proposal. The note itself does not imply that the change has been applied.
+
+## Change identity
+
+| Field | Entry |
+|---|---|
+| Change ID | Not assigned |
+| Requested outcome | Not entered |
+| Reason for the change | Not entered |
+| Baseline revision | Not entered |
+| Scope already requested by the owner | Not entered |
+| Present state | Proposal not yet specified |
+| Related decision | Not entered |
+
+Describe the resulting behavior, not just a file edit. For a component replacement, identify both exact component records and every affected placement. For a footprint change, distinguish corrected geometry from a new physical part.
+
+## Impact map
+
+| Area | Relevant object or record | Expected effect | Required follow-up | Present state |
+|---|---|---|---|---|
+| Component identity and facts | Not assessed | Not assessed | Not assessed | Unreviewed |
+| Cross-component calculations and interfaces | Not assessed | Not assessed | Not assessed | Unreviewed |
+| Schematic or circuit specification | Not assessed | Not assessed | Not assessed | Unreviewed |
+| Footprint, model and mechanical fit | Not assessed | Not assessed | Not assessed | Unreviewed |
+| Firmware or stored configuration | Not assessed | Not assessed | Not assessed | Unreviewed |
+| BOM, placement and assembly outputs | Not assessed | Not assessed | Not assessed | Unreviewed |
+| Generated catalog and previews | Not assessed | Not assessed | Not assessed | Unreviewed |
+| Authored rationale and prior verification | Not assessed | Not assessed | Not assessed | Unreviewed |
+
+Mark an area unaffected only after considering the actual dependency. A same-package substitution can still change behavior or limits; a source correction can change a conclusion without changing the physical circuit.
+
+## Evidence that becomes stale
+
+Identify source records, project-state hashes, derived assets, calculations, or measurements tied to the baseline. State which remain valid, which require regeneration, and which need another test. Preserve the old evidence with its old revision instead of relabeling it as current.
+
+If a claim was previously presented as settled, explicitly state why the change reopens it. Update the current narrative wherever it still relies on the old conclusion.
+
+## Implementation sequence
+
+Describe the source edits and dependent regeneration in order. Use only the commands listed in `circuit/WORKFLOW.md`. Name the authoritative input before its generated outputs.
+
+Record any required local validation, preview review, or hardware verification along with the result it is meant to establish. An asset can render successfully while its dimensions or pin mapping remain unverified.
+
+## Completion record
+
+| Item | Reference and outcome |
+|---|---|
+| Applied source revision | Not applied or not entered |
+| Updated evidence records | Not entered |
+| Regenerated outputs | Not generated or not entered |
+| Validation or review results | Not run |
+| Hardware verification | Not run |
+| Remaining open questions | Not entered |
+
+If the work reveals a materially different design choice, record the new choice and the information needed to decide it. Continue work already within the requested scope; do not turn routine documentation updates into repeated permission requests.

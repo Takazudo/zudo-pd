@@ -1,0 +1,66 @@
+---
+title: "Decision record"
+description: "The context, alternatives, evidence, tradeoffs, and validity conditions of one consequential choice."
+sidebar_position: 10
+---
+
+Duplicate this page for one consequential choice. This is an unfilled decision template; it records no accepted design or component selection.
+
+## Record
+
+| Field | Entry |
+|---|---|
+| Decision ID | Not assigned |
+| Topic | Not entered |
+| State | Draft; no decision recorded |
+| Decision date | Not entered |
+| Decision maker | Not entered |
+| Applicable project revision | Not entered |
+| Replaces or is replaced by | Not entered |
+
+Use a visible state such as proposed, accepted, rejected, or superseded when the actual decision exists. These are decision lifecycle terms, not assertions that the underlying hardware has passed verification.
+
+## Context
+
+Describe the concrete problem and why it needs a decision now. Link the relevant requirements, research notes, canonical component evidence, and integration calculations. State any constraint supplied by the project owner that materially changes the choice.
+
+## Alternatives considered
+
+| Alternative | Why it could work | Decisive tradeoff | Evidence still needed | Disposition |
+|---|---|---|---|---|
+| No alternative entered | Not entered | Not entered | Not entered | Unreviewed |
+
+An alternative can be a component, topology, control behavior, board partition, assembly method, or a decision to defer work. “Not selected” should explain which criterion mattered; it should not imply that the alternative is generally unsuitable.
+
+## Decision
+
+State exactly what is adopted and what scope it covers. If conditional, name each condition. Link the selected exact component record rather than relying on a family name, short description, or package label.
+
+For a design change, identify the intended authoritative representation to update, such as a circuit specification or schematic. A recorded decision and an implemented design are separate states.
+
+## Reasoning
+
+Explain the most important tradeoff first. Include the relevant uncertainty and the strongest reason another option could have been chosen. Numeric claims should link to canonical facts or calculations with their qualifiers and conditions preserved.
+
+## Consequences and follow-up
+
+| Consequence | Required update or verification | Owner or next-action reference |
+|---|---|---|
+| Not entered | Not entered | Not entered |
+
+Consider affected architecture, interfaces, firmware, mechanical fit, documentation, sourcing, and verification. A part substitution may require more than replacing a row in a BOM. Link a [change-impact note](../project/change-impact.mdx) if downstream effects are material.
+
+## What could reopen this decision
+
+Record observable triggers: a contradicted fact, unavailable exact part, changed operating envelope, package mismatch, failed test, changed requirement, or revised cost assumption. Where the basis is a dated stock observation, give the recheck event.
+
+When superseding a decision, keep the old rationale and add a link to the new record. Update current architecture and next actions so the historical choice is no longer presented as current.
+
+## Implementation and verification references
+
+| Item | Reference and present state |
+|---|---|
+| Intended change | Not entered |
+| Implemented revision | Not entered |
+| Evidence refresh | Not entered |
+| Verification report | Not entered |
