@@ -86,18 +86,25 @@ than 100 % efficiency from a lossless 15.75 V × 3 A input, the fitted pre-rail
 setpoints cannot close it. The JSON calls this case `INFEASIBLE`. Lowering a
 pre-rail setpoint would be a design change.
 
-The JSON's `probe_points` evaluate three load triples quoted in the project
-brief. They are not verified demand. The OSC combined power ledger owns demand.
+The JSON's `probe_points` evaluate load triples from the project brief and the
+OSC combined power ledger (zudo-osc-hole-field PR #289), which owns demand. The
+canonical planning load is the comparison basis. The Stage54 row subtracts an
+unadopted conditional saving (42 mA maximum-Iq allowance per analog rail) and is
+kept only for reference.
 
 | Probe (+12 / −12 / +5 A) | Floor | Floor efficiency at 14 V / 15 V / 15.75 V | Rail findings | Status |
 | --- | ---: | --- | --- | --- |
-| 1.493 / 1.394 / 0.224 | 39.89 W | 95.0 % / 88.6 % / 84.4 % | +12 V LDO above 1.5 A evidence; −12 V U4 switch limit and PTC3 85 °C fail | FAIL |
-| 1.7 / 1.6 / 0.3 | 45.86 W | 109.2 % / 101.9 % / 97.1 % | Both ±12 V LDOs above evidence; PTC1 and PTC3 25 °C hold fail | FAIL |
-| 2.0 / 1.9 / 0.4 | 54.48 W | 129.7 % / 121.1 % / 115.3 % | As above | INFEASIBLE |
+| Canonical planning 1.535 / 1.436 / 0.224 | 41.01 W | 97.6 % / 91.1 % / 86.8 % | +12 V LDO above 1.5 A evidence and PTC1 25 °C hold fail; −12 V U4 switch limit and PTC3 85 °C fail | FAIL |
+| Stage54 conditional 1.493 / 1.394 / 0.224 (not a basis) | 39.89 W | 95.0 % / 88.6 % / 84.4 % | +12 V LDO above 1.5 A evidence; −12 V U4 switch limit and PTC3 85 °C fail | FAIL |
+| Continuous 1.7 / 1.6 / 0.3 | 45.86 W | 109.2 % / 101.9 % / 97.1 % | Both ±12 V LDOs above evidence; PTC1 and PTC3 25 °C hold fail | FAIL |
+| Transient 2.0 / 1.9 / 0.4 | 54.48 W | 129.7 % / 121.1 % / 115.3 % | As above | INFEASIBLE |
 
-The 1.7 / 1.6 / 0.3 A point is not strictly infeasible at the source maximum,
-but it needs at least 97.1 % from a lossless input path with no regulator
-overhead.
+The canonical floor matches the OSC ledger's 91 % / 98 % requirement. An earlier
+revision of this report used the Stage54 conditional load as planning normal;
+that load basis, not the ancillary-current treatment, caused its lower
+88.6 % / 95.0 % figures. The 1.7 / 1.6 / 0.3 A point is not strictly infeasible
+at the source maximum, but it needs at least 97.1 % from a lossless input path
+with no regulator overhead.
 
 ## Open items
 

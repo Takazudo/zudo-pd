@@ -30,7 +30,10 @@ SOURCE_HIGH_V = 15.75  # normal PD source range top (power-budget.json pd_contra
 PD_CURRENT_A = 3.0
 AMBIENT_C, TJ_SCREEN_C = 40, 125
 RIPPLE_ALLOWANCE_V = .05
-PROBES = {'osc_planning_normal': (1.493, 1.394, .224), 'osc_continuous': (1.7, 1.6, .3), 'osc_transient': (2.0, 1.9, .4)}
+# Canonical planning load is the comparison basis; the Stage54 row (canonical minus the 42 mA
+# max-Iq allowance per analog rail) is a conditional, unadopted saving kept for reference only.
+PROBES = {'osc_planning_normal_canonical': (1.535, 1.436, .224), 'osc_planning_normal_stage54_conditional': (1.493, 1.394, .224),
+          'osc_continuous': (1.7, 1.6, .3), 'osc_transient': (2.0, 1.9, .4)}
 
 
 def fact(owner, fact_id, cls):
@@ -329,7 +332,7 @@ def main():
         'per_rail_limits_other_rails_at_targets_a': screen.rail_limits(),
         'input_path_at_pd_contract': input_path(screen.ev),
         'probe_points': {
-            'provenance': 'Load triples quoted in the 2026-10-20 project brief, not verified here. Demand is owned by the OSC combined power ledger; these rows only show how this supply screen treats them.',
+            'provenance': 'Load triples from the 2026-10-20 project brief and the OSC combined power ledger (zudo-osc-hole-field PR #289); demand is owned there. The canonical planning row is the comparison basis; the Stage54 row counts an unadopted conditional saving and must not be used as the basis.',
             'results': {name: screen.evaluate(dict(zip(('plus12', 'minus12', 'plus5'), loads))) for name, loads in PROBES.items()},
         },
         'evidence': screen.ev,
