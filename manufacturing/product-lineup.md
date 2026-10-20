@@ -30,11 +30,11 @@ PDO sets follow the USB PD power rules as summarized by [Renesas](https://www.re
 - 45–60 W: 5, 9 and 15 V at 3 A; 20 V = PDP / 20.
 - Above 3 A: the source must identify a 5 A e-marked cable, which it discovers over SOP′. Otherwise it caps at 3 A and 60 W.
 
-So the 20 V offer is 2.25 A from a 45 W charger, 3 A from 60 W, 3.25 A from 65 W and 5 A from 100 W. **A 100 W charger behind a 3 A cable offers 20 V / 3 A**, which a 20 V / 5 A sink PDO refuses.
+So the 20 V offer is 2.25 A from a 45 W charger, 3 A from 60 W, 3.25 A from 65 W, 3.5 A from 70 W, 4.5 A from 90 W and 5 A from 100 W; every offer above 3 A needs a 5 A e-marked cable. The sink accepts only a source current at or above its PDO current, so **a 20 V / 5 A sink PDO refuses every charger below 100 W, and any charger behind a 3 A cable**.
 
 The sink cannot detect a noncompliant source or cable that offers 5 A anyway. Cable and connector heating in that case is an **open gate**.
 
-PPS (5–21 V, G-U) adds no current. The STUSB4500 product page does not list PPS ([ST](https://www.st.com/en/interfaces-and-transceivers/stusb4500.html), G-U). **Source Peak Current cannot cover the 20 ms transient even when advertised** (B1 gate screen R3).
+PPS (up to 21 V, G-U) adds no current. The STUSB4500 product page does not list PPS ([ST](https://www.st.com/en/interfaces-and-transceivers/stusb4500.html), G-U). **Source Peak Current cannot cover the 20 ms transient even when advertised** (B1 gate screen R3). The 10 ms longest-window figure is secondary evidence only; the usb.org specification text was not retrieved.
 
 ## Per-PDO capability (Board B switcher-direct, TPS54560 ×3, PA efficiencies)
 
@@ -45,8 +45,13 @@ Board-input current range over the base / −3 pt / −5 pt efficiency sets, at 
 | 15 V / 3 A (3 A) | 14.00 | 3.11–3.30 **FAIL** | 3.48–3.70 **FAIL** | 4.14–4.40 **FAIL** | 3.59–3.82 **FAIL** | No |
 | 20 V / 2.25 A, a 45 W charger (3 A) | 18.47–18.67 | 2.33–2.50 **FAIL** | 2.61–2.80 **FAIL** | 3.10–3.33 **FAIL** | 2.70–2.89 **FAIL** | No |
 | 20 V / 3 A, 60 W, or 65/100 W on a 3 A cable (3 A) | 18.40–18.67 | 2.33–2.51 PASS | 2.61–2.81 PASS | 3.10–3.35 **FAIL** | 2.70–2.90 PASS | Continuous yes; transient no |
-| 20 V / 3.25 A, 65 W (5 A e-marked) | 18.38–18.67 | PASS | PASS | 3.10–3.35 **EDGE** | PASS | Transient only at base efficiency |
+| 20 V / 3.25 A, 65 W (5 A e-marked) | 18.38–18.67 | PASS | PASS | 3.10–3.35 **EDGE** | PASS | Transient only at base efficiency; an LTC4282 window exists (±7.2 %, 3.018 A minimum) with 1.6–3.2 mF hold-up to 14 V |
+| 20 V / 3.5 A, 70 W (5 A e-marked) | 18.35–18.67 | 2.33–2.52 PASS | 2.61–2.82 PASS | 3.10–3.35 PASS | 2.70–2.91 PASS | Yes, on input power only; 0.145 A transient margin |
+| 20 V / 4 A, 80 W (5 A e-marked) | 18.31–18.67 | 2.33–2.52 PASS | 2.61–2.83 PASS | 3.10–3.36 PASS | 2.70–2.92 PASS | Yes, on input power only |
+| 20 V / 4.5 A, 90 W (5 A e-marked) | 18.26–18.67 | 2.33–2.53 PASS | 2.61–2.83 PASS | 3.10–3.37 PASS | 2.70–2.93 PASS | Yes, on input power only |
 | 20 V / 5 A, 100 W (5 A e-marked) | 18.22–18.67 | 2.33–2.54 PASS | 2.61–2.84 PASS | 3.10–3.38 PASS | 2.70–2.93 PASS | **Yes, on input power only** |
+
+The transient passes on input power for any 20 V contract of at least about 3.38 A (about 68 W PDP) with a 5 A e-marked cable: 3.35–3.38 A worst case. **The 100 W minimum in C2 is a margin choice set by sink PDO2 = 20 V / 5 A, not a demand requirement.** PDO2 = 20 V / 3.5 A (at least 70 W) passes with 0.145 A screen margin at −5 pt; PDO2 = 20 V / 4 A (at least 80 W) with about 0.64 A. Whether the STUSB4500 NVM can encode these currents is UNAV in the owner bundle.
 
 | Contract | Largest continuous-shaped +12 / −12 V, with +5 V at 0.3 A | J5 per contact (equal split, unverified) |
 |---|---|---|
@@ -54,7 +59,7 @@ Board-input current range over the base / −3 pt / −5 pt efficiency sets, at 
 | 20 V / 2.25 A | 1.35–1.44 / 1.27–1.36 A | 1.40 A |
 | 20 V / 3 A | 1.82–1.93 / 1.71–1.82 A | 1.41 A |
 | 20 V / 3.25 A | 1.97–2.10 / 1.86–1.97 A | 1.41 A |
-| 20 V / 5 A | 3.0–3.2 A by input; **Board B caps it**: MF-MSMF250 hold 2.50 A at 23 °C (G) | 1.42 A |
+| 20 V / 5 A | +12 V 3.02–3.21 / −12 V 2.84–3.02 A by input; **Board B caps it**: MF-MSMF250 hold 2.50 A at 23 °C (G) | 1.42 A |
 
 How these figures relate to `supply-alternatives.md`:
 
@@ -70,7 +75,7 @@ How these figures relate to `supply-alternatives.md`:
 
 ### The transient on a 20 V / 3 A contract
 
-The sink-side limit must sit between the 2.81 A worst continuous draw and 3 A: a ±3.2 % window. **The best retrieved limiter is LTC4282, at ±3.7 % effective. It leaves no window at 2.81 A, and hold-up would be 3–13 mF** (B1 gate screen R3). Integrated ±10 %-class eFuses are far wider. At 20 V / 5 A the transient fits the contract, so no limiter or hold-up is needed.
+The sink-side limit must sit between the 2.81 A worst continuous draw and 3 A: a ±3.2 % window. **The best retrieved limiter is LTC4282, at ±3.7 % effective. It leaves no window at 2.81 A. Hold-up would be 2.9–4.3 mF to a 14 V floor or 8.0–13.0 mF for 1 V droop, and at −5 pt the limiter cannot recharge it** (B1 gate screen R3). Integrated ±10 %-class eFuses are far wider. At 20 V / 5 A the transient fits the contract, so no limiter or hold-up is needed.
 
 ## Can the existing STUSB4500 detect the contract and switch limits?
 
@@ -119,7 +124,7 @@ None of these margins is an installed-surge result.
 | Source bands | 12.00–12.30 / 12.00–12.20 / 5.05–5.10 V | **FAIL with the TPS54560 internal reference on every rail (B1 R4b). Terminal sense plus a precision servo is needed (candidate, NOT RUN). This applies to every option, C2 included** |
 | Ripple | 1 mVpp at load; 2 / 1 mV precision gates | R4a `NOT RUN` (measurement) |
 | Reverse current, interface maximum | Reverse blocking; 2.1 / 2.0 / 0.5 A enforced, with all-rail trip | R7 unresolved: PTC trip 5 A, no per-rail limiter with a 0.1 A window |
-| Surge | Every VBUS-side absolute maximum respected | TVS2200 vs STUSB4500 28 V: 0.00 / −0.35 V. **CC pins 22 V absolute maximum against a CC-to-VBUS short at 20 V: 2 V**. Both OPEN |
+| Surge | Every VBUS-side absolute maximum respected | TVS2200 vs STUSB4500 28 V: 0.00 / −0.35 V. **CC pins 22 V absolute maximum against a CC-to-VBUS short: 2 V at nominal 20 V, about 1 V at 21 V (+5 %, PA reading of the source band), less during source transients**. Both OPEN |
 | Cable | No overheating | A noncompliant 5 A offer on a 3 A cable is undetectable by the sink; OPEN |
 
 ## Options
@@ -135,7 +140,7 @@ None of these margins is an installed-surge result.
 
 C2 blockers:
 
-- 100 W charger and 5 A e-marked cable.
+- A charger offering at least the PDO2 current at 20 V (100 W for PDO2 = 5 A; at least 70 W if PDO2 = 3.5 A is chosen) and a 5 A e-marked cable.
 - Cable noncompliance gate.
 - Source bands (R4b): terminal sense plus a servo.
 - 1 mVpp ripple (R4a, `NOT RUN`).
@@ -152,13 +157,13 @@ All prices are per unit.
 
 | Part | Role | Qty 1 | Qty 10 | Qty 100 | Stock | Source |
 |---|---|---:|---:|---:|---|---|
-| STUSB4500QTR | PD sink | $2.8412 | $2.4296 | $1.9095 | 5,002 | CP(2026-10-20, per unit, USD) [LCSC C2678061](https://www.lcsc.com/product-detail/C2678061.html) |
+| STUSB4500QTR | PD sink | $2.8412 | $2.4296 | $1.9095 | 5,002 | CP(2026-10-20, qty 1/10/100, USD) [LCSC C2678061](https://www.lcsc.com/product-detail/C2678061.html) |
 | AP33772SDKZ-13-FA01 | A1 alternative | $3.8615 | $3.2923 | $2.6116 | **Out of stock** | CP(2026-10-20, USD) [LCSC C24374260](https://www.lcsc.com/product-detail/C24374260.html) |
 | CYPD3177-24LQXQ | Alternative | $1.6253 | $1.3689 | $1.0436 | 17, not production stock | CP(2026-10-20, USD) [LCSC C2959321](https://www.lcsc.com/product-detail/C2959321.html) |
 | STM32G031F8P6 | A1 MCU | $1.231 | $1.0942 | $0.8602 | 2,723 | CP(2026-10-20, USD) [LCSC C529334](https://www.lcsc.com/product-detail/C529334.html) |
 | TPS54560DDAR | Board B stage, 3 per set | $1.1049 | $0.9703 | $0.7487 | 9,536 | CP(2026-10-20, USD) [LCSC C31966](https://www.lcsc.com/product-detail/C31966.html) |
-| TVS2200DRVR | 20 V Board P | $0.4672, 5+ price | UNAV | UNAV | — | CP, from `supply-alternatives.md` |
-| AOD4185L | 20 V Board P | $0.4474 | UNAV | UNAV | 34, not production stock | CP, from `supply-alternatives.md` |
+| TVS2200DRVR | 20 V Board P | $0.4672, 5+ price | UNAV | UNAV | — | CP(2026-10-20, 5+, USD), from `supply-alternatives.md` |
+| AOD4185L | 20 V Board P | $0.4474 | UNAV | UNAV | 34, not production stock | CP(2026-10-20, qty 1, USD), from `supply-alternatives.md` |
 | LTC4282, sense parts, 3.3 V LDO, servo reference, charger, cable | — | UNAV | UNAV | UNAV | — | Not retrieved |
 
 Three TPS54560 cost $3.31 per set at qty 1.
@@ -177,7 +182,7 @@ Qty 10/100 deltas were not computed. **IC deltas do not set finished-product cos
 | Calibration and test | Firmware × charger matrix, sense calibration | NVM image per SKU, readback per unit | Per board | One NVM image, readback per unit, charger and cable matrix |
 | Firmware | Yes | No | No | No |
 | Inventory SKUs | 1 board, firmware variants | 2 NVM SKUs | 2 boards | 1 |
-| User-facing label | Ratings per charger class: confusing | "OSC: 100 W + 5 A cable" vs "light: 45 W" | Same | **100 W USB-C PD charger and 5 A e-marked cable required** |
+| User-facing label | Ratings per charger class: confusing | "OSC: 100 W + 5 A cable" vs "light: 45 W" | Same | **20 V charger at or above the PDO2 current (70–100 W) and 5 A e-marked cable required** |
 
 Every option shares the source-band servo, the coordinated Board B shutdown and the thermal work. Board fabrication, assembly, charger and cable prices are **UNAV**.
 
@@ -191,7 +196,7 @@ Every option shares the source-band servo, the coordinated Board B shutdown and 
 
 ## Requested OSC owner review
 
-- Whether a 100 W charger with a 5 A e-marked cable is an acceptable input class (PWR-D3).
+- Whether a 20 V charger offering at least the chosen PDO2 current (at least 70 W at 3.5 A, up to 100 W at 5 A) with a 5 A e-marked cable is an acceptable input class (PWR-D3).
 - Accept/refuse semantics: rails stay off on any lesser contract.
 - A detach, hard reset or 5 A→3 A downgrade on a multi-port charger gives a coordinated all-rail off. ST does not specify the VBUS_EN_SNK timing, so it needs a bench check.
 - If any OSC use on 60 W or 45 W is wanted, decide PWR-D5. The supply would then need:
