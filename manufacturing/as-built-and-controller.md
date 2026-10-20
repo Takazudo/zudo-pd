@@ -92,7 +92,7 @@ Read-only and low-energy steps first. None is authorized here. D3 and D4 energiz
 | Step | Board | Action | Needs |
 |---|---|---|---|
 | D0 | zudo-PD | **Done for components** (owner, comment 6287748641): Board B BOM matches S3; no PD Board P exists. Copper/silk and LED2 rotation not yet confirmed | — |
-| D1 | zudo-PD Board B | Unpowered visual and continuity check against the S3 netlist (R26–R28 fitted, U6–U8 markings and orientation, LED2 polarity, J5/J6/J7 labels against nets) | Approval (handling only) |
+| D1 | zudo-PD Board B | Unpowered visual and continuity check against the S3 netlist (R26–R28 fitted, U6–U8 markings and orientation, LED2 polarity, J5/J6/J7 labels against nets). Procedure for approval: [`board-b-unpowered-check.md`](board-b-unpowered-check.md) | Approval (handling only) |
 | D2 | LED | Unpowered: measure R21 out of circuit or lift one end; check RESET pad to every neighbour | Approval (rework) |
 | D3 | LED | Current-limited 5 V on VBUS only, programmer disconnected: RESET, VREG_2V7, VREG_1V2, VDD | Approval (energizing) |
 | D4 | LED | The LED audit's single rework test (R21 bridged to 0 Ω, R15/R16 removed, SCL/SDA grounded), then one cold 15 V attach | Approval (rework + energizing) |
