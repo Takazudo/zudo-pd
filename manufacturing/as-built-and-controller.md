@@ -6,32 +6,31 @@ Sibling repository: [Takazudo/zudo-led-lamp](https://github.com/Takazudo/zudo-le
 
 ## 1. Which hardware actually exists
 
-### 1.1 zudo-PD hardware that arrived: renewal Board P + Board B (owner-stated reference)
+### 1.1 zudo-PD hardware ordered: renewal Board B only (no PD Board P)
 
-**Identity (owner, zudo-pd#218 comment 6287052727):** the order files have not been edited since ordering, so the latest order package is the intended manufacturing reference. For zudo-PD that is the **renewal Board P + Board B** in [`releases/corner-support-review/`](releases/corner-support-review/), last changed at commit `f25194f` (2026-09-22); nothing under `manufacturing/releases/` changed from `f25194f` to HEAD. This is the owner-stated reference, not a JLCPCB-confirmed factory BOM. For zudo-PD, git shows three package commits after the stated order time (below), so the "not edited since ordering" statement cannot be confirmed from the repository; that is why the S1/S2/S3 question remains. Main and the schematic generators are not as-built evidence.
+**Identity (owner, zudo-pd#218 comments 6287052727 and 6287748641):** the zudo-PD order shown as 2026-09-20 03:33:54 contains **renewal Board B and zudo-bus, and no Board P**. The owner confirms the PD-specific Board P (D5 SMAJ16A) was **not ordered**; the intention was to verify the LED Board P (§1.2) first. No manufactured PD Board P exists, so no zudo-PD Board P state is "as built", and the complete P+B system is not S3.
 
-Package files at HEAD (the package `SHA256SUMS` agrees for these six files; `populated-stack.step` is local-only by design and absent):
+**Board B component configuration matches S3** (owner, from the authenticated JLCPCB order-history BOM dialog, read only): U6/U7 C459702 (LT1963AEQ#TRPBF), U8 C666306 (adjustable LT3015EQ#PBF), R26 C861589, R27 C861519, R28 C110776. That excludes S1 and S2, which carry C107286 / C666307 and no R26–R28. The BOM dialog does **not** establish Board B copper, mask, paste or silk identity, or the LED2 rotation, and no production-file hash or substitution history was obtained (a download attempt had an uncertain outcome; no downloaded file is claimed). Those remain unverified.
+
+Package reference: [`releases/corner-support-review/`](releases/corner-support-review/), last changed at commit `f25194f` (2026-09-22); nothing under `manufacturing/releases/` changed from `f25194f` to HEAD. Board B files at HEAD (the package `SHA256SUMS` agrees; the Board P files in the same package were never manufactured):
 
 | File | SHA-256 |
 |---|---|
-| `board-p/bom.csv` | `2274a1bfc2fae510e3e9b7d94c0e71b3e54f9986d1631b330bc107c69e3c64dc` |
-| `board-p/cpl.csv` | `b49d46968241d2ffe98624f50d85aa9d9b8c57c1209664247e4662bb1fb4c3e4` |
-| `board-p/board-p-gerbers.zip` | `e0839d8e6f749ad2554b3c4c77db5dbfdf17baeb845e16788ba314dbe3b08a43` |
 | `board-b/bom.csv` | `e238ec7cf620b6054b5ecb155a54574334e0073893e3526a60f449d7cb030c7d` |
 | `board-b/cpl.csv` | `8b92bd161ae30e0d0ef114335c42b538cd9b7221526f319e77ac946cf991a252` |
 | `board-b/board-b-gerbers.zip` | `9fc4e93e717865110e227cd4d95ee110e005e738771286ff40b8275eb1917de4` |
 
-**Remaining ambiguity: which package state was built.** The owner gives the order time as 2026-09-20 03:33:54 (timezone not stated; the zudo-bus archive commit 23 minutes later suggests JST). Every zudo-PD package commit is later than that in any timezone, and the package changed three times:
+Package history after the stated order time (every commit is later than 03:33:54 in any timezone; the zudo-bus archive commit 23 minutes later suggests JST):
 
-| State | Commit (committer time) | D5 | U6/U7 | U8 | Copper |
-|---|---|---|---|---|---|
-| S1 | `8157428` / `ec656b7` (2026-09-21 01:56–02:31 +0900) | Vishay SMAJ16A-E3/61 C968650 | LT1963AEQ#PBF C107286 | LT3015EQ-12#PBF C666307 (fixed −12 V) | — |
-| S2 | `aeeff56` (2026-09-21 13:20 +0900) | Littelfuse SMAJ16A C74561 | as S1 | as S1 | Board P only: BOM and F_Cu D5 pad (1.8 × 1.8 mm in S1, 2.1 × 1.8 mm in S2; `%ADD13R`). The Board B zip changed only in date stamps |
-| S3 | `f25194f` (2026-09-22 01:06 +0900) | C74561 | LT1963AEQ#TRPBF C459702 | LT3015EQ#PBF C666306 (adjustable) with new divider R26–R28 | Board B only: BOM/CPL and F_Cu, mask, paste and silk layers; LED2 CPL rotation 90 → 270. The Board P zip changed only in date stamps |
+| State | Commit (committer time) | U6/U7 | U8 | Board B copper |
+|---|---|---|---|---|
+| S1 | `8157428` / `ec656b7` (2026-09-21 01:56–02:31 +0900) | LT1963AEQ#PBF C107286 | LT3015EQ-12#PBF C666307 (fixed −12 V) | — |
+| S2 | `aeeff56` (2026-09-21 13:20 +0900) | as S1 | as S1 | Zip changed only in date stamps (S2 changed Board P D5 only) |
+| **S3 (matches the ordered BOM)** | `f25194f` (2026-09-22 01:06 +0900) | LT1963AEQ#TRPBF C459702 | LT3015EQ#PBF C666306 (adjustable) with new divider R26–R28 | BOM/CPL and F_Cu, mask, paste and silk layers; LED2 CPL rotation 90 → 270 |
 
-So the D5 and LDO substitutions, the U8 divider and the LED2 polarity fix may have been applied during JLCPCB order review rather than before upload. Whether JLCPCB's **confirmed** BOM and Gerbers match S3 is not recorded. The physical boards can settle it without power. On **Board B**, R26–R28 pads and the U8 marking separate S3 from S1/S2. On **Board P**, the D5 marking or its pad size (1.8 × 1.8 mm in S1, 2.1 × 1.8 mm in S2/S3) separates S1 from S2.
+Inference (not stated by the owner or JLCPCB): because the S3 commit postdates the order, the LDO substitutions and the U8 divider were probably applied during JLCPCB order review; no substitution history was established. Whether the built copper and LED2 placement also match S3 is open; an unpowered look at Board B (R26–R28 pads present, LED2 orientation) can confirm it.
 
-**Historical only:** the v0.3.0 combined board (JLCPCB-confirmed BOM in `jlcpcb-order-snapshots/v0_3_0/`), v0.4.0 as packaged (`7854736`, D4 USBLC6-2 on VBUS_IN, RESET tied to GND) and the post-#93 variant (`9f4d624`) are earlier revisions, not the boards on the bench. The `corner-support-review/ORDER-NOTES.md` sentence that no renewal hardware was ordered contradicts the owner's statement and is superseded by it.
+**Historical only:** the v0.3.0 combined board (JLCPCB-confirmed BOM in `jlcpcb-order-snapshots/v0_3_0/`), v0.4.0 as packaged (`7854736`, D4 USBLC6-2 on VBUS_IN, RESET tied to GND) and the post-#93 variant (`9f4d624`) are earlier revisions, not the boards on the bench. The `corner-support-review/ORDER-NOTES.md` sentence that no renewal hardware was ordered is superseded for Board B (ordered) and remains correct for Board P (not ordered).
 
 **Sibling packages (read only, `origin/main`, no later edits to these paths):**
 - zudo-led-lamp: `manufacturing/jlcpcb/2026-09-19/` at `d13540d` (2026-09-19 07:44:56 +0900, 4 minutes after the stated 07:41:02 order). `board-p/bom.csv` `7969f3915955af36251a000f3f036c0ad5efa4dc3009568403e3335577cc613f`, `board-p/board-p-gerbers.zip` `196c8702bc0e00d830d2895265d14a3c97732affa4b730bf6cae2bd2501e0126`. Matches the order variant on file timing; the factory-confirmed data was not downloaded (`manufacturing/ORDER-STATUS.md`, outside the package folder). The retained CPL already includes the owner's Board L RV1 180° fix.
@@ -42,7 +41,8 @@ So the D5 and LDO substitutions, the U8 divider and the LED2 polarity fix may ha
 - Release `manufacturing/jlcpcb/2026-09-19/` (commit `d13540d`); the order was reported by the user; JLCPCB's final factory data was not downloaded (`ORDER-STATUS.md`). Two PCBAs are on the bench (#144).
 - Fitted BOM (`board-p/bom.csv`): STUSB4500QTR, AO3401A, **SMAJ20A D5 C571370** (input TVS; VC max 32.4 V at its rated IPP, waveform-conditioned, #34), TYPE-C-31-M-17, R11 100 kΩ, **R12 150 kΩ**, R13/R14 470 Ω, R15/R16 4.7 kΩ to VREG_2V7, R19/R20 0 Ω DB links, **R21 10 kΩ RESET pull-down**, C1 10 µF, C2/C35 100 nF, C30/C34 1 µF. R17/R18 (external Rd) and D6/D7 (CC protection) are **DNP**.
 - The LED audit (#144 comment 6002714821) confirmed generator/netlist/BOM/CPL parity for this release (file parity, not physical assembly).
-- **The zudo-PD renewal Board P (the owner-stated as-built reference, §1.1) is the same circuit** (`scripts/schgen/board_p_spec.py`: R21 10 kΩ, R15/R16 on VREG_2V7, R19/R20 DB links, R17/R18/D6/D7 DNP) **except D5 = SMAJ16A** instead of SMAJ20A.
+- This LED Board P is the **existing USB-board candidate for initial verification** (owner, comment 6287748641): D5 C571370 (SMAJ20A), U1 C2678061 (STUSB4500QTR) per the JLCPCB order-history BOM. It is not evidence that a PD Board P with SMAJ16A was manufactured.
+- **The unbuilt zudo-PD renewal Board P design (§1.1) is the same circuit** (`scripts/schgen/board_p_spec.py`: R21 10 kΩ, R15/R16 on VREG_2V7, R19/R20 DB links, R17/R18/D6/D7 DNP) **except D5 = SMAJ16A** instead of SMAJ20A.
 
 ## 2. LED Board P findings (LED measurements only)
 
@@ -71,19 +71,19 @@ Ranked from the LED audit plus this review; none is proven.
 
 Chip incompatibility is not indicated by any of this: the documented conditions (B1, B3, B6) are design or operating-condition departures that a different board could remove.
 
-### 2.3 Which LED findings apply to the untested zudo-PD boards
+### 2.3 Which LED findings apply to the zudo-PD Board P design (not built)
 
-| Finding | zudo-PD renewal Board P (as-built reference, untested) |
+| Finding | zudo-PD renewal Board P design (never manufactured) |
 |---|---|
-| R21 10 kΩ RESET pull-down + J2.4 RESET pad | **Applies** (same circuit, all states S1–S3) |
+| R21 10 kΩ RESET pull-down + J2.4 RESET pad | **Applies** to the design (same circuit) |
 | R15/R16 4.7 kΩ on VREG_2V7 | **Applies** |
 | J2/J3 silkscreen labels from Board A | **Applies**: same footprints; check labels against the netlist before probing |
-| TVS above 28 V | D5 SMAJ16A instead of SMAJ20A: 26 V at 25 °C (G), hot clamp unproven (PD-CLAMP-1). Exact D5 part depends on the built state (C968650 or C74561) |
+| TVS above 28 V | D5 SMAJ16A instead of SMAJ20A: 26 V at 25 °C (G), hot clamp unproven (PD-CLAMP-1). Design only; no PD Board P was built |
 | DB links + DNP Rd | Applies (same as LED) |
 
-The historical v0.4.0 differences (RESET tied to GND, D4 USBLC6-2 on VBUS, external Rd fitted) no longer describe the bench boards.
+The historical v0.4.0 differences (RESET tied to GND, D4 USBLC6-2 on VBUS, external Rd fitted) no longer describe the design.
 
-**No LED measurement is a measurement of any zudo-PD board.** The PD-side gates in [`input-clamp-fix.md`](input-clamp-fix.md), [`design-gaps-20v.md`](design-gaps-20v.md) and LED #34 stay open.
+**No LED measurement is a measurement of any zudo-PD board**, and none may be attributed to the untested PD Board B. The PD-side gates in [`input-clamp-fix.md`](input-clamp-fix.md), [`design-gaps-20v.md`](design-gaps-20v.md) and LED #34 stay open.
 
 ### 2.4 Proposed diagnostic sequence (not executed; each step needs approval)
 
@@ -91,12 +91,12 @@ Read-only and low-energy steps first. None is authorized here. D3 and D4 energiz
 
 | Step | Board | Action | Needs |
 |---|---|---|---|
-| D0 | zudo-PD | Confirm which package state (S1/S2/S3, §1.1) was built: JLCPCB's confirmed BOM, or an unpowered look at Board B (R26–R28 pads, U8 marking: S3 vs S1/S2) and Board P (D5 marking or pad size: S1 vs S2) | Owner (account access or handling) |
-| D1 | zudo-PD | Unpowered visual and continuity check against the identified state's netlist (U1 orientation, R21 RESET pull-down, R15/R16 net, D5 polarity, J2/J3 labels) | Approval (handling only) |
+| D0 | zudo-PD | **Done for components** (owner, comment 6287748641): Board B BOM matches S3; no PD Board P exists. Copper/silk and LED2 rotation not yet confirmed | — |
+| D1 | zudo-PD Board B | Unpowered visual and continuity check against the S3 netlist (R26–R28 fitted, U6–U8 markings and orientation, LED2 polarity, J5/J6/J7 labels against nets) | Approval (handling only) |
 | D2 | LED | Unpowered: measure R21 out of circuit or lift one end; check RESET pad to every neighbour | Approval (rework) |
 | D3 | LED | Current-limited 5 V on VBUS only, programmer disconnected: RESET, VREG_2V7, VREG_1V2, VDD | Approval (energizing) |
 | D4 | LED | The LED audit's single rework test (R21 bridged to 0 Ω, R15/R16 removed, SCL/SDA grounded), then one cold 15 V attach | Approval (rework + energizing) |
-| D5 | zudo-PD | Only after D0/D1, and only with the identified revision's gates closed: current-limited 5 V bring-up | Approval (energizing) |
+| D5 | zudo-PD Board B | Only after D1, with a verified USB source board (for example the LED Board P after D2–D4) and the Board B gates closed: current-limited bring-up. No PD Board P exists to pair with it | Approval (energizing) |
 
 ## 3. STUSB4500: board faults vs intrinsic limits, and simpler alternatives
 
@@ -130,7 +130,7 @@ Read-only and low-energy steps first. None is authorized here. D3 and D4 energiz
 - **AP33772S** has the best diagnostics and 34 V ratings but requires an MCU and firmware, which adds the A1-style effort the owner already flagged.
 - **Keeping STUSB4500** remains viable once the board faults above are removed; its intrinsic costs are the per-unit NVM programming, the stateful POWER_OK and the 28 V clamp margin.
 
-**Candidate direction (marked, not adopted):** fix the board-level conditions first (they apply to both LED and renewal zudo-PD Board P), and evaluate CYPD3177 as the leading simpler alternative for zudo-PD-60W in a separate, approved evidence pass. The STUSB4500 is not shown to be incompatible.
+**Candidate direction (marked, not adopted):** fix the board-level conditions first (they apply to the LED Board P and to the unbuilt zudo-PD Board P design), and evaluate CYPD3177 as the leading simpler alternative for zudo-PD-60W in a separate, approved evidence pass. The STUSB4500 is not shown to be incompatible.
 
 ### 3.4 Manufacturing repeatability (owner criterion, zudo-pd#218 comment 6286650616)
 
@@ -152,7 +152,7 @@ All times and ratios are **PA estimates**, derived from the number of manual ste
 
 ### 3.5 Open items
 
-- zudo-PD as-built state (D0): renewal Board P + Board B per the owner; which package state (S1, S2 or S3) JLCPCB built is not recorded.
+- zudo-PD as-built state: Board B only, components match S3 (owner, JLCPCB BOM dialog); copper/mask/paste/silk and LED2 rotation unconfirmed; no production-file hash. No PD Board P was ordered.
 - Source of the LED RESET current; outcome of the LED rework test (needs approval).
 - Primary (manufacturer-hosted) copies of HUSB238 and CH224K datasheets; CYPD3177 and AP33772S pin-level evidence, availability and price.
 - None of the alternatives has an owner bundle, footprint or symbol in this repository.

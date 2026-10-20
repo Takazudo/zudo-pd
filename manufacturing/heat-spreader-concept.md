@@ -2,7 +2,7 @@
 
 **Status: concept analysis only. Nothing here is designed, adopted, drilled or fabricated.** No PCB, schematic, spec, footprint or owner-bundle change. Every board stays an unvalidated draft, and **nothing on this page is measured**. Thermal-pad properties come from an unverified sales listing and are treated as unknown. Every number is a calculation (calc), a project assumption (PA) or unavailable (UNAV). The proposed measurements have **not** been run and need owner approval.
 
-**Which board is "existing": the renewal Board B** (owner-stated reference: the `releases/corner-support-review/` package at `f25194f`; see [`as-built-and-controller.md`](as-built-and-controller.md) §1.1). Which package state was built is not recorded; S3 (`f25194f`) adds the U8 divider R26–R28 and changes U6–U8 part numbers but no hot-part position used here; it also changed Board B F_Cu, mask, paste and silk, so the screened copper may differ between built states. §§1–5 screen the existing renewal Board B. §A screens the earlier combined board (v0.3.0 / v0.4.0 family) and is kept for history only.
+**Which board is "existing": the renewal Board B** (ordered without a PD Board P; its JLCPCB BOM matches package state S3 at `f25194f`, see [`as-built-and-controller.md`](as-built-and-controller.md) §1.1). S3 adds the U8 divider R26–R28 and changes U6–U8 part numbers but no hot-part position used here. The screen uses the S3 copper; that the built copper, mask, paste and silk match S3 is not yet confirmed. §§1–5 screen the existing renewal Board B. §A screens the earlier combined board (v0.3.0 / v0.4.0 family) and is kept for history only.
 
 Request: zudo-pd#218 comment 6286606035, item 2. The owner's images of the proposed cutout plates were not available to this analysis; the plate outlines below are built from the written description (cutout plates over regulator and inductor regions, weaving around capacitors, 3–4 inexpensive plates, pads of different thickness bridging height differences).
 
@@ -110,12 +110,12 @@ Body heights of TO-263 / DD-PAK packages, the 100 µH inductors and the electrol
 
 - Board B hangs **component face down** on its legs. A plate on the component side sits **below** the parts, between them and the floor or enclosure base. Warm air rises away from it, so a component-side plate mainly spreads heat; it adds little convection.
 - The **back side (B.Cu) faces up** and carries no SMD parts, only through-hole tails (J5, J6, J7, J10, J11) and back silk. It is the flat, upward-facing surface.
-- **Board P occupies Board B x ≈ −0.5…39.5, y ≈ 12…39** on the component side (27 × 40 mm, transformed), with its own components facing down toward Board B. U3 (23, 36), D2 (33.75, 35) and J5 (37.2, 24.9) sit inside that extent; C39 (43, 21.5) and C8 (34, 41) are outside it. **No component-side plate can reach U3 on the existing stack**: the space between U3's top and Board P's hanging components is not measured and is already the tightest region of the stack.
+- **The designed Board P footprint occupies Board B x ≈ −0.5…39.5, y ≈ 12…39** on the component side (27 × 40 mm, transformed), with P's components facing down toward Board B. No PD Board P was manufactured (§1.1 of `as-built-and-controller.md`), but any board mated at J5 takes this space. U3 (23, 36), D2 (33.75, 35) and J5 (37.2, 24.9) sit inside that extent; C39 (43, 21.5) and C8 (34, 41) are outside it. **No component-side plate can reach U3 on the designed stack**: the space between U3's top and Board P's hanging components is not measured and is already the tightest region of the stack.
 - Leg seating height is 18 mm (adhesive-leg prototype); the terminal drawing maximum reaches 14.2 mm and Board P substrate 12.7 mm (CLAUDE.md). A component-side plate plus pad must stay inside that floor clearance; the margin is not established.
 
 ## 3. Proposed plates (concept; dimensions indicative, not designed)
 
-### Renewal Board B as built (no PCB change)
+### Renewal Board B, S3 package (no PCB change)
 
 | Plate | Side | Covers | Potential under it | Mounting idea (not designed) |
 |---|---|---|---|---|
@@ -198,7 +198,7 @@ Against the screened θJA limits (about 20 K/W for U6, 24 K/W for U8), a small c
 | D back-side spreader over via fields | Largest available: via path, up-facing plate, large area | Two potentials under one plate (insulation UNAV); burr punch-through; THT tails; floating-plate coupling | Needs new holes or an enclosure clamp; corner holes unusable |
 | Next-revision regrouping + plate holes | Can combine the via path with one potential per plate | Layout work; re-verification | PCB change (gated) |
 
-**Recommendation (marked).** The arrived board is the renewal Board B (owner-stated; §A's plates V1–V4 apply only to the historical combined board). For it, and for the next revision, prefer the back-side spreader D over the via fields, split into a GND plate (U6/U7) and a −14.145 V plate (U8, optionally U4), each on an insulating pad, rather than component-side cutout plates. Build plates from the owner's aluminum blank-panel construction with the masked face toward the parts (§B), but count none of the stack as insulation until H1b passes. Treat any plate as unproven until measured. Fold plate holes, potential grouping and U3's position into the next revision instead of working around them now.
+**Recommendation (marked).** The arrived board is the renewal Board B (S3 components per the owner; §A's plates V1–V4 apply only to the historical combined board). For it, and for the next revision, prefer the back-side spreader D over the via fields, split into a GND plate (U6/U7) and a −14.145 V plate (U8, optionally U4), each on an insulating pad, rather than component-side cutout plates. Build plates from the owner's aluminum blank-panel construction with the masked face toward the parts (§B), but count none of the stack as insulation until H1b passes. Treat any plate as unproven until measured. Fold plate holes, potential grouping and U3's position into the next revision instead of working around them now.
 
 ## 6. Proposed measurements (not executed; each needs owner approval)
 
