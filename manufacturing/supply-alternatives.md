@@ -97,15 +97,15 @@ The transient is an energy question over 20 ms, covered in the [transient sectio
 ### 20 ms transient: energy question
 
 - If the source sees the full transient, B1 draws 3.04–3.23 A at 18.67 V and 3.09–3.28 A at 18.4 V (PA arithmetic), above the 3 A contract. Behavior then depends on the source's overcurrent tolerance, which is **UNAV**.
-- B1 meets the transient only in one of two ways:
-  - **(a)** the source advertises PD Peak Current overload capability. That is source-dependent and not guaranteed.
-  - **(b)** the board adds a sink-side input current limit or eFuse set below 3 A, plus hold-up capacitance.
-- Hold-up needed for (b), all PA:
+- Two paths were screened; neither closes the B1 transient ([b1-gates.md](b1-gates.md) R3, **UNRESOLVED**):
+  - **(a)** PD Peak Current overload. It is source-advertised, not guaranteed, and its longest profile is 10 ms at 50 % duty, so it cannot cover the 20 ms transient. Path (a) is not a substitute.
+  - **(b)** the board adds a sink-side input current limit or eFuse set below 3 A, plus hold-up capacitance. The best retrieved limiter (LTC4282, ±3.7 % effective) has no guaranteed window: its 2.786 A setting sits against a 2.81 A minimum need.
+- Hold-up needed for (b), all PA, from the dynamic model in b1-gates.md: 8.0–13.0 mF at 1 V droop, or 2.9–4.3 mF to a 14.0 V floor ("3–13 mF"). The earlier fixed-deficit figures below understated it and are kept only for reference:
   - base efficiency, 18.67 → 17.67 V: 16 mJ deficit, **≈0.9 mF**;
   - −5 pt: 87 mJ, about 4.8 mF;
   - 18.4 → 17.4 V: 1.8–5.7 mF.
 - At 15 V, 14.0 → 13.0 V needs 22–27 mF (0.30–0.37 J), which is impractical.
-- Existing input bulk does not count unless an input limit exists: without one, the source still supplies the transient.
+- Existing input bulk does not count unless an input limit exists: without one, the source still supplies the transient. The B1 transient closes only via B2 or OSC demand closure.
 
 ## Exact-part limits used
 
@@ -115,7 +115,7 @@ The transient is an energy question over 20 ms, covered in the [transient sectio
 | TPS54560DDAR | $1.1049 (1+), $0.7487 (100+); 9,536 in stock | CP(2026-10-20), [LCSC C31966](https://www.lcsc.com/product-detail/C31966.html) |
 | MF-MSMF250/16X | Hold 2.50 A at 23 °C, 2.24 A at 40 °C, 1.98 A at 50 °C, 1.85 A at 60 °C, 1.29 A at 70 °C, 0.94 A at 85 °C; trip 5 A; 16 V; R1max 0.100 Ω | G, [Bourns MF-MSMF datasheet](https://www.bourns.com/docs/Product-Datasheets/mf-msmf.pdf) |
 | MF-MSMF250/16X-2 | $0.61 (1 pc) | CP(2026-10-20), [Digi-Key](https://azcus.digikey.com/en/products/detail/bourns-inc/MF-MSMF250-16X-2/2563289) |
-| TVS2200DRVR | 22 V standoff, VBR min 24.6 V, **28.4 V max clamp at 40 A, 8/20 µs** | G, [TI TVS2200](https://www.ti.com/product/TVS2200) |
+| TVS2200DRVR | 22 V standoff, VBR 24.6 / 25.9 / 27.6 V at 1 mA, **28 V max clamp at 40 A / 27 °C and 28.35 V max at 35 A / 125 °C, 8/20 µs** | G, [TI SLVSED5C](https://www.ti.com/lit/ds/symlink/tvs2200.pdf) |
 | TVS2200DRVR | $0.4672 (5+) | CP(2026-10-20), [LCSC C523793](https://www.lcsc.com/product-image/C523793.html) |
 | AOD4185L | −40 V; ±20 V VGS; −40 A **at TC = 25 °C**; 15 mΩ max at −10 V, 20 mΩ at −4.5 V | G, [AOS](https://www.aosmd.com/products/mosfets/p-channel-mosfets-8v-60v/aod4185) |
 | AOD4185L | $0.4474; 34 in stock | CP(2026-10-20), [LCSC C77993](https://www.lcsc.com/product-detail/C77993.html) |
@@ -138,7 +138,7 @@ The transient is an energy question over 20 ms, covered in the [transient sectio
 
 | Item | Change | Gate status |
 |---|---|---|
-| D5 TVS | SMAJ16A → TVS2200 (22 V standoff) | **OPEN.** The 28.4 V clamp at 40 A exceeds the STUSB4500 VDD and VBUS_VS_DISCH 28 V absolute max, so the margin is negative and the surge envelope is undefined. The CC pins are 22 V absolute max, leaving 2 V at 20 V in a CC-to-VBUS short. Not solved. |
+| D5 TVS | SMAJ16A → TVS2200 (22 V standoff) | **OPEN.** The 28 V clamp at 40 A / 27 °C leaves 0.00 V against the STUSB4500 VDD and VBUS_VS_DISCH 28 V absolute max, and the 28.35 V hot clamp leaves −0.35 V, so the surge envelope is undefined. A per-pin 470 Ω + BZX84-C24 clamp is a candidate only (b1-gates.md). The CC pins are 22 V absolute max, leaving 2 V at 20 V in a CC-to-VBUS short. Not solved. |
 | U1 NVM policy | 20 V / 3 A sink PDO as the only non-5 V PDO, with `POWER_ONLY_ABOVE_5V = 1` | **NOT RUN.** The policy must reject 20 V offers below 3 A (for example a 45 W charger offering 20 V / 2.25 A) and keep VBUS_EN_SNK off. The STUSB4500 matching rules are not verified. Programming, readback and power-cycle gates stay as today. |
 | Q1 | AO3401A is marginal at 20 V / 3 A: VDS margin 1.6 V and VGS margin 0.6 V at the clamp (G-U). AOD4185L is required for B2 (TO-252 means a re-layout) | Turn-on slew against inrush and inverter startup at 20 V: **NOT RUN** |
 | J1 / JOUT1–J5 | J1 is rated 5 A (G, owner bundle). Header pair is 3 A per contact | Sharing unverified. B2 additionally needs a 5 A e-marked cable |
@@ -169,7 +169,7 @@ Charger and cable prices are **UNAV** (not retrieved).
 |---|---|---|---|
 | Current chain (15 V, LDOs) | FAIL (per `supply-capability.json`: LDO characterization, PTC hold and U4 limits; G / G-U / PA) | FAIL | FAIL |
 | A1 (15 V / 3 A, switcher-direct) | **FAIL** at the 14.0 V floor (3.05–3.24 A). Passes only at an ideal 15.00 V at base and −3 pt (2.85–2.95 A); −5 pt gives 3.02 A and fails. Stage54 conditional: 2.96 A base | FAIL | FAIL (22–27 mF hold-up, impractical) |
-| B1 (20 V / 3 A, switcher-direct) | Screen PASS (2.29–2.43 A at 18.67 V; up to 2.46 A at 18.4 V) | Screen PASS (2.56–2.72 A at 18.67 V; up to 2.76 A at 18.4 V) | **Not met** unless PD Peak Current is advertised or a sink limit below 3 A plus ≈0.9–5.7 mF hold-up is added |
+| B1 (20 V / 3 A, switcher-direct) | Screen PASS (2.29–2.43 A at 18.67 V; up to 2.46 A at 18.4 V) | Screen PASS (2.56–2.72 A at 18.67 V; up to 2.76 A at 18.4 V) | **Not met.** Peak Current cannot cover 20 ms; a sink limit has no guaranteed window and needs 3–13 mF (UNRESOLVED) |
 | Hybrid (20 V / 3 A) | Screen PASS | Screen PASS (2.75–2.92 A at 18.67 V; 2.96 A at 18.4 V); blocked by ≥2 A LDOs (negative one UNAV) | Same gate as B1 (3.27–3.47 A at 18.67 V; 3.52 A at 18.4 V) |
 | B2 (20 V / 5 A) | Screen PASS | Screen PASS | Screen PASS (input power, PA); Board B ~2.5 A per rail limit at 23 °C |
 | C1 (24 V / 90 W) | Screen PASS | Screen PASS | Screen PASS (input power, PA) |
@@ -186,8 +186,8 @@ The Stage54 OSC reduction (canonical minus a 42 mA maximum-Iq allowance on each 
 ## Decision request (recommendation marked; not chosen)
 
 1. **Input contract.** Choose one of:
-   - 20 V / 3 A (**recommended**). It meets continuous on the screen. The transient needs either (a) a source advertising PD Peak Current, or (b) a sink-side input limit below 3 A plus about 1–6 mF hold-up.
-   - 20 V / 5 A, which meets the transient by input but needs a 100 W charger and a 5 A e-marked cable.
+   - 20 V / 3 A. It meets continuous on the screen. The transient stays UNRESOLVED: PD Peak Current cannot cover 20 ms, and a sink-side limit has no guaranteed tolerance window and needs 3–13 mF hold-up. It closes only via B2 or OSC demand closure.
+   - 20 V / 5 A (**recommended screen basis**, see [product-lineup.md](product-lineup.md) option C2). It meets the transient by input but needs a 100 W charger and a 5 A e-marked cable; its shared gates stay open.
    - Keep 15 V. This only works if OSC lowers continuous to about 1.40–1.49 / 1.32–1.40 / 0.3 A or less. That is below even the canonical planning-normal of 1.535 / 1.436 A, which A1 fails at the 14.0 V floor. The transient would also have to be met by overload at the source.
 2. **Board B conversion and noise strategy.** Choose one of:
    - switcher-direct plus LC post-filter;
