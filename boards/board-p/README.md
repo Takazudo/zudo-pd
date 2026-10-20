@@ -56,9 +56,12 @@ its older 56 kΩ gate resistor, ground-referenced C35, and grounded reset.
 
 Open electrical gates remain: VREG_2V7 feeds 4.7 kΩ I2C pull-ups even though retained
 controller documentation only authorizes decoupling; confirm manufacturer approval
-or revise this circuit and verify programming-jig logic levels. The SMAJ20A's 32.4 V
-clamp table point exceeds Q1's 30 V VDS and the controller's retained 28 V absolute
-maximum; actual source/rail/gate transient waveforms and duration remain unmeasured.
+or revise this circuit and verify programming-jig logic levels. The fitted D5 SMAJ16A
+(C74561) has a 26 V maximum clamp at its 15.4 A, 10/1000 µs, 25 °C table point. That
+leaves 2.0 V below the controller's retained 28 V absolute maximum and 4.0 V below
+Q1's 30 V VDS; it is not a hot or installed-surge ceiling. Its 16 V standoff makes
+20 V operation unsupported. Actual source/rail/gate transient waveforms and duration
+remain unmeasured. The retired SMAJ20A's 32.4 V clamp exceeded both limits.
 NVM policy, switch inrush, steady full-load temperature, and connector temperature
 must be checked with the actual downstream load. The nominal 45 W contract alone
 cannot establish those results.
