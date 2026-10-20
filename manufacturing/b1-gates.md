@@ -165,5 +165,5 @@ The model takes VZ max with no credit below 5 mA, plus SZ × (Tj − 25 °C). At
 | R4a | 1 mVpp ripple at load | 0.02–0.05 mVpp fundamental (CCM) on arithmetic; edges, ESL, DCM and pulse skipping not screened | **NOT RUN** |
 | R4b | Source voltage bands | Internal VFB FAIL on all rails; servo with terminal sense UNRESOLVED (load step 0.06–0.24 V at PA steps; UNAV servo terms) | **UNRESOLVED** |
 | R4c | 0.2 V rail plus return loss | OSC uses 0.162–0.194 V; PTC outside the loop (0.04–0.20 V) inadmissible; terminal sense is the candidate | **UNRESOLVED** |
-| R6 / TVS | TVS2200 (28.0–28.35 V) against the STUSB4500 28 V absolute maximum (VDD, VBUS_VS_DISCH, DISCH, VBUS_EN_SNK); CC 22 V | 0.00 / −0.35 V margin; R + zener candidate about 0.6–1.4 V hot; envelope undefined | **UNRESOLVED** |
+| R6 / TVS | TVS2200 (28.0–28.35 V) against the STUSB4500 28 V absolute maximum (VDD, VBUS_VS_DISCH, DISCH, VBUS_EN_SNK); CC 22 V | 0.00 / −0.35 V margin; R + zener candidate about 0.2–1.4 V hot (PA-dependent); envelope undefined; fix proposal in [`input-clamp-fix.md`](input-clamp-fix.md) | **UNRESOLVED** |
 | R7 | Input/interface current upper limit 2.1 / 2.0 / 0.5 A, coordinated all-rail shutdown, reverse blocking | Not addressed: PTC trip 5 A; no retrieved limiter holds a 0.1 A window | **UNRESOLVED** (G3 / G4) |
