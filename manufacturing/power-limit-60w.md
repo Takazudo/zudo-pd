@@ -257,7 +257,7 @@ How the caps were derived (section 9 of the script):
 
 ### Slower common startup ramp (W60-D3 candidate; calculated only, not adopted)
 
-The OSC contract's 10 ms soft start is a minimum, so a slower supply-side common ramp is **contract-compatible**. Its benefit below is **calculated only**. OSC has no evidence yet that its circuits behave correctly on a slow ramp: the reset RC timing, VEE5 brownout behavior, rail-order tolerance and absolute-maximum facts are open on the OSC side. Before the ramp can be relied on, a local measurement campaign is needed: 6 rail orders × 10 / 20 / 50 ms ramps, checking VEE5, injection currents, reset timing and latch-up.
+The OSC contract's 10 ms soft start is a minimum, so a slower supply-side common ramp is **contract-compatible**. Its benefit below is **calculated only**. OSC has no evidence yet that its circuits behave correctly on a slow ramp: the reset RC timing, VEE5 brownout behavior, rail-order tolerance and absolute-maximum facts are open on the OSC side. Before the ramp can be relied on, the OSC-side measurement campaign must pass. Its single source of truth is OSC #288 PWR-INT-08 ([comment 6285435162](https://github.com/Takazudo/zudo-osc-hole-field/issues/288#issuecomment-6285435162), with its marked correction; record PR #289 at `8988299a4f7ac78e4c331cd061892e2d7e9f238e`): 10 source-cited groups, including the 6 rail orders × 10 / 20 / 50 ms ramps, VEE5, injection currents, reset timing, latch-up and the abs-max capture list. It is not copied here. OSC confirms the scaling method with conditions and reproduces the ≥ 11.5 ms figure; there is no contract ceiling on ramp length, but OSC tolerance of a slow ramp is unverified.
 
 **A paper fit at startup is not acceptance.** A slower ramp addresses only the startup capacitance charge. It does not change the contract's 20 ms transient requirement (2.0 / 1.9 / 0.4 A), the accuracy windows, or the OSC reserve and rounding rule (PWR-D5). Each of those is judged separately, and none passes because the ramp fits.
 
@@ -284,6 +284,7 @@ No step below has been run. Running any of it is an outward hardware action that
 | M5 | Source OCP behavior | A PD trigger plus an electronic load (not the product): step to 3.05 / 3.2 / 3.5 A for 20 ms, 100 ms and 1 s on each charger × cable | Record the mode (continue / foldback / hiccup / hard reset / latch) and the time to act. The M4 trip time must be shorter than the shortest source reaction in the qualified set |
 | M6 | All-rail behavior | Detach, hard reset, charger swap, re-contract and overload, all at full load | No rail out of band while another is on; all off within t_skew; no back-feed (GAP-7) |
 | M7 | Thermal at the envelope | Continuous R60 load for 1 h at the highest intended ambient | Component temperatures within their limits (limits per owner bundles); PTC hold not reached |
+| M8 | OSC slow-ramp tolerance (only if a ramp slower than 10 ms is used) | The OSC-owned campaign in OSC #288 PWR-INT-08 (comment 6285435162, PR #289 at `8988299`); not copied here | As defined there. Passing it does not cover the 20 ms transient, accuracy windows or PWR-D5 |
 
 Equipment (candidates only; nothing purchased or requested):
 - USB PD protocol analyzer or trigger board;
