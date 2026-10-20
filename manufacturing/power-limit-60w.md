@@ -150,7 +150,7 @@ The W column uses 12 / 12 / 5 V. The section 1 tables use the source-band maxima
 **What a usage limit can cover (screen only).** Normal typical (21 W), the OSC usage-limit candidate (33 W) and the heavy realistic patch (36.8 W) fit R60 on input current and per-rail caps, with a safe trip and a 5 % guard. The heavy realistic patch has 0.14 A (LTC4282) or 0.24 A (INA301 reference) margin. That margin rests on PA efficiencies and on OSC values that are themselves unverified.
 
 **What a usage limit cannot cover.**
-- **Startup envelope (42.4–43.3 W).** It exceeds every safe trip with the guard. It is set by OSC's capacitance ramp at power-on, so no user rule changes it. It needs a supply-side startup control that keeps the ramp inside the trip (slower common soft start or inrush limiting, accepted by OSC against its 10 ms ceiling) or a contract change (C2).
+- **Startup envelope (42.4–43.3 W).** It exceeds every safe trip with the guard. It is set by OSC's capacitance ramp at power-on, so no user rule changes it. It needs a supply-side startup control that keeps the ramp inside the trip (slower common soft start or inrush limiting; the OSC contract's 10 ms soft start is a minimum, so a slower ramp is within contract, and the open question is only whether OSC circuits tolerate it) or a contract change (C2).
 - **20 ms transient (48.8–49.8 W).** It exceeds the contract itself. OSC attributes it to the same startup ramp, so the same two remedies apply: startup control, or C2. Hold-up of 4.7–10 mF behind a limiter is the only screened in-contract path, and it never recharges at continuous load.
 - **The continuous requirement and the OSC ×1.1 point.** Both are at or over the edge. They would need the INA301 reference path with its UNAV terms closed, and even then the margin is zero to 0.11 A.
 
@@ -179,7 +179,7 @@ None of these is acceptable as the intended behavior of a usage-limited product.
 | L3 | No trip at any demand inside the published usage limit, including its startup and peaks. A trip on a legitimate transient is a **functional failure**. |
 | L4 | The user can tell the states apart: normal, near limit, tripped, insufficient source. |
 | L5 | Restart only by a defined user action on a valid 20 V / 3 A contract. No automatic retry into a sag. |
-| L6 | Startup input current stays below the trip minimum. Rails reach their bands within the OSC 10 ms and load-capacitance ceilings. |
+| L6 | Startup input current stays below the trip minimum. Rails ramp no faster than the OSC 10 ms minimum soft start and stay within the load-capacitance ceiling; any slower ramp must be accepted by OSC. |
 
 ### Alternatives compared
 
@@ -253,14 +253,16 @@ How the caps were derived (section 9 of the script):
 | Exceeding the limit | All outputs switch off together and stay off; unplug the charger to restart. This protects the charger and the rails. It does not make overload a supported condition | unver (mechanism not designed) |
 | Not allowed | Full OSC as recorded: continuous 1.7 / 1.6 / 0.3 A (42.0 W), the startup envelope (43.3 W) and the 20 ms transient (49.8 W) all exceed R60 | calc |
 
+**R60 and OSC.** R60 cannot serve OSC through a usage notice alone. Its +5 V cap (0.28 A) does not cover the OSC ×1.1-rule candidate (0.3 A), and on ±12 V it leaves only about 4 % above the heavy realistic patch (1.60 / 1.50 A against 1.535 / 1.436 A) where the OSC rule asks for 10 %. Using R60 for OSC would require changing the OSC reserve and rounding rule, which is an OSC PWR-D5 decision. OSC's new fitted-capacitance startup row, 1.610 / 1.498 / 0.240 A (39.3 W; OSC #288 integration review W1–W7, PR #289 at `195b3f5`; calculated, unverified), is **EDGE** against the LTC4282-basis R60 caps: +12 V is about 10 mA over.
+
 ## 5. Measurement plan (not executed; requires owner approval)
 
 No step below has been run. Running any of it is an outward hardware action that needs the owner's explicit approval. It also needs a built prototype, which does not exist.
 
 | ID | What | Method | Acceptance criterion (candidate) |
 |---|---|---|---|
-| M1 | OSC realistic-patch power | Log each OSC rail current and voltage at ≥ 10 kS/s for ≥ 1 h per patch, over an owner-defined set of worst realistic patches | The maximum 20 ms moving-average total, converted to board input, is ≤ trip minimum − guard (guard PA 5 %), and each rail is ≤ its R60 cap. Report P50 / P99.9 / max |
-| M2 | Startup peak | 50 cold starts per corner (input 18.4–21 V; ambient range UNAV) with OSC attached | Input current stays ≤ trip minimum − guard throughout; rails are in band within 10 ms; no trip |
+| M1 | OSC realistic-patch power | Log each OSC rail current and voltage at ≥ 10 kS/s for ≥ 1 h per patch, over an owner-defined set of worst realistic patches | The maximum 20 ms moving-average total, converted to board input, is ≤ trip minimum − guard (guard PA 5 %), and each rail is ≤ its R60 cap. In addition, the instantaneous peak board-input current (at the trip's blanking bandwidth) stays ≤ trip minimum − guard, and the peak per-rail current stays ≤ its R60 cap. Report P50 / P99.9 / max |
+| M2 | Startup peak | 50 cold starts per corner (input 18.4–21 V; ambient range UNAV) with OSC attached | Input current stays ≤ trip minimum − guard throughout; rails ramp no faster than the OSC 10 ms minimum and reach their bands within the ramp time OSC accepts; no trip |
 | M3 | Transient duration and repetition | From M1 and scripted patch changes: the duration, amplitude and spacing of every event above the continuous envelope | No event exceeds the R60 limits |
 | M4 | Trip threshold | Per unit: slow ramp of board input until trip, at the temperature extremes | Trip within [min, max], with max ≤ 3.0 A and min ≥ M1 max + guard. All rails off together, skew ≤ t_skew (OSC to set), latched until re-plug |
 | M5 | Source OCP behavior | A PD trigger plus an electronic load (not the product): step to 3.05 / 3.2 / 3.5 A for 20 ms, 100 ms and 1 s on each charger × cable | Record the mode (continue / foldback / hiccup / hard reset / latch) and the time to act. The M4 trip time must be shorter than the shortest source reaction in the qualified set |

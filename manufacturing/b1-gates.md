@@ -99,7 +99,7 @@ Hold-up uses the LTC4282 limit at 2.786 A for 20 ms at constant transient power.
 
 **Startup sequence (candidate).**
 - After the 20 V contract (Q1 stays off at 5 V via `POWER_ONLY_ABOVE_5V`), the limiter charges the hold-up at a controlled dV/dt within the contract current. 4.7 mF to 20 V takes 94 ms at 1 A.
-- All three TPS54560 EN pins are held low until the hold-up passes a threshold. EN is 1.1 / 1.2 / 1.3 V (G) with no voltage hysteresis, so a hysteretic comparator or the limiter's power-good is needed. The OSC 10 ms soft start follows.
+- All three TPS54560 EN pins are held low until the hold-up passes a threshold. EN is 1.1 / 1.2 / 1.3 V (G) with no voltage hysteresis, so a hysteretic comparator or the limiter's power-good is needed. The OSC soft start (10 ms minimum) follows.
 - Open items: the fault timer must exceed the charge time plus 20 ms; MOSFET SOA at 1–4.7 V × 2.8 A for 20 ms; PD sink bulk-capacitance and inrush rules (UNAV); transient repetition rate (UNAV; 1 V recharge takes 122–253 ms at −3 pt).
 
 **Verdict (b): not viable as a guaranteed path.**

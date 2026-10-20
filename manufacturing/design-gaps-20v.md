@@ -115,7 +115,7 @@ This page holds the OSC limits fixed. Only options 3 and 4 act within them. Opti
 | R6.3 | Trigger list | Input UV (detach, hard reset, charger swap, re-contract to 5 V, and a 5 A→3 A downgrade that changes the contract), any rail UV/OV, any R5 trip, any R7 reverse event | — | Each event on the bench |
 | R6.4 | Latch | After any trigger, rails stay off until a fresh full-class contract exists. A trigger is cleared only by VBUS removal or by VBUS falling to vSafe0V; a hard reset (VBUS to vSafe0V) therefore clears it, and the restart still needs a fresh full-class contract. No automatic retry into a sag | — | Event, then restore input without re-plug: rails must stay off |
 | R6.5 | Detection before regulation loss | t_detect + t_off < the time for the input to fall from V_UV to the regulation floor at maximum load | Example (PA): 100 µF input bulk, 52 W, 16.5 → 14.0 V ≈ 73 µs; so tens of µs | Scope VIN, EN and rails on a detach at full load |
-| R6.6 | Common start | All three rails start from the same enable, inside the contract current and the OSC 10 ms / capacitance ceilings | — | Startup capture |
+| R6.6 | Common start | All three rails start from the same enable, inside the contract current, no faster than the OSC 10 ms minimum soft start, and within the OSC load-capacitance ceiling | — | Startup capture |
 
 ### Alternative methods
 

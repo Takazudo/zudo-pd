@@ -227,7 +227,7 @@ These figures come before any trip tolerance. Each rail's trip threshold must si
 |---|---|---|
 | Connect, wrong charger or cable | All rails off; "insufficient source" shown | NVM mismatch keeps VBUS_EN_SNK off (G-U). The indicator must sit on Board P, fed from VBUS_IN, as ATT asserted and PDOK not |
 | Detach, charger swap, hard reset, multi-port 5 A→3 A downgrade | **Coordinated all-rail off, never a sag.** Re-enable only on a fresh contract at the required class | Board B input UVLO plus a common shutdown of all three stages. ST states VBUS_EN_SNK goes Hi-Z at detach and on hard-reset error recovery, but gives no timing (G-U); bench check |
-| Startup | Inside the contract and the OSC 10 ms / capacitance ceilings | Rule `inverting-startup-vs-pd-source` is open with the new stages |
+| Startup | Inside the contract; no faster than the OSC 10 ms minimum soft start; within the OSC load-capacitance ceiling | Rule `inverting-startup-vs-pd-source` is open with the new stages |
 | Source bands | 12.00–12.30 / 12.00–12.20 / 5.05–5.10 V | **FAIL with the TPS54560 internal reference on every rail (B1 R4b). Terminal sense plus a precision servo is needed (candidate, NOT RUN). This applies to every option** |
 | Ripple | 1 mVpp at load; 2 / 1 mV precision gates | R4a `NOT RUN` (measurement) |
 | Reverse current, interface maximum | Reverse blocking; 2.1 / 2.0 / 0.5 A enforced, with all-rail trip | R7 unresolved: PTC trip 5 A, no per-rail limiter with a 0.1 A window |
