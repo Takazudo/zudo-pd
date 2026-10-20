@@ -33,7 +33,7 @@ The efficiency sets are all PA, with no retained data for any converter:
 | −3 pt | 0.89 | 0.82 | 0.80 |
 | −5 pt | 0.87 | 0.80 | 0.75 |
 
-The same sets apply at 15 V and 20 V. Lower duty at 20 V moves the buck and inverter losses in opposite directions, and no data exists to separate them. The earlier draft's per-voltage split has been withdrawn.
+The same sets apply at 15 V and 20 V. Lower duty at 20 V moves the buck and inverter losses in opposite directions, and no data exists to separate them.
 
 ## Why 15 V / 3 A cannot reach the continuous requirement
 
@@ -48,7 +48,7 @@ Required weighted end-to-end efficiency is `Pout_ext / (Vb × 3 A − P_anc)`:
 
 The transient is an energy question over 20 ms, covered in the [transient section](#20-ms-transient-energy-question).
 
-**Efficiency note.** The two efficiency pairs differ because they use different load bases. The 88.6 % (15 V) / 95.0 % (14 V) pre-rail floor in `supply-capability.md` uses the Stage54 conditional load. On the canonical load, the same floor gives **91.1 % / 97.6 %**, matching the OSC ledger's 91 % / 98 %. That floor is still an optimistic lower bound: it covers the fitted pre-rails only, with no ancillary current and no converter loss. This table's lower figures assume switcher-direct 12 V and 5 V outputs instead of the 13.44 / 14.145 / 6.519 V pre-rails.
+**Efficiency note.** The two efficiency pairs differ because they use different load bases. The 88.6 % (15 V) / 95.0 % (14 V) pre-rail floor in `supply-capability.md` uses the Stage54 conditional load. On the canonical load, the same floor gives **91.1 % / 97.6 %**, matching the OSC ledger's 91 % / 98 % (external, from zudo-osc-hole-field PR #289; not verified here). That floor is still an optimistic lower bound: it covers the fitted pre-rails only, with no ancillary current and no converter loss. This table's lower figures assume switcher-direct 12 V and 5 V outputs instead of the 13.44 / 14.145 / 6.519 V pre-rails.
 
 ## Options
 
@@ -92,11 +92,11 @@ The transient is an energy question over 20 ms, covered in the [transient sectio
 | 15 V / 3 A ideal | 1.50–1.60 A | 1.41–1.51 A |
 | 20 V / 3 A derated, switcher-direct | 1.88–2.00 A | 1.77–1.89 A |
 | 20 V / 3 A, hybrid | 1.75–1.86 A | 1.65–1.75 A |
-| 20 V / 5 A derated | 3.2–3.4 A by input power; Board B parts limit it to about 2.5 A (PTC hold) | same |
+| 20 V / 5 A derated | 3.2–3.4 A by input power; Board B parts limit it to about 2.5 A at 23 °C (PTC hold, G), lower at elevated ambient | same |
 
 ### 20 ms transient: energy question
 
-- If the source sees the full transient, B1 draws 3.04–3.23 A, above the 3 A contract. Behavior then depends on the source's overcurrent tolerance, which is **UNAV**.
+- If the source sees the full transient, B1 draws 3.04–3.23 A at 18.67 V and 3.09–3.28 A at 18.4 V (PA arithmetic), above the 3 A contract. Behavior then depends on the source's overcurrent tolerance, which is **UNAV**.
 - B1 meets the transient only in one of two ways:
   - **(a)** the source advertises PD Peak Current overload capability. That is source-dependent and not guaranteed.
   - **(b)** the board adds a sink-side input current limit or eFuse set below 3 A, plus hold-up capacitance.
@@ -156,8 +156,8 @@ The transient is an energy question over 20 ms, covered in the [transient sectio
 
 | Option | Board B IC delta | Board P delta | Charger tier the user needs |
 |---|---|---|---|
-| A1 | ≈ −$22.5: removes LT3015, 2× LT1963A, AP63201, 2× LM2596S; adds 3× TPS54560. Passives UNAV | 0 | 45 W PD (any) |
-| B1 | Same as A1. Hybrid: removes −$22.5 of ICs plus adds ≥2 A LDOs (UNAV) | ≈ +$1 (TVS2200, AOD4185L) | ≥60 W, 20 V-capable PD; 3 A cable |
+| A1 | ≈ −$24.5 (1+ prices): removes LT3015, 2× LT1963A, AP63201, 2× LM2596S ($27.84); adds 3× TPS54560 ($3.31). Passives UNAV | 0 | 45 W PD (any) |
+| B1 | Same as A1. Hybrid: removes about $24.5 of ICs and adds ≥2 A LDOs (UNAV) | ≈ +$1 (TVS2200, AOD4185L) | ≥60 W, 20 V-capable PD; 3 A cable |
 | B2 | Same as A1 | ≈ +$1, plus copper rework | 100 W PD plus 5 A e-marked cable |
 | C1 | New board, similar to A1 | Not used | 24 V / 90 W brick at $30.80 plus tariff |
 
@@ -167,19 +167,21 @@ Charger and cable prices are **UNAV** (not retrieved).
 
 | Option | Planning-normal | Continuous | 20 ms transient |
 |---|---|---|---|
-| Current chain (15 V, LDOs) | FAIL | FAIL | FAIL |
-| A1 (15 V / 3 A, switcher-direct) | **FAIL** at the 14.0 V floor (3.05–3.24 A). Passes only at an ideal 15.00 V (2.85–3.02 A). Stage54 conditional: 2.96 A base | FAIL | FAIL (22–27 mF hold-up, impractical) |
-| B1 (20 V / 3 A, switcher-direct) | PASS (2.29–2.46 A) | PASS (2.56–2.76 A) | **Not met** unless PD Peak Current is advertised or a sink limit below 3 A plus ≈0.9–5.7 mF hold-up is added |
-| Hybrid (20 V / 3 A) | PASS | PASS (2.75–2.96 A); blocked by ≥2 A LDOs (negative one UNAV) | Same gate as B1 (3.27–3.52 A) |
-| B2 (20 V / 5 A) | PASS | PASS | PASS (input); Board B ~2.5 A per rail limit |
-| C1 (24 V / 90 W) | PASS | PASS | PASS (input) |
+| Current chain (15 V, LDOs) | FAIL (per `supply-capability.json`: LDO characterization, PTC hold and U4 limits; G / G-U / PA) | FAIL | FAIL |
+| A1 (15 V / 3 A, switcher-direct) | **FAIL** at the 14.0 V floor (3.05–3.24 A). Passes only at an ideal 15.00 V at base and −3 pt (2.85–2.95 A); −5 pt gives 3.02 A and fails. Stage54 conditional: 2.96 A base | FAIL | FAIL (22–27 mF hold-up, impractical) |
+| B1 (20 V / 3 A, switcher-direct) | Screen PASS (2.29–2.43 A at 18.67 V; up to 2.46 A at 18.4 V) | Screen PASS (2.56–2.72 A at 18.67 V; up to 2.76 A at 18.4 V) | **Not met** unless PD Peak Current is advertised or a sink limit below 3 A plus ≈0.9–5.7 mF hold-up is added |
+| Hybrid (20 V / 3 A) | Screen PASS | Screen PASS (2.75–2.92 A at 18.67 V; 2.96 A at 18.4 V); blocked by ≥2 A LDOs (negative one UNAV) | Same gate as B1 (3.27–3.47 A at 18.67 V; 3.52 A at 18.4 V) |
+| B2 (20 V / 5 A) | Screen PASS | Screen PASS | Screen PASS (input power, PA); Board B ~2.5 A per rail limit at 23 °C |
+| C1 (24 V / 90 W) | Screen PASS | Screen PASS | Screen PASS (input power, PA) |
+
+Screen PASS and FAIL here mean the input-current arithmetic with PA efficiencies only. Every other check is NOT RUN.
 
 The Stage54 OSC reduction (canonical minus a 42 mA maximum-Iq allowance on each analog rail) is unadopted. It is shown only as a labeled conditional row. Even counted, it lowers planning-normal by only about 1 W. It changes no continuous or transient verdict, because the requirement currents are unchanged. For A1 it would turn a planning-normal FAIL at the floor into a base-case edge (2.96 A).
 
 ## Separate findings
 
 - On 2026-10-20 LCSC showed AP63201WU-7 (C2071044) **out of stock**. This is a CP observation and affects the current Board B regardless of the decision.
-- [`../boards/board-p/README.md`](../boards/board-p/README.md) still describes the SMAJ20A 32.4 V clamp as the open gate, but the spec now fits the SMAJ16A. That wording is stale.
+- [`../boards/board-p/README.md`](../boards/board-p/README.md) described the retired SMAJ20A 32.4 V clamp as the open gate although the spec fits the SMAJ16A. This change corrects that paragraph.
 
 ## Decision request (recommendation marked; not chosen)
 
