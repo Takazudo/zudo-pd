@@ -16,7 +16,7 @@ class:
 | `GUARANTEED_UNSOURCED` | Manufacturer limit retained only from a mirror; the repository marks it UNSOURCED |
 | `DESIGN_POINT` | Manufacturer nominal or continuous design value, not a tested limit |
 | `TYPICAL` | Manufacturer typical value |
-| `PROJECT_ASSUMPTION` | Screening assumption already used by `calculate-power-budget.py` |
+| `PROJECT_ASSUMPTION` | Screening assumption or estimate; never a guarantee |
 | `UNAVAILABLE` | No retained number; the dependent check is `NOT RUN` |
 
 External loads are currents at the J10/J11/J6/J7 rail pins. The screen adds
@@ -30,18 +30,31 @@ To evaluate another load point without changing the committed report, run
 | --- | --- | --- | --- |
 | LDO load vs highest retained characterization (1.5 A) | 1.214 A, PASS | 0.814 A, PASS | 0.507 A, PASS |
 | LDO dropout margin after 50 mV ripple allowance | 0.142 V, PASS | 0.383 V, PASS | 0.259 V, PASS |
-| Converter switch/peak limit | U2 1.375 A of 2.5 A min, PASS | U4 2.398 A of 3.4 A, PASS | U3 0.798 A of 3.4 A, PASS |
-| AP63201 low-line headroom at 14 V (typical RDS(on)) | 0.080 V, PASS | n/a | n/a |
+| Converter switch/peak limit | U2 1.375 A of 2.5 A min, PASS | U4 2.398 A of 3.4 A min, PASS | U3 0.798 A of 3.4 A min, PASS |
+| AP63201 low-line headroom at 14 V | 0.080 V on typical RDS(on) only, TYPICAL_ONLY | n/a | n/a |
 | PTC hold at 25 °C | 1.5 A, PASS | 1.5 A, PASS | 1.1 A, PASS |
-| PTC hold at 85 °C | NOT RUN, unavailable | **0.77 A, FAIL** | NOT RUN, unavailable |
+| PTC hold at 85 °C | about 0.74 A family estimate, **ESTIMATE_FAIL** | **0.77 A, FAIL** | NOT RUN, unavailable |
 | LDO dissipation screen / required effective θJA at 40 °C | 4.23 W / 20.1 °C/W, NOT RUN | 3.54 W / 24.0 °C/W, NOT RUN | 1.95 W / 43.5 °C/W, NOT RUN |
 
 The converter outputs need **35.74 W**. At the PD 3 A contract this requires a
 weighted converter efficiency of at least **85.1 % at a 14 V board input**,
-83.6 % at 14.25 V and 79.4 % at 15 V. No retained efficiency data exists for
-U2, U3 or U4, so the input budget is `NOT RUN`, not a pass. The −12 V PTC3 hold
-current falls to 0.77 A at 85 °C, below the 0.8 A target. The other two PTCs have
-no retained derating data.
+83.6 % at 14.25 V, 79.4 % at 15 V and 75.6 % at the 15.75 V source maximum.
+No retained efficiency data exists for U2, U3 or U4, so the input budget is
+`NOT RUN`, not a pass. If U4 only reaches its 81.6 % conduction-model figure,
+which omits switching and core loss, U2 and U3 together need 87.3 % at 14 V and
+78.2 % at 15 V.
+
+The −12 V PTC3 hold current falls to 0.77 A at 85 °C, below the 0.8 A target.
+PTC1 has only an unsourced family estimate of about 0.74 A at 85 °C; its 1.2 A
+crossing is near 48 °C ambient. PTC2 has no retained derating data. The local
+ambient next to the LDOs is not established, so these rows are limits, not
+predictions.
+
+At the 3 A contract, J5's two power contacts carry 1.5 A each against their
+3 A rating. Q1 dissipates up to 0.585 W using the 25 °C maximum RDS(on) at
+−4.5 V. On the datasheet's 125 °C/W steady mounting that is a 73 °C rise. The
+fitted −6 V drive, hot RDS(on) and Board P copper are unqualified, so this check
+is `NOT RUN`.
 
 ## Per-rail limits with the other rails at their targets
 
@@ -55,19 +68,36 @@ evaluable and are reported as such.
 | PTC hold at 25 °C | 1.5 A | 1.5 A | 1.1 A |
 | PTC hold at 85 °C | unavailable | 0.77 A | unavailable |
 | U4 minimum switch-current limit at 14 V | n/a | 1.217 A | n/a |
-| 42 W input at 100 % converter efficiency | ≥ 1.486 A | 1.222 A | 1.393 A |
+| 42 W input at 100 % converter efficiency | not evaluable above 1.486 A | 1.222 A | 1.393 A |
 | 42 W input at an illustrative 85 % efficiency | 1.197 A | 0.797 A | 0.494 A |
 
-The 85 % row is an illustrative assumption, not evidence. It shows that the PD
-targets already sit at the edge of the 15 V / 3 A input boundary.
+The U4 limit uses the guaranteed 3.4 A full-temperature switch minimum, 1.5 V
+Vsat and 117 kHz, with an assumed 80 µH inductance. At 60 µH it falls to about
+1.17 A. The 85 % row is an illustrative assumption, not evidence. It shows that
+the PD targets already sit at the edge of the 15 V / 3 A input boundary. J10/J11
+contact current is reported per contact and is never multiplied into a rail limit.
 
 ## Higher load points
 
 Each evaluation also reports an optimistic converter-output floor. It uses
 only the external load at the minimum pre-rail voltage. It omits indicator,
 divider and ground current and every converter loss. If that floor needs more
-than 100 % efficiency at 15 V and 3 A, no converter choice can close it with the
-current topology and input contract. The JSON calls this case `INFEASIBLE`.
+than 100 % efficiency from a lossless 15.75 V × 3 A input, the fitted pre-rail
+setpoints cannot close it. The JSON calls this case `INFEASIBLE`. Lowering a
+pre-rail setpoint would be a design change.
+
+The JSON's `probe_points` evaluate three load triples quoted in the project
+brief. They are not verified demand. The OSC combined power ledger owns demand.
+
+| Probe (+12 / −12 / +5 A) | Floor | Floor efficiency at 14 V / 15 V / 15.75 V | Rail findings | Status |
+| --- | ---: | --- | --- | --- |
+| 1.493 / 1.394 / 0.224 | 39.89 W | 95.0 % / 88.6 % / 84.4 % | +12 V LDO above 1.5 A evidence; −12 V U4 switch limit and PTC3 85 °C fail | FAIL |
+| 1.7 / 1.6 / 0.3 | 45.86 W | 109.2 % / 101.9 % / 97.1 % | Both ±12 V LDOs above evidence; PTC1 and PTC3 25 °C hold fail | FAIL |
+| 2.0 / 1.9 / 0.4 | 54.48 W | 129.7 % / 121.1 % / 115.3 % | As above | INFEASIBLE |
+
+The 1.7 / 1.6 / 0.3 A point is not strictly infeasible at the source maximum,
+but it needs at least 97.1 % from a lossless input path with no regulator
+overhead.
 
 ## Open items
 

@@ -25,10 +25,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SKILLS = ROOT/'.claude/skills'
 TARGETS = {'plus12': 1.2, 'minus12': .8, 'plus5': .5}
-SCREEN_VIN = (14.0, 14.25, 15.0)
+SCREEN_VIN = (14.0, 14.25, 15.0, 15.75)
+SOURCE_HIGH_V = 15.75  # normal PD source range top (power-budget.json pd_contract)
 PD_CURRENT_A = 3.0
 AMBIENT_C, TJ_SCREEN_C = 40, 125
 RIPPLE_ALLOWANCE_V = .05
+PROBES = {'osc_planning_normal': (1.493, 1.394, .224), 'osc_continuous': (1.7, 1.6, .3), 'osc_transient': (2.0, 1.9, .4)}
 
 
 def fact(owner, fact_id, cls):
@@ -56,10 +58,12 @@ def load_evidence():
         'l1_irms_a': fact('ap63201-power-stage', 'fact-aspi-0630lr-100m-t15-irms', T),
         'l1_isat_a': fact('ap63201-power-stage', 'fact-aspi-0630lr-100m-t15-isat', T),
         'u2_frequency_khz': fact('ap63201-power-stage', 'fact-ap63201wu-7-frequency', T),
-        'lm2596_switch_limit_min_a': assumption(3.4, 'Full-temperature minimum switch-current limit used by calculate-power-budget.py (fact-lm2596-current-limit records the 4.5 A typical); see the LM2596 owner bundle'),
-        'lm2596_vsat_screen_v': assumption(1.5, 'Full-temperature Vsat maximum used by calculate-power-budget.py; fact-lm2596-vsat-max is 1.4 V at 25 C'),
-        'lm2596_frequency_min_hz': assumption(117000, 'Minimum oscillator frequency used by calculate-power-budget.py'),
-        'l23_inductance_min_h': assumption(80e-6, 'CYA1265-100UH minimum inductance screen used by calculate-power-budget.py'),
+        # Guaranteed full-temperature limits recorded in the conditions text of these facts.
+        'lm2596_switch_limit_min_a': dict(fact('lm2596s-adj-c347423', 'fact-lm2596-current-limit', G), value=3.4),
+        'lm2596_vsat_screen_v': dict(fact('lm2596s-adj-c347423', 'fact-lm2596-vsat-max', G), value=1.5),
+        'lm2596_frequency_min_hz': dict(fact('lm2596s-adj-c347423', 'fact-lm2596-oscillator-frequency', G), value=117000),
+        'l23_inductance_min_h': assumption(80e-6, 'CYA1265-100UH -20% tolerance at 0 A; no DC-bias minimum is retained (60 uH would lower the U4 limit by about 0.05 A)'),
+        'ripple_allowance_v': assumption(RIPPLE_ALLOWANCE_V, 'Pre-rail ripple allowance carried from the positive pre-regulator page'),
         'l23_idc_a': fact('cya1265-100uh-c19268674', 'fact-cya1265-idc-heat-rating', D),
         'l23_isat_a': fact('cya1265-100uh-c19268674', 'fact-cya1265-isat', D),
         'l23_dcr_max_mohm': fact('cya1265-100uh-c19268674', 'fact-cya1265-rdc-max', G),
@@ -79,16 +83,39 @@ def load_evidence():
         'ptc2_hold_25c_a': fact('ptc-msmd110-33v-c70119', 'fact-ptc2-ihold', G),
         'ptc3_hold_25c_a': fact('ptc-bsmd1206-150-16v-c883133', 'fact-ptc3-ihold', G),
         'ptc3_hold_85c_a': fact('ptc-bsmd1206-150-16v-c883133', 'fact-ptc3-hold-85c', G),
+        'ptc1_hold_85c_estimate_a': dict(fact('ptc-smd1210p200tf-c20808', 'fact-ptc1b-hold-85c', 'PROJECT_ASSUMPTION'), value=.74),
         'ptc2_r1max_ohm': fact('ptc-msmd110-33v-c70119', 'fact-ptc2-r1max', G),
         'ptc3_r1max_ohm': fact('ptc-bsmd1206-150-16v-c883133', 'fact-ptc3-r1max', G),
         'j10_j11_contact_a': fact('dealon-dw254p-2x8-l0-c4749189', 'fact-dw254p-current', GU),
         'j5_contact_a': fact('xfcn-board-headers', 'fact-c2832269-current', G),
-        'q1_rds_on_4v5_max': fact('umw-ao3401a-c347476', 'fact-umw-ao3401a-rdson', G),
+        'q1_rds_on_4v5_max_ohm': dict(fact('umw-ao3401a-c347476', 'fact-umw-ao3401a-rdson', G), value=.065),
+        'q1_theta_ja_steady': dict(fact('umw-ao3401a-c347476', 'fact-umw-ao3401a-thermal', G), value=125),
     }
 
 
 def v(ev, key):
     return ev[key]['value']
+
+
+ORDER = ('INFEASIBLE', 'FAIL', 'ESTIMATE_FAIL', 'EXCEEDS_EVIDENCE')
+
+
+def rank(statuses):
+    for status in ORDER:
+        if status in statuses:
+            return status
+    return 'PASS_SCREEN'
+
+
+def input_path(ev):
+    # Fixed PD-contract screen: the full 3 A on Q1 and on J5's two power contacts.
+    q1 = PD_CURRENT_A**2 * v(ev, 'q1_rds_on_4v5_max_ohm')
+    return {
+        'q1_conduction_at_3a': {'rds_on_ohm': v(ev, 'q1_rds_on_4v5_max_ohm'), 'loss_w': q1, 'junction_rise_c_at_steady_theta_ja': q1 * v(ev, 'q1_theta_ja_steady'),
+                                'status': 'NOT RUN', 'reason': 'Rds(on) is the 25 C maximum at -4.5 V; fitted -6 V drive, hot Rds(on) and Board P copper are unqualified'},
+        'j5_contact_at_3a': {'limit_a_per_contact': v(ev, 'j5_contact_a'), 'value_a_per_contact': PD_CURRENT_A / 2,
+                             'status': 'PASS' if PD_CURRENT_A / 2 <= v(ev, 'j5_contact_a') else 'FAIL', 'class': 'GUARANTEED'},
+    }
 
 
 def bisect_max(ok, low=0.0, high=8.0, steps=60):
@@ -120,7 +147,7 @@ class Screen:
         loads = w['ldo_output_loads_including_indicators_feedback_a']
         converter = w['converter_output_loads_with_ground_current_brackets_a']
         self.overhead = {rail: loads[rail] - TARGETS[rail] for rail in TARGETS}
-        ground_bracket = {'plus12': .12, 'plus5': .12, 'minus12': .07 + .00013}
+        ground_bracket = {rail: self.ground(rail, TARGETS[rail] + self.overhead[rail]) for rail in TARGETS}
         self.divider = {rail: converter[rail] - loads[rail] - ground_bracket[rail] for rail in TARGETS}
 
     def ground(self, rail, ldo_out):
@@ -152,19 +179,27 @@ class Screen:
         c = r['checks']
         c['ldo_characterized_current'] = {'limit_a': v(ev, 'ldo_characterized_max_a'), 'value_a': ldo_out,
                                           'status': 'PASS' if ground is not None else 'EXCEEDS_EVIDENCE',
-                                          'class': 'GUARANTEED_UNSOURCED'}
+                                          'class': 'PROJECT_ASSUMPTION'}
         hold_key = {'plus12': 'ptc1_hold_25c_a', 'plus5': 'ptc2_hold_25c_a', 'minus12': 'ptc3_hold_25c_a'}[rail]
         c['ptc_hold_25c'] = {'limit_a': v(ev, hold_key), 'value_a': external, 'status': 'PASS' if external <= v(ev, hold_key) else 'FAIL', 'class': 'GUARANTEED'}
         if rail == 'minus12':
             hot = v(ev, 'ptc3_hold_85c_a')
             c['ptc_hold_85c'] = {'limit_a': hot, 'value_a': external, 'status': 'PASS' if external <= hot else 'FAIL', 'class': 'GUARANTEED'}
+        elif rail == 'plus12':
+            hot = v(ev, 'ptc1_hold_85c_estimate_a')
+            c['ptc_hold_85c'] = {'limit_a': hot, 'value_a': external, 'status': 'ESTIMATE_PASS' if external <= hot else 'ESTIMATE_FAIL',
+                                 'class': 'PROJECT_ASSUMPTION', 'conditions': 'Family-derating estimate only (about 48 C ambient crossing at 1.2 A)'}
         else:
             c['ptc_hold_85c'] = {'status': 'NOT RUN', 'reason': '85 C hold current unavailable for this fitted PTC'}
-        per_contact = external / 2  # worst case: one header carries the whole rail on its two pins
-        c['j10_or_j11_single_header_contact'] = {'limit_a': v(ev, 'j10_j11_contact_a'), 'value_a': per_contact,
-                                                 'status': 'PASS' if per_contact <= v(ev, 'j10_j11_contact_a') else 'FAIL', 'class': 'GUARANTEED_UNSOURCED'}
+        # Worst case: one header carries the whole rail on its two pins. Never multiplied into a connector rating.
+        c['j10_or_j11_single_header_contact'] = {'limit_a_per_contact': v(ev, 'j10_j11_contact_a'), 'value_a_per_contact': external / 2,
+                                                 'status': 'PASS' if external / 2 <= v(ev, 'j10_j11_contact_a') else 'FAIL', 'class': 'GUARANTEED_UNSOURCED'}
+        r1max = {'plus5': 'ptc2_r1max_ohm', 'minus12': 'ptc3_r1max_ohm'}.get(rail)
+        c['ptc_series_drop'] = ({'drop_v': external * v(ev, r1max), 'status': 'INFO', 'class': 'GUARANTEED',
+                                 'conditions': 'Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled'}
+                                if r1max else {'status': 'NOT RUN', 'reason': 'PTC1 R1max unavailable'})
         if ground is None:
-            r['status'] = 'EXCEEDS_EVIDENCE'
+            r['status'] = rank({x.get('status') for x in c.values()})
             r['note'] = 'LDO load above the highest retained characterization point; dropout, ground current and pre-regulator load cannot be screened'
             return r
         headroom = band['pre']['minimum_v'] - RIPPLE_ALLOWANCE_V - band['out_max']
@@ -190,7 +225,7 @@ class Screen:
             drop = conv * (v(ev, 'u2_rds_on_ohm') + v(ev, 'l1_dcr_max_ohm'))
             c['u2_low_line_headroom_14v'] = {'available_v': vin - band['pre']['maximum_v'], 'typical_path_drop_v': drop,
                                              'margin_v': vin - band['pre']['maximum_v'] - drop,
-                                             'status': 'PASS' if vin - band['pre']['maximum_v'] >= drop else 'FAIL', 'class': 'TYPICAL',
+                                             'status': 'TYPICAL_ONLY' if vin - band['pre']['maximum_v'] >= drop else 'FAIL', 'class': 'TYPICAL',
                                              'conditions': 'Typical high-side RDS(on) plus maximum L1 DCR; no guaranteed AP63201 dropout exists'}
         elif rail == 'plus5':
             duty, ripple, peak = self.buck_peak(SCREEN_VIN[0], band['pre']['maximum_v'], conv, v(ev, 'l23_inductance_min_h'),
@@ -208,8 +243,7 @@ class Screen:
             c['l3_heat_rating'] = {'limit_a': v(ev, 'l23_idc_a'), 'value_a': model['inductor_rms_a'], 'status': 'PASS' if model['inductor_rms_a'] <= v(ev, 'l23_idc_a') else 'FAIL', 'class': 'DESIGN_POINT'}
             c['d3_average_current'] = {'limit_a': v(ev, 'd3_if_avg_a'), 'value_a': conv, 'status': 'PASS' if conv <= v(ev, 'd3_if_avg_a') else 'FAIL', 'class': 'GUARANTEED'}
             r['converter_model'] = {k: model[k] for k in ('duty_cycle', 'inductor_average_a', 'inductor_peak_a', 'inductor_rms_a', 'modeled_conduction_efficiency')}
-        statuses = {x.get('status') for x in c.values()}
-        r['status'] = 'FAIL' if 'FAIL' in statuses else 'PASS_SCREEN'
+        r['status'] = rank({x.get('status') for x in c.values()})
         return r
 
     def evaluate(self, loads):
@@ -219,22 +253,29 @@ class Screen:
         # divider or ground current. Any real chain needs at least this converter output power.
         floor = sum(self.bands[rail]['pre']['minimum_v'] * loads[rail] for rail in TARGETS)
         floor_required = {f'{vin:g}V': floor / (vin * PD_CURRENT_A) for vin in SCREEN_VIN}
-        result['pre_rail_power_floor'] = {'power_w': floor, 'required_weighted_converter_efficiency_at_3a': floor_required,
-                                          'status': 'INFEASIBLE' if floor_required['15V'] > 1 else 'NOT RUN'}
+        result['pre_rail_power_floor'] = {
+            'power_w': floor, 'required_weighted_converter_efficiency_at_3a': floor_required,
+            'status': 'INFEASIBLE' if floor_required[f'{SOURCE_HIGH_V:g}V'] > 1 else 'NOT RUN',
+            'conditions': f'Infeasible means more than 100% efficiency even at a lossless {SOURCE_HIGH_V} V x 3 A input, with the fitted pre-rail setpoints in regulation; a lower pre-rail setpoint is a design change'}
+        rail_status = {r['status'] for r in rails.values()}
         if any('pre_rail_power_w' not in r for r in rails.values()):
             result['input'] = {'status': 'NOT RUN', 'reason': 'At least one LDO exceeds its retained characterization; only the optimistic pre-rail floor is available'}
-            result['status'] = 'EXCEEDS_EVIDENCE'
+            result['status'] = rank(rail_status | {result['pre_rail_power_floor']['status']})
             return result
         total = sum(r['pre_rail_power_w'] for r in rails.values())
         required = {f'{vin:g}V': total / (vin * PD_CURRENT_A) for vin in SCREEN_VIN}
         result['input'] = {
             'pre_rail_power_w': total,
             'required_weighted_converter_efficiency_at_3a': required,
-            'status': 'INFEASIBLE' if required['15V'] > 1 else 'NOT RUN',
+            'status': 'INFEASIBLE' if required[f'{SOURCE_HIGH_V:g}V'] > 1 else 'NOT RUN',
             'reason': 'Converter efficiencies are unavailable; feasibility needs the listed efficiency at the PD 3 A contract. Above 1.0 no converter efficiency can close it.',
         }
-        statuses = {r['status'] for r in rails.values()}
-        result['status'] = 'INFEASIBLE' if result['input']['status'] == 'INFEASIBLE' else ('FAIL' if 'FAIL' in statuses else 'PASS_SCREEN_EFFICIENCY_OPEN')
+        u4 = rails['minus12']['converter_model']['modeled_conduction_efficiency']
+        u4_input = rails['minus12']['pre_rail_power_w'] / u4
+        result['input']['positive_converters_required_efficiency_if_u4_at_conduction_model'] = {
+            f'{vin:g}V': (total - rails['minus12']['pre_rail_power_w']) / (vin * PD_CURRENT_A - u4_input) for vin in SCREEN_VIN}
+        status = rank(rail_status | {result['input']['status']})
+        result['status'] = 'PASS_SCREEN_EFFICIENCY_OPEN' if status == 'PASS_SCREEN' else status
         return result
 
     def rail_limits(self):
@@ -251,7 +292,7 @@ class Screen:
             ceiling = round(bisect_max(under('ldo_characterized_current')), 4)
             out[rail] = {}
             for name, item in checks.items():
-                if item.get('status') not in ('PASS', 'FAIL'):
+                if item.get('status') not in ('PASS', 'FAIL') or 'header' in name:
                     continue
                 limit = round(bisect_max(under(name)), 4)
                 # Checks downstream of the LDO cannot be evaluated above its retained characterization.
@@ -286,6 +327,11 @@ def main():
         'input_contract': {'pdo_v': 15, 'pdo_a': PD_CURRENT_A, 'power_w': 45, 'screen_board_input_v': list(SCREEN_VIN), '20v': 'unsupported'},
         'pd_target_evaluation': screen.evaluate(dict(TARGETS)),
         'per_rail_limits_other_rails_at_targets_a': screen.rail_limits(),
+        'input_path_at_pd_contract': input_path(screen.ev),
+        'probe_points': {
+            'provenance': 'Load triples quoted in the 2026-10-20 project brief, not verified here. Demand is owned by the OSC combined power ledger; these rows only show how this supply screen treats them.',
+            'results': {name: screen.evaluate(dict(zip(('plus12', 'minus12', 'plus5'), loads))) for name, loads in PROBES.items()},
+        },
         'evidence': screen.ev,
         'open_items': [
             'Converter efficiencies (U2/U3/U4) are unavailable; the input budget is a required-efficiency statement, not a pass.',
@@ -294,6 +340,8 @@ def main():
             'LM2596 inverting startup can draw about 4.5 A for at least 2 ms against the 3 A PD contract (rules.json inverting-startup-vs-pd-source).',
             'PTC1/PTC2 hold current above 25 C is unavailable; PTC3 holds 0.77 A at 85 C.',
             'Single-header contact screen assumes one J10/J11 header carries a whole rail; harness distribution is not modeled.',
+            'Q1 conduction at 3 A is screened only against 25 C Rds(on) and steady theta-JA; Board P quiescent draw is not subtracted from the 3 A contract.',
+            'PTC local ambient next to the LDOs is not established; the 85 C rows are not a prediction of that ambient.',
         ],
         'source_generator': 'scripts/pcb/calculate-supply-capability.py',
         'power_budget_sha256': hashlib.sha256((ROOT/'manufacturing/power-budget.json').read_bytes()).hexdigest(),
