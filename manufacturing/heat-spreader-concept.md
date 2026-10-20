@@ -2,7 +2,7 @@
 
 **Status: concept analysis only. Nothing here is designed, adopted, drilled or fabricated.** No PCB, schematic, spec, footprint or owner-bundle change. Every board stays an unvalidated draft, and **nothing on this page is measured**. Thermal-pad properties come from an unverified sales listing and are treated as unknown. Every number is a calculation (calc), a project assumption (PA) or unavailable (UNAV). The proposed measurements have **not** been run and need owner approval.
 
-**Which board is "existing": undetermined.** The identity of the zudo-PD hardware that arrived is not established and waits on the owner's JLCPCB order lookup ([`as-built-and-controller.md`](as-built-and-controller.md)). Candidates: v0.3.0 (the only revision with a JLCPCB-confirmed BOM and photo); v0.4.0 as packaged (`7854736`); a post-#93 variant (`9f4d624`: D4 removed, SMAJ20A D5 added, VERSION still 0.4.0); and possibly the renewal Board P / Board B (`f25194f`, "JLCPCB package for the ordered revision"). §A screens the combined-board layout (v0.3.0 / v0.4.0 family); §§1–5 screen the renewal Board B, which is the existing board if the renewal was the one ordered, and otherwise the next revision.
+**Which board is "existing": the renewal Board B** (owner-stated reference: the `releases/corner-support-review/` package at `f25194f`; see [`as-built-and-controller.md`](as-built-and-controller.md) §1.1). Which package state was built is not recorded; S3 (`f25194f`) adds the U8 divider R26–R28 and changes U6–U8 part numbers but no hot-part position used here; it also changed Board B F_Cu, mask, paste and silk, so the screened copper may differ between built states. §§1–5 screen the existing renewal Board B. §A screens the earlier combined board (v0.3.0 / v0.4.0 family) and is kept for history only.
 
 Request: zudo-pd#218 comment 6286606035, item 2. The owner's images of the proposed cutout plates were not available to this analysis; the plate outlines below are built from the written description (cutout plates over regulator and inductor regions, weaving around capacitors, 3–4 inexpensive plates, pads of different thickness bridging height differences).
 
@@ -19,7 +19,7 @@ Request: zudo-pd#218 comment 6286606035, item 2. The owner's images of the propo
 | Plate construction | Owner's aluminum blank panels (`Takazudo/zudo-blanks`, `panels/alumi-blanks-v1-3U-8hp`; product page) | Gerber/drill set confirmed; material stack UNAV (§B) |
 | Thermal pad | [AliExpress listing](https://ja.aliexpress.com/item/1005010519398949.html) the owner already holds (the old page lists it as "24 W/m·K") | **Unverified sales claim.** Conductivity, dielectric strength, hardness and compression set are all UNAV |
 
-## A. Candidate existing hardware: combined board, v0.3.0 / v0.4.0 family (screen)
+## A. Historical combined board, v0.3.0 / v0.4.0 family (screen; not the existing hardware)
 
 Source: root `zudo-pd.kicad_pcb` (historical v0.4.0; read only, not regenerated). Positions are its own mm coordinates. The committed CPLs `jlcpcb-order-snapshots/v0_3_0/used-for-order/CPL-zudo-pd.csv` and the v0.4.0 snapshot give **identical** placements and rotations for U2–U4, U6–U8 and L1–L3, so the hot-part layout below applies to both on placement. Tab nets, vias and holes were read from the v0.4.0 PCB only; v0.3.0's copper is **not screened**, and the post-#93 variant is not screened separately. The installed orientation of the arrived boards and the role of nearby vias (thermal or stitching) are **not established in the repo**.
 
@@ -89,7 +89,7 @@ For each part under a plate: gap_i = plate underside height − part top height;
 
 Each row needs the exact part heights (from drawings or 3D models) and a measured gap (H2) before thicknesses can be listed. Thicker pads raise R linearly, so where the height step is large, a stepped plate or a spacer block is an alternative to a very thick pad.
 
-## 1. Hot parts, potentials and neighbors (renewal Board B; manufacture not established)
+## 1. Hot parts, potentials and neighbors (renewal Board B, the existing hardware)
 
 Coordinates are Board B mm (origin top-left, F.Cu view). All parts are on F.Cu, which faces **down** when installed.
 
@@ -198,7 +198,7 @@ Against the screened θJA limits (about 20 K/W for U6, 24 K/W for U8), a small c
 | D back-side spreader over via fields | Largest available: via path, up-facing plate, large area | Two potentials under one plate (insulation UNAV); burr punch-through; THT tails; floating-plate coupling | Needs new holes or an enclosure clamp; corner holes unusable |
 | Next-revision regrouping + plate holes | Can combine the via path with one potential per plate | Layout work; re-verification | PCB change (gated) |
 
-**Recommendation (marked).** **Choose plates only after the arrived board's identity is confirmed.** If it is the combined board, plates V1–V4 in §A are the candidates, mounted from the interior NPTH holes if they prove free. If it is renewal Board B, or for the next revision, prefer the back-side spreader D over the via fields, split into a GND plate (U6/U7) and a −14.145 V plate (U8, optionally U4), each on an insulating pad, rather than component-side cutout plates. Build plates from the owner's aluminum blank-panel construction with the masked face toward the parts (§B), but count none of the stack as insulation until H1b passes. Treat any plate as unproven until measured. Fold plate holes, potential grouping and U3's position into the next revision instead of working around them now.
+**Recommendation (marked).** The arrived board is the renewal Board B (owner-stated; §A's plates V1–V4 apply only to the historical combined board). For it, and for the next revision, prefer the back-side spreader D over the via fields, split into a GND plate (U6/U7) and a −14.145 V plate (U8, optionally U4), each on an insulating pad, rather than component-side cutout plates. Build plates from the owner's aluminum blank-panel construction with the masked face toward the parts (§B), but count none of the stack as insulation until H1b passes. Treat any plate as unproven until measured. Fold plate holes, potential grouping and U3's position into the next revision instead of working around them now.
 
 ## 6. Proposed measurements (not executed; each needs owner approval)
 

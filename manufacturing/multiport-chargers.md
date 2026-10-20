@@ -49,19 +49,19 @@ Owner request: zudo-pd#218 comment 6286606035, item 3. Evidence classes follow t
 
 ## 3. Compatibility per model (arithmetic on published watts; PDOs per allocation UNAV)
 
-A port is counted only if its allocation can cover the model's contract at the exact voltage. The STUSB4500 matches only on exact voltage and I(SNK) ≤ I(SRC) (DS12499 §3.3.2, G-U; product-lineup.md STUSB4500 facts).
+**Watt allocation alone is not compatibility proof.** Only the single-port PDO list is published (G). In every multi-port combination the advertised PDOs are UNAV, so each "candidate" below is conditional on observing the required PDO on that port (MP1). A port is a candidate only if its allocation could cover the model's contract at the exact voltage. The STUSB4500 matches only on exact voltage and I(SNK) ≤ I(SRC) (DS12499 §3.3.2, G-U; product-lineup.md STUSB4500 facts).
 
-| Model and contract | Needs from a port | Port allocations that can qualify (if the needed PDO is advertised) | Port allocations that cannot |
+| Model and contract | Required PDO on the port | Candidate allocations, **conditional** on observing the required PDO (MP1); single-port use is covered by the published list | Allocations ruled out by arithmetic |
 |---|---|---|---|
-| Current 15 V model, PDO2 15 V / 3 A | 15 V ≥ 3 A (45 W) | 100, 70, 65, 45 | 30, 25, 22.5, 20, 12 (all USB-A ports) |
-| zudo-PD-60W, 20 V / 3 A | 20 V ≥ 3 A (60 W) | 100, 70, 65 | 45 and below |
-| Full OSC C2, PDO2 20 V / 3.5 A (+ 5 A e-marked cable) | 20 V ≥ 3.5 A (70 W) | 100; 70 only if it advertises 20 V / 3.5 A (UNAV) | 65 (3.25 A) and below |
-| Full OSC C2, PDO2 20 V / 4–5 A | 20 V ≥ 4–5 A (80–100 W) | 100 only | All others |
+| Current 15 V model, PDO2 15 V / 3 A | 15 V ≥ 3 A (45 W) | Single port: yes (15 V / 3 A published, G). In combinations: 100, 70, 65, 45 only if 15 V / 3 A is observed | 30, 25, 22.5, 20, 12 (all USB-A ports) |
+| zudo-PD-60W, 20 V / 3 A | 20 V ≥ 3 A (60 W) | Single port: yes (20 V / 5 A published, G). In combinations: 100, 70, 65 only if 20 V ≥ 3 A is observed | 45 and below |
+| Full OSC C2, PDO2 20 V / 3.5 A (+ 5 A e-marked cable) | 20 V ≥ 3.5 A (70 W) | Single port: yes (G). In combinations: 100 and 70 only if 20 V ≥ 3.5 A is observed | 65 (3.25 A) and below |
+| Full OSC C2, PDO2 20 V / 4–5 A | 20 V ≥ 4–5 A (80–100 W) | Single port: yes (G). In combinations: 100 only, if 20 V ≥ 4–5 A is observed | All others |
 
-Consequences (calculated from the table above, unverified):
-- **Two products on two C ports** get 100 + 100 W: every model qualifies on both, with the 5 A cable for C2.
-- **Three C ports in use** give 100 + 70 + 30 W. The 30 W port cannot carry any of these models. At most two units run: for full OSC C2, only the 100 W port qualifies for certain, and the 70 W port only if it advertises 20 V / 3.5 A (UNAV).
-- **Four C ports in use** give 65 + 65 + 45 + 25 W. **No port reaches 70 W**, so full OSC C2 fails on every port, even with the 200 W total. Two ports can carry zudo-PD-60W; three ports (65, 65, 45) can carry the current 15 V model only if the 45 W port advertises 15 V / 3 A.
+Consequences (arithmetic on watt allocations; every multi-port case stays conditional on MP1; no physical test has been run):
+- **Two products on two C ports** get 100 + 100 W: every model is a candidate on both (C2 with the 5 A cable), if the required PDO is observed on each port.
+- **Three C ports in use** give 100 + 70 + 30 W. The 30 W port is ruled out for every model. At most two ports are candidates: for full OSC C2 the 100 W port, and the 70 W port only if it advertises 20 V / 3.5 A; for the other models both ports, each conditional on the observed PDO.
+- **Four C ports in use** give 65 + 65 + 45 + 25 W. **No port reaches 70 W**, so full OSC C2 fails on every port, even with the 200 W total. Two ports (65, 65) are candidates for zudo-PD-60W if 20 V ≥ 3 A is observed; three ports (65, 65, 45) are candidates for the current 15 V model if 15 V / 3 A is observed on each.
 - **Plugging a phone into a USB-A port** changes the allocation. Two C ports give 100 + 100 W; adding one A port gives 100 + 70 + 22.5 W, so one C port drops from 100 W to 70 W. A full-OSC C2 unit on that port loses its contract if its PDO2 is 4–5 A, or if the 70 W port does not advertise 20 V / 3.5 A (UNAV). Likewise 3 C → 3 C + 1 A drops 100 + 70 + 30 W to 65 + 65 + 45 W. A unit running at 100 W can lose its contract because of an unrelated device.
 - Anker's own figures confirm the owner's note: **200 W total does not give three 60 W contracts.** The three-C row offers 100 + 70 + 30 W.
 
@@ -74,13 +74,13 @@ Facts used (G-U, DS12499 via product-lineup.md):
 - POWER_OK pins stay asserted at detach (POWER_OK_CFG 2, the default) and reinitialize after new attachment or reset.
 - After a hard reset with broken communication, error recovery de-asserts VBUS_EN_SNK, POWER_OK2 and POWER_OK3. **Timing is not stated.**
 
-Expected behaviour on a downgrade (inference from the facts above, not stated by ST, UNAV in timing):
+Expected behaviour on a downgrade. **This is an inference from the STUSB4500 facts above, not a measurement and not stated by ST; timing is UNAV, and every multiport physical test is NOT RUN:**
 1. If the new offer still contains the needed PDO at sufficient current, the contract is kept. The rails see nothing, or a short VBUS transient if the charger interrupts VBUS.
-2. If it does not, the STUSB4500 re-contracts to 5 V. With `POWER_ONLY_ABOVE_5V = 1` it should disable VBUS_EN_SNK, so Q1 turns off. The rails then decay on their own bulk capacitance at different rates, not together. **That is a non-coordinated shutdown and can brown out a load (OSC) rail by rail.**
-3. If VBUS_EN_SNK is not disabled fast enough, Board B sees VBUS fall from 15 / 20 V towards 5 V with the regulators still enabled: a brownout, not a shutdown.
+2. If it does not, the STUSB4500 re-contracts to 5 V. With `POWER_ONLY_ABOVE_5V = 1` it should disable VBUS_EN_SNK, so Q1 turns off. Inferred: the rails would then decay on their own bulk capacitance at different rates, not together. **That would be a non-coordinated shutdown and could brown out a load (OSC) rail by rail.** No rail-drop sequence has been measured.
+3. Inferred: if VBUS_EN_SNK is not disabled fast enough, Board B sees VBUS fall from 15 / 20 V towards 5 V with the regulators still enabled: a brownout, not a shutdown.
 4. POWER_OK alone cannot be trusted as a "power good" signal across these events, because of its latch behaviour at detach.
 
-**Requirement (unchanged, already in the gate register):** any downgrade, re-contract, hard reset, thermal derating or detach must end in a **safe, simultaneous all-rail shutdown** that stays off until a valid contract is re-established, with no rail out of band while another is on. This is GAP-6 (UVLO and coordinated all-rail enable) and GAP-9 (insufficient-source indication) in [`design-gaps-20v.md`](design-gaps-20v.md), and M6 in [`power-limit-60w.md`](power-limit-60w.md). A multiport charger makes these events routine rather than rare, so the gate is mandatory for any product sold for use on one.
+**Proposed requirement (unchanged, already in the gate register; a design requirement, not a measured behaviour):** any downgrade, re-contract, hard reset, thermal derating or detach must end in a **safe, simultaneous all-rail shutdown** that stays off until a valid contract is re-established, with no rail out of band while another is on. This is GAP-6 (UVLO and coordinated all-rail enable) and GAP-9 (insufficient-source indication) in [`design-gaps-20v.md`](design-gaps-20v.md), and M6 in [`power-limit-60w.md`](power-limit-60w.md). A multiport charger makes these events routine rather than rare, so the gate is mandatory for any product sold for use on one.
 
 Indication: the user needs to see why a unit went off (insufficient source after reallocation). That is GAP-9; every method needs a Board P change.
 
@@ -116,7 +116,8 @@ This extends M5 (source OCP behaviour) and M6 (all-rail behaviour) in [`power-li
 
 ## 7. What this screen concludes
 
-- The A2683 can, on paper, power **two** full-OSC C2 units (two C ports, 100 + 100 W, 5 A e-marked cables). With three C devices, only the 100 W port qualifies for certain; the 70 W port qualifies only if it advertises 20 V / 3.5 A (UNAV). With four C devices, **none** can (65 W maximum).
-- Usable capability depends on what else is plugged in, in what order, and on charger temperature. A product sold for multiport chargers needs the all-rail shutdown, latch and indication gates (GAP-6, GAP-9, M6) closed, and the MP1–MP6 matrix run.
+- **All multiport physical tests are NOT RUN.** Every multi-port verdict here is arithmetic on Anker's watt allocations and stays conditional on observing the required PDO on the port (15 V / 3 A for the current model, 20 V / 3 A for zudo-PD-60W, 20 V ≥ 3.5 A for C2).
+- On that condition the A2683 has **two** candidate ports for full-OSC C2 units (two C ports, 100 + 100 W, 5 A e-marked cables). With three C devices, the 100 W port is a candidate and the 70 W port only if it advertises 20 V / 3.5 A. With four C devices, **none** is (65 W maximum).
+- Usable capability depends on what else is plugged in, in what order, and on charger temperature. The rail behaviour on a downgrade is inferred, not measured. A product sold for multiport chargers needs the all-rail shutdown, latch and indication gates (GAP-6, GAP-9, M6) closed, and the MP1–MP6 matrix run.
 - Charger-side facts that would change these verdicts are UNAV until MP1 is captured: per-allocation PDOs, the 70 W port's 20 V current, the 45 W port's 15 V current, port-position mapping, and reallocation mechanics.
 - Grounding is a separate question. No low-noise or common-ground claim follows from a shared charger.
