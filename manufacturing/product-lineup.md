@@ -259,7 +259,7 @@ None of these margins is an installed-surge result.
 
 ## Cost and manufacturing comparison (rough)
 
-Owner direction: rough ratios are enough, and product feasibility comes first. Every ratio below is an **unverified project judgment (PA)** built from the retrieved IC subset and the count of cost drivers. No finished-product price was retrieved, and none is invented. The reference is **C2** (one PCB set, no firmware). The current design (15 V Board P, LDO chain on Board B) is shown on the IC row only.
+Owner direction: rough ratios are enough, and product feasibility comes first. Every ratio below is an **unverified project judgment (PA)** built from the retrieved IC subset and the count of cost drivers. No finished-product price was retrieved, and none is invented. The reference is **C2** (one PCB set, no firmware). The per-unit cost ratio (manufacturing one unit) and the effort ratio (one-off design, verification and test) are separate measures and are not combined. The current design (15 V Board P, LDO chain on Board B) is shown on the IC row only.
 
 | Option | Per-unit cost vs C2 (PA, unverified) | Development and setup effort vs C2 (PA, unverified) | Main cost drivers | UNAV inputs |
 |---|---|---|---|---|

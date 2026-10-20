@@ -57,6 +57,15 @@ OSC_ROWS = [
     ("startup envelope", {"plus12": 1.759, "minus12": 1.658, "plus5": 0.287}),
     ("20 ms transient req.", {"plus12": 2.0, "minus12": 1.9, "plus5": 0.4}),
 ]
+# OSC fitted-capacitance startup row at the 10 ms minimum soft start
+# (OSC-owned; calculated, unverified). zudo-osc-hole-field#288 integration
+# review W1-W7, record PR #289 at 195b3f5.
+FITTED_STARTUP = {"plus12": 1.610, "minus12": 1.498, "plus5": 0.240}
+# Slower-ramp screen (PA): the steady part is the heavy realistic patch and the
+# capacitance-charging excess scales as 10 ms / ramp time. A paper fit is not
+# acceptance: OSC tolerance of slow ramps is unverified, and the contract's
+# 20 ms transient, accuracy and reserve rules are unchanged.
+RAMP_MS = [10, 12, 15, 20, 30, 50]
 V_USER = {"plus12": 12.0, "minus12": 12.0, "plus5": 5.0}  # user-terms magnitudes
 
 # Q1 conduction at 3 A, 25 C max RDS(on) at -4.5 V (G): AO3401A from
@@ -287,6 +296,29 @@ def main():
             cells.append(f"{lname}+guard {verdict(lo, hi, lim)} {lim - hi:+.3f}; "
                          f"caps {'within' if within else 'EXCEEDS'}")
         print(f"  {name:24s} {w_user:5.1f} W  in {lo:.3f}-{hi:.3f} A | " + " | ".join(cells))
+
+    print("\n11. Slower common startup ramp vs OSC fitted startup row (PA scaling,")
+    print("    calc only; does not cover the 20 ms transient or accuracy/reserve rules)")
+    steady = dict(OSC_ROWS)["heavy realistic patch"]
+    excess = {r: FITTED_STARTUP[r] - steady[r] for r in rails}
+    caps = r60["LTC4282"][1]
+    cases = [("60 W LTC4282+guard", CONTRACT_A, r60["LTC4282"][0], caps),
+             ("60 W INA-ref+guard", CONTRACT_A, r60["INA-ref"][0], r60["INA-ref"][1]),
+             ("70 W 3.5 A, no trip", 3.5, 3.5, None)]
+    for name, amps, lim, rcaps in cases:
+        pts = L.board_points(m, CONTRACT_V, amps)
+        cells = []
+        for t in RAMP_MS:
+            pt = {r: steady[r] + excess[r] * 10 / t for r in rails}
+            hi = max(L.p_in(m, pt, anc, m.ETA[e], L.VOUT_BAND) / vb for e in m.ETA for vb in pts)
+            cells.append(f"{t} ms {lim - hi:+.3f}")
+        need = ""
+        if rcaps:
+            t_min = max(10 * excess[r] / (rcaps[r] - steady[r]) if excess[r] > 0 else 0
+                        for r in rails)
+            need = f"; R60 caps need ramp >= {max(t_min, 10):.1f} ms"
+        print(f"  {name:20s} input margin " + ", ".join(cells) + need)
+    print("  +12 V at 20 ms: " + f"{steady['plus12'] + excess['plus12'] / 2:.4f} A")
 
 
 if __name__ == "__main__":

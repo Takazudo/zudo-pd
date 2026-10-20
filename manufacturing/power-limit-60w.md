@@ -2,7 +2,7 @@
 
 **Status: screening analysis only. Nothing here is adopted.** No schematic, PCB, BOM, NVM or part selection changes. Every schematic and PCB stays an unvalidated draft. **Nothing on this page is measured.** A usage limit is a product rule. It is not a measurement, not a safety certification, and not a change to any existing budget or OSC contract value. A measurement plan is included, but it has **not** been run and needs owner approval.
 
-Figures come from [`../scripts/pcb/calculate-power-limit-60w.py`](../scripts/pcb/calculate-power-limit-60w.py) (sections 1–10). It reuses, unchanged:
+Figures come from [`../scripts/pcb/calculate-power-limit-60w.py`](../scripts/pcb/calculate-power-limit-60w.py) (sections 1–11). It reuses, unchanged:
 - from [`../scripts/pcb/calculate-supply-alternatives.py`](../scripts/pcb/calculate-supply-alternatives.py): the efficiency sets, ancillary currents, PTC terms and input-power method;
 - from [`../scripts/pcb/calculate-product-lineup.py`](../scripts/pcb/calculate-product-lineup.py): the source-band voltages, board-input points and hold-up integration.
 
@@ -214,9 +214,9 @@ Legitimate demand must sit lower again, by the per-rail ratio. Both sets are bel
 
 ## 4. Options: rough cost ratios, complexity and user constraints
 
-Ratios are relative to **C2 = 1.0** and follow `product-lineup.md`. All of them are rough judgments (**PA, unver**), not calculations; most underlying prices are UNAV.
+Ratios are relative to **C2 = 1.0** and follow `product-lineup.md`. All of them are rough judgments (**PA, unver**), not calculations; most underlying prices are UNAV. The two ratio columns are separate measures and are not combined: the first is the manufacturing cost of one unit; the second is the one-off design, verification and test effort.
 
-| Option | Unit cost | Development + test | Main drivers (UNAV unless noted) |
+| Option | Per-unit manufacturing cost (1 unit) | Design and test effort (one-off) | Main drivers (UNAV unless noted) |
 |---|---|---|---|
 | **C2** fixed full-OSC, 20 V ≥ 3.5 A, 5 A e-marked cable | 1.0× | 1.0× | No input trip or hold-up. The shared gates remain: UVLO / common enable, indicator, servo |
 | **C1-L** 20 V / 3 A + R60 + input trip, latch, common start and 4-state indicator | about 1.05–1.15× | about 1.3–1.6× | Input trip chain and calibration; charger-OCP matrix; startup control work with OSC |
@@ -254,6 +254,22 @@ How the caps were derived (section 9 of the script):
 | Not allowed | Full OSC as recorded: continuous 1.7 / 1.6 / 0.3 A (42.0 W), the startup envelope (43.3 W) and the 20 ms transient (49.8 W) all exceed R60 | calc |
 
 **R60 and OSC.** R60 cannot serve OSC through a usage notice alone. Its +5 V cap (0.28 A) does not cover the OSC ×1.1-rule candidate (0.3 A), and on ±12 V it leaves only about 4 % above the heavy realistic patch (1.60 / 1.50 A against 1.535 / 1.436 A) where the OSC rule asks for 10 %. Using R60 for OSC would require changing the OSC reserve and rounding rule, which is an OSC PWR-D5 decision. OSC's new fitted-capacitance startup row, 1.610 / 1.498 / 0.240 A (39.3 W; OSC #288 integration review W1–W7, PR #289 at `195b3f5`; calculated, unverified), is **EDGE** against the LTC4282-basis R60 caps: +12 V is about 10 mA over.
+
+### Slower common startup ramp (W60-D3 candidate; calculated only, not adopted)
+
+The OSC contract's 10 ms soft start is a minimum, so a slower supply-side common ramp is **contract-compatible**. Its benefit below is **calculated only**. OSC has no evidence yet that its circuits behave correctly on a slow ramp: the reset RC timing, VEE5 brownout behavior, rail-order tolerance and absolute-maximum facts are open on the OSC side. Before the ramp can be relied on, a local measurement campaign is needed: 6 rail orders × 10 / 20 / 50 ms ramps, checking VEE5, injection currents, reset timing and latch-up.
+
+**A paper fit at startup is not acceptance.** A slower ramp addresses only the startup capacitance charge. It does not change the contract's 20 ms transient requirement (2.0 / 1.9 / 0.4 A), the accuracy windows, or the OSC reserve and rounding rule (PWR-D5). Each of those is judged separately, and none passes because the ramp fits.
+
+Script section 11 scales the fitted startup row (1.610 / 1.498 / 0.240 A at 10 ms) as follows (PA): the steady part is the heavy realistic patch (1.535 / 1.436 / 0.221 A) and the capacitance-charging excess scales as 10 ms ÷ ramp time. Margins are worst-case board input against the limit, over the efficiency sets and board points.
+
+| Case | 10 ms | 12 ms | 20 ms | 50 ms | Ramp needed for the R60 per-rail caps |
+|---|---|---|---|---|---|
+| 60 W, LTC4282 + 5 % guard (2.646 A) | +0.015 A | +0.035 A | +0.075 A | +0.111 A | ≥ 11.5 ms (+12 V: 1.610 A at 10 ms vs 1.60 A cap; 1.573 A at 20 ms) |
+| 60 W, INA301 reference + 5 % guard (2.754 A; UNAV terms open) | +0.123 A | +0.143 A | +0.182 A | +0.218 A | 10 ms (caps 1.66 / 1.56 / 0.29 A) |
+| 70 W, 20 V / 3.5 A, no trip | +0.862 A | +0.882 A | +0.922 A | +0.958 A | No R60 caps; no slower ramp needed |
+
+Status: calc, unverified. The scaling law is an assumption. OSC owns its startup demand and whether a slower ramp is acceptable; the question is with the OSC owner.
 
 ## 5. Measurement plan (not executed; requires owner approval)
 
