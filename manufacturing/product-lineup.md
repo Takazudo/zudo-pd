@@ -329,10 +329,10 @@ IC deltas, USD per set, qty 1 / 10 / 100 (calculated):
 
 ## Recommendation (marked; nothing adopted)
 
-**Recommended screen basis: B-common with C2 as its high image.** One PCB and one parts set; the high NVM image is the OSC supply; a low image is available if the owner wants a light SKU. Reasons:
+**Superseded as the default (owner direction, zudo-pd#218, 2026-10-20).** The comparison is now organized as the current model as its own lightweight product versus a new 60 W-input-class model, in [`product-comparison.md`](product-comparison.md). A common-PCB two-SKU lineup is a **secondary option, not the default recommendation**. The earlier screen basis, kept for the record: B-common with C2 as its high image (one PCB and one parts set; the high NVM image is the OSC supply; a low image if a light SKU is wanted). Its reasons were:
 
 - Full OSC needs a ≥ 3.5 A, 20 V contract in every option. C2 delivers that with no firmware.
-- One PCB with identical parts removes the misprogramming overstress of population variants. The retrieved saving from population variants is only $0.44–0.85 per set at IC level.
+- One PCB with identical parts removes the misprogramming overstress of population variants. The retrieved saving from population variants is only $0.44–0.85 per set at IC level (the Board P 20 V parts delta over qty 1–100 in the IC delta table; the $0.84–1.24 figure in the cost section is a different quantity, the qty-1 difference between lineup options).
 - A low SKU on the common PCB adds only an NVM image and a label at IC level; its test, labelling and support cost is UNAV.
 
 **Alternatives, with reasons:**
@@ -353,7 +353,7 @@ IC deltas, USD per set, qty 1 / 10 / 100 (calculated):
 ## Owner decisions requested (minimal; recommendation marked)
 
 1. **D1, PDO2 current for the OSC class:** 3.5 A (≥ 70 W, +0.145 A margin), 4 A (≥ 80 W, +0.64 A), 4.5 A (≥ 90 W, +1.13 A) or 5 A (100 W only, +1.62 A). No recommendation: this trades charger reach against margin on PA efficiencies.
-2. **D2, lineup shape:** B-common with C2 high image (**recommended**), A1, A2, B-common-pop or B-separate.
+2. **D2, lineup shape:** B-common with C2 high image, A1, A2, B-common-pop or B-separate. No default: see [`product-comparison.md`](product-comparison.md), where the current model and a new 60 W-input-class model are compared separately and a common platform is secondary.
 3. **D3, low SKU:** whether a light SKU is wanted at all. **This is open; it is not decided here.** If wanted, its rating and charger label are needed. Script section 5 screens two candidate low-SKU labels (1.2/0.8/0.5 A and 1.0/1.0/0.3 A) as PASS at 15 V / 3 A on input power (calculated, unverified).
 4. **D4, controller for 20 V:** keep STUSB4500 and close the 0.00 / −0.35 V and CC 22 V gates, or evaluate CYPD3177 (30 V VBUS, CC 22 V) or AP33772S (34 V; needs an MCU; out of stock).
 5. **D5, required work under every option:** input UVLO, coordinated all-rail enable, reverse blocking, an "insufficient source" indicator, and terminal sense plus a precision servo (B1 R4b).

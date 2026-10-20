@@ -305,7 +305,7 @@ Equipment (candidates only; nothing purchased or requested):
 
 **Recommendation (marked; not adopted).**
 - Keep **C2** as the full-OSC supply basis.
-- Treat C1-L as a candidate for a light or general SKU (B-common-L low image) under R60. On this screen it would carry OSC's normal typical, usage-limit candidate and heavy realistic patch rows. It should not be offered for OSC until two things hold: the startup envelope fits through a supply-side startup control accepted by OSC, and M1–M3 data confirm the realistic peaks.
+- Treat C1-L as a candidate under R60, either as its own model (see [`product-comparison.md`](product-comparison.md), zudo-PD-60W) or, secondarily, as a B-common-L low image; a common platform is not the default. On this screen it would carry OSC's normal typical, usage-limit candidate and heavy realistic patch rows. It should not be offered for OSC until two things hold: the startup envelope fits through a supply-side startup control accepted by OSC, and M1–M3 data confirm the realistic peaks.
 - If C1-L proceeds: an input current trip on the INA301 reference path, after closing its UNAV terms; a common startup hold-off; a 4-state indicator; and re-plug reset. No hold-up at first: 4.7–10 mF adds inrush, SOA and rating problems and never recharges at continuous load.
 
 ### Open gates
