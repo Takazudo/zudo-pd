@@ -106,11 +106,11 @@ Hold-up uses the LTC4282 limit at 2.786 A for 20 ms at constant transient power.
 - Integrated and ±10 %-class limiters exceed the allowed window by a factor of 4–9.
 - The best retrieved controller has no window at the OSC-basis 2.81 A.
 
-**Path (a) is not a substitute.**
+**Path (a) is not shown to cover the transient (UNPROVEN; safe-side verdict: not passed).**
 - The source sets the Fixed Supply PDO Peak Current bits. 00b means no overload.
 - The longest window is 10 ms at 50 % duty (110 / 125 / 150 % IOC), with a compensating low phase, so the period average stays at or below IOC. Evidence: **secondary only, not a primary USB PD citation**. The Peak Current table is quoted by a TI engineer on [TI E2E](https://e2e.ti.com/support/interface/f/138/t/874161) ("125% IOC for 10ms @ 50% duty cycle (low current equals 75% IOC for 10ms)") and in an unmerged Linux ABI patch mirror, [kbuild 2023-10](https://ratatoskr.run/oe-kbuild-all/2023/10/8886449). The usb.org specification text and section were not retrieved. On a 3 A contract the transient needs 105–112 % of IOC for 20 ms, while the 2.81 A continuous draw (94 % IOC) already exceeds the 75 % low phase.
 - [TI SLVAFR4 §4.3](https://ti.com/document-viewer/lit/html/SLVAFR4/GUID-3B6E20F4-8F77-4204-ACB5-A7FC190D0B37) (G-U) adds that sources "are not required to support continuous overload operation". During overload the source may use vSrcPeak instead of vSrcNew, so the 18.4 / 18.67 V basis is not held.
-- No profile spans 20 ms. The **B1 transient stays UNRESOLVED**; it closes only via B2 or OSC demand closure, and neither is chosen here.
+- If the secondary table is accurate, no profile spans 20 ms. The **B1 transient stays UNRESOLVED**; it closes only via B2 or OSC demand closure, and neither is chosen here.
 
 ## TVS clamp against the STUSB4500 28 V absolute maximum (analysis 3)
 
@@ -161,7 +161,7 @@ The model takes VZ max with no credit below 5 mA, plus SZ × (Tj − 25 °C). At
 | Row | Gate | Screen result | Status |
 |---|---|---|---|
 | R2 | Voltage basis for input current | 2.61–2.81 A continuous; 3.10–3.35 A transient | Reproduced |
-| R3 | Input-limit tolerance and hold-up startup sequence | No guaranteed window at 2.81 A; 3–13 mF; sequencing candidate only; PD Peak Current cannot cover 20 ms | **UNRESOLVED** |
+| R3 | Input-limit tolerance and hold-up startup sequence | No guaranteed window at 2.81 A; 3–13 mF; sequencing candidate only; PD Peak Current coverage of 20 ms UNPROVEN (secondary evidence only; not passed) | **UNRESOLVED** |
 | R4a | 1 mVpp ripple at load | 0.02–0.05 mVpp fundamental (CCM) on arithmetic; edges, ESL, DCM and pulse skipping not screened | **NOT RUN** |
 | R4b | Source voltage bands | Internal VFB FAIL on all rails; servo with terminal sense UNRESOLVED (load step 0.06–0.24 V at PA steps; UNAV servo terms) | **UNRESOLVED** |
 | R4c | 0.2 V rail plus return loss | OSC uses 0.162–0.194 V; PTC outside the loop (0.04–0.20 V) inadmissible; terminal sense is the candidate | **UNRESOLVED** |

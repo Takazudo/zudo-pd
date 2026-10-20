@@ -98,7 +98,7 @@ The transient is an energy question over 20 ms, covered in the [transient sectio
 
 - If the source sees the full transient, B1 draws 3.04–3.23 A at 18.67 V and 3.09–3.28 A at 18.4 V (PA arithmetic), above the 3 A contract. Behavior then depends on the source's overcurrent tolerance, which is **UNAV**.
 - Two paths were screened; neither closes the B1 transient ([b1-gates.md](b1-gates.md) R3, **UNRESOLVED**):
-  - **(a)** PD Peak Current overload. It is source-advertised, not guaranteed, and its longest profile is 10 ms at 50 % duty, so it cannot cover the 20 ms transient. Path (a) is not a substitute.
+  - **(a)** PD Peak Current overload. It is source-advertised, not guaranteed, and its longest profile is 10 ms at 50 % duty according to secondary sources only, so 20 ms coverage is UNPROVEN and treated as not passed.
   - **(b)** the board adds a sink-side input current limit or eFuse set below 3 A, plus hold-up capacitance. The best retrieved limiter (LTC4282, ±3.7 % effective) has no guaranteed window: its 2.786 A setting sits against a 2.81 A minimum need.
 - Hold-up needed for (b), all PA, from the dynamic model in b1-gates.md: 8.0–13.0 mF at 1 V droop, or 2.9–4.3 mF to a 14.0 V floor ("3–13 mF"). The earlier fixed-deficit figures below understated it and are kept only for reference:
   - base efficiency, 18.67 → 17.67 V: 16 mJ deficit, **≈0.9 mF**;
@@ -169,7 +169,7 @@ Charger and cable prices are **UNAV** (not retrieved).
 |---|---|---|---|
 | Current chain (15 V, LDOs) | FAIL (per `supply-capability.json`: LDO characterization, PTC hold and U4 limits; G / G-U / PA) | FAIL | FAIL |
 | A1 (15 V / 3 A, switcher-direct) | **FAIL** at the 14.0 V floor (3.05–3.24 A). Passes only at an ideal 15.00 V at base and −3 pt (2.85–2.95 A); −5 pt gives 3.02 A and fails. Stage54 conditional: 2.96 A base | FAIL | FAIL (22–27 mF hold-up, impractical) |
-| B1 (20 V / 3 A, switcher-direct) | Screen PASS (2.29–2.43 A at 18.67 V; up to 2.46 A at 18.4 V) | Screen PASS (2.56–2.72 A at 18.67 V; up to 2.76 A at 18.4 V) | **Not met.** Peak Current cannot cover 20 ms; a sink limit has no guaranteed window and needs 3–13 mF (UNRESOLVED) |
+| B1 (20 V / 3 A, switcher-direct) | Screen PASS (2.29–2.43 A at 18.67 V; up to 2.46 A at 18.4 V) | Screen PASS (2.56–2.72 A at 18.67 V; up to 2.76 A at 18.4 V) | **Not passed.** Peak Current coverage of 20 ms UNPROVEN; a sink limit has no guaranteed window and needs 3–13 mF (UNRESOLVED) |
 | Hybrid (20 V / 3 A) | Screen PASS | Screen PASS (2.75–2.92 A at 18.67 V; 2.96 A at 18.4 V); blocked by ≥2 A LDOs (negative one UNAV) | Same gate as B1 (3.27–3.47 A at 18.67 V; 3.52 A at 18.4 V) |
 | B2 (20 V / 5 A) | Screen PASS | Screen PASS | Screen PASS (input power, PA); Board B ~2.5 A per rail limit at 23 °C |
 | C1 (24 V / 90 W) | Screen PASS | Screen PASS | Screen PASS (input power, PA) |
@@ -186,7 +186,7 @@ The Stage54 OSC reduction (canonical minus a 42 mA maximum-Iq allowance on each 
 ## Decision request (recommendation marked; not chosen)
 
 1. **Input contract.** Choose one of:
-   - 20 V / 3 A. It meets continuous on the screen. The transient stays UNRESOLVED: PD Peak Current cannot cover 20 ms, and a sink-side limit has no guaranteed tolerance window and needs 3–13 mF hold-up. It closes only via B2 or OSC demand closure.
+   - 20 V / 3 A. It meets continuous on the screen. The transient stays UNRESOLVED: PD Peak Current coverage of 20 ms is UNPROVEN (not passed), and a sink-side limit has no guaranteed tolerance window and needs 3–13 mF hold-up. It closes only via B2 or OSC demand closure.
    - 20 V / 5 A (**recommended screen basis**, see [product-lineup.md](product-lineup.md) option C2). It meets the transient by input but needs a 100 W charger and a 5 A e-marked cable; its shared gates stay open.
    - Keep 15 V. This only works if OSC lowers continuous to about 1.40–1.49 / 1.32–1.40 / 0.3 A or less. That is below even the canonical planning-normal of 1.535 / 1.436 A, which A1 fails at the 14.0 V floor. The transient would also have to be met by overload at the source.
 2. **Board B conversion and noise strategy.** Choose one of:

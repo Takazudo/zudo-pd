@@ -34,7 +34,7 @@ So the 20 V offer is 2.25 A from a 45 W charger, 3 A from 60 W, 3.25 A from 65 W
 
 The sink cannot detect a noncompliant source or cable that offers 5 A anyway. Cable and connector heating in that case is an **open gate**.
 
-PPS (up to 21 V, G-U) adds no current. The STUSB4500 product page does not list PPS ([ST](https://www.st.com/en/interfaces-and-transceivers/stusb4500.html), G-U). **Source Peak Current cannot cover the 20 ms transient even when advertised** (B1 gate screen R3). The 10 ms longest-window figure is secondary evidence only; the usb.org specification text was not retrieved.
+PPS (up to 21 V, G-U) adds no current. The STUSB4500 product page does not list PPS ([ST](https://www.st.com/en/interfaces-and-transceivers/stusb4500.html), G-U). **Source Peak Current coverage of the 20 ms transient is UNPROVEN and treated as not passed** (B1 gate screen R3). The 10 ms longest-window figure is secondary evidence only; the usb.org specification text was not retrieved.
 
 ## Per-PDO capability (Board B switcher-direct, TPS54560 ×3, PA efficiencies)
 
