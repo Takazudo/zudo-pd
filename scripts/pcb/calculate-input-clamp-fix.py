@@ -44,6 +44,18 @@ ZENERS = {
 }
 IZT, RTH_JA = 5e-3, 500.0
 R_SERIES = 470.0  # PA, as R13/R14 on the fitted Board P
+# BZX84 Rev 7 Table 5 (G): PZSM 40 W, tp 100 us square, Tj 25 C before surge;
+# IZSM (Table 8 note 2, G): C20 1.5 A, C24 1.25 A at the same conditions.
+PZSM_W = 40.0
+
+# VDD series-R screen. Load: STUSB4500 idle IDD <= 210 uA (DS12499 Table 22,
+# column reading G-U; active-PD IDD UNAV) plus VREG_2V7 pull-up load with both
+# I2C lines low, 2 x 2.7 V / 4.7 kohm = 1.15 mA (netlist R15/R16, PA). VDD
+# operating minimum 4.1 V (Table 21, G-U); low input point 4.75 V (PA).
+IDD_IDLE_MAX = 210e-6
+I_VREG_PULLUPS = 2 * 2.7 / 4.7e3
+VDD_MIN, VIN_LOW = 4.1, 4.75
+VDD_R_SWEEP = (100.0, 150.0, 220.0, 330.0, 470.0)
 
 # LTC4367 Rev C (G): OV reference 492.5 / 500 / 507.5 mV; tGATE(FAST) 2 typ /
 # 6 max us (CGATE 2.2 nF); VIN absolute maximum 100 V.
@@ -131,6 +143,44 @@ def main():
     for name, vc in (("SMAJ16A 25 C", SMAJ16A_VC), ("TVS1800 125 C", TVS1800["125 C 35 A"]),
                      ("TVS2200 125 C", TVS2200["125 C 35 A"])):
         print(f"  short during a surge at {name} clamp {vc:5.2f} V -> margin {STUSB_CC_ABS - vc:+.2f} V")
+
+    print("\n5. VDD series R sweep with BZX84-C20 (15 V option (b); linear model PA)")
+    i_load = IDD_IDLE_MAX + I_VREG_PULLUPS
+    print(f"  DC load {i_load * 1e3:.2f} mA (idle IDD max G-U + VREG_2V7 pull-ups PA); "
+          f"R limit for VDD >= {VDD_MIN} V at {VIN_LOW} V in: {(VIN_LOW - VDD_MIN) / i_load:.0f} ohm")
+    z = ZENERS["BZX84-C20"]
+    for r in VDD_R_SWEEP:
+        vdd = VIN_LOW - r * i_load
+        i_allow = (VIN_LOW - VDD_MIN) / r
+        cells = []
+        for lab, vin in (("26.0", SMAJ16A_VC), ("28.6 est", SMAJ16A_VC * 1.1)):
+            worst = None
+            for ta in (25.0, 125.0):
+                v, i, _ = node_clamp(z, vin, r, ta, False)
+                worst = (v, i) if worst is None or v > worst[0] else worst
+            v, i = worst
+            cells.append(f"in {lab} V: node <= {v:5.2f} V ({STUSB_ABS - v:+.2f} V), "
+                         f"I {i * 1e3:4.1f} mA, P {v * i * 1e3:4.0f} mW")
+        print(f"  R {r:3.0f} ohm: VDD {vdd:4.2f} V at idle load; allows IDD+load <= {i_allow * 1e3:4.2f} mA | "
+              + " | ".join(cells))
+    print("  (node columns are the highest-node case, 125 C; the current there is the lowest)")
+    print("  Peak dissipation, 25 C, VZ max model to VZ min model (VZ min 18.8 V + rdif above 5 mA):")
+    zmin = dict(z, vz_max=z["vz_min"])
+    for r in VDD_R_SWEEP:
+        cells = []
+        for lab, vin in (("26.0", SMAJ16A_VC), ("28.6 est", SMAJ16A_VC * 1.1)):
+            pz, pr, imax = [], [], 0.0
+            for zz in (z, zmin):
+                v, i, _ = node_clamp(zz, vin, r, 25.0, False)
+                pz.append(v * i)
+                pr.append(i * i * r)
+                imax = max(imax, i)
+            cells.append(f"in {lab} V: I <= {imax * 1e3:4.1f} mA, zener {min(pz):4.2f}-{max(pz):4.2f} W, "
+                         f"resistor {min(pr):4.2f}-{max(pr):4.2f} W")
+        print(f"  R {r:3.0f} ohm: " + " | ".join(cells))
+    print(f"  Zener pulse limit PZSM {PZSM_W:.0f} W at 100 us, Tj 25 C before surge only (G); Fig. 1 also has a "
+          "lower 150 C curve; the 10/1000 us duration value is not read (UNAV)")
+    print("  Series-resistor pulse rating: not screened (UNAV for the 0603 parts)")
 
 
 if __name__ == "__main__":
