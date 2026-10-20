@@ -1,0 +1,1336 @@
+{
+  "schema_version": 1,
+  "status": "SCREENING ARITHMETIC ONLY: no simulation, bench, thermal or startup measurement exists for the renewal boards",
+  "input_contract": {
+    "pdo_v": 15,
+    "pdo_a": 3.0,
+    "power_w": 45,
+    "screen_board_input_v": [
+      14.0,
+      14.25,
+      15.0,
+      15.75
+    ],
+    "20v": "unsupported"
+  },
+  "pd_target_evaluation": {
+    "external_loads_a": {
+      "plus12": 1.2,
+      "minus12": 0.8,
+      "plus5": 0.5
+    },
+    "output_power_w": 26.5,
+    "rails": {
+      "plus12": {
+        "external_load_a": 1.2,
+        "ldo_output_a": 1.2139823295741217,
+        "checks": {
+          "ldo_characterized_current": {
+            "limit_a": 1.5,
+            "value_a": 1.2139823295741217,
+            "status": "PASS",
+            "class": "PROJECT_ASSUMPTION"
+          },
+          "ptc_hold_25c": {
+            "limit_a": 1.5,
+            "value_a": 1.2,
+            "status": "PASS",
+            "class": "GUARANTEED"
+          },
+          "ptc_hold_85c": {
+            "limit_a": 0.74,
+            "value_a": 1.2,
+            "status": "ESTIMATE_FAIL",
+            "class": "PROJECT_ASSUMPTION",
+            "conditions": "Family-derating estimate only (about 48 C ambient crossing at 1.2 A)"
+          },
+          "j10_or_j11_single_header_contact": {
+            "limit_a_per_contact": 3,
+            "value_a_per_contact": 0.6,
+            "status": "PASS",
+            "class": "GUARANTEED_UNSOURCED"
+          },
+          "ptc_series_drop": {
+            "status": "NOT RUN",
+            "reason": "PTC1 R1max unavailable"
+          },
+          "ldo_dropout": {
+            "available_v": 0.6924800482481341,
+            "required_v": 0.55,
+            "margin_v": 0.1424800482481341,
+            "status": "PASS",
+            "class": "GUARANTEED_UNSOURCED",
+            "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+          },
+          "ldo_thermal": {
+            "dissipation_screen_w": 4.232555852837966,
+            "required_effective_theta_ja_c_per_w": 20.08242843222181,
+            "status": "NOT RUN",
+            "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+          },
+          "u2_continuous": {
+            "limit_a": 2,
+            "value_a": 1.3340638674204919,
+            "status": "PASS",
+            "class": "DESIGN_POINT"
+          },
+          "u2_peak_current_limit": {
+            "limit_a": 2.5,
+            "value_a": 1.3752462445633489,
+            "status": "PASS",
+            "class": "GUARANTEED",
+            "conditions": "14 V input, minimum inductance, typical 500 kHz; ripple is small near 100% duty"
+          },
+          "u2_low_line_headroom_14v": {
+            "available_v": 0.33759999999999835,
+            "typical_path_drop_v": 0.25747432641215495,
+            "margin_v": 0.0801256735878434,
+            "status": "TYPICAL_ONLY",
+            "class": "TYPICAL",
+            "conditions": "Typical high-side RDS(on) plus maximum L1 DCR; no guaranteed AP63201 dropout exists"
+          }
+        },
+        "converter_output_a": 1.3340638674204919,
+        "pre_rail_power_w": 18.22651418224573,
+        "status": "ESTIMATE_FAIL"
+      },
+      "minus12": {
+        "external_load_a": 0.8,
+        "ldo_output_a": 0.813874586388115,
+        "checks": {
+          "ldo_characterized_current": {
+            "limit_a": 1.5,
+            "value_a": 0.813874586388115,
+            "status": "PASS",
+            "class": "PROJECT_ASSUMPTION"
+          },
+          "ptc_hold_25c": {
+            "limit_a": 1.5,
+            "value_a": 0.8,
+            "status": "PASS",
+            "class": "GUARANTEED"
+          },
+          "ptc_hold_85c": {
+            "limit_a": 0.77,
+            "value_a": 0.8,
+            "status": "FAIL",
+            "class": "GUARANTEED"
+          },
+          "j10_or_j11_single_header_contact": {
+            "limit_a_per_contact": 3,
+            "value_a_per_contact": 0.4,
+            "status": "PASS",
+            "class": "GUARANTEED_UNSOURCED"
+          },
+          "ptc_series_drop": {
+            "drop_v": 0.10400000000000001,
+            "status": "INFO",
+            "class": "GUARANTEED",
+            "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+          },
+          "ldo_dropout": {
+            "available_v": 1.0634716450397956,
+            "required_v": 0.68,
+            "margin_v": 0.3834716450397956,
+            "status": "PASS",
+            "class": "GUARANTEED_UNSOURCED",
+            "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+          },
+          "ldo_thermal": {
+            "dissipation_screen_w": 3.540619636659348,
+            "required_effective_theta_ja_c_per_w": 24.00709726622862,
+            "status": "NOT RUN",
+            "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+          },
+          "u4_switch_current_limit": {
+            "limit_a": 3.4,
+            "value_a": 2.398025472606036,
+            "status": "PASS",
+            "class": "PROJECT_ASSUMPTION"
+          },
+          "l3_heat_rating": {
+            "limit_a": 4.5,
+            "value_a": 2.0434047300158062,
+            "status": "PASS",
+            "class": "DESIGN_POINT"
+          },
+          "d3_average_current": {
+            "limit_a": 5,
+            "value_a": 0.885297320560896,
+            "status": "PASS",
+            "class": "GUARANTEED"
+          }
+        },
+        "converter_output_a": 0.885297320560896,
+        "pre_rail_power_w": 13.115157865147479,
+        "converter_model": {
+          "duty_cycle": 0.5644243348404325,
+          "inductor_average_a": 2.032476539378248,
+          "inductor_peak_a": 2.398025472606036,
+          "inductor_rms_a": 2.0434047300158062,
+          "modeled_conduction_efficiency": 0.8161903326673344
+        },
+        "status": "FAIL"
+      },
+      "plus5": {
+        "external_load_a": 0.5,
+        "ldo_output_a": 0.5065523475228939,
+        "checks": {
+          "ldo_characterized_current": {
+            "limit_a": 1.5,
+            "value_a": 0.5065523475228939,
+            "status": "PASS",
+            "class": "PROJECT_ASSUMPTION"
+          },
+          "ptc_hold_25c": {
+            "limit_a": 1.1,
+            "value_a": 0.5,
+            "status": "PASS",
+            "class": "GUARANTEED"
+          },
+          "ptc_hold_85c": {
+            "status": "NOT RUN",
+            "reason": "85 C hold current unavailable for this fitted PTC"
+          },
+          "j10_or_j11_single_header_contact": {
+            "limit_a_per_contact": 3,
+            "value_a_per_contact": 0.25,
+            "status": "PASS",
+            "class": "GUARANTEED_UNSOURCED"
+          },
+          "ptc_series_drop": {
+            "drop_v": 0.125,
+            "status": "INFO",
+            "class": "GUARANTEED",
+            "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+          },
+          "ldo_dropout": {
+            "available_v": 0.8090878261747978,
+            "required_v": 0.55,
+            "margin_v": 0.25908782617479775,
+            "status": "PASS",
+            "class": "GUARANTEED_UNSOURCED",
+            "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+          },
+          "ldo_thermal": {
+            "dissipation_screen_w": 1.9523262609099654,
+            "required_effective_theta_ja_c_per_w": 43.53780497752568,
+            "status": "NOT RUN",
+            "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+          },
+          "u3_switch_current_limit": {
+            "limit_a": 3.4,
+            "value_a": 0.7978070272213956,
+            "status": "PASS",
+            "class": "PROJECT_ASSUMPTION"
+          },
+          "d2_average_current": {
+            "limit_a": 3.0,
+            "value_a": 0.264216567134081,
+            "status": "PASS",
+            "class": "GUARANTEED"
+          }
+        },
+        "converter_output_a": 0.6279017223902841,
+        "pre_rail_power_w": 4.400745328778794,
+        "converter_model": {
+          "duty": 0.5792071311283133,
+          "ripple_pp_a": 0.33981060966222315,
+          "peak_a": 0.7978070272213956
+        },
+        "status": "PASS_SCREEN"
+      }
+    },
+    "pre_rail_power_floor": {
+      "power_w": 29.678120889075654,
+      "required_weighted_converter_efficiency_at_3a": {
+        "14V": 0.7066219259303728,
+        "14.25V": 0.6942250500368574,
+        "15V": 0.6595137975350145,
+        "15.75V": 0.6281083786047758
+      },
+      "status": "NOT RUN",
+      "conditions": "Infeasible means more than 100% efficiency even at a lossless 15.75 V x 3 A input, with the fitted pre-rail setpoints in regulation; a lower pre-rail setpoint is a design change"
+    },
+    "input": {
+      "pre_rail_power_w": 35.742417376172,
+      "required_weighted_converter_efficiency_at_3a": {
+        "14V": 0.8510099375279048,
+        "14.25V": 0.8360799386239064,
+        "15V": 0.7942759416927111,
+        "15.75V": 0.756453277802582
+      },
+      "status": "NOT RUN",
+      "reason": "Converter efficiencies are unavailable; feasibility needs the listed efficiency at the PD 3 A contract. Above 1.0 no converter efficiency can close it.",
+      "positive_converters_required_efficiency_if_u4_at_conduction_model": {
+        "14V": 0.8725865097367477,
+        "14.25V": 0.8480584285566173,
+        "15V": 0.7821044369253486,
+        "15.75V": 0.72566876017913
+      }
+    },
+    "status": "FAIL"
+  },
+  "per_rail_limits_other_rails_at_targets_a": {
+    "plus12": {
+      "ldo_characterized_current": 1.486,
+      "ptc_hold_25c": 1.5,
+      "ldo_dropout": ">=1.486 (not evaluable above LDO evidence)",
+      "u2_continuous": ">=1.486 (not evaluable above LDO evidence)",
+      "u2_peak_current_limit": ">=1.486 (not evaluable above LDO evidence)",
+      "input_42w_at_14v_3a_with_weighted_efficiency_1": ">=1.486 (not evaluable above LDO evidence)",
+      "input_42w_at_14v_3a_with_weighted_efficiency_0.85": 1.1969
+    },
+    "minus12": {
+      "ldo_characterized_current": 1.4861,
+      "ptc_hold_25c": 1.5,
+      "ptc_hold_85c": 0.77,
+      "ldo_dropout": ">=1.4861 (not evaluable above LDO evidence)",
+      "u4_switch_current_limit": 1.2168,
+      "l3_heat_rating": ">=1.4861 (not evaluable above LDO evidence)",
+      "d3_average_current": ">=1.4861 (not evaluable above LDO evidence)",
+      "input_42w_at_14v_3a_with_weighted_efficiency_1": 1.2224,
+      "input_42w_at_14v_3a_with_weighted_efficiency_0.85": 0.7971
+    },
+    "plus5": {
+      "ldo_characterized_current": 1.4934,
+      "ptc_hold_25c": 1.1,
+      "ldo_dropout": ">=1.4934 (not evaluable above LDO evidence)",
+      "u3_switch_current_limit": ">=1.4934 (not evaluable above LDO evidence)",
+      "d2_average_current": ">=1.4934 (not evaluable above LDO evidence)",
+      "input_42w_at_14v_3a_with_weighted_efficiency_1": 1.3928,
+      "input_42w_at_14v_3a_with_weighted_efficiency_0.85": 0.4939
+    }
+  },
+  "input_path_at_pd_contract": {
+    "q1_conduction_at_3a": {
+      "rds_on_ohm": 0.065,
+      "loss_w": 0.585,
+      "junction_rise_c_at_steady_theta_ja": 73.125,
+      "status": "NOT RUN",
+      "reason": "Rds(on) is the 25 C maximum at -4.5 V; fitted -6 V drive, hot Rds(on) and Board P copper are unqualified"
+    },
+    "j5_contact_at_3a": {
+      "limit_a_per_contact": 3,
+      "value_a_per_contact": 1.5,
+      "status": "PASS",
+      "class": "GUARANTEED"
+    }
+  },
+  "probe_points": {
+    "provenance": "Load triples from the 2026-10-20 project brief and the OSC combined power ledger (zudo-osc-hole-field PR #289); demand is owned there. The canonical planning row is the comparison basis; the Stage54 row counts an unadopted conditional saving and must not be used as the basis.",
+    "results": {
+      "osc_planning_normal_canonical": {
+        "external_loads_a": {
+          "plus12": 1.535,
+          "minus12": 1.436,
+          "plus5": 0.224
+        },
+        "output_power_w": 36.772,
+        "rails": {
+          "plus12": {
+            "external_load_a": 1.535,
+            "ldo_output_a": 1.5489823295741216,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 1.5489823295741216,
+                "status": "EXCEEDS_EVIDENCE",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 1.535,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.74,
+                "value_a": 1.535,
+                "status": "ESTIMATE_FAIL",
+                "class": "PROJECT_ASSUMPTION",
+                "conditions": "Family-derating estimate only (about 48 C ambient crossing at 1.2 A)"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.7675,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "status": "NOT RUN",
+                "reason": "PTC1 R1max unavailable"
+              }
+            },
+            "status": "FAIL",
+            "note": "LDO load above the highest retained characterization point; dropout, ground current and pre-regulator load cannot be screened"
+          },
+          "minus12": {
+            "external_load_a": 1.436,
+            "ldo_output_a": 1.4498745863881148,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 1.4498745863881148,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 1.436,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.77,
+                "value_a": 1.436,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.718,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.18668,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              },
+              "ldo_dropout": {
+                "available_v": 1.0634716450397956,
+                "required_v": 0.68,
+                "margin_v": 0.3834716450397956,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED",
+                "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+              },
+              "ldo_thermal": {
+                "dissipation_screen_w": 5.495554349496657,
+                "required_effective_theta_ja_c_per_w": 15.467047470431302,
+                "status": "NOT RUN",
+                "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+              },
+              "u4_switch_current_limit": {
+                "limit_a": 3.4,
+                "value_a": 3.940334036074329,
+                "status": "FAIL",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "l3_heat_rating": {
+                "limit_a": 4.5,
+                "value_a": 3.58305729101637,
+                "status": "PASS",
+                "class": "DESIGN_POINT"
+              },
+              "d3_average_current": {
+                "limit_a": 5,
+                "value_a": 1.521297320560896,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              }
+            },
+            "converter_output_a": 1.521297320560896,
+            "pre_rail_power_w": 22.53712290277919,
+            "converter_model": {
+              "duty_cycle": 0.5746893228162164,
+              "inductor_average_a": 3.5769083688052317,
+              "inductor_peak_a": 3.940334036074329,
+              "inductor_rms_a": 3.58305729101637,
+              "modeled_conduction_efficiency": 0.782900551130669
+            },
+            "status": "FAIL"
+          },
+          "plus5": {
+            "external_load_a": 0.224,
+            "ldo_output_a": 0.2305523475228939,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 0.2305523475228939,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.1,
+                "value_a": 0.224,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "status": "NOT RUN",
+                "reason": "85 C hold current unavailable for this fitted PTC"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.112,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.056,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              },
+              "ldo_dropout": {
+                "available_v": 0.8090878261747978,
+                "required_v": 0.35,
+                "margin_v": 0.4590878261747978,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED",
+                "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+              },
+              "ldo_thermal": {
+                "dissipation_screen_w": 1.3468301850882396,
+                "required_effective_theta_ja_c_per_w": 63.11114863707268,
+                "status": "NOT RUN",
+                "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+              },
+              "u3_switch_current_limit": {
+                "limit_a": 3.4,
+                "value_a": 0.5218070272213956,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "d2_average_current": {
+                "limit_a": 3.0,
+                "value_a": 0.14807773532549548,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              }
+            },
+            "converter_output_a": 0.35190172239028406,
+            "pre_rail_power_w": 2.4663570838808346,
+            "converter_model": {
+              "duty": 0.5792071311283133,
+              "ripple_pp_a": 0.33981060966222315,
+              "peak_a": 0.5218070272213956
+            },
+            "status": "PASS_SCREEN"
+          }
+        },
+        "pre_rail_power_floor": {
+          "power_w": 41.011118655374354,
+          "required_weighted_converter_efficiency_at_3a": {
+            "14V": 0.9764552060803418,
+            "14.25V": 0.959324412991213,
+            "15V": 0.9113581923416523,
+            "15.75V": 0.867960183182526
+          },
+          "status": "NOT RUN",
+          "conditions": "Infeasible means more than 100% efficiency even at a lossless 15.75 V x 3 A input, with the fitted pre-rail setpoints in regulation; a lower pre-rail setpoint is a design change"
+        },
+        "input": {
+          "status": "NOT RUN",
+          "reason": "At least one LDO exceeds its retained characterization; only the optimistic pre-rail floor is available"
+        },
+        "status": "FAIL"
+      },
+      "osc_planning_normal_stage54_conditional": {
+        "external_loads_a": {
+          "plus12": 1.493,
+          "minus12": 1.394,
+          "plus5": 0.224
+        },
+        "output_power_w": 35.763999999999996,
+        "rails": {
+          "plus12": {
+            "external_load_a": 1.493,
+            "ldo_output_a": 1.5069823295741218,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 1.5069823295741218,
+                "status": "EXCEEDS_EVIDENCE",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 1.493,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.74,
+                "value_a": 1.493,
+                "status": "ESTIMATE_FAIL",
+                "class": "PROJECT_ASSUMPTION",
+                "conditions": "Family-derating estimate only (about 48 C ambient crossing at 1.2 A)"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.7465,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "status": "NOT RUN",
+                "reason": "PTC1 R1max unavailable"
+              }
+            },
+            "status": "ESTIMATE_FAIL",
+            "note": "LDO load above the highest retained characterization point; dropout, ground current and pre-regulator load cannot be screened"
+          },
+          "minus12": {
+            "external_load_a": 1.394,
+            "ldo_output_a": 1.407874586388115,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 1.407874586388115,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 1.394,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.77,
+                "value_a": 1.394,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.697,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.18122,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              },
+              "ldo_dropout": {
+                "available_v": 1.0634716450397956,
+                "required_v": 0.68,
+                "margin_v": 0.3834716450397956,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED",
+                "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+              },
+              "ldo_thermal": {
+                "dissipation_screen_w": 5.366454887328155,
+                "required_effective_theta_ja_c_per_w": 15.839134360508844,
+                "status": "NOT RUN",
+                "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+              },
+              "u4_switch_current_limit": {
+                "limit_a": 3.4,
+                "value_a": 3.8360698389779264,
+                "status": "FAIL",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "l3_heat_rating": {
+                "limit_a": 4.5,
+                "value_a": 3.4788295754746104,
+                "status": "PASS",
+                "class": "DESIGN_POINT"
+              },
+              "d3_average_current": {
+                "limit_a": 5,
+                "value_a": 1.4792973205608961,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              }
+            },
+            "converter_output_a": 1.4792973205608961,
+            "pre_rail_power_w": 21.914917664445024,
+            "converter_model": {
+              "duty_cycle": 0.5739953163538281,
+              "inductor_average_a": 3.472490743293238,
+              "inductor_peak_a": 3.8360698389779264,
+              "inductor_rms_a": 3.4788295754746104,
+              "modeled_conduction_efficiency": 0.7851190441521814
+            },
+            "status": "FAIL"
+          },
+          "plus5": {
+            "external_load_a": 0.224,
+            "ldo_output_a": 0.2305523475228939,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 0.2305523475228939,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.1,
+                "value_a": 0.224,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "status": "NOT RUN",
+                "reason": "85 C hold current unavailable for this fitted PTC"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.112,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.056,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              },
+              "ldo_dropout": {
+                "available_v": 0.8090878261747978,
+                "required_v": 0.35,
+                "margin_v": 0.4590878261747978,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED",
+                "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+              },
+              "ldo_thermal": {
+                "dissipation_screen_w": 1.3468301850882396,
+                "required_effective_theta_ja_c_per_w": 63.11114863707268,
+                "status": "NOT RUN",
+                "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+              },
+              "u3_switch_current_limit": {
+                "limit_a": 3.4,
+                "value_a": 0.5218070272213956,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "d2_average_current": {
+                "limit_a": 3.0,
+                "value_a": 0.14807773532549548,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              }
+            },
+            "converter_output_a": 0.35190172239028406,
+            "pre_rail_power_w": 2.4663570838808346,
+            "converter_model": {
+              "duty": 0.5792071311283133,
+              "ripple_pp_a": 0.33981060966222315,
+              "peak_a": 0.5218070272213956
+            },
+            "status": "PASS_SCREEN"
+          }
+        },
+        "pre_rail_power_floor": {
+          "power_w": 39.88957725244628,
+          "required_weighted_converter_efficiency_at_3a": {
+            "14V": 0.949751839343959,
+            "14.25V": 0.9330895263730123,
+            "15V": 0.8864350500543617,
+            "15.75V": 0.8442238571946302
+          },
+          "status": "NOT RUN",
+          "conditions": "Infeasible means more than 100% efficiency even at a lossless 15.75 V x 3 A input, with the fitted pre-rail setpoints in regulation; a lower pre-rail setpoint is a design change"
+        },
+        "input": {
+          "status": "NOT RUN",
+          "reason": "At least one LDO exceeds its retained characterization; only the optimistic pre-rail floor is available"
+        },
+        "status": "FAIL"
+      },
+      "osc_continuous": {
+        "external_loads_a": {
+          "plus12": 1.7,
+          "minus12": 1.6,
+          "plus5": 0.3
+        },
+        "output_power_w": 41.1,
+        "rails": {
+          "plus12": {
+            "external_load_a": 1.7,
+            "ldo_output_a": 1.7139823295741217,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 1.7139823295741217,
+                "status": "EXCEEDS_EVIDENCE",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 1.7,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.74,
+                "value_a": 1.7,
+                "status": "ESTIMATE_FAIL",
+                "class": "PROJECT_ASSUMPTION",
+                "conditions": "Family-derating estimate only (about 48 C ambient crossing at 1.2 A)"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.85,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "status": "NOT RUN",
+                "reason": "PTC1 R1max unavailable"
+              }
+            },
+            "status": "FAIL",
+            "note": "LDO load above the highest retained characterization point; dropout, ground current and pre-regulator load cannot be screened"
+          },
+          "minus12": {
+            "external_load_a": 1.6,
+            "ldo_output_a": 1.613874586388115,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 1.613874586388115,
+                "status": "EXCEEDS_EVIDENCE",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 1.6,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.77,
+                "value_a": 1.6,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.8,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.20800000000000002,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              }
+            },
+            "status": "FAIL",
+            "note": "LDO load above the highest retained characterization point; dropout, ground current and pre-regulator load cannot be screened"
+          },
+          "plus5": {
+            "external_load_a": 0.3,
+            "ldo_output_a": 0.3065523475228939,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 0.3065523475228939,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.1,
+                "value_a": 0.3,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "status": "NOT RUN",
+                "reason": "85 C hold current unavailable for this fitted PTC"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.15,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.075,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              },
+              "ldo_dropout": {
+                "available_v": 0.8090878261747978,
+                "required_v": 0.35,
+                "margin_v": 0.4590878261747978,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED",
+                "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+              },
+              "ldo_thermal": {
+                "dissipation_screen_w": 1.5135609885753816,
+                "required_effective_theta_ja_c_per_w": 56.15895272248334,
+                "status": "NOT RUN",
+                "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+              },
+              "u3_switch_current_limit": {
+                "limit_a": 3.4,
+                "value_a": 0.5978070272213957,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "d2_average_current": {
+                "limit_a": 3.0,
+                "value_a": 0.18005799335974368,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              }
+            },
+            "converter_output_a": 0.42790172239028407,
+            "pre_rail_power_w": 2.999014716533896,
+            "converter_model": {
+              "duty": 0.5792071311283133,
+              "ripple_pp_a": 0.33981060966222315,
+              "peak_a": 0.5978070272213957
+            },
+            "status": "PASS_SCREEN"
+          }
+        },
+        "pre_rail_power_floor": {
+          "power_w": 45.86387208457733,
+          "required_weighted_converter_efficiency_at_3a": {
+            "14V": 1.0919969543946983,
+            "14.25V": 1.0728391130895283,
+            "15V": 1.0191971574350518,
+            "15.75V": 0.970663959461954
+          },
+          "status": "NOT RUN",
+          "conditions": "Infeasible means more than 100% efficiency even at a lossless 15.75 V x 3 A input, with the fitted pre-rail setpoints in regulation; a lower pre-rail setpoint is a design change"
+        },
+        "input": {
+          "status": "NOT RUN",
+          "reason": "At least one LDO exceeds its retained characterization; only the optimistic pre-rail floor is available"
+        },
+        "status": "FAIL"
+      },
+      "osc_transient": {
+        "external_loads_a": {
+          "plus12": 2.0,
+          "minus12": 1.9,
+          "plus5": 0.4
+        },
+        "output_power_w": 48.8,
+        "rails": {
+          "plus12": {
+            "external_load_a": 2.0,
+            "ldo_output_a": 2.0139823295741217,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 2.0139823295741217,
+                "status": "EXCEEDS_EVIDENCE",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 2.0,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.74,
+                "value_a": 2.0,
+                "status": "ESTIMATE_FAIL",
+                "class": "PROJECT_ASSUMPTION",
+                "conditions": "Family-derating estimate only (about 48 C ambient crossing at 1.2 A)"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 1.0,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "status": "NOT RUN",
+                "reason": "PTC1 R1max unavailable"
+              }
+            },
+            "status": "FAIL",
+            "note": "LDO load above the highest retained characterization point; dropout, ground current and pre-regulator load cannot be screened"
+          },
+          "minus12": {
+            "external_load_a": 1.9,
+            "ldo_output_a": 1.9138745863881148,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 1.9138745863881148,
+                "status": "EXCEEDS_EVIDENCE",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.5,
+                "value_a": 1.9,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "limit_a": 0.77,
+                "value_a": 1.9,
+                "status": "FAIL",
+                "class": "GUARANTEED"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.95,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.247,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              }
+            },
+            "status": "FAIL",
+            "note": "LDO load above the highest retained characterization point; dropout, ground current and pre-regulator load cannot be screened"
+          },
+          "plus5": {
+            "external_load_a": 0.4,
+            "ldo_output_a": 0.40655234752289393,
+            "checks": {
+              "ldo_characterized_current": {
+                "limit_a": 1.5,
+                "value_a": 0.40655234752289393,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "ptc_hold_25c": {
+                "limit_a": 1.1,
+                "value_a": 0.4,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              },
+              "ptc_hold_85c": {
+                "status": "NOT RUN",
+                "reason": "85 C hold current unavailable for this fitted PTC"
+              },
+              "j10_or_j11_single_header_contact": {
+                "limit_a_per_contact": 3,
+                "value_a_per_contact": 0.2,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED"
+              },
+              "ptc_series_drop": {
+                "drop_v": 0.1,
+                "status": "INFO",
+                "class": "GUARANTEED",
+                "conditions": "Post-trip one-hour R1max at 25 C; output-band check at the connector is not modeled"
+              },
+              "ldo_dropout": {
+                "available_v": 0.8090878261747978,
+                "required_v": 0.35,
+                "margin_v": 0.4590878261747978,
+                "status": "PASS",
+                "class": "GUARANTEED_UNSOURCED",
+                "conditions": "Conditional pre-rail minimum minus 0.05 V ripple allowance and maximum output band; wiring loss excluded"
+              },
+              "ldo_thermal": {
+                "dissipation_screen_w": 1.7329436247426735,
+                "required_effective_theta_ja_c_per_w": 49.049489427344604,
+                "status": "NOT RUN",
+                "reason": "Installed theta-JA unavailable; the value is the requirement at 40 C ambient and the 125 C project ceiling"
+              },
+              "u3_switch_current_limit": {
+                "limit_a": 3.4,
+                "value_a": 0.6978070272213956,
+                "status": "PASS",
+                "class": "PROJECT_ASSUMPTION"
+              },
+              "d2_average_current": {
+                "limit_a": 3.0,
+                "value_a": 0.22213728024691234,
+                "status": "PASS",
+                "class": "GUARANTEED"
+              }
+            },
+            "converter_output_a": 0.5279017223902841,
+            "pre_rail_power_w": 3.699880022656345,
+            "converter_model": {
+              "duty": 0.5792071311283133,
+              "ripple_pp_a": 0.33981060966222315,
+              "peak_a": 0.6978070272213956
+            },
+            "status": "PASS_SCREEN"
+          }
+        },
+        "pre_rail_power_floor": {
+          "power_w": 54.48038406627647,
+          "required_weighted_converter_efficiency_at_3a": {
+            "14V": 1.2971520015780111,
+            "14.25V": 1.2743949489187478,
+            "15V": 1.2106752014728104,
+            "15.75V": 1.1530240014026767
+          },
+          "status": "INFEASIBLE",
+          "conditions": "Infeasible means more than 100% efficiency even at a lossless 15.75 V x 3 A input, with the fitted pre-rail setpoints in regulation; a lower pre-rail setpoint is a design change"
+        },
+        "input": {
+          "status": "NOT RUN",
+          "reason": "At least one LDO exceeds its retained characterization; only the optimistic pre-rail floor is available"
+        },
+        "status": "INFEASIBLE"
+      }
+    }
+  },
+  "evidence": {
+    "u2_continuous_a": {
+      "value": 2,
+      "class": "DESIGN_POINT",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-ap63201wu-7-current",
+      "conditions": "Continuous device design point; thermal qualification remains separate"
+    },
+    "u2_peak_limit_min_a": {
+      "value": 2.5,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-ap63201wu-7-peak-limit-min",
+      "conditions": "High-side peak current limit, full electrical-table conditions"
+    },
+    "u2_rds_on_ohm": {
+      "value": 0.125,
+      "class": "TYPICAL",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-ap63201wu-7-rds-on",
+      "conditions": "High-side switch typical only; no maximum across temperature is specified"
+    },
+    "l1_inductance_uh": {
+      "value": 10,
+      "class": "DESIGN_POINT",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-aspi-0630lr-100m-t15-inductance",
+      "conditions": "100 kHz 1 V nominal"
+    },
+    "l1_tolerance": {
+      "value": 0.2,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-aspi-0630lr-100m-t15-tolerance",
+      "conditions": "M tolerance code"
+    },
+    "l1_dcr_max_ohm": {
+      "value": 0.068,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-aspi-0630lr-100m-t15-dcr-max",
+      "conditions": "Maximum at tabulated test conditions"
+    },
+    "l1_irms_a": {
+      "value": 4,
+      "class": "TYPICAL",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-aspi-0630lr-100m-t15-irms",
+      "conditions": "Typical current producing 40 C rise; includes self-heating in 125 C operating limit"
+    },
+    "l1_isat_a": {
+      "value": 5.5,
+      "class": "TYPICAL",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-aspi-0630lr-100m-t15-isat",
+      "conditions": "Typical current causing 30% inductance loss; not a guaranteed minimum"
+    },
+    "u2_frequency_khz": {
+      "value": 500,
+      "class": "TYPICAL",
+      "source": ".claude/skills/component-ap63201-power-stage/facts.json#fact-ap63201wu-7-frequency",
+      "conditions": "Typical oscillator; +/-6% typical spread spectrum is not a guaranteed frequency envelope"
+    },
+    "lm2596_switch_limit_min_a": {
+      "value": 3.4,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-lm2596s-adj-c347423/facts.json#fact-lm2596-current-limit",
+      "conditions": "switch peak current limit, typical; guaranteed 3.6 A min at TJ=25C (3.4 A over temp), 6.9 A max (7.5 A over temp); Notes 7/8 test conditions (output forced, switch ON)"
+    },
+    "lm2596_vsat_screen_v": {
+      "value": 1.5,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-lm2596s-adj-c347423/facts.json#fact-lm2596-vsat-max",
+      "conditions": "guaranteed maximum output-switch saturation voltage at TJ=25C (standard-typeface limit, matching the bundle's min/max convention set by fact-lm2596-fb-vref-max/-min); the boldface full-operating-temperature-range limit is 1.5 V; same IOUT=3A Notes 7/8 test conditions as the typical (fact-lm2596-vsat)"
+    },
+    "lm2596_frequency_min_hz": {
+      "value": 117000,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-lm2596s-adj-c347423/facts.json#fact-lm2596-oscillator-frequency",
+      "conditions": "fixed internal oscillator, typical; guaranteed 117 kHz min / 183 kHz max including temperature extremes"
+    },
+    "l23_inductance_min_h": {
+      "value": 8e-05,
+      "class": "PROJECT_ASSUMPTION",
+      "source": "scripts/pcb/calculate-supply-capability.py",
+      "conditions": "CYA1265-100UH -20% tolerance at 0 A; no DC-bias minimum is retained (60 uH would lower the U4 limit by about 0.05 A)"
+    },
+    "ripple_allowance_v": {
+      "value": 0.05,
+      "class": "PROJECT_ASSUMPTION",
+      "source": "scripts/pcb/calculate-supply-capability.py",
+      "conditions": "Pre-rail ripple allowance carried from the positive pre-regulator page"
+    },
+    "l23_idc_a": {
+      "value": 4.5,
+      "class": "DESIGN_POINT",
+      "source": ".claude/skills/component-cya1265-100uh-c19268674/facts.json#fact-cya1265-idc-heat-rating",
+      "conditions": "heat rating current: DC current causing an approximate temperature rise (deltaT) of 40C, TA=25C ambient reference, CYA1265-101M (100uH) row. This is the datasheet's own rated-current metric ('Idc'); it does not separately label an 'Irms' rating, and per its Notes (physical page 4, item 6) the listed rated current is whichever of Isat or Idc is lower."
+    },
+    "l23_isat_a": {
+      "value": 8.5,
+      "class": "DESIGN_POINT",
+      "source": ".claude/skills/component-cya1265-100uh-c19268674/facts.json#fact-cya1265-isat",
+      "conditions": "saturation current: DC current causing L0 to drop approximately 30% from its 0A nominal value, TA=25C ambient reference, CYA1265-101M (100uH) row"
+    },
+    "l23_dcr_max_mohm": {
+      "value": 185,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-cya1265-100uh-c19268674/facts.json#fact-cya1265-rdc-max",
+      "conditions": "maximum DC resistance at 25C, CYA1265-101M (100uH) row"
+    },
+    "d2_if_avg_a": {
+      "value": 3.0,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ss34-c8678/facts.json#fact-ss34-if-avg",
+      "conditions": "maximum average forward rectified current at TL (single phase half-wave 60Hz, resistive or inductive load), shared across the SS32-SS3200 family"
+    },
+    "d2_vf_max_v": {
+      "value": 0.55,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ss34-c8678/facts.json#fact-ss34-vf",
+      "conditions": "maximum instantaneous forward voltage at 3.0A, TA=25C ambient unless otherwise specified"
+    },
+    "d3_if_avg_a": {
+      "value": 5,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-renewal-input-protection/facts.json#fact-c3024223-average-current",
+      "conditions": "Maximum ratings table: single-phase half-wave60 Hz resistive/inductive load; derate 20% for capacitive load. Does not establish current capability in this PCB thermal environment."
+    },
+    "d3_vf_max_v": {
+      "value": 0.52,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-renewal-input-protection/facts.json#fact-c3024223-vf-max-5a-25c",
+      "conditions": "Maximum forward drop at IF = 5 A TJ = 25 C, short pulse to minimize self-heating. Catalog0.46 V is typical, not the maximum."
+    },
+    "lt1963a_dropout_0a5_v": {
+      "value": 0.35,
+      "class": "GUARANTEED_UNSOURCED",
+      "source": ".claude/skills/component-renewal-ldos/facts.json#fact-c459702-dropout-max-0a5",
+      "conditions": "Load current 0.5 A; full-temperature marked row. Actual heat dissipation remains a separate limit."
+    },
+    "lt1963a_dropout_1a5_v": {
+      "value": 0.55,
+      "class": "GUARANTEED_UNSOURCED",
+      "source": ".claude/skills/component-renewal-ldos/facts.json#fact-c459702-dropout-max-1a5",
+      "conditions": "Load current 1.5 A; full-temperature marked row. Apply the E-grade temperature qualification in the datasheet notes and the actual thermal operating limits."
+    },
+    "lt1963a_ground_1a5_a": {
+      "value": 0.12,
+      "class": "GUARANTEED_UNSOURCED",
+      "source": ".claude/skills/component-renewal-ldos/facts.json#fact-c459702-ground-current-max-1a5",
+      "conditions": "Load current 1.5 A, VIN = VOUT + 1 V. This higher-load table value is a thermal screening assumption for the project 1.2 A load, not an independently specified 1.2 A maximum."
+    },
+    "lt3015_dropout_1a5_v": {
+      "value": 0.68,
+      "class": "GUARANTEED_UNSOURCED",
+      "source": ".claude/skills/component-renewal-ldos/facts.json#fact-c666306-dropout-max-1a5",
+      "conditions": "Load current 1.5 A; full-temperature marked row. Apply the E-grade temperature qualification in the datasheet notes and the actual thermal operating limits."
+    },
+    "lt3015_ground_1a5_a": {
+      "value": 0.07,
+      "class": "GUARANTEED_UNSOURCED",
+      "source": ".claude/skills/component-renewal-ldos/facts.json#fact-c666306-ground-current-max-1a5",
+      "conditions": "Load current 1.5 A, measured in dropout. Use 70 mA only as a conservative higher-load thermal screen; the datasheet has no separate 0.8 A maximum. This is not a measurement of operating ground current."
+    },
+    "ldo_characterized_max_a": {
+      "value": 1.5,
+      "class": "PROJECT_ASSUMPTION",
+      "source": "scripts/pcb/calculate-supply-capability.py",
+      "conditions": "Highest load at which the retained LT1963A/LT3015 dropout and ground-current maxima exist; no retained number above it"
+    },
+    "ldo_theta_ja": {
+      "value": null,
+      "class": "UNAVAILABLE",
+      "source": "renewal-ldos",
+      "conditions": "LT1963A theta-JA unavailable; LT3015 14 C/W requires 2500 mm2 per side, versus about 293/253 mm2 fitted"
+    },
+    "tj_screen_c": {
+      "value": 125,
+      "class": "PROJECT_ASSUMPTION",
+      "source": "scripts/pcb/calculate-supply-capability.py",
+      "conditions": "Junction ceiling used by calculate-power-budget.py; not a retained LT1963A/LT3015 fact"
+    },
+    "ptc1_hold_25c_a": {
+      "value": 1.5,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ptc-smd1210p200tf-c20808/facts.json#fact-ptc1b-ihold",
+      "conditions": "maximum current the device will not trip, 25 degC still air"
+    },
+    "ptc2_hold_25c_a": {
+      "value": 1.1,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ptc-msmd110-33v-c70119/facts.json#fact-ptc2-ihold",
+      "conditions": "maximum current the device will not trip, 25 degC still air"
+    },
+    "ptc3_hold_25c_a": {
+      "value": 1.5,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ptc-bsmd1206-150-16v-c883133/facts.json#fact-ptc3-ihold",
+      "conditions": "maximum current the device will not trip, 25 degC still air"
+    },
+    "ptc3_hold_85c_a": {
+      "value": 0.77,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ptc-bsmd1206-150-16v-c883133/facts.json#fact-ptc3-hold-85c",
+      "conditions": "85 degC ambient hold current (thermal derating), one reflow, conventional one-hour hold"
+    },
+    "ptc1_hold_85c_estimate_a": {
+      "value": 0.74,
+      "class": "PROJECT_ASSUMPTION",
+      "source": ".claude/skills/component-ptc-smd1210p200tf-c20808/facts.json#fact-ptc1b-hold-85c",
+      "conditions": "85 degC ambient hold-current derating; the retained family datasheet's Thermal Derating Chart-Ih(A) table has no row for the /16 variant"
+    },
+    "ptc2_r1max_ohm": {
+      "value": 0.25,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ptc-msmd110-33v-c70119/facts.json#fact-ptc2-r1max",
+      "conditions": "maximum device resistance measured post-reflow"
+    },
+    "ptc3_r1max_ohm": {
+      "value": 0.13,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-ptc-bsmd1206-150-16v-c883133/facts.json#fact-ptc3-r1max",
+      "conditions": "maximum device resistance measured 25 degC one hour after tripping or 260C/20s reflow"
+    },
+    "j10_j11_contact_a": {
+      "value": 3,
+      "class": "GUARANTEED_UNSOURCED",
+      "source": ".claude/skills/component-dealon-dw254p-2x8-l0-c4749189/facts.json#fact-dw254p-current",
+      "conditions": "Per-contact maximum from mirrored family drawing; no independent manufacturer retrieval and no applied-current thermal result. Do not multiply this into a certified 6A connector capability."
+    },
+    "j5_contact_a": {
+      "value": 3,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-xfcn-board-headers/facts.json#fact-c2832269-current",
+      "conditions": "AC/DC manufacturer connector rating; installed pair and PCB copper still govern"
+    },
+    "q1_rds_on_4v5_max_ohm": {
+      "value": 0.065,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-umw-ao3401a-c347476/facts.json#fact-umw-ao3401a-rdson",
+      "conditions": "Ta=25 degC electrical-characteristic test points"
+    },
+    "q1_theta_ja_steady": {
+      "value": 125,
+      "class": "GUARANTEED",
+      "source": ".claude/skills/component-umw-ao3401a-c347476/facts.json#fact-umw-ao3401a-thermal",
+      "conditions": "datasheet mounting/test assumptions; board-a copper differs"
+    }
+  },
+  "open_items": [
+    "Converter efficiencies (U2/U3/U4) are unavailable; the input budget is a required-efficiency statement, not a pass.",
+    "LT1963A/LT3015 current limit, theta-JA (as fitted), thermal shutdown and Tj maximum are unavailable; thermal checks are NOT RUN.",
+    "LDO loads above 1.5 A have no retained dropout or ground-current data and are reported as EXCEEDS_EVIDENCE.",
+    "LM2596 inverting startup can draw about 4.5 A for at least 2 ms against the 3 A PD contract (rules.json inverting-startup-vs-pd-source).",
+    "PTC1/PTC2 hold current above 25 C is unavailable; PTC3 holds 0.77 A at 85 C.",
+    "Single-header contact screen assumes one J10/J11 header carries a whole rail; harness distribution is not modeled.",
+    "Q1 conduction at 3 A is screened only against 25 C Rds(on) and steady theta-JA; Board P quiescent draw is not subtracted from the 3 A contract.",
+    "PTC local ambient next to the LDOs is not established; the 85 C rows are not a prediction of that ambient."
+  ],
+  "source_generator": "scripts/pcb/calculate-supply-capability.py",
+  "power_budget_sha256": "68160d62bf93d31e0143b462d38e2110c75c19eda5a21bcf5f91510fe7223f33",
+  "board_b_spec_sha256": "12814d07a8318bc16ab0259ff6baddfd67af3abe01b8824feb5b0885608cff49"
+}

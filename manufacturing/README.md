@@ -13,8 +13,8 @@ on legs with its front/component face down. The separately developed
 earlier HC-11 option's nominal floor-height conflict without changing the PCB or
 JLCPCB package. Physical wire fit, tightening torque, retention, connector
 seating and full-load qualification remain open. Only the current prototype
-package is maintained. No renewal hardware has been released or ordered; the
-active PCB and component records are the design authority.
+package is maintained. Renewal Board B (with zudo-bus) was ordered; no PD Board P
+was ordered. Nothing is released or validated; the active PCB and component records are the design authority.
 
 ## Generate files from checked sources
 
