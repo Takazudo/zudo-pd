@@ -307,14 +307,15 @@ rprop('RRMP', '20k 0.1%', 'REF25', 'RAMP')
 two('CRMP', 'C1U', 'RAMP', 'GND')
 two('CRMP2', 'C470N', 'RAMP', 'GND')   # phase 9: 1.47 uF keeps every clamped slope in the contract
 two('RRMD', 'R100K', 'EN_N', 'RAMP_RST')
-two('CRMD', 'C100N', 'RAMP_RST', 'GND')
+two('CRMD', 'C470N', 'RAMP_RST', 'GND')   # phase 10: 470 nF lets the pre-biased loops reach conduction first
 nfet('Q12', 'RAMP_RST', 'GND', 'RAMP')
 
 # ---------------------------------------------------------------- output switches, tracked
 # +12 = (1 + 69.8k / 10k) x RAMP and +5 = (1 + 23.2k / 10k) x RAMP; U13 runs from VIN.
 # Pre-bias start: while disabled, Q24 (M12_OFFX at P5_SUP) pulls each inverting input up
 # through 100k and a BSS138 body diode (Q59-Q61), so every amplifier rests at its low rail.
-# At enable the gates are released at once, but RAMP stays reset for 12-23 ms (RRMD/CRMD);
+# At enable the gates are released at once, but RAMP stays reset for 56-108 ms (RRMD/CRMD, phase 10;
+# 12-23 ms with 100 nF left each integrator still slewing from its rail at 1.2 uA / 10 nF when RAMP moved);
 # the 10M offsets to M12_PRE set small targets (+85 mV, +28 mV, -52 mV), so each loop
 # brings its pair to the edge of conduction before RAMP moves (no dead-zone wind-up).
 # Phase-7 ngspice runs: 1 nF integrators limit-cycled at no load (-12 V stepped at up to

@@ -123,7 +123,9 @@ UVLO = {'top': 470e3, 'bot': 39e3}   # PROPOSED, every converter EN divider
 # common tracking reference: REF25 -> RRMP 20k -> RAMP, CRMP 1 uF + CRMP2 470 nF (phase 9), loaded by RT12NA 100k
 RAMP_NET = {'R': 20e3, 'C': 1.47e-6, 'C_TOL': 0.10, 'LOAD': 100e3}
 TRACK_K = {'+12': 1 + 69.8e3 / 10e3, '+5': 1 + 23.2e3 / 10e3, '-12': 806e3 / 100e3}
-RAMP_RELEASE = {'R': 100e3, 'C': 100e-9}      # RRMD / CRMD from EN_N to the Q12 gate
+RAMP_RELEASE = {'R': 100e3, 'C': 470e-9}
+PREBIAS_R, PREBIAS_CT = 10e6, 10e-9                # RT12O / RT5O / RT12NO 10M 1 %, CT12 / CT5 / CT12N 10 nF C0G
+PREBIAS_M12_PRE_MIN_V = 12.0                       # PA: M12_PRE magnitude after the -12 V pre-regulator is up      # RRMD / CRMD from EN_N to the Q12 gate (phase 10: was 100 nF)
 SERVO_CI = {'+12': 1.5e-9, '+5': 1.5e-9, '-12': 270e-12}   # PROPOSED C0G integrators
 SERVO_RI = 100e3
 RDY_NET = {'R': 200e3, 'C': 10e-6}            # two C25803 100k + C13585 10 uF
@@ -423,16 +425,26 @@ def ramps():
     out['band_entry_skew_worst_s'] = round(max(c['band_entry_skew_s'] for c in cases), 5)
     out['band_entry_skew_status'] = status(out['band_entry_skew_worst_s'] <= BAND_ENTRY_SKEW_MAX_S)
     out['p5_last_status'] = status(all(c['p5_last'] for c in cases))
-    out['slope_sim_status'] = 'FAIL (SIM)'
-    out['slope_sim_note'] = ('Phase-9 ngspice runs with the drawn clamps: +5 V 0.53-1.03 V/ms (limit 0.51) in every completed run, '
-                             '-12 V up to 1.54 V/ms (limit 1.22) in 2 of 10, from catch-up steps below 0.7 V when a clamp releases.')
+    out['slope_sim_status'] = 'PASS (SIM) at the I_TRANSIENT_MIN load; FAIL (SIM) at no load'
+    out['slope_sim_note'] = ('Phase-10 ngspice runs (manufacturing/sim/board-b20-phase10, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in the '
+                             'four completed loaded runs (all threshold shifts); at no load +5 V 0.85-0.90 V/ms and -12 V 1.21-1.47 V/ms '
+                             '(adv fails the 1.22 row). Phase 9 (100 nF) gave +5 V 0.53-1.03 V/ms in every run. No-load cause: the '
+                             'source-only pairs overshoot their pre-bias targets, cannot pull the output back without a load, and the '
+                             'integrators wind to their rails again before RAMP moves; a requested owner exception covers it.')
     out['start_skew_status'] = 'FAIL (SIM)'
     out['start_skew_note'] = ('Arithmetic cannot bound the time-form start skew (loop dynamics and FET thresholds). '
-                              'The phase-9 ngspice runs with the drawn clamps give 1.16-2.42 ms against 0.41 ms, '
-                              'while the voltage forms it derives from pass in all 10 completed runs; see the draft page section 5c.')
+                              'The phase-10 ngspice runs (CRMD 470 nF) give 2.24-3.93 ms against 0.41 ms (phase 9: 1.16-2.42 ms), '
+                              'while the voltage forms it derives from pass in every completed run; see the draft page section 5d.')
     rr = RAMP_RELEASE['R'] * RAMP_RELEASE['C']
     vsup = REF_V * 0 + 4.98
     out['ramp_release_delay_s'] = [round(rr * math.log(vsup / BSS_VGSTH_MAX), 5), round(rr * math.log(vsup / BSS_VGSTH_MIN_PA), 5)]
+    # Pre-bias climb (phase 10): after enable each tracking integrator leaves its rail at I = |M12_PRE| / 10M on its 10 nF
+    # CT; RAMP must stay reset until every gate reaches conduction. CSD18543Q3A VGS(th) is not in its bundle, so the
+    # climb available before the earliest release is stated, not compared with a threshold.
+    climb = PREBIAS_M12_PRE_MIN_V / (PREBIAS_R * (1 + RJ_TOL)) / PREBIAS_CT
+    out['prebias_gate_climb_v_per_s'] = round(climb, 3)
+    out['prebias_gate_climb_before_release_min_v'] = round(climb * out['ramp_release_delay_s'][0], 3)
+    out['prebias_status'] = 'UNSOURCED (CSD18543Q3A VGS(th) not in bundle); SIM: every loaded run reaches its pre-bias plateau before RAMP moves'
     return out
 
 
@@ -776,6 +788,7 @@ def main():
     for k, v in sq['p5_variants'].items():
         line(f'+5 hold ({k})', 'INFO', f"+5 <= 0.8 V until |-12| >= {v['p5_le_0v8_until_absm12_v']} V (+12 >= {v['p5_le_0v8_until_p12_v']} V), start lag {v['p5_start_lag_s_at_fastest_slope'] * 1e3:.2f} ms, overdrive {v['p5_overdrive_v']} V")
     line('RAMP release delay', 'INFO', f"{rp['ramp_release_delay_s']} s after enable")
+    line('Pre-bias gate climb before RAMP release', 'INFO', f"{rp['prebias_gate_climb_v_per_s']} V/s, >= {rp['prebias_gate_climb_before_release_min_v']} V by the earliest release; {rp['prebias_status']}")
     tm = res['timing']
     line('P5_SUP', tm['p5_sup_status'], f"{tm['p5_sup_v']} V")
     line('POR vs RDY', tm['por_rdy_overlap_status'], f"POR {tm['por_s']} s, RDY {tm['rdy_s']} s")
