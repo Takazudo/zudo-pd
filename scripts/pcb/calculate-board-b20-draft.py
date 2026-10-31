@@ -130,6 +130,7 @@ SERVO_CI = {'+12': 1.5e-9, '+5': 1.5e-9, '-12': 270e-12}   # PROPOSED C0G integr
 SERVO_RI = 100e3
 RDY_NET = {'R': 200e3, 'C': 10e-6}            # two C25803 100k + C13585 10 uF
 POR_NET = {'R': 100e3, 'C': 1e-6}
+HOLD_NET = {'R': 300e3, 'C': 1e-6, 'R_TOL': 0.01, 'C_EFF': (0.6, 1.1)}   # phase 12: RHO1+RHO2 2x C22807 150k, CHO C15849; effective C range is PA (DC bias + tolerance)
 SUP_FB = (52.3e3, 10e3)                       # AP63201 feedback, PROPOSED top / C95204 bottom
 FB_DIV = {'+12': (145e3, 10e3), '+5': (54.9e3, 10e3), '-12': (145e3, 10e3)}   # PROPOSED top 0.1 %, C95204 bottom
 SERVO_RJ = {'+12': 1e6, '+5': 1e6, '-12': 4.7e6}     # PROPOSED 1 % injection resistors
@@ -548,7 +549,15 @@ def timing():
         tau = SERVO_RI * SERVO_CI[rail] / (beta[rail] * g)
         servo[rail] = {'loop_tau_s': round(tau, 5), 'settle_to_0p1pct_s': round(tau * math.log(1000), 5)}
     settle = max(v['settle_to_0p1pct_s'] for v in servo.values())
+    # phase 12 minimum-off interlock: EN_HO charges from P5_SUP after a disable; Q66 completes the set path at its VGS(th)
+    h = HOLD_NET
+    hold = [h['R'] * (1 - h['R_TOL']) * h['C'] * h['C_EFF'][0] * math.log(sup_hi / (sup_hi - BSS_VGSTH_MIN_PA)),
+            h['R'] * (1 + h['R_TOL']) * h['C'] * h['C_EFF'][1] * math.log(sup_lo / (sup_lo - BSS_VGSTH_MAX))]
+    rr = RAMP_RELEASE['R'] * RAMP_RELEASE['C']
+    reset_engaged_max = rr * math.log(sup_lo / (sup_lo - BSS_VGSTH_MAX))
     return {'p5_sup_v': [round(sup_lo, 4), round(sup_hi, 4)],
+            'min_off_hold_s': [round(x, 5) for x in hold], 'ramp_reset_engaged_by_s': round(reset_engaged_max, 5),
+            'min_off_hold_status': status(hold[0] >= reset_engaged_max and hold[1] < t_rdy[0]),
             'p5_sup_status': status(sup_lo >= OPA_SUPPLY[0] and sup_hi <= INA_VS_MAX),
             'por_s': [round(x, 5) for x in t_por], 'rdy_s': [round(x, 5) for x in t_rdy],
             'por_rdy_overlap_status': status(t_rdy[0] > t_por[1]),
@@ -792,6 +801,7 @@ def main():
     tm = res['timing']
     line('P5_SUP', tm['p5_sup_status'], f"{tm['p5_sup_v']} V")
     line('POR vs RDY', tm['por_rdy_overlap_status'], f"POR {tm['por_s']} s, RDY {tm['rdy_s']} s")
+    line('Minimum-off interlock', tm['min_off_hold_status'], f"hold {tm['min_off_hold_s']} s after a disable; RAMP reset engaged by {tm['ramp_reset_engaged_by_s']} s; before RDY {tm['rdy_s'][0]} s")
     line('servo settle before enable', tm['servo_settled_before_enable_status'], ', '.join(f"{r} tau {v['loop_tau_s'] * 1e3:.2f} ms" for r, v in tm['servo'].items()))
     d = res['discharge']
     line('discharge time', d['time_status'], f"{d['times_at_ceiling_zero_load_s']}, hold-up {d['holdup_window_s']} s")

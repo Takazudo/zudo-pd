@@ -41,7 +41,9 @@ the independent review of bad5ddf):
   U5B VIN undervoltage (16.95 V against REF/2). All pull the FAULT_N bus through BSS138s.
 - Latch: Q30/Q31 fault latch on FAULT_N, held reset during power-on by Q32 (POR 10-36 ms).
   Enable latch Q33/Q34 is set by RDY (PDOK valid for 0.21-0.71 s) and reset by the fault
-  latch. Re-plug (loss of P5_SUP) is the only reset.
+  latch. Re-plug (loss of P5_SUP) is the only reset. Phase 12: a minimum-off interlock
+  (Q65/Q66, RHO1/RHO2 300k, CHO 1 uF) blocks the set path for 19-118 ms after any disable or
+  P5_SUP return, so a re-enable never lands inside the RAMP reset window.
 - Discharge hold-up (review finding 8): CDH (10 uF) charges from the enabled-high node
   EN_E through the Q57 body diode and RDH. When EN_E falls (disable, fault or loss of
   P5_SUP), Q56 and Q54 turn on from CDH alone and drive the discharge switches for about
@@ -448,7 +450,16 @@ two('CRDY', 'C10U1206', 'RDY', 'GND')
 # enable latch: EN_N low = enabled; set by RDY while FAULT_N high, reset by FLT_L
 two('REN', 'R10K0805', 'P5_SUP', 'EN_N')
 nfet('Q37', 'RDY', 'EN_SET', 'EN_N')
-nfet('Q38', 'FAULT_N', 'GND', 'EN_SET')
+nfet('Q38', 'FAULT_N', 'EN_HS', 'EN_SET')
+# phase 12 minimum-off interlock: EN_HO is held at GND by Q65 while enabled (EN_E high) and charges from
+# P5_SUP through 300k into 1 uF after any disable or P5_SUP return; Q66 completes the set path only once
+# EN_HO passes its VGS(th), so a re-enable comes at least 19 ms after the disable (0.5 V PA min VGS(th),
+# -40 % effective C, PA) and at most 118 ms (1.5 V max, +10 %), before the earliest RDY (0.21 s).
+two('RHO1', 'R150K', 'P5_SUP', 'EN_HOX')
+two('RHO2', 'R150K', 'EN_HOX', 'EN_HO')
+two('CHO', 'C1U', 'EN_HO', 'GND')
+nfet('Q65', 'EN_E', 'GND', 'EN_HO')
+nfet('Q66', 'EN_HO', 'GND', 'EN_HS')
 nfet('Q33', 'EN_E', 'GND', 'EN_N')
 pfet('Q34', 'P5_SUP', 'EN_N', 'EN_EX')
 two('RE1', 'R4K7', 'EN_EX', 'EN_E')

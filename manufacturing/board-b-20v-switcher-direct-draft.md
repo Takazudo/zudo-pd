@@ -121,7 +121,7 @@ Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprin
 | Discharge resistor pulse rating | **OPEN** | The PROPOSED 1206 loads have no owner record or pulse curve |
 | Disconnect skew ≤ 1 ms (§3) | **PASS (SIM)** | Run `disR`: source current below 10 mA at 21.4 / 20.0 / 24.0 µs after EN_N; skew 4 µs. Gate below 1 V at 15.9 / 16.5 µs |
 | Monotonic common ramp ≥ 10 ms, slope limits (§5) | **PASS (SIM) at the I_TRANSIENT_MIN load; FAIL (SIM) at no load: owner exception requested** | Arithmetic: 0.754 / 0.314 / 0.762 V/ms unclamped and 0.845 / 0.425 / 0.834 V/ms clamped, PASS. Phase 10 (§5d, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in all four completed loaded runs. At no load +5 V reaches 0.85–0.90 V/ms (limit 0.51) and −12 V 1.21–1.47 V/ms (limit 1.22, `adv` fails). Phase 9 failed +5 V in every run |
-| Re-enable inside the RAMP reset window (§5, interrupted ramp) | **PASS (SIM) at ≥ 10 ms off time; FAIL (SIM) slope rows at 6 ms off from steady state** | Phase 11 (§5e), seven loaded nominal runs with softened disable edges: every voltage-form row and band-entry skew holds. Re-enable 6 ms after an in-band disable gives +5 V 1.02 V/ms and −12 V 1.31 V/ms (limits 0.51 / 1.22) |
+| Re-enable inside the RAMP reset window (§5, interrupted ramp) | **PASS (SIM, phase-12 interlock)** | Phase 12 (§5f): the minimum-off interlock holds every re-enable for 18.6–121 ms (arithmetic). All eight re-entry runs at the shortest hold pass every §5 row. Phase 11 (§5e), without the interlock, failed the slope rows at 6 ms off from steady state |
 | Start skew ≤ 0.41 ms (§5) | **Voltage form PASS (SIM, drawn clamps); time form FAIL (SIM)** | Phase 10 (§5d), six completed runs: voltage forms held (worst +12 V 0.433 V while \|−12\| < 0.1 V; \|−12\| 0.523 V while +12 V ≤ 0.5 V); ramp start skew 2.24–3.93 ms. Phase 9 (§5c), ten completed runs: +12 V ≤ 0.408 V while \|−12\| < 0.1 V (limit 0.5 V); \|−12\| ≤ 0.72 V while +12 V ≤ 0.5 V (limit 6 V). Ramp start skew is 1.16–2.42 ms. The 0.41 ms row is the time form of the +12 V-alone limit at the fastest slope; the clamps meet the voltage form without it. Arithmetic: ≤ 0.411 V and ≤ 0.553 V |
 | Band-entry skew ≤ 2 ms; +5 V up last (§5) | **PASS (SIM)** | Phase 10: 0.79–0.88 ms, +5 V last in every completed run. Phase 9: 0.74–0.83 ms; +5 V last in every completed run. Arithmetic: 1.500 ms |
 | +12 V lead over \|−12 V\| ≤ 0.5 V (review finding 5) | **PASS (SIM)** | Phase 10: at most 0.36 V; \|−12\| leads by up to 0.29 V. Phase 9: at most 0.33 V; \|−12\| leads +12 by up to 0.31 V |
@@ -453,20 +453,53 @@ point the rails have not discharged (0.07 / 0.12 / 0.09 V) and RAMP is at 0.049 
 1.02 V/ms between 0.02 and 0.40 V, and −12 V at 1.31 V/ms between 0.18 and 0.50 V. The +5 V step is
 above the 0.90 V/ms no-load exception requested in §5d. The −12 V step is inside the requested 1.47 V/ms
 bound. The rails sit above their pre-bias targets at re-enable, so the steps are likely the §5d no-load
-mechanism (inference, not traced). Mid-ramp disables do not break any row at any delay. A cheap way to
-avoid the case is a minimum EN_N off time of about 10 ms, enforced by the OSC side. Whether that becomes a
-contract row, or the exception widens, is a question for OSC. During the off interval itself the rails
+mechanism (inference, not traced). Mid-ramp disables do not break any row at any delay. Phase 12 (§5f) closes the case on the PD side with a
+minimum-off interlock instead of an OSC timing rule. During the off interval itself the rails
 fall at up to 11 V/ms and leave the start rows: +5 V reaches 1.14 V while an analog rail is below
 1.45 V, and +12 − |−12| reaches −0.67 V. That interval belongs to the OPEN discharge-order row.
+
+### 5f. Phase 12: minimum-off interlock (PD side)
+
+**Change (drawn).** The enable latch can no longer be set until a hold-off has run after any disable
+or P5_SUP return. Q65 (BSS138, gate EN_E) holds EN_HO at GND while enabled. After a disable, EN_HO
+charges from P5_SUP through RHO1 + RHO2 (2 × 150k, C22807) into CHO (1 µF, C15849). Q66 (BSS138) sits in
+series with Q38 in the RDY set path and closes only once EN_HO passes its VGS(th). The latch holds through
+Q33 / Q34 as before, so Q65 resetting EN_HO does not drop an enable. A P5_SUP brownout leaves EN_HO at
+GND (it was held there while enabled), so the hold runs again when P5_SUP returns.
+
+**Arithmetic** (`calculate-board-b20-draft.py`, PASS on tagged inputs). The hold is 18.6–121 ms. The short
+end uses VGS(th) 0.5 V (PA minimum; the bundle has only the 1.5 V maximum), CHO at 0.6 µF effective (−40 %,
+DC bias and tolerance PA) and P5_SUP high. The long end uses 1.5 V, 1.1 µF and P5_SUP low. The RAMP reset
+is engaged by 17.1 ms at the latest, so every re-enable lands after it. 121 ms is below the earliest RDY
+(214 ms), so the first start is not delayed. Cost: +2 × C22807, +1 × C15849, +2 × C40912. That is
+USD 0.11 per board at the 2026-10-31 catalog tiers, and adds no new BOM line.
+
+**Simulation** (`manufacturing/sim/board-b20-phase12/`, 14 runs, all completed). The decks use the shortest
+hold (0.5 V, 0.6 µF: 19 ms) and a behavioural model of the latch.
+
+| Runs | Effective re-enable after disable | Max slope V/ms +12 / +5 / −12 | +12 V while \|−12\| < 0.1 V | +12 − \|−12\| | Band-entry skew; +5 V last | Result |
+|---|---|---|---|---|---|---|
+| reB6 / reB10 / reB14 / reB20 (in-band disable) | 19.1 / 19.1 / 19.2 / 21.2 ms | 0.32 / 0.13 / 0.32 | ≤ 0.126 V | −0.162 / +0.035 V | 0.79–0.80 ms; yes | **PASS (SIM)** |
+| reR6 / reR10 / reR14 / reR20 (mid-ramp disable) | 19.1 / 19.1 / 19.2 / 21.2 ms | 0.32 / 0.13 / 0.32 | ≤ 0.126 V | −0.162 / +0.035 V | 0.79–0.80 ms; yes | **PASS (SIM)** |
+| nomR / advR / revR (loaded start) | enable at 40.5 ms (hold already run) | 0.32 / 0.13 / 0.32 | ≤ 0.126 V | −0.162 / +0.089 V | 0.79 ms; yes | **PASS (SIM)**, same as §5d |
+| adv / rev (no-load start) | same | 0.32–0.45 / 0.85–0.90 / 1.21–1.47 | ≤ 0.433 V | −0.293 / +0.364 V | 0.87–0.88 ms; yes | **FAIL (SIM)** slope rows, same as §5d |
+| nom (no-load start; failed in phase 10, completes now with rshunt 1e9) | same | 0.35 / **0.94** / 0.84 | 0.144 V | −0.197 / +0.100 V | 0.88 ms; yes | **FAIL (SIM)** +5 V slope |
+
+In every run |−12| stays ≤ 0.60 V while +12 V ≤ 0.5 V, ≤ 5.36 V while +12 V < 5.2 V, and +5 V
+≤ 0.637 V while an analog rail is below 1.45 V. The phase-11 failure (re-enable 6 ms after an in-band
+disable) no longer occurs: the request waits for the hold. **New finding:** the `nom` no-load start,
+which phase 10 could not complete, gives +5 V 0.94 V/ms. That is above the 0.90 V/ms bound of the
+requested no-load exception (§5d). The exception would have to state ≤ 0.95 V/ms, or the no-load step
+needs a fix. This is an OSC question.
 
 ## 6. Checks run on this draft
 
 | Check | Result |
 |---|---|
-| `gen_schematic.py` | PASS: 262 components, 735 pin specs (phase 10: CRMD 470 nF) |
-| `verify_geometry.py` | PASS: 728 spec pins matched (phase 10) |
-| KiCad 10.0.6 native ERC (pinned image; phase 10 serialised through `flock`) | exit 0. 0 errors and 26 warnings (unchanged in phase 10): 21 missing `*_DRAFT` footprints and 5 `pin_to_pin` warnings on J5's unspecified pins. Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
-| KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 137 nets, 735 nodes (phase 10) |
+| `gen_schematic.py` | PASS: 267 components, 747 pin specs (phase 12: minimum-off interlock) |
+| `verify_geometry.py` | PASS: 740 spec pins matched (phase 12) |
+| KiCad 10.0.6 native ERC (pinned image; phase 10 serialised through `flock`) | exit 0. 0 errors and 26 warnings (unchanged in phase 12): 21 missing `*_DRAFT` footprints and 5 `pin_to_pin` warnings on J5's unspecified pins. Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
+| KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 140 nets, 747 nodes (phase 12) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
 | PCB, DRC, BOM/CPL | NOT RUN: there is no PCB, by request |

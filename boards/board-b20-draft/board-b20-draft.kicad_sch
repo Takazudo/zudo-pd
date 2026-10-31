@@ -2751,6 +2751,160 @@
 				)
 				(embedded_fonts no)
 			)
+		(symbol "zudo-pd:0603WAF1503T5E"
+				(exclude_from_sim no)
+				(in_bom yes)
+				(on_board yes)
+				(in_pos_files yes)
+				(duplicate_pin_numbers_are_jumpers no)
+				(property "Reference" "R"
+					(at 0 5.08 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Value" "0603WAF1503T5E"
+					(at 0 -5.08 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Footprint" "zudo-pd:R0603"
+					(at 0 -7.62 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Datasheet" "https://lcsc.com/product-detail/Chip-Resistor-Surface-Mount-UniOhm_150KR-1503-1_C22807.html"
+					(at 0 -10.16 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Description" "150KΩ (1503) ±1%"
+					(at 0 0 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Manufacturer" "UNI-ROYAL(厚声)"
+					(at 0 -12.7 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "MPN" "0603WAF1503T5E"
+					(at 0 -15.24 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "LCSC Part" "C22807"
+					(at 0 -17.78 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "ki_keywords" "Resistors"
+					(at 0 0 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(symbol "0603WAF1503T5E_0_1"
+					(rectangle
+						(start -2.54 1.02)
+						(end 2.54 -1.02)
+						(stroke
+							(width 0)
+							(type default)
+						)
+						(fill
+							(type background)
+						)
+					)
+					(pin passive line
+						(at -5.08 0 0)
+						(length 2.54)
+						(name "1"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+						(number "1"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+					)
+					(pin passive line
+						(at 5.08 0 180)
+						(length 2.54)
+						(name "2"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+						(number "2"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+					)
+				)
+				(embedded_fonts no)
+			)
 		(symbol "zudo-pd:RT0603BRD07174KL"
 		    (in_bom yes)
 		    (on_board yes)
@@ -10988,27 +11142,27 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:BSS138-7-F")
+		(lib_id "zudo-pd:0603WAF1503T5E")
 		(at 939.8 330.2 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "d6d3c2ac-9e4f-5251-bb7a-72e5e8c9658f")
-		(property "Reference" "Q33"
-			(at 939.8 323.85 0)
+		(uuid "f26e6898-a185-5f8b-a646-a0673b8543f1")
+		(property "Reference" "RHO1"
+			(at 939.8 325.12 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Value" "BSS138-7-F"
-			(at 939.8 336.55 0)
+		(property "Value" "150k"
+			(at 939.8 335.28 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
+		(property "Footprint" "zudo-pd:R0603"
 			(at 939.8 330.2 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -11022,8 +11176,242 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C40912"
+		(property "LCSC" "C22807"
 			(at 939.8 337.82 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "35c9497f-a968-5c6c-bde1-93cfe9ab5759")
+		)
+		(pin "2"
+			(uuid "4a038174-f4e9-5a79-8f17-d1da2622072a")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "RHO1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:0603WAF1503T5E")
+		(at 990.6 330.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f23b7124-a3b8-5527-adb6-d3f912450c88")
+		(property "Reference" "RHO2"
+			(at 990.6 325.12 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "150k"
+			(at 990.6 335.28 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:R0603"
+			(at 990.6 330.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 990.6 330.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C22807"
+			(at 990.6 337.82 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d0926778-c45f-585c-8b39-d08b0b6cdaee")
+		)
+		(pin "2"
+			(uuid "a9334832-6b15-5992-b991-dd43d6182b70")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "RHO2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:BSS138-7-F")
+		(at 1092.2 330.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "80cc61e3-63b4-5471-9137-0981f60d6c2c")
+		(property "Reference" "Q65"
+			(at 1092.2 323.85 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BSS138-7-F"
+			(at 1092.2 336.55 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
+			(at 1092.2 330.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 1092.2 330.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C40912"
+			(at 1092.2 337.82 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a2250f56-cf81-56bd-a4d3-84caaa2c5a2d")
+		)
+		(pin "2"
+			(uuid "d1b92daf-e952-54cc-84d8-876736298ea4")
+		)
+		(pin "3"
+			(uuid "a7fca813-db7a-524a-adec-17bfdb2f043d")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "Q65")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:BSS138-7-F")
+		(at 25.4 360.68 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5dc6ae39-236e-5602-9e44-c2b671abcd0e")
+		(property "Reference" "Q66"
+			(at 25.4 354.33 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BSS138-7-F"
+			(at 25.4 367.03 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
+			(at 25.4 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 25.4 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C40912"
+			(at 25.4 368.3 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "80891c15-fa03-5712-952e-78a49032fcd8")
+		)
+		(pin "2"
+			(uuid "56b401b8-4bb7-51f5-9361-713fe0ad59f9")
+		)
+		(pin "3"
+			(uuid "962c657f-2744-577a-b51f-fa09227fccd1")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "Q66")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:BSS138-7-F")
+		(at 76.2 360.68 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d6d3c2ac-9e4f-5251-bb7a-72e5e8c9658f")
+		(property "Reference" "Q33"
+			(at 76.2 354.33 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BSS138-7-F"
+			(at 76.2 367.03 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
+			(at 76.2 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 76.2 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C40912"
+			(at 76.2 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11049,7 +11437,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:DMP3036SFG-7")
-		(at 990.6 330.2 0)
+		(at 127 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11057,33 +11445,33 @@
 		(dnp no)
 		(uuid "4264d5fd-1114-5c84-9e9b-192957ff0e72")
 		(property "Reference" "Q34"
-			(at 990.6 320.04 0)
+			(at 127 350.52 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "DMP3036SFG-7"
-			(at 990.6 340.36 0)
+			(at 127 370.84 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:PowerDI3333-8_DMP3036SFG"
-			(at 990.6 330.2 0)
+			(at 127 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 990.6 330.2 0)
+			(at 127 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C461081"
-			(at 990.6 337.82 0)
+			(at 127 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11127,7 +11515,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:0603WAF4701T5E")
-		(at 1041.4 330.2 0)
+		(at 177.8 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11135,33 +11523,33 @@
 		(dnp no)
 		(uuid "6d4472c2-7e9c-5441-8ec2-5f6f31290813")
 		(property "Reference" "RE1"
-			(at 1041.4 325.12 0)
+			(at 177.8 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "4.7k"
-			(at 1041.4 335.28 0)
+			(at 177.8 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R0603"
-			(at 1041.4 330.2 0)
+			(at 177.8 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 1041.4 330.2 0)
+			(at 177.8 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C23162"
-			(at 1041.4 337.82 0)
+			(at 177.8 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11184,7 +11572,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:0603WAF1003T5E")
-		(at 1092.2 330.2 0)
+		(at 228.6 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11192,33 +11580,33 @@
 		(dnp no)
 		(uuid "faeb4f04-53d8-5fcf-89b7-dd9c9cbc8712")
 		(property "Reference" "RE2"
-			(at 1092.2 325.12 0)
+			(at 228.6 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "100k"
-			(at 1092.2 335.28 0)
+			(at 228.6 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R0603"
-			(at 1092.2 330.2 0)
+			(at 228.6 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 1092.2 330.2 0)
+			(at 228.6 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C25803"
-			(at 1092.2 337.82 0)
+			(at 228.6 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11241,7 +11629,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:BSS138-7-F")
-		(at 25.4 360.68 0)
+		(at 279.4 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11249,186 +11637,6 @@
 		(dnp no)
 		(uuid "b77915b3-4040-5251-bd02-2e46c7ea215b")
 		(property "Reference" "Q39"
-			(at 25.4 354.33 0)
-			(effects
-				(font (size 1.27 1.27))
-			)
-		)
-		(property "Value" "BSS138-7-F"
-			(at 25.4 367.03 0)
-			(effects
-				(font (size 1.27 1.27))
-			)
-		)
-		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
-			(at 25.4 360.68 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 25.4 360.68 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C40912"
-			(at 25.4 368.3 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "96448ead-0dd3-55a1-8c2f-f2e3b87a7c0e")
-		)
-		(pin "2"
-			(uuid "e8461636-6756-5752-bc0b-d5f59a9b913c")
-		)
-		(pin "3"
-			(uuid "7d70c810-63aa-5b88-97c6-5942a02eb43d")
-		)
-		(instances
-			(project "board-b20-draft"
-				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
-					(reference "Q39")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "zudo-pd:BSS138-7-F")
-		(at 177.8 360.68 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "fb374687-f4c3-52d7-84a3-30c36be73986")
-		(property "Reference" "Q48"
-			(at 177.8 354.33 0)
-			(effects
-				(font (size 1.27 1.27))
-			)
-		)
-		(property "Value" "BSS138-7-F"
-			(at 177.8 367.03 0)
-			(effects
-				(font (size 1.27 1.27))
-			)
-		)
-		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
-			(at 177.8 360.68 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 177.8 360.68 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C40912"
-			(at 177.8 368.3 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4f2500fd-9f9a-51f3-8748-b81ac21e7f7b")
-		)
-		(pin "2"
-			(uuid "050c4e80-fc15-5423-9abd-eba0a71c43ce")
-		)
-		(pin "3"
-			(uuid "9acb1d76-264a-517c-ab6d-bdd44c93dce5")
-		)
-		(instances
-			(project "board-b20-draft"
-				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
-					(reference "Q48")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "zudo-pd:BSS138-7-F")
-		(at 228.6 360.68 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "1d129017-c2c0-5bfe-836e-321eb0d0b7a4")
-		(property "Reference" "Q49"
-			(at 228.6 354.33 0)
-			(effects
-				(font (size 1.27 1.27))
-			)
-		)
-		(property "Value" "BSS138-7-F"
-			(at 228.6 367.03 0)
-			(effects
-				(font (size 1.27 1.27))
-			)
-		)
-		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
-			(at 228.6 360.68 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 228.6 360.68 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C40912"
-			(at 228.6 368.3 0)
-			(effects
-				(font (size 1.27 1.27))
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d4b160a0-3e1e-52c4-871e-a7bdb879943e")
-		)
-		(pin "2"
-			(uuid "b62fda49-dcea-5f9e-b413-8ea85282b5f5")
-		)
-		(pin "3"
-			(uuid "da71d47f-7f47-5be5-8f9f-bee5874cc900")
-		)
-		(instances
-			(project "board-b20-draft"
-				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
-					(reference "Q49")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "zudo-pd:BSS138-7-F")
-		(at 279.4 360.68 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "635a904b-47cc-5d3e-a3e9-c3d056fcc07d")
-		(property "Reference" "Q50"
 			(at 279.4 354.33 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -11462,6 +11670,186 @@
 			)
 		)
 		(pin "1"
+			(uuid "96448ead-0dd3-55a1-8c2f-f2e3b87a7c0e")
+		)
+		(pin "2"
+			(uuid "e8461636-6756-5752-bc0b-d5f59a9b913c")
+		)
+		(pin "3"
+			(uuid "7d70c810-63aa-5b88-97c6-5942a02eb43d")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "Q39")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:BSS138-7-F")
+		(at 431.8 360.68 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "fb374687-f4c3-52d7-84a3-30c36be73986")
+		(property "Reference" "Q48"
+			(at 431.8 354.33 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BSS138-7-F"
+			(at 431.8 367.03 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
+			(at 431.8 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 431.8 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C40912"
+			(at 431.8 368.3 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4f2500fd-9f9a-51f3-8748-b81ac21e7f7b")
+		)
+		(pin "2"
+			(uuid "050c4e80-fc15-5423-9abd-eba0a71c43ce")
+		)
+		(pin "3"
+			(uuid "9acb1d76-264a-517c-ab6d-bdd44c93dce5")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "Q48")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:BSS138-7-F")
+		(at 482.6 360.68 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1d129017-c2c0-5bfe-836e-321eb0d0b7a4")
+		(property "Reference" "Q49"
+			(at 482.6 354.33 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BSS138-7-F"
+			(at 482.6 367.03 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
+			(at 482.6 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 482.6 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C40912"
+			(at 482.6 368.3 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d4b160a0-3e1e-52c4-871e-a7bdb879943e")
+		)
+		(pin "2"
+			(uuid "b62fda49-dcea-5f9e-b413-8ea85282b5f5")
+		)
+		(pin "3"
+			(uuid "da71d47f-7f47-5be5-8f9f-bee5874cc900")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "Q49")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:BSS138-7-F")
+		(at 533.4 360.68 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "635a904b-47cc-5d3e-a3e9-c3d056fcc07d")
+		(property "Reference" "Q50"
+			(at 533.4 354.33 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BSS138-7-F"
+			(at 533.4 367.03 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
+			(at 533.4 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 533.4 360.68 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C40912"
+			(at 533.4 368.3 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
 			(uuid "79ff0656-2de7-5ffb-85b8-8e863cc63012")
 		)
 		(pin "2"
@@ -11481,7 +11869,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:BSS138-7-F")
-		(at 330.2 360.68 0)
+		(at 584.2 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11489,33 +11877,33 @@
 		(dnp no)
 		(uuid "285b2f3c-e47d-5737-89f8-a4f497c1f30a")
 		(property "Reference" "Q57"
-			(at 330.2 354.33 0)
+			(at 584.2 354.33 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "BSS138-7-F"
-			(at 330.2 367.03 0)
+			(at 584.2 367.03 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
-			(at 330.2 360.68 0)
+			(at 584.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 330.2 360.68 0)
+			(at 584.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C40912"
-			(at 330.2 368.3 0)
+			(at 584.2 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11541,7 +11929,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:DMP3036SFG-7")
-		(at 482.6 360.68 0)
+		(at 736.6 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11549,33 +11937,33 @@
 		(dnp no)
 		(uuid "6d7d7e48-0ef1-5199-80c8-f401ebe7c093")
 		(property "Reference" "Q56"
-			(at 482.6 350.52 0)
+			(at 736.6 350.52 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "DMP3036SFG-7"
-			(at 482.6 370.84 0)
+			(at 736.6 370.84 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:PowerDI3333-8_DMP3036SFG"
-			(at 482.6 360.68 0)
+			(at 736.6 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 482.6 360.68 0)
+			(at 736.6 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C461081"
-			(at 482.6 368.3 0)
+			(at 736.6 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11619,7 +12007,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:0603WAF1003T5E")
-		(at 533.4 360.68 0)
+		(at 787.4 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11627,33 +12015,33 @@
 		(dnp no)
 		(uuid "79e589ba-6a0a-5898-8e50-d4185f73a084")
 		(property "Reference" "R60"
-			(at 533.4 355.6 0)
+			(at 787.4 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "100k"
-			(at 533.4 365.76 0)
+			(at 787.4 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R0603"
-			(at 533.4 360.68 0)
+			(at 787.4 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 533.4 360.68 0)
+			(at 787.4 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C25803"
-			(at 533.4 368.3 0)
+			(at 787.4 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11676,7 +12064,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:BSS138-7-F")
-		(at 584.2 360.68 0)
+		(at 838.2 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11684,33 +12072,33 @@
 		(dnp no)
 		(uuid "af411648-a8b1-5bab-8af8-23988f331eaf")
 		(property "Reference" "Q51"
-			(at 584.2 354.33 0)
+			(at 838.2 354.33 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "BSS138-7-F"
-			(at 584.2 367.03 0)
+			(at 838.2 367.03 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
-			(at 584.2 360.68 0)
+			(at 838.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 584.2 360.68 0)
+			(at 838.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C40912"
-			(at 584.2 368.3 0)
+			(at 838.2 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11736,7 +12124,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:R_PROPOSED")
-		(at 635 360.68 0)
+		(at 889 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -11744,26 +12132,26 @@
 		(dnp no)
 		(uuid "8babcfcf-2b36-5c83-9394-3424efc014e2")
 		(property "Reference" "RX12"
-			(at 635 355.6 0)
+			(at 889 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "100 1% 1206"
-			(at 635 365.76 0)
+			(at 889 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R1206_DRAFT"
-			(at 635 360.68 0)
+			(at 889 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 635 360.68 0)
+			(at 889 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11786,7 +12174,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:BSS138-7-F")
-		(at 685.8 360.68 0)
+		(at 939.8 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11794,33 +12182,33 @@
 		(dnp no)
 		(uuid "d0674678-5021-5c19-99eb-ee3a83c02722")
 		(property "Reference" "Q52"
-			(at 685.8 354.33 0)
+			(at 939.8 354.33 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "BSS138-7-F"
-			(at 685.8 367.03 0)
+			(at 939.8 367.03 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
-			(at 685.8 360.68 0)
+			(at 939.8 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 685.8 360.68 0)
+			(at 939.8 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C40912"
-			(at 685.8 368.3 0)
+			(at 939.8 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11846,7 +12234,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:R_PROPOSED")
-		(at 736.6 360.68 0)
+		(at 990.6 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -11854,26 +12242,26 @@
 		(dnp no)
 		(uuid "732b8c85-23ee-52c6-bf10-9723c60d092d")
 		(property "Reference" "RX5"
-			(at 736.6 355.6 0)
+			(at 990.6 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "33 1% 1206"
-			(at 736.6 365.76 0)
+			(at 990.6 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R1206_DRAFT"
-			(at 736.6 360.68 0)
+			(at 990.6 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 736.6 360.68 0)
+			(at 990.6 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11896,7 +12284,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:DMP3036SFG-7")
-		(at 787.4 360.68 0)
+		(at 1041.4 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11904,33 +12292,33 @@
 		(dnp no)
 		(uuid "be065670-fda5-5ee0-9f50-c10f5b2e9a94")
 		(property "Reference" "Q54"
-			(at 787.4 350.52 0)
+			(at 1041.4 350.52 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "DMP3036SFG-7"
-			(at 787.4 370.84 0)
+			(at 1041.4 370.84 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:PowerDI3333-8_DMP3036SFG"
-			(at 787.4 360.68 0)
+			(at 1041.4 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 787.4 360.68 0)
+			(at 1041.4 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C461081"
-			(at 787.4 368.3 0)
+			(at 1041.4 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -11974,7 +12362,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:R_PROPOSED")
-		(at 838.2 360.68 0)
+		(at 1092.2 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -11982,26 +12370,26 @@
 		(dnp no)
 		(uuid "9582f8f1-296c-5b9d-b006-dc1ca42021fc")
 		(property "Reference" "R61"
-			(at 838.2 355.6 0)
+			(at 1092.2 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "470k 1%"
-			(at 838.2 365.76 0)
+			(at 1092.2 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R0603"
-			(at 838.2 360.68 0)
+			(at 1092.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 838.2 360.68 0)
+			(at 1092.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -12024,7 +12412,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:R_PROPOSED")
-		(at 889 360.68 0)
+		(at 25.4 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -12032,26 +12420,26 @@
 		(dnp no)
 		(uuid "6b2ec116-85bf-524a-aafb-130494c1b68f")
 		(property "Reference" "R62"
-			(at 889 355.6 0)
+			(at 25.4 386.08 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "1M 1%"
-			(at 889 365.76 0)
+			(at 25.4 396.24 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R0603"
-			(at 889 360.68 0)
+			(at 25.4 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 889 360.68 0)
+			(at 25.4 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -12074,7 +12462,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:BSS138-7-F")
-		(at 939.8 360.68 0)
+		(at 76.2 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12082,33 +12470,33 @@
 		(dnp no)
 		(uuid "322de8b2-be76-5ba1-b177-0e9c51e3f18b")
 		(property "Reference" "Q55"
-			(at 939.8 354.33 0)
+			(at 76.2 384.81 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "BSS138-7-F"
-			(at 939.8 367.03 0)
+			(at 76.2 397.51 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED"
-			(at 939.8 360.68 0)
+			(at 76.2 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 939.8 360.68 0)
+			(at 76.2 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C40912"
-			(at 939.8 368.3 0)
+			(at 76.2 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -18501,8 +18889,65 @@
 		)
 	)
 	(symbol
+		(lib_id "zudo-pd:CL10A105KB8NNNC")
+		(at 1041.4 330.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00e714a8-d351-5ce6-b147-9244cd1192dd")
+		(property "Reference" "C40"
+			(at 1041.4 325.12 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "1uF 50V"
+			(at 1041.4 335.28 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:C0603"
+			(at 1041.4 330.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 1041.4 330.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C15849"
+			(at 1041.4 337.82 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dd116fbf-1872-5107-84e5-46084a970322")
+		)
+		(pin "2"
+			(uuid "074bd468-80a0-5bac-91d5-430f2f51af5f")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "C40")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "zudo-pd:0603WAF1003T5E")
-		(at 76.2 360.68 0)
+		(at 330.2 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18510,33 +18955,33 @@
 		(dnp no)
 		(uuid "81d1e26d-4a0f-5d79-b9c2-5c83f6a7a391")
 		(property "Reference" "R74"
-			(at 76.2 355.6 0)
+			(at 330.2 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "100k"
-			(at 76.2 365.76 0)
+			(at 330.2 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R0603"
-			(at 76.2 360.68 0)
+			(at 330.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 76.2 360.68 0)
+			(at 330.2 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C25803"
-			(at 76.2 368.3 0)
+			(at 330.2 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -18559,56 +19004,56 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:CL31A106KBHNNNE")
-		(at 127 360.68 0)
+		(at 381 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "00e714a8-d351-5ce6-b147-9244cd1192dd")
-		(property "Reference" "C40"
-			(at 127 355.6 0)
+		(uuid "47f0103c-c5af-56f0-9a7a-ecaa874cf0b7")
+		(property "Reference" "C41"
+			(at 381 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "10uF 50V"
-			(at 127 365.76 0)
+			(at 381 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:C1206"
-			(at 127 360.68 0)
+			(at 381 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 127 360.68 0)
+			(at 381 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C13585"
-			(at 127 368.3 0)
+			(at 381 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(pin "1"
-			(uuid "dd116fbf-1872-5107-84e5-46084a970322")
+			(uuid "1c55476d-cbfc-52b6-88b8-ed7d6846172a")
 		)
 		(pin "2"
-			(uuid "074bd468-80a0-5bac-91d5-430f2f51af5f")
+			(uuid "563c0c93-a5ca-5b04-835f-eded1e8b0e14")
 		)
 		(instances
 			(project "board-b20-draft"
 				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
-					(reference "C40")
+					(reference "C41")
 					(unit 1)
 				)
 			)
@@ -18616,7 +19061,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:0603WAF5602T5E")
-		(at 381 360.68 0)
+		(at 635 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18624,33 +19069,33 @@
 		(dnp no)
 		(uuid "fc13819f-cf64-5c30-a8a5-2ed7b47f0a9a")
 		(property "Reference" "R75"
-			(at 381 355.6 0)
+			(at 635 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "56k"
-			(at 381 365.76 0)
+			(at 635 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R0603"
-			(at 381 360.68 0)
+			(at 635 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 381 360.68 0)
+			(at 635 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C23206"
-			(at 381 368.3 0)
+			(at 635 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -18673,56 +19118,56 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:CL31A106KBHNNNE")
-		(at 431.8 360.68 0)
+		(at 685.8 360.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "47f0103c-c5af-56f0-9a7a-ecaa874cf0b7")
-		(property "Reference" "C41"
-			(at 431.8 355.6 0)
+		(uuid "82bbb6f0-4fc4-591e-852e-ef69aa4216b1")
+		(property "Reference" "C42"
+			(at 685.8 355.6 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "10uF 50V"
-			(at 431.8 365.76 0)
+			(at 685.8 365.76 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:C1206"
-			(at 431.8 360.68 0)
+			(at 685.8 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 431.8 360.68 0)
+			(at 685.8 360.68 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "LCSC" "C13585"
-			(at 431.8 368.3 0)
+			(at 685.8 368.3 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(pin "1"
-			(uuid "1c55476d-cbfc-52b6-88b8-ed7d6846172a")
+			(uuid "5d6e7c17-b808-519d-8e20-6f4e523d0363")
 		)
 		(pin "2"
-			(uuid "563c0c93-a5ca-5b04-835f-eded1e8b0e14")
+			(uuid "c3ce3cf6-3ee0-50f1-9d9d-606f7aa77624")
 		)
 		(instances
 			(project "board-b20-draft"
 				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
-					(reference "C41")
+					(reference "C42")
 					(unit 1)
 				)
 			)
@@ -18730,7 +19175,7 @@
 	)
 	(symbol
 		(lib_id "zudo-pd:R_PROPOSED")
-		(at 990.6 360.68 0)
+		(at 127 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -18738,26 +19183,26 @@
 		(dnp no)
 		(uuid "28bbe835-46f7-557a-b806-dec0d4b46584")
 		(property "Reference" "R76"
-			(at 990.6 355.6 0)
+			(at 127 386.08 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Value" "150 1% 1206"
-			(at 990.6 365.76 0)
+			(at 127 396.24 0)
 			(effects
 				(font (size 1.27 1.27))
 			)
 		)
 		(property "Footprint" "zudo-pd:R1206_DRAFT"
-			(at 990.6 360.68 0)
+			(at 127 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
-			(at 990.6 360.68 0)
+			(at 127 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
@@ -19017,7 +19462,7 @@
 	)
 	(global_label "PDOK"
 		(shape passive)
-		(at 271.78 359.41 180)
+		(at 525.78 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -20034,43 +20479,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 881.38 331.47 180)
-		(effects
-			(font (size 1.27 1.27))
-			(justify right)
-		)
-		(uuid "024473bf-960a-576a-a336-e8cd9cbdaffe")
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 932.18 331.47 180)
-		(effects
-			(font (size 1.27 1.27))
-			(justify right)
-		)
-		(uuid "762630ba-c5ca-50a8-8942-5ed59b0b5fd8")
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 1097.28 330.2 0)
-		(effects
-			(font (size 1.27 1.27))
-			(justify left)
-		)
-		(uuid "6c64402a-b559-5309-95d8-7b744caa4568")
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 17.78 361.95 180)
-		(effects
-			(font (size 1.27 1.27))
-			(justify right)
-		)
-		(uuid "152c56ca-8171-52f6-8658-fb872c64c851")
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 130.81 360.68 0)
+		(at 1046.48 330.2 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -20079,25 +20488,52 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 170.18 361.95 180)
+		(at 1084.58 331.47 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "52675ebf-8aa1-53de-850f-a99f459dbb4b")
+		(uuid "1ea5f465-942b-55ea-9f8a-dd0b3541424a")
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 220.98 361.95 180)
+		(at 17.78 361.95 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "a4f4f82e-34c5-5ee9-bfc0-a2c8272c5720")
+		(uuid "587a8cef-5511-5af4-bb6c-e892862848a9")
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 435.61 360.68 0)
+		(at 68.58 361.95 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "762630ba-c5ca-50a8-8942-5ed59b0b5fd8")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 233.68 360.68 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "6c64402a-b559-5309-95d8-7b744caa4568")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 271.78 361.95 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "152c56ca-8171-52f6-8658-fb872c64c851")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 384.81 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -20106,7 +20542,34 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 538.48 360.68 0)
+		(at 424.18 361.95 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "52675ebf-8aa1-53de-850f-a99f459dbb4b")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 474.98 361.95 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "a4f4f82e-34c5-5ee9-bfc0-a2c8272c5720")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 689.61 360.68 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "1459cdf6-125c-5a16-ba3e-65fbd086e37f")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 792.48 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -20115,7 +20578,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 576.58 361.95 180)
+		(at 830.58 361.95 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -20124,7 +20587,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 678.18 361.95 180)
+		(at 932.18 361.95 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -20133,7 +20596,7 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 980.44 360.68 180)
+		(at 116.84 391.16 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -20232,7 +20695,7 @@
 	)
 	(global_label "M12_OUT"
 		(shape passive)
-		(at 899.16 360.68 0)
+		(at 35.56 391.16 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -20241,7 +20704,7 @@
 	)
 	(global_label "M12_OUT"
 		(shape passive)
-		(at 932.18 361.95 180)
+		(at 68.58 392.43 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -20331,7 +20794,7 @@
 	)
 	(global_label "P5_OUT"
 		(shape passive)
-		(at 746.76 360.68 0)
+		(at 1000.76 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -20430,7 +20893,7 @@
 	)
 	(global_label "P12_OUT"
 		(shape passive)
-		(at 645.16 360.68 0)
+		(at 899.16 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -21906,7 +22369,16 @@
 	)
 	(global_label "P5_SUP"
 		(shape passive)
-		(at 982.98 325.12 180)
+		(at 934.72 330.2 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "bca7210f-5850-589d-a40f-07b8d08d652d")
+	)
+	(global_label "P5_SUP"
+		(shape passive)
+		(at 119.38 355.6 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -21915,7 +22387,7 @@
 	)
 	(global_label "P5_SUP"
 		(shape passive)
-		(at 982.98 327.66 180)
+		(at 119.38 358.14 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -21924,7 +22396,7 @@
 	)
 	(global_label "P5_SUP"
 		(shape passive)
-		(at 982.98 330.2 180)
+		(at 119.38 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -21933,7 +22405,7 @@
 	)
 	(global_label "P5_SUP"
 		(shape passive)
-		(at 71.12 360.68 180)
+		(at 325.12 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -22878,7 +23350,7 @@
 	)
 	(global_label "FAULT_N"
 		(shape passive)
-		(at 287.02 359.41 0)
+		(at 541.02 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -23211,7 +23683,7 @@
 	)
 	(global_label "EN_N"
 		(shape passive)
-		(at 947.42 328.93 0)
+		(at 83.82 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -23220,7 +23692,7 @@
 	)
 	(global_label "EN_N"
 		(shape passive)
-		(at 982.98 332.74 180)
+		(at 119.38 363.22 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -23229,7 +23701,7 @@
 	)
 	(global_label "EN_N"
 		(shape passive)
-		(at 170.18 359.41 180)
+		(at 424.18 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24327,7 +24799,16 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 932.18 328.93 180)
+		(at 1084.58 328.93 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "0b945b38-5624-5205-9016-c72d73483366")
+	)
+	(global_label "EN_E"
+		(shape passive)
+		(at 68.58 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24336,7 +24817,7 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 1046.48 330.2 0)
+		(at 182.88 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -24345,7 +24826,7 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 1087.12 330.2 180)
+		(at 223.52 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24354,7 +24835,7 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 33.02 359.41 0)
+		(at 287.02 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -24363,7 +24844,7 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 322.58 359.41 180)
+		(at 576.58 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24372,7 +24853,7 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 322.58 361.95 180)
+		(at 576.58 361.95 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24381,7 +24862,7 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 474.98 363.22 180)
+		(at 728.98 363.22 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24390,7 +24871,7 @@
 	)
 	(global_label "EN_E"
 		(shape passive)
-		(at 779.78 363.22 180)
+		(at 1033.78 363.22 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24633,7 +25114,7 @@
 	)
 	(global_label "ARM_GND"
 		(shape passive)
-		(at 236.22 359.41 0)
+		(at 490.22 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -24642,7 +25123,7 @@
 	)
 	(global_label "ARM_GND"
 		(shape passive)
-		(at 271.78 361.95 180)
+		(at 525.78 361.95 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24786,7 +25267,7 @@
 	)
 	(global_label "FLT_L"
 		(shape passive)
-		(at 17.78 359.41 180)
+		(at 271.78 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -24973,9 +25454,81 @@
 		)
 		(uuid "bdeae5a0-ae14-53d7-a370-1c14dd878609")
 	)
+	(global_label "EN_HS"
+		(shape passive)
+		(at 881.38 331.47 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "d4eb3924-db16-5f9d-b6f7-ff280fad00a1")
+	)
+	(global_label "EN_HS"
+		(shape passive)
+		(at 33.02 359.41 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "196f4a87-acee-5dc1-9a1c-1519d81be1d6")
+	)
+	(global_label "EN_HOX"
+		(shape passive)
+		(at 944.88 330.2 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "5dcf1878-ff6b-5902-affd-2b2d918a3ab1")
+	)
+	(global_label "EN_HOX"
+		(shape passive)
+		(at 985.52 330.2 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "43d46c57-b3e7-55c1-8977-2f6b1b0c1417")
+	)
+	(global_label "EN_HO"
+		(shape passive)
+		(at 995.68 330.2 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "dc6d30e7-45a2-59f6-a2d2-db5146c71df0")
+	)
+	(global_label "EN_HO"
+		(shape passive)
+		(at 1036.32 330.2 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "4ed6c9bf-46f1-50dd-84df-6f63517ff65d")
+	)
+	(global_label "EN_HO"
+		(shape passive)
+		(at 1099.82 328.93 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "16341403-9907-5ac3-8f98-59b8952f9d1a")
+	)
+	(global_label "EN_HO"
+		(shape passive)
+		(at 17.78 359.41 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "c47c21ee-658c-52ae-aed8-834a2a7400ae")
+	)
 	(global_label "EN_EX"
 		(shape passive)
-		(at 998.22 325.12 0)
+		(at 134.62 355.6 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -24984,7 +25537,7 @@
 	)
 	(global_label "EN_EX"
 		(shape passive)
-		(at 998.22 327.66 0)
+		(at 134.62 358.14 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -24993,7 +25546,7 @@
 	)
 	(global_label "EN_EX"
 		(shape passive)
-		(at 998.22 330.2 0)
+		(at 134.62 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25002,7 +25555,7 @@
 	)
 	(global_label "EN_EX"
 		(shape passive)
-		(at 998.22 332.74 0)
+		(at 134.62 363.22 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25011,7 +25564,7 @@
 	)
 	(global_label "EN_EX"
 		(shape passive)
-		(at 998.22 335.28 0)
+		(at 134.62 365.76 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25020,7 +25573,7 @@
 	)
 	(global_label "EN_EX"
 		(shape passive)
-		(at 1036.32 330.2 180)
+		(at 172.72 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25029,7 +25582,7 @@
 	)
 	(global_label "ARM"
 		(shape passive)
-		(at 81.28 360.68 0)
+		(at 335.28 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25038,16 +25591,16 @@
 	)
 	(global_label "ARM"
 		(shape passive)
-		(at 123.19 360.68 180)
+		(at 377.19 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "be59691c-d0b2-5a84-bc5d-7ba4c46ea57c")
+		(uuid "e2f72ac9-6285-5a29-a6f0-8bb98b021eb5")
 	)
 	(global_label "ARM"
 		(shape passive)
-		(at 185.42 359.41 0)
+		(at 439.42 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25056,7 +25609,7 @@
 	)
 	(global_label "ARM"
 		(shape passive)
-		(at 220.98 359.41 180)
+		(at 474.98 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25065,7 +25618,7 @@
 	)
 	(global_label "DH_X"
 		(shape passive)
-		(at 337.82 359.41 0)
+		(at 591.82 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25074,7 +25627,7 @@
 	)
 	(global_label "DH_X"
 		(shape passive)
-		(at 375.92 360.68 180)
+		(at 629.92 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25083,7 +25636,7 @@
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 386.08 360.68 0)
+		(at 640.08 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25092,16 +25645,16 @@
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 427.99 360.68 180)
+		(at 681.99 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "bce41310-54e9-5468-b56d-6e9efdc22696")
+		(uuid "918cc9e1-9670-5c7c-b44c-0bbefa032365")
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 474.98 355.6 180)
+		(at 728.98 355.6 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25110,7 +25663,7 @@
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 474.98 358.14 180)
+		(at 728.98 358.14 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25119,7 +25672,7 @@
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 474.98 360.68 180)
+		(at 728.98 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25128,7 +25681,7 @@
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 779.78 355.6 180)
+		(at 1033.78 355.6 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25137,7 +25690,7 @@
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 779.78 358.14 180)
+		(at 1033.78 358.14 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25146,7 +25699,7 @@
 	)
 	(global_label "DIS_C"
 		(shape passive)
-		(at 779.78 360.68 180)
+		(at 1033.78 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25155,7 +25708,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 490.22 355.6 0)
+		(at 744.22 355.6 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25164,7 +25717,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 490.22 358.14 0)
+		(at 744.22 358.14 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25173,7 +25726,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 490.22 360.68 0)
+		(at 744.22 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25182,7 +25735,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 490.22 363.22 0)
+		(at 744.22 363.22 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25191,7 +25744,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 490.22 365.76 0)
+		(at 744.22 365.76 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25200,7 +25753,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 528.32 360.68 180)
+		(at 782.32 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25209,7 +25762,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 576.58 359.41 180)
+		(at 830.58 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25218,7 +25771,7 @@
 	)
 	(global_label "DIS_P"
 		(shape passive)
-		(at 678.18 359.41 180)
+		(at 932.18 359.41 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25227,7 +25780,7 @@
 	)
 	(global_label "P12_DX"
 		(shape passive)
-		(at 591.82 359.41 0)
+		(at 845.82 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25236,7 +25789,7 @@
 	)
 	(global_label "P12_DX"
 		(shape passive)
-		(at 624.84 360.68 180)
+		(at 878.84 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25245,7 +25798,7 @@
 	)
 	(global_label "P5_DX"
 		(shape passive)
-		(at 693.42 359.41 0)
+		(at 947.42 359.41 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25254,7 +25807,7 @@
 	)
 	(global_label "P5_DX"
 		(shape passive)
-		(at 726.44 360.68 180)
+		(at 980.44 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25263,7 +25816,7 @@
 	)
 	(global_label "M12_DGX"
 		(shape passive)
-		(at 795.02 355.6 0)
+		(at 1049.02 355.6 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25272,7 +25825,7 @@
 	)
 	(global_label "M12_DGX"
 		(shape passive)
-		(at 795.02 358.14 0)
+		(at 1049.02 358.14 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25281,7 +25834,7 @@
 	)
 	(global_label "M12_DGX"
 		(shape passive)
-		(at 795.02 360.68 0)
+		(at 1049.02 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25290,7 +25843,7 @@
 	)
 	(global_label "M12_DGX"
 		(shape passive)
-		(at 795.02 363.22 0)
+		(at 1049.02 363.22 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25299,7 +25852,7 @@
 	)
 	(global_label "M12_DGX"
 		(shape passive)
-		(at 795.02 365.76 0)
+		(at 1049.02 365.76 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25308,7 +25861,7 @@
 	)
 	(global_label "M12_DGX"
 		(shape passive)
-		(at 828.04 360.68 180)
+		(at 1082.04 360.68 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25317,7 +25870,7 @@
 	)
 	(global_label "M12_DG"
 		(shape passive)
-		(at 848.36 360.68 0)
+		(at 1102.36 360.68 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25326,7 +25879,7 @@
 	)
 	(global_label "M12_DG"
 		(shape passive)
-		(at 878.84 360.68 180)
+		(at 15.24 391.16 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25335,7 +25888,7 @@
 	)
 	(global_label "M12_DG"
 		(shape passive)
-		(at 932.18 359.41 180)
+		(at 68.58 389.89 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
@@ -25344,7 +25897,7 @@
 	)
 	(global_label "M12_DX"
 		(shape passive)
-		(at 947.42 359.41 0)
+		(at 83.82 389.89 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)
@@ -25353,7 +25906,7 @@
 	)
 	(global_label "M12_DX"
 		(shape passive)
-		(at 1000.76 360.68 0)
+		(at 137.16 391.16 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left)

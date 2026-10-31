@@ -1,0 +1,128 @@
+* reR6: Board B20 phase-12 tracking start with the minimum-off interlock with start-order clamps and the 470 nF RAMP reset delay (vendor OPAx187 SBOMAB6, CSD18543Q3A SLPM286 models)
+.include ../lib/opax187.lib
+.include ../lib/csd18543q3a_ngspice.lib
+.model DZ11 D(BV=10.8 IBV=1m RS=20 N=1.5)
+.model DBODY D(IS=1e-12 RS=1 BV=50 CJO=20p)
+.model SWM SW(VT=2.5 VH=0 RON=3.5 ROFF=100meg)
+VIN vin 0 PWL(0 0 2m 20)
+VSUP p5sup 0 PWL(0 0 2m 4.98)
+VREF ref25 0 PWL(0 0 2m 2.5)
+* converters as stiff sources behind 20 mOhm output impedance (PA), shunts as drawn
+VP12 p12_src 0 PWL(0 0 2m 12.172)
+RP12S p12_src p12_pre 20m
+CP12 p12_pre 0 57u
+RSH12 p12_pre p12_sh 10m
+VP5 p5_src 0 PWL(0 0 2m 5.094)
+RP5S p5_src p5_pre 20m
+CP5 p5_pre 0 57u
+RSH5 p5_pre p5_sh 20m
+VM12 m12_src 0 PWL(0 0 2m -12.142)
+RM12S m12_src m12_pre 20m
+CM12 0 m12_pre 57u
+RSHN m12_sh m12_pre 10m
+* enable: EN_N high until 1 ms, then low (enable); dis = later disable
+VENN enn0 0 PWL(0 5 40m 5 40.05m 0)
+BENQ enq 0 V=max(v(enn0),v(dis))
+RHO p5sup en_ho 300k
+CHO en_ho 0 0.6u
+BHR en_ho 0 I=v(en_ho)*(1/3.5)*0.5*(1+tanh((v(lat)-4)*4))+v(en_ho)*1e-8
+CLAT lat 0 10n
+BLAT 0 lat I=1e-5*(0.5*(1+tanh((2.5-v(enq))*4))*(0.5*(1+tanh((v(en_ho)-0.5)*20))+0.5*(1+tanh((v(lat)-1.5)*4)))*(5-v(lat))-0.5*(1+tanh((v(enq)-2.5)*4))*v(lat))
+BENN enn 0 V=5-v(lat)
+* tracking reference
+RRMP ref25 ramp 20k
+CRMP ramp 0 1.47u
+RDLY enn ennd 100k
+CDLY ennd 0 470n
+BRST ramp 0 I=v(ramp,0)*(1/3.5)*0.5*(1+tanh((v(ennd)-1.0)*8))+v(ramp,0)*1e-8
+* Q24 drain node: P5_SUP while disabled, pulled to M12_PRE through 156k while enabled
+BOFFX offx0 0 V=v(enn)>2.5 ? v(p5sup) : v(m12_src)
+ROFFX offx0 offx 1k
+* +12 tracking: U13A on VIN
+XU13A ramp_p12 trk12 vin 0 p12_drv OPAx187
+RT12A p12_out trk12 69.8k
+RT12B trk12 0 10k
+CT12 p12_drv trk12 10n
+RT12O m12_pre trk12 10meg
+RT12P offx dp12 100k
+DP12 dp12 trk12 DBODY
+RG1 p12_drv p12_g 10k
+RG1P p12_g p12_cs 100k
+DZ1 p12_cs p12_g DZ11
+B10 p12_g 0 I=v(p12_g,0)*(1/35)*0.5*(1+tanh((v(enn)-2.5)*4))+v(p12_g,0)*1e-8
+VO1 p12_g p12_gi 0
+XQ1 p12_sh p12_gi p12_cs csd18543q3a
+XQ2 p12_out p12_gi p12_cs csd18543q3a
+* +5 tracking: U13B on VIN
+XU13B ramp_p5 trk5 vin 0 p5_drv OPAx187
+RT5A p5_out trk5 23.2k
+RT5B trk5 0 10k
+CT5 p5_drv trk5 10n
+RT5O m12_pre trk5 10meg
+RT5P offx dp5 100k
+DP5 dp5 trk5 DBODY
+RG2 p5_drv p5_g 10k
+RG2P p5_g p5_cs 100k
+DZ2 p5_cs p5_g DZ11
+B11 p5_g 0 I=v(p5_g,0)*(1/35)*0.5*(1+tanh((v(enn)-2.5)*4))+v(p5_g,0)*1e-8
+VO2 p5_g p5_gi 0
+XQ3 p5_sh p5_gi p5_cs csd18543q3a
+XQ4 p5_out p5_gi p5_cs csd18543q3a
+* -12 tracking: U9B on P5_SUP / M12_PRE
+XU9B trk12n trk12n_fb p5sup m12_pre m12_drv OPAx187
+RT12NC trk12n_fb 0 4.7k
+CT12N m12_drv ctz 10n
+RCTZ ctz trk12n_fb 10k
+RT12NO m12_pre trk12n_fb 10meg
+RT12NP offx dpn 100k
+DPN dpn trk12n_fb DBODY
+RT12NA ramp_m12 trk12n 100k
+RT12NB trk12n m12_out 806k
+RG3 m12_drv m12_g 10k
+RG3P m12_g m12_cs 100k
+DZ3 m12_cs m12_g DZ11
+* Q24 / Q25 level shifter modelled as an ideal switch to M12_PRE (no vendor BSS138/DMP3036 model)
+B25 m12_g m12_pre I=v(m12_g,m12_pre)*(1/35)*0.5*(1+tanh((v(enn)-2.5)*4))+v(m12_g,m12_pre)*1e-8
+VO3 m12_g m12_gi 0
+XQ5 m12_sh m12_gi m12_cs csd18543q3a
+* simulation-only convergence aid (not a board part): 100 Mohm across Q5, below the FET leakage scale
+RCV1 m12_cs m12_sh 100meg
+XQ6 m12_out m12_gi m12_cs csd18543q3a
+* phase-9 start-order clamps (U15/U16 OPA2187 on P5_SUP / M12_PRE; BSS138 body diodes as DBODY)
+XU15A 0 mabs_n p5sup m12_pre mabs OPAx187
+RMA1 m12_out mabs_n 100k
+RMA2 mabs_n mabs 15k
+RLV1 mabs lvl12 8.87k
+RLV2 lvl12 vx12 92k
+RVX1 ref25 vx12 30.1k
+RVX2 vx12 0 10k
+XU15B lvl12 ramp_p12 p5sup m12_pre clp12 OPAx187
+XU16A lvlm12 ramp_m12 p5sup m12_pre clpm12 OPAx187
+XU16B mabs ramp_p5 p5sup m12_pre clp5 OPAx187
+RLM1 p12_out lvlm12 64.9k
+RLM2 lvlm12 0 10.2k
+RCP1 ramp ramp_p12 1k
+RCP2 ramp ramp_m12 1k
+RCP3 ramp ramp_p5 1k
+DQ62 ramp_p12 clp12 DBODY
+DQ63 ramp_m12 clpm12 DBODY
+DQ64 ramp_p5 clp5 DBODY
+* OSC-side load: contract maximum capacitance, 50 mOhm ESR (PA)
+CL12 p12_out cl12 180u
+RCL12 cl12 0 50m
+CL5 p5_out cl5 120u
+RCL5 cl5 0 50m
+CLN 0 cln 180u
+RCLN cln m12_out 50m
+RL12 p12_out 0 6.0
+RL5 p5_out 0 12.625
+RLN 0 m12_out 6.316
+VDIS dis 0 PWL(0 0 0.15 0 0.151 5 0.156 5 0.157 0)
+
+.options method=trap reltol=1e-3 abstol=1e-9 vntol=1e-5 itl4=200 rshunt=1e10
+.tran 2u 320m 0 5u
+.control
+run
+wrdata reR6.dat v(p12_out) v(p5_out) v(m12_out) v(ramp) i(VP12) i(VP5) i(VM12) v(p12_g) v(p5_g) v(m12_g) v(enn)
+.endc
+.end
