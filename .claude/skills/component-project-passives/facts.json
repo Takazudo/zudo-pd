@@ -365,7 +365,7 @@
       "record_id": "rec-c23179",
       "source_id": "src-c23179-boardadoc",
       "class": "PROJECT_STATE",
-      "value": "R13 (470 Ohm) is the DISCH series resistor (Net-(U1-DISCH) row); R14 (470 Ohm, same LCSC) is the VBUS_IN-to-pin-18 series resistor (VBUS_VS_DISCH row) -- the v3 pin-18 fix, unchanged in the current netlist. Board P phase-7 draft: R14 and R28 (same LCSC) in series from VBUS_P to U1.18 through VBUS_DISCH_R (dec-p-20v-q1-soft-start)",
+      "value": "R13 (470 Ohm) is the DISCH series resistor (Net-(U1-DISCH) row); R14 (470 Ohm, same LCSC) is the VBUS_IN-to-pin-18 series resistor (VBUS_VS_DISCH row) -- the v3 pin-18 fix, unchanged in the current netlist. Board P no longer uses this line: phase 9 (dec-p-stusb-local-clamp) moves R14/R28 to 1k C21190 and R13 to 4.7k C23162",
       "unit": "NONE",
       "conditions": "current board-a-usb-pd-core.md net tables / BOM table",
       "locator": "Net tables section and BOM table rows for the cited refdes",

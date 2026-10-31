@@ -2007,6 +2007,54 @@
       "trust_status": "PROJECT-LOCKED",
       "critical_pins": [],
       "reviewer": "2026-10-31 PD worker: SLVSET9G HTSSOP pin table and PWP0020T land; draft symbol and draft land pad numbers match"
+    },
+    {
+      "record_id": "rec-c192739",
+      "pin_map_id": "pinmap-c192739",
+      "canonical_sha256": "cdb5324f22e927fd61d6a2ea5a8202a4efdaf542e28c7369b99fd6962e87f0eb",
+      "evidence_fact_ids": [
+        "fact-c192739-polarity"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "cathode (band end); Board P: STUSB4500 pin node"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "anode; Board P: GND"
+        }
+      ],
+      "reviewer": "2026-10-31 PD worker: DS18004 cathode-band polarity against the zudo-pd symbol and SOD-123 land pad numbers"
+    },
+    {
+      "record_id": "rec-c260890",
+      "pin_map_id": "pinmap-c260890",
+      "canonical_sha256": "c007bf9045f3ffa2bc9eb480de8028606faa10a368a8093d734507e97784847d",
+      "evidence_fact_ids": [
+        "fact-c260890-polarity"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "cathode (band end); Board P: STUSB4500 pin node"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "anode; Board P: GND"
+        }
+      ],
+      "reviewer": "2026-10-31 PD worker: DS18004 cathode-band polarity against the zudo-pd symbol and SOD-123 land pad numbers"
     }
   ]
 }

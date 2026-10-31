@@ -1,5 +1,5 @@
 {
-  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The Q1 proposal (dec-p-20v-q1-5a) replaces the SOT-23 AO3401A with the PowerDI3333-8 DMP3036SFG-7, renumbering gate 1->4 and drain 3->5-9. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds. Phase 6 draft dec-p-20v-q1-gate-clamp adds D8 (BZT52C11-7-F, cathode VBUS_P, anode Q1_G) and changes R12 to 4.7k (value only). Phase 7 draft dec-p-20v-q1-soft-start adds the Q1 Miller network (C36 1 uF VBUS_OUT to Q1_MX, Q5 BSS138 body diode Q1_MX to Q1_G, R27 150k VBUS_P to Q1_MX) and splits VBUS_VS_DISCH into R14 + R28 2 x 470R in series through VBUS_DISCH_R. Phase 7b front end r3 (dec-p-20v-front-end-r3, user decision 2026-10-31) replaces TPS26630 + Q4 with TPS16630PWPR (HTSSOP-20, GND 9 and PAD 21) and LM74700 U3 driving Q3 (EF_GATE, EF_VCAP with C37 to VBUS_IN). The common controller block straps RESET to GND through R21 0R (J2.4 no longer RESET) and removes the R15/R16 I2C pull-ups to VREG_2V7.",
+  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The Q1 proposal (dec-p-20v-q1-5a) replaces the SOT-23 AO3401A with the PowerDI3333-8 DMP3036SFG-7, renumbering gate 1->4 and drain 3->5-9. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds. Phase 6 draft dec-p-20v-q1-gate-clamp adds D8 (BZT52C11-7-F, cathode VBUS_P, anode Q1_G) and changes R12 to 4.7k (value only). Phase 7 draft dec-p-20v-q1-soft-start adds the Q1 Miller network (C36 1 uF VBUS_OUT to Q1_MX, Q5 BSS138 body diode Q1_MX to Q1_G, R27 150k VBUS_P to Q1_MX) and splits VBUS_VS_DISCH into R14 + R28 2 x 470R in series through VBUS_DISCH_R. Phase 7b front end r3 (dec-p-20v-front-end-r3, user decision 2026-10-31) replaces TPS26630 + Q4 with TPS16630PWPR (HTSSOP-20, GND 9 and PAD 21) and LM74700 U3 driving Q3 (EF_GATE, EF_VCAP with C37 to VBUS_IN). The common controller block straps RESET to GND through R21 0R (J2.4 no longer RESET) and removes the R15/R16 I2C pull-ups to VREG_2V7. Phase 9 dec-p-stusb-local-clamp feeds the STUSB4500 high-voltage pins from local small-current clamps: VDD through R29/R30 (VDD_MID) into VDD_LOC with D9 BZT52C18-7-F and C38; VBUS_VS_DISCH gains D10 BZT52C20-7-F; DISCH gains D12 BZT52C18-7-F behind R13 4.7k; VBEN splits into VBEN_PIN (U1.16, J3.8, D11) and VBEN behind the Q6 BSS138 cascode with gate bias VG_LOC from R31/R32.",
   "added_nets": [
     "EF_DVDT",
     "EF_GATE",
@@ -9,20 +9,33 @@
     "EF_UVLO",
     "EF_VCAP",
     "Q1_MX",
+    "VBEN_PIN",
     "VBUS_DISCH_R",
-    "VBUS_P"
+    "VBUS_P",
+    "VDD_LOC",
+    "VDD_MID",
+    "VG_LOC"
   ],
   "removed_nets": [],
   "added_pins": {
+    "DISCH": [
+      "D12.1"
+    ],
     "GND": [
       "C3.2",
+      "C38.2",
       "C5.2",
+      "D10.2",
+      "D11.2",
+      "D12.2",
       "D5.1",
       "D5.3",
       "D5.7",
+      "D9.2",
       "R23.2",
       "R25.2",
       "R26.2",
+      "R32.2",
       "U2.21",
       "U2.9",
       "U3.2"
@@ -31,6 +44,9 @@
       "D8.2",
       "Q1.4",
       "Q5.3"
+    ],
+    "VBEN": [
+      "Q6.3"
     ],
     "VBUS_IN": [
       "C37.2",
@@ -54,6 +70,7 @@
       "Q1.9"
     ],
     "VBUS_VS_DISCH": [
+      "D10.1",
       "R28.2"
     ]
   },
@@ -69,6 +86,10 @@
     ],
     "SDA": [
       "R16.1"
+    ],
+    "VBEN": [
+      "J3.8",
+      "U1.16"
     ],
     "VBUS_IN": [
       "C35.2",

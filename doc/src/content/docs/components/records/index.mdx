@@ -18,15 +18,17 @@ To compare records against each other, start from the [catalog](/docs/components
 - [AO3401A](/docs/components/records/umw-ao3401a-c347476/) — `rec-umw-ao3401a-c347476` P-channel MOSFET load switch, gates VBUS\_OUT from U1
 - [SMAJ20A](/docs/components/records/high-diode-smaj20a-c571370/) — `rec-high-diode-smaj20a-c571370` 20V-standoff TVS diode, VBUS\_IN surge/overvoltage clamp
 - [BZT52C11-7-F](/docs/components/records/bzt52c11-c92321/) — `rec-bzt52c11-c92321` 11V zener diode, Q1 gate-source clamp
-- [0603WAF1003T5E](/docs/components/records/c25803/) — `rec-c25803` 100 kOhm resistor, U1 VBEN pull-up network
+- [BZT52C18-7-F](/docs/components/records/c192739/) — `rec-c192739` 18V zener diode, STUSB4500 local clamps (VDD, VBUS\_EN\_SNK, DISCH)
+- [BZT52C20-7-F](/docs/components/records/c260890/) — `rec-c260890` 20V zener diode, STUSB4500 VBUS\_VS\_DISCH local clamp
+- [0603WAF1003T5E](/docs/components/records/c25803/) — `rec-c25803` 100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider
 - [0603WAF5602T5E](/docs/components/records/c23206/) — `rec-c23206` 56 kOhm resistor, U1 VBEN pull-up network
-- [0603WAF4700T5E](/docs/components/records/c23179/) — `rec-c23179` 470 Ohm resistor, VBUS\_VS\_DISCH discharge path (pin 18)
-- [0603WAF4701T5E](/docs/components/records/c23162/) — `rec-c23162` 4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up and Board P Q1 gate resistor R12
+- [0603WAF4700T5E](/docs/components/records/c23179/) — `rec-c23179` 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH
+- [0603WAF4701T5E](/docs/components/records/c23162/) — `rec-c23162` 4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up, Board P Q1 gate resistor R12 and DISCH series resistor R13
 - [0603WAF5101T5E](/docs/components/records/c23186/) — `rec-c23186` 5.1 kOhm 0603 resistor; DNP CC-line Rd placement on Board A, fitted DC-DC feedback-divider placement on Board B
 - [0603WAF0000T5E](/docs/components/records/c21189/) — `rec-c21189` 0 Ohm link resistor, CC-line debounce net jumper and Board P RESET-to-GND strap
 - [CL31A106KBHNNNE](/docs/components/records/c13585/) — `rec-c13585` 10 uF ceramic capacitor, VBUS\_IN bulk decoupling
 - [CC0805KRX7R9BB104](/docs/components/records/c1711/) — `rec-c1711` 100 nF ceramic capacitor, general decoupling across U1/DC-DC/LDO stages
-- [CL10A105KB8NNNC](/docs/components/records/c15849/) — `rec-c15849` 1 uF ceramic capacitor, U1 VREG\_2V7/VREG\_1V2 decoupling, Board P soft-start Miller capacitor and LM74700 VCAP
+- [CL10A105KB8NNNC](/docs/components/records/c15849/) — `rec-c15849` 1 uF ceramic capacitor, U1 VREG\_2V7/VREG\_1V2 decoupling, Board P soft-start Miller capacitor, LM74700 VCAP and STUSB4500 VDD\_LOC
 - [B6B-XH-A(LF)(SN)](/docs/components/records/jst-b6b-xh-a/) — `rec-jst-b6b-xh-a` 6-pin JST XH board-to-board interface connector (+15V x2, ATT, PDOK, GND x2)
 - [PESD24VS1UB](/docs/components/records/pesd24vs1ub-c85382/) — `rec-pesd24vs1ub-c85382` Unidirectional ESD/TVS diode, CC-line DNP protection provision
 - [LM2596S-ADJ](/docs/components/records/lm2596s-adj-c347423/) — `rec-lm2596s-adj-c347423` Adjustable buck/inverting DC-DC converter IC, intermediate-rail generation
@@ -36,7 +38,7 @@ To compare records against each other, start from the [catalog](/docs/components
 - [RVT1A471M0607](/docs/components/records/c335982/) — `rec-c335982` 470 uF 10V aluminum electrolytic capacitor, +7.5V DC-DC output bulk filter (canonical LCSC per decision c)
 - [RVT1H101M0810](/docs/components/records/c970687/) — `rec-c970687` 100 uF 50V aluminum electrolytic capacitor, -13.5V DC-DC output bulk filter (28.5V nominal / 33.5V edge-case bridging rating)
 - [CL21B223KBANNNC](/docs/components/records/c1729/) — `rec-c1729` 22 nF ceramic capacitor, DC-DC feedforward compensation
-- [0603WAF1001T5E](/docs/components/records/c21190/) — `rec-c21190` 1 kOhm resistor, DC-DC feedback divider bottom resistor
+- [0603WAF1001T5E](/docs/components/records/c21190/) — `rec-c21190` 1 kOhm resistor, DC-DC feedback divider bottom resistor; Board P STUSB4500 VDD and VBUS\_VS\_DISCH series resistors
 - [SMD1210P150TF/16](/docs/components/records/ptc-smd1210p150tf16-c7529589/) — `rec-ptc-smd1210p150tf16-c7529589` 1.5A-hold 16V PTC resettable fuse, +12V output overcurrent protection (decision g replacement)
 - [mSMD110-33V](/docs/components/records/ptc-msmd110-33v-c70119/) — `rec-ptc-msmd110-33v-c70119` 1.1A-hold PTC resettable fuse, +5V output overcurrent protection
 - [BSMD1206-150-16V](/docs/components/records/ptc-bsmd1206-150-16v-c883133/) — `rec-ptc-bsmd1206-150-16v-c883133` 1.5A-hold PTC resettable fuse, -12V output overcurrent protection
@@ -77,6 +79,6 @@ To compare records against each other, start from the [catalog](/docs/components
 - [RT0603BRD07174KL](/docs/components/records/c861163/) — `rec-c861163` 174 kOhm precision eFuse OVP divider resistor
 - [RT0603BRD074K02L](/docs/components/records/c705781/) — `rec-c705781` 4.02 kOhm precision eFuse current-limit and UVLO divider resistor
 - [CSD18543Q3A](/docs/components/records/c840100/) — `rec-c840100` 20V input reverse-blocking power MOSFET
-- [BSS138-7-F](/docs/components/records/c40912/) — `rec-c40912` small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network
+- [BSS138-7-F](/docs/components/records/c40912/) — `rec-c40912` small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network and Q6 VBUS\_EN\_SNK cascode
 - [RT0603BRD0711K5L](/docs/components/records/c705719/) — `rec-c705719` 11.5 kOhm precision eFuse UVLO divider resistor
 - [DMP3036SFG-7](/docs/components/records/c461081/) — `rec-c461081` Board P 20 V / 5 A output load-switch P-channel MOSFET

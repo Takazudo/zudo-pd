@@ -108,8 +108,8 @@ VBUS_P ≤ VBUS_IN ≤ the TVS2200 clamp. PCB inductive overshoot is not quantif
   8/20 µs and 125 °C, with VBR,min ≥ 22.7 V. No such part is retrieved.
 - **Closing decision (single decision).** Define the qualification surge as ≤ 24 A at 27 °C. The
   27.7 V row then gives +0.30 V, at 27 °C only.
-- **VDD-local isolation (not closing yet).** Feeding STUSB4500 VDD through its own series element
-  and clamp needs the active-mode IDD maximum, which is missing. VS_DISCH and VBEN also sit on VBUS_P.
+- **VDD-local isolation.** Superseded by §2.1b. The pin limit closes on zener rows, and only the 5 V
+  attach headroom still needs the active-mode IDD maximum.
 - **LED per-product OVP 133k/10k (LED phase 11 §a), reviewed.** The trip becomes 16.79–17.54 V
   (17.62 V with TCR). As a common-block parameter it changes only a resistor value; the footprint and
   net stay the same.
@@ -119,6 +119,54 @@ VBUS_P ≤ VBUS_IN ≤ the TVS2200 clamp. PCB inductive overshoot is not quantif
   - It does not change the guaranteed bound, which is still the clamp row. LED's 29.6 V → 24.6 V figure
     at 80 µF / 0.5 Ω uses TYP charge and is a sensitivity.
   - It does put the LED trip well below the 22 V VDD operating maximum, which closes that gap for LED.
+
+### 2.1b Phase 9: STUSB4500 pins on local small-current clamps (drawn, `dec-p-stusb-local-clamp`)
+
+The 28 V limit applies to the STUSB4500 high-voltage pins, which draw only small currents. Each
+pin now has its own series resistor and zener clamp, so the surge path (TVS2200, U2, Q1, Board B)
+no longer has to stay at or below 28 V. `stusb_local_clamp` in
+`scripts/pcb/calculate-input-ovp-20v.py` computes these rows with VBUS_P at the 28.35 V
+TVS2200 row (35 A, 125 °C).
+
+| Pin | Feed | Clamp | Pin maximum, −40 to 125 °C | Margin to 28 V |
+|---|---|---|---:|---:|
+| VDD (U1.24, VDD_LOC, C38 1 µF) | R29 + R30, 2 × 1k | D9 BZT52C18-7-F C192739 | 20.709 V | **+7.29 V** |
+| VBUS_VS_DISCH (U1.18) | R14 + R28, 2 × 1k | D10 BZT52C20-7-F C260890 | 23.0 V | **+5.0 V** |
+| DISCH (U1.9) | R13 4.7k | D12 BZT52C18-7-F | 20.7 V | +7.3 V |
+| VBUS_EN_SNK (U1.16) | Q6 BSS138-7-F cascode, gate at VDD_LOC / 2 | D11 BZT52C18-7-F | 20.7 V | +7.3 V |
+
+**L7 is PASS on guaranteed zener figures.** Each bound is the DS18004 VZ maximum at IZT 5 mA plus
+the TC maximum above 25 °C. The TC minimum, 12.4 mV/°C, is positive, so cold rows are bounded by
+the 25 °C maximum. Where the clamp current exceeds IZT, ZZT maximum is used as the slope. That
+covers at most 1.36 mA on VDD at −40 °C and adds at most 0.06 V. It is a project linearisation
+(PA), and the margins of 5 V or more would absorb a slope of several kilohms. The STUSB4500
+limits keep their mirror-source trust limitation (`fact-stusb-vbus-pin-absolute-max`,
+`fact-stusb-vdd-absolute-max`). The rule rows are `calc-p20-stusb-local-clamp-vdd` and
+`calc-p20-stusb-local-clamp-vs-disch` in `rule-tvs-clamp-vs-absmax`.
+
+| Check (DS12499 Rev 7 copy; Rev 8 Table 22 not re-read) | Result | Status |
+|---|---|---|
+| VDD operating ≤ 22 V | ≤ 20.38 V at 105 °C | **PASS**: closes the 22.56 V > 22 V gap of §2.1a |
+| VDD ≥ 4.1 V at a 5 V attach (VBUS ≥ 4.72 V) | ≥ 4.247 V with IDD 210 µA, +0.147 V | **OPEN**: only the idle 25 °C IDD maximum exists; needs IDD ≤ 283 µA in every active state |
+| VBUS_VS_DISCH reads above VMONUSBL at 20 V | ≥ 17.63 V (C20 at −40 °C) vs 16.0 V | PASS on the default 20 V window |
+| VBUS_VS_DISCH discharge current ≤ 50 mA | ≤ 10.6 mA | PASS |
+| Discharge 120 µF, 21 V → 0.5 V (VTH0V minimum), through 2.02 kΩ | 0.906 s against TDISUSB0V ≥ 0.63 s (default TDISPAR0V 9) | **FAIL with the default NVM**; PASS with TDISPAR0V ≥ 13 in the factory image (13 gives 0.91 s minimum, only 4 ms over; 14 leaves 74 ms) |
+| VBUS_VS_DISCH operating 22 V | above 22 V only at TA > ~67 °C with VBUS_P in the 22.0–22.56 V OVP band | OPEN (edge) |
+| Q6 VGS | ≤ 10.29 V vs ±20 V | PASS |
+| Q6 turn-on at a 5 V attach | VG ≥ 2.10 V vs VGS(th) maximum 1.5 V (25 °C row) | PASS at 25 °C only |
+| Q1 off-state with Q6 off | needs Q6 hot leakage; DS30144 gives IDSS 0.5 µA at 25 °C only | OPEN |
+
+Consequences:
+
+- **The STUSB4500 overvoltage monitor no longer works.** VMONUSBH for PDO2 is 22 V, which the
+  VBUS_VS_DISCH clamp may hold below. U2 OVP (21.60–22.56 V) is the only slow-overvoltage
+  protection, as in §2.1a.
+- **The main path is now limited by Q1.** DMP3036SFG-7 is rated −30 V VDS, 1.65 V above the
+  28.35 V row. U2 (67 V), Q3 (60 V) and the 50 V input capacitors have more margin. Board B must still
+  be screened against the 28.35 V row. TVS2200 stays.
+- **CC pins are unchanged** (§2.2). The local clamps do not change CC exposure.
+- **Normal operation draws clamp current.** At 21 V, D9 can draw up to 2.6 mA and D10 up to 1.7 mA
+  (−40 °C, VZ minimum). That is a few tens of milliwatts and changes no budget.
 
 ### 2.2 CC pins (GAP-2): bounded, not closed
 

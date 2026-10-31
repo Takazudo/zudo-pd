@@ -49,13 +49,18 @@ unvalidated draft:
 | R11 / R12 | 150k C22807 / 4.7k C23162 (proposed) | Q1 gate divider: R11 VBUS_P to Q1_G, R12 Q1_G to VBEN (was 100k / 150k) |
 | D8 | [BZT52C11-7-F C92321](/docs/components/records/bzt52c11-c92321/) (proposed) | Q1 gate clamp: cathode on VBUS_P, anode on Q1_G |
 | C36 / Q5 / R27 | 1 µF C15849 / [BSS138-7-F C40912](/docs/components/records/c40912/) / 150k C22807 (proposed) | Q1 Miller soft start: C36 VBUS_OUT to Q1_MX, Q5 body diode Q1_MX to Q1_G, R27 VBUS_P to Q1_MX |
-| R14 / R28 | 2 × 470 Ω C23179 | VBUS_VS_DISCH series resistance (R28 proposed) |
+| R14 / R28 / D10 | 2 × 1k C21190 / [BZT52C20-7-F C260890](/docs/components/records/c260890/) (proposed) | VBUS_VS_DISCH series resistance and local 20 V clamp on U1.18 |
+| R29 / R30 / D9 / C38 | 2 × 1k C21190 / [BZT52C18-7-F C192739](/docs/components/records/c192739/) / 1 µF C15849 (proposed) | STUSB4500 VDD feed: VBUS_P to VDD_LOC (U1.24) with an 18 V clamp and local cap |
+| R13 / D12 | 4.7k C23162 / BZT52C18-7-F (proposed) | DISCH series resistance and clamp on U1.9 |
+| Q6 / R31 / R32 / D11 | BSS138-7-F C40912 / 2 × 100k C25803 / BZT52C18-7-F (proposed) | VBUS_EN_SNK cascode: source on U1.16 (VBEN_PIN), drain on VBEN (R12), gate at VDD_LOC / 2 |
 
 - MODE is left open, which selects latch-off. SHDN, IMON, FLT and PGOOD are open.
 - R21 is a 0 Ω C21189 strap from RESET to GND. The I2C pull-ups R15/R16 are removed and
   move to the programming jig.
-- The STUSB4500 VDD and VBUS sense, and Q1, now sit on VBUS_P, so the TVS-clamped
-  connector node no longer reaches the STUSB4500 28 V VDD absolute maximum.
+- Phase 9 (`dec-p-stusb-local-clamp`, proposed) takes the STUSB4500 high-voltage pins off
+  VBUS_P. Each pin is fed through a series resistor, at milliamps, into a guaranteed zener
+  clamp. VDD, VBUS_VS_DISCH, DISCH and VBUS_EN_SNK therefore no longer follow a VBUS_P
+  surge. The CC pins are unchanged.
 - U3 regulates Q3 as an ideal diode and turns it off on reverse current (V(AK REV)
   −17 to −2 mV). Its charge pump stops at 13.9 V maximum above ANODE, 6.1 V inside the
   Q3 ±20 V VGS rating; GATE to ANODE is 15 V absolute maximum. Reverse blocking is
@@ -67,10 +72,24 @@ unvalidated draft:
   The slew ceiling is a project assumption. The estimated hot-unplug VBUS_P peak at
   80 µF is 25.1 V only on TYP I(SCP) and fast-trip figures and a 30 mΩ ESR assumption;
   at ESR 0.3–0.5 Ω it is 27.7–29.6 V, and at the 4.5 µs soft-short maximum it is 27.1 V.
-  The only guaranteed bound is the TVS2200 clamp, 28.0–28.35 V, so gate L7 stays
-  **BLOCKING** (FAIL on guaranteed figures; the closing part or decision is listed in
-  `manufacturing/input-protection-20v.md` §2.1a). The OVP trip maximum, 22.56 V, is also above the
-  22 V STUSB4500 VDD operating maximum.
+  The only guaranteed bound on VBUS_P is the TVS2200 clamp, 28.0–28.35 V. With the local
+  clamps, the STUSB4500 pins stay at or below 20.71 V (VDD) and 23.0 V (VBUS_VS_DISCH)
+  with VBUS_P at 28.35 V, over −40 to 125 °C. That leaves 7.29 V and 5.0 V to the 28 V
+  limits on DS18004 VZ and TC maximum rows, so L7 is **PASS** on guaranteed zener figures.
+  The STUSB4500 limits still rest on mirror-source evidence. The main path is now bounded by
+  the Q1 −30 V VDS, 1.65 V above the 28.35 V row, not by the STUSB4500. VDD stays at or below
+  20.38 V at 105 °C, inside the 22 V operating row.
+- The local clamps create new conditions:
+  - At a 5 V attach, VDD is at least 4.247 V, only if the STUSB4500 operating IDD is at most
+    283 µA. The copied datasheet gives only an idle 25 °C maximum, 210 µA, so this is OPEN.
+  - The 2 kΩ VBUS_VS_DISCH feed needs about 0.91 s to discharge 120 µF from 21 V to 0.5 V.
+    The default TDISPAR0V (9, at least 630 ms) is too short, so the NVM image must set
+    TDISPAR0V ≥ 13.
+  - The STUSB4500 22 V VMONUSBH overvoltage monitor no longer works behind the clamp.
+    U2 OVP (21.60–22.56 V) is the only slow-overvoltage protection.
+  - Q1's off-state integrity at temperature depends on the Q6 hot leakage, which is
+    unsourced.
+
 - Q1 is a proposal. AO3401A is rated −4.2 A, below the 5 A target. DMP3036SFG-7 keeps
   the −30 V VDS and raises VGS to ±25 V, which leaves 14.9 V at the hot overshoot gate
   case. Its −5.8 A (70 °C) and −7.2 A (25 °C) ratings at VGS −5 V assume 1 in² of 2 oz
@@ -97,9 +116,9 @@ unvalidated draft:
   Board B bank, below the 4.185 A I(OL) minimum. The diode blocks the reverse path, so a
   VBUS_P rise while Q1 is off cannot pull the gate on. R27 150k recharges Q1_MX and helps
   turn-off. Q1 absorbs about 50 mJ per closure over 2.0–6.5 ms; its SOA is OPEN.
-- VBUS_VS_DISCH now has R14 + R28, 2 × 470 Ω in series: 26.7 mA at 25.1 V against the
-  50 mA maximum (was 53 mA). The STUSB4500 discharge time constant doubles against its
-  800 ms default; whether VBUS_P still reaches vSafe0V in time is OPEN.
+- VBUS_VS_DISCH now has R14 + R28, 2 × 1k in series. Discharge current is at most 10.6 mA,
+  against the 50 mA maximum. The discharge reaches vSafe0V only if the NVM sets
+  TDISPAR0V ≥ 13 (see above).
 - The STUSB4500 VBUS sense sits behind the reverse-blocking eFuse and C3, so after
   detach or hard reset it may not see vSafe0V promptly. This needs a bench check (OPEN).
 - `scripts/pcb/calculate-input-ovp-20v.py` reproduces these figures. The CSD18543Q3A land

@@ -131,6 +131,20 @@
       "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c40912-board-p-q6-role",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-primary",
+      "class": "PROJECT_STATE",
+      "value": "Board P Q6 (phase-9 draft, dec-p-stusb-local-clamp): VBUS_EN_SNK cascode with source on VBEN_PIN (U1.16, D11 clamp), drain on VBEN (R12 to the Q1 gate network) and gate on VG_LOC = VDD_LOC / 2 (R31/R32 100k); the open-drain pin cannot rise above the gate, so it stays at or below about 10.3 V",
+      "unit": "NONE",
+      "conditions": "VGS stays below the 20 V row (at most 10.29 V); the minimum gate drive at a 5 V attach (2.10 V) exceeds the VGS(th) maximum row only at 25 C. Off-state leakage at temperature, which sets the Q1 off-state integrity, is not in this bundle (UNSOURCED). Behaviour unmeasured.",
+      "locator": "board_p_spec.py COMPONENTS Q6 row and NETS rows VBEN_PIN, VBEN, VG_LOC",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

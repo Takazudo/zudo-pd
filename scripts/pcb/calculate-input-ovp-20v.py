@@ -16,6 +16,7 @@ close the gate. The TYP let-through rows below are a sensitivity, never a bound.
 
 import argparse
 import json
+import math
 
 # STUSB4500 DS12499 Rev 8 Table 20 (G-U, owner bundle mirror evidence).
 STUSB_VBUS_ABS_MAX_V = 28.0
@@ -77,6 +78,114 @@ def overshoot_charge():
     q_window = FASTRIP_MULT * IOL_MAX_A_4K02 * OVP_TOFF_MAX_S
     q_fastrip = ISCP_TYP_A * TFASTRIP_TYP_S
     return q_window, q_fastrip
+
+
+# ---- Phase 9: STUSB4500 HV pins on local small-current clamps -----------------------------
+# Diodes DS18004 Rev 38-2 (G, sha256 0fbd7d13...), 25 C, VZ at IZT 5 mA, ZZT max at IZT, TC at IZTC.
+ZENER = {
+    'BZT52C18': {'vz': (16.8, 19.1), 'izt': 5e-3, 'zzt': 45.0, 'tc': (12.4e-3, 16.0e-3), 'ir_ua_at_vr': (0.1, 12.6)},
+    'BZT52C20': {'vz': (18.8, 21.2), 'izt': 5e-3, 'zzt': 55.0, 'tc': (14.4e-3, 18.0e-3), 'ir_ua_at_vr': (0.1, 14.0)},
+}
+# DS12499 Rev 7 copy (sha256 407ee676..., mirror; Rev 8 Table 22 not re-checked) - UNSOURCED class
+STUSB_VDD_OP_MIN_V = 4.1
+STUSB_IDD_IDLE_MAX_A = 210e-6       # Table 22, VDD 5.0 V, 25 C, idle sink (not connected, no communication)
+STUSB_VMONUSBL_20V = 20.0 * (1 - 0.05 - 0.15)   # default VSHUSBL 15 %
+STUSB_TDISPAR_STEP_MIN_S = 70e-3    # TDISUSB0V min = 70 ms x TDISPAR0V
+STUSB_TDISPAR0V_DEFAULT = 9
+STUSB_VTH0V_MIN = 0.5
+STUSB_VS_DISCH_I_MAX = 50e-3
+R1_TOL = 0.01                        # 0603WAF 1 %
+T_RANGE = (-40.0, 125.0)             # L7 hot row is 125 C; STUSB operating TA -40..105 C
+TA_OP_MAX = 105.0
+VBUS_ATTACH_MIN_V = 4.75 - 0.03      # vSafe5V minimum less the Q3 ideal-diode and U2 drops (PA)
+C3_MAX_F = 120e-6
+
+
+def _vz_bounds(z, t):
+    lo, hi = z['vz']
+    tcl, tch = z['tc']
+    if t >= 25:
+        return lo + tcl * (t - 25), hi + tch * (t - 25)
+    return lo - tch * (25 - t), hi - tcl * (25 - t)
+
+
+def local_clamp_pin(name, zener, r_nom, v_src_max, limit, leak_r=None):
+    """Pin voltage bound across temperature: the source current through r (or leak_r) into the zener."""
+    z = ZENER[zener]
+    worst = None
+    rows = []
+    for t in (T_RANGE[0], 25.0, TA_OP_MAX, T_RANGE[1]):
+        vmin, vmax = _vz_bounds(z, t)
+        r_min = (leak_r if leak_r else r_nom) * (1 - R1_TOL)
+        i = max(0.0, (v_src_max - vmin) / r_min)
+        extra = max(0.0, i - z['izt']) * z['zzt']
+        v = vmax + extra
+        rows.append({'t_c': t, 'i_ma': round(i * 1e3, 3), 'beyond_izt_ma': round(max(0, i - z['izt']) * 1e3, 3),
+                     'pin_max_v': round(v, 3)})
+        worst = max(worst or 0, v)
+    return {'pin': name, 'clamp': zener, 'series_ohm': leak_r or r_nom, 'rows': rows, 'pin_max_v': round(worst, 3),
+            'limit_v': limit, 'margin_v': round(limit - worst, 3), 'status': 'PASS' if worst < limit else 'FAIL'}
+
+
+def stusb_local_clamp(v_main_max):
+    out = {'main_path_bound_v': v_main_max,
+           'basis': 'VZ max at IZT and TC max (DS18004, G); resistor 1 %; source bound = TVS2200 35 A / 125 C row. '
+                    'Where the clamp current exceeds IZT (VDD up to 1.36 mA, VS_DISCH 0.41 mA at -40 C only) ZZT max '
+                    'is used as a linear slope (PA); that adds <= 0.06 V, and the >= 5 V margins would absorb a slope '
+                    'of several kilohms'}
+    vdd = local_clamp_pin('VDD (U1.24)', 'BZT52C18', 2.0e3, v_main_max, STUSB_VBUS_ABS_MAX_V)
+    vs = local_clamp_pin('VBUS_VS_DISCH (U1.18)', 'BZT52C20', 2.0e3, v_main_max, STUSB_VBUS_ABS_MAX_V)
+    dis = local_clamp_pin('DISCH (U1.9)', 'BZT52C18', 4.7e3, v_main_max, STUSB_VBUS_ABS_MAX_V)
+    ven = local_clamp_pin('VBUS_EN_SNK (U1.16) behind Q6 cascode', 'BZT52C18', None, v_main_max, STUSB_VBUS_ABS_MAX_V,
+                          leak_r=150e3 + 4.7e3)
+    out['pins'] = [vdd, vs, dis, ven]
+    out['l7_status'] = 'PASS (guaranteed zener rows; STUSB limits are mirror-authority)' if all(
+        p['status'] == 'PASS' for p in out['pins']) else 'FAIL'
+    # VDD operating window
+    z18 = ZENER['BZT52C18']
+    vdd_hot = _vz_bounds(z18, TA_OP_MAX)[1]
+    r_vdd_max = 2.0e3 * (1 + R1_TOL)
+    i_div = VBUS_ATTACH_MIN_V / (2 * 100e3 * (1 - R1_TOL))
+    vdd_attach = VBUS_ATTACH_MIN_V - r_vdd_max * (STUSB_IDD_IDLE_MAX_A + i_div + 0.1e-6)
+    out['vdd_operating'] = {
+        'vdd_max_at_105c_v': round(vdd_hot, 3), 'limit_v': STUSB_VDD_OPERATING_MAX_V,
+        'status_22v': 'PASS' if vdd_hot <= STUSB_VDD_OPERATING_MAX_V else 'FAIL',
+        'vdd_min_at_5v_attach_v': round(vdd_attach, 3), 'vdd_op_min_v': STUSB_VDD_OP_MIN_V,
+        'margin_v': round(vdd_attach - STUSB_VDD_OP_MIN_V, 3),
+        'idd_allowed_max_a': round((VBUS_ATTACH_MIN_V - STUSB_VDD_OP_MIN_V) / r_vdd_max - i_div, 7),
+        'status_attach': 'OPEN',
+        'reason': 'only the idle 5 V / 25 C IDD maximum (210 uA, mirror copy) exists; active-communication and '
+                  'temperature maxima are missing, so the series drop is bounded only for that row'}
+    # VBUS_VS_DISCH sense and discharge
+    z20 = ZENER['BZT52C20']
+    vs_cold_min = _vz_bounds(z20, T_RANGE[0])[0]
+    vs_hot_max = _vz_bounds(z20, TA_OP_MAX)[1]
+    tau = 2.0e3 * (1 + R1_TOL) * C3_MAX_F
+    t_dis = tau * math.log(VBUS_20V_MAX_V / STUSB_VTH0V_MIN)
+    tdispar_needed = math.ceil(t_dis / STUSB_TDISPAR_STEP_MIN_S)
+    out['vs_disch'] = {
+        'sense_min_when_clamping_v': round(vs_cold_min, 3), 'vmonusbl_20v_default_v': round(STUSB_VMONUSBL_20V, 3),
+        'uv_margin_v': round(vs_cold_min - STUSB_VMONUSBL_20V, 3),
+        'pin_max_at_105c_v': round(vs_hot_max, 3),
+        'operating_22v_note': 'the pin follows min(VBUS_P, VZ): above 22 V it exceeds the 22 V operating row only at '
+                              'TA above about 67 C with VBUS_P in the 22.0-22.56 V OVP band',
+        'stusb_ov_monitor': 'the 22 V VMONUSBH (PDO 20 V +10 %) is no longer reliable behind the clamp; U2 OVP '
+                            '(21.60-22.56 V) is the overvoltage protection',
+        'discharge_current_max_a': round(VBUS_20V_MAX_V / (2.0e3 * (1 - R1_TOL)), 4), 'pin_limit_a': STUSB_VS_DISCH_I_MAX,
+        'discharge_time_21v_to_vth0v_s': round(t_dis, 4),
+        'tdisusb0v_default_min_s': round(STUSB_TDISPAR_STEP_MIN_S * STUSB_TDISPAR0V_DEFAULT, 3),
+        'tdispar0v_needed': tdispar_needed,
+        'discharge_status': 'FAIL with the default NVM (TDISPAR0V 9); PASS only with TDISPAR0V >= '
+                            f'{tdispar_needed} in the factory image'}
+    out['vben_cascode'] = {
+        'q6_vgs_max_v': round(_vz_bounds(z18, T_RANGE[1])[1] * 101 / 200, 3), 'bss138_vgs_max_v': 20.0,
+        'q6_vg_min_at_attach_v': round(vdd_attach * 0.99 / 2.0, 3), 'bss138_vgsth_max_v': 1.5,
+        'gate_network_current_5v25_a': round(5.25 / ((150e3 + 4.7e3) * 0.99), 7),
+        'note': 'Q6 (BSS138) source on the VBEN pin, drain on R12, gate at VDD_LOC / 2: the pin cannot rise above the '
+                'gate, and the only current into D11 when Q6 is off is leakage, bounded by R11 + R12. Q1 off-state '
+                'integrity at temperature depends on the hot IDSS, which is not in DS30144 (0.5 uA max at 25 C only).'}
+    out['cc_pins'] = 'unchanged: CC abs max 22 V is a separate single-fault concern (GAP-2, section 2.2)'
+    return out
 
 
 def main():
@@ -163,6 +272,7 @@ def main():
         "l7_effect_typ": "LED sensitivity 29.6 V -> 24.6 V at 80 uF / 0.5 ohm (TYP charge, PA ESR): a sensitivity, not a bound",
         "stusb_vdd_22v_effect": "the trip maximum then sits well below the 22 V STUSB VDD operating maximum, which closes that gap for LED only",
     }
+    r3["stusb_local_clamp"] = stusb_local_clamp(TVS2200_VC_35A_125C_V)
     result = {
         "ovp_nominal_v": round(v_nominal, 2),
         "ovp_trip_window_v": [round(lo, 2), round(hi, 2)],
@@ -210,6 +320,16 @@ def main():
           f" above the 22 V STUSB operating maximum by up to {r3['stusb_operating_gap_v']} V")
     print(f"  ratio {r3['ratio_for_22v_trip_max']} would cap the trip at 22.0 V but its minimum {r3['trip_min_at_that_ratio_v']} V"
           f" leaves {r3['guard_over_21v_at_that_ratio_v']} V over the 21.0 V normal high (0.5 V guard wanted)")
+    lc = r3["stusb_local_clamp"]
+    print(f"phase-9 local clamps: L7 {lc['l7_status']}")
+    for pin in lc["pins"]:
+        print(f"  {pin['pin']}: {pin['clamp']} via {pin['series_ohm']:.0f} ohm, pin <= {pin['pin_max_v']} V, margin {pin['margin_v']} V")
+    v = lc["vdd_operating"]
+    print(f"  VDD <= {v['vdd_max_at_105c_v']} V at 105 C ({v['status_22v']} vs 22 V); at 5 V attach >= {v['vdd_min_at_5v_attach_v']} V"
+          f" (margin {v['margin_v']} V, {v['status_attach']}: IDD allowed <= {v['idd_allowed_max_a'] * 1e6:.0f} uA)")
+    d = lc["vs_disch"]
+    print(f"  VS_DISCH sense >= {d['sense_min_when_clamping_v']} V vs VMONUSBL {d['vmonusbl_20v_default_v']} V; discharge"
+          f" {d['discharge_time_21v_to_vth0v_s']} s vs {d['tdisusb0v_default_min_s']} s: {d['discharge_status']}")
     led = r3["per_product_ovp_133k"]
     print(f"per-product OVP 133k/10k (LED proposal): trip {led['trip_v'][0]}-{led['trip_v'][1]} V ({led['trip_v'][2]} V TCR);"
           f" PD {led['pd_product'].split(':')[0]}; L7 guaranteed effect {led['l7_effect_guaranteed'].split(':')[0]}")

@@ -26,7 +26,7 @@ test('installed patched runtime preserves closed evidence identities, counts and
   for (const [path, hash] of Object.entries(baseline.files)) assert.equal(createHash('sha256').update(await readFile(join(root,path))).digest('hex'),hash,path);
   assert.equal(model.packagePreviews.length,39);
   const inv=await json(join(root,inventoryPath));
-  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,127);
+  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,137);
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>p.dnp).length,8);
 });
 
@@ -36,7 +36,7 @@ test('real installed CLI doctor/validate/generate/check/models/footprints pass a
     for (const [command,args] of [['doctor',[]],['validate',[]],['generate',[]],['check',[]],['models',['--check']],['footprints',['check']]]) {
       const run=cli(dir,command,args); assert.equal(run.status,0,`${command}: ${run.stdout}\n${run.stderr}`);
     }
-    const repeat=cli(dir,'generate'); assert.equal(repeat.status,0,repeat.stderr); assert.match(repeat.stdout,/0 written, 71 unchanged/);
+    const repeat=cli(dir,'generate'); assert.equal(repeat.status,0,repeat.stderr); assert.match(repeat.stdout,/0 written, 73 unchanged/);
     for(const path of ['doc/src/content/docs/components/catalog/index.mdx','doc/src/content/docs/components/integration/index.mdx']) {
       const before=await readFile(join(root,path),'utf8'), after=await readFile(join(dir,path),'utf8');
       for(const anchor of before.matchAll(/<EvidenceAnchor id="([^"]+)"/g)) assert.ok(after.includes(`id="${anchor[1]}"`),`${path}: lost ${anchor[1]}`);
@@ -130,7 +130,7 @@ test('candidate ownership, placement exclusion, candidate-only source/fact/pin v
 
 test('document selection and exceptions partition every record without inventing a PDF', async () => {
   assert.deepEqual(await json(join(root,'circuit/publication/document-verification.json')),baseline.documentVerification);
-  assert.equal(mapped.selection.documentSelections.length,66);assert.equal(mapped.selection.documentExceptions.length,1);
+  assert.equal(mapped.selection.documentSelections.length,68);assert.equal(mapped.selection.documentExceptions.length,1);
   const record=model.records.find(r=>r.identity.recordId==='rec-c335982'); assert.equal(record.reference.document,null); assert.ok(record.reference.footprint.modelPath);assert.ok(record.sources.some(s=>s.authorityClass==='DISTRIBUTOR_IDENTITY'));
   for(const exceptions of [[],[{recordId:mapped.selection.documentSelections[0].recordId,reason:'overlap'}],[...mapped.selection.documentExceptions,...mapped.selection.documentExceptions],[{recordId:'absent',reason:'missing'}],[{recordId:'rec-c335982',reason:''}]])assert.throws(()=>new PublicationPolicy(mapped.matrix,{...mapped.selection,documentExceptions:exceptions}));
 });

@@ -49,11 +49,21 @@ dec-p-20v-front-end-r3):
   R27 150k C22807 recharges Q1_MX from VBUS_P between cycles. The 20 V closure slews
   at about 3.1-10 V/ms (PA plateau and DC-bias range). Into a 250 uF Board B bank
   that is at most 2.5 A, below the I(OL) 4.185 A minimum. Q1 SOA is OPEN.
-- VBUS_VS_DISCH series resistance is R14 + R28, 2 x 470R C23179 (independent review
-  finding 10): 26.7 mA at 25.1 V, against the 50 mA maximum. The STUSB discharge time
-  constant doubles (OPEN interaction).
-- Q1 discharge path R13 is unchanged; its value is a PLACEHOLDER (OSC interface
-  discharge values are Board B items).
+- STUSB4500 high-voltage pins on local small-current clamps (phase 9, dec-p-stusb-local-clamp;
+  scripts/pcb/calculate-input-ovp-20v.py stusb_local_clamp). None of VDD, VBUS_VS_DISCH,
+  DISCH or VBUS_EN_SNK connects to VBUS_P or VBUS_OUT directly any more, so the main surge
+  path no longer has to stay below the 28 V STUSB absolute maximum:
+  - VDD (U1.24) on VDD_LOC: R29 + R30 2 x 1k C21190 from VBUS_P, D9 BZT52C18-7-F C192739
+    to GND and C38 1 uF. VDD_LOC <= 20.71 V at 125 C with VBUS_P at the 28.35 V TVS2200
+    row, and <= 20.38 V at 105 C, inside the 22 V operating maximum.
+  - VBUS_VS_DISCH (U1.18): R14 + R28 2 x 1k C21190 and D10 BZT52C20-7-F C260890 at the pin,
+    so it stays <= 23.0 V and still reads >= 17.63 V on a 20 V contract (VMONUSBL 16 V).
+    Discharge of C3 to vSafe0V then needs about 0.91 s: the factory image must set
+    TDISPAR0V >= 13 (the 9 default gives 0.63 s minimum).
+  - DISCH (U1.9): R13 4.7k C23162 from VBUS_OUT and D12 BZT52C18-7-F at the pin.
+  - VBUS_EN_SNK (U1.16) on VBEN_PIN behind Q6 BSS138-7-F (source on the pin, drain on
+    R12 / net VBEN, gate on VG_LOC = VDD_LOC / 2 through R31 / R32 100k C25803) with
+    D11 BZT52C18-7-F at the pin. J3.8 probes the pin side.
 """
 
 PROJECT_NAME = 'board-p'
@@ -86,9 +96,19 @@ COMPONENTS = {
     'R11': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (38.1, 190.5)),
     'R12': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (76.2, 190.5)),
     'D8': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (279.4, 76.2)),
-    'R13': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (114.3, 190.5)),
-    'R14': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (152.4, 190.5)),
-    'R28': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (152.4, 266.7)),
+    'R13': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (114.3, 190.5)),
+    'R14': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 190.5)),
+    'R28': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 266.7)),
+    'R29': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (190.5, 190.5)),
+    'R30': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (228.6, 190.5)),
+    'R31': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603', False, (228.6, 215.9)),
+    'R32': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603', False, (266.7, 215.9)),
+    'C38': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (266.7, 165.1)),
+    'D9': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (38.1, 139.7)),
+    'D10': ('BZT52C20-7-F_C260890', 'BZT52C20-7-F', 'C260890', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (76.2, 139.7)),
+    'D11': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (228.6, 139.7)),
+    'D12': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (266.7, 139.7)),
+    'Q6': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED', False, (292.1, 266.7)),
     'C36': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (38.1, 266.7)),
     'Q5': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED', False, (76.2, 266.7)),
     'R27': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (114.3, 266.7)),
@@ -107,7 +127,7 @@ NETS = {
     'EF_IN': ['Q3.5', 'Q3.6', 'Q3.7', 'Q3.8', 'Q3.9', 'U3.4', 'U2.1', 'U2.2', 'U2.3', 'U2.6'],
     'EF_GATE': ['Q3.4', 'U3.5'],
     'EF_VCAP': ['U3.1', 'C37.1'],
-    'VBUS_P': ['U2.18', 'U2.19', 'U2.20', 'U1.24', 'R14.1', 'R11.2', 'R27.1', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
+    'VBUS_P': ['U2.18', 'U2.19', 'U2.20', 'R29.1', 'R14.1', 'R11.2', 'R27.1', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
     'EF_UVLO': ['U2.7', 'R22.2', 'R23.1'],
     'EF_OVP': ['U2.8', 'R24.2', 'R25.1'],
     'EF_DVDT': ['U2.10', 'C5.1'],
@@ -116,13 +136,17 @@ NETS = {
     'CC2': ['J1.4', 'U1.4', 'R18.1', 'R20.2', 'D7.1'],
     'CC1DB': ['U1.1', 'R19.1', 'J3.1'],
     'CC2DB': ['U1.5', 'R20.1', 'J3.2'],
-    'VBUS_VS_DISCH': ['U1.18', 'R28.2'],
+    'VBUS_VS_DISCH': ['U1.18', 'R28.2', 'D10.1'],
+    'VDD_MID': ['R29.2', 'R30.1'],
+    'VDD_LOC': ['U1.24', 'R30.2', 'D9.1', 'C38.1', 'R31.1'],
+    'VG_LOC': ['R31.2', 'R32.1', 'Q6.1'],
+    'VBEN_PIN': ['U1.16', 'Q6.2', 'D11.1', 'J3.8'],
     'VBUS_DISCH_R': ['R14.2', 'R28.1'],
-    'VBEN': ['U1.16', 'R12.1', 'J3.8'],
+    'VBEN': ['Q6.3', 'R12.1'],
     'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1', 'D8.2', 'Q5.3'],
     'Q1_MX': ['C36.1', 'Q5.1', 'Q5.2', 'R27.2'],
     'VBUS_OUT': ['Q1.5', 'Q1.6', 'Q1.7', 'Q1.8', 'Q1.9', 'R13.1', 'C36.2', 'JOUT1.1', 'JOUT1.2'],
-    'DISCH': ['U1.9', 'R13.2'],
+    'DISCH': ['U1.9', 'R13.2', 'D12.1'],
     'VREG_2V7': ['U1.23', 'C30.2', 'J3.3'],
     'VREG_1V2': ['U1.21', 'C34.1'],
     'SCL': ['U1.7', 'J2.1'],
@@ -130,7 +154,7 @@ NETS = {
     'RESET': ['U1.6', 'R21.1'],
     'ATT': ['U1.11', 'J3.6', 'JOUT1.3'],
     'PDOK': ['U1.20', 'J3.7', 'JOUT1.4'],
-    'GND': ['U1.10', 'U1.12', 'U1.13', 'U1.22', 'U1.25', 'J1.1', 'J1.6', 'J1.0', 'C1.1', 'C2.1', 'C30.1', 'C34.2', 'R21.2', 'R17.2', 'R18.2', 'J2.3', 'J3.5', 'D5.1', 'D5.2', 'D5.3', 'D5.7', 'U2.9', 'U2.21', 'U3.2', 'R23.2', 'R25.2', 'R26.2', 'C5.2', 'C3.2', 'D6.2', 'D7.2', 'JOUT1.5', 'JOUT1.6'],
+    'GND': ['U1.10', 'U1.12', 'U1.13', 'U1.22', 'U1.25', 'J1.1', 'J1.6', 'J1.0', 'C1.1', 'C2.1', 'C30.1', 'C34.2', 'R21.2', 'R17.2', 'R18.2', 'J2.3', 'J3.5', 'D5.1', 'D5.2', 'D5.3', 'D5.7', 'U2.9', 'U2.21', 'U3.2', 'D9.2', 'D10.2', 'D11.2', 'D12.2', 'C38.2', 'R32.2', 'R23.2', 'R25.2', 'R26.2', 'C5.2', 'C3.2', 'D6.2', 'D7.2', 'JOUT1.5', 'JOUT1.6'],
 }
 
 NO_CONNECT = ['U1.3', 'U1.14', 'U1.15', 'U1.17', 'U1.19',

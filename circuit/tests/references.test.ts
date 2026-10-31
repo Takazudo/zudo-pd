@@ -37,7 +37,7 @@ before(async () => {
 
 describe("reviewed document shortcuts", () => {
   it("partitions every reviewed record into a curated document or explicit exception", () => {
-    assert.equal(CIRCUIT_SELECTION.documentSelections.length, 66);
+    assert.equal(CIRCUIT_SELECTION.documentSelections.length, 68);
     assert.equal(CIRCUIT_SELECTION.documentExceptions.length, 1);
     assert.equal(model.records.length, CIRCUIT_SELECTION.expect.records);
     const curated = new Set(CIRCUIT_SELECTION.documentSelections.map((entry) => entry.recordId));

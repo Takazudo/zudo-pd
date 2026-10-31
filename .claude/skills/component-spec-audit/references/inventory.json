@@ -15,10 +15,10 @@
     }
   ],
   "assertions": {
-    "orderable_lines": 67,
-    "fitted_lines": 65,
+    "orderable_lines": 69,
+    "fitted_lines": 67,
     "dnp_or_hand_fit_lines": 2,
-    "fitted_placements": 127,
+    "fitted_placements": 137,
     "dnp_placements": 8
   },
   "exclusions": [
@@ -180,6 +180,52 @@
       ]
     },
     {
+      "line_id": "line-c192739",
+      "mpn": "BZT52C18-7-F",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C192739",
+      "package": "SOD-123_L2.8-W1.8-LS3.7-RD",
+      "owner_skill": "component-bzt52c18-7-f",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "18V zener diode, STUSB4500 local clamps (VDD, VBUS_EN_SNK, DISCH)",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D9",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "D11",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "D12",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c260890",
+      "mpn": "BZT52C20-7-F",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C260890",
+      "package": "SOD-123_L2.8-W1.8-LS3.7-RD",
+      "owner_skill": "component-bzt52c20-7-f",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20V zener diode, STUSB4500 VBUS_VS_DISCH local clamp",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D10",
+          "dnp": false
+        }
+      ]
+    },
+    {
       "line_id": "line-c25803",
       "mpn": "0603WAF1003T5E",
       "manufacturer": "UNI-ROYAL",
@@ -188,11 +234,21 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "100 kOhm resistor, U1 VBEN pull-up network",
+      "function": "100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider",
       "placements": [
         {
           "board": "board-a",
           "refdes": "R11",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R31",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R32",
           "dnp": false
         }
       ]
@@ -224,7 +280,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "470 Ohm resistor, VBUS_VS_DISCH discharge path (pin 18)",
+      "function": "470 Ohm resistor, Board A VBUS_VS_DISCH discharge path (pin 18) and DISCH",
       "placements": [
         {
           "board": "board-a",
@@ -234,21 +290,6 @@
         {
           "board": "board-a",
           "refdes": "R14",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
-          "refdes": "R13",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
-          "refdes": "R14",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
-          "refdes": "R28",
           "dnp": false
         }
       ]
@@ -262,7 +303,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up and Board P Q1 gate resistor R12",
+      "function": "4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up, Board P Q1 gate resistor R12 and DISCH series resistor R13",
       "placements": [
         {
           "board": "board-a",
@@ -277,6 +318,11 @@
         {
           "board": "board-p",
           "refdes": "R12",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R13",
           "dnp": false
         }
       ]
@@ -442,7 +488,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling, Board P soft-start Miller capacitor and LM74700 VCAP",
+      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling, Board P soft-start Miller capacitor, LM74700 VCAP and STUSB4500 VDD_LOC",
       "placements": [
         {
           "board": "board-a",
@@ -472,6 +518,11 @@
         {
           "board": "board-p",
           "refdes": "C37",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C38",
           "dnp": false
         }
       ]
@@ -692,11 +743,31 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "1 kOhm resistor, DC-DC feedback divider bottom resistor",
+      "function": "1 kOhm resistor, DC-DC feedback divider bottom resistor; Board P STUSB4500 VDD and VBUS_VS_DISCH series resistors",
       "placements": [
         {
           "board": "board-b",
           "refdes": "R4",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R14",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R28",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R29",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R30",
           "dnp": false
         }
       ]
@@ -1580,11 +1651,16 @@
       "owner_skill": "component-diodes-bss138-7-f",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network",
+      "function": "small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network and Q6 VBUS_EN_SNK cascode",
       "placements": [
         {
           "board": "board-p",
           "refdes": "Q5",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "Q6",
           "dnp": false
         }
       ]

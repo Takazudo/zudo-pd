@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c260890-electrical-limits",
+      "record_id": "rec-c260890",
+      "domain": "electrical-limits",
+      "status": "COVERED",
+      "reason": "VZ window, IZT, ZZT, IR, TC and PD are primary-source confirmed from the exact BZT52C20 row of DS18004 Rev. 38-2.",
+      "fact_ids": [
+        "fact-c260890-vz-min",
+        "fact-c260890-vz-max",
+        "fact-c260890-izt",
+        "fact-c260890-zzt",
+        "fact-c260890-ir-leakage",
+        "fact-c260890-tc-max",
+        "fact-c260890-pd"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c260890-distributor-identity",
+      "record_id": "rec-c260890",
+      "domain": "distributor-identity",
+      "status": "COVERED",
+      "reason": "Exact orderable C260890 is bound to Diodes Incorporated BZT52C20-7-F by the dated JLC parts API identity extract.",
+      "fact_ids": [
+        "fact-c260890-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c260890-footprint-land-pattern",
+      "record_id": "rec-c260890",
+      "domain": "footprint-land-pattern",
+      "status": "OPEN",
+      "reason": "Land geometry follows the manufacturer suggested pad layout; solder joint, stencil and assembly yield need a built board.",
+      "fact_ids": [
+        "fact-c260890-footprint-review"
+      ],
+      "blocking_fact_ids": [
+        "fact-c260890-footprint-review"
+      ]
+    },
+    {
+      "coverage_id": "cov-c260890-local-clamp-application",
+      "record_id": "rec-c260890",
+      "domain": "local-clamp-application",
+      "status": "OPEN",
+      "reason": "The STUSB4500 local clamp is a calculated draft; installed clamp current, leakage and the pin behaviour behind it need the Board P bench.",
+      "fact_ids": [
+        "fact-c260890-board-p-role",
+        "fact-c260890-manufacturer",
+        "fact-c260890-polarity"
+      ],
+      "blocking_fact_ids": [
+        "fact-c260890-board-p-role"
+      ]
+    }
+  ]
+}

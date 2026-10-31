@@ -83,7 +83,9 @@
         "rec-c861163",
         "rec-rt0603brd0710kl",
         "rec-c840100",
-        "rec-c461081"
+        "rec-c461081",
+        "rec-c192739",
+        "rec-c260890"
       ],
       "fact_ids": [
         "fact-high-diode-smaj20a-standoff",
@@ -131,9 +133,16 @@
         "fact-c461081-vds",
         "fact-c461081-vgs",
         "fact-c1849461-ovp-toff-max",
-        "fact-c1849461-fast-trip-typ-only"
+        "fact-c1849461-fast-trip-typ-only",
+        "fact-c192739-vz-max",
+        "fact-c192739-tc-max",
+        "fact-c192739-zzt",
+        "fact-c260890-vz-max",
+        "fact-c260890-tc-max",
+        "fact-c260890-zzt",
+        "fact-stusb-vbus-pin-absolute-max"
       ],
-      "conditions": "Board P spec is the 20 V r3 draft (dec-p-20v-revision, dec-p-20v-front-end-r3, dec-p-front-end-r3-migration): D5 TVS2200DRVR C523793 clamps connector VBUS_IN; Q3 CSD18543Q3A driven by the LM74700QDBVRQ1 C2941042 ideal-diode controller U3 (ANODE/EN on VBUS_IN, CATHODE on EF_IN) and U2 TPS16630PWPR C1849461 feed protected VBUS_P, which carries STUSB4500 VDD, Q1 and Board B. The TPS26630 and Q4 B_GATE pulldown of r2 are removed; the r2 arithmetic is archived. The Board P PCB is still the 15 V as-built SMAJ16A layout and is not re-synchronised. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. Board P Q1 is proposed as DMP3036SFG-7 C461081 (dec-p-20v-q1-5a; VDSS -30 V, VGSS +/-25 V), the same -30 V VDS as the AO3401A that remains on Board A and the as-built Board P PCB. That clamp point leaves 38.65 V to U2 IN/P_IN 67 V and 31.65 V to Q3 VDS 60 V. Q3 VGS is bounded by U3: 13.9 V maximum charge-pump turn-off leaves 6.1 V to the 20 V VGS rating, and the 15 V GATE-ANODE absolute maximum leaves 5 V. C1 C13585 and C2 C14663 on VBUS_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C (TPS16630 V(OVPR) 1.224 V maximum, the same row as the TPS26630); a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. U2 keeps conducting for up to 14 us (OVP_toff(dly) maximum) after a trip. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS_P bulk, so it applies to VBUS_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. It rests on TYP rows (fast trip and I(SCP) have no tabulated maximum) and on a bulk ESR with no datasheet maximum, so no guaranteed VBUS_P transient bound exists. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation.",
+      "conditions": "Board P spec is the 20 V r3 draft (dec-p-20v-revision, dec-p-20v-front-end-r3, dec-p-front-end-r3-migration): D5 TVS2200DRVR C523793 clamps connector VBUS_IN; Q3 CSD18543Q3A driven by the LM74700QDBVRQ1 C2941042 ideal-diode controller U3 (ANODE/EN on VBUS_IN, CATHODE on EF_IN) and U2 TPS16630PWPR C1849461 feed protected VBUS_P, which carries STUSB4500 VDD, Q1 and Board B. The TPS26630 and Q4 B_GATE pulldown of r2 are removed; the r2 arithmetic is archived. The Board P PCB is still the 15 V as-built SMAJ16A layout and is not re-synchronised. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. Board P Q1 is proposed as DMP3036SFG-7 C461081 (dec-p-20v-q1-5a; VDSS -30 V, VGSS +/-25 V), the same -30 V VDS as the AO3401A that remains on Board A and the as-built Board P PCB. That clamp point leaves 38.65 V to U2 IN/P_IN 67 V and 31.65 V to Q3 VDS 60 V. Q3 VGS is bounded by U3: 13.9 V maximum charge-pump turn-off leaves 6.1 V to the 20 V VGS rating, and the 15 V GATE-ANODE absolute maximum leaves 5 V. C1 C13585 and C2 C14663 on VBUS_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C (TPS16630 V(OVPR) 1.224 V maximum, the same row as the TPS26630); a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. U2 keeps conducting for up to 14 us (OVP_toff(dly) maximum) after a trip. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS_P bulk, so it applies to VBUS_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. It rests on TYP rows (fast trip and I(SCP) have no tabulated maximum) and on a bulk ESR with no datasheet maximum, so no guaranteed VBUS_P transient bound exists. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation. Phase 9 local clamps (dec-p-stusb-local-clamp): the STUSB4500 high-voltage pins no longer sit on VBUS_P. VDD (U1.24) is fed through R29 + R30 2 x 1k into VDD_LOC with D9 BZT52C18-7-F C192739 and C38 1 uF; VBUS_VS_DISCH (U1.18) keeps R14 + R28 (now 2 x 1k) with D10 BZT52C20-7-F C260890 on the pin; DISCH (U1.9) sits behind R13 4.7k with D12 BZT52C18-7-F; VBUS_EN_SNK (U1.16) drives R12 through a Q6 BSS138 cascode whose gate is VDD_LOC/2 (R31/R32 100k), with D11 BZT52C18-7-F on the pin. With VBUS_P at the 28.35 V TVS2200 35 A / 125 C clamp row, the pin bound is the zener VZ maximum at IZT plus the TC maximum above 25 C, plus ZZT maximum times any current beyond IZT (a project linearisation, at most 1.36 mA and 0.06 V). The TC minimum of 12.4 mV/C (in the tc-max fact conditions) is positive, so a cold row is bounded by the 25 C VZ maximum. The pin bound is therefore 20.709 V on VDD and 23.0 V on VBUS_VS_DISCH at 125 C, under the 28 V limits. The STUSB 28 V pin limit therefore no longer bounds the main surge path; Q1 DMP3036SFG-7 VDS -30 V does (1.65 V at the 28.35 V row). The calc-p20-stusb-node-margin rows remain the unclamped reference.",
       "verdict": "UNSOURCED",
       "refusal": "Do not certify surge survival or 20 V operation from 8/20 us table points, a static OVP bound or an assumed overshoot; measure connector, VBUS_P, gate and rail transients, and keep the current 15 V Board B off a 20 V contract.",
       "conditioned_calculations": [
@@ -337,6 +346,82 @@
               "temperature_delta_c": 100,
               "overshoot_v": 2.53665,
               "margin_v": 9.79214317611641
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-stusb-local-clamp-vdd",
+          "fact_ids": [
+            "fact-stusb-vdd-absolute-max",
+            "fact-c192739-vz-max",
+            "fact-c192739-tc-max",
+            "fact-c192739-zzt"
+          ],
+          "expression": "fact_stusb_vdd_absolute_max - (fact_c192739_vz_max + fact_c192739_tc_max / 1000 * (t_c - 25) + beyond_izt_ma / 1000 * fact_c192739_zzt)",
+          "result_key": "margin_v",
+          "conditions": "VDD_LOC with D9 BZT52C18-7-F fed from VBUS_P at 28.35 V through R29 + R30 2 x 1k 1 % (1980 ohm minimum). beyond_izt_ma is the clamp current above IZT 5 mA from scripts/pcb/calculate-input-ovp-20v.py; using ZZT maximum as the slope above IZT is a project linearisation. STUSB limits keep their mirror-source trust limitation.",
+          "results": [
+            {
+              "case": "-40 C, bounded by the 25 C VZ maximum (positive TC)",
+              "t_c": 25,
+              "beyond_izt_ma": 1.359,
+              "margin_v": 8.838845
+            },
+            {
+              "case": "25 C",
+              "t_c": 25,
+              "beyond_izt_ma": 0.833,
+              "margin_v": 8.862514999999998
+            },
+            {
+              "case": "105 C",
+              "t_c": 105,
+              "beyond_izt_ma": 0.332,
+              "margin_v": 7.605059999999998
+            },
+            {
+              "case": "125 C",
+              "t_c": 125,
+              "beyond_izt_ma": 0.207,
+              "margin_v": 7.290684999999996
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-stusb-local-clamp-vs-disch",
+          "fact_ids": [
+            "fact-stusb-vbus-pin-absolute-max",
+            "fact-c260890-vz-max",
+            "fact-c260890-tc-max",
+            "fact-c260890-zzt"
+          ],
+          "expression": "fact_stusb_vbus_pin_absolute_max - (fact_c260890_vz_max + fact_c260890_tc_max / 1000 * (t_c - 25) + beyond_izt_ma / 1000 * fact_c260890_zzt)",
+          "result_key": "margin_v",
+          "conditions": "VBUS_VS_DISCH with D10 BZT52C20-7-F fed from VBUS_P at 28.35 V through R14 + R28 2 x 1k 1 %. The DISCH (R13 4.7k) and VBUS_EN_SNK (Q6 cascode) pins use BZT52C18 at lower current and are bounded by the VDD rows. Same linearisation and trust limitation as calc-p20-stusb-local-clamp-vdd.",
+          "results": [
+            {
+              "case": "-40 C, bounded by the 25 C VZ maximum (positive TC)",
+              "t_c": 25,
+              "beyond_izt_ma": 0.414,
+              "margin_v": 6.777229999999999
+            },
+            {
+              "case": "25 C",
+              "t_c": 25,
+              "beyond_izt_ma": 0.0,
+              "margin_v": 6.800000000000001
+            },
+            {
+              "case": "105 C",
+              "t_c": 105,
+              "beyond_izt_ma": 0.0,
+              "margin_v": 5.359999999999999
+            },
+            {
+              "case": "125 C",
+              "t_c": 125,
+              "beyond_izt_ma": 0.0,
+              "margin_v": 5.0
             }
           ]
         }

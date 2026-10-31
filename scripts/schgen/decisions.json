@@ -29,7 +29,8 @@
     "single-lineup",
     "p-20v-front-end-r3",
     "nvm-per-unit-programming",
-    "p-front-end-r3-migration"
+    "p-front-end-r3-migration",
+    "p-stusb-local-clamp"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -676,6 +677,26 @@
         "fact-c1849461-board-p-config",
         "fact-c2941042-board-p-config",
         "fact-c21189-reset-strap-topology"
+      ]
+    },
+    {
+      "key": "p-stusb-local-clamp",
+      "id": "dec-p-stusb-local-clamp",
+      "title": "STUSB4500 high-voltage pins on local small-current clamps",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator phase-9 direction 2026-10-31, draft within dec-p-front-end-r3-migration: the STUSB4500 VDD, VBUS_VS_DISCH, DISCH and VBUS_EN_SNK pins are moved off VBUS_P onto local clamped nodes. VDD: R29 + R30 0603WAF1001T5E C21190 2 x 1k into VDD_LOC with D9 BZT52C18-7-F C192739 and C38 CL10A105KB8NNNC C15849 1 uF. VBUS_VS_DISCH: R14 + R28 become 2 x 1k C21190 and D10 BZT52C20-7-F C260890 clamps U1.18. DISCH: R13 becomes 0603WAF4701T5E C23162 4.7k and D12 BZT52C18-7-F clamps U1.9. VBUS_EN_SNK: Q6 BSS138-7-F C40912 cascode (source VBEN_PIN = U1.16 with D11 BZT52C18-7-F and J3.8, drain VBEN = R12, gate VG_LOC = VDD_LOC through R31/R32 0603WAF1003T5E C25803 100k/100k). CC pins are unchanged. The factory NVM image must set TDISPAR0V >= 13 so the 2 kOhm VBUS_VS_DISCH discharge can reach vSafe0V. The Board P PCB is unchanged and still carries r2.",
+      "rationale": "The 28 V STUSB pin limit was the binding constraint on the main surge path (rule-tvs-clamp-vs-absmax). With mA-level series feeds into guaranteed zener rows (DS18004 VZ max at IZT plus TC max), the pin bound is 20.709 V (VDD) and 23.0 V (VBUS_VS_DISCH) with VBUS_P at the 28.35 V TVS2200 35 A / 125 C row, and VDD stays <= 20.38 V at 105 C, inside the 22 V operating row. Attach headroom at 5 V depends on an operating IDD maximum the copied datasheet does not give (OPEN); STUSB VMONUSBH no longer works as an overvoltage monitor behind the clamp, so U2 OVP alone protects against slow overvoltage.",
+      "evidence": [
+        "fact-c192739-vz-max",
+        "fact-c192739-tc-max",
+        "fact-c260890-vz-max",
+        "fact-c260890-tc-max",
+        "fact-c192739-board-p-role",
+        "fact-c260890-board-p-role",
+        "fact-stusb-vbus-pin-absolute-max"
       ]
     }
   ]
