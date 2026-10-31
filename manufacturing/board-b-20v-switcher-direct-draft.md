@@ -97,10 +97,10 @@ Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprin
 | Contract item | Result | Basis |
 |---|---|---|
 | Source band, ripple excluded (§0) | **PASS** | +12: 12.042–12.196 V; −12: 12.017–12.182 V; +5: 5.0543–5.0981 V. With hot RDS(on) (×1.25, PA) the minimums are 12.026 / 12.001 / 5.0504 V |
-| Ripple at load < 1 mVp-p (§0) | **NOT RUN** | The vendor TPS54560 transient model aborts in ngspice ("timestep too small"); ideal LC arithmetic gives 18 / 12 / 45 µVp-p, which is not evidence. §5 |
+| Ripple at load < 1 mVp-p (§0) | **OPEN (averaged + ripple injection, not a switching simulation)** | The vendor TPS54560 transient model still aborts after the phase-8 retry (§5). Injecting the switching current into the linear filter network gives 22.6 / 13.4 / 43.6 µVp-p at the output, with PA ESL and no SRF, coupling or ground-return terms. §5 |
 | Limiter trip window (§1) | **PASS** | +12: 2.0032–2.0898 A; +5: 0.4369–0.4608 A; −12: 1.9025–1.9967 A, including ILIMIT × R_TH (review finding 1) |
-| No trip on the startup ramp (§1, §5) | **PASS (SIM), with OPEN margin at full load** | Peak source current during the ramp is ≤ 0.155 / 0.091 / 0.281 A at no load. With resistive loads sized at I_TRANSIENT_MIN at 12 V, the steady current is 2.013 A at 12.05 V, above the +12 V trip minimum of 2.0032 A. §5 |
-| Maximum never delivered (let-through) (§1) | **OPEN** | The limiter trips; it does not regulate current. Short-circuit current before switch-off depends on unsourced source and wiring impedances. No current-limiting element is drawn |
+| No trip on the startup ramp (§1, §5) | **FAIL as drawn; PASS (PROPOSED retune, shunt evidence G-U)** | Start into the full transient load peaks at I_min × V_terminal,max / V_nom: 2.0327 / 1.9289 / 0.4078 A. As drawn the trip minimums are 2.0032 / 1.9025 / 0.4369 A, so +12 V and −12 V fail. One 10 mΩ 0.1 % 15 ppm/°C shunt (RESI PCSR2512BR010M6, C23067428, distributor listing only) with LIMIT 649 Ω / 2.74 kΩ and −12 V divider 20.3 kΩ / 33 Ω gives 2.0418–2.0847 A and 1.9423–1.9953 A. Not drawn. §5a |
+| Maximum never delivered (let-through) (§1) | **OPEN** | The limiter trips; it does not regulate current. A series inductor that holds a hard short below I_MAX for an illustrative 2 µs switch-off needs 1.6 / 5.2 / 0.26 mH, which is infeasible at 2 A; switch-off time has no guaranteed figure. The contract needs let-through stated as charge or time above I_MAX. §5a |
 | Any trip → all-rail latched shutdown, re-plug only (§1) | **PASS (topology)** | FAULT_N is shared; the latch has no retry path. The limiter comparators are not in the simulation |
 | Reverse blocking on all rails (§2) | **PASS (topology)** | Back-to-back NFET pairs on all three rails |
 | Reverse current ≤ 1 mA (§2) | **OPEN** | Divider currents are 0.23 / 0.50 / 0.12 mA (CALCULATED). FET and BSS138 leakage at temperature is not retained as a guaranteed value |
@@ -110,7 +110,7 @@ Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprin
 | Discharge resistor pulse rating | **OPEN** | The PROPOSED 1206 loads have no owner record or pulse curve |
 | Disconnect skew ≤ 1 ms (§3) | **PASS (SIM)** | Run `disR`: source current below 10 mA at 21.4 / 20.0 / 24.0 µs after EN_N; skew 4 µs. Gate below 1 V at 15.9 / 16.5 µs |
 | Monotonic common ramp ≥ 10 ms, slope limits (§5) | **FAIL (SIM) in 2 of 7 runs** | Arithmetic slopes 1.108 / 0.461 / 1.119 V/ms PASS. Simulated worst: +12 0.86 V/ms PASS; +5 0.75 V/ms in `rev` (limit 0.51) FAIL; −12 1.55 V/ms in `adv` (limit 1.22) FAIL |
-| Start skew ≤ 0.41 ms (§5) | **FAIL (SIM)** | 0.55–2.26 ms over the seven runs. The ±0.5 V FET threshold shifts (PA) move each pair's start |
+| Start skew ≤ 0.41 ms (§5) | **FAIL (SIM) as drawn; PASS (PROPOSED construction, arithmetic)** | Drawn: 0.55–2.26 ms over the seven runs, kept as measured. The phase-8 clamp construction (§5b) meets the voltage form: +12 V alone ≤ 0.404 V (0.096 V margin to 0.5 V) and the −12 V magnitude ≤ 0.556 V while +12 V ≤ 0.5 V. Not drawn, not simulated |
 | Band-entry skew ≤ 2 ms; +5 V up last (§5) | **PASS (SIM)** | 0.98–1.04 ms; +5 V last in all seven runs. Arithmetic: 1.020 ms |
 | +12 V lead over \|−12 V\| ≤ 0.5 V (review finding 5) | **PASS (SIM)** | At most 0.24 V; \|−12\| leads +12 by up to 0.61 V, inside the R-VEE 6 V limit |
 | OV/UV windows (§6) | **PASS** | All three rails fit, using actual E192 resistor values |
@@ -160,9 +160,28 @@ The servo integrators are outside this loop; their 5 ms time constant is three d
 
 ### Ripple
 
-**NOT RUN.** The vendor transient model stops with "timestep too small" in every solver variant tried.
-The ideal LC figures stay arithmetic only. ESL, inductor self-resonance, edge spikes and layout coupling
-need either a working switching model with real ESL/SRF data or a bench measurement at a stated bandwidth.
+**Switching model: still NOT RUN.** Phase 8 retried the vendor transient model once with a changed
+input: the `FAST=1` model variant and a 1.2 ms deck. It stopped at 0.14 ms with "timestep too small"
+at node `x1.u3_n16532327`; the earlier failures were at 0.92 ms on `x1.isw`.
+
+**Averaged + ripple injection (labelled; not a switching simulation).** `ripple_injection()` in
+`scripts/pcb/calculate-board-b20-draft.py` replaces each converter by its averaged operating point
+plus an injected periodic current at the minimum switching frequency (501 kHz, typ −10 %). It then
+takes the periodic steady state of the linear filter network by harmonic superposition. A linear ngspice
+transient of the same network was also tried; it stopped with "timestep too small" at a node with no
+switching element, so the frequency-domain form is used.
+
+| Rail | Injected current | Stage-1 bank | Output | Limit |
+|---|---|---:|---:|---:|
+| +12 V | buck triangle 1.256 App at VIN 25.21 V | 27.9 mVp-p | 22.6 µVp-p | 1 mVp-p |
+| +5 V | buck triangle 0.809 App | 17.7 mVp-p | 13.4 µVp-p | 1 mVp-p |
+| −12 V | inverter diode current, IL 3.27 A, 20 ns edges (PA) | 77.1 mVp-p | 43.6 µVp-p | 1 mVp-p |
+
+The network is the GRM32 stage-1 bank (3 mΩ, 0.5 nH ESL PA per part), the 10 µH post filter at its
+68 mΩ DCR maximum, then 25SVPF47M (30 mΩ, 1 nH PA) plus one GRM32, into the I_MAX load. The status
+stays **OPEN**: ESL, inductor self-resonance, switch-node coupling, the ground return and the
+measurement bandwidth are PA or unsourced, and they set the high-frequency content that a real
+measurement would see.
 
 ### Tracking start and disconnect
 
@@ -195,7 +214,64 @@ and nothing like it is drawn.
 
 **The test load is at the trip edge.** I_TRANSIENT_MIN loads at 12 V become 2.013 A at the 12.05 V
 terminal, which is above the +12 V trip minimum. The limiter comparators are not in these decks.
-Startup into the full 2.0 A load near the +12 V trip minimum stays OPEN.
+
+### 5a. Phase 8: start into the full load and let-through (arithmetic)
+
+A resistive load sized at I_TRANSIENT_MIN at the nominal rail draws I_min × V_terminal,max / V_nom
+once the rail is up: 2.0327 / 1.9289 / 0.4078 A (`limiter_startup()`). The ramp does not add to that
+peak: the load RC (180 µF × 6 Ω = 1.08 ms) is shorter than the servo time constant (about 5 ms), so
+V + RC·dV/dt stays below the final V. Judged on peaks, the drawn trip minimums fail on +12 V and −12 V.
+
+| Rail | Startup floor | Drawn trip | Proposed trip (not drawn) | Result |
+|---|---:|---:|---:|---|
+| +12 V | 2.0327 A | 2.0032–2.0898 A | 2.0418–2.0847 A (1 × 10 mΩ 0.1 %, LIMIT 649 Ω / 2.74 kΩ) | PASS (PROPOSED) |
+| −12 V | 1.9289 A | 1.9025–1.9967 A | 1.9423–1.9953 A (1 × 10 mΩ 0.1 %, 10.2k + 10.1k / 33 Ω) | PASS (PROPOSED) |
+| +5 V | 0.4078 A | 0.4369–0.4608 A | unchanged | PASS |
+
+The 10 mΩ shunt (RESI PCSR2512BR010M6, C23067428) and its 20 mΩ sibling (PCSR2512BR020M6,
+C19690158) are known only from a read-only JLC listing (G-U); no manufacturer datasheet is retained.
+
+Let-through stays **OPEN**. The limiter is a trip, not a regulator. Bounding a hard short below I_MAX
+with a series inductor needs L ≥ V × t_off / (I_MAX − trip_max): 1.6 mH (+12 V), 5.2 mH (−12 V) and
+0.26 mH (+5 V) at an illustrative 2 µs, and no retained source guarantees t_off.
+
+### 5b. Phase 8: +12 V-first start sequence by construction (PROPOSED, not drawn or simulated)
+
+Each tracking target becomes the minimum of its RAMP term and a clamp derived from the other rails'
+actual terminals (`start_sequence_proposal()`). Followers only lag their targets, and the contract
+excludes overshoot, so each inequality holds on the outputs regardless of FET thresholds:
+
+- |−12| ≤ 1.10 × V(+12): −12 V cannot start or lead before +12 V.
+- V(+12) ≤ 1.10 × |−12| + 0.40 V: +12 V alone stays below the 0.5 V one-rail limit.
+- V(+5) ≤ 0.55 × (min(V(+12), |−12|) − OFF_P5), with OFF_P5 = 0 (unconditional) or 1.5 V (P59-A).
+- RAMP C rises from 1 µF to 1.5 µF so that every clamped slope stays inside the contract.
+
+Clamp-amplifier and diode errors are taken as 1 % (PA).
+
+| Row | Limit | Construction | Margin |
+|---|---|---|---|
+| Unconditional: +12 V alone | ≤ 0.5 V | ≤ 0.404 V | 0.096 V |
+| Unconditional: −12 V alone | ≤ 6 V | ≤ 0.556 V while +12 V ≤ 0.5 V | 5.44 V |
+| Unconditional start skew (time form of the row above) | ≤ 0.41 ms | voltage form met directly | n/a |
+| P59-A: −12 V magnitude until +12 V ≥ 5.2 V | ≤ 6 V | ≤ 5.777 V | 0.223 V |
+| P59-A: −12 V lead (time form, 0.069 × ramp time) | ≤ 1.15 ms on this ramp | 0.81 ms at 6 V | 0.34 ms |
+| P59-A: +12 V lead | no R-VEE limit; ≤ 6.50 ms with +5 V present | single analog rail ≤ 0.404 V | n/a |
+| Slopes | 1.23 / 0.51 / 1.22 V/ms | 0.829 / 0.461 / 0.821 V/ms | PASS |
+| First band entry / band-entry skew | ≥ 10 ms / ≤ 2 ms | 28.2 ms / 1.53 ms | PASS |
+| Pair overdrive at the end of the ramp | > 0 | +12 0.69 V, −12 0.41 V, +5 0.94 / 0.13 V | PASS |
+
+With OFF_P5 = 0, +5 V stays at or below 0.8 V until both analog rails reach 1.47 V, and it starts with
+them. With OFF_P5 = 1.5 V (P59-A), the hold extends until both analog rails reach 2.97 V, and +5 V starts
+1.81 ms later. That lag breaks the literal "all ramps start within 0.41 ms" row, whose basis is the
++12 V-leading case only.
+
+Holding +5 V ≤ 0.8 V until both analog rails are inside their source bands is not compatible with the
+contract. +5 V then needs ≥ 8.33 ms at 0.51 V/ms after analog band entry, against the 2 ms band-entry
+skew (PROPOSED) and the one-common-ramp shape (CONTRACT). OSC has to define the level that "both analog
+rails up" means.
+
+The 28 ms first band entry is inside the 20–50 ms range that the contract lists only as candidate
+PWR-C1; OSC tolerance of slower ramps is unverified.
 
 ## 6. Checks run on this draft
 

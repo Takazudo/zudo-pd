@@ -33,7 +33,7 @@ This record in the catalog: [BZT52C11-7-F](/docs/components/catalog/#rec-bzt52c1
 
 **Source state:** AVAILABLE
 
-**Coverage:** 1 open of 3 published
+**Coverage:** 2 open of 4 published
 
 ## Documents and package
 
@@ -115,6 +115,22 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 - [`fact-bzt52c11-knee-margin-15v`](#fact-bzt52c11-knee-margin-15v)
 - [`fact-bzt52c11-d8-orientation`](#fact-bzt52c11-d8-orientation)
+
+### footprint-land-pattern
+
+<EvidenceAnchor id="cov-bzt52c11-footprint-land-pattern" />
+
+**Coverage ID:** `cov-bzt52c11-footprint-land-pattern` · **Status:** OPEN
+
+**Reason:** Land geometry now follows the manufacturer suggested pad layout (phase-8 land check); solder joint, stencil and assembly yield need a built board.
+
+**Facts in this domain:**
+
+- [`fact-bzt52c11-footprint-review`](#fact-bzt52c11-footprint-review)
+
+**Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
+
+- [`fact-bzt52c11-footprint-review`](#fact-bzt52c11-footprint-review)
 
 ## Facts
 
@@ -260,6 +276,20 @@ A value this project recorded about how the part is used here — a chosen opera
   **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
 
   **Evidence:** [src-bzt52c11-diodes-primary: page 1 mechanical data, polarity statement row](#src-bzt52c11-diodes-primary)
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-bzt52c11-footprint-review" />
+
+  **Fact:** `fact-bzt52c11-footprint-review`
+
+  **Value:** Project land SOD-123\_L2.8-W1.8-LS3.7-RD corrected to the Diodes SOD123 suggested pad layout: pads 0.90 x 0.95 mm at x +/-1.575 mm (X1 4.05 mm outer extent) · **Unit:** `NONE`
+
+  **Conditions:** Phase-8 correction of the earlier 0.95 x 1.15 mm / 4.33 mm land after the LED land check. Shared by every C92321 placement (Board P D8, Board A D8, B20 Z11). Solder-mask, stencil and assembly yield are not reviewed.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PROJECT-CHOICE
+
+  **Evidence:** [`src-bzt52c11-diodes-primary`](#src-bzt52c11-diodes-primary) — Figure suggested pad layout SOD123 page 4, dimension rows X 0.900 / Y 0.950 / X1 4.050
 </EvidenceFact>
 
 <EvidenceFact>

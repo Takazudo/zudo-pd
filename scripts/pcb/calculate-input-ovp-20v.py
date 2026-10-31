@@ -4,10 +4,14 @@
 Reproduces the tables in manufacturing/input-protection-20v.md. Every input is
 tagged with its evidence class; nothing here is a measurement or an adopted value.
 
-Gate L7 is BLOCKING. The protected-node rows use TYP I(SCP) and t_FASTTRIP and a PA
-bulk ESR; SLVSE94G gives no I(SCP) maximum, and the soft-short response is 4.5 us
-maximum. The only guaranteed bound is VBUS_IN at the TVS2200 clamp, 28.0-28.35 V
-against the 28 V STUSB4500 absolute maximum (independent review finding 4).
+Gate L7 is FAIL on guaranteed figures (phase 8, Board P r3: LM74700 + Q3, then TPS16630).
+VBUS_P is fed only forward through Q3 and U2, so it cannot rise above VBUS_IN except by
+PCB parasitic inductance, which is unquantified. VBUS_IN is bounded only by the TVS2200
+clamp rows: 27.7 V (24 A, 27 C), 28.0 V (40 A, 27 C) and 28.35 V (35 A, 125 C), against
+the STUSB4500 28 V absolute maximum. A tighter VBUS_P bound (trip plus let-through into
+the bulk) needs a guaranteed peak current through U2 during OVP_toff(dly); SLVSET9G gives
+the fast-trip threshold and I(SCP) as TYP only, so a guaranteed bulk ESR alone cannot
+close the gate. The TYP let-through rows below are a sensitivity, never a bound.
 """
 
 import argparse
@@ -22,13 +26,14 @@ VBUS_20V_MAX_V = 21.0
 # Project guard between the highest legitimate VBUS and the lowest OVP trip (PA).
 TRIP_GUARD_V = 0.5
 
-# TI TPS2663 SLVSE94G (G, retrieved 2026-10-31): OVP comparator and timing.
+# TI TPS1663 SLVSET9G (G, retrieved 2026-10-31): the TPS16630 V(OVPR), OVP_toff, I(OL) and RON rows
+# carry the same limits the r2 TPS26630 (SLVSE94G) analysis used.
 VOVPR_MIN, VOVPR_TYP, VOVPR_MAX = 1.176, 1.2, 1.224
 VOVPF_MIN, VOVPF_MAX = 1.09, 1.15
 OVP_TOFF_MAX_S = 14e-6  # OVP rising to FLT low; FET-off coincidence is PA
 IOL_MAX_A_4K02 = 4.815  # R(ILIM) = 4.02 kOhm row, G
 IOL_MIN_A_4K02 = 4.185
-FASTRIP_MULT = 2.0  # TPS26630/TPS26632: 2 x I(OL), TYP column
+FASTRIP_MULT = 2.0  # TPS16630: 2 x I(OL), TYP only (no tabulated min/max)
 ISCP_TYP_A = 45.0  # TYP
 TFASTRIP_TYP_S = 1e-6  # section 8.3, typical
 TSOFTSHORT_MAX_S = 4.5e-6  # EC table: soft short response, I(FASTTRIP) < I(OUT) < I(SCP), max
@@ -41,6 +46,9 @@ DIVIDER_ERR = 0.002
 TVS2200_VBR_MIN_V = 24.6
 TVS2200_VC_40A_27C_V = 28.0
 TVS2200_VC_35A_125C_V = 28.35
+TVS2200_VC_24A_27C_V = 27.7
+# STUSB4500 DS12499 Table 21 operating maximum for VDD and the VBUS pins (G-U, mirror in the bundle).
+STUSB_VDD_OPERATING_MAX_V = 22.0
 
 # Board P r2 (dec-p-20v-front-end-r2): UVLO divider and single bulk part.
 UVLO_R_TOP_OHM, UVLO_R_BOT_OHM = 11.5e3, 4.02e3  # Yageo 0.1 % (G)
@@ -117,10 +125,44 @@ def main():
         node = ovp_fitted_hi + q / c_min + i_peak * esr
         sens.append({"case": label, "node_v": round(node, 2), "margin_to_28v": round(STUSB_VBUS_ABS_MAX_V - node, 2)})
     r2["node_sensitivity_80uF"] = sens
-    r2["l7_status"] = "BLOCKING"
+    r2["l7_status"] = "superseded by front_end_r3_guaranteed (TYP rows are a sensitivity only)"
     r2["l7_guaranteed_bound"] = ("VBUS_IN <= TVS2200 clamp 28.0 V (27 C) / 28.35 V (125 C): margin "
                                  f"{STUSB_VBUS_ABS_MAX_V - TVS2200_VC_40A_27C_V:+.2f} / {STUSB_VBUS_ABS_MAX_V - TVS2200_VC_35A_125C_V:+.2f} V")
 
+    # r3, guaranteed figures only (phase 8).
+    clamp_rows = (("24 A 8/20 us, 27 C", TVS2200_VC_24A_27C_V), ("40 A 8/20 us, 27 C", TVS2200_VC_40A_27C_V),
+                  ("35 A 8/20 us, 125 C", TVS2200_VC_35A_125C_V))
+    tol, tcr_dt = 0.001, 25e-6 * 100
+    def trip(vref, ratio, sign, drift=0.0):
+        return vref * (1 + ratio * (1 + sign * (tol + drift)) / (1 - sign * (tol + drift)))
+    ratio_fit = OVP_R_TOP_OHM / OVP_R_BOT_OHM
+    # Largest divider ratio whose trip maximum stays at the 22 V operating ceiling, and the trip minimum it then gives.
+    ratio_22 = (STUSB_VDD_OPERATING_MAX_V / VOVPR_MAX - 1) * (1 - tol) / (1 + tol)
+    r3 = {
+        "l7_status": "FAIL (guaranteed figures)",
+        "vbus_p_bound": "VBUS_P <= VBUS_IN (forward-only Q3 + U2 path; PCB inductive overshoot unquantified) <= TVS2200 clamp row",
+        "clamp_rows": [{"case": c, "vbus_p_max_v": v, "margin_to_28v": round(STUSB_VBUS_ABS_MAX_V - v, 2)} for c, v in clamp_rows],
+        "let_through_bound": "NOT AVAILABLE: no guaranteed I(FASTTRIP) or I(SCP) maximum (SLVSET9G TYP only); a guaranteed bulk ESR does not supply the missing current term",
+        "ovp_trip_fitted_v": [round(trip(VOVPR_MIN, ratio_fit, -1), 4), round(trip(VOVPR_MAX, ratio_fit, +1), 4),
+                              round(trip(VOVPR_MAX, ratio_fit, +1, tcr_dt), 4)],
+        "stusb_operating_gap_v": round(trip(VOVPR_MAX, ratio_fit, +1) - STUSB_VDD_OPERATING_MAX_V, 4),
+        "ratio_for_22v_trip_max": round(ratio_22, 4),
+        "trip_min_at_that_ratio_v": round(trip(VOVPR_MIN, ratio_22, -1), 4),
+        "guard_over_21v_at_that_ratio_v": round(trip(VOVPR_MIN, ratio_22, -1) - VBUS_20V_MAX_V, 4),
+    }
+    # LED worker proposal (led-phase11 section a): OVP top 133k as a per-product common-block value.
+    ratio_led = 133e3 / OVP_R_BOT_OHM
+    r3["per_product_ovp_133k"] = {
+        "trip_v": [round(trip(VOVPR_MIN, ratio_led, -1), 4), round(trip(VOVPR_MAX, ratio_led, +1), 4),
+                   round(trip(VOVPR_MAX, ratio_led, +1, tcr_dt), 4)],
+        "pd_product": "NOT APPLICABLE: the trip maximum is below the 19.0 V PD 20 V contract minimum, so PD would trip on its own contract",
+        "led_product": "valid as a resistor-value-only per-product parameter (same footprint and net); it requires an NVM image whose "
+                       "highest PDO is 15 V, because a 20 V contract trips OVP and the STUSB browns out",
+        "l7_effect_guaranteed": "none: VBUS_P is still bounded only by the TVS2200 clamp row; an earlier trip shortens the TYP "
+                                "overshoot window but no guaranteed current term exists to turn it into a bound",
+        "l7_effect_typ": "LED sensitivity 29.6 V -> 24.6 V at 80 uF / 0.5 ohm (TYP charge, PA ESR): a sensitivity, not a bound",
+        "stusb_vdd_22v_effect": "the trip maximum then sits well below the 22 V STUSB VDD operating maximum, which closes that gap for LED only",
+    }
     result = {
         "ovp_nominal_v": round(v_nominal, 2),
         "ovp_trip_window_v": [round(lo, 2), round(hi, 2)],
@@ -135,7 +177,8 @@ def main():
         "tvs2200_alone_margin_27c_v": round(STUSB_VBUS_ABS_MAX_V - TVS2200_VC_40A_27C_V, 2),
         "tvs2200_vbr_min_over_vbus_v": round(TVS2200_VBR_MIN_V - VBUS_20V_MAX_V, 2),
         "cc_single_fault_margin_v": round(STUSB_CC_ABS_MAX_V - VBUS_20V_MAX_V, 2),
-        "front_end_r2": r2,
+        "front_end_r2_typ_sensitivity": r2,
+        "front_end_r3_guaranteed": r3,
     }
     if args.json:
         print(json.dumps(result, indent=2))
@@ -159,7 +202,17 @@ def main():
           " (TYP I(SCP)/t_FASTTRIP and PA ESR: not a bound)")
     for r in r2["node_sensitivity_80uF"]:
         print(f"  {r['case']}: {r['node_v']} V, margin {r['margin_to_28v']:+} V")
-    print(f"L7 {r2['l7_status']}: only guaranteed bound is {r2['l7_guaranteed_bound']}")
+    print(f"r3 L7 {r3['l7_status']}: {r3['vbus_p_bound']}")
+    for r in r3["clamp_rows"]:
+        print(f"  TVS2200 {r['case']}: VBUS_P <= {r['vbus_p_max_v']} V, margin to 28 V {r['margin_to_28v']:+} V")
+    print(f"  let-through bound: {r3['let_through_bound']}")
+    print(f"r3 OVP trip {r3['ovp_trip_fitted_v'][0]}-{r3['ovp_trip_fitted_v'][1]} V ({r3['ovp_trip_fitted_v'][2]} V with TCR over 100 C);"
+          f" above the 22 V STUSB operating maximum by up to {r3['stusb_operating_gap_v']} V")
+    print(f"  ratio {r3['ratio_for_22v_trip_max']} would cap the trip at 22.0 V but its minimum {r3['trip_min_at_that_ratio_v']} V"
+          f" leaves {r3['guard_over_21v_at_that_ratio_v']} V over the 21.0 V normal high (0.5 V guard wanted)")
+    led = r3["per_product_ovp_133k"]
+    print(f"per-product OVP 133k/10k (LED proposal): trip {led['trip_v'][0]}-{led['trip_v'][1]} V ({led['trip_v'][2]} V TCR);"
+          f" PD {led['pd_product'].split(':')[0]}; L7 guaranteed effect {led['l7_effect_guaranteed'].split(':')[0]}")
 
 
 if __name__ == "__main__":

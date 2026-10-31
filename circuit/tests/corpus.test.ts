@@ -44,10 +44,10 @@ describe("the corpus normalizes to the figures the epic states", () => {
     assert.equal(model.corpus.dnpOrHandFitLines, 2);
   });
 
-  it("counts 169 sources, 698 facts, 196 coverage domains, 40 interactions", () => {
+  it("counts 169 sources, 701 facts, 198 coverage domains, 40 interactions", () => {
     assert.equal(model.corpus.sources, 169);
-    assert.equal(model.corpus.facts, 698);
-    assert.equal(model.corpus.coverageDomains, 196);
+    assert.equal(model.corpus.facts, 701);
+    assert.equal(model.corpus.coverageDomains, 198);
     assert.equal(model.corpus.interactions, 40);
   });
 
@@ -60,8 +60,8 @@ describe("the corpus normalizes to the figures the epic states", () => {
   it("publishes every instance without duplicating or dropping one", () => {
     assert.equal(model.records.length, 67);
     assert.equal(sum(model.records, (entry) => entry.sources.length), 169);
-    assert.equal(sum(model.records, (entry) => entry.facts.length), 698);
-    assert.equal(sum(model.records, (entry) => entry.coverage.length), 196);
+    assert.equal(sum(model.records, (entry) => entry.facts.length), 701);
+    assert.equal(sum(model.records, (entry) => entry.coverage.length), 198);
     assert.equal(sum(model.records, (entry) => entry.pinMaps.length), 67);
     assert.equal(
       sum(model.records, (entry) => sum(entry.pinMaps, (map) => map.pins.length)),
@@ -93,7 +93,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
       assert.equal(new Set(anchors).size, anchors.length, entry.identity.slug);
       total += anchors.length;
     }
-    assert.equal(total, 67 + 169 + 698 + 196 + 46 + 67);
+    assert.equal(total, 67 + 169 + 701 + 198 + 46 + 67);
 
     // Record-scoped anchors stay globally unique — each belongs to one page.
     const scoped = model.records.flatMap((entry) => [
@@ -178,11 +178,11 @@ describe("the real records the epic calls out", () => {
     const coverage = model.records.flatMap((entry) => entry.coverage);
     const open = coverage.filter((entry) => entry.status === "OPEN");
     assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 110);
-    assert.equal(open.length, 86);
+    assert.equal(open.length, 88);
 
     const withBlockers = open.filter((entry) => entry.blockingFactIds.length > 0);
     const withoutBlockers = open.filter((entry) => entry.blockingFactIds.length === 0);
-    assert.equal(withBlockers.length, 75);
+    assert.equal(withBlockers.length, 77);
     assert.equal(withoutBlockers.length, 11);
 
     // An open domain never publishes without saying why it is open.
@@ -218,8 +218,8 @@ describe("the real records the epic calls out", () => {
 
   it("keeps numeric, string and structured fact values in their own shapes", () => {
     const values = model.records.flatMap((entry) => entry.facts).map((fact) => fact.value);
-    assert.equal(values.filter((value) => typeof value === "number").length, 362);
-    assert.equal(values.filter((value) => typeof value === "string").length, 274);
+    assert.equal(values.filter((value) => typeof value === "number").length, 363);
+    assert.equal(values.filter((value) => typeof value === "string").length, 276);
     assert.equal(values.filter((value) => Array.isArray(value)).length, 62);
 
     const identity = model.records

@@ -251,6 +251,67 @@ def limiter():
     return rows
 
 
+# PROPOSED limiter retune (not drawn in board_b20_spec.py). RESI PCSR2512BR010M6 / C23067428
+# 10 mOhm 0.1 % 15 ppm/C: distributor listing only (G-U), no primary datasheet retained.
+PROP_SHUNT = {'r': 0.010, 'tol': 0.001, 'tcr': 15e-6, 'evidence': 'G-U (distributor listing)'}
+PROP_LIMIT_DIV_P12 = {'top': 649.0, 'bot': 2.74e3}
+PROP_M12_LIMIT_DIV = {'top': 10.2e3 + 10.1e3, 'bot': 33.0}
+STARTUP_LOAD_REF_V = {'+12': 12.0, '-12': 12.0, '+5': 5.0}   # PA: transient-load minimum defined at nominal
+
+
+def limiter_startup():
+    """Resistive start into the full transient load: the peak draw is I_min x Vterm_max / Vnom.
+
+    The servo time constant (~5 ms) is longer than the load RC, so charging does not add to the peak.
+    """
+    tb = terminal_band()
+    lim = limiter()
+    sp = setpoints()
+    rows = {}
+    floor = {r: I_TRANSIENT_MIN[r] * tb[r]['terminal_max_v'] / STARTUP_LOAD_REF_V[r] for r in I_MAX}
+    for r in ('+12', '+5', '-12'):
+        rows[r] = {'startup_floor_a': round(floor[r], 5), 'present_trip_min_a': lim[r]['trip_min_a'],
+                   'present_status': status(lim[r]['trip_min_a'] > floor[r])}
+    d = PROP_LIMIT_DIV_P12
+    rth = d['top'] * d['bot'] / (d['top'] + d['bot'])
+    vdiv = REF_V * d['bot'] / (d['top'] + d['bot'])
+    vlim = vdiv + INA_ILIMIT[1] * rth
+    itrip = vlim / (INA_GAIN * PROP_SHUNT['r'])
+    vsense = itrip * PROP_SHUNT['r']
+    err = PROP_SHUNT['tol'] + PROP_SHUNT['tcr'] * TA_SPAN + INA_GAIN_ERR + INA_VOS / vsense \
+        + INA_CMP_VOS / vlim + (REF_ACC + 2 * R01_TOL) * vdiv / vlim + (INA_ILIMIT[2] - INA_ILIMIT[1]) * rth / vlim
+    rows['+12'].update({'proposed': f"1 x 10 mOhm 0.1 % shunt, LIMIT {d['top']:.0f} / {d['bot']:.0f} Ohm",
+                        'proposed_trip_a': [round(itrip * (1 - err), 5), round(itrip * (1 + err), 5)],
+                        'proposed_tolerance_pct': round(err * 100, 3)})
+    k = PROP_M12_LIMIT_DIV['bot'] / (PROP_M12_LIMIT_DIV['top'] + PROP_M12_LIMIT_DIV['bot'])
+    vmag = sp['-12']['nominal_v']
+    vref = vmag * k
+    itrip = vref / PROP_SHUNT['r']
+    err = PROP_SHUNT['tol'] + PROP_SHUNT['tcr'] * TA_SPAN + sp['-12']['tolerance_ratio'] + 2 * R01_TOL \
+        + OPA_VOS_MAX / vref + I_MAX['-12'] * path_resistance('-12') / vmag
+    rows['-12'].update({'proposed': f"1 x 10 mOhm 0.1 % shunt, divider {PROP_M12_LIMIT_DIV['top']:.0f} / {PROP_M12_LIMIT_DIV['bot']:.0f} Ohm",
+                        'proposed_trip_a': [round(itrip * (1 - err), 5), round(itrip * (1 + err), 5)],
+                        'proposed_tolerance_pct': round(err * 100, 3)})
+    for r in ('+12', '-12'):
+        lo, hi = rows[r]['proposed_trip_a']
+        ok = lo > floor[r] and hi <= I_MAX[r]
+        rows[r]['proposed_status'] = 'PASS (PROPOSED, shunt evidence G-U)' if ok else 'FAIL'
+    rows['+5']['proposed'] = 'unchanged'
+    # Let-through: a series inductance that holds di/dt so the current cannot pass I_MAX before switch-off
+    # needs L >= V x t_off / (I_MAX - trip_max); t_off is not guaranteed anywhere, 2 us is illustrative.
+    t_off = 2e-6
+    rows['let_through_series_l'] = {
+        r: {'l_needed_h_at_2us': round(SOURCE_BAND[r][1] * t_off / (I_MAX[r] - rows[r]['proposed_trip_a'][1]
+                                                                     if 'proposed_trip_a' in rows[r] else I_MAX[r] - lim[r]['trip_max_a']), 6)}
+        for r in ('+12', '-12', '+5')}
+    rows['let_through_series_l']['status'] = 'OPEN'
+    rows['let_through_series_l']['reason'] = ('A series element that bounds a hard short to I_MAX needs millihenries '
+                                              '(infeasible at 2 A) or a regulating current limit; switch-off time is not '
+                                              'guaranteed by any retained source. The contract needs let-through stated '
+                                              'as charge or time above I_MAX.')
+    return rows
+
+
 def converters():
     out = {}
     lo, typ, hi = FSW
@@ -302,6 +363,66 @@ def ripple():
     return rows
 
 
+ESL_MLCC_PA = 0.5e-9      # PA: per 1210 MLCC incl. vias; not a manufacturer bound
+ESL_POLY_PA = 1.0e-9      # PA: polymer can incl. vias
+EDGE_PA = 20e-9           # PA: inverter switch-node current edge time
+
+
+def ripple_injection():
+    """Averaged + ripple-injection estimate (NOT a switching simulation).
+
+    The converter is replaced by its averaged DC operating point plus an injected periodic switching
+    current at FSW minimum: a buck inductor triangle (peak-to-peak from VIN_OVERSHOOT) or the inverter
+    rectangular diode current (IL at VIN_MIN, I_MAX). The current drives the linear stage-1 MLCC bank,
+    the 10 uH post filter (DCR max) and the polymer + MLCC output bank; the periodic steady state is the
+    harmonic superposition of the injected spectrum times the network transfer impedance.
+    """
+    import numpy as np
+    f0 = FSW[0]
+    n = 8192
+    t = np.arange(n) / (n * f0)
+    w = 2 * np.pi * np.fft.rfftfreq(n, 1 / (n * f0))
+    w[0] = 1.0
+    def zc(c, esr, esl, k):
+        return (1 / (1j * w * c) + esr + 1j * w * esl) / k
+    rows = {}
+    for rail, vo, n_c1 in (('+12', 12.15, 2), ('+5', 5.075, 2), ('-12', 12.1, 4)):
+        rload = vo / I_MAX[rail]
+        z1 = zc(C_GRM32_EFF, GRM_ESR_T, ESL_MLCC_PA, n_c1)
+        z2 = 1 / (1 / zc(C_POLY, C_POLY_ESR, ESL_POLY_PA, 1) + 1 / zc(C_GRM32_EFF, GRM_ESR_T, ESL_MLCC_PA, 1)
+                  + 1 / rload)
+        zf = 1j * w * L_UH + L_DCR_MAX
+        zin = 1 / (1 / z1 + 1 / (zf + z2))
+        h_out = zin * z2 / (zf + z2)
+        tt = t * f0
+        if rail == '-12':
+            d = vo / (VIN_MIN + vo)
+            il = I_MAX[rail] / (1 - d)
+            e = EDGE_PA * f0
+            hi = np.clip((tt - d) / e, 0, 1) - np.clip((tt - 1 + e) / e, 0, 1)
+            i = il * hi - I_MAX[rail]
+            src = f'inverter diode current IL {il:.4f} A, D {d:.4f}, edges {EDGE_PA * 1e9:.0f} ns (PA)'
+        else:
+            d = vo / VIN_OVERSHOOT
+            di = (VIN_OVERSHOOT - vo) * d / (L_UH * f0)
+            i = np.where(tt < d, -di / 2 + di * tt / d, di / 2 - di * (tt - d) / (1 - d))
+            src = f'buck triangle {di:.4f} App, D {d:.4f} at VIN {VIN_OVERSHOOT:.3f} V'
+        spec = np.fft.rfft(i - i.mean())
+        spec[0] = 0
+        v1 = np.fft.irfft(spec * zin, n)
+        v2 = np.fft.irfft(spec * h_out, n)
+        vpp = float(v2.max() - v2.min())
+        rows[rail] = {'method': 'AVERAGED + RIPPLE INJECTION (linear periodic steady state; not a switching simulation)',
+                      'injected_current': src, 'fsw_hz': round(f0), 'stage1_vpp': round(float(v1.max() - v1.min()), 6),
+                      'output_vpp': round(vpp, 9), 'limit_vpp': RIPPLE_MAX_VPP,
+                      'margin_factor': round(RIPPLE_MAX_VPP / vpp, 1),
+                      'status': 'OPEN',
+                      'reason': 'Estimate only: MLCC/polymer ESL, inductor self-resonance, switch-node dv/dt coupling, '
+                                'ground-return impedance and the measurement bandwidth are PA or unsourced, and no '
+                                'switching transient model converged; PASS needs a bench measurement.'}
+    return rows
+
+
 def ramps():
     """Common tracking start: each output follows k x RAMP until its pair saturates."""
     rth = RAMP_NET['R'] * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD'])
@@ -337,6 +458,90 @@ def ramps():
     vsup = REF_V * 0 + 4.98
     out['ramp_release_delay_s'] = [round(rr * math.log(vsup / BSS_VGSTH_MAX), 5), round(rr * math.log(vsup / BSS_VGSTH_MIN_PA), 5)]
     return out
+
+
+# PROPOSED start-sequence construction (not drawn, not simulated). Each tracking target becomes the
+# minimum of its RAMP term and a clamp derived from the other rails' actual terminal voltages:
+#   |-12| <= A_M12 x V(+12)            (-12 V cannot start or lead before +12 V)
+#   V(+12) <= A_P12 x |-12| + OFF_P12  (+12 V alone stays below the 0.5 V one-rail limit)
+#   V(+5) <= C_P5 x (min(V(+12), |-12|) - OFF_P5)
+# Followers only lag their targets and the contract excludes overshoot, so every clamp inequality
+# holds on the actual outputs too; precision-clamp amplifier and diode errors are PA (not bounded).
+SEQ = {'A_M12': 1.10, 'A_P12': 1.10, 'OFF_P12': 0.40, 'C_P5': 0.55,
+       'OFF_P5': {'unconditional': 0.0, 'p59a': 1.5}, 'RAMP_C': 1.5e-6, 'CLAMP_TOL': 0.01}
+P59A_P12_AT = 5.2            # +12 V level below which |-12| must stay <= 6 V (P59-A)
+P59A_M12_MAX = 6.0
+ONE_RAIL_P12_MAX = 0.5       # unconditional: +12 V alone <= 0.5 V
+ONE_RAIL_M12_MAX = 6.0       # unconditional: -12 V alone <= 6 V
+
+
+def start_sequence_proposal():
+    tb = terminal_band()
+    rth = RAMP_NET['R'] * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD'])
+    vf = REF_V * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD'])
+    tau_max = rth * SEQ['RAMP_C'] * (1 + RAMP_NET['C_TOL'])
+    tau_min = rth * SEQ['RAMP_C'] * (1 - RAMP_NET['C_TOL'])
+    slope = {r: TRACK_K[r] * vf / tau_min / 1e3 for r in ('+12', '+5', '-12')}
+    slope['-12_clamped'] = SEQ['A_M12'] * (1 + SEQ['CLAMP_TOL']) * slope['+12']
+    slope['+12_clamped'] = SEQ['A_P12'] * (1 + SEQ['CLAMP_TOL']) * slope['-12']
+    analog_slope = max(slope['+12'], slope['-12'], slope['-12_clamped'], slope['+12_clamped'])
+    slope['+5_clamped'] = SEQ['C_P5'] * (1 + SEQ['CLAMP_TOL']) * analog_slope
+    entries = {}
+    for r in ('+12', '+5', '-12'):
+        rb = SOURCE_BAND[r][0] / TRACK_K[r]
+        entries[r] = [tau_min * math.log(vf / (vf - rb)), tau_max * math.log(vf / (vf - rb))]
+    p12_alone = SEQ['OFF_P12'] * (1 + SEQ['CLAMP_TOL'])
+    m12_at_p12_absent = SEQ['A_M12'] * (1 + SEQ['CLAMP_TOL']) * ONE_RAIL_P12_MAX
+    m12_at_5v2 = SEQ['A_M12'] * (1 + SEQ['CLAMP_TOL']) * P59A_P12_AT
+    sat = {'+12': min(TRACK_K['+12'] * vf, SEQ['A_P12'] * (1 - SEQ['CLAMP_TOL']) * tb['-12']['terminal_min_v'] + SEQ['OFF_P12'])
+           - (SOURCE_BAND['+12'][1] + 0.5),
+           '-12': min(TRACK_K['-12'] * vf, SEQ['A_M12'] * (1 - SEQ['CLAMP_TOL']) * tb['+12']['terminal_min_v'])
+           - (SOURCE_BAND['-12'][1] + 0.5)}
+    variants = {}
+    for name, off in SEQ['OFF_P5'].items():
+        amin = min(tb['+12']['terminal_min_v'], tb['-12']['terminal_min_v'])
+        sat5 = min(TRACK_K['+5'] * vf, SEQ['C_P5'] * (1 - SEQ['CLAMP_TOL']) * (amin - off)) - (SOURCE_BAND['+5'][1] + 0.5)
+        hold = off + P5_ORDER_LEVEL / (SEQ['C_P5'] * (1 - SEQ['CLAMP_TOL']))
+        variants[name] = {'off_p5_v': off, 'p5_le_0v8_until_both_analog_v': round(hold, 3),
+                          'p5_starts_after_both_analog_v': off,
+                          'p5_start_lag_s_at_fastest_slope': round(off / analog_slope / 1e3, 5),
+                          'p5_overdrive_v': round(sat5, 3)}
+    rows = {
+        'construction': 'PROPOSED, not drawn in board_b20_spec.py, not simulated',
+        'ramp_c_f': SEQ['RAMP_C'], 'slopes_v_per_ms': {k: round(v, 4) for k, v in slope.items()},
+        'slope_status': status(slope['+12'] <= SLOPE_MAX_V_PER_MS['+12'] and slope['+12_clamped'] <= SLOPE_MAX_V_PER_MS['+12']
+                               and max(slope['-12'], slope['-12_clamped']) <= SLOPE_MAX_V_PER_MS['-12']
+                               and max(slope['+5'], slope['+5_clamped']) <= SLOPE_MAX_V_PER_MS['+5']),
+        'first_band_entry_min_s': round(min(e[0] for e in entries.values()), 5),
+        'band_entry_skew_max_s': round(max(e[1] for e in entries.values()) - min(e[1] for e in entries.values()), 5),
+        'pair_overdrive_v': {k: round(v, 3) for k, v in sat.items()},
+        'unconditional': {
+            'p12_alone_max_v': round(p12_alone, 4), 'p12_alone_limit_v': ONE_RAIL_P12_MAX,
+            'p12_alone_margin_v': round(ONE_RAIL_P12_MAX - p12_alone, 4),
+            'm12_while_p12_le_0v5_max_v': round(m12_at_p12_absent, 4), 'm12_alone_limit_v': ONE_RAIL_M12_MAX,
+            'm12_alone_margin_v': round(ONE_RAIL_M12_MAX - m12_at_p12_absent, 4),
+            'start_skew_basis': 'The 0.41 ms row is the time form of +12 V alone <= 0.5 V at the fastest slope (A1); '
+                                'the construction meets the voltage form directly, independent of FET thresholds.',
+            'status': 'PASS (PROPOSED construction, arithmetic, clamp errors PA)'
+                      if p12_alone < ONE_RAIL_P12_MAX and m12_at_p12_absent < ONE_RAIL_M12_MAX else 'FAIL'},
+        'p59a': {
+            'm12_at_p12_5v2_max_v': round(m12_at_5v2, 4), 'limit_v': P59A_M12_MAX,
+            'margin_v': round(P59A_M12_MAX - m12_at_5v2, 4),
+            'm12_lead_time_s_at_6v': round((P59A_M12_MAX - P59A_M12_MAX / (SEQ['A_M12'] * (1 + SEQ['CLAMP_TOL']))) / slope['+12'] / 1e3, 5),
+            'm12_lead_limit_s': round(0.069 * SOURCE_BAND['+12'][1] / slope['+12'] / 1e3, 5),
+            'm12_lead_limit_basis': '0.069 x ramp time, ramp time = +12 V source-band maximum / steepest +12 V slope',
+            'p12_lead': 'no R-VEE limit under P59-A; with +5 V present the single analog rail stays <= '
+                        f'{p12_alone:.3f} V, far below 8 V (the 6.50 ms row)',
+            'status': 'PASS (PROPOSED construction, arithmetic, 25 C P59-A rows)' if m12_at_5v2 < P59A_M12_MAX else 'FAIL'},
+        'p5_variants': variants,
+        'p5_hold_conflict': ('Holding +5 V <= 0.8 V until both analog rails are inside their source bands is not '
+                             'compatible with the common-ramp rows: +5 V then needs >= '
+                             f"{(SOURCE_BAND['+5'][0] - P5_ORDER_LEVEL) / SLOPE_MAX_V_PER_MS['+5']:.2f} ms at 0.51 V/ms after "
+                             'analog band entry, against the 2 ms band-entry skew (PROPOSED) and the one-common-ramp shape '
+                             '(CONTRACT). The p59a variant holds +5 V until both analog rails exceed the stated level; OSC '
+                             'must say which level "both analog rails up" means.'),
+    }
+    return rows
 
 
 def timing():
@@ -535,9 +740,12 @@ def main():
         'status_note': 'UNVALIDATED DRAFT paper screen; PASS means the arithmetic closes on the tagged inputs only',
         'setpoints_and_terminal_band': terminal_band(),
         'limiter': limiter(),
+        'limiter_startup': limiter_startup(),
         'converters': converters(),
         'ripple': ripple(),
+        'ripple_injection': ripple_injection(),
         'ramp': ramps(),
+        'start_sequence_proposal': start_sequence_proposal(),
         'timing': timing(),
         'discharge': discharge(),
         'reverse_current': reverse_current(),
@@ -559,6 +767,13 @@ def main():
         r = res['limiter'][rail]
         line(f'limiter {rail}', r['status'], f"trip {r['trip_min_a']}..{r['trip_max_a']} A in {r['window']}")
     line('limiter let-through', 'OPEN', 'not bounded')
+    ls = res['limiter_startup']
+    for rail in ('+12', '-12', '+5'):
+        r = ls[rail]
+        line(f'startup into full load {rail}', r['present_status'], f"floor {r['startup_floor_a']} A vs trip min {r['present_trip_min_a']} A")
+        if 'proposed_trip_a' in r:
+            line(f'startup proposal {rail}', r['proposed_status'].split()[0], f"{r['proposed']}: trip {r['proposed_trip_a']} A")
+    line('let-through series L', 'OPEN', ', '.join(f"{k} {v['l_needed_h_at_2us'] * 1e3:.2f} mH" for k, v in ls['let_through_series_l'].items() if isinstance(v, dict)))
     for rail in ('+12', '+5', '-12'):
         r = res['converters'][rail]
         line(f'converter {rail}', r['status'], f"switch peak {r['switch_peak_a']} A")
@@ -566,11 +781,23 @@ def main():
          f"{res['converters']['-12']['vin_to_ic_gnd_max_v']} V vs {TPS_VIN_OP_MAX} V operating")
     for rail, r in res['ripple'].items():
         line(f'ripple {rail}', r['status'], f"ideal {r['ideal_load_vpp'] * 1e6:.2f} uVpp")
+    for rail, r in res['ripple_injection'].items():
+        line(f'ripple injection {rail}', r['status'], f"{r['output_vpp'] * 1e6:.2f} uVpp at output, stage 1 {r['stage1_vpp'] * 1e3:.2f} mVpp (averaged + injection, labelled)")
     rp = res['ramp']
     line('ramp slope', rp['slope_status'], ', '.join(f"{r} {max(c[r]['slope0_v_per_ms'] for c in rp['cases_c_tolerance'])} V/ms" for r in ('+12', '+5', '-12')))
     line('ramp duration', rp['ramp_min_status'], f"first band entry >= {rp['ramp_min_s'] * 1e3:.2f} ms")
     line('band-entry skew', rp['band_entry_skew_status'], f"{rp['band_entry_skew_worst_s'] * 1e3:.3f} ms (+5 last: {rp['p5_last_status']})")
     line('start skew', rp['start_skew_status'], rp['start_skew_note'])
+    sq = res['start_sequence_proposal']
+    line('start sequence proposal slopes', sq['slope_status'], str(sq['slopes_v_per_ms']))
+    line('start sequence proposal ramp / band skew', status(sq['first_band_entry_min_s'] >= RAMP_MIN_S and sq['band_entry_skew_max_s'] <= BAND_ENTRY_SKEW_MAX_S),
+         f"first entry {sq['first_band_entry_min_s'] * 1e3:.2f} ms, skew {sq['band_entry_skew_max_s'] * 1e3:.3f} ms, overdrive {sq['pair_overdrive_v']}")
+    u = sq['unconditional']
+    line('start sequence unconditional', u['status'].split()[0], f"+12 alone <= {u['p12_alone_max_v']} V (margin {u['p12_alone_margin_v']} V), |-12| while +12 <= 0.5 V <= {u['m12_while_p12_le_0v5_max_v']} V")
+    q = sq['p59a']
+    line('start sequence P59-A', q['status'].split()[0], f"|-12| at +12 = 5.2 V <= {q['m12_at_p12_5v2_max_v']} V (margin {q['margin_v']} V); lead at 6 V {q['m12_lead_time_s_at_6v'] * 1e3:.3f} ms vs {q['m12_lead_limit_s'] * 1e3:.2f} ms")
+    for k, v in sq['p5_variants'].items():
+        line(f'+5 hold ({k})', 'INFO', f"+5 <= 0.8 V until both analog >= {v['p5_le_0v8_until_both_analog_v']} V, start lag {v['p5_start_lag_s_at_fastest_slope'] * 1e3:.2f} ms, overdrive {v['p5_overdrive_v']} V")
     line('RAMP release delay', 'INFO', f"{rp['ramp_release_delay_s']} s after enable")
     tm = res['timing']
     line('P5_SUP', tm['p5_sup_status'], f"{tm['p5_sup_v']} V")

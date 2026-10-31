@@ -68,7 +68,9 @@ unvalidated draft:
   80 µF is 25.1 V only on TYP I(SCP) and fast-trip figures and a 30 mΩ ESR assumption;
   at ESR 0.3–0.5 Ω it is 27.7–29.6 V, and at the 4.5 µs soft-short maximum it is 27.1 V.
   The only guaranteed bound is the TVS2200 clamp, 28.0–28.35 V, so gate L7 stays
-  **BLOCKING**.
+  **BLOCKING** (FAIL on guaranteed figures; the closing part or decision is listed in
+  `manufacturing/input-protection-20v.md` §2.1a). The OVP trip maximum, 22.56 V, is also above the
+  22 V STUSB4500 VDD operating maximum.
 - Q1 is a proposal. AO3401A is rated −4.2 A, below the 5 A target. DMP3036SFG-7 keeps
   the −30 V VDS and raises VGS to ±25 V, which leaves 14.9 V at the hot overshoot gate
   case. Its −5.8 A (70 °C) and −7.2 A (25 °C) ratings at VGS −5 V assume 1 in² of 2 oz

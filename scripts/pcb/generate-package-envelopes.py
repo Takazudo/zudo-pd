@@ -30,6 +30,9 @@ ENVELOPES = [
      'TI TPS1663 SLVSET9G PWP0020T outline 4224598/A: body 6.4-6.6 x 4.3-4.5 mm, 1.2 mm max height'),
     ('SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45', (3.05, 1.75, 1.45),
      'TI LM74700-Q1 SNOSD17G DBV0006A outline 4214840/G: body 2.75-3.05 x 1.45-1.75 mm, 1.45 mm max height'),
+    # Footprint pins 1/2 and 3 face X, so the box is X 1.4 (E1 body width) by Y 3.0 (D body length).
+    ('SOT-23_DS30144_MaxEnvelope_W1.4-L3.0-H1.15', (1.4, 3.0, 1.15),
+     'Diodes BSS138 DS30144 Rev. 25-2 SOT23 (Standard) outline: D 2.80-3.00, E1 1.20-1.40 mm, A 0.90-1.15 mm'),
 ]
 
 

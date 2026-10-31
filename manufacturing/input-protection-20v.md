@@ -81,6 +81,45 @@ bounded short-circuit current, or a node clamp with a guaranteed hot clamp at or
 - **Loss and other parts.** Loss at 3.38 A is 0.61 W at RON maximum. On the JEDEC RθJA of 31.4 °C/W (SLVSE94G, RGE package) that is about a 19 °C rise; installed θJA is UNAV. Q1 and the Board B input see at most the node bound, which also removes the AO3401A 30 V VDS concern. The connector side only has to stay below 67 V, so a higher-energy SMA TVS becomes admissible there.
 - **OV recovery.** After an OV event, the eFuse re-enables only when the input falls below V(OVPF): 19.93–21.1 V for this divider. A source sitting at 20.5–21 V may therefore stay off until re-plug. This acts like a latch, which suits D5-1 and requirement R6.4, but it is not guaranteed either way.
 
+### 2.1a Phase 8: r3 front end (TPS16630 + LM74700) on guaranteed figures only
+
+`front_end_r3_guaranteed` in `scripts/pcb/calculate-input-ovp-20v.py` keeps only G rows. The TYP
+rows above remain as `front_end_r2_typ_sensitivity`.
+
+**L7 is FAIL on guaranteed figures.** VBUS_P is bounded only through the forward path:
+VBUS_P ≤ VBUS_IN ≤ the TVS2200 clamp. PCB inductive overshoot is not quantified.
+
+| TVS2200 row (SLVSED5C 7.6, VIN 0 V before surge) | VBUS_P bound | Margin to 28 V |
+|---|---:|---:|
+| 24 A 8/20 µs, 27 °C | 27.70 V | +0.30 V |
+| 40 A 8/20 µs, 27 °C | 28.00 V | 0.00 V |
+| 35 A 8/20 µs, 125 °C | 28.35 V | **−0.35 V** |
+
+- **Guaranteed-ESR bulk does not close it.** A polymer or ceramic bank with a datasheet ESR maximum
+  supplies only the R term. The charge term still needs a guaranteed current through U2 during
+  OVP_toff. SLVSET9G gives I(FASTTRIP) and I(SCP) as TYP only, and OVP_toff is 14 µs maximum.
+- **A second clamp stage does not close it.** A second TVS2200 behind U2 has the same table rows.
+  No TI flat-clamp sibling fits. TVS1800 has an 18 V standoff, below the 21 V normal high. TVS2700
+  clamps at 32.5 V.
+- **New gap: the OVP trip exceeds the STUSB4500 VDD operating maximum.** The fitted 174k/10k trip is
+  21.60–22.56 V (22.67 V with TCR), up to 0.56 V above the 22 V maximum. A ratio of 16.94 would cap
+  the trip at 22.0 V, but its 21.06 V minimum leaves only 0.06 V over the 21 V normal high.
+- **Closing part (single fact).** A connector clamp with a guaranteed VC,max ≤ about 27.5 V at 35 A
+  8/20 µs and 125 °C, with VBR,min ≥ 22.7 V. No such part is retrieved.
+- **Closing decision (single decision).** Define the qualification surge as ≤ 24 A at 27 °C. The
+  27.7 V row then gives +0.30 V, at 27 °C only.
+- **VDD-local isolation (not closing yet).** Feeding STUSB4500 VDD through its own series element
+  and clamp needs the active-mode IDD maximum, which is missing. VS_DISCH and VBEN also sit on VBUS_P.
+- **LED per-product OVP 133k/10k (LED phase 11 §a), reviewed.** The trip becomes 16.79–17.54 V
+  (17.62 V with TCR). As a common-block parameter it changes only a resistor value; the footprint and
+  net stay the same.
+  - It is **not applicable to PD**: the trip maximum is below the 19.0 V minimum of PD's 20 V contract.
+  - For LED it is valid only with an NVM image whose highest PDO is 15 V. A 20 V contract would trip OVP
+    and brown out the STUSB4500.
+  - It does not change the guaranteed bound, which is still the clamp row. LED's 29.6 V → 24.6 V figure
+    at 80 µF / 0.5 Ω uses TYP charge and is a sensitivity.
+  - It does put the LED trip well below the 22 V VDD operating maximum, which closes that gap for LED.
+
 ### 2.2 CC pins (GAP-2): bounded, not closed
 
 - **Single fault.** A CC-to-VBUS short at 21 V gives **+1.0 V** to the 22 V limit. That is thin, but within the limit.
