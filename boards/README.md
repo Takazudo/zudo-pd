@@ -59,7 +59,8 @@ The PCB is implemented and native layout and power-path checks pass; package
 reports determine CAD and export status. Physical wire fit, tightening
 torque, support clearance and retention, connector seating and full-load behavior
 remain unmeasured. Active board files are authoritative; maintain only the latest
-renewal PCB and prototype outputs. No renewal hardware has been released or ordered.
+renewal PCB and prototype outputs. Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered. Nothing is released or validated; see
+[as-built identity](../manufacturing/as-built-and-controller.md).
 The current [printed accessory](../3dp-files/README.md) is the adhesive leg;
 the plain-edge screw-terminal board requires no printed connector guard.
 
