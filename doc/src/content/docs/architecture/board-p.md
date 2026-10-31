@@ -47,7 +47,7 @@ unvalidated draft:
 | C3 | 100 µF 50 V (80–120 µF) | Single protected-node bulk; C4 is removed |
 | Q1 | [DMP3036SFG-7 C461081](/docs/components/records/c461081/) (proposed) | Output P-FET switch: source on VBUS_P, drain on VBUS_OUT, gate on Q1_G; replaces AO3401A |
 | R11 / R12 | 150k C22807 / 4.7k C23162 (proposed) | Q1 gate divider: R11 VBUS_P to Q1_G, R12 Q1_G to VBEN (was 100k / 150k) |
-| D8 | [BZT52C11-7-F C92321](/docs/components/records/bzt52c11-c92321/) (proposed) | Q1 gate clamp: cathode on VBUS_P, anode on Q1_G |
+| D8, D13 | [BZT52C11-7-F C92321](/docs/components/records/bzt52c11-c92321/) (proposed) | Q1 gate clamp and its redundant twin (phase 11): cathodes on VBUS_P, anodes on Q1_G |
 | C36 / Q5 / R27 | 1 µF C15849 / [BSS138-7-F C40912](/docs/components/records/c40912/) / 150k C22807 (proposed) | Q1 Miller soft start: C36 VBUS_OUT to Q1_MX, Q5 body diode Q1_MX to Q1_G, R27 VBUS_P to Q1_MX |
 | R14 / R28 / D10 | 2 × 1k C21190 / [BZT52C20-7-F C260890](/docs/components/records/c260890/) (proposed) | VBUS_VS_DISCH series resistance and local 20 V clamp on U1.18 |
 | R29 / R30 / D9 / C38 | 1k C21190 + 470 Ω C23179 / [BZT52C18-7-F C192739](/docs/components/records/c192739/) / 1 µF C15849 (proposed) | STUSB4500 VDD feed: VBUS_P to VDD_LOC (U1.24) with an 18 V clamp and local cap |
@@ -107,7 +107,10 @@ unvalidated draft:
   At 20 V the divider alone would reach −19.4 V, so D8 conducts about 2.0 mA and holds
   the gate at 10.4–11.6 V, at least 13.4 V inside the ±25 V rating. At the 25.21 V
   overshoot case, D8 carries 3.08 mA and VBEN sinks 3.15 mA in total; that VBEN rating
-  is unsourced. If D8 fails open, that case reaches −24.44 V, a 0.56 V margin. The turn-on
+  is unsourced. With the divider alone, that case reaches −24.44 V (0.56 V margin), and the
+  28.35 V TVS2200 row reaches −27.49 V, 2.49 V beyond the rating. Phase 11 therefore adds D13,
+  a second BZT52C11-7-F in parallel with D8 (`dec-p-q1-gate-clamp-redundant`). One open clamp
+  then still holds the gate; both open is a double fault. The turn-on
   gate time constant falls from 6.0 ms to 0.46 ms. This is a draft proposal
   (`dec-p-20v-q1-gate-clamp`); nothing is measured.
 - Q1 soft start (`dec-p-20v-q1-soft-start`, proposed). With C35 alone the drain

@@ -18,7 +18,7 @@
     "orderable_lines": 69,
     "fitted_lines": 67,
     "dnp_or_hand_fit_lines": 2,
-    "fitted_placements": 137,
+    "fitted_placements": 138,
     "dnp_placements": 8
   },
   "exclusions": [
@@ -165,7 +165,7 @@
       "owner_skill": "component-bzt52c11-c92321",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "11V zener diode, Q1 gate-source clamp",
+      "function": "11V zener diode, Q1 gate-source clamp (Board P D8 with redundant D13)",
       "placements": [
         {
           "board": "board-a",
@@ -175,6 +175,11 @@
         {
           "board": "board-p",
           "refdes": "D8",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "D13",
           "dnp": false
         }
       ]

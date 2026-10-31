@@ -37,7 +37,9 @@ dec-p-20v-front-end-r3):
   threshold range), and D8 BZT52C11-7-F C92321 (cathode
   VBUS_P, anode Q1_G, the Board A dec-e-q1-20v-gate-guard topology) clamps VGS to
   10.4-11.6 V at 20 V so the +/-25 V VGSS limit keeps >= 13.3 V margin. With D8 open
-  the divider alone gives -24.44 V at the 25.21 V overshoot case (inside 25 V).
+  the divider alone gives -24.44 V at the 25.21 V overshoot case (inside 25 V) but -27.49 V at the
+  28.35 V TVS2200 connector row, beyond VGSS. Phase 11 (dec-p-q1-gate-clamp-redundant) adds D13, a second
+  BZT52C11-7-F in parallel with D8, so one open clamp no longer exposes Q1; both open is a double fault.
   C35 is unchanged; the turn-on gate time constant falls from 6.0 ms to 0.46 ms and
   the VBEN-release turn-off constant (R11 x C35) rises from 10 ms to 15 ms.
 - Q1 soft turn-on DRAFT (dec-p-20v-q1-soft-start, phase 7, independent review
@@ -97,6 +99,7 @@ COMPONENTS = {
     'R11': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (38.1, 190.5)),
     'R12': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (76.2, 190.5)),
     'D8': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (279.4, 76.2)),
+    'D13': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (279.4, 101.6)),
     'R13': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (114.3, 190.5)),
     'R14': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 190.5)),
     'R28': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 266.7)),
@@ -128,7 +131,7 @@ NETS = {
     'EF_IN': ['Q3.5', 'Q3.6', 'Q3.7', 'Q3.8', 'Q3.9', 'U3.4', 'U2.1', 'U2.2', 'U2.3', 'U2.6'],
     'EF_GATE': ['Q3.4', 'U3.5'],
     'EF_VCAP': ['U3.1', 'C37.1'],
-    'VBUS_P': ['U2.18', 'U2.19', 'U2.20', 'R29.1', 'R14.1', 'R11.2', 'R27.1', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
+    'VBUS_P': ['U2.18', 'U2.19', 'U2.20', 'R29.1', 'R14.1', 'R11.2', 'R27.1', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1', 'D13.1'],
     'EF_UVLO': ['U2.7', 'R22.2', 'R23.1'],
     'EF_OVP': ['U2.8', 'R24.2', 'R25.1'],
     'EF_DVDT': ['U2.10', 'C5.1'],
@@ -144,7 +147,7 @@ NETS = {
     'VBEN_PIN': ['U1.16', 'Q6.2', 'D11.1', 'J3.8'],
     'VBUS_DISCH_R': ['R14.2', 'R28.1'],
     'VBEN': ['Q6.3', 'R12.1'],
-    'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1', 'D8.2', 'Q5.3'],
+    'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1', 'D8.2', 'D13.2', 'Q5.3'],
     'Q1_MX': ['C36.1', 'Q5.1', 'Q5.2', 'R27.2'],
     'VBUS_OUT': ['Q1.5', 'Q1.6', 'Q1.7', 'Q1.8', 'Q1.9', 'R13.1', 'C36.2', 'JOUT1.1', 'JOUT1.2'],
     'DISCH': ['U1.9', 'R13.2', 'D12.1'],

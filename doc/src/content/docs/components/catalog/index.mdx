@@ -29,7 +29,7 @@ Four columns describe state. None of them is a grade, and there is deliberately 
   | <EvidenceAnchor id="rec-usb-type-c-009-c456012" />[USB-TYPE-C-009](/docs/components/records/usb-type-c-009-c456012/)               | `rec-usb-type-c-009-c456012`        | USB Type-C receptacle, 6-pin SMD, PD sink input                                                                                     | Fitted          | VERIFIED   | AVAILABLE          | 5 of 5       |
   | <EvidenceAnchor id="rec-umw-ao3401a-c347476" />[AO3401A](/docs/components/records/umw-ao3401a-c347476/)                            | `rec-umw-ao3401a-c347476`           | P-channel MOSFET load switch, gates VBUS\_OUT from U1                                                                               | Fitted          | VERIFIED   | AVAILABLE          | 2 of 5       |
   | <EvidenceAnchor id="rec-high-diode-smaj20a-c571370" />[SMAJ20A](/docs/components/records/high-diode-smaj20a-c571370/)              | `rec-high-diode-smaj20a-c571370`    | 20V-standoff TVS diode, VBUS\_IN surge/overvoltage clamp                                                                            | Fitted          | VERIFIED   | AVAILABLE          | 1 of 7       |
-  | <EvidenceAnchor id="rec-bzt52c11-c92321" />[BZT52C11-7-F](/docs/components/records/bzt52c11-c92321/)                               | `rec-bzt52c11-c92321`               | 11V zener diode, Q1 gate-source clamp                                                                                               | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
+  | <EvidenceAnchor id="rec-bzt52c11-c92321" />[BZT52C11-7-F](/docs/components/records/bzt52c11-c92321/)                               | `rec-bzt52c11-c92321`               | 11V zener diode, Q1 gate-source clamp (Board P D8 with redundant D13)                                                               | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
   | <EvidenceAnchor id="rec-c192739" />[BZT52C18-7-F](/docs/components/records/c192739/)                                               | `rec-c192739`                       | 18V zener diode, STUSB4500 local clamps (VDD, VBUS\_EN\_SNK, DISCH)                                                                 | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
   | <EvidenceAnchor id="rec-c260890" />[BZT52C20-7-F](/docs/components/records/c260890/)                                               | `rec-c260890`                       | 20V zener diode, STUSB4500 VBUS\_VS\_DISCH local clamp                                                                              | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
   | <EvidenceAnchor id="rec-c25803" />[0603WAF1003T5E](/docs/components/records/c25803/)                                               | `rec-c25803`                        | 100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider                                                         | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
@@ -202,18 +202,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### BZT52C11-7-F
 
-| Field          | Recorded value                        |
-| -------------- | ------------------------------------- |
-| Record ID      | `rec-bzt52c11-c92321`                 |
-| Kind           | standalone — audited in its own right |
-| Manufacturer   | Diodes Incorporated                   |
-| Function       | 11V zener diode, Q1 gate-source clamp |
-| Orderable ID   | `C92321`                              |
-| Package        | `SOD-123_L2.8-W1.8-LS3.7-RD`          |
-| Inventory line | `line-c92321`                         |
-| Also known as  | `zener diode`, `gate clamp`           |
+| Field          | Recorded value                                                        |
+| -------------- | --------------------------------------------------------------------- |
+| Record ID      | `rec-bzt52c11-c92321`                                                 |
+| Kind           | standalone — audited in its own right                                 |
+| Manufacturer   | Diodes Incorporated                                                   |
+| Function       | 11V zener diode, Q1 gate-source clamp (Board P D8 with redundant D13) |
+| Orderable ID   | `C92321`                                                              |
+| Package        | `SOD-123_L2.8-W1.8-LS3.7-RD`                                          |
+| Inventory line | `line-c92321`                                                         |
+| Also known as  | `zener diode`, `gate clamp`                                           |
 
-**Placements:** board-a D8 (fitted); board-p D8 (fitted)
+**Placements:** board-a D8 (fitted); board-p D8 (fitted), D13 (fitted)
 
 **Fit:** Fitted
 

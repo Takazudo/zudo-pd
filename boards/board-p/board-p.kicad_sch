@@ -5439,6 +5439,63 @@
 		)
 	)
 	(symbol
+		(lib_id "zudo-pd:BZT52C11-7-F_C92321")
+		(at 279.4 101.6 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ebb3b9b3-5ab5-536f-9898-fd3c24d66d14")
+		(property "Reference" "D13"
+			(at 279.4 96.52 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BZT52C11-7-F"
+			(at 279.4 106.68 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD"
+			(at 279.4 101.6 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 279.4 101.6 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C92321"
+			(at 279.4 109.22 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "792d5cbf-f178-5dc6-a168-902ba6328199")
+		)
+		(pin "1"
+			(uuid "32dd5486-172e-5c2a-8dcd-2b779242c389")
+		)
+		(instances
+			(project "board-p"
+				(path "/b65df504-9084-5a04-b6e1-694328d4ef8b"
+					(reference "D13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "zudo-pd:0603WAF4701T5E")
 		(at 114.3 190.5 0)
 		(unit 1)
@@ -7221,6 +7278,15 @@
 		)
 		(uuid "e07ded13-403d-5f36-8770-abcd84a4ffee")
 	)
+	(global_label "VBUS_P"
+		(shape passive)
+		(at 274.32 101.6 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "eeb5fa28-9fdd-5692-b5cc-b7d2881a0488")
+	)
 	(global_label "EF_UVLO"
 		(shape passive)
 		(at 104.14 34.29 180)
@@ -7688,6 +7754,15 @@
 			(justify left)
 		)
 		(uuid "c7fccb37-4663-5845-ac6a-673b1ba83b22")
+	)
+	(global_label "Q1_G"
+		(shape passive)
+		(at 284.48 101.6 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "8cf99d6b-8905-5018-841e-cebf7e226649")
 	)
 	(global_label "Q1_G"
 		(shape passive)

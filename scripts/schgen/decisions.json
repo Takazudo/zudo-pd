@@ -717,6 +717,25 @@
         "fact-c192739-board-p-role",
         "fact-c23179-topology"
       ]
+    },
+    {
+      "key": "p-q1-gate-clamp-redundant",
+      "id": "dec-p-q1-gate-clamp-redundant",
+      "title": "Redundant Q1 gate clamp D13 in parallel with D8",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator phase-11 direction 2026-10-31, within dec-p-20v-q1-gate-clamp: add D13 BZT52C11-7-F C92321 in parallel with D8 (cathode VBUS_P, anode Q1_G). R11 150k and R12 4.7k are unchanged. The as-built Board P PCB is unchanged; the r3 placement draft carries D13.",
+      "rationale": "With D8 open, the R11/R12 divider alone gives -27.49 V at the 28.35 V TVS2200 connector-node row, 2.49 V beyond the DMP3036SFG-7 25 V VGSS. A divider change cannot fix it without losing the low-voltage drive (25 V at 28.35 V needs a ratio of 0.882 or less, which moves the guaranteed -5 V RDS(on) row to 5.67 V). One more existing SOD-123 part makes a single open clamp harmless: either diode alone holds |VGS| at 11.6 V or less. Both open remains a double-fault exposure.",
+      "evidence": [
+        "fact-bzt52c11-vz-max",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-board-p-d8-role",
+        "fact-c461081-vgs",
+        "fact-c22807-resistance",
+        "fact-c23162-resistance"
+      ]
     }
   ]
 }
