@@ -79,6 +79,7 @@ P = {
     'C100U': ('RVT1H101M0810', '100uF 50V', 'C970687', 'zudo-pd:CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD'),
     'C100N': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603'),
     'C1U': ('CL10A105KB8NNNC', '1uF 50V', 'C15849', 'zudo-pd:C0603'),
+    'C470N': ('CL10B474KA8NNNC', '470nF', 'C1623', 'zudo-pd:C0603'),
     'C10U1206': ('CL31A106KBHNNNE', '10uF 50V', 'C13585', 'zudo-pd:C1206'),
     'J5': ('PM254V-11-06-H85', 'PM254V-11-06-H85', 'C2832269', 'zudo-pd:HDR-TH_6P-P2.54-V-F'),
     'SCREW': ('WJ500V-5.08-2P', 'WJ500V-5.08-2P', 'C8465', 'zudo-pd:WJ500V-5.08-2P_C8465'),
@@ -274,25 +275,26 @@ rprop('RVU2', '17.6k 0.1%', 'VIN_DIV', 'GND')
 nfet('Q40', 'VINUV_CMP', 'GND', 'FAULT_N')
 
 # ---------------------------------------------------------------- shunts, limiters
-two('RSH1A', 'SHUNT', 'P12_PRE', 'P12_SH')
-two('RSH1B', 'SHUNT', 'P12_PRE', 'P12_SH')
+# Phase 9: +12 / -12 use one 10 mOhm 0.1 % 15 ppm/C 2512 shunt (RESI PCSR2512BR010M6 C23067428,
+# distributor listing only, no owner record) so the trip minimum clears the start-into-full-load
+# floor (2.0327 / 1.9289 A); +5 keeps the PE1206 20 mOhm part.
+rprop('RSH1', '10mR 0.1% 2512 PCSR2512BR010M6', 'P12_PRE', 'P12_SH', fp='zudo-pd:R2512_DRAFT')
 two('RSH2', 'SHUNT', 'P5_PRE', 'P5_SH')
-two('RSH3A', 'SHUNT', 'M12_SH', 'M12_PRE')
-two('RSH3B', 'SHUNT', 'M12_SH', 'M12_PRE')
+rprop('RSH3', '10mR 0.1% 2512 PCSR2512BR010M6', 'M12_SH', 'M12_PRE', fp='zudo-pd:R2512_DRAFT')
 # LIMIT = REF25 x Rb / (Ra + Rb) + ILIMIT (80 uA) x (Ra || Rb)
 part('U11', 'INA', ('1', 'P5_SUP'), ('2', None), ('3', 'LIM12'), ('4', 'GND'), ('5', 'GND'),
      ('6', 'FAULT_N'), ('7', 'P12_SH'), ('8', 'P12_PRE'))
 two('C11D', 'C100N', 'P5_SUP', 'GND')
-two('RL1A', 'RP680', 'REF25', 'LIM12')
+rprop('RL1A', '649 0.1%', 'REF25', 'LIM12')
 rprop('RL1B', '2.74k 0.1%', 'LIM12', 'GND')
 part('U12', 'INA', ('1', 'P5_SUP'), ('2', None), ('3', 'LIM5'), ('4', 'GND'), ('5', 'GND'),
      ('6', 'FAULT_N'), ('7', 'P5_SH'), ('8', 'P5_PRE'))
 two('C12D', 'C100N', 'P5_SUP', 'GND')
 two('RL2A', 'RP3K09', 'REF25', 'LIM5')
 rprop('RL2B', '1.5k 0.1%', 'LIM5', 'GND')
-# -12 limiter: trip when M12_SH - M12_PRE > 33 / 20533 x |M12_PRE|
-two('RL3A', 'RP10K5', 'GND', 'LIM12N_X')
-two('RL3B', 'RP10K', 'LIM12N_X', 'LIM12N')
+# -12 limiter: trip when M12_SH - M12_PRE > 33 / 20333 x |M12_PRE|
+rprop('RL3A', '10.2k 0.1%', 'GND', 'LIM12N_X')
+rprop('RL3B', '10.1k 0.1%', 'LIM12N_X', 'LIM12N')
 two('RL3C', 'RP33', 'LIM12N', 'M12_PRE')
 # U9B is the -12 tracking amplifier (see below)
 opa('U9', 'P5_SUP', 'M12_PRE', ('M12_SH', 'LIM12N', 'ILIM12N_CMP'), ('TRK12N', 'TRK12N_FB', 'M12_DRV'))
@@ -303,6 +305,7 @@ nfet('Q41', 'ILIM12N_CMP', 'GND', 'FAULT_N')
 # ---------------------------------------------------------------- common tracking reference
 rprop('RRMP', '20k 0.1%', 'REF25', 'RAMP')
 two('CRMP', 'C1U', 'RAMP', 'GND')
+two('CRMP2', 'C470N', 'RAMP', 'GND')   # phase 9: 1.47 uF keeps every clamped slope in the contract
 two('RRMD', 'R100K', 'EN_N', 'RAMP_RST')
 two('CRMD', 'C100N', 'RAMP_RST', 'GND')
 nfet('Q12', 'RAMP_RST', 'GND', 'RAMP')
@@ -317,7 +320,7 @@ nfet('Q12', 'RAMP_RST', 'GND', 'RAMP')
 # Phase-7 ngspice runs: 1 nF integrators limit-cycled at no load (-12 V stepped at up to
 # 6.9 V/ms with 1.2-1.6 A pulses); 10 nF, plus a 10k damping zero on the -12 V loop,
 # gives smooth ramps (see manufacturing/board-b-20v-switcher-direct-draft.md section 5).
-opa('U13', 'VIN', 'GND', ('RAMP', 'TRK12', 'P12_DRV'), ('RAMP', 'TRK5', 'P5_DRV'))
+opa('U13', 'VIN', 'GND', ('RAMP_P12', 'TRK12', 'P12_DRV'), ('RAMP_P5', 'TRK5', 'P5_DRV'))
 two('C13D', 'C100N', 'VIN', 'GND')
 rprop('RT12A', '69.8k 0.1%', 'P12_OUT', 'TRK12')
 two('RT12B', 'RP10K', 'TRK12', 'GND')
@@ -332,7 +335,7 @@ rprop('RT5O', '10M 1%', 'M12_PRE', 'TRK5')
 two('RT5P', 'R100K', 'M12_OFFX', 'TRK5_PX')
 nfet('Q60', 'TRK5_PX', 'TRK5_PX', 'TRK5')
 # -12: TRK12N = 0 V when M12_OUT = -(806k / 100k) x RAMP
-rprop('RT12NA', '100k 0.1%', 'RAMP', 'TRK12N')
+rprop('RT12NA', '100k 0.1%', 'RAMP_M12', 'TRK12N')
 rprop('RT12NB', '806k 0.1%', 'TRK12N', 'M12_OUT')
 two('RT12NC', 'R4K7', 'TRK12N_FB', 'GND')
 cprop('CT12N', '10nF C0G', 'M12_DRV', 'TRK12N_Z')
@@ -340,6 +343,37 @@ rprop('RT12NZ', '10k 1%', 'TRK12N_Z', 'TRK12N_FB')
 rprop('RT12NO', '10M 1%', 'M12_PRE', 'TRK12N_FB')
 two('RT12NP', 'R100K', 'M12_OFFX', 'TRK12N_PX')
 nfet('Q61', 'TRK12N_PX', 'TRK12N_PX', 'TRK12N_FB')
+# Phase 9 start-order clamps (drawn, PROPOSED values): each tracking reference is min(RAMP, level) through a
+# precision clamp (OPA2187 + BSS138 body diode pulling RAMP_x down through 1k from RAMP).
+#   MABS  = 0.150 x |M12_OUT|                                  (U15A inverting, 15k / 100k)
+#   +12 level = 0.9182 x MABS + 0.0818 x 0.6234 V  ->  V(+12) <= 1.099 x |-12| + 0.407 V
+#   -12 level = 0.13582 x V(+12)                   ->  |-12| <= 1.095 x V(+12)
+#   +5  level = MABS                               ->  V(+5) <= 0.498 x |-12|
+# so -12 cannot start before +12, +12 alone stays <= 0.41 V, and +5 stays <= 0.8 V until
+# |-12| >= 1.61 V (and +12 >= 1.45 V). See manufacturing/board-b-20v-switcher-direct-draft.md 5b.
+# U15/U16 run from P5_SUP / M12_PRE like U9: with a GND negative rail the clamp output could not
+# pull a RAMP_x node below one body-diode drop (about 0.4 V), which would let |-12| reach about
+# 3 V while +12 is still at 0 V.
+opa('U15', 'P5_SUP', 'M12_PRE', ('GND', 'MABS_N', 'MABS'), ('LVL12', 'RAMP_P12', 'CLP12_O'))
+two('C15D', 'C100N', 'P5_SUP', 'GND')
+two('C15DN', 'C100N', 'GND', 'M12_PRE')
+rprop('RMA1', '100k 0.1%', 'M12_OUT', 'MABS_N')
+rprop('RMA2', '15k 0.1%', 'MABS_N', 'MABS')
+rprop('RLV1', '8.87k 0.1%', 'MABS', 'LVL12')
+rprop('RLV2', '92k 0.1%', 'LVL12', 'VX12')
+rprop('RVX1', '30.1k 0.1%', 'REF25', 'VX12')
+two('RVX2', 'RP10K', 'VX12', 'GND')
+opa('U16', 'P5_SUP', 'M12_PRE', ('LVLM12', 'RAMP_M12', 'CLPM12_O'), ('MABS', 'RAMP_P5', 'CLP5_O'))
+two('C16D', 'C100N', 'P5_SUP', 'GND')
+two('C16DN', 'C100N', 'GND', 'M12_PRE')
+rprop('RLM1', '64.9k 0.1%', 'P12_OUT', 'LVLM12')
+rprop('RLM2', '10.2k 0.1%', 'LVLM12', 'GND')
+two('RCP1', 'R1K', 'RAMP', 'RAMP_P12')
+two('RCP2', 'R1K', 'RAMP', 'RAMP_M12')
+two('RCP3', 'R1K', 'RAMP', 'RAMP_P5')
+nfet('Q62', 'RAMP_P12', 'RAMP_P12', 'CLP12_O')   # body diode RAMP_P12 -> CLP12_O
+nfet('Q63', 'RAMP_M12', 'RAMP_M12', 'CLPM12_O')
+nfet('Q64', 'RAMP_P5', 'RAMP_P5', 'CLP5_O')
 # +12 pair
 power_nfet('Q1', 'P12_CS', 'P12_G', 'P12_SH')
 power_nfet('Q2', 'P12_CS', 'P12_G', 'P12_OUT')

@@ -8,7 +8,8 @@ or that a named ngspice run with vendor models met the limit. A simulation is no
 
 - Spec: `scripts/schgen/board_b20_spec.py` → `boards/board-b20-draft/board-b20-draft.kicad_sch` (generated).
 - Arithmetic: `python3 scripts/pcb/calculate-board-b20-draft.py` (`--json` for every row).
-- Simulation decks, analyzers and summaries: `manufacturing/sim/board-b20-phase7/`.
+- Simulation decks, analyzers and summaries: `manufacturing/sim/board-b20-phase7/` (as drawn in phase 7)
+  and `manufacturing/sim/board-b20-phase9/` (phase-9 start-order clamps and shunts).
 - Contract: manager `osc-pd-interface-20v.md` (2026-10-31), §0–§6.
 - Evidence tags: **G** guaranteed limit from a retained primary extract, **T** typical,
   **PA** project assumption, **PROPOSED** draft value with no owner record.
@@ -57,13 +58,22 @@ flowchart LR
   REF5025. They inject a bounded current into the converter FB node. Only the switch-pair drop is
   outside the loop. The loop time constant is about 5 ms (5.03 / 5.56 / 5.12 ms), so the rails settle
   long before the earliest enable (RDY ≥ 0.21 s).
-- **Common tracking start.** RAMP rises from REF25 through 20 kΩ into 1 µF. A BSS138 holds it at 0 V
+- **Common tracking start.** RAMP rises from REF25 through 20 kΩ into 1.47 µF (CRMP 1 µF + CRMP2 470 nF,
+  phase 9). A BSS138 holds it at 0 V
   while EN_N is high and for 12–23 ms after enable (RRMD/CRMD). U13 (on VIN) closes +12 = 7.98 × RAMP
   and +5 = 3.32 × RAMP around the switch pairs; U9B closes −12 = −8.06 × RAMP. While disabled, each
   amplifier's feedback input is pre-biased through 100 kΩ and a BSS138 body diode. A 10 MΩ offset to
   M12_PRE sets a small target, so each loop brings its pair to the edge of conduction before RAMP
   moves. The integrators are 10 nF C0G; the −12 V loop adds a 10 kΩ damping zero (RT12NZ).
-- **Limiter.** +12 V and +5 V use INA301A3 in transparent mode on their shunts. The LIMIT dividers
+- **Start-order clamps (phase 9, drawn).** Each amplifier now tracks RAMP_x, which is RAMP through 1 kΩ,
+  clamped by an OPA2187 and a BSS138 body diode (U15/U16, Q62–Q64, on P5_SUP / M12_PRE) to a level
+  from the other rails' outputs: |−12| ≤ 1.095 × V(+12), V(+12) ≤ 1.099 × |−12| + 0.407 V and
+  V(+5) ≤ 0.498 × |−12|. U15/U16 use M12_PRE as their negative rail. On a GND rail the clamp could not
+  pull RAMP_x below one diode drop, about 0.4 V, which would let |−12| reach about 3 V with +12 V at 0 V.
+  §5c.
+- **Limiter.** +12 V and −12 V each use one 10 mΩ 0.1 % shunt (RSH1, RSH3: RESI PCSR2512BR010M6,
+  distributor listing only, G-U; phase 9). +5 V keeps one 20 mΩ PE1206 shunt. +12 V and +5 V use
+  INA301A3 in transparent mode on their shunts. The LIMIT dividers
   include the 79.2–80.8 µA ILIMIT source current (G). −12 V uses U9A against a divider from GND to
   M12_PRE. Every trip pulls FAULT_N. The limiter trips; it does not regulate current.
 - **Reverse blocking.** Back-to-back CSD18543Q3A common-source pairs sit on every rail, with a
@@ -98,8 +108,8 @@ Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprin
 |---|---|---|
 | Source band, ripple excluded (§0) | **PASS** | +12: 12.042–12.196 V; −12: 12.017–12.182 V; +5: 5.0543–5.0981 V. With hot RDS(on) (×1.25, PA) the minimums are 12.026 / 12.001 / 5.0504 V |
 | Ripple at load < 1 mVp-p (§0) | **OPEN (averaged + ripple injection, not a switching simulation)** | The vendor TPS54560 transient model still aborts after the phase-8 retry (§5). Injecting the switching current into the linear filter network gives 22.6 / 13.4 / 43.6 µVp-p at the output, with PA ESL and no SRF, coupling or ground-return terms. §5 |
-| Limiter trip window (§1) | **PASS** | +12: 2.0032–2.0898 A; +5: 0.4369–0.4608 A; −12: 1.9025–1.9967 A, including ILIMIT × R_TH (review finding 1) |
-| No trip on the startup ramp (§1, §5) | **FAIL as drawn; PASS (PROPOSED retune, shunt evidence G-U)** | Start into the full transient load peaks at I_min × V_terminal,max / V_nom: 2.0327 / 1.9289 / 0.4078 A. As drawn the trip minimums are 2.0032 / 1.9025 / 0.4369 A, so +12 V and −12 V fail. One 10 mΩ 0.1 % 15 ppm/°C shunt (RESI PCSR2512BR010M6, C23067428, distributor listing only) with LIMIT 649 Ω / 2.74 kΩ and −12 V divider 20.3 kΩ / 33 Ω gives 2.0418–2.0847 A and 1.9423–1.9953 A. Not drawn. §5a |
+| Limiter trip window (§1) | **PASS (+12 V and −12 V shunt evidence G-U)** | +12: 2.0418–2.0847 A; +5: 0.4369–0.4608 A; −12: 1.9423–1.9953 A, including ILIMIT × R_TH (review finding 1). Phase 9 draws the 10 mΩ shunts, LIMIT 649 Ω / 2.74 kΩ and the 20.3 kΩ / 33 Ω −12 V divider |
+| No trip on the startup ramp (§1, §5) | **PASS (drawn, shunt evidence G-U)** | Start into the full transient load peaks at I_min × V_terminal,max / V_nom: 2.0327 / 1.9289 / 0.4078 A, against trip minimums of 2.0418 / 1.9423 / 0.4369 A. The phase-9 `*R` runs peak at 2.013 / 0.403 / 1.91 A (SIM; limiter comparators not in the decks). §5a, §5c |
 | Maximum never delivered (let-through) (§1) | **OPEN** | The limiter trips; it does not regulate current. A series inductor that holds a hard short below I_MAX for an illustrative 2 µs switch-off needs 1.6 / 5.2 / 0.26 mH, which is infeasible at 2 A; switch-off time has no guaranteed figure. The contract needs let-through stated as charge or time above I_MAX. §5a |
 | Any trip → all-rail latched shutdown, re-plug only (§1) | **PASS (topology)** | FAULT_N is shared; the latch has no retry path. The limiter comparators are not in the simulation |
 | Reverse blocking on all rails (§2) | **PASS (topology)** | Back-to-back NFET pairs on all three rails |
@@ -109,10 +119,12 @@ Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprin
 | Discharge order under load (§3) | **OPEN** | After disconnect each rail falls at I/C into its own load (2.0 A on 180 µF is 11 V/ms). An asymmetric OSC load reorders the rails. Guaranteeing the order needs a tracked ramp-down (RAMP falling while the pairs stay in tracking): a contract change, proposed but not drawn |
 | Discharge resistor pulse rating | **OPEN** | The PROPOSED 1206 loads have no owner record or pulse curve |
 | Disconnect skew ≤ 1 ms (§3) | **PASS (SIM)** | Run `disR`: source current below 10 mA at 21.4 / 20.0 / 24.0 µs after EN_N; skew 4 µs. Gate below 1 V at 15.9 / 16.5 µs |
-| Monotonic common ramp ≥ 10 ms, slope limits (§5) | **FAIL (SIM) in 2 of 7 runs** | Arithmetic slopes 1.108 / 0.461 / 1.119 V/ms PASS. Simulated worst: +12 0.86 V/ms PASS; +5 0.75 V/ms in `rev` (limit 0.51) FAIL; −12 1.55 V/ms in `adv` (limit 1.22) FAIL |
-| Start skew ≤ 0.41 ms (§5) | **FAIL (SIM) as drawn; PASS (PROPOSED construction, arithmetic)** | Drawn: 0.55–2.26 ms over the seven runs, kept as measured. The phase-8 clamp construction (§5b) meets the voltage form: +12 V alone ≤ 0.404 V (0.096 V margin to 0.5 V) and the −12 V magnitude ≤ 0.556 V while +12 V ≤ 0.5 V. Not drawn, not simulated |
-| Band-entry skew ≤ 2 ms; +5 V up last (§5) | **PASS (SIM)** | 0.98–1.04 ms; +5 V last in all seven runs. Arithmetic: 1.020 ms |
-| +12 V lead over \|−12 V\| ≤ 0.5 V (review finding 5) | **PASS (SIM)** | At most 0.24 V; \|−12\| leads +12 by up to 0.61 V, inside the R-VEE 6 V limit |
+| Monotonic common ramp ≥ 10 ms, slope limits (§5) | **FAIL (SIM), phase-9 clamps** | Arithmetic: 0.754 / 0.314 / 0.762 V/ms unclamped and 0.845 / 0.425 / 0.834 V/ms clamped, PASS. Simulated (§5c): +12 ≤ 0.54 V/ms PASS; +5 0.53–1.03 V/ms against 0.51, FAIL in every run; −12 0.84–1.54 V/ms against 1.22, FAIL in 2 of 10 completed runs. The excess is a catch-up step below 0.7 V when a clamp releases |
+| Start skew ≤ 0.41 ms (§5) | **Voltage form PASS (SIM, drawn clamps); time form FAIL (SIM)** | Phase 9 (§5c), ten completed runs: +12 V ≤ 0.408 V while \|−12\| < 0.1 V (limit 0.5 V); \|−12\| ≤ 0.72 V while +12 V ≤ 0.5 V (limit 6 V). Ramp start skew is 1.16–2.42 ms. The 0.41 ms row is the time form of the +12 V-alone limit at the fastest slope; the clamps meet the voltage form without it. Arithmetic: ≤ 0.411 V and ≤ 0.553 V |
+| Band-entry skew ≤ 2 ms; +5 V up last (§5) | **PASS (SIM)** | Phase 9: 0.74–0.83 ms; +5 V last in every completed run. Arithmetic: 1.500 ms |
+| +12 V lead over \|−12 V\| ≤ 0.5 V (review finding 5) | **PASS (SIM)** | Phase 9: at most 0.33 V; \|−12\| leads +12 by up to 0.31 V |
+| P59-A: \|−12\| ≤ 6 V until +12 V ≥ 5.2 V | **PASS (SIM)** | At most 5.452 V (arithmetic 5.749 V) |
+| +5 V ≤ 0.8 V before both analog rails are "up" | **OPEN (definition)** | As drawn, +5 V ≤ 0.69 V (SIM) while either analog rail is below 1.45 V, and reaches 3.39 V by the time both reach 8 V. Which level means "up" is a question for OSC (§5c) |
 | OV/UV windows (§6) | **PASS** | All three rails fit, using actual E192 resistor values |
 | VIN undervoltage (§6) | **PASS** | Trips at 16.86–17.04 V, below 19 V (PA). The U5B input is 1.86 V at the Board P overshoot bound |
 | Contract detect before enable (§6) | **PASS (topology), polarity G-U** | RDY needs PDOK valid for 0.21–0.73 s; POR ends at 36 ms at most. PDOK low = PDO2 explicit contract (POWER_OK_CFG 10b, DS12499 Rev 7 Table 4, mirror authority) |
@@ -235,7 +247,7 @@ Let-through stays **OPEN**. The limiter is a trip, not a regulator. Bounding a h
 with a series inductor needs L ≥ V × t_off / (I_MAX − trip_max): 1.6 mH (+12 V), 5.2 mH (−12 V) and
 0.26 mH (+5 V) at an illustrative 2 µs, and no retained source guarantees t_off.
 
-### 5b. Phase 8: +12 V-first start sequence by construction (PROPOSED, not drawn or simulated)
+### 5b. Phase 8: +12 V-first start sequence by construction (proposal; drawn and simulated in §5c)
 
 Each tracking target becomes the minimum of its RAMP term and a clamp derived from the other rails'
 actual terminals (`start_sequence_proposal()`). Followers only lag their targets, and the contract
@@ -273,15 +285,98 @@ rails up" means.
 The 28 ms first band entry is inside the 20–50 ms range that the contract lists only as candidate
 PWR-C1; OSC tolerance of slower ramps is unverified.
 
+### 5c. Phase 9: start-order clamps and shunts drawn and simulated
+
+`board_b20_spec.py` now draws the §5a shunts and the §5b construction, with these values:
+
+| Clamp | Network | Bound (arithmetic, 1 % clamp error PA) |
+|---|---|---|
+| −12 V target | U16A: LVLM12 = P12_OUT × 10.2k / (64.9k + 10.2k) against RAMP_M12 | \|−12\| ≤ 1.0947 × V(+12) |
+| +12 V target | U15A: MABS = 0.15 × \|−12\| (100k / 15k); U15B: LVL12 from MABS (8.87k / 92k) and REF25 (30.1k / 10k) | V(+12) ≤ 1.0990 × \|−12\| + 0.407 V |
+| +5 V target | U16B: MABS against RAMP_P5 | V(+5) ≤ 0.498 × \|−12\| |
+| Common | RCP1–RCP3 1 kΩ from RAMP; Q62–Q64 BSS138 body diodes; U15/U16 on P5_SUP / M12_PRE; RAMP C 1.47 µF | first band entry ≥ 27.65 ms, band-entry skew ≤ 1.50 ms |
+
+Arithmetic (`start_sequence_proposal()`): +12 V alone ≤ 0.411 V (0.089 V margin to 0.5 V); \|−12\|
+≤ 0.553 V while +12 V ≤ 0.5 V; \|−12\| ≤ 5.749 V at +12 V = 5.2 V (P59-A, 0.251 V margin); +5 V ≤ 0.8 V
+until \|−12\| ≥ 1.623 V (+12 V ≥ 1.468 V).
+
+**Decks.** `manufacturing/sim/board-b20-phase9/gen_tracking.py` writes the phase-7 decks with the
+clamps, the 10 mΩ shunts and 1.47 µF. `run_ladder.sh` records the solver variant. Two start modes are
+kept. In `tracking/`, stiff sources start from initial conditions (`uic`), as in phase 7. In
+`tracking-ramp/`, every source rises from 0 V over 2 ms from a DC operating point.
+
+The clamp amplifiers made the vendor CSD18543Q3A and OPAx187 models fragile in the first
+microseconds. A 100 MΩ resistor across Q5 (RCV1) is a simulation-only convergence aid and not a board
+part. With it, 10 of 14 runs completed: the `ramp` set has six of seven, and the `uic` set has
+`nom`, `adv`, `nomR` and `revR`. `disR` aborts in both modes and in eight extra variants (50 µs and 5 µs
+disable edges, gear and trap). The furthest runs fail during the disable edge, before switch-off ("timestep
+too small" in a CSD18543Q3A). Its start portion matches
+`nomR`. The disconnect path (EN_N to the gates) is unchanged from phase 7, so the phase-7 disconnect row
+stands and is not re-simulated. The retained results are in `manufacturing/sim/board-b20-phase9/results.json`.
+
+| Run (mode) | Start skew | Band entry +12 / +5 / −12 (ms after enable) | Max slope V/ms +12 / +5 / −12 | Peak source A |
+|---|---|---|---|---|
+| nom (ramp) | 1.70 ms | 53.25 / 53.68 / 52.86 | 0.54 / **0.86** / **1.54** | 0.10 / 0.11 / 0.28 |
+| adv (ramp) | 2.42 ms | 53.00 / 53.42 / 52.60 | 0.53 / **0.60** / **1.40** | 0.10 / 0.07 / 0.26 |
+| rev (ramp) | 1.42 ms | 53.58 / 54.01 / 53.19 | 0.54 / **1.03** / 1.14 | 0.10 / 0.13 / 0.21 |
+| nomR (ramp) | 1.42 ms | 53.83 / 54.46 / 53.72 | 0.53 / **0.70** / 1.06 | 2.01 / 0.40 / 1.91 |
+| advR (ramp) | 2.12 ms | 53.59 / 54.22 / 53.48 | 0.53 / **0.53** / 1.10 | 2.01 / 0.40 / 1.91 |
+| revR (ramp) | 1.16 ms | 54.19 / 54.82 / 54.08 | 0.54 / **0.82** / 0.84 | 2.01 / 0.40 / 1.91 |
+| nom (uic) | 1.59 ms | 52.98 / 53.41 / 52.59 | 0.54 / **0.90** / 1.20 | 0.10 / 0.11 / 0.22 |
+| adv (uic) | 2.15 ms | 52.76 / 53.19 / 52.37 | 0.53 / **0.61** / 1.20 | 0.10 / 0.07 / 0.22 |
+| nomR (uic) | 1.43 ms | 53.69 / 54.31 / 53.57 | 0.53 / **0.72** / 1.09 | 2.01 / 0.40 / 1.91 |
+| revR (uic) | 1.18 ms | 54.03 / 54.66 / 53.92 | 0.54 / **0.84** / 0.85 | 2.01 / 0.40 / 1.91 |
+
+| Voltage-form row (contract §5) | Limit | Worst over the 10 runs | Result |
+|---|---|---|---|
+| +12 V while \|−12\| < 0.1 V | ≤ 0.5 V | 0.408 V | **PASS (SIM)** |
+| \|−12\| while +12 V ≤ 0.5 V | ≤ 6 V | 0.722 V | **PASS (SIM)** |
+| P59-A: \|−12\| while +12 V < 5.2 V | ≤ 6 V | 5.452 V | **PASS (SIM)** |
+| +12 V − \|−12\| | ≤ 0.5 V | +0.333 / −0.309 V | **PASS (SIM)** |
+| +5 V while either analog rail < 1.45 V | ≤ 0.8 V | 0.691 V | **PASS (SIM)** |
+| +5 V while either analog rail < 8 V | not defined (see the OSC question) | 3.389 V | OPEN |
+| Band-entry skew; +5 V last | ≤ 2 ms | 0.74–0.83 ms; +5 V last in all runs | **PASS (SIM)** |
+| Slopes | 1.23 / 0.51 / 1.22 V/ms | +5 V exceeds in every run; −12 V in `nom` and `adv` (ramp) | **FAIL (SIM)** |
+
+**What the runs show.** The clamps hold every voltage-form start row in every completed run,
+including the threshold-shifted cases, without depending on FET thresholds. The time-form start skew
+(1.16–2.42 ms) is no longer the binding test, because the voltage limits it was derived from are met
+directly. The slope rows fail. While a target is pinned by its clamp, its pass pair does not stay at the
+edge of conduction. When the clamp releases, the loop catches up in a short step: −12 V moves 0.03 → 0.7 V
+at up to 1.54 V/ms in `nom` (ramp), and +5 V moves 0.01 → 0.4 V at up to 1.03 V/ms in `rev`. Both steps
+are below 0.7 V and carry under 0.3 A of charging current, but they exceed the slope rows as written.
+Candidate fixes are not drawn: a small positive offset on each clamped target so the pair stays
+biased, or slew-limiting each RAMP_x node directly.
+
+**OSC question: what does "both analog rails up" mean for the +5 V hold?** The contract has three
+statements. R-ADG forbids +5 V above 0.8 V with one analog rail absent and the other at 8 V or more.
+Row 137 says to bring +5 V up last. The P59-A row says no OSC limit applies "if +5 V stays ≤ 0.8 V until
+both analog rails are present". As drawn, +5 V stays ≤ 0.8 V only until both analog rails pass about
+1.5 V; it reaches 3.39 V by the time both reach 8 V. The three possible definitions behave differently:
+
+1. **"Present" = above about 1.5 V (as drawn).** One common ramp, start-skew voltage form, band-entry
+   skew ≤ 2 ms and +5 V last are all met (SIM). Since the analog rails track within about 10 % of each
+   other, the R-ADG state (one absent, the other ≥ 8 V) cannot occur. ADG5412F IN is not guaranteed
+   low below the ±5 V supply minimum, so OSC #59 (load-side inhibited enables) still has to cover it.
+2. **"Present" = ±5 V, the ADG5412F minimum supply.** +5 V would need its own later ramp. That breaks
+   the one-common-ramp shape and the 0.41 ms start-skew row. Band-entry skew ≤ 2 ms would be a new
+   design target that has not been shown.
+3. **"Present" = inside the source band (12.00 V).** +5 V then needs at least 8.33 ms at 0.51 V/ms after
+   analog band entry. That breaks the 2 ms band-entry skew (PROPOSED) and the common-ramp shape
+   (CONTRACT).
+
+The question for OSC: does the +5 V hold require definition 1, 2 or 3? If 2 or 3, which of the
+common-ramp, start-skew and band-entry-skew rows is OSC prepared to relax?
+
 ## 6. Checks run on this draft
 
 | Check | Result |
 |---|---|
-| `gen_schematic.py` | PASS: 243 components, 682 pin specs |
-| `verify_geometry.py` | PASS: 675 spec pins matched |
-| KiCad 10.0.6 native ERC (pinned image, `flock`) | exit 0. 0 errors and 26 warnings: 21 missing `*_DRAFT` footprints and 5 `pin_to_pin` warnings on J5's unspecified pins. Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
-| KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 126 nets, 682 nodes |
-| `calculate-board-b20-draft.py` | FAIL (SIM) start skew; OPEN let-through, ripple, loaded discharge order; everything else PASS |
+| `gen_schematic.py` | PASS: 262 components, 735 pin specs (phase 9) |
+| `verify_geometry.py` | PASS: 728 spec pins matched (phase 9) |
+| KiCad 10.0.6 native ERC (pinned image; the phase-9 run was not serialised through `flock`, which another session held) | exit 0. 0 errors and 26 warnings (unchanged in phase 9): 21 missing `*_DRAFT` footprints and 5 `pin_to_pin` warnings on J5's unspecified pins. Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
+| KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 137 nets, 735 nodes (phase 9) |
+| `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; everything else PASS. Phase 9 uses the drawn shunt, divider, RAMP C and clamp values |
 | ngspice AC and tracking runs | As in §5 |
 | PCB, DRC, BOM/CPL | NOT RUN: there is no PCB, by request |
 
