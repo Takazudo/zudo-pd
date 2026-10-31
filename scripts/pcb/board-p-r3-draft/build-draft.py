@@ -4,7 +4,8 @@ usage: python3 build-draft.py <repo> <out.kicad_pcb> <report.json> <asbuilt-stri
 Starts from the as-built outline and mounting holes only (strip-asbuilt.py); every component footprint is
 loaded from the shared library named in the spec and given the spec nets. J1, JOUT1, J2, J3, MH1-MH3 and U1
 stay at their as-built coordinates; the other positions come from search-placement.py. The RESET-strap and
-STUSB local-clamp pin corridors become footprint/via keep-out rule areas. No tracks are drawn.
+STUSB local-clamp pin corridors become footprint/via keep-out rule areas. Floorplan 'pre' parts (phase 11)
+override the as-built position, which moves U1 (not a connector). Power routing is route-power.py.
 """
 import importlib.util, json, math, sys
 import pcbnew
@@ -137,8 +138,9 @@ SEARCH = json.load(open(sys.argv[6]))
 keepouts = [tuple(k) for k in SEARCH['keepouts']]
 pin_dist = SEARCH['pin_d']
 unplaced = list(SEARCH['unplaced'])
+PRE = SEARCH.get('floorplan', {}).get('pre', {})
 for ref, (x, y, rot, side) in SEARCH['pos'].items():
-    if ref in FIXED:
+    if ref in FIXED and ref not in PRE:
         continue
     fp = fps[ref]
     put(fp, x, y, rot)
@@ -164,7 +166,7 @@ area_holes = sum((r[2] - r[0]) * (r[3] - r[1]) for r in rects if r[4].startswith
 pcbnew.SaveBoard(out_pcb, board)
 report = {
     'board_mm': [W, H], 'grid_mm': GRID, 'edge_clearance_mm': EDGE, 'courtyard_gap_mm': GAP, 'side': 'top and bottom' if any(p[3] == 'B' for p in SEARCH['pos'].values()) else 'top only', 'bottom': sorted(r for r, p in SEARCH['pos'].items() if p[3] == 'B'),
-    'fixed': {r: placed[r] for r in FIXED}, 'mounting_holes': {r: asbuilt[r] for r in asbuilt if r.startswith('MH')},
+    'fixed': {r: placed[r] for r in FIXED if r not in PRE}, 'floorplan_pre': PRE, 'mounting_holes': {r: asbuilt[r] for r in asbuilt if r.startswith('MH')},
     'placed': {r: [round(v, 3) for v in placed[r]] for r in placed if r not in FIXED},
     'unplaced': unplaced, 'missing_pads': missing_pads,
     'pin_to_part_pad_mm': {r: (round(d, 3) if d is not None else None) for r, d in pin_dist.items()},

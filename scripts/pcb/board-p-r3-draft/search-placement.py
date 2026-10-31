@@ -1,6 +1,8 @@
 """Host-side greedy placement search with perturbed restarts for the Board P r3 draft (courtyard rectangles, 90-degree rotations).
 
-usage: python3 search-placement.py <repo> <fpsize.json> <asbuilt.json> <out.json> <mode: top|both> <restarts>
+usage: python3 search-placement.py <repo> <fpsize.json> <asbuilt.json> <out.json> <mode: top|both> <restarts> [floorplan.json]
+floorplan.json (phase 11): {"pre": {ref: [x, y, rot]}, "reserved": {name: [x0, y0, x1, y1]}} fixes the
+power-path parts and keeps the power-routing corridors free of other footprints.
 """
 import importlib.util, json, math, random, sys
 
@@ -13,6 +15,9 @@ ASB = {r['ref']: r for r in json.load(open(asb_p))}
 W, H, EDGE, GAP, GRID = 27.0, 40.0, 0.25, 0.10, 0.25
 pad_net = {pin: n for n, pins in spec.NETS.items() for pin in pins}
 FIXED = {r: (ASB[r]['x'], ASB[r]['y'], ASB[r]['rot']) for r in ('J1', 'JOUT1', 'J2', 'J3', 'U1')}
+FLOOR = json.load(open(sys.argv[7])) if len(sys.argv) > 7 else {'pre': {}, 'reserved': {}}
+for _r in FLOOR['pre']:
+    FIXED.pop(_r, None)
 PIN_GROUP = [('R21', 'U1', '6', '1'), ('D9', 'U1', '24', '1'), ('D10', 'U1', '18', '1'),
              ('D11', 'U1', '16', '1'), ('D12', 'U1', '9', '1')]
 BOTTOM_OK = {r for r, c in spec.COMPONENTS.items() if c[3].split(':')[1] in ('R0603', 'C0603', 'SOD-523_L1.2-W0.8-LS1.6-RD', 'SOD-123_L2.8-W1.8-LS3.7-RD', 'C1206')}
@@ -51,6 +56,10 @@ def run(order, rng):
         if FP[fpn(r)]['th']:
             occ['B'].append(rect)
         pos[r] = (x, y, d, 'F')
+    for r, (x, y, d) in FLOOR['pre'].items():
+        lr = local_rect(r, d); occ['F'].append((lr[0] + x, lr[1] + y, lr[2] + x, lr[3] + y, r)); pos[r] = (x, y, d, 'F')
+    for name, rr in FLOOR['reserved'].items():
+        occ['F'].append((*rr, name))
     keep = []
 
     def free(rect, side):
@@ -118,7 +127,7 @@ def run(order, rng):
 
 
 rng = random.Random(10)
-rest = [r for r in spec.COMPONENTS if r not in FIXED and r not in {g[0] for g in PIN_GROUP}]
+rest = [r for r in spec.COMPONENTS if r not in FIXED and r not in FLOOR['pre'] and r not in {g[0] for g in PIN_GROUP}]
 area = lambda r: (lambda b: (b[2] - b[0]) * (b[3] - b[1]))(FP[fpn(r)]['bbox'])
 base = sorted(rest, key=lambda r: -area(r))
 best_run = None
@@ -137,6 +146,6 @@ for k in range(restarts):
         pass
 res = best_run[1]
 res['mode'] = mode; res['restarts'] = restarts
-res['area'] = {'free_top_mm2_after_fixed_and_holes': None}
+res['floorplan'] = FLOOR
 json.dump(res, open(out_p, 'w'), indent=1)
 print(json.dumps({'mode': mode, 'unplaced': res['unplaced'], 'bottom': res['bottom'], 'hpwl': res['hpwl_mm'], 'pin_d': res['pin_d']}))

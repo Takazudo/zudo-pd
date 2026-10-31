@@ -1,0 +1,72 @@
+{
+  "_comment": "Phase 11 power-path floorplan for the r3 placement draft (project choice, not derived): the chain runs J1 VBUS -> D5 / Q3 (U3 beside) -> U2 (IN on top, OUT at the bottom) -> VBUS_P to C3 and Q1 -> VBUS_OUT to JOUT1.1/.2. Reserved rectangles keep the 5 A corridors free of other footprints (mm, KiCad board coordinates). U1 moves 2.67 mm right of its as-built x (14.4 vs 11.728) so the VBUS_P corridors pass on its left without displacing the RESET and local-clamp parts from their pins.",
+  "pre": {
+    "D5": [
+      11.3,
+      10.6,
+      0
+    ],
+    "Q3": [
+      7.9,
+      11.5,
+      270
+    ],
+    "U3": [
+      4.0,
+      11.2,
+      0
+    ],
+    "U2": [
+      6.0,
+      18.0,
+      270
+    ],
+    "C3": [
+      18.15,
+      13.0,
+      0
+    ],
+    "Q1": [
+      6.3,
+      27.5,
+      270
+    ],
+    "U1": [
+      14.4,
+      23.29,
+      180.0
+    ]
+  },
+  "reserved": {
+    "vbus_in_strip": [
+      6.0,
+      7.96,
+      15.6,
+      9.0
+    ],
+    "vbus_p_up_to_c3": [
+      9.7,
+      13.6,
+      11.4,
+      21.9
+    ],
+    "vbus_p_across_to_c3": [
+      11.4,
+      13.6,
+      15.9,
+      15.6
+    ],
+    "vbus_p_to_q1": [
+      5.9,
+      22.0,
+      9.1,
+      25.4
+    ],
+    "vbus_out_to_jout1": [
+      4.6,
+      29.7,
+      9.3,
+      36.0
+    ]
+  }
+}
