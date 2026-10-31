@@ -103,7 +103,7 @@ test('mixed placement DNP survives actual public projection', async () => {
 });
 
 test('all candidates retained for validation, never projected; unknown null line and cross-partition links fail', async () => {
-  const candidates=await json(join(root,candidatesPath)); assert.equal(candidates.candidates.length,15);
+  const candidates=await json(join(root,candidatesPath)); assert.equal(candidates.candidates.length,19);
   assert.ok(model.records.every(r=>r.identity.lineId));
   const bundle={skill:'owner',records:[{record_id:'rec-a',line_id:'line-a',candidate_id:null,mpn:'a',manufacturer:'v',lcsc:'C1',package:'p'},{record_id:'rec-c',line_id:null,candidate_id:'cand-c',mpn:'c',manufacturer:'v',lcsc:'C2',package:'p'}],facts:[{fact_id:'f-a',record_id:'rec-a',depends_on:[]},{fact_id:'f-c',record_id:'rec-c',depends_on:[]}],sources:[],coverage:[],routes:[],pinMaps:[],interactions:[]};
   const lines=[{line_id:'line-a',owner_skill:'owner',mpn:'a',manufacturer:'v',lcsc:'C1',package:'p'}], cands=[{candidate_id:'cand-c',owner_skill:'owner',mpn:'c',manufacturer:'v',lcsc:'C2',package:'p'}];

@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-c31966",
+      "record_id": "rec-c31966",
+      "symbol": "TPS54560DDAR (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
+      "footprint": "HSOP-8 DDA (zudo-pd:HSOP-8_TPS54560DDA_DRAFT does not exist)",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "BOOT",
+          "footprint_pad": "1",
+          "function": "bootstrap capacitor to SW"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "VIN",
+          "footprint_pad": "2",
+          "function": "input supply 4.5..60 V"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "EN",
+          "footprint_pad": "3",
+          "function": "enable and UVLO divider"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "RT/CLK",
+          "footprint_pad": "4",
+          "function": "timing resistor or clock"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "FB",
+          "footprint_pad": "5",
+          "function": "error amplifier inverting input"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "COMP",
+          "footprint_pad": "6",
+          "function": "compensation"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "GND",
+          "footprint_pad": "7",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "SW",
+          "footprint_pad": "8",
+          "function": "switch node"
+        },
+        {
+          "symbol_pin": "9",
+          "name": "PAD",
+          "footprint_pad": "9",
+          "function": "thermal pad, connect to GND"
+        }
+      ],
+      "reviewed_by": "2026-10-31 PD worker: SLVSBN0C pin table only; draft symbol pin numbers match; no footprint asset exists"
+    },
+    {
+      "pin_map_id": "pinmap-c2863562",
+      "record_id": "rec-c2863562",
+      "symbol": "OPA2187IDGKR (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
+      "footprint": "VSSOP-8 DGK (zudo-pd:VSSOP-8_DGK_DRAFT does not exist)",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "OUT A",
+          "footprint_pad": "1",
+          "function": "output A"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "-IN A",
+          "footprint_pad": "2",
+          "function": "inverting input A"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "+IN A",
+          "footprint_pad": "3",
+          "function": "non-inverting input A"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "V-",
+          "footprint_pad": "4",
+          "function": "negative supply"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "+IN B",
+          "footprint_pad": "5",
+          "function": "non-inverting input B"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "-IN B",
+          "footprint_pad": "6",
+          "function": "inverting input B"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "OUT B",
+          "footprint_pad": "7",
+          "function": "output B"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "V+",
+          "footprint_pad": "8",
+          "function": "positive supply"
+        }
+      ],
+      "reviewed_by": "2026-10-31 PD worker: SBOS807E pin table only; draft symbol pin numbers match; no footprint asset exists"
+    },
+    {
+      "pin_map_id": "pinmap-c11341",
+      "record_id": "rec-c11341",
+      "symbol": "REF5025AIDR (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
+      "footprint": "SOIC-8 D (zudo-pd:SOIC-8_D_DRAFT does not exist)",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "DNC",
+          "footprint_pad": "1",
+          "function": "do not connect"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "VIN",
+          "footprint_pad": "2",
+          "function": "input supply"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "TEMP",
+          "footprint_pad": "3",
+          "function": "temperature output"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "GND",
+          "footprint_pad": "4",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "TRIM/NR",
+          "footprint_pad": "5",
+          "function": "trim or noise reduction"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "VOUT",
+          "footprint_pad": "6",
+          "function": "reference output"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "NC",
+          "footprint_pad": "7",
+          "function": "no internal connection"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "DNC",
+          "footprint_pad": "8",
+          "function": "do not connect"
+        }
+      ],
+      "reviewed_by": "2026-10-31 PD worker: SBOS410O pin table only; draft symbol pin numbers match; no footprint asset exists"
+    },
+    {
+      "pin_map_id": "pinmap-c164156",
+      "record_id": "rec-c164156",
+      "symbol": "PE1206FRF470R02L (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
+      "footprint": "1206 (zudo-pd:R1206_DRAFT does not exist)",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "terminal"
+        }
+      ],
+      "reviewed_by": "2026-10-31 PD worker: PE1206FRF470R02L pin table only; draft symbol pin numbers match; no footprint asset exists"
+    }
+  ]
+}
