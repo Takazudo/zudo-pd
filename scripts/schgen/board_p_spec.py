@@ -31,6 +31,18 @@ scripts/schgen/decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2):
   the divider alone gives -24.44 V at the 25.21 V overshoot case (inside 25 V).
   C35 is unchanged; the turn-on gate time constant falls from 6.0 ms to 0.46 ms and
   the VBEN-release turn-off constant (R11 x C35) rises from 10 ms to 15 ms.
+- Q1 soft turn-on DRAFT (dec-p-20v-q1-soft-start, phase 7, independent review
+  finding 3): C36 1 uF C15849 is a Miller capacitor from VBUS_OUT to node Q1_MX, and
+  Q5 BSS138-7-F (gate and source on Q1_MX, drain on Q1_G) acts as a body diode from
+  Q1_MX to Q1_G. The diode lets the drain's rise feed back into the gate during
+  turn-on, so the drain slews at the R12 gate current divided by C36. It blocks the
+  reverse path, so a VBUS_P rise with Q1 off cannot pull the gate below the source.
+  R27 150k C22807 recharges Q1_MX from VBUS_P between cycles. The 20 V closure slews
+  at about 3.1-10 V/ms (PA plateau and DC-bias range). Into a 250 uF Board B bank
+  that is at most 2.5 A, below the I(OL) 4.185 A minimum. Q1 SOA is OPEN.
+- VBUS_VS_DISCH series resistance is R14 + R28, 2 x 470R C23179 (independent review
+  finding 10): 26.7 mA at 25.1 V, against the 50 mA maximum. The STUSB discharge time
+  constant doubles (OPEN interaction).
 - Q1 discharge path R13 is unchanged; its value is a PLACEHOLDER (OSC interface
   discharge values are Board B items).
 """
@@ -66,6 +78,10 @@ COMPONENTS = {
     'D8': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (279.4, 76.2)),
     'R13': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (114.3, 190.5)),
     'R14': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (152.4, 190.5)),
+    'R28': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (152.4, 266.7)),
+    'C36': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (38.1, 266.7)),
+    'Q5': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR', False, (76.2, 266.7)),
+    'R27': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (114.3, 266.7)),
     'R15': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (190.5, 190.5)),
     'R16': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (228.6, 190.5)),
     'R17': ('0603WAF5101T5E', '5.1k', 'C23186', 'zudo-pd:R0603', True, (38.1, 215.9)),
@@ -83,7 +99,7 @@ NETS = {
     'EF_IN': ['Q3.5', 'Q3.6', 'Q3.7', 'Q3.8', 'Q3.9', 'U2.1', 'U2.2'],
     'EF_BGATE': ['Q3.4', 'Q4.3', 'U2.3'],
     'EF_DRV': ['Q4.1', 'U2.4'],
-    'VBUS_P': ['U2.17', 'U2.18', 'U1.24', 'R14.1', 'R11.2', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
+    'VBUS_P': ['U2.17', 'U2.18', 'U1.24', 'R14.1', 'R11.2', 'R27.1', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
     'EF_UVLO': ['U2.6', 'R22.2', 'R23.1'],
     'EF_OVP': ['U2.7', 'R24.2', 'R25.1'],
     'EF_DVDT': ['U2.9', 'C5.1'],
@@ -92,10 +108,12 @@ NETS = {
     'CC2': ['J1.4', 'U1.4', 'R18.1', 'R20.2', 'D7.1'],
     'CC1DB': ['U1.1', 'R19.1', 'J3.1'],
     'CC2DB': ['U1.5', 'R20.1', 'J3.2'],
-    'VBUS_VS_DISCH': ['U1.18', 'R14.2'],
+    'VBUS_VS_DISCH': ['U1.18', 'R28.2'],
+    'VBUS_DISCH_R': ['R14.2', 'R28.1'],
     'VBEN': ['U1.16', 'R12.1', 'J3.8'],
-    'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1', 'D8.2'],
-    'VBUS_OUT': ['Q1.5', 'Q1.6', 'Q1.7', 'Q1.8', 'Q1.9', 'R13.1', 'JOUT1.1', 'JOUT1.2'],
+    'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1', 'D8.2', 'Q5.3'],
+    'Q1_MX': ['C36.1', 'Q5.1', 'Q5.2', 'R27.2'],
+    'VBUS_OUT': ['Q1.5', 'Q1.6', 'Q1.7', 'Q1.8', 'Q1.9', 'R13.1', 'C36.2', 'JOUT1.1', 'JOUT1.2'],
     'DISCH': ['U1.9', 'R13.2'],
     'VREG_2V7': ['U1.23', 'C30.2', 'R15.2', 'R16.2', 'J3.3'],
     'VREG_1V2': ['U1.21', 'C34.1'],

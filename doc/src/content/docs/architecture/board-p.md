@@ -39,6 +39,8 @@ unvalidated draft:
 | Q1 | [DMP3036SFG-7 C461081](/docs/components/records/c461081/) (proposed) | Output P-FET switch: source on VBUS_P, drain on VBUS_OUT, gate on Q1_G; replaces AO3401A |
 | R11 / R12 | 150k C22807 / 4.7k C23162 (proposed) | Q1 gate divider: R11 VBUS_P to Q1_G, R12 Q1_G to VBEN (was 100k / 150k) |
 | D8 | [BZT52C11-7-F C92321](/docs/components/records/bzt52c11-c92321/) (proposed) | Q1 gate clamp: cathode on VBUS_P, anode on Q1_G |
+| C36 / Q5 / R27 | 1 µF C15849 / [BSS138-7-F C40912](/docs/components/records/c40912/) / 150k C22807 (proposed) | Q1 Miller soft start: C36 VBUS_OUT to Q1_MX, Q5 body diode Q1_MX to Q1_G, R27 VBUS_P to Q1_MX |
+| R14 / R28 | 2 × 470 Ω C23179 | VBUS_VS_DISCH series resistance (R28 proposed) |
 
 - MODE is left open, which selects latch-off.
 - PGTH is tied to GND.
@@ -51,8 +53,11 @@ unvalidated draft:
   4.20–4.45 V, still sits below 4.5 V.
 - One 100 µF part keeps the 5 V → 20 V transition inrush at the 30 V/ms PD slew ceiling
   to about 3.6 A, below the 4.185 A I(OL) minimum; the earlier 2 × 100 µF drew about 7.2 A.
-  The slew ceiling is a project assumption, and the estimated hot-unplug VBUS_P peak at
-  80 µF is 25.1 V, about 2.9 V below the STUSB4500 28 V limit.
+  The slew ceiling is a project assumption. The estimated hot-unplug VBUS_P peak at
+  80 µF is 25.1 V only on TYP I(SCP) and fast-trip figures and a 30 mΩ ESR assumption;
+  at ESR 0.3–0.5 Ω it is 27.7–29.6 V, and at the 4.5 µs soft-short maximum it is 27.1 V.
+  The only guaranteed bound is the TVS2200 clamp, 28.0–28.35 V, so gate L7 stays
+  **BLOCKING**.
 - Q1 is a proposal. AO3401A is rated −4.2 A, below the 5 A target. DMP3036SFG-7 keeps
   the −30 V VDS and raises VGS to ±25 V, which leaves 14.9 V at the hot overshoot gate
   case. Its −5.8 A (70 °C) and −7.2 A (25 °C) ratings at VGS −5 V assume 1 in² of 2 oz
@@ -68,9 +73,22 @@ unvalidated draft:
   the gate at 10.4–11.6 V, at least 13.4 V inside the ±25 V rating. At the 25.21 V
   overshoot case, D8 carries 3.08 mA and VBEN sinks 3.15 mA in total; that VBEN rating
   is unsourced. If D8 fails open, that case reaches −24.44 V, a 0.56 V margin. The turn-on
-  gate time constant falls from 6.0 ms to 0.46 ms; the resulting Board B inrush against
-  the TPS26630 current limit is not calculated. This is a draft proposal
+  gate time constant falls from 6.0 ms to 0.46 ms. This is a draft proposal
   (`dec-p-20v-q1-gate-clamp`); nothing is measured.
+- Q1 soft start (`dec-p-20v-q1-soft-start`, proposed). With C35 alone the drain
+  transition is limited only by Q1's own Miller charge and lasts microseconds, so closing
+  at 20 V would dump C3 into the uncharged Board B bank. C36 1 µF (C15849) now runs from
+  VBUS_OUT to Q1_MX, and Q5 BSS138-7-F, used only as its body diode, conducts from Q1_MX
+  into Q1_G. The drain then slews at the R12 gate current (3.45–4.0 mA at 20 V) divided by
+  C36 (0.4–1.1 µF assumed under DC bias): 3.1–10 V/ms, so at most 2.5 A into a 250 µF
+  Board B bank, below the 4.185 A I(OL) minimum. The diode blocks the reverse path, so a
+  VBUS_P rise while Q1 is off cannot pull the gate on. R27 150k recharges Q1_MX and helps
+  turn-off. Q1 absorbs about 50 mJ per closure over 2.0–6.5 ms; its SOA is OPEN.
+- VBUS_VS_DISCH now has R14 + R28, 2 × 470 Ω in series: 26.7 mA at 25.1 V against the
+  50 mA maximum (was 53 mA). The STUSB4500 discharge time constant doubles against its
+  800 ms default; whether VBUS_P still reaches vSafe0V in time is OPEN.
+- The STUSB4500 VBUS sense sits behind the reverse-blocking eFuse and C3, so after
+  detach or hard reset it may not see vSafe0V promptly. This needs a bench check (OPEN).
 - `scripts/pcb/calculate-input-ovp-20v.py` reproduces these figures. The CSD18543Q3A land
   is a project-authored draft from the TI text and must be reviewed before layout.
 

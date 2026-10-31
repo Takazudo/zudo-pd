@@ -1,5 +1,5 @@
 {
-  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The Q1 proposal (dec-p-20v-q1-5a) replaces the SOT-23 AO3401A with the PowerDI3333-8 DMP3036SFG-7, renumbering gate 1->4 and drain 3->5-9. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds. Phase 6 draft dec-p-20v-q1-gate-clamp adds D8 (BZT52C11-7-F, cathode VBUS_P, anode Q1_G) and changes R12 to 4.7k (value only).",
+  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The Q1 proposal (dec-p-20v-q1-5a) replaces the SOT-23 AO3401A with the PowerDI3333-8 DMP3036SFG-7, renumbering gate 1->4 and drain 3->5-9. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds. Phase 6 draft dec-p-20v-q1-gate-clamp adds D8 (BZT52C11-7-F, cathode VBUS_P, anode Q1_G) and changes R12 to 4.7k (value only). Phase 7 draft dec-p-20v-q1-soft-start adds the Q1 Miller network (C36 1 uF VBUS_OUT to Q1_MX, Q5 BSS138 body diode Q1_MX to Q1_G, R27 150k VBUS_P to Q1_MX) and splits VBUS_VS_DISCH into R14 + R28 2 x 470R in series through VBUS_DISCH_R.",
   "added_nets": [
     "EF_BGATE",
     "EF_DRV",
@@ -8,6 +8,8 @@
     "EF_IN",
     "EF_OVP",
     "EF_UVLO",
+    "Q1_MX",
+    "VBUS_DISCH_R",
     "VBUS_P"
   ],
   "removed_nets": [],
@@ -27,7 +29,8 @@
     ],
     "Q1_G": [
       "D8.2",
-      "Q1.4"
+      "Q1.4",
+      "Q5.3"
     ],
     "VBUS_IN": [
       "D5.4",
@@ -42,11 +45,15 @@
       "U2.5"
     ],
     "VBUS_OUT": [
+      "C36.2",
       "Q1.5",
       "Q1.6",
       "Q1.7",
       "Q1.8",
       "Q1.9"
+    ],
+    "VBUS_VS_DISCH": [
+      "R28.2"
     ]
   },
   "removed_pins": {
@@ -63,6 +70,9 @@
     ],
     "VBUS_OUT": [
       "Q1.3"
+    ],
+    "VBUS_VS_DISCH": [
+      "R14.2"
     ]
   }
 }

@@ -3,6 +3,11 @@
 
 Reproduces the tables in manufacturing/input-protection-20v.md. Every input is
 tagged with its evidence class; nothing here is a measurement or an adopted value.
+
+Gate L7 is BLOCKING. The protected-node rows use TYP I(SCP) and t_FASTTRIP and a PA
+bulk ESR; SLVSE94G gives no I(SCP) maximum, and the soft-short response is 4.5 us
+maximum. The only guaranteed bound is VBUS_IN at the TVS2200 clamp, 28.0-28.35 V
+against the 28 V STUSB4500 absolute maximum (independent review finding 4).
 """
 
 import argparse
@@ -26,6 +31,7 @@ IOL_MIN_A_4K02 = 4.185
 FASTRIP_MULT = 2.0  # TPS26630/TPS26632: 2 x I(OL), TYP column
 ISCP_TYP_A = 45.0  # TYP
 TFASTRIP_TYP_S = 1e-6  # section 8.3, typical
+TSOFTSHORT_MAX_S = 4.5e-6  # EC table: soft short response, I(FASTTRIP) < I(OUT) < I(SCP), max
 RON_MAX_OHM = 0.053  # -40..125 C, G
 
 # Divider ratio error with 0.1 % resistors (PA): both resistors at opposite limits.
@@ -75,13 +81,15 @@ def main():
     lo, hi, rec_lo = trip_window(v_nominal)
     q_window, q_fastrip = overshoot_charge()
     q_total = q_window + q_fastrip
-    esr_ohm = 0.03  # PA bulk ESR
+    esr_ohm = 0.03  # PA bulk ESR; no RVT1H101M0810 ESR fact exists in the owner bundle
     i_peak = FASTRIP_MULT * IOL_MAX_A_4K02
+    ovp_ratio = 1 + OVP_R_TOP_OHM / OVP_R_BOT_OHM
+    ovp_fitted_hi = VOVPR_MAX * ovp_ratio * (1 + DIVIDER_ERR)
 
     rows = []
     for c_uf in (47, 100, 220):
         dv = q_total / (c_uf * 1e-6) + i_peak * esr_ohm
-        node = min(hi + dv, TVS2200_VC_35A_125C_V)
+        node = min(ovp_fitted_hi + dv, TVS2200_VC_35A_125C_V)
         rows.append({"c_eff_uF": c_uf, "delta_v": round(dv, 2), "node_max_v": round(node, 2),
                      "margin_to_28v": round(STUSB_VBUS_ABS_MAX_V - node, 2)})
 
@@ -91,8 +99,6 @@ def main():
         "falling_v": [round(VUVLOF_MIN * ratio * (1 - DIVIDER_ERR), 2), round(VUVLOF_MAX * ratio * (1 + DIVIDER_ERR), 2)],
         "floor_v": PROJECT_VBUS_FLOOR_V,
     }
-    ovp_ratio = 1 + OVP_R_TOP_OHM / OVP_R_BOT_OHM
-    ovp_fitted_hi = VOVPR_MAX * ovp_ratio * (1 + DIVIDER_ERR)
     r2 = {
         "uvlo": uvlo,
         "ovp_fitted_trip_v": [round(VOVPR_MIN * ovp_ratio * (1 - DIVIDER_ERR), 2), round(ovp_fitted_hi, 2)],
@@ -102,6 +108,18 @@ def main():
         "node_max_v_r2_min_bulk": round(ovp_fitted_hi + q_total / (BULK_R2_UF[0] * 1e-6) + i_peak * esr_ohm, 2),
     }
     r2["margin_to_28v_r2_min_bulk"] = round(STUSB_VBUS_ABS_MAX_V - r2["node_max_v_r2_min_bulk"], 2)
+    c_min = BULK_R2_UF[0] * 1e-6
+    sens = []
+    for label, q, esr in (("TYP charge, ESR 0.03 ohm PA", q_total, 0.03),
+                          ("TYP charge, ESR 0.3 ohm", q_total, 0.3),
+                          ("TYP charge, ESR 0.5 ohm", q_total, 0.5),
+                          ("soft-short 4.5 us max at I(SCP) TYP, ESR 0.03 ohm", q_window + ISCP_TYP_A * TSOFTSHORT_MAX_S, 0.03)):
+        node = ovp_fitted_hi + q / c_min + i_peak * esr
+        sens.append({"case": label, "node_v": round(node, 2), "margin_to_28v": round(STUSB_VBUS_ABS_MAX_V - node, 2)})
+    r2["node_sensitivity_80uF"] = sens
+    r2["l7_status"] = "BLOCKING"
+    r2["l7_guaranteed_bound"] = ("VBUS_IN <= TVS2200 clamp 28.0 V (27 C) / 28.35 V (125 C): margin "
+                                 f"{STUSB_VBUS_ABS_MAX_V - TVS2200_VC_40A_27C_V:+.2f} / {STUSB_VBUS_ABS_MAX_V - TVS2200_VC_35A_125C_V:+.2f} V")
 
     result = {
         "ovp_nominal_v": round(v_nominal, 2),
@@ -137,7 +155,11 @@ def main():
     print(f"r2 5->20 V transition inrush at 30 V/ms: {r2['transition_inrush_a_r2_max']} A (r1 2x100 uF: {r2['transition_inrush_a_r1_max']} A)"
           f" vs I(OL) min {IOL_MIN_A_4K02} A")
     print(f"r2 fitted 174k/10k OVP trip {r2['ovp_fitted_trip_v'][0]}-{r2['ovp_fitted_trip_v'][1]} V")
-    print(f"r2 protected node max at 80 uF: {r2['node_max_v_r2_min_bulk']} V; margin to 28 V {r2['margin_to_28v_r2_min_bulk']:+} V")
+    print(f"r2 protected node max at 80 uF: {r2['node_max_v_r2_min_bulk']} V; margin to 28 V {r2['margin_to_28v_r2_min_bulk']:+} V"
+          " (TYP I(SCP)/t_FASTTRIP and PA ESR: not a bound)")
+    for r in r2["node_sensitivity_80uF"]:
+        print(f"  {r['case']}: {r['node_v']} V, margin {r['margin_to_28v']:+} V")
+    print(f"L7 {r2['l7_status']}: only guaranteed bound is {r2['l7_guaranteed_bound']}")
 
 
 if __name__ == "__main__":

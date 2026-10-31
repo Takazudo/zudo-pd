@@ -103,6 +103,20 @@
       "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c40912-board-p-q5-role",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-primary",
+      "class": "PROJECT_STATE",
+      "value": "Board P Q5 (phase-7 draft): gate and source on Q1_MX, drain on Q1_G; only the body diode (anode Q1_MX, cathode Q1_G) is used, as the one-way element of the Q1 Miller soft-start network",
+      "unit": "NONE",
+      "conditions": "Body-diode forward voltage and reverse leakage are not in this bundle (UNSOURCED); the reverse voltage is at most the Q1 gate-source span, below the 50 V VDS row. Behaviour unmeasured.",
+      "locator": "board_p_spec.py COMPONENTS Q5 row and NETS rows Q1_MX, Q1_G",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

@@ -23,7 +23,8 @@
     "p-20v-revision",
     "p-20v-front-end-r2",
     "p-20v-q1-5a",
-    "p-20v-q1-gate-clamp"
+    "p-20v-q1-gate-clamp",
+    "p-20v-q1-soft-start"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -557,6 +558,30 @@
         "fact-c461081-vgsth-max",
         "fact-c461081-rdson-5v-max",
         "fact-stusb-vben"
+      ]
+    },
+    {
+      "key": "p-20v-q1-soft-start",
+      "id": "dec-p-20v-q1-soft-start",
+      "title": "Board P 20 V / 5 A draft: proposed Q1 Miller soft start (C36, Q5 body diode, R27) and 2 x 470R VBUS_VS_DISCH resistance",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-7 direction 2026-10-31 after the independent review (finding 3 HIGH, finding 10 LOW), draft within dec-p-20v-revision: C36 CL10A105KB8NNNC C15849 1 uF from VBUS_OUT to Q1_MX, Q5 BSS138-7-F C40912 with gate and source on Q1_MX and drain on Q1_G (body diode Q1_MX to Q1_G), R27 0603WAF1503T5E C22807 150k from VBUS_P to Q1_MX, and R28 0603WAF4700T5E C23179 in series with R14 between U1.18 and VBUS_P. The as-built Board P PCB is unchanged.",
+      "rationale": "With C35 gate-to-source only, the Q1 drain transition was Miller-limited by Q1's own Crss and lasted microseconds, so closing at 20 V dumped C3 into the uncharged Board B bank. C36 makes the drain slew equal the R12 gate current (3.45-4.0 mA at 20 V with a PA plateau of 1.5-3.5 V) divided by C36 (0.4-1.1 uF PA, the DC-bias curve is not in the bundle): 3.1-10 V/ms, at most 2.5 A into 250 uF, below the TPS26630 I(OL) 4.185 A minimum, so the eFuse does not current-limit and C3 does not charge-share. The Q5 diode blocks the reverse path, so a VBUS_P rise with Q1 off cannot pull Q1_G below the source; R27 recharges Q1_MX (tau 0.15 s) and assists turn-off. Q1 dissipates about 50 mJ per 20 V closure over 2.0-6.5 ms; DMP3036SFG SOA is not in the bundle (OPEN). R14 + R28 = 940 ohm keeps the VBUS_VS_DISCH current at 26.7 mA at 25.1 V, below the 50 mA maximum; the discharge time constant doubles against the 800 ms default (OPEN interaction). Nothing is measured.",
+      "evidence": [
+        "fact-c15849-capacitance",
+        "fact-c15849-curve-caveat",
+        "fact-c40912-vds",
+        "fact-c40912-board-p-q5-role",
+        "fact-c22807-resistance",
+        "fact-c23179-resistance",
+        "fact-stusb-vbus-vs-disch",
+        "fact-stusb-discharge-registers",
+        "fact-c461081-vgsth-max",
+        "fact-c461081-vds"
       ]
     }
   ]

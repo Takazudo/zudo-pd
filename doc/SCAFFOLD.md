@@ -91,6 +91,13 @@ runtime projection, and every other entry kept its legacy hash. Changed entries:
   changes;
 - the integration hash.
 
+A third refresh on the same date recaptured the entries changed by the Board P Q1 soft-start
+draft (`dec-p-20v-q1-soft-start`) from the installed runtime projection:
+
+- c15849, c23179 and c22807 identities and facts, from the C36, R28 and R27 placements and
+  their topology facts;
+- c40912 identity, facts and coverage, from the Q5 placement and its new role fact.
+
 The retired c74561 record left both baselines, and its page and catalog anchor went with
 it. The nine retired `calc-protection-*` integration anchors were also dropped. The anchor
 baseline therefore covers the 63 retained legacy pages. New pages carry no legacy anchor

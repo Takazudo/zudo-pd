@@ -32,12 +32,14 @@
       "record_id": "rec-c40912",
       "domain": "assembled-qualification",
       "status": "OPEN",
-      "reason": "Footprint, layout, thermal and switching behaviour on Board P are unreviewed and unmeasured.",
+      "reason": "Footprint, layout, thermal and switching behaviour on Board P are unreviewed and unmeasured; the Q5 body-diode forward and leakage rows are not in the bundle.",
       "fact_ids": [
-        "fact-c40912-board-p-role"
+        "fact-c40912-board-p-role",
+        "fact-c40912-board-p-q5-role"
       ],
       "blocking_fact_ids": [
-        "fact-c40912-board-p-role"
+        "fact-c40912-board-p-role",
+        "fact-c40912-board-p-q5-role"
       ]
     }
   ]

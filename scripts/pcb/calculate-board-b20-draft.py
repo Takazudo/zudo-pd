@@ -61,7 +61,7 @@ OPA_SUPPLY = (4.5, 36.0)
 OPA_SR_V_PER_US = 0.2         # T
 # TI REF5025AIDR SBOS410O (G): the AI suffix is the standard grade (Table 4-2)
 REF_V = 2.5
-REF_LOAD_MA_PA = 1.5          # PA: sense, limit and window dividers sum to about 1.3 mA
+REF_LOAD_MA_PA = 3.0          # PA: dividers about 1.6 mA plus OPA2187 input-diode loading of comparators (review finding 11)
 REF_ACC = 0.001 + 30e-6 * REF_LOAD_MA_PA   # initial accuracy + 25 C load regulation 30 ppm/mA
 REF_TC_PPM = 8.0
 # TI INA301A3 SBOS713A (G)
@@ -70,6 +70,7 @@ INA_GAIN_ERR = 0.002
 INA_VOS = 35e-6
 INA_CMP_VOS = 4.5e-3          # 25 C limit only
 INA_TP_S = 1e-6
+INA_ILIMIT = (79.2e-6, 80.0e-6, 80.8e-6)   # LIMIT pin source current (review finding 1)
 INA_VS_MAX = 5.5
 # YAGEO PE1206FRF470R02L product sheet (G)
 SHUNT_R = 0.020
@@ -82,11 +83,16 @@ R01_TCR = 25e-6
 CSD_RDS_4V5_MAX = 15.6e-3
 CSD_RDS_10V_MAX = 9.9e-3
 CSD_VGS_MAX = 20.0
+CSD_RDS_HOT_FACTOR_PA = 1.25   # PA: normalized RDS(on) at about 85 C junction, read from a typical curve (not a bound)
 # Diodes BZT52C11-7-F DS18004 (G)
 VZ11 = (10.4, 11.6)
 # Diodes BSS138-7-F (G)
 BSS_VGSTH_MAX = 1.5
 BSS_VGSTH_MIN_PA = 0.5        # PA: the owner record carries no minimum
+BSS_VGS_MAX = 20.0
+DMP_VGSTH = (1.0, 2.5)        # |VGS(th)| (G max; min from the same table)
+# Diodes AP63201WU-7 (owner record, G): VFB window
+AP_VFB = (0.792, 0.808)
 # Diodes DMP3036SFG-7 (G)
 DMP_VGS_MAX = 25.0
 # Abracon ASPI-0630LR-100M-T15 (T for Isat/Irms)
@@ -112,23 +118,25 @@ SENSE = {  # sense dividers on the post-filter nodes (0.1 % owner-record values)
     '-12': {'neg': 3 * 11.5e3, 'ref': 3.09e3 + 4.02e3},
 }
 UVLO = {'top': 470e3, 'bot': 39e3}   # PROPOSED, every converter EN divider
-SWITCH_RAMP = {  # gate-ramp networks
-    '+12': {'R': 150e3 + 10e3 + 4.7e3, 'C': 100e-9},  # VIN pull-up R (C22807 + C17414 + C23162), gate C (C14663)
-    '+5': {'R': 150e3, 'C': 300e-9},            # 3 x C14663 100 nF / 50 V
-    '-12': {'R': 150e3 + 56e3, 'C': 100e-9},    # P5 drive R (C22807 + C23206), Miller C gate-to-output
-}
-VGS_PLATEAU = (2.0, 3.5)       # PA: CSD18543Q3A plateau at 0.2-2 A; no guaranteed curve
-VGS_TH_CSD = (1.1, 2.2)        # PA: start-of-motion threshold band; not an owner fact
+# common tracking reference (phase 7): REF25 -> RRMP 20k -> RAMP, CRMP 1 uF, loaded by RT12NA 100k
+RAMP_NET = {'R': 20e3, 'C': 1e-6, 'C_TOL': 0.10, 'LOAD': 100e3}
+TRACK_K = {'+12': 1 + 69.8e3 / 10e3, '+5': 1 + 23.2e3 / 10e3, '-12': 806e3 / 100e3}
+RAMP_RELEASE = {'R': 100e3, 'C': 100e-9}      # RRMD / CRMD from EN_N to the Q12 gate
+SERVO_CI = {'+12': 1.5e-9, '+5': 1.5e-9, '-12': 270e-12}   # PROPOSED C0G integrators
+SERVO_RI = 100e3
+RDY_NET = {'R': 200e3, 'C': 10e-6}            # two C25803 100k + C13585 10 uF
+POR_NET = {'R': 100e3, 'C': 1e-6}
+SUP_FB = (52.3e3, 10e3)                       # AP63201 feedback, PROPOSED top / C95204 bottom
 FB_DIV = {'+12': (145e3, 10e3), '+5': (54.9e3, 10e3), '-12': (145e3, 10e3)}   # PROPOSED top 0.1 %, C95204 bottom
 SERVO_RJ = {'+12': 1e6, '+5': 1e6, '-12': 4.7e6}     # PROPOSED 1 % injection resistors
 FB_R_TOL, RJ_TOL = 0.001, 0.01
 VIN_UV_RES = (221e3, 17.6e3)  # PROPOSED 0.1 %, compared with REF/2 from two C861589 8.2 k
 VIN_UV_MAX_PA = VIN_MIN       # PA: trip must stay below the minimum operating VIN
 DISCHARGE_R = {'+12': 100.0, '-12': 150.0, '+5': 33.0}     # PROPOSED 1206
-DISCHARGE_ONESHOT = {'R': 100e3, 'C': 4.7e-6}            # PROPOSED one-shot gate RC
-LIMIT_DIV = {  # INA301 LIMIT dividers from REF (0.1 %)
-    '+12': {'top': 680.0, 'bot': 3.09e3},
-    '+5': {'top': 3.09e3 + 11.5e3, 'bot': 8.2e3},
+HOLDUP = {'C': 10e-6, 'R_gate': 100e3, 'R_m12': 470e3 + 1e6, 'R_charge': 56e3}   # CDH, R60, R61 + R62, RDH
+LIMIT_DIV = {  # INA301 LIMIT dividers from REF (0.1 %); LIMIT also carries ILIMIT x (top || bot)
+    '+12': {'top': 680.0, 'bot': 2.74e3},
+    '+5': {'top': 3.09e3, 'bot': 1.5e3},
 }
 M12_LIMIT_DIV = {'top': 10.5e3 + 10e3, 'bot': 33.0}       # GND -> node -> -12 pre
 SHUNT_N = {'+12': 2, '-12': 2, '+5': 1}                  # parallel PE1206 20 mOhm
@@ -167,12 +175,11 @@ def setpoints():
     return out
 
 
-def path_resistance(rail):
-    rsh = SHUNT_R * (1 + SHUNT_TOL) / SHUNT_N[rail]
-    # +12 V pair: VGS = VIN - 12.3 >= 6.7 V, so the 4.5 V row bounds it; the +5 V and -12 V
-    # pairs sit at the 10.4-11.6 V zener clamp, at or above the 10 V row.
-    rds = CSD_RDS_4V5_MAX if rail == '+12' else CSD_RDS_10V_MAX
-    return rsh + 2 * rds
+def path_resistance(rail, hot=False):
+    # The servo senses the *_SH node, so only the switch pair is outside the loop. Every pair
+    # is held at VGS >= 4.5 V (review finding 6: the zener knee is not relied on), so the
+    # 4.5 V row bounds it at 25 C; hot=True applies the PA junction-temperature factor.
+    return 2 * CSD_RDS_4V5_MAX * (CSD_RDS_HOT_FACTOR_PA if hot else 1.0)
 
 
 def terminal_band():
@@ -181,15 +188,19 @@ def terminal_band():
     for rail, (lo, hi) in SOURCE_BAND.items():
         nom, tol = sp[rail]['nominal_v'], sp[rail]['tolerance_ratio']
         drop_max = I_MAX[rail] * path_resistance(rail)
+        drop_hot = I_MAX[rail] * path_resistance(rail, hot=True)
         vmax = nom * (1 + tol)
         vmin = nom * (1 - tol) - drop_max
+        vmin_hot = nom * (1 - tol) - drop_hot
         rows[rail] = {
             'setpoint_nominal_v': round(nom, 5), 'setpoint_tolerance_pct': round(tol * 100, 4),
             'path_drop_max_v': round(drop_max, 5), 'terminal_min_v': round(vmin, 5),
             'terminal_max_v': round(vmax, 5), 'band': [lo, hi],
             'ripple_allowance_v': 0.0,
             'status': status(vmin >= lo and vmax <= hi),
-            'note': 'servo regulates the post-filter node; shunt + 2 x CSD18543Q3A RDS(on) at 4.5 V max are outside the loop',
+            'terminal_min_hot_pa_v': round(vmin_hot, 5),
+            'hot_status': 'OPEN' if vmin_hot < lo else 'PASS (PA factor)',
+            'note': 'servo regulates the *_SH node; only 2 x CSD18543Q3A RDS(on) at the 4.5 V row is outside the loop',
         }
     return rows
 
@@ -198,14 +209,18 @@ def limiter():
     rows = {}
     for rail in ('+12', '+5'):
         d = LIMIT_DIV[rail]
-        vlim = REF_V * d['bot'] / (d['top'] + d['bot'])
+        rth = d['top'] * d['bot'] / (d['top'] + d['bot'])
+        vdiv = REF_V * d['bot'] / (d['top'] + d['bot'])
+        vlim = vdiv + INA_ILIMIT[1] * rth
         rs = SHUNT_R / SHUNT_N[rail]
         itrip = vlim / (INA_GAIN * rs)
         vsense = itrip * rs
         err = SHUNT_TOL + SHUNT_TCR * TA_SPAN + INA_GAIN_ERR + INA_VOS / vsense \
-            + INA_CMP_VOS / vlim + REF_ACC + 2 * R01_TOL
+            + INA_CMP_VOS / vlim + (REF_ACC + 2 * R01_TOL) * vdiv / vlim \
+            + (INA_ILIMIT[2] - INA_ILIMIT[1]) * rth / vlim
         lo, hi = itrip * (1 - err), itrip * (1 + err)
         rows[rail] = {'device': 'INA301A3 comparator, transparent mode', 'limit_v': round(vlim, 5),
+                      'divider_v': round(vdiv, 5), 'ilimit_shift_v': round(INA_ILIMIT[1] * rth, 5),
                       'trip_nominal_a': round(itrip, 5), 'tolerance_pct': round(err * 100, 3),
                       'trip_min_a': round(lo, 5), 'trip_max_a': round(hi, 5),
                       'window': [I_TRANSIENT_MIN[rail], I_MAX[rail]],
@@ -229,7 +244,9 @@ def limiter():
         'status': 'OPEN',
         'reason': 'The limiter trips and opens the rail; it does not regulate current. Fault current between detection '
                   '(INA301 tp <= 1 us; OPA2187 slew-limited, ~70 us typ) and switch-off is set by unsourced source, '
-                  'wiring and load-side impedance, so the contract maximum cannot be shown to bound let-through.',
+                  'wiring and load-side impedance, so the contract maximum cannot be shown to bound let-through. '
+                  'A linear limiter in the tracking loop could not respond faster than the INA301 comparator either; '
+                  'only a series current-limiting element sized for the fault energy would bound it.',
     }
     return rows
 
@@ -286,66 +303,64 @@ def ripple():
 
 
 def ramps():
-    rows = {}
-    for rail in ('+12', '+5'):
-        vo = 12.15 if rail == '+12' else 5.075
-        tau = SWITCH_RAMP[rail]['R'] * SWITCH_RAMP[rail]['C']
-        cases = []
-        for vin in (VIN_MIN, VIN_MAX):
-            for vpl in VGS_PLATEAU:
-                for vth in VGS_TH_CSD:
-                    # gate charges toward VIN; the source follower moves once the gate passes vth
-                    t_start = tau * math.log(vin / (vin - vth))
-                    t_end = tau * math.log(vin / (vin - vo - vpl))
-                    t_band = tau * math.log(vin / (vin - SOURCE_BAND[rail][0] - vpl))
-                    slope0 = (vin - vth) / tau / 1e3
-                    cases.append({'vin': vin, 'vgs_plateau': vpl, 'vth': vth, 'start_s': t_start,
-                                  'ramp_s': t_end - t_start, 'band_entry_s': t_band, 'steepest_v_per_ms': slope0})
-        rows[rail] = cases
+    """Common tracking start: each output follows k x RAMP until its pair saturates."""
+    rth = RAMP_NET['R'] * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD'])
+    vf = REF_V * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD'])
+    out = {'ramp_final_v': round(vf, 4)}
     cases = []
-    r, c = SWITCH_RAMP['-12']['R'], SWITCH_RAMP['-12']['C']
-    for vpl in VGS_PLATEAU:
-        for vth in VGS_TH_CSD:
-            cs = -12.1 + 0.7
-            ig0 = (5.075 - cs) / r
-            t_start = vth * c / ig0
-            ig = (5.075 - (cs + vpl)) / r
-            slope = ig / c / 1e3
-            ramp = 12.1 / (slope * 1e3)
-            cases.append({'vgs_plateau': vpl, 'vth': vth, 'start_s': t_start, 'ramp_s': ramp,
-                          'band_entry_s': t_start + (vpl - vth) * c / ig + SOURCE_BAND['-12'][0] / (slope * 1e3),
-                          'steepest_v_per_ms': slope})
-    rows['-12'] = cases
-    summary = {}
-    for rail, cases in rows.items():
-        summary[rail] = {
-            'steepest_v_per_ms_max': round(max(x['steepest_v_per_ms'] for x in cases), 4),
-            'slope_limit_v_per_ms': SLOPE_MAX_V_PER_MS[rail],
-            'ramp_s_min': round(min(x['ramp_s'] for x in cases), 5),
-            'start_s_range': [round(min(x['start_s'] for x in cases), 6), round(max(x['start_s'] for x in cases), 6)],
-            'band_entry_s_range': [round(min(x['band_entry_s'] for x in cases), 5), round(max(x['band_entry_s'] for x in cases), 5)],
-        }
-        summary[rail]['slope_status'] = status(summary[rail]['steepest_v_per_ms_max'] <= SLOPE_MAX_V_PER_MS[rail]
-                                               and summary[rail]['ramp_s_min'] >= RAMP_MIN_S)
-    starts = [v for k in ('+12', '+5', '-12') for v in summary[k]['start_s_range']]
-    entries = [v for k in ('+12', '+5', '-12') for v in summary[k]['band_entry_s_range']]
-    summary['start_skew_worst_s'] = round(max(starts) - min(starts), 6)
-    summary['start_skew_status'] = 'OPEN' if summary['start_skew_worst_s'] > START_SKEW_MAX_S else 'PASS'
-    summary['start_skew_reason'] = ('Worst case over the assumed CSD18543Q3A threshold band and plateau range; '
-                                    'no guaranteed threshold or transfer curve is retained, so the result is not a bound.')
-    summary['band_entry_skew_worst_s'] = round(max(entries) - min(entries), 5)
-    summary['band_entry_skew_status'] = 'OPEN' if summary['band_entry_skew_worst_s'] > BAND_ENTRY_SKEW_MAX_S else 'PASS'
-    summary['p5_enters_band_last_all_cases'] = (summary['+5']['band_entry_s_range'][0]
-                                                >= max(summary['+12']['band_entry_s_range'][1], summary['-12']['band_entry_s_range'][1]))
-    nominal = {}
-    for rail in ('+12', '+5'):
-        tau = SWITCH_RAMP[rail]['R'] * SWITCH_RAMP[rail]['C']
-        nominal[rail] = round(tau * math.log(VIN_NOM / (VIN_NOM - SOURCE_BAND[rail][0] - 2.75)), 5)
-    ig = (5.075 - (-11.4 + 2.75)) / SWITCH_RAMP['-12']['R']
-    nominal['-12'] = round(1.65 * SWITCH_RAMP['-12']['C'] / ((5.075 + 11.4) / SWITCH_RAMP['-12']['R'])
-                           + 1.1 * SWITCH_RAMP['-12']['C'] / ig + SOURCE_BAND['-12'][0] * SWITCH_RAMP['-12']['C'] / ig, 5)
-    summary['band_entry_nominal_s'] = nominal
-    return summary
+    for cf in (1 - RAMP_NET['C_TOL'], 1.0, 1 + RAMP_NET['C_TOL']):
+        tau = rth * RAMP_NET['C'] * cf
+        row = {'tau_s': round(tau, 5)}
+        for rail in ('+12', '+5', '-12'):
+            k = TRACK_K[rail]
+            r_band = SOURCE_BAND[rail][0] / k
+            row[rail] = {'slope0_v_per_ms': round(k * vf / tau / 1e3, 4),
+                         'band_entry_s': round(tau * math.log(vf / (vf - r_band)), 5),
+                         'saturates': k * vf > SOURCE_BAND[rail][1] + 0.5}
+        entries = [row[r]['band_entry_s'] for r in ('+12', '+5', '-12')]
+        row['band_entry_skew_s'] = round(max(entries) - min(entries), 5)
+        row['p5_last'] = row['+5']['band_entry_s'] >= max(row['+12']['band_entry_s'], row['-12']['band_entry_s'])
+        row['m12_before_p12'] = row['-12']['band_entry_s'] <= row['+12']['band_entry_s']
+        cases.append(row)
+    out['cases_c_tolerance'] = cases
+    out['slope_status'] = status(all(c[r]['slope0_v_per_ms'] <= SLOPE_MAX_V_PER_MS[r] for c in cases for r in ('+12', '+5', '-12')))
+    out['ramp_min_s'] = round(min(c[r]['band_entry_s'] for c in cases for r in ('+12', '+5', '-12')), 5)
+    out['ramp_min_status'] = status(out['ramp_min_s'] >= RAMP_MIN_S)
+    out['band_entry_skew_worst_s'] = round(max(c['band_entry_skew_s'] for c in cases), 5)
+    out['band_entry_skew_status'] = status(out['band_entry_skew_worst_s'] <= BAND_ENTRY_SKEW_MAX_S)
+    out['p5_last_status'] = status(all(c['p5_last'] for c in cases))
+    out['start_skew_status'] = 'FAIL (SIM)'
+    out['start_skew_note'] = ('Arithmetic cannot bound the start skew (it is set by loop dynamics and FET thresholds). '
+                              'The phase-7 ngspice tracking runs give 0.55-2.26 ms against 0.41 ms '
+                              '(+/-0.5 V threshold shifts, PA); see the draft page section 5.')
+    rr = RAMP_RELEASE['R'] * RAMP_RELEASE['C']
+    vsup = REF_V * 0 + 4.98
+    out['ramp_release_delay_s'] = [round(rr * math.log(vsup / BSS_VGSTH_MAX), 5), round(rr * math.log(vsup / BSS_VGSTH_MIN_PA), 5)]
+    return out
+
+
+def timing():
+    sup_lo = AP_VFB[0] * (1 + SUP_FB[0] * (1 - R01_TOL) / (SUP_FB[1] * (1 + R01_TOL)))
+    sup_hi = AP_VFB[1] * (1 + SUP_FB[0] * (1 + R01_TOL) / (SUP_FB[1] * (1 - R01_TOL)))
+    por = POR_NET['R'] * POR_NET['C']
+    rdy = RDY_NET['R'] * RDY_NET['C']
+    t_por = [por * math.log(sup_lo / (sup_lo - v)) for v in (BSS_VGSTH_MIN_PA, BSS_VGSTH_MAX)]
+    t_rdy = [rdy * math.log(sup_lo / (sup_lo - v)) for v in (BSS_VGSTH_MIN_PA, BSS_VGSTH_MAX)]
+    servo = {}
+    beta = {'+12': 4.02 / (11.5 + 4.02 + 4.02), '+5': 178.02 / (184 + 178.02), '-12': 7.11 / (34.5 + 7.11)}
+    for rail in ('+12', '+5', '-12'):
+        g = FB_DIV[rail][0] / SERVO_RJ[rail]
+        tau = SERVO_RI * SERVO_CI[rail] / (beta[rail] * g)
+        servo[rail] = {'loop_tau_s': round(tau, 5), 'settle_to_0p1pct_s': round(tau * math.log(1000), 5)}
+    settle = max(v['settle_to_0p1pct_s'] for v in servo.values())
+    return {'p5_sup_v': [round(sup_lo, 4), round(sup_hi, 4)],
+            'p5_sup_status': status(sup_lo >= OPA_SUPPLY[0] and sup_hi <= INA_VS_MAX),
+            'por_s': [round(x, 5) for x in t_por], 'rdy_s': [round(x, 5) for x in t_rdy],
+            'por_rdy_overlap_status': status(t_rdy[0] > t_por[1]),
+            'servo': servo,
+            'servo_settled_before_enable_status': status(t_rdy[0] > 5 * settle),
+            'note': 'servo loop tau = RI x CI / (sense ratio x FB-top / RJ); wind-up while P5_SUP rises is bounded by the '
+                    'integrator rails and recovers within the same settle time'}
 
 
 def discharge():
@@ -363,25 +378,42 @@ def discharge():
     ratio_hi = b / a
     ratio_lo = c / a
     p5_ratio_max = a / (r5 * math.log(LOAD_BAND['+5'][1] / P5_ORDER_LEVEL))
-    os_tau = DISCHARGE_ONESHOT['R'] * DISCHARGE_ONESHOT['C']
-    window = os_tau * math.log(5.075 / BSS_VGSTH_MAX)
+    en_e = 4.98 * 100e3 / 104.7e3
+    v0 = en_e - 0.6                       # PA body-diode drop of Q57
+    rload = 1 / (1 / HOLDUP['R_gate'] + 1 / HOLDUP['R_m12'])
+    tau_h = HOLDUP['C'] * rload
+    window = [tau_h * math.log(v0 / max(DMP_VGSTH[1], BSS_VGSTH_MAX)), tau_h * math.log(v0 / max(DMP_VGSTH[0], BSS_VGSTH_MIN_PA))]
+    charge_tau = HOLDUP['C'] * HOLDUP['R_charge']
+    q55_vgs = (v0 + LOAD_BAND['-12'][1]) * 1e6 / HOLDUP['R_m12']
     peak = {r: LOAD_BAND[r][1] / DISCHARGE_R[r] for r in DISCHARGE_R}
     return {
         'times_at_ceiling_zero_load_s': {'+12': round(t12, 5), '-12': round(tn, 5), '+5': round(t5, 5)},
         'time_limit_s': DISCHARGE_TIME_MAX_S,
-        'time_status': status(max(t12, tn, t5) <= DISCHARGE_TIME_MAX_S and window >= max(t12, tn, t5)),
-        'oneshot_window_min_s': round(window, 5),
+        'time_status': status(max(t12, tn, t5) <= DISCHARGE_TIME_MAX_S and window[0] >= max(t12, tn, t5)),
+        'holdup_window_s': [round(window[0], 5), round(window[1], 5)],
+        'holdup_charge_tau_s': round(charge_tau, 5),
+        'holdup_note': 'CDH is charged from EN_E only while enabled, so the window is independent of P5_SUP after a '
+                       'disable, fault or unplug (review finding 8); a disable within about 3 x RDH x CDH of enable '
+                       'shortens it',
+        'q55_vgs_max_v': round(q55_vgs, 3),
         'p5_to_0v8_s': round(t5_order, 5), 'p12_absent_s': round(t12, 5), 'm12_absent_s': round(tn, 5),
         'm12_when_p12_absent_v': round(m12_at_t12, 4),
         'order_status_equal_ceiling_c': status(t5_order <= min(t12, tn) and t12 <= tn and m12_at_t12 <= M12_WHILE_P12_ABSENT_MAX),
         'analog_c_ratio_window': [round(ratio_lo, 4), round(ratio_hi, 4)],
         'p5_c_ratio_max_vs_p12': round(p5_ratio_max, 3),
         'loaded_order_status': 'OPEN',
-        'loaded_order_reason': 'Any OSC load current speeds its own rail; an asymmetric load can make one analog rail absent '
-                               'first. The OSC load during shutdown is not specified.',
+        'loaded_order_reason': 'Disconnect-then-discharge leaves each rail to its own load: a rail carrying I amps on C '
+                               'falls at I/C (2.0 A on 180 uF is 11 V/ms) and only the discharge resistors set the zero-load '
+                               'order. Any OSC load asymmetry can make an analog rail absent first. Guaranteeing the order '
+                               'needs a tracked ramp-down (RAMP falling while the pairs stay in tracking), which is a '
+                               'contract change (disconnect then discharge) and is proposed, not drawn.',
+        'loaded_fall_rate_v_per_ms': {r: round(I_MAX[r] / C_LOAD_MAX[r] / 1e3, 3) for r in C_LOAD_MAX},
         'discharge_peak_current_a': {r: round(v, 4) for r, v in peak.items()},
         'pulse_rating_status': 'OPEN',
-        'pulse_rating_reason': 'No PROPOSED discharge resistor has an owner record or pulse rating.',
+        'pulse_rating_reason': 'No PROPOSED discharge resistor has an owner record. YAGEO RC1206 candidates (C137392 100R, '
+                               'C137308 33R; manufacturer sheets read) give 0.25 W at 70 C and 400 V overload but no '
+                               'pulse-energy curve.',
+        'pulse_energy_j': {r: round(0.5 * C_LOAD_MAX[r] * LOAD_BAND[r][1] ** 2, 5) for r in C_LOAD_MAX},
         'reverse_current_after_window_status': 'OPEN',
         'reverse_current_reason': 'During the one-shot window the discharge path draws up to the peak currents above from an '
                                   'externally held inlet, above the PROPOSED 1 mA; after it, leakage plus the terminal '
@@ -481,12 +513,17 @@ def vin_uv():
 
 def gate_stress():
     vgs5 = VIN_OVERSHOOT - 5.05
+    m12_pre = -(SOURCE_BAND['-12'][1] + 0.1)
+    q25 = (4.98 * 1.01 - m12_pre) * 100e3 / 156e3
     return {
         '+12_vgs_max_v': round(VIN_OVERSHOOT - 12.0, 4), '+5_vgs_unclamped_v': round(vgs5, 4),
         '+5_vgs_clamped_v': VZ11[1], 'csd_vgs_max_v': CSD_VGS_MAX,
-        'status': status(VIN_OVERSHOOT - 12.0 <= CSD_VGS_MAX and VZ11[1] <= CSD_VGS_MAX),
-        'note': 'BZT52C11 (cathode gate, anode common source) clamps each switch pair; the +5 V pair needs it because '
-                'VIN overshoot minus 5 V exceeds 20 V.',
+        '+12_vgs_min_at_vin_uv_v': round(16.95 - SOURCE_BAND['+12'][1] - OPA_SWING_HV, 4),
+        'q25_vgs_v': round(q25, 3), 'bss_vgs_max_v': BSS_VGS_MAX,
+        'status': status(VIN_OVERSHOOT - 12.0 <= CSD_VGS_MAX and VZ11[1] <= CSD_VGS_MAX and q25 <= BSS_VGS_MAX
+                         and 16.95 - SOURCE_BAND['+12'][1] - OPA_SWING_HV >= 4.5),
+        'note': 'BZT52C11 (cathode gate, anode common source) clamps each pair; tracking amplifiers drive the gates '
+                'through 10k, so the clamp current stays below 1 mA and the 4.5 V RDS row is used throughout.',
     }
 
 
@@ -501,6 +538,7 @@ def main():
         'converters': converters(),
         'ripple': ripple(),
         'ramp': ramps(),
+        'timing': timing(),
         'discharge': discharge(),
         'reverse_current': reverse_current(),
         'windows': windows(),
@@ -516,6 +554,7 @@ def main():
         print(f'{st:6s} {name}: {detail}')
     for rail, r in res['setpoints_and_terminal_band'].items():
         line(f'terminal band {rail}', r['status'], f"{r['terminal_min_v']}..{r['terminal_max_v']} V in {r['band']}")
+        line(f'terminal band {rail} hot (PA)', r['hot_status'].split()[0], f"min {r['terminal_min_hot_pa_v']} V")
     for rail in ('+12', '+5', '-12'):
         r = res['limiter'][rail]
         line(f'limiter {rail}', r['status'], f"trip {r['trip_min_a']}..{r['trip_max_a']} A in {r['window']}")
@@ -527,26 +566,31 @@ def main():
          f"{res['converters']['-12']['vin_to_ic_gnd_max_v']} V vs {TPS_VIN_OP_MAX} V operating")
     for rail, r in res['ripple'].items():
         line(f'ripple {rail}', r['status'], f"ideal {r['ideal_load_vpp'] * 1e6:.2f} uVpp")
-    for rail in ('+12', '+5', '-12'):
-        r = res['ramp'][rail]
-        line(f'ramp {rail}', r['slope_status'], f"steepest {r['steepest_v_per_ms_max']} V/ms, ramp >= {r['ramp_s_min'] * 1e3:.2f} ms, band entry {r['band_entry_s_range']}")
-    line('start skew', res['ramp']['start_skew_status'], f"{res['ramp']['start_skew_worst_s'] * 1e3:.3f} ms")
-    line('band-entry skew', res['ramp']['band_entry_skew_status'], f"{res['ramp']['band_entry_skew_worst_s'] * 1e3:.3f} ms")
+    rp = res['ramp']
+    line('ramp slope', rp['slope_status'], ', '.join(f"{r} {max(c[r]['slope0_v_per_ms'] for c in rp['cases_c_tolerance'])} V/ms" for r in ('+12', '+5', '-12')))
+    line('ramp duration', rp['ramp_min_status'], f"first band entry >= {rp['ramp_min_s'] * 1e3:.2f} ms")
+    line('band-entry skew', rp['band_entry_skew_status'], f"{rp['band_entry_skew_worst_s'] * 1e3:.3f} ms (+5 last: {rp['p5_last_status']})")
+    line('start skew', rp['start_skew_status'], rp['start_skew_note'])
+    line('RAMP release delay', 'INFO', f"{rp['ramp_release_delay_s']} s after enable")
+    tm = res['timing']
+    line('P5_SUP', tm['p5_sup_status'], f"{tm['p5_sup_v']} V")
+    line('POR vs RDY', tm['por_rdy_overlap_status'], f"POR {tm['por_s']} s, RDY {tm['rdy_s']} s")
+    line('servo settle before enable', tm['servo_settled_before_enable_status'], ', '.join(f"{r} tau {v['loop_tau_s'] * 1e3:.2f} ms" for r, v in tm['servo'].items()))
     d = res['discharge']
-    line('discharge time', d['time_status'], f"{d['times_at_ceiling_zero_load_s']}, one-shot >= {d['oneshot_window_min_s']} s")
+    line('discharge time', d['time_status'], f"{d['times_at_ceiling_zero_load_s']}, hold-up {d['holdup_window_s']} s")
     line('discharge order', d['order_status_equal_ceiling_c'], f"+5 at 0.8 V {d['p5_to_0v8_s']} s, +12 absent {d['p12_absent_s']} s, -12 absent {d['m12_absent_s']} s, |-12| {d['m12_when_p12_absent_v']} V; C+/C- window {d['analog_c_ratio_window']}")
     line('discharge with load', 'OPEN', d['loaded_order_reason'])
     for rail, r in res['windows'].items():
         line(f'OV/UV {rail}', r['status'], f"OV {r['ov_trip_v']} in {r['ov_limit']}, UV {r['uv_trip_v']} in {r['uv_limit']}")
     g = res['switch_gate_stress']
-    line('switch VGS', g['status'], f"+12 {g['+12_vgs_max_v']} V, +5 clamped {g['+5_vgs_clamped_v']} V")
+    line('switch VGS', g['status'], f"+12 {g['+12_vgs_max_v']} V, +5 clamped {g['+5_vgs_clamped_v']} V, +12 min {g['+12_vgs_min_at_vin_uv_v']} V, Q25 {g['q25_vgs_v']} V")
     for rail, r in res['servo_authority'].items():
         line(f'servo authority {rail}', r['status'], f"need {r['needed_ua']} uA, available {r['available_ua']} uA")
     o = res['opa_input_range']
     line('OPA2187 input range (5 V amps)', o['status'], f"worst {o['worst_input_at_setpoint_v']} V <= {o['vcm_max_v']} V")
     u = res['vin_uv']
     line('VIN UV (U5B)', u['status'], f"trip {u['trip_v']} V < {u['trip_max_allowed_v']} V; node {u['node_at_vin_overshoot_v']} V at VIN overshoot <= {u['vcm_max_v']} V")
-    line('servo loop stability', 'NOT RUN', 'no loop model or simulation')
+    line('converter loop stability', 'SIM', 'TPS54560 average-model AC runs (see the draft page)')
 
 
 if __name__ == '__main__':

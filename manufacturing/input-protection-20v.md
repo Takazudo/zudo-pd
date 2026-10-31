@@ -2,7 +2,7 @@
 
 **Status: desk analysis only. Nothing here is adopted.** No schematic, PCB, BOM, NVM or part selection changes. Every schematic and PCB stays an unvalidated draft. **Nothing on this page is measured.** This page serves the OSC-recommended direction D3-A (20 V contract at ≥ 3.38 A, preferably 20 V / 5 A) with D5-1 (accept or refuse, no partial supply). That direction is a recommendation pending the user's decision. It is not adopted.
 
-Figures come from [`../scripts/pcb/calculate-input-ovp-20v.py`](../scripts/pcb/calculate-input-ovp-20v.py). This page extends [`input-clamp-fix.md`](input-clamp-fix.md) (PD-CLAMP-2 scope) and closes or bounds GAP-1 in [`design-gaps-20v.md`](design-gaps-20v.md). GAP-2 is bounded but not closed.
+Figures come from [`../scripts/pcb/calculate-input-ovp-20v.py`](../scripts/pcb/calculate-input-ovp-20v.py). This page extends [`input-clamp-fix.md`](input-clamp-fix.md) (PD-CLAMP-2 scope) and bounds, but does not close, GAP-1 in [`design-gaps-20v.md`](design-gaps-20v.md). GAP-2 is bounded but not closed.
 
 Evidence classes: **G** guaranteed in a manufacturer table retrieved from the manufacturer's public site, with bytes and hash recorded below · **G-U** guaranteed, but read only from a mirror or a summarizing fetch · **TYP** typical · **PA** project assumption · **UNAV** unavailable.
 
@@ -23,7 +23,7 @@ The surge envelope (waveform, energy, source and cable inductance, repetition) i
 |---|---|---|---|---|
 | T1 | One passive TVS on VBUS (lower clamp) | TI **TVS2200** (DRV, VRWM 22 V, VBR 24.6–27.6 V at 1 mA, VC ≤ 28.0 V at 40 A 8/20 µs 27 °C, **≤ 28.35 V at 35 A, VIN = VRWM before surge, 125 °C**; G). TI TVS2700 (SLVSED6A) has a higher clamp, so it is worse | 28.35 V hot | **FAIL** (−0.35 V hot; 0.00 V at 27 °C). No passive part with VBR ≥ 21 V and a guaranteed hot clamp ≤ 28 V was found |
 | T2 | T1 plus a per-pin series R and zener (b′) | TVS2200 + 470 Ω + BZX84-C24 on VDD / VBUS_VS_DISCH / DISCH / VBEN | 25.7–27.8 V (PA model) | **EDGE**: +0.2 to +1.4 V hot. It depends on the PA zener model. BZX84 hot leakage cannot be closed from the datasheet. The Nexperia PDF returned 403 on 2026-10-31, so the 2026-10-20 reading (no bytes retained) stands |
-| T3 | **Active OVP eFuse ahead of the whole of Board P** (STUSB4500 supply and sense pins, Q1, Board B), with a connector-side TVS taking the surge energy and bulk capacitance on the protected node | TI **TPS26630RGER** (TPS2663x, SLVSE94G, G; orderable Active per the datasheet addendum); connector TVS: TVS2200 (G) or a higher-energy SMA TVS with VC ≤ 60 V (no exact part retrieved, UNAV) | **≤ 24.6 V at C_eff ≥ 100 µF** (calc on G limits + TYP fast-trip + PA ESR); 26.6 V at 47 µF | **PASS on paper**: +3.4 V at 100 µF, +4.4 V at 220 µF |
+| T3 | **Active OVP eFuse ahead of the whole of Board P** (STUSB4500 supply and sense pins, Q1, Board B), with a connector-side TVS taking the surge energy and bulk capacitance on the protected node | TI **TPS26630RGER** (TPS2663x, SLVSE94G, G; orderable Active per the datasheet addendum); connector TVS: TVS2200 (G) or a higher-energy SMA TVS with VC ≤ 60 V (no exact part retrieved, UNAV) | 24.7 V at C_eff 100 µF on TYP fast-trip and PA ESR; 27.7–29.6 V at 80 µF with ESR 0.3–0.5 Ω; guaranteed only to the TVS clamp, 28.35 V hot | **BLOCKING** (L7): the margin rests on TYP and PA terms; see 2.1 |
 | T3′ | As T3 with TI TPS16630 (SLVSET9G, G): same OVP, I(OL), timing and RON, but no reverse-current blocking | TPS16630 | as T3 | As T3, without the R7.3 back-feed block |
 | T4 | Controller with OVP and back-to-back NFETs, no current limit | TI LM74502 (SNOSDE5A, G): OV threshold 1.165 / 1.25 / 1.333 V (±6.8 %) | Trip window ±6.8 % → the minimum trip of 21.5 V puts the maximum near 24.6 V, before overshoot. No current limit to bound the overshoot charge | Worse than T3; not recommended |
 | T5 | Different sink controller (VBUS-side 30 V class) | Infineon CYPD3177 (CC 22 V), Diodes AP33772S | Moves the VBUS limit only | Controller decision (PD-003-D3), outside L7; not re-screened |
@@ -55,9 +55,26 @@ Calculated results:
 
 | C_eff on the protected node (after DC bias and temperature) | ΔV | Node maximum | Margin to 28 V |
 |---:|---:|---:|---:|
-| 47 µF | 4.11 V | 26.58 V | +1.42 V |
-| 100 µF | 2.09 V | 24.55 V | **+3.45 V** |
-| 220 µF | 1.11 V | 23.57 V | +4.43 V |
+| 47 µF | 4.11 V | 26.68 V | +1.32 V |
+| 100 µF | 2.09 V | 24.65 V | +3.35 V |
+| 220 µF | 1.11 V | 23.67 V | +4.33 V |
+
+These rows start from the fitted 174k/10k trip maximum, 22.57 V. They are **not a bound**:
+I(SCP) 45 A and the 1 µs hot-short response are TYP with no maximum, and the 30 mΩ ESR is a
+project assumption with no RVT1H101M0810 ESR fact in the owner bundle. At the 80 µF
+minimum of the fitted C3 (independent review finding 4, recomputed by the script):
+
+| Case at C_eff 80 µF | Node maximum | Margin to 28 V |
+|---|---:|---:|
+| TYP charge, ESR 30 mΩ (PA) | 25.10 V | +2.90 V |
+| TYP charge, ESR 0.3 Ω | 27.70 V | +0.30 V |
+| TYP charge, ESR 0.5 Ω | 29.63 V | **−1.63 V** |
+| Soft-short response 4.5 µs maximum (SLVSE94G EC table) at I(SCP) TYP | 27.07 V | +0.93 V |
+
+**Gate L7 stays BLOCKING.** The only guaranteed bound is the connector node at the
+TVS2200 clamp, 28.0 V at 27 °C and 28.35 V at 125 °C: 0.00 V and −0.35 V of margin.
+Closing L7 needs a guaranteed C3 ESR (or a low-ESR bulk with a datasheet ESR row) and a
+bounded short-circuit current, or a node clamp with a guaranteed hot clamp at or below 28 V.
 
 - **Before the contract, Q1 is off and Board B's bulk is not on the node.** Board P carries only C1 10 µF today, so T3 needs its own bulk of at least 100 µF effective on the protected node: a size and part choice that is UNAV. A small node clamp (for example TVS2200, VBR min 24.6 V) is optional. It only acts in the ΔV region and never conducts at 21 V.
 - **Current limit vs contract.** At the 20 V / 5 A PDO, the 4.02 kΩ setting is 4.185–4.815 A. That lies above the 3.38 A worst legitimate draw (+0.805 A, calc on PA efficiencies) and below the 5 A contract and cable rating. The eFuse therefore also enforces the input contract. At a 3.5 A PDO no ±7 % setting fits between 3.38 and 3.5 A, so the charger's OCP would remain the contract limit.

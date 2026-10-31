@@ -116,6 +116,39 @@
       "blocking_fact_ids": [
         "fact-c164156-candidate-scope"
       ]
+    },
+    {
+      "coverage_id": "cov-c163047-primary-specification",
+      "record_id": "rec-c163047",
+      "domain": "primary-specification",
+      "status": "OPEN",
+      "reason": "Only a distributor mirror of TA-I Technology TRLS-XXOS002B was retrieved and hashed 2026-10-31; no manufacturer-hosted copy. PDF not retained.",
+      "fact_ids": [
+        "fact-c163047-manufacturer",
+        "fact-c163047-resistance",
+        "fact-c163047-tcr",
+        "fact-c163047-power",
+        "fact-c163047-short-time-overload"
+      ],
+      "blocking_fact_ids": [
+        "fact-c163047-resistance",
+        "fact-c163047-tcr",
+        "fact-c163047-power",
+        "fact-c163047-short-time-overload"
+      ]
+    },
+    {
+      "coverage_id": "cov-c163047-placement",
+      "record_id": "rec-c163047",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Draft-only use in the unbound board_b20_spec.py; no footprint asset, no PCB, no inventory placement.",
+      "fact_ids": [
+        "fact-c163047-candidate-scope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c163047-candidate-scope"
+      ]
     }
   ]
 }

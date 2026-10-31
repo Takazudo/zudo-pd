@@ -26,7 +26,7 @@ test('installed patched runtime preserves closed evidence identities, counts and
   for (const [path, hash] of Object.entries(baseline.files)) assert.equal(createHash('sha256').update(await readFile(join(root,path))).digest('hex'),hash,path);
   assert.equal(model.packagePreviews.length,37);
   const inv=await json(join(root,inventoryPath));
-  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,124);
+  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,128);
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>p.dnp).length,8);
 });
 
@@ -103,7 +103,7 @@ test('mixed placement DNP survives actual public projection', async () => {
 });
 
 test('all candidates retained for validation, never projected; unknown null line and cross-partition links fail', async () => {
-  const candidates=await json(join(root,candidatesPath)); assert.equal(candidates.candidates.length,19);
+  const candidates=await json(join(root,candidatesPath)); assert.equal(candidates.candidates.length,20);
   assert.ok(model.records.every(r=>r.identity.lineId));
   const bundle={skill:'owner',records:[{record_id:'rec-a',line_id:'line-a',candidate_id:null,mpn:'a',manufacturer:'v',lcsc:'C1',package:'p'},{record_id:'rec-c',line_id:null,candidate_id:'cand-c',mpn:'c',manufacturer:'v',lcsc:'C2',package:'p'}],facts:[{fact_id:'f-a',record_id:'rec-a',depends_on:[]},{fact_id:'f-c',record_id:'rec-c',depends_on:[]}],sources:[],coverage:[],routes:[],pinMaps:[],interactions:[]};
   const lines=[{line_id:'line-a',owner_skill:'owner',mpn:'a',manufacturer:'v',lcsc:'C1',package:'p'}], cands=[{candidate_id:'cand-c',owner_skill:'owner',mpn:'c',manufacturer:'v',lcsc:'C2',package:'p'}];
