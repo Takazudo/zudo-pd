@@ -2160,160 +2160,6 @@
 				)
 				(embedded_fonts no)
 			)
-		(symbol "zudo-pd:0603WAF1003T5E"
-				(exclude_from_sim no)
-				(in_bom yes)
-				(on_board yes)
-				(in_pos_files yes)
-				(duplicate_pin_numbers_are_jumpers no)
-				(property "Reference" "R"
-					(at 0 5.08 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "Value" "0603WAF1003T5E"
-					(at 0 -5.08 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "Footprint" "easyeda2kicad:R0603"
-					(at 0 -7.62 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(hide yes)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "Datasheet" "https://lcsc.com/product-detail/Chip-Resistor-Surface-Mount-UniOhm_100KR-1003-1_C25803.html"
-					(at 0 -10.16 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(hide yes)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "Description" "100KΩ (1003) ±1%"
-					(at 0 0 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(hide yes)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "Manufacturer" "UNI-ROYAL(厚声)"
-					(at 0 -12.7 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(hide yes)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "MPN" "0603WAF1003T5E"
-					(at 0 -15.24 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(hide yes)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "LCSC Part" "C25803"
-					(at 0 -17.78 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(hide yes)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(property "ki_keywords" "Resistors"
-					(at 0 0 0)
-					(show_name no)
-					(do_not_autoplace no)
-					(hide yes)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(symbol "0603WAF1003T5E_0_1"
-					(rectangle
-						(start -2.54 1.02)
-						(end 2.54 -1.02)
-						(stroke
-							(width 0)
-							(type default)
-						)
-						(fill
-							(type background)
-						)
-					)
-					(pin passive line
-						(at -5.08 0 0)
-						(length 2.54)
-						(name "1"
-							(effects
-								(font
-									(size 1.27 1.27)
-								)
-							)
-						)
-						(number "1"
-							(effects
-								(font
-									(size 1.27 1.27)
-								)
-							)
-						)
-					)
-					(pin passive line
-						(at 5.08 0 180)
-						(length 2.54)
-						(name "2"
-							(effects
-								(font
-									(size 1.27 1.27)
-								)
-							)
-						)
-						(number "2"
-							(effects
-								(font
-									(size 1.27 1.27)
-								)
-							)
-						)
-					)
-				)
-				(embedded_fonts no)
-			)
 		(symbol "zudo-pd:0603WAF1503T5E"
 				(exclude_from_sim no)
 				(in_bom yes)
@@ -2468,65 +2314,6 @@
 				)
 				(embedded_fonts no)
 			)
-		(symbol "zudo-pd:0603WAF4700T5E"
-		    (in_bom yes)
-		    (on_board yes)
-		    (property
-		      "Reference"
-		      "R"
-		      (id 0)
-		      (at 0 5.08 0)
-		      (effects (font (size 1.27 1.27) ) )
-		    )
-		    (property
-		      "Value"
-		      "0603WAF4700T5E"
-		      (id 1)
-		      (at 0 -5.08 0)
-		      (effects (font (size 1.27 1.27) ) )
-		    )
-		    (property
-		      "Footprint"
-		      "easyeda2kicad:R0603"
-		      (id 2)
-		      (at 0 -7.62 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "Datasheet"
-		      "https://lcsc.com/product-detail/Chip-Resistor-Surface-Mount-UniOhm_470R-4700-1_C23179.html"
-		      (id 3)
-		      (at 0 -10.16 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "LCSC Part"
-		      "C23179"
-		      (id 5)
-		      (at 0 -12.70 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (symbol "0603WAF4700T5E_0_1"
-		      (rectangle
-		        (start -2.54 1.02)
-		        (end 2.54 -1.02)
-		        (stroke (width 0) (type default) (color 0 0 0 0))
-		        (fill (type background))
-		      )
-		      (pin passive line
-		        (at 5.08 -0.00 180)
-		        (length 2.54)
-		        (name "2" (effects (font (size 1.27 1.27))))
-		        (number "2" (effects (font (size 1.27 1.27))))
-		      )
-		      (pin passive line
-		        (at -5.08 -0.00 0)
-		        (length 2.54)
-		        (name "1" (effects (font (size 1.27 1.27))))
-		        (number "1" (effects (font (size 1.27 1.27))))
-		      )
-		    )
-		  )
 		(symbol "zudo-pd:0603WAF4701T5E"
 		    (in_bom yes)
 		    (on_board yes)
@@ -2566,6 +2353,153 @@
 		      (effects (font (size 1.27 1.27) ) hide)
 		    )
 		    (symbol "0603WAF4701T5E_0_1"
+		      (rectangle
+		        (start -2.54 1.02)
+		        (end 2.54 -1.02)
+		        (stroke (width 0) (type default) (color 0 0 0 0))
+		        (fill (type background))
+		      )
+		      (pin passive line
+		        (at 5.08 -0.00 180)
+		        (length 2.54)
+		        (name "2" (effects (font (size 1.27 1.27))))
+		        (number "2" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at -5.08 -0.00 0)
+		        (length 2.54)
+		        (name "1" (effects (font (size 1.27 1.27))))
+		        (number "1" (effects (font (size 1.27 1.27))))
+		      )
+		    )
+		  )
+		(symbol "zudo-pd:BZT52C11-7-F_C92321"
+		    (in_bom yes)
+		    (on_board yes)
+		    (property
+		      "Reference"
+		      "D"
+		      (id 0)
+		      (at 0 5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Value"
+		      "BZT52C11-7-F_C92321"
+		      (id 1)
+		      (at 0 -5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Footprint"
+		      "easyeda2kicad:SOD-123_L2.8-W1.8-LS3.7-RD"
+		      (id 2)
+		      (at 0 -7.62 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "Datasheet"
+		      "https://lcsc.com/product-detail/Others_Diodes-Incorporated_BZT52C11-7-F_Diodes-Incorporated-BZT52C11-7-F_C92321.html"
+		      (id 3)
+		      (at 0 -10.16 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "Manufacturer"
+		      "Diodes Incorporated"
+		      (id 4)
+		      (at 0 -12.70 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "MPN"
+		      "BZT52C11-7-F"
+		      (id 5)
+		      (at 0 -15.24 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "LCSC Part"
+		      "C92321"
+		      (id 6)
+		      (at 0 -17.78 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "ki_keywords"
+		      "Zener Diodes"
+		      (id 8)
+		      (at 0 -20.32 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (symbol "BZT52C11-7-F_C92321_0_1"
+		      (polyline
+		        (pts
+		          (xy 1.27 1.52) (xy -1.27 -0.00) (xy 1.27 -1.78) (xy 1.27 1.52)
+		        )
+		        (stroke (width 0) (type default))
+		        (fill (type background))
+		      )
+		      (polyline
+		        (pts
+		          (xy -2.29 2.54) (xy -1.52 1.78) (xy -1.52 1.78) (xy -1.52 -2.03) (xy -1.52 -2.03) (xy -0.76 -2.79)
+		        )
+		        (stroke (width 0) (type default))
+		        (fill (type none))
+		      )
+		      (pin passive line
+		        (at 5.08 -0.00 180)
+		        (length 3.81)
+		        (name "A" (effects (font (size 1.27 1.27))))
+		        (number "2" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at -5.08 -0.00 0)
+		        (length 3.81)
+		        (name "K" (effects (font (size 1.27 1.27))))
+		        (number "1" (effects (font (size 1.27 1.27))))
+		      )
+		    )
+		  )
+		(symbol "zudo-pd:0603WAF4700T5E"
+		    (in_bom yes)
+		    (on_board yes)
+		    (property
+		      "Reference"
+		      "R"
+		      (id 0)
+		      (at 0 5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Value"
+		      "0603WAF4700T5E"
+		      (id 1)
+		      (at 0 -5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Footprint"
+		      "easyeda2kicad:R0603"
+		      (id 2)
+		      (at 0 -7.62 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "Datasheet"
+		      "https://lcsc.com/product-detail/Chip-Resistor-Surface-Mount-UniOhm_470R-4700-1_C23179.html"
+		      (id 3)
+		      (at 0 -10.16 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "LCSC Part"
+		      "C23179"
+		      (id 5)
+		      (at 0 -12.70 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (symbol "0603WAF4700T5E_0_1"
 		      (rectangle
 		        (start -2.54 1.02)
 		        (end 2.54 -1.02)
@@ -4985,7 +4919,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1003T5E")
+		(lib_id "zudo-pd:0603WAF1503T5E")
 		(at 38.1 190.5 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -4999,7 +4933,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Value" "100k"
+		(property "Value" "150k"
 			(at 38.1 195.58 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -5019,7 +4953,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25803"
+		(property "LCSC" "C22807"
 			(at 38.1 198.12 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -5042,7 +4976,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1503T5E")
+		(lib_id "zudo-pd:0603WAF4701T5E")
 		(at 76.2 190.5 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5056,7 +4990,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Value" "150k"
+		(property "Value" "4.7k"
 			(at 76.2 195.58 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -5076,23 +5010,80 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C22807"
+		(property "LCSC" "C23162"
 			(at 76.2 198.12 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
-		(pin "1"
-			(uuid "0913c4e9-5bf5-5e44-9a8f-857363fe9e59")
-		)
 		(pin "2"
-			(uuid "a9051343-3d7d-5cce-b8b5-79033f813a48")
+			(uuid "b75e6e68-4e35-5d2f-9dc8-ece6978776c2")
+		)
+		(pin "1"
+			(uuid "c02928f2-3813-5752-af73-464b59f5f50a")
 		)
 		(instances
 			(project "board-p"
 				(path "/b65df504-9084-5a04-b6e1-694328d4ef8b"
 					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:BZT52C11-7-F_C92321")
+		(at 279.4 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1969b494-01d0-5a66-82b7-241be941b405")
+		(property "Reference" "D8"
+			(at 279.4 71.12 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "BZT52C11-7-F"
+			(at 279.4 81.28 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD"
+			(at 279.4 76.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 279.4 76.2 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C92321"
+			(at 279.4 83.82 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "686c73e8-8689-5c01-9c45-8645fe76c800")
+		)
+		(pin "1"
+			(uuid "5ffabc90-bfff-5c4d-b6e6-e8f84a4bec68")
+		)
+		(instances
+			(project "board-p"
+				(path "/b65df504-9084-5a04-b6e1-694328d4ef8b"
+					(reference "D8")
 					(unit 1)
 				)
 			)
@@ -6137,6 +6128,15 @@
 		)
 		(uuid "e612057f-43bc-5d69-bdc3-c16bed915d11")
 	)
+	(global_label "VBUS_P"
+		(shape passive)
+		(at 274.32 76.2 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "e07ded13-403d-5f36-8770-abcd84a4ffee")
+	)
 	(global_label "EF_UVLO"
 		(shape passive)
 		(at 100.33 38.1 180)
@@ -6451,6 +6451,15 @@
 			(justify right)
 		)
 		(uuid "45eebf74-a95d-55ec-b9c9-d3ac6557192d")
+	)
+	(global_label "Q1_G"
+		(shape passive)
+		(at 284.48 76.2 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "c7fccb37-4663-5845-ac6a-673b1ba83b22")
 	)
 	(global_label "VBUS_OUT"
 		(shape passive)

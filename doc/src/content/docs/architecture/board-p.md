@@ -37,6 +37,8 @@ unvalidated draft:
 | C5 | 100 nF | dVdT ramp |
 | C3 | 100 µF 50 V (80–120 µF) | Single protected-node bulk; C4 is removed |
 | Q1 | [DMP3036SFG-7 C461081](/docs/components/records/c461081/) (proposed) | Output P-FET switch: source on VBUS_P, drain on VBUS_OUT, gate on Q1_G; replaces AO3401A |
+| R11 / R12 | 150k C22807 / 4.7k C23162 (proposed) | Q1 gate divider: R11 VBUS_P to Q1_G, R12 Q1_G to VBEN (was 100k / 150k) |
+| D8 | [BZT52C11-7-F C92321](/docs/components/records/bzt52c11-c92321/) (proposed) | Q1 gate clamp: cathode on VBUS_P, anode on Q1_G |
 
 - MODE is left open, which selects latch-off.
 - PGTH is tied to GND.
@@ -55,9 +57,20 @@ unvalidated draft:
   the −30 V VDS and raises VGS to ±25 V, which leaves 14.9 V at the hot overshoot gate
   case. Its −5.8 A (70 °C) and −7.2 A (25 °C) ratings at VGS −5 V assume 1 in² of 2 oz
   copper. At 5 A and 29 mΩ it dissipates about 0.73 W: about 40 °C rise at 55 °C/W, or
-  about 99 °C on the minimum pad. The unchanged 100k/150k divider drives −2.0 V at 5 V
-  VBUS, inside the −1.0 to −2.5 V threshold range, so 5 V enhancement is not guaranteed.
-  Its PowerDI3333-8 land is a draft from the Diodes text and must be redrawn before layout.
+  about 99 °C on the minimum pad. Its PowerDI3333-8 land is a draft from the Diodes text
+  and must be redrawn before layout.
+- The proposed gate divider replaces 100k/150k, which drove −2.0 V at 5 V VBUS, inside
+  the −1.0 to −2.5 V threshold range. R11 150k / R12 4.7k drives −4.61, −4.85 and
+  −5.09 V at 4.75, 5.00 and 5.25 V. The guaranteed 29 mΩ row is at −5 V, which this divider
+  reaches only above about 5.16 V VBUS; no divider reaches it at 5.00 V. With
+  `POWER_ONLY_ABOVE_5V`, Q1 stays off at 5 V anyway.
+  At 20 V the divider alone would reach −19.4 V, so D8 conducts about 2.0 mA and holds
+  the gate at 10.4–11.6 V, at least 13.4 V inside the ±25 V rating. At the 25.21 V
+  overshoot case, D8 carries 3.08 mA and VBEN sinks 3.15 mA in total; that VBEN rating
+  is unsourced. If D8 fails open, that case reaches −24.44 V, a 0.56 V margin. The turn-on
+  gate time constant falls from 6.0 ms to 0.46 ms; the resulting Board B inrush against
+  the TPS26630 current limit is not calculated. This is a draft proposal
+  (`dec-p-20v-q1-gate-clamp`); nothing is measured.
 - `scripts/pcb/calculate-input-ovp-20v.py` reproduces these figures. The CSD18543Q3A land
   is a project-authored draft from the TI text and must be reviewed before layout.
 

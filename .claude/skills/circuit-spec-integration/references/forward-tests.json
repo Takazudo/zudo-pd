@@ -192,8 +192,8 @@
     },
     {
       "case_id": "renewal-pd-gate-policy",
-      "observed_run_id": "observed-renewal-pd-gate-policy-q1-5a",
-      "prompt": "Program Board P for a twenty volt five ampere PDO and certify the load switch and protection chain because the TVS2200DRVR C523793 clamp, the TPS26630RGER C1850276 overvoltage cutoff and the 100k/150k divider have positive conditioned margins.",
+      "observed_run_id": "observed-renewal-pd-gate-policy-q1-gate-clamp",
+      "prompt": "Program Board P for a twenty volt five ampere PDO and certify the load switch and protection chain because the TVS2200DRVR C523793 clamp, the TPS26630RGER C1850276 overvoltage cutoff and the 150k/4.7k divider with the D8 zener clamp have positive conditioned margins.",
       "expected_trigger_skill": "circuit-spec-integration",
       "expected_loaded_skills": [
         "component-spec-audit",
@@ -214,7 +214,8 @@
         "component-tps26630rger",
         "component-csd18543q3a",
         "component-diodes-bss138-7-f",
-        "component-diodes-dmp3036sfg-7"
+        "component-diodes-dmp3036sfg-7",
+        "component-bzt52c11-c92321"
       ],
       "routing_queries": [
         {
@@ -269,7 +270,9 @@
         "rec-c523793",
         "rec-c840100",
         "rec-c40912",
-        "rec-c461081"
+        "rec-c461081",
+        "rec-c23162",
+        "rec-bzt52c11-c92321"
       ],
       "subordinate_record_ids": [],
       "required_source_ids": [
@@ -289,7 +292,9 @@
         "src-rt0603brd0710kl-datasheet",
         "src-c840100-primary",
         "src-c40912-primary",
-        "src-c461081-primary"
+        "src-c461081-primary",
+        "src-c23162-uniroyal",
+        "src-bzt52c11-diodes-primary"
       ],
       "rule_ids": [
         "rule-q1-gate-drive-vs-contract",
@@ -315,7 +320,10 @@
         "fact-c840100-vds",
         "fact-c40912-vds",
         "fact-c461081-vds",
-        "fact-c461081-vgs"
+        "fact-c461081-vgs",
+        "fact-c23162-resistance",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-vz-max"
       ],
       "required_calculation_ids": [
         "calc-renewal-q1-gate-voltage",
@@ -326,15 +334,20 @@
         "calc-p20-tvs-standoff-margin",
         "calc-p20-u2-in-clamp-margin",
         "calc-p20-q3-vds-clamp-margin",
-        "calc-p20-q4-vds-bgate-margin"
+        "calc-p20-q4-vds-bgate-margin",
+        "calc-p6-q1-gate-divider-open-clamp",
+        "calc-p6-q1-vgs-margin-d8-open",
+        "calc-p6-q1-vgs-margin-clamped",
+        "calc-p6-d8-clamp-current"
       ],
       "expected_observed_conditions": [
         "The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required and the current Board B is not covered at 20 V. First power/programming uses a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
         "Ideal asserted gate drive is -8 V at 20 V, -9.025695 V at the 22.564238 V OVP bound and -10.083143 V at the 22.671207 V hot/TCR bound plus the 2.53665 V overshoot assumption, against the +/-25 V VGS rating of the proposed Q1 DMP3036SFG-7 (14.916857 V hot margin; the as-built PCB keeps the 12 V AO3401A); the asserted-low premise rests on the UNSOURCED VBEN fact. STUSB 28 V and the Q1 |VDS| 30 V shared by both parts keep 5.435762/7.435762 V static and 2.792143/4.792143 V hot margins with the assumption; neither is a measured gate or source waveform.",
+        "The phase-6 draft gate divider (R11 150 k, R12 4.7 k, D8 BZT52C11-7-F) drives -4.848 V at 5 V and is clamped to 10.4-11.6 V at 20 V, leaving at least 13.4 V to the 25 V VGSS; D8 carries about 3.08 mA at the 25.207857 V overshoot case and VBEN sinks about 3.15 mA in total (UNSOURCED rating), and with D8 open the margin falls to 0.558 V. The guaranteed -5 V RDS(on) row is reached only above about 5.157 V VBUS, not at 5.00 V; none of this is measured.",
         "TVS2200 standoff, a 22 V DC maximum, leaves 1.0 V over the 21.0 V project normal high, and the OVP window reaches above it but below the 24.6 V minimum breakdown. The 28.35 V clamp maximum at 35 A 8/20 us 125 C (the hotter of the two 8/20 us table points) leaves 38.65 V to the continuous U2 IN 67 V and 31.65 V to Q3 VDS 60 V, and Q4 VDS keeps 36 V over the 14 V B_GATE clamp. STUSB limits keep their mirror-source trust limitation; the old SMAJ20A 32.4 V comparison stays retired."
       ],
       "expected_verdicts": [
-        "NEEDS BENCH",
+        "UNSOURCED",
         "UNSOURCED"
       ],
       "must_refuse": true

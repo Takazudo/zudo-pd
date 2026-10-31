@@ -22,7 +22,8 @@
     "renewal-screw-terminals",
     "p-20v-revision",
     "p-20v-front-end-r2",
-    "p-20v-q1-5a"
+    "p-20v-q1-5a",
+    "p-20v-q1-gate-clamp"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -533,6 +534,29 @@
         "fact-c461081-footprint-review",
         "fact-c461081-board-p-role",
         "fact-umw-ao3401a-current"
+      ]
+    },
+    {
+      "key": "p-20v-q1-gate-clamp",
+      "id": "dec-p-20v-q1-gate-clamp",
+      "title": "Board P 20 V / 5 A draft: proposed Q1 gate divider R11 150k / R12 4.7k with D8 BZT52C11-7-F clamp",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-6 direction 2026-10-31 (draft, within dec-p-20v-revision): the Board P draft spec PROPOSES R11 (VBUS_P to Q1_G) 150k C22807, R12 (Q1_G to VBEN) 4.7k C23162 and a new D8 BZT52C11-7-F C92321 with cathode on VBUS_P and anode on Q1_G, the topology of Board A dec-e-q1-20v-gate-guard. C35 100 nF/50 V, Q1 DMP3036SFG-7 and the PCB are unchanged. The as-built Board P PCB keeps 100k/150k and no D8.",
+      "rationale": "The 100k/150k divider gave -2.0 V at 5 V VBUS, inside the DMP3036SFG -1.0 to -2.5 V threshold range. The new open-clamp divider gives -4.606/-4.848/-5.090 V at 4.75/5.00/5.25 V; the guaranteed 29 mOhm RDS(on) row is at -5 V, which this divider reaches only above about 5.157 V VBUS and no divider can reach at 5.00 V nominal, but POWER_ONLY_ABOVE_5V keeps Q1 off at 5 V anyway. At 20 V the divider alone would give -19.39 V, so D8 conducts (about 1.97 mA at 20 V, 3.08 mA at the 25.208 V overshoot case) and holds |VGS| to 10.4-11.6 V, leaving at least 13.4 V to the 25 V VGSS. If D8 fails open the overshoot case gives -24.44 V, a 0.56 V margin. VBEN sinks up to 3.15 mA in total (D8 3.08 mA plus the R11 share); its rating is UNSOURCED. The turn-on gate time constant falls from 6.0 ms to 0.46 ms and the turn-off constant rises from 10 ms to 15 ms; the Board B input inrush at the faster turn-on against the TPS26630 I(OL) is not calculated. Nothing is measured.",
+      "evidence": [
+        "fact-c22807-resistance",
+        "fact-c23162-resistance",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-vz-max",
+        "fact-bzt52c11-board-p-d8-role",
+        "fact-c461081-vgs",
+        "fact-c461081-vgsth-max",
+        "fact-c461081-rdson-5v-max",
+        "fact-stusb-vben"
       ]
     }
   ]

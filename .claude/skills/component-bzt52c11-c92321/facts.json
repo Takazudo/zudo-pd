@@ -63,6 +63,20 @@
       "expression": ""
     },
     {
+      "fact_id": "fact-bzt52c11-vz-max",
+      "record_id": "rec-bzt52c11-c92321",
+      "source_id": "src-bzt52c11-diodes-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 11.6,
+      "unit": "V",
+      "conditions": "maximum zener voltage VZ at IZT 5 mA, TA=+25 C; the deterministic upper bound of the clamp window",
+      "locator": "src-bzt52c11-diodes-primary: page 2 electrical characteristics table, BZT52C11 row, VZ max column",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
       "fact_id": "fact-bzt52c11-ir-leakage",
       "record_id": "rec-bzt52c11-c92321",
       "source_id": "src-bzt52c11-diodes-primary",
@@ -141,6 +155,20 @@
       "unit": "NONE",
       "conditions": "dec-e-q1-20v-gate-guard placement, locked by scripts/schgen/board_a_spec.py (D8 in NETS: VBUS_IN += D8.1, Net-(Q1-G) += D8.2) and the generated board-a schematic; Eeschema ERC/visual review and gate soft-start behavior with the added junction capacitance remain open bench items",
       "locator": "src-bzt52c11-diodes-primary: page 1 mechanical data polarity row (cathode band) versus the generator-spec pin lock; bench soft-start/turn-on measurement pending",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-bzt52c11-board-p-d8-role",
+      "record_id": "rec-bzt52c11-c92321",
+      "source_id": "src-bzt52c11-diodes-primary",
+      "class": "PROJECT_STATE",
+      "value": "Board P phase-6 draft D8: cathode (pin 1) on VBUS_P (Q1 source), anode (pin 2) on Q1_G, with R11 150k source-gate and R12 4.7k gate-VBEN",
+      "unit": "NONE",
+      "conditions": "dec-p-20v-q1-gate-clamp draft placement locked by scripts/schgen/board_p_spec.py (VBUS_P += D8.1, Q1_G += D8.2); at 20 V the divider alone would give 19.39 V, so D8 conducts about 2 mA and sets |VGS|; clamp current, the knee at the installed current, and gate timing with the junction capacitance are bench items",
+      "locator": "src-bzt52c11-diodes-primary: page 1 mechanical data polarity row (cathode band) versus the generator-spec pin lock",
       "provenance": "PROJECT-CHOICE",
       "verdict": "NEEDS BENCH",
       "depends_on": [],

@@ -639,7 +639,9 @@
         "rec-c1850276",
         "rec-c861163",
         "rec-rt0603brd0710kl",
-        "rec-c461081"
+        "rec-c461081",
+        "rec-c23162",
+        "rec-bzt52c11-c92321"
       ],
       "fact_ids": [
         "fact-umw-ao3401a-vgs",
@@ -658,10 +660,15 @@
         "fact-rt0603brd0710kl-tolerance",
         "fact-rt0603brd0710kl-tcr",
         "fact-c461081-vgs",
-        "fact-c461081-vgsth-max"
+        "fact-c461081-vgsth-max",
+        "fact-c23162-resistance",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-vz-max",
+        "fact-bzt52c11-board-p-d8-role",
+        "fact-c461081-rdson-5v-max"
       ],
-      "conditions": "Board P uses 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the +/-25 V VGS rating of the proposed Q1 DMP3036SFG-7 C461081 (dec-p-20v-q1-5a), leaving 14.916857 V in the hot overshoot case; the as-built PCB and Board A keep the 12 V AO3401A. At 5 V VBUS the -2.0 V drive lies inside the DMP3036SFG -1.0 to -2.5 V threshold range, so 5 V enhancement is not guaranteed. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
-      "verdict": "NEEDS BENCH",
+      "conditions": "The as-built Board P PCB and the superseded dec-p-20v-q1-5a draft use 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the +/-25 V VGS rating of the proposed Q1 DMP3036SFG-7 C461081 (dec-p-20v-q1-5a), leaving 14.916857 V in the hot overshoot case; the as-built PCB and Board A keep the 12 V AO3401A. The 100 k/150 k rows above are the superseded dec-p-20v-q1-5a draft divider screened against the DMP3036SFG rating; the as-built PCB has the same divider but the 12 V AO3401A, which these rows do not screen. The phase-6 draft (dec-p-20v-q1-gate-clamp) changes the draft spec to R11 150 k (C22807) source-to-gate, R12 4.7 k (C23162) gate-to-VBEN and adds D8 BZT52C11-7-F (cathode VBUS_P, anode Q1_G): the open-clamp divider gives -4.605 V at 4.75 V, -4.848 V at 5 V and -5.090 V at 5.25 V, so the old -2.0 V threshold-band drive is gone, but the guaranteed DMP3036SFG 29 mOhm row is at -5 V, which this divider reaches only above about 5.157 V VBUS (-5.090 V at 5.25 V) and no divider can reach at 5.00 V nominal; 5 V conduction is in any case excluded by POWER_ONLY_ABOVE_5V. From about 10.7 V up D8 conducts and holds |VGS| at 10.4-11.6 V (13.4 V minimum margin to 25 V); its current is about 3.08 mA at the 25.207857 V overshoot case, and VBEN sinks about 3.15 mA in total, D8 plus the 0.069 mA R11 share (the VBEN rating is UNSOURCED). With D8 open the divider alone reaches -24.442 V there, leaving 0.558 V, so D8 is required for margin, not optional. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission. Verdict UNSOURCED (phase 6): the draft's clamp current must be sunk by VBEN, whose drive and sink rating rest on the UNSOURCED fact-stusb-vben, so the weakest input is unsourced before any bench question.",
+      "verdict": "UNSOURCED",
       "refusal": "Do not program a 20 V PDO or certify the load switch from steady gate arithmetic, a static OVP bound or an assumed overshoot; the 20 V NVM image, readback, cable, Board B coverage and measured gate/source behaviour are all open.",
       "conditioned_calculations": [
         {
@@ -709,6 +716,115 @@
             {
               "vbus_v": 25.20785682388359,
               "vgs_v": -10.083142729553435
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-q1-gate-divider-open-clamp",
+          "fact_ids": [
+            "fact-c22807-resistance",
+            "fact-c23162-resistance"
+          ],
+          "expression": "-vbus_v * fact_c22807_resistance / (fact_c22807_resistance + fact_c23162_resistance)",
+          "result_key": "vgs_v",
+          "conditions": "Phase-6 draft divider R11 150 k / R12 4.7 k with D8 absent or open, ideal asserted open-drain low; also the drive below the D8 knee. Same 20 V draft scenarios as calc-renewal-q1-gate-voltage plus the 5 V contract band.",
+          "results": [
+            {
+              "vbus_v": 4.75,
+              "vgs_v": -4.605688429217841
+            },
+            {
+              "vbus_v": 5,
+              "vgs_v": -4.848093083387201
+            },
+            {
+              "vbus_v": 5.25,
+              "vgs_v": -5.090497737556561
+            },
+            {
+              "vbus_v": 20,
+              "vgs_v": -19.392372333548803
+            },
+            {
+              "vbus_v": 21.0,
+              "vgs_v": -20.361990950226243
+            },
+            {
+              "vbus_v": 22.564237837837833,
+              "vgs_v": -21.878705078705075
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "vgs_v": -21.98242419898215
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "vgs_v": -24.442007262976976
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-q1-vgs-margin-d8-open",
+          "fact_ids": [
+            "fact-c461081-vgs",
+            "fact-c22807-resistance",
+            "fact-c23162-resistance"
+          ],
+          "expression": "fact_c461081_vgs - vbus_v * fact_c22807_resistance / (fact_c22807_resistance + fact_c23162_resistance)",
+          "result_key": "margin_v",
+          "conditions": "Single-fault case: D8 open, DMP3036SFG VGSS 25 V minus the divider drive.",
+          "results": [
+            {
+              "vbus_v": 20,
+              "margin_v": 5.607627666451197
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "margin_v": 3.0175758010178484
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "margin_v": 0.5579927370230244
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-q1-vgs-margin-clamped",
+          "fact_ids": [
+            "fact-c461081-vgs",
+            "fact-bzt52c11-vz-max"
+          ],
+          "expression": "fact_c461081_vgs - fact_bzt52c11_vz_max",
+          "result_key": "margin_v",
+          "conditions": "D8 conducting: VGSS 25 V minus the 11.6 V VZ maximum at IZT 5 mA; the installed current is lower (calc-p6-d8-clamp-current), and the knee at that current is a bench item.",
+          "results": [
+            {
+              "margin_v": 13.4
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-d8-clamp-current",
+          "fact_ids": [
+            "fact-c23162-resistance",
+            "fact-c22807-resistance",
+            "fact-bzt52c11-vz-min"
+          ],
+          "expression": "(vbus_v - fact_bzt52c11_vz_min) / fact_c23162_resistance - fact_bzt52c11_vz_min / fact_c22807_resistance",
+          "result_key": "iz_a",
+          "conditions": "D8 current with VBEN ideally low at the 10.4 V knee minimum (the largest current). The total VBEN sink current is (vbus - VZ)/R12, which is this D8 current plus the VZ/R11 share.",
+          "results": [
+            {
+              "vbus_v": 20,
+              "iz_a": 0.0019732198581560285
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "iz_a": 0.002541561735578069
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "iz_a": 0.0030812745015355155
             }
           ]
         }

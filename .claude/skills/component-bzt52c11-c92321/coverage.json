@@ -6,10 +6,11 @@
       "record_id": "rec-bzt52c11-c92321",
       "domain": "electrical-limits",
       "status": "COVERED",
-      "reason": "Zener window (10.4-11.6 V at 5 mA, exactly the dec-e locked window), minimum knee (10.4 V), leakage (0.1 uA at 8.0 V), impedance (ZZT 20 Ohm at 5 mA), and power dissipation (500 mW at TL=+75 C) are primary-source confirmed from the exact BZT52C11 row of DS18004 Rev. 38-2.",
+      "reason": "Zener window (10.4-11.6 V at 5 mA, exactly the dec-e locked window), minimum knee (10.4 V) and maximum (11.6 V), leakage (0.1 uA at 8.0 V), impedance (ZZT 20 Ohm at 5 mA), and power dissipation (500 mW at TL=+75 C) are primary-source confirmed from the exact BZT52C11 row of DS18004 Rev. 38-2.",
       "fact_ids": [
         "fact-bzt52c11-vz-window",
         "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-vz-max",
         "fact-bzt52c11-ir-leakage",
         "fact-bzt52c11-zzt",
         "fact-bzt52c11-pd"
@@ -32,10 +33,11 @@
       "record_id": "rec-bzt52c11-c92321",
       "domain": "gate-clamp-application",
       "status": "OPEN",
-      "reason": "dec-e-q1-20v-gate-guard NEEDS BENCH residuals: sub-knee conduction/leakage at the 9.62 V operating point (0.78 V below the 10.4 V minimum knee, with no leakage guarantee above VR 8.0 V) and Q1 gate soft-start behavior with the added junction capacitance; both wait on the Board A bring-up bench.",
+      "reason": "dec-e-q1-20v-gate-guard NEEDS BENCH residuals: sub-knee conduction/leakage at the 9.62 V operating point (0.78 V below the 10.4 V minimum knee, with no leakage guarantee above VR 8.0 V) and Q1 gate soft-start behavior with the added junction capacitance; both wait on the Board A bring-up bench. The Board P phase-6 draft reuses the clamp as D8 (dec-p-20v-q1-gate-clamp), where it conducts at 20 V; installed clamp current and gate timing are likewise bench items.",
       "fact_ids": [
         "fact-bzt52c11-knee-margin-15v",
-        "fact-bzt52c11-d8-orientation"
+        "fact-bzt52c11-d8-orientation",
+        "fact-bzt52c11-board-p-d8-role"
       ],
       "blocking_fact_ids": [
         "fact-bzt52c11-knee-margin-15v",

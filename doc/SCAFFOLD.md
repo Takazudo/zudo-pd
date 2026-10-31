@@ -96,6 +96,15 @@ it. The nine retired `calc-protection-*` integration anchors were also dropped. 
 baseline therefore covers the 63 retained legacy pages. New pages carry no legacy anchor
 lock.
 
+A second refresh on the same date recaptured the entries changed by the Board P Q1 gate
+clamp draft (`dec-p-20v-q1-gate-clamp`) from the installed runtime projection:
+
+- bzt52c11-c92321 identity, facts and coverage (its Board P D8 placement and two new facts);
+- the c25803, c23162 and c22807 identities, from the R11/R12 placement moves, plus c22807
+  sources, facts and interactions;
+- type-c-31-m-17, c14663 and c17414 sources, from the re-hashed `board_p_spec.py`;
+- the integration hash.
+
 The bridge additionally rejects document exceptions naming nonexistent records, preserving
 the old reference contract. The installed package regression is retained in references.test.ts.
 At the initial #207 integration, legacy test/caller retirement remained for #208;

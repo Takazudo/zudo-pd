@@ -20,9 +20,17 @@ scripts/schgen/decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2):
 - Q1 is PROPOSED as DMP3036SFG-7 C461081 (PowerDI3333-8, -30 V, +/-25 V VGS,
   -5.8 A at 70 C / -7.2 A at 25 C with VGS -5 V on 1 in2 of 2 oz copper) in place of
   AO3401A (-4.2 A), per decisions.json dec-p-20v-q1-5a. Pins 1-3 S on VBUS_P, 4 G on
-  Q1_G, 5-8 and exposed pad 9 D on VBUS_OUT. The 100k/150k divider is unchanged, so
-  the asserted VGS at 5 V VBUS (-2.0 V) is inside the -1.0 to -2.5 V threshold range.
-  The draft footprint and the copper needed for the rating are not laid out.
+  Q1_G, 5-8 and exposed pad 9 D on VBUS_OUT. The draft footprint and the copper
+  needed for the rating are not laid out.
+- Q1 gate drive DRAFT (dec-p-20v-q1-gate-clamp, phase 6): R11 (source-gate) 100k ->
+  150k C22807 and R12 (gate-VBEN) 150k -> 4.7k C23162, so the asserted VGS is
+  -4.60 / -4.85 / -5.09 V at 4.75 / 5.00 / 5.25 V VBUS (was -2.0 V at 5 V, inside the
+  threshold range), and D8 BZT52C11-7-F C92321 (cathode
+  VBUS_P, anode Q1_G, the Board A dec-e-q1-20v-gate-guard topology) clamps VGS to
+  10.4-11.6 V at 20 V so the +/-25 V VGSS limit keeps >= 13.3 V margin. With D8 open
+  the divider alone gives -24.44 V at the 25.21 V overshoot case (inside 25 V).
+  C35 is unchanged; the turn-on gate time constant falls from 6.0 ms to 0.46 ms and
+  the VBEN-release turn-off constant (R11 x C35) rises from 10 ms to 15 ms.
 - Q1 discharge path R13 is unchanged; its value is a PLACEHOLDER (OSC interface
   discharge values are Board B items).
 """
@@ -53,8 +61,9 @@ COMPONENTS = {
     'C30': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (114.3, 165.1)),
     'C34': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (152.4, 165.1)),
     'C35': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603', False, (190.5, 165.1)),
-    'R11': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603', False, (38.1, 190.5)),
-    'R12': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (76.2, 190.5)),
+    'R11': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (38.1, 190.5)),
+    'R12': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (76.2, 190.5)),
+    'D8': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (279.4, 76.2)),
     'R13': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (114.3, 190.5)),
     'R14': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (152.4, 190.5)),
     'R15': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (190.5, 190.5)),
@@ -74,7 +83,7 @@ NETS = {
     'EF_IN': ['Q3.5', 'Q3.6', 'Q3.7', 'Q3.8', 'Q3.9', 'U2.1', 'U2.2'],
     'EF_BGATE': ['Q3.4', 'Q4.3', 'U2.3'],
     'EF_DRV': ['Q4.1', 'U2.4'],
-    'VBUS_P': ['U2.17', 'U2.18', 'U1.24', 'R14.1', 'R11.2', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1'],
+    'VBUS_P': ['U2.17', 'U2.18', 'U1.24', 'R14.1', 'R11.2', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
     'EF_UVLO': ['U2.6', 'R22.2', 'R23.1'],
     'EF_OVP': ['U2.7', 'R24.2', 'R25.1'],
     'EF_DVDT': ['U2.9', 'C5.1'],
@@ -85,7 +94,7 @@ NETS = {
     'CC2DB': ['U1.5', 'R20.1', 'J3.2'],
     'VBUS_VS_DISCH': ['U1.18', 'R14.2'],
     'VBEN': ['U1.16', 'R12.1', 'J3.8'],
-    'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1'],
+    'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1', 'D8.2'],
     'VBUS_OUT': ['Q1.5', 'Q1.6', 'Q1.7', 'Q1.8', 'Q1.9', 'R13.1', 'JOUT1.1', 'JOUT1.2'],
     'DISCH': ['U1.9', 'R13.2'],
     'VREG_2V7': ['U1.23', 'C30.2', 'R15.2', 'R16.2', 'J3.3'],
