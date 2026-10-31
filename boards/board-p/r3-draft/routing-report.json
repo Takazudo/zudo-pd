@@ -61,7 +61,7 @@
    "outlines_mm": [
     [
      [
-      5.3,
+      5.75,
       10.75
      ],
      [
@@ -73,7 +73,7 @@
       15.95
      ],
      [
-      5.3,
+      5.75,
       15.95
      ]
     ]
@@ -85,7 +85,7 @@
    "outlines_mm": [
     [
      [
-      9.5,
+      9.3,
       12.3
      ],
      [
@@ -97,11 +97,11 @@
       15.6
      ],
      [
-      11.5,
+      11.2,
       15.6
      ],
      [
-      11.5,
+      11.2,
       23.5
      ],
      [
@@ -129,7 +129,7 @@
       19.9
      ],
      [
-      9.5,
+      9.3,
       19.9
      ]
     ]
@@ -235,22 +235,22 @@
    "net": "EF_IN",
    "cut": "y=14.05",
    "span_mm": [
-    5.3,
+    5.75,
     9.3
    ],
-   "aggregate_filled_mm": 3.9,
-   "largest_run_mm": 3.9,
+   "aggregate_filled_mm": 3.55,
+   "largest_run_mm": 3.55,
    "meets_min_width": true
   },
   {
    "net": "VBUS_P",
    "cut": "y=17.5",
    "span_mm": [
-    9.5,
-    11.5
+    9.3,
+    11.2
    ],
-   "aggregate_filled_mm": 2.0,
-   "largest_run_mm": 2.0,
+   "aggregate_filled_mm": 1.85,
+   "largest_run_mm": 1.85,
    "meets_min_width": true
   },
   {
@@ -287,8 +287,68 @@
    "meets_min_width": true
   }
  ],
+ "island_vias": [
+  [
+   0.8,
+   27.29
+  ],
+  [
+   17.9,
+   23.8
+  ]
+ ],
+ "gnd_islands_without_via": [
+  {
+   "layer": "F.Cu",
+   "bbox_mm": [
+    14.35,
+    18.45,
+    15.64,
+    20.22
+   ],
+   "pads": [
+    "R21.2"
+   ]
+  },
+  {
+   "layer": "F.Cu",
+   "bbox_mm": [
+    3.55,
+    14.35,
+    3.9,
+    15.96
+   ],
+   "pads": [
+    "U2.9"
+   ]
+  },
+  {
+   "layer": "F.Cu",
+   "bbox_mm": [
+    5.06,
+    12.7,
+    11.05,
+    15.07
+   ],
+   "pads": [
+    "C2.1"
+   ]
+  },
+  {
+   "layer": "F.Cu",
+   "bbox_mm": [
+    3.42,
+    10.78,
+    7.1,
+    12.8
+   ],
+   "pads": [
+    "R25.2"
+   ]
+  }
+ ],
  "stitching_vias": {
-  "count": 80,
+  "count": 69,
   "diameter_mm": 0.6,
   "drill_mm": 0.3,
   "pitch_mm": 2.0

@@ -1,0 +1,239 @@
+{
+ "_comment": "Board P r3 draft copper pours (phase 11/12): power-path outlines shaped to floorplan.json, mm in KiCad board coordinates. Read by route-power.py (pours) and route-signals.py (keep other nets out of the power pours). Phase 12: EF_IN starts at x 5.75 so U2.7 (EF_UVLO) can escape; the VBUS_P riser (C3 branch) is x 9.3-11.2 so a 0.2 mm track passes beside the U1 left pins. \"tracks\": fixed stubs placed before routing (U2.6 EF_IN lies between NC U2.5 and U2.7, so the pour cannot reach it).",
+ "pours": [
+  {
+   "net": "VBUS_IN",
+   "layer": "F.Cu",
+   "priority": 40,
+   "outlines": [
+    [
+     [
+      7.2,
+      7.85
+     ],
+     [
+      11.45,
+      7.85
+     ],
+     [
+      11.45,
+      6.3
+     ],
+     [
+      12.5,
+      6.3
+     ],
+     [
+      12.5,
+      7.85
+     ],
+     [
+      14.5,
+      7.85
+     ],
+     [
+      14.5,
+      6.3
+     ],
+     [
+      15.6,
+      6.3
+     ],
+     [
+      15.6,
+      10.55
+     ],
+     [
+      7.2,
+      10.55
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "EF_IN",
+   "layer": "F.Cu",
+   "priority": 40,
+   "outlines": [
+    [
+     [
+      5.75,
+      10.75
+     ],
+     [
+      9.3,
+      10.75
+     ],
+     [
+      9.3,
+      15.95
+     ],
+     [
+      5.75,
+      15.95
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "VBUS_P",
+   "layer": "F.Cu",
+   "priority": 40,
+   "outlines": [
+    [
+     [
+      9.3,
+      12.3
+     ],
+     [
+      16.8,
+      12.3
+     ],
+     [
+      16.8,
+      15.6
+     ],
+     [
+      11.2,
+      15.6
+     ],
+     [
+      11.2,
+      23.5
+     ],
+     [
+      9.3,
+      23.5
+     ],
+     [
+      9.3,
+      26.45
+     ],
+     [
+      5.6,
+      26.45
+     ],
+     [
+      5.6,
+      22.0
+     ],
+     [
+      7.3,
+      22.0
+     ],
+     [
+      7.3,
+      19.9
+     ],
+     [
+      9.3,
+      19.9
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "VBUS_OUT",
+   "layer": "F.Cu",
+   "priority": 40,
+   "outlines": [
+    [
+     [
+      4.6,
+      26.75
+     ],
+     [
+      9.3,
+      26.75
+     ],
+     [
+      9.3,
+      38.9
+     ],
+     [
+      4.6,
+      38.9
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "GND",
+   "layer": "F.Cu",
+   "priority": 0,
+   "outlines": [
+    [
+     [
+      0.3,
+      0.3
+     ],
+     [
+      26.7,
+      0.3
+     ],
+     [
+      26.7,
+      39.7
+     ],
+     [
+      0.3,
+      39.7
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "GND",
+   "layer": "B.Cu",
+   "priority": 0,
+   "outlines": [
+    [
+     [
+      0.3,
+      0.3
+     ],
+     [
+      26.7,
+      0.3
+     ],
+     [
+      26.7,
+      39.7
+     ],
+     [
+      0.3,
+      39.7
+     ]
+    ]
+   ]
+  }
+ ],
+ "tracks": [
+  {
+   "net": "EF_IN",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    5.675,
+    14.6
+   ],
+   "b": [
+    5.675,
+    14.0
+   ]
+  },
+  {
+   "net": "EF_IN",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    5.675,
+    14.0
+   ],
+   "b": [
+    6.2,
+    13.6
+   ]
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Board P r3 draft (unvalidated; power-path pours and ground only, signals unrouted). Rebuilds boards/board-p/r3-draft/ from board_p_spec.py.
+# Board P r3 draft (unvalidated; power-path pours, ground pours and grid-routed signals). Rebuilds boards/board-p/r3-draft/ from board_p_spec.py.
 # The as-built boards/board-p/board-p.kicad_pcb is only read. Serialise the KiCad steps through the shared lock.
 set -euo pipefail
 cd "$(dirname "$0")/../../.."
@@ -19,7 +19,9 @@ python3 $D/strip-asbuilt.py boards/board-p/board-p.kicad_pcb "$T/asbuilt-strippe
 python3 $D/search-placement.py . "$T/fpsize.json" "$T/asbuilt.json" "$OUT/search-top-only.json" top 25 "$OUT/floorplan.json" 2>/dev/null
 python3 $D/search-placement.py . "$T/fpsize.json" "$T/asbuilt.json" "$OUT/search-two-sided.json" both 25 "$OUT/floorplan.json" 2>/dev/null
 run python3 /w/$D/build-draft.py /w /w/$OUT/board-p-r3-draft.kicad_pcb /w/$OUT/placement-report.json /t/asbuilt-stripped.kicad_pcb /t/asbuilt-pos.json /w/$OUT/search-two-sided.json
-docker run --rm --cpus 1 --user 0 -v "$PWD":/w -w /w "$IMG" python3 /w/$D/route-power.py /w/$OUT/board-p-r3-draft.kicad_pcb /w/$OUT/routing-report.json
+docker run --rm --cpus 1 --user 0 -v "$PWD":/w -w /w "$IMG" python3 /w/$D/dump-geom.py $OUT/board-p-r3-draft.kicad_pcb > "$T/geom.json"
+python3 $D/route-signals.py "$T/geom.json" "$OUT/pours.json" "$OUT/routes.json" 20
+docker run --rm --cpus 1 --user 0 -v "$PWD":/w -w /w "$IMG" sh -c "python3 /w/$D/apply-tracks.py $OUT/board-p-r3-draft.kicad_pcb $OUT/routes.json && python3 /w/$D/route-power.py $OUT/board-p-r3-draft.kicad_pcb $OUT/routing-report.json $OUT/pours.json"
 python3 $D/annotate-fit.py "$OUT"
 # DRC (native, under the lock): kicad-cli pcb drc --format json --severity-all on $OUT/board-p-r3-draft.kicad_pcb
 cp boards/board-p/fp-lib-table "$OUT/fp-lib-table" && sed -i "s#\${KIPRJMOD}/../../footprints#\${KIPRJMOD}/../../../footprints#" "$OUT/fp-lib-table"

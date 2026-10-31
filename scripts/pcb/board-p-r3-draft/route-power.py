@@ -1,9 +1,9 @@
-"""Phase 11: first routing pass on the Board P r3 placement draft (power path and ground only).
+"""Phase 11/12: power-path pours and ground on the Board P r3 draft (runs after route-signals.py in phase 12).
 
-usage: python3 route-power.py <board.kicad_pcb> <report.json>   (inside the pinned KiCad image)
+usage: python3 route-power.py <board.kicad_pcb> <report.json> <pours.json>   (inside the pinned KiCad image)
 The power nets are copper pours on F.Cu shaped along the floorplan corridors (floorplan.json); GND is
 a B.Cu pour plus an F.Cu fill, stitched with vias wherever both fills exist. Signal nets stay unrouted.
-Widths: IPC-2221 external-layer chart, 1 oz (35 um, the board stackup), 5 A at a 20 C rise -> 1.81 mm
+Widths: IPC-2221 external-layer chart, 1 oz (35 um, the board stackup), 5 A at a 20 C rise -> 1.82 mm
 minimum (PA: rise and chart are design assumptions, not a measured thermal result).
 """
 import json, math, sys
@@ -16,24 +16,10 @@ I_A, DT_C, OZ_MIL = 5.0, 20.0, 1.378
 area_mil2 = (I_A / (0.048 * DT_C ** 0.44)) ** (1 / 0.725)
 W_MIN_MM = area_mil2 / OZ_MIL * 0.0254
 
-# (net, layer, priority, outlines); an outline is a polygon given as (x, y) vertices in mm (KiCad board
-# coordinates), shaped to floorplan.json v2: VBUS_IN joins J1.2/J1.5 to D5 and the Q3 sources; EF_IN joins the
-# Q3 drain to U2 IN; VBUS_P leaves U2 OUT, rises on the left of U1 to C3.1 and drops to the Q1 sources;
-# VBUS_OUT joins the Q1 drain to JOUT1.1/.2.
-def rect(x0, y0, x1, y1):
-    return [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
 
+POURS = [(p['net'], p['layer'], p['priority'], [[tuple(v) for v in o] for o in p['outlines']])
+         for p in json.load(open(sys.argv[3]))['pours']]
 
-POURS = [
-    ('VBUS_IN', 'F.Cu', 40, [[(7.2, 7.85), (11.45, 7.85), (11.45, 6.3), (12.5, 6.3), (12.5, 7.85), (14.5, 7.85),
-                              (14.5, 6.3), (15.6, 6.3), (15.6, 10.55), (7.2, 10.55)]]),
-    ('EF_IN', 'F.Cu', 40, [rect(5.3, 10.75, 9.3, 15.95)]),
-    ('VBUS_P', 'F.Cu', 40, [[(9.5, 12.3), (16.8, 12.3), (16.8, 15.6), (11.5, 15.6), (11.5, 23.5), (9.3, 23.5),
-                             (9.3, 26.45), (5.6, 26.45), (5.6, 22.0), (7.3, 22.0), (7.3, 19.9), (9.5, 19.9)]]),
-    ('VBUS_OUT', 'F.Cu', 40, [rect(4.6, 26.75, 9.3, 38.9)]),
-    ('GND', 'F.Cu', 0, [rect(0.3, 0.3, 26.7, 39.7)]),
-    ('GND', 'B.Cu', 0, [rect(0.3, 0.3, 26.7, 39.7)]),
-]
 
 def add_zone(net, layer, prio, r):
     z = pcbnew.ZONE(board)
@@ -61,6 +47,18 @@ for fp in board.GetFootprints():
     for p in fp.Pads():
         bb = p.GetBoundingBox(); bb.Inflate(mm(0.8)); pad_boxes.append(bb)
 VIA_D, VIA_DRILL, PITCH = 0.6, 0.3, 2.0
+segs = [(pcbnew.ToMM(t.GetStart().x), pcbnew.ToMM(t.GetStart().y), pcbnew.ToMM(t.GetEnd().x), pcbnew.ToMM(t.GetEnd().y),
+         pcbnew.ToMM(t.GetWidth()) if t.GetClass() != 'PCB_VIA' else pcbnew.ToMM(t.GetWidth(pcbnew.F_Cu)))
+        for t in board.GetTracks()]
+
+
+def seg_dist(x, y, s):
+    ax, ay, bx, by, _w = s
+    dx, dy = bx - ax, by - ay
+    t = 0.0 if dx == dy == 0 else max(0.0, min(1.0, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy)))
+    return math.hypot(x - ax - t * dx, y - ay - t * dy)
+
+
 vias = []
 y = 1.0
 while y < 39.0:
@@ -70,19 +68,80 @@ while y < 39.0:
         ok = all(any(z.HitTestFilledArea(z.GetLayer(), pt, mm(VIA_D / 2 + 0.2)) for z in zs) for zs in (fz, bz))
         ok = ok and not any(k.Outline().Contains(pt) for k in keep)
         ok = ok and not any(bb.Contains(pt) for bb in pad_boxes)
+        ok = ok and all(seg_dist(x, y, sg) > VIA_D / 2 + 0.2 + sg[4] / 2 + 0.05 for sg in segs)
         if ok:
             v = pcbnew.PCB_VIA(board); v.SetPosition(pt); v.SetWidth(mm(VIA_D)); v.SetDrill(mm(VIA_DRILL)); v.SetNet(gnd)
-            board.Add(v); vias.append((round(x, 2), round(y, 2)))
+            board.Add(v); vias.append((round(x, 2), round(y, 2))); segs.append((x, y, x, y, VIA_D))
         x += PITCH
     y += PITCH
 filler = pcbnew.ZONE_FILLER(board)
 filler.Fill(board.Zones())
+
+
+# phase 12: every GND fill island on either layer needs a via or a GND PTH pad inside, or it floats; place one on a
+# 0.1 mm grid where both layers are filled, clear of pads and tracks
+def via_point_ok(x, y):
+    pt = pcbnew.VECTOR2I(mm(x), mm(y))
+    for zs in (fz, bz):
+        for dx, dy in ((0, 0), (0.25, 0), (-0.25, 0), (0, 0.25), (0, -0.25)):
+            q = pcbnew.VECTOR2I(mm(x + dx), mm(y + dy))
+            if not any(z.HitTestFilledArea(z.GetLayer(), q, 0) for z in zs):
+                return False
+    if any(k.Outline().Contains(pt) for k in keep) or any(bb.Contains(pt) for bb in island_pad_boxes):
+        return False
+    return all(seg_dist(x, y, sg) > ISL_VIA_D / 2 + 0.2 + sg[4] / 2 + 0.05 for sg in segs)
+
+
+ISL_VIA_D = 0.5   # island vias use the 0.5 mm board-minimum via (0.1 mm annular ring)
+island_pad_boxes = []
+for fp in board.GetFootprints():
+    for p in fp.Pads():
+        bb = p.GetBoundingBox(); bb.Inflate(mm(0.3 if p.GetNetname() == 'GND' else ISL_VIA_D / 2 + 0.25)); island_pad_boxes.append(bb)
+gnd_th = [p.GetPosition() for fp in board.GetFootprints() for p in fp.Pads() if p.GetNetname() == 'GND' and p.GetAttribute() == pcbnew.PAD_ATTRIB_PTH]
+island_vias = []
+for _round in range(3):
+    added = 0
+    anchors = [pcbnew.VECTOR2I(mm(x), mm(y)) for x, y in vias + island_vias] + gnd_th
+    for z in fz + bz:
+        polys = z.GetFilledPolysList(z.GetLayer())
+        for i in range(polys.OutlineCount()):
+            ch = polys.Outline(i)
+            if any(ch.PointInside(a) for a in anchors):
+                continue
+            bb = ch.BBox()
+            x0, y0, x1, y1 = pcbnew.ToMM(bb.GetLeft()), pcbnew.ToMM(bb.GetTop()), pcbnew.ToMM(bb.GetRight()), pcbnew.ToMM(bb.GetBottom())
+            done = False
+            yy = y0 + 0.1
+            while yy < y1 and not done:
+                xx = x0 + 0.1
+                while xx < x1 and not done:
+                    if ch.PointInside(pcbnew.VECTOR2I(mm(xx), mm(yy))) and via_point_ok(xx, yy):
+                        v = pcbnew.PCB_VIA(board); v.SetPosition(pcbnew.VECTOR2I(mm(xx), mm(yy))); v.SetWidth(mm(ISL_VIA_D)); v.SetDrill(mm(VIA_DRILL)); v.SetNet(gnd)
+                        board.Add(v); island_vias.append((round(xx, 2), round(yy, 2))); segs.append((xx, yy, xx, yy, ISL_VIA_D))
+                        anchors.append(pcbnew.VECTOR2I(mm(xx), mm(yy))); done = True; added += 1
+                    xx += 0.1
+                yy += 0.1
+    filler = pcbnew.ZONE_FILLER(board)
+    filler.Fill(board.Zones())
+    if not added:
+        break
+floating = []
+anchors = [pcbnew.VECTOR2I(mm(x), mm(y)) for x, y in vias + island_vias] + gnd_th
+for z in fz + bz:
+    polys = z.GetFilledPolysList(z.GetLayer())
+    for i in range(polys.OutlineCount()):
+        ch = polys.Outline(i)
+        if not any(ch.PointInside(a) for a in anchors):
+            bb = ch.BBox()
+            floating.append({'layer': z.GetLayerName(), 'bbox_mm': [round(pcbnew.ToMM(v), 2) for v in (bb.GetLeft(), bb.GetTop(), bb.GetRight(), bb.GetBottom())],
+                             'pads': [f"{p.GetParentFootprint().GetReference()}.{p.GetNumber()}" for fp in board.GetFootprints() for p in fp.Pads()
+                                      if p.GetNetname() == 'GND' and p.IsOnLayer(z.GetLayer()) and ch.PointInside(p.GetPosition())]})
 pcbnew.SaveBoard(pcb_path, board)
 
 # filled-copper cross-sections across each corridor, sampled every 0.05 mm: the aggregate filled length and the
 # largest single filled run along the cut (neither proves one continuous corridor nor a rated current)
-CUTS = [('VBUS_IN', 'x', 10.0, 7.85, 10.55), ('VBUS_IN', 'x', 13.5, 7.85, 10.55), ('EF_IN', 'y', 14.05, 5.3, 9.3),
-        ('VBUS_P', 'y', 17.5, 9.5, 11.5), ('VBUS_P', 'x', 13.5, 12.3, 15.6), ('VBUS_P', 'y', 24.5, 5.6, 9.3),
+CUTS = [('VBUS_IN', 'x', 10.0, 7.85, 10.55), ('VBUS_IN', 'x', 13.5, 7.85, 10.55), ('EF_IN', 'y', 14.05, 5.75, 9.3),
+        ('VBUS_P', 'y', 17.5, 9.3, 11.2), ('VBUS_P', 'x', 13.5, 12.3, 15.6), ('VBUS_P', 'y', 24.5, 5.6, 9.3),
         ('VBUS_OUT', 'y', 33.0, 4.6, 9.3)]
 cuts = []
 for net, axis, at, a, b in CUTS:
@@ -98,6 +157,7 @@ report = {'width_rule': {'current_a': I_A, 'temperature_rise_c': DT_C, 'copper':
                          'method': 'IPC-2221 external-layer chart (PA)', 'min_width_mm': round(W_MIN_MM, 2)},
           'pours': [{'net': n, 'layer': l, 'outlines_mm': rs} for n, l, p, rs in POURS],
           'cross_sections': cuts,
+          'island_vias': island_vias, 'gnd_islands_without_via': floating,
           'stitching_vias': {'count': len(vias), 'diameter_mm': VIA_D, 'drill_mm': VIA_DRILL, 'pitch_mm': PITCH}}
 open(rep_path, 'w').write(json.dumps(report, indent=1) + '\n')
-print(json.dumps({'min_width_mm': round(W_MIN_MM, 2), 'vias': len(vias), 'cuts': cuts}))
+print(json.dumps({'min_width_mm': round(W_MIN_MM, 2), 'vias': len(vias), 'island_vias': len(island_vias), 'cuts': cuts}))

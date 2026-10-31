@@ -106,8 +106,9 @@ def run(order, rng):
     pin_d = {}
     for ref, ic, ip, pp in PIN_GROUP:
         x, y, d, _ = pos[ic]
-        pin_d[ref] = best(ref, pad_abs(ic, ip, x, y, d), pp)
-        if pin_d[ref] is not None:
+        # phase 12: a local clamp may go on B.Cu below its pin (via in its pad-to-pin path; B carries a 3 mm penalty)
+        pin_d[ref] = best(ref, pad_abs(ic, ip, x, y, d), pp, ('F', 'B') if mode == 'both' else ('F',))
+        if pin_d[ref] is not None and pos[ref][3] == 'F':
             a = pad_abs(ic, ip, x, y, d); b = pad_abs(ref, pp, *pos[ref][:3])
             keep.append((min(a[0], b[0]) - 0.3, min(a[1], b[1]) - 0.3, max(a[0], b[0]) + 0.3, max(a[1], b[1]) + 0.3))
     unplaced = []
