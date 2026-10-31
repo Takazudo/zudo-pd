@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c2861552-primary-specification",
+      "record_id": "rec-c2861552",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "TI SBOS713A retrieved and hashed 2026-10-31.",
+      "fact_ids": [
+        "fact-c2861552-manufacturer",
+        "fact-c2861552-vcm",
+        "fact-c2861552-vos",
+        "fact-c2861552-gain-error",
+        "fact-c2861552-ilimit",
+        "fact-c2861552-cmp-offset",
+        "fact-c2861552-tp"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c2861552-placement",
+      "record_id": "rec-c2861552",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Candidate only; no Board B placement, symbol or footprint asset.",
+      "fact_ids": [
+        "fact-c2861552-candidate-scope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c2861552-candidate-scope"
+      ]
+    },
+    {
+      "coverage_id": "cov-c2941042-primary-specification",
+      "record_id": "rec-c2941042",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "TI SNOSD17G retrieved and hashed 2026-10-31.",
+      "fact_ids": [
+        "fact-c2941042-manufacturer",
+        "fact-c2941042-anode-operating",
+        "fact-c2941042-anode-absmax",
+        "fact-c2941042-vak-reg",
+        "fact-c2941042-vak-rev"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c2941042-placement",
+      "record_id": "rec-c2941042",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Candidate only; no Board B placement, external NFET, symbol or footprint asset.",
+      "fact_ids": [
+        "fact-c2941042-candidate-scope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c2941042-candidate-scope"
+      ]
+    }
+  ]
+}

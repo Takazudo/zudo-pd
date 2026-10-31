@@ -1,6 +1,5 @@
 {
   "recordIds": [
-    "rec-c74561",
     "rec-c3024223",
     "rec-ap63201wu-7",
     "rec-aspi-0630lr-100m-t15",
@@ -59,7 +58,11 @@
     "rec-smaj15a-c571368",
     "rec-cand-smaj6-5a-c87267",
     "rec-c8465",
-    "rec-dealon-dw254p-2x8-l0-c4749189"
+    "rec-dealon-dw254p-2x8-l0-c4749189",
+    "rec-c1850276",
+    "rec-c523793",
+    "rec-c861163",
+    "rec-c705781"
   ],
   "sourceIds": [
     "src-c7529589-model-review",
@@ -69,8 +72,6 @@
     "src-c8465-drawing",
     "src-c8465-project",
     "src-c8465-model",
-    "src-c74561-primary",
-    "src-c74561-identity",
     "src-c3024223-primary",
     "src-c3024223-identity",
     "src-ap63201wu-7-datasheet",
@@ -215,13 +216,19 @@
     "src-dw254p-catalog",
     "src-dw254p-project",
     "src-dw254p-step-normalization",
-    "src-dw254p-doepfer"
+    "src-dw254p-doepfer",
+    "src-c1850276-primary",
+    "src-c1850276-identity",
+    "src-c523793-primary",
+    "src-c523793-identity",
+    "src-c861163-primary",
+    "src-c861163-identity",
+    "src-c705781-primary",
+    "src-c705781-identity"
   ],
   "linkableSourceIds": [
     "src-c8465-catalog",
     "src-c8465-drawing",
-    "src-c74561-primary",
-    "src-c74561-identity",
     "src-c3024223-primary",
     "src-c3024223-identity",
     "src-ap63201wu-7-datasheet",
@@ -355,14 +362,17 @@
     "src-dw254p-drawing",
     "src-dw254p-catalog",
     "src-dw254p-project",
-    "src-dw254p-doepfer"
+    "src-dw254p-doepfer",
+    "src-c1850276-primary",
+    "src-c1850276-identity",
+    "src-c523793-primary",
+    "src-c523793-identity",
+    "src-c861163-primary",
+    "src-c861163-identity",
+    "src-c705781-primary",
+    "src-c705781-identity"
   ],
   "documentSelections": [
-    {
-      "recordId": "rec-c74561",
-      "sourceId": "src-c74561-primary",
-      "documentKind": "datasheet"
-    },
     {
       "recordId": "rec-c3024223",
       "sourceId": "src-c3024223-primary",
@@ -652,6 +662,26 @@
       "recordId": "rec-dealon-dw254p-2x8-l0-c4749189",
       "sourceId": "src-dw254p-drawing",
       "documentKind": "drawing"
+    },
+    {
+      "recordId": "rec-c1850276",
+      "sourceId": "src-c1850276-primary",
+      "documentKind": "datasheet"
+    },
+    {
+      "recordId": "rec-c523793",
+      "sourceId": "src-c523793-primary",
+      "documentKind": "datasheet"
+    },
+    {
+      "recordId": "rec-c861163",
+      "sourceId": "src-c861163-primary",
+      "documentKind": "specification"
+    },
+    {
+      "recordId": "rec-c705781",
+      "sourceId": "src-c705781-primary",
+      "documentKind": "specification"
     }
   ],
   "documentExceptions": [
@@ -661,10 +691,10 @@
     }
   ],
   "expect": {
-    "records": 60,
-    "sources": 154,
+    "records": 63,
+    "sources": 160,
     "integrationRules": 11,
-    "packages": 34
+    "packages": 35
   },
   "schema_version": 1
 }

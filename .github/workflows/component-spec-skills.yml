@@ -113,7 +113,7 @@ jobs:
         run: |
           python3 scripts/schgen/check_baseline.py scripts/schgen/board_a_spec.py scripts/schgen/baselines/board-a.json --allow scripts/schgen/baselines/board-a-allowed-deltas.json
           python3 scripts/schgen/check_baseline.py scripts/schgen/board_b_spec.py scripts/schgen/baselines/board-b.json --allow scripts/schgen/baselines/board-b-allow.json
-          python3 scripts/schgen/check_baseline.py scripts/schgen/board_p_spec.py scripts/schgen/baselines/board-p.json
+          python3 scripts/schgen/check_baseline.py scripts/schgen/board_p_spec.py scripts/schgen/baselines/board-p.json --allow scripts/schgen/baselines/board-p-allow.json
       - name: Validate wave-6 decision lock (decisions.json)
         run: python3 scripts/schgen/check_decisions.py
       - name: Courtyards enclose every pad (footprint library)

@@ -19,7 +19,8 @@
     "renewal-eurorack-sockets",
     "renewal-ldos",
     "renewal-input-protection",
-    "renewal-screw-terminals"
+    "renewal-screw-terminals",
+    "p-20v-revision"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -411,14 +412,14 @@
     {
       "key": "renewal-input-protection",
       "id": "dec-renewal-input-protection",
-      "title": "Prototype protection coordination: SMAJ16A and 60 V catch diode",
+      "title": "Prototype protection coordination: SMAJ16A and 60 V catch diode (Board P part superseded for the 20 V revision by dec-p-20v-revision)",
       "status": "LOCKED",
       "applies_to": [
         "board_p_spec",
         "board_b_spec"
       ],
       "decision": "Board P D5 uses Littelfuse SMAJ16A C74561; Board B D3 uses Diodes SDT5A60SA-13 C3024223. Preserve existing cathode/anode net mapping and board origins, use separately reviewed manufacturer-derived lands. Board A SMAJ20A and Board B D2 SS34 remain unchanged.",
-      "rationale": "At the specified 25 C pulse point, a 26 V TVS and 60 V catch diode remove the earlier 32.4 V coordination mismatch. This is a bounded prototype improvement, not universal surge qualification: first NVM programming uses 5 V-only input, 15 V-only policy must be verified before operation, and 20 V is unsupported. Actual hot clamping, overshoot, source energy, thermal behavior and repeated-pulse performance remain open.",
+      "rationale": "At the specified 25 C pulse point, a 26 V TVS and 60 V catch diode remove the earlier 32.4 V coordination mismatch. This is a bounded prototype improvement, not universal surge qualification: first NVM programming uses 5 V-only input, 15 V-only policy must be verified before operation, and 20 V is unsupported. Actual hot clamping, overshoot, source energy, thermal behavior and repeated-pulse performance remain open. SUPERSEDED for Board P by dec-p-20v-revision (user decision card 2026-10-31 11:11Z): the 15 V-only SMAJ16A target remains the historical record of the never-built 15 V Board P and of the unchanged board-p PCB; Board B D3 is unaffected.",
       "evidence": [
         "fact-c74561-standoff",
         "fact-c74561-clamp",
@@ -456,6 +457,29 @@
         "fact-c8465-lead-length-max",
         "fact-c8465-model-datum",
         "fact-c8465-rail-budget"
+      ]
+    },
+    {
+      "key": "p-20v-revision",
+      "id": "dec-p-20v-revision",
+      "title": "Board P 20 V / 5 A revision: TPS26630 input eFuse, TVS2200 connector clamp, accept-or-refuse",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Source: user decision card cmsg_01Pv35emdXEU6gCRF3teSpo23Q1CUhqDN2ebZaArfgF1Ru, 2026-10-31 11:11Z: D3-A (PD revision to PDO2 20 V / 5 A with a 5 A e-marked cable) and D5-1 (no degraded mode; accept or refuse). Board P draft: D5 TVS2200DRVR C523793 at connector VBUS_IN; U2 TPS26630RGER C1850276 between VBUS_IN and protected node VBUS_P ahead of every other Board P part; OVP 174k/10k 0.1 % (21.60-22.56 V rising); UVLO 10.5k/4.3k (4.02-4.25 V rising); R(ILIM) 4.02k (I(OL) 4.185-4.815 A); dVdT 100 nF; MODE open (latch); PGTH to GND; bulk C3/C4 2x100 uF 50 V on VBUS_P. STUSB4500 VDD, VBUS sense/discharge and Q1 move to VBUS_P. Applies to the revision only; design work on the branch is approved development, while canonical adoption, NVM programming, ordering and energizing remain separate permissions.",
+      "rationale": "SMAJ16A's 16 V standoff cannot carry a 20 V contract. Moving the STUSB4500 behind the eFuse keeps its 28 V VDD abs max off the TVS-clamped connector node (OSC gate L7). The 4.02k point is a guaranteed SLVSE94G table row and stays below the 5 A contract. The 15 V-only target stays as the historical/as-built record: the 15 V Board P was never built and the board-p PCB is not yet updated. Nothing is measured; the 5 A NVM image, blocking FET, Board B limiter and PCB remain open.",
+      "evidence": [
+        "fact-c1850276-ovp-rising",
+        "fact-c1850276-uvlo-rising",
+        "fact-c1850276-iol-4k02",
+        "fact-c1850276-mode-latch",
+        "fact-c1850276-pgth-gnd",
+        "fact-c523793-vrwm",
+        "fact-c523793-vclamp-40a",
+        "fact-c861163-resistance",
+        "fact-c705781-resistance"
       ]
     }
   ]

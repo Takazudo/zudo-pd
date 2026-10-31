@@ -15,10 +15,10 @@
     }
   ],
   "assertions": {
-    "orderable_lines": 60,
-    "fitted_lines": 58,
+    "orderable_lines": 63,
+    "fitted_lines": 61,
     "dnp_or_hand_fit_lines": 2,
-    "fitted_placements": 113,
+    "fitted_placements": 122,
     "dnp_placements": 8
   },
   "exclusions": [
@@ -642,6 +642,16 @@
           "board": "board-b",
           "refdes": "C9",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C3",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C4",
+          "dnp": false
         }
       ]
     },
@@ -1013,6 +1023,11 @@
           "board": "board-p",
           "refdes": "C35",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C5",
+          "dnp": false
         }
       ]
     },
@@ -1259,6 +1274,11 @@
           "board": "board-b",
           "refdes": "R5",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R22",
+          "dnp": false
         }
       ]
     },
@@ -1276,6 +1296,11 @@
         {
           "board": "board-b",
           "refdes": "R3",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R23",
           "dnp": false
         }
       ]
@@ -1425,23 +1450,10 @@
           "board": "board-b",
           "refdes": "R2",
           "dnp": false
-        }
-      ]
-    },
-    {
-      "line_id": "line-c74561",
-      "mpn": "SMAJ16A",
-      "manufacturer": "Littelfuse",
-      "lcsc": "C74561",
-      "package": "SMA_Littelfuse_SMAJ16A_C74561",
-      "owner_skill": "component-renewal-input-protection",
-      "identity_state": "VERIFIED",
-      "source_state": "AVAILABLE",
-      "function": "15V-only input surge TVS",
-      "placements": [
+        },
         {
           "board": "board-p",
-          "refdes": "D5",
+          "refdes": "R25",
           "dnp": false
         }
       ]
@@ -1460,6 +1472,78 @@
         {
           "board": "board-b",
           "refdes": "D3",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c1850276",
+      "mpn": "TPS26630RGER",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C1850276",
+      "package": "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7",
+      "owner_skill": "component-tps26630rger",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20V input eFuse with adjustable OVP, UVLO and current limit",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "U2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c523793",
+      "mpn": "TVS2200DRVR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C523793",
+      "package": "WSON-6_L2.0-W2.0-P0.65-BL-EP",
+      "owner_skill": "component-tvs2200drvr",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20V connector flat-clamp TVS, 22V standoff",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D5",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861163",
+      "mpn": "RT0603BRD07174KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861163",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "174 kOhm precision eFuse OVP divider resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R24",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c705781",
+      "mpn": "RT0603BRD074K02L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C705781",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "4.02 kOhm precision eFuse current-limit resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R26",
           "dnp": false
         }
       ]

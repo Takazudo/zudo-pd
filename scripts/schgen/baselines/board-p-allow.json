@@ -1,0 +1,47 @@
+{
+  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision, user decision card 2026-10-31 D3-A + D5-1). The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds.",
+  "added_nets": [
+    "EF_DVDT",
+    "EF_ILIM",
+    "EF_OVP",
+    "EF_UVLO",
+    "VBUS_P"
+  ],
+  "removed_nets": [],
+  "added_pins": {
+    "GND": [
+      "C3.2",
+      "C4.2",
+      "C5.2",
+      "D5.1",
+      "D5.3",
+      "D5.7",
+      "R23.2",
+      "R25.2",
+      "R26.2",
+      "U2.15",
+      "U2.25",
+      "U2.8"
+    ],
+    "VBUS_IN": [
+      "D5.4",
+      "D5.5",
+      "D5.6",
+      "R22.1",
+      "R24.1",
+      "U2.1",
+      "U2.2",
+      "U2.5"
+    ]
+  },
+  "removed_pins": {
+    "VBUS_IN": [
+      "C35.2",
+      "D5.1",
+      "Q1.2",
+      "R11.2",
+      "R14.1",
+      "U1.24"
+    ]
+  }
+}

@@ -9,6 +9,43 @@ prototype layout and the STUSB4500QTR controller, with project-local component
 records and a generated schematic at `boards/board-p/board-p.kicad_sch`.
 The source spec is `scripts/schgen/board_p_spec.py`.
 
+## A 20 V / 5 A revision is decided; only its draft schematic exists
+
+On 2026-10-31 at 11:11Z the user chose, on a decision card
+(`cmsg_01Pv35emdXEU6gCRF3teSpo23Q1CUhqDN2ebZaArfgF1Ru`):
+
+- D3-A: a PD revision to PDO2 20 V / 5 A with a 5 A e-marked cable;
+- D5-1: no degraded mode, so a source is either accepted or refused.
+
+The machine record is `dec-p-20v-revision` in `scripts/schgen/decisions.json`. It
+supersedes the 15 V-only target **for this revision only**.
+
+The generated schematic and `board_p_spec.py` on the development branch now carry an
+unvalidated draft:
+
+| Ref | Part | Role |
+|---|---|---|
+| D5 | TVS2200DRVR C523793 | 22 V-standoff clamp on connector VBUS_IN |
+| U2 | TPS26630RGER C1850276 | eFuse from VBUS_IN to the protected node VBUS_P, ahead of every other part |
+| R24 / R25 | 174k / 10k, 0.1 % | OVP, 21.60–22.56 V rising |
+| R22 / R23 | 10.5k / 4.3k | UVLO, 4.02–4.25 V rising |
+| R26 | 4.02k, 0.1 % | I(OL) 4.185–4.815 A |
+| C5 | 100 nF | dVdT ramp |
+| C3 / C4 | 2 × 100 µF 50 V | Protected-node bulk |
+
+- MODE is left open, which selects latch-off.
+- PGTH is tied to GND.
+- The STUSB4500 VDD and VBUS sense, and Q1, now sit on VBUS_P, so the TVS-clamped
+  connector node no longer reaches the STUSB4500 28 V VDD absolute maximum.
+- There is no external blocking FET, so U2 does not block reverse current.
+
+The board-p PCB, the 5 A NVM image and every measurement are unchanged or absent.
+Canonical adoption, NVM programming, ordering and energizing each need separate
+permission.
+
+The rest of this page describes the routed 15 V module and its PCB. That is the
+historical, as-built-design record; the 15 V Board P was never built.
+
 ## A verified 15 V-only configuration is mandatory
 
 Board P D5 now uses [Littelfuse SMAJ16A, C74561](/docs/components/records/c74561/),

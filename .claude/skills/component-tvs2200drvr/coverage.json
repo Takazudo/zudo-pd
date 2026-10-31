@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c523793-primary-specification",
+      "record_id": "rec-c523793",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "TI SLVSED5C bytes retrieved and hashed 2026-10-31.",
+      "fact_ids": [
+        "fact-c523793-manufacturer",
+        "fact-c523793-vrwm",
+        "fact-c523793-vbr",
+        "fact-c523793-vclamp-40a",
+        "fact-c523793-ipp-10-1000",
+        "fact-c523793-ileak-vrwm",
+        "fact-c523793-slew-limit"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c523793-distributor-identity",
+      "record_id": "rec-c523793",
+      "domain": "distributor-identity",
+      "status": "COVERED",
+      "reason": "Exact JLCPCB catalog identity read 2026-10-31.",
+      "fact_ids": [
+        "fact-c523793-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c523793-footprint-land-pattern",
+      "record_id": "rec-c523793",
+      "domain": "footprint-land-pattern",
+      "status": "OPEN",
+      "reason": "Imported footprint not reviewed against the TI land drawing.",
+      "fact_ids": [
+        "fact-c523793-footprint-review"
+      ],
+      "blocking_fact_ids": [
+        "fact-c523793-footprint-review"
+      ]
+    },
+    {
+      "coverage_id": "cov-c523793-assembled-qualification",
+      "record_id": "rec-c523793",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Surge, clamp and thermal behaviour on Board P are unmeasured.",
+      "fact_ids": [
+        "fact-c523793-board-p-role"
+      ],
+      "blocking_fact_ids": [
+        "fact-c523793-board-p-role"
+      ]
+    }
+  ]
+}

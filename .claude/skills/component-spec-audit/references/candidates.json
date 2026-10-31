@@ -144,6 +144,42 @@
       "status": "REJECTED",
       "replaces_line_id": "line-c8465",
       "rationale": "User-selected two-pole screw terminals replace all four Fastons in the current board. Retained only as historical guarded-revision evidence and CAD assets; no active BOM placement."
+    },
+    {
+      "candidate_id": "cand-retired-c74561",
+      "mpn": "SMAJ16A",
+      "manufacturer": "Littelfuse",
+      "lcsc": "C74561",
+      "package": "SMA_Littelfuse_SMAJ16A_C74561",
+      "function": "retired 15V-only Board P input surge TVS",
+      "owner_skill": "component-renewal-input-protection",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c523793",
+      "rationale": "Retired from Board P D5 by the 20 V / 5 A revision (user decision card 2026-10-31, D3-A + D5-1; decisions.json dec-p-20v-revision): its 16 V standoff is below the 20 V contract. TVS2200DRVR C523793 replaces it. The record and its evidence are kept because the 15 V Board P history and the unchanged board-p PCB still cite it."
+    },
+    {
+      "candidate_id": "cand-ina301a3-c2861552",
+      "mpn": "INA301A3IDGKR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C2861552",
+      "package": "VSSOP-8",
+      "function": "Board B interface limiter current-sense comparator candidate",
+      "owner_skill": "component-ti-board-b-limiter-candidates",
+      "status": "SHORTLISTED",
+      "replaces_line_id": null,
+      "rationale": "Shortlisted 2026-10-31 for the switcher-direct 20 V Board B interface-maximum limiter (manufacturing/board-b-protection-20v.md section 2). Primary SBOS713A retrieved; no Board B spec places it yet."
+    },
+    {
+      "candidate_id": "cand-lm74700-c2941042",
+      "mpn": "LM74700QDBVRQ1",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C2941042",
+      "package": "SOT-23-6",
+      "function": "Board B rail reverse-blocking ideal-diode controller candidate",
+      "owner_skill": "component-ti-board-b-limiter-candidates",
+      "status": "SHORTLISTED",
+      "replaces_line_id": null,
+      "rationale": "Shortlisted 2026-10-31 for +12 V and +5 V reverse blocking on the switcher-direct 20 V Board B (manufacturing/board-b-protection-20v.md section 3). Primary SNOSD17G retrieved; external NFET not chosen; no Board B spec places it yet."
     }
   ],
   "promoted_candidates": [

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src-c1850276-primary",
+      "record_id": "rec-c1850276",
+      "document_title": "TPS2663x 60V, 6A Power Limiting, Surge Protection Industrial eFuse",
+      "document_number": "SLVSE94G",
+      "revision": "G (revised June 2024)",
+      "document_date": "2024-06-01",
+      "authoritative_url": "https://www.ti.com/lit/ds/symlink/tps2663.pdf",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-10-31",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "bb61314ace65ed37684bd07f541fc676081d7cf81cb24020e7c5c2065bfe16b2",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 2,
+      "printed_page_label": "3",
+      "locator": "Table 5-1 Pin Configuration and Functions (VQFN column) page 3-4; Table 6.5 Electrical Characteristics rows UVLO/OVP/ILIM page 6-7; section 8.3.1-8.3.4",
+      "evidence_extract": "TPS26630 VQFN-24 (RGE): pins 1,2 IN; 3 B_GATE; 4 DRV; 5 IN_SYS; 6 UVLO; 7 OVP; 8 GND; 9 dVdT; 10 ILIM; 11 MODE; 12 SHDN; 13 IMON; 14 FLT; 15 PGTH; 16 PGOOD; 17,18 OUT; 19-24 N.C.; PowerPAD to GND plane, not the only GND connection. EC -40..125 C: V(IN_SYS) operating 4.5..60 V; V(UVLOR) 1.176/1.2/1.224 V, V(UVLOF) 1.09/1.122/1.15 V; V(OVPR) 1.176/1.2/1.224 V, V(OVPF) 1.09/1.122/1.15 V; I(OVP) leakage +/-150 nA; internal IN_SYS OVP 33.2..35.4 V (OVP to GND); internal UVLO 15.1..15.9 V rising (UVLO to GND). I(OL) at R(ILIM)=4.02 kOhm, VIN-VOUT=1 V: 4.185/4.5/4.815 A; TPS26630 fast-trip 2xI(OL); I(SCP) 45 A. MODE open = latch, MODE GND = auto-retry. PGTH to GND disables fast recovery turn-on and holds PGOOD low (8.3.2.1). tdVdT = 20.8e3 x V(IN) x C(dVdT) (Eq 2). Abs max IN, OUT, UVLO, FLT, PGOOD, PGTH -0.3..67 V."
+    },
+    {
+      "source_id": "src-c1850276-identity",
+      "record_id": "rec-c1850276",
+      "document_title": "TPS26630RGER distributor identity",
+      "document_number": "C1850276",
+      "revision": "2026-10-31",
+      "document_date": "2026-10-31",
+      "authoritative_url": "https://jlcpcb.com/partdetail/TexasInstruments-TPS26630RGER/C1850276",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-10-31",
+      "authority_class": "DISTRIBUTOR_IDENTITY",
+      "sha256": "6cd13f18c3fb4b63c25c152136337418c3ee3eacd3de7600bef0e6bfd946e10c",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "web",
+      "locator": "Product identity table manufacturer/MPN/LCSC/package rows",
+      "evidence_extract": "{\"lcsc\":\"C1850276\",\"manufacturer\":\"Texas Instruments\",\"mpn\":\"TPS26630RGER\",\"variant\":\"60 V 6 A eFuse with adjustable OVP, VQFN-24 RGE\"}",
+      "identity_extract_sha256": "6cd13f18c3fb4b63c25c152136337418c3ee3eacd3de7600bef0e6bfd946e10c",
+      "refresh_policy": "VOLATILE-HTML",
+      "refresh_note": "JLCPCB parts API selectSmtComponentList read 2026-10-31 (read only, no cart or quote); stock 100, volatile and not reserved. Live HTML and API bytes are not deterministic; the exact identity extract is locked separately."
+    }
+  ]
+}
