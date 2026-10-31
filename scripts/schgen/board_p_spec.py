@@ -17,6 +17,12 @@ scripts/schgen/decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2):
 - C3 is the single 100 uF protected-node bulk (80-120 uF initial tolerance),
   sized so the 5->20 V transition inrush at the 30 V/ms PD slew ceiling stays
   below the I(OL) minimum.
+- Q1 is PROPOSED as DMP3036SFG-7 C461081 (PowerDI3333-8, -30 V, +/-25 V VGS,
+  -5.8 A at 70 C / -7.2 A at 25 C with VGS -5 V on 1 in2 of 2 oz copper) in place of
+  AO3401A (-4.2 A), per decisions.json dec-p-20v-q1-5a. Pins 1-3 S on VBUS_P, 4 G on
+  Q1_G, 5-8 and exposed pad 9 D on VBUS_OUT. The 100k/150k divider is unchanged, so
+  the asserted VGS at 5 V VBUS (-2.0 V) is inside the -1.0 to -2.5 V threshold range.
+  The draft footprint and the copper needed for the rating are not laid out.
 - Q1 discharge path R13 is unchanged; its value is a PLACEHOLDER (OSC interface
   discharge values are Board B items).
 """
@@ -28,7 +34,7 @@ PAPER = 'A3'
 COMPONENTS = {
     'J1': ('TYPE-C-31-M-17', 'TYPE-C-31-M-17', 'C283540', 'zudo-pd:USB-C-SMD_10P-P1.00-L6.8-W8.9', False, (63.5, 88.9)),
     'U1': ('STUSB4500QTR', 'STUSB4500QTR', 'C2678061', 'zudo-pd:QFN-24_L4.0-W4.0-P0.50-BL-EP2.8', False, (152.4, 88.9)),
-    'Q1': ('AO3401A_C347476', 'AO3401A', 'C347476', 'zudo-pd:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR', False, (241.3, 50.8)),
+    'Q1': ('DMP3036SFG-7', 'DMP3036SFG-7', 'C461081', 'zudo-pd:PowerDI3333-8_DMP3036SFG', False, (241.3, 50.8)),
     'D5': ('TVS2200DRVR', 'TVS2200DRVR', 'C523793', 'zudo-pd:WSON-6_L2.0-W2.0-P0.65-BL-EP', False, (203.2, 38.1)),
     'U2': ('TPS26630RGER', 'TPS26630RGER', 'C1850276', 'zudo-pd:VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7', False, (114.3, 38.1)),
     'C3': ('RVT1H101M0810', '100uF 50V', 'C970687', 'zudo-pd:CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD', False, (266.7, 241.3)),
@@ -68,7 +74,7 @@ NETS = {
     'EF_IN': ['Q3.5', 'Q3.6', 'Q3.7', 'Q3.8', 'Q3.9', 'U2.1', 'U2.2'],
     'EF_BGATE': ['Q3.4', 'Q4.3', 'U2.3'],
     'EF_DRV': ['Q4.1', 'U2.4'],
-    'VBUS_P': ['U2.17', 'U2.18', 'U1.24', 'R14.1', 'R11.2', 'Q1.2', 'C35.2', 'C3.1'],
+    'VBUS_P': ['U2.17', 'U2.18', 'U1.24', 'R14.1', 'R11.2', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1'],
     'EF_UVLO': ['U2.6', 'R22.2', 'R23.1'],
     'EF_OVP': ['U2.7', 'R24.2', 'R25.1'],
     'EF_DVDT': ['U2.9', 'C5.1'],
@@ -79,8 +85,8 @@ NETS = {
     'CC2DB': ['U1.5', 'R20.1', 'J3.2'],
     'VBUS_VS_DISCH': ['U1.18', 'R14.2'],
     'VBEN': ['U1.16', 'R12.1', 'J3.8'],
-    'Q1_G': ['Q1.1', 'R11.1', 'R12.2', 'C35.1'],
-    'VBUS_OUT': ['Q1.3', 'R13.1', 'JOUT1.1', 'JOUT1.2'],
+    'Q1_G': ['Q1.4', 'R11.1', 'R12.2', 'C35.1'],
+    'VBUS_OUT': ['Q1.5', 'Q1.6', 'Q1.7', 'Q1.8', 'Q1.9', 'R13.1', 'JOUT1.1', 'JOUT1.2'],
     'DISCH': ['U1.9', 'R13.2'],
     'VREG_2V7': ['U1.23', 'C30.2', 'R15.2', 'R16.2', 'J3.3'],
     'VREG_1V2': ['U1.21', 'C34.1'],

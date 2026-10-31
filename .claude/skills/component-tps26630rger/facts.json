@@ -243,6 +243,20 @@
       "verdict": "PASS - primary-source confirmed",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c1850276-visualization-envelope",
+      "record_id": "rec-c1850276",
+      "source_id": "src-c1850276-primary",
+      "class": "PROJECT_STATE",
+      "value": "Project-generated conservative maximum envelope; not exact manufacturer CAD",
+      "unit": "NONE",
+      "conditions": "Simple 4.1 x 4.1 x 1 mm box centered on the footprint origin with bottom Z=0, sized from the outline maxima by scripts/pcb/generate-package-envelopes.py (VQFN-24_RGE_MaxEnvelope_L4.1-W4.1-H1.0). Leads, exposed pad, fillets, markings and internal construction are intentionally unspecified. The land pattern stays authoritative; the visualization does not certify clearance, fit or thermal behavior.",
+      "locator": "RGE0024H package outline figure page 52 (VQFN, 1 mm max height): 3.9-4.1 mm body each side",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

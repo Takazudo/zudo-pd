@@ -15,8 +15,8 @@
     }
   ],
   "assertions": {
-    "orderable_lines": 66,
-    "fitted_lines": 64,
+    "orderable_lines": 67,
+    "fitted_lines": 65,
     "dnp_or_hand_fit_lines": 2,
     "fitted_placements": 123,
     "dnp_placements": 8
@@ -133,11 +133,6 @@
       "placements": [
         {
           "board": "board-a",
-          "refdes": "Q1",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
           "refdes": "Q1",
           "dnp": false
         }
@@ -1588,6 +1583,24 @@
         {
           "board": "board-p",
           "refdes": "R22",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c461081",
+      "mpn": "DMP3036SFG-7",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C461081",
+      "package": "PowerDI3333-8_DMP3036SFG",
+      "owner_skill": "component-diodes-dmp3036sfg-7",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board P 20 V / 5 A output load-switch P-channel MOSFET",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "Q1",
           "dnp": false
         }
       ]

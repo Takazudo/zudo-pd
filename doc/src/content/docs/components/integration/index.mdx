@@ -25,11 +25,11 @@ A component record answers questions about one part. These rules answer the ones
   | Rule                                                                          | Domain                         | Records | Facts | Verdict     |
   | ----------------------------------------------------------------------------- | ------------------------------ | ------- | ----- | ----------- |
   | [`rule-rail-envelope`](#rule-rail-envelope)                                   | rail-envelope                  | 11      | 18    | NEEDS BENCH |
-  | [`rule-tvs-clamp-vs-absmax`](#rule-tvs-clamp-vs-absmax)                       | tvs-clamp-vs-absmax            | 23      | 42    | UNSOURCED   |
+  | [`rule-tvs-clamp-vs-absmax`](#rule-tvs-clamp-vs-absmax)                       | tvs-clamp-vs-absmax            | 24      | 44    | UNSOURCED   |
   | [`rule-u4-inverting-stress`](#rule-u4-inverting-stress)                       | u4-inverting-stress            | 8       | 24    | NEEDS BENCH |
   | [`rule-ldo-dropout-chain`](#rule-ldo-dropout-chain)                           | ldo-dropout-chain              | 7       | 24    | UNSOURCED   |
   | [`rule-ab-interface-current`](#rule-ab-interface-current)                     | ab-interface-current           | 4       | 6     | NEEDS BENCH |
-  | [`rule-q1-gate-drive-vs-contract`](#rule-q1-gate-drive-vs-contract)           | q1-gate-drive-vs-contract      | 9       | 15    | NEEDS BENCH |
+  | [`rule-q1-gate-drive-vs-contract`](#rule-q1-gate-drive-vs-contract)           | q1-gate-drive-vs-contract      | 10      | 17    | NEEDS BENCH |
   | [`rule-inverting-startup-vs-pd-source`](#rule-inverting-startup-vs-pd-source) | inverting-startup-vs-pd-source | 3       | 4     | NEEDS BENCH |
   | [`rule-pptc-vmax-vs-rail`](#rule-pptc-vmax-vs-rail)                           | pptc-vmax-vs-rail              | 3       | 7     | NEEDS BENCH |
   | [`rule-evidence-chain`](#rule-evidence-chain)                                 | source-to-bench-chain          | 8       | 9     | UNSOURCED   |
@@ -120,7 +120,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **This rule refuses to conclude:** Do not certify surge survival or 20 V operation from 8/20 us table points, a static OVP bound or an assumed overshoot; measure connector, VBUS\_P, gate and rail transients, and keep the current 15 V Board B off a 20 V contract.
 
-**Conditions:** Board P spec is the 20 V draft (dec-p-20v-revision, dec-p-20v-front-end-r2): D5 TVS2200DRVR C523793 clamps connector VBUS\_IN; Q3 CSD18543Q3A and U2 TPS26630RGER C1850276 feed protected VBUS\_P, which carries STUSB4500 VDD, Q1 and Board B. The Board P PCB is still the 15 V as-built SMAJ16A layout; the retired SMAJ16A arithmetic is archived. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. That clamp point leaves 38.65 V to U2 IN/IN\_SYS 67 V and 31.65 V to Q3 VDS 60 V; Q3 VGS and Q4 VDS are bounded by the 14 V B\_GATE clamp (6 V and 36 V margins). C1 C13585 and C2 C14663 on VBUS\_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C; a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS\_P bulk, so it applies to VBUS\_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation.
+**Conditions:** Board P spec is the 20 V draft (dec-p-20v-revision, dec-p-20v-front-end-r2): D5 TVS2200DRVR C523793 clamps connector VBUS\_IN; Q3 CSD18543Q3A and U2 TPS26630RGER C1850276 feed protected VBUS\_P, which carries STUSB4500 VDD, Q1 and Board B. The Board P PCB is still the 15 V as-built SMAJ16A layout; the retired SMAJ16A arithmetic is archived. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. Board P Q1 is proposed as DMP3036SFG-7 C461081 (dec-p-20v-q1-5a; VDSS -30 V, VGSS +/-25 V), the same -30 V VDS as the AO3401A that remains on Board A and the as-built Board P PCB. That clamp point leaves 38.65 V to U2 IN/IN\_SYS 67 V and 31.65 V to Q3 VDS 60 V; Q3 VGS and Q4 VDS are bounded by the 14 V B\_GATE clamp (6 V and 36 V margins). C1 C13585 and C2 C14663 on VBUS\_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C; a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS\_P bulk, so it applies to VBUS\_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation.
 
 **Records this rule spans:**
 
@@ -147,6 +147,7 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-rt0603brd0710kl`](/docs/components/records/rt0603brd0710kl/) — RT0603BRD0710KL
 - [`rec-c840100`](/docs/components/records/c840100/) — CSD18543Q3A
 - [`rec-c40912`](/docs/components/records/c40912/) — BSS138-7-F
+- [`rec-c461081`](/docs/components/records/c461081/) — DMP3036SFG-7
 
 **Facts this rule rests on:** each is published in full on the record page that owns it, at the anchor linked here.
 
@@ -192,6 +193,8 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
 - [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
 - [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
+- [`fact-c461081-vds`](/docs/components/records/c461081/#fact-c461081-vds) on DMP3036SFG-7
+- [`fact-c461081-vgs`](/docs/components/records/c461081/#fact-c461081-vgs) on DMP3036SFG-7
 
 ### Conditioned calculations
 
@@ -277,15 +280,15 @@ Arithmetic across the facts above. The expression and every input are published 
 
 <EvidenceAnchor id="calc-p20-q1-vds-node-margin" />
 
-**Expression:** `-fact_umw_ao3401a_vds - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v`
+**Expression:** `-fact_c461081_vds - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v`
 
 **Result:** `margin_v`
 
-**Conditions:** Q1 off-state VDS with output near 0 V at the VBUS\_P bound; same scenarios as calc-p20-stusb-node-margin.
+**Conditions:** Proposed Q1 DMP3036SFG-7 off-state VDS with output near 0 V at the VBUS\_P bound; same scenarios as calc-p20-stusb-node-margin.
 
 **Inputs:**
 
-- [`fact-umw-ao3401a-vds`](/docs/components/records/umw-ao3401a-c347476/#fact-umw-ao3401a-vds) on AO3401A
+- [`fact-c461081-vds`](/docs/components/records/c461081/#fact-c461081-vds) on DMP3036SFG-7
 - [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
 - [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
 - [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
@@ -745,7 +748,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **This rule refuses to conclude:** Do not program a 20 V PDO or certify the load switch from steady gate arithmetic, a static OVP bound or an assumed overshoot; the 20 V NVM image, readback, cable, Board B coverage and measured gate/source behaviour are all open.
 
-**Conditions:** Board P uses 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS\_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the 12 V AO3401A VGS rating. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.
+**Conditions:** Board P uses 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS\_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the +/-25 V VGS rating of the proposed Q1 DMP3036SFG-7 C461081 (dec-p-20v-q1-5a), leaving 14.916857 V in the hot overshoot case; the as-built PCB and Board A keep the 12 V AO3401A. At 5 V VBUS the -2.0 V drive lies inside the DMP3036SFG -1.0 to -2.5 V threshold range, so 5 V enhancement is not guaranteed. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.
 
 **Records this rule spans:**
 
@@ -758,6 +761,7 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-c1850276`](/docs/components/records/c1850276/) — TPS26630RGER
 - [`rec-c861163`](/docs/components/records/c861163/) — RT0603BRD07174KL
 - [`rec-rt0603brd0710kl`](/docs/components/records/rt0603brd0710kl/) — RT0603BRD0710KL
+- [`rec-c461081`](/docs/components/records/c461081/) — DMP3036SFG-7
 
 **Facts this rule rests on:** each is published in full on the record page that owns it, at the anchor linked here.
 
@@ -776,6 +780,8 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
 - [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
 - [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
+- [`fact-c461081-vgs`](/docs/components/records/c461081/#fact-c461081-vgs) on DMP3036SFG-7
+- [`fact-c461081-vgsth-max`](/docs/components/records/c461081/#fact-c461081-vgsth-max) on DMP3036SFG-7
 
 ### Conditioned calculations
 

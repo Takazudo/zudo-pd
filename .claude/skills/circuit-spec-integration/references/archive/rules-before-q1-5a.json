@@ -1,0 +1,910 @@
+{
+  "schema_version": 1,
+  "contract": "One rule per cross-component domain, naming the exact records and facts it reasons over, its conditions, a conditioned refusal, and a verdict limited to NEEDS BENCH or UNSOURCED. Conditioned calculations recompute from raw fact values on every run. The domains listed in component-spec-audit/references/schema.json integration_domains must match this file exactly.",
+  "rules": [
+    {
+      "rule_id": "rule-rail-envelope",
+      "domain": "rail-envelope",
+      "record_ids": [
+        "rec-stusb4500qtr",
+        "rec-type-c-31-m-17",
+        "rec-c492405",
+        "rec-c2832269",
+        "rec-lm2596s-adj-c347423",
+        "rec-c861077",
+        "rec-c110776",
+        "rec-c23159",
+        "rec-c459702",
+        "rec-c666306",
+        "rec-ap63201wu-7"
+      ],
+      "fact_ids": [
+        "fact-stusb-supplies",
+        "fact-type-c-31-m-17-current",
+        "fact-c492405-current",
+        "fact-c2832269-current",
+        "fact-lm2596-fb-vref",
+        "fact-c861077-resistance",
+        "fact-c110776-resistance",
+        "fact-c23159-resistance",
+        "fact-c459702-reference-band",
+        "fact-c459702-adj-bias-max",
+        "fact-c666306-input-guarantee-band",
+        "fact-ap63201wu-7-vfb-min",
+        "fact-ap63201wu-7-vfb-max",
+        "fact-ap63201wu-7-input-max",
+        "fact-ap63201wu-7-current",
+        "fact-ap63201wu-7-dropout",
+        "fact-ap63201wu-7-cout-min",
+        "fact-ap63201wu-7-layout-qualification"
+      ],
+      "conditions": "Current chain: Board P nominal 15 V / 3 A -> AP63201 +13.44 V, LM2596 +6.519 V and -14.145 V intermediates -> LT1963A +12/+5 V and adjustable LT3015 -12.054 V nominal. R5/R6 are 10.5 k/1 k 0.1%; tolerance/TCR/reference calculations are screening, with actual low-line dropout, ripple and thermal coupling open. Board A and original regulator facts are historical and are not current-stage proof. Prototype normal source envelope is15 V±5%,20 V unsupported; first power/programming uses5 V-only with B disconnected and retained15 V-only NVM readback before a PD-capable source.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not certify regulated output or the 26.5 W rated total until all three outputs pass low-line, full-load, ripple and thermal tests with the programmed PD core.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-negative-nominal",
+          "fact_ids": [
+            "fact-lm2596-fb-vref",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance"
+          ],
+          "expression": "fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance)",
+          "result_key": "magnitude_v",
+          "conditions": "Typical reference and nominal precision-divider values; not a regulated-load measurement.",
+          "magnitude_v": 14.145
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-tvs-clamp-vs-absmax",
+      "domain": "tvs-clamp-vs-absmax",
+      "record_ids": [
+        "rec-high-diode-smaj20a-c571370",
+        "rec-stusb4500qtr",
+        "rec-umw-ao3401a-c347476",
+        "rec-lm2596s-adj-c347423",
+        "rec-ss34-c8678",
+        "rec-smaj15a-c571368",
+        "rec-cand-smaj6-5a-c87267",
+        "rec-c459702",
+        "rec-c666306",
+        "rec-c861077",
+        "rec-c110776",
+        "rec-c3024223",
+        "rec-c970687",
+        "rec-c22387780",
+        "rec-c13585",
+        "rec-c14663",
+        "rec-grm32er71h106ka12l",
+        "rec-c523793",
+        "rec-c1850276",
+        "rec-c861163",
+        "rec-rt0603brd0710kl",
+        "rec-c840100",
+        "rec-c40912"
+      ],
+      "fact_ids": [
+        "fact-high-diode-smaj20a-standoff",
+        "fact-high-diode-smaj20a-clamp",
+        "fact-stusb-vdd-absolute-max",
+        "fact-umw-ao3401a-vds",
+        "fact-umw-ao3401a-vgs",
+        "fact-lm2596-vin-absmax",
+        "fact-ss34-vrrm",
+        "fact-smaj15a-clamp",
+        "fact-cand-smaj6-5a-clamp",
+        "fact-c459702-input-absmax",
+        "fact-c666306-input-absmax",
+        "fact-lm2596-fb-vref",
+        "fact-c861077-resistance",
+        "fact-c110776-resistance",
+        "fact-lm2596-fb-vref-max-full-temp",
+        "fact-c861077-tolerance",
+        "fact-c110776-tolerance",
+        "fact-c861077-tcr",
+        "fact-c110776-tcr",
+        "fact-c3024223-vrrm",
+        "fact-c970687-voltage",
+        "fact-c22387780-voltage",
+        "fact-c13585-voltage",
+        "fact-c14663-voltage",
+        "fact-grm32er71h106ka12l-voltage",
+        "fact-lm2596-vin-operating-max",
+        "fact-c523793-vrwm",
+        "fact-c523793-vbr",
+        "fact-c523793-vclamp-40a",
+        "fact-c523793-vclamp-35a-125c",
+        "fact-c1850276-in-absmax",
+        "fact-c1850276-bgate-clamp-max",
+        "fact-c840100-vds",
+        "fact-c840100-vgs",
+        "fact-c40912-vds",
+        "fact-c1850276-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-c861163-tolerance",
+        "fact-c861163-tcr",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-rt0603brd0710kl-tolerance",
+        "fact-rt0603brd0710kl-tcr"
+      ],
+      "conditions": "Board P spec is the 20 V draft (dec-p-20v-revision, dec-p-20v-front-end-r2): D5 TVS2200DRVR C523793 clamps connector VBUS_IN; Q3 CSD18543Q3A and U2 TPS26630RGER C1850276 feed protected VBUS_P, which carries STUSB4500 VDD, Q1 and Board B. The Board P PCB is still the 15 V as-built SMAJ16A layout; the retired SMAJ16A arithmetic is archived. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. That clamp point leaves 38.65 V to U2 IN/IN_SYS 67 V and 31.65 V to Q3 VDS 60 V; Q3 VGS and Q4 VDS are bounded by the 14 V B_GATE clamp (6 V and 36 V margins). C1 C13585 and C2 C14663 on VBUS_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C; a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS_P bulk, so it applies to VBUS_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation.",
+      "verdict": "UNSOURCED",
+      "refusal": "Do not certify surge survival or 20 V operation from 8/20 us table points, a static OVP bound or an assumed overshoot; measure connector, VBUS_P, gate and rail transients, and keep the current 15 V Board B off a 20 V contract.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-u4-tvs-margin",
+          "fact_ids": [
+            "fact-lm2596-fb-vref",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance",
+            "fact-high-diode-smaj20a-clamp",
+            "fact-lm2596-vin-absmax"
+          ],
+          "expression": "fact_lm2596_vin_absmax - fact_high_diode_smaj20a_clamp - (fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance))",
+          "result_key": "margin_v",
+          "conditions": "RETIRED COMPARISON ONLY: old SMAJ20A32.4 V and nominal negative setpoint before the C74561/C3024223 substitution. Historical arithmetic remains a failure; it is not current-part stress.",
+          "margin_v": -1.5449999999999982
+        },
+        {
+          "calculation_id": "calc-p20-ovp-trip-max",
+          "fact_ids": [
+            "fact-c1850276-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
+          ],
+          "expression": "(fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000))))",
+          "result_key": "trip_max_v",
+          "conditions": "Fitted 174k/10k 0.1 % divider with V(OVPR) maximum and opposed resistor limits: initial tolerance only, and with 25 ppm/C TCR over a 100 C excursion. Comparator delay excluded.",
+          "results": [
+            {
+              "temperature_delta_c": 0,
+              "trip_max_v": 22.564237837837833
+            },
+            {
+              "temperature_delta_c": 100,
+              "trip_max_v": 22.67120682388359
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-stusb-node-margin",
+          "fact_ids": [
+            "fact-stusb-vdd-absolute-max",
+            "fact-c1850276-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
+          ],
+          "expression": "fact_stusb_vdd_absolute_max - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
+          "result_key": "margin_v",
+          "conditions": "overshoot_v 0 is the static trip bound; 2.53665 V is the project hot-unplug assumption (2 x I(OL)max x 14 us plus 45 A x 1 us TYP into 80 uF, 30 mOhm ESR), not a fact or a measured waveform.",
+          "results": [
+            {
+              "temperature_delta_c": 0,
+              "overshoot_v": 0,
+              "margin_v": 5.435762162162167
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 0,
+              "margin_v": 5.32879317611641
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 2.53665,
+              "margin_v": 2.7921431761164097
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-q1-vds-node-margin",
+          "fact_ids": [
+            "fact-umw-ao3401a-vds",
+            "fact-c1850276-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
+          ],
+          "expression": "-fact_umw_ao3401a_vds - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
+          "result_key": "margin_v",
+          "conditions": "Q1 off-state VDS with output near 0 V at the VBUS_P bound; same scenarios as calc-p20-stusb-node-margin.",
+          "results": [
+            {
+              "temperature_delta_c": 0,
+              "overshoot_v": 0,
+              "margin_v": 7.435762162162167
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 0,
+              "margin_v": 7.32879317611641
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 2.53665,
+              "margin_v": 4.79214317611641
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-tvs-standoff-margin",
+          "fact_ids": [
+            "fact-c523793-vrwm"
+          ],
+          "expression": "fact_c523793_vrwm - normal_high_v",
+          "result_key": "margin_v",
+          "conditions": "normal_high_v 21.0 V is the project 20 V +5 % source envelope; standoff is not the clamp level.",
+          "results": [
+            {
+              "normal_high_v": 21.0,
+              "margin_v": 1.0
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-u2-in-clamp-margin",
+          "fact_ids": [
+            "fact-c1850276-in-absmax",
+            "fact-c523793-vclamp-35a-125c"
+          ],
+          "expression": "fact_c1850276_in_absmax - fact_c523793_vclamp_35a_125c",
+          "result_key": "margin_v",
+          "conditions": "TVS2200 35 A 8/20 us 125 C clamp point against U2 IN/IN_SYS continuous 67 V; longer pulses and installed waveforms are not covered.",
+          "results": [
+            {
+              "margin_v": 38.65
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-q3-vds-clamp-margin",
+          "fact_ids": [
+            "fact-c840100-vds",
+            "fact-c523793-vclamp-35a-125c"
+          ],
+          "expression": "fact_c840100_vds - fact_c523793_vclamp_35a_125c",
+          "result_key": "margin_v",
+          "conditions": "Q3 drain-source stress bounded by the larger of the connector clamp point and VBUS_P; 8/20 us table point only.",
+          "results": [
+            {
+              "margin_v": 31.65
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-q3-vgs-bgate-margin",
+          "fact_ids": [
+            "fact-c840100-vgs",
+            "fact-c1850276-bgate-clamp-max"
+          ],
+          "expression": "fact_c840100_vgs - fact_c1850276_bgate_clamp_max",
+          "result_key": "margin_v",
+          "conditions": "Q3 VGS bounded by the U2 B_GATE - IN_SYS clamp maximum; Q4 VDS sees the same 14 V.",
+          "results": [
+            {
+              "margin_v": 6
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-q4-vds-bgate-margin",
+          "fact_ids": [
+            "fact-c40912-vds",
+            "fact-c1850276-bgate-clamp-max"
+          ],
+          "expression": "fact_c40912_vds - fact_c1850276_bgate_clamp_max",
+          "result_key": "margin_v",
+          "conditions": "Q4 drain-source stress is B_GATE - IN_SYS; reverse-polarity transients are not covered.",
+          "results": [
+            {
+              "margin_v": 36
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-input35-node-margin",
+          "fact_ids": [
+            "fact-c22387780-voltage",
+            "fact-c1850276-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
+          ],
+          "expression": "fact_c22387780_voltage - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
+          "result_key": "margin_v",
+          "conditions": "Board B 35 V input capacitors at the VBUS_P bound; only relevant to a future 20 V Board B, which is not established.",
+          "results": [
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 2.53665,
+              "margin_v": 9.79214317611641
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-u4-inverting-stress",
+      "domain": "u4-inverting-stress",
+      "record_ids": [
+        "rec-lm2596s-adj-c347423",
+        "rec-c861077",
+        "rec-c110776",
+        "rec-c970687",
+        "rec-c3024223",
+        "rec-c1850276",
+        "rec-c861163",
+        "rec-rt0603brd0710kl"
+      ],
+      "fact_ids": [
+        "fact-lm2596-fb-vref",
+        "fact-c861077-resistance",
+        "fact-c110776-resistance",
+        "fact-lm2596-inverting-topology-support",
+        "fact-lm2596-vin-absmax",
+        "fact-lm2596-vin-operating-max",
+        "fact-c970687-voltage",
+        "fact-c3024223-vrrm",
+        "fact-c3024223-vf-max-5a-25c",
+        "fact-c3024223-vf-max-5a-125c",
+        "fact-lm2596-fb-vref-max-full-temp",
+        "fact-c861077-tolerance",
+        "fact-c110776-tolerance",
+        "fact-c861077-tcr",
+        "fact-c110776-tcr",
+        "fact-c3024223-leakage-max-25c",
+        "fact-c3024223-leakage-typ-125c",
+        "fact-c1850276-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-c861163-tolerance",
+        "fact-c861163-tcr",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-rt0603brd0710kl-tolerance",
+        "fact-rt0603brd0710kl-tcr"
+      ],
+      "conditions": "U4 local GND/ON-OFF/tab ride the renewed negative intermediate. The current Board B is a 15 V +/-5 % design: effective input and D3 reverse stress are VBUS plus negative magnitude, 29.145 V nominal and 30.564410 V at 15.75 V with the 14.814410 V hot/TCR screen. The 20 V Board P draft bounds VBUS_P at 22.564238 V (U2 OVP maximum, initial tolerance) and 22.671207 V with divider TCR over 100 C. With the hot/TCR negative screen U4 would see 37.485617 V, 2.514383 V below its 40 V operating limit; adding the 2.53665 V overshoot assumption gives -0.022267 V, so the operating limit is not maintained in that combined screen. Board B at 20 V input is not covered: AP63201, LDO dissipation, startup and the Board B limiter are unscreened. New D3 has 60 V reverse rating and maximum 0.52 V at 5 A/25C (0.45 V at 5 A/125C); use 0.52 V for the 25C conduction screen. C9 is 50 V. Reverse leakage is 0.5 mA maximum at 60 V/25C and 50 mA typical only at 60 V/125C; reverse-leakage heating is outside the forward-conduction model and requires qualification.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not infer surge, startup or 20 V acceptance from normal DC margin or the static OVP bound; preserve the negative rail, floating ground and semiconductor stress calculations after every setpoint or source change.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-u4-effective-input",
+          "fact_ids": [
+            "fact-lm2596-fb-vref",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance"
+          ],
+          "expression": "vbus_v + (fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance))",
+          "result_key": "effective_v",
+          "conditions": "Nominal negative setpoint at 15 V-only normal endpoints and, for the 20 V Board P draft, at 21.0 V project normal high and the 22.564238 V initial-tolerance OVP bound. Archived SMAJ16A 26 V and SMAJ20A 32.4 V points are retired.",
+          "results": [
+            {
+              "vbus_v": 14.25,
+              "effective_v": 28.395
+            },
+            {
+              "vbus_v": 15,
+              "effective_v": 29.145
+            },
+            {
+              "vbus_v": 15.75,
+              "effective_v": 29.895
+            },
+            {
+              "vbus_v": 21.0,
+              "effective_v": 35.144999999999996
+            },
+            {
+              "vbus_v": 22.564237837837833,
+              "effective_v": 36.70923783783783
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-renewal-u4-c9-margin",
+          "fact_ids": [
+            "fact-lm2596-fb-vref",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance",
+            "fact-c970687-voltage"
+          ],
+          "expression": "fact_c970687_voltage - vbus_v - (fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance))",
+          "result_key": "margin_v",
+          "conditions": "C9 rated-voltage screen at nominal negative setpoint; the 20 V row uses the initial-tolerance Board P draft OVP bound; ripple and transients excluded.",
+          "results": [
+            {
+              "vbus_v": 15,
+              "margin_v": 20.855
+            },
+            {
+              "vbus_v": 15.75,
+              "margin_v": 20.105
+            },
+            {
+              "vbus_v": 22.564237837837833,
+              "margin_v": 13.290762162162167
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-protection-negative-high",
+          "fact_ids": [
+            "fact-lm2596-fb-vref-max-full-temp",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance",
+            "fact-c861077-tolerance",
+            "fact-c110776-tolerance",
+            "fact-c861077-tcr",
+            "fact-c110776-tcr"
+          ],
+          "expression": "fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000)))",
+          "result_key": "magnitude_v",
+          "conditions": "Full-temperature reference and initial0.1% plus25ppm/C over100C on each feedback resistor; regulator ripple/line/load behavior remains unmeasured.",
+          "results": [
+            {
+              "temperature_delta_c": 100,
+              "magnitude_v": 14.814410436527849
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-u4-operating-hot-margin",
+          "fact_ids": [
+            "fact-lm2596-vin-operating-max",
+            "fact-c1850276-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr",
+            "fact-lm2596-fb-vref-max-full-temp",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance",
+            "fact-c861077-tolerance",
+            "fact-c110776-tolerance",
+            "fact-c861077-tcr",
+            "fact-c110776-tcr"
+          ],
+          "expression": "fact_lm2596_vin_operating_max - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "result_key": "margin_v",
+          "conditions": "U4 40 V operating limit at the 20 V draft VBUS_P bound (divider TCR included) plus the hot/TCR negative screen; overshoot 0 and the 2.53665 V project assumption. Not a measured or simultaneous worst case.",
+          "results": [
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 0,
+              "margin_v": 2.514382739588566
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 2.53665,
+              "margin_v": -0.02226726041143401
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-ldo-dropout-chain",
+      "domain": "ldo-dropout-chain",
+      "record_ids": [
+        "rec-lm2596s-adj-c347423",
+        "rec-c861077",
+        "rec-c110776",
+        "rec-c459702",
+        "rec-c666306",
+        "rec-c861589",
+        "rec-c861519"
+      ],
+      "fact_ids": [
+        "fact-lm2596-fb-vref-min-full-temp",
+        "fact-c861077-resistance",
+        "fact-c110776-resistance",
+        "fact-c861077-tolerance",
+        "fact-c110776-tolerance",
+        "fact-c861077-tcr",
+        "fact-c110776-tcr",
+        "fact-c459702-dropout-max-1a5",
+        "fact-c459702-dropout-max-0a5",
+        "fact-c459702-reference-band",
+        "fact-c459702-adj-bias-max",
+        "fact-c459702-ground-current-max-1a5",
+        "fact-c459702-ground-current-max-0a5",
+        "fact-c459702-cout-min",
+        "fact-c666306-input-guarantee-band",
+        "fact-c666306-reference-band",
+        "fact-c666306-adj-bias-max",
+        "fact-c666306-divider-r1-max",
+        "fact-c861589-resistance",
+        "fact-c861519-resistance",
+        "fact-c666306-dropout-max-1a5",
+        "fact-c666306-ground-current-max-1a5",
+        "fact-c666306-cout-min",
+        "fact-c666306-theta-ja-layout"
+      ],
+      "conditions": "LT1963A replaces both positive regulators and adjustable LT3015 replaces the negative regulator, programmed by R26+R27 = 8.88 k over R28 = 1 k to nominal -12.054 V. AP pre-rail arithmetic is 13.219794..13.6624 V with the selected resistor/TCR envelope. Negative minimum is 13.483572 V with full-temperature reference and 0.35% combined resistor tolerance/TCR, leaving 0.433472 V above the 13.0501 V worst-case output-plus-dropout requirement before ripple. The LT3015 ADJ bias limit is specified at 25C only. LT1963A adjustment-bias maximum is only specified at 25C; do not extrapolate it as a full-temperature limit. Include load-dependent ground current in thermal screens and verify output capacitor ESR/effective capacitance.",
+      "verdict": "UNSOURCED",
+      "refusal": "The new parts improve DC headroom, but mirror-source trust, full-temperature adjustment bias on both regulator types, actual low-line ripple, capacitor stability and coupled thermal behavior remain open.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-negative-guarantee-margin",
+          "fact_ids": [
+            "fact-lm2596-fb-vref-min-full-temp",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance",
+            "fact-c861077-tolerance",
+            "fact-c110776-tolerance",
+            "fact-c861077-tcr",
+            "fact-c110776-tcr"
+          ],
+          "expression": "fact_lm2596_fb_vref_min_full_temp * (1 + fact_c861077_resistance * (1 - fact_c861077_tolerance / 100 - fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 + fact_c110776_tolerance / 100 + fact_c110776_tcr * temperature_delta_c / 1000000))) - input_requirement_v",
+          "result_key": "margin_v",
+          "conditions": "Requirement input 13.0501 V = worst-case programmed output magnitude 12.3701 V (-1.244 V reference, 0.35% opposed resistor tolerance/TCR, 200 nA ADJ bias taken from its 25 C-only limit) plus the 0.68 V full-temperature 1.5 A dropout; temperature excursions are explicit, and ripple/wiring losses are excluded. Both result rows use this single hot-case requirement, so the zero-excursion row is conservative rather than like-for-like.",
+          "results": [
+            {
+              "temperature_delta_c": 0,
+              "input_requirement_v": 13.0501,
+              "margin_v": 0.49514475524475543
+            },
+            {
+              "temperature_delta_c": 100,
+              "input_requirement_v": 13.0501,
+              "margin_v": 0.4334724962630787
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-ab-interface-current",
+      "domain": "ab-interface-current",
+      "record_ids": [
+        "rec-c492405",
+        "rec-c2832269",
+        "rec-type-c-31-m-17",
+        "rec-umw-ao3401a-c347476"
+      ],
+      "fact_ids": [
+        "fact-c492405-current",
+        "fact-c2832269-current",
+        "fact-c492405-mating",
+        "fact-c2832269-mating",
+        "fact-type-c-31-m-17-current",
+        "fact-umw-ao3401a-current"
+      ],
+      "conditions": "The current P-to-B interface is XFCN male JOUT1 to female J5: paired power pins 1/2, ATT 3, PDOK 4 and paired GND 5/6. Each contact nameplate is 3 A; paired contacts do not raise the 3 A PD contract. The unkeyed mechanical stack and actual temperature rise must be verified. Historical JST XH Board A does not directly mate.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not promote contact nameplate arithmetic to installed capability without correct mating orientation, retained board support and full-load thermal measurement.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-header-male-margin",
+          "fact_ids": [
+            "fact-c492405-current"
+          ],
+          "expression": "2 * fact_c492405_current * contact_derating - contract_a",
+          "result_key": "margin_a",
+          "conditions": "This connector half has paired power contacts; the complete path is limited by the lower capacity of the two independently calculated halves. Derating0.8 is a project assumption.",
+          "results": [
+            {
+              "contact_derating": 0.8,
+              "contract_a": 3,
+              "margin_a": 1.8
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-renewal-header-female-margin",
+          "fact_ids": [
+            "fact-c2832269-current"
+          ],
+          "expression": "2 * fact_c2832269_current * contact_derating - contract_a",
+          "result_key": "margin_a",
+          "conditions": "This connector half has paired power contacts; the complete path is limited by the lower capacity of the two independently calculated halves. Derating0.8 is a project assumption.",
+          "results": [
+            {
+              "contact_derating": 0.8,
+              "contract_a": 3,
+              "margin_a": 1.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-q1-gate-drive-vs-contract",
+      "domain": "q1-gate-drive-vs-contract",
+      "record_ids": [
+        "rec-umw-ao3401a-c347476",
+        "rec-c25803",
+        "rec-c22807",
+        "rec-c14663",
+        "rec-c17414",
+        "rec-stusb4500qtr",
+        "rec-c1850276",
+        "rec-c861163",
+        "rec-rt0603brd0710kl"
+      ],
+      "fact_ids": [
+        "fact-umw-ao3401a-vgs",
+        "fact-c25803-resistance",
+        "fact-c22807-resistance",
+        "fact-c22807-r12-topology",
+        "fact-c14663-c35-topology",
+        "fact-c17414-reset-ctrl-topology",
+        "fact-stusb-vben",
+        "fact-stusb-artifact",
+        "fact-c1850276-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-c861163-tolerance",
+        "fact-c861163-tcr",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-rt0603brd0710kl-tolerance",
+        "fact-rt0603brd0710kl-tcr"
+      ],
+      "conditions": "Board P uses 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the 12 V AO3401A VGS rating. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not program a 20 V PDO or certify the load switch from steady gate arithmetic, a static OVP bound or an assumed overshoot; the 20 V NVM image, readback, cable, Board B coverage and measured gate/source behaviour are all open.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-q1-gate-voltage",
+          "fact_ids": [
+            "fact-c25803-resistance",
+            "fact-c22807-resistance"
+          ],
+          "expression": "-vbus_v * fact_c25803_resistance / (fact_c25803_resistance + fact_c22807_resistance)",
+          "result_key": "vgs_v",
+          "conditions": "Ideal asserted open-drain low, capacitor/parasitic/time behaviour excluded. 15 V-only as-built rows plus 20 V draft rows at 20 V, the 21 V project normal high, the initial-tolerance OVP bound, the hot/TCR OVP bound, and the hot/TCR bound plus the overshoot assumption.",
+          "results": [
+            {
+              "vbus_v": 5,
+              "vgs_v": -2.0
+            },
+            {
+              "vbus_v": 14.25,
+              "vgs_v": -5.7
+            },
+            {
+              "vbus_v": 15,
+              "vgs_v": -6.0
+            },
+            {
+              "vbus_v": 15.75,
+              "vgs_v": -6.3
+            },
+            {
+              "vbus_v": 20,
+              "vgs_v": -8.0
+            },
+            {
+              "vbus_v": 21.0,
+              "vgs_v": -8.4
+            },
+            {
+              "vbus_v": 22.564237837837833,
+              "vgs_v": -9.025695135135132
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "vgs_v": -9.068482729553438
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "vgs_v": -10.083142729553435
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-inverting-startup-vs-pd-source",
+      "domain": "inverting-startup-vs-pd-source",
+      "record_ids": [
+        "rec-lm2596s-adj-c347423",
+        "rec-type-c-31-m-17",
+        "rec-stusb4500qtr"
+      ],
+      "fact_ids": [
+        "fact-lm2596-inverting-startup-current",
+        "fact-lm2596-current-limit",
+        "fact-type-c-31-m-17-current",
+        "fact-stusb-artifact"
+      ],
+      "conditions": "The retained manufacturer inverting-startup warning allows approximately 4.5 A for 2 ms or longer against a3A PD contract. The renewed negative bulk remains1410uF and stores about 0.141J at 14.145 V. Board P soft-start is not a demonstrated current limit; staged startup, actual adapter behavior and waveforms need qualification.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not assume a3A charger starts the inverting stage because steady-state load is below its contract; capture the actual inrush and contract recovery.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-startup-overdraw",
+          "fact_ids": [
+            "fact-lm2596-current-limit"
+          ],
+          "expression": "fact_lm2596_current_limit - contract_a",
+          "result_key": "overdraw_a",
+          "conditions": "Typical4.5 A switch-limit warning, not a maximum guaranteed inrush bound.",
+          "results": [
+            {
+              "contract_a": 3,
+              "overdraw_a": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-pptc-vmax-vs-rail",
+      "domain": "pptc-vmax-vs-rail",
+      "record_ids": [
+        "rec-ptc-smd1210p150tf16-c7529589",
+        "rec-ptc-msmd110-33v-c70119",
+        "rec-ptc-bsmd1206-150-16v-c883133"
+      ],
+      "fact_ids": [
+        "fact-ptc1b-vmax",
+        "fact-ptc1b-ihold",
+        "fact-ptc1b-hold-85c",
+        "fact-ptc2-vmax",
+        "fact-ptc2-ihold",
+        "fact-ptc3-vmax",
+        "fact-ptc3-ihold"
+      ],
+      "conditions": "Existing PTC parts retain16/33/16 V ratings and 1.5/1.1/1.5 A room-temperature hold ratings for+12/+5/-12 budgets1.2/.5/.8 A. Hot hold-current, voltage drop, trip-time and reset behavior remain unverified. Regulator replacement does not improve PTC hot derating or establish attached-load overvoltage protection.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not claim rated hot-enclosure output or fault coordination from room-temperature PTC nameplate margins.",
+      "conditioned_calculations": [
+        {
+          "calculation_id": "calc-renewal-ptc1-hold-margin",
+          "fact_ids": [
+            "fact-ptc1b-ihold"
+          ],
+          "expression": "fact_ptc1b_ihold - rated_load_a",
+          "result_key": "margin_a",
+          "conditions": "Room-temperature nameplate only; actual ambient and trip history matter.",
+          "results": [
+            {
+              "rated_load_a": 1.2,
+              "margin_a": 0.30000000000000004
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-evidence-chain",
+      "domain": "source-to-bench-chain",
+      "record_ids": [
+        "rec-stusb4500qtr",
+        "rec-umw-ao3401a-c347476",
+        "rec-type-c-31-m-17",
+        "rec-c22807",
+        "rec-c14663",
+        "rec-lm2596s-adj-c347423",
+        "rec-c459702",
+        "rec-c666306"
+      ],
+      "fact_ids": [
+        "fact-stusb-ds12499-primary-attempt",
+        "fact-stusb-artifact",
+        "fact-umw-ao3401a-vgs",
+        "fact-type-c-31-m-17-project-map",
+        "fact-c22807-r12-topology",
+        "fact-c14663-c35-topology",
+        "fact-lm2596-inverting-startup-current",
+        "fact-c459702-pinout",
+        "fact-c666306-pinout"
+      ],
+      "conditions": "Board P routed geometry and current generated schematics have distinct evidence from incoming-part orientation, assembled boards, programmed NVM and measured behavior. Primary/retained-mirror trust is explicit; a clean netlist/ERC/DRC does not prove full-load performance. Historical four-order diagnosis remains history and does not qualify this renewal.",
+      "verdict": "UNSOURCED",
+      "refusal": "Do not convert document, netlist or manufacturing checks into assembled, programmed or bench evidence; keep each unresolved downstream stage explicitly open.",
+      "evidence_chain": [
+        {
+          "stage": "official-source",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-stusb-ds12499-primary-attempt",
+            "fact-umw-ao3401a-vgs"
+          ]
+        },
+        {
+          "stage": "conditioned-requirement",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-lm2596-inverting-startup-current"
+          ]
+        },
+        {
+          "stage": "generated-netlist",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-c22807-r12-topology",
+            "fact-c14663-c35-topology"
+          ]
+        },
+        {
+          "stage": "symbol-footprint",
+          "status": "MIXED",
+          "fact_ids": [
+            "fact-type-c-31-m-17-project-map",
+            "fact-c459702-pinout",
+            "fact-c666306-pinout"
+          ]
+        },
+        {
+          "stage": "pcb-orientation",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "bom-cpl",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "as-built",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "programmed",
+          "status": "OPEN",
+          "fact_ids": []
+        },
+        {
+          "stage": "bench",
+          "status": "OPEN",
+          "fact_ids": []
+        }
+      ]
+    },
+    {
+      "rule_id": "rule-eurorack-output-harness",
+      "domain": "eurorack-output-harness",
+      "record_ids": [
+        "rec-dealon-dw254p-2x8-l0-c4749189"
+      ],
+      "fact_ids": [
+        "fact-dw254p-pin-map",
+        "fact-dw254p-orientation",
+        "fact-dw254p-red-stripe",
+        "fact-dw254p-current",
+        "fact-dw254p-drill",
+        "fact-dw254p-soldering"
+      ],
+      "conditions": "J10/J11 C4749189 replaces the old connector and guard. New pin groups1/2=-12 V,3..8=GND,9/10=+12 V,11/12=+5 V,13/14=CV,15/16=GATE. Doepfer pin1/red stripe convention is primary confirmed; imported numeric pad map, actual keyed cable continuity, finished-hole fit, wave solder compatibility and loaded contact temperature remain physical checks. Rail budgets are total board capacity shared by both outputs.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not connect modules or certify polarity from a keyed housing alone; meter every rail through the actual cable and confirm solder process and loaded contact temperature before use.",
+      "conditioned_calculations": []
+    },
+    {
+      "rule_id": "rule-screw-output-harness",
+      "domain": "eurorack-output-harness",
+      "record_ids": [
+        "rec-c8465"
+      ],
+      "fact_ids": [
+        "fact-c8465-pin-map",
+        "fact-c8465-rail-budget",
+        "fact-c8465-ratings",
+        "fact-c8465-wire",
+        "fact-c8465-drill-project",
+        "fact-c8465-model-datum"
+      ],
+      "conditions": "J6.1 GND/J6.2 -12V and J7.1 +5V/J7.2 +12V are separate poles. Retaining an old same-node Faston link would deterministically short distinct rails, not create an acceptable bench assumption. Whole-board targets +12V/1.2A,+5V/0.5A,-12V/0.8A are shared with J10/J11. The2.5A sum-of-magnitudes return screen adds no capacity; no18A per-output board claim is established. Mirrored UL15A/300V and IEC18A/250V ratings are conditional terminal ratings. Actual wire, torque, solder process,1.30mm finished-hole fit, loaded temperature and retention remain unverified. Model tails3.50mm do not establish physical4.50±.20mm tail clearance; use4.70mm conservative geometry and retain physical qualification as open.",
+      "verdict": "NEEDS BENCH",
+      "refusal": "Do not preserve old same-net links between the two new poles: that would short distinct rails. Do not certify18A per output from a terminal rating or visual model; verify polarity, wire retention, process, hole fit and loaded temperature within shared board targets.",
+      "conditioned_calculations": []
+    }
+  ]
+}

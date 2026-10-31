@@ -21,7 +21,8 @@
     "renewal-input-protection",
     "renewal-screw-terminals",
     "p-20v-revision",
-    "p-20v-front-end-r2"
+    "p-20v-front-end-r2",
+    "p-20v-q1-5a"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -507,6 +508,31 @@
         "fact-c1850276-uvlo-rising",
         "fact-c1850276-iol-4k02",
         "fact-c970687-voltage"
+      ]
+    },
+    {
+      "key": "p-20v-q1-5a",
+      "id": "dec-p-20v-q1-5a",
+      "title": "Board P 20 V / 5 A draft: proposed Q1 output switch DMP3036SFG-7 in place of AO3401A",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-5 direction 2026-10-31 within the user-approved 20 V revision (dec-p-20v-revision): the Board P draft spec PROPOSES Q1 = Diodes DMP3036SFG-7 C461081 (PowerDI3333-8) instead of UMW AO3401A C347476, whose -4.2 A continuous rating is below the 5 A target. Pins 1-3 S on VBUS_P, 4 G on Q1_G, 5-8 and exposed pad 9 D on VBUS_OUT. R11/R12/C35 and R13 are unchanged. Board A Q1 keeps AO3401A. The PCB, the TPS26630 controller and the eFuse choice are not changed by this record; the controller question is with the user.",
+      "rationale": "DS37038 Rev. 6-2 rates VDSS -30 V (same as AO3401A, so the Q1 off-state VDS margins keep their values), VGSS +/-25 V (the -10.08 V hot overshoot gate case leaves 14.9 V), and -7.2 A at 25 C / -5.8 A at 70 C with VGS -5 V, but only on 2 oz FR-4 with 1 in2 of copper (Note 6). RDS(on) is 29 mOhm max at -5 V / -5 A, so 5 A costs about 0.725 W: about 40 C rise at 55 C/W (1 in2) and about 99 C at 137 C/W (minimum pad). The unchanged divider gives -2.0 V at 5 V VBUS, inside the -1.0 to -2.5 V threshold range, so 5 V enhancement is not guaranteed; a stronger divider is a separate proposal. The footprint is a text-extracted draft. Nothing is measured.",
+      "evidence": [
+        "fact-c461081-vds",
+        "fact-c461081-vgs",
+        "fact-c461081-current-vgs5-ta25",
+        "fact-c461081-current-vgs5-ta70",
+        "fact-c461081-rdson-5v-max",
+        "fact-c461081-vgsth-max",
+        "fact-c461081-theta-ja-1in2",
+        "fact-c461081-theta-ja-min-pad",
+        "fact-c461081-footprint-review",
+        "fact-c461081-board-p-role",
+        "fact-umw-ao3401a-current"
       ]
     }
   ]

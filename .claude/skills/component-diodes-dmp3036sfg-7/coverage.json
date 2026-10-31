@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c461081-primary-specification",
+      "record_id": "rec-c461081",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet retrieved and hashed 2026-10-31.",
+      "fact_ids": [
+        "fact-c461081-manufacturer",
+        "fact-c461081-vds",
+        "fact-c461081-vgs",
+        "fact-c461081-current-vgs5-ta25",
+        "fact-c461081-current-vgs5-ta70",
+        "fact-c461081-current-vgs10-ta25",
+        "fact-c461081-body-diode-current",
+        "fact-c461081-theta-ja-1in2",
+        "fact-c461081-theta-ja-min-pad",
+        "fact-c461081-rdson-10v-max",
+        "fact-c461081-rdson-5v-max",
+        "fact-c461081-vgsth-max"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c461081-distributor-identity",
+      "record_id": "rec-c461081",
+      "domain": "distributor-identity",
+      "status": "COVERED",
+      "reason": "Exact JLCPCB catalog identity read 2026-10-31.",
+      "fact_ids": [
+        "fact-c461081-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c461081-assembled-qualification",
+      "record_id": "rec-c461081",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Footprint, layout, thermal and switching behaviour on Board P are unreviewed and unmeasured.",
+      "fact_ids": [
+        "fact-c461081-footprint-review",
+        "fact-c461081-board-p-role",
+        "fact-c461081-visualization-envelope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c461081-footprint-review",
+        "fact-c461081-board-p-role"
+      ]
+    }
+  ]
+}

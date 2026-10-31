@@ -17,7 +17,8 @@ On 2026-10-31 at 11:11Z the user chose, on a decision card
 - D3-A: a PD revision to PDO2 20 V / 5 A with a 5 A e-marked cable;
 - D5-1: no degraded mode, so a source is either accepted or refused.
 
-The machine records are `dec-p-20v-revision` and `dec-p-20v-front-end-r2` in
+The machine records are `dec-p-20v-revision`, `dec-p-20v-front-end-r2` and the Q1 proposal
+`dec-p-20v-q1-5a` in
 `scripts/schgen/decisions.json`. They supersede the 15 V-only target **for this revision
 only**.
 
@@ -35,6 +36,7 @@ unvalidated draft:
 | R26 | 4.02k, 0.1 % | I(OL) 4.185–4.815 A |
 | C5 | 100 nF | dVdT ramp |
 | C3 | 100 µF 50 V (80–120 µF) | Single protected-node bulk; C4 is removed |
+| Q1 | [DMP3036SFG-7 C461081](/docs/components/records/c461081/) (proposed) | Output P-FET switch: source on VBUS_P, drain on VBUS_OUT, gate on Q1_G; replaces AO3401A |
 
 - MODE is left open, which selects latch-off.
 - PGTH is tied to GND.
@@ -49,6 +51,13 @@ unvalidated draft:
   to about 3.6 A, below the 4.185 A I(OL) minimum; the earlier 2 × 100 µF drew about 7.2 A.
   The slew ceiling is a project assumption, and the estimated hot-unplug VBUS_P peak at
   80 µF is 25.1 V, about 2.9 V below the STUSB4500 28 V limit.
+- Q1 is a proposal. AO3401A is rated −4.2 A, below the 5 A target. DMP3036SFG-7 keeps
+  the −30 V VDS and raises VGS to ±25 V, which leaves 14.9 V at the hot overshoot gate
+  case. Its −5.8 A (70 °C) and −7.2 A (25 °C) ratings at VGS −5 V assume 1 in² of 2 oz
+  copper. At 5 A and 29 mΩ it dissipates about 0.73 W: about 40 °C rise at 55 °C/W, or
+  about 99 °C on the minimum pad. The unchanged 100k/150k divider drives −2.0 V at 5 V
+  VBUS, inside the −1.0 to −2.5 V threshold range, so 5 V enhancement is not guaranteed.
+  Its PowerDI3333-8 land is a draft from the Diodes text and must be redrawn before layout.
 - `scripts/pcb/calculate-input-ovp-20v.py` reproduces these figures. The CSD18543Q3A land
   is a project-authored draft from the TI text and must be reviewed before layout.
 

@@ -159,6 +159,20 @@
       "verdict": "PASS - primary-source confirmed",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c523793-visualization-envelope",
+      "record_id": "rec-c523793",
+      "source_id": "src-c523793-primary",
+      "class": "PROJECT_STATE",
+      "value": "Project-generated conservative maximum envelope; not exact manufacturer CAD",
+      "unit": "NONE",
+      "conditions": "Simple 2.1 x 2.1 x 0.8 mm box centered on the footprint origin with bottom Z=0, sized from the outline maxima by scripts/pcb/generate-package-envelopes.py (WSON-6_DRV_MaxEnvelope_L2.1-W2.1-H0.8). Leads, exposed pad, fillets, markings and internal construction are intentionally unspecified. The land pattern stays authoritative; the visualization does not certify clearance, fit or thermal behavior.",
+      "locator": "DRV0006A package outline figure page 18 (WSON, 0.8 mm max height): 1.9-2.1 mm body each side",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

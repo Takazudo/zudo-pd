@@ -117,6 +117,20 @@
       "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-visualization-envelope",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "PROJECT_STATE",
+      "value": "Project-generated conservative maximum envelope; not exact manufacturer CAD",
+      "unit": "NONE",
+      "conditions": "Simple 3.25 x 3.25 x 0.9 mm box centered on the footprint origin with bottom Z=0, sized from the outline maxima by scripts/pcb/generate-package-envelopes.py (SON-8_Q3A_MaxEnvelope_L3.25-W3.25-H0.9). Leads, exposed pad, fillets, markings and internal construction are intentionally unspecified. The land pattern stays authoritative; the visualization does not certify clearance, fit or thermal behavior.",
+      "locator": "Section 7.1 Q3A Package Dimensions figure page 8: 2.9-3.1 and 3.05-3.25 mm body, 0.9 mm max height; both sides use 3.25 mm",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

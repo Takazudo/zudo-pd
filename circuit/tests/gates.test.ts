@@ -68,7 +68,7 @@ describe("open coverage never reads as safety", () => {
     const open = model.records.flatMap((record) =>
       record.coverage.filter((entry) => entry.status === "OPEN"),
     );
-    assert.equal(open.length, 79);
+    assert.equal(open.length, 84);
     // The hard case: open because NOTHING addresses the domain, so there is no
     // fact to show and no blocker to blame.
     const barren = open.filter(

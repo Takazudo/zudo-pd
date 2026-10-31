@@ -1,5 +1,5 @@
 {
-  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds.",
+  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The Q1 proposal (dec-p-20v-q1-5a) replaces the SOT-23 AO3401A with the PowerDI3333-8 DMP3036SFG-7, renumbering gate 1->4 and drain 3->5-9. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds.",
   "added_nets": [
     "EF_BGATE",
     "EF_DRV",
@@ -25,6 +25,9 @@
       "U2.25",
       "U2.8"
     ],
+    "Q1_G": [
+      "Q1.4"
+    ],
     "VBUS_IN": [
       "D5.4",
       "D5.5",
@@ -36,9 +39,19 @@
       "R22.1",
       "R24.1",
       "U2.5"
+    ],
+    "VBUS_OUT": [
+      "Q1.5",
+      "Q1.6",
+      "Q1.7",
+      "Q1.8",
+      "Q1.9"
     ]
   },
   "removed_pins": {
+    "Q1_G": [
+      "Q1.1"
+    ],
     "VBUS_IN": [
       "C35.2",
       "D5.1",
@@ -46,6 +59,9 @@
       "R11.2",
       "R14.1",
       "U1.24"
+    ],
+    "VBUS_OUT": [
+      "Q1.3"
     ]
   }
 }

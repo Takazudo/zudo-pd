@@ -79,6 +79,23 @@ legacy retirement. Runtime tests compare the installed package projection to the
 legacy pages at that same base. These baselines supplement #205's 313 covered project
 file hashes and IDs; they do not assert generated MDX byte identity.
 
+2026-10-31 refresh for the Board P 20 V draft branch: the legacy adapter is retired, so
+changed entries could not be recaptured from it. They were recaptured from the installed
+runtime projection, and every other entry kept its legacy hash. Changed entries:
+
+- added records c1850276, c523793, c861163, c705781, c840100, c40912, c705719 and c461081;
+- c2289 facts, from the KT-0603YG renumbering;
+- c14663 identity, sources and facts, plus c22807, c17414 and type-c-31-m-17 sources,
+  from the C35 topology update and the re-hashed `board_p_spec.py` generator sources;
+- the umw-ao3401a-c347476, c970687 and rt0603brd0710kl identities, from the placement
+  changes;
+- the integration hash.
+
+The retired c74561 record left both baselines, and its page and catalog anchor went with
+it. The nine retired `calc-protection-*` integration anchors were also dropped. The anchor
+baseline therefore covers the 63 retained legacy pages. New pages carry no legacy anchor
+lock.
+
 The bridge additionally rejects document exceptions naming nonexistent records, preserving
 the old reference contract. The installed package regression is retained in references.test.ts.
 At the initial #207 integration, legacy test/caller retirement remained for #208;

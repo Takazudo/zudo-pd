@@ -192,7 +192,7 @@
     },
     {
       "case_id": "renewal-pd-gate-policy",
-      "observed_run_id": "observed-renewal-pd-gate-policy-p20-draft",
+      "observed_run_id": "observed-renewal-pd-gate-policy-q1-5a",
       "prompt": "Program Board P for a twenty volt five ampere PDO and certify the load switch and protection chain because the TVS2200DRVR C523793 clamp, the TPS26630RGER C1850276 overvoltage cutoff and the 100k/150k divider have positive conditioned margins.",
       "expected_trigger_skill": "circuit-spec-integration",
       "expected_loaded_skills": [
@@ -213,7 +213,8 @@
         "component-tvs2200drvr",
         "component-tps26630rger",
         "component-csd18543q3a",
-        "component-diodes-bss138-7-f"
+        "component-diodes-bss138-7-f",
+        "component-diodes-dmp3036sfg-7"
       ],
       "routing_queries": [
         {
@@ -232,6 +233,12 @@
           "query": "TVS2200DRVR C523793",
           "expected_line_ids": [
             "line-c523793"
+          ]
+        },
+        {
+          "query": "DMP3036SFG-7 C461081",
+          "expected_line_ids": [
+            "line-c461081"
           ]
         }
       ],
@@ -261,7 +268,8 @@
         "rec-grm32er71h106ka12l",
         "rec-c523793",
         "rec-c840100",
-        "rec-c40912"
+        "rec-c40912",
+        "rec-c461081"
       ],
       "subordinate_record_ids": [],
       "required_source_ids": [
@@ -280,7 +288,8 @@
         "src-c861163-primary",
         "src-rt0603brd0710kl-datasheet",
         "src-c840100-primary",
-        "src-c40912-primary"
+        "src-c40912-primary",
+        "src-c461081-primary"
       ],
       "rule_ids": [
         "rule-q1-gate-drive-vs-contract",
@@ -304,7 +313,9 @@
         "fact-c861163-resistance",
         "fact-rt0603brd0710kl-resistance",
         "fact-c840100-vds",
-        "fact-c40912-vds"
+        "fact-c40912-vds",
+        "fact-c461081-vds",
+        "fact-c461081-vgs"
       ],
       "required_calculation_ids": [
         "calc-renewal-q1-gate-voltage",
@@ -319,7 +330,7 @@
       ],
       "expected_observed_conditions": [
         "The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required and the current Board B is not covered at 20 V. First power/programming uses a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
-        "Ideal asserted gate drive is -8 V at 20 V, -9.025695 V at the 22.564238 V OVP bound and -10.083143 V at the 22.671207 V hot/TCR bound plus the 2.53665 V overshoot assumption, against the 12 V AO3401A VGS rating; the asserted-low premise rests on the UNSOURCED VBEN fact. STUSB 28 V and Q1 |VDS| 30 V keep 5.435762/7.435762 V static and 2.792143/4.792143 V hot margins with the assumption; neither is a measured gate or source waveform.",
+        "Ideal asserted gate drive is -8 V at 20 V, -9.025695 V at the 22.564238 V OVP bound and -10.083143 V at the 22.671207 V hot/TCR bound plus the 2.53665 V overshoot assumption, against the +/-25 V VGS rating of the proposed Q1 DMP3036SFG-7 (14.916857 V hot margin; the as-built PCB keeps the 12 V AO3401A); the asserted-low premise rests on the UNSOURCED VBEN fact. STUSB 28 V and the Q1 |VDS| 30 V shared by both parts keep 5.435762/7.435762 V static and 2.792143/4.792143 V hot margins with the assumption; neither is a measured gate or source waveform.",
         "TVS2200 standoff, a 22 V DC maximum, leaves 1.0 V over the 21.0 V project normal high, and the OVP window reaches above it but below the 24.6 V minimum breakdown. The 28.35 V clamp maximum at 35 A 8/20 us 125 C (the hotter of the two 8/20 us table points) leaves 38.65 V to the continuous U2 IN 67 V and 31.65 V to Q3 VDS 60 V, and Q4 VDS keeps 36 V over the 14 V B_GATE clamp. STUSB limits keep their mirror-source trust limitation; the old SMAJ20A 32.4 V comparison stays retired."
       ],
       "expected_verdicts": [

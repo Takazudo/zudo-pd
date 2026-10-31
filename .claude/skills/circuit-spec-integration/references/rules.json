@@ -82,7 +82,8 @@
         "rec-c861163",
         "rec-rt0603brd0710kl",
         "rec-c840100",
-        "rec-c40912"
+        "rec-c40912",
+        "rec-c461081"
       ],
       "fact_ids": [
         "fact-high-diode-smaj20a-standoff",
@@ -126,9 +127,11 @@
         "fact-c861163-tcr",
         "fact-rt0603brd0710kl-resistance",
         "fact-rt0603brd0710kl-tolerance",
-        "fact-rt0603brd0710kl-tcr"
+        "fact-rt0603brd0710kl-tcr",
+        "fact-c461081-vds",
+        "fact-c461081-vgs"
       ],
-      "conditions": "Board P spec is the 20 V draft (dec-p-20v-revision, dec-p-20v-front-end-r2): D5 TVS2200DRVR C523793 clamps connector VBUS_IN; Q3 CSD18543Q3A and U2 TPS26630RGER C1850276 feed protected VBUS_P, which carries STUSB4500 VDD, Q1 and Board B. The Board P PCB is still the 15 V as-built SMAJ16A layout; the retired SMAJ16A arithmetic is archived. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. That clamp point leaves 38.65 V to U2 IN/IN_SYS 67 V and 31.65 V to Q3 VDS 60 V; Q3 VGS and Q4 VDS are bounded by the 14 V B_GATE clamp (6 V and 36 V margins). C1 C13585 and C2 C14663 on VBUS_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C; a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS_P bulk, so it applies to VBUS_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation.",
+      "conditions": "Board P spec is the 20 V draft (dec-p-20v-revision, dec-p-20v-front-end-r2): D5 TVS2200DRVR C523793 clamps connector VBUS_IN; Q3 CSD18543Q3A and U2 TPS26630RGER C1850276 feed protected VBUS_P, which carries STUSB4500 VDD, Q1 and Board B. The Board P PCB is still the 15 V as-built SMAJ16A layout; the retired SMAJ16A arithmetic is archived. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. Board P Q1 is proposed as DMP3036SFG-7 C461081 (dec-p-20v-q1-5a; VDSS -30 V, VGSS +/-25 V), the same -30 V VDS as the AO3401A that remains on Board A and the as-built Board P PCB. That clamp point leaves 38.65 V to U2 IN/IN_SYS 67 V and 31.65 V to Q3 VDS 60 V; Q3 VGS and Q4 VDS are bounded by the 14 V B_GATE clamp (6 V and 36 V margins). C1 C13585 and C2 C14663 on VBUS_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C; a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS_P bulk, so it applies to VBUS_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation.",
       "verdict": "UNSOURCED",
       "refusal": "Do not certify surge survival or 20 V operation from 8/20 us table points, a static OVP bound or an assumed overshoot; measure connector, VBUS_P, gate and rail transients, and keep the current 15 V Board B off a 20 V contract.",
       "conditioned_calculations": [
@@ -207,7 +210,7 @@
         {
           "calculation_id": "calc-p20-q1-vds-node-margin",
           "fact_ids": [
-            "fact-umw-ao3401a-vds",
+            "fact-c461081-vds",
             "fact-c1850276-ovp-rising-max",
             "fact-c861163-resistance",
             "fact-c861163-tolerance",
@@ -216,9 +219,9 @@
             "fact-rt0603brd0710kl-tolerance",
             "fact-rt0603brd0710kl-tcr"
           ],
-          "expression": "-fact_umw_ao3401a_vds - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
+          "expression": "-fact_c461081_vds - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
           "result_key": "margin_v",
-          "conditions": "Q1 off-state VDS with output near 0 V at the VBUS_P bound; same scenarios as calc-p20-stusb-node-margin.",
+          "conditions": "Proposed Q1 DMP3036SFG-7 off-state VDS with output near 0 V at the VBUS_P bound; same scenarios as calc-p20-stusb-node-margin.",
           "results": [
             {
               "temperature_delta_c": 0,
@@ -635,7 +638,8 @@
         "rec-stusb4500qtr",
         "rec-c1850276",
         "rec-c861163",
-        "rec-rt0603brd0710kl"
+        "rec-rt0603brd0710kl",
+        "rec-c461081"
       ],
       "fact_ids": [
         "fact-umw-ao3401a-vgs",
@@ -652,9 +656,11 @@
         "fact-c861163-tcr",
         "fact-rt0603brd0710kl-resistance",
         "fact-rt0603brd0710kl-tolerance",
-        "fact-rt0603brd0710kl-tcr"
+        "fact-rt0603brd0710kl-tcr",
+        "fact-c461081-vgs",
+        "fact-c461081-vgsth-max"
       ],
-      "conditions": "Board P uses 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the 12 V AO3401A VGS rating. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
+      "conditions": "Board P uses 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the +/-25 V VGS rating of the proposed Q1 DMP3036SFG-7 C461081 (dec-p-20v-q1-5a), leaving 14.916857 V in the hot overshoot case; the as-built PCB and Board A keep the 12 V AO3401A. At 5 V VBUS the -2.0 V drive lies inside the DMP3036SFG -1.0 to -2.5 V threshold range, so 5 V enhancement is not guaranteed. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
       "verdict": "NEEDS BENCH",
       "refusal": "Do not program a 20 V PDO or certify the load switch from steady gate arithmetic, a static OVP bound or an assumed overshoot; the 20 V NVM image, readback, cable, Board B coverage and measured gate/source behaviour are all open.",
       "conditioned_calculations": [
