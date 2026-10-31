@@ -30,7 +30,8 @@
     "p-20v-front-end-r3",
     "nvm-per-unit-programming",
     "p-front-end-r3-migration",
-    "p-stusb-local-clamp"
+    "p-stusb-local-clamp",
+    "p-stusb-vdd-feed"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -697,6 +698,24 @@
         "fact-c192739-board-p-role",
         "fact-c260890-board-p-role",
         "fact-stusb-vbus-pin-absolute-max"
+      ]
+    },
+    {
+      "key": "p-stusb-vdd-feed",
+      "id": "dec-p-stusb-vdd-feed",
+      "title": "STUSB4500 VDD feed sized for twice the idle typical IDD",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator phase-10 direction 2026-10-31, within dec-p-stusb-local-clamp: R30 changes from 0603WAF1001T5E C21190 1k to 0603WAF4700T5E C23179 470 Ohm, so the VDD feed R29 + R30 is 1.47 kOhm. At a 5 V attach (VBUS >= 4.72 V) VDD stays >= 4.209 V with IDD at 320 uA, twice the 160 uA idle typical, and >= 4.373 V at the 210 uA idle maximum. The Board P PCB is unchanged.",
+      "rationale": "No DS12499 revision with an active-communication or hot IDD maximum is reachable (st.com refused the download on 2026-10-31), so the feed is sized for a conservative project IDD with explicit margin. The surge-row D9 current rises to 8.65 mA (0.18 W) at -40 C against the 500 mW PD row, and the VDD pin bound rises to 20.794 V, 7.206 V under 28 V.",
+      "evidence": [
+        "fact-c192739-vz-max",
+        "fact-c192739-zzt",
+        "fact-c192739-pd",
+        "fact-c192739-board-p-role",
+        "fact-c23179-topology"
       ]
     }
   ]

@@ -34,7 +34,7 @@ Four columns describe state. None of them is a grade, and there is deliberately 
   | <EvidenceAnchor id="rec-c260890" />[BZT52C20-7-F](/docs/components/records/c260890/)                                               | `rec-c260890`                       | 20V zener diode, STUSB4500 VBUS\_VS\_DISCH local clamp                                                                              | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
   | <EvidenceAnchor id="rec-c25803" />[0603WAF1003T5E](/docs/components/records/c25803/)                                               | `rec-c25803`                        | 100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider                                                         | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
   | <EvidenceAnchor id="rec-c23206" />[0603WAF5602T5E](/docs/components/records/c23206/)                                               | `rec-c23206`                        | 56 kOhm resistor, U1 VBEN pull-up network                                                                                           | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c23179" />[0603WAF4700T5E](/docs/components/records/c23179/)                                               | `rec-c23179`                        | 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH                                                         | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23179" />[0603WAF4700T5E](/docs/components/records/c23179/)                                               | `rec-c23179`                        | 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH; Board P STUSB4500 VDD feed R30                         | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
   | <EvidenceAnchor id="rec-c23162" />[0603WAF4701T5E](/docs/components/records/c23162/)                                               | `rec-c23162`                        | 4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up, Board P Q1 gate resistor R12 and DISCH series resistor R13                       | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
   | <EvidenceAnchor id="rec-c23186" />[0603WAF5101T5E](/docs/components/records/c23186/)                                               | `rec-c23186`                        | 5.1 kOhm 0603 resistor; DNP CC-line Rd placement on Board A, fitted DC-DC feedback-divider placement on Board B                     | DNP or hand-fit | VERIFIED   | AVAILABLE          | 1 of 2       |
   | <EvidenceAnchor id="rec-c21189" />[0603WAF0000T5E](/docs/components/records/c21189/)                                               | `rec-c21189`                        | 0 Ohm link resistor, CC-line debounce net jumper and Board P RESET-to-GND strap                                                     | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
@@ -327,18 +327,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### 0603WAF4700T5E
 
-| Field          | Recorded value                                                              |
-| -------------- | --------------------------------------------------------------------------- |
-| Record ID      | `rec-c23179`                                                                |
-| Kind           | standalone — audited in its own right                                       |
-| Manufacturer   | UNI-ROYAL                                                                   |
-| Function       | 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH |
-| Orderable ID   | `C23179`                                                                    |
-| Package        | `R0603`                                                                     |
-| Inventory line | `line-c23179`                                                               |
-| Also known as  | `resistor`                                                                  |
+| Field          | Recorded value                                                                                              |
+| -------------- | ----------------------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c23179`                                                                                                |
+| Kind           | standalone — audited in its own right                                                                       |
+| Manufacturer   | UNI-ROYAL                                                                                                   |
+| Function       | 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH; Board P STUSB4500 VDD feed R30 |
+| Orderable ID   | `C23179`                                                                                                    |
+| Package        | `R0603`                                                                                                     |
+| Inventory line | `line-c23179`                                                                                               |
+| Also known as  | `resistor`                                                                                                  |
 
-**Placements:** board-a R13 (fitted), R14 (fitted)
+**Placements:** board-a R13 (fitted), R14 (fitted); board-p R30 (fitted)
 
 **Fit:** Fitted
 
@@ -738,7 +738,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c21190`                                                                                                       |
 | Also known as  | `resistor`                                                                                                          |
 
-**Placements:** board-b R4 (fitted); board-p R14 (fitted), R28 (fitted), R29 (fitted), R30 (fitted)
+**Placements:** board-b R4 (fitted); board-p R14 (fitted), R28 (fitted), R29 (fitted)
 
 **Fit:** Fitted
 

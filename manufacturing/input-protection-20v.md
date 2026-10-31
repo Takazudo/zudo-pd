@@ -130,7 +130,7 @@ TVS2200 row (35 A, 125 °C).
 
 | Pin | Feed | Clamp | Pin maximum, −40 to 125 °C | Margin to 28 V |
 |---|---|---|---:|---:|
-| VDD (U1.24, VDD_LOC, C38 1 µF) | R29 + R30, 2 × 1k | D9 BZT52C18-7-F C192739 | 20.709 V | **+7.29 V** |
+| VDD (U1.24, VDD_LOC, C38 1 µF) | R29 1k + R30 470R (phase 10; was 2 × 1k) | D9 BZT52C18-7-F C192739 | 20.794 V | **+7.21 V** |
 | VBUS_VS_DISCH (U1.18) | R14 + R28, 2 × 1k | D10 BZT52C20-7-F C260890 | 23.0 V | **+5.0 V** |
 | DISCH (U1.9) | R13 4.7k | D12 BZT52C18-7-F | 20.7 V | +7.3 V |
 | VBUS_EN_SNK (U1.16) | Q6 BSS138-7-F cascode, gate at VDD_LOC / 2 | D11 BZT52C18-7-F | 20.7 V | +7.3 V |
@@ -138,16 +138,21 @@ TVS2200 row (35 A, 125 °C).
 **L7 is PASS on guaranteed zener figures.** Each bound is the DS18004 VZ maximum at IZT 5 mA plus
 the TC maximum above 25 °C. The TC minimum, 12.4 mV/°C, is positive, so cold rows are bounded by
 the 25 °C maximum. Where the clamp current exceeds IZT, ZZT maximum is used as the slope. That
-covers at most 1.36 mA on VDD at −40 °C and adds at most 0.06 V. It is a project linearisation
+covers at most 3.65 mA on VDD at −40 °C and adds at most 0.16 V. It is a project linearisation
 (PA), and the margins of 5 V or more would absorb a slope of several kilohms. The STUSB4500
 limits keep their mirror-source trust limitation (`fact-stusb-vbus-pin-absolute-max`,
 `fact-stusb-vdd-absolute-max`). The rule rows are `calc-p20-stusb-local-clamp-vdd` and
 `calc-p20-stusb-local-clamp-vs-disch` in `rule-tvs-clamp-vs-absmax`.
 
+These margins are scenario-conditioned. They assume VBUS_P at the 28.35 V TVS2200 connector-node row,
+and §2.1a explains why that row is not a guaranteed VBUS_P transient bound. Each pin holds 28 V for any
+VBUS_P up to the level at which VZ + ZZT × (I − IZT) would reach 28 V. On the linearisation that is far above
+28.35 V, but no guaranteed figure covers that region.
+
 | Check (DS12499 Rev 7 copy; Rev 8 Table 22 not re-read) | Result | Status |
 |---|---|---|
 | VDD operating ≤ 22 V | ≤ 20.38 V at 105 °C | **PASS**: closes the 22.56 V > 22 V gap of §2.1a |
-| VDD ≥ 4.1 V at a 5 V attach (VBUS ≥ 4.72 V) | ≥ 4.247 V with IDD 210 µA, +0.147 V | **OPEN**: only the idle 25 °C IDD maximum exists; needs IDD ≤ 283 µA in every active state |
+| VDD ≥ 4.1 V at a 5 V attach (VBUS ≥ 4.72 V), feed 1.47 kΩ (phase 10) | ≥ 4.373 V at the 210 µA idle maximum (+0.273 V); ≥ 4.209 V at 320 µA, twice the 160 µA idle typical (+0.109 V); IDD may reach 394 µA | **PASS at the idle maximum and the 2× typical sizing target (PA)**; active-communication and hot IDD maximum OPEN: no other DS12499 revision was reachable (st.com refused the download, 2026-10-31) |
 | VBUS_VS_DISCH reads above VMONUSBL at 20 V | ≥ 17.63 V (C20 at −40 °C) vs 16.0 V | PASS on the default 20 V window |
 | VBUS_VS_DISCH discharge current ≤ 50 mA | ≤ 10.6 mA | PASS |
 | Discharge 120 µF, 21 V → 0.5 V (VTH0V minimum), through 2.02 kΩ | 0.906 s against TDISUSB0V ≥ 0.63 s (default TDISPAR0V 9) | **FAIL with the default NVM**; PASS with TDISPAR0V ≥ 13 in the factory image (13 gives 0.91 s minimum, only 4 ms over; 14 leaves 74 ms) |

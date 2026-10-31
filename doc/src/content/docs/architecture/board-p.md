@@ -50,7 +50,7 @@ unvalidated draft:
 | D8 | [BZT52C11-7-F C92321](/docs/components/records/bzt52c11-c92321/) (proposed) | Q1 gate clamp: cathode on VBUS_P, anode on Q1_G |
 | C36 / Q5 / R27 | 1 µF C15849 / [BSS138-7-F C40912](/docs/components/records/c40912/) / 150k C22807 (proposed) | Q1 Miller soft start: C36 VBUS_OUT to Q1_MX, Q5 body diode Q1_MX to Q1_G, R27 VBUS_P to Q1_MX |
 | R14 / R28 / D10 | 2 × 1k C21190 / [BZT52C20-7-F C260890](/docs/components/records/c260890/) (proposed) | VBUS_VS_DISCH series resistance and local 20 V clamp on U1.18 |
-| R29 / R30 / D9 / C38 | 2 × 1k C21190 / [BZT52C18-7-F C192739](/docs/components/records/c192739/) / 1 µF C15849 (proposed) | STUSB4500 VDD feed: VBUS_P to VDD_LOC (U1.24) with an 18 V clamp and local cap |
+| R29 / R30 / D9 / C38 | 1k C21190 + 470 Ω C23179 / [BZT52C18-7-F C192739](/docs/components/records/c192739/) / 1 µF C15849 (proposed) | STUSB4500 VDD feed: VBUS_P to VDD_LOC (U1.24) with an 18 V clamp and local cap |
 | R13 / D12 | 4.7k C23162 / BZT52C18-7-F (proposed) | DISCH series resistance and clamp on U1.9 |
 | Q6 / R31 / R32 / D11 | BSS138-7-F C40912 / 2 × 100k C25803 / BZT52C18-7-F (proposed) | VBUS_EN_SNK cascode: source on U1.16 (VBEN_PIN), drain on VBEN (R12), gate at VDD_LOC / 2 |
 
@@ -73,15 +73,18 @@ unvalidated draft:
   80 µF is 25.1 V only on TYP I(SCP) and fast-trip figures and a 30 mΩ ESR assumption;
   at ESR 0.3–0.5 Ω it is 27.7–29.6 V, and at the 4.5 µs soft-short maximum it is 27.1 V.
   The only guaranteed bound on VBUS_P is the TVS2200 clamp, 28.0–28.35 V. With the local
-  clamps, the STUSB4500 pins stay at or below 20.71 V (VDD) and 23.0 V (VBUS_VS_DISCH)
-  with VBUS_P at 28.35 V, over −40 to 125 °C. That leaves 7.29 V and 5.0 V to the 28 V
+  clamps, the STUSB4500 pins stay at or below 20.79 V (VDD) and 23.0 V (VBUS_VS_DISCH)
+  with VBUS_P at 28.35 V, over −40 to 125 °C. That leaves 7.21 V and 5.0 V to the 28 V
   limits on DS18004 VZ and TC maximum rows, so L7 is **PASS** on guaranteed zener figures.
+  The margins are conditioned on VBUS_P at that 28.35 V row: inductive overshoot on VBUS_P
+  is not quantified, so the row is not a guaranteed VBUS_P transient bound.
   The STUSB4500 limits still rest on mirror-source evidence. The main path is now bounded by
   the Q1 −30 V VDS, 1.65 V above the 28.35 V row, not by the STUSB4500. VDD stays at or below
   20.38 V at 105 °C, inside the 22 V operating row.
 - The local clamps create new conditions:
-  - At a 5 V attach, VDD is at least 4.247 V, only if the STUSB4500 operating IDD is at most
-    283 µA. The copied datasheet gives only an idle 25 °C maximum, 210 µA, so this is OPEN.
+  - At a 5 V attach, VDD is at least 4.373 V at the 210 µA idle maximum and at least 4.209 V at
+    twice the 160 µA idle typical, through the 1.47 kΩ feed (phase 10). The active-communication
+    IDD maximum is not in the copied datasheet, so that case stays OPEN.
   - The 2 kΩ VBUS_VS_DISCH feed needs about 0.91 s to discharge 120 µF from 21 V to 0.5 V.
     The default TDISPAR0V (9, at least 630 ms) is too short, so the NVM image must set
     TDISPAR0V ≥ 13.

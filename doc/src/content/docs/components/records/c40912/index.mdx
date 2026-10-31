@@ -178,7 +178,7 @@ A parameter the manufacturer guarantees over the stated conditions, usually with
 
   **Value:** 1.5 · **Unit:** `V`
 
-  **Conditions:** VDS = VGS, ID 250 uA. SLVSE94G asks for VGTH(min) \<= 3 V for the pulldown FET.
+  **Conditions:** VDS = VGS, ID 250 uA, 25 C. The SLVSE94G VGTH(min) \<= 3 V pulldown-FET note applied only to the retired r2 TPS26630 B\_GATE role.
 
   **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
 
@@ -278,9 +278,9 @@ A value this project recorded about how the part is used here — a chosen opera
 
   **Fact:** `fact-c40912-board-p-q6-role`
 
-  **Value:** Board P Q6 (phase-9 draft, dec-p-stusb-local-clamp): VBUS\_EN\_SNK cascode with source on VBEN\_PIN (U1.16, D11 clamp), drain on VBEN (R12 to the Q1 gate network) and gate on VG\_LOC = VDD\_LOC / 2 (R31/R32 100k); the open-drain pin cannot rise above the gate, so it stays at or below about 10.3 V · **Unit:** `NONE`
+  **Value:** Board P Q6 (phase-9 draft, dec-p-stusb-local-clamp): VBUS\_EN\_SNK cascode with source on VBEN\_PIN (U1.16, D11 clamp), drain on VBEN (R12 to the Q1 gate network) and gate on VG\_LOC = VDD\_LOC / 2 (R31/R32 100k); the open-drain pin cannot rise above the gate, so it stays at or below about 10.5 V · **Unit:** `NONE`
 
-  **Conditions:** VGS stays below the 20 V row (at most 10.29 V); the minimum gate drive at a 5 V attach (2.10 V) exceeds the VGS(th) maximum row only at 25 C. Off-state leakage at temperature, which sets the Q1 off-state integrity, is not in this bundle (UNSOURCED). Behaviour unmeasured.
+  **Conditions:** VGS stays below the 20 V row (at most 10.50 V with VDD\_LOC at its 20.794 V surge-row bound and 1 % divider resistors); the minimum gate drive at a 5 V attach (2.165 V at the idle IDD maximum, 2.083 V at twice the idle typical) exceeds the 1.5 V VGS(th) maximum row (VDS = VGS, 250 uA, 25 C only). RDS(on) at that drive and off-state leakage at temperature, which set the asserted VBEN level and Q1 off-state integrity, are not in this bundle (UNSOURCED). Behaviour unmeasured.
 
   **Verdict:** NEEDS BENCH · **Provenance:** PROJECT-CHOICE
 
@@ -319,7 +319,9 @@ No interaction is published for this record.
 
 Rules that span several parts at once and are published in full on the integration page. Each rule's verdict below is that rule's own — it is a statement about the cross-component question, not about this part — and the exact wording of what the rule refuses to conclude is published with the rule itself.
 
-No cross-component rule names this record.
+- [`rule-q1-gate-drive-vs-contract`](/docs/components/integration/#rule-q1-gate-drive-vs-contract) — q1-gate-drive-vs-contract — **rule verdict:** UNSOURCED
+
+[All cross-component rules](/docs/components/integration/)
 
 ## Sources
 

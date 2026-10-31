@@ -13,7 +13,7 @@ Keep this owner aligned with its `manifest.json`, `sources.json`, `facts.json`,
 inventory line and direct-routing fixture.
 
 This record owns inventory line `line-c192739` (BZT52C18-7-F, Diodes Incorporated, C192739,
-SOD-123_L2.8-W1.8-LS3.7-RD), fitted on Board P at D9, D11, D12. Board P local clamps: D9 on VDD_LOC (U1.24 VDD; R29 + R30 2 x 1k from VBUS_P), D11 on VBEN_PIN (U1.16 behind the Q6 cascode), D12 on DISCH (U1.9; R13 4.7k from VBUS_OUT); cathode on the pin node, anode on GND.
+SOD-123_L2.8-W1.8-LS3.7-RD), fitted on Board P at D9, D11, D12. Board P local clamps: D9 on VDD_LOC (U1.24 VDD; R29 1k + R30 470R from VBUS_P), D11 on VBEN_PIN (U1.16 behind the Q6 cascode), D12 on DISCH (U1.9; R13 4.7k from VBUS_OUT); cathode on the pin node, anode on GND.
 
 The exact BZT52C18 row of DS18004 Rev. 38-2 gives VZ 16.8-19.1 V at IZT 5 mA and a
 12.4-16.0 mV/C temperature coefficient. The pin bounds that use them are calculated,

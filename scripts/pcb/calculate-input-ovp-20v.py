@@ -89,6 +89,9 @@ ZENER = {
 # DS12499 Rev 7 copy (sha256 407ee676..., mirror; Rev 8 Table 22 not re-checked) - UNSOURCED class
 STUSB_VDD_OP_MIN_V = 4.1
 STUSB_IDD_IDLE_MAX_A = 210e-6       # Table 22, VDD 5.0 V, 25 C, idle sink (not connected, no communication)
+STUSB_IDD_IDLE_TYP_A = 160e-6       # same row, typical
+R_VDD_FEED = 1000.0 + 470.0         # phase 10: R29 1k C21190 + R30 470R C23179 (was 2 x 1k)
+IDD_DESIGN_A = 2 * STUSB_IDD_IDLE_TYP_A   # project sizing target (PA): twice the idle typical
 STUSB_VMONUSBL_20V = 20.0 * (1 - 0.05 - 0.15)   # default VSHUSBL 15 %
 STUSB_TDISPAR_STEP_MIN_S = 70e-3    # TDISUSB0V min = 70 ms x TDISPAR0V
 STUSB_TDISPAR0V_DEFAULT = 9
@@ -133,7 +136,7 @@ def stusb_local_clamp(v_main_max):
                     'Where the clamp current exceeds IZT (VDD up to 1.36 mA, VS_DISCH 0.41 mA at -40 C only) ZZT max '
                     'is used as a linear slope (PA); that adds <= 0.06 V, and the >= 5 V margins would absorb a slope '
                     'of several kilohms'}
-    vdd = local_clamp_pin('VDD (U1.24)', 'BZT52C18', 2.0e3, v_main_max, STUSB_VBUS_ABS_MAX_V)
+    vdd = local_clamp_pin('VDD (U1.24)', 'BZT52C18', R_VDD_FEED, v_main_max, STUSB_VBUS_ABS_MAX_V)
     vs = local_clamp_pin('VBUS_VS_DISCH (U1.18)', 'BZT52C20', 2.0e3, v_main_max, STUSB_VBUS_ABS_MAX_V)
     dis = local_clamp_pin('DISCH (U1.9)', 'BZT52C18', 4.7e3, v_main_max, STUSB_VBUS_ABS_MAX_V)
     ven = local_clamp_pin('VBUS_EN_SNK (U1.16) behind Q6 cascode', 'BZT52C18', None, v_main_max, STUSB_VBUS_ABS_MAX_V,
@@ -144,18 +147,28 @@ def stusb_local_clamp(v_main_max):
     # VDD operating window
     z18 = ZENER['BZT52C18']
     vdd_hot = _vz_bounds(z18, TA_OP_MAX)[1]
-    r_vdd_max = 2.0e3 * (1 + R1_TOL)
+    r_vdd_max = R_VDD_FEED * (1 + R1_TOL)
     i_div = VBUS_ATTACH_MIN_V / (2 * 100e3 * (1 - R1_TOL))
     vdd_attach = VBUS_ATTACH_MIN_V - r_vdd_max * (STUSB_IDD_IDLE_MAX_A + i_div + 0.1e-6)
+    vdd_attach_design = VBUS_ATTACH_MIN_V - r_vdd_max * (IDD_DESIGN_A + i_div + 0.1e-6)
+    z18c = ZENER['BZT52C18']
+    i_clamp_max = (v_main_max - _vz_bounds(z18c, T_RANGE[0])[0]) / (R_VDD_FEED * (1 - R1_TOL))
+    p_clamp_max = i_clamp_max * vdd['pin_max_v']
     out['vdd_operating'] = {
         'vdd_max_at_105c_v': round(vdd_hot, 3), 'limit_v': STUSB_VDD_OPERATING_MAX_V,
         'status_22v': 'PASS' if vdd_hot <= STUSB_VDD_OPERATING_MAX_V else 'FAIL',
         'vdd_min_at_5v_attach_v': round(vdd_attach, 3), 'vdd_op_min_v': STUSB_VDD_OP_MIN_V,
         'margin_v': round(vdd_attach - STUSB_VDD_OP_MIN_V, 3),
         'idd_allowed_max_a': round((VBUS_ATTACH_MIN_V - STUSB_VDD_OP_MIN_V) / r_vdd_max - i_div, 7),
-        'status_attach': 'OPEN',
-        'reason': 'only the idle 5 V / 25 C IDD maximum (210 uA, mirror copy) exists; active-communication and '
-                  'temperature maxima are missing, so the series drop is bounded only for that row'}
+        'feed_ohm': R_VDD_FEED,
+        'vdd_min_at_5v_attach_2x_typ_idd_v': round(vdd_attach_design, 3),
+        'design_idd_a': IDD_DESIGN_A, 'design_margin_v': round(vdd_attach_design - STUSB_VDD_OP_MIN_V, 3),
+        'idd_allowed_over_idle_typ': round(((VBUS_ATTACH_MIN_V - STUSB_VDD_OP_MIN_V) / r_vdd_max - i_div) / STUSB_IDD_IDLE_TYP_A, 2),
+        'zener_current_max_a_at_surge_row': round(i_clamp_max, 5), 'zener_power_max_w_at_surge_row': round(p_clamp_max, 3),
+        'zener_pd_rating_w': 0.5,
+        'status_attach': 'PASS at the idle maximum and at 2 x idle typical (sizing PA); active-communication IDD OPEN',
+        'reason': 'DS12499 Rev 7 Table 22 gives only the idle 5 V / 25 C IDD (typ 160, max 210 uA, mirror copy); '
+                  'no active-communication or temperature maximum exists, so the feed is sized for 2 x typical with margin'}
     # VBUS_VS_DISCH sense and discharge
     z20 = ZENER['BZT52C20']
     vs_cold_min = _vz_bounds(z20, T_RANGE[0])[0]

@@ -280,7 +280,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "470 Ohm resistor, Board A VBUS_VS_DISCH discharge path (pin 18) and DISCH",
+      "function": "470 Ohm resistor, Board A VBUS_VS_DISCH discharge path (pin 18) and DISCH; Board P STUSB4500 VDD feed R30",
       "placements": [
         {
           "board": "board-a",
@@ -290,6 +290,11 @@
         {
           "board": "board-a",
           "refdes": "R14",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R30",
           "dnp": false
         }
       ]
@@ -763,11 +768,6 @@
         {
           "board": "board-p",
           "refdes": "R29",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
-          "refdes": "R30",
           "dnp": false
         }
       ]

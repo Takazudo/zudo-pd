@@ -53,8 +53,9 @@ dec-p-20v-front-end-r3):
   scripts/pcb/calculate-input-ovp-20v.py stusb_local_clamp). None of VDD, VBUS_VS_DISCH,
   DISCH or VBUS_EN_SNK connects to VBUS_P or VBUS_OUT directly any more, so the main surge
   path no longer has to stay below the 28 V STUSB absolute maximum:
-  - VDD (U1.24) on VDD_LOC: R29 + R30 2 x 1k C21190 from VBUS_P, D9 BZT52C18-7-F C192739
-    to GND and C38 1 uF. VDD_LOC <= 20.71 V at 125 C with VBUS_P at the 28.35 V TVS2200
+  - VDD (U1.24) on VDD_LOC: R29 1k C21190 + R30 470R C23179 from VBUS_P (phase 10: sized for
+    2 x the idle typical IDD at a 5 V attach), D9 BZT52C18-7-F C192739
+    to GND and C38 1 uF. VDD_LOC <= 20.79 V at 125 C with VBUS_P at the 28.35 V TVS2200
     row, and <= 20.38 V at 105 C, inside the 22 V operating maximum.
   - VBUS_VS_DISCH (U1.18): R14 + R28 2 x 1k C21190 and D10 BZT52C20-7-F C260890 at the pin,
     so it stays <= 23.0 V and still reads >= 17.63 V on a 20 V contract (VMONUSBL 16 V).
@@ -100,7 +101,7 @@ COMPONENTS = {
     'R14': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 190.5)),
     'R28': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 266.7)),
     'R29': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (190.5, 190.5)),
-    'R30': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (228.6, 190.5)),
+    'R30': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (228.6, 190.5)),
     'R31': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603', False, (228.6, 215.9)),
     'R32': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603', False, (266.7, 215.9)),
     'C38': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (266.7, 165.1)),
