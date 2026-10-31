@@ -121,6 +121,7 @@ Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprin
 | Discharge resistor pulse rating | **OPEN** | The PROPOSED 1206 loads have no owner record or pulse curve |
 | Disconnect skew ≤ 1 ms (§3) | **PASS (SIM)** | Run `disR`: source current below 10 mA at 21.4 / 20.0 / 24.0 µs after EN_N; skew 4 µs. Gate below 1 V at 15.9 / 16.5 µs |
 | Monotonic common ramp ≥ 10 ms, slope limits (§5) | **PASS (SIM) at the I_TRANSIENT_MIN load; FAIL (SIM) at no load: owner exception requested** | Arithmetic: 0.754 / 0.314 / 0.762 V/ms unclamped and 0.845 / 0.425 / 0.834 V/ms clamped, PASS. Phase 10 (§5d, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in all four completed loaded runs. At no load +5 V reaches 0.85–0.90 V/ms (limit 0.51) and −12 V 1.21–1.47 V/ms (limit 1.22, `adv` fails). Phase 9 failed +5 V in every run |
+| Re-enable inside the RAMP reset window (§5, interrupted ramp) | **PASS (SIM) at ≥ 10 ms off time; FAIL (SIM) slope rows at 6 ms off from steady state** | Phase 11 (§5e), seven loaded nominal runs with softened disable edges: every voltage-form row and band-entry skew holds. Re-enable 6 ms after an in-band disable gives +5 V 1.02 V/ms and −12 V 1.31 V/ms (limits 0.51 / 1.22) |
 | Start skew ≤ 0.41 ms (§5) | **Voltage form PASS (SIM, drawn clamps); time form FAIL (SIM)** | Phase 10 (§5d), six completed runs: voltage forms held (worst +12 V 0.433 V while \|−12\| < 0.1 V; \|−12\| 0.523 V while +12 V ≤ 0.5 V); ramp start skew 2.24–3.93 ms. Phase 9 (§5c), ten completed runs: +12 V ≤ 0.408 V while \|−12\| < 0.1 V (limit 0.5 V); \|−12\| ≤ 0.72 V while +12 V ≤ 0.5 V (limit 6 V). Ramp start skew is 1.16–2.42 ms. The 0.41 ms row is the time form of the +12 V-alone limit at the fastest slope; the clamps meet the voltage form without it. Arithmetic: ≤ 0.411 V and ≤ 0.553 V |
 | Band-entry skew ≤ 2 ms; +5 V up last (§5) | **PASS (SIM)** | Phase 10: 0.79–0.88 ms, +5 V last in every completed run. Phase 9: 0.74–0.83 ms; +5 V last in every completed run. Arithmetic: 1.500 ms |
 | +12 V lead over \|−12 V\| ≤ 0.5 V (review finding 5) | **PASS (SIM)** | Phase 10: at most 0.36 V; \|−12\| leads by up to 0.29 V. Phase 9: at most 0.33 V; \|−12\| leads +12 by up to 0.31 V |
@@ -385,7 +386,7 @@ contract. Band entry now comes about 140 ms after enable instead of 53 ms. RDY (
 and is unaffected. The common ramp now takes about 53 ms from first rise to band entry, beyond the 20–50 ms
 PWR-C1 candidate. Part of the lower slope comes from the generic Q12 switch model releasing gradually
 as its gate falls slowly (PA). After a disable, RAMP is reset 5.0–16.8 ms later instead of 1.1–3.6 ms. A
-re-enable inside that window is the contract's separate interrupted-ramp case and is not simulated.
+re-enable inside that window is the contract's separate interrupted-ramp case; phase 11 (§5e) simulates it.
 
 **Decks.** `manufacturing/sim/board-b20-phase10/` holds the same decks with CDLY 470 nF, disable at
 235 ms and stop at 250 ms. The retained results are in `results.json`. ngspice ran without the KiCad
@@ -427,6 +428,36 @@ minimum and 500 mA maximum. The phase-10 no-load +5 V step is lower, at most 0.9
 request is a contract exception for the no-load start only: a +5 V excursion of ≤ 0.90 V/ms below
 0.45 V, and a −12 V excursion of ≤ 1.47 V/ms below 0.75 V (≤ 265 mA into 180 µF). The −12 V part has
 no OSC evaluation yet. Loaded starts meet the slope rows.
+
+### 5e. Phase 11: re-enable inside the RAMP reset window (loaded, nominal)
+
+**Decks.** `manufacturing/sim/board-b20-phase11/` starts the loaded nominal case as in §5d (enable at
+40 ms, CRMD 470 nF), disables EN_N and re-enables it 6, 10, 14 or 20 ms later. `reR*` disables at
+150 ms, mid-ramp with the rails near 4 V. `reB*` disables at 200 ms, with the rails in band. The phase-9/10
+decks never passed the disable edge, so these decks soften it for simulation only: 1 ms EN_N edges, and
+the three gate pulldown switches (B10, B11, B25) at 1/35 S instead of 1/3.5 S. Disconnect timing is
+therefore not evaluated here. All seven runs completed; `results.json` holds them with the solver variant
+of each. The rows below are evaluated from the re-enable to the end of the run.
+
+| Run (re-enable after disable) | RAMP at re-enable | Max slope V/ms +12 / +5 / −12 | +12 V while \|−12\| < 0.1 V | +12 − \|−12\| | Band-entry skew; +5 V last | Result |
+|---|---|---|---|---|---|---|
+| reR6 / reR10 / reR14 / reR20 | 0.0011 / 0.0004 V | 0.32 / ≤ 0.42 / ≤ 0.71 | ≤ 0.300 V | −0.162 / +0.257 V | 0.79–0.80 ms; yes | **PASS (SIM)** |
+| reB10 / reB14 | 0.0006 / 0.0004 V | 0.32 / ≤ 0.27 / ≤ 0.51 | ≤ 0.248 V | −0.162 / +0.200 V | 0.79 ms; yes | **PASS (SIM)** |
+| reB6 | 0.049 V | 0.32 / **1.02** / **1.31** | 0.471 V | −0.182 / +0.446 V | 0.79 ms; yes | **FAIL (SIM)**: slope rows |
+
+In every run |−12| stays ≤ 0.53 V while +12 V ≤ 0.5 V, ≤ 5.36 V while +12 V < 5.2 V (P59-A), and +5 V
+≤ 0.637 V while either analog rail is below 1.45 V. All rails return to the §5d steady values.
+
+**What breaks.** Only a re-enable 6 ms after a disable from steady state breaks a contract row. At that
+point the rails have not discharged (0.07 / 0.12 / 0.09 V) and RAMP is at 0.049 V. +5 V then steps at
+1.02 V/ms between 0.02 and 0.40 V, and −12 V at 1.31 V/ms between 0.18 and 0.50 V. The +5 V step is
+above the 0.90 V/ms no-load exception requested in §5d. The −12 V step is inside the requested 1.47 V/ms
+bound. The rails sit above their pre-bias targets at re-enable, so the steps are likely the §5d no-load
+mechanism (inference, not traced). Mid-ramp disables do not break any row at any delay. A cheap way to
+avoid the case is a minimum EN_N off time of about 10 ms, enforced by the OSC side. Whether that becomes a
+contract row, or the exception widens, is a question for OSC. During the off interval itself the rails
+fall at up to 11 V/ms and leave the start rows: +5 V reaches 1.14 V while an analog rail is below
+1.45 V, and +12 − |−12| reaches −0.67 V. That interval belongs to the OPEN discharge-order row.
 
 ## 6. Checks run on this draft
 
