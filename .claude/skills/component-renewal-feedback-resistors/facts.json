@@ -801,6 +801,95 @@
       "verdict": "PASS - primary-source confirmed",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c705719-manufacturer",
+      "record_id": "rec-c705719",
+      "source_id": "src-c705719-primary",
+      "class": "PROJECT_STATE",
+      "value": "YAGEO",
+      "unit": "NONE",
+      "conditions": "Exact manufacturer and order-code specification.",
+      "locator": "Sheet1 title, Specifications rows Resistance/Tolerance/Power/TCR/Voltage,Dimensions table",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c705719-identity",
+      "record_id": "rec-c705719",
+      "source_id": "src-c705719-identity",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C705719",
+        "manufacturer": "YAGEO",
+        "mpn": "RT0603BRD0711K5L",
+        "variant": "11500ohm 0.1% 0603 resistor"
+      },
+      "unit": "NONE",
+      "conditions": "Exact catalog identity only; current stock and assembly quote remain unconfirmed.",
+      "locator": "Product identity table manufacturer/MPN/LCSC/package rows",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c705719-resistance",
+      "record_id": "rec-c705719",
+      "source_id": "src-c705719-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 11500,
+      "unit": "ohm",
+      "conditions": "Exact order code; power rating at 70 C, derate above 70 C. Tolerance is initial value; include independent TCR when bounding a ratio.",
+      "locator": "Sheet1 title, Specifications rows Resistance/Tolerance/Power/TCR/Voltage,Dimensions table",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c705719-tolerance",
+      "record_id": "rec-c705719",
+      "source_id": "src-c705719-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 0.1,
+      "unit": "%",
+      "conditions": "Initial resistance tolerance; separately account for temperature coefficient and operating temperature.",
+      "locator": "Sheet1 title, Specifications rows Resistance/Tolerance/Power/TCR/Voltage,Dimensions table",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c705719-tcr",
+      "record_id": "rec-c705719",
+      "source_id": "src-c705719-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 25,
+      "unit": "ppm/C",
+      "conditions": "Exact order code; power rating at 70 C, derate above 70 C. Tolerance is initial value; include independent TCR when bounding a ratio.",
+      "locator": "Sheet1 title, Specifications rows Resistance/Tolerance/Power/TCR/Voltage,Dimensions table",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c705719-power",
+      "record_id": "rec-c705719",
+      "source_id": "src-c705719-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 0.1,
+      "unit": "W",
+      "conditions": "Exact order code; power rating at 70 C, derate above 70 C. Tolerance is initial value; include independent TCR when bounding a ratio.",
+      "locator": "Sheet1 title, Specifications rows Resistance/Tolerance/Power/TCR/Voltage,Dimensions table",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

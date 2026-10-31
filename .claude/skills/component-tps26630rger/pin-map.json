@@ -11,31 +11,31 @@
           "symbol_pin": "1",
           "name": "IN",
           "footprint_pad": "1",
-          "function": "power input"
+          "function": "power input from Q3 drain (EF_IN)"
         },
         {
           "symbol_pin": "2",
           "name": "IN",
           "footprint_pad": "2",
-          "function": "power input"
+          "function": "power input from Q3 drain (EF_IN)"
         },
         {
           "symbol_pin": "3",
           "name": "B_GATE",
           "footprint_pad": "3",
-          "function": "external blocking FET gate (unused, open)"
+          "function": "external blocking FET Q3 gate (EF_BGATE)"
         },
         {
           "symbol_pin": "4",
           "name": "DRV",
           "footprint_pad": "4",
-          "function": "blocking FET driver (unused, open)"
+          "function": "pulldown switch Q4 gate drive (EF_DRV)"
         },
         {
           "symbol_pin": "5",
           "name": "IN_SYS",
           "footprint_pad": "5",
-          "function": "controller supply input, tied to IN"
+          "function": "controller supply input on connector-side VBUS_IN; Q3 source"
         },
         {
           "symbol_pin": "6",

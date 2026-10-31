@@ -18,20 +18,9 @@
     "textPolicy": "suppress-all-fp-text-in-temporary-library",
     "postprocessor": "repository-svg-normalizer-v1"
   },
-  "canonicalInputSha256": "e968f36ff902f83db8c4710ecc5bebb7f181cfada8c90331987e8037ba3b2e9f",
-  "generatedOutputSha256": "fb021ecfb2206bedf313f866162dc45c0f49fb1230f235afd22cf2d563ee6912",
+  "canonicalInputSha256": "4ae308d79029e4777c07508f05eede5c4e26f936691696c515c6921598efb370",
+  "generatedOutputSha256": "3e0323d095b9ea9eff00246d432bce6bd3f825072f029c1b3441f97d5c6c349e",
   "packages": [
-    {
-      "packageId": "SMA_Littelfuse_SMAJ16A_C74561",
-      "footprintName": "SMA_Littelfuse_SMAJ16A_C74561",
-      "footprintPath": "footprints/kicad/zudo-power.pretty/SMA_Littelfuse_SMAJ16A_C74561.kicad_mod",
-      "recordIds": [
-        "rec-c74561"
-      ],
-      "assetPath": "/assets/component-previews/footprints/SMA_Littelfuse_SMAJ16A_C74561.svg",
-      "canonicalInputSha256": "dbaf1b6e2628fb90589c91c870031b93f9ae7550a6fc64a8874d3eccbe5d79a8",
-      "generatedOutputSha256": "130431dee7f21a64da3dbb8536018d40786a819e33ec79a6b16b9da3823e423f"
-    },
     {
       "packageId": "SMA_Diodes_SDT5A60SA_C3024223",
       "footprintName": "SMA_Diodes_SDT5A60SA_C3024223",
@@ -97,7 +86,10 @@
         "rec-c23162",
         "rec-c21190",
         "rec-c23186",
-        "rec-c21189"
+        "rec-c21189",
+        "rec-c861163",
+        "rec-c705781",
+        "rec-c705719"
       ],
       "assetPath": "/assets/component-previews/footprints/R0603.svg",
       "canonicalInputSha256": "27f8887a5625d61c0c5d0d4c3873cba164a643a2b37eb635473bc0341af30a18",
@@ -222,7 +214,8 @@
       "footprintName": "SOT-23_L2.9-W1.3-P1.90-LS2.4-BR",
       "footprintPath": "footprints/kicad/zudo-power.pretty/SOT-23_L2.9-W1.3-P1.90-LS2.4-BR.kicad_mod",
       "recordIds": [
-        "rec-umw-ao3401a-c347476"
+        "rec-umw-ao3401a-c347476",
+        "rec-c40912"
       ],
       "assetPath": "/assets/component-previews/footprints/SOT-23_L2.9-W1.3-P1.90-LS2.4-BR.svg",
       "canonicalInputSha256": "176c03861494ecc37414d01f9a5c9cf6eb2f1ccb8e30ca6fb7da9a1feff4083d",
@@ -420,6 +413,39 @@
       "assetPath": "/assets/component-previews/footprints/IDC-TH_16P-P2.54_321016RG0ABK00A01.svg",
       "canonicalInputSha256": "d3facaa3fcd5c2b5d0f281d8729b87e49164d4551ada86466d0afaa1b70dad9c",
       "generatedOutputSha256": "b91816c2cbb1dbb55cc74377ac00e15440b559b828e3bb64b78b8ded92d7fc40"
+    },
+    {
+      "packageId": "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7",
+      "footprintName": "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7",
+      "footprintPath": "footprints/kicad/zudo-power.pretty/VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7.kicad_mod",
+      "recordIds": [
+        "rec-c1850276"
+      ],
+      "assetPath": "/assets/component-previews/footprints/VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7.svg",
+      "canonicalInputSha256": "78748cf7c2fe3e7fd53522308c5fd997b751b719ef76d42b7d5d5fa99315be9f",
+      "generatedOutputSha256": "ba092113ca604bef43b7573a918fac4f5b673d29d763efd23b0fb626e62a01d3"
+    },
+    {
+      "packageId": "WSON-6_L2.0-W2.0-P0.65-BL-EP",
+      "footprintName": "WSON-6_L2.0-W2.0-P0.65-BL-EP",
+      "footprintPath": "footprints/kicad/zudo-power.pretty/WSON-6_L2.0-W2.0-P0.65-BL-EP.kicad_mod",
+      "recordIds": [
+        "rec-c523793"
+      ],
+      "assetPath": "/assets/component-previews/footprints/WSON-6_L2.0-W2.0-P0.65-BL-EP.svg",
+      "canonicalInputSha256": "bf40ab1c10cbb032073c980e90fe8807b427cbb87be6860d2f51963e4a563953",
+      "generatedOutputSha256": "608216bcdebe2830b627c6ac77e40e943649c0efc15e86454bdd77a918887047"
+    },
+    {
+      "packageId": "VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A",
+      "footprintName": "VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A",
+      "footprintPath": "footprints/kicad/zudo-power.pretty/VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A.kicad_mod",
+      "recordIds": [
+        "rec-c840100"
+      ],
+      "assetPath": "/assets/component-previews/footprints/VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A.svg",
+      "canonicalInputSha256": "dc7e2cd4149f8450ea23a92cc071160e0aec97948b27846ebaa07a88a9855d6d",
+      "generatedOutputSha256": "b501d9f7409444f36a8aa30f5a4c801e07eba5bad23711aa601ba0a63fb81072"
     }
   ]
 }

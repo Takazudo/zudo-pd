@@ -9,7 +9,7 @@ Read all JSON files in this owner and run the central validator. Use circuit-spe
 whole 20 V input chain. TI SLVSE94G was retrieved and hashed on 2026-10-31; the PDF is not retained in the
 repository. Only the tabulated R(ILIM) points have guaranteed I(OL) limits; 4.02 kOhm gives 4.185-4.815 A.
 UVLO must not float, and UVLO to GND selects a 15 V internal threshold that would block a 5 V attach.
-Board P uses no external blocking FET, so U2 does not block reverse current. The imported footprint is
+Board P r2 adds the 8.3.5 back-to-back blocking FET Q3 (CSD18543Q3A) with Q4 (BSS138) as the B_GATE pulldown, so U2 is specified to block reverse current; the blocking behaviour is unmeasured. The imported footprint is
 unreviewed against the TI land drawing and its courtyard is undersized. Nothing here is measured.
 
 ## Human component reference

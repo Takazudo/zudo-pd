@@ -145,6 +145,20 @@
       "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c523793-vclamp-35a-125c",
+      "record_id": "rec-c523793",
+      "source_id": "src-c523793-primary",
+      "class": "PROTECTION_CLAMP",
+      "value": 28.35,
+      "unit": "V",
+      "conditions": "Maximum at 35 A IEC 61000-4-5 8/20 us from IO to GND with VIN = VRWM before surge, TA = 125 C; typical 27.8 V. Not a bound for longer pulses or the installed waveform.",
+      "locator": "Section 7.6 Electrical Characteristics table row VCLAMP page 4",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

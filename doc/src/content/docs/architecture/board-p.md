@@ -17,27 +17,40 @@ On 2026-10-31 at 11:11Z the user chose, on a decision card
 - D3-A: a PD revision to PDO2 20 V / 5 A with a 5 A e-marked cable;
 - D5-1: no degraded mode, so a source is either accepted or refused.
 
-The machine record is `dec-p-20v-revision` in `scripts/schgen/decisions.json`. It
-supersedes the 15 V-only target **for this revision only**.
+The machine records are `dec-p-20v-revision` and `dec-p-20v-front-end-r2` in
+`scripts/schgen/decisions.json`. They supersede the 15 V-only target **for this revision
+only**.
 
 The generated schematic and `board_p_spec.py` on the development branch now carry an
 unvalidated draft:
 
 | Ref | Part | Role |
 |---|---|---|
-| D5 | TVS2200DRVR C523793 | 22 V-standoff clamp on connector VBUS_IN |
-| U2 | TPS26630RGER C1850276 | eFuse from VBUS_IN to the protected node VBUS_P, ahead of every other part |
-| R24 / R25 | 174k / 10k, 0.1 % | OVP, 21.60–22.56 V rising |
-| R22 / R23 | 10.5k / 4.3k | UVLO, 4.02–4.25 V rising |
+| D5 | [TVS2200DRVR C523793](/docs/components/records/c523793/) | 22 V-standoff clamp on connector VBUS_IN |
+| Q3 | [CSD18543Q3A C840100](/docs/components/records/c840100/) | Reverse-blocking N-FET: source on VBUS_IN (U2 IN_SYS), drain on U2 IN, gate on B_GATE |
+| Q4 | [BSS138-7-F C40912](/docs/components/records/c40912/) | B_GATE fast pulldown, gate driven by U2 DRV |
+| U2 | [TPS26630RGER C1850276](/docs/components/records/c1850276/) | eFuse to the protected node VBUS_P, ahead of every other part |
+| R24 / R25 | 174k / 10k, 0.1 % | OVP, 21.60–22.56 V rising (22.67 V with 25 ppm/°C over 100 °C) |
+| R22 / R23 | 11.5k / 4.02k, 0.1 % | UVLO, 4.53–4.73 V rising, 4.20–4.45 V falling |
 | R26 | 4.02k, 0.1 % | I(OL) 4.185–4.815 A |
 | C5 | 100 nF | dVdT ramp |
-| C3 / C4 | 2 × 100 µF 50 V | Protected-node bulk |
+| C3 | 100 µF 50 V (80–120 µF) | Single protected-node bulk; C4 is removed |
 
 - MODE is left open, which selects latch-off.
 - PGTH is tied to GND.
 - The STUSB4500 VDD and VBUS sense, and Q1, now sit on VBUS_P, so the TVS-clamped
   connector node no longer reaches the STUSB4500 28 V VDD absolute maximum.
-- There is no external blocking FET, so U2 does not block reverse current.
+- Q3 and Q4 follow the TPS2663 datasheet section 8.3.5 back-to-back topology, so U2 is
+  specified to block reverse current and reverse polarity. Q4 meets the stated pulldown
+  rule: at least 15 V VDS, 20 V VGS rating, Ciss ≤ 50 pF and VGTH ≤ 3 V.
+- The rising UVLO threshold is now guaranteed at or above 4.5 V. The falling threshold,
+  4.20–4.45 V, still sits below 4.5 V.
+- One 100 µF part keeps the 5 V → 20 V transition inrush at the 30 V/ms PD slew ceiling
+  to about 3.6 A, below the 4.185 A I(OL) minimum; the earlier 2 × 100 µF drew about 7.2 A.
+  The slew ceiling is a project assumption, and the estimated hot-unplug VBUS_P peak at
+  80 µF is 25.1 V, about 2.9 V below the STUSB4500 28 V limit.
+- `scripts/pcb/calculate-input-ovp-20v.py` reproduces these figures. The CSD18543Q3A land
+  is a project-authored draft from the TI text and must be reviewed before layout.
 
 The board-p PCB, the 5 A NVM image and every measurement are unchanged or absent.
 Canonical adoption, NVM programming, ordering and energizing each need separate
@@ -48,8 +61,8 @@ historical, as-built-design record; the 15 V Board P was never built.
 
 ## A verified 15 V-only configuration is mandatory
 
-Board P D5 now uses [Littelfuse SMAJ16A, C74561](/docs/components/records/c74561/),
-a 16 V standoff TVS. **Factory 20 V negotiation is unsafe for this board** and can
+The as-built Board P PCB uses D5 Littelfuse SMAJ16A, C74561, a 16 V standoff TVS. It is
+now a retired candidate record and has no published component page. **Factory 20 V negotiation is unsafe for this board** and can
 cause sustained TVS conduction. The input TVS sees negotiated VBUS even while the
 output switch is off, so output gating does not remove this requirement.
 

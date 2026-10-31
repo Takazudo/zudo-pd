@@ -4,8 +4,8 @@
   "cases": [
     {
       "case_id": "renewal-negative-envelope",
-      "observed_run_id": "observed-renewal-negative-envelope-protection-15v",
-      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 and SMAJ16A C74561 is surge-safe and starts at full rated load from the three ampere USB-PD supply.",
+      "observed_run_id": "observed-renewal-negative-envelope-p20-draft",
+      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 is surge-safe behind the twenty volt TPS26630RGER C1850276 Board P draft and starts at full rated load from the three ampere USB-PD supply.",
       "expected_trigger_skill": "circuit-spec-integration",
       "expected_loaded_skills": [
         "component-spec-audit",
@@ -15,7 +15,9 @@
         "component-project-passives",
         "component-type-c-31-m-17",
         "component-stusb4500qtr",
-        "component-renewal-input-protection"
+        "component-renewal-input-protection",
+        "component-tps26630rger",
+        "component-ap63201-power-stage"
       ],
       "routing_queries": [
         {
@@ -29,6 +31,12 @@
           "expected_line_ids": [
             "line-c861077"
           ]
+        },
+        {
+          "query": "TPS26630RGER C1850276",
+          "expected_line_ids": [
+            "line-c1850276"
+          ]
         }
       ],
       "direct_record_ids": [
@@ -37,7 +45,9 @@
         "rec-c110776",
         "rec-c970687",
         "rec-c3024223",
-        "rec-c74561",
+        "rec-c1850276",
+        "rec-c861163",
+        "rec-rt0603brd0710kl",
         "rec-type-c-31-m-17",
         "rec-stusb4500qtr"
       ],
@@ -48,7 +58,9 @@
         "src-c110776-primary",
         "src-c970687-datasheet",
         "src-c3024223-primary",
-        "src-c74561-primary"
+        "src-c1850276-primary",
+        "src-c861163-primary",
+        "src-rt0603brd0710kl-datasheet"
       ],
       "rule_ids": [
         "rule-u4-inverting-stress",
@@ -64,18 +76,22 @@
         "fact-lm2596-current-limit",
         "fact-c3024223-vrrm",
         "fact-c3024223-vf-max-5a-25c",
-        "fact-c74561-clamp"
+        "fact-c1850276-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-lm2596-vin-operating-max"
       ],
       "required_calculation_ids": [
         "calc-renewal-u4-effective-input",
         "calc-renewal-u4-c9-margin",
         "calc-renewal-startup-overdraw",
-        "calc-protection-negative-high"
+        "calc-protection-negative-high",
+        "calc-p20-u4-operating-hot-margin"
       ],
       "expected_observed_conditions": [
-        "Prototype normal source input is14.25..15.75 V; negative nominal magnitude14.145 V and hot/TCR screen14.814410 V give30.564410 V at normal high line. New D3 reverse rating is60 V;0.52 V at5 A/25C is its maximum Vf table point, not the catalogue typical0.46 V.",
-        "At the specified26 V,15.4 A,10/1000us,25C clamp point, combined stress is40.814410 V: margins to U4 abs45 V,D3 60 V and C9 50 V are4.185590,19.185590 and9.185590 V. This is above U4 operating40 V and is not a universal hot/installed-surge ceiling.",
-        "Inverting startup can still demand about4.5 A for2ms or longer against3 A PD. Duty/current calculations include25C winding DCR but omit hot copper, switching/core/quiescent losses and measured waveforms; full-load startup and surge survival remain unqualified."
+        "The current Board B is a 15 V +/-5 % design: negative nominal magnitude 14.145 V and hot/TCR screen 14.814410 V give 30.564410 V at 15.75 V. D3 reverse rating is 60 V; 0.52 V at 5 A/25C is its maximum Vf table point.",
+        "Behind the 20 V Board P draft, U2 OVP bounds VBUS_P at 22.564238 V (22.671207 V with divider TCR over 100 C); U4 would then see 37.485617 V, 2.514383 V below its 40 V operating limit, and -0.022267 V with the 2.53665 V overshoot assumption, so that combined screen does not maintain the operating limit. Board B at 20 V input is not covered and no surge waveform is qualified.",
+        "Inverting startup can still demand about 4.5 A for 2 ms or longer against a 3 A PD contract. No inrush, surge or full-load startup waveform exists, and full rated load is not defined by a fact in this rule set; full-load startup and surge survival remain unqualified."
       ],
       "expected_verdicts": [
         "NEEDS BENCH",
@@ -176,8 +192,8 @@
     },
     {
       "case_id": "renewal-pd-gate-policy",
-      "observed_run_id": "observed-renewal-pd-gate-policy-protection-15v",
-      "prompt": "Program Board P for a twenty volt PDO and certify the load switch and protection chain because the new SMAJ16A C74561 clamp and 100k/150k divider have positive conditioned margins.",
+      "observed_run_id": "observed-renewal-pd-gate-policy-p20-draft",
+      "prompt": "Program Board P for a twenty volt five ampere PDO and certify the load switch and protection chain because the TVS2200DRVR C523793 clamp, the TPS26630RGER C1850276 overvoltage cutoff and the 100k/150k divider have positive conditioned margins.",
       "expected_trigger_skill": "circuit-spec-integration",
       "expected_loaded_skills": [
         "component-spec-audit",
@@ -193,7 +209,11 @@
         "component-renewal-ldos",
         "component-renewal-feedback-resistors",
         "component-renewal-input-protection",
-        "component-ap63201-power-stage"
+        "component-ap63201-power-stage",
+        "component-tvs2200drvr",
+        "component-tps26630rger",
+        "component-csd18543q3a",
+        "component-diodes-bss138-7-f"
       ],
       "routing_queries": [
         {
@@ -207,6 +227,12 @@
           "expected_line_ids": [
             "line-c347476"
           ]
+        },
+        {
+          "query": "TVS2200DRVR C523793",
+          "expected_line_ids": [
+            "line-c523793"
+          ]
         }
       ],
       "direct_record_ids": [
@@ -216,7 +242,9 @@
         "rec-c14663",
         "rec-c17414",
         "rec-stusb4500qtr",
-        "rec-c74561",
+        "rec-c1850276",
+        "rec-c861163",
+        "rec-rt0603brd0710kl",
         "rec-high-diode-smaj20a-c571370",
         "rec-lm2596s-adj-c347423",
         "rec-ss34-c8678",
@@ -230,7 +258,10 @@
         "rec-c970687",
         "rec-c22387780",
         "rec-c13585",
-        "rec-grm32er71h106ka12l"
+        "rec-grm32er71h106ka12l",
+        "rec-c523793",
+        "rec-c840100",
+        "rec-c40912"
       ],
       "subordinate_record_ids": [],
       "required_source_ids": [
@@ -242,9 +273,14 @@
         "src-smaj20a-c571370-primary",
         "src-lm2596-umw-ds",
         "src-c459702-mirror",
-        "src-c74561-primary",
         "src-c3024223-primary",
-        "src-stusb-ds12499-ratings"
+        "src-stusb-ds12499-ratings",
+        "src-c523793-primary",
+        "src-c1850276-primary",
+        "src-c861163-primary",
+        "src-rt0603brd0710kl-datasheet",
+        "src-c840100-primary",
+        "src-c40912-primary"
       ],
       "rule_ids": [
         "rule-q1-gate-drive-vs-contract",
@@ -259,24 +295,32 @@
         "fact-high-diode-smaj20a-clamp",
         "fact-lm2596-vin-absmax",
         "fact-c459702-input-absmax",
-        "fact-c74561-standoff",
-        "fact-c74561-clamp",
-        "fact-c74561-vbr-tempco-typ",
         "fact-c3024223-vrrm",
-        "fact-stusb-vdd-absolute-max"
+        "fact-stusb-vdd-absolute-max",
+        "fact-c523793-vrwm",
+        "fact-c523793-vclamp-35a-125c",
+        "fact-c1850276-in-absmax",
+        "fact-c1850276-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-c840100-vds",
+        "fact-c40912-vds"
       ],
       "required_calculation_ids": [
         "calc-renewal-q1-gate-voltage",
         "calc-renewal-u4-tvs-margin",
-        "calc-protection-standoff-margin",
-        "calc-protection-stusb-clamp-margin",
-        "calc-protection-u4-abs-hot-negative-margin",
-        "calc-protection-d3-reverse-hot-negative-margin"
+        "calc-p20-ovp-trip-max",
+        "calc-p20-stusb-node-margin",
+        "calc-p20-q1-vds-node-margin",
+        "calc-p20-tvs-standoff-margin",
+        "calc-p20-u2-in-clamp-margin",
+        "calc-p20-q3-vds-clamp-margin",
+        "calc-p20-q4-vds-bgate-margin"
       ],
       "expected_observed_conditions": [
-        "Prototype input is15 V±5% only;16 V TVS standoff leaves0.25 V over15.75 V.20 V is unsupported. Mandatory first power/programming is from a current-limited5 V-only source with B disconnected, followed by verified15 V-only NVM image/readback/reload before any15 V-capable PD source.",
-        "Ideal asserted gate drive is-6 V at15 V,-6.3 V at15.75 V and-10.4 V at the conditioned26 V point. STUSB28 V,Q1 |VDS|30 V and input capacitors35/50 V have2,4,9/24 V table-point margins; this does not establish actual gate/source waveforms or hot surge survival.",
-        "The26 V clamp is specified at15.4 A,10/1000us,25C. VBR temperature coefficient is not a VC correction formula; retained STUSB source trust and other downstream load/fault limits remain open. The old32.4 V/SS34 comparison is retired, not silently reclassified as passing."
+        "The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required and the current Board B is not covered at 20 V. First power/programming uses a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
+        "Ideal asserted gate drive is -8 V at 20 V, -9.025695 V at the 22.564238 V OVP bound and -10.083143 V at the 22.671207 V hot/TCR bound plus the 2.53665 V overshoot assumption, against the 12 V AO3401A VGS rating; the asserted-low premise rests on the UNSOURCED VBEN fact. STUSB 28 V and Q1 |VDS| 30 V keep 5.435762/7.435762 V static and 2.792143/4.792143 V hot margins with the assumption; neither is a measured gate or source waveform.",
+        "TVS2200 standoff, a 22 V DC maximum, leaves 1.0 V over the 21.0 V project normal high, and the OVP window reaches above it but below the 24.6 V minimum breakdown. The 28.35 V clamp maximum at 35 A 8/20 us 125 C (the hotter of the two 8/20 us table points) leaves 38.65 V to the continuous U2 IN 67 V and 31.65 V to Q3 VDS 60 V, and Q4 VDS keeps 36 V over the 14 V B_GATE clamp. STUSB limits keep their mirror-source trust limitation; the old SMAJ20A 32.4 V comparison stays retired."
       ],
       "expected_verdicts": [
         "NEEDS BENCH",

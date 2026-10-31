@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c40912-primary-specification",
+      "record_id": "rec-c40912",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet retrieved and hashed 2026-10-31.",
+      "fact_ids": [
+        "fact-c40912-manufacturer",
+        "fact-c40912-vds",
+        "fact-c40912-vgs",
+        "fact-c40912-vgsth-max",
+        "fact-c40912-ciss-max"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c40912-distributor-identity",
+      "record_id": "rec-c40912",
+      "domain": "distributor-identity",
+      "status": "COVERED",
+      "reason": "Exact JLCPCB catalog identity read 2026-10-31.",
+      "fact_ids": [
+        "fact-c40912-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c40912-assembled-qualification",
+      "record_id": "rec-c40912",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Footprint, layout, thermal and switching behaviour on Board P are unreviewed and unmeasured.",
+      "fact_ids": [
+        "fact-c40912-board-p-role"
+      ],
+      "blocking_fact_ids": [
+        "fact-c40912-board-p-role"
+      ]
+    }
+  ]
+}

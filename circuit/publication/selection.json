@@ -62,7 +62,10 @@
     "rec-c1850276",
     "rec-c523793",
     "rec-c861163",
-    "rec-c705781"
+    "rec-c705781",
+    "rec-c840100",
+    "rec-c40912",
+    "rec-c705719"
   ],
   "sourceIds": [
     "src-c7529589-model-review",
@@ -224,7 +227,13 @@
     "src-c861163-primary",
     "src-c861163-identity",
     "src-c705781-primary",
-    "src-c705781-identity"
+    "src-c705781-identity",
+    "src-c840100-primary",
+    "src-c840100-identity",
+    "src-c40912-primary",
+    "src-c40912-identity",
+    "src-c705719-primary",
+    "src-c705719-identity"
   ],
   "linkableSourceIds": [
     "src-c8465-catalog",
@@ -370,7 +379,13 @@
     "src-c861163-primary",
     "src-c861163-identity",
     "src-c705781-primary",
-    "src-c705781-identity"
+    "src-c705781-identity",
+    "src-c840100-primary",
+    "src-c840100-identity",
+    "src-c40912-primary",
+    "src-c40912-identity",
+    "src-c705719-primary",
+    "src-c705719-identity"
   ],
   "documentSelections": [
     {
@@ -682,6 +697,21 @@
       "recordId": "rec-c705781",
       "sourceId": "src-c705781-primary",
       "documentKind": "specification"
+    },
+    {
+      "recordId": "rec-c840100",
+      "sourceId": "src-c840100-primary",
+      "documentKind": "datasheet"
+    },
+    {
+      "recordId": "rec-c40912",
+      "sourceId": "src-c40912-primary",
+      "documentKind": "datasheet"
+    },
+    {
+      "recordId": "rec-c705719",
+      "sourceId": "src-c705719-primary",
+      "documentKind": "specification"
     }
   ],
   "documentExceptions": [
@@ -691,10 +721,10 @@
     }
   ],
   "expect": {
-    "records": 63,
-    "sources": 160,
+    "records": 66,
+    "sources": 166,
     "integrationRules": 11,
-    "packages": 35
+    "packages": 36
   },
   "schema_version": 1
 }

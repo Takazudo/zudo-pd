@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "fact_id": "fact-c840100-manufacturer",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "PROJECT_STATE",
+      "value": "Texas Instruments",
+      "unit": "NONE",
+      "conditions": "Manufacturer datasheet title.",
+      "locator": "Title block page 1; pin configuration figure page 1",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-identity",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-identity",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C840100",
+        "manufacturer": "Texas Instruments",
+        "mpn": "CSD18543Q3A",
+        "variant": "60 V N-channel power MOSFET, SON 3.3x3.3"
+      },
+      "unit": "NONE",
+      "conditions": "Exact catalog identity only; current stock and assembly quote remain unconfirmed.",
+      "locator": "Product identity table manufacturer/MPN/LCSC/package rows",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-vds",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "ABSOLUTE_MAXIMUM",
+      "value": 60,
+      "unit": "V",
+      "conditions": "Drain-to-source, TA 25 C.",
+      "locator": "Absolute Maximum Ratings table row VDS page 1",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-vgs",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "ABSOLUTE_MAXIMUM",
+      "value": 20,
+      "unit": "V",
+      "conditions": "Gate-to-source magnitude (+/-20 V). U2 B_GATE clamp is 8.3-14 V above IN_SYS (SLVSE94G).",
+      "locator": "Absolute Maximum Ratings table row VGS page 1",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-rdson-10v-max",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 9.9,
+      "unit": "mOhm",
+      "conditions": "VGS 10 V, ID 12 A, 25 C maximum; the B_GATE minimum drive of 8.3 V is below the 10 V test point, so use the 4.5 V row (15.6 mOhm max) as the screening bound.",
+      "locator": "5.1 Electrical Characteristics row RDS(on) page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-rdson-4v5-max",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 15.6,
+      "unit": "mOhm",
+      "conditions": "VGS 4.5 V, ID 12 A, 25 C maximum; hot RDS(on) is from a typical curve only.",
+      "locator": "5.1 Electrical Characteristics row RDS(on) page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-footprint-review",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "PROJECT_STATE",
+      "value": "Project-authored draft SON 3.3x3.3 land from SLPS633 7.2 text extraction; pads 1-9",
+      "unit": "NONE",
+      "conditions": "Pad geometry read from extracted text, not the drawing; EasyEDA import was refused (HTTP 403) on 2026-10-31. Redraw before layout.",
+      "locator": "Footprint file pad table pins 1-9",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-board-p-role",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "PROJECT_STATE",
+      "value": "Board P Q3: U2 external reverse-blocking FET, source VBUS_IN (IN_SYS), drain U2 IN, gate B_GATE",
+      "unit": "NONE",
+      "conditions": "SLVSE94G 8.3.5 back-to-back topology; Q4 BSS138 is the B_GATE pulldown. Conduction loss at 4.815 A with 15.6 mOhm is 0.36 W (calc); thermal unmeasured.",
+      "locator": "board_p_spec.py COMPONENTS Q3 row and NETS rows EF_IN, EF_BGATE",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    }
+  ]
+}

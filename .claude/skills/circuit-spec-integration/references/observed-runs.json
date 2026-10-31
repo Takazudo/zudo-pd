@@ -1,24 +1,24 @@
 {
   "schema_version": 1,
-  "provenance_note": "Renewal verdict/refusal assessment performed by an independent persistent-session Codex agent on a frozen no-tools message. Canonical case/evidence labels are explicitly normalized for deterministic routing tests; no independent discovery of IDs is claimed. Prior original-design observations are retained in archive/. Socket observation is unchanged.",
+  "provenance_note": "Renewal verdict/refusal assessment performed by an independent persistent-session Codex agent on a frozen no-tools message. Canonical case/evidence labels are explicitly normalized for deterministic routing tests; no independent discovery of IDs is claimed. Prior original-design observations are retained in archive/. Socket observation is unchanged. 2026-10-31: the two protection cases (renewal-negative-envelope, renewal-pd-gate-policy) were re-run for the 20 V Board P draft by an independent no-tools Claude Code CLI print-mode process on a frozen packet; their 2026-09-21 Codex records are retained unchanged in archive/observed-runs-before-20v-revision.json.",
   "runs": [
     {
-      "run_id": "observed-renewal-negative-envelope-protection-15v",
+      "run_id": "observed-renewal-negative-envelope-p20-draft",
       "case_id": "renewal-negative-envelope",
-      "runner": "Independent Codex protection_assessment agent frozen-message assessment",
-      "model": "Codex GPT-6 session; no isolated model override",
-      "run_date": "2026-09-21",
+      "runner": "Independent Claude Code CLI 2.1.316 print-mode process (claude -p --tools \"\" --strict-mcp-config --no-session-persistence), frozen-packet assessment",
+      "model": "CLI default model claude-fable-5-1 (the CLI usage record also lists claude-haiku-5-5); no model override",
+      "run_date": "2026-10-31",
       "independent_assessor": true,
       "assessment_scope": "supplied packet only; no tool inspection",
       "invocation": {
-        "skill": "circuit-spec-integration",
-        "tools": "not used for assessment",
-        "session_persistence": true,
-        "evidence_packet": "frozen-message"
+        "skill": "/circuit-spec-integration",
+        "tools": "disabled",
+        "session_persistence": false,
+        "evidence_packet": "frozen"
       },
-      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 and SMAJ16A C74561 is surge-safe and starts at full rated load from the three ampere USB-PD supply.",
-      "prompt_sha256": "4407e778fa2e42cd1826b21fd41b969382867246781178fa73e6133f5edea97e",
-      "response_sha256": "290de978513da9dc1b866f889c54554b6f01ca63304b41419e5ab6a1d4e71364",
+      "prompt": "Confirm the renewed LM2596S-ADJ C347423 negative stage with SDT5A60SA-13 C3024223 is surge-safe behind the twenty volt TPS26630RGER C1850276 Board P draft and starts at full rated load from the three ampere USB-PD supply.",
+      "prompt_sha256": "565d99447df46ab09301a03b52081a8fc369656082777f6563e3ed89341d2649",
+      "response_sha256": "495dddf3674e8e1f92a2f36af68afe2b2d1198ea1a5bb5ecc59a56fb4784a48f",
       "response": {
         "trigger_skill": "circuit-spec-integration",
         "loaded_skills": [
@@ -29,7 +29,9 @@
           "component-project-passives",
           "component-type-c-31-m-17",
           "component-stusb4500qtr",
-          "component-renewal-input-protection"
+          "component-renewal-input-protection",
+          "component-tps26630rger",
+          "component-ap63201-power-stage"
         ],
         "fact_ids": [
           "fact-lm2596-fb-vref",
@@ -41,7 +43,10 @@
           "fact-lm2596-current-limit",
           "fact-c3024223-vrrm",
           "fact-c3024223-vf-max-5a-25c",
-          "fact-c74561-clamp"
+          "fact-c1850276-ovp-rising-max",
+          "fact-c861163-resistance",
+          "fact-rt0603brd0710kl-resistance",
+          "fact-lm2596-vin-operating-max"
         ],
         "source_ids": [
           "src-lm2596-umw-ds",
@@ -49,29 +54,32 @@
           "src-c110776-primary",
           "src-c970687-datasheet",
           "src-c3024223-primary",
-          "src-c74561-primary"
+          "src-c1850276-primary",
+          "src-c861163-primary",
+          "src-rt0603brd0710kl-datasheet"
         ],
         "conditions": [
-          "Prototype normal source input is14.25..15.75 V; negative nominal magnitude14.145 V and hot/TCR screen14.814410 V give30.564410 V at normal high line. New D3 reverse rating is60 V;0.52 V at5 A/25C is its maximum Vf table point, not the catalogue typical0.46 V.",
-          "At the specified26 V,15.4 A,10/1000us,25C clamp point, combined stress is40.814410 V: margins to U4 abs45 V,D3 60 V and C9 50 V are4.185590,19.185590 and9.185590 V. This is above U4 operating40 V and is not a universal hot/installed-surge ceiling.",
-          "Inverting startup can still demand about4.5 A for2ms or longer against3 A PD. Duty/current calculations include25C winding DCR but omit hot copper, switching/core/quiescent losses and measured waveforms; full-load startup and surge survival remain unqualified."
+          "The current Board B is a 15 V +/-5 % design: negative nominal magnitude 14.145 V and hot/TCR screen 14.814410 V give 30.564410 V at 15.75 V. D3 reverse rating is 60 V; 0.52 V at 5 A/25C is its maximum Vf table point.",
+          "Behind the 20 V Board P draft, U2 OVP bounds VBUS_P at 22.564238 V (22.671207 V with divider TCR over 100 C); U4 would then see 37.485617 V, 2.514383 V below its 40 V operating limit, and -0.022267 V with the 2.53665 V overshoot assumption, so that combined screen does not maintain the operating limit. Board B at 20 V input is not covered and no surge waveform is qualified.",
+          "Inverting startup can still demand about 4.5 A for 2 ms or longer against a 3 A PD contract. No inrush, surge or full-load startup waveform exists, and full rated load is not defined by a fact in this rule set; full-load startup and surge survival remain unqualified."
         ],
         "calculation_ids": [
           "calc-renewal-u4-effective-input",
           "calc-renewal-u4-c9-margin",
           "calc-renewal-startup-overdraw",
-          "calc-protection-negative-high"
+          "calc-protection-negative-high",
+          "calc-p20-u4-operating-hot-margin"
         ],
         "verdicts": [
           "NEEDS BENCH",
           "NEEDS BENCH"
         ],
         "refused": true,
-        "refusal": "certification request refused=true. Arithmetic conditions confirmed within packet:30.564410V normal-high and40.814410V table-point; latter is below45/60/50abs/rated limits but above U4's40V operating ceiling. Conditions NOT confirmed for installed/hot surge, startup3Acompatibility, full-load temperature or omittedlosses."
+        "refusal": "Confirmation refused=true: the hot/TCR plus overshoot screen puts U4 0.022267 V above its 40 V operating limit, no surge, inrush or startup waveform exists, and full rated load is not defined, so surge safety and full-load startup stay NEEDS BENCH."
       },
-      "normalization": "Current Littelfuse substitution assessed independently in a supplied no-tools packet on2026-09-21. Canonical source/fact/condition labels below are packet normalization; no independent source discovery or measured state is claimed. Raw reply retains wording with Markdown emphasis and list markers removed.",
-      "assessor_conditions_confirmation": "Independent frozen-packet assessment, no lookup: Case1 surge safety NEEDS BENCH and full-load startup NEEDS BENCH, certification refused=true. Combined40.814410V exceeds U4 operating40V despite margin below45Vabs. Possible4.5A startup2ms+ exceeds3APD; actual surge/hot/full-load/startup must be measured. TVS clamp applies only at stated pulse/current/temperature/mounting conditions; typical VBR tempco is not a guaranteed hot VC. Case2 supported15V protection NEEDS BENCH and unresolved-evidence certification UNSOURCED, refused=true;20VPDO refused=true because unsupported. Require5V-only firstprogramming withB disconnected, verify15V-onlyNVM beforePDsource. ResolveQ1gate and retainedADIprimarybinary evidence. Source agreement does not prove circuit qualification.",
-      "assessor_raw_reply": "Assessment uses the supplied packet only, with no lookup and no claims of measured performance.\n\nCase 1\nNegative-converter surge safety: NEEDS BENCH. Refuse certification: true.\nFull-load startup from a 3 A PD source: NEEDS BENCH. Refuse certification: true.\nConditions: Measure actual surge, hot operation, full-load behavior, and startup with the intended PD source. A possible 4.5 A demand lasting 2 ms or longer exceeds the source’s stated 3 A rating; successful startup cannot be inferred.\nReasoning: The calculated 26 V clamp combined with the negative rail is 40.814410 V, exceeding U4’s 40 V operating limit while remaining below its 45 V absolute maximum. Absolute-maximum headroom does not establish valid operation or surge safety. The TVS clamp specification applies to the stated pulse, current, temperature, and mounting conditions; its typical breakdown-temperature coefficient cannot establish a guaranteed hot clamp voltage.\n\nCase 2\nProtection assessment for the supported 15 V configuration: NEEDS BENCH.\nCertification based on presently unresolved evidence: UNSOURCED. Refuse certification: true.\nProgram or approve a 20 V PDO: Refuse: true. The packet explicitly establishes 20 V as unsupported.\nConditions: Retain 15 V-only operation. Initial programming must use 5 V with BoardB disconnected; verify 15 V-only NVM before connecting a PD source. Resolve Q1 gate behavior and the retained ADI primary-binary evidence, and complete surge/hot/startup validation before certification.\nReasoning: Positive-side absolute-maximum comparisons alone omit combined-rail stress and operating limits. Even the stated 26 V clamp gives only nominal numerical headroom to STUSB VDD’s 28 V and Q1 VDS’s 30 V absolute maxima; it is not a demonstrated worst-case circuit transient. The Littelfuse source agreement supports the stated TVS data, but does not resolve these circuit-level uncertainties."
+      "normalization": "20 V Board P draft re-run on 2026-10-31, replacing observed-renewal-negative-envelope-protection-15v (Codex frozen-message assessment of 2026-09-21, retained unchanged in archive/observed-runs-before-20v-revision.json). What changed: the retired SMAJ16A C74561 records, facts and calculations left the selected rules; TVS2200 C523793, TPS26630 C1850276, the 174k/10k OVP divider and the Q3/Q4 blocking pair were added; the prompt, conditions, calculations and refusal text were rewritten for the draft. The packet held the case prompt, the selected rules (conditions, calculations with results, verdicts, refusals), every rule fact (value, unit, class, conditions, locator, provenance, verdict) and the candidate condition list; packet sha256 94b33c3cc22e88b160122a05f6e9d58621371b16e2afa9ca9e31a80dc9b01524. The assessor returned free text; the canonical skill/source/fact/condition/calculation labels below are packet normalization, the verdicts and refusal flag are the assessor's, and the refusal sentence condenses its refusal reasoning. No independent source discovery or measured state is claimed. Round 1 (same date, same CLI, earlier packet) returned the same verdicts and refusal but DISPUTED the third condition, which described duty/current calculations absent from the packet, and found that the OVP bound omitted divider TCR. The rule and case were corrected (TCR added to the OVP bound, which turned the overshoot-case U4 operating margin from +0.084702 V to -0.022267 V; third condition rewritten), the packet was rebuilt and round 2 was run in a fresh process. Only round 2 is recorded as the response; round-1 output is not retained in the repository.",
+      "assessor_conditions_confirmation": "Round 2, fresh no-tools CLI process on the frozen packet: rule-u4-inverting-stress NEEDS BENCH and rule-inverting-startup-vs-pd-source NEEDS BENCH; refused=true; all three candidate conditions CONFIRMED after recomputation (22.564238/22.671207 V OVP bounds, 37.485617 V, 2.514383 V and -0.022267 V U4 margins). The assessor also noted that the LM2596 1.23 V reference and 4.5 A current-limit facts are typical values classed GUARANTEED_ELECTRICAL, that the guaranteed limit reaches 6.9 A at 25 C and 7.5 A over temperature, that the 1410 uF/0.141 J bulk figure has no fact, and that tolerance units are mixed (percent vs ratio).",
+      "assessor_raw_reply": "Rule verdicts: both NEEDS BENCH\n\nrule-u4-inverting-stress: NEEDS BENCH. Every calculation recomputes exactly from PRIMARY-SPEC facts (negative nominal 14.145 V, hot/TCR screen 14.814410 V, OVP bounds 22.564238 V and 22.671207 V, margins 2.514383 V and -0.022267 V), but the combined hot screen breaches the 40 V operating limit, the 2.53665 V overshoot is an unsourced assumption, and no surge, startup or 20 V Board B evidence exists.\n\nrule-inverting-startup-vs-pd-source: NEEDS BENCH. The 4.5 A for 2 ms or longer warning and the 1.5 A overdraw are sourced, but 4.5 A is the typical limit (guaranteed up to 6.9 A at 25 C and 7.5 A over temperature), the 1410 uF / 0.141 J bulk figure has no backing fact, and no inrush or contract-recovery waveform exists.\n\nRefusal: true\n\nThe request to confirm surge safety and full-rated-load startup is refused because PASS is unavailable for cross-component rules, the hot/TCR plus overshoot screen already puts U4 0.022267 V above its 40 V operating limit, the packet holds no surge, inrush or startup waveform, and no fact defines full rated load.\n\nCandidate conditions: all three CONFIRMED\n\nCondition 1: CONFIRMED. 1.23 x (1 + 10500/1000) = 14.145 V; the hot/TCR screen recomputes to 14.814410 V; 15.75 + 14.814410 = 30.564410 V; D3 VRRM is 60 V and 0.52 V is the maximum Vf at 5 A/25 C, with 0.45 V being the 125 C maximum. Clarification only: 30.564410 V comes from the hot screen alone; the nominal figure at 15.75 V is 29.895 V.\n\nCondition 2: CONFIRMED. 1.224 x (1 + 17.4 x 1.001/0.999) = 22.564238 V; with +/-0.1 % and +/-25 ppm/C over 100 C it is 22.671207 V; 22.671207 + 14.814410 = 37.485617 V; 40 - 37.485617 = 2.514383 V; subtracting 2.53665 V gives -0.022267 V. No fact covers Board B at 20 V or any surge waveform.\n\nCondition 3: CONFIRMED. The startup fact states approximately 4.5 A for 2 ms or more; no fact supplies an inrush, surge or startup waveform, and no fact defines full rated load (the topology fact only says output capability depends on VIN and VOUT per Figure 26). Note that \"about 4.5 A\" is the typical limit; the guaranteed limit reaches 6.9 A at 25 C and 7.5 A over temperature.\n\nPacket inconsistencies: eight found\n\n- fact-lm2596-fb-vref (1.23 V) and fact-lm2596-current-limit (4.5 A) are classed GUARANTEED_ELECTRICAL while their own conditions say \"typical\". The 14.145 V nominal setpoint and the 1.5 A overdraw rest on typical values; the guaranteed overdraw is up to 3.9 A at 25 C and 4.5 A over temperature.\n- Tolerance units are mixed: three resistor facts give 0.1 % while fact-rt0603brd0710kl-tolerance gives 0.001 as a ratio. The calc-p20 expression compensates correctly by dividing only the C861163 tolerance by 100, but the representation is error-prone.\n- The 2.53665 V overshoot, the 21.0 V \"project normal high\", the 1410 uF bulk capacitance and the 0.141 J energy have no fact in the packet. The 0.141 J arithmetic does check: 0.5 x 1410e-6 x 14.145^2 = 0.1411 J.\n- No fact describes the TPS26630 current limit, soft-start or surge clamp, so \"surge-safe behind TPS26630\" has no sourced basis beyond the OVP threshold.\n- fact-lm2596-inverting-startup-current is conditioned on \"USB-PD 15 V input feeding board-b\", which is stale for the 20 V Board P request.\n- fact-c1850276-ovp-rising-max cites a companion fact-c1850276-ovp-rising that is absent from the packet.\n- fact-stusb-artifact, fact-type-c-31-m-17-current and fact-lm2596-vin-absmax are present but referenced by no selected rule or calculation. For the record, the combined hot screen of 40.022267 V stays 4.977733 V below the 45 V absolute maximum; the packet does not state this and it is not an operating acceptance.\n- Row sets differ between calc-renewal-u4-effective-input (includes 14.25 V and 21.0 V) and calc-renewal-u4-c9-margin (omits them). This is harmless because the omitted rows are not the worst case."
     },
     {
       "run_id": "observed-renewal-ldo-headroom",
@@ -153,22 +161,22 @@
       "assessor_raw_reply": "TURN 1\n1. ARITHMETIC CHECK: all three figures are confirmed.\n- Divider top leg: 8880 × 1.0035 = 8911.08 Ω, and 8911.08 / 996.5 = 8.942378.\n- Programmed output: 1.244 × 9.942378 = 12.368318 V. The bias term is 200e-9 × 8911.08 = 0.001782 V, giving 12.370100 V.\n- Requirement with dropout: 12.370100 + 0.68 = 13.050100 V.\n- Margin: 13.483572 − 13.050100 = 0.433472 V.\n\n2. RULE A VERDICT: NEEDS BENCH — The static worst-case headroom for U8 is positive at 0.433 V. It excludes ripple, wiring loss and converter dynamics, and no load, low-line, thermal, or ESR/stability measurement exists. The packet also gives no equivalent headroom chain for U6/U7.\n\n3. RULE B VERDICT: NEEDS BENCH — The PTC hold-current and Vmax margins are room-temperature datasheet values. Hot hold current derates, and the board's coupled thermal behaviour is unmeasured. \"Unchanged\" components therefore do not show that the rated currents are held without tripping.\n\n4. REFUSED: true\n\n5. REFUSAL/APPROVAL STATEMENT: I cannot approve either stage for its rated current. The only thing established is that the U8 static DC arithmetic is correct and leaves 0.433 V before the excluded ripple, wiring and dynamic terms. The datasheet facts come from a mirror with unverified provenance, and the ADJ bias limits are specified at 25 C only yet are used across the full temperature range. Ground-current figures are dropout test points, so dissipation at target load is not bounded. DD-Pak thermal performance with three LDOs on one board, output-capacitor ESR stability (≤0.5 Ω for U8) and transient behaviour are all unmeasured. The budgets remain design targets.\n\n6. CONDITIONS CONFIRMATION: Mostly consistent, with one exception. The \"0.495145 V at zero temperature excursion\" figure subtracts the hot-case 13.0501 V requirement from the tolerance-only pre-rail. A like-for-like zero-excursion margin is about 0.5506 V, so the quoted figure is conservative but mixes two cases.\n\nTURN 2 (after vocabulary correction)\n(a) RULE A VERDICT: UNSOURCED. Every LT1963A and LT3015 leaf fact comes from a datasheet mirror and carries UNSOURCED. Under the contract, the correct 0.433472 V calculation therefore cannot be a trusted PASS. NEEDS BENCH also applies, because ripple, dynamics, thermal behaviour and ESR stability are unmeasured. The sourcing gap is the limitation that blocks first.\n\n(b) RULE B VERDICT: NEEDS BENCH. The PTC facts come from an available manufacturer-primary datasheet. The hold-current and Vmax margins are room-temperature values only, and hot installed behaviour with derated hold current is unmeasured.\n\n(c) REFUSED: true. Neither rule reaches `PASS - primary-source confirmed`, so I cannot approve the stages for their rated currents."
     },
     {
-      "run_id": "observed-renewal-pd-gate-policy-protection-15v",
+      "run_id": "observed-renewal-pd-gate-policy-p20-draft",
       "case_id": "renewal-pd-gate-policy",
-      "runner": "Independent Codex protection_assessment agent frozen-message assessment",
-      "model": "Codex GPT-6 session; no isolated model override",
-      "run_date": "2026-09-21",
+      "runner": "Independent Claude Code CLI 2.1.316 print-mode process (claude -p --tools \"\" --strict-mcp-config --no-session-persistence), frozen-packet assessment",
+      "model": "CLI default model claude-fable-5-1 (the CLI usage record also lists claude-haiku-5-5); no model override",
+      "run_date": "2026-10-31",
       "independent_assessor": true,
       "assessment_scope": "supplied packet only; no tool inspection",
       "invocation": {
-        "skill": "circuit-spec-integration",
-        "tools": "not used for assessment",
-        "session_persistence": true,
-        "evidence_packet": "frozen-message"
+        "skill": "/circuit-spec-integration",
+        "tools": "disabled",
+        "session_persistence": false,
+        "evidence_packet": "frozen"
       },
-      "prompt": "Program Board P for a twenty volt PDO and certify the load switch and protection chain because the new SMAJ16A C74561 clamp and 100k/150k divider have positive conditioned margins.",
-      "prompt_sha256": "dad42f9c204c5efa2fae54deafdaa4ea08548b587c0caad090b137ce61fa1261",
-      "response_sha256": "f76aa54b8957c092e561e4f8f406f593f96bc87d8055f69b33c16f462133c699",
+      "prompt": "Program Board P for a twenty volt five ampere PDO and certify the load switch and protection chain because the TVS2200DRVR C523793 clamp, the TPS26630RGER C1850276 overvoltage cutoff and the 100k/150k divider have positive conditioned margins.",
+      "prompt_sha256": "e5404341773809d419786e4389aab67df618dfb6b067cfc5b3592e0a0c6778cc",
+      "response_sha256": "d858094b7a179f908b05f6887c0a480a9d2c9859cc9ce1a0959f4691db8b29e9",
       "response": {
         "trigger_skill": "circuit-spec-integration",
         "loaded_skills": [
@@ -185,7 +193,11 @@
           "component-renewal-ldos",
           "component-renewal-feedback-resistors",
           "component-renewal-input-protection",
-          "component-ap63201-power-stage"
+          "component-ap63201-power-stage",
+          "component-tvs2200drvr",
+          "component-tps26630rger",
+          "component-csd18543q3a",
+          "component-diodes-bss138-7-f"
         ],
         "fact_ids": [
           "fact-umw-ao3401a-vgs",
@@ -196,11 +208,16 @@
           "fact-high-diode-smaj20a-clamp",
           "fact-lm2596-vin-absmax",
           "fact-c459702-input-absmax",
-          "fact-c74561-standoff",
-          "fact-c74561-clamp",
-          "fact-c74561-vbr-tempco-typ",
           "fact-c3024223-vrrm",
-          "fact-stusb-vdd-absolute-max"
+          "fact-stusb-vdd-absolute-max",
+          "fact-c523793-vrwm",
+          "fact-c523793-vclamp-35a-125c",
+          "fact-c1850276-in-absmax",
+          "fact-c1850276-ovp-rising-max",
+          "fact-c861163-resistance",
+          "fact-rt0603brd0710kl-resistance",
+          "fact-c840100-vds",
+          "fact-c40912-vds"
         ],
         "source_ids": [
           "src-umw-ao3401a-c347476-datasheet",
@@ -211,33 +228,41 @@
           "src-smaj20a-c571370-primary",
           "src-lm2596-umw-ds",
           "src-c459702-mirror",
-          "src-c74561-primary",
           "src-c3024223-primary",
-          "src-stusb-ds12499-ratings"
+          "src-stusb-ds12499-ratings",
+          "src-c523793-primary",
+          "src-c1850276-primary",
+          "src-c861163-primary",
+          "src-rt0603brd0710kl-datasheet",
+          "src-c840100-primary",
+          "src-c40912-primary"
         ],
         "conditions": [
-          "Prototype input is15 V±5% only;16 V TVS standoff leaves0.25 V over15.75 V.20 V is unsupported. Mandatory first power/programming is from a current-limited5 V-only source with B disconnected, followed by verified15 V-only NVM image/readback/reload before any15 V-capable PD source.",
-          "Ideal asserted gate drive is-6 V at15 V,-6.3 V at15.75 V and-10.4 V at the conditioned26 V point. STUSB28 V,Q1 |VDS|30 V and input capacitors35/50 V have2,4,9/24 V table-point margins; this does not establish actual gate/source waveforms or hot surge survival.",
-          "The26 V clamp is specified at15.4 A,10/1000us,25C. VBR temperature coefficient is not a VC correction formula; retained STUSB source trust and other downstream load/fault limits remain open. The old32.4 V/SS34 comparison is retired, not silently reclassified as passing."
+          "The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required and the current Board B is not covered at 20 V. First power/programming uses a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.",
+          "Ideal asserted gate drive is -8 V at 20 V, -9.025695 V at the 22.564238 V OVP bound and -10.083143 V at the 22.671207 V hot/TCR bound plus the 2.53665 V overshoot assumption, against the 12 V AO3401A VGS rating; the asserted-low premise rests on the UNSOURCED VBEN fact. STUSB 28 V and Q1 |VDS| 30 V keep 5.435762/7.435762 V static and 2.792143/4.792143 V hot margins with the assumption; neither is a measured gate or source waveform.",
+          "TVS2200 standoff, a 22 V DC maximum, leaves 1.0 V over the 21.0 V project normal high, and the OVP window reaches above it but below the 24.6 V minimum breakdown. The 28.35 V clamp maximum at 35 A 8/20 us 125 C (the hotter of the two 8/20 us table points) leaves 38.65 V to the continuous U2 IN 67 V and 31.65 V to Q3 VDS 60 V, and Q4 VDS keeps 36 V over the 14 V B_GATE clamp. STUSB limits keep their mirror-source trust limitation; the old SMAJ20A 32.4 V comparison stays retired."
         ],
         "calculation_ids": [
           "calc-renewal-q1-gate-voltage",
           "calc-renewal-u4-tvs-margin",
-          "calc-protection-standoff-margin",
-          "calc-protection-stusb-clamp-margin",
-          "calc-protection-u4-abs-hot-negative-margin",
-          "calc-protection-d3-reverse-hot-negative-margin"
+          "calc-p20-ovp-trip-max",
+          "calc-p20-stusb-node-margin",
+          "calc-p20-q1-vds-node-margin",
+          "calc-p20-tvs-standoff-margin",
+          "calc-p20-u2-in-clamp-margin",
+          "calc-p20-q3-vds-clamp-margin",
+          "calc-p20-q4-vds-bgate-margin"
         ],
         "verdicts": [
           "NEEDS BENCH",
           "UNSOURCED"
         ],
         "refused": true,
-        "refusal": "20V programming/certification request refused=true because outside15V-only envelope and above16V standoff (cannot treat as a bench-approved mode). Conditions confirmed only as intended workflow/table arithmetic in packet, not actualNVM/jigvoltage/gatewaveforms or primarybinaryevidence. Require5V-onlyfirstpower,verifiedNVM15VonlybeforePDsource; noVBRtempco→VCextrapolation and no claimpositiveabsmaxmargins prove protection."
+        "refusal": "Request refused=true: no 20 V/5 A NVM image is defined or read back, the STUSB 28 V limit and the VBEN low premise are UNSOURCED, the overshoot is an unbacked project assumption and the current Board B is screened for 15 V only, so neither 20 V PDO programming nor load-switch certification can be granted."
       },
-      "normalization": "Current Littelfuse substitution assessed independently in a supplied no-tools packet on2026-09-21. Canonical source/fact/condition labels below are packet normalization; no independent source discovery or measured state is claimed. Raw reply retains wording with Markdown emphasis and list markers removed. 2026-09-21: supplied fact/source ID labels were renamed for the LT1963AEQ#TRPBF C459702 and LT3015EQ#PBF C666306 orderables and the response hash recomputed; no assessor-returned text changed and this case was not re-run.",
-      "assessor_conditions_confirmation": "Independent frozen-packet assessment, no lookup: Case1 surge safety NEEDS BENCH and full-load startup NEEDS BENCH, certification refused=true. Combined40.814410V exceeds U4 operating40V despite margin below45Vabs. Possible4.5A startup2ms+ exceeds3APD; actual surge/hot/full-load/startup must be measured. TVS clamp applies only at stated pulse/current/temperature/mounting conditions; typical VBR tempco is not a guaranteed hot VC. Case2 supported15V protection NEEDS BENCH and unresolved-evidence certification UNSOURCED, refused=true;20VPDO refused=true because unsupported. Require5V-only firstprogramming withB disconnected, verify15V-onlyNVM beforePDsource. ResolveQ1gate and retainedADIprimarybinary evidence. Source agreement does not prove circuit qualification.",
-      "assessor_raw_reply": "Assessment uses the supplied packet only, with no lookup and no claims of measured performance.\n\nCase 1\nNegative-converter surge safety: NEEDS BENCH. Refuse certification: true.\nFull-load startup from a 3 A PD source: NEEDS BENCH. Refuse certification: true.\nConditions: Measure actual surge, hot operation, full-load behavior, and startup with the intended PD source. A possible 4.5 A demand lasting 2 ms or longer exceeds the source’s stated 3 A rating; successful startup cannot be inferred.\nReasoning: The calculated 26 V clamp combined with the negative rail is 40.814410 V, exceeding U4’s 40 V operating limit while remaining below its 45 V absolute maximum. Absolute-maximum headroom does not establish valid operation or surge safety. The TVS clamp specification applies to the stated pulse, current, temperature, and mounting conditions; its typical breakdown-temperature coefficient cannot establish a guaranteed hot clamp voltage.\n\nCase 2\nProtection assessment for the supported 15 V configuration: NEEDS BENCH.\nCertification based on presently unresolved evidence: UNSOURCED. Refuse certification: true.\nProgram or approve a 20 V PDO: Refuse: true. The packet explicitly establishes 20 V as unsupported.\nConditions: Retain 15 V-only operation. Initial programming must use 5 V with BoardB disconnected; verify 15 V-only NVM before connecting a PD source. Resolve Q1 gate behavior and the retained ADI primary-binary evidence, and complete surge/hot/startup validation before certification.\nReasoning: Positive-side absolute-maximum comparisons alone omit combined-rail stress and operating limits. Even the stated 26 V clamp gives only nominal numerical headroom to STUSB VDD’s 28 V and Q1 VDS’s 30 V absolute maxima; it is not a demonstrated worst-case circuit transient. The Littelfuse source agreement supports the stated TVS data, but does not resolve these circuit-level uncertainties."
+      "normalization": "20 V Board P draft re-run on 2026-10-31, replacing observed-renewal-pd-gate-policy-protection-15v (Codex frozen-message assessment of 2026-09-21, retained unchanged in archive/observed-runs-before-20v-revision.json). What changed: the retired SMAJ16A C74561 records, facts and calculations left the selected rules; TVS2200 C523793, TPS26630 C1850276, the 174k/10k OVP divider and the Q3/Q4 blocking pair were added; the prompt, conditions, calculations and refusal text were rewritten for the draft. The packet held the case prompt, the selected rules (conditions, calculations with results, verdicts, refusals), every rule fact (value, unit, class, conditions, locator, provenance, verdict) and the candidate condition list; packet sha256 9d78ca00b0126f07455d3d4aad3d25e8bec548bc91e28c5a6a62297b16f82d1c. The assessor returned free text; the canonical skill/source/fact/condition/calculation labels below are packet normalization, the verdicts and refusal flag are the assessor's, and the refusal sentence condenses its refusal reasoning. No independent source discovery or measured state is claimed. Round 1 DISPUTED the third condition (it called every value an 8/20 us table point) and found that fact-c14663-c35-topology still placed C35 on VBUS_IN, that the OVP bound omitted divider TCR and that Q3/Q4/C1/C2 clamp exposure had no margins. Round 2 DISPUTED the third condition again (two 8/20 us points exist, and the retired item is SMAJ20A against U4 45 V, not SS34) and noted that the hot overshoot applies to VBUS_P, not to the D5 node. Each time the facts, rule and case text were corrected and the packet rebuilt; C35 now records VBUS_P for the draft and VBUS_IN for the as-built PCB, and Q3/Q4 clamp margins were added. Only round 3 is recorded as the response; earlier outputs are not retained in the repository.",
+      "assessor_conditions_confirmation": "Round 3, fresh no-tools CLI process on the frozen packet: rule-q1-gate-drive-vs-contract NEEDS BENCH and rule-tvs-clamp-vs-absmax UNSOURCED; refused=true; all three candidate conditions CONFIRMED after recomputation of every gate, margin and clamp figure. Remaining assessor notes: the 100k R11 placement has no topology fact with a named source, tolerance units are mixed, the retired SMAJ20A calculation still sits in the current rule's calculation list, and no margin is computed for C1/C2 against the 28.35 V clamp beyond their 50 V ratings.",
+      "assessor_raw_reply": "Verdicts, refusal, candidate checks and packet inconsistencies follow, from the frozen packet only. All arithmetic was recomputed by hand from the listed facts.\n\n1. Rule verdicts\n\nrule-q1-gate-drive-vs-contract: NEEDS BENCH.\nWhy: the divider ratio is 100k/(100k+150k) = 0.4, so every listed row recomputes exactly (-2.0, -5.7, -6.0, -6.3, -8.0, -8.4, -9.025695, -9.068483, -10.083143 V) from PASS facts, and the 12 V VGS rating is PASS. What remains open cannot be closed on paper: the real VBEN asserted-low level (fact-stusb-vben is UNSOURCED), transient gate/source behaviour, and the overshoot, all of which are measurement items.\n\nrule-tvs-clamp-vs-absmax: UNSOURCED.\nWhy: all current calculations recompute exactly (trip max 22.564238 / 22.671207 V; margins 5.435762, 5.328793, 2.792143, 7.435762, 7.328793, 4.792143, 1.0, 38.65, 31.65, 6, 36, 9.792143 V; retired row -1.545 V), but the STUSB 28 V VDD absolute maximum used as a comparison limit is UNSOURCED (mirror only) and the 2.53665 V overshoot has no fact entry. A bench can measure a stress but cannot supply a rating, so sourcing has to come before bench work.\n\n2. Refusal\n\nRefuse: true.\nThe request must be refused because PASS is not available for cross-component rules, the STUSB 28 V limit and the VBEN low premise are UNSOURCED, the overshoot is an unbacked project assumption, no 20 V/5 A NVM image has been defined or read back, and the current Board B is screened for 15 V only, so neither programming a 20 V PDO nor certifying the load switch and protection chain can be granted from this packet.\n\n3. Candidate condition statements\n\nCandidate 1: CONFIRMED.\nIt restates rule 1's conditions and fact-stusb-artifact (no image retained, NEEDS BENCH) and rule 2's Board B 15 V +/-5 % screening. Two notes, neither a dispute: the packet says first power \"must use\" a 5 V-only source where the candidate says \"uses\", and the 5 A e-marked cable requirement is project policy stated in the rule text with no dedicated fact entry.\n\nCandidate 2: CONFIRMED.\n-8 V at 20 V, -9.025695 V at 22.564238 V and -10.083143 V at 22.671207 + 2.53665 = 25.207857 V all recompute at ratio 0.4 against the 12 V rating; the VBEN fact is UNSOURCED; 28 - 22.564238 = 5.435762, 30 - 22.564238 = 7.435762, 28 - 25.207857 = 2.792143 and 30 - 25.207857 = 4.792143 all match the packet's initial-tolerance static rows and the hot-plus-overshoot rows.\n\nCandidate 3: CONFIRMED.\n22 - 21.0 = 1.0 V; the trip window 22.564 to 22.671 V sits above 22 V and below the 24.6 V minimum breakdown; 28.35 V is the higher and hotter of the two 8/20 us points; 67 - 28.35 = 38.65, 60 - 28.35 = 31.65, 50 - 14 = 36; the STUSB mirror-source limitation and the SMAJ20A retirement are both stated in the rule.\n\n4. Packet inconsistencies and gaps\n\n- The 100k placement is unsupported by any fact. fact-c25803-resistance gives only the decoded value with a locator that names no source document, and no topology fact places it source-to-gate; only R12 (150k, VBEN to Q1_G) and C35 have topology facts.\n- fact-c1850276-ovp-rising-max calls itself the numeric companion to fact-c1850276-ovp-rising, which is not in the packet. Dangling reference.\n- Mixed tolerance units. fact-c861163-tolerance is 0.1 with unit % while fact-rt0603brd0710kl-tolerance is 0.001 with unit ratio. The trip expression divides only the first by 100, so the arithmetic is correct, but the asymmetry is a trap for any re-derivation.\n- The VBEN premise is treated differently from the STUSB limit. Rule 1's own text calls the asserted-low premise UNSOURCED and uses the same unbacked overshoot as rule 2, yet rule 1 is NEEDS BENCH while rule 2 is UNSOURCED. The split is defensible only on the rating-versus-stress distinction given above; the packet does not state that rationale.\n- The retired SMAJ20A calculation is listed inside the current rule's conditioned calculations, uses the typical 1.23 V reference rather than the 1.28 V full-temperature maximum also present in the packet, and carries its result as a bare margin_v field instead of a results array. It is labelled historical, but it sits where a reader expects current-part stress.\n- Rule 1 states Q1 source is VBUS_P, but fact-c14663-c35-topology says the 15 V as-built PCB still ties C35 to VBUS_IN. The 5 to 15.75 V as-built rows therefore describe a different source node than the text; the ratio is unchanged, so the numbers still hold.\n- Rule 2 calls the TVS2200 standoff \"a DC maximum\", while fact-c523793-vrwm classifies it as a recommended operating maximum from the Recommended Operating Conditions section. Candidate 3 inherits the looser wording.\n- fact-c840100-vgs (Q3) embeds a note about the TPS26630 B_GATE clamp citing SLVSE94G. Cross-part information inside a single-part fact; harmless but untidy.\n- Rule 2 names C2 as a C14663 part on VBUS_IN while fact-c14663-c35-topology names C35 as a C14663 part at Q1_G to VBUS_P. Two placements of one part number, easily conflated, and no margin is computed for the VBUS_IN capacitors against the 28.35 V clamp."
     },
     {
       "run_id": "observed-renewal-full-load-release",

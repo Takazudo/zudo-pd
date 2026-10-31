@@ -656,7 +656,7 @@
   ],
   "source_generator": "scripts/pcb/calculate-power-budget.py",
   "board_b_spec_sha256": "12814d07a8318bc16ab0259ff6baddfd67af3abe01b8824feb5b0885608cff49",
-  "board_p_spec_sha256": "104f5c6abb8dc4ac555cccbe68981799b19ad3d1bdd6a006072ed60d0266ef94",
+  "board_p_spec_sha256": "c0ec4e996f323a929899da77d15b9a76285380429ceba6b45a81ca923a1f5213",
   "protection_pcb_source_sha256": {
     "board-b": "c8f83fcdba4daa06bfcce6b998bc2c3ab0400a0c12d4b13e1ba391a72553fc2f",
     "board-p": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278"
@@ -701,7 +701,35 @@
       "effective_nominal_negative_v": 46.545,
       "u4_abs_margin_at_nominal_v": -1.5449999999999982,
       "old_d3_margin_at_nominal_v": -6.544999999999998
-    }
+    },
+    "scope": "Board P PCB as-built 15 V pairing (SMAJ16A D5); the Board P spec is now the 20 V draft, screened separately below."
+  },
+  "board_p_20v_draft_screen": {
+    "status": "20 V BOARD P DRAFT SCREEN; no PCB, no measurement. The current Board B was screened only for 15 V +/-5 % input and is not covered at 20 V.",
+    "board_p_spec_parts": {
+      "d5": "TVS2200DRVR C523793",
+      "u2": "TPS26630RGER C1850276",
+      "ovp_divider": "174k C861163 / 10k C95204"
+    },
+    "connector_node_clamp_hot_v": 28.35,
+    "u2_in_absmax_v": 67,
+    "protected_node_ovp_trip_max_v": 22.564237837837833,
+    "protected_node_overshoot_assumption_v": 2.53665,
+    "protected_node_max_v": 25.10088783783783,
+    "stusb_28v_margin_static_v": 5.435762162162167,
+    "stusb_28v_margin_with_overshoot_v": 2.8991121621621687,
+    "q1_ideal_vgs_at_node_max_v": -10.040355135135133,
+    "board_b_u4_effective_at_ovp_max_v": 37.37864827436568,
+    "board_b_u4_40v_operating_margin_at_ovp_max_v": 2.6213517256343195,
+    "board_b_20v_coverage": "NOT RUN: AP63201 input/duty, LDO dissipation, input capacitors, startup current and the Board B limiter have not been screened at 20 V input.",
+    "evidence": [
+      "fact-c1850276-ovp-rising-max",
+      "fact-c1850276-in-absmax",
+      "fact-c523793-vclamp-35a-125c",
+      "fact-c861163-resistance",
+      "fact-c861163-tolerance",
+      "fact-rt0603brd0710kl-resistance"
+    ]
   },
   "actual_filled_copper": {
     "pcb_sha256": "c8f83fcdba4daa06bfcce6b998bc2c3ab0400a0c12d4b13e1ba391a72553fc2f",

@@ -20,7 +20,8 @@
     "renewal-ldos",
     "renewal-input-protection",
     "renewal-screw-terminals",
-    "p-20v-revision"
+    "p-20v-revision",
+    "p-20v-front-end-r2"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -462,7 +463,7 @@
     {
       "key": "p-20v-revision",
       "id": "dec-p-20v-revision",
-      "title": "Board P 20 V / 5 A revision: TPS26630 input eFuse, TVS2200 connector clamp, accept-or-refuse",
+      "title": "Board P 20 V / 5 A revision: TPS26630 input eFuse, TVS2200 connector clamp, accept-or-refuse (UVLO divider and bulk superseded by dec-p-20v-front-end-r2)",
       "status": "LOCKED",
       "applies_to": [
         "board_p_spec",
@@ -480,6 +481,32 @@
         "fact-c523793-vclamp-40a",
         "fact-c861163-resistance",
         "fact-c705781-resistance"
+      ]
+    },
+    {
+      "key": "p-20v-front-end-r2",
+      "id": "dec-p-20v-front-end-r2",
+      "title": "Board P 20 V front end r2: reverse-blocking FET, UVLO at or above 4.5 V rising, single 100 uF bulk",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-4 direction 2026-10-31 within the user-approved 20 V revision (dec-p-20v-revision). Q3 CSD18543Q3A C840100 is the SLVSE94G 8.3.5 blocking FET: source on connector-side VBUS_IN (U2 IN_SYS), drain on EF_IN (U2 IN 1/2), gate on EF_BGATE (U2 B_GATE). Q4 BSS138-7-F C40912 is the B_GATE pulldown: gate EF_DRV (U2 DRV), source VBUS_IN, drain EF_BGATE. UVLO R22/R23 becomes 11.5k C705719 / 4.02k C705781 0.1 % (rising 4.53-4.73 V, falling 4.20-4.45 V). Bulk on VBUS_P is the single C3 100 uF 50 V RVT1H101M0810 C970687; C4 is removed. All other dec-p-20v-revision values are unchanged.",
+      "rationale": "Without Q3, U2 IN_SYS/IN are shorted and the protected node can back-feed the source; OSC proposes reverse current at most 1 mA. Q4 meets the datasheet pulldown rule (>= 15 V VDS, 20 V VGS, Ciss <= 50 pF, VGTH <= 3 V). The previous 10.5k/4.3k UVLO rose at 4.02-4.25 V, below the 4.5 V project floor; 11.5k/4.02k guarantees rising >= 4.5 V while falling 4.20-4.45 V remains a residual below 4.5 V. With 2 x 100 uF (up to 240 uF) the 5 V to 20 V PD transition at the source slew ceiling would draw about 7 A, above the 4.185 A I(OL) minimum; one 100 uF part (80-120 uF) limits it to about 3.6 A, while the hot-unplug overshoot estimate at 80 uF stays below the STUSB4500 28 V limit. The slew ceiling, ESR and overshoot terms are project assumptions; nothing is measured.",
+      "evidence": [
+        "fact-c1850276-blocking-fet-topology",
+        "fact-c1850276-bgate-clamp-max",
+        "fact-c840100-vds",
+        "fact-c840100-vgs",
+        "fact-c40912-vds",
+        "fact-c40912-ciss-max",
+        "fact-c40912-vgsth-max",
+        "fact-c705719-resistance",
+        "fact-c705781-resistance",
+        "fact-c1850276-uvlo-rising",
+        "fact-c1850276-iol-4k02",
+        "fact-c970687-voltage"
       ]
     }
   ]

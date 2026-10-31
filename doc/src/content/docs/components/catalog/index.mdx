@@ -83,8 +83,14 @@ Four columns describe state. None of them is a grade, and there is deliberately 
   | <EvidenceAnchor id="rec-grm32er71h106ka12l" />[GRM32ER71H106KA12L](/docs/components/records/grm32er71h106ka12l/)                   | `rec-grm32er71h106ka12l`            | 10 uF 50 V ceramic power capacitor                                                                                            | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
   | <EvidenceAnchor id="rec-rt0603bre07158kl" />[RT0603BRE07158KL](/docs/components/records/rt0603bre07158kl/)                         | `rec-rt0603bre07158kl`              | 158 kOhm precision feedback resistor                                                                                          | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
   | <EvidenceAnchor id="rec-rt0603brd0710kl" />[RT0603BRD0710KL](/docs/components/records/rt0603brd0710kl/)                            | `rec-rt0603brd0710kl`               | 10 kOhm precision feedback resistor                                                                                           | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c74561" />[SMAJ16A](/docs/components/records/c74561/)                                                      | `rec-c74561`                        | 15V-only input surge TVS                                                                                                      | Fitted          | VERIFIED   | AVAILABLE          | 2 of 2       |
   | <EvidenceAnchor id="rec-c3024223" />[SDT5A60SA-13](/docs/components/records/c3024223/)                                             | `rec-c3024223`                      | inverting converter60V catch diode                                                                                            | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
+  | <EvidenceAnchor id="rec-c1850276" />[TPS26630RGER](/docs/components/records/c1850276/)                                             | `rec-c1850276`                      | 20V input eFuse with adjustable OVP, UVLO and current limit                                                                   | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
+  | <EvidenceAnchor id="rec-c523793" />[TVS2200DRVR](/docs/components/records/c523793/)                                                | `rec-c523793`                       | 20V connector flat-clamp TVS, 22V standoff                                                                                    | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
+  | <EvidenceAnchor id="rec-c861163" />[RT0603BRD07174KL](/docs/components/records/c861163/)                                           | `rec-c861163`                       | 174 kOhm precision eFuse OVP divider resistor                                                                                 | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
+  | <EvidenceAnchor id="rec-c705781" />[RT0603BRD074K02L](/docs/components/records/c705781/)                                           | `rec-c705781`                       | 4.02 kOhm precision eFuse current-limit and UVLO divider resistor                                                             | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
+  | <EvidenceAnchor id="rec-c840100" />[CSD18543Q3A](/docs/components/records/c840100/)                                                | `rec-c840100`                       | 20V input reverse-blocking power MOSFET                                                                                       | Fitted          | VERIFIED   | AVAILABLE          | 1 of 3       |
+  | <EvidenceAnchor id="rec-c40912" />[BSS138-7-F](/docs/components/records/c40912/)                                                   | `rec-c40912`                        | blocking FET gate pulldown small-signal MOSFET                                                                                | Fitted          | VERIFIED   | AVAILABLE          | 1 of 3       |
+  | <EvidenceAnchor id="rec-c705719" />[RT0603BRD0711K5L](/docs/components/records/c705719/)                                           | `rec-c705719`                       | 11.5 kOhm precision eFuse UVLO divider resistor                                                                               | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
 </EvidenceTable>
 
 ## Part entries
@@ -629,7 +635,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c970687`                                                                                                                |
 | Also known as  | `electrolytic capacitor`                                                                                                      |
 
-**Placements:** board-b C9 (fitted)
+**Placements:** board-b C9 (fitted); board-p C3 (fitted)
 
 **Fit:** Fitted
 
@@ -1053,7 +1059,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `C0603`                               |
 | Inventory line | `line-c14663`                         |
 
-**Placements:** board-p C2 (fitted), C35 (fitted)
+**Placements:** board-p C2 (fitted), C35 (fitted), C5 (fitted)
 
 **Fit:** Fitted
 
@@ -1512,7 +1518,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `R0603`                               |
 | Inventory line | `line-c95204`                         |
 
-**Placements:** board-b R2 (fitted)
+**Placements:** board-b R2 (fitted); board-p R25 (fitted)
 
 **Fit:** Fitted
 
@@ -1523,30 +1529,6 @@ One entry per record, carrying the orderable identity and every board placement.
 **Open coverage domains:** 1 open of 2 published
 
 [RT0603BRD0710KL record details](/docs/components/records/rt0603brd0710kl/) — No owning bundle is identified in the published model.
-
-### SMAJ16A
-
-| Field          | Recorded value                        |
-| -------------- | ------------------------------------- |
-| Record ID      | `rec-c74561`                          |
-| Kind           | standalone — audited in its own right |
-| Manufacturer   | Littelfuse                            |
-| Function       | 15V-only input surge TVS              |
-| Orderable ID   | `C74561`                              |
-| Package        | `SMA_Littelfuse_SMAJ16A_C74561`       |
-| Inventory line | `line-c74561`                         |
-
-**Placements:** board-p D5 (fitted)
-
-**Fit:** Fitted
-
-**Identity state:** VERIFIED
-
-**Source state:** AVAILABLE
-
-**Open coverage domains:** 2 open of 2 published
-
-[SMAJ16A record details](/docs/components/records/c74561/) — No owning bundle is identified in the published model.
 
 ### SDT5A60SA-13
 
@@ -1571,3 +1553,174 @@ One entry per record, carrying the orderable identity and every board placement.
 **Open coverage domains:** 1 open of 2 published
 
 [SDT5A60SA-13 record details](/docs/components/records/c3024223/) — No owning bundle is identified in the published model.
+
+### TPS26630RGER
+
+| Field          | Recorded value                                              |
+| -------------- | ----------------------------------------------------------- |
+| Record ID      | `rec-c1850276`                                              |
+| Kind           | standalone — audited in its own right                       |
+| Manufacturer   | Texas Instruments                                           |
+| Function       | 20V input eFuse with adjustable OVP, UVLO and current limit |
+| Orderable ID   | `C1850276`                                                  |
+| Package        | `VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7`                          |
+| Inventory line | `line-c1850276`                                             |
+| Also known as  | `20V input electronic fuse`                                 |
+
+**Placements:** board-p U2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 4 published
+
+[TPS26630RGER record details](/docs/components/records/c1850276/) — No owning bundle is identified in the published model.
+
+### TVS2200DRVR
+
+| Field          | Recorded value                             |
+| -------------- | ------------------------------------------ |
+| Record ID      | `rec-c523793`                              |
+| Kind           | standalone — audited in its own right      |
+| Manufacturer   | Texas Instruments                          |
+| Function       | 20V connector flat-clamp TVS, 22V standoff |
+| Orderable ID   | `C523793`                                  |
+| Package        | `WSON-6_L2.0-W2.0-P0.65-BL-EP`             |
+| Inventory line | `line-c523793`                             |
+| Also known as  | `20V connector flat-clamp TVS`             |
+
+**Placements:** board-p D5 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 4 published
+
+[TVS2200DRVR record details](/docs/components/records/c523793/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07174KL
+
+| Field          | Recorded value                                |
+| -------------- | --------------------------------------------- |
+| Record ID      | `rec-c861163`                                 |
+| Kind           | standalone — audited in its own right         |
+| Manufacturer   | YAGEO                                         |
+| Function       | 174 kOhm precision eFuse OVP divider resistor |
+| Orderable ID   | `C861163`                                     |
+| Package        | `R0603`                                       |
+| Inventory line | `line-c861163`                                |
+
+**Placements:** board-p R24 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 0 open of 1 published
+
+[RT0603BRD07174KL record details](/docs/components/records/c861163/) — No owning bundle is identified in the published model.
+
+### RT0603BRD074K02L
+
+| Field          | Recorded value                                                    |
+| -------------- | ----------------------------------------------------------------- |
+| Record ID      | `rec-c705781`                                                     |
+| Kind           | standalone — audited in its own right                             |
+| Manufacturer   | YAGEO                                                             |
+| Function       | 4.02 kOhm precision eFuse current-limit and UVLO divider resistor |
+| Orderable ID   | `C705781`                                                         |
+| Package        | `R0603`                                                           |
+| Inventory line | `line-c705781`                                                    |
+| Also known as  | `4.02 kOhm precision eFuse current-limit resistor`                |
+
+**Placements:** board-p R26 (fitted), R23 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 0 open of 1 published
+
+[RT0603BRD074K02L record details](/docs/components/records/c705781/) — No owning bundle is identified in the published model.
+
+### CSD18543Q3A
+
+| Field          | Recorded value                          |
+| -------------- | --------------------------------------- |
+| Record ID      | `rec-c840100`                           |
+| Kind           | standalone — audited in its own right   |
+| Manufacturer   | Texas Instruments                       |
+| Function       | 20V input reverse-blocking power MOSFET |
+| Orderable ID   | `C840100`                               |
+| Package        | `VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A`    |
+| Inventory line | `line-c840100`                          |
+
+**Placements:** board-p Q3 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 3 published
+
+[CSD18543Q3A record details](/docs/components/records/c840100/) — No owning bundle is identified in the published model.
+
+### BSS138-7-F
+
+| Field          | Recorded value                                 |
+| -------------- | ---------------------------------------------- |
+| Record ID      | `rec-c40912`                                   |
+| Kind           | standalone — audited in its own right          |
+| Manufacturer   | Diodes Incorporated                            |
+| Function       | blocking FET gate pulldown small-signal MOSFET |
+| Orderable ID   | `C40912`                                       |
+| Package        | `SOT-23_L2.9-W1.3-P1.90-LS2.4-BR`              |
+| Inventory line | `line-c40912`                                  |
+
+**Placements:** board-p Q4 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 3 published
+
+[BSS138-7-F record details](/docs/components/records/c40912/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0711K5L
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c705719`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | 11.5 kOhm precision eFuse UVLO divider resistor |
+| Orderable ID   | `C705719`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c705719`                                  |
+
+**Placements:** board-p R22 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 0 open of 1 published
+
+[RT0603BRD0711K5L record details](/docs/components/records/c705719/) — No owning bundle is identified in the published model.

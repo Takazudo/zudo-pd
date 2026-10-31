@@ -25,11 +25,11 @@ A component record answers questions about one part. These rules answer the ones
   | Rule                                                                          | Domain                         | Records | Facts | Verdict     |
   | ----------------------------------------------------------------------------- | ------------------------------ | ------- | ----- | ----------- |
   | [`rule-rail-envelope`](#rule-rail-envelope)                                   | rail-envelope                  | 11      | 18    | NEEDS BENCH |
-  | [`rule-tvs-clamp-vs-absmax`](#rule-tvs-clamp-vs-absmax)                       | tvs-clamp-vs-absmax            | 18      | 29    | UNSOURCED   |
-  | [`rule-u4-inverting-stress`](#rule-u4-inverting-stress)                       | u4-inverting-stress            | 6       | 18    | NEEDS BENCH |
+  | [`rule-tvs-clamp-vs-absmax`](#rule-tvs-clamp-vs-absmax)                       | tvs-clamp-vs-absmax            | 23      | 42    | UNSOURCED   |
+  | [`rule-u4-inverting-stress`](#rule-u4-inverting-stress)                       | u4-inverting-stress            | 8       | 24    | NEEDS BENCH |
   | [`rule-ldo-dropout-chain`](#rule-ldo-dropout-chain)                           | ldo-dropout-chain              | 7       | 24    | UNSOURCED   |
   | [`rule-ab-interface-current`](#rule-ab-interface-current)                     | ab-interface-current           | 4       | 6     | NEEDS BENCH |
-  | [`rule-q1-gate-drive-vs-contract`](#rule-q1-gate-drive-vs-contract)           | q1-gate-drive-vs-contract      | 7       | 10    | NEEDS BENCH |
+  | [`rule-q1-gate-drive-vs-contract`](#rule-q1-gate-drive-vs-contract)           | q1-gate-drive-vs-contract      | 9       | 15    | NEEDS BENCH |
   | [`rule-inverting-startup-vs-pd-source`](#rule-inverting-startup-vs-pd-source) | inverting-startup-vs-pd-source | 3       | 4     | NEEDS BENCH |
   | [`rule-pptc-vmax-vs-rail`](#rule-pptc-vmax-vs-rail)                           | pptc-vmax-vs-rail              | 3       | 7     | NEEDS BENCH |
   | [`rule-evidence-chain`](#rule-evidence-chain)                                 | source-to-bench-chain          | 8       | 9     | UNSOURCED   |
@@ -118,9 +118,9 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **Verdict:** UNSOURCED
 
-**This rule refuses to conclude:** Do not certify hot or installed surge survival from the25C table point or enable20V operation; measure source/gate/switch/rail transients and preserve downstream source-trust and attached-load limits.
+**This rule refuses to conclude:** Do not certify surge survival or 20 V operation from 8/20 us table points, a static OVP bound or an assumed overshoot; measure connector, VBUS\_P, gate and rail transients, and keep the current 15 V Board B off a 20 V contract.
 
-**Conditions:** Current P D5 is Littelfuse SMAJ16A C74561 and B D3 is Diodes SDT5A60SA-13 C3024223. Normal prototype source input is 15 V ±5% (14.25..15.75 V), leaving only 0.25 V below 16 V standoff. The 26 V maximum clamp is specified at 15.4 A,10/1000 us,25C; it is not a universal hot/installed-surge ceiling, and VBR temperature coefficient cannot be applied as a VC correction. With selected full-temperature reference and 0.35% resistor/TCR negative maximum 14.814410 V, conditioned combined stress is40.814410 V: below U4 absolute45 V,D3 reverse60 V,C9 50 V, but above U4 operating40 V. STUSB28 V,Q1 VDS30 V and input capacitors35/50 V have conditioned margin. Output TVS/load limits and actual waveforms remain separate; old SMAJ20A32.4 V/SS34 40 V comparison is explicitly retired.
+**Conditions:** Board P spec is the 20 V draft (dec-p-20v-revision, dec-p-20v-front-end-r2): D5 TVS2200DRVR C523793 clamps connector VBUS\_IN; Q3 CSD18543Q3A and U2 TPS26630RGER C1850276 feed protected VBUS\_P, which carries STUSB4500 VDD, Q1 and Board B. The Board P PCB is still the 15 V as-built SMAJ16A layout; the retired SMAJ16A arithmetic is archived. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. That clamp point leaves 38.65 V to U2 IN/IN\_SYS 67 V and 31.65 V to Q3 VDS 60 V; Q3 VGS and Q4 VDS are bounded by the 14 V B\_GATE clamp (6 V and 36 V margins). C1 C13585 and C2 C14663 on VBUS\_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C; a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS\_P bulk, so it applies to VBUS\_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation.
 
 **Records this rule spans:**
 
@@ -135,13 +135,18 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-c666306`](/docs/components/records/c666306/) — LT3015EQ#PBF
 - [`rec-c861077`](/docs/components/records/c861077/) — RT0603BRD0710K5L
 - [`rec-c110776`](/docs/components/records/c110776/) — RT0603BRD071KL
-- [`rec-c74561`](/docs/components/records/c74561/) — SMAJ16A
 - [`rec-c3024223`](/docs/components/records/c3024223/) — SDT5A60SA-13
 - [`rec-c970687`](/docs/components/records/c970687/) — RVT1H101M0810
 - [`rec-c22387780`](/docs/components/records/c22387780/) — EFVH035ADA471M10B0
 - [`rec-c13585`](/docs/components/records/c13585/) — CL31A106KBHNNNE
 - [`rec-c14663`](/docs/components/records/c14663/) — CC0603KRX7R9BB104
 - [`rec-grm32er71h106ka12l`](/docs/components/records/grm32er71h106ka12l/) — GRM32ER71H106KA12L
+- [`rec-c523793`](/docs/components/records/c523793/) — TVS2200DRVR
+- [`rec-c1850276`](/docs/components/records/c1850276/) — TPS26630RGER
+- [`rec-c861163`](/docs/components/records/c861163/) — RT0603BRD07174KL
+- [`rec-rt0603brd0710kl`](/docs/components/records/rt0603brd0710kl/) — RT0603BRD0710KL
+- [`rec-c840100`](/docs/components/records/c840100/) — CSD18543Q3A
+- [`rec-c40912`](/docs/components/records/c40912/) — BSS138-7-F
 
 **Facts this rule rests on:** each is published in full on the record page that owns it, at the anchor linked here.
 
@@ -164,9 +169,6 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
 - [`fact-c861077-tcr`](/docs/components/records/c861077/#fact-c861077-tcr) on RT0603BRD0710K5L
 - [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
-- [`fact-c74561-standoff`](/docs/components/records/c74561/#fact-c74561-standoff) on SMAJ16A
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
-- [`fact-c74561-vbr-tempco-typ`](/docs/components/records/c74561/#fact-c74561-vbr-tempco-typ) on SMAJ16A
 - [`fact-c3024223-vrrm`](/docs/components/records/c3024223/#fact-c3024223-vrrm) on SDT5A60SA-13
 - [`fact-c970687-voltage`](/docs/components/records/c970687/#fact-c970687-voltage) on RVT1H101M0810
 - [`fact-c22387780-voltage`](/docs/components/records/c22387780/#fact-c22387780-voltage) on EFVH035ADA471M10B0
@@ -174,6 +176,22 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c14663-voltage`](/docs/components/records/c14663/#fact-c14663-voltage) on CC0603KRX7R9BB104
 - [`fact-grm32er71h106ka12l-voltage`](/docs/components/records/grm32er71h106ka12l/#fact-grm32er71h106ka12l-voltage) on GRM32ER71H106KA12L
 - [`fact-lm2596-vin-operating-max`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-vin-operating-max) on LM2596S-ADJ
+- [`fact-c523793-vrwm`](/docs/components/records/c523793/#fact-c523793-vrwm) on TVS2200DRVR
+- [`fact-c523793-vbr`](/docs/components/records/c523793/#fact-c523793-vbr) on TVS2200DRVR
+- [`fact-c523793-vclamp-40a`](/docs/components/records/c523793/#fact-c523793-vclamp-40a) on TVS2200DRVR
+- [`fact-c523793-vclamp-35a-125c`](/docs/components/records/c523793/#fact-c523793-vclamp-35a-125c) on TVS2200DRVR
+- [`fact-c1850276-in-absmax`](/docs/components/records/c1850276/#fact-c1850276-in-absmax) on TPS26630RGER
+- [`fact-c1850276-bgate-clamp-max`](/docs/components/records/c1850276/#fact-c1850276-bgate-clamp-max) on TPS26630RGER
+- [`fact-c840100-vds`](/docs/components/records/c840100/#fact-c840100-vds) on CSD18543Q3A
+- [`fact-c840100-vgs`](/docs/components/records/c840100/#fact-c840100-vgs) on CSD18543Q3A
+- [`fact-c40912-vds`](/docs/components/records/c40912/#fact-c40912-vds) on BSS138-7-F
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
 
 ### Conditioned calculations
 
@@ -201,203 +219,209 @@ Arithmetic across the facts above. The expression and every input are published 
 | ------------------- |
 | -1.5449999999999982 |
 
-#### calc-protection-stusb-clamp-margin
+#### calc-p20-ovp-trip-max
 
-<EvidenceAnchor id="calc-protection-stusb-clamp-margin" />
+<EvidenceAnchor id="calc-p20-ovp-trip-max" />
 
-**Expression:** `fact_stusb_vdd_absolute_max - fact_c74561_clamp`
+**Expression:** `(fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000))))`
+
+**Result:** `trip_max_v`
+
+**Conditions:** Fitted 174k/10k 0.1 % divider with V(OVPR) maximum and opposed resistor limits: initial tolerance only, and with 25 ppm/C TCR over a 100 C excursion. Comparator delay excluded.
+
+**Inputs:**
+
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
+
+| temperature\_delta\_c | trip\_max\_v       |
+| --------------------- | ------------------ |
+| 0                     | 22.564237837837833 |
+| 100                   | 22.67120682388359  |
+
+#### calc-p20-stusb-node-margin
+
+<EvidenceAnchor id="calc-p20-stusb-node-margin" />
+
+**Expression:** `fact_stusb_vdd_absolute_max - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v`
 
 **Result:** `margin_v`
 
-**Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
+**Conditions:** overshoot\_v 0 is the static trip bound; 2.53665 V is the project hot-unplug assumption (2 x I(OL)max x 14 us plus 45 A x 1 us TYP into 80 uF, 30 mOhm ESR), not a fact or a measured waveform.
 
 **Inputs:**
 
 - [`fact-stusb-vdd-absolute-max`](/docs/components/records/stusb4500qtr/#fact-stusb-vdd-absolute-max) on STUSB4500QTR
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
 
-| margin\_v |
-| --------- |
-| 2         |
+<EvidenceTable label="calculation-results">
+  | overshoot\_v | temperature\_delta\_c | margin\_v          |
+  | ------------ | --------------------- | ------------------ |
+  | 0            | 0                     | 5.435762162162167  |
+  | 0            | 100                   | 5.32879317611641   |
+  | 2.53665      | 100                   | 2.7921431761164097 |
+</EvidenceTable>
 
-#### calc-protection-q1-vds-clamp-margin
+#### calc-p20-q1-vds-node-margin
 
-<EvidenceAnchor id="calc-protection-q1-vds-clamp-margin" />
+<EvidenceAnchor id="calc-p20-q1-vds-node-margin" />
 
-**Expression:** `-fact_umw_ao3401a_vds - fact_c74561_clamp`
+**Expression:** `-fact_umw_ao3401a_vds - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v`
 
 **Result:** `margin_v`
 
-**Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
+**Conditions:** Q1 off-state VDS with output near 0 V at the VBUS\_P bound; same scenarios as calc-p20-stusb-node-margin.
 
 **Inputs:**
 
 - [`fact-umw-ao3401a-vds`](/docs/components/records/umw-ao3401a-c347476/#fact-umw-ao3401a-vds) on AO3401A
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
 
-| margin\_v |
-| --------- |
-| 4         |
+<EvidenceTable label="calculation-results">
+  | overshoot\_v | temperature\_delta\_c | margin\_v         |
+  | ------------ | --------------------- | ----------------- |
+  | 0            | 0                     | 7.435762162162167 |
+  | 0            | 100                   | 7.32879317611641  |
+  | 2.53665      | 100                   | 4.79214317611641  |
+</EvidenceTable>
 
-#### calc-protection-input35-clamp-margin
+#### calc-p20-tvs-standoff-margin
 
-<EvidenceAnchor id="calc-protection-input35-clamp-margin" />
+<EvidenceAnchor id="calc-p20-tvs-standoff-margin" />
 
-**Expression:** `fact_c22387780_voltage - fact_c74561_clamp`
+**Expression:** `fact_c523793_vrwm - normal_high_v`
 
 **Result:** `margin_v`
 
-**Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
+**Conditions:** normal\_high\_v 21.0 V is the project 20 V +5 % source envelope; standoff is not the clamp level.
+
+**Inputs:**
+
+- [`fact-c523793-vrwm`](/docs/components/records/c523793/#fact-c523793-vrwm) on TVS2200DRVR
+
+| normal\_high\_v | margin\_v |
+| --------------- | --------- |
+| 21              | 1         |
+
+#### calc-p20-u2-in-clamp-margin
+
+<EvidenceAnchor id="calc-p20-u2-in-clamp-margin" />
+
+**Expression:** `fact_c1850276_in_absmax - fact_c523793_vclamp_35a_125c`
+
+**Result:** `margin_v`
+
+**Conditions:** TVS2200 35 A 8/20 us 125 C clamp point against U2 IN/IN\_SYS continuous 67 V; longer pulses and installed waveforms are not covered.
+
+**Inputs:**
+
+- [`fact-c1850276-in-absmax`](/docs/components/records/c1850276/#fact-c1850276-in-absmax) on TPS26630RGER
+- [`fact-c523793-vclamp-35a-125c`](/docs/components/records/c523793/#fact-c523793-vclamp-35a-125c) on TVS2200DRVR
+
+| margin\_v |
+| --------- |
+| 38.65     |
+
+#### calc-p20-q3-vds-clamp-margin
+
+<EvidenceAnchor id="calc-p20-q3-vds-clamp-margin" />
+
+**Expression:** `fact_c840100_vds - fact_c523793_vclamp_35a_125c`
+
+**Result:** `margin_v`
+
+**Conditions:** Q3 drain-source stress bounded by the larger of the connector clamp point and VBUS\_P; 8/20 us table point only.
+
+**Inputs:**
+
+- [`fact-c840100-vds`](/docs/components/records/c840100/#fact-c840100-vds) on CSD18543Q3A
+- [`fact-c523793-vclamp-35a-125c`](/docs/components/records/c523793/#fact-c523793-vclamp-35a-125c) on TVS2200DRVR
+
+| margin\_v |
+| --------- |
+| 31.65     |
+
+#### calc-p20-q3-vgs-bgate-margin
+
+<EvidenceAnchor id="calc-p20-q3-vgs-bgate-margin" />
+
+**Expression:** `fact_c840100_vgs - fact_c1850276_bgate_clamp_max`
+
+**Result:** `margin_v`
+
+**Conditions:** Q3 VGS bounded by the U2 B\_GATE - IN\_SYS clamp maximum; Q4 VDS sees the same 14 V.
+
+**Inputs:**
+
+- [`fact-c840100-vgs`](/docs/components/records/c840100/#fact-c840100-vgs) on CSD18543Q3A
+- [`fact-c1850276-bgate-clamp-max`](/docs/components/records/c1850276/#fact-c1850276-bgate-clamp-max) on TPS26630RGER
+
+| margin\_v |
+| --------- |
+| 6         |
+
+#### calc-p20-q4-vds-bgate-margin
+
+<EvidenceAnchor id="calc-p20-q4-vds-bgate-margin" />
+
+**Expression:** `fact_c40912_vds - fact_c1850276_bgate_clamp_max`
+
+**Result:** `margin_v`
+
+**Conditions:** Q4 drain-source stress is B\_GATE - IN\_SYS; reverse-polarity transients are not covered.
+
+**Inputs:**
+
+- [`fact-c40912-vds`](/docs/components/records/c40912/#fact-c40912-vds) on BSS138-7-F
+- [`fact-c1850276-bgate-clamp-max`](/docs/components/records/c1850276/#fact-c1850276-bgate-clamp-max) on TPS26630RGER
+
+| margin\_v |
+| --------- |
+| 36        |
+
+#### calc-p20-input35-node-margin
+
+<EvidenceAnchor id="calc-p20-input35-node-margin" />
+
+**Expression:** `fact_c22387780_voltage - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v`
+
+**Result:** `margin_v`
+
+**Conditions:** Board B 35 V input capacitors at the VBUS\_P bound; only relevant to a future 20 V Board B, which is not established.
 
 **Inputs:**
 
 - [`fact-c22387780-voltage`](/docs/components/records/c22387780/#fact-c22387780-voltage) on EFVH035ADA471M10B0
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
 
-| margin\_v |
-| --------- |
-| 9         |
-
-#### calc-protection-input50-clamp-margin
-
-<EvidenceAnchor id="calc-protection-input50-clamp-margin" />
-
-**Expression:** `fact_c13585_voltage - fact_c74561_clamp`
-
-**Result:** `margin_v`
-
-**Conditions:** Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.
-
-**Inputs:**
-
-- [`fact-c13585-voltage`](/docs/components/records/c13585/#fact-c13585-voltage) on CL31A106KBHNNNE
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
-
-| margin\_v |
-| --------- |
-| 24        |
-
-#### calc-protection-u4-abs-hot-negative-margin
-
-<EvidenceAnchor id="calc-protection-u4-abs-hot-negative-margin" />
-
-**Expression:** `fact_lm2596_vin_absmax - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
-
-**Result:** `margin_v`
-
-**Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
-
-**Inputs:**
-
-- [`fact-lm2596-vin-absmax`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-vin-absmax) on LM2596S-ADJ
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
-- [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
-- [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
-- [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
-- [`fact-c861077-tolerance`](/docs/components/records/c861077/#fact-c861077-tolerance) on RT0603BRD0710K5L
-- [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
-- [`fact-c861077-tcr`](/docs/components/records/c861077/#fact-c861077-tcr) on RT0603BRD0710K5L
-- [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
-
-| temperature\_delta\_c | margin\_v         |
-| --------------------- | ----------------- |
-| 100                   | 4.185589563472151 |
-
-#### calc-protection-u4-operating-hot-negative-margin
-
-<EvidenceAnchor id="calc-protection-u4-operating-hot-negative-margin" />
-
-**Expression:** `fact_lm2596_vin_operating_max - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
-
-**Result:** `margin_v`
-
-**Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
-
-**Inputs:**
-
-- [`fact-lm2596-vin-operating-max`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-vin-operating-max) on LM2596S-ADJ
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
-- [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
-- [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
-- [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
-- [`fact-c861077-tolerance`](/docs/components/records/c861077/#fact-c861077-tolerance) on RT0603BRD0710K5L
-- [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
-- [`fact-c861077-tcr`](/docs/components/records/c861077/#fact-c861077-tcr) on RT0603BRD0710K5L
-- [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
-
-| temperature\_delta\_c | margin\_v           |
-| --------------------- | ------------------- |
-| 100                   | -0.8144104365278491 |
-
-#### calc-protection-d3-reverse-hot-negative-margin
-
-<EvidenceAnchor id="calc-protection-d3-reverse-hot-negative-margin" />
-
-**Expression:** `fact_c3024223_vrrm - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
-
-**Result:** `margin_v`
-
-**Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
-
-**Inputs:**
-
-- [`fact-c3024223-vrrm`](/docs/components/records/c3024223/#fact-c3024223-vrrm) on SDT5A60SA-13
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
-- [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
-- [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
-- [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
-- [`fact-c861077-tolerance`](/docs/components/records/c861077/#fact-c861077-tolerance) on RT0603BRD0710K5L
-- [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
-- [`fact-c861077-tcr`](/docs/components/records/c861077/#fact-c861077-tcr) on RT0603BRD0710K5L
-- [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
-
-| temperature\_delta\_c | margin\_v         |
-| --------------------- | ----------------- |
-| 100                   | 19.18558956347215 |
-
-#### calc-protection-c9-hot-negative-margin
-
-<EvidenceAnchor id="calc-protection-c9-hot-negative-margin" />
-
-**Expression:** `fact_c970687_voltage - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
-
-**Result:** `margin_v`
-
-**Conditions:** Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.
-
-**Inputs:**
-
-- [`fact-c970687-voltage`](/docs/components/records/c970687/#fact-c970687-voltage) on RVT1H101M0810
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
-- [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
-- [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
-- [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
-- [`fact-c861077-tolerance`](/docs/components/records/c861077/#fact-c861077-tolerance) on RT0603BRD0710K5L
-- [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
-- [`fact-c861077-tcr`](/docs/components/records/c861077/#fact-c861077-tcr) on RT0603BRD0710K5L
-- [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
-
-| temperature\_delta\_c | margin\_v         |
-| --------------------- | ----------------- |
-| 100                   | 9.185589563472151 |
-
-#### calc-protection-standoff-margin
-
-<EvidenceAnchor id="calc-protection-standoff-margin" />
-
-**Expression:** `fact_c74561_standoff - normal_high_v`
-
-**Result:** `margin_v`
-
-**Conditions:** Prototype15V±5% normal source envelope;20V unsupported. Standoff is not the clamp level.
-
-**Inputs:**
-
-- [`fact-c74561-standoff`](/docs/components/records/c74561/#fact-c74561-standoff) on SMAJ16A
-
-| normal\_high\_v | margin\_v |
-| --------------- | --------- |
-| 15.75           | 0.25      |
+<EvidenceTable label="calculation-results">
+  | overshoot\_v | temperature\_delta\_c | margin\_v        |
+  | ------------ | --------------------- | ---------------- |
+  | 2.53665      | 100                   | 9.79214317611641 |
+</EvidenceTable>
 
 ## rule-u4-inverting-stress
 
@@ -407,9 +431,9 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **Verdict:** NEEDS BENCH
 
-**This rule refuses to conclude:** Do not infer surge or startup acceptance from normal DC margin; preserve the negative rail, floating ground and semiconductor stress calculations after every setpoint change.
+**This rule refuses to conclude:** Do not infer surge, startup or 20 V acceptance from normal DC margin or the static OVP bound; preserve the negative rail, floating ground and semiconductor stress calculations after every setpoint or source change.
 
-**Conditions:** U4 local GND/ON-OFF/tab ride the renewed negative intermediate. Normal prototype input is15 V±5%;20 V is unsupported. Effective input and D3 reverse stress are VBUS plus negative magnitude:29.145 V nominal,30.564410 V at15.75 V and the14.814410 V hot/TCR screen,40.814410 V at the conditioned26 V TVS point. New D3 has60 V reverse rating and maximum0.52 V at5 A/25C (0.45 V at5 A/125C); use0.52 V for the25C conduction screen, without extrapolating a full-temperature ceiling. C9 is50 V. CCM input-current/loss calculations include25C winding DCR, while hot DCR, switching/core/quiescent losses, ringing and startup remain open. Reverse leakage is0.5 mA maximum at60 V/25C and50 mA typical only at60 V/125C; the latter is not a guaranteed hot leakage bound. Reverse-leakage heating remains outside the forward-conduction model and requires qualification.
+**Conditions:** U4 local GND/ON-OFF/tab ride the renewed negative intermediate. The current Board B is a 15 V +/-5 % design: effective input and D3 reverse stress are VBUS plus negative magnitude, 29.145 V nominal and 30.564410 V at 15.75 V with the 14.814410 V hot/TCR screen. The 20 V Board P draft bounds VBUS\_P at 22.564238 V (U2 OVP maximum, initial tolerance) and 22.671207 V with divider TCR over 100 C. With the hot/TCR negative screen U4 would see 37.485617 V, 2.514383 V below its 40 V operating limit; adding the 2.53665 V overshoot assumption gives -0.022267 V, so the operating limit is not maintained in that combined screen. Board B at 20 V input is not covered: AP63201, LDO dissipation, startup and the Board B limiter are unscreened. New D3 has 60 V reverse rating and maximum 0.52 V at 5 A/25C (0.45 V at 5 A/125C); use 0.52 V for the 25C conduction screen. C9 is 50 V. Reverse leakage is 0.5 mA maximum at 60 V/25C and 50 mA typical only at 60 V/125C; reverse-leakage heating is outside the forward-conduction model and requires qualification.
 
 **Records this rule spans:**
 
@@ -418,7 +442,9 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-c110776`](/docs/components/records/c110776/) — RT0603BRD071KL
 - [`rec-c970687`](/docs/components/records/c970687/) — RVT1H101M0810
 - [`rec-c3024223`](/docs/components/records/c3024223/) — SDT5A60SA-13
-- [`rec-c74561`](/docs/components/records/c74561/) — SMAJ16A
+- [`rec-c1850276`](/docs/components/records/c1850276/) — TPS26630RGER
+- [`rec-c861163`](/docs/components/records/c861163/) — RT0603BRD07174KL
+- [`rec-rt0603brd0710kl`](/docs/components/records/rt0603brd0710kl/) — RT0603BRD0710KL
 
 **Facts this rule rests on:** each is published in full on the record page that owns it, at the anchor linked here.
 
@@ -432,7 +458,6 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c3024223-vrrm`](/docs/components/records/c3024223/#fact-c3024223-vrrm) on SDT5A60SA-13
 - [`fact-c3024223-vf-max-5a-25c`](/docs/components/records/c3024223/#fact-c3024223-vf-max-5a-25c) on SDT5A60SA-13
 - [`fact-c3024223-vf-max-5a-125c`](/docs/components/records/c3024223/#fact-c3024223-vf-max-5a-125c) on SDT5A60SA-13
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
 - [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
 - [`fact-c861077-tolerance`](/docs/components/records/c861077/#fact-c861077-tolerance) on RT0603BRD0710K5L
 - [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
@@ -440,6 +465,13 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
 - [`fact-c3024223-leakage-max-25c`](/docs/components/records/c3024223/#fact-c3024223-leakage-max-25c) on SDT5A60SA-13
 - [`fact-c3024223-leakage-typ-125c`](/docs/components/records/c3024223/#fact-c3024223-leakage-typ-125c) on SDT5A60SA-13
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
 
 ### Conditioned calculations
 
@@ -453,7 +485,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **Result:** `effective_v`
 
-**Conditions:** Nominal negative setpoint with explicit15V-only normal source endpoints and the current26 V conditioned clamp point; retired32.4 V comparison is archived and retained in the protection rule.
+**Conditions:** Nominal negative setpoint at 15 V-only normal endpoints and, for the 20 V Board P draft, at 21.0 V project normal high and the 22.564238 V initial-tolerance OVP bound. Archived SMAJ16A 26 V and SMAJ20A 32.4 V points are retired.
 
 **Inputs:**
 
@@ -461,12 +493,13 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
 - [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
 
-| vbus\_v | effective\_v       |
-| ------- | ------------------ |
-| 14.25   | 28.395             |
-| 15      | 29.145             |
-| 15.75   | 29.895             |
-| 26      | 40.144999999999996 |
+| vbus\_v            | effective\_v       |
+| ------------------ | ------------------ |
+| 14.25              | 28.395             |
+| 15                 | 29.145             |
+| 15.75              | 29.895             |
+| 21                 | 35.144999999999996 |
+| 22.564237837837833 | 36.70923783783783  |
 
 #### calc-renewal-u4-c9-margin
 
@@ -476,7 +509,7 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **Result:** `margin_v`
 
-**Conditions:** C9 rated-voltage screen at nominal negative setpoint; hot/TCR calculation is separate, and ripple/transient waveforms are not included.
+**Conditions:** C9 rated-voltage screen at nominal negative setpoint; the 20 V row uses the initial-tolerance Board P draft OVP bound; ripple and transients excluded.
 
 **Inputs:**
 
@@ -485,11 +518,11 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
 - [`fact-c970687-voltage`](/docs/components/records/c970687/#fact-c970687-voltage) on RVT1H101M0810
 
-| vbus\_v | margin\_v |
-| ------- | --------- |
-| 15      | 20.855    |
-| 15.75   | 20.105    |
-| 26      | 9.855     |
+| vbus\_v            | margin\_v          |
+| ------------------ | ------------------ |
+| 15                 | 20.855             |
+| 15.75              | 20.105             |
+| 22.564237837837833 | 13.290762162162167 |
 
 #### calc-protection-negative-high
 
@@ -514,6 +547,41 @@ Arithmetic across the facts above. The expression and every input are published 
 | temperature\_delta\_c | magnitude\_v       |
 | --------------------- | ------------------ |
 | 100                   | 14.814410436527849 |
+
+#### calc-p20-u4-operating-hot-margin
+
+<EvidenceAnchor id="calc-p20-u4-operating-hot-margin" />
+
+**Expression:** `fact_lm2596_vin_operating_max - (fact_c1850276_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))`
+
+**Result:** `margin_v`
+
+**Conditions:** U4 40 V operating limit at the 20 V draft VBUS\_P bound (divider TCR included) plus the hot/TCR negative screen; overshoot 0 and the 2.53665 V project assumption. Not a measured or simultaneous worst case.
+
+**Inputs:**
+
+- [`fact-lm2596-vin-operating-max`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-vin-operating-max) on LM2596S-ADJ
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
+- [`fact-lm2596-fb-vref-max-full-temp`](/docs/components/records/lm2596s-adj-c347423/#fact-lm2596-fb-vref-max-full-temp) on LM2596S-ADJ
+- [`fact-c861077-resistance`](/docs/components/records/c861077/#fact-c861077-resistance) on RT0603BRD0710K5L
+- [`fact-c110776-resistance`](/docs/components/records/c110776/#fact-c110776-resistance) on RT0603BRD071KL
+- [`fact-c861077-tolerance`](/docs/components/records/c861077/#fact-c861077-tolerance) on RT0603BRD0710K5L
+- [`fact-c110776-tolerance`](/docs/components/records/c110776/#fact-c110776-tolerance) on RT0603BRD071KL
+- [`fact-c861077-tcr`](/docs/components/records/c861077/#fact-c861077-tcr) on RT0603BRD0710K5L
+- [`fact-c110776-tcr`](/docs/components/records/c110776/#fact-c110776-tcr) on RT0603BRD071KL
+
+<EvidenceTable label="calculation-results">
+  | overshoot\_v | temperature\_delta\_c | margin\_v            |
+  | ------------ | --------------------- | -------------------- |
+  | 0            | 100                   | 2.514382739588566    |
+  | 2.53665      | 100                   | -0.02226726041143401 |
+</EvidenceTable>
 
 ## rule-ldo-dropout-chain
 
@@ -675,9 +743,9 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **Verdict:** NEEDS BENCH
 
-**This rule refuses to conclude:** Do not enable20 V or skip5 V-only first programming/readback; current gate arithmetic and a26 V table clamp do not qualify unknown factory NVM, hot surge response or measured gate/source behavior.
+**This rule refuses to conclude:** Do not program a 20 V PDO or certify the load switch from steady gate arithmetic, a static OVP bound or an assumed overshoot; the 20 V NVM image, readback, cable, Board B coverage and measured gate/source behaviour are all open.
 
-**Conditions:** Board P uses100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35. Ideal asserted drive is-6 V at15 V,-6.3 V at15.75 V and-10.4 V at the26 V conditioned clamp point. These steady numbers do not establish transient gate safety. This prototype is15 V±5% only;20 V is unsupported and exceeds the new16 V TVS standoff. First power/programming must use a current-limited5 V-only source with B disconnected. Resolve jig voltage/pull-up loading and verify15 V-only NVM image/readback/reload before attaching any15 V-capable PD source. The archived-12.96 V result belongs to the retired32.4 V comparison.
+**Conditions:** Board P uses 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS\_P node. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the 12 V AO3401A VGS rating. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission.
 
 **Records this rule spans:**
 
@@ -687,7 +755,9 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`rec-c14663`](/docs/components/records/c14663/) — CC0603KRX7R9BB104
 - [`rec-c17414`](/docs/components/records/c17414/) — 0805W8F1002T5E
 - [`rec-stusb4500qtr`](/docs/components/records/stusb4500qtr/) — STUSB4500QTR
-- [`rec-c74561`](/docs/components/records/c74561/) — SMAJ16A
+- [`rec-c1850276`](/docs/components/records/c1850276/) — TPS26630RGER
+- [`rec-c861163`](/docs/components/records/c861163/) — RT0603BRD07174KL
+- [`rec-rt0603brd0710kl`](/docs/components/records/rt0603brd0710kl/) — RT0603BRD0710KL
 
 **Facts this rule rests on:** each is published in full on the record page that owns it, at the anchor linked here.
 
@@ -699,8 +769,13 @@ Arithmetic across the facts above. The expression and every input are published 
 - [`fact-c17414-reset-ctrl-topology`](/docs/components/records/c17414/#fact-c17414-reset-ctrl-topology) on 0805W8F1002T5E
 - [`fact-stusb-vben`](/docs/components/records/stusb4500qtr/#fact-stusb-vben) on STUSB4500QTR
 - [`fact-stusb-artifact`](/docs/components/records/stusb4500qtr/#fact-stusb-artifact) on STUSB4500QTR
-- [`fact-c74561-standoff`](/docs/components/records/c74561/#fact-c74561-standoff) on SMAJ16A
-- [`fact-c74561-clamp`](/docs/components/records/c74561/#fact-c74561-clamp) on SMAJ16A
+- [`fact-c1850276-ovp-rising-max`](/docs/components/records/c1850276/#fact-c1850276-ovp-rising-max) on TPS26630RGER
+- [`fact-c861163-resistance`](/docs/components/records/c861163/#fact-c861163-resistance) on RT0603BRD07174KL
+- [`fact-c861163-tolerance`](/docs/components/records/c861163/#fact-c861163-tolerance) on RT0603BRD07174KL
+- [`fact-c861163-tcr`](/docs/components/records/c861163/#fact-c861163-tcr) on RT0603BRD07174KL
+- [`fact-rt0603brd0710kl-resistance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-resistance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tolerance`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tolerance) on RT0603BRD0710KL
+- [`fact-rt0603brd0710kl-tcr`](/docs/components/records/rt0603brd0710kl/#fact-rt0603brd0710kl-tcr) on RT0603BRD0710KL
 
 ### Conditioned calculations
 
@@ -714,20 +789,24 @@ Arithmetic across the facts above. The expression and every input are published 
 
 **Result:** `vgs_v`
 
-**Conditions:** Current15 V-only source policy and26 V conditioned clamp scenario; ideal asserted open-drain low, with capacitor/parasitic/time behavior excluded.
+**Conditions:** Ideal asserted open-drain low, capacitor/parasitic/time behaviour excluded. 15 V-only as-built rows plus 20 V draft rows at 20 V, the 21 V project normal high, the initial-tolerance OVP bound, the hot/TCR OVP bound, and the hot/TCR bound plus the overshoot assumption.
 
 **Inputs:**
 
 - [`fact-c25803-resistance`](/docs/components/records/c25803/#fact-c25803-resistance) on 0603WAF1003T5E
 - [`fact-c22807-resistance`](/docs/components/records/c22807/#fact-c22807-resistance) on 0603WAF1503T5E
 
-| vbus\_v | vgs\_v             |
-| ------- | ------------------ |
-| 5       | -2                 |
-| 14.25   | -5.7               |
-| 15      | -6                 |
-| 15.75   | -6.300000000000001 |
-| 26      | -10.4              |
+| vbus\_v            | vgs\_v              |
+| ------------------ | ------------------- |
+| 5                  | -2                  |
+| 14.25              | -5.7                |
+| 15                 | -6                  |
+| 15.75              | -6.3                |
+| 20                 | -8                  |
+| 21                 | -8.4                |
+| 22.564237837837833 | -9.025695135135132  |
+| 22.67120682388359  | -9.068482729553438  |
+| 25.20785682388359  | -10.083142729553435 |
 
 ## rule-inverting-startup-vs-pd-source
 

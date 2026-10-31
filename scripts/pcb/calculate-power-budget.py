@@ -67,6 +67,37 @@ def inverter(vin, vout, iout, vf):
     }
 
 
+def board_p_20v_draft_screen(pd_spec, negative_high):
+    def facts(owner):
+        return {fact['fact_id']: fact for fact in json.loads((ROOT/'.claude/skills'/owner/'facts.json').read_text())['facts']}
+    efuse, tvs = facts('component-tps26630rger'), facts('component-tvs2200drvr')
+    resistors, ap = facts('component-renewal-feedback-resistors'), facts('component-ap63201-power-stage')
+    if pd_spec['COMPONENTS']['U2'][2] != 'C1850276' or pd_spec['COMPONENTS']['R24'][2] != 'C861163' or pd_spec['COMPONENTS']['R25'][2] != 'C95204':
+        raise ValueError('20 V draft screen requires U2 C1850276 with R24 C861163 / R25 C95204')
+    top, bottom = resistors['fact-c861163-resistance']['value'], ap['fact-rt0603brd0710kl-resistance']['value']
+    tol = resistors['fact-c861163-tolerance']['value'] / 100
+    ovp_max = efuse['fact-c1850276-ovp-rising-max']['value'] * (1 + top * (1 + tol) / (bottom * (1 - tol)))
+    # Hot-unplug overshoot above the trip: 2 x I(OL)max x 14 us plus 45 A x 1 us (TYP) into 80 uF, 30 mOhm ESR (project assumptions).
+    overshoot = (2 * 4.815 * 14e-6 + 45 * 1e-6) / 80e-6 + 2 * 4.815 * 0.03
+    node_max = ovp_max + overshoot
+    return {
+        'status': '20 V BOARD P DRAFT SCREEN; no PCB, no measurement. The current Board B was screened only for 15 V +/-5 % input and is not covered at 20 V.',
+        'board_p_spec_parts': {'d5': 'TVS2200DRVR C523793', 'u2': 'TPS26630RGER C1850276', 'ovp_divider': '174k C861163 / 10k C95204'},
+        'connector_node_clamp_hot_v': tvs['fact-c523793-vclamp-35a-125c']['value'],
+        'u2_in_absmax_v': efuse['fact-c1850276-in-absmax']['value'],
+        'protected_node_ovp_trip_max_v': ovp_max,
+        'protected_node_overshoot_assumption_v': overshoot,
+        'protected_node_max_v': node_max,
+        'stusb_28v_margin_static_v': 28 - ovp_max,
+        'stusb_28v_margin_with_overshoot_v': 28 - node_max,
+        'q1_ideal_vgs_at_node_max_v': -node_max * 100000 / (100000 + 150000),
+        'board_b_u4_effective_at_ovp_max_v': ovp_max + negative_high,
+        'board_b_u4_40v_operating_margin_at_ovp_max_v': 40 - (ovp_max + negative_high),
+        'board_b_20v_coverage': 'NOT RUN: AP63201 input/duty, LDO dissipation, input capacitors, startup current and the Board B limiter have not been screened at 20 V input.',
+        'evidence': ['fact-c1850276-ovp-rising-max', 'fact-c1850276-in-absmax', 'fact-c523793-vclamp-35a-125c', 'fact-c861163-resistance', 'fact-c861163-tolerance', 'fact-rt0603brd0710kl-resistance'],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT/'manufacturing/power-budget.json')
@@ -125,8 +156,10 @@ def main():
         })
     spec = runpy.run_path(str(ROOT / 'scripts/schgen/board_b_spec.py'))
     pd_spec = runpy.run_path(str(ROOT / 'scripts/schgen/board_p_spec.py'))
-    if spec['COMPONENTS']['D3'][2] != 'C3024223' or pd_spec['COMPONENTS']['D5'][2] != 'C74561':
-        raise ValueError('Protection screen requires the selected D3/D5 identities in both current specs')
+    p_spec_d5 = pd_spec['COMPONENTS']['D5'][2]
+    if spec['COMPONENTS']['D3'][2] != 'C3024223' or p_spec_d5 not in ('C74561', 'C523793'):
+        raise ValueError('Protection screen requires B D3 C3024223 and P D5 C74561 (15 V as-built) or C523793 (20 V draft)')
+    # The Board P PCB stays the 15 V as-built layout (SMAJ16A) until the 20 V draft is laid out.
     protected_pcbs = {'board-b': require_pcb_part('board-b','D3','C3024223'),
                       'board-p': require_pcb_part('board-p','D5','C74561')}
     selected_negative = {
@@ -232,6 +265,9 @@ def main():
         'diode_hot_reverse_leakage_note':'0.5mA is a maximum at60V/25C;50mA at60V/125C is typical only. Neither is an established installed hot leakage limit, and the forward-conduction model excludes reverse-leakage heating.',
         'retired_comparison':{'status':'RETIRED: old P SMAJ20A and B SS34 comparison, not the fitted protection pair','clamp_v':32.4,'old_d3_reverse_v':40,'effective_nominal_negative_v':32.4+14.145,'u4_abs_margin_at_nominal_v':45-32.4-14.145,'old_d3_margin_at_nominal_v':40-32.4-14.145},
     }
+    if p_spec_d5 == 'C523793':
+        data['input_protection_screen']['scope'] = 'Board P PCB as-built 15 V pairing (SMAJ16A D5); the Board P spec is now the 20 V draft, screened separately below.'
+        data['board_p_20v_draft_screen'] = board_p_20v_draft_screen(pd_spec, negative_high)
     layout_path = ROOT/'manufacturing/power-layout.json'
     if not layout_path.is_file():
         raise ValueError('A current power-layout.json is required before writing the power-budget report')
