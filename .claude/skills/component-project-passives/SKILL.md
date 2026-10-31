@@ -34,7 +34,7 @@ The schematic's placed symbol for C4/C22/C23 is `RVT1A471M0607_C335982` (Value `
 
 ## LED polarity note
 
-The green LED symbol (`YLED0603YG`, C2289) numbers its pins pin1=anode/pin2=cathode -- **reversed** relative to the blue (`Bluelight0603`, C2288) and red (`KT-0603R`, C2286) symbols, which both use pin1=cathode/pin2=anode. See `fact-c2289-polarity-note` and the LED2 pin-map lock; worth a physical/silkscreen check before assuming uniform LED2/LED3/LED4 orientation.
+All three placed LED symbols number pin1=cathode/pin2=anode: green `KT-0603YG` (C2289), blue `KT-0603B` (C2288) and red `KT-0603R` (C2286). The 2026-09-21 correction (`fact-c2289-polarity-note`) renumbered the unused `YLED0603YG` symbol; the placed `KT-0603YG` symbol kept pin1=A until 2026-10-31, when its numbers were swapped to match the LED2 pin-map lock (copper, CPL and nets unchanged). The cathode=pad 1 mapping rests on the LCSC/EasyEDA library and the JLCPCB preview, not the KENTO datasheet, so check the physical body mark before assuming uniform LED2/LED3/LED4 orientation.
 
 ## Human component reference
 

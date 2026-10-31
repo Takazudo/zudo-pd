@@ -28,6 +28,12 @@ pin 2 to the anode. Their new canonical footprints follow their own
 manufacturer mounting drawings; do not restore the generic imported lands.
 The standard SMA model is illustrative and does not establish land geometry.
 
+The SDT5A60SA-13 footprint (`SMA_Diodes_SDT5A60SA_C3024223`) draws its cathode band on
+F.Fab only. Its silkscreen is an outline with end ticks at the pad-1 (cathode) end and no
+band, and the S3 Board B F_Silkscreen Gerber for D3 matches that (no cathode mark). On the
+built board, identify D3's cathode by the body stripe and the pad continuous with U4 pin 2,
+not by silkscreen. Adding a silk band is a footprint and PCB change, not made here.
+
 ## Human component reference
 
 [SMAJ16A](/docs/components/records/c74561/) and

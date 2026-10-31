@@ -2373,13 +2373,13 @@
 		        (at 5.08 -0.00 180)
 		        (length 2.54)
 		        (name "A" (effects (font (size 1.27 1.27))))
-		        (number "1" (effects (font (size 1.27 1.27))))
+		        (number "2" (effects (font (size 1.27 1.27))))
 		      )
 		      (pin unspecified line
 		        (at -5.08 -0.00 0)
 		        (length 2.54)
 		        (name "K" (effects (font (size 1.27 1.27))))
-		        (number "2" (effects (font (size 1.27 1.27))))
+		        (number "1" (effects (font (size 1.27 1.27))))
 		      )
 		    )
 		  )
@@ -6690,11 +6690,11 @@
 				(hide yes)
 			)
 		)
-		(pin "1"
-			(uuid "07dce3cc-9a7c-5867-9414-b26dd4467aea")
-		)
 		(pin "2"
-			(uuid "c2affcbb-7b1a-51e8-bdb4-d4ae2144a98d")
+			(uuid "0cda144d-c782-5bad-a830-c4e73335a1b0")
+		)
+		(pin "1"
+			(uuid "3f27ff72-5401-5b2b-9f79-30562a02cfd6")
 		)
 		(instances
 			(project "board-b"
@@ -9562,10 +9562,10 @@
 	)
 	(global_label "GND"
 		(shape passive)
-		(at 614.68 304.8 0)
+		(at 604.52 304.8 180)
 		(effects
 			(font (size 1.27 1.27))
-			(justify left)
+			(justify right)
 		)
 		(uuid "e7659c15-154d-5247-9cfe-48d5b3fe9b17")
 	)
@@ -10363,10 +10363,10 @@
 	)
 	(global_label "Net-(R7-LED2)"
 		(shape passive)
-		(at 604.52 304.8 180)
+		(at 614.68 304.8 0)
 		(effects
 			(font (size 1.27 1.27))
-			(justify right)
+			(justify left)
 		)
 		(uuid "672a6778-5f56-5692-9339-ed34b343f705")
 	)
