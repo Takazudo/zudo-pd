@@ -170,18 +170,6 @@
       "rationale": "Shortlisted 2026-10-31 for the switcher-direct 20 V Board B interface-maximum limiter (manufacturing/board-b-protection-20v.md section 2). Primary SBOS713A retrieved; no Board B spec places it yet."
     },
     {
-      "candidate_id": "cand-lm74700-c2941042",
-      "mpn": "LM74700QDBVRQ1",
-      "manufacturer": "Texas Instruments",
-      "lcsc": "C2941042",
-      "package": "SOT-23-6",
-      "function": "Board B rail reverse-blocking ideal-diode controller candidate",
-      "owner_skill": "component-ti-board-b-limiter-candidates",
-      "status": "SHORTLISTED",
-      "replaces_line_id": null,
-      "rationale": "Shortlisted 2026-10-31 for +12 V and +5 V reverse blocking on the switcher-direct 20 V Board B (manufacturing/board-b-protection-20v.md section 3). Primary SNOSD17G retrieved; external NFET not chosen; no Board B spec places it yet. Also drawn as U3 in the unbound Board P r3 draft front end (user decision 2026-10-31: TPS16630 + LM74700 replacing TPS26630)."
-    },
-    {
       "candidate_id": "cand-tps54560ddar-c31966",
       "mpn": "TPS54560DDAR",
       "manufacturer": "Texas Instruments",
@@ -242,16 +230,28 @@
       "rationale": "Shortlisted 2026-10-31 for the Board B 20 V switcher-direct draft (manufacturing/board-b-20v-switcher-direct-draft.md). Primary TRLS-XXOS002B retrieved; used only by the unbound board_b20_spec.py."
     },
     {
-      "candidate_id": "cand-tps16630pwpr-c1849461",
-      "mpn": "TPS16630PWPR",
+      "candidate_id": "cand-tps26630rger-c1850276",
+      "mpn": "TPS26630RGER",
       "manufacturer": "Texas Instruments",
-      "lcsc": "C1849461",
-      "package": "HTSSOP-20 (PWP)",
-      "function": "Board P r3 20 V input eFuse candidate (TPS26630 replacement without B_GATE)",
-      "owner_skill": "component-board-p-r3-candidates",
-      "status": "SHORTLISTED",
-      "replaces_line_id": "line-c1850276",
-      "rationale": "Shortlisted 2026-10-31 per user decision (TPS16630 + LM74700 replacing TPS26630) for the Board P r3 draft. Primary SLVSET9G retrieved; used only by the unbound board_p_r3_spec.py."
+      "lcsc": "C1850276",
+      "package": "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7",
+      "function": "20V input eFuse with B_GATE blocking-FET driver (Board P r2 U2, superseded)",
+      "owner_skill": "component-tps26630rger",
+      "status": "REJECTED",
+      "replaces_line_id": null,
+      "rationale": "Board P r2 U2. Superseded 2026-10-31 by user decision dec-p-20v-front-end-r3 (TPS16630PWPR + LM74700-Q1 + Q3) and removed from the inventory-bound board_p_spec.py in the phase-8 migration (dec-p-front-end-r3-migration). Evidence retained as the r2 record; the archived r2 integration rules and observed runs cite it."
+    },
+    {
+      "candidate_id": "cand-0805w8f1002t5e-c17414",
+      "mpn": "0805W8F1002T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C17414",
+      "package": "R0805",
+      "function": "10 kOhm resistor (Board P r2 R21 RESET pulldown, superseded)",
+      "owner_skill": "component-project-passives",
+      "status": "REJECTED",
+      "replaces_line_id": null,
+      "rationale": "Board P r2 R21 RESET-to-GND 10 kOhm. Replaced in the r3 front end by a C21189 0 Ohm strap (LED requirement R1.1, RESET hard to GND; dec-common-controller-block). Evidence retained; the archived r2 integration rules cite it."
     }
   ],
   "promoted_candidates": [
@@ -259,6 +259,16 @@
       "candidate_id": "cand-smaj6-5a-c87267",
       "promoted_to_line_id": "line-c87267",
       "note": "Promoted to inventory line-c87267 (TVS2) by wave-6 decision dec-a-tvs2-replacement (locked by #123, implemented by #125). This tombstone keeps the locked decisions.json evidence ref 'cand-smaj6-5a-c87267' resolvable in the fact base after promotion; the record's full evidence lives on in component-sd05-c502527 as rec-cand-smaj6-5a-c87267."
+    },
+    {
+      "candidate_id": "cand-tps16630pwpr-c1849461",
+      "promoted_to_line_id": "line-c1849461",
+      "note": "Promoted to inventory line-c1849461 (Board P U2) in the phase-8 migration of board_p_spec.py to the r3 front end (dec-p-front-end-r3-migration). This tombstone keeps the locked decisions.json evidence ref resolvable; the record lives on in component-tps16630pwpr as rec-c1849461."
+    },
+    {
+      "candidate_id": "cand-lm74700-c2941042",
+      "promoted_to_line_id": "line-c2941042",
+      "note": "Promoted to inventory line-c2941042 (Board P U3) in the phase-8 migration of board_p_spec.py to the r3 front end (dec-p-front-end-r3-migration). The Board B 20 V reverse-blocking use remains unplaced. This tombstone keeps the locked decisions.json evidence ref resolvable; the record lives on in component-lm74700qdbvrq1 as rec-c2941042."
     }
   ]
 }

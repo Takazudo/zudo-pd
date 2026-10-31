@@ -241,7 +241,7 @@ describe("KiCad preview manifest", () => {
     // The reviewed package count lives in
     // `selection.ts` next to the record list it is derived from, so promoting
     // a candidate cannot change one without the other being looked at.
-    assert.equal(CIRCUIT_SELECTION.expect.packages, 37);
+    assert.equal(CIRCUIT_SELECTION.expect.packages, 38);
     assert.equal(references.packages.length, CIRCUIT_SELECTION.expect.packages);
   });
 

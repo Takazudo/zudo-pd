@@ -26,9 +26,10 @@ A second card on 2026-10-31 at 15:39Z made the STUSB4500 the common controller b
 LED lamp and zudo-pd, kept a single lineup (this revision becomes the new zudo-pd), replaced the
 TPS26630 front end with TPS16630PWPR + LM74700-Q1 + Q3, and accepted per-unit NVM programming
 (`dec-common-controller-block`, `dec-single-lineup`, `dec-p-20v-front-end-r3`,
-`dec-nvm-per-unit-programming`). The r3 front end is drawn in a separate unbound draft,
-`scripts/schgen/board_p_r3_spec.py`. The table below still describes the inventory-bound r2
-draft, whose TPS26630 evidence feeds hash-locked integration runs.
+`dec-nvm-per-unit-programming`). Phase 8 moved the inventory-bound `board_p_spec.py` to that r3
+front end (`dec-p-front-end-r3-migration`); the separate r3 draft spec is retired. TPS26630RGER and
+the 10 kΩ R21 remain as REJECTED candidate records. The Board P PCB still carries the r2 layout
+and has not been re-synchronised.
 
 The generated schematic and `board_p_spec.py` on the development branch now carry an
 unvalidated draft:
@@ -36,9 +37,9 @@ unvalidated draft:
 | Ref | Part | Role |
 |---|---|---|
 | D5 | [TVS2200DRVR C523793](/docs/components/records/c523793/) | 22 V-standoff clamp on connector VBUS_IN |
-| Q3 | [CSD18543Q3A C840100](/docs/components/records/c840100/) | Reverse-blocking N-FET: source on VBUS_IN (U2 IN_SYS), drain on U2 IN, gate on B_GATE |
-| Q4 | [BSS138-7-F C40912](/docs/components/records/c40912/) | B_GATE fast pulldown, gate driven by U2 DRV |
-| U2 | [TPS26630RGER C1850276](/docs/components/records/c1850276/) | eFuse to the protected node VBUS_P, ahead of every other part |
+| Q3 | [CSD18543Q3A C840100](/docs/components/records/c840100/) | Reverse-blocking N-FET: source on VBUS_IN (U3 ANODE), drain on EF_IN (U3 CATHODE, U2 IN), gate on EF_GATE |
+| U3 / C37 | [LM74700QDBVRQ1 C2941042](/docs/components/records/c2941042/) / 1 µF C15849 | Ideal-diode controller driving Q3; EN tied to ANODE; C37 from VCAP to ANODE |
+| U2 | [TPS16630PWPR C1849461](/docs/components/records/c1849461/) | eFuse from EF_IN to the protected node VBUS_P, ahead of every other part |
 | R24 / R25 | 174k / 10k, 0.1 % | OVP, 21.60–22.56 V rising (22.67 V with 25 ppm/°C over 100 °C) |
 | R22 / R23 | 11.5k / 4.02k, 0.1 % | UVLO, 4.53–4.73 V rising, 4.20–4.45 V falling |
 | R26 | 4.02k, 0.1 % | I(OL) 4.185–4.815 A |
@@ -50,13 +51,15 @@ unvalidated draft:
 | C36 / Q5 / R27 | 1 µF C15849 / [BSS138-7-F C40912](/docs/components/records/c40912/) / 150k C22807 (proposed) | Q1 Miller soft start: C36 VBUS_OUT to Q1_MX, Q5 body diode Q1_MX to Q1_G, R27 VBUS_P to Q1_MX |
 | R14 / R28 | 2 × 470 Ω C23179 | VBUS_VS_DISCH series resistance (R28 proposed) |
 
-- MODE is left open, which selects latch-off.
-- PGTH is tied to GND.
+- MODE is left open, which selects latch-off. SHDN, IMON, FLT and PGOOD are open.
+- R21 is a 0 Ω C21189 strap from RESET to GND. The I2C pull-ups R15/R16 are removed and
+  move to the programming jig.
 - The STUSB4500 VDD and VBUS sense, and Q1, now sit on VBUS_P, so the TVS-clamped
   connector node no longer reaches the STUSB4500 28 V VDD absolute maximum.
-- Q3 and Q4 follow the TPS2663 datasheet section 8.3.5 back-to-back topology, so U2 is
-  specified to block reverse current and reverse polarity. Q4 meets the stated pulldown
-  rule: at least 15 V VDS, 20 V VGS rating, Ciss ≤ 50 pF and VGTH ≤ 3 V.
+- U3 regulates Q3 as an ideal diode and turns it off on reverse current (V(AK REV)
+  −17 to −2 mV). Its charge pump stops at 13.9 V maximum above ANODE, 6.1 V inside the
+  Q3 ±20 V VGS rating; GATE to ANODE is 15 V absolute maximum. Reverse blocking is
+  unmeasured.
 - The rising UVLO threshold is now guaranteed at or above 4.5 V. The falling threshold,
   4.20–4.45 V, still sits below 4.5 V.
 - One 100 µF part keeps the 5 V → 20 V transition inrush at the 30 V/ms PD slew ceiling

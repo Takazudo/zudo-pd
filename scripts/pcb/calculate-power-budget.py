@@ -70,21 +70,22 @@ def inverter(vin, vout, iout, vf):
 def board_p_20v_draft_screen(pd_spec, negative_high):
     def facts(owner):
         return {fact['fact_id']: fact for fact in json.loads((ROOT/'.claude/skills'/owner/'facts.json').read_text())['facts']}
-    efuse, tvs = facts('component-tps26630rger'), facts('component-tvs2200drvr')
+    efuse, tvs = facts('component-tps16630pwpr'), facts('component-tvs2200drvr')
     resistors, ap = facts('component-renewal-feedback-resistors'), facts('component-ap63201-power-stage')
-    if pd_spec['COMPONENTS']['U2'][2] != 'C1850276' or pd_spec['COMPONENTS']['R24'][2] != 'C861163' or pd_spec['COMPONENTS']['R25'][2] != 'C95204':
-        raise ValueError('20 V draft screen requires U2 C1850276 with R24 C861163 / R25 C95204')
+    if pd_spec['COMPONENTS']['U2'][2] != 'C1849461' or pd_spec['COMPONENTS']['R24'][2] != 'C861163' or pd_spec['COMPONENTS']['R25'][2] != 'C95204':
+        raise ValueError('20 V draft screen requires U2 C1849461 with R24 C861163 / R25 C95204')
     top, bottom = resistors['fact-c861163-resistance']['value'], ap['fact-rt0603brd0710kl-resistance']['value']
     tol = resistors['fact-c861163-tolerance']['value'] / 100
-    ovp_max = efuse['fact-c1850276-ovp-rising-max']['value'] * (1 + top * (1 + tol) / (bottom * (1 - tol)))
-    # Hot-unplug overshoot above the trip: 2 x I(OL)max x 14 us plus 45 A x 1 us (TYP) into 80 uF, 30 mOhm ESR (project assumptions).
+    ovp_max = efuse['fact-c1849461-ovp-rising-max']['value'] * (1 + top * (1 + tol) / (bottom * (1 - tol)))
+    # Hot-unplug overshoot above the trip: 2 x I(OL)max x 14 us plus 45 A x 1 us into 80 uF, 30 mOhm ESR. The fast-trip multiplier and
+    # I(SCP) are TYP-only TPS16630 rows and the ESR has no datasheet maximum, so this is a project assumption, not a bound.
     overshoot = (2 * 4.815 * 14e-6 + 45 * 1e-6) / 80e-6 + 2 * 4.815 * 0.03
     node_max = ovp_max + overshoot
     return {
         'status': '20 V BOARD P DRAFT SCREEN; no PCB, no measurement. The current Board B was screened only for 15 V +/-5 % input and is not covered at 20 V.',
-        'board_p_spec_parts': {'d5': 'TVS2200DRVR C523793', 'u2': 'TPS26630RGER C1850276', 'ovp_divider': '174k C861163 / 10k C95204'},
+        'board_p_spec_parts': {'d5': 'TVS2200DRVR C523793', 'u2': 'TPS16630PWPR C1849461 behind LM74700QDBVRQ1 C2941042 / Q3', 'ovp_divider': '174k C861163 / 10k C95204'},
         'connector_node_clamp_hot_v': tvs['fact-c523793-vclamp-35a-125c']['value'],
-        'u2_in_absmax_v': efuse['fact-c1850276-in-absmax']['value'],
+        'u2_in_absmax_v': efuse['fact-c1849461-in-absmax']['value'],
         'protected_node_ovp_trip_max_v': ovp_max,
         'protected_node_overshoot_assumption_v': overshoot,
         'protected_node_max_v': node_max,
@@ -94,7 +95,7 @@ def board_p_20v_draft_screen(pd_spec, negative_high):
         'board_b_u4_effective_at_ovp_max_v': ovp_max + negative_high,
         'board_b_u4_40v_operating_margin_at_ovp_max_v': 40 - (ovp_max + negative_high),
         'board_b_20v_coverage': 'NOT RUN: AP63201 input/duty, LDO dissipation, input capacitors, startup current and the Board B limiter have not been screened at 20 V input.',
-        'evidence': ['fact-c1850276-ovp-rising-max', 'fact-c1850276-in-absmax', 'fact-c523793-vclamp-35a-125c', 'fact-c861163-resistance', 'fact-c861163-tolerance', 'fact-rt0603brd0710kl-resistance'],
+        'evidence': ['fact-c1849461-ovp-rising-max', 'fact-c1849461-in-absmax', 'fact-c1849461-fast-trip-typ-only', 'fact-c523793-vclamp-35a-125c', 'fact-c861163-resistance', 'fact-c861163-tolerance', 'fact-rt0603brd0710kl-resistance'],
     }
 
 

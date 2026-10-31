@@ -18,7 +18,7 @@
     "orderable_lines": 67,
     "fitted_lines": 65,
     "dnp_or_hand_fit_lines": 2,
-    "fitted_placements": 128,
+    "fitted_placements": 127,
     "dnp_placements": 8
   },
   "exclusions": [
@@ -262,7 +262,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "4.7 kOhm resistor, U1 SCL/SDA I2C pull-up",
+      "function": "4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up and Board P Q1 gate resistor R12",
       "placements": [
         {
           "board": "board-a",
@@ -271,16 +271,6 @@
         },
         {
           "board": "board-a",
-          "refdes": "R16",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
-          "refdes": "R15",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
           "refdes": "R16",
           "dnp": false
         },
@@ -333,7 +323,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "0 Ohm link resistor, CC-line debounce net jumper",
+      "function": "0 Ohm link resistor, CC-line debounce net jumper and Board P RESET-to-GND strap",
       "placements": [
         {
           "board": "board-a",
@@ -353,6 +343,11 @@
         {
           "board": "board-p",
           "refdes": "R20",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R21",
           "dnp": false
         }
       ]
@@ -447,7 +442,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling",
+      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling, Board P soft-start Miller capacitor and LM74700 VCAP",
       "placements": [
         {
           "board": "board-a",
@@ -472,6 +467,11 @@
         {
           "board": "board-p",
           "refdes": "C36",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C37",
           "dnp": false
         }
       ]
@@ -1060,19 +1060,19 @@
       ]
     },
     {
-      "line_id": "line-c17414",
-      "mpn": "0805W8F1002T5E",
-      "manufacturer": "UNI-ROYAL",
-      "lcsc": "C17414",
-      "package": "R0805",
-      "owner_skill": "component-project-passives",
-      "identity_state": "UNRESOLVED",
-      "source_state": "SOURCE UNAVAILABLE",
-      "function": "10 kOhm resistor",
+      "line_id": "line-c2941042",
+      "mpn": "LM74700QDBVRQ1",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C2941042",
+      "package": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+      "owner_skill": "component-lm74700qdbvrq1",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Ideal-diode controller driving the Board P reverse-blocking FET Q3",
       "placements": [
         {
           "board": "board-p",
-          "refdes": "R21",
+          "refdes": "U3",
           "dnp": false
         }
       ]
@@ -1477,15 +1477,15 @@
       ]
     },
     {
-      "line_id": "line-c1850276",
-      "mpn": "TPS26630RGER",
+      "line_id": "line-c1849461",
+      "mpn": "TPS16630PWPR",
       "manufacturer": "Texas Instruments",
-      "lcsc": "C1850276",
-      "package": "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7",
-      "owner_skill": "component-tps26630rger",
+      "lcsc": "C1849461",
+      "package": "HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT",
+      "owner_skill": "component-tps16630pwpr",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "20V input eFuse with adjustable OVP, UVLO and current limit",
+      "function": "20V input eFuse with adjustable OVP, UVLO and current limit (Board P r3 front end)",
       "placements": [
         {
           "board": "board-p",
@@ -1580,13 +1580,8 @@
       "owner_skill": "component-diodes-bss138-7-f",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "blocking FET gate pulldown small-signal MOSFET",
+      "function": "small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network",
       "placements": [
-        {
-          "board": "board-p",
-          "refdes": "Q4",
-          "dnp": false
-        },
         {
           "board": "board-p",
           "refdes": "Q5",

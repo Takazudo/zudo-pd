@@ -656,7 +656,7 @@
   ],
   "source_generator": "scripts/pcb/calculate-power-budget.py",
   "board_b_spec_sha256": "12814d07a8318bc16ab0259ff6baddfd67af3abe01b8824feb5b0885608cff49",
-  "board_p_spec_sha256": "c0ec4e996f323a929899da77d15b9a76285380429ceba6b45a81ca923a1f5213",
+  "board_p_spec_sha256": "1251d87df6e78346d1b73642737158f5a761008ba9460375c01080868037ac0c",
   "protection_pcb_source_sha256": {
     "board-b": "c8f83fcdba4daa06bfcce6b998bc2c3ab0400a0c12d4b13e1ba391a72553fc2f",
     "board-p": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278"
@@ -708,7 +708,7 @@
     "status": "20 V BOARD P DRAFT SCREEN; no PCB, no measurement. The current Board B was screened only for 15 V +/-5 % input and is not covered at 20 V.",
     "board_p_spec_parts": {
       "d5": "TVS2200DRVR C523793",
-      "u2": "TPS26630RGER C1850276",
+      "u2": "TPS16630PWPR C1849461 behind LM74700QDBVRQ1 C2941042 / Q3",
       "ovp_divider": "174k C861163 / 10k C95204"
     },
     "connector_node_clamp_hot_v": 28.35,
@@ -723,8 +723,9 @@
     "board_b_u4_40v_operating_margin_at_ovp_max_v": 2.6213517256343195,
     "board_b_20v_coverage": "NOT RUN: AP63201 input/duty, LDO dissipation, input capacitors, startup current and the Board B limiter have not been screened at 20 V input.",
     "evidence": [
-      "fact-c1850276-ovp-rising-max",
-      "fact-c1850276-in-absmax",
+      "fact-c1849461-ovp-rising-max",
+      "fact-c1849461-in-absmax",
+      "fact-c1849461-fast-trip-typ-only",
       "fact-c523793-vclamp-35a-125c",
       "fact-c861163-resistance",
       "fact-c861163-tolerance",

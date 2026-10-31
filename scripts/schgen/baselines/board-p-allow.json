@@ -1,13 +1,13 @@
 {
-  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The Q1 proposal (dec-p-20v-q1-5a) replaces the SOT-23 AO3401A with the PowerDI3333-8 DMP3036SFG-7, renumbering gate 1->4 and drain 3->5-9. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds. Phase 6 draft dec-p-20v-q1-gate-clamp adds D8 (BZT52C11-7-F, cathode VBUS_P, anode Q1_G) and changes R12 to 4.7k (value only). Phase 7 draft dec-p-20v-q1-soft-start adds the Q1 Miller network (C36 1 uF VBUS_OUT to Q1_MX, Q5 BSS138 body diode Q1_MX to Q1_G, R27 150k VBUS_P to Q1_MX) and splits VBUS_VS_DISCH into R14 + R28 2 x 470R in series through VBUS_DISCH_R.",
+  "_comment": "Intentional deltas for the Board P 20 V / 5 A revision (decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2; user decision card 2026-10-31 D3-A + D5-1). r2 adds the Q3 reverse-blocking FET and Q4 B_GATE pulldown, sets UVLO to 11.5k/4.02k and drops C4. The Q1 proposal (dec-p-20v-q1-5a) replaces the SOT-23 AO3401A with the PowerDI3333-8 DMP3036SFG-7, renumbering gate 1->4 and drain 3->5-9. The frozen routed-module baseline is not rewritten; the PCB still matches the baseline. check_baseline.py checks every declared delta still holds. Phase 6 draft dec-p-20v-q1-gate-clamp adds D8 (BZT52C11-7-F, cathode VBUS_P, anode Q1_G) and changes R12 to 4.7k (value only). Phase 7 draft dec-p-20v-q1-soft-start adds the Q1 Miller network (C36 1 uF VBUS_OUT to Q1_MX, Q5 BSS138 body diode Q1_MX to Q1_G, R27 150k VBUS_P to Q1_MX) and splits VBUS_VS_DISCH into R14 + R28 2 x 470R in series through VBUS_DISCH_R. Phase 7b front end r3 (dec-p-20v-front-end-r3, user decision 2026-10-31) replaces TPS26630 + Q4 with TPS16630PWPR (HTSSOP-20, GND 9 and PAD 21) and LM74700 U3 driving Q3 (EF_GATE, EF_VCAP with C37 to VBUS_IN). The common controller block straps RESET to GND through R21 0R (J2.4 no longer RESET) and removes the R15/R16 I2C pull-ups to VREG_2V7.",
   "added_nets": [
-    "EF_BGATE",
-    "EF_DRV",
     "EF_DVDT",
+    "EF_GATE",
     "EF_ILIM",
     "EF_IN",
     "EF_OVP",
     "EF_UVLO",
+    "EF_VCAP",
     "Q1_MX",
     "VBUS_DISCH_R",
     "VBUS_P"
@@ -23,9 +23,9 @@
       "R23.2",
       "R25.2",
       "R26.2",
-      "U2.15",
-      "U2.25",
-      "U2.8"
+      "U2.21",
+      "U2.9",
+      "U3.2"
     ],
     "Q1_G": [
       "D8.2",
@@ -33,16 +33,17 @@
       "Q5.3"
     ],
     "VBUS_IN": [
+      "C37.2",
       "D5.4",
       "D5.5",
       "D5.6",
       "Q3.1",
       "Q3.2",
       "Q3.3",
-      "Q4.2",
       "R22.1",
       "R24.1",
-      "U2.5"
+      "U3.3",
+      "U3.6"
     ],
     "VBUS_OUT": [
       "C36.2",
@@ -60,6 +61,15 @@
     "Q1_G": [
       "Q1.1"
     ],
+    "RESET": [
+      "J2.4"
+    ],
+    "SCL": [
+      "R15.1"
+    ],
+    "SDA": [
+      "R16.1"
+    ],
     "VBUS_IN": [
       "C35.2",
       "D5.1",
@@ -73,6 +83,10 @@
     ],
     "VBUS_VS_DISCH": [
       "R14.2"
+    ],
+    "VREG_2V7": [
+      "R15.2",
+      "R16.2"
     ]
   }
 }

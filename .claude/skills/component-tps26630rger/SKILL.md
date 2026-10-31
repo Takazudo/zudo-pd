@@ -1,11 +1,13 @@
 ---
 name: component-tps26630rger
-description: Use to audit exact TPS26630RGER C1850276 Board P input eFuse limits, UVLO/OVP/ILIM/dVdT configuration, latch mode, pins 1-25 and the unreviewed imported VQFN-24 footprint.
+description: Use to audit exact TPS26630RGER C1850276, the REJECTED Board P r2 input eFuse (superseded by TPS16630PWPR), limits, UVLO/OVP/ILIM/dVdT configuration, latch mode, pins 1-25 and the unreviewed imported VQFN-24 footprint.
 ---
 
 # TPS26630RGER input eFuse
 
-Read all JSON files in this owner and run the central validator. Use circuit-spec-integration for the
+Read all JSON files in this owner and run the central validator. REJECTED candidate: Board P r2 U2, superseded by
+TPS16630PWPR C1849461 + LM74700QDBVRQ1 C2941042 (dec-p-20v-front-end-r3) and removed from board_p_spec.py. The
+archived r2 integration rules cite these facts. Use circuit-spec-integration for the
 whole 20 V input chain. TI SLVSE94G was retrieved and hashed on 2026-10-31; the PDF is not retained in the
 repository. Only the tabulated R(ILIM) points have guaranteed I(OL) limits; 4.02 kOhm gives 4.185-4.815 A.
 UVLO must not float, and UVLO to GND selects a 15 V internal threshold that would block a 5 V attach.

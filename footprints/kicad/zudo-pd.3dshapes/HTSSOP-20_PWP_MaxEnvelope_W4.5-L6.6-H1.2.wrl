@@ -1,0 +1,35 @@
+#VRML V2.0 utf8
+# PROJECT VISUALIZATION ONLY: conservative maximum package envelope.
+# TI TPS1663 SLVSET9G PWP0020T outline 4224598/A: body 6.4-6.6 x 4.3-4.5 mm, 1.2 mm max height; not manufacturer CAD or exact terminal geometry.
+# Extent: 4.5 x 6.6 x 1.2 mm; centered in XY; seating plane Z=0.
+Shape {
+  appearance Appearance { material Material { diffuseColor 0.24 0.24 0.24 } }
+  geometry IndexedFaceSet {
+    ccw TRUE
+    solid TRUE
+    coord Coordinate { point [
+      -0.885826771654 -1.29921259843 0,
+      0.885826771654 -1.29921259843 0,
+      0.885826771654 1.29921259843 0,
+      -0.885826771654 1.29921259843 0,
+      -0.885826771654 -1.29921259843 0.472440944882,
+      0.885826771654 -1.29921259843 0.472440944882,
+      0.885826771654 1.29921259843 0.472440944882,
+      -0.885826771654 1.29921259843 0.472440944882
+    ] }
+    coordIndex [
+      0,3,2,-1,
+      0,2,1,-1,
+      4,5,6,-1,
+      4,6,7,-1,
+      0,1,5,-1,
+      0,5,4,-1,
+      1,2,6,-1,
+      1,6,5,-1,
+      2,3,7,-1,
+      2,7,6,-1,
+      3,0,4,-1,
+      3,4,7,-1
+    ]
+  }
+}

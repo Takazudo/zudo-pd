@@ -28,7 +28,8 @@
     "common-controller-block",
     "single-lineup",
     "p-20v-front-end-r3",
-    "nvm-per-unit-programming"
+    "nvm-per-unit-programming",
+    "p-front-end-r3-migration"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -642,7 +643,7 @@
         "fact-c2941042-vak-rev",
         "fact-c2941042-candidate-scope",
         "cand-tps16630pwpr-c1849461",
-        "line-c1850276"
+        "cand-tps26630rger-c1850276"
       ]
     },
     {
@@ -659,6 +660,22 @@
         "fact-stusb-artifact",
         "fact-stusb-nvm-load",
         "fact-stusb-volatile-pdo"
+      ]
+    },
+    {
+      "key": "p-front-end-r3-migration",
+      "id": "dec-p-front-end-r3-migration",
+      "title": "Inventory-bound Board P spec migrated to the r3 front end",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator instruction 2026-10-31 (PD phase 8), carrying out dec-p-20v-front-end-r3: scripts/schgen/board_p_spec.py now holds the r3 front end (U2 TPS16630PWPR C1849461, U3 LM74700QDBVRQ1 C2941042 driving Q3 CSD18543Q3A, C37 1 uF VCAP, R21 0 Ohm C21189 RESET strap, I2C pull-ups R15/R16 and the Q4 B_GATE pulldown removed). The unbound board_p_r3_spec.py draft and its board directory are retired. TPS26630RGER C1850276 and 0805W8F1002T5E C17414 become REJECTED candidate records; the affected integration rules, forward tests and observed runs were archived as *-before-front-end-r3.json and re-run. The Board P PCB is not re-synchronised and still carries r2.",
+      "rationale": "The user chose TPS16630 + LM74700 on the 15:39Z card; keeping two Board P specs would leave the inventory, BOM and integration evidence describing a front end the user has replaced. Evidence ref 'line-c1850276' in dec-p-20v-front-end-r3 now cites the same part as cand-tps26630rger-c1850276, because the inventory line no longer exists.",
+      "evidence": [
+        "fact-c1849461-board-p-config",
+        "fact-c2941042-board-p-config",
+        "fact-c21189-reset-strap-topology"
       ]
     }
   ]

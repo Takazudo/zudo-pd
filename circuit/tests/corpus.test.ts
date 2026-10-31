@@ -34,8 +34,8 @@ function record(slug: string): PublicRecord {
 }
 
 describe("the corpus normalizes to the figures the epic states", () => {
-  it("counts 30 bundles and 67 records, all standalone", () => {
-    assert.equal(model.corpus.ownerBundles, 30);
+  it("counts 31 bundles and 67 records, all standalone", () => {
+    assert.equal(model.corpus.ownerBundles, 31);
     assert.equal(model.corpus.records, 67);
     assert.equal(model.corpus.standaloneRecords, 67);
     assert.equal(model.corpus.subordinateRecords, 0);
@@ -44,11 +44,11 @@ describe("the corpus normalizes to the figures the epic states", () => {
     assert.equal(model.corpus.dnpOrHandFitLines, 2);
   });
 
-  it("counts 168 sources, 692 facts, 193 coverage domains, 41 interactions", () => {
-    assert.equal(model.corpus.sources, 168);
-    assert.equal(model.corpus.facts, 692);
-    assert.equal(model.corpus.coverageDomains, 193);
-    assert.equal(model.corpus.interactions, 41);
+  it("counts 169 sources, 698 facts, 196 coverage domains, 40 interactions", () => {
+    assert.equal(model.corpus.sources, 169);
+    assert.equal(model.corpus.facts, 698);
+    assert.equal(model.corpus.coverageDomains, 196);
+    assert.equal(model.corpus.interactions, 40);
   });
 
   it("counts 67 routes, 67 pin maps and 253 pins", () => {
@@ -59,9 +59,9 @@ describe("the corpus normalizes to the figures the epic states", () => {
 
   it("publishes every instance without duplicating or dropping one", () => {
     assert.equal(model.records.length, 67);
-    assert.equal(sum(model.records, (entry) => entry.sources.length), 168);
-    assert.equal(sum(model.records, (entry) => entry.facts.length), 692);
-    assert.equal(sum(model.records, (entry) => entry.coverage.length), 193);
+    assert.equal(sum(model.records, (entry) => entry.sources.length), 169);
+    assert.equal(sum(model.records, (entry) => entry.facts.length), 698);
+    assert.equal(sum(model.records, (entry) => entry.coverage.length), 196);
     assert.equal(sum(model.records, (entry) => entry.pinMaps.length), 67);
     assert.equal(
       sum(model.records, (entry) => sum(entry.pinMaps, (map) => map.pins.length)),
@@ -70,8 +70,8 @@ describe("the corpus normalizes to the figures the epic states", () => {
 
     // Each participant must show its involvement when an interaction spans records.
     const interactions = model.records.flatMap((entry) => entry.interactions);
-    assert.equal(interactions.length, 47);
-    assert.equal(new Set(interactions.map((entry) => entry.interactionId)).size, 41);
+    assert.equal(interactions.length, 46);
+    assert.equal(new Set(interactions.map((entry) => entry.interactionId)).size, 40);
   });
 
   it("gives every record a unique, route-safe slug and page-unique anchors", () => {
@@ -93,7 +93,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
       assert.equal(new Set(anchors).size, anchors.length, entry.identity.slug);
       total += anchors.length;
     }
-    assert.equal(total, 67 + 168 + 692 + 193 + 47 + 67);
+    assert.equal(total, 67 + 169 + 698 + 196 + 46 + 67);
 
     // Record-scoped anchors stay globally unique — each belongs to one page.
     const scoped = model.records.flatMap((entry) => [
@@ -177,12 +177,12 @@ describe("the real records the epic calls out", () => {
   it("publishes open coverage, both with and without applicable blockers", () => {
     const coverage = model.records.flatMap((entry) => entry.coverage);
     const open = coverage.filter((entry) => entry.status === "OPEN");
-    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 109);
-    assert.equal(open.length, 84);
+    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 110);
+    assert.equal(open.length, 86);
 
     const withBlockers = open.filter((entry) => entry.blockingFactIds.length > 0);
     const withoutBlockers = open.filter((entry) => entry.blockingFactIds.length === 0);
-    assert.equal(withBlockers.length, 73);
+    assert.equal(withBlockers.length, 75);
     assert.equal(withoutBlockers.length, 11);
 
     // An open domain never publishes without saying why it is open.
@@ -196,8 +196,8 @@ describe("the real records the epic calls out", () => {
     );
 
     const calculated = facts.filter((fact) => fact.expression !== "");
-    assert.equal(calculated.length, 43);
-    assert.equal(facts.filter((fact) => fact.dependsOn.length > 0).length, 43);
+    assert.equal(calculated.length, 42);
+    assert.equal(facts.filter((fact) => fact.dependsOn.length > 0).length, 42);
 
     const crossRecord = facts.flatMap((fact) =>
       fact.dependsOn.filter((id) => factRecord.get(id) !== fact.recordId),
@@ -218,9 +218,9 @@ describe("the real records the epic calls out", () => {
 
   it("keeps numeric, string and structured fact values in their own shapes", () => {
     const values = model.records.flatMap((entry) => entry.facts).map((fact) => fact.value);
-    assert.equal(values.filter((value) => typeof value === "number").length, 367);
-    assert.equal(values.filter((value) => typeof value === "string").length, 264);
-    assert.equal(values.filter((value) => Array.isArray(value)).length, 61);
+    assert.equal(values.filter((value) => typeof value === "number").length, 362);
+    assert.equal(values.filter((value) => typeof value === "string").length, 274);
+    assert.equal(values.filter((value) => Array.isArray(value)).length, 62);
 
     const identity = model.records
       .flatMap((entry) => entry.facts)
@@ -404,7 +404,7 @@ describe("denied evidence never reaches the public model", () => {
     }
   });
 
-  it("publishes only http(s) citation URLs, and records all 168 decisions", () => {
+  it("publishes only http(s) citation URLs, and records all 169 decisions", () => {
     const report = policy.buildReport({
       viewModelVersion: model.version,
       providerId: "circuit-component-spec",
@@ -414,8 +414,8 @@ describe("denied evidence never reaches the public model", () => {
       selectedSlugs: [],
       counts: {},
     });
-    assert.equal(report.urls.length, 168);
-    assert.equal(report.urls.filter((entry) => entry.decision === "ALLOW").length, 152);
+    assert.equal(report.urls.length, 169);
+    assert.equal(report.urls.filter((entry) => entry.decision === "ALLOW").length, 153);
 
     for (const source of model.records.flatMap((entry) => entry.sources)) {
       if (source.url === null) {

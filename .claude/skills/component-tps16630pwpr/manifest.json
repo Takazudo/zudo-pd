@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "skill": "component-board-p-r3-candidates",
+  "skill": "component-tps16630pwpr",
   "records": [
     {
       "record_id": "rec-c1849461",
-      "line_id": null,
-      "candidate_id": "cand-tps16630pwpr-c1849461",
+      "line_id": "line-c1849461",
+      "candidate_id": null,
       "kind": "standalone",
       "parent_record_id": null,
       "mpn": "TPS16630PWPR",
       "manufacturer": "Texas Instruments",
       "lcsc": "C1849461",
-      "package": "HTSSOP-20 (PWP)",
+      "package": "HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT",
       "source_ids": [
         "src-c1849461-primary",
         "src-c1849461-identity"
@@ -29,11 +29,18 @@
         "fact-c1849461-dvdt",
         "fact-c1849461-mode-latch",
         "fact-c1849461-shdn-open",
-        "fact-c1849461-candidate-scope"
+        "fact-c1849461-ovp-rising-max",
+        "fact-c1849461-ovp-toff-max",
+        "fact-c1849461-fast-trip-typ-only",
+        "fact-c1849461-board-p-config",
+        "fact-c1849461-footprint-review",
+        "fact-c1849461-visualization-envelope"
       ],
       "interaction_ids": [],
       "open_domains": [
-        "placement"
+        "assembled-qualification",
+        "footprint-land-pattern",
+        "transient-let-through"
       ]
     }
   ]

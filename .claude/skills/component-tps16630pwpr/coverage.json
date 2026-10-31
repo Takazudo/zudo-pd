@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c1849461-primary-specification",
+      "record_id": "rec-c1849461",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Texas Instruments SLVSET9G retrieved and hashed 2026-10-31; PDF not retained.",
+      "fact_ids": [
+        "fact-c1849461-manufacturer",
+        "fact-c1849461-vin-operating",
+        "fact-c1849461-in-absmax",
+        "fact-c1849461-ovp-rising",
+        "fact-c1849461-uvlo-rising",
+        "fact-c1849461-iol-4k02",
+        "fact-c1849461-ovp-toff",
+        "fact-c1849461-ron",
+        "fact-c1849461-dvdt",
+        "fact-c1849461-mode-latch",
+        "fact-c1849461-shdn-open",
+        "fact-c1849461-ovp-rising-max",
+        "fact-c1849461-ovp-toff-max"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c1849461-distributor-identity",
+      "record_id": "rec-c1849461",
+      "domain": "distributor-identity",
+      "status": "COVERED",
+      "reason": "Exact JLCPCB catalog identity read 2026-10-31.",
+      "fact_ids": [
+        "fact-c1849461-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c1849461-footprint-land-pattern",
+      "record_id": "rec-c1849461",
+      "domain": "footprint-land-pattern",
+      "status": "OPEN",
+      "reason": "Draft land from the TI example layout; not fabrication-reviewed.",
+      "fact_ids": [
+        "fact-c1849461-footprint-review"
+      ],
+      "blocking_fact_ids": [
+        "fact-c1849461-footprint-review"
+      ]
+    },
+    {
+      "coverage_id": "cov-c1849461-transient-let-through",
+      "record_id": "rec-c1849461",
+      "domain": "transient-let-through",
+      "status": "OPEN",
+      "reason": "No guaranteed maximum current through U2 during OVP_toff(dly); fast trip and I(SCP) are TYP only.",
+      "fact_ids": [
+        "fact-c1849461-fast-trip-typ-only"
+      ],
+      "blocking_fact_ids": [
+        "fact-c1849461-fast-trip-typ-only"
+      ]
+    },
+    {
+      "coverage_id": "cov-c1849461-assembled-qualification",
+      "record_id": "rec-c1849461",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Board P r3 configuration, surge, inrush, thermal and latch behaviour are unmeasured; PCB not re-synchronised.",
+      "fact_ids": [
+        "fact-c1849461-board-p-config",
+        "fact-c1849461-visualization-envelope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c1849461-board-p-config"
+      ]
+    }
+  ]
+}

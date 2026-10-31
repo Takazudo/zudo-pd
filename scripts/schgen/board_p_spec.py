@@ -5,15 +5,24 @@ The outline, mounting and interface placement reuse the routed module; the PCB
 has NOT been updated to this revision (PCB layout is a later step).
 
 20 V revision (user decision card 2026-10-31, D3-A + D5-1; see
-scripts/schgen/decisions.json dec-p-20v-revision and dec-p-20v-front-end-r2):
+scripts/schgen/decisions.json dec-p-20v-revision, dec-p-20v-front-end-r2 and
+dec-p-20v-front-end-r3):
 - D5 TVS2200DRVR (22 V standoff) clamps the connector node VBUS_IN.
-- Q3 CSD18543Q3A is U2's external reverse-blocking NFET (source on VBUS_IN =
-  IN_SYS, drain on U2 IN, gate on B_GATE); Q4 BSS138-7-F is the B_GATE fast
-  pulldown driven by DRV (SLVSE94G 8.3.5).
-- U2 TPS26630RGER feeds the protected node VBUS_P ahead of every other part.
-  OVP R24/R25 174k/10k 0.1 %: 21.60-22.56 V rising. UVLO R22/R23 11.5k/4.02k
-  0.1 %: 4.53-4.73 V rising (falling 4.20-4.45 V). R26 4.02k: I(OL)
-  4.185-4.815 A. C5 100 nF dVdT. MODE open = latch; PGTH to GND.
+- Front end r3 (user decision 2026-10-31, dec-p-20v-front-end-r3; replaces TPS26630
+  and its B_GATE driver Q4): U3 LM74700QDBVRQ1 ideal-diode controller drives Q3
+  CSD18543Q3A (source on VBUS_IN = ANODE, drain on EF_IN = CATHODE, gate on EF_GATE).
+  EN is tied to ANODE (always on, SNOSD17G Table 5-1); C37 1 uF is the VCAP-to-ANODE
+  charge-pump capacitor (0.1 uF minimum).
+- U2 TPS16630PWPR (HTSSOP-20, TI-derived draft land) feeds the protected node VBUS_P
+  ahead of every other Board P part. IN 1-3 and P_IN 6 on EF_IN; OUT 18-20 on VBUS_P.
+  OVP R24/R25 174k/10k 0.1 %: 21.60-22.56 V rising (V(OVPR) 1.176-1.224 V, SLVSET9G).
+  UVLO R22/R23 11.5k/4.02k 0.1 %: 4.53-4.73 V rising. R26 4.02k: I(OL) 4.185-4.815 A.
+  C5 100 nF dVdT. MODE open = latch; SHDN, IMON, FLT and PGOOD open. Both dividers
+  sense VBUS_IN, ahead of the ideal diode.
+- Common controller block (manager common-controller-block.md, LED requirements
+  R1.1-R1.3): RESET is strapped to GND by R21 0R at the pin and is no longer on a pogo
+  pad (J2.4 is NC). The I2C pull-ups R15/R16 are removed; the programming jig supplies
+  them from its own rail. SCL/SDA float between programming sessions (OPEN).
 - C3 is the single 100 uF protected-node bulk (80-120 uF initial tolerance),
   sized so the 5->20 V transition inrush at the 30 V/ms PD slew ceiling stays
   below the I(OL) minimum.
@@ -56,10 +65,11 @@ COMPONENTS = {
     'U1': ('STUSB4500QTR', 'STUSB4500QTR', 'C2678061', 'zudo-pd:QFN-24_L4.0-W4.0-P0.50-BL-EP2.8', False, (152.4, 88.9)),
     'Q1': ('DMP3036SFG-7', 'DMP3036SFG-7', 'C461081', 'zudo-pd:PowerDI3333-8_DMP3036SFG', False, (241.3, 50.8)),
     'D5': ('TVS2200DRVR', 'TVS2200DRVR', 'C523793', 'zudo-pd:WSON-6_L2.0-W2.0-P0.65-BL-EP', False, (203.2, 38.1)),
-    'U2': ('TPS26630RGER', 'TPS26630RGER', 'C1850276', 'zudo-pd:VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7', False, (114.3, 38.1)),
+    'U2': ('TPS16630PWPR', 'TPS16630PWPR', 'C1849461', 'zudo-pd:HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT', False, (114.3, 38.1)),
+    'U3': ('LM74700QDBVRQ1', 'LM74700QDBVRQ1', 'C2941042', 'zudo-pd:SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL', False, (241.3, 266.7)),
+    'C37': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (190.5, 266.7)),
     'C3': ('RVT1H101M0810', '100uF 50V', 'C970687', 'zudo-pd:CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD', False, (266.7, 241.3)),
     'Q3': ('CSD18543Q3A', 'CSD18543Q3A', 'C840100', 'zudo-pd:VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A', False, (63.5, 38.1)),
-    'Q4': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR', False, (304.8, 241.3)),
     'C5': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603', False, (228.6, 241.3)),
     'R22': ('RT0603BRD0711K5L', '11.5k 0.1%', 'C705719', 'zudo-pd:R0603', False, (38.1, 241.3)),
     'R23': ('RT0603BRD074K02L', '4.02k 0.1%', 'C705781', 'zudo-pd:R0603', False, (76.2, 241.3)),
@@ -82,28 +92,26 @@ COMPONENTS = {
     'C36': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (38.1, 266.7)),
     'Q5': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR', False, (76.2, 266.7)),
     'R27': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (114.3, 266.7)),
-    'R15': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (190.5, 190.5)),
-    'R16': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (228.6, 190.5)),
     'R17': ('0603WAF5101T5E', '5.1k', 'C23186', 'zudo-pd:R0603', True, (38.1, 215.9)),
     'R18': ('0603WAF5101T5E', '5.1k', 'C23186', 'zudo-pd:R0603', True, (76.2, 215.9)),
     'R19': ('0603WAF0000T5E', '0R', 'C21189', 'zudo-pd:R0603', False, (114.3, 215.9)),
     'R20': ('0603WAF0000T5E', '0R', 'C21189', 'zudo-pd:R0603', False, (152.4, 215.9)),
-    'R21': ('0805W8F1002T5E', '10k', 'C17414', 'zudo-pd:R0805', False, (266.7, 190.5)),
+    'R21': ('0603WAF0000T5E', '0R', 'C21189', 'zudo-pd:R0603', False, (266.7, 190.5)),
     'JOUT1': ('PZ254V-11-06P', '2.54mm 1x6 male', 'C492405', 'zudo-pd:HDR-TH_6P-P2.54-V-M', False, (317.5, 88.9)),
     'J2': ('Conn_1x04', 'PogoPad_1x4_NVM_I2C', '', 'zudo-pd:PogoPad_1x04_P2.54mm', False, (317.5, 139.7)),
     'J3': ('Conn_1x08', 'PogoPad_1x8_Debug', '', 'zudo-pd:PogoPad_1x08_P2.54mm', False, (317.5, 190.5)),
 }
 
 NETS = {
-    'VBUS_IN': ['J1.2', 'J1.5', 'C1.2', 'C2.2', 'J3.4', 'D5.4', 'D5.5', 'D5.6', 'Q3.1', 'Q3.2', 'Q3.3', 'Q4.2', 'U2.5', 'R22.1', 'R24.1'],
-    'EF_IN': ['Q3.5', 'Q3.6', 'Q3.7', 'Q3.8', 'Q3.9', 'U2.1', 'U2.2'],
-    'EF_BGATE': ['Q3.4', 'Q4.3', 'U2.3'],
-    'EF_DRV': ['Q4.1', 'U2.4'],
-    'VBUS_P': ['U2.17', 'U2.18', 'U1.24', 'R14.1', 'R11.2', 'R27.1', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
-    'EF_UVLO': ['U2.6', 'R22.2', 'R23.1'],
-    'EF_OVP': ['U2.7', 'R24.2', 'R25.1'],
-    'EF_DVDT': ['U2.9', 'C5.1'],
-    'EF_ILIM': ['U2.10', 'R26.1'],
+    'VBUS_IN': ['J1.2', 'J1.5', 'C1.2', 'C2.2', 'J3.4', 'D5.4', 'D5.5', 'D5.6', 'Q3.1', 'Q3.2', 'Q3.3', 'U3.6', 'U3.3', 'C37.2', 'R22.1', 'R24.1'],
+    'EF_IN': ['Q3.5', 'Q3.6', 'Q3.7', 'Q3.8', 'Q3.9', 'U3.4', 'U2.1', 'U2.2', 'U2.3', 'U2.6'],
+    'EF_GATE': ['Q3.4', 'U3.5'],
+    'EF_VCAP': ['U3.1', 'C37.1'],
+    'VBUS_P': ['U2.18', 'U2.19', 'U2.20', 'U1.24', 'R14.1', 'R11.2', 'R27.1', 'Q1.1', 'Q1.2', 'Q1.3', 'C35.2', 'C3.1', 'D8.1'],
+    'EF_UVLO': ['U2.7', 'R22.2', 'R23.1'],
+    'EF_OVP': ['U2.8', 'R24.2', 'R25.1'],
+    'EF_DVDT': ['U2.10', 'C5.1'],
+    'EF_ILIM': ['U2.11', 'R26.1'],
     'CC1': ['J1.3', 'U1.2', 'R17.1', 'R19.2', 'D6.1'],
     'CC2': ['J1.4', 'U1.4', 'R18.1', 'R20.2', 'D7.1'],
     'CC1DB': ['U1.1', 'R19.1', 'J3.1'],
@@ -115,18 +123,18 @@ NETS = {
     'Q1_MX': ['C36.1', 'Q5.1', 'Q5.2', 'R27.2'],
     'VBUS_OUT': ['Q1.5', 'Q1.6', 'Q1.7', 'Q1.8', 'Q1.9', 'R13.1', 'C36.2', 'JOUT1.1', 'JOUT1.2'],
     'DISCH': ['U1.9', 'R13.2'],
-    'VREG_2V7': ['U1.23', 'C30.2', 'R15.2', 'R16.2', 'J3.3'],
+    'VREG_2V7': ['U1.23', 'C30.2', 'J3.3'],
     'VREG_1V2': ['U1.21', 'C34.1'],
-    'SCL': ['U1.7', 'R15.1', 'J2.1'],
-    'SDA': ['U1.8', 'R16.1', 'J2.2'],
-    'RESET': ['U1.6', 'R21.1', 'J2.4'],
+    'SCL': ['U1.7', 'J2.1'],
+    'SDA': ['U1.8', 'J2.2'],
+    'RESET': ['U1.6', 'R21.1'],
     'ATT': ['U1.11', 'J3.6', 'JOUT1.3'],
     'PDOK': ['U1.20', 'J3.7', 'JOUT1.4'],
-    'GND': ['U1.10', 'U1.12', 'U1.13', 'U1.22', 'U1.25', 'J1.1', 'J1.6', 'J1.0', 'C1.1', 'C2.1', 'C30.1', 'C34.2', 'R21.2', 'R17.2', 'R18.2', 'J2.3', 'J3.5', 'D5.1', 'D5.2', 'D5.3', 'D5.7', 'U2.8', 'U2.15', 'U2.25', 'R23.2', 'R25.2', 'R26.2', 'C5.2', 'C3.2', 'D6.2', 'D7.2', 'JOUT1.5', 'JOUT1.6'],
+    'GND': ['U1.10', 'U1.12', 'U1.13', 'U1.22', 'U1.25', 'J1.1', 'J1.6', 'J1.0', 'C1.1', 'C2.1', 'C30.1', 'C34.2', 'R21.2', 'R17.2', 'R18.2', 'J2.3', 'J3.5', 'D5.1', 'D5.2', 'D5.3', 'D5.7', 'U2.9', 'U2.21', 'U3.2', 'R23.2', 'R25.2', 'R26.2', 'C5.2', 'C3.2', 'D6.2', 'D7.2', 'JOUT1.5', 'JOUT1.6'],
 }
 
 NO_CONNECT = ['U1.3', 'U1.14', 'U1.15', 'U1.17', 'U1.19',
-              'U2.11', 'U2.12', 'U2.13', 'U2.14', 'U2.16',
-              'U2.19', 'U2.20', 'U2.21', 'U2.22', 'U2.23', 'U2.24']
+              'U2.4', 'U2.5', 'U2.12', 'U2.13', 'U2.14', 'U2.15', 'U2.16', 'U2.17',
+              'J2.4']
 
 LABEL_OVERRIDES = {'Q1': {'Reference': (256.54, 43.18), 'Value': (256.54, 58.419999999999995)}}

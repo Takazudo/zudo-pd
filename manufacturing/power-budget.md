@@ -153,11 +153,13 @@ before treating the installed configuration as a thermal-test setup.
 
 ## 20 V Board P draft screen
 
-The Board P spec now carries the 20 V draft (TVS2200 C523793 at the connector, TPS26630
-C1850276 eFuse, `dec-p-20v-revision` and `dec-p-20v-front-end-r2`), while the Board P PCB
+The Board P spec now carries the 20 V r3 draft (TVS2200 C523793 at the connector, LM74700-Q1
+C2941042 with Q3, then the TPS16630 C1849461 eFuse; `dec-p-20v-revision`,
+`dec-p-20v-front-end-r3` and `dec-p-front-end-r3-migration`), while the Board P PCB
 remains the 15 V as-built SMAJ16A layout. `input_protection_screen` above therefore describes
 the PCB pairing only. `board_p_20v_draft_screen` bounds the protected node at the fitted
 174 kΩ/10 kΩ OVP maximum of 22.56 V, plus a 2.54 V hot-unplug overshoot assumption into
-80 µF (25.10 V, 2.90 V below the STUSB4500 28 V limit). The current Board B was screened only
+80 µF (25.10 V, 2.90 V below the STUSB4500 28 V limit). That assumption rests on TYP-only
+fast-trip and I(SCP) rows and an ESR without a datasheet maximum, so it is not a bound. The current Board B was screened only
 for 15 V ±5 % input. Its 20 V coverage is NOT RUN; at the OVP maximum, U4 would see 37.38 V
 against its 40 V operating limit. Nothing here is measured.

@@ -142,7 +142,7 @@ A never-exceed limit. Reaching it may damage the part; it is not an operating ta
 
   **Value:** 20 · **Unit:** `V`
 
-  **Conditions:** Gate-to-source magnitude (+/-20 V). U2 B\_GATE clamp is 8.3-14 V above IN\_SYS (SLVSE94G).
+  **Conditions:** Gate-to-source magnitude (+/-20 V). Board P r3 gate drive is LM74700 U3 GATE, 15 V absolute maximum and 13.9 V maximum charge-pump turn-off above ANODE (SNOSD17G).
 
   **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
 
@@ -160,7 +160,7 @@ A parameter the manufacturer guarantees over the stated conditions, usually with
 
   **Value:** 9.9 · **Unit:** `mOhm`
 
-  **Conditions:** VGS 10 V, ID 12 A, 25 C maximum; the B\_GATE minimum drive of 8.3 V is below the 10 V test point, so use the 4.5 V row (15.6 mOhm max) as the screening bound.
+  **Conditions:** VGS 10 V, ID 12 A, 25 C maximum; the LM74700 gate drive is not guaranteed at or above the 10 V test point (charge pump turn-on 10.8 V min, UV release 5.8 V min), so use the 4.5 V row (15.6 mOhm max) as the screening bound.
 
   **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
 
@@ -232,13 +232,13 @@ A value this project recorded about how the part is used here — a chosen opera
 
   **Fact:** `fact-c840100-board-p-role`
 
-  **Value:** Board P Q3: U2 external reverse-blocking FET, source VBUS\_IN (IN\_SYS), drain U2 IN, gate B\_GATE · **Unit:** `NONE`
+  **Value:** Board P Q3: reverse-blocking FET driven by LM74700 U3, source VBUS\_IN (ANODE), drain EF\_IN (CATHODE and U2 IN), gate EF\_GATE · **Unit:** `NONE`
 
-  **Conditions:** SLVSE94G 8.3.5 back-to-back topology; Q4 BSS138 is the B\_GATE pulldown. Conduction loss at 4.815 A with 15.6 mOhm is 0.36 W (calc); thermal unmeasured.
+  **Conditions:** SNOSD17G ideal-diode topology (r3); replaces the r2 TPS26630 B\_GATE/Q4 drive. Conduction loss at 4.815 A with 15.6 mOhm is 0.36 W (calc); thermal unmeasured.
 
   **Verdict:** NEEDS BENCH · **Provenance:** PROJECT-CHOICE
 
-  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — board\_p\_spec.py COMPONENTS Q3 row and NETS rows EF\_IN, EF\_BGATE
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — board\_p\_spec.py COMPONENTS Q3/U3 rows and NETS rows VBUS\_IN, EF\_IN, EF\_GATE
 </EvidenceFact>
 
 <EvidenceFact>
