@@ -15,8 +15,8 @@ Evidence classes: **G** guaranteed manufacturer limit · **G-U** guaranteed, but
 
 | ID | Gate | Requirement (not relaxed) | Current state | Status |
 |---|---|---|---|---|
-| GAP-1 | Input clamp vs STUSB4500 28 V absolute maximum | Every VBUS-side pin stays ≤ 28 V over the surge envelope and temperature | TVS2200 clamp 28.0 V (40 A, 27 °C) / 28.35 V (35 A, 125 °C), G: margin 0.00 / −0.35 V. Per-pin 470 Ω + BZX84-C24 candidate gives about 0.2–1.4 V hot at the table points (PA-dependent, not guaranteed). Fix proposal: [`input-clamp-fix.md`](input-clamp-fix.md) | **UNRESOLVED** |
-| GAP-2 | CC pins vs 22 V absolute maximum | A CC-to-VBUS short at 20 V must not exceed 22 V on CC1/CC2 | 2 V nominal margin, about 1 V at 21 V ([`product-lineup.md`](product-lineup.md)); CC protector screen in [`input-clamp-fix.md`](input-clamp-fix.md) | **OPEN** |
+| GAP-1 | Input clamp vs STUSB4500 28 V absolute maximum | Every VBUS-side pin stays ≤ 28 V over the surge envelope and temperature | TVS2200 clamp 28.0 V (40 A, 27 °C) / 28.35 V (35 A, 125 °C), G: margin 0.00 / −0.35 V. Per-pin 470 Ω + BZX84-C24 candidate gives about 0.2–1.4 V hot at the table points (PA-dependent, not guaranteed). Fix proposal: [`input-clamp-fix.md`](input-clamp-fix.md). 2026-10-31: an OVP eFuse ahead of Board P (T3) bounds the protected node to about 24.6 V at ≥ 100 µF effective on paper, see [`input-protection-20v.md`](input-protection-20v.md) | **UNRESOLVED** (bounded on paper, not adopted) |
+| GAP-2 | CC pins vs 22 V absolute maximum | A CC-to-VBUS short at 20 V must not exceed 22 V on CC1/CC2 | 2 V nominal margin, about 1 V at 21 V ([`product-lineup.md`](product-lineup.md)); CC protector screen in [`input-clamp-fix.md`](input-clamp-fix.md); single-fault bound restated in [`input-protection-20v.md`](input-protection-20v.md) §2.2 | **OPEN** |
 | GAP-3 | Source voltage bands (PD-003-D5) | [R3.1–R3.4](#gap-3-source-voltage-bands-pd-003-d5) | DC: terminal sense plus precision reference reaches 8–20 mV setpoint error on paper. Dynamic: the B1 candidate filter exceeds the derived output-impedance ceiling on every rail without OSC capacitance and on −12 V and +5 V with it | **UNRESOLVED** |
 | GAP-4 | Rail plus return loss (PD-003-D5) | [R4.1–R4.3](#gap-4-zero-added-drop-pd-003-d5) | Every series element must sit inside the regulation loop. In-loop drops 0.02–0.30 V per rail tabulated; loop stability with them NOT RUN | **UNRESOLVED** |
 | GAP-5 | Output current upper limit (PD-003-D4) | [R5.1–R5.4](#gap-5-interface-current-upper-limit-pd-003-d4) | **No retrieved integrated limiter holds the ±12 V windows.** A shunt plus current-sense comparator with a reference-driven threshold reaches ±1.73 % worst case on paper (+12 V: 2.070 A max), with UNAV terms; −12 V needs a floated variant (NOT RUN). +5 V has a wide window | **UNRESOLVED** (±12 V: needs a decision, below) |
@@ -27,6 +27,8 @@ Evidence classes: **G** guaranteed manufacturer limit · **G-U** guaranteed, but
 | GAP-10 | NVM programming in production | Every unit carries the intended PDO set and refuse policy | Per-unit NVM write plus readback is required; no retained NVM image | **OPEN** |
 
 GAP-1 to GAP-8 are the blocking items listed by the integration review. GAP-9 and GAP-10 come from the product-lineup screen. Sections below cover **PD-003-D4** (safety: GAP-5, -6, -7, -9) and **PD-003-D5** (precision: GAP-3, -4, -8). Each section separates the requirement (implementation-neutral, testable) from the alternative methods (not chosen).
+
+A protection concept for GAP-5, GAP-6 and GAP-7 on the switcher-direct Board B, with a draft STUSB4500 20 V / 5 A NVM description, is in [`board-b-protection-20v.md`](board-b-protection-20v.md); the option comparison is in [`osc-supply-options.md`](osc-supply-options.md). Neither closes a gap or adopts a part.
 
 ## Fixed inputs used below
 

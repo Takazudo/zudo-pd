@@ -1,0 +1,106 @@
+# 20 V input protection for Board P: clamp vs STUSB4500 limits (L7 screen)
+
+**Status: desk analysis only. Nothing here is adopted.** No schematic, PCB, BOM, NVM or part selection changes. Every schematic and PCB stays an unvalidated draft. **Nothing on this page is measured.** This page serves the OSC-recommended direction D3-A (20 V contract at ≥ 3.38 A, preferably 20 V / 5 A) with D5-1 (accept or refuse, no partial supply). That direction is a recommendation pending the user's decision. It is not adopted.
+
+Figures come from [`../scripts/pcb/calculate-input-ovp-20v.py`](../scripts/pcb/calculate-input-ovp-20v.py). This page extends [`input-clamp-fix.md`](input-clamp-fix.md) (PD-CLAMP-2 scope) and closes or bounds GAP-1 in [`design-gaps-20v.md`](design-gaps-20v.md). GAP-2 is bounded but not closed.
+
+Evidence classes: **G** guaranteed in a manufacturer table retrieved from the manufacturer's public site, with bytes and hash recorded below · **G-U** guaranteed, but read only from a mirror or a summarizing fetch · **TYP** typical · **PA** project assumption · **UNAV** unavailable.
+
+## 1. Limits and requirement
+
+| Item | Value | Class |
+|---|---|---|
+| STUSB4500 VDD, VBUS_EN_SNK, VBUS_VS_DISCH, DISCH, POWER_OK2 absolute maximum | 28 V | G-U (DS12499 Rev 8 Table 20, owner-bundle mirror; st.com refused direct download again on 2026-10-31) |
+| STUSB4500 CC1/CC2/CC1DB/CC2DB absolute maximum | 22 V | G-U, same source |
+| Highest legitimate VBUS on a 20 V PDO | 21.0 V (±5 %) | PA (no USB PD primary text retained) |
+| Requirement (not relaxed) | Every 28 V-group pin stays ≤ 28 V across the surge envelope and temperature. CC stays ≤ 22 V for a single CC-to-VBUS fault | Project gate GAP-1 / GAP-2 |
+
+The surge envelope (waveform, energy, source and cable inductance, repetition) is still undefined. Margins below hold for the stated mechanism only.
+
+## 2. Topologies compared
+
+| ID | Topology | Exact candidates | Bound on the 28 V-group pins | Verdict |
+|---|---|---|---|---|
+| T1 | One passive TVS on VBUS (lower clamp) | TI **TVS2200** (DRV, VRWM 22 V, VBR 24.6–27.6 V at 1 mA, VC ≤ 28.0 V at 40 A 8/20 µs 27 °C, **≤ 28.35 V at 35 A, VIN = VRWM before surge, 125 °C**; G). TI TVS2700 (SLVSED6A) has a higher clamp, so it is worse | 28.35 V hot | **FAIL** (−0.35 V hot; 0.00 V at 27 °C). No passive part with VBR ≥ 21 V and a guaranteed hot clamp ≤ 28 V was found |
+| T2 | T1 plus a per-pin series R and zener (b′) | TVS2200 + 470 Ω + BZX84-C24 on VDD / VBUS_VS_DISCH / DISCH / VBEN | 25.7–27.8 V (PA model) | **EDGE**: +0.2 to +1.4 V hot. It depends on the PA zener model. BZX84 hot leakage cannot be closed from the datasheet. The Nexperia PDF returned 403 on 2026-10-31, so the 2026-10-20 reading (no bytes retained) stands |
+| T3 | **Active OVP eFuse ahead of the whole of Board P** (STUSB4500 supply and sense pins, Q1, Board B), with a connector-side TVS taking the surge energy and bulk capacitance on the protected node | TI **TPS26630RGER** (TPS2663x, SLVSE94G, G; orderable Active per the datasheet addendum); connector TVS: TVS2200 (G) or a higher-energy SMA TVS with VC ≤ 60 V (no exact part retrieved, UNAV) | **≤ 24.6 V at C_eff ≥ 100 µF** (calc on G limits + TYP fast-trip + PA ESR); 26.6 V at 47 µF | **PASS on paper**: +3.4 V at 100 µF, +4.4 V at 220 µF |
+| T3′ | As T3 with TI TPS16630 (SLVSET9G, G): same OVP, I(OL), timing and RON, but no reverse-current blocking | TPS16630 | as T3 | As T3, without the R7.3 back-feed block |
+| T4 | Controller with OVP and back-to-back NFETs, no current limit | TI LM74502 (SNOSDE5A, G): OV threshold 1.165 / 1.25 / 1.333 V (±6.8 %) | Trip window ±6.8 % → the minimum trip of 21.5 V puts the maximum near 24.6 V, before overshoot. No current limit to bound the overshoot charge | Worse than T3; not recommended |
+| T5 | Different sink controller (VBUS-side 30 V class) | Infineon CYPD3177 (CC 22 V), Diodes AP33772S | Moves the VBUS limit only | Controller decision (PD-003-D3), outside L7; not re-screened |
+
+### 2.1 T3 mechanism and arithmetic
+
+In T3, the STUSB4500 is powered and senses VBUS **behind** the eFuse. The eFuse stays enabled from attach at 5 V, so negotiation works. Q1 (or its successor) still gates Board B through VBUS_EN_SNK. The protected node is bounded in two stages:
+1. The OVP comparator turns the FET off after the input crosses the trip.
+2. Until then, the eFuse current regulation limits the charge pushed into the protected-node bulk.
+
+| Quantity | Value | Class |
+|---|---|---|
+| OVP comparator V(OVPR) | 1.176 / 1.2 / 1.224 V (±2 %) | G (SLVSE94G §6.5) |
+| OVP falling threshold V(OVPF) | 1.09 / 1.122 / 1.15 V | G |
+| OVP_tOFF(dly), OVP rising to FLT low | 8.5 / 11 / **14 µs** | G. That the FET is off by FLT low is PA |
+| I(OL) at R(ILIM) = 4.02 kΩ | 4.185 / 4.5 / 4.815 A | G |
+| Fast-trip threshold | 2 × I(OL) (TPS26630/TPS26632) | TYP column |
+| Short-circuit fast trip | I(SCP) 45 A, turn-off about 1 µs | TYP |
+| RON | 19 / 30.44 / 53 mΩ (−40…125 °C) | G |
+| Reverse-current comparator | V(REVTH) −20 / −15 / −9 mV; fast turn-off 0.17 / 0.37 µs (external blocking NFET on B_GATE) | G |
+| Absolute maximum | IN_SYS −60…67 V | G |
+| Divider error, two 0.1 % resistors | ±0.2 % | PA |
+| Bulk ESR on the protected node | 30 mΩ | PA |
+
+Calculated results:
+- **Trip window.** With the minimum trip set to 21.0 V + 0.5 V guard (PA), the nominal is 21.98 V and the trip lies at **21.50–22.47 V**.
+- **Overshoot charge.** At most 2 × 4.815 A × 14 µs = 134.8 µC through the window, plus 45 A × 1 µs = 45 µC for a fast trip (TYP). The load current that discharges the node at the same time is ignored, which is conservative.
+- **Protected node.** Trip maximum + Q / C_eff + I_peak × ESR, capped by the connector clamp:
+
+| C_eff on the protected node (after DC bias and temperature) | ΔV | Node maximum | Margin to 28 V |
+|---:|---:|---:|---:|
+| 47 µF | 4.11 V | 26.58 V | +1.42 V |
+| 100 µF | 2.09 V | 24.55 V | **+3.45 V** |
+| 220 µF | 1.11 V | 23.57 V | +4.43 V |
+
+- **Before the contract, Q1 is off and Board B's bulk is not on the node.** Board P carries only C1 10 µF today, so T3 needs its own bulk of at least 100 µF effective on the protected node: a size and part choice that is UNAV. A small node clamp (for example TVS2200, VBR min 24.6 V) is optional. It only acts in the ΔV region and never conducts at 21 V.
+- **Current limit vs contract.** At the 20 V / 5 A PDO, the 4.02 kΩ setting is 4.185–4.815 A. That lies above the 3.38 A worst legitimate draw (+0.805 A, calc on PA efficiencies) and below the 5 A contract and cable rating. The eFuse therefore also enforces the input contract. At a 3.5 A PDO no ±7 % setting fits between 3.38 and 3.5 A, so the charger's OCP would remain the contract limit.
+- **Loss and other parts.** Loss at 3.38 A is 0.61 W at RON maximum. On the JEDEC RθJA of 31.4 °C/W (SLVSE94G, RGE package) that is about a 19 °C rise; installed θJA is UNAV. Q1 and the Board B input see at most the node bound, which also removes the AO3401A 30 V VDS concern. The connector side only has to stay below 67 V, so a higher-energy SMA TVS becomes admissible there.
+- **OV recovery.** After an OV event, the eFuse re-enables only when the input falls below V(OVPF): 19.93–21.1 V for this divider. A source sitting at 20.5–21 V may therefore stay off until re-plug. This acts like a latch, which suits D5-1 and requirement R6.4, but it is not guaranteed either way.
+
+### 2.2 CC pins (GAP-2): bounded, not closed
+
+- **Single fault.** A CC-to-VBUS short at 21 V gives **+1.0 V** to the 22 V limit. That is thin, but within the limit.
+- **Double fault.** A CC short during a surge exposes CC to the connector clamp, which is above 22 V with any VBUS TVS. The eFuse does not protect CC.
+- **Retrieved hardware path.** The only one is ST TCPP03-M20 (CC connector side 24 V absolute maximum, CC OVP 5.5–6.0 V; G-U from the 2026-10-20 reading). st.com refused the download again on 2026-10-31, so it stays **G-U** and needs a primary retrieval and an owner bundle before any use. Its STUSB4500 compatibility is not documented by ST.
+
+## 3. Recommendation (marked; not adopted)
+
+**T3:**
+- TPS26630 eFuse ahead of all of Board P, with OVP set to a 21.5 V minimum trip, I(OL) 4.5 A (R(ILIM) 4.02 kΩ) and an external blocking NFET for reverse current;
+- connector-side TVS for the surge energy;
+- ≥ 100 µF effective bulk on the protected node;
+- STUSB4500 VDD / VBUS_VS_DISCH / DISCH / VBEN and Q1 all on the protected node;
+- CC protection evaluated separately (TCPP03-M20 path, after primary retrieval).
+
+T2 (b′) remains the lower-cost fallback at an EDGE margin. T1 is rejected for 20 V.
+
+**Residual risks of T3:**
+1. FET-off timing is taken as equal to FLT timing (PA).
+2. The fast-trip multiple and the I(SCP) / 1 µs terms are typical, not guaranteed.
+3. C_eff under DC bias and temperature, and the bulk part itself, are undefined.
+4. The surge envelope is undefined.
+5. The CC 22 V double fault is still open.
+6. 4 × 4 mm VQFN placement, thermal path and loss on the 27 × 40 mm Board P: layout not screened.
+7. The dVdT inrush ramp on attach must not upset STUSB4500 start-up or VBUS monitoring. The protected-node offset (≤ 3.38 A × 53 mΩ = 0.18 V) sits inside the default −15 % monitor window (G-U), but this is NOT RUN.
+8. Discharge: with reverse-current blocking, STUSB4500 DISCH discharges only the protected node, not the connector side. Whether that meets the sink-side discharge expectation is UNAV.
+9. None of TPS26630, TVS2200 or TCPP03-M20 has an owner bundle in this repository. Stock and price are UNAV.
+10. This changes the canonical 15 V Board P only if a 20 V product is adopted. The built LED Board P (SMAJ20A) and the unbuilt 15 V PD Board P are untouched.
+
+## 4. Sources retrieved 2026-10-31
+
+| Document | URL | Bytes | SHA-256 |
+|---|---|---:|---|
+| TI TPS2663x SLVSE94G (Sep 2018, rev. Jun 2024) | https://www.ti.com/lit/ds/symlink/tps2663.pdf | 5728602 | `bb61314ace65ed37684bd07f541fc676081d7cf81cb24020e7c5c2065bfe16b2` |
+| TI TPS1663x SLVSET9G (Sep 2018, rev. Apr 2026) | https://www.ti.com/lit/ds/symlink/tps1663.pdf | 4853428 | `8f91a0db2daf2da35abd335420ff9f8b4ac9a99c93dac93e215e0a75e9a866fe` |
+| TI TVS2200 SLVSED5C (Dec 2017, rev. Aug 2023) | https://www.ti.com/lit/ds/symlink/tvs2200.pdf | 1627089 | `84c986c9cc4f323fdb0c6840bff455438802dd6df9af5fd89c73b8bce4dced9e` |
+| TI TVS2700 SLVSED6A (Dec 2017, rev. Mar 2018) | https://www.ti.com/lit/ds/symlink/tvs2700.pdf | 1261602 | `d37c60e9abedade6cba8cb5e44b94861f6720e3a2b22d895dfbb2a9263e8b1bf` |
+| TI LM74502 SNOSDE5A (Dec 2021, rev. May 2022) | https://www.ti.com/lit/ds/symlink/lm74502.pdf | 1745602 | `4badd940619090052b7260a88d7e32788f201d67ce97913b059ae6b1ed2d8bad` |
+
+Not retrieved on 2026-10-31 (download refused or reset): ST DS12499 (st.com and the web.archive mirror recorded in the owner bundle), ST TCPP03-M20, Nexperia BZX84, ADI LTC4367. The PDF bytes are held only in the worker scratch space. They are not committed: these candidates have no owner bundles, and retaining them in the repository would be separate evidence work.
