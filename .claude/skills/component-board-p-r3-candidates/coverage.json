@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c1849461-primary-specification",
+      "record_id": "rec-c1849461",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Texas Instruments SLVSET9G retrieved and hashed 2026-10-31; PDF not retained.",
+      "fact_ids": [
+        "fact-c1849461-manufacturer",
+        "fact-c1849461-vin-operating",
+        "fact-c1849461-in-absmax",
+        "fact-c1849461-ovp-rising",
+        "fact-c1849461-uvlo-rising",
+        "fact-c1849461-iol-4k02",
+        "fact-c1849461-ovp-toff",
+        "fact-c1849461-ron",
+        "fact-c1849461-dvdt",
+        "fact-c1849461-mode-latch",
+        "fact-c1849461-shdn-open"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c1849461-placement",
+      "record_id": "rec-c1849461",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Draft-only use in the unbound board_p_r3_spec.py; draft land only, no PCB, no inventory placement.",
+      "fact_ids": [
+        "fact-c1849461-candidate-scope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c1849461-candidate-scope"
+      ]
+    }
+  ]
+}

@@ -22,6 +22,14 @@ The machine records are `dec-p-20v-revision`, `dec-p-20v-front-end-r2` and the Q
 `scripts/schgen/decisions.json`. They supersede the 15 V-only target **for this revision
 only**.
 
+A second card on 2026-10-31 at 15:39Z made the STUSB4500 the common controller block for the
+LED lamp and zudo-pd, kept a single lineup (this revision becomes the new zudo-pd), replaced the
+TPS26630 front end with TPS16630PWPR + LM74700-Q1 + Q3, and accepted per-unit NVM programming
+(`dec-common-controller-block`, `dec-single-lineup`, `dec-p-20v-front-end-r3`,
+`dec-nvm-per-unit-programming`). The r3 front end is drawn in a separate unbound draft,
+`scripts/schgen/board_p_r3_spec.py`. The table below still describes the inventory-bound r2
+draft, whose TPS26630 evidence feeds hash-locked integration runs.
+
 The generated schematic and `board_p_spec.py` on the development branch now carry an
 unvalidated draft:
 

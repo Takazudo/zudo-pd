@@ -179,7 +179,7 @@
       "owner_skill": "component-ti-board-b-limiter-candidates",
       "status": "SHORTLISTED",
       "replaces_line_id": null,
-      "rationale": "Shortlisted 2026-10-31 for +12 V and +5 V reverse blocking on the switcher-direct 20 V Board B (manufacturing/board-b-protection-20v.md section 3). Primary SNOSD17G retrieved; external NFET not chosen; no Board B spec places it yet."
+      "rationale": "Shortlisted 2026-10-31 for +12 V and +5 V reverse blocking on the switcher-direct 20 V Board B (manufacturing/board-b-protection-20v.md section 3). Primary SNOSD17G retrieved; external NFET not chosen; no Board B spec places it yet. Also drawn as U3 in the unbound Board P r3 draft front end (user decision 2026-10-31: TPS16630 + LM74700 replacing TPS26630)."
     },
     {
       "candidate_id": "cand-tps54560ddar-c31966",
@@ -240,6 +240,18 @@
       "status": "SHORTLISTED",
       "replaces_line_id": null,
       "rationale": "Shortlisted 2026-10-31 for the Board B 20 V switcher-direct draft (manufacturing/board-b-20v-switcher-direct-draft.md). Primary TRLS-XXOS002B retrieved; used only by the unbound board_b20_spec.py."
+    },
+    {
+      "candidate_id": "cand-tps16630pwpr-c1849461",
+      "mpn": "TPS16630PWPR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C1849461",
+      "package": "HTSSOP-20 (PWP)",
+      "function": "Board P r3 20 V input eFuse candidate (TPS26630 replacement without B_GATE)",
+      "owner_skill": "component-board-p-r3-candidates",
+      "status": "SHORTLISTED",
+      "replaces_line_id": "line-c1850276",
+      "rationale": "Shortlisted 2026-10-31 per user decision (TPS16630 + LM74700 replacing TPS26630) for the Board P r3 draft. Primary SLVSET9G retrieved; used only by the unbound board_p_r3_spec.py."
     }
   ],
   "promoted_candidates": [

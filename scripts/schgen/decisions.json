@@ -24,7 +24,11 @@
     "p-20v-front-end-r2",
     "p-20v-q1-5a",
     "p-20v-q1-gate-clamp",
-    "p-20v-q1-soft-start"
+    "p-20v-q1-soft-start",
+    "common-controller-block",
+    "single-lineup",
+    "p-20v-front-end-r3",
+    "nvm-per-unit-programming"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -582,6 +586,79 @@
         "fact-stusb-discharge-registers",
         "fact-c461081-vgsth-max",
         "fact-c461081-vds"
+      ]
+    },
+    {
+      "key": "common-controller-block",
+      "id": "dec-common-controller-block",
+      "title": "STUSB4500 common controller block for the LED lamp, zudo-pd and the 20 V revision",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: the STUSB4500 is the common USB-PD controller block for the LED product and for zudo-pd, including the 20 V / 5 A revision. The block is STUSB4500 with its passives, VBUS sensing and discharge, the power-switch interface and NVM programming access; its interface and per-product parameters are specified in manager common-controller-block.md. The first drawn implementation is the Board P r3 draft (scripts/schgen/board_p_r3_spec.py), which also takes the LED hard requirements R1.1-R1.3 (RESET strapped to GND by R21 0R, RESET off the pogo pads, I2C pull-ups on the programming jig).",
+      "rationale": "Only the STUSB4500 among the compared controllers can hold its sink switch off on a contract mismatch (POWER_ONLY_ABOVE_5V, DS12499 Rev 7 section 2.2.10 and Table 16; mirror authority). Both the adopted LED design and the current zudo-pd already use it. Its cost is the lowest of the compared options (manager pd-controller-cost.md). The LED #144 desk analysis attributes the ordered LED Board P failure to RESET at 0.93 V, so the block fixes RESET handling by construction. Nothing is measured.",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "fact-stusb-vben",
+        "fact-stusb-vdd-absolute-max",
+        "fact-stusb-pin-states",
+        "fact-stusb-artifact"
+      ]
+    },
+    {
+      "key": "single-lineup",
+      "id": "dec-single-lineup",
+      "title": "Single lineup: the 20 V / 5 A revision becomes the new zudo-pd",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: there is one zudo-pd lineup. The 20 V / 5 A revision (Board P 20 V draft with the switcher-direct Board B) replaces the 15 V zudo-pd; no separate 15 V product is kept.",
+      "rationale": "The cost comparison (manager pd-controller-cost.md, desk prices, USD assumed) puts the recommended revision at about +3.3 per set over the current design for known parts. The switcher-direct Board B removes the LDO stage. All figures are desk values; nothing is quoted or ordered.",
+      "evidence": [
+        "cand-tps16630pwpr-c1849461",
+        "cand-lm74700-c2941042",
+        "cand-tps54560ddar-c31966"
+      ]
+    },
+    {
+      "key": "p-20v-front-end-r3",
+      "id": "dec-p-20v-front-end-r3",
+      "title": "Board P r3 draft front end: TPS16630PWPR + LM74700-Q1 + Q3 replacing TPS26630 and Q4",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: the input protection becomes TPS16630PWPR C1849461 (U2) with an LM74700QDBVRQ1 C2941042 ideal-diode controller (U3) driving Q3 CSD18543Q3A, replacing TPS26630RGER and the Q4 B_GATE pulldown. Drawn in the unbound sibling draft scripts/schgen/board_p_r3_spec.py with the same OVP (174k/10k), UVLO (11.5k/4.02k), R(ILIM) 4.02k, dVdT 100 nF and MODE-open latch, plus C37 1 uF VCAP. The inventory-bound board_p_spec.py stays on r2 (TPS26630) until its integration rules and hash-locked observed runs are refreshed against the TPS16630 evidence.",
+      "rationale": "SLVSET9G gives TPS16630 the same V(OVPR), V(UVLOR) and I(OL) rows as the TPS26630, and OVP_toff 14 us maximum, so the OVP arithmetic and the L7 node analysis carry over. TPS16630 has no B_GATE, so reverse blocking moves to LM74700 (V(AK REV) -17..-2 mV, ANODE 4..60 V operating, SNOSD17G). JLC stock 1,089 (TPS16630PWPR) and 7,663 (LM74700) against 100 for TPS26630 (read-only lookups 2026-10-31). The HTSSOP-20 land is a TI PWP0020T-derived draft. L7 stays BLOCKING; Q1 SOA and the STUSB VBUS-sense behaviour stay OPEN.",
+      "evidence": [
+        "fact-c1849461-ovp-rising",
+        "fact-c1849461-uvlo-rising",
+        "fact-c1849461-iol-4k02",
+        "fact-c1849461-ovp-toff",
+        "fact-c1849461-in-absmax",
+        "fact-c2941042-anode-operating",
+        "fact-c2941042-vak-rev",
+        "fact-c2941042-candidate-scope",
+        "cand-tps16630pwpr-c1849461",
+        "line-c1850276"
+      ]
+    },
+    {
+      "key": "nvm-per-unit-programming",
+      "id": "dec-nvm-per-unit-programming",
+      "title": "Per-unit STUSB4500 NVM programming accepted",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: every unit's STUSB4500 NVM is programmed individually. The procedure (manager common-controller-block.md) dumps the factory 40 bytes, writes, reads back, power-cycles and reads back again, and archives all three dumps with the unit serial. The two proposed images (PD revision and LED 15 V-only) are text proposals only; nothing has been programmed.",
+      "rationale": "The STUSB4500 configuration lives only in NVM (DS12499 Rev 7 section 5.1); a factory part requests the default PDOs with POWER_ONLY_ABOVE_5V = 0. No dump survived from the LED #144 boards, so the archive step is required evidence. Byte-level encoding is not in DS12499 and is an evidence gap.",
+      "evidence": [
+        "fact-stusb-artifact",
+        "fact-stusb-nvm-load",
+        "fact-stusb-volatile-pdo"
       ]
     }
   ]
