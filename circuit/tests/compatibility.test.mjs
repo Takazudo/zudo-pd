@@ -26,7 +26,7 @@ test('installed patched runtime preserves closed evidence identities, counts and
   for (const [path, hash] of Object.entries(baseline.files)) assert.equal(createHash('sha256').update(await readFile(join(root,path))).digest('hex'),hash,path);
   assert.equal(model.packagePreviews.length,40);
   const inv=await json(join(root,inventoryPath));
-  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,155);
+  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,160);
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>p.dnp).length,12);
 });
 

@@ -33,7 +33,9 @@
     "p-stusb-local-clamp",
     "p-stusb-vdd-feed",
     "separate-products",
-    "p15-reset-subset"
+    "p15-reset-subset",
+    "p15-i2c-pulldowns",
+    "p15-vdd-local-clamp"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -658,6 +660,44 @@
         "fact-stusb-pin-states",
         "cand-0805w8f1002t5e-c17414",
         "line-c21189"
+      ]
+    },
+    {
+      "key": "p15-i2c-pulldowns",
+      "id": "dec-p15-i2c-pulldowns",
+      "title": "15 V Board P: weak 100k pull-downs on SCL/SDA, pull-ups on the jig",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-17 direction 2026-11-01, after the independent board-p15 review (F3): R22 and R23 0603WAF1003T5E C25803 100k pull SCL (U1.7) and SDA (U1.8) to GND on the board, so both pins are defined in normal use. The programming jig supplies the pull-ups (at most 4.5 V, never from VREG_2V7 on J3.3) and overrides the pull-downs while programming. J2.1/J2.2 stay the jig contacts.",
+      "rationale": "With R15/R16 removed (dec-p15-reset-subset) SCL/SDA connected only to bare pogo pads. DS12499 Rev 7 lists SCL/SDA as inputs needing external pull-ups, and its no-MCU minimum implementation ties them to GND (p.25 Fig. 9); floating inputs are not described. A 100k pull-down keeps the pin below VIL 0.35 V for any pin leakage below 3.46 uA (0.35 V / 101 kOhm, not a datasheet row; leakage is UNKNOWN), and loads a 3.3 V jig pull-up by 33 uA. The jig pull-up range that meets the Rev 7 VIH/VIL, 3 mA VOL and 300 ns rise-time rows with the pull-downs present is in doc architecture/board-p15-programming. Nothing is measured.",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "fact-stusb-pin-states",
+        "line-c25803"
+      ]
+    },
+    {
+      "key": "p15-vdd-local-clamp",
+      "id": "dec-p15-vdd-local-clamp",
+      "title": "15 V Board P: r3 VDD feed and local clamp (R29 1k + R30 470R, D9 BZT52C18) on the top side",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-17 direction 2026-11-01 (review F8, applied because it fits on the top side without moving any as-built part): U1.24 VDD moves from VBUS_IN onto VDD_LOC, fed through R29 0603WAF1001T5E C21190 1k and R30 0603WAF4700T5E C23179 470R in series (VDD_MID between them), with D9 BZT52C18-7-F C192739 (cathode VDD_LOC, anode GND). The as-built C2 100 nF stays at U1.24 and now decouples VDD_LOC; r3's C38 1 uF is not fitted. VBUS_VS_DISCH, DISCH and VBUS_EN_SNK keep the as-built connections.",
+      "rationale": "With VDD on VBUS_IN the 28 V VDD limit had +2.00 V at the SMAJ16A 26.0 V, 25 C point and -0.6 V at the TYP-based 28.6 V hot estimate (input-clamp-fix.md). calculate-input-ovp-20v.py stusb_local_clamp with the 1.47 kOhm feed gives a VDD pin bound of 20.802 V at 125 C with 28.6 V in (+7.198 V to 28 V; 20.721 V, +7.279 V at 26.0 V), from the guaranteed BZT52C18 VZ max and TC max rows; the D9 current at 28.6 V and -40 C is 8.82 mA. At a 4.72 V attach input VDD stays >= 4.373 V at the idle IDD maximum (0.273 V over the 4.1 V row) and 4.209 V at 2 x typical IDD; the active-communication IDD is not in the datasheet (OPEN). At 15 V the zener stays below its VZ window: VZ min is 16.8 V at 25 C and about 15.99 V at -40 C with the 12.4 mV/C TC minimum, above a 15.75 V (+5 %) input; knee-region leakage between 12.6 V and VZ is not given. Omitting C38 is a project choice; whether 100 nF is enough local VDD decoupling behind 1.47 kOhm is OPEN. Nothing is measured.",
+      "evidence": [
+        "fact-c192739-vz-max",
+        "fact-c192739-tc-max",
+        "fact-c192739-board-p-role",
+        "fact-stusb-vdd-absolute-max",
+        "fact-stusb-supplies",
+        "line-c21190",
+        "line-c23179"
       ]
     },
     {
