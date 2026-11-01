@@ -252,6 +252,30 @@
       "status": "REJECTED",
       "replaces_line_id": null,
       "rationale": "Board P r2 R21 RESET-to-GND 10 kOhm. Replaced in the r3 front end by a C21189 0 Ohm strap (LED requirement R1.1, RESET hard to GND; dec-common-controller-block). Evidence retained; the archived r2 integration rules cite it."
+    },
+    {
+      "candidate_id": "cand-at0603brd07680rl-c5455478",
+      "mpn": "AT0603BRD07680RL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C5455478",
+      "package": "R0603",
+      "function": "680 ohm 0.1% 25 ppm/C 0603 thin-film resistor, Board B R21/R27 stock-gap replacement candidate",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "status": "SHORTLISTED",
+      "replaces_line_id": "line-c861519",
+      "rationale": "Phase 14 (2026-11-01): the fitted RT0603BRD07680RL C861519 lists 0 in stock against 10 needed for a 5-set Board B reorder. The YAGEO AT0603BRD07680RL specification matches every recorded incumbent row (680 ohm, 0.1 %, 25 ppm/C, 0.1 W at 70 C, 75 V, 1.6 x 0.8 mm) and adds AEC-Q200; LCSC listed 410-439 in stock. Not adopted: no generator spec places it and the swap is the owner decision."
+    },
+    {
+      "candidate_id": "cand-rvt1e471m0810-c696190",
+      "mpn": "RVT1E471M0810",
+      "manufacturer": "Honor Elec",
+      "lcsc": "C696190",
+      "package": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD",
+      "function": "470 uF 25 V 8x10.2 mm aluminum electrolytic, Board B C11 stock-gap replacement candidate",
+      "owner_skill": "component-project-passives",
+      "status": "SHORTLISTED",
+      "replaces_line_id": "line-c2983319",
+      "rationale": "Phase 14 (2026-11-01): the fitted HRK GVT1E477M0810CNVC C2983319 lists 1 in stock against 5 needed. The Honor RVT series sheet gives 470 uF / 25 V in Phi 8 x 10.2 mm with 228 mA rms at 120 Hz/105 C and x1.50 at >=10 kHz (342 mA at the LM2596 150 kHz, against 312 mA for the incumbent), Tan delta 0.16 (incumbent 0.18), on the same Phi 8 land as the owned Honor RVT1H101M0810 (line-c970687); 4,085-4,625 in stock. Not adopted: no generator spec places it; LM2596 output-loop behaviour with the lower ESR is not measured."
     }
   ],
   "promoted_candidates": [

@@ -160,6 +160,36 @@
         "fact-c705719-power"
       ],
       "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c5455478-specification",
+      "record_id": "rec-c5455478",
+      "domain": "specification",
+      "status": "COVERED",
+      "reason": "Exact YAGEO specification retrieved and hashed 2026-11-01; every row equals the incumbent C861519 record.",
+      "fact_ids": [
+        "fact-c5455478-manufacturer",
+        "fact-c5455478-identity",
+        "fact-c5455478-resistance",
+        "fact-c5455478-tolerance",
+        "fact-c5455478-tcr",
+        "fact-c5455478-power",
+        "fact-c5455478-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c5455478-placement",
+      "record_id": "rec-c5455478",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Candidate only; no generator spec places it.",
+      "fact_ids": [
+        "fact-c5455478-candidate-scope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c5455478-candidate-scope"
+      ]
     }
   ]
 }
