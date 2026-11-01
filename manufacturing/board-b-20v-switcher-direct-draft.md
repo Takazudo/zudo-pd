@@ -187,6 +187,44 @@ encloses tens of mm²; a tighter template (input capacitor beside VIN and GND) i
 RSH3 negative traces detour around the diagonal sense pads, and the RSH1 and RSH3 pairs separate by 3.03 and 5.2 mm, so the sense
 loops are **OPEN** too. Thermal spreading, creepage and the GND return under each SW node are not reviewed.
 
+#### Phase 22: TI-style stage template, Kelvin coupling cost, wirelength pass
+
+TI's retained TPS54560 datasheet (SLVSBN0C §10.1, Layout Guidelines) says: "Care should be taken to minimize the
+loop area formed by the bypass capacitor connections, the VIN terminal, and the anode of the catch diode". Its
+Figure 58 places the input bypass capacitor and the catch diode on either side of the IC with a top-side ground area
+between them, and routes the boot capacitor trace on another layer to keep that ground path wide.
+
+- **Template:** the input capacitor now sits beside VIN/GND (offset −3.6, −5.13 mm from the IC), the catch diode
+  beside SW (+3.05, −5.02 mm, anode toward the capacitor return) and the inductor beyond the diode. The boot
+  capacitor routes BOOT on B.Cu where it can. Hot-loop polygon (desk, pad centres): **29.6 mm², 24.7 mm perimeter**
+  on all three stages, down from 54.9 mm² / 30.9 mm. Branches: VIN 4.11 mm, SW 2.75 mm, diode-to-C<sub>IN</sub>
+  return 1.7 mm, inductor 1.4 mm, all 0.8 mm F.Cu.
+- **Placement:** a wirelength pass moves the non-template parts toward their signal-net partners (87 parts moved;
+  half-perimeter wirelength 4893 → 4206 mm).
+- **Router:** the A* core is C (`astar.c`, built by `route.py` with the system compiler); the second trace of each
+  Kelvin pair pays a cost for every 0.1 mm cell farther than 0.5 mm (centre) from its partner. Signal B.Cu cost
+  is now 1.0 (was 1.4). Rip-up stops after the round that improves nothing (3 rounds here).
+- **GND islands:** `apply-routes.py` fills both pours, finds GND fragments that do not reach the main group, and adds
+  a 0.8/0.3 mm via where two fragments overlap on opposite layers (12 vias on this run).
+
+Result: 2789 tracks, 710 vias, 53 router connections open.
+
+KiCad 10.0.6 DRC with schematic parity (pinned image, heavy-guard then `flock`): **0 errors, 0 parity issues**;
+warnings: 2 `lib_footprint_mismatch` (J10/J11 silk clip); **62 unconnected items** (17 GND, 45 signal; the largest
+groups are EN_E 8, RAMP_M12 3 and ARM_GND 3). This is down from 81, but it is still open work, not a pass.
+
+| Shunt | INA301 traces (+ / −) | Coupled length within 0.3 mm edge gap | Status |
+|---|---|---|---|
+| RSH1 (U11) | 3.31 / 6.48 mm, 0.2 mm F.Cu | 0 mm | **OPEN** |
+| RSH2 (U12) | 3.91 / 4.11 mm, 0.2 mm F.Cu | 0 mm | **OPEN** |
+| RSH3 (U9) | 3.72 / 6.41 mm, 0.2 mm F.Cu | 0 mm | **OPEN** |
+
+The Kelvin traces are shorter: the longest was 11.74 mm and is now 6.48 mm. The 0.3 mm gap target is **not met**. Two
+0.2 mm traces leaving adjacent INA301 pins at 0.65 mm pitch already start 0.45 mm apart. The PCSR2512 sense pads sit
+diagonally at opposite ends of the resistor, so the pair must split over the resistor's length whatever its
+rotation. Getting below 0.3 mm would need a neck-down to 0.15 mm beside the pins, below the board's 0.2 mm minimum.
+Thermal spreading, creepage and the GND return under each SW node are still not reviewed.
+
 ## 4. Gate table against the OSC–PD contract
 
 | Contract item | Result | Basis |
@@ -588,8 +626,8 @@ needs a fix. This is an OSC question.
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 21, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 1 `via_dangling`, 1 `track_dangling` warnings; 81 unconnected items (34 GND, 47 signal), so **OPEN**, not a pass (phase 19 placement: 499) |
-| Routing | **OPEN**: power stages and all six sense traces routed; 64 router connections open (§3a); loop and sense self-check in `boards/board-b20-draft/loop-check.json` |
+| PCB DRC + schematic parity (phase 22, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch` warnings; 62 unconnected items (17 GND, 45 signal), so **OPEN**, not a pass (phase 21: 81; phase 19 placement: 499) |
+| Routing | **OPEN**: power stages and all six sense traces routed; 53 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm (§3a, phase 22); self-check in `boards/board-b20-draft/loop-check.json` |
 | BOM/CPL | NOT RUN: no export |
 
 ## 7. Independent review findings (review of `bad5ddf`)

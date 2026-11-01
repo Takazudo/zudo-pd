@@ -29,7 +29,7 @@ CL, EDGE, MARGIN = 0.2, 0.5, 0.08
 RASTER = 0.0707   # half a cell diagonal: copper is marked on every cell it touches
 VIA_D, VIA_DRILL, HOLE_CL = 0.8, 0.3, 0.25
 VIA_COST = 3.0
-B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 1.4)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
+B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 1.0)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
 SUPPLY = ['P5_SUP', 'REF25', 'FAULT_N', 'EN_E']
 W_POWER, W_POWER_MIN, W_SIG = 0.8, 0.4, 0.25
 # 0.2 mm (the board minimum) is the fallback: on the 0.1 mm grid a 0.25 mm track cannot leave the middle pin of a
@@ -209,74 +209,51 @@ def add_via(c, net, group):
     holes[j0:j1, i0:i1] |= sel
 
 
-def astar(src, dst, free, vok, box, b_cost):
-    """src/dst: dict layer -> bool mask (full board). Returns [(l, j, i), ...] from src to dst or None."""
+def _load_astar():
+    """Compile astar.c once per source hash into the system temp directory and bind it with ctypes."""
+    import ctypes
+    import hashlib
+    import subprocess
+    import tempfile
+    src = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'astar.c')
+    tag = hashlib.sha256(open(src, 'rb').read()).hexdigest()[:16]
+    lib = os.path.join(tempfile.gettempdir(), f'b20-astar-{tag}.so')
+    if not os.path.exists(lib):
+        subprocess.run(['cc', '-O2', '-shared', '-fPIC', '-o', lib + '.tmp', src, '-lm'], check=True)
+        os.replace(lib + '.tmp', lib)
+    so = ctypes.CDLL(lib)
+    u8 = np.ctypeslib.ndpointer(np.uint8, flags='C_CONTIGUOUS')
+    f32 = ctypes.c_void_p
+    so.astar.restype = ctypes.c_int
+    so.astar.argtypes = [ctypes.c_int, ctypes.c_int, u8, u8, u8, u8, u8, u8, u8, f32, f32, ctypes.c_double,
+                         ctypes.c_double, np.ctypeslib.ndpointer(np.int32, flags='C_CONTIGUOUS'), ctypes.c_int]
+    return so
+
+
+_SO = _load_astar()
+
+
+def astar(src, dst, free, vok, box, b_cost, extra=None):
+    """src/dst: dict layer -> bool mask (full board); free/vok/extra: box windows. Returns [(l, j, i), ...] or None."""
     i0, i1, j0, j1 = box
     w, h = i1 - i0, j1 - j0
-    fr = {l: free[l].ravel() for l in LAYERS}
-    vk = vok.ravel()
-    dt = {l: dst[l][j0:j1, i0:i1].ravel() for l in LAYERS}
-    tj, ti = [], []
-    for l in LAYERS:
-        jj, ii = np.nonzero(dst[l][j0:j1, i0:i1]); tj += list(jj); ti += list(ii)
-    if not tj:
+    u = lambda a: np.ascontiguousarray(a, dtype=np.uint8)
+    ex = [None, None]
+    keep = []
+    if extra is not None:
+        for n, l in enumerate(LAYERS):
+            a = np.ascontiguousarray(extra[l], dtype=np.float32)
+            keep.append(a)
+            ex[n] = a.ctypes.data
+    cap = 2 * w * h
+    out = np.zeros(cap, np.int32)
+    n = _SO.astar(w, h, u(free['F']), u(free['B']), u(vok), u(src['F'][j0:j1, i0:i1]), u(src['B'][j0:j1, i0:i1]),
+                  u(dst['F'][j0:j1, i0:i1]), u(dst['B'][j0:j1, i0:i1]), ex[0], ex[1], float(b_cost), VIA_COST / G,
+                  out, cap)
+    if n <= 0:
         return None
-    ty0, ty1, tx0, tx1 = min(tj), max(tj), min(ti), max(ti)
-    INF = float('inf')
-    dist = {l: {} for l in LAYERS}
-    prev = {}
-    heap = []
-    for li, l in enumerate(LAYERS):
-        jj, ii = np.nonzero(src[l][j0:j1, i0:i1])
-        for j, i in zip(jj.tolist(), ii.tolist()):
-            k = j * w + i
-            dist[l][k] = 0.0
-            hx = max(tx0 - i, 0, i - tx1); hy = max(ty0 - j, 0, j - ty1)
-            heapq.heappush(heap, (math.hypot(hx, hy), 0.0, li, k))
-            prev[(li, k)] = None
-    moves = [(-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0),
-             (-1, -1, 1.4142), (1, -1, 1.4142), (-1, 1, 1.4142), (1, 1, 1.4142)]
-    lcost = (1.0, b_cost)
-    vc = VIA_COST / G
-    while heap:
-        f, g, li, k = heapq.heappop(heap)
-        l = LAYERS[li]
-        if g > dist[l].get(k, INF):
-            continue
-        if dt[l][k]:
-            path = []
-            node = (li, k)
-            while node is not None:
-                path.append((LAYERS[node[0]], node[1] // w + j0, node[1] % w + i0))
-                node = prev[node]
-            return path[::-1]
-        j, i = divmod(k, w)
-        for di, dj, c in moves:
-            ni, nj = i + di, j + dj
-            if ni < 0 or nj < 0 or ni >= w or nj >= h:
-                continue
-            nk = nj * w + ni
-            if not (fr[l][nk] or dt[l][nk]):
-                continue
-            if di and dj and not ((fr[l][j * w + ni] or dt[l][j * w + ni]) and (fr[l][nj * w + i] or dt[l][nj * w + i])):
-                continue
-            ng = g + c * lcost[li]
-            if ng < dist[l].get(nk, INF):
-                dist[l][nk] = ng
-                prev[(li, nk)] = (li, k)
-                hx = max(tx0 - ni, 0, ni - tx1); hy = max(ty0 - nj, 0, nj - ty1)
-                heapq.heappush(heap, (ng + math.hypot(hx, hy), ng, li, nk))
-        if vk[k]:
-            ol = 1 - li
-            on = LAYERS[ol]
-            if fr[on][k] or dt[on][k]:
-                ng = g + vc
-                if ng < dist[on].get(k, INF):
-                    dist[on][k] = ng
-                    prev[(ol, k)] = (li, k)
-                    hx = max(tx0 - i, 0, i - tx1); hy = max(ty0 - j, 0, j - ty1)
-                    heapq.heappush(heap, (ng + math.hypot(hx, hy), ng, ol, k))
-    return None
+    N = w * h
+    return [(LAYERS[v // N], (v % N) // w + j0, (v % N) % w + i0) for v in out[:n].tolist()]
 
 
 def emit(path, w, net, group, allowed, box):
@@ -345,7 +322,10 @@ def bbox_of(masks):
     return min(is_) * G, min(js) * G, max(is_) * G, max(js) * G
 
 
-def connect(src, dst, net, group, widths, b_cost, label, quiet_fail=False):
+LAST_PATH = []
+
+
+def connect(src, dst, net, group, widths, b_cost, label, quiet_fail=False, extra_fn=None):
     x0, y0, x1, y1 = bbox_of([src, dst])
     tries = [(w, grow) for w in widths for grow in (4.0, 12.0)] + [(widths[-1], 200.0)]
     for w, grow in tries:
@@ -355,8 +335,9 @@ def connect(src, dst, net, group, widths, b_cost, label, quiet_fail=False):
         s_src, s_dst = seat(src, group, w, box), seat(dst, group, w, box)
         if not (s_src.ok and s_dst.ok) and (w, grow) != tries[-1]:
             continue
-        path = astar(s_src, s_dst, free, vok, box, b_cost)
+        path = astar(s_src, s_dst, free, vok, box, b_cost, extra_fn(box) if extra_fn else None)
         if path:
+            LAST_PATH[:] = path
             # taut pulling may cross only free cells and the seat cells, never the rest of a pad near a foreign pad
             emit(path, w, net, group, {l: free[l] | crop(s_src[l], box) | crop(s_dst[l], box) for l in LAYERS}, box)
             log(f'{label}: {w} mm')
@@ -633,7 +614,7 @@ def total_fail():
     return sum(len(v) for v in fail_by_net.values())
 
 
-def ripup(rounds=2):
+def ripup(rounds=int(os.environ.get("B20_RIPUP", 6))):
     for r in range(rounds):
         todo = [n for n, v in fail_by_net.items() if v and rippable(n)]
         if not todo:
@@ -663,6 +644,26 @@ def ripup(rounds=2):
             return
 
 
+def coupling(path, pitch=0.5, weight=2.0, cap=3.0):
+    """Step-cost windows that keep a Kelvin trace beside its partner's centre line: free within `pitch` mm (0.2 mm tracks
+    at 0.5 mm centres leave a 0.3 mm gap), then `weight` per mm of extra distance, capped."""
+    def fn(box):
+        i0, i1, j0, j1 = box
+        out = {}
+        for l in LAYERS:
+            m = np.zeros((j1 - j0, i1 - i0), bool)
+            for pl, j, i in path:
+                if pl == l and j0 <= j < j1 and i0 <= i < i1:
+                    m[j - j0, i - i0] = True
+            if not m.any():
+                out[l] = np.full(m.shape, weight * cap, np.float32)
+                continue
+            d = ndimage.distance_transform_edt(~m) * G
+            out[l] = (weight * np.clip(d - pitch, 0, cap)).astype(np.float32)
+        return out
+    return fn
+
+
 def main():
     # 1. stage hot loops: VIN pin to input capacitor, SW pin to diode, inductor and boot capacitor, inductor to output
     for name, (ic, cins, diode, ind, boot, couts, ground) in STAGES.items():
@@ -673,15 +674,20 @@ def main():
         sw = pin(ic, '8')
         route_pair(pin(diode, '1'), sw, f'{name}: SW-diode')
         route_pair(pin(ind, '1'), pin(diode, '1'), f'{name}: diode-L')
+        # hot-loop return on F.Cu (TI SLVSBN0C 10.1): diode anode to the input-capacitor return pad, and that pad to the
+        # exposed pad under the IC, before anything else crosses the top-side ground area
+        route_pair(pin(diode, '2'), pin(cins[0], '2'), f'{name}: diode-CIN return', (W_POWER, W_POWER_MIN, W_SIG))
+        route_pair(pin(cins[0], '2'), pin(ic, '9'), f'{name}: CIN-EP ground', (W_POWER, W_POWER_MIN, W_SIG))
+        route_pair(pin(diode, '2'), pin(ic, '9'), f'{name}: diode-EP ground', (W_POWER, W_POWER_MIN, W_SIG))
         route_pair(pin(boot, '2'), sw, f'{name}: boot-SW')
-        route_pair(pin(boot, '1'), pin(ic, '1'), f'{name}: boot-BOOT')
+        # the BOOT trace runs on B.Cu (Figure 58) so it does not cut the top-side ground area
+        bp, ip = pin(boot, '1'), pin(ic, '1')
+        connect(mask_of_pad(bp), mask_of_pad(ip), bp['net'], pad_group[bp['id']], (W_SIG, W_FINE), 0.3,
+                f'{name}: boot-BOOT')
         outnet = next(p['net'] for p in pads if p['ref'] == ind and p['num'] == '2')
         for c in couts:
             cp = next(p for p in pads if p['ref'] == c and p['net'] == outnet)
             route_pair(cp, pin(ind, '2'), f'{name}: L-COUT {c}', (W_POWER, W_POWER_MIN, W_SIG))
-        # hot-loop return on F.Cu: diode anode to the input-capacitor return pad, then the IC ground pin
-        route_pair(pin(diode, '2'), pin(cins[0], '2'), f'{name}: diode-CIN return', (W_POWER, W_POWER_MIN, W_SIG))
-        route_pair(pin(cins[0], '2'), pin(ic, '7'), f'{name}: CIN-IC ground', (W_POWER, W_POWER_MIN, W_SIG))
     # 1b. Kelvin sense pairs, both traces of a shunt together; the second order is tried when the first leaves one open
     pairs = {}
     for (ina, num), row in sense_pad.items():
@@ -691,8 +697,12 @@ def main():
         for order in (rows, rows[::-1]):
             s = snapshot()
             before = len(unrouted)
+            partner = None
             for (ina, num), (ip, target, g, kelvin) in order:
-                connect(mask_of_pad(ip), mask_of_pad(target), ip['net'], g, (W_SIG, W_FINE), B_COST['signal'], f'Kelvin {ina}.{num}')
+                ok = connect(mask_of_pad(ip), mask_of_pad(target), ip['net'], g, (W_FINE,), B_COST['signal'],
+                             f'Kelvin {ina}.{num}', extra_fn=coupling(partner) if partner else None)
+                if ok and partner is None:
+                    partner = list(LAST_PATH)
             misses = len(unrouted) - before
             if best is None or misses < best[0]:
                 best = (misses, snapshot(), list(unrouted))

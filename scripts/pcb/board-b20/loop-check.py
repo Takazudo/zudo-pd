@@ -5,7 +5,8 @@ usage: python3 loop-check.py <geom.json> <routes.json> <out.json>
 Per stage it reports the hot-loop polygon through the pad centres (input capacitor VIN pad -> IC VIN pin -> IC SW pin ->
 catch-diode cathode -> diode anode -> input capacitor return pad), the copper length and layer of each loop branch, and
 whether the input-capacitor and diode returns share F.Cu copper or only meet through vias and the pours. Per INA301
-sense pair it reports the trace lengths, vias, the pad each trace lands on and the largest gap between the two traces.
+sense pair it reports the trace lengths, the pad each trace lands on, the F.Cu length that runs within a 0.3 mm edge
+gap of the partner trace (coupled) and the longest run that does not.
 """
 import json
 import math
@@ -27,7 +28,7 @@ def pad(ref, num, biggest=True):
     return max(hits, key=key) if biggest else min(hits, key=key)
 
 
-def inside(pt, p, tol=0.05):
+def inside(pt, p, tol=0.1):  # a 0.2 mm track end may stop half its width short of the pad box
     b = p['bbox']
     return b[0] - tol <= pt[0] <= b[2] + tol and b[1] - tol <= pt[1] <= b[3] + tol
 
@@ -136,9 +137,26 @@ for shunt, (ina, plus, minus) in SENSE.items():
         target = min(kel, key=lambda p: (p['bbox'][2] - p['bbox'][0]) * (p['bbox'][3] - p['bbox'][1]))
         ts = branch(ip['net'], ip, target)
         rows[num] = dict(describe(ts), net=ip['net'], lands_on='sense pad' if len(kel) == 2 else 'current pad (no sense pad)')
-        rows[num]['pts'] = [pt for t in (ts or []) for pt in (t['a'], t['b'])]
-    a, b = rows[plus].pop('pts'), rows[minus].pop('pts')
-    gap = max((min(math.dist(p, q) for q in b) for p in a), default=None) if a and b else None
-    out['sense'][shunt] = {'ina': ina, 'pins': rows, 'largest_pair_gap_mm': round(gap, 2) if gap is not None else None}
+        rows[num]['segs'] = [t for t in (ts or []) if t['layer'] == 'F']
+    pa, pb = rows[plus].pop('segs'), rows[minus].pop('segs')
+    for me, other, num in ((pa, pb, plus), (pb, pa, minus)):
+        if not me or not other:
+            continue
+        coupled = run = longest = 0.0
+        for t in me:
+            L = math.dist(t['a'], t['b'])
+            n = max(1, int(L / 0.05))
+            for k in range(n):
+                q = (t['a'][0] + (t['b'][0] - t['a'][0]) * (k + 0.5) / n, t['a'][1] + (t['b'][1] - t['a'][1]) * (k + 0.5) / n)
+                gap = min(seg_dist(q, u['a'], u['b']) - (t['w'] + u['w']) / 2 for u in other)
+                if gap <= 0.3 + 1e-6:
+                    coupled += L / n
+                    run = 0.0
+                else:
+                    run += L / n
+                    longest = max(longest, run)
+        rows[num]['coupled_mm'] = round(coupled, 2)       # F.Cu length within 0.3 mm edge gap of the partner trace
+        rows[num]['longest_uncoupled_run_mm'] = round(longest, 2)
+    out['sense'][shunt] = {'ina': ina, 'pins': rows}
 json.dump(out, open(sys.argv[3], 'w'), indent=1)
 print(json.dumps(out, indent=1))

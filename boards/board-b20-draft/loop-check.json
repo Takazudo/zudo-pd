@@ -5,11 +5,11 @@
    "ic": "U1",
    "input_cap": "C3",
    "diode": "D1",
-   "hot_loop_polygon_mm2": 54.9,
-   "hot_loop_perimeter_mm": 30.9,
+   "hot_loop_polygon_mm2": 29.6,
+   "hot_loop_perimeter_mm": 24.7,
    "vin_branch": {
     "routed": true,
-    "length_mm": 7.09,
+    "length_mm": 4.11,
     "layers": [
      "F"
     ],
@@ -17,7 +17,7 @@
    },
    "sw_branch": {
     "routed": true,
-    "length_mm": 5.87,
+    "length_mm": 2.75,
     "layers": [
      "F"
     ],
@@ -25,7 +25,7 @@
    },
    "return_branch_diode_to_cin": {
     "routed": true,
-    "length_mm": 2.0,
+    "length_mm": 1.7,
     "layers": [
      "F"
     ],
@@ -33,7 +33,7 @@
    },
    "inductor_branch": {
     "routed": true,
-    "length_mm": 3.5,
+    "length_mm": 1.4,
     "layers": [
      "F"
     ],
@@ -44,11 +44,11 @@
    "ic": "U2",
    "input_cap": "C7",
    "diode": "D2",
-   "hot_loop_polygon_mm2": 54.9,
-   "hot_loop_perimeter_mm": 30.9,
+   "hot_loop_polygon_mm2": 29.6,
+   "hot_loop_perimeter_mm": 24.7,
    "vin_branch": {
     "routed": true,
-    "length_mm": 7.09,
+    "length_mm": 4.11,
     "layers": [
      "F"
     ],
@@ -56,7 +56,7 @@
    },
    "sw_branch": {
     "routed": true,
-    "length_mm": 5.87,
+    "length_mm": 2.75,
     "layers": [
      "F"
     ],
@@ -64,7 +64,7 @@
    },
    "return_branch_diode_to_cin": {
     "routed": true,
-    "length_mm": 2.0,
+    "length_mm": 1.7,
     "layers": [
      "F"
     ],
@@ -72,7 +72,7 @@
    },
    "inductor_branch": {
     "routed": true,
-    "length_mm": 3.5,
+    "length_mm": 1.4,
     "layers": [
      "F"
     ],
@@ -83,11 +83,11 @@
    "ic": "U3",
    "input_cap": "CCIN1",
    "diode": "D3",
-   "hot_loop_polygon_mm2": 54.9,
-   "hot_loop_perimeter_mm": 30.9,
+   "hot_loop_polygon_mm2": 29.6,
+   "hot_loop_perimeter_mm": 24.7,
    "vin_branch": {
     "routed": true,
-    "length_mm": 7.09,
+    "length_mm": 4.11,
     "layers": [
      "F"
     ],
@@ -95,7 +95,7 @@
    },
    "sw_branch": {
     "routed": true,
-    "length_mm": 5.87,
+    "length_mm": 2.75,
     "layers": [
      "F"
     ],
@@ -103,7 +103,7 @@
    },
    "return_branch_diode_to_cin": {
     "routed": true,
-    "length_mm": 2.0,
+    "length_mm": 1.7,
     "layers": [
      "F"
     ],
@@ -111,7 +111,7 @@
    },
    "inductor_branch": {
     "routed": true,
-    "length_mm": 3.5,
+    "length_mm": 1.4,
     "layers": [
      "F"
     ],
@@ -125,78 +125,87 @@
    "pins": {
     "8": {
      "routed": true,
-     "length_mm": 3.26,
+     "length_mm": 3.31,
      "layers": [
       "F"
      ],
-     "min_width_mm": 0.25,
+     "min_width_mm": 0.2,
      "net": "P12_PRE",
-     "lands_on": "sense pad"
+     "lands_on": "sense pad",
+     "coupled_mm": 0.0,
+     "longest_uncoupled_run_mm": 3.31
     },
     "7": {
      "routed": true,
-     "length_mm": 11.74,
+     "length_mm": 6.48,
      "layers": [
       "F"
      ],
      "min_width_mm": 0.2,
      "net": "P12_SH",
-     "lands_on": "sense pad"
+     "lands_on": "sense pad",
+     "coupled_mm": 0.0,
+     "longest_uncoupled_run_mm": 6.48
     }
-   },
-   "largest_pair_gap_mm": 3.03
+   }
   },
   "RSH2": {
    "ina": "U12",
    "pins": {
     "8": {
      "routed": true,
-     "length_mm": 3.92,
+     "length_mm": 3.91,
      "layers": [
       "F"
      ],
-     "min_width_mm": 0.25,
+     "min_width_mm": 0.2,
      "net": "P5_PRE",
-     "lands_on": "current pad (no sense pad)"
+     "lands_on": "current pad (no sense pad)",
+     "coupled_mm": 0.0,
+     "longest_uncoupled_run_mm": 3.91
     },
     "7": {
      "routed": true,
-     "length_mm": 7.39,
+     "length_mm": 4.11,
      "layers": [
       "F"
      ],
      "min_width_mm": 0.2,
      "net": "P5_SH",
-     "lands_on": "current pad (no sense pad)"
+     "lands_on": "current pad (no sense pad)",
+     "coupled_mm": 0.0,
+     "longest_uncoupled_run_mm": 4.11
     }
-   },
-   "largest_pair_gap_mm": 2.14
+   }
   },
   "RSH3": {
    "ina": "U9",
    "pins": {
     "4": {
      "routed": true,
-     "length_mm": 6.69,
+     "length_mm": 3.72,
      "layers": [
       "F"
      ],
-     "min_width_mm": 0.25,
+     "min_width_mm": 0.2,
      "net": "M12_PRE",
-     "lands_on": "sense pad"
+     "lands_on": "sense pad",
+     "coupled_mm": 0.0,
+     "longest_uncoupled_run_mm": 3.72
     },
     "3": {
      "routed": true,
-     "length_mm": 5.83,
+     "length_mm": 6.41,
      "layers": [
       "F"
      ],
      "min_width_mm": 0.2,
      "net": "M12_SH",
-     "lands_on": "sense pad"
+     "lands_on": "sense pad",
+     "coupled_mm": 0.0,
+     "longest_uncoupled_run_mm": 6.41
     }
-   },
-   "largest_pair_gap_mm": 5.2
+   }
   }
  }
 }

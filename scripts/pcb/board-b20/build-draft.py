@@ -36,11 +36,12 @@ LIB = str(ROOT / 'footprints/kicad/zudo-power.pretty')
 FIXED = ('J5', 'J6', 'J7', 'J10', 'J11')
 C3_KEEPOUT = (7.74, 24.54, 17.25, 35.77)
 CLEARANCE = 0.8          # phase 21: routing channels between greedily packed parts
-TEMPLATE_CLEARANCE = 0.3 # stage templates are packed tight on purpose (hot loops)
+TEMPLATE_CLEARANCE = 0.1 # stage templates are packed tight on purpose (hot loops); courtyards still never overlap
 BOARD_MARGIN = 0.5
 CELL = 0.1
 MAX_SIGNAL_PINS = 6
 MAX_SUPPLY_PINS = 24
+WIRE_MAX_PINS = 12      # phase 22 wirelength pass: nets with more pins (rails, enables) do not pull parts
 SUPPLY_NETS = {'GND', 'VIN', 'P5_SUP', 'REF25', 'M12_PRE', 'M12_RAW', 'FAULT_N', 'EN_E',
                'P12_OUT', 'P5_OUT', 'M12_OUT'}
 # Block anchors (mm). Power stages run along the top, rail switches and shunts toward the
@@ -52,13 +53,17 @@ ANCHORS = {
     'U13': (74, 46), 'U15': (84, 42), 'U16': (96, 44), 'U5': (104, 56),
     'U6': (72, 60), 'U7': (84, 58), 'U8': (96, 62),
 }
-# Phase 21: the switching stages and their shunt/INA pairs are placed as fixed templates before the greedy fill.
-# Offsets (dx, dy, rotation) are relative to the stage IC at its anchor (rotation 0). The input capacitor, catch
-# diode and IC ground pad sit side by side so the hot loop (CIN -> VIN pin -> SW -> diode -> CIN return) closes
-# over about 10 x 6 mm; the inductor and output capacitors follow on the SW side.
-BUCK = (('ic', 0, 0, 0), ('boot', 0, -4.6, 0), ('cin', -3.4, -8.2, 0), ('diode', 3.6, -8.2, 180),
-        ('ind', 11.6, -5.2, 270), ('cout1', 11.6, 2.4, 0), ('cout2', 11.6, 6.6, 0))
-FILTER = (('lf', 3, 12.5, 0), ('cpoly', 13.2, 13.0, 0), ('shunt', 8, 20.2, 0), ('ina', -1, 20.2, 0))
+# The switching stages and their shunt/INA pairs are placed as fixed templates before the greedy fill. Offsets
+# (dx, dy, rotation) are relative to the stage IC at its anchor (rotation 0). Phase 22 follows TI SLVSBN0C section 10
+# (Figure 58): the input capacitor sits above the VIN/BOOT corner and the catch diode above the SW corner, so the
+# capacitor return and the diode anode meet in one top-side ground area over the IC, the SW pin, diode cathode and
+# inductor pad form one short SW node, and the boot capacitor sits beside SW with its BOOT trace on B.Cu.
+BUCK = (('ic', 0, 0, 0), ('cin', -3.6, -5.13, 0), ('diode', 3.05, -5.02, 180), ('ind', 11.34, -5.02, 0),
+        ('boot', 5.05, -1.2, 90), ('cout1', 14.2, 1.0, 0), ('cout2', 14.2, 5.0, 0))
+# The PCSR2512 sense pads are point-symmetric. Turned to 270 degrees, the P sense pad is top-left and the N sense pad
+# bottom-right, so a sense pair from an INA301 on its left enters between the pad rows, under the body, without
+# crossing; the INA sits with its sense-pin midline on the shunt centre line.
+FILTER = (('lf', 3, 12.5, 0), ('cpoly', 13.2, 13.0, 0), ('shunt', 6.7, 21.0, 270), ('ina', -1, 21.65, 0))
 STAGES = {
     'U1': dict(ic='U1', boot='C4', cin='C3', diode='D1', ind='L1', cout1='CAO1', cout2='CAO2',
                lf='L2', cpoly='CAF1', shunt='RSH1', ina='U11'),
@@ -67,8 +72,9 @@ STAGES = {
     'U3': dict(ic='U3', boot='C11', cin='CCIN1', cin2='CCIN2', diode='D3', ind='L5', cout1='CCO1', cout2='CCO2',
                cout3='CCO3', cout4='CCO4', shunt='RSH3', ina='U9'),
 }
-EXTRA = {'U3': (('cin2', -3.4, -12.5, 0), ('cout3', 11.6, 11.0, 0), ('cout4', 11.6, 15.4, 0),
-                ('shunt', 22, 4, 0), ('ina', 22, 10.5, 180))}
+# U9 senses RSH3 with pin 4 on M12_PRE (RSH3 pin 2): RSH3 turns to 90 degrees so its pin-2 sense pad is top-left.
+EXTRA = {'U3': (('cin2', -9.56, -5.13, 0), ('cout3', 14.2, 9.0, 0), ('cout4', 14.2, 13.0, 0),
+                ('shunt', 29.0, 10.0, 90), ('ina', 21.0, 10.65, 180))}
 DEFAULT_ANCHOR = (100, 62)
 
 
@@ -117,6 +123,12 @@ class Grid:
             row = j * self.nx
             self.used[row + i0:row + i1 + 1] = b'\x01' * (i1 - i0 + 1)
 
+    def unmark(self, box):
+        i0, j0, i1, j1 = self._range(box, 0.0)
+        for j in range(j0, j1 + 1):
+            row = j * self.nx
+            self.used[row + i0:row + i1 + 1] = b'\x00' * (i1 - i0 + 1)
+
     def free(self, box, clearance=None):
         x0, y0, x1, y1 = box
         if x0 < BOARD_MARGIN or y0 < BOARD_MARGIN or x1 > WIDTH - BOARD_MARGIN or y1 > HEIGHT - BOARD_MARGIN:
@@ -162,6 +174,92 @@ def blocks():
                 owner[ref], depth[ref] = owner[mates[0]], depth[mates[0]] + 1
                 break
     return owner, depth
+
+
+def improve(footprints, grid, put, frozen, passes=4):
+    """Phase 22 wirelength pass: move each free part toward the median of its signal-net partners when the half-perimeter
+    wirelength of its nets drops. Supply nets and nets with more than WIRE_MAX_PINS pins do not count."""
+    nets = {n: pins for n, pins in spec.NETS.items() if n not in SUPPLY_NETS and len(pins) <= WIRE_MAX_PINS}
+    by_ref = {}
+    for n, pins in nets.items():
+        for pin in pins:
+            by_ref.setdefault(pin.split('.')[0], set()).add(n)
+    pad_of = {}
+    for ref, fp in footprints.items():
+        for pad in fp.Pads():
+            pad_of.setdefault(f'{ref}.{pad.GetNumber()}', pad)
+
+    def pos(pin):
+        q = pad_of[pin].GetPosition()
+        return p.ToMM(q.x), p.ToMM(q.y)
+
+    def hpwl(n):
+        xs, ys = zip(*(pos(pin) for pin in nets[n]))
+        return max(xs) - min(xs) + max(ys) - min(ys)
+
+    def cost(ref):
+        return sum(hpwl(n) for n in by_ref.get(ref, ()))
+
+    offsets = {}
+
+    def box_at(ref, x, y, rot):
+        """Courtyard box at (x, y, rot) from offsets measured once per rotation (no footprint move)."""
+        if (ref, rot) not in offsets:
+            fp = footprints[ref]
+            keep = (fp.GetPosition(), fp.GetOrientationDegrees())
+            fp.SetOrientationDegrees(rot)
+            fp.SetPosition(mm(0, 0))
+            offsets[(ref, rot)] = courtyard_box(fp)
+            fp.SetOrientationDegrees(keep[1])
+            fp.SetPosition(keep[0])
+        x0, y0, x1, y1 = offsets[(ref, rot)]
+        return x0 + x, y0 + y, x1 + x, y1 + y
+
+    rings = []
+    for radius in range(0, 41):
+        r = radius * 0.5
+        n = 1 if radius == 0 else max(8, int(2 * math.pi * r / 0.5))
+        rings.append([(r * math.cos(2 * math.pi * k / n), r * math.sin(2 * math.pi * k / n)) for k in range(n)])
+    moved = 0
+    for _ in range(passes):
+        gain = 0.0
+        for ref in sorted(by_ref):
+            if ref in frozen or ref not in footprints:
+                continue
+            fp = footprints[ref]
+            others = [pos(pin) for n in by_ref[ref] for pin in nets[n] if pin.split('.')[0] != ref]
+            if not others:
+                continue
+            tx = sorted(q[0] for q in others)[len(others) // 2]
+            ty = sorted(q[1] for q in others)[len(others) // 2]
+            old = (p.ToMM(fp.GetPosition().x), p.ToMM(fp.GetPosition().y), fp.GetOrientationDegrees())
+            if math.hypot(old[0] - tx, old[1] - ty) < 1.0:
+                continue
+            before = cost(ref)
+            box0 = courtyard_box(fp)
+            grid.unmark(box0)
+            best = None
+            for ring in rings:
+                for dx, dy in ring:
+                    x, y = round((tx + dx) / 0.05) * 0.05, round((ty + dy) / 0.05) * 0.05
+                    for rot in (0, 90, 180, 270):
+                        if grid.free(box_at(ref, x, y, rot)):
+                            put(fp, x, y, rot)
+                            c = cost(ref)
+                            if best is None or c < best[0]:
+                                best = (c, x, y, rot)
+                if best is not None:
+                    break
+            if best is not None and best[0] < before - 0.5:
+                put(fp, *best[1:])
+                gain += before - best[0]
+                moved += 1
+            else:
+                put(fp, old[0], old[1], old[2])
+            grid.mark(courtyard_box(fp))
+        if gain < 1.0:
+            break
+    return moved
 
 
 def clip_header_silk(footprints, limit=11.73):
@@ -325,6 +423,8 @@ def main():
             unplaced.append(ref)
     if unplaced:
         raise SystemExit(f'no room for {unplaced}')
+    moved = improve(footprints, grid, put, set(templated) | set(FIXED))
+    print(f"wirelength pass moved {moved} parts")
 
     zone = p.ZONE(board)
     zone.SetIsRuleArea(True)
