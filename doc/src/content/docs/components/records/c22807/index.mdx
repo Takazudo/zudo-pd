@@ -28,9 +28,9 @@ This record in the catalog: [0603WAF1503T5E](/docs/components/catalog/#rec-c2280
 
 **Fit:** Fitted
 
-**Identity state:** UNRESOLVED
+**Identity state:** VERIFIED
 
-**Source state:** SOURCE UNAVAILABLE
+**Source state:** AVAILABLE
 
 **Coverage:** 1 open of 2 published
 
@@ -74,7 +74,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c22807-rating` · **Status:** COVERED
 
-**Reason:** fact-c22807-manufacturer; fact-c22807-resistance; fact-c22807-tolerance; fact-c22807-power; fact-c22807-tcr; fact-c22807-voltage
+**Reason:** fact-c22807-manufacturer; fact-c22807-resistance; fact-c22807-tolerance; fact-c22807-power; fact-c22807-tcr; fact-c22807-voltage; fact-c22807-identity
 
 **Facts in this domain:**
 
@@ -84,6 +84,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 - [`fact-c22807-power`](#fact-c22807-power)
 - [`fact-c22807-tcr`](#fact-c22807-tcr)
 - [`fact-c22807-voltage`](#fact-c22807-voltage)
+- [`fact-c22807-identity`](#fact-c22807-identity)
 
 ### pulse-energy-at-installed-waveform
 
@@ -251,6 +252,20 @@ A value this project recorded about how the part is used here — a chosen opera
   **Evidence:** [src-c22807-generator: NETS mapping, rows VBUS\_P, Q1\_G and Q1\_MX](#src-c22807-generator)
 </EvidenceFact>
 
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c22807-identity" />
+
+  **Fact:** `fact-c22807-identity`
+
+  **Value:** `lcsc`=C22807; `manufacturer`=UNI-ROYAL; `mpn`=0603WAF1503T5E; `variant`=150 kOhm 1% 100 mW 0603 thick-film chip resistor · **Unit:** `NONE`
+
+  **Conditions:** Exact distributor orderable identity (LCSC part number to manufacturer MPN), retrieved 2026-11-01; stock is volatile and not recorded.
+
+  **Verdict:** CONFIRMED - distributor identity only · **Provenance:** DISTRIBUTOR-IDENTITY
+
+  **Evidence:** [`src-c22807-identity`](#src-c22807-identity) — LCSC product-detail JSON-LD Product block sku/mpn/brand rows
+</EvidenceFact>
+
 ## Calculation dependencies
 
 These values were derived from other recorded facts rather than read from a document. The expression and every input are published so the number can be recomputed instead of trusted. A derived value is never stronger than the weakest fact it depends on.
@@ -357,25 +372,47 @@ Every document cited above, with its identification, when it was retrieved, and 
 
 **Document URL:** no link is published for this source
 
+### 0603WAF1503T5E distributor identity
+
+<EvidenceAnchor id="src-c22807-identity" />
+
+**Source ID:** `src-c22807-identity` · **Authority:** DISTRIBUTOR\_IDENTITY
+
+| Field           | Recorded value |
+| --------------- | -------------- |
+| Document number | C22807         |
+| Revision        | 2026-11-01     |
+| Document date   | 2026-11-01     |
+| Retrieved       | 2026-11-01     |
+| Printed page    | source         |
+
+**Locator:** LCSC product-detail page, JSON-LD Product block: sku, mpn, brand and additionalProperty rows
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://www.lcsc.com/product-detail/C22807.html](https://www.lcsc.com/product-detail/C22807.html)
+
 ## Legend
 
 What the recorded terms on this page mean, in ordinary words. The exact terms above are the ones that count; these descriptions explain them and never replace them.
 
 ### Verdict
 
-| Recorded term                     | What it means                                                                                       |
-| --------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `NEEDS BENCH`                     | Cannot be settled from documents. It needs measurement on real hardware before it can be relied on. |
-| `NOT APPLICABLE`                  | The parameter does not apply to this part as it is used here.                                       |
-| `PASS - primary-source confirmed` | Confirmed against the manufacturer's own document for this exact part.                              |
+| Recorded term                           | What it means                                                                                                                 |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `CONFIRMED - distributor identity only` | A distributor listing confirms which part this is, and nothing more. It carries no electrical, thermal or lifetime authority. |
+| `NEEDS BENCH`                           | Cannot be settled from documents. It needs measurement on real hardware before it can be relied on.                           |
+| `NOT APPLICABLE`                        | The parameter does not apply to this part as it is used here.                                                                 |
+| `PASS - primary-source confirmed`       | Confirmed against the manufacturer's own document for this exact part.                                                        |
 
 ### Provenance
 
-| Recorded term      | What it means                                                                                                                                       |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CALCULATED`       | Derived arithmetically from other facts listed here. The expression and every input are shown, so the number can be recomputed rather than trusted. |
-| `PRIMARY-SPEC`     | Taken from the manufacturer's own specification document.                                                                                           |
-| `REFERENCE-DESIGN` | Taken from a vendor reference design or application note rather than the device specification.                                                      |
+| Recorded term          | What it means                                                                                                                                       |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CALCULATED`           | Derived arithmetically from other facts listed here. The expression and every input are shown, so the number can be recomputed rather than trusted. |
+| `DISTRIBUTOR-IDENTITY` | Taken from a distributor listing. Identity information only.                                                                                        |
+| `PRIMARY-SPEC`         | Taken from the manufacturer's own specification document.                                                                                           |
+| `REFERENCE-DESIGN`     | Taken from a vendor reference design or application note rather than the device specification.                                                      |
 
 ### Fact class
 
@@ -404,20 +441,21 @@ What the recorded terms on this page mean, in ordinary words. The exact terms ab
 
 | Recorded term          | What it means                                                             |
 | ---------------------- | ------------------------------------------------------------------------- |
+| `DISTRIBUTOR_IDENTITY` | A distributor listing. Establishes which part this is, nothing more.      |
 | `MANUFACTURER_PRIMARY` | The manufacturer's own document for this exact part.                      |
 | `PROJECT_GENERATOR`    | A document this project generated, such as a schematic or netlist export. |
 
 ### Identity state
 
-| Recorded term | What it means                                                                                                                    |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `UNRESOLVED`  | The exact orderable part is not yet confirmed. Substituting a same-name part from another vendor is not permitted on that basis. |
+| Recorded term | What it means                                                 |
+| ------------- | ------------------------------------------------------------- |
+| `VERIFIED`    | The exact orderable part has been confirmed against a source. |
 
 ### Source state
 
-| Recorded term        | What it means                                     |
-| -------------------- | ------------------------------------------------- |
-| `SOURCE UNAVAILABLE` | No document backing this line could be retrieved. |
+| Recorded term | What it means                                          |
+| ------------- | ------------------------------------------------------ |
+| `AVAILABLE`   | At least one document backing this line was retrieved. |
 
 ### Unit
 

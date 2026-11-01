@@ -2906,6 +2906,25 @@
       "expression": ""
     },
     {
+      "fact_id": "fact-c14663-identity",
+      "record_id": "rec-c14663",
+      "source_id": "src-c14663-identity",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C14663",
+        "manufacturer": "Yageo",
+        "mpn": "CC0603KRX7R9BB104",
+        "variant": "100 nF 10% 50 V X7R 0603 MLCC"
+      },
+      "unit": "NONE",
+      "conditions": "Exact distributor orderable identity (LCSC part number to manufacturer MPN), retrieved 2026-11-01; stock is volatile and not recorded.",
+      "locator": "LCSC product-detail JSON-LD Product block sku/mpn/brand rows",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
       "fact_id": "fact-c22807-manufacturer",
       "record_id": "rec-c22807",
       "source_id": "src-c22807-uniroyal",
@@ -3031,6 +3050,25 @@
       "locator": "src-c22807-uniroyal: page 6, Short-time overload row",
       "provenance": "PRIMARY-SPEC",
       "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c22807-identity",
+      "record_id": "rec-c22807",
+      "source_id": "src-c22807-identity",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C22807",
+        "manufacturer": "UNI-ROYAL",
+        "mpn": "0603WAF1503T5E",
+        "variant": "150 kOhm 1% 100 mW 0603 thick-film chip resistor"
+      },
+      "unit": "NONE",
+      "conditions": "Exact distributor orderable identity (LCSC part number to manufacturer MPN), retrieved 2026-11-01; stock is volatile and not recorded.",
+      "locator": "LCSC product-detail JSON-LD Product block sku/mpn/brand rows",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
       "depends_on": [],
       "expression": ""
     },

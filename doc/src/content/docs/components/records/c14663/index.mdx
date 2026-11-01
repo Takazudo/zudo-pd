@@ -28,9 +28,9 @@ This record in the catalog: [CC0603KRX7R9BB104](/docs/components/catalog/#rec-c1
 
 **Fit:** Fitted
 
-**Identity state:** UNRESOLVED
+**Identity state:** VERIFIED
 
-**Source state:** SOURCE UNAVAILABLE
+**Source state:** AVAILABLE
 
 **Coverage:** 3 open of 5 published
 
@@ -76,13 +76,14 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c14663-identity` · **Status:** COVERED
 
-**Reason:** fact-c14663-manufacturer; fact-c14663-capacitance; fact-c14663-voltage
+**Reason:** fact-c14663-manufacturer; fact-c14663-capacitance; fact-c14663-voltage; fact-c14663-identity
 
 **Facts in this domain:**
 
 - [`fact-c14663-manufacturer`](#fact-c14663-manufacturer)
 - [`fact-c14663-capacitance`](#fact-c14663-capacitance)
 - [`fact-c14663-voltage`](#fact-c14663-voltage)
+- [`fact-c14663-identity`](#fact-c14663-identity)
 
 ### dielectric-temperature-and-termination
 
@@ -277,6 +278,20 @@ A value this project recorded about how the part is used here — a chosen opera
   **Evidence:** [src-c14663-generator: NETS mapping, rows VBUS\_P and Q1\_G](#src-c14663-generator)
 </EvidenceFact>
 
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c14663-identity" />
+
+  **Fact:** `fact-c14663-identity`
+
+  **Value:** `lcsc`=C14663; `manufacturer`=Yageo; `mpn`=CC0603KRX7R9BB104; `variant`=100 nF 10% 50 V X7R 0603 MLCC · **Unit:** `NONE`
+
+  **Conditions:** Exact distributor orderable identity (LCSC part number to manufacturer MPN), retrieved 2026-11-01; stock is volatile and not recorded.
+
+  **Verdict:** CONFIRMED - distributor identity only · **Provenance:** DISTRIBUTOR-IDENTITY
+
+  **Evidence:** [`src-c14663-identity`](#src-c14663-identity) — LCSC product-detail JSON-LD Product block sku/mpn/brand rows
+</EvidenceFact>
+
 ## Pin maps
 
 The mapping between schematic pins and PCB pads, or physical terminals for an external part, as recorded. A record may carry more than one map when the same part is documented in more than one context.
@@ -370,24 +385,46 @@ Every document cited above, with its identification, when it was retrieved, and 
 
 **Document URL:** no link is published for this source
 
+### CC0603KRX7R9BB104 distributor identity
+
+<EvidenceAnchor id="src-c14663-identity" />
+
+**Source ID:** `src-c14663-identity` · **Authority:** DISTRIBUTOR\_IDENTITY
+
+| Field           | Recorded value |
+| --------------- | -------------- |
+| Document number | C14663         |
+| Revision        | 2026-11-01     |
+| Document date   | 2026-11-01     |
+| Retrieved       | 2026-11-01     |
+| Printed page    | source         |
+
+**Locator:** LCSC product-detail page, JSON-LD Product block: sku, mpn, brand and additionalProperty rows
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://www.lcsc.com/product-detail/C14663.html](https://www.lcsc.com/product-detail/C14663.html)
+
 ## Legend
 
 What the recorded terms on this page mean, in ordinary words. The exact terms above are the ones that count; these descriptions explain them and never replace them.
 
 ### Verdict
 
-| Recorded term                     | What it means                                                                                       |
-| --------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `NEEDS BENCH`                     | Cannot be settled from documents. It needs measurement on real hardware before it can be relied on. |
-| `NOT APPLICABLE`                  | The parameter does not apply to this part as it is used here.                                       |
-| `PASS - primary-source confirmed` | Confirmed against the manufacturer's own document for this exact part.                              |
+| Recorded term                           | What it means                                                                                                                 |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `CONFIRMED - distributor identity only` | A distributor listing confirms which part this is, and nothing more. It carries no electrical, thermal or lifetime authority. |
+| `NEEDS BENCH`                           | Cannot be settled from documents. It needs measurement on real hardware before it can be relied on.                           |
+| `NOT APPLICABLE`                        | The parameter does not apply to this part as it is used here.                                                                 |
+| `PASS - primary-source confirmed`       | Confirmed against the manufacturer's own document for this exact part.                                                        |
 
 ### Provenance
 
-| Recorded term      | What it means                                                                                  |
-| ------------------ | ---------------------------------------------------------------------------------------------- |
-| `PRIMARY-SPEC`     | Taken from the manufacturer's own specification document.                                      |
-| `REFERENCE-DESIGN` | Taken from a vendor reference design or application note rather than the device specification. |
+| Recorded term          | What it means                                                                                  |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| `DISTRIBUTOR-IDENTITY` | Taken from a distributor listing. Identity information only.                                   |
+| `PRIMARY-SPEC`         | Taken from the manufacturer's own specification document.                                      |
+| `REFERENCE-DESIGN`     | Taken from a vendor reference design or application note rather than the device specification. |
 
 ### Fact class
 
@@ -415,20 +452,21 @@ What the recorded terms on this page mean, in ordinary words. The exact terms ab
 
 | Recorded term          | What it means                                                             |
 | ---------------------- | ------------------------------------------------------------------------- |
+| `DISTRIBUTOR_IDENTITY` | A distributor listing. Establishes which part this is, nothing more.      |
 | `MANUFACTURER_PRIMARY` | The manufacturer's own document for this exact part.                      |
 | `PROJECT_GENERATOR`    | A document this project generated, such as a schematic or netlist export. |
 
 ### Identity state
 
-| Recorded term | What it means                                                                                                                    |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `UNRESOLVED`  | The exact orderable part is not yet confirmed. Substituting a same-name part from another vendor is not permitted on that basis. |
+| Recorded term | What it means                                                 |
+| ------------- | ------------------------------------------------------------- |
+| `VERIFIED`    | The exact orderable part has been confirmed against a source. |
 
 ### Source state
 
-| Recorded term        | What it means                                     |
-| -------------------- | ------------------------------------------------- |
-| `SOURCE UNAVAILABLE` | No document backing this line could be retrieved. |
+| Recorded term | What it means                                          |
+| ------------- | ------------------------------------------------------ |
+| `AVAILABLE`   | At least one document backing this line was retrieved. |
 
 ### Unit
 

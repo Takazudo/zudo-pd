@@ -81,9 +81,9 @@
     ]
   },
   "sources": {
-    "available": 175,
-    "selected": 175,
-    "linkable": 159,
+    "available": 177,
+    "selected": 177,
+    "linkable": 161,
     "ids": [
       "src-ao3401a-board-a-baseline",
       "src-ao3401a-usb-pd-input-sch",
@@ -105,6 +105,7 @@
       "src-c136280-identity",
       "src-c136280-panasonic",
       "src-c14663-generator",
+      "src-c14663-identity",
       "src-c14663-yageo",
       "src-c15849-boardadoc",
       "src-c15849-catalog",
@@ -131,6 +132,7 @@
       "src-c22387780-boardbdoc",
       "src-c22387780-datasheet",
       "src-c22807-generator",
+      "src-c22807-identity",
       "src-c22807-uniroyal",
       "src-c2286-boardbdoc",
       "src-c2286-datasheet",
@@ -392,151 +394,151 @@
     {
       "key": "source.sourceId",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.documentTitle",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.documentNumber",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.revision",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.documentDate",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.retrievalDate",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.authorityClass",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.availability",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.locator",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.printedPageLabel",
       "decision": "PUBLISH",
-      "emitted": 175,
+      "emitted": 177,
       "withheld": 0
     },
     {
       "key": "source.physicalPdfPageIndex",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 175
+      "withheld": 177
     },
     {
       "key": "source.authoritativeUrl",
       "decision": "PUBLISH",
-      "emitted": 159,
+      "emitted": 161,
       "withheld": 0
     },
     {
       "key": "source.alternateAuthoritativeUrl",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 175
+      "withheld": 177
     },
     {
       "key": "source.sha256",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 175
+      "withheld": 177
     },
     {
       "key": "source.evidenceExtract",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 175
+      "withheld": 177
     },
     {
       "key": "fact.factId",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.class",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.value",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.unit",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.conditions",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.locator",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.provenance",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.verdict",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.dependsOn",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
       "key": "fact.expression",
       "decision": "PUBLISH",
-      "emitted": 742,
+      "emitted": 744,
       "withheld": 0
     },
     {
@@ -980,6 +982,12 @@
       "reason": "SOURCE_NOT_LINKABLE"
     },
     {
+      "sourceId": "src-c14663-identity",
+      "url": "https://www.lcsc.com/product-detail/C14663.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
       "sourceId": "src-c14663-yageo",
       "url": "https://yageogroup.com/download/specsheet/CC0603KRX7R9BB104",
       "decision": "ALLOW",
@@ -1134,6 +1142,12 @@
       "url": "",
       "decision": "DENY",
       "reason": "SOURCE_NOT_LINKABLE"
+    },
+    {
+      "sourceId": "src-c22807-identity",
+      "url": "https://www.lcsc.com/product-detail/C22807.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
     },
     {
       "sourceId": "src-c22807-uniroyal",
@@ -1913,11 +1927,11 @@
   "counts": {
     "generatedPages": 74,
     "publishedCoverageDomains": 207,
-    "publishedFacts": 742,
+    "publishedFacts": 744,
     "publishedIntegrationRules": 11,
     "publishedInteractions": 40,
     "publishedPinMaps": 70,
     "publishedRecords": 70,
-    "publishedSources": 175
+    "publishedSources": 177
   }
 }
