@@ -1,7 +1,7 @@
 # Board B 20 V switcher-direct draft (unvalidated paper draft)
 
 **Status: unvalidated draft. Nothing here is adopted, measured, validated or released.**
-There is no PCB, no footprint for any new IC, no BOM change and no order file. `PASS` below means
+Phase 19 adds draft footprints and an unrouted placement-only PCB; there is no routing, no BOM change and no order file. `PASS` below means
 only that the arithmetic in `scripts/pcb/calculate-board-b20-draft.py` closes on its tagged inputs,
 or that a named ngspice run with vendor models met the limit. A simulation is not a measurement.
 `OPEN` means the gate needs data or work that does not exist yet. An `OPEN` gate is not a pass.
@@ -102,19 +102,40 @@ flowchart LR
 | DW254P-2X8-L0 C4749189 | J10, J11 (phase 13) | Existing owner `component-dealon-dw254p-2x8-l0-c4749189`; pin map as on the current Board B (1/2 −12 V, 3–8 GND, 9/10 +12 V, 11/12 +5 V, 13/14 CV, 15/16 GATE) |
 
 The new ICs are SHORTLISTED candidates in `.claude/skills/component-board-b20-draft-candidates/`.
-Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprint_link_issues` warnings.
+Phase 19 drew the five former `*_DRAFT` footprints in `footprints/kicad/` (both library copies; courtyards
+from `gen_courtyards.py`). None is fabrication-reviewed and none has a 3D model. Each land is recorded as a
+`-land-pattern` fact in its owner bundle:
 
-Phase 13 footprint check. None of the five `*_DRAFT` names exists in `footprints/kicad/`. The stock KiCad 10.0.6
-library in the pinned image has a same-name-class candidate for each, but no candidate's land pattern has been
-compared with the manufacturer drawing (**OPEN**):
-
-| Draft footprint | Placements | Project library | Candidate (not compared) |
+| Footprint (was) | Placements | Land source | Evidence class |
 |---|---|---|---|
-| `VSSOP-8_DGK_DRAFT` | 11: U4–U9, U13, U15, U16 (OPA2187), U11, U12 (INA301) | none | `Package_SO:VSSOP-8_3x3mm_P0.65mm` |
-| `HSOP-8_TPS54560DDA_DRAFT` | 3: U1–U3 (TPS54560DDAR) | none | `Package_SO:TI_SO-PowerPAD-8`, `HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm` |
-| `SOIC-8_D_DRAFT` | 1: U10 (REF5025AIDR) | none | `Package_SO:SOIC-8_3.9x4.9mm_P1.27mm` |
-| `R1206_DRAFT` | 4: RSH2, RX12, RX5, R76 | none (only the capacitor `C1206`) | `Resistor_SMD:R_1206_3216Metric`; LED repository `R1206` (read only) |
-| `R2512_DRAFT` | 2: RSH1, RSH3 | none | `Resistor_SMD:R_2512_6332Metric`; LED repository `R2512` (read only) |
+| `HSOP-8_TI-DDA0008B` (`HSOP-8_TPS54560DDA_DRAFT`) | 3: U1–U3 | TI DDA0008B example board layout 4214849/B (SLVSBN0C p. 49): 8 × 1.55 × 0.6 mm, 1.27 pitch, 5.4 span; thermal metal 2.95 × 4.9 mm with a 2.71 × 3.4 mm mask-defined opening; 2 × 4 vias on the 1.3 mm grid, drilled 0.3 mm (0.6 mm pad) for the Board B 0.3 mm minimum hole instead of the drawing's 0.2 mm | primary manufacturer drawing |
+| `VSSOP-8_TI-DGK0008A` (`VSSOP-8_DGK_DRAFT`) | 11: U4–U9, U13, U15, U16, U11, U12 | TI DGK0008A 4214862/A (SBOS807E p. 40; SBOS713A p. 28 is text-identical): 8 × 1.4 × 0.45 mm, 0.65 pitch, 4.4 span | primary manufacturer drawing |
+| `SOIC-8_TI-D0008A` (`SOIC-8_D_DRAFT`) | 1: U10 | TI D0008A 4214825/C (SBOS410O p. 47): 8 × 1.55 × 0.6 mm, 1.27 pitch, 5.4 span | primary manufacturer drawing |
+| `R1206_TA-I-RLS12` (`R1206_DRAFT`) | 4: RSH2, RX12, RX5, RXN | TA-I TRLS-XXOS002B §6, RLS12 5–30 mΩ row: 2 × 1.55 × 1.8 mm, 1.6 mm gap | **UNSOURCED** (distributor mirror; no TA-I-hosted copy found). A project basis for the PE1206 shunt, whose YAGEO sheet has no land, and for the PROPOSED 1206 loads |
+| `R2512_RESI-PCSR2512_Kelvin` (`R2512_DRAFT`) | 2: RSH1, RSH3 | RESI PCSR2512 sheet PCSR2512-E16009-V8, land pattern figure: current pads 1.65 × 2.0 mm with a 4.0 mm gap, sense pads 1.4 × 1.2 mm 0.5 mm away, point-symmetric; each terminal's two pads share its number | **UNSOURCED** (DigiKey-hosted copy). New candidate record `rec-c23067428` |
+
+The RLS12 and PCSR2512 sheets were looked for on the manufacturers' own sites; neither exposes a direct
+PDF, so both stay mirror evidence and their primary-specification coverage is **OPEN**.
+
+### 3a. Phase 19 draft PCB: placement only
+
+`scripts/pcb/board-b20/build-draft.py` (pinned KiCad 10.0.6 pcbnew) writes
+`boards/board-b20-draft/board-b20-draft.kicad_pcb`. It is an unrouted placement draft:
+
+- Outline, mounting holes, fiducials and J5, J6, J7, J10, J11 come from `scripts/pcb/board_b_layout.py`
+  unchanged.
+- A footprint keep-out rule area covers x 7.74–17.25, y 24.54–35.77 mm on both sides for Board P r3's C3.
+- The other 264 parts are packed greedily on the top side around block anchors (power stages along the
+  top, rail switches toward J6/J7/J10, supervision and servo logic on the right). Loop area, thermal
+  spreading, return paths and creepage are **not** reviewed. Reference designators are on F.Fab.
+- The Board B design rules were copied into `board-b20-draft.kicad_pro`.
+
+- J10/J11 front silk is clipped at local y = 11.73 mm, as `finish-board-b.py` does for the as-built Board B.
+  The clip leaves two `lib_footprint_mismatch` warnings on J10/J11, which the as-built Board B DRC also carries.
+
+KiCad 10.0.6 DRC with schematic parity (pinned image, heavy-guard then `flock`): 0 violation errors,
+2 warnings (`lib_footprint_mismatch` on J10 and J11, from the silk clip), 0 parity issues and
+499 unconnected items. The unconnected items are the expected result of an unrouted draft; they are not a pass.
 
 ## 4. Gate table against the OSC–PD contract
 
@@ -256,7 +277,9 @@ V + RC·dV/dt stays below the final V. Judged on peaks, the drawn trip minimums 
 | +5 V | 0.4078 A | 0.4369–0.4608 A | unchanged | PASS |
 
 The 10 mΩ shunt (RESI PCSR2512BR010M6, C23067428) and its 20 mΩ sibling (PCSR2512BR020M6,
-C19690158) are known only from a read-only JLC listing (G-U); no manufacturer datasheet is retained.
+C19690158) were known only from a read-only JLC listing (G-U). Phase 19: the RESI sheet (V8) was read from a
+DigiKey-hosted copy (10 mΩ ±0.1 %, ±15 ppm/°C, 2 W, 14 A), recorded as candidate `rec-c23067428`; its
+facts stay UNSOURCED until a manufacturer-hosted copy is retained, so the G-U tag stands.
 
 Let-through stays **OPEN**. The limiter is a trip, not a regulator. Bounding a hard short below I_MAX
 with a series inductor needs L ≥ V × t_off / (I_MAX − trip_max): 1.6 mH (+12 V), 5.2 mH (−12 V) and
@@ -511,11 +534,12 @@ needs a fix. This is an OSC question.
 |---|---|
 | `gen_schematic.py` | PASS: 269 components, 779 pin specs (phase 13: J10/J11 and three owned bindings) |
 | `verify_geometry.py` | PASS: 772 spec pins matched (phase 13) |
-| KiCad 10.0.6 native ERC (pinned image; phase 10 serialised through `flock`) | exit 0. 0 errors and 56 warnings (phase 13): 21 missing `*_DRAFT` footprints and 35 `pin_to_pin` warnings on the unspecified pins of J5 (5) and J10/J11 (30, the same symbol pin type as on the current Board B). Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
+| KiCad 10.0.6 native ERC (pinned image; phase 10 serialised through `flock`) | exit 0. 0 errors and 35 warnings (phase 19; the 21 missing `*_DRAFT` footprint warnings of phase 13 are gone): 35 `pin_to_pin` warnings on the unspecified pins of J5 (5) and J10/J11 (30, the same symbol pin type as on the current Board B). Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB, DRC, BOM/CPL | NOT RUN: there is no PCB, by request |
+| PCB DRC + schematic parity (phase 19) | 0 errors, 2 `lib_footprint_mismatch` warnings (J10/J11 silk clip), 0 parity issues; 499 unconnected items (unrouted, so not a pass) |
+| Routing, BOM/CPL | NOT RUN: placement only |
 
 ## 7. Independent review findings (review of `bad5ddf`)
 
