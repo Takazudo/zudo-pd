@@ -344,7 +344,8 @@ def main():
     check_step_datums(board_p)
     output = args.output.resolve()
     require(not output.exists(), 'Choose a new staging directory; replace the current prototype outputs only after validation')
-    if 'board-b' in args.boards:check_assembly_freshness(board_p)
+    # Either board alone is still half of the P+B stack, so every export carries the stack proof (review F11).
+    check_assembly_freshness(board_p)
     output.mkdir(parents=True)
     run([sys.executable, ROOT / '.claude/skills/component-spec-audit/scripts/validate.py', '--strict'], output / 'preflight.log')
     run([sys.executable, ROOT / '.claude/skills/circuit-spec-integration/scripts/check_forward_tests.py', '--strict'], output / 'preflight.log')
@@ -362,9 +363,8 @@ def main():
         shutil.copyfile(ROOT / 'manufacturing' / filename, output / filename)
     shutil.copyfile(ROOT/'footprints/kicad/step-datum-verification.json',output/'step-datum-verification.json')
     shutil.copyfile(ROOT/'scripts/pcb/step-datum-normalizations.json',output/'step-datum-normalizations.json')
-    if 'board-b' in args.boards:
-        shutil.copytree(ROOT/ASSEMBLY_PREVIEWS[board_p],output/'mechanical/assembly',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
-        shutil.copytree(ROOT/'boards/board-b/supports',output/'mechanical/supports')
+    shutil.copytree(ROOT/ASSEMBLY_PREVIEWS[board_p],output/'mechanical/assembly',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+    shutil.copytree(ROOT/'boards/board-b/supports',output/'mechanical/supports')
     manifest['artifact_hashes'] = {str(path.relative_to(output)): digest(path) for path in sorted(output.rglob('*')) if path.is_file() and path.suffix not in ('.lck', '.kicad_prl')}
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     files = [path for path in sorted(output.rglob('*')) if path.is_file() and path.suffix not in ('.lck', '.kicad_prl')]
