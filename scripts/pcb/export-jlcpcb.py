@@ -354,7 +354,7 @@ def main():
     for result in results:
         for path, expected in result['source_hashes'].items():
             require(digest(ROOT / path) == expected, f'Source changed during export: {path}')
-    manifest = {'purpose': 'Fabrication and assembly review; electrical validation is separate',
+    manifest = {'purpose': 'Development review files, not an order: fabrication and assembly review; electrical validation is separate',
                 'kicad_version': subprocess.check_output([args.kicad_cli, '--version'], text=True).strip(),
                 'git_base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
                 'boards': results}
