@@ -19,7 +19,7 @@ B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 contro
 | Spec | **PASS** (generated spec, 29 decisions) | **PASS** (paper draft spec; phase 13 adds J10/J11) | `scripts/schgen/board_p_spec.py`, `scripts/schgen/decisions.json`, `scripts/schgen/board_b20_spec.py` |
 | Schematic ERC | **PASS**: 0 errors, 33 `pin_to_pin` warnings | **PASS**: 0 errors, 56 warnings (21 missing `*_DRAFT` footprints; 35 `pin_to_pin` on the unspecified J5/J10/J11 pins) | native KiCad 10.0.6 ERC + `verify_netlist.py` (P: 46 nets; B20: 142 nets) |
 | Footprints | **PASS** (shared library) | **OPEN**: 21 placements on 5 `*_DRAFT` names, none in `footprints/kicad/`; stock KiCad candidates listed, land patterns not compared | `manufacturing/board-b-20v-switcher-direct-draft.md` §3 footprint table |
-| PCB DRC | **OPEN**: native DRC 0 clearance/short/courtyard errors, 5 `items_not_allowed` (owners in their own keep-outs), 0 unconnected items (3 in phase 13, 8 in phase 12); warnings: 2 `via_dangling` (SCL, ATT) and 1 `track_dangling` (CC1, 0.65 mm); `route-power.py` still lists 1 detached GND cluster (C34.2/R21.2/C38.2) that native DRC reports connected, so the disagreement is OPEN; no layout review | **NOT RUN**: there is no B20 PCB | `boards/board-p/r3-draft/placement-report.json`, `routing-report.json` |
+| PCB DRC | **OPEN**: native DRC 0 clearance/short/courtyard errors, 5 `items_not_allowed` (owners in their own keep-outs), 0 unconnected items (3 in phase 13, 8 in phase 12); warnings: 2 `via_dangling` (SCL, ATT) and 1 `track_dangling` (CC1, 0.65 mm); `route-power.py` now finds 0 detached GND clusters, matching native DRC (its phase 14 cluster was a false positive from endpoint-only joins, fixed in phase 15); no layout review | **NOT RUN**: there is no B20 PCB | `boards/board-p/r3-draft/placement-report.json`, `routing-report.json` |
 | Current capacity | **OPEN**: 5 A pours ≥ 1.85 mm against 1.82 mm (IPC-2221, 20 °C rise PA); no thermal check | **PASS (arithmetic)** converter and switch current | r3 `routing-report.json`; `calculate-board-b20-draft.py` |
 | Stack and mechanics | **OPEN**: C3 over the current Board B U3 (3.31 × 4.05 mm); B.Cu parts face the floor | **OPEN**: the B20 layout must keep x 7.74–17.25, y 24.54–35.77 mm free | `boards/board-p/r3-draft/README.md` |
 | Simulation rows | **OPEN**: Q1 overshoot bound rests on TYP-only TPS16630 rows | Start, re-entry and band rows **PASS (SIM)**. No-load slope rows **FAIL (SIM)**, with an owner exception requested (nom +5 V 0.94 V/ms; exception wording ≤ 0.95 V/ms is with OSC). Ripple, let-through, reverse current and loaded discharge order **OPEN** | `manufacturing/board-b-20v-switcher-direct-draft.md` §4–§5f; `manufacturing/sim/board-b20-phase12/results.json` |
@@ -56,12 +56,12 @@ A full stock refresh on 2026-11-01 of its 53 lines against 5 sets finds:
 |---|---|
 | C861519 (R21/R27) 0 in stock, C2983319 (C11) 1 in stock | **BLOCKED** until a candidate above is adopted through `board_b_spec.py`, regeneration and a refreshed package |
 | C861332 RT0603BRD0733RL (R24) 10 in stock against 5 | **OPEN**: in stock, no margin |
-| Board P 15 V source parity: `scripts/schgen/board_p_spec.py` and `boards/board-p/board-p.kicad_sch` now describe the 20 V r3 draft, while `board-p.kicad_pcb` and the package are the 15 V as-built | **OPEN**: a 15 V reorder must use the package files unchanged; schematic-to-PCB parity for it exists only in history |
+| Board P 15 V source parity | **PASS (phase 15)**: `scripts/schgen/board_p15_spec.py` reproduced the as-built netlist pin for pin (baseline, as-built PCB pads, package BOM identity) before the RESET subset; the draft PCB `boards/board-p15/board-p15-draft.kicad_pcb` matches the spec pin for pin |
 | Any BOM change on Board B | **OPEN**: needs a new package from one revision with ERC, DRC and BOM/CPL parity; the existing package stays the ordered revision |
 | Electrical qualification (full-load start, ripple, thermal, fuse hold, surge, low input) and mechanical fit (wire, torque, retention, seating, printed leg, M3 in the 3.0 mm holes) | **OPEN**, as listed in `ORDER-NOTES.md`; not reorder blockers by themselves |
 | First power procedure: 5 V-only current-limited source, Board B disconnected, verify the 15 V NVM image and readback | Required at bring-up (`ORDER-NOTES.md`) |
 | PCB fabrication, shipping and duty | **UNKNOWN** (not retrieved) |
-| Controller block on the 15 V Board P (stay as is, RESET subset or full block; next section) | **OPEN**: user choice; a changed board needs a 15 V spec source, a re-routed PCB and a new package |
+| Controller block on the 15 V Board P | **Working direction: RESET subset** (`dec-p15-reset-subset`). Spec, ERC (0 errors) and draft PCB (DRC 0 errors, 0 unconnected; RESET ≥ 1.353 mm from VBUS-class copper on its layer) exist; silk warnings around R21, layout review and a new package are OPEN (`boards/board-p15/README.md`) |
 
 ### Current Board P controller block: stay as is only with the #144 RESET geometry accepted; the RESET subset costs nothing in parts
 
@@ -88,11 +88,22 @@ plus assembly. PCB fabrication and any new-revision NRE are UNKNOWN.
 | Full common block, top only | Subset plus D9–D12, Q6 cascode, R28–R32, C38; R13 4.7 kΩ, R14 2 × 1 kΩ; SMAJ16A and AO3401A stay | USD 60.00 (12.00); 17 lines, 8 extended (+3) | Top-only fit on the 27 × 40 mm outline is **NOT RUN**: no placement search was made for this variant. VDD bound about 20.8 V (r3 arithmetic at the 28.35 V row, not redone at 28.6 V). Adds the r3 OPEN items: TDISPAR0V ≥ 13 in the 15 V NVM image, VBEN/Q6 ratings UNSOURCED, attach headroom with the operating IDD unknown |
 | Full common block, two-sided | As above, if top only does not fit | USD 134.21 (26.84) | Standard double-side PCBA: +USD 86.15 per lot over as built; same OPEN items |
 
-Recommendation (not a decision): take the R1.1–R1.3 subset as the floor. Its part and assembly cost is
+Phase 15: the coordinator took the R1.1–R1.3 subset as the working direction (`dec-p15-reset-subset`). Phase 14 recommendation, kept for the record: take the R1.1–R1.3 subset as the floor. Its part and assembly cost is
 neutral, and it removes the one layout defect with a recorded failure. Add the full block only if a top-only
 placement fits. That would close the VDD clamp margin for about USD 2.40 per set more. In every changed
 option the 15 V board needs its own spec source: `board_p_spec.py` now describes r3, and the 15 V schematic
 exists only in history.
+
+### Board B stock-gap candidate rows: not adopted; acceptance tests NOT RUN
+
+`manufacturing/readiness/board-b-stock-gap-candidate-rows.json` lists both candidate rows beside their incumbents.
+It is not a BOM or an order file. Adopting either part needs four things: the owner decision, a `board_b_spec.py`
+edit, regeneration, and a new package. Each package must come from one revision and pass ERC, DRC and BOM/CPL parity.
+
+| Refs | Candidate (incumbent) | Acceptance tests | Status |
+|---|---|---|---|
+| R21, R27 | AT0603BRD07680RL C5455478 (RT0603BRD07680RL C861519) | BB-R-1 incoming 4-wire 679.32–680.68 Ω; BB-R-2 +12 V / −12 V set points at no load and at budget, within 0.2 % of an incumbent board; BB-R-3 30 min warm drift | NOT RUN |
+| C11 | RVT1E471M0810 C696190 (GVT1E477M0810CNVC C2983319) | BB-C-1 fit and polarity on the Φ8 land; BB-C-2 −14.145 V PRE ripple no worse than an incumbent board; BB-C-3 −12 V load step with no sustained oscillation; BB-C-4 C11 ripple ≤ 342 mA rms; BB-C-5 case temperature after 30 min | NOT RUN |
 
 ### Residual risks
 
