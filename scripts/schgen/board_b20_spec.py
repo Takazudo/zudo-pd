@@ -48,7 +48,9 @@ the independent review of bad5ddf):
   EN_E through the Q57 body diode and RDH. When EN_E falls (disable, fault or loss of
   P5_SUP), Q56 and Q54 turn on from CDH alone and drive the discharge switches for about
   0.5-1.4 s; nothing recharges CDH until the next enable.
-Footprints named *_DRAFT do not exist yet; no PCB is part of this draft.
+Phase 19: the five former *_DRAFT footprints are drawn (TI DDA0008B, DGK0008A and D0008A example
+layouts, the TA-I RLS12 1206 pad row and the RESI PCSR2512 Kelvin land; none fabrication-reviewed).
+Placement has started in boards/board-b20-draft/board-b20-draft.kicad_pcb (unrouted draft).
 """
 
 PROJECT_NAME = 'board-b20-draft'
@@ -65,11 +67,11 @@ _ORIGIN = (25.4, 25.4)
 
 # exact owner-record parts: (symbol, value, lcsc, footprint)
 P = {
-    'TPS': ('TPS54560DDAR', 'TPS54560DDAR', 'C31966', 'zudo-pd:HSOP-8_TPS54560DDA_DRAFT'),
-    'OPA': ('OPA2187IDGKR', 'OPA2187IDGKR', 'C2863562', 'zudo-pd:VSSOP-8_DGK_DRAFT'),
-    'REF': ('REF5025AIDR', 'REF5025AIDR', 'C11341', 'zudo-pd:SOIC-8_D_DRAFT'),
-    'INA': ('INA301A3IDGKR', 'INA301A3IDGKR', 'C2861552', 'zudo-pd:VSSOP-8_DGK_DRAFT'),
-    'SHUNT': ('PE1206FRF470R02L', '20mR 1% 1W', 'C164156', 'zudo-pd:R1206_DRAFT'),
+    'TPS': ('TPS54560DDAR', 'TPS54560DDAR', 'C31966', 'zudo-pd:HSOP-8_TI-DDA0008B'),
+    'OPA': ('OPA2187IDGKR', 'OPA2187IDGKR', 'C2863562', 'zudo-pd:VSSOP-8_TI-DGK0008A'),
+    'REF': ('REF5025AIDR', 'REF5025AIDR', 'C11341', 'zudo-pd:SOIC-8_TI-D0008A'),
+    'INA': ('INA301A3IDGKR', 'INA301A3IDGKR', 'C2861552', 'zudo-pd:VSSOP-8_TI-DGK0008A'),
+    'SHUNT': ('PE1206FRF470R02L', '20mR 1% 1W', 'C164156', 'zudo-pd:R1206_TA-I-RLS12'),
     'L10U': ('ASPI-0630LR-100M-T15', '10uH', 'C1334133', 'zudo-pd:ASPI-0630LR_L7.5-W6.85'),
     'DSCH': ('SDT5A60SA-13', 'SDT5A60SA-13', 'C3024223', 'zudo-pd:SMA_Diodes_SDT5A60SA_C3024223'),
     'NFET': ('CSD18543Q3A', 'CSD18543Q3A', 'C840100', 'zudo-pd:VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A'),
@@ -291,11 +293,11 @@ nfet('Q40', 'VINUV_CMP', 'GND', 'FAULT_N')
 
 # ---------------------------------------------------------------- shunts, limiters
 # Phase 9: +12 / -12 use one 10 mOhm 0.1 % 15 ppm/C 2512 shunt (RESI PCSR2512BR010M6 C23067428,
-# distributor listing only, no owner record) so the trip minimum clears the start-into-full-load
+# candidate rec-c23067428, sheet from a distributor-hosted copy, facts UNSOURCED) so the trip minimum clears the start-into-full-load
 # floor (2.0327 / 1.9289 A); +5 keeps the PE1206 20 mOhm part.
-rprop('RSH1', '10mR 0.1% 2512 PCSR2512BR010M6', 'P12_PRE', 'P12_SH', fp='zudo-pd:R2512_DRAFT')
+rprop('RSH1', '10mR 0.1% 2512 PCSR2512BR010M6', 'P12_PRE', 'P12_SH', fp='zudo-pd:R2512_RESI-PCSR2512_Kelvin')
 two('RSH2', 'SHUNT', 'P5_PRE', 'P5_SH')
-rprop('RSH3', '10mR 0.1% 2512 PCSR2512BR010M6', 'M12_SH', 'M12_PRE', fp='zudo-pd:R2512_DRAFT')
+rprop('RSH3', '10mR 0.1% 2512 PCSR2512BR010M6', 'M12_SH', 'M12_PRE', fp='zudo-pd:R2512_RESI-PCSR2512_Kelvin')
 # LIMIT = REF25 x Rb / (Ra + Rb) + ILIMIT (80 uA) x (Ra || Rb)
 part('U11', 'INA', ('1', 'P5_SUP'), ('2', None), ('3', 'LIM12'), ('4', 'GND'), ('5', 'GND'),
      ('6', 'FAULT_N'), ('7', 'P12_SH'), ('8', 'P12_PRE'))
@@ -494,14 +496,14 @@ two('CDH', 'C10U1206', 'DIS_C', 'GND')
 pfet('Q56', 'DIS_C', 'EN_E', 'DIS_P')
 two('R60', 'R100K', 'DIS_P', 'GND')
 nfet('Q51', 'DIS_P', 'GND', 'P12_DX')
-rprop('RX12', '100 1% 1206', 'P12_DX', 'P12_OUT', fp='zudo-pd:R1206_DRAFT')
+rprop('RX12', '100 1% 1206', 'P12_DX', 'P12_OUT', fp='zudo-pd:R1206_TA-I-RLS12')
 nfet('Q52', 'DIS_P', 'GND', 'P5_DX')
-rprop('RX5', '33 1% 1206', 'P5_DX', 'P5_OUT', fp='zudo-pd:R1206_DRAFT')
+rprop('RX5', '33 1% 1206', 'P5_DX', 'P5_OUT', fp='zudo-pd:R1206_TA-I-RLS12')
 pfet('Q54', 'DIS_C', 'EN_E', 'M12_DGX')
 rprop('R61', '470k 1%', 'M12_DGX', 'M12_DG')
 rprop('R62', '1M 1%', 'M12_DG', 'M12_OUT')
 nfet('Q55', 'M12_DG', 'M12_OUT', 'M12_DX')
-rprop('RXN', '150 1% 1206', 'GND', 'M12_DX', fp='zudo-pd:R1206_DRAFT')
+rprop('RXN', '150 1% 1206', 'GND', 'M12_DX', fp='zudo-pd:R1206_TA-I-RLS12')
 
 
 # VIN arrives from Board P through J5 and GND is the system return; these flags declare the
