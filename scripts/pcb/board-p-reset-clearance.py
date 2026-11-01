@@ -3,7 +3,7 @@ usage (in the pinned image, --cpus 1): python3 scripts/pcb/board-p-reset-clearan
 The distances are compared with the LED Board P #144 record (0.222 mm between R13 pads, 0.326 mm from a VBUS_VS_DISCH via)."""
 import sys, json, pcbnew
 b = pcbnew.LoadBoard(sys.argv[1])
-HV = {'VBUS_IN','VBUS_VS_DISCH','DISCH','VBEN','VBUS_OUT','Q1_G'}
+HV = {'VBUS_IN','VBUS_VS_DISCH','DISCH','VBEN','VBUS_OUT','Q1_G','VDD_LOC','VDD_MID'}   # VDD_LOC/VDD_MID: board-p15 VDD feed (phase 17)
 def items():
     for t in b.GetTracks(): yield t
     for f in b.GetFootprints():

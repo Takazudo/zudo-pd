@@ -1,17 +1,20 @@
 {
- "_comment": "Phase 15 checks of the 15 V Board P draft PCB (unvalidated draft, no layout review). DRC: native KiCad 10.0.6 kicad-cli pcb drc --severity-all --refill-zones, run as heavy-guard -> flock /tmp/kicad-native.lock, on the draft and on the unchanged as-built board for comparison. RESET scans: scripts/pcb/board-p-reset-clearance.py (same layer, and in-plane to the other copper layer with --cross-layer). Net parity: scripts/pcb/board-p15/pcb-net-parity.py against board_p15_spec.py (net-parity.json).",
+ "_comment": "Phase 17 checks of the 15 V Board P draft PCB (unvalidated draft, no layout review). DRC: native KiCad 10.0.6 kicad-cli pcb drc --severity-all --refill-zones --schematic-parity, run as heavy-guard -> flock /tmp/kicad-native.lock, with board-p15.kicad_sch beside the draft in a scratch tree. The as-built row is the phase 15 run of the unchanged as-built board. ERC: kicad-cli sch erc on board-p15.kicad_sch. RESET scans: scripts/pcb/board-p-reset-clearance.py (same layer, and in-plane to the other copper layer with --cross-layer); the HV set includes VDD_LOC and VDD_MID. Net parity: scripts/pcb/board-p15/pcb-net-parity.py against board_p15_spec.py (net-parity.json).",
  "board": "boards/board-p15/board-p15-draft.kicad_pcb",
- "board_sha256": "2e5bbeed66a37f012a08559a40bd62a9b8e53dadb24bc1043055571c3cf60a77",
+ "board_sha256": "c7767cb887ab28aa0ab08b126a77b72b765a728de85edb3368deeb44e4c78c24",
  "drc": {
   "draft": {
    "unconnected": 0,
    "violations": {
     "warning:lib_footprint_issues": 3,
-    "warning:lib_footprint_mismatch": 21,
-    "warning:silk_edge_clearance": 2,
-    "warning:silk_over_copper": 8,
-    "warning:silk_overlap": 19,
+    "warning:lib_footprint_mismatch": 26,
+    "warning:silk_edge_clearance": 5,
+    "warning:silk_over_copper": 40,
+    "warning:silk_overlap": 30,
     "warning:text_height": 17
+   },
+   "schematic_parity": {
+    "extra_footprint": 3
    }
   },
   "as_built": {
@@ -25,7 +28,15 @@
    }
   },
   "errors": 0,
-  "new_warnings": "R21 R0603 library silk overlaps the U1 reference field (silk_overlap, silk_over_copper); the J2.4 label now reads NC at the as-built 0.7 mm text height. No error class."
+  "new_warnings": "Phase 17 adds R22/R23 (SCL/SDA pull-downs), R29/R30 and D9 (VDD feed and clamp). Their copied R0603 silk was moved to F.Fab. Remaining silk warnings: the J2 SCL/SDA labels clip the R22/R23 pads, the J3 VBUS label clips R29 pad 1, the U1 reference clips R21, and the library SOD-123 silk of D9 crosses its own pads. No error class. Silk is OPEN.",
+  "schematic_parity_note": "extra_footprint only: MH1, MH2 and MH3, the mounting holes with no schematic symbol, which the exporter rule allows."
+ },
+ "erc": {
+  "errors": 0,
+  "warnings": {
+   "pin_to_pin": 29
+  },
+  "note": "all from the STUSB4500 symbol unspecified pin types"
  },
  "reset_clearance_same_layer_mm": [
   {
@@ -73,21 +84,21 @@
  ],
  "reset_clearance_other_layer_mm": [
   {
-   "mm": 0.688,
+   "mm": 0.686,
    "reset_item": "R21.1",
    "hv_item": "PCB_TRACK",
    "hv_net": "VBUS_VS_DISCH",
    "layers": "F.Cu/B.Cu"
   },
   {
-   "mm": 0.688,
+   "mm": 0.686,
    "reset_item": "R21.1",
    "hv_item": "PCB_TRACK",
    "hv_net": "VBUS_VS_DISCH",
    "layers": "F.Cu/B.Cu"
   },
   {
-   "mm": 0.747,
+   "mm": 0.746,
    "reset_item": "R21.1",
    "hv_item": "PCB_TRACK",
    "hv_net": "VBUS_VS_DISCH",

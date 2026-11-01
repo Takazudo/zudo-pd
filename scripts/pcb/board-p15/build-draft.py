@@ -8,6 +8,13 @@ dec-p15-reset-subset (scripts/schgen/board_p15_spec.py):
   - J2.4 loses the RESET net and its silk label reads NC;
   - R21 becomes an R0603 0 Ohm strap beside U1.6 on F.Cu, with its GND end on a via into the B.Cu GND pour;
   - VBUS_VS_DISCH leaves the two vias beside the U1 RESET corner and runs on B.Cu only.
+Phase 17 (dec-p15-i2c-pulldowns, dec-p15-vdd-local-clamp; no as-built part moves):
+  - J2.4 carries the schematic's no-connect net, so schematic-parity DRC sees no net conflict;
+  - R21 is a copy of the as-built R19 0 Ohm R0603 (same lands and silk as the ordered board) with LCSC Part;
+  - R22/R23 100k pull SCL/SDA to GND beside the J2 pogo row (copies of the as-built R11);
+  - U1.24 and C2.2 leave VBUS_IN for VDD_LOC: the C2 riser from VBUS_IN is removed, R29 1k + R30 470R and
+    D9 BZT52C18 sit between VREG_2V7 and C34, R29 is fed from the existing VBUS_IN via, and VDD_LOC returns
+    to the C2/U1.24 track through two vias on B.Cu.
 Every removed segment is named by its exact as-built end points, so an unexpected as-built change fails loudly.
 Zones are refilled before saving.
 """
@@ -92,9 +99,11 @@ for a, c in [((3.362, 20.494), (3.362, 21.748)), ((3.362, 21.748), (2.838, 22.27
     remove_track('GND', F, a, c)
 remove_via('GND', 2.838, 22.272)
 j2 = fp['J2']
+nc = pcbnew.NETINFO_ITEM(b, 'unconnected-(J2-Pad4)')
+b.Add(nc)
 for pad in j2.Pads():
     if pad.GetNumber() == '4':
-        pad.SetNetCode(0)
+        pad.SetNet(nc)
 for item in j2.GraphicalItems():
     if isinstance(item, pcbnew.PCB_TEXT) and item.GetText() == 'RST':
         item.SetText('NC')
@@ -108,31 +117,90 @@ remove_via('VBUS_VS_DISCH', 7.53, 19.418)
 remove_via('VBUS_VS_DISCH', 8.63, 20.218)
 add_track('VBUS_VS_DISCH', B, [(9.73, 17.218), (7.9, 19.048), (7.9, 20.9), (8.243, 21.243), (8.63, 21.243)])
 
-# 4. R21: R0603 0 Ohm strap beside U1.6, GND end on a via into the B.Cu pour
+lib = sys.argv[3] if len(sys.argv) > 3 else 'footprints/kicad/zudo-power.pretty'
+
+# 4. R21: copy of the as-built R19 0 Ohm R0603 beside U1.6, GND end on a via into the B.Cu pour
+for name in ('VDD_LOC', 'VDD_MID'):
+    b.Add(pcbnew.NETINFO_ITEM(b, name))
+
+
+def clone(src, ref, value, lcsc, mpn, x, y, rot, nets):
+    f = pcbnew.Cast_to_FOOTPRINT(fp[src].Duplicate(False))
+    f.SetReference(ref); f.SetValue(value)
+    for key, val in (('LCSC', lcsc), ('LCSC Part', lcsc), ('MPN', mpn)):
+        f.SetField(key, val)
+    b.Add(f)
+    f.SetOrientationDegrees(rot)
+    f.SetPosition(pt(x, y))
+    f.Reference().SetLayer(pcbnew.F_Fab)   # assembly reference on F.Fab
+    for g in list(f.GraphicalItems()):
+        if g.GetLayer() == pcbnew.F_SilkS:
+            g.SetLayer(pcbnew.F_Fab)       # the copied R0603 silk box is wider than the new spacing; resistors need no polarity mark
+    for pad in f.Pads():
+        pad.SetNet(b.FindNet(nets[pad.GetNumber()]))
+    return f
+
+
+def pad_xy(f, n):
+    p = [q for q in f.Pads() if q.GetNumber() == n][0].GetPosition()
+    return pcbnew.ToMM(p.x), pcbnew.ToMM(p.y)
+
+
 old = fp.pop('R21')
 pos_note = (pcbnew.ToMM(old.GetPosition().x), pcbnew.ToMM(old.GetPosition().y))
-for gone in DOOMED + [old, fp.pop('R15'), fp.pop('R16')]:
-    b.Remove(gone)
-lib = sys.argv[3] if len(sys.argv) > 3 else 'footprints/kicad/zudo-power.pretty'
-r21 = pcbnew.FootprintLoad(lib, 'R0603')
-r21.SetParent(b)
-r21.SetReference('R21'); r21.SetValue('0R')
-for key, value in (('LCSC', 'C21189'), ('MPN', '0603WAF0000T5E')):
-    r21.SetField(key, value)
-r21.SetFPIDAsString('zudo-pd:R0603')
-b.Add(r21)
-r21.SetOrientationDegrees(180)          # pad 1 (RESET) at +x, toward U1.6
-r21.SetPosition(pt(8.6, 20.0))
-r21.Reference().SetVisible(False)
-for pad in r21.Pads():
-    pad.SetNet(b.FindNet('RESET' if pad.GetNumber() == '1' else 'GND'))
-p1 = [p for p in r21.Pads() if p.GetNumber() == '1'][0].GetPosition()
-p2 = [p for p in r21.Pads() if p.GetNumber() == '2'][0].GetPosition()
-x1, y1 = pcbnew.ToMM(p1.x), pcbnew.ToMM(p1.y)
-x2, y2 = pcbnew.ToMM(p2.x), pcbnew.ToMM(p2.y)
+r21 = clone('R19', 'R21', '0R', 'C21189', '0603WAF0000T5E', 8.6, 20.0, 180, {'1': 'RESET', '2': 'GND'})
+x1, y1 = pad_xy(r21, '1')
+x2, y2 = pad_xy(r21, '2')
 add_track('RESET', F, [(10.478, 21.288), (10.478, 20.9), (9.95, 20.372), (x1, y1)])
 add_via('GND', x2 - 0.75, y2)
 add_track('GND', F, [(x2, y2), (x2 - 0.75, y2)])
+
+# 5. SCL/SDA 100k pull-downs beside the J2 pogo row (pad 1 on the signal, pad 2 on GND)
+r22 = clone('R11', 'R22', '100k', 'C25803', '0603WAF1003T5E', 4.54, 33.05, 180, {'1': 'SCL', '2': 'GND'})
+add_track('SCL', F, [pad_xy(r22, '1'), (5.378, 34.972)])
+gx, gy = pad_xy(r22, '2')
+add_via('GND', gx, gy + 0.85)
+add_track('GND', F, [(gx, gy), (gx, gy + 0.85)])
+r23 = clone('R11', 'R23', '100k', 'C25803', '0603WAF1003T5E', 5.04, 30.55, 0, {'1': 'SDA', '2': 'GND'})
+add_track('SDA', F, [pad_xy(r23, '1'), (3.726, 31.288)])
+gx, gy = pad_xy(r23, '2')
+add_track('GND', F, [(gx, gy), (gx, 29.638)])
+
+# 6. VDD local feed and clamp: U1.24 and C2.2 move to VDD_LOC
+remove_track('VBUS_IN', F, (16.678, 17.328), (16.678, 21.002))
+for t in TRACKS:
+    if t.GetClass() == 'PCB_TRACK' and t.GetNetname() == 'VBUS_IN' and t.GetLayer() == F and any(
+            close(e, *q) for e in (t.GetStart(), t.GetEnd()) for q in ((14.724, 21.002), (13.728, 21.998))):
+        t.SetNet(b.FindNet('VDD_LOC'))
+for ref, n in (('U1', '24'), ('C2', '2')):
+    [q for q in fp[ref].Pads() if q.GetNumber() == n][0].SetNet(b.FindNet('VDD_LOC'))
+r29 = clone('R11', 'R29', '1k', 'C21190', '0603WAF1001T5E', 20.6, 26.7, 180, {'1': 'VBUS_IN', '2': 'VDD_MID'})
+r30 = clone('R13', 'R30', '470R', 'C23179', '0603WAF4700T5E', 18.15, 26.7, 180, {'1': 'VDD_MID', '2': 'VDD_LOC'})
+d9 = pcbnew.FootprintLoad(lib, 'SOD-123_L2.8-W1.8-LS3.7-RD')
+d9.SetParent(b)
+d9.SetReference('D9'); d9.SetValue('BZT52C18-7-F')
+for key, val in (('LCSC', 'C192739'), ('LCSC Part', 'C192739'), ('MPN', 'BZT52C18-7-F')):
+    d9.SetField(key, val)
+d9.SetFPIDAsString('zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD')
+b.Add(d9)
+d9.SetPosition(pt(18.9, 24.95))
+d9.Reference().SetLayer(pcbnew.F_Fab)
+for pad in d9.Pads():
+    pad.SetNet(b.FindNet('VDD_LOC' if pad.GetNumber() == '1' else 'GND'))
+add_track('VBUS_IN', F, [(21.634, 25.066), (21.634, 26.416), pad_xy(r29, '1')])
+add_track('VDD_MID', F, [pad_xy(r30, '1'), pad_xy(r29, '2')])
+k = pad_xy(d9, '1')
+add_track('VDD_LOC', F, [pad_xy(r30, '2'), k])
+add_via('VDD_LOC', 16.6, k[1])
+add_track('VDD_LOC', F, [k, (16.6, k[1])])
+add_track('VDD_LOC', B, [(16.6, k[1]), (16.6, 22.878), (14.724, 21.002)])
+add_via('VDD_LOC', 14.724, 21.002)
+a = pad_xy(d9, '2')
+add_via('GND', 19.3, a[1])
+add_track('GND', F, [a, (19.3, a[1])])
+
+for gone in DOOMED + [old, fp.pop('R15'), fp.pop('R16')]:
+    b.Remove(gone)
 
 filler = pcbnew.ZONE_FILLER(b)
 filler.Fill(b.Zones())
