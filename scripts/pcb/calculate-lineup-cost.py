@@ -1,11 +1,16 @@
-"""Phase 12: part and assembly cost of the current lineup (Board P 15 V as built + Board B) against the renewal
+"""Phase 12/13: part and assembly cost of the current lineup (Board P 15 V as built + Board B) against the renewal
 lineup (Board P r3 draft + B20 paper draft), from the retained JLCPCB snapshot.
 
 usage: python3 scripts/pcb/calculate-lineup-cost.py [--json]
-Inputs: manufacturing/readiness/jlc-snapshot-2026-10-31.json (catalog tiers, assembly fee table), the release BOMs
-of the current boards, the r3 and B20 generator specs, and manufacturing/readiness/pad-counts.json.
+Inputs: manufacturing/readiness/jlc-snapshot-2026-10-31.json (catalog tiers, assembly fee table), the phase 13 B20
+resolution manufacturing/readiness/b20-identity-resolution.json (distributor listings for the unbound *_PROPOSED values
+and the like-for-like adders), the release BOMs of the current boards, the r3 and B20 generator specs, and
+manufacturing/readiness/pad-counts.json.
 A line is bought at max(quantity x lot, first tier start) at the tier price for that purchase. Parts without an LCSC
-code (B20 *_PROPOSED values) are UNKNOWN and counted, never estimated. PCB fabrication, shipping and duty are UNKNOWN.
+code and no resolved listing are UNKNOWN and counted, never estimated.
+Assembly class (phase 13): a two-sided board can only use Standard PCBA (double-side rows); a one-sided board is priced
+in both classes and the cheaper one is used, with both totals reported. Economic PCBA charges feeder loading only for
+extended lines, Standard PCBA for every line. PCB fabrication, shipping and duty are UNKNOWN.
 These are catalog prices on the retrieval date, not quotes.
 """
 import csv, importlib.util, json, sys
@@ -15,6 +20,9 @@ ROOT = Path(__file__).resolve().parents[2]
 SNAP = json.loads((ROOT / 'manufacturing/readiness/jlc-snapshot-2026-10-31.json').read_text())
 PARTS = SNAP['catalog']['parts']
 FEES = SNAP['assembly_fees']
+RES = json.loads((ROOT / 'manufacturing/readiness/b20-identity-resolution.json').read_text())
+PARTS = {**RES['catalog']['parts'], **PARTS}
+RESOLVED = {v: e['lcsc'] for v, e in RES['values'].items() if e['status'] == 'RESOLVED'}
 PADS = json.loads((ROOT / 'manufacturing/readiness/pad-counts.json').read_text())['boards']
 NOT_ASSEMBLED = ('MH', 'TP', 'H')
 
@@ -25,7 +33,7 @@ def spec(name):
     return m
 
 
-def spec_board(name, pcb=None):
+def spec_board(name, pcb=None, resolve=False, adders=False):
     m = spec(name)
     lines, unknown, joints = {}, [], {'smd': 0, 'th': 0}
     pins = {}
@@ -37,16 +45,24 @@ def spec_board(name, pcb=None):
     for ref, c in m.COMPONENTS.items():
         if c[0].startswith(('PogoPad', 'Conn_1x')) and not c[2]:
             continue
-        if not c[2]:
+        code = c[2] or (RESOLVED.get(c[1]) if resolve else None)
+        if not code:
             unknown.append(f'{ref} {c[1]}')
             continue
-        lines.setdefault(c[2], []).append(ref)
+        lines.setdefault(code, []).append(ref)
         pc = PADS.get(pcb, {}).get(ref) if pcb else None
         if pc:
             joints['smd'] += pc['smd']; joints['th'] += pc['th']
         else:
-            th = c[3].split(':')[1].startswith(('HDR-TH', 'WJ500V'))
+            th = c[3].split(':')[1].startswith(('HDR-TH', 'WJ500V', 'IDC-TH'))
             joints['th' if th else 'smd'] += pins.get(ref, 0)
+    if adders:
+        cur = PADS['boards/board-b/board-b.kicad_pcb']
+        for a in RES['like_for_like_adders']['lines']:
+            refs = [r.strip() for r in a['ref'].split(',')]
+            lines.setdefault(a['lcsc'], []).extend(f'ADD-{r}' for r in refs)
+            for r in refs:
+                joints['smd'] += cur[r]['smd']; joints['th'] += cur[r]['th']
     sides = {PADS[pcb][r]['side'] for r in PADS.get(pcb, {}) if not r.startswith(NOT_ASSEMBLED)} if pcb else {'F'}
     return {'lines': lines, 'unknown': unknown, 'joints': joints, 'double_sided': 'B' in sides}
 
@@ -83,19 +99,21 @@ def board_cost(b, lot):
         rows.append({'lcsc': code, 'model': PARTS[code]['model'], 'qty_per_board': len(refs), 'buy': buy, 'unit_usd': p,
                      'line_usd': round(buy * p, 4), 'library': PARTS[code]['library_type'], 'stock': PARTS[code]['stock']})
     j = b['joints']
-    if b['double_sided']:
-        f = FEES['standard']
-        asm = (f['setup_double'] + f['stencil_double'] + f['feeder_loading_each'] * len(b['lines']) + f['confirm_parts_placement']
-               + j['smd'] * lot * f['smt_per_joint'] + j['th'] * lot * f['manual_per_joint'] + (f['hand_soldering_labor_per_order'] if j['th'] else 0))
-        asm = max(asm, 0) + f['handling_min'] + (f['single_board_surcharge'] if lot == 1 else 0)
-        kind = 'Standard PCBA, double-side'
-    else:
-        f = FEES['economic']
-        asm = (f['setup'] + f['stencil'] + f['feeder_loading_extended_each'] * ext + f['confirm_parts_placement']
-               + j['smd'] * lot * f['smt_per_joint'] + j['th'] * lot * f['manual_per_joint'] + (f['hand_soldering_labor_per_order'] if j['th'] else 0))
-        kind = 'Economic PCBA, single-side'
+    nl = len(b['lines'])
+    th = j['th'] * lot * FEES['standard']['manual_per_joint'] + (FEES['standard']['hand_soldering_labor_per_order'] if j['th'] else 0)
+    f = FEES['standard']
+    sides = 'double' if b['double_sided'] else 'single'
+    std = (f[f'setup_{sides}'] + f[f'stencil_{sides}'] + f['feeder_loading_each'] * nl + f['confirm_parts_placement']
+           + j['smd'] * lot * f['smt_per_joint'] + th + f['handling_min'] + (f['single_board_surcharge'] if lot == 1 else 0))
+    classes = {f'Standard PCBA, {sides}-side': round(std, 2)}
+    if not b['double_sided']:
+        e = FEES['economic']
+        classes['Economic PCBA, single-side'] = round(e['setup'] + e['stencil'] + e['feeder_loading_extended_each'] * ext
+                                                      + e['confirm_parts_placement'] + j['smd'] * lot * e['smt_per_joint'] + th, 2)
+    kind = min(classes, key=classes.get)
+    asm = classes[kind]
     low_stock = [r['lcsc'] for r in rows if r['stock'] < r['buy']]
-    return {'parts_usd': round(parts, 2), 'assembly_usd': round(asm, 2), 'assembly_kind': kind, 'lines': len(rows), 'extended_lines': ext,
+    return {'parts_usd': round(parts, 2), 'assembly_usd': round(asm, 2), 'assembly_kind': kind, 'assembly_classes_usd': classes, 'lines': len(rows), 'extended_lines': ext,
             'unknown_parts': len(b['unknown']), 'joints_per_board': j, 'stock_below_purchase': low_stock, 'rows': rows}
 
 
@@ -103,8 +121,15 @@ BOARDS = {
     'current': {'Board P 15 V (as built)': bom_board('manufacturing/releases/corner-support-review/board-p/bom.csv', 'boards/board-p/board-p.kicad_pcb'),
                 'Board B (current)': bom_board('manufacturing/releases/corner-support-review/board-b/bom.csv', 'boards/board-b/board-b.kicad_pcb')},
     'renewal': {'Board P r3 draft': spec_board('board_p_spec', 'boards/board-p/r3-draft/board-p-r3-draft.kicad_pcb'),
-                'B20 paper draft': spec_board('board_b20_spec')},
+                'B20 paper draft': spec_board('board_b20_spec', resolve=True)},
+    'renewal_like_for_like': {'Board P r3 draft': spec_board('board_p_spec', 'boards/board-p/r3-draft/board-p-r3-draft.kicad_pcb'),
+                              'B20 + current-Board-B adders': spec_board('board_b20_spec', resolve=True, adders=True)},
 }
+# lever check (phase 13): Board P r3 one-sided would allow Economic PCBA, but the top-only placement leaves 20 parts
+# unplaced (boards/board-p/r3-draft/search-top-only.json); this row prices that infeasible board for the saving only
+_p1 = dict(BOARDS['renewal']['Board P r3 draft'], double_sided=False)
+BOARDS['lever_board_p_r3_one_sided_infeasible'] = {'Board P r3 one-sided (does not fit)': _p1,
+                                                    'B20 + current-Board-B adders': BOARDS['renewal_like_for_like']['B20 + current-Board-B adders']}
 
 
 def main():
