@@ -10,6 +10,10 @@ status and numerical claims may be superseded. Start with the
 [current architecture](/docs/architecture/) and verify exact components in the
 [catalog](/docs/components/catalog/). See the [archive guide](/docs/archive/) for context.
 
+For the 15 V Board P draft (`boards/board-p15/`), use
+[Board P15 NVM Programming](/docs/architecture/board-p15-programming/) instead: it has jig pull-ups, a
+power-cycle reload and a repository NVM image.
+
 </Note>
 
 The STUSB4500 requires NVM (non-volatile memory) programming to configure its USB-PD negotiation behavior. Factory defaults will negotiate **20V** (not 15V), which would damage downstream circuits. This page documents the hardware setup, required NVM values, and schematic changes needed.
