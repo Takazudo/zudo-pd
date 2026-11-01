@@ -166,6 +166,80 @@ edit, regeneration, and a new package. Each package must come from one revision 
 | J10/J11 pin map against a keyed synth cable (pins 1/2 −12 V) | B20 | each pin at its rail | NOT RUN |
 | Stack fit: P on B with the 18 mm legs; C3 and U3 clearance | P + B | no contact; measured gaps | NOT RUN |
 
+## 15 V prototype order: decision inputs (desk only; no order, quote or package exists)
+
+This section collects what an owner needs to decide on a 5-unit zudo-pd 15 V prototype lot: board-p15 on the
+current Board B. It is not an order file. Every board here is an unvalidated draft, and no package has been
+exported for this pair outside scratch dry runs.
+
+### Revisions an order package would have to be built from
+
+| Board | File | sha256 | Last change |
+|---|---|---|---|
+| board-p15 | `boards/board-p15/board-p15-draft.kicad_pcb` | `97acc5f4c712f0be01dbc5d6809a5bd17ecdceb97f3e6a831bef94500117d065` | `d6d3efc` (phase 20, back mark `P15 r1`) |
+| board-p15 | `boards/board-p15/board-p15.kicad_sch` | `416c56a7bd5bfb74c2b15b56081c619239063d4cce58ef06373b8ea9c7f5393f` | `07f8590` (phase 18) |
+| board-p15 | `scripts/schgen/board_p15_spec.py` | `c20281447c89f32e4ed7b7bcd86e9b5bc36df7b24fe522f8f2860a07870cd713` | phase 18 |
+| board-p15 | `boards/board-p15/nvm/stusb4500-15v.bin` | `76622e14862e53cf318b24eb662f7dc9f34d48134867cf954b30c195c26e8eeb` | desk image, never written |
+| Board B | `boards/board-b/board-b.kicad_pcb` | `c8f83fcdba4daa06bfcce6b998bc2c3ab0400a0c12d4b13e1ba391a72553fc2f` | `194707a` (on main) |
+| Board B | `boards/board-b/board-b.kicad_sch` | `d3c395d151bcec7ab440a24b28f8dc01183cf10fb29b65b2149ab6077692e9e3` | `194707a` |
+| Board B | `scripts/schgen/board_b_spec.py` | `12814d07a8318bc16ab0259ff6baddfd67af3abe01b8824feb5b0885608cff49` | — |
+
+- The package of record, `manufacturing/releases/corner-support-review/`, carries Board B source
+  `cd3677c9…`, not the active `c8f83fcd…`. An order needs a new package from one revision of both boards.
+- The phase 20 scratch dry run (`export-jlcpcb.py --boards board-p15 board-b`) passed every exporter gate on these
+  files. It still exported the incumbent Board B stock lines below.
+- The stack proof `boards/board-b/assembly-preview-p15` binds this board-p15 and Board B pair: collision PASS.
+  Its 159 MB STEP is local-only.
+
+### Two Board B stock substitutions need owner adoption
+
+Neither candidate is adopted. Adopting one means a `board_b_spec.py` edit, regeneration, a new package and the
+acceptance tests in `readiness/board-b-stock-gap-candidate-rows.json`.
+
+| Refs | Incumbent (stock 2026-11-01, need for 5 sets) | Candidate (stock) | Desk match | Acceptance tests |
+|---|---|---|---|---|
+| R21, R27 | YAGEO RT0603BRD07680RL C861519 (0, need 10) | YAGEO AT0603BRD07680RL C5455478 (410–439) | every recorded row matches: 680 Ω, 0.1 %, 25 ppm/°C | BB-R-1 to BB-R-3: NOT RUN |
+| C11 | HRK GVT1E477M0810CNVC C2983319 (1, need 5) | Honor RVT1E471M0810 C696190 (4,085–4,625) | 470 µF 25 V on the same Φ8 land; 342 mA ripple rating against 312 mA; lower ESR changes the LM2596 loop (not measured) | BB-C-1 to BB-C-5: NOT RUN |
+
+### Bench tests still NOT RUN for this pair
+
+No hardware exists, so every row is NOT RUN.
+
+| Test | Board | Pass criterion |
+|---|---|---|
+| P15-NVM-1 to P15-NVM-7: jig levels, pre-write dump, power-cycle readback, PDO registers, first attach, VDD at 4.75 V in | board-p15 | `board-p15-programming.md` table; readback equals `76622e14…`; 15 V contract; VDD ≥ 4.1 V |
+| D9 clamp at the cold corner: leakage at a 15.75 V input, −40 °C | board-p15 | no VDD sag at the 15 V contract (guaranteed window is only +0.01 V) |
+| RESET strap leakage | board-p15 | RESET stays low |
+| BB-R-1 to BB-R-3, BB-C-1 to BB-C-5 | Board B | the candidate-row table above |
+| Full-load start, ripple, thermal, fuse hold, surge and low-input rows of `ORDER-NOTES.md` | Board B on board-p15 | as listed there |
+| Stack fit: board-p15 on Board B with the 18 mm printed legs, M3 in the 3.0 mm holes | P + B | no contact; measured gaps; screw passes |
+
+### Residual risks of a 15 V lot
+
+| Risk | Status |
+|---|---|
+| D9 guaranteed cold window over a 15.75 V input is +0.01 V | OPEN; BZT52C20 fails the 5 V margin to 28 V (`d9-zener-choice.json`) |
+| VDD IDD during PD communication, so attach headroom | UNKNOWN |
+| R29/R30 derating above 70 °C (77.1 / 36.2 mW at the surge row) | UNKNOWN |
+| SCL/SDA idle states without pull-ups; RESET strap leakage | UNVERIFIED (Rev 8 not re-read) / OPEN |
+| 15 V NVM image never written or read back | OPEN |
+| Board B package of record is not the active Board B revision | OPEN: a new package is required |
+| Board B electrical qualification and the printed-leg mechanical fit | OPEN; the adhesive-leg fit check is stale |
+| C861332 (R24) 10 in stock against 5 | OPEN: no margin |
+
+### 5-unit lot cost: USD 358.07 for parts and assembly; Board B PCB fabrication UNKNOWN
+
+From `calculate-lineup-cost.py` on the 2026-10-31 snapshot, with the two candidate rows priced in. These are desk
+figures; no quote was requested.
+
+| Item | Parts | Assembly | Subtotal |
+|---|---|---|---|
+| board-p15 (phase 18 BOM: 14 lines, Economic PCBA) | USD 18.39 | USD 33.56 | USD 51.95 |
+| Board B with the two candidate rows (39 lines, Standard PCBA; USD 0.07 over the incumbent rows, phase 17 desk figure) | USD 188.96 | USD 117.16 | USD 306.12 |
+| Parts and assembly, 5 sets | | | **USD 358.07** (USD 71.61 per set) |
+| PCB fabrication | board-p15: published USD 2.00 floor (not quoted); Board B: **UNKNOWN** | | — |
+| Shipping and duty | **UNKNOWN** | | — |
+
 ## Lineup cost: the renewal costs about twice the current lineup per 5-unit lot
 
 Catalog parts and JLCPCB assembly fees on 2026-10-31. PCB fabrication, shipping and duty are UNKNOWN. A
