@@ -50,7 +50,7 @@ def main():
     manifest=json.loads((release/'manifest.json').read_text())
     records=manifest.get('boards', [])
     names=[r['board'] for r in records]
-    require(bool(names) and len(names)==len(set(names)) and set(names)<={'board-p','board-b'}, 'Invalid or empty board selection')
+    require(bool(names) and len(names)==len(set(names)) and set(names)<={'board-p','board-p15','board-b'} and not {'board-p','board-p15'}<=set(names), 'Invalid or empty board selection')
     require(bool(manifest.get('artifact_hashes')), 'Missing exported artifact locks')
     for relative,sha in manifest['artifact_hashes'].items():
         path=(release/relative).resolve()
@@ -106,7 +106,7 @@ def main():
         notes=[str(w.message) for w in caught if not issubclass(w.category,ResourceWarning)]
         require(all('G90 header statement found after end of header' in n for n in notes),f'Unexpected Gerber parser warnings: {notes}')
         require(len(stack.copper_layers)==2 and stack.drill_pth is not None and stack.drill_npth is not None,'Expected two copper layers and PTH/NPTH drill data')
-        expected_size={'board-p':(27,40),'board-b':(BOARD_B_WIDTH,BOARD_B_HEIGHT)}[name]
+        expected_size={'board-p':(27,40),'board-p15':(27,40),'board-b':(BOARD_B_WIDTH,BOARD_B_HEIGHT)}[name]
         width,height=stack.outline.size('mm')
         require(abs(width-expected_size[0])<.06 and abs(height-expected_size[1])<.06,'Wrong board outline')
         for side in ('top','bottom'):
