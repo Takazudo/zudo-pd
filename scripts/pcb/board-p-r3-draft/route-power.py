@@ -82,11 +82,10 @@ filler.Fill(board.Zones())
 # 0.1 mm grid where both layers are filled, clear of pads and tracks
 def via_point_ok(x, y):
     pt = pcbnew.VECTOR2I(mm(x), mm(y))
+    # phase 13: the via centre must lie in both fills; the refill then connects the zone around the via
     for zs in (fz, bz):
-        for dx, dy in ((0, 0), (0.25, 0), (-0.25, 0), (0, 0.25), (0, -0.25)):
-            q = pcbnew.VECTOR2I(mm(x + dx), mm(y + dy))
-            if not any(z.HitTestFilledArea(z.GetLayer(), q, 0) for z in zs):
-                return False
+        if not any(z.HitTestFilledArea(z.GetLayer(), pt, 0) for z in zs):
+            return False
     if any(k.Outline().Contains(pt) for k in keep) or any(bb.Contains(pt) for bb in island_pad_boxes):
         return False
     return all(seg_dist(x, y, sg) > ISL_VIA_D / 2 + 0.2 + sg[4] / 2 + 0.05 for sg in segs)
@@ -98,44 +97,105 @@ for fp in board.GetFootprints():
     for p in fp.Pads():
         bb = p.GetBoundingBox(); bb.Inflate(mm(0.3 if p.GetNetname() == 'GND' else ISL_VIA_D / 2 + 0.25)); island_pad_boxes.append(bb)
 gnd_th = [p.GetPosition() for fp in board.GetFootprints() for p in fp.Pads() if p.GetNetname() == 'GND' and p.GetAttribute() == pcbnew.PAD_ATTRIB_PTH]
+# phase 13: GND vias placed by route-signals.py (pad escapes) anchor islands too
+gnd_th += [t.GetPosition() for t in board.GetTracks() if t.GetClass() == 'PCB_VIA' and t.GetNetname() == 'GND']
 island_vias = []
-for _round in range(3):
-    added = 0
-    anchors = [pcbnew.VECTOR2I(mm(x), mm(y)) for x, y in vias + island_vias] + gnd_th
+
+
+def gnd_clusters():
+    """Phase 13: GND connectivity clusters of fill polygons, vias, pads and tracks (union-find). A fill island with a via
+    can still float when the via lands in an island on the other layer, so islands are judged by cluster, not by via."""
+    parent = {}
+
+    def find(a):
+        while parent.setdefault(a, a) != a:
+            parent[a] = parent.setdefault(parent[a], parent[a]); a = parent[a]
+        return a
+
+    def union(a, b):
+        parent[find(a)] = find(b)
+    polys = []
     for z in fz + bz:
-        polys = z.GetFilledPolysList(z.GetLayer())
-        for i in range(polys.OutlineCount()):
-            ch = polys.Outline(i)
-            if any(ch.PointInside(a) for a in anchors):
-                continue
+        pl = z.GetFilledPolysList(z.GetLayer())
+        for i in range(pl.OutlineCount()):
+            polys.append((z.GetLayer(), pl.Outline(i)))
+    vias_ = [t for t in board.GetTracks() if t.GetClass() == 'PCB_VIA' and t.GetNetname() == 'GND']
+    tracks_ = [t for t in board.GetTracks() if t.GetClass() != 'PCB_VIA' and t.GetNetname() == 'GND']
+    pads_ = [p for fp in board.GetFootprints() for p in fp.Pads() if p.GetNetname() == 'GND']
+
+    def at(pt, layer):
+        hits = [('P', k) for k, (l, ch) in enumerate(polys) if l == layer and ch.PointInside(pt)]
+        hits += [('V', k) for k, v in enumerate(vias_) if v.HitTest(pt)]
+        hits += [('D', k) for k, p in enumerate(pads_) if p.IsOnLayer(layer) and p.HitTest(pt)]
+        return hits
+    for k, v in enumerate(vias_):
+        for l in (pcbnew.F_Cu, pcbnew.B_Cu):
+            for h in at(v.GetPosition(), l):
+                union(('V', k), h)
+    for k, p in enumerate(pads_):
+        for l in (pcbnew.F_Cu, pcbnew.B_Cu):
+            if p.IsOnLayer(l):
+                for h in at(p.GetPosition(), l):
+                    union(('D', k), h)
+    for k, t in enumerate(tracks_):
+        for pt in (t.GetStart(), t.GetEnd()):
+            for h in at(pt, t.GetLayer()):
+                union(('T', k), h)
+    groups = {}
+    for k in range(len(polys)):
+        groups.setdefault(find(('P', k)), []).append(k)
+    for kind, n in (('V', len(vias_)), ('D', len(pads_)), ('T', len(tracks_))):
+        for k in range(n):
+            groups.setdefault(find((kind, k)), [])
+    area = {g: sum(polys[k][1].Area() for k in ks) for g, ks in groups.items()}
+    main = max(area, key=area.get)
+    detached = []
+    for g, ks in groups.items():
+        if g == main:
+            continue
+        members = [m for m in parent if find(m) == g]
+        detached.append({'polys': ks, 'pads': [f"{pads_[m[1]].GetParentFootprint().GetReference()}.{pads_[m[1]].GetNumber()}"
+                                                for m in members if m[0] == 'D'],
+                         'vias': [[round(pcbnew.ToMM(vias_[m[1]].GetPosition().x), 2), round(pcbnew.ToMM(vias_[m[1]].GetPosition().y), 2)]
+                                  for m in members if m[0] == 'V']})
+    return polys, [polys[k] for k in groups[main]], detached
+
+
+for _round in range(4):
+    added = 0
+    polys, main_polys, detached = gnd_clusters()
+    for d in detached:
+        done = False
+        for k in d['polys']:
+            layer, ch = polys[k]
+            other = [c for l, c in main_polys if l != layer]
             bb = ch.BBox()
             x0, y0, x1, y1 = pcbnew.ToMM(bb.GetLeft()), pcbnew.ToMM(bb.GetTop()), pcbnew.ToMM(bb.GetRight()), pcbnew.ToMM(bb.GetBottom())
-            done = False
-            yy = y0 + 0.1
+            yy = y0 + 0.05
             while yy < y1 and not done:
-                xx = x0 + 0.1
+                xx = x0 + 0.05
                 while xx < x1 and not done:
-                    if ch.PointInside(pcbnew.VECTOR2I(mm(xx), mm(yy))) and via_point_ok(xx, yy):
-                        v = pcbnew.PCB_VIA(board); v.SetPosition(pcbnew.VECTOR2I(mm(xx), mm(yy))); v.SetWidth(mm(ISL_VIA_D)); v.SetDrill(mm(VIA_DRILL)); v.SetNet(gnd)
+                    q = pcbnew.VECTOR2I(mm(xx), mm(yy))
+                    if ch.PointInside(q) and any(c.PointInside(q) for c in other) and via_point_ok(xx, yy):
+                        v = pcbnew.PCB_VIA(board); v.SetPosition(q); v.SetWidth(mm(ISL_VIA_D)); v.SetDrill(mm(VIA_DRILL)); v.SetNet(gnd)
                         board.Add(v); island_vias.append((round(xx, 2), round(yy, 2))); segs.append((xx, yy, xx, yy, ISL_VIA_D))
-                        anchors.append(pcbnew.VECTOR2I(mm(xx), mm(yy))); done = True; added += 1
-                    xx += 0.1
-                yy += 0.1
+                        done = True; added += 1
+                    xx += 0.05
+                yy += 0.05
+            if done:
+                break
     filler = pcbnew.ZONE_FILLER(board)
     filler.Fill(board.Zones())
     if not added:
         break
+polys, main_polys, detached = gnd_clusters()
 floating = []
-anchors = [pcbnew.VECTOR2I(mm(x), mm(y)) for x, y in vias + island_vias] + gnd_th
-for z in fz + bz:
-    polys = z.GetFilledPolysList(z.GetLayer())
-    for i in range(polys.OutlineCount()):
-        ch = polys.Outline(i)
-        if not any(ch.PointInside(a) for a in anchors):
-            bb = ch.BBox()
-            floating.append({'layer': z.GetLayerName(), 'bbox_mm': [round(pcbnew.ToMM(v), 2) for v in (bb.GetLeft(), bb.GetTop(), bb.GetRight(), bb.GetBottom())],
-                             'pads': [f"{p.GetParentFootprint().GetReference()}.{p.GetNumber()}" for fp in board.GetFootprints() for p in fp.Pads()
-                                      if p.GetNetname() == 'GND' and p.IsOnLayer(z.GetLayer()) and ch.PointInside(p.GetPosition())]})
+for d in detached:
+    bbs = [polys[k][1].BBox() for k in d['polys']]
+    floating.append({'layers': sorted({'F.Cu' if polys[k][0] == pcbnew.F_Cu else 'B.Cu' for k in d['polys']}),
+                     'bbox_mm': [round(pcbnew.ToMM(min(b.GetLeft() for b in bbs)), 2), round(pcbnew.ToMM(min(b.GetTop() for b in bbs)), 2),
+                                 round(pcbnew.ToMM(max(b.GetRight() for b in bbs)), 2), round(pcbnew.ToMM(max(b.GetBottom() for b in bbs)), 2)] if bbs else None,
+                     'pads': d['pads'], 'vias': d['vias']})
 pcbnew.SaveBoard(pcb_path, board)
 
 # filled-copper cross-sections across each corridor, sampled every 0.05 mm: the aggregate filled length and the
@@ -157,7 +217,7 @@ report = {'width_rule': {'current_a': I_A, 'temperature_rise_c': DT_C, 'copper':
                          'method': 'IPC-2221 external-layer chart (PA)', 'min_width_mm': round(W_MIN_MM, 2)},
           'pours': [{'net': n, 'layer': l, 'outlines_mm': rs} for n, l, p, rs in POURS],
           'cross_sections': cuts,
-          'island_vias': island_vias, 'gnd_islands_without_via': floating,
+          'island_vias': island_vias, 'gnd_clusters_detached': floating,
           'stitching_vias': {'count': len(vias), 'diameter_mm': VIA_D, 'drill_mm': VIA_DRILL, 'pitch_mm': PITCH}}
 open(rep_path, 'w').write(json.dumps(report, indent=1) + '\n')
 print(json.dumps({'min_width_mm': round(W_MIN_MM, 2), 'vias': len(vias), 'island_vias': len(island_vias), 'cuts': cuts}))

@@ -1,5 +1,5 @@
 {
- "_comment": "Board P r3 draft copper pours (phase 11/12): power-path outlines shaped to floorplan.json, mm in KiCad board coordinates. Read by route-power.py (pours) and route-signals.py (keep other nets out of the power pours). Phase 12: EF_IN starts at x 5.75 so U2.7 (EF_UVLO) can escape; the VBUS_P riser (C3 branch) is x 9.3-11.2 so a 0.2 mm track passes beside the U1 left pins. \"tracks\": fixed stubs placed before routing (U2.6 EF_IN lies between NC U2.5 and U2.7, so the pour cannot reach it).",
+ "_comment": "Board P r3 draft copper pours (phase 11/12): power-path outlines shaped to floorplan.json, mm in KiCad board coordinates. Read by route-power.py (pours) and route-signals.py (keep other nets out of the power pours). Phase 12: EF_IN starts at x 5.75 so U2.7 (EF_UVLO) can escape; the VBUS_P riser (C3 branch) is x 9.3-11.2 so a 0.2 mm track passes beside the U1 left pins. \"tracks\": fixed stubs placed before routing (U2.6 EF_IN lies between NC U2.5 and U2.7, so the pour cannot reach it). Phase 13: the VBUS_P riser narrows to x 9.3-10.3 for y 21.0-23.5 (it only feeds the C35.2 tap there; the 5 A path runs through x 5.6-9.3), and \"vias\" with their F.Cu stubs fan U1.7 SCL, U1.8 SDA, U1.9 DISCH and U1.11 ATT out to B.Cu: the pour edge had left one 0.1 mm channel for four pins. U2.7 EF_UVLO and U3.1 EF_VCAP get the same fan-out via beside their pads, (5.05, 14.05) and (3.05, 11.2) between the U3 rows, toward C37 on B.Cu (the space below U3 is the U3.3 VBUS_IN escape): the order-dependent router otherwise left them open. The U1.6 RESET strap to R21.1 is a fixed straight track down its own pin corridor.",
  "pours": [
   {
    "net": "VBUS_IN",
@@ -99,6 +99,14 @@
      ],
      [
       11.2,
+      21.0
+     ],
+     [
+      10.3,
+      21.0
+     ],
+     [
+      10.3,
       23.5
      ],
      [
@@ -234,6 +242,199 @@
     6.2,
     13.6
    ]
+  },
+  {
+   "net": "SCL",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    12.4,
+    22.04
+   ],
+   "b": [
+    11.94,
+    22.04
+   ]
+  },
+  {
+   "net": "SCL",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    11.94,
+    22.04
+   ],
+   "b": [
+    11.55,
+    21.65
+   ]
+  },
+  {
+   "net": "SDA",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    12.4,
+    22.54
+   ],
+   "b": [
+    11.29,
+    22.54
+   ]
+  },
+  {
+   "net": "SDA",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    11.29,
+    22.54
+   ],
+   "b": [
+    10.95,
+    22.2
+   ]
+  },
+  {
+   "net": "DISCH",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    12.4,
+    23.04
+   ],
+   "b": [
+    11.66,
+    23.04
+   ]
+  },
+  {
+   "net": "DISCH",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    11.66,
+    23.04
+   ],
+   "b": [
+    11.45,
+    23.25
+   ]
+  },
+  {
+   "net": "ATT",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    12.4,
+    24.04
+   ],
+   "b": [
+    11.66,
+    24.04
+   ]
+  },
+  {
+   "net": "ATT",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    11.66,
+    24.04
+   ],
+   "b": [
+    11.45,
+    24.25
+   ]
+  },
+  {
+   "net": "EF_UVLO",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    5.025,
+    14.7
+   ],
+   "b": [
+    5.05,
+    14.05
+   ]
+  },
+  {
+   "net": "EF_VCAP",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    3.05,
+    12.3
+   ],
+   "b": [
+    3.05,
+    11.2
+   ]
+  },
+  {
+   "net": "RESET",
+   "layer": "F",
+   "w": 0.2,
+   "a": [
+    13.15,
+    21.29
+   ],
+   "b": [
+    13.15,
+    19.5
+   ]
+  }
+ ],
+ "vias": [
+  {
+   "net": "SCL",
+   "at": [
+    11.55,
+    21.65
+   ],
+   "d": 0.5
+  },
+  {
+   "net": "SDA",
+   "at": [
+    10.95,
+    22.2
+   ],
+   "d": 0.5
+  },
+  {
+   "net": "DISCH",
+   "at": [
+    11.45,
+    23.25
+   ],
+   "d": 0.5
+  },
+  {
+   "net": "ATT",
+   "at": [
+    11.45,
+    24.25
+   ],
+   "d": 0.5
+  },
+  {
+   "net": "EF_UVLO",
+   "at": [
+    5.05,
+    14.05
+   ],
+   "d": 0.5
+  },
+  {
+   "net": "EF_VCAP",
+   "at": [
+    3.05,
+    11.2
+   ],
+   "d": 0.5
   }
  ]
 }

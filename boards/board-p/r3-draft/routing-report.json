@@ -102,6 +102,14 @@
      ],
      [
       11.2,
+      21.0
+     ],
+     [
+      10.3,
+      21.0
+     ],
+     [
+      10.3,
       23.5
      ],
      [
@@ -238,8 +246,8 @@
     5.75,
     9.3
    ],
-   "aggregate_filled_mm": 3.55,
-   "largest_run_mm": 3.55,
+   "aggregate_filled_mm": 3.25,
+   "largest_run_mm": 3.25,
    "meets_min_width": true
   },
   {
@@ -249,8 +257,8 @@
     9.3,
     11.2
    ],
-   "aggregate_filled_mm": 1.85,
-   "largest_run_mm": 1.85,
+   "aggregate_filled_mm": 1.9,
+   "largest_run_mm": 1.9,
    "meets_min_width": true
   },
   {
@@ -289,66 +297,92 @@
  ],
  "island_vias": [
   [
-   0.8,
-   27.29
+   2.3,
+   29.59
   ],
   [
-   17.9,
-   23.8
+   19.68,
+   17.8
   ]
  ],
- "gnd_islands_without_via": [
+ "gnd_clusters_detached": [
   {
-   "layer": "F.Cu",
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ],
    "bbox_mm": [
-    14.35,
-    18.45,
-    15.64,
-    20.22
+    12.57,
+    18.05,
+    15.68,
+    20.75
    ],
    "pads": [
     "R21.2"
-   ]
-  },
-  {
-   "layer": "F.Cu",
-   "bbox_mm": [
-    3.55,
-    14.35,
-    3.9,
-    15.96
    ],
-   "pads": [
-    "U2.9"
+   "vias": [
+    [
+     14.65,
+     20.2
+    ]
    ]
   },
   {
-   "layer": "F.Cu",
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ],
    "bbox_mm": [
-    5.06,
     12.7,
-    11.05,
-    15.07
+    13.5,
+    18.41,
+    18.35
    ],
    "pads": [
-    "C2.1"
+    "D7.2"
+   ],
+   "vias": [
+    [
+     14.25,
+     16.85
+    ]
    ]
   },
   {
-   "layer": "F.Cu",
+   "layers": [
+    "B.Cu",
+    "F.Cu"
+   ],
    "bbox_mm": [
-    3.42,
-    10.78,
-    7.1,
-    12.8
+    1.45,
+    10.67,
+    8.58,
+    16.15
    ],
    "pads": [
-    "R25.2"
+    "R25.2",
+    "U3.2",
+    "U2.9",
+    "C5.2"
+   ],
+   "vias": [
+    [
+     3.7,
+     14.05
+    ],
+    [
+     4.0,
+     11.85
+    ],
+    [
+     4.25,
+     10.95
+    ]
    ]
   }
  ],
  "stitching_vias": {
-  "count": 69,
+  "count": 55,
   "diameter_mm": 0.6,
   "drill_mm": 0.3,
   "pitch_mm": 2.0
