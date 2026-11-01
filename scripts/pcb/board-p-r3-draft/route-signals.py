@@ -324,13 +324,15 @@ def route_net(net, soft_mode=False, frozen=()):
         if z['net'] == net:
             for o in z['outlines']:
                 mark_poly(tree[z['layer'][0]], o, 0.3, shrink=True)
-    for ft in FIXED_TRACKS:
-        if ft['net'] == net:
-            mark_seg(tree[ft['layer']], ft['a'], ft['b'], ft['w'] / 2)
-    for fv in FIXED_VIAS:
-        if fv['net'] == net:
+    has_pour = tree['F'].any()
+    groups = fixed_groups(net)
+    side = []   # phase 14: with a pour, a fixed group that does not touch it joins the tree only through a routed pad
+    for g in groups:
+        if not has_pour or any((g[l] & tree[l]).any() for l in LAYERS):
             for l in LAYERS:
-                mark_seg(tree[l], fv['at'], fv['at'], fv['d'] / 2 - G)
+                tree[l] |= g[l]
+        else:
+            side.append(g)
     if tree['F'].any():
         for p in list(pending):
             c = pad_cells(p)
@@ -347,7 +349,16 @@ def route_net(net, soft_mode=False, frozen=()):
         cx = np.mean([np.nonzero(tree[l])[1].mean() for l in LAYERS if tree[l].any()]) * G
         pending.sort(key=lambda p: math.hypot(p['center'][0] - cx, p['center'][1] - cy))
         p = pending.pop(0)
-        src = {l: pad_cells(p) for l in p['layers']}
+        src = {l: pad_cells(p) if l in p['layers'] else np.zeros((NY, NX), bool) for l in LAYERS}
+        for g in [g for g in side if any((g[l] & src[l]).any() for l in LAYERS)]:
+            side.remove(g)
+            for l in LAYERS:
+                src[l] |= g[l]
+            for q in list(pending):
+                if any((g[l] & pad_cells(q)).any() for l in q['layers']):
+                    pending.remove(q)
+                    for l in q['layers']:
+                        src[l] |= pad_cells(q)
         path = route(net, src, tree, ob, vok, hw) or route(net, src, tree, ob, vok, hw, W + H)
         used = hw
         if path is None and hw > 0.1:
@@ -359,7 +370,7 @@ def route_net(net, soft_mode=False, frozen=()):
             # rip-up: other signal nets' copper is passable at a cost; power-net branches stay hard obstacles
             if softctx is None:
                 others = sorted({t['net'] for t in routed_tracks + routed_vias
-                                 if t['net'] != net and (GND_TREE or t['net'] != 'GND') and t['net'] not in POWER
+                                 if t['net'] != net and (GND_TREE or t['net'] != 'GND') and (RIP_POWER or t['net'] not in POWER)
                                  and t['net'] not in frozen})
                 masks = {o: copper_mask(o, hw) for o in others}
                 hard = obstacles(net, hw, routed=False)
@@ -397,9 +408,34 @@ def route_net(net, soft_mode=False, frozen=()):
         for vi in v:
             for l in LAYERS:
                 mark_seg(tree[l], vi['at'], vi['at'], VIA_D / 2)
-        for l in p['layers']:
+        for l in LAYERS:
             tree[l] |= src[l]
     return failed, victims
+
+
+def fixed_groups(net):
+    """Connected groups of the net's fixed tracks and vias (shared end points), as per-layer cell masks."""
+    items = [('t', t) for t in FIXED_TRACKS if t['net'] == net] + [('v', v) for v in FIXED_VIAS if v['net'] == net]
+    pts = [[tuple(x['a']), tuple(x['b'])] if k == 't' else [tuple(x['at'])] for k, x in items]
+    parent = list(range(len(items)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]; i = parent[i]
+        return i
+    for i in range(len(items)):
+        for j in range(i):
+            if any(math.hypot(a[0] - b[0], a[1] - b[1]) < 0.01 for a in pts[i] for b in pts[j]):
+                parent[find(i)] = find(j)
+    out = {}
+    for i, (k, x) in enumerate(items):
+        g = out.setdefault(find(i), {l: np.zeros((NY, NX), bool) for l in LAYERS})
+        if k == 't':
+            mark_seg(g[x['layer']], x['a'], x['b'], x['w'] / 2)
+        else:
+            for l in LAYERS:
+                mark_seg(g[l], x['at'], x['at'], x['d'] / 2 - G)
+    return list(out.values())
 
 
 def run(order):
@@ -635,6 +671,12 @@ def gnd_join(detached):
             if not unr:
                 out.append({'cluster_pads': d['pads'], 'joined': True, 'rerouted_nets': sorted(victims), 'tries': attempt + 1})
                 break
+            if JOIN_FORCE and attempt == 7:
+                # phase 14: keep the last join and hand the nets it displaced to the closing rip-up
+                JOIN_PENDING.update(unr)
+                out.append({'cluster_pads': d['pads'], 'joined': True, 'rerouted_nets': sorted(victims), 'tries': attempt + 1,
+                            'displaced': sorted(unr)})
+                break
             routed_tracks[:], routed_vias[:] = snap
             keep |= set(unr)
             path = None
@@ -650,6 +692,9 @@ RIP_PEN = float(os.environ.get('R3_RIP_PEN', 6.0))
 TABU = os.environ.get('R3_TABU', '1') == '1'
 GND_FIRST = os.environ.get('R3_GND_FIRST', '1') == '1'   # GND pad escapes before the signals (phase 13 default)
 GND_TREE = os.environ.get('R3_GND_TREE', '0') == '1'
+RIP_POWER = os.environ.get('R3_RIP_POWER', '1') == '1'   # phase 14: power-net branch tracks (not pours) may be ripped too
+JOIN_FORCE = os.environ.get('R3_JOIN_FORCE', '1') == '1'   # phase 14: a join that displaces signals is kept, then rip-up
+JOIN_PENDING = {}
 JOIN = os.environ.get('R3_JOIN_REPORT')   # second run.sh pass: join the GND clusters route-power.py left detached
 if GND_TREE:
     nets['GND'] = [p for p in geom['pads'] if p['net'] == 'GND']
@@ -692,6 +737,18 @@ if JOIN:
     unr = {}
     for u in prev['report']['unrouted']:
         unr.setdefault(u.split(':')[0], []).append(u)
+    if JOIN_FORCE:
+        for n in list(unr) + list(JOIN_PENDING):
+            rip(n)
+        unr = {n: unr.get(n, JOIN_PENDING.get(n)) for n in set(unr) | set(JOIN_PENDING)}
+        for n in sorted(unr):
+            f, _ = route_net(n)
+            if f:
+                unr[n] = f
+            else:
+                unr.pop(n)
+        if unr:
+            unr = rip_up(unr, int(sys.argv[5]) if len(sys.argv) > 5 else 60)
 else:
     joins = []
     esc = [] if GND_TREE else (ESC if GND_FIRST else gnd_escapes())

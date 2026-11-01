@@ -1,6 +1,6 @@
 # Board P r3 placement draft
 
-**Unvalidated draft: power-path and ground pours with grid-routed signals, 3 connections open.
+**Unvalidated draft: power-path and ground pours with grid-routed signals; native DRC finds no open connection, and no layout review exists.
 Not for fabrication or ordering.** The as-built
 `../board-p.kicad_pcb` is unchanged and remains the routed 15 V module.
 
@@ -25,27 +25,36 @@ Routing (`pours.json`, `route-signals.py`, `apply-tracks.py`, `route-power.py`; 
 
 - **Power path.** F.Cu pours of VBUS_IN, EF_IN, VBUS_P and VBUS_OUT. The width rule is IPC-2221
   external layer, 1 oz (35 µm, board stackup), 5 A at an assumed 20 °C rise: 1.82 mm minimum. Every
-  sampled cross-section has a single filled run of 1.9–4.7 mm. The narrowest is the C3 riser beside
+  sampled cross-section has a single filled run of 1.85–4.7 mm. The narrowest is the C3 riser beside
   U1, which carries the C3 branch, not the 5 A DC path.
-- **Ground.** GND pours on both layers, 55 grid stitching vias and 2 island vias. The router escapes
-  GND pads to vias before the signals, and up to four join passes add vias or tracks for any GND
-  cluster that `route-power.py` finds detached from the main net (union-find over pours, vias, pads
-  and tracks).
-- **Fixed fan-out** (`pours.json` `tracks`/`vias`): U1.7 SCL, U1.8 SDA, U1.9 DISCH and U1.11 ATT
-  fan out to B.Cu through vias beside the QFN, since the VBUS_P pour had left one 0.1 mm channel
-  for four pins; U2.7 EF_UVLO and U3.1 EF_VCAP get the same vias, and the U1.6 RESET strap is a
-  fixed straight track down its own corridor to R21.1.
-- **Signals.** A host-side grid router (two layers, 0.2 mm Default tracks, 0.4 mm on power-net
-  branches, 0.5 mm signal vias, 20 ordered passes, then 60 rounds of rip-up and reroute with
-  congestion history and tabu) placed 661 tracks and 90 vias. It routes from a canonical pad order
-  with `PYTHONHASHSEED=0`, so each seed is repeatable; `run.sh` runs seeds 12, 14, 16 and 20 and
-  keeps the fewest open connections (seed 16). Seeds 12–20 were tried; none closes every connection.
-- **DRC.** Native KiCad 10.0.6 DRC finds no clearance, short or courtyard errors. It reports 3
-  unconnected items: CC2 at U1.4, and two GND zone-to-zone items; `route-power.py`'s
-  stricter cluster check lists three detached GND clusters (around R21.2, D7.2 and
-  U2.9/U3.2/R25.2/C5.2). No power-net connection is open
-  (phase 12: 8 unconnected items; phase 11: 72). The fixed SCL and ATT vias raise 2 `via_dangling`
-  warnings because those routes stay on F.Cu.
+- **Ground.** GND pours on both layers, 58 grid stitching vias and 1 island via. The router escapes
+  GND pads to vias before the signals; join passes (up to four) then add a track or via for any GND
+  cluster that `route-power.py` finds detached (union-find over pours, vias, pads and tracks). A join that
+  displaces signals is kept, and the displaced nets go through rip-up again.
+- **Fixed copper** (`pours.json` `tracks`/`vias`):
+  - U1.7 SCL, U1.8 SDA, U1.9 DISCH and U1.11 ATT fan out to B.Cu through vias beside the QFN, because the
+    VBUS_P pour had left one 0.1 mm channel for four pins.
+  - U1.5 CC2DB runs between the R21 pads to a via at (13.9, 18.6).
+  - U1.4 CC2 takes a via at (14.6, 20.4) in the band between R21.2 and the pins, and U1.2 CC1 steps
+    right of R21.2.
+  - U1.6 RESET is a straight strap to R21.1.
+  - U2.7 EF_UVLO and U3.1 EF_VCAP have vias at (5.05, 14.05) and (2.2, 12.5).
+  - U3.3 and U3.6 (VBUS_IN) are joined by a 0.4 mm track between the U3 rows.
+
+  A fixed group that does not touch its net's pour joins the net only through a routed pad.
+- **Signals.** The host-side grid router works on two layers. It uses 0.2 mm Default tracks, 0.4 mm on
+  power-net branches and 0.5 mm signal vias. It runs 20 ordered passes, then 60 rounds of rip-up and
+  reroute with congestion history and tabu; power-net branch tracks may be ripped. It placed 802 tracks
+  and 85 vias. It routes from a canonical pad order with `PYTHONHASHSEED=0`, so each seed is repeatable.
+  `run.sh` runs seeds 12, 14, 16 and 20 and keeps the fewest open connections. Seed 12 leaves none.
+- **DRC.** Native KiCad 10.0.6 DRC finds 0 unconnected items and no clearance, short or courtyard
+  errors (phase 13: 3 unconnected; phase 12: 8; phase 11: 72). It reports these warnings:
+  - The 5 `items_not_allowed` errors are the protected owners in their own corridors.
+  - The fixed SCL and ATT vias raise 2 `via_dangling` warnings, because those routes stay on F.Cu.
+  - 0.65 mm of the fixed CC1 stub lies beyond the routed joint, which raises 1 `track_dangling` warning.
+
+  `route-power.py`'s own cluster check still lists one GND cluster (C34.2, R21.2, C38.2) that native
+  DRC reports connected. That disagreement is OPEN.
 
 Thermal, loop, ground-return, assembly-side and stack-height checks are OPEN.
 

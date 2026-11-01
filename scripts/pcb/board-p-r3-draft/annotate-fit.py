@@ -9,7 +9,7 @@ top = json.load(open(O + 'search-top-only.json')); two = json.load(open(O + 'sea
 routes = json.load(open(O + 'routes.json'))['report']
 rr = json.load(open(O + 'routing-report.json'))
 open_sig = routes['unrouted']
-r['status'] = ('UNVALIDATED DRAFT, PARTLY ROUTED (power-path pours, ground pours and grid-routed signals; '
+r['status'] = ('UNVALIDATED DRAFT, GRID-ROUTED WITHOUT LAYOUT REVIEW (power-path pours, ground pours and grid-routed signals; '
                f'{len(open_sig)} signal connection(s) open; route-power.py finds {len(rr["gnd_clusters_detached"])} detached GND cluster(s), '
                'see the native DRC summary under fit). '
                'Not for fabrication or ordering. The as-built boards/board-p/board-p.kicad_pcb is unchanged.')
@@ -28,16 +28,14 @@ fit = {
   "courtyard_overlap": 0,
   "clearance_or_shorting_errors": 0,
   "items_not_allowed": "5, the protected owners themselves (U1, R21, D9-D11) touching their own pin-corridor keep-outs",
-  "unconnected_items": 3,
-  "unconnected_power_nets": 0,
-  "unconnected_signals": "1: CC2 (U1.4); the grid router found no escape for it in any tried seed (12-20)",
-  "unconnected_gnd": "2 GND zone-to-zone items; route-power.py lists 3 detached GND clusters (around R21.2, D7.2 and U2.9/U3.2/R25.2/C5.2)",
-  "via_dangling": "2 warnings: the fixed SCL and ATT fan-out vias have no B.Cu track (their route stays on F.Cu)",
-  "phase_12": "8 unconnected items (4 signals, 4 GND islands); phase 11: 72, 17 on power nets",
+  "unconnected_items": 0,
+  "dangling": "3 warnings: the fixed SCL and ATT fan-out vias have no B.Cu track (their routes stay on F.Cu), and 0.65 mm of the fixed CC1 stub beyond the routed joint",
+  "gnd_cluster_check_disagreement": "route-power.py's union-find still lists one GND cluster (C34.2, R21.2, C38.2) after four join passes, while native DRC reports every GND item connected; the native result is the oracle, and the disagreement is OPEN",
+  "phase_13": "3 unconnected items (CC2 at U1.4, 2 GND zone items); phase 12: 8; phase 11: 72, 17 on power nets",
   "other": "silk/text-height and 3 lib_footprint_issues warnings only; see routing-report.json"
  },
  "open": [
-  "One signal connection (CC2 at U1.4) and two GND fragments are open; the router is a grid router with rip-up and its result has had no layout review. No thermal, loop-inductance or ground-return review exists. The 5 A width uses IPC-2221 at an assumed 20 C rise (PA).",
+  "Native DRC finds no open connection, but the router is a grid router with rip-up and fixed fan-outs, and its result has had no layout review. No thermal, loop-inductance or ground-return review exists. The 5 A width uses IPC-2221 at an assumed 20 C rise (PA).",
   "Two-sided assembly changes the JLCPCB assembly scope; not decided here.",
   "B.Cu faces the enclosure floor in the installed stack (P is below B); bottom parts add to the 12.7 mm P envelope against the 18 mm printed-leg seating height. Part heights are not in the bundles.",
   "C3 RVT1H101M0810 is 10.2 mm nominal (tolerance not stated) against the 11.1 mm nominal plane gap. Mapped onto the current Board B its base overlaps the U3 TO-263 courtyard by 3.31 x 4.05 mm; no shift inside the Board P outline clears it without moving J1 or MH2. The fix is a Board B side keep-out (B20 layout) or a U3 move on the current Board B; OPEN.",
