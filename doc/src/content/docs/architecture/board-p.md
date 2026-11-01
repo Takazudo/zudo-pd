@@ -53,8 +53,18 @@ On 2026-11-01 the coordinator chose the RESET subset of the common block for the
 Its spec is `scripts/schgen/board_p15_spec.py`, which generates `boards/board-p15/board-p15.kicad_sch`. A first
 stage of that spec matched the as-built netlist pin for pin before the change. The unvalidated draft PCB is
 `boards/board-p15/board-p15-draft.kicad_pcb`. In it, RESET copper is at least 1.353 mm from VBUS-class copper on
-the same layer; the as-built board has 0.222 mm. The local clamps and VDD feed of the r3 block are not taken.
-The details are in `boards/board-p15/README.md`.
+the same layer; the as-built board has 0.222 mm.
+
+Phase 17 added three parts to the 15 V draft, all on the top side, without moving any other part:
+
+- R22/R23, 100 kΩ pull-downs on SCL and SDA (`dec-p15-i2c-pulldowns`);
+- the r3 VDD feed, R29 1 kΩ + R30 470 Ω from VBUS_IN, with the D9 BZT52C18 clamp at U1.24
+  (`dec-p15-vdd-local-clamp`). The desk margin to the 28 V VDD limit becomes +7.198 V at the 28.6 V hot estimate,
+  up from −0.6 V.
+
+The other r3 local clamps are not taken. Programming uses jig pull-ups and a full power cycle:
+[Board P15 NVM Programming](/docs/architecture/board-p15-programming/). The details are in
+`boards/board-p15/README.md`.
 
 The generated schematic and `board_p_spec.py` on the development branch now carry an
 unvalidated draft:

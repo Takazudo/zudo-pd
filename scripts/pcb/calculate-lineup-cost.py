@@ -1,4 +1,4 @@
-"""Phase 12/13: part and assembly cost of the current lineup (Board P 15 V as built + Board B) against the renewal
+"""Phase 12/13 (p15 rows: phases 14 and 17): part and assembly cost of the current lineup (Board P 15 V as built + Board B) against the renewal
 lineup (Board P r3 draft + B20 paper draft), from the retained JLCPCB snapshot.
 
 usage: python3 scripts/pcb/calculate-lineup-cost.py [--json]
@@ -151,10 +151,22 @@ def p15_variant(full_block, double_sided=False):
     return {'lines': lines, 'unknown': [], 'joints': joints, 'double_sided': double_sided}
 
 
+def p15_phase17():
+    # phase 17 draft (board_p15_spec.py): the RESET subset plus R22/R23 100k SCL/SDA pull-downs and the R29/R30 + D9 VDD feed
+    b = p15_variant(False)
+    for code, refs in {'C25803': ['R22', 'R23'], 'C21190': ['R29'], 'C23179': ['R30'], 'C192739': ['D9']}.items():
+        b['lines'].setdefault(code, []).extend(refs)
+    b['joints']['smd'] += 2 * 5
+    return b
+
+
 BOARDS['p15_as_built'] = {'Board P 15 V (as built)': BOARDS['current']['Board P 15 V (as built)']}
 BOARDS['p15_reset_subset'] = {'Board P 15 V + R1.1-R1.3 RESET/I2C subset': p15_variant(False)}
 BOARDS['p15_full_block_one_sided'] = {'Board P 15 V + full controller block, top only (fit NOT RUN)': p15_variant(True)}
 BOARDS['p15_full_block_two_sided'] = {'Board P 15 V + full controller block, two-sided': p15_variant(True, True)}
+BOARDS['p15_phase17_draft'] = {'Board P 15 V phase 17 draft (RESET subset + I2C pull-downs + VDD feed)': p15_phase17()}
+BOARDS['current_p15_phase17'] = {'Board P 15 V phase 17 draft': p15_phase17(),
+                                 'Board B (current)': BOARDS['current']['Board B (current)']}
 
 def main():
     res = {}

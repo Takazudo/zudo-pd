@@ -61,7 +61,8 @@ A full stock refresh on 2026-11-01 of its 53 lines against 5 sets finds:
 | Electrical qualification (full-load start, ripple, thermal, fuse hold, surge, low input) and mechanical fit (wire, torque, retention, seating, printed leg, M3 in the 3.0 mm holes) | **OPEN**, as listed in `ORDER-NOTES.md`; not reorder blockers by themselves |
 | First power procedure: 5 V-only current-limited source, Board B disconnected, verify the 15 V NVM image and readback | Required at bring-up (`ORDER-NOTES.md`) |
 | PCB fabrication, shipping and duty | **UNKNOWN** (not retrieved) |
-| Controller block on the 15 V Board P | **Working direction: RESET subset** (`dec-p15-reset-subset`). Spec, ERC (0 errors) and draft PCB (DRC 0 errors, 0 unconnected; RESET ≥ 1.353 mm from VBUS-class copper on its layer) exist; silk warnings around R21, layout review and a new package are OPEN (`boards/board-p15/README.md`) |
+| Controller block on the 15 V Board P | **Working direction: RESET subset plus phase 17** (`dec-p15-reset-subset`, `dec-p15-i2c-pulldowns`, `dec-p15-vdd-local-clamp`). Spec, ERC (0 errors) and draft PCB exist: DRC 0 errors, 0 unconnected, schematic parity `extra_footprint` only (MH1–MH3); RESET ≥ 1.353 mm from VBUS-class copper on its layer. Silk clipping at J2/J3/U1 labels and D9, layout review and a new package are OPEN (`boards/board-p15/README.md`) |
+| 15 V NVM image and jig procedure | **OPEN (NOT RUN)**: desk image `boards/board-p15/nvm/stusb4500-15v.bin` (sha256 `76622e14…`) and procedure `doc/src/content/docs/architecture/board-p15-programming.md`; never written or read back |
 
 ### Current Board P controller block: stay as is only with the #144 RESET geometry accepted; the RESET subset costs nothing in parts
 
@@ -76,7 +77,7 @@ and 0.325 mm from a VBUS_VS_DISCH via. Those are the distances of the ordered LE
 - R15/R16 pull SCL/SDA up to VREG_2V7;
 - VDD (U1.24) sits directly on VBUS_IN with D5 SMAJ16A. That gives +2.00 V to the 28 V pin limit at the
   26.0 V, 10/1000 µs, 25 °C point only, and −0.6 V at the TYP-based 28.6 V hot estimate
-  (`input-clamp-fix.md`).
+  (`input-clamp-fix.md`). The phase 17 draft replaces this with the R29/R30 + D9 feed (below).
 
 Costs are for a 5-unit lot from `scripts/pcb/calculate-lineup-cost.py` (`p15_*` rows). They cover catalog parts
 plus assembly. PCB fabrication and any new-revision NRE are UNKNOWN.
@@ -93,6 +94,20 @@ neutral, and it removes the one layout defect with a recorded failure. Add the f
 placement fits. That would close the VDD clamp margin for about USD 2.40 per set more. In every changed
 option the 15 V board needs its own spec source: `board_p_spec.py` now describes r3, and the 15 V schematic
 exists only in history.
+
+Phase 17 (draft `boards/board-p15/`, sha256 `c7767cb8…`): the coordinator added three items to the subset.
+
+- **SCL/SDA pull-downs:** R22/R23 100 kΩ C25803 to GND, so the pins no longer float. Jig pull-ups to 3.3 V
+  through 967 Ω to 3.39 kΩ meet VOL and tr ≤ 300 ns at 100 pF with them present.
+- **VDD feed and clamp, top side:** R29 1 kΩ C21190 + R30 470 Ω C23179 (1470 Ω) from VBUS_IN, with D9
+  BZT52C18 C192739 at U1.24/C2. It fits without moving any other part. Desk margin to the 28 V VDD limit is
+  +7.198 V at the 28.6 V hot estimate (was −0.6 V) and +7.279 V at 26.0 V. Attach headroom at 4.72 V in is
+  +0.273 V over 4.1 V at the idle IDD maximum; IDD during communication is UNKNOWN.
+- **R21** carries the `LCSC Part` field.
+
+Cost (`p15_phase17_draft` row): USD 51.86 per 5-unit lot (parts 18.32, Economic PCBA 33.54), 14 lines,
+6 extended; +USD 3.86 per lot over the RESET subset. With the current Board B and the candidate stock rows the
+lineup is USD 357.98 per lot. PCB fabrication is excluded: Board P has a published USD 2.00 floor, Board B is UNKNOWN.
 
 ### Board B stock-gap candidate rows: not adopted; acceptance tests NOT RUN
 
