@@ -1,0 +1,97 @@
+{
+  "purpose": "board-p15 D9 VDD_LOC clamp choice (review F7); desk arithmetic, nothing measured",
+  "surge_row_v": 28.6,
+  "input_high_v": 15.75,
+  "required_margin_v": 5.0,
+  "feed_ohm": 1470.0,
+  "resistor_tolerance": 0.01,
+  "basis": "VZ and TC rows from DS18004 (G); ZZT max used as a linear slope above IZT (PA); resistor rating 0.1 W at <= 70 C only (derating above 70 C UNKNOWN); zener 370 mW at 25 C on FR-4",
+  "candidates": [
+    {
+      "zener": "BZT52C18",
+      "vdd_pin_max_v_at_surge": 20.802,
+      "margin_to_28v_v": 7.198,
+      "meets_5v_margin": true,
+      "vz_max_at_105c_v": 20.38,
+      "vdd_operating_max_v": 22.0,
+      "within_22v_operating_row_at_105c": true,
+      "vz_min_at_minus40c_v": 15.76,
+      "window_above_15v75_v": 0.01,
+      "feed_current_ma_at_surge_minus40c": 8.823,
+      "beyond_izt_ma": 3.823,
+      "r29_mw": 77.1,
+      "r30_mw": 36.2,
+      "zener_mw_bound": 183.5,
+      "rows": [
+        {
+          "t_c": -40.0,
+          "i_ma": 8.823,
+          "beyond_izt_ma": 3.823,
+          "pin_max_v": 18.466
+        },
+        {
+          "t_c": 25.0,
+          "i_ma": 8.108,
+          "beyond_izt_ma": 3.108,
+          "pin_max_v": 19.24
+        },
+        {
+          "t_c": 105.0,
+          "i_ma": 7.427,
+          "beyond_izt_ma": 2.427,
+          "pin_max_v": 20.489
+        },
+        {
+          "t_c": 125.0,
+          "i_ma": 7.256,
+          "beyond_izt_ma": 2.256,
+          "pin_max_v": 20.802
+        }
+      ]
+    },
+    {
+      "zener": "BZT52C20",
+      "vdd_pin_max_v_at_surge": 23.041,
+      "margin_to_28v_v": 4.959,
+      "meets_5v_margin": false,
+      "vz_max_at_105c_v": 22.64,
+      "vdd_operating_max_v": 22.0,
+      "within_22v_operating_row_at_105c": false,
+      "vz_min_at_minus40c_v": 17.63,
+      "window_above_15v75_v": 1.88,
+      "feed_current_ma_at_surge_minus40c": 7.538,
+      "beyond_izt_ma": 2.538,
+      "r29_mw": 56.3,
+      "r30_mw": 26.4,
+      "zener_mw_bound": 173.7,
+      "rows": [
+        {
+          "t_c": -40.0,
+          "i_ma": 7.538,
+          "beyond_izt_ma": 2.538,
+          "pin_max_v": 20.404
+        },
+        {
+          "t_c": 25.0,
+          "i_ma": 6.734,
+          "beyond_izt_ma": 1.734,
+          "pin_max_v": 21.295
+        },
+        {
+          "t_c": 105.0,
+          "i_ma": 5.942,
+          "beyond_izt_ma": 0.942,
+          "pin_max_v": 22.692
+        },
+        {
+          "t_c": 125.0,
+          "i_ma": 5.745,
+          "beyond_izt_ma": 0.745,
+          "pin_max_v": 23.041
+        }
+      ]
+    }
+  ],
+  "choice": "BZT52C18",
+  "reason": "BZT52C20 leaves 4.959 V to 28 V at 28.6 V / 125 C (< 5.0 V) and its 105 C VZ max 22.64 V exceeds the 22 V VDD operating row; BZT52C18 stays, with a +0.01 V guaranteed cold window at 15.75 V"
+}
