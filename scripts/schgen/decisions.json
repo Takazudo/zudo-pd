@@ -35,7 +35,8 @@
     "separate-products",
     "p15-reset-subset",
     "p15-i2c-pulldowns",
-    "p15-vdd-local-clamp"
+    "p15-vdd-local-clamp",
+    "p15-vdd-decoupling"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -688,8 +689,8 @@
         "board_p15_spec",
         "doc"
       ],
-      "decision": "Coordinator phase-17 direction 2026-11-01 (review F8, applied because it fits on the top side without moving any as-built part): U1.24 VDD moves from VBUS_IN onto VDD_LOC, fed through R29 0603WAF1001T5E C21190 1k and R30 0603WAF4700T5E C23179 470R in series (VDD_MID between them), with D9 BZT52C18-7-F C192739 (cathode VDD_LOC, anode GND). The as-built C2 100 nF stays at U1.24 and now decouples VDD_LOC; r3's C38 1 uF is not fitted. VBUS_VS_DISCH, DISCH and VBUS_EN_SNK keep the as-built connections.",
-      "rationale": "With VDD on VBUS_IN the 28 V VDD limit had +2.00 V at the SMAJ16A 26.0 V, 25 C point and -0.6 V at the TYP-based 28.6 V hot estimate (input-clamp-fix.md). calculate-input-ovp-20v.py stusb_local_clamp with the 1.47 kOhm feed gives a VDD pin bound of 20.802 V at 125 C with 28.6 V in (+7.198 V to 28 V; 20.721 V, +7.279 V at 26.0 V), from the guaranteed BZT52C18 VZ max and TC max rows; the D9 current at 28.6 V and -40 C is 8.82 mA. At a 4.72 V attach input VDD stays >= 4.373 V at the idle IDD maximum (0.273 V over the 4.1 V row) and 4.209 V at 2 x typical IDD; the active-communication IDD is not in the datasheet (OPEN). At 15 V the zener stays below its VZ window: VZ min is 16.8 V at 25 C and about 15.99 V at -40 C with the 12.4 mV/C TC minimum, above a 15.75 V (+5 %) input; knee-region leakage between 12.6 V and VZ is not given. Omitting C38 is a project choice; whether 100 nF is enough local VDD decoupling behind 1.47 kOhm is OPEN. Nothing is measured.",
+      "decision": "Coordinator phase-17 direction 2026-11-01 (review F8, applied because it fits on the top side without moving any as-built part): U1.24 VDD moves from VBUS_IN onto VDD_LOC, fed through R29 0603WAF1001T5E C21190 1k and R30 0603WAF4700T5E C23179 470R in series (VDD_MID between them), with D9 BZT52C18-7-F C192739 (cathode VDD_LOC, anode GND). The as-built C2 100 nF stays at U1.24 and now decouples VDD_LOC; r3's C38 1 uF was not fitted in phase 17; phase 18 adds it (dec-p15-vdd-decoupling). VBUS_VS_DISCH, DISCH and VBUS_EN_SNK keep the as-built connections.",
+      "rationale": "With VDD on VBUS_IN the 28 V VDD limit had +2.00 V at the SMAJ16A 26.0 V, 25 C point and -0.6 V at the TYP-based 28.6 V hot estimate (input-clamp-fix.md). calculate-input-ovp-20v.py stusb_local_clamp with the 1.47 kOhm feed gives a VDD pin bound of 20.802 V at 125 C with 28.6 V in (+7.198 V to 28 V; 20.721 V, +7.279 V at 26.0 V), from the guaranteed BZT52C18 VZ max and TC max rows; the D9 current at 28.6 V and -40 C is 8.82 mA. At a 4.72 V attach input VDD stays >= 4.373 V at the idle IDD maximum (0.273 V over the 4.1 V row) and 4.209 V at 2 x typical IDD; the active-communication IDD is not in the datasheet (OPEN). At 15 V the zener stays below its VZ window: VZ min is 16.8 V at 25 C and about 15.99 V at -40 C with the 12.4 mV/C TC minimum, above a 15.75 V (+5 %) input; knee-region leakage between 12.6 V and VZ is not given. The phase-17 omission of C38 is superseded by dec-p15-vdd-decoupling. Nothing is measured.",
       "evidence": [
         "fact-c192739-vz-max",
         "fact-c192739-tc-max",
@@ -698,6 +699,23 @@
         "fact-stusb-supplies",
         "line-c21190",
         "line-c23179"
+      ]
+    },
+    {
+      "key": "p15-vdd-decoupling",
+      "id": "dec-p15-vdd-decoupling",
+      "title": "15 V Board P: r3 C38 1 uF VDD_LOC decoupler on the top side",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-18 direction 2026-11-01: add r3's C38 CL10A105KB8NNNC C15849 1 uF/50 V C0603 from VDD_LOC to GND, because a top-side slot right of C2/C30 holds it without moving any part. C2 100 nF stays at U1.24; C38 joins VDD_LOC through a track to C2.2 and returns to an existing GND via.",
+      "rationale": "Behind the 1.47 kOhm R29+R30 feed, C2 100 nF alone is the VDD reservoir; r3 pairs C2-class decoupling with C38 1 uF (board_p_spec.py). C15849 is an existing board-p15 line (C30, C34), so the BOM line count is unchanged. Its 50 V rating covers the 20.802 V VDD_LOC bound of dec-p15-vdd-local-clamp. The feed and C38 form a 1.47 ms RC; the attach-time VDD rise and its effect on the STUSB4500 start-up are not in the evidence (OPEN). Effective capacitance under DC bias is not retained (OPEN). Nothing is measured.",
+      "evidence": [
+        "line-c15849",
+        "fact-stusb-supplies",
+        "fact-stusb-vdd-absolute-max"
       ]
     },
     {

@@ -7,7 +7,8 @@ at U1.6, J2.4 is no longer connected, and the R15/R16 I2C pull-ups to VREG_2V7 m
 jig. Phase 17 adds dec-p15-i2c-pulldowns (R22/R23 100k from SCL/SDA to GND, so the pins are defined in
 normal use while the jig pull-ups override them) and dec-p15-vdd-local-clamp (the r3 VDD feed: VDD on VDD_LOC
 behind R29 1k + R30 470R from VBUS_IN, clamped by D9 BZT52C18-7-F; the as-built C2 100 nF moves from VBUS_IN
-to VDD_LOC as the local decoupler, and r3's C38 is not fitted). Everything else (SMAJ16A D5, AO3401A Q1,
+to VDD_LOC as the local decoupler). Phase 18 adds r3's C38 1 uF CL10A105KB8NNNC C15849 on VDD_LOC
+(dec-p15-vdd-decoupling), placed top-side without moving any part). Everything else (SMAJ16A D5, AO3401A Q1,
 470 Ohm R13/R14, 15 V NVM image) is the as-built 15 V design. scripts/schgen/baselines/board-p15-allow.json
 lists the deltas.
 """
@@ -41,6 +42,7 @@ COMPONENTS = {
     'R29': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (190.5, 190.5)),
     'R30': ('0603WAF4700T5E', '470R', 'C23179', 'zudo-pd:R0603', False, (228.6, 190.5)),
     'D9': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (266.7, 165.1)),
+    'C38': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (76.2, 241.3)),
     'JOUT1': ('PZ254V-11-06P', '2.54mm 1x6 male', 'C492405', 'zudo-pd:HDR-TH_6P-P2.54-V-M', False, (317.5, 88.9)),
     'J2': ('Conn_1x04', 'PogoPad_1x4_NVM_I2C', '', 'zudo-pd:PogoPad_1x04_P2.54mm', False, (317.5, 139.7)),
     'J3': ('Conn_1x08', 'PogoPad_1x8_Debug', '', 'zudo-pd:PogoPad_1x08_P2.54mm', False, (317.5, 190.5)),
@@ -60,13 +62,13 @@ NETS = {
     'VREG_2V7': ['U1.23', 'C30.2', 'J3.3'],
     'VREG_1V2': ['U1.21', 'C34.1'],
     'VDD_MID': ['R29.2', 'R30.1'],
-    'VDD_LOC': ['U1.24', 'C2.2', 'R30.2', 'D9.1'],
+    'VDD_LOC': ['U1.24', 'C2.2', 'R30.2', 'D9.1', 'C38.1'],
     'SCL': ['U1.7', 'J2.1', 'R22.1'],
     'SDA': ['U1.8', 'J2.2', 'R23.1'],
     'RESET': ['U1.6', 'R21.1'],
     'ATT': ['U1.11', 'J3.6', 'JOUT1.3'],
     'PDOK': ['U1.20', 'J3.7', 'JOUT1.4'],
-    'GND': ['U1.10', 'U1.12', 'U1.13', 'U1.22', 'U1.25', 'J1.1', 'J1.6', 'J1.0', 'C1.1', 'C2.1', 'C30.1', 'C34.2', 'R21.2', 'R17.2', 'R18.2', 'J2.3', 'J3.5', 'D5.2', 'D6.2', 'D7.2', 'JOUT1.5', 'JOUT1.6', 'R22.2', 'R23.2', 'D9.2'],
+    'GND': ['U1.10', 'U1.12', 'U1.13', 'U1.22', 'U1.25', 'J1.1', 'J1.6', 'J1.0', 'C1.1', 'C2.1', 'C30.1', 'C34.2', 'R21.2', 'R17.2', 'R18.2', 'J2.3', 'J3.5', 'D5.2', 'D6.2', 'D7.2', 'JOUT1.5', 'JOUT1.6', 'R22.2', 'R23.2', 'D9.2', 'C38.2'],
 }
 
 NO_CONNECT = ['U1.3', 'U1.14', 'U1.15', 'U1.17', 'U1.19', 'J2.4']

@@ -4146,6 +4146,63 @@
 		)
 	)
 	(symbol
+		(lib_id "zudo-pd:CL10A105KB8NNNC")
+		(at 76.2 241.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2d4f6dd9-6c8c-5b64-9bea-d973af493221")
+		(property "Reference" "C38"
+			(at 76.2 236.22 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "1uF/50V"
+			(at 76.2 246.38 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:C0603"
+			(at 76.2 241.3 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 76.2 241.3 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C15849"
+			(at 76.2 248.92 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9712d331-27da-5ef1-ad2b-d67d1c98cc30")
+		)
+		(pin "2"
+			(uuid "afe4e772-5dec-509c-a8be-985ff741ebe6")
+		)
+		(instances
+			(project "board-p15"
+				(path "/f6f4af03-bf70-5ada-8d57-b6e0df01d502"
+					(reference "C38")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "zudo-pd:PZ254V-11-06P")
 		(at 317.5 88.9 0)
 		(unit 1)
@@ -4806,6 +4863,15 @@
 		)
 		(uuid "ec61e819-68b3-5c1c-bef3-08850cdb5222")
 	)
+	(global_label "VDD_LOC"
+		(shape passive)
+		(at 71.12 241.3 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "bd16039f-59da-5a16-bbfc-a33a04854224")
+	)
 	(global_label "SCL"
 		(shape passive)
 		(at 132.08 90.17 180)
@@ -5183,6 +5249,15 @@
 			(justify left)
 		)
 		(uuid "62677d28-1ed1-5845-b0d1-722d8f02df14")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 81.28 241.3 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "a247b056-f5a0-5889-873c-d9b3b4262522")
 	)
 	(no_connect
 		(at 132.08 80.01)
