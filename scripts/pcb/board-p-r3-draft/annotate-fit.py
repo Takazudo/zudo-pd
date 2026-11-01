@@ -11,7 +11,7 @@ rr = json.load(open(O + 'routing-report.json'))
 open_sig = routes['unrouted']
 r['status'] = ('UNVALIDATED DRAFT, GRID-ROUTED WITHOUT LAYOUT REVIEW (power-path pours, ground pours and grid-routed signals; '
                f'{len(open_sig)} signal connection(s) open; route-power.py finds {len(rr["gnd_clusters_detached"])} detached GND cluster(s), '
-               'see the native DRC summary under fit). '
+               'in agreement with native DRC; see fit). '
                'Not for fabrication or ordering. The as-built boards/board-p/board-p.kicad_pcb is unchanged.')
 fit = {
  "floorplan": "floorplan.json (phase 11): power-path parts pre-placed and 5 A corridors reserved; U1 moved 2.67 mm right of its as-built x.",
@@ -30,7 +30,8 @@ fit = {
   "items_not_allowed": "5, the protected owners themselves (U1, R21, D9-D11) touching their own pin-corridor keep-outs",
   "unconnected_items": 0,
   "dangling": "3 warnings: the fixed SCL and ATT fan-out vias have no B.Cu track (their routes stay on F.Cu), and 0.65 mm of the fixed CC1 stub beyond the routed joint",
-  "gnd_cluster_check_disagreement": "route-power.py's union-find still lists one GND cluster (C34.2, R21.2, C38.2) after four join passes, while native DRC reports every GND item connected; the native result is the oracle, and the disagreement is OPEN",
+  "gnd_cluster_check_disagreement": "RESOLVED (phase 15): native DRC was right. route-power.py joined tracks to fills, vias and pads only at track endpoints; it missed track-to-track joints and track bodies crossing a fill, so the B.Cu track (16.95,22.15)-(16.95,23.25) that joins its neighbour track and touches B.Cu fill #8 left C34.2, R21.2 and C38.2 falsely detached, and the repeated join passes added duplicate tracks. The fixed union-find and the deduplicated rebuild find 0 detached GND clusters, in agreement with native DRC",
+  "phase_14": "0 unconnected items; route-power.py listed 1 false detached GND cluster and the board held 20 duplicate join segments",
   "phase_13": "3 unconnected items (CC2 at U1.4, 2 GND zone items); phase 12: 8; phase 11: 72, 17 on power nets",
   "other": "silk/text-height and 3 lib_footprint_issues warnings only; see routing-report.json"
  },

@@ -757,8 +757,14 @@ if GND_UNROUTED:
 flat = [u for fs in unr.values() for u in fs]
 rep = {'unrouted': flat, 'net_order': order, 'gnd_escapes': esc, 'gnd_joins': prev['report'].get('gnd_joins', []) + joins if JOIN else [],
        'routed_nets': sorted(n for n in nets if n not in unr)}
-t = FIXED_TRACKS + routed_tracks
-json.dump({'tracks': t, 'vias': FIXED_VIAS + routed_vias, 'report': rep}, open(sys.argv[3], 'w'), indent=1)
-print(json.dumps({'tracks': len(t), 'vias': len(FIXED_VIAS) + len(routed_vias), 'unrouted': flat,
+t, vv = [], []
+for x in FIXED_TRACKS + routed_tracks:   # phase 15: repeated join passes must not stack identical copper
+    if x not in t:
+        t.append(x)
+for x in FIXED_VIAS + routed_vias:
+    if x not in vv:
+        vv.append(x)
+json.dump({'tracks': t, 'vias': vv, 'report': rep}, open(sys.argv[3], 'w'), indent=1)
+print(json.dumps({'tracks': len(t), 'vias': len(vv), 'unrouted': flat,
                   'gnd_escapes': sum(e['via'] is not None for e in esc), 'gnd_tracks_to_anchor': [e['pad'] for e in esc if e.get('track_to_anchor')],
                   'gnd_escape_misses': [e['pad'] for e in esc if e['via'] is None and not e.get('track_to_anchor')]}))

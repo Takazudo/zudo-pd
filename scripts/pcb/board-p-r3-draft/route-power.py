@@ -114,11 +114,15 @@ def gnd_clusters():
 
     def union(a, b):
         parent[find(a)] = find(b)
-    polys = []
+    polys, polysets = [], []
     for z in fz + bz:
         pl = z.GetFilledPolysList(z.GetLayer())
         for i in range(pl.OutlineCount()):
             polys.append((z.GetLayer(), pl.Outline(i)))
+            ps = pcbnew.SHAPE_POLY_SET(); ps.AddOutline(pl.Outline(i))
+            for j in range(pl.HoleCount(i)):
+                ps.AddHole(pl.Hole(i, j))
+            polysets.append(ps)
     vias_ = [t for t in board.GetTracks() if t.GetClass() == 'PCB_VIA' and t.GetNetname() == 'GND']
     tracks_ = [t for t in board.GetTracks() if t.GetClass() != 'PCB_VIA' and t.GetNetname() == 'GND']
     pads_ = [p for fp in board.GetFootprints() for p in fp.Pads() if p.GetNetname() == 'GND']
@@ -127,6 +131,8 @@ def gnd_clusters():
         hits = [('P', k) for k, (l, ch) in enumerate(polys) if l == layer and ch.PointInside(pt)]
         hits += [('V', k) for k, v in enumerate(vias_) if v.HitTest(pt)]
         hits += [('D', k) for k, p in enumerate(pads_) if p.IsOnLayer(layer) and p.HitTest(pt)]
+        # phase 15: a track end on another track's copper joins it (track-to-track joints, T-junctions), as KiCad counts it
+        hits += [('T', k) for k, t in enumerate(tracks_) if t.GetLayer() == layer and t.HitTest(pt)]
         return hits
     for k, v in enumerate(vias_):
         for l in (pcbnew.F_Cu, pcbnew.B_Cu):
@@ -141,6 +147,11 @@ def gnd_clusters():
         for pt in (t.GetStart(), t.GetEnd()):
             for h in at(pt, t.GetLayer()):
                 union(('T', k), h)
+        # phase 15: a track whose body crosses a fill touches it, not only at its end points
+        shape = t.GetEffectiveShape(t.GetLayer())
+        for j, (l, _ch) in enumerate(polys):
+            if l == t.GetLayer() and polysets[j].Collide(shape, 0):
+                union(('T', k), ('P', j))
     groups = {}
     for k in range(len(polys)):
         groups.setdefault(find(('P', k)), []).append(k)

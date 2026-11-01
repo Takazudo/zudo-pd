@@ -29,7 +29,8 @@ Routing (`pours.json`, `route-signals.py`, `apply-tracks.py`, `route-power.py`; 
   U1, which carries the C3 branch, not the 5 A DC path.
 - **Ground.** GND pours on both layers, 58 grid stitching vias and 1 island via. The router escapes
   GND pads to vias before the signals; join passes (up to four) then add a track or via for any GND
-  cluster that `route-power.py` finds detached (union-find over pours, vias, pads and tracks). A join that
+  cluster that `route-power.py` finds detached. Its union-find joins pours, vias, pads, track-to-track
+  joints and track bodies that cross a fill. A join that
   displaces signals is kept, and the displaced nets go through rip-up again.
 - **Fixed copper** (`pours.json` `tracks`/`vias`):
   - U1.7 SCL, U1.8 SDA, U1.9 DISCH and U1.11 ATT fan out to B.Cu through vias beside the QFN, because the
@@ -44,8 +45,8 @@ Routing (`pours.json`, `route-signals.py`, `apply-tracks.py`, `route-power.py`; 
   A fixed group that does not touch its net's pour joins the net only through a routed pad.
 - **Signals.** The host-side grid router works on two layers. It uses 0.2 mm Default tracks, 0.4 mm on
   power-net branches and 0.5 mm signal vias. It runs 20 ordered passes, then 60 rounds of rip-up and
-  reroute with congestion history and tabu; power-net branch tracks may be ripped. It placed 802 tracks
-  and 85 vias. It routes from a canonical pad order with `PYTHONHASHSEED=0`, so each seed is repeatable.
+  reroute with congestion history and tabu; power-net branch tracks may be ripped. It placed 780 tracks
+  and 85 vias, with identical join copies removed. It routes from a canonical pad order with `PYTHONHASHSEED=0`, so each seed is repeatable.
   `run.sh` runs seeds 12, 14, 16 and 20 and keeps the fewest open connections. Seed 12 leaves none.
 - **DRC.** Native KiCad 10.0.6 DRC finds 0 unconnected items and no clearance, short or courtyard
   errors (phase 13: 3 unconnected; phase 12: 8; phase 11: 72). It reports these warnings:
@@ -53,8 +54,10 @@ Routing (`pours.json`, `route-signals.py`, `apply-tracks.py`, `route-power.py`; 
   - The fixed SCL and ATT vias raise 2 `via_dangling` warnings, because those routes stay on F.Cu.
   - 0.65 mm of the fixed CC1 stub lies beyond the routed joint, which raises 1 `track_dangling` warning.
 
-  `route-power.py`'s own cluster check still lists one GND cluster (C34.2, R21.2, C38.2) that native
-  DRC reports connected. That disagreement is OPEN.
+  `route-power.py` now agrees: 0 detached GND clusters. In phase 14 it listed C34.2, R21.2 and C38.2
+  as detached, which was wrong. It joined tracks only at their endpoints, so it missed the B.Cu track
+  (16.95, 22.15)–(16.95, 23.25) that meets its neighbour track and touches B.Cu fill #8. Native DRC
+  was right. The repeated join passes had also added 20 duplicate segments.
 
 Thermal, loop, ground-return, assembly-side and stack-height checks are OPEN.
 
