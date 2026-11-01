@@ -1,8 +1,9 @@
 # Board P 15 V (separate 15 V zudo-pd product)
 
 **Unvalidated draft. Not for fabrication or ordering.** No layout review exists, and nothing here is
-measured. The as-built `../board-p/board-p.kicad_pcb` and the `corner-support-review` package are unchanged
-and remain the ordered-revision files.
+measured. The as-built `../board-p/board-p.kicad_pcb` is unchanged. On 2026-11-01 this draft was exported with Board B into
+the `corner-support-review` directory as development review files, not an order; the ordered revision S3 stays at
+commit `f25194f`.
 
 The user chose separate products on 2026-11-01 (`dec-separate-products`). The 15 V zudo-pd keeps the
 as-built 15 V Board P, except for the RESET subset of the common controller block (`dec-p15-reset-subset`,

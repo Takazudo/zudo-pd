@@ -49,8 +49,9 @@ B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 contro
 
 ### Current lineup reorder (Board P 15 V + Board B): BLOCKED on 2 stock lines, then OPEN on source parity
 
-The ordered revision is `manufacturing/releases/corner-support-review/` (BOM, CPL and Gerbers for both boards).
-A full stock refresh on 2026-11-01 of its 53 lines against 5 sets finds:
+The ordered revision S3 is `git show f25194f:manufacturing/releases/corner-support-review/` (BOM, CPL and Gerbers for
+both boards); the directory itself now holds the 2026-11-01 development review package below. A full stock refresh on
+2026-11-01 of the S3 package's 53 lines against 5 sets finds:
 
 | Item | Status |
 |---|---|
@@ -170,8 +171,8 @@ development review package. The tests below stay as prototype acceptance tests.
 ## 15 V prototype order: decision inputs (desk only; no order, quote or package exists)
 
 This section collects what an owner needs to decide on a 5-unit zudo-pd 15 V prototype lot: board-p15 on the
-current Board B. It is not an order file. Every board here is an unvalidated draft, and no package has been
-exported for this pair outside scratch dry runs.
+current Board B. It is not an order file. Every board here is an unvalidated draft. The pair's development review
+package (2026-11-01, below) is not an order: nothing was uploaded, quoted or ordered.
 
 ### Revisions an order package would have to be built from
 
@@ -181,12 +182,17 @@ exported for this pair outside scratch dry runs.
 | board-p15 | `boards/board-p15/board-p15.kicad_sch` | `416c56a7bd5bfb74c2b15b56081c619239063d4cce58ef06373b8ea9c7f5393f` | `07f8590` (phase 18) |
 | board-p15 | `scripts/schgen/board_p15_spec.py` | `c20281447c89f32e4ed7b7bcd86e9b5bc36df7b24fe522f8f2860a07870cd713` | phase 18 |
 | board-p15 | `boards/board-p15/nvm/stusb4500-15v.bin` | `76622e14862e53cf318b24eb662f7dc9f34d48134867cf954b30c195c26e8eeb` | desk image, never written |
-| Board B | `boards/board-b/board-b.kicad_pcb` | `c8f83fcdba4daa06bfcce6b998bc2c3ab0400a0c12d4b13e1ba391a72553fc2f` | `194707a` (on main) |
-| Board B | `boards/board-b/board-b.kicad_sch` | `d3c395d151bcec7ab440a24b28f8dc01183cf10fb29b65b2149ab6077692e9e3` | `194707a` |
-| Board B | `scripts/schgen/board_b_spec.py` | `12814d07a8318bc16ab0259ff6baddfd67af3abe01b8824feb5b0885608cff49` | — |
+| Board B | `boards/board-b/board-b.kicad_pcb` | `359aeab7dd1f05d4edeb0c1563b39fe2aaa449233f9cfa136cf69f12ab5d9462` | `d5fb2e5` (LCSC fields of R21/R27/C11) |
+| Board B | `boards/board-b/board-b.kicad_sch` | `c978e81f3b75ba8e12d05100a30df4fcaf159878b9ab3d947b41e5cd96e1ae4d` | `d5fb2e5` |
+| Board B | `scripts/schgen/board_b_spec.py` | `7f1303494c58a8cb2787cc8136ec012570468ef1a453f98c1bdc6c1e0e344452` | `d5fb2e5` |
 
-- The package of record, `manufacturing/releases/corner-support-review/`, carries Board B source
-  `cd3677c9…`, not the active `c8f83fcd…`. An order needs a new package from one revision of both boards.
+- **Development review package (2026-11-01, not an order):** `manufacturing/releases/corner-support-review/` now holds
+  board-p15 + Board B exported from `3a3bf85` (`export-jlcpcb.py --boards board-p15 board-b`), with the adopted
+  C5455478/C696190 lines. Exporter gates PASS: DRC 0 errors / 0 unconnected, ERC 0 errors, parity (board-p15
+  `extra_footprint` only, Board B 0), BOM/CPL parity (board-p15 23 parts / 14 lines, Board B 75 / 39).
+  `verify-jlcpcb.py` PASS (identity, coordinates, hashes, Gerber/drill parse). `manifest.json` sha256
+  `8690c40502ee8d9d112c28fe040472f9f9bee79869785f00fb0e65ccbd86d8be`, `SHA256SUMS` sha256
+  `2d78efbaf86d551d84290d45b61f8a356621a90eba58458d3062be4462e315ae`. The ordered S3 package is at `f25194f`.
 - The phase 20 scratch dry run (`export-jlcpcb.py --boards board-p15 board-b`) passed every exporter gate on these
   files. It still exported the incumbent Board B stock lines below.
 - The stack proof `boards/board-b/assembly-preview-p15` binds this board-p15 and Board B pair: collision PASS.

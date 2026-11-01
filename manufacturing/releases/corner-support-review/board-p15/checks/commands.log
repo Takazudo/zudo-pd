@@ -1,0 +1,193 @@
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o /home/user/zudo-pd/tmp/p23-export/board-p15/checks/drc.json /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb
+Found 51 violations
+Found 0 unconnected items
+Found 3 schematic parity issues
+Saved DRC Report to /home/user/zudo-pd/tmp/p23-export/board-p15/checks/drc.json
+Saved board
+
+$ /usr/local/bin/python3 /home/user/zudo-pd/scripts/pcb/check-model-paths.py /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb --output /home/user/zudo-pd/tmp/p23-export/board-p15/checks/model-paths.json
+{
+  "pcb": "board-p15.kicad_pcb",
+  "pcb_sha256": "0e2e1d7d4c456d844b9ee1210c76f019a6060c3f4c7da2fcfb98980c029f30ab",
+  "status": "PASS",
+  "fitted_components": 23,
+  "fitted_components_with_visible_models": 23,
+  "model_references": 27,
+  "errors": [],
+  "scope": "Model paths, file availability, visible fitted-part coverage and finite/nonzero transforms only. Models are visualization assets; physical dimensions, polarity, assembly fit and exact-part provenance require separate review."
+}
+
+$ /usr/local/bin/python3 /home/user/zudo-pd/scripts/pcb/check-model-bodies.py /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb --output /home/user/zudo-pd/tmp/p23-export/board-p15/checks/model-bodies.json
+{
+  "status": "PASS",
+  "scope": "Opaque-body placement sanity screen only; not exact manufacturer geometry, collision/occlusion certification, native pixel coverage or physical fit.",
+  "pcb_sha256": "0e2e1d7d4c456d844b9ee1210c76f019a6060c3f4c7da2fcfb98980c029f30ab",
+  "checker_sha256": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
+  "fitted_components": 23,
+  "screened_components": 23,
+  "errors": []
+}
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli pcb render --width 1800 --height 1400 --quality high --rotate 20,0,-15 --zoom 0.8 -o /home/user/zudo-pd/tmp/p23-export/board-p15/3d-top.png /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb
+Loading…
+Build board outline
+
+Create layers
+Create tracks and vias
+Create zones
+Build Tech layers
+Build Tech layer 11
+Build Tech layer 9
+Build Tech layer 15
+Build Tech layer 13
+Build Tech layer 7
+Build Tech layer 5
+Build Tech layer 3
+Build Tech layer 1
+Build Tech layer 17
+Build Tech layer 19
+Build Tech layer 21
+Build Tech layer 23
+Build Tech layer 39
+Build Tech layer 41
+Build Tech layer 43
+Build Tech layer 45
+Build Tech layer 47
+Build Tech layer 49
+Build Tech layer 51
+Build Tech layer 53
+Build Tech layer 55
+Build Tech layer 57
+Build Tech layer 59
+Build Tech layer 61
+Build Tech layer 63
+Build Tech layer 65
+Build Tech layer 67
+Build Tech layer 69
+Build Tech layer 71
+Build Tech layer 73
+Build Tech layer 75
+Build Tech layer 77
+Build Tech layer 79
+Build Tech layer 81
+Build Tech layer 83
+Build Tech layer 85
+Build Tech layer 87
+Build Tech layer 89
+Build Tech layer 91
+Build Tech layer 93
+Build Tech layer 95
+Build Tech layer 97
+Build Tech layer 99
+Build Tech layer 101
+Build Tech layer 103
+Build Tech layer 105
+Build Tech layer 107
+Build Tech layer 109
+Build Tech layer 111
+Build Tech layer 113
+Build Tech layer 115
+Build Tech layer 117
+Build Tech layer 119
+Build Tech layer 121
+Build Tech layer 123
+Build Tech layer 125
+Build Tech layer 127
+Simplifying copper layer polygons
+Calculating plated copper
+Simplify holes contours
+Build BVH for holes and vias
+Load Raytracing: board
+Load Raytracing: layers
+Loading 3D models...
+Reload time 0.407 s
+Rendering: 4 %
+Rendering: 7 %
+Rendering: 11 %
+Rendering: 14 %
+Rendering: 16 %
+Rendering: 17 %
+Rendering: 18 %
+Rendering: 19 %
+Rendering: 20 %
+Rendering: 21 %
+Rendering: 22 %
+Rendering: 24 %
+Rendering: 25 %
+Rendering: 26 %
+Rendering: 27 %
+Rendering: 29 %
+Rendering: 30 %
+Rendering: 32 %
+Rendering: 34 %
+Rendering: 36 %
+Rendering: 40 %
+Rendering: 44 %
+Rendering: 48 %
+Rendering: 51 %
+Rendering: 53 %
+Rendering: 55 %
+Rendering: 56 %
+Rendering: 57 %
+Rendering: 58 %
+Rendering: 59 %
+Rendering: 60 %
+Rendering: 63 %
+Rendering: 65 %
+Rendering: 69 %
+Rendering: 73 %
+Rendering: 76 %
+Rendering: 77 %
+Rendering: 78 %
+Rendering: 79 %
+Rendering: 81 %
+Rendering: 83 %
+Rendering: 87 %
+Rendering: 89 %
+Rendering: 92 %
+Rendering: 96 %
+Rendering: 100 %
+Rendering: Post processing shader
+Rendering time 19.480 s
+Successfully created 3D render image
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli sch erc --format json -o /home/user/zudo-pd/tmp/p23-export/board-p15/checks/erc.json /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_sch
+Found 29 violations
+Saved ERC Report to /home/user/zudo-pd/tmp/p23-export/board-p15/checks/erc.json
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli sch export pdf -o /home/user/zudo-pd/tmp/p23-export/board-p15/schematic.pdf /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_sch
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/schematic.pdf'.
+Done.
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli sch export netlist --format kicadsexpr -o /home/user/zudo-pd/tmp/p23-export/board-p15/raw/board-p15.net /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_sch
+
+$ /usr/local/bin/python3 /home/user/zudo-pd/scripts/schgen/verify_netlist.py board_p15_spec /home/user/zudo-pd/tmp/p23-export/board-p15/raw/board-p15.net
+PASS: 26 nets, 99 nodes (20 expected nets + 6 unconnected)
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o /home/user/zudo-pd/tmp/p23-export/board-p15/gerbers /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-F_Cu.gtl'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-B_Cu.gbl'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-F_Paste.gtp'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-B_Paste.gbp'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-F_Silkscreen.gto'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-B_Silkscreen.gbo'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-F_Mask.gts'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-B_Mask.gbs'.
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-Edge_Cuts.gm1'.
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o /home/user/zudo-pd/tmp/p23-export/board-p15/gerbers /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb
+Created file '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-PTH.drl'
+Created file '/home/user/zudo-pd/tmp/p23-export/board-p15/gerbers/board-p15-NPTH.drl'
+Done.
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o /home/user/zudo-pd/tmp/p23-export/board-p15/raw/positions.csv /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb
+Wrote position data to '/home/user/zudo-pd/tmp/p23-export/board-p15/raw/positions.csv'.
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o /home/user/zudo-pd/tmp/p23-export/board-p15/assembly-top.svg /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/assembly-top.svg'.
+Done.
+
+$ /tmp/claude-0/-home-user/c315543e-7a68-589b-9c1f-60a4f51e6a68/scratchpad/pd/p18/kbin/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o /home/user/zudo-pd/tmp/p23-export/board-p15/assembly-bottom.svg --mirror /home/user/zudo-pd/tmp/p23-export/board-p15/source/board-p15.kicad_pcb
+Plotted to '/home/user/zudo-pd/tmp/p23-export/board-p15/assembly-bottom.svg'.
+Done.

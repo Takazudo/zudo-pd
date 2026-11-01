@@ -1,5 +1,10 @@
 # Fabrication review package
 
+**Development review files, not an order.** The current package in `manufacturing/releases/corner-support-review/`
+was exported on 2026-11-01 from one revision: the Board P 15 V draft (`board-p15`) and Board B with the adopted
+C5455478 (R21/R27) and C696190 (C11) substitutions (`dec-b-stock-gap-substitutions`). It has not been uploaded,
+quoted or ordered. It is not the ordered state S3, which is `git show f25194f:manufacturing/releases/corner-support-review/`.
+
 The active design pairs the reusable 27 × 40 mm **Board P** USB-PD module with
 **Board B**, the synth conversion and distribution board. The older Board A and
 root v4 project remain historical references.
@@ -13,8 +18,8 @@ on legs with its front/component face down. The separately developed
 earlier HC-11 option's nominal floor-height conflict without changing the PCB or
 JLCPCB package. Physical wire fit, tightening torque, retention, connector
 seating and full-load qualification remain open. Only the current prototype
-package is maintained. No renewal hardware has been released or ordered; the
-active PCB and component records are the design authority.
+package is maintained. Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered. Nothing is released or validated; see
+[as-built identity](as-built-and-controller.md). The active PCB and component records are the design authority.
 
 ## Generate files from checked sources
 
@@ -22,8 +27,9 @@ active PCB and component records are the design authority.
 
 Large `populated-stack.step` and `installed-assembly.step` files are local-only
 generated previews. Git LFS is prohibited. The
-[omission inventory](local-only-assembly-previews.json) records the three current paths
-and two distinct assembled objects, with sizes and expected hashes. Local copies
+[omission inventory](local-only-assembly-previews.json) records the four current paths
+and three distinct assembled objects, with sizes and expected hashes. The fourth is the
+board-p15 draft stack in `boards/board-b/assembly-preview-p15/`. Local copies
 are retained and ignored. Component
 models, native KiCad previews, printable STLs, Gerbers, drills, BOMs and CPLs
 remain tracked.
@@ -202,7 +208,7 @@ registry. This limitation remains explicit in the component catalog.
 The U4 and U8 tabs carry the negative intermediate rail. Do not bond them to ground
 or to an uninsulated common heatsink with the positive regulators. Their copper
 areas are isolated from system ground. Copper area alone is not a measured thermal
-resistance. Use `power-layout.json` and `power-budget.json` for current source-locked
+resistance. Use `power-layout.json` and `power-budget.json` (`power-budget-p15.json` for the board-p15 draft) for current source-locked
 areas and conditioned limits. The ground report separately measures aggregate
 sampled width and the largest individual run across connected copper polygons;
 it does not describe one continuous corridor. Polygon connectivity and specified
@@ -217,6 +223,15 @@ verified separately. These warnings remain in the full DRC report.
 Board P's reused pogo artwork has application-specific label corrections:
 J2.4 is `RST` (RESET), J3.4 is `VBUS`, and J3.5 is `GND`. Their electrical pinout
 is unchanged; library-mismatch warnings retain this intentional artwork difference.
+
+The 15 V Board P draft (`boards/board-p15/`, unvalidated, not ordered) changes these
+notes. J2.4 is `NC`: it has no connection, because R21 straps RESET to GND
+(`dec-p15-reset-subset`). J2.1/J2.2 (SCL/SDA) carry 100 kΩ pull-downs and no
+pull-ups. The programming jig supplies the pull-ups, to at most 4.5 V and never from
+J3.3 VREG_2V7. Because RESET cannot be pulsed, only a full power cycle reloads the
+NVM. Follow [Board P15 NVM Programming](../doc/src/content/docs/architecture/board-p15-programming.md)
+and accept the image only on a power-cycle readback equal to
+`boards/board-p15/nvm/stusb4500-15v.bin`.
 
 The renewed input TVS is Littelfuse SMAJ16A, paired with a 60 V
 SDT5A60SA-13 catch diode at Board B D3. The specified 26 V clamp at 15.4 A,

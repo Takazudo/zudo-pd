@@ -42,7 +42,7 @@ On 2026-11-01 at 04:59Z the user chose separate products on a decision card
 - the STUSB4500 controller block stays common to both.
 
 `board_p_spec.py` and the generated schematic keep describing the r3 draft. The 15 V product is
-defined by the as-built `boards/board-p/board-p.kicad_pcb` and the `corner-support-review` package.
+defined by the as-built `boards/board-p/board-p.kicad_pcb` and the ordered package state S3 (commit `f25194f`).
 On 2026-11-01 the coordinator chose the RESET subset of the common block for the 15 V board
 (`dec-p15-reset-subset`). The changes are:
 

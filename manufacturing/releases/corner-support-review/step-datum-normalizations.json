@@ -1006,6 +1006,43 @@
         "normalized_step_sha256": "e7ab1216723bbee032969a27b7c8752922a7ac8325b97c1b581d801c9293070d",
         "scope": "Component owner normalized this asset before this independent datum audit; no further translation is prescribed."
       }
+    },
+    {
+      "wrl": "SOD-123_L2.8-W1.8-LS3.7-RD.wrl",
+      "uses_at_review": [
+        "board-p15/D9"
+      ],
+      "reviewed_wrl_sha256": "45ee4c503da44795a4f422d2d92f51802d3df66ad926d926d4878cd01c406507",
+      "original_step_sha256": "39d20e9e6c37049f4a9fa09f8be14334ee9f1d78ffccd660706c8ac0d590dcdc",
+      "surface_before_normalization": {
+        "wrl_to_step": {
+          "max_mm": 0.5701039999999999,
+          "p99_mm": 0.5701039999999999,
+          "samples": 1115
+        },
+        "step_to_wrl": {
+          "max_mm": 0.550038001800912,
+          "p99_mm": 0.5452046227730929,
+          "samples": 3072
+        }
+      },
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        0.55
+      ],
+      "reviewed_translated_surface_screen": {
+        "wrl_to_step": {
+          "max_mm": 0.020103999999999955,
+          "p99_mm": 0.020103999999999955,
+          "samples": 1115
+        },
+        "step_to_wrl": {
+          "max_mm": 0.0016840276327889628,
+          "p99_mm": 0.0015545375925449102,
+          "samples": 3072
+        }
+      }
     }
   ]
 }
