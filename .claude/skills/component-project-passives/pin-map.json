@@ -550,23 +550,23 @@
     {
       "pin_map_id": "pinmap-c696190",
       "record_id": "rec-c696190",
-      "symbol": "CP (generic polarized 2-pin, as line-c2983319)",
+      "symbol": "RVT1E471M0810",
       "footprint": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD",
       "pins": [
         {
           "symbol_pin": "1",
-          "name": "+",
+          "name": "1",
           "footprint_pad": "1",
-          "function": "positive terminal"
+          "function": "positive terminal (+ marker beside symbol pin 1); Board B C11.1 is GND"
         },
         {
           "symbol_pin": "2",
-          "name": "-",
+          "name": "2",
           "footprint_pad": "2",
-          "function": "negative terminal"
+          "function": "negative terminal; Board B C11.2 is -13.5V OUT"
         }
       ],
-      "reviewed_by": "2026-11-01 HONORCAP dimension figure (positive / negative terminal) against the shared Phi 8 land; no new asset"
+      "reviewed_by": "2026-11-01 HONORCAP dimension figure (positive / negative terminal) against the shared Phi 8 land; no new asset; 2026-11-01 adoption: project symbol RVT1E471M0810 cloned from GVT1E477M0810CNVC, whose drawing marks pin 1 positive; pad 1 positive per the HONORCAP figure"
     }
   ]
 }

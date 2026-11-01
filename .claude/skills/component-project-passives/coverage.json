@@ -925,8 +925,9 @@
       "record_id": "rec-c696190",
       "domain": "switching-frequency-ripple-current",
       "status": "OPEN",
-      "reason": "Rated 342 mA at 150 kHz exceeds the incumbent-based 248 mA share, but the ESR-weighted share with this lower-ESR part and the LM2596 loop with it are not measured.",
+      "reason": "The 1/ESR bank split gives C11 269 mA of the 0.807 A ripple against 342 mA rated at 150 kHz, but the 150 kHz ESR and the LM2596 loop with this part are not measured.",
       "fact_ids": [
+        "fact-c696190-c11-ripple-share-3can",
         "fact-c696190-c11-ripple-margin"
       ],
       "blocking_fact_ids": [
@@ -937,14 +938,12 @@
       "coverage_id": "cov-c696190-placement",
       "record_id": "rec-c696190",
       "domain": "placement",
-      "status": "OPEN",
-      "reason": "Candidate only; no generator spec places it.",
+      "status": "COVERED",
+      "reason": "Adopted 2026-11-01 by dec-b-stock-gap-substitutions; board_b_spec.py places it on the former line's land and nets. Prototype acceptance tests BB-C-1..5 remain NOT RUN.",
       "fact_ids": [
         "fact-c696190-candidate-scope"
       ],
-      "blocking_fact_ids": [
-        "fact-c696190-candidate-scope"
-      ]
+      "blocking_fact_ids": []
     }
   ]
 }

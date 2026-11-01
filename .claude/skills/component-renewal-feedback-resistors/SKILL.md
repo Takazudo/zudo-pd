@@ -12,6 +12,6 @@ were retrieved on 2026-09-20; stock is not promised by a catalog identity.
 
 ## Human component reference
 
-[RT0603BRD071KL](/docs/components/records/c110776/), [RT0603BRD078K2L](/docs/components/records/c861589/), [RT0603BRD07680RL](/docs/components/records/c861519/), [RT0603BRD073K09L](/docs/components/records/c861371/), [RT0603BRD0733RL](/docs/components/records/c861332/), [RT0603BRD0710K5L](/docs/components/records/c861077/), [0603WAF4301T5E](/docs/components/records/c23159/). See the [catalog](/docs/components/catalog/) and
+[RT0603BRD071KL](/docs/components/records/c110776/), [RT0603BRD078K2L](/docs/components/records/c861589/), [AT0603BRD07680RL](/docs/components/records/c5455478/) (R21/R27 since `dec-b-stock-gap-substitutions`; RT0603BRD07680RL C861519 stays as a REJECTED candidate), [RT0603BRD073K09L](/docs/components/records/c861371/), [RT0603BRD0733RL](/docs/components/records/c861332/), [RT0603BRD0710K5L](/docs/components/records/c861077/), [0603WAF4301T5E](/docs/components/records/c23159/). See the [catalog](/docs/components/catalog/) and
 [integration rules](/docs/components/integration/). These pages are generated
 from the JSON bundle, which remains authoritative.
