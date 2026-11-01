@@ -20,16 +20,38 @@ def dist(a, b2, layer):
         if sa.Collide(sb, m): hi = m
         else: lo = m
     return pcbnew.ToMM(hi)
-out = []
-for r in reset:
-    for h in hv:
-        for L in (pcbnew.F_Cu, pcbnew.B_Cu):
-            if r.IsOnLayer(L) and h.IsOnLayer(L):
-                d = dist(r, h, L)
-                if d is not None:
-                    def nm(i):
-                        if isinstance(i, pcbnew.PAD): return i.GetParentFootprint().GetReference()+'.'+i.GetNumber()
-                        return i.GetClass()
-                    out.append((round(d,3), nm(r), nm(h), h.GetNetname(), b.GetLayerName(L)))
-out.sort()
-print(json.dumps(out[:12], indent=0))
+def scan(cross):
+    rows = []
+    for r in reset:
+        for h in hv:
+            for L in (pcbnew.F_Cu, pcbnew.B_Cu):
+                if not r.IsOnLayer(L):
+                    continue
+                for M in (pcbnew.F_Cu, pcbnew.B_Cu):
+                    if (M == L) == cross or not h.IsOnLayer(M):
+                        continue
+                    sa, sb = r.GetEffectiveShape(L), h.GetEffectiveShape(M)
+                    d = 0.0 if sa.Collide(sb, 0) else None
+                    if d is None:
+                        lo, hi = 0, pcbnew.FromMM(5)
+                        if sa.Collide(sb, hi):
+                            while hi - lo > 1000:
+                                m = (lo + hi) // 2
+                                if sa.Collide(sb, m): hi = m
+                                else: lo = m
+                            d = pcbnew.ToMM(hi)
+                    if d is not None:
+                        rows.append((round(d, 3), nm(r), nm(h), h.GetNetname(), b.GetLayerName(L) + ('/' + b.GetLayerName(M) if cross else '')))
+    return sorted(rows)[:12]
+
+
+def nm(i):
+    if isinstance(i, pcbnew.PAD): return i.GetParentFootprint().GetReference() + '.' + i.GetNumber()
+    return i.GetClass()
+
+
+if '--cross-layer' in sys.argv:
+    # in-plane distance from RESET copper to VBUS-class copper on the other copper layer (through the board)
+    print(json.dumps(scan(True), indent=0))
+else:
+    print(json.dumps(scan(False), indent=0))

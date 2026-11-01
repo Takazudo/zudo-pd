@@ -1,0 +1,120 @@
+{
+ "_comment": "Phase 15 checks of the 15 V Board P draft PCB (unvalidated draft, no layout review). DRC: native KiCad 10.0.6 kicad-cli pcb drc --severity-all --refill-zones, run as heavy-guard -> flock /tmp/kicad-native.lock, on the draft and on the unchanged as-built board for comparison. RESET scans: scripts/pcb/board-p-reset-clearance.py (same layer, and in-plane to the other copper layer with --cross-layer). Net parity: scripts/pcb/board-p15/pcb-net-parity.py against board_p15_spec.py (net-parity.json).",
+ "board": "boards/board-p15/board-p15-draft.kicad_pcb",
+ "board_sha256": "2e5bbeed66a37f012a08559a40bd62a9b8e53dadb24bc1043055571c3cf60a77",
+ "drc": {
+  "draft": {
+   "unconnected": 0,
+   "violations": {
+    "warning:lib_footprint_issues": 3,
+    "warning:lib_footprint_mismatch": 21,
+    "warning:silk_edge_clearance": 2,
+    "warning:silk_over_copper": 8,
+    "warning:silk_overlap": 19,
+    "warning:text_height": 17
+   }
+  },
+  "as_built": {
+   "unconnected": 0,
+   "violations": {
+    "warning:lib_footprint_issues": 3,
+    "warning:lib_footprint_mismatch": 24,
+    "warning:silk_edge_clearance": 2,
+    "warning:silk_over_copper": 2,
+    "warning:text_height": 18
+   }
+  },
+  "errors": 0,
+  "new_warnings": "R21 R0603 library silk overlaps the U1 reference field (silk_overlap, silk_over_copper); the J2.4 label now reads NC at the as-built 0.7 mm text height. No error class."
+ },
+ "reset_clearance_same_layer_mm": [
+  {
+   "mm": 1.353,
+   "reset_item": "U1.6",
+   "hv_item": "U1.9",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.448,
+   "reset_item": "U1.6",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.567,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "U1.9",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.654,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.94,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "U1.9",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 2.016,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  }
+ ],
+ "reset_clearance_other_layer_mm": [
+  {
+   "mm": 0.688,
+   "reset_item": "R21.1",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.688,
+   "reset_item": "R21.1",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.747,
+   "reset_item": "R21.1",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.811,
+   "reset_item": "U1.6",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.811,
+   "reset_item": "U1.6",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.862,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  }
+ ],
+ "target": "RESET copper at least 1.0 mm from VBUS_IN, VBUS_VS_DISCH, DISCH, VBEN, VBUS_OUT and Q1_G copper on its layer (the LED proposed 1.0 mm RESET strap keep-out; no manufacturer source)",
+ "as_built_reference": "same-layer 0.222 mm (R13 pads) and 0.325 mm (VBUS_VS_DISCH via); other-layer 0.0 mm (B.Cu VBUS_OUT and VBUS_VS_DISCH tracks under the RESET track)"
+}
