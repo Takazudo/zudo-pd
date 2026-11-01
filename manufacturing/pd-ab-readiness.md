@@ -61,7 +61,7 @@ A full stock refresh on 2026-11-01 of its 53 lines against 5 sets finds:
 | Electrical qualification (full-load start, ripple, thermal, fuse hold, surge, low input) and mechanical fit (wire, torque, retention, seating, printed leg, M3 in the 3.0 mm holes) | **OPEN**, as listed in `ORDER-NOTES.md`; not reorder blockers by themselves |
 | First power procedure: 5 V-only current-limited source, Board B disconnected, verify the 15 V NVM image and readback | Required at bring-up (`ORDER-NOTES.md`) |
 | PCB fabrication, shipping and duty | **UNKNOWN** (not retrieved) |
-| Controller block on the 15 V Board P | **Working direction: RESET subset plus phase 17** (`dec-p15-reset-subset`, `dec-p15-i2c-pulldowns`, `dec-p15-vdd-local-clamp`). Spec, ERC (0 errors) and draft PCB exist: DRC 0 errors, 0 unconnected, schematic parity `extra_footprint` only (MH1–MH3); RESET ≥ 1.353 mm from VBUS-class copper on its layer. Silk clipping at J2/J3/U1 labels and D9, layout review and a new package are OPEN (`boards/board-p15/README.md`) |
+| Controller block on the 15 V Board P | **Working direction: RESET subset plus phases 17–18** (`dec-p15-reset-subset`, `dec-p15-i2c-pulldowns`, `dec-p15-vdd-local-clamp`, `dec-p15-vdd-decoupling`). Spec, ERC (0 errors) and draft PCB exist: DRC 0 errors, 0 unconnected, schematic parity `extra_footprint` only (MH1–MH3); RESET ≥ 1.353 mm from VBUS-class copper on its layer. Silk classes equal the as-built board (phase 18); layout review and an order package are OPEN (`boards/board-p15/README.md`) |
 | 15 V NVM image and jig procedure | **OPEN (NOT RUN)**: desk image `boards/board-p15/nvm/stusb4500-15v.bin` (sha256 `76622e14…`) and procedure `doc/src/content/docs/architecture/board-p15-programming.md`; never written or read back |
 
 ### Current Board P controller block: stay as is only with the #144 RESET geometry accepted; the RESET subset costs nothing in parts
@@ -108,6 +108,20 @@ Phase 17 (draft `boards/board-p15/`, sha256 `c7767cb8…`): the coordinator adde
 Cost (`p15_phase17_draft` row): USD 51.86 per 5-unit lot (parts 18.32, Economic PCBA 33.54), 14 lines,
 6 extended; +USD 3.86 per lot over the RESET subset. With the current Board B and the candidate stock rows the
 lineup is USD 357.98 per lot. PCB fabrication is excluded: Board P has a published USD 2.00 floor, Board B is UNKNOWN.
+
+Phase 18 (draft sha256 `ccfe3229…`, commits `07f8590`…`1d622fa`): a scratch dry run of
+`export-jlcpcb.py --boards board-p15 board-b` passes every exporter gate at `1d622fa`.
+
+- **Exporter gates:** power budget (`power-budget-p15.json`, its own binding), STEP datums, assembly preview
+  (`boards/board-b/assembly-preview-p15`, cross-board collision PASS), DRC 0 errors / 0 unconnected / parity
+  `extra_footprint` only, ERC 0 errors, BOM/CPL parity (board-p15 23 = 23, 14 lines; Board B 75 = 75, 39 lines).
+  The fabrication outputs were deleted from scratch after hashing; nothing was written under `manufacturing/releases/`.
+- **Silk:** the silk warning classes now equal the as-built board. The phase 17 clipping came from visible
+  supplier fields, not D9's library silk.
+- **C38:** the 1 µF C15849 fits top-side without moving parts. board-p15 is USD 51.95 per 5-unit lot; the lineup
+  with the candidate rows is USD 358.07.
+- **Still BLOCKED for an order:** the dry run exported Board B with the incumbent C861519/C2983319 lines (0 and 1 in
+  stock). The SOD-123 STEP datum translation (`4347b80`) awaits independent review. No layout review exists.
 
 ### Board B stock-gap candidate rows: not adopted; acceptance tests NOT RUN
 

@@ -62,6 +62,7 @@ Phase 17 added three parts to the 15 V draft, all on the top side, without movin
   (`dec-p15-vdd-local-clamp`). The desk margin to the 28 V VDD limit becomes +7.198 V at the 28.6 V hot estimate,
   up from −0.6 V.
 
+Phase 18 adds the r3 C38 1 µF on VDD_LOC (`dec-p15-vdd-decoupling`), again top-side with no part moved.
 The other r3 local clamps are not taken. Programming uses jig pull-ups and a full power cycle:
 [Board P15 NVM Programming](/docs/architecture/board-p15-programming/). The details are in
 `boards/board-p15/README.md`.
