@@ -23,9 +23,10 @@
       "record_id": "rec-c31966",
       "domain": "placement",
       "status": "OPEN",
-      "reason": "Draft-only use in the unbound board_b20_spec.py; no footprint asset, no PCB, no inventory placement.",
+      "reason": "Draft-only use in the unbound board_b20_spec.py; footprint HSOP-8_TI-DDA0008B drawn (phase 19); placed only in the unbound B20 draft PCB; no inventory placement.",
       "fact_ids": [
-        "fact-c31966-candidate-scope"
+        "fact-c31966-candidate-scope",
+        "fact-c31966-land-pattern"
       ],
       "blocking_fact_ids": [
         "fact-c31966-candidate-scope"
@@ -53,9 +54,10 @@
       "record_id": "rec-c2863562",
       "domain": "placement",
       "status": "OPEN",
-      "reason": "Draft-only use in the unbound board_b20_spec.py; no footprint asset, no PCB, no inventory placement.",
+      "reason": "Draft-only use in the unbound board_b20_spec.py; footprint VSSOP-8_TI-DGK0008A drawn (phase 19); placed only in the unbound B20 draft PCB; no inventory placement.",
       "fact_ids": [
-        "fact-c2863562-candidate-scope"
+        "fact-c2863562-candidate-scope",
+        "fact-c2863562-land-pattern"
       ],
       "blocking_fact_ids": [
         "fact-c2863562-candidate-scope"
@@ -82,9 +84,10 @@
       "record_id": "rec-c11341",
       "domain": "placement",
       "status": "OPEN",
-      "reason": "Draft-only use in the unbound board_b20_spec.py; no footprint asset, no PCB, no inventory placement.",
+      "reason": "Draft-only use in the unbound board_b20_spec.py; footprint SOIC-8_TI-D0008A drawn (phase 19); placed only in the unbound B20 draft PCB; no inventory placement.",
       "fact_ids": [
-        "fact-c11341-candidate-scope"
+        "fact-c11341-candidate-scope",
+        "fact-c11341-land-pattern"
       ],
       "blocking_fact_ids": [
         "fact-c11341-candidate-scope"
@@ -109,9 +112,10 @@
       "record_id": "rec-c164156",
       "domain": "placement",
       "status": "OPEN",
-      "reason": "Draft-only use in the unbound board_b20_spec.py; no footprint asset, no PCB, no inventory placement.",
+      "reason": "Draft-only use in the unbound board_b20_spec.py; footprint R1206_TA-I-RLS12 drawn (phase 19); placed only in the unbound B20 draft PCB; no inventory placement.",
       "fact_ids": [
-        "fact-c164156-candidate-scope"
+        "fact-c164156-candidate-scope",
+        "fact-c164156-land-pattern"
       ],
       "blocking_fact_ids": [
         "fact-c164156-candidate-scope"
@@ -142,12 +146,47 @@
       "record_id": "rec-c163047",
       "domain": "placement",
       "status": "OPEN",
-      "reason": "Draft-only use in the unbound board_b20_spec.py; no footprint asset, no PCB, no inventory placement.",
+      "reason": "Draft-only use in the unbound board_b20_spec.py; footprint R1206_TA-I-RLS12 drawn (phase 19); placed only in the unbound B20 draft PCB; no inventory placement.",
       "fact_ids": [
-        "fact-c163047-candidate-scope"
+        "fact-c163047-candidate-scope",
+        "fact-c163047-land-pattern"
       ],
       "blocking_fact_ids": [
         "fact-c163047-candidate-scope"
+      ]
+    },
+    {
+      "coverage_id": "cov-c23067428-primary-specification",
+      "record_id": "rec-c23067428",
+      "domain": "primary-specification",
+      "status": "OPEN",
+      "reason": "Only a DigiKey-hosted copy of the C&B/RESI PCSR2512 sheet (V8) was retrieved and hashed 2026-11-01; no manufacturer-hosted copy. PDF not retained.",
+      "fact_ids": [
+        "fact-c23067428-manufacturer",
+        "fact-c23067428-resistance",
+        "fact-c23067428-tcr",
+        "fact-c23067428-power",
+        "fact-c23067428-max-current"
+      ],
+      "blocking_fact_ids": [
+        "fact-c23067428-resistance",
+        "fact-c23067428-tcr",
+        "fact-c23067428-power",
+        "fact-c23067428-max-current"
+      ]
+    },
+    {
+      "coverage_id": "cov-c23067428-placement",
+      "record_id": "rec-c23067428",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Draft-only use in the unbound board_b20_spec.py; footprint R2512_RESI-PCSR2512_Kelvin drawn from a mirror source; placed only in the unbound B20 draft PCB; no inventory placement.",
+      "fact_ids": [
+        "fact-c23067428-candidate-scope",
+        "fact-c23067428-land-pattern"
+      ],
+      "blocking_fact_ids": [
+        "fact-c23067428-candidate-scope"
       ]
     }
   ]

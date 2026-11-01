@@ -5,7 +5,7 @@
       "pin_map_id": "pinmap-c31966",
       "record_id": "rec-c31966",
       "symbol": "TPS54560DDAR (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
-      "footprint": "HSOP-8 DDA (zudo-pd:HSOP-8_TPS54560DDA_DRAFT does not exist)",
+      "footprint": "HSOP-8_TI-DDA0008B",
       "pins": [
         {
           "symbol_pin": "1",
@@ -62,13 +62,13 @@
           "function": "thermal pad, connect to GND"
         }
       ],
-      "reviewed_by": "2026-10-31 PD worker: SLVSBN0C pin table only; draft symbol pin numbers match; no footprint asset exists"
+      "reviewed_by": "2026-10-31 PD worker: SLVSBN0C pin table only; draft symbol pin numbers match; phase 19 footprint HSOP-8_TI-DDA0008B pad numbers match"
     },
     {
       "pin_map_id": "pinmap-c2863562",
       "record_id": "rec-c2863562",
       "symbol": "OPA2187IDGKR (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
-      "footprint": "VSSOP-8 DGK (zudo-pd:VSSOP-8_DGK_DRAFT does not exist)",
+      "footprint": "VSSOP-8_TI-DGK0008A",
       "pins": [
         {
           "symbol_pin": "1",
@@ -119,13 +119,13 @@
           "function": "positive supply"
         }
       ],
-      "reviewed_by": "2026-10-31 PD worker: SBOS807E pin table only; draft symbol pin numbers match; no footprint asset exists"
+      "reviewed_by": "2026-10-31 PD worker: SBOS807E pin table only; draft symbol pin numbers match; phase 19 footprint VSSOP-8_TI-DGK0008A pad numbers match"
     },
     {
       "pin_map_id": "pinmap-c11341",
       "record_id": "rec-c11341",
       "symbol": "REF5025AIDR (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
-      "footprint": "SOIC-8 D (zudo-pd:SOIC-8_D_DRAFT does not exist)",
+      "footprint": "SOIC-8_TI-D0008A",
       "pins": [
         {
           "symbol_pin": "1",
@@ -176,13 +176,13 @@
           "function": "do not connect"
         }
       ],
-      "reviewed_by": "2026-10-31 PD worker: SBOS410O pin table only; draft symbol pin numbers match; no footprint asset exists"
+      "reviewed_by": "2026-10-31 PD worker: SBOS410O pin table only; draft symbol pin numbers match; phase 19 footprint SOIC-8_TI-D0008A pad numbers match"
     },
     {
       "pin_map_id": "pinmap-c164156",
       "record_id": "rec-c164156",
       "symbol": "PE1206FRF470R02L (draft symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
-      "footprint": "1206 (zudo-pd:R1206_DRAFT does not exist)",
+      "footprint": "R1206_TA-I-RLS12",
       "pins": [
         {
           "symbol_pin": "1",
@@ -197,13 +197,13 @@
           "function": "terminal"
         }
       ],
-      "reviewed_by": "2026-10-31 PD worker: PE1206FRF470R02L pin table only; draft symbol pin numbers match; no footprint asset exists"
+      "reviewed_by": "2026-10-31 PD worker: PE1206FRF470R02L pin table only; draft symbol pin numbers match; phase 19 footprint R1206_TA-I-RLS12 pad numbers match"
     },
     {
       "pin_map_id": "pinmap-c163047",
       "record_id": "rec-c163047",
       "symbol": "not drawn; would reuse the two-terminal PE1206FRF470R02L draft shunt symbol in board_b20_spec.py",
-      "footprint": "1206 (zudo-pd:R1206_DRAFT does not exist)",
+      "footprint": "R1206_TA-I-RLS12",
       "pins": [
         {
           "symbol_pin": "1",
@@ -218,7 +218,28 @@
           "function": "terminal"
         }
       ],
-      "reviewed_by": "2026-10-31 PD worker: TRLS-XXOS002B pin table only; draft symbol pin numbers match; no footprint asset exists"
+      "reviewed_by": "2026-10-31 PD worker: TRLS-XXOS002B pin table only; draft symbol pin numbers match; phase 19 footprint R1206_TA-I-RLS12 pad numbers match"
+    },
+    {
+      "pin_map_id": "pinmap-c23067428",
+      "record_id": "rec-c23067428",
+      "symbol": "R_PROPOSED (generic draft resistor symbol in symbols/zudo-pd.kicad_sym; used only by board_b20_spec.py)",
+      "footprint": "R2512_RESI-PCSR2512_Kelvin",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "terminal 1 (current and sense pads)"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "terminal 2 (current and sense pads)"
+        }
+      ],
+      "reviewed_by": "2026-11-01 PD worker phase 19: two-terminal resistor; the Kelvin land gives each terminal a current and a sense pad with the same number"
     }
   ]
 }

@@ -264,6 +264,18 @@
       "status": "SHORTLISTED",
       "replaces_line_id": "line-c2983319",
       "rationale": "Phase 14 (2026-11-01): the fitted HRK GVT1E477M0810CNVC C2983319 lists 1 in stock against 5 needed. The Honor RVT series sheet gives 470 uF / 25 V in Phi 8 x 10.2 mm with 228 mA rms at 120 Hz/105 C and x1.50 at >=10 kHz (342 mA at the LM2596 150 kHz, against 312 mA for the incumbent), Tan delta 0.16 (incumbent 0.18), on the same Phi 8 land as the owned Honor RVT1H101M0810 (line-c970687); 4,085-4,625 in stock. Not adopted: no generator spec places it; LM2596 output-loop behaviour with the lower ESR is not measured."
+    },
+    {
+      "candidate_id": "cand-pcsr2512br010m6-c23067428",
+      "mpn": "PCSR2512BR010M6",
+      "manufacturer": "RESI",
+      "lcsc": "C23067428",
+      "package": "2512 (6332 metric)",
+      "function": "Board B 20 V draft 10 mOhm 0.1 % limiter shunt candidate",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "status": "SHORTLISTED",
+      "replaces_line_id": null,
+      "rationale": "Shortlisted 2026-11-01 for the Board B 20 V switcher-direct draft RSH1/RSH3 (manufacturing/board-b-20v-switcher-direct-draft.md). Manufacturer sheet read from a distributor-hosted copy; used only by the unbound board_b20_spec.py."
     }
   ],
   "promoted_candidates": [
