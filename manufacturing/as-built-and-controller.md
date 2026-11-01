@@ -12,7 +12,9 @@ Sibling repository: [Takazudo/zudo-led-lamp](https://github.com/Takazudo/zudo-le
 
 **Board B component configuration matches S3** (owner, from the authenticated JLCPCB order-history BOM dialog, read only): U6/U7 C459702 (LT1963AEQ#TRPBF), U8 C666306 (adjustable LT3015EQ#PBF), R26 C861589, R27 C861519, R28 C110776. That excludes S1 and S2, which carry C107286 / C666307 and no R26–R28. The BOM dialog does **not** establish Board B copper, mask, paste or silk identity, or the LED2 rotation, and no production-file hash or substitution history was obtained (a download attempt had an uncertain outcome; no downloaded file is claimed). Those remain unverified.
 
-Package reference: [`releases/corner-support-review/`](releases/corner-support-review/), last changed at commit `f25194f` (2026-09-22); nothing under `manufacturing/releases/` changed from `f25194f` to HEAD. Board B files at HEAD (the package `SHA256SUMS` agrees; the Board P files in the same package were never manufactured):
+Package reference: `releases/corner-support-review/` as of commit `f25194f` (2026-09-22). The directory was replaced on
+2026-11-01 by a development review revision (Board P 15 V draft + Board B with C5455478/C696190), so read S3 with
+`git show f25194f:manufacturing/releases/corner-support-review/<path>`. Board B files at `f25194f` (that package's `SHA256SUMS` agrees; the Board P files in the same package were never manufactured):
 
 | File | SHA-256 |
 |---|---|

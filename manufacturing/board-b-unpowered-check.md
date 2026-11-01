@@ -11,7 +11,9 @@ Limits, if approved:
 - Handling and visual inspection only. No power, no rework, no reflow, no part removal, no cable or module attachment.
 - The only meter modes allowed are continuity and resistance. **A DMM in resistance or continuity mode drives a small test voltage and current through the circuit.** That source forward-biases junctions, charges electrolytics and can faintly light an LED. The open-circuit test voltage depends on the meter and is UNAV; record it from the meter's manual. **The owner decides whether that test voltage is acceptable.** Diode-test mode and any external source are excluded.
 
-Sources (all at HEAD; nothing under `manufacturing/releases/` has changed since `f25194f`):
+Sources (all at commit `f25194f`). The package directory was refreshed with a development review revision on
+2026-11-01, so read every S3 file below with `git show f25194f:manufacturing/<path>` (package files) or
+`git show f25194f:<path>` (PCB and spec):
 
 | Tag | Path |
 |---|---|

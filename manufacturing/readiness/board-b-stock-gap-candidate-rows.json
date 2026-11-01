@@ -1,34 +1,109 @@
 {
- "_comment": "Phase 15 (2026-11-01): candidate rows for the two Board B stock gaps of a 15 V zudo-pd reorder. NOT ADOPTED and NOT an order or BOM file: board_b_spec.py, inventory.json and the corner-support-review package still carry the incumbents. Adoption needs the owner decision, a spec edit, regeneration, a new package from one revision (ERC, DRC, BOM/CPL parity) and the acceptance tests below. Evidence lives in the owner bundles named per row.",
+ "_comment": "Phase 15 (2026-11-01) candidate rows for the two Board B stock gaps of a 15 V zudo-pd reorder; ADOPTED by the owner card answered 2026-11-01 19:00Z (dec-b-stock-gap-substitutions). board_b_spec.py, inventory.json and the corner-support-review development review package now carry the adopted parts; the former parts are REJECTED (superseded) candidates. NOT an order or BOM file. The acceptance tests below are prototype acceptance tests and remain NOT RUN. Evidence lives in the owner bundles named per row.",
  "board": "board-b",
  "package_of_record": "manufacturing/releases/corner-support-review/board-b/",
  "rows": [
   {
-   "refs": ["R21", "R27"],
+   "refs": [
+    "R21",
+    "R27"
+   ],
    "role": "upper series resistor of the U6 LT1963A +12 V (R20 + R21 over R22) and U8 LT3015 -12 V (R26 + R27 over R28) adjust dividers",
-   "incumbent": {"line_id": "line-c861519", "mpn": "RT0603BRD07680RL", "manufacturer": "YAGEO", "lcsc": "C861519", "stock_2026_11_01": 0, "need_5_sets": 10},
-   "candidate": {"candidate_id": "cand-at0603brd07680rl-c5455478", "mpn": "AT0603BRD07680RL", "manufacturer": "YAGEO", "lcsc": "C5455478", "package": "R0603", "stock_2026_11_01": "410-439", "owner_skill": "component-renewal-feedback-resistors"},
-   "status": "CANDIDATE, NOT ADOPTED (SHORTLISTED)",
+   "previous": {
+    "mpn": "RT0603BRD07680RL",
+    "manufacturer": "YAGEO",
+    "lcsc": "C861519",
+    "stock_2026_11_01": 0,
+    "need_5_sets": 10,
+    "candidate_id": "cand-rt0603brd07680rl-c861519"
+   },
+   "adopted": {
+    "mpn": "AT0603BRD07680RL",
+    "manufacturer": "YAGEO",
+    "lcsc": "C5455478",
+    "package": "R0603",
+    "stock_2026_11_01": "410-439",
+    "owner_skill": "component-renewal-feedback-resistors",
+    "line_id": "line-c5455478"
+   },
+   "status": "ADOPTED 2026-11-01 (dec-b-stock-gap-substitutions); prototype acceptance tests NOT RUN",
    "desk_match": "680 ohm, 0.1 %, 25 ppm/C, 0.1 W at 70 C, 75 V, 1.6 x 0.8 mm: every recorded incumbent row matches (YAGEO sheet sha256 81ef8b6b...)",
    "acceptance_tests": [
-    {"id": "BB-R-1", "test": "Incoming 4-wire resistance of 5 parts from the reel, unpowered, 23 +/- 3 C", "pass": "679.32-680.68 ohm each (0.1 %)", "status": "NOT RUN"},
-    {"id": "BB-R-2", "test": "+12 V (U6) and -12 V (U8) output at no load and at the 1.2 A / 0.8 A budgets, 23 C, on a board built with the candidate", "pass": "each rail within the rail band the package's ORDER-NOTES bench rows use, and within 0.2 % of the same measurement on an incumbent-built board", "status": "NOT RUN"},
-    {"id": "BB-R-3", "test": "Same two rails after 30 min at the budgets (board warm)", "pass": "drift from BB-R-2 within the rail band", "status": "NOT RUN"}
+    {
+     "id": "BB-R-1",
+     "test": "Incoming 4-wire resistance of 5 parts from the reel, unpowered, 23 +/- 3 C",
+     "pass": "679.32-680.68 ohm each (0.1 %)",
+     "status": "NOT RUN"
+    },
+    {
+     "id": "BB-R-2",
+     "test": "+12 V (U6) and -12 V (U8) output at no load and at the 1.2 A / 0.8 A budgets, 23 C, on a board built with the candidate",
+     "pass": "each rail within the rail band the package's ORDER-NOTES bench rows use, and within 0.2 % of the same measurement on an incumbent-built board",
+     "status": "NOT RUN"
+    },
+    {
+     "id": "BB-R-3",
+     "test": "Same two rails after 30 min at the budgets (board warm)",
+     "pass": "drift from BB-R-2 within the rail band",
+     "status": "NOT RUN"
+    }
    ]
   },
   {
-   "refs": ["C11"],
+   "refs": [
+    "C11"
+   ],
    "role": "470 uF output-bank can of the U4 LM2596 inverting -14.145 V PRE stage (with C9, C10, C12)",
-   "incumbent": {"line_id": "line-c2983319", "mpn": "GVT1E477M0810CNVC", "manufacturer": "HRK", "lcsc": "C2983319", "stock_2026_11_01": 1, "need_5_sets": 5},
-   "candidate": {"candidate_id": "cand-rvt1e471m0810-c696190", "mpn": "RVT1E471M0810", "manufacturer": "Honor Elec", "lcsc": "C696190", "package": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD", "stock_2026_11_01": "4,085-4,625", "owner_skill": "component-project-passives"},
-   "status": "CANDIDATE, NOT ADOPTED (SHORTLISTED)",
+   "previous": {
+    "mpn": "GVT1E477M0810CNVC",
+    "manufacturer": "HRK",
+    "lcsc": "C2983319",
+    "stock_2026_11_01": 1,
+    "need_5_sets": 5,
+    "candidate_id": "cand-gvt1e477m0810cnvc-c2983319"
+   },
+   "adopted": {
+    "mpn": "RVT1E471M0810",
+    "manufacturer": "Honor Elec",
+    "lcsc": "C696190",
+    "package": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD",
+    "stock_2026_11_01": "4,085-4,625",
+    "owner_skill": "component-project-passives",
+    "line_id": "line-c696190"
+   },
+   "status": "ADOPTED 2026-11-01 (dec-b-stock-gap-substitutions); prototype acceptance tests NOT RUN",
    "desk_match": "470 uF 25 V, Phi 8 x 10.2 mm on the same Phi 8 land; ripple 228 mA at 120 Hz x 1.50 = 342 mA at >= 10 kHz (incumbent 312 mA); tan delta 0.16 (incumbent 0.18), so lower ESR. Open domains: switching-frequency-ripple-current (NEEDS BENCH) and placement",
    "acceptance_tests": [
-    {"id": "BB-C-1", "test": "Fit on the Phi 8 land: polarity mark against silk, seating, height against the stack envelope", "pass": "seats flat, polarity matches the -14.145 V PRE / GND net assignment (C11.2 on -14.145 V PRE), height <= 10.2 mm plus the sheet tolerance", "status": "NOT RUN"},
-    {"id": "BB-C-2", "test": "-14.145 V PRE ripple at the -12 V 0.8 A budget, 20 MHz bandwidth, candidate board against an incumbent board", "pass": "peak-to-peak not above the incumbent board's", "status": "NOT RUN"},
-    {"id": "BB-C-3", "test": "-12 V load step 0 -> 0.8 A -> 0 at the budget, and the U4 switch node at no load", "pass": "no sustained oscillation; settling not worse than the incumbent board", "status": "NOT RUN"},
-    {"id": "BB-C-4", "test": "C11 ripple current with a current probe at the 0.8 A budget", "pass": "<= 342 mA rms (sheet 120 Hz rating x 1.50 multiplier at >= 10 kHz, 105 C)", "status": "NOT RUN"},
-    {"id": "BB-C-5", "test": "C11 case temperature after 30 min at the budget, enclosure ambient", "pass": "rise recorded and the case below the 105 C rating with the derating the owner chooses", "status": "NOT RUN"}
+    {
+     "id": "BB-C-1",
+     "test": "Fit on the Phi 8 land: polarity mark against silk, seating, height against the stack envelope",
+     "pass": "seats flat, polarity matches the -14.145 V PRE / GND net assignment (C11.2 on -14.145 V PRE), height <= 10.2 mm plus the sheet tolerance",
+     "status": "NOT RUN"
+    },
+    {
+     "id": "BB-C-2",
+     "test": "-14.145 V PRE ripple at the -12 V 0.8 A budget, 20 MHz bandwidth, candidate board against an incumbent board",
+     "pass": "peak-to-peak not above the incumbent board's",
+     "status": "NOT RUN"
+    },
+    {
+     "id": "BB-C-3",
+     "test": "-12 V load step 0 -> 0.8 A -> 0 at the budget, and the U4 switch node at no load",
+     "pass": "no sustained oscillation; settling not worse than the incumbent board",
+     "status": "NOT RUN"
+    },
+    {
+     "id": "BB-C-4",
+     "test": "C11 ripple current with a current probe at the 0.8 A budget",
+     "pass": "<= 342 mA rms (sheet 120 Hz rating x 1.50 multiplier at >= 10 kHz, 105 C)",
+     "status": "NOT RUN"
+    },
+    {
+     "id": "BB-C-5",
+     "test": "C11 case temperature after 30 min at the budget, enclosure ambient",
+     "pass": "rise recorded and the case below the 105 C rating with the derating the owner chooses",
+     "status": "NOT RUN"
+    }
    ]
   }
  ]

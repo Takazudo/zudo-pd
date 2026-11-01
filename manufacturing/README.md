@@ -1,5 +1,10 @@
 # Fabrication review package
 
+**Development review files, not an order.** The current package in `manufacturing/releases/corner-support-review/`
+was exported on 2026-11-01 from one revision: the Board P 15 V draft (`board-p15`) and Board B with the adopted
+C5455478 (R21/R27) and C696190 (C11) substitutions (`dec-b-stock-gap-substitutions`). It has not been uploaded,
+quoted or ordered. It is not the ordered state S3, which is `git show f25194f:manufacturing/releases/corner-support-review/`.
+
 The active design pairs the reusable 27 × 40 mm **Board P** USB-PD module with
 **Board B**, the synth conversion and distribution board. The older Board A and
 root v4 project remain historical references.
