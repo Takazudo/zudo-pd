@@ -85,6 +85,7 @@ P = {
     'C10U1206': ('CL31A106KBHNNNE', '10uF 50V', 'C13585', 'zudo-pd:C1206'),
     'J5': ('PM254V-11-06-H85', 'PM254V-11-06-H85', 'C2832269', 'zudo-pd:HDR-TH_6P-P2.54-V-F'),
     'SCREW': ('WJ500V-5.08-2P', 'WJ500V-5.08-2P', 'C8465', 'zudo-pd:WJ500V-5.08-2P_C8465'),
+    'EURO16': ('DW254P-2X8-L0', 'DW254P-2X8-L0', 'C4749189', 'zudo-pd:IDC-TH_16P-P2.54_321016RG0ABK00A01'),
     'R100K': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603'),
     'R150K': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603'),
     'R56K': ('0603WAF5602T5E', '56k', 'C23206', 'zudo-pd:R0603'),
@@ -120,7 +121,14 @@ def part(ref, key, *pin_nets):
             NETS.setdefault(net, []).append(f'{ref}.{pin}')
 
 
+# phase 13: proposed values that an owned exact part already covers are bound to it (a 0.1 % part in a 1 % slot)
+OWNED_BINDING = {'10k 0.1%': 'RP10K', '4.02k 1%': 'RP4K02', '8.2k 1%': 'RP8K2'}
+
+
 def rprop(ref, value, a, b, fp='zudo-pd:R0603'):
+    if value in OWNED_BINDING and fp == 'zudo-pd:R0603':
+        two(ref, OWNED_BINDING[value], a, b)
+        return
     COMPONENTS[ref] = ('R_PROPOSED', value, '', fp, False, _place())
     NETS.setdefault(a, []).append(f'{ref}.1')
     NETS.setdefault(b, []).append(f'{ref}.2')
@@ -168,6 +176,11 @@ def opa(ref, vp, vn, a, b):
 part('J5', 'J5', ('1', 'VIN'), ('2', 'VIN'), ('3', None), ('4', 'PDOK'), ('5', 'GND'), ('6', 'GND'))
 part('J6', 'SCREW', ('1', 'GND'), ('2', 'M12_OUT'))
 part('J7', 'SCREW', ('1', 'P5_OUT'), ('2', 'P12_OUT'))
+# phase 13: J10/J11 synth bus headers as on the current Board B (DW254P-2X8-L0 C4749189 owner pin map): 1/2 -12 V,
+# 3-8 GND, 9/10 +12 V, 11/12 +5 V, 13/14 CV and 15/16 GATE (bused between the two headers only, no driver)
+for j in ('J10', 'J11'):
+    part(j, 'EURO16', ('1', 'M12_OUT'), ('2', 'M12_OUT'), *[(str(k), 'GND') for k in range(3, 9)], ('9', 'P12_OUT'),
+         ('10', 'P12_OUT'), ('11', 'P5_OUT'), ('12', 'P5_OUT'), ('13', 'CV'), ('14', 'CV'), ('15', 'GATE'), ('16', 'GATE'))
 part('C1', 'C100U', ('1', 'VIN'), ('2', 'GND'))
 two('C2', 'C10U50', 'VIN', 'GND')
 

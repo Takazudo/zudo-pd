@@ -98,10 +98,23 @@ flowchart LR
 | RLS12FTCR020 C163047 (TA-I) | stock alternative for the 20 mΩ shunts | Candidate `rec-c163047`. Source is an LCSC-hosted manufacturer sheet (MANUFACTURER_MIRROR); facts are **UNSOURCED** until a manufacturer-primary copy is retained. JLC stock 24,785 (read-only lookup, 2026-10-31) |
 | INA301A3IDGKR C2861552 | U11, U12 | Existing candidate `rec-c2861552`, SBOS713A (G) |
 | CSD18543Q3A, BSS138, DMP3036SFG-7, BZT52C11, ASPI-0630LR, 25SVPF47M, GRM32 10 µF, RT0603 0.1 % values, project 0603/0805/1206 passives | switches, logic, filters, dividers | Existing owner records |
-| Values labelled `R_PROPOSED` / `C_PROPOSED` | FB tops, compensation, window dividers, servo injection, tracking network, discharge loads, hold-up | **PROPOSED**, no owner record |
+| Values labelled `R_PROPOSED` / `C_PROPOSED` | FB tops, compensation, window dividers, servo injection, tracking network, discharge loads, hold-up | **PROPOSED**, no owner record. Phase 13: 10k 0.1 %, 4.02k 1 % and 8.2k 1 % are bound to the owned RT0603 parts (C95204, C705781, C861589). The other 70 placements resolve to distributor listings in `manufacturing/readiness/b20-identity-resolution.json` (no manufacturer document, no owner record), except 27 nF and 47 nF C0G (**UNKNOWN**, no exact 0603 listing found) |
+| DW254P-2X8-L0 C4749189 | J10, J11 (phase 13) | Existing owner `component-dealon-dw254p-2x8-l0-c4749189`; pin map as on the current Board B (1/2 −12 V, 3–8 GND, 9/10 +12 V, 11/12 +5 V, 13/14 CV, 15/16 GATE) |
 
 The new ICs are SHORTLISTED candidates in `.claude/skills/component-board-b20-draft-candidates/`.
 Footprints named `*_DRAFT` do not exist; native ERC reports them as 21 `footprint_link_issues` warnings.
+
+Phase 13 footprint check. None of the five `*_DRAFT` names exists in `footprints/kicad/`. The stock KiCad 10.0.6
+library in the pinned image has a same-name-class candidate for each, but no candidate's land pattern has been
+compared with the manufacturer drawing (**OPEN**):
+
+| Draft footprint | Placements | Project library | Candidate (not compared) |
+|---|---|---|---|
+| `VSSOP-8_DGK_DRAFT` | 11: U4–U9, U13, U15, U16 (OPA2187), U11, U12 (INA301) | none | `Package_SO:VSSOP-8_3x3mm_P0.65mm` |
+| `HSOP-8_TPS54560DDA_DRAFT` | 3: U1–U3 (TPS54560DDAR) | none | `Package_SO:TI_SO-PowerPAD-8`, `HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm` |
+| `SOIC-8_D_DRAFT` | 1: U10 (REF5025AIDR) | none | `Package_SO:SOIC-8_3.9x4.9mm_P1.27mm` |
+| `R1206_DRAFT` | 4: RSH2, RX12, RX5, R76 | none (only the capacitor `C1206`) | `Resistor_SMD:R_1206_3216Metric`; LED repository `R1206` (read only) |
+| `R2512_DRAFT` | 2: RSH1, RSH3 | none | `Resistor_SMD:R_2512_6332Metric`; LED repository `R2512` (read only) |
 
 ## 4. Gate table against the OSC–PD contract
 
@@ -496,10 +509,10 @@ needs a fix. This is an OSC question.
 
 | Check | Result |
 |---|---|
-| `gen_schematic.py` | PASS: 267 components, 747 pin specs (phase 12: minimum-off interlock) |
-| `verify_geometry.py` | PASS: 740 spec pins matched (phase 12) |
-| KiCad 10.0.6 native ERC (pinned image; phase 10 serialised through `flock`) | exit 0. 0 errors and 26 warnings (unchanged in phase 12): 21 missing `*_DRAFT` footprints and 5 `pin_to_pin` warnings on J5's unspecified pins. Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
-| KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 140 nets, 747 nodes (phase 12) |
+| `gen_schematic.py` | PASS: 269 components, 779 pin specs (phase 13: J10/J11 and three owned bindings) |
+| `verify_geometry.py` | PASS: 772 spec pins matched (phase 13) |
+| KiCad 10.0.6 native ERC (pinned image; phase 10 serialised through `flock`) | exit 0. 0 errors and 56 warnings (phase 13): 21 missing `*_DRAFT` footprints and 35 `pin_to_pin` warnings on the unspecified pins of J5 (5) and J10/J11 (30, the same symbol pin type as on the current Board B). Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
+| KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
 | PCB, DRC, BOM/CPL | NOT RUN: there is no PCB, by request |
