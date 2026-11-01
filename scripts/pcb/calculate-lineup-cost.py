@@ -152,11 +152,11 @@ def p15_variant(full_block, double_sided=False):
 
 
 def p15_phase17():
-    # phase 17 draft (board_p15_spec.py): the RESET subset plus R22/R23 100k SCL/SDA pull-downs and the R29/R30 + D9 VDD feed
+    # phase 17/18 draft (board_p15_spec.py): the RESET subset, R22/R23 100k SCL/SDA pull-downs, the R29/R30 + D9 VDD feed and C38
     b = p15_variant(False)
-    for code, refs in {'C25803': ['R22', 'R23'], 'C21190': ['R29'], 'C23179': ['R30'], 'C192739': ['D9']}.items():
+    for code, refs in {'C25803': ['R22', 'R23'], 'C21190': ['R29'], 'C23179': ['R30'], 'C192739': ['D9'], 'C15849': ['C38']}.items():
         b['lines'].setdefault(code, []).extend(refs)
-    b['joints']['smd'] += 2 * 5
+    b['joints']['smd'] += 2 * 6   # phase 18 adds C38 on the existing C15849 line
     return b
 
 

@@ -15,6 +15,9 @@ Phase 17 (dec-p15-i2c-pulldowns, dec-p15-vdd-local-clamp; no as-built part moves
   - U1.24 and C2.2 leave VBUS_IN for VDD_LOC: the C2 riser from VBUS_IN is removed, R29 1k + R30 470R and
     D9 BZT52C18 sit between VREG_2V7 and C34, R29 is fed from the existing VBUS_IN via, and VDD_LOC returns
     to the C2/U1.24 track through two vias on B.Cu.
+Phase 18 (dec-p15-vdd-local-clamp amended): C38 1 uF decouples VDD_LOC; the supplier fields of every
+added part are hidden on F.Fab, and the J2 SCL/SDA, J3 VBUS and U1 reference texts move (text only) off the
+new pads. No part moves.
 Every removed segment is named by its exact as-built end points, so an unexpected as-built change fails loudly.
 Zones are refilled before saving.
 """
@@ -124,11 +127,26 @@ for name in ('VDD_LOC', 'VDD_MID'):
     b.Add(pcbnew.NETINFO_ITEM(b, name))
 
 
+def set_fields(f, lcsc, mpn):
+    # supplier fields stay hidden on F.Fab: a new visible field lands on F.SilkS at the footprint origin
+    for key, val in (('LCSC', lcsc), ('LCSC Part', lcsc), ('MPN', mpn)):
+        f.SetField(key, val)
+        field = f.GetField(key)
+        field.SetLayer(pcbnew.F_Fab)
+        field.SetVisible(False)
+
+
+def move_text(f, text, dx, dy):
+    hits = [g for g in f.GraphicalItems() if isinstance(g, pcbnew.PCB_TEXT) and g.GetText() == text]
+    if len(hits) != 1:
+        raise SystemExit(f'expected one {f.GetReference()} silk text {text!r}, found {len(hits)}')
+    hits[0].Move(pt(dx, dy))
+
+
 def clone(src, ref, value, lcsc, mpn, x, y, rot, nets):
     f = pcbnew.Cast_to_FOOTPRINT(fp[src].Duplicate(False))
     f.SetReference(ref); f.SetValue(value)
-    for key, val in (('LCSC', lcsc), ('LCSC Part', lcsc), ('MPN', mpn)):
-        f.SetField(key, val)
+    set_fields(f, lcsc, mpn)
     b.Add(f)
     f.SetOrientationDegrees(rot)
     f.SetPosition(pt(x, y))
@@ -179,8 +197,7 @@ r30 = clone('R13', 'R30', '470R', 'C23179', '0603WAF4700T5E', 18.15, 26.7, 180, 
 d9 = pcbnew.FootprintLoad(lib, 'SOD-123_L2.8-W1.8-LS3.7-RD')
 d9.SetParent(b)
 d9.SetReference('D9'); d9.SetValue('BZT52C18-7-F')
-for key, val in (('LCSC', 'C192739'), ('LCSC Part', 'C192739'), ('MPN', 'BZT52C18-7-F')):
-    d9.SetField(key, val)
+set_fields(d9, 'C192739', 'BZT52C18-7-F')
 d9.SetFPIDAsString('zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD')
 b.Add(d9)
 d9.SetPosition(pt(18.9, 24.95))
@@ -198,6 +215,21 @@ add_via('VDD_LOC', 14.724, 21.002)
 a = pad_xy(d9, '2')
 add_via('GND', 19.3, a[1])
 add_track('GND', F, [a, (19.3, a[1])])
+
+# 7. C38 1 uF VDD_LOC decoupler (r3 C38, C15849 as C30/C34) in the free top-side slot right of C2/C30,
+#    pad 1 on a VDD_LOC track to C2.2 through the C2/C30 gap, pad 2 on the existing GND via right of C30
+c38 = clone('C30', 'C38', '1uF/50V', 'C15849', 'CL10A105KB8NNNC', 19.85, 22.05, 0, {'1': 'VDD_LOC', '2': 'GND'})
+c1x, c1y = pad_xy(c38, '1')
+c2x, c2y = pad_xy(c38, '2')
+add_track('VDD_LOC', F, [(c1x, c1y), (16.95, c1y), (16.678, c1y - 0.272), (16.678, 21.002)])
+add_track('GND', F, [(c2x, c2y), (c2x, 23.03), (19.35, 23.03)])
+
+# 8. silk: move text only (no part moves) so no label clips a new pad
+move_text(fp['J2'], 'SCL', 0, 1.25)      # below R22, still beside J2.1
+move_text(fp['J2'], 'SDA', 0, 0.73)      # in the gap between R23 and R22, beside J2.2
+move_text(fp['J3'], 'VBUS', 0.2, -0.5)   # above R29 pad 1, beside J3.4
+fp['U1'].Reference().Move(pt(1.5, 0))    # clear of the R21 RESET pad
+fp['C30'].Reference().SetLayer(pcbnew.F_Fab)   # its as-built spot right of C30 is now C38; no free silk spot beside C30
 
 for gone in DOOMED + [old, fp.pop('R15'), fp.pop('R16')]:
     b.Remove(gone)

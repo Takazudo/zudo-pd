@@ -31,13 +31,14 @@ the as-built baseline:
   VDD_LOC, where U1.24, C2 and the D9 BZT52C18 (C192739) clamp meet (phase 17).
 
 Native KiCad 10.0.6 ERC reports 0 errors and 29 `pin_to_pin` warnings, all caused by the STUSB4500
-symbol's unspecified pin types. `verify_netlist.py` passes: 26 nets and 97 nodes.
+symbol's unspecified pin types. `verify_netlist.py` passes: 26 nets and 99 nodes.
 
 **VDD margin (desk, `calculate-input-ovp-20v.py` local-clamp model with 1470 Ω):** the VDD pin peaks at
 20.802 V at the 28.6 V hot input estimate, +7.198 V below the 28 V limit (was −0.6 V with VDD on VBUS_IN), and
 at 20.721 V (+7.279 V) at 26.0 V. D9 carries at most 8.82 mA. At a 4.72 V attach input, VDD is 4.373 V at the
 idle IDD maximum (+0.273 V over 4.1 V). IDD during PD communication is UNKNOWN, so attach headroom is OPEN.
-C2 (100 nF) now decouples VDD_LOC; the r3 C38 is not taken (OPEN).
+C2 (100 nF) decouples U1.24, and phase 18 adds the r3 C38 1 µF (C15849, `dec-p15-vdd-decoupling`) on
+VDD_LOC. The 1.47 kΩ × 1 µF feed sets a 1.47 ms rise; its effect on STUSB4500 start-up is OPEN.
 
 ## Draft PCB: as-built placement with RESET re-routed
 
@@ -54,18 +55,22 @@ placement and track is kept, apart from these changes:
 - The VBUS_IN track to U1.24/C2.2 is cut. R29 (20.6, 26.7) and R30 (18.15, 26.7) form the feed from the
   VBUS_IN copper near J3; D9 (18.9, 24.95) clamps VDD_LOC, and a B.Cu track with two vias returns VDD_LOC
   to U1.24/C2.2.
+- C38 (phase 18) sits right of C2/C30 at (19.85, 22.05). Its VDD_LOC track runs through the C2/C30 gap to C2.2,
+  and its GND end joins the existing GND via right of C30. No part moved.
+- Silk (phase 18, text only): the supplier fields of every added part are hidden on F.Fab; the J2 SCL/SDA, J3
+  VBUS and U1 reference texts moved off the new pads; the C30 reference is on F.Fab because C38 occupies its
+  as-built spot.
 
 Checks are recorded in `draft-checks.json` and `net-parity.json`.
 
 - **Net parity: PASS.** The PCB matches `board_p15_spec.py` pin for pin, with no-connects.
 - **DRC: no errors and no unconnected items**, with schematic parity: only the `extra_footprint` items
-  MH1–MH3. Warnings: `silk_over_copper` 40, `silk_overlap` 30, `lib_footprint_mismatch` 26,
-  `text_height` 17, `silk_edge_clearance` 5 and `lib_footprint_issues` 3.
-  - The as-built board under the same KiCad version has no `silk_overlap` warnings and 2
-    `silk_over_copper` warnings.
-  - The cloned R0603 silk was moved to F.Fab. The remaining clipping: the J2 SCL/SDA labels over R22/R23,
-    the J3 VBUS label over R29 pad 1, the U1 reference over R21, and D9's library silk over its own pads.
-    That silk is OPEN.
+  MH1–MH3. Warnings: `lib_footprint_mismatch` 27, `text_height` 16, `lib_footprint_issues` 3,
+  `silk_over_copper` 2 and `silk_edge_clearance` 2.
+  - The silk classes now equal the as-built board: no `silk_overlap`, and the same 2 `silk_over_copper`
+    (J1 circle, R12 reference over D5) and 2 edge warnings.
+  - The phase 17 silk warnings came from the added parts' supplier fields, which landed visible on F.SilkS,
+    not from D9's library silk; the SOD-123 footprint is unchanged.
 - **RESET clearance, same layer: met.** The closest VBUS-class copper on the same layer is 1.353 mm away
   (U1.6 to the U1.9 DISCH pin, fixed by the QFN). The target was at least 1.0 mm; the as-built board
   measured 0.222 mm.
