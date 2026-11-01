@@ -6,6 +6,7 @@ import hashlib
 import importlib
 import json
 import math
+import re
 from pathlib import Path
 import sys
 import warnings
@@ -32,10 +33,18 @@ def rows(path):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('release',type=Path)
+    parser.add_argument('--write',action='store_true',help='store renders and independent-validation.json in the release and refresh SHA256SUMS (only right after a fresh export)')
+    parser.add_argument('--out',type=Path,help='directory for renders and the report when --write is not given (default: a new temporary directory)')
     args=parser.parse_args()
     from gerbonara import LayerStack
     import resvg_py
     release=args.release.resolve()
+    if args.write:
+        out=release
+    else:
+        import tempfile
+        out=(args.out or Path(tempfile.mkdtemp(prefix='verify-jlcpcb-'))).resolve()
+        require(not out.is_relative_to(release),'--out must lie outside the release; use --write to store results in it')
     sums=release/'SHA256SUMS'
     require(sums.is_file(), 'Missing original export checksums')
     checksum_paths=set()
@@ -103,20 +112,26 @@ def main():
             for path in (dest/'gerbers').iterdir():require(z.read(path.name)==path.read_bytes(),'Stale zipped Gerber')
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter('always');stack=LayerStack.open(archive)
-        notes=[str(w.message) for w in caught if not issubclass(w.category,ResourceWarning)]
+        # gerbonara names its temporary extraction directory in each note; keep only the file name so reports are deterministic
+        notes=[re.sub(r'\S*/input/','',str(w.message)) for w in caught if not issubclass(w.category,ResourceWarning)]
         require(all('G90 header statement found after end of header' in n for n in notes),f'Unexpected Gerber parser warnings: {notes}')
         require(len(stack.copper_layers)==2 and stack.drill_pth is not None and stack.drill_npth is not None,'Expected two copper layers and PTH/NPTH drill data')
         expected_size={'board-p':(27,40),'board-p15':(27,40),'board-b':(BOARD_B_WIDTH,BOARD_B_HEIGHT)}[name]
         width,height=stack.outline.size('mm')
         require(abs(width-expected_size[0])<.06 and abs(height-expected_size[1])<.06,'Wrong board outline')
         for side in ('top','bottom'):
-            svg=str(stack.to_pretty_svg(side=side));(dest/f'gerber-{side}.svg').write_text(svg)
-            (dest/f'gerber-{side}.png').write_bytes(resvg_py.svg_to_bytes(svg_string=svg,width=1500,dpi=96))
+            render=out/name if out!=release else dest
+            render.mkdir(parents=True,exist_ok=True)
+            svg=str(stack.to_pretty_svg(side=side));(render/f'gerber-{side}.svg').write_text(svg)
+            (render/f'gerber-{side}.png').write_bytes(resvg_py.svg_to_bytes(svg_string=svg,width=1500,dpi=96))
         results.append({'board':name,'identity_coordinates_hashes':'PASS','gerber_drill_parse':'PASS','size_mm':[width,height],
                         'fitted_components':len(expected),'parser_notes':notes})
-    (release/'independent-validation.json').write_text(json.dumps(results,indent=2)+'\n')
-    paths=[p for p in sorted(release.rglob('*')) if p.is_file() and p.name!='SHA256SUMS' and p.suffix not in ('.lck','.kicad_prl')]
-    (release/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+str(p.relative_to(release))+'\n' for p in paths))
+    (out/'independent-validation.json').write_text(json.dumps(results,indent=2)+'\n')
+    if args.write:
+        paths=[p for p in sorted(release.rglob('*')) if p.is_file() and p.name!='SHA256SUMS' and p.suffix not in ('.lck','.kicad_prl')]
+        (release/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+str(p.relative_to(release))+'\n' for p in paths))
+    else:
+        print(f'release left unchanged; report and renders in {out}',file=sys.stderr)
     print(json.dumps(results,indent=2))
 
 

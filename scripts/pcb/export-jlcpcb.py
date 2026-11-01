@@ -25,6 +25,7 @@ LAYERS = 'F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.
 P_BOARDS = ('board-p', 'board-p15')
 PCB_FILES = {'board-p15': 'board-p15-draft.kicad_pcb'}
 POWER_BUDGETS = {'board-p': 'power-budget.json', 'board-p15': 'power-budget-p15.json'}
+ORDER_NOTES = {'board-p': 'README.md', 'board-p15': 'package-notes-p15.md'}
 ASSEMBLY_PREVIEWS = {'board-p': 'boards/board-b/assembly-preview', 'board-p15': 'boards/board-b/assembly-preview-p15'}
 
 
@@ -56,11 +57,21 @@ def write_csv(path, columns, rows):
         writer.writerows(rows)
 
 
+LOCAL_PREFIXES = []   # tool wrapper directories, set in main(); never written into a package
+
+
+def neutral(text):
+    """Command-log text with the repository root and local tool-wrapper directories removed."""
+    for prefix in sorted(LOCAL_PREFIXES + [str(ROOT) + '/'], key=len, reverse=True):
+        text = text.replace(prefix, '')
+    return text
+
+
 def run(args, log):
     args = [str(a) for a in args]
     result = subprocess.run(args, cwd=ROOT, text=True, capture_output=True)
     with log.open('a') as stream:
-        stream.write('\n$ ' + ' '.join(args) + '\n' + result.stdout + result.stderr)
+        stream.write(neutral('\n$ ' + ' '.join(args) + '\n' + result.stdout + result.stderr))
     require(result.returncode == 0, f'Command failed ({result.returncode}); see {log}')
     return result.stdout.strip()
 
@@ -155,6 +166,24 @@ def check_step_datums(board_p='board-p'):
             require(digest(path)==model[extension+'_sha256'], 'STEP datum asset changed: '+str(path))
 
 
+def export_import_closure(name):
+    """Local Python files imported by the exporter, the scripts it runs and the exported board's spec."""
+    import modulefinder
+    entries = [Path(__file__), ROOT/'scripts/pcb/verify-board-b.py', ROOT/'scripts/pcb/verify-power-layout.py',
+               ROOT/'scripts/pcb/check-model-paths.py', ROOT/'scripts/pcb/check-model-bodies.py',
+               ROOT/'scripts/schgen/verify_netlist.py', ROOT/'scripts/schgen'/(name.replace('-', '_') + '_spec.py'),
+               ROOT/'.claude/skills/component-spec-audit/scripts/validate.py',
+               ROOT/'.claude/skills/circuit-spec-integration/scripts/check_forward_tests.py']
+    path = [str(ROOT/'scripts/schgen'), str(ROOT/'scripts/pcb'), str(ROOT/'.claude/skills/component-spec-audit/scripts')]
+    found = set()
+    for entry in entries:
+        finder = modulefinder.ModuleFinder(path=path + sys.path, excludes=['pcbnew', 'wx', 'numpy', 'scipy'])
+        finder.run_script(str(entry))
+        found.update(Path(m.__file__).resolve() for m in finder.modules.values() if m.__file__)
+        found.add(entry.resolve())
+    return {p for p in found if p.is_relative_to(ROOT)}
+
+
 def export_board(name, output, cli, inventory, kicad_python, board_p='board-p'):
     dest = output / name
     require(not dest.exists(), f'Refusing to overwrite {dest}')
@@ -211,9 +240,14 @@ def export_board(name, output, cli, inventory, kicad_python, board_p='board-p'):
     hashes = {}
     dependencies = set((ROOT / 'scripts/schgen').glob('*.py'))
     dependencies.update((ROOT / 'scripts/pcb').glob('*.py'))
+    # B20 draft files stay out of this package's lock only while the import closure of every script the export runs
+    # proves they do not feed it; scripts/pcb/board-b20/ is a subdirectory and was never globbed
+    closure = export_import_closure(name)
+    unlocked = sorted(path for path in dependencies if 'b20' in path.name and path.resolve() not in closure)
+    dependencies.difference_update(unlocked)
     dependencies.add(ROOT/'scripts/pcb/step-datum-normalizations.json')
     dependencies.add(ROOT/'footprints/kicad/step-datum-verification.json')
-    dependencies.update(ROOT / 'manufacturing' / filename for filename in ('README.md', 'power-budget.md', 'power-layout.json'))
+    dependencies.update(ROOT / 'manufacturing' / filename for filename in ('power-budget.md', 'power-layout.json', *ORDER_NOTES.values()))
     dependencies.update(ROOT / 'manufacturing' / POWER_BUDGETS[p] for p in P_BOARDS if (ROOT / 'manufacturing' / POWER_BUDGETS[p]).is_file())
     dependencies.update((ROOT / 'boards/board-p').rglob('*.json'))
     dependencies.update(path for path in original.rglob('*') if path.is_file() and path.suffix in ('.json', '.bin'))
@@ -319,6 +353,7 @@ def export_board(name, output, cli, inventory, kicad_python, board_p='board-p'):
             z.write(path, path.name)
     result = {'board': name, 'fitted_components': len(included), 'bom_lines': len(bom), 'excluded': excluded,
               'assembly_sides': dict(collections.Counter(r['Layer'] for r in cpl)), 'source_hashes': hashes,
+              'source_lock_exclusions': {str(path.relative_to(ROOT)): 'B20 draft file outside the import closure of the export scripts' for path in unlocked},
               'drc_errors': 0, 'unconnected': 0, 'erc_errors': 0,
               'erc_warnings': len(erc_items), 'drc_warnings': len(drc['violations']),
               'parity_warnings': len(drc['schematic_parity']), 'origin_mm': [ox, oy],
@@ -337,6 +372,8 @@ def main():
                         help='Python with pcbnew and wx for required PCB geometry checks')
     args = parser.parse_args()
     require(args.kicad_cli, 'kicad-cli is required; no skipped fabrication checks')
+    LOCAL_PREFIXES.extend(sorted({str(Path(tool).resolve().parent) + '/' for tool in (args.kicad_cli, args.kicad_python)
+                                  if tool and Path(tool).is_absolute() and not str(Path(tool).resolve()).startswith(str(ROOT))}))
     p_boards = [b for b in args.boards if b in P_BOARDS]
     require(len(p_boards) <= 1 and len(set(args.boards)) == len(args.boards), 'Export at most one Board P variant, each board once')
     board_p = p_boards[0] if p_boards else 'board-p'
@@ -358,7 +395,7 @@ def main():
                 'kicad_version': subprocess.check_output([args.kicad_cli, '--version'], text=True).strip(),
                 'git_base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
                 'boards': results}
-    shutil.copyfile(ROOT / 'manufacturing/README.md', output / 'ORDER-NOTES.md')
+    shutil.copyfile(ROOT / 'manufacturing' / ORDER_NOTES[board_p], output / 'ORDER-NOTES.md')
     for filename in (POWER_BUDGETS[board_p], 'power-budget.md', 'power-layout.json'):
         shutil.copyfile(ROOT / 'manufacturing' / filename, output / filename)
     shutil.copyfile(ROOT/'footprints/kicad/step-datum-verification.json',output/'step-datum-verification.json')

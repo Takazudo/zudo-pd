@@ -57,8 +57,12 @@ new verification separately when revising the design.
 
 ```sh
 python3 scripts/pcb/export-jlcpcb.py tmp/current-prototype-export
-uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py tmp/current-prototype-export
+uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py --write tmp/current-prototype-export
 ```
+
+`--write` stores the Gerber renders and `independent-validation.json` in the fresh export and refreshes its
+`SHA256SUMS`. Without it the verifier leaves the package untouched and writes to a temporary directory (or
+`--out`); use that form to re-check the committed package.
 
 Use `--boards board-p` to export the PD module alone. Output directories must be
 new. Validate the temporary export before replacing the sole current package in

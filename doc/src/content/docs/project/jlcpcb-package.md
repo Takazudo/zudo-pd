@@ -66,8 +66,12 @@ Generate a temporary candidate from the current design using a new output direct
 
 ```sh
 python3 scripts/pcb/export-jlcpcb.py tmp/current-prototype-export --boards board-p board-b
-uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py tmp/current-prototype-export
+uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py --write tmp/current-prototype-export
 ```
+
+`--write` stores the Gerber renders and `independent-validation.json` in the fresh export and refreshes its
+`SHA256SUMS`. Without it the verifier leaves the package untouched and writes to a temporary directory (or
+`--out`); use that form to re-check the committed package.
 
 The exporter checks ERC, DRC and schematic/PCB parity. Inspect its reports and
 the [manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md) for actual release status. The independent rendering step
