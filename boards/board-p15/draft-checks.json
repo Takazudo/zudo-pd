@@ -1,7 +1,7 @@
 {
- "_comment": "Phase 18 checks of the 15 V Board P draft PCB (unvalidated draft, no layout review). DRC: native KiCad 10.0.6 kicad-cli pcb drc --severity-all --refill-zones --schematic-parity, run as heavy-guard -> flock /tmp/kicad-native.lock, with board-p15.kicad_sch beside the draft in a scratch tree. The as-built row is the phase 15 run of the unchanged as-built board. ERC: kicad-cli sch erc on board-p15.kicad_sch. RESET scans: scripts/pcb/board-p-reset-clearance.py (same layer, and in-plane to the other copper layer with --cross-layer); the HV set includes VDD_LOC and VDD_MID. Net parity: scripts/pcb/board-p15/pcb-net-parity.py against board_p15_spec.py (net-parity.json).",
+ "_comment": "Phase 18 checks, rerun in phase 20 after the back-silk mark change, of the 15 V Board P draft PCB (unvalidated draft, no layout review). DRC: native KiCad 10.0.6 kicad-cli pcb drc --severity-all --refill-zones --schematic-parity, run as heavy-guard -> flock /tmp/kicad-native.lock, with board-p15.kicad_sch beside the draft in a scratch tree. The as-built row is the phase 15 run of the unchanged as-built board. ERC: kicad-cli sch erc on board-p15.kicad_sch. RESET scans: scripts/pcb/board-p-reset-clearance.py (same layer, and in-plane to the other copper layer with --cross-layer); the HV set includes VDD_LOC and VDD_MID. Net parity: scripts/pcb/board-p15/pcb-net-parity.py against board_p15_spec.py (net-parity.json).",
  "board": "boards/board-p15/board-p15-draft.kicad_pcb",
- "board_sha256": "ccfe32299c32b3014d7a64e83314788b8e8bcc083c656c1eb7f625c64e0e9ade",
+ "board_sha256": "97acc5f4c712f0be01dbc5d6809a5bd17ecdceb97f3e6a831bef94500117d065",
  "drc": {
   "draft": {
    "unconnected": 0,
@@ -28,7 +28,8 @@
   },
   "errors": 0,
   "new_warnings": "None in a silk class beyond the as-built board: silk_over_copper 2 (J1 circle, R12 reference over D5) and silk_edge_clearance 2 (J2/J3 edge lines), both as built; silk_overlap 0. Phase 18 hid the added supplier fields on F.Fab, moved the J2 SCL/SDA, J3 VBUS and U1 reference texts, and put the C30 reference on F.Fab (C38 occupies its as-built spot). lib_footprint_mismatch 27 and text_height 16 are as-built artwork classes.",
-  "schematic_parity_note": "extra_footprint only: MH1, MH2 and MH3, the mounting holes with no schematic symbol, which the exporter rule allows."
+  "schematic_parity_note": "extra_footprint only: MH1, MH2 and MH3, the mounting holes with no schematic symbol, which the exporter rule allows.",
+  "phase20_note": "Phase 20 (review F5): the back-silk mark rev2 reads 'P15 r1', moved 3.071 mm up so it ends where rev2 ended. Placed at the rev2 anchor it reached y=42.26 mm and added one silk_edge_clearance warning; after the move every DRC, parity and ERC count equals phase 18."
  },
  "erc": {
   "errors": 0,

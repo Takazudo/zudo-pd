@@ -18,6 +18,7 @@ Phase 17 (dec-p15-i2c-pulldowns, dec-p15-vdd-local-clamp; no as-built part moves
 Phase 18 (dec-p15-vdd-local-clamp amended): C38 1 uF decouples VDD_LOC; the supplier fields of every
 added part are hidden on F.Fab, and the J2 SCL/SDA, J3 VBUS and U1 reference texts move (text only) off the
 new pads. No part moves.
+Phase 20 (review F5): the back-silk revision mark rev2 reads P15 r1 (text only).
 Every removed segment is named by its exact as-built end points, so an unexpected as-built change fails loudly.
 Zones are refilled before saving.
 """
@@ -230,6 +231,15 @@ move_text(fp['J2'], 'SDA', 0, 0.73)      # in the gap between R23 and R22, besid
 move_text(fp['J3'], 'VBUS', 0.2, -0.5)   # above R29 pad 1, beside J3.4
 fp['U1'].Reference().Move(pt(1.5, 0))    # clear of the R21 RESET pad
 fp['C30'].Reference().SetLayer(pcbnew.F_Fab)   # its as-built spot right of C30 is now C38; no free silk spot beside C30
+
+# Phase 20 (review F5): the back variant mark reads P15 r1 instead of the as-built rev2, so a 15 V unit is not
+# mistaken for an ordered rev2 board on the jig. Text only; the mark wording is reversible.
+rev = [t for t in b.GetDrawings() if isinstance(t, pcbnew.PCB_TEXT) and t.GetText() == 'rev2']
+if len(rev) != 1:
+    raise SystemExit(f'expected one rev2 board text, found {len(rev)}')
+end = rev[0].GetBoundingBox().GetBottom()
+rev[0].SetText('P15 r1')
+rev[0].Move(pcbnew.VECTOR2I(0, end - rev[0].GetBoundingBox().GetBottom()))   # keep the rev2 end, clear of the bottom edge
 
 for gone in DOOMED + [old, fp.pop('R15'), fp.pop('R16')]:
     b.Remove(gone)

@@ -38,7 +38,18 @@ symbol's unspecified pin types. `verify_netlist.py` passes: 26 nets and 99 nodes
 at 20.721 V (+7.279 V) at 26.0 V. D9 carries at most 8.82 mA. At a 4.72 V attach input, VDD is 4.373 V at the
 idle IDD maximum (+0.273 V over 4.1 V). IDD during PD communication is UNKNOWN, so attach headroom is OPEN.
 C2 (100 nF) decouples U1.24, and phase 18 adds the r3 C38 1 µF (C15849, `dec-p15-vdd-decoupling`) on
-VDD_LOC. The 1.47 kΩ × 1 µF feed sets a 1.47 ms rise; its effect on STUSB4500 start-up is OPEN.
+VDD_LOC. The 1.47 kΩ feed and C2 + C38 (1.1 µF nominal) set τ ≈ 1.62 ms (phase 20 correction of 1.47 ms).
+DS12499 Rev 7 gives no VDD ramp or UVLO requirement to check it against (UNKNOWN); the attach waveform is a
+bench check.
+
+**D9 window (phase 20, review F7):** D9's guaranteed VZ minimum is 16.8 V at 25 °C, but 15.76 V at −40 °C with
+the TC maximum (16.0 mV/°C). That is only +0.01 V above a 15.75 V (+5 %) input, so knee leakage at the cold
++5 % corner is possible; sub-mA through 1.47 kΩ costs at most a few hundred mV of VDD and is functionally
+benign. BZT52C20-7-F (C260890) was evaluated with `scripts/pcb/board-p15/zener-choice.py`
+(`d9-zener-choice.json`): its 23.041 V pin bound at 28.6 V / 125 °C leaves 4.959 V to 28 V, under the 5 V
+adoption margin, and its 22.64 V VZ maximum at 105 °C exceeds the 22 V VDD operating row. D9 stays BZT52C18.
+At the surge row R29 dissipates 77.1 mW and R30 36.2 mW (0.1 W rating at ≤ 70 °C; derating above 70 °C
+UNKNOWN), and D9 at most 183.5 mW (370 mW at 25 °C on FR-4).
 
 ## Draft PCB: as-built placement with RESET re-routed
 
@@ -60,11 +71,14 @@ placement and track is kept, apart from these changes:
 - Silk (phase 18, text only): the supplier fields of every added part are hidden on F.Fab; the J2 SCL/SDA, J3
   VBUS and U1 reference texts moved off the new pads; the C30 reference is on F.Fab because C38 occupies its
   as-built spot.
+- Back silk (phase 20, review F5, text only): the variant mark reads `P15 r1` instead of the as-built `rev2`, so
+  a 15 V unit is not taken for an ordered rev2 board. The longer text is moved 3.071 mm up so it ends where
+  `rev2` ended; at the `rev2` anchor it crossed the bottom edge. The wording is reversible.
 
 Checks are recorded in `draft-checks.json` and `net-parity.json`.
 
 - **Net parity: PASS.** The PCB matches `board_p15_spec.py` pin for pin, with no-connects.
-- **DRC: no errors and no unconnected items**, with schematic parity: only the `extra_footprint` items
+- **DRC: no errors and no unconnected items** (phase 20 rerun, same counts as phase 18), with schematic parity: only the `extra_footprint` items
   MH1–MH3. Warnings: `lib_footprint_mismatch` 27, `text_height` 16, `lib_footprint_issues` 3,
   `silk_over_copper` 2 and `silk_edge_clearance` 2.
   - The silk classes now equal the as-built board: no `silk_overlap`, and the same 2 `silk_over_copper`
