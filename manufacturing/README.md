@@ -22,8 +22,9 @@ package is maintained. Renewal Board B was ordered on 2026-09-20 with zudo-bus; 
 
 Large `populated-stack.step` and `installed-assembly.step` files are local-only
 generated previews. Git LFS is prohibited. The
-[omission inventory](local-only-assembly-previews.json) records the three current paths
-and two distinct assembled objects, with sizes and expected hashes. Local copies
+[omission inventory](local-only-assembly-previews.json) records the four current paths
+and three distinct assembled objects, with sizes and expected hashes. The fourth is the
+board-p15 draft stack in `boards/board-b/assembly-preview-p15/`. Local copies
 are retained and ignored. Component
 models, native KiCad previews, printable STLs, Gerbers, drills, BOMs and CPLs
 remain tracked.
@@ -202,7 +203,7 @@ registry. This limitation remains explicit in the component catalog.
 The U4 and U8 tabs carry the negative intermediate rail. Do not bond them to ground
 or to an uninsulated common heatsink with the positive regulators. Their copper
 areas are isolated from system ground. Copper area alone is not a measured thermal
-resistance. Use `power-layout.json` and `power-budget.json` for current source-locked
+resistance. Use `power-layout.json` and `power-budget.json` (`power-budget-p15.json` for the board-p15 draft) for current source-locked
 areas and conditioned limits. The ground report separately measures aggregate
 sampled width and the largest individual run across connected copper polygons;
 it does not describe one continuous corridor. Polygon connectivity and specified
@@ -217,6 +218,15 @@ verified separately. These warnings remain in the full DRC report.
 Board P's reused pogo artwork has application-specific label corrections:
 J2.4 is `RST` (RESET), J3.4 is `VBUS`, and J3.5 is `GND`. Their electrical pinout
 is unchanged; library-mismatch warnings retain this intentional artwork difference.
+
+The 15 V Board P draft (`boards/board-p15/`, unvalidated, not ordered) changes these
+notes. J2.4 is `NC`: it has no connection, because R21 straps RESET to GND
+(`dec-p15-reset-subset`). J2.1/J2.2 (SCL/SDA) carry 100 kΩ pull-downs and no
+pull-ups. The programming jig supplies the pull-ups, to at most 4.5 V and never from
+J3.3 VREG_2V7. Because RESET cannot be pulsed, only a full power cycle reloads the
+NVM. Follow [Board P15 NVM Programming](../doc/src/content/docs/architecture/board-p15-programming.md)
+and accept the image only on a power-cycle readback equal to
+`boards/board-p15/nvm/stusb4500-15v.bin`.
 
 The renewed input TVS is Littelfuse SMAJ16A, paired with a 60 V
 SDT5A60SA-13 catch diode at Board B D3. The specified 26 V clamp at 15.4 A,

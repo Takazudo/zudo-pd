@@ -134,7 +134,8 @@ def surface_check(shape, vertices, faces, tolerance, allow_internal=False):
 def run(normalize=False,board_b=None):
     review = json.loads(REVIEW.read_text())
     tolerance = review['maximum_external_surface_deviation_mm']
-    boards=[ROOT/'boards/board-p/board-p.kicad_pcb',board_b or ROOT/'boards/board-b/board-b.kicad_pcb']
+    # both Board P variants (as built and the board-p15 15 V draft) share one reviewed model set with Board B
+    boards=[ROOT/'boards/board-p/board-p.kicad_pcb',ROOT/'boards/board-p15/board-p15-draft.kicad_pcb',board_b or ROOT/'boards/board-b/board-b.kicad_pcb']
     active_names=set()
     for board in boards:
         for footprint in find_all(load(board),'footprint'):

@@ -13,8 +13,13 @@ sys.path.insert(0, str(ROOT/'scripts/schgen'))
 from sexp import atom, find_all, load
 
 
+# Board P variant -> (spec module, PCB, default report); board-p15 is the separate 15 V product (dec-separate-products)
+P_VARIANTS = {'board-p': ('board_p_spec', 'boards/board-p/board-p.kicad_pcb', 'manufacturing/power-budget.json'),
+              'board-p15': ('board_p15_spec', 'boards/board-p15/board-p15-draft.kicad_pcb', 'manufacturing/power-budget-p15.json')}
+
+
 def require_pcb_part(board, reference, expected_lcsc):
-    path = ROOT/'boards'/board/(board+'.kicad_pcb')
+    path = ROOT/(P_VARIANTS[board][1] if board in P_VARIANTS else f'boards/{board}/{board}.kicad_pcb')
     found = []
     for footprint in find_all(load(path), 'footprint'):
         properties = {atom(item[1]): atom(item[2]) for item in find_all(footprint, 'property')}
@@ -101,8 +106,11 @@ def board_p_20v_draft_screen(pd_spec, negative_high):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output', type=Path, default=ROOT/'manufacturing/power-budget.json')
+    parser.add_argument('--board-p', choices=sorted(P_VARIANTS), default='board-p')
+    parser.add_argument('--output', type=Path)
     args = parser.parse_args()
+    p_spec_module, _, default_output = P_VARIANTS[args.board_p]
+    args.output = args.output or ROOT/default_output
     protection_path = ROOT/'.claude/skills/component-renewal-input-protection/facts.json'
     protection_facts = {fact['fact_id']: fact for fact in json.loads(protection_path.read_text())['facts']}
     vf_fact = protection_facts['fact-c3024223-vf-max-5a-25c']
@@ -156,13 +164,15 @@ def main():
             'nominal_output_capacitor_energy_j': .5 * 1410e-6 * bounds['nominal_v']**2,
         })
     spec = runpy.run_path(str(ROOT / 'scripts/schgen/board_b_spec.py'))
-    pd_spec = runpy.run_path(str(ROOT / 'scripts/schgen/board_p_spec.py'))
+    pd_spec = runpy.run_path(str(ROOT / f'scripts/schgen/{p_spec_module}.py'))
     p_spec_d5 = pd_spec['COMPONENTS']['D5'][2]
     if spec['COMPONENTS']['D3'][2] != 'C3024223' or p_spec_d5 not in ('C74561', 'C523793'):
         raise ValueError('Protection screen requires B D3 C3024223 and P D5 C74561 (15 V as-built) or C523793 (20 V draft)')
+    if args.board_p == 'board-p15' and p_spec_d5 != 'C74561':
+        raise ValueError('board-p15 keeps the as-built SMAJ16A D5 C74561')
     # The Board P PCB stays the 15 V as-built layout (SMAJ16A) until the 20 V draft is laid out.
     protected_pcbs = {'board-b': require_pcb_part('board-b','D3','C3024223'),
-                      'board-p': require_pcb_part('board-p','D5','C74561')}
+                      args.board_p: require_pcb_part(args.board_p,'D5','C74561')}
     selected_negative = {
         'top': {'ref': 'R5', 'mpn': 'RT0603BRD0710K5L', 'lcsc': 'C861077', 'resistance_ohm': 10500, 'tolerance_fraction': .001},
         'bottom': {'ref': 'R6', 'mpn': 'RT0603BRD071KL', 'lcsc': 'C110776', 'resistance_ohm': 1000, 'tolerance_fraction': .001},
@@ -249,7 +259,7 @@ def main():
         ],
         'source_generator': 'scripts/pcb/calculate-power-budget.py',
         'board_b_spec_sha256': hashlib.sha256((ROOT/'scripts/schgen/board_b_spec.py').read_bytes()).hexdigest(),
-        'board_p_spec_sha256': hashlib.sha256((ROOT/'scripts/schgen/board_p_spec.py').read_bytes()).hexdigest(),
+        p_spec_module + '_sha256': hashlib.sha256((ROOT/f'scripts/schgen/{p_spec_module}.py').read_bytes()).hexdigest(),
         'protection_pcb_source_sha256': protected_pcbs,
     }
     negative_high = pre_negative_hot['maximum_v']
@@ -266,7 +276,12 @@ def main():
         'diode_hot_reverse_leakage_note':'0.5mA is a maximum at60V/25C;50mA at60V/125C is typical only. Neither is an established installed hot leakage limit, and the forward-conduction model excludes reverse-leakage heating.',
         'retired_comparison':{'status':'RETIRED: old P SMAJ20A and B SS34 comparison, not the fitted protection pair','clamp_v':32.4,'old_d3_reverse_v':40,'effective_nominal_negative_v':32.4+14.145,'u4_abs_margin_at_nominal_v':45-32.4-14.145,'old_d3_margin_at_nominal_v':40-32.4-14.145},
     }
-    if p_spec_d5 == 'C523793':
+    if args.board_p == 'board-p15':
+        data['board_p'] = 'board-p15'
+        data['input_protection_screen']['scope'] = ('Board P 15 V draft (board_p15_spec.py, board-p15-draft.kicad_pcb) with the as-built SMAJ16A D5. '
+                                                    'stusb_28v_abs applies to the STUSB4500 pins still on VBUS_IN (VBUS_VS_DISCH); VDD sits behind the '
+                                                    'R29/R30 feed and D9 clamp of dec-p15-vdd-local-clamp, screened in that decision.')
+    elif p_spec_d5 == 'C523793':
         data['input_protection_screen']['scope'] = 'Board P PCB as-built 15 V pairing (SMAJ16A D5); the Board P spec is now the 20 V draft, screened separately below.'
         data['board_p_20v_draft_screen'] = board_p_20v_draft_screen(pd_spec, negative_high)
     layout_path = ROOT/'manufacturing/power-layout.json'

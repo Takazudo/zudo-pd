@@ -20,6 +20,16 @@ sys.path.insert(0, str(ROOT / 'scripts/schgen'))
 from sexp import atom, find_all, load
 
 LAYERS = 'F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste'
+# Board P variants. board-p15 is the separate 15 V product's draft (dec-separate-products); its PCB keeps the
+# -draft suffix in the repository and is staged as board-p15.kicad_pcb so schematic-parity DRC can pair it.
+P_BOARDS = ('board-p', 'board-p15')
+PCB_FILES = {'board-p15': 'board-p15-draft.kicad_pcb'}
+POWER_BUDGETS = {'board-p': 'power-budget.json', 'board-p15': 'power-budget-p15.json'}
+ASSEMBLY_PREVIEWS = {'board-p': 'boards/board-b/assembly-preview', 'board-p15': 'boards/board-b/assembly-preview-p15'}
+
+
+def pcb_path(name, root=None):
+    return (root or ROOT) / 'boards' / name / PCB_FILES.get(name, name + '.kicad_pcb')
 
 
 def require(condition, message):
@@ -55,16 +65,16 @@ def run(args, log):
     return result.stdout.strip()
 
 
-def verify_power_report_freshness(root=ROOT):
+def verify_power_report_freshness(root=ROOT, board_p='board-p'):
     """Reject stale report contents, even when the report files hash correctly."""
     layout = json.loads((root/'manufacturing/power-layout.json').read_text())
-    budget = json.loads((root/'manufacturing/power-budget.json').read_text())
+    budget = json.loads((root/'manufacturing'/POWER_BUDGETS[board_p]).read_text())
     require(isinstance(layout, dict) and isinstance(budget, dict), 'Invalid power report structure')
-    pcb_hashes = {name: digest(root/'boards'/name/(name+'.kicad_pcb'))
-                  for name in ('board-p', 'board-b')}
+    require(budget.get('board_p', 'board-p') == board_p, f'{POWER_BUDGETS[board_p]} is not bound to {board_p}')
+    pcb_hashes = {name: digest(pcb_path(name, root)) for name in (board_p, 'board-b')}
     require(layout.get('status') == 'PASS' and layout.get('pcb_sha256') == pcb_hashes['board-b'],
             'Stale power-layout.json: regenerate it from the current filled Board B')
-    for name in ('board-p', 'board-b'):
+    for name in (board_p, 'board-b'):
         spec_name = name.replace('-', '_')
         require(budget.get(spec_name+'_spec_sha256') == digest(root/'scripts/schgen'/(spec_name+'_spec.py')),
                 f'Stale power-budget.json: {name} schematic specification changed')
@@ -99,10 +109,11 @@ def check_reused_geometry(report):
         require(digest(ROOT/name) == expected, 'Geometry reuse dependency changed: '+name)
 
 
-def check_assembly_freshness():
+def check_assembly_freshness(board_p='board-p'):
     """Require the portable assembly preview to match the current PCB and models."""
-    folder=ROOT/'boards/board-b/assembly-preview'
+    folder=ROOT/ASSEMBLY_PREVIEWS[board_p]
     report=json.loads((folder/'verification.json').read_text())
+    require(report.get('board_p','board-p')==board_p,'Assembly preview is not built with '+board_p)
     check_reused_geometry(report)
     require(report.get('status')=='PASS','Assembly preview checks must pass')
     require(report.get('pd_transform')=='P(x,y) -> B(y-0.5,x+12)' and math.isclose(report.get('board_p_top_z_mm',0),11.1,abs_tol=1e-6),'Assembly must use the reviewed front-side PD stack')
@@ -111,8 +122,9 @@ def check_assembly_freshness():
     require(report.get('project_support_collar_clearance',{}).get('status')=='PASS','Project corner-support clearance check is required')
     require(report.get('generator_sha256')==digest(ROOT/'scripts/pcb/export-assembly-preview.py'),'Assembly preview generator changed')
     require(report.get('mechanical_spec_sha256')==digest(ROOT/'boards/board-b/mechanical.json'),'Assembly mechanical specification changed')
-    for name in ('board-p','board-b'):
-        require(report.get('pcb_sha256',{}).get(name)==digest(ROOT/'boards'/name/(name+'.kicad_pcb')),'Assembly PCB changed: '+name)
+    require(set(report.get('pcb_sha256',{}))=={board_p,'board-b'},'Assembly preview binds other boards')
+    for name in (board_p,'board-b'):
+        require(report.get('pcb_sha256',{}).get(name)==digest(pcb_path(name)),'Assembly PCB changed: '+name)
     require(report.get('model_sources_sha256') and report.get('artifact_sha256'),'Assembly proof is missing model/artifact hashes')
     require(report.get('verification_sources_sha256'),'Assembly proof lacks checker hashes')
     for name,sha in report['verification_sources_sha256'].items():require(digest(ROOT/name)==sha,'Assembly geometry checker changed: '+name)
@@ -121,7 +133,7 @@ def check_assembly_freshness():
     require(report.get('original_B_nonmodel_geometry_unchanged') is True,'Assembly preview altered Board B geometry')
 
 
-def check_step_datums():
+def check_step_datums(board_p='board-p'):
     """Require the sampled model-datum proof to cover the current populated boards."""
     report=json.loads((ROOT/'footprints/kicad/step-datum-verification.json').read_text())
     check_reused_geometry(report)
@@ -129,8 +141,8 @@ def check_step_datums():
     require(report.get('review_sha256')==digest(ROOT/'scripts/pcb/step-datum-normalizations.json'), 'STEP datum review changed')
     require(report.get('verifier_sha256')==digest(ROOT/'scripts/pcb/verify-step-datums.py'), 'STEP datum verifier changed')
     boards={row['path']:row['sha256'] for row in report.get('boards',[])}
-    for name in ('board-p','board-b'):
-        path=f'boards/{name}/{name}.kicad_pcb'
+    for name in (board_p,'board-b'):
+        path=str(pcb_path(name).relative_to(ROOT))
         require(boards.get(path)==digest(ROOT/path), 'STEP datum PCB proof is stale: '+path)
     require(report.get('models'), 'STEP datum report has no models')
     reviewed=json.loads((ROOT/'scripts/pcb/step-datum-normalizations.json').read_text())
@@ -143,18 +155,19 @@ def check_step_datums():
             require(digest(path)==model[extension+'_sha256'], 'STEP datum asset changed: '+str(path))
 
 
-def export_board(name, output, cli, inventory, kicad_python):
+def export_board(name, output, cli, inventory, kicad_python, board_p='board-p'):
     dest = output / name
     require(not dest.exists(), f'Refusing to overwrite {dest}')
     original = ROOT / 'boards' / name
     spec = importlib.import_module(name.replace('-', '_') + '_spec')
-    for suffix in ('.kicad_pcb', '.kicad_sch', '.kicad_pro'):
+    require(pcb_path(name).is_file(), f'Missing {pcb_path(name).name}')
+    for suffix in ('.kicad_sch', '.kicad_pro'):
         require((original / (name + suffix)).is_file(), f'Missing {name}{suffix}')
     source, raw, gerbers, checks = [dest / p for p in ('source', 'raw', 'gerbers', 'checks')]
     for folder in (source, raw, gerbers, checks):
         folder.mkdir(parents=True)
     log = checks / 'commands.log'
-    pcb = load(original / (name + '.kicad_pcb'))
+    pcb = load(pcb_path(name))
     footprints = {}
     mechanical = set()
     for fp in find_all(pcb, 'footprint'):
@@ -200,14 +213,16 @@ def export_board(name, output, cli, inventory, kicad_python):
     dependencies.update((ROOT / 'scripts/pcb').glob('*.py'))
     dependencies.add(ROOT/'scripts/pcb/step-datum-normalizations.json')
     dependencies.add(ROOT/'footprints/kicad/step-datum-verification.json')
-    dependencies.update(ROOT / 'manufacturing' / filename for filename in ('README.md', 'power-budget.json', 'power-budget.md', 'power-layout.json'))
+    dependencies.update(ROOT / 'manufacturing' / filename for filename in ('README.md', 'power-budget.md', 'power-layout.json'))
+    dependencies.update(ROOT / 'manufacturing' / POWER_BUDGETS[p] for p in P_BOARDS if (ROOT / 'manufacturing' / POWER_BUDGETS[p]).is_file())
     dependencies.update((ROOT / 'boards/board-p').rglob('*.json'))
+    dependencies.update(path for path in original.rglob('*') if path.is_file() and path.suffix in ('.json', '.bin'))
     dependencies.update((ROOT / 'boards/board-b').glob('*.json'))
     dependencies.update(path for path in (ROOT/'boards/board-b/supports').rglob('*') if path.is_file())
     dependencies.update(path for path in (ROOT/'boards/board-b/artwork').rglob('*')
                         if path.is_file() and path.suffix.lower() in ('.svg', '.md', '.json', '.png'))
     if name=='board-b':
-        dependencies.update(path for path in (ROOT/'boards/board-b/assembly-preview').rglob('*') if path.is_file() and '__pycache__' not in path.parts and path.suffix in ('.py','.json','.md','.stl','.step','.wrl','.png','.zip','.kicad_pcb','.kicad_pro'))
+        dependencies.update(path for path in (ROOT/ASSEMBLY_PREVIEWS[board_p]).rglob('*') if path.is_file() and '__pycache__' not in path.parts and path.suffix in ('.py','.json','.md','.stl','.step','.wrl','.png','.zip','.kicad_pcb','.kicad_pro'))
     dependencies.update(p for p in (ROOT / 'boards/board-b/routing').glob('*') if p.is_file())
     dependencies.add(ROOT / 'symbols/zudo-pd.kicad_sym')
     dependencies.update((ROOT / '.claude/skills').glob('component-*/**/*.json'))
@@ -229,9 +244,12 @@ def export_board(name, output, cli, inventory, kicad_python):
     for path in sorted(original.iterdir()):
         if path.suffix not in ('.kicad_pcb', '.kicad_sch', '.kicad_pro', '.kicad_dru') and path.name not in ('fp-lib-table', 'sym-lib-table','mechanical.json'):
             continue
+        staged = name + '.kicad_pcb' if path == pcb_path(name) else path.name
+        if path.suffix in ('.kicad_pcb', '.kicad_pro') and staged.rsplit('.', 1)[0] != name:
+            continue   # e.g. board-p15-draft.kicad_pro: the staged project is <name>.kicad_pro
         hashes[str(path.relative_to(ROOT))] = digest(path)
         content = path.read_text().replace('${KIPRJMOD}/../../', '${KIPRJMOD}/' + os.path.relpath(ROOT, source) + '/')
-        (source / path.name).write_text(content)
+        (source / staged).write_text(content)
     for path in [ROOT / 'scripts/schgen' / (name.replace('-', '_') + '_spec.py'),
                  ROOT / '.claude/skills/component-spec-audit/references/inventory.json']:
         hashes[str(path.relative_to(ROOT))] = digest(path)
@@ -312,23 +330,26 @@ def export_board(name, output, cli, inventory, kicad_python):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
-    parser.add_argument('--boards', nargs='+', choices=('board-p', 'board-b'), default=['board-p', 'board-b'])
+    parser.add_argument('--boards', nargs='+', choices=(*P_BOARDS, 'board-b'), default=['board-p', 'board-b'])
     parser.add_argument('--kicad-cli', default=shutil.which('kicad-cli'))
     mac_python = Path('/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3')
     parser.add_argument('--kicad-python', default=str(mac_python) if mac_python.is_file() else sys.executable,
                         help='Python with pcbnew and wx for required PCB geometry checks')
     args = parser.parse_args()
     require(args.kicad_cli, 'kicad-cli is required; no skipped fabrication checks')
-    verify_power_report_freshness()
-    check_step_datums()
+    p_boards = [b for b in args.boards if b in P_BOARDS]
+    require(len(p_boards) <= 1 and len(set(args.boards)) == len(args.boards), 'Export at most one Board P variant, each board once')
+    board_p = p_boards[0] if p_boards else 'board-p'
+    verify_power_report_freshness(board_p=board_p)
+    check_step_datums(board_p)
     output = args.output.resolve()
     require(not output.exists(), 'Choose a new staging directory; replace the current prototype outputs only after validation')
-    if 'board-b' in args.boards:check_assembly_freshness()
+    if 'board-b' in args.boards:check_assembly_freshness(board_p)
     output.mkdir(parents=True)
     run([sys.executable, ROOT / '.claude/skills/component-spec-audit/scripts/validate.py', '--strict'], output / 'preflight.log')
     run([sys.executable, ROOT / '.claude/skills/circuit-spec-integration/scripts/check_forward_tests.py', '--strict'], output / 'preflight.log')
     inventory = json.loads((ROOT / '.claude/skills/component-spec-audit/references/inventory.json').read_text())
-    results = [export_board(name, output, args.kicad_cli, inventory, args.kicad_python) for name in args.boards]
+    results = [export_board(name, output, args.kicad_cli, inventory, args.kicad_python, board_p) for name in args.boards]
     for result in results:
         for path, expected in result['source_hashes'].items():
             require(digest(ROOT / path) == expected, f'Source changed during export: {path}')
@@ -337,12 +358,12 @@ def main():
                 'git_base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
                 'boards': results}
     shutil.copyfile(ROOT / 'manufacturing/README.md', output / 'ORDER-NOTES.md')
-    for filename in ('power-budget.json', 'power-budget.md', 'power-layout.json'):
+    for filename in (POWER_BUDGETS[board_p], 'power-budget.md', 'power-layout.json'):
         shutil.copyfile(ROOT / 'manufacturing' / filename, output / filename)
     shutil.copyfile(ROOT/'footprints/kicad/step-datum-verification.json',output/'step-datum-verification.json')
     shutil.copyfile(ROOT/'scripts/pcb/step-datum-normalizations.json',output/'step-datum-normalizations.json')
     if 'board-b' in args.boards:
-        shutil.copytree(ROOT/'boards/board-b/assembly-preview',output/'mechanical/assembly',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+        shutil.copytree(ROOT/ASSEMBLY_PREVIEWS[board_p],output/'mechanical/assembly',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
         shutil.copytree(ROOT/'boards/board-b/supports',output/'mechanical/supports')
     manifest['artifact_hashes'] = {str(path.relative_to(output)): digest(path) for path in sorted(output.rglob('*')) if path.is_file() and path.suffix not in ('.lck', '.kicad_prl')}
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
