@@ -9502,6 +9502,103 @@
       )
     )
   )
+  (symbol "RVT1E471M0810"
+    (in_bom yes)
+    (on_board yes)
+    (property
+      "Reference"
+      "C"
+      (id 0)
+      (at 0 8.89 0)
+      (effects (font (size 1.27 1.27) ) )
+    )
+    (property
+      "Value"
+      "RVT1E471M0810"
+      (id 1)
+      (at 0 -8.89 0)
+      (effects (font (size 1.27 1.27) ) )
+    )
+    (property
+      "Footprint"
+      "zudo-pd:CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD"
+      (id 2)
+      (at 0 -11.43 0)
+      (effects (font (size 1.27 1.27) ) hide)
+    )
+    (property
+      "Datasheet"
+      "https://datasheet.lcsc.com/datasheet/pdf/4ec4cfc2b89f173d2532ed891957b1a7.pdf?productCode=C696190"
+      (id 3)
+      (at 0 -13.97 0)
+      (effects (font (size 1.27 1.27) ) hide)
+    )
+    (property
+      "LCSC Part"
+      "C696190"
+      (id 5)
+      (at 0 -16.51 0)
+      (effects (font (size 1.27 1.27) ) hide)
+    )
+    (symbol "RVT1E471M0810_0_1"
+      (arc
+        (start 1.95 -1.33)
+        (mid -1.57 -4.79)
+        (end -1.83 -1.21)
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy 2.03 0.51) (xy -2.03 0.51)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy 0.00 1.27) (xy 0.00 0.51)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy 0.00 -0.51) (xy 0.00 -1.27)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy 0.76 2.54) (xy 0.76 1.52)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy 1.27 2.03) (xy 0.25 2.03)
+        )
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (pin passive line
+        (at 0.00 3.81 270)
+        (length 2.54)
+        (name "1" (effects (font (size 1.27 1.27))))
+        (number "1" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line
+        (at 0.00 -3.81 90)
+        (length 2.54)
+        (name "2" (effects (font (size 1.27 1.27))))
+        (number "2" (effects (font (size 1.27 1.27))))
+      )
+    )
+    (property "Manufacturer" "Honor Elec" (id 9) (at 0 -19.05 0) (effects (font (size 1.27 1.27)) hide))
+    (property "MPN" "RVT1E471M0810" (id 10) (at 0 -21.59 0) (effects (font (size 1.27 1.27)) hide))
+  )
   (symbol "EFVH035ADA471M10B0"
     (in_bom yes)
     (on_board yes)
@@ -12356,6 +12453,67 @@
     )
     (property "Manufacturer" "YAGEO" (id 9) (at 0 -15.24 0) (effects (font (size 1.27 1.27)) hide))
     (property "MPN" "RT0603BRD07680RL" (id 10) (at 0 -17.78 0) (effects (font (size 1.27 1.27)) hide))
+  )
+  (symbol "AT0603BRD07680RL"
+    (in_bom yes)
+    (on_board yes)
+    (property
+      "Reference"
+      "R"
+      (id 0)
+      (at 0 5.08 0)
+      (effects (font (size 1.27 1.27) ) )
+    )
+    (property
+      "Value"
+      "AT0603BRD07680RL"
+      (id 1)
+      (at 0 -5.08 0)
+      (effects (font (size 1.27 1.27) ) )
+    )
+    (property
+      "Footprint"
+      "zudo-pd:R0603"
+      (id 2)
+      (at 0 -7.62 0)
+      (effects (font (size 1.27 1.27) ) hide)
+    )
+    (property
+      "Datasheet"
+      "https://yageogroup.com/component-documentation/download/specsheet/AT0603BRD07680RL"
+      (id 3)
+      (at 0 -10.16 0)
+      (effects (font (size 1.27 1.27) ) hide)
+    )
+    (property
+      "LCSC Part"
+      "C5455478"
+      (id 5)
+      (at 0 -12.70 0)
+      (effects (font (size 1.27 1.27) ) hide)
+    )
+    (symbol "AT0603BRD07680RL_0_1"
+      (rectangle
+        (start -2.54 1.02)
+        (end 2.54 -1.02)
+        (stroke (width 0) (type default) (color 0 0 0 0))
+        (fill (type background))
+      )
+      (pin passive line
+        (at 5.08 -0.00 180)
+        (length 2.54)
+        (name "2" (effects (font (size 1.27 1.27))))
+        (number "2" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line
+        (at -5.08 -0.00 0)
+        (length 2.54)
+        (name "1" (effects (font (size 1.27 1.27))))
+        (number "1" (effects (font (size 1.27 1.27))))
+      )
+    )
+    (property "Manufacturer" "YAGEO" (id 9) (at 0 -15.24 0) (effects (font (size 1.27 1.27)) hide))
+    (property "MPN" "AT0603BRD07680RL" (id 10) (at 0 -17.78 0) (effects (font (size 1.27 1.27)) hide))
   )
   (symbol "RT0603BRD073K09L"
     (in_bom yes)

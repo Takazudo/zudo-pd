@@ -29,7 +29,8 @@ _C100N = ('CC0805KRX7R9BB104', '100nF 50V', 'C1711', 'zudo-pd:C0805')
 _C470N = ('CL10B474KA8NNNC', '470nF', 'C1623', 'zudo-pd:C0603')
 _C470U_35 = ('EFVH035ADA471M10B0', '470uF 35V', 'C22387780', 'zudo-pd:CAP-SMD_BD10.0-L10.3-W10.3-LS11.0-FD')
 # Phi 8 can (datasheet: "D8H10.5mm"), NOT the Phi 10 land the other 470uF line uses -- see issue #150
-_C470U_25 = ('GVT1E477M0810CNVC', '470uF 25V', 'C2983319', 'zudo-pd:CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD')
+# dec-b-stock-gap-substitutions (owner decision 2026-11-01): Honor RVT1E471M0810 C696190 replaces HRK GVT1E477M0810CNVC C2983319
+_C470U_25 = ('RVT1E471M0810', '470uF 25V', 'C696190', 'zudo-pd:CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD')
 _C470U_10 = ('RVT1A471M0607_C335982', '470uF 10V', 'C335982', 'zudo-pd:CAP-SMD_BD6.3-L6.6-W6.6-FD')
 _C22N = ('CL21B223KBANNNC', '22nF', 'C1729', 'zudo-pd:C0805')
 _R1K_LED = ('0805W8F1001T5E', '1k', 'C17513', 'zudo-pd:R0805')
@@ -120,14 +121,14 @@ COMPONENTS = {
     'J10':  (*_EURO16, False, (609.6, 393.7)),
     'J11':  (*_EURO16, False, (787.4, 393.7)),
     'R20': ('RT0603BRD078K2L', '8200R 0.1%', 'C861589', 'zudo-pd:R0603', False, (76.2, 431.8)),
-    'R21': ('RT0603BRD07680RL', '680R 0.1%', 'C861519', 'zudo-pd:R0603', False, (165.1, 431.8)),
+    'R21': ('AT0603BRD07680RL', '680R 0.1%', 'C5455478', 'zudo-pd:R0603', False, (165.1, 431.8)),  # dec-b-stock-gap-substitutions
     'R22': ('RT0603BRD071KL', '1000R 0.1%', 'C110776', 'zudo-pd:R0603', False, (254, 431.8)),
     'R23': ('RT0603BRD073K09L', '3090R 0.1%', 'C861371', 'zudo-pd:R0603', False, (342.9, 431.8)),
     'R24': ('RT0603BRD0733RL', '33R 0.1%', 'C861332', 'zudo-pd:R0603', False, (431.8, 431.8)),
     'R25': ('RT0603BRD071KL', '1000R 0.1%', 'C110776', 'zudo-pd:R0603', False, (520.7, 431.8)),
     # U8 ADJ divider reuses the U6 divider orderables: -1.22 V * (1 + 8880/1000).
     'R26': ('RT0603BRD078K2L', '8200R 0.1%', 'C861589', 'zudo-pd:R0603', False, (609.6, 482.6)),
-    'R27': ('RT0603BRD07680RL', '680R 0.1%', 'C861519', 'zudo-pd:R0603', False, (698.5, 482.6)),
+    'R27': ('AT0603BRD07680RL', '680R 0.1%', 'C5455478', 'zudo-pd:R0603', False, (698.5, 482.6)),  # dec-b-stock-gap-substitutions
     'R28': ('RT0603BRD071KL', '1000R 0.1%', 'C110776', 'zudo-pd:R0603', False, (787.4, 482.6)),
     # AP63201 local ceramic bank and bootstrap, per DS41326 sections 9-13.
     'C36': (*_C10U_50, False, (76.2, 482.6)),
