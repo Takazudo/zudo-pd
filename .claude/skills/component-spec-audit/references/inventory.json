@@ -12,14 +12,18 @@
     {
       "board": "board-p",
       "spec": "scripts/schgen/board_p_spec.py"
+    },
+    {
+      "board": "board-p15",
+      "spec": "scripts/schgen/board_p15_spec.py"
     }
   ],
   "assertions": {
-    "orderable_lines": 69,
-    "fitted_lines": 67,
+    "orderable_lines": 70,
+    "fitted_lines": 68,
     "dnp_or_hand_fit_lines": 2,
-    "fitted_placements": 138,
-    "dnp_placements": 8
+    "fitted_placements": 155,
+    "dnp_placements": 12
   },
   "exclusions": [
     {
@@ -76,6 +80,16 @@
       "board": "board-p",
       "refdes": "J3",
       "reason": "bare-copper programming/debug pogo pads; no orderable component"
+    },
+    {
+      "board": "board-p15",
+      "refdes": "J2",
+      "reason": "bare-copper programming/debug pogo pads; no orderable component"
+    },
+    {
+      "board": "board-p15",
+      "refdes": "J3",
+      "reason": "bare-copper programming/debug pogo pads; no orderable component"
     }
   ],
   "lines": [
@@ -97,6 +111,11 @@
         },
         {
           "board": "board-p",
+          "refdes": "U1",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "U1",
           "dnp": false
         }
@@ -133,6 +152,11 @@
       "placements": [
         {
           "board": "board-a",
+          "refdes": "Q1",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "Q1",
           "dnp": false
         }
@@ -255,6 +279,11 @@
           "board": "board-p",
           "refdes": "R32",
           "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R11",
+          "dnp": false
         }
       ]
     },
@@ -300,6 +329,16 @@
         {
           "board": "board-p",
           "refdes": "R30",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R13",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R14",
           "dnp": false
         }
       ]
@@ -367,6 +406,16 @@
           "board": "board-p",
           "refdes": "R18",
           "dnp": true
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R17",
+          "dnp": true
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R18",
+          "dnp": true
         }
       ]
     },
@@ -405,6 +454,21 @@
           "board": "board-p",
           "refdes": "R21",
           "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R19",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R20",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R21",
+          "dnp": false
         }
       ]
     },
@@ -426,6 +490,11 @@
         },
         {
           "board": "board-p",
+          "refdes": "C1",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "C1",
           "dnp": false
         }
@@ -534,6 +603,16 @@
           "board": "board-p",
           "refdes": "C38",
           "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C30",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C34",
+          "dnp": false
         }
       ]
     },
@@ -583,6 +662,16 @@
         },
         {
           "board": "board-p",
+          "refdes": "D7",
+          "dnp": true
+        },
+        {
+          "board": "board-p15",
+          "refdes": "D6",
+          "dnp": true
+        },
+        {
+          "board": "board-p15",
           "refdes": "D7",
           "dnp": true
         }
@@ -1081,6 +1170,11 @@
           "board": "board-p",
           "refdes": "J1",
           "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "J1",
+          "dnp": false
         }
       ]
     },
@@ -1109,6 +1203,16 @@
           "board": "board-p",
           "refdes": "C5",
           "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C2",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C35",
+          "dnp": false
         }
       ]
     },
@@ -1131,6 +1235,11 @@
         {
           "board": "board-p",
           "refdes": "R27",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R12",
           "dnp": false
         }
       ]
@@ -1166,6 +1275,11 @@
       "placements": [
         {
           "board": "board-p",
+          "refdes": "JOUT1",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "JOUT1",
           "dnp": false
         }
@@ -1530,6 +1644,24 @@
         {
           "board": "board-p",
           "refdes": "R25",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c74561",
+      "mpn": "SMAJ16A",
+      "manufacturer": "Littelfuse",
+      "lcsc": "C74561",
+      "package": "SMA_Littelfuse_SMAJ16A_C74561",
+      "owner_skill": "component-renewal-input-protection",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "15V-only input surge TVS (15 V Board P)",
+      "placements": [
+        {
+          "board": "board-p15",
+          "refdes": "D5",
           "dnp": false
         }
       ]

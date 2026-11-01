@@ -32,7 +32,8 @@
     "p-front-end-r3-migration",
     "p-stusb-local-clamp",
     "p-stusb-vdd-feed",
-    "separate-products"
+    "separate-products",
+    "p15-reset-subset"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -639,6 +640,24 @@
       "evidence": [
         "rec-stusb4500qtr",
         "cand-tps16630pwpr-c1849461"
+      ]
+    },
+    {
+      "key": "p15-reset-subset",
+      "id": "dec-p15-reset-subset",
+      "title": "15 V Board P: common-controller-block RESET subset (R21 0 Ohm strap, J2.4 NC, I2C pull-ups on the jig)",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-15 direction 2026-11-01, after the phase-14 desk options: the 15 V Board P (board_p15_spec.py) keeps the as-built design except for LED requirements R1.1-R1.3 of the common controller block. R21 changes from 0805W8F1002T5E C17414 10k to 0603WAF0000T5E C21189 0R, strapping U1.6 RESET to GND; RESET leaves J2.4, which becomes unconnected; R15/R16 (4.7k to VREG_2V7 on SCL/SDA) are removed and the pull-ups move to the programming jig. The draft PCB re-routes RESET with at least 1.0 mm to VBUS-class copper on its layer. D5 SMAJ16A, Q1 AO3401A, VDD on VBUS_IN and the 15 V NVM image are unchanged; the local clamps of dec-p-stusb-local-clamp are not taken.",
+      "rationale": "A pcbnew scan of the as-built board-p.kicad_pcb (manufacturing/readiness/board-p-15v-reset-clearance.json) found RESET 0.222 mm from the R13 pads and 0.325 mm from a VBUS_VS_DISCH via, the geometry of the ordered LED Board P whose RESET read 0.93 V (VIL max 0.35 V) in the #144 desk analysis. The subset is cost-neutral in parts and assembly (calculate-lineup-cost.py p15 rows). DS12499 does not state I2C idle behaviour without pull-ups (OPEN). Nothing is measured.",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "fact-stusb-pin-states",
+        "cand-0805w8f1002t5e-c17414",
+        "line-c21189"
       ]
     },
     {

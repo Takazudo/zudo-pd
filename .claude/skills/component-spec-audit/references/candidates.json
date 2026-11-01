@@ -146,18 +146,6 @@
       "rationale": "User-selected two-pole screw terminals replace all four Fastons in the current board. Retained only as historical guarded-revision evidence and CAD assets; no active BOM placement."
     },
     {
-      "candidate_id": "cand-retired-c74561",
-      "mpn": "SMAJ16A",
-      "manufacturer": "Littelfuse",
-      "lcsc": "C74561",
-      "package": "SMA_Littelfuse_SMAJ16A_C74561",
-      "function": "retired 15V-only Board P input surge TVS",
-      "owner_skill": "component-renewal-input-protection",
-      "status": "REJECTED",
-      "replaces_line_id": "line-c523793",
-      "rationale": "Retired from Board P D5 by the 20 V / 5 A revision (user decision card 2026-10-31, D3-A + D5-1; decisions.json dec-p-20v-revision): its 16 V standoff is below the 20 V contract. TVS2200DRVR C523793 replaces it. The record and its evidence are kept because the 15 V Board P history and the unchanged board-p PCB still cite it."
-    },
-    {
       "candidate_id": "cand-ina301a3-c2861552",
       "mpn": "INA301A3IDGKR",
       "manufacturer": "Texas Instruments",
@@ -293,6 +281,11 @@
       "candidate_id": "cand-lm74700-c2941042",
       "promoted_to_line_id": "line-c2941042",
       "note": "Promoted to inventory line-c2941042 (Board P U3) in the phase-8 migration of board_p_spec.py to the r3 front end (dec-p-front-end-r3-migration). The Board B 20 V reverse-blocking use remains unplaced. This tombstone keeps the locked decisions.json evidence ref resolvable; the record lives on in component-lm74700qdbvrq1 as rec-c2941042."
+    },
+    {
+      "candidate_id": "cand-retired-c74561",
+      "promoted_to_line_id": "line-c74561",
+      "note": "Returned to inventory line-c74561 (15 V Board P D5, board_p15_spec.py) by dec-separate-products and dec-p15-reset-subset (phase 15, 2026-11-01). The 20 V Board P keeps TVS2200DRVR C523793. This tombstone keeps locked evidence refs to 'cand-retired-c74561' resolvable; the record lives on in component-renewal-input-protection as rec-c74561."
     }
   ]
 }

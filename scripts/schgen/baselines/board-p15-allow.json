@@ -1,0 +1,12 @@
+{
+  "_comment": "Intentional deltas of the 15 V Board P spec (board_p15_spec.py) against the as-built routed-module baseline board-p.json, which the as-built boards/board-p/board-p.kicad_pcb and the corner-support-review package match pin for pin (stage 1, phase 15). dec-p15-reset-subset applies LED requirements R1.1-R1.3 from the common controller block: R21 becomes a 0 Ohm C21189 strap from U1.6 RESET to GND (same pins, so no net delta), J2.4 is left unconnected, and the R15/R16 I2C pull-ups to VREG_2V7 move to the programming jig. check_baseline.py checks every declared delta still holds.",
+  "added_nets": [],
+  "removed_nets": [],
+  "added_pins": {},
+  "removed_pins": {
+    "VREG_2V7": ["R15.2", "R16.2"],
+    "SCL": ["R15.1"],
+    "SDA": ["R16.1"],
+    "RESET": ["J2.4"]
+  }
+}

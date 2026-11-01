@@ -1,5 +1,6 @@
 {
   "recordIds": [
+    "rec-c74561",
     "rec-c3024223",
     "rec-ap63201wu-7",
     "rec-aspi-0630lr-100m-t15",
@@ -78,6 +79,8 @@
     "src-c8465-drawing",
     "src-c8465-project",
     "src-c8465-model",
+    "src-c74561-primary",
+    "src-c74561-identity",
     "src-c3024223-primary",
     "src-c3024223-identity",
     "src-ap63201wu-7-datasheet",
@@ -248,6 +251,8 @@
   "linkableSourceIds": [
     "src-c8465-catalog",
     "src-c8465-drawing",
+    "src-c74561-primary",
+    "src-c74561-identity",
     "src-c3024223-primary",
     "src-c3024223-identity",
     "src-ap63201wu-7-datasheet",
@@ -405,6 +410,11 @@
     "src-c260890-identity"
   ],
   "documentSelections": [
+    {
+      "recordId": "rec-c74561",
+      "sourceId": "src-c74561-primary",
+      "documentKind": "datasheet"
+    },
     {
       "recordId": "rec-c3024223",
       "sourceId": "src-c3024223-primary",
@@ -753,10 +763,10 @@
     }
   ],
   "expect": {
-    "records": 69,
-    "sources": 173,
+    "records": 70,
+    "sources": 175,
     "integrationRules": 11,
-    "packages": 39
+    "packages": 40
   },
   "schema_version": 1
 }

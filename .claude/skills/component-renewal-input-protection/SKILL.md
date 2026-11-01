@@ -12,9 +12,9 @@ Littelfuse primary web text independently agrees, but direct binary retrieval wa
 denied; the registry retains that primary-binary evidence gap. Catalog identity
 does not prove current stock.
 
-SMAJ16A C74561 is now a retired candidate record (`cand-retired-c74561`): the Board P
-20 V / 5 A revision (`dec-p-20v-revision`, 2026-10-31) replaces it with TVS2200DRVR C523793.
-Its facts stay as the record of the never-built 15 V Board P and the unchanged board-p PCB.
+SMAJ16A C74561 is the D5 line of the 15 V Board P (`line-c74561`, `board_p15_spec.py`), which
+continues as its own product (`dec-separate-products`, 2026-11-01). The 20 V / 5 A Board P revision
+(`dec-p-20v-revision`) uses TVS2200DRVR C523793 instead; `cand-retired-c74561` is kept as a tombstone.
 
 SMAJ16A has 16 V standoff and a maximum 26 V clamp at 15.4 A,
 10/1000 us, 25 C. Its typical VBR temperature coefficient is not a guaranteed bound or

@@ -43,8 +43,18 @@ On 2026-11-01 at 04:59Z the user chose separate products on a decision card
 
 `board_p_spec.py` and the generated schematic keep describing the r3 draft. The 15 V product is
 defined by the as-built `boards/board-p/board-p.kicad_pcb` and the `corner-support-review` package.
-Whether the 15 V board takes the r3 controller-block changes is open; the options and their cost
-are in `manufacturing/pd-ab-readiness.md`.
+On 2026-11-01 the coordinator chose the RESET subset of the common block for the 15 V board
+(`dec-p15-reset-subset`). The changes are:
+
+- R21 becomes a 0 Ω strap at U1.6;
+- J2.4 becomes NC;
+- the I2C pull-ups move to the programming jig.
+
+Its spec is `scripts/schgen/board_p15_spec.py`, which generates `boards/board-p15/board-p15.kicad_sch`. A first
+stage of that spec matched the as-built netlist pin for pin before the change. The unvalidated draft PCB is
+`boards/board-p15/board-p15-draft.kicad_pcb`. In it, RESET copper is at least 1.353 mm from VBUS-class copper on
+the same layer; the as-built board has 0.222 mm. The local clamps and VDD feed of the r3 block are not taken.
+The details are in `boards/board-p15/README.md`.
 
 The generated schematic and `board_p_spec.py` on the development branch now carry an
 unvalidated draft:
