@@ -1,0 +1,58 @@
+{
+ "_comment": "Phase 14 desk check of the second TVS2200DRVR listing (Board P r3 D5 stock gap). Only the extract and the hash of the downloaded PDF are kept; the PDF itself is not in the repository. No candidate record: a second record with the same MPN in component-tvs2200drvr would make the TI line's MPN route ambiguous.",
+ "incumbent": {
+  "line_id": "line-c523793",
+  "mpn": "TVS2200DRVR",
+  "manufacturer": "Texas Instruments",
+  "lcsc": "C523793",
+  "stock_2026_11_01": 4,
+  "need_5_sets": 5,
+  "project_rows_used": [
+   "fact-c523793-vrwm 22 V",
+   "fact-c523793-vbr 24.6 / 25.9 / 27.6 V (min/typ/max, 1 mA, over temperature)",
+   "fact-c523793-vclamp-40a 28.0 V max (40 A 8/20 us, 27 C)",
+   "fact-c523793-vclamp-35a-125c 28.35 V max (35 A 8/20 us from VRWM, 125 C), used by rule-tvs-clamp-vs-absmax",
+   "fact-c523793-ipp-10-1000 5 A (145 W)",
+   "fact-c523793-ileak-vrwm 62 / 400 / 1300 nA max (27/85/105 C)"
+  ]
+ },
+ "second_listing": {
+  "mpn": "TVS2200DRVR",
+  "manufacturer": "Wuxi Maxinmicro (WUXI MAXIN MICRO)",
+  "lcsc": "C55616459",
+  "stock_2026_11_01": 1264,
+  "package": "DFN-6(2x2)",
+  "source": {
+   "document": "TVSXX00DRVR flat-clamp surge protection device, V1.0 (PDF created 2026-06-29), 5 pages",
+   "url": "https://datasheet.lcsc.com/datasheet/pdf/2a472e9ed22ef96dd3011bd69e33cf63.pdf?productCode=C55616459",
+   "retrieved": "2026-11-01",
+   "first_bytes": "%PDF-",
+   "sha256": "bf4e69c07258883b5571e501d4fdef0bc8722f649876332f7826f1a00126b163",
+   "authority": "manufacturer document hosted by LCSC (the LCSC product-detail record links it)"
+  },
+  "extract": {
+   "abs_max": "Tj 150 C; Tstg -55..150 C; lead temperature 260 C 10 s",
+   "pins": "1-3 GND, 4-6 VIN (protected line), exposed pad GND",
+   "recommended": "ambient -40..85 C; operating -40..125 C; ESD +/-8 kV contact, +/-15 kV air",
+   "table_row_TVS2200DRVR_TA_25C": "Vr 22 V; Vc 26.1 V; test current IT 1 mA; Ipp 60 A (8/20 us); Ppk 1120 W (8/20 us); IR 10 nA; forward Ipp 50 A / 80 W; IBR 18 mA; EFT 80 A; IF 500 mA; Cin 105 pF",
+   "slew": "keep input slew below 2.5 V/us at room temperature and 0.7 V/us at 125 C",
+   "package": "D 2.00, E 2.00, D1 0.9, E1 1.70, e 0.65, L 0.20-0.30, A 0.70-0.80 mm"
+  }
+ },
+ "equivalence": {
+  "verdict": "NOT ESTABLISHED",
+  "matches": [
+   "22 V stand-off",
+   "pin assignment (GND 1-3 and pad, IN 4-6)",
+   "slew guidance (2.5 / 0.7 V/us)",
+   "2 x 2 mm 6-pin package with exposed pad, 0.65 mm pitch"
+  ],
+  "gaps": [
+   "The one clamp value (26.1 V) has no test current, no min/typ/max qualifier and no temperature; there is no counterpart to the 28.0 V (40 A, 27 C) or 28.35 V (35 A, 125 C) maxima the project bounds use.",
+   "Ipp 60 A x Vc 26.1 V = 1566 W, against the stated 1120 W; the pulse rows do not describe one pulse.",
+   "No breakdown-voltage limits, no 10/1000 us rating, and leakage only at 25 C.",
+   "Land pattern not compared with the corrected TI DRV0006A project land."
+  ],
+  "status": "BLOCKED: the Board P r3 5-set lot still depends on TI C523793 (4 in stock)"
+ }
+}

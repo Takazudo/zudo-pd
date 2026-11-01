@@ -8,8 +8,9 @@ Prices come from read-only JLCPCB catalog and fee-table retrievals on 2026-10-31
 `scripts/pcb/calculate-lineup-cost.py`.
 
 **A** is the design gate: the drawn design and its evidence close. **B** is the build gate: the parts,
-cost, manufacturability and bench plan close. The user decides on a single lineup from the cost
-comparison at the end.
+cost, manufacturability and bench plan close. On 2026-11-01 the user chose separate products
+(`dec-separate-products`): the current 15 V zudo-pd (Board P as built + Board B) continues, and Board P r3 +
+B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 controller block stays common.
 
 ## A gates: open on both boards; no PCB exists for B20
 
@@ -18,8 +19,8 @@ comparison at the end.
 | Spec | **PASS** (generated spec, 29 decisions) | **PASS** (paper draft spec; phase 13 adds J10/J11) | `scripts/schgen/board_p_spec.py`, `scripts/schgen/decisions.json`, `scripts/schgen/board_b20_spec.py` |
 | Schematic ERC | **PASS**: 0 errors, 33 `pin_to_pin` warnings | **PASS**: 0 errors, 56 warnings (21 missing `*_DRAFT` footprints; 35 `pin_to_pin` on the unspecified J5/J10/J11 pins) | native KiCad 10.0.6 ERC + `verify_netlist.py` (P: 46 nets; B20: 142 nets) |
 | Footprints | **PASS** (shared library) | **OPEN**: 21 placements on 5 `*_DRAFT` names, none in `footprints/kicad/`; stock KiCad candidates listed, land patterns not compared | `manufacturing/board-b-20v-switcher-direct-draft.md` §3 footprint table |
-| PCB DRC | **OPEN**: native DRC 0 clearance/short/courtyard errors, 5 `items_not_allowed` (owners in their own keep-outs), 3 unconnected items (CC2 at U1.4; 2 GND zone items) against 8 in phase 12 | **NOT RUN**: there is no B20 PCB | `boards/board-p/r3-draft/placement-report.json`, `routing-report.json` |
-| Current capacity | **OPEN**: 5 A pours ≥ 1.9 mm against 1.82 mm (IPC-2221, 20 °C rise PA); no thermal check | **PASS (arithmetic)** converter and switch current | r3 `routing-report.json`; `calculate-board-b20-draft.py` |
+| PCB DRC | **OPEN**: native DRC 0 clearance/short/courtyard errors, 5 `items_not_allowed` (owners in their own keep-outs), 0 unconnected items (3 in phase 13, 8 in phase 12); warnings: 2 `via_dangling` (SCL, ATT) and 1 `track_dangling` (CC1, 0.65 mm); `route-power.py` still lists 1 detached GND cluster (C34.2/R21.2/C38.2) that native DRC reports connected, so the disagreement is OPEN; no layout review | **NOT RUN**: there is no B20 PCB | `boards/board-p/r3-draft/placement-report.json`, `routing-report.json` |
+| Current capacity | **OPEN**: 5 A pours ≥ 1.85 mm against 1.82 mm (IPC-2221, 20 °C rise PA); no thermal check | **PASS (arithmetic)** converter and switch current | r3 `routing-report.json`; `calculate-board-b20-draft.py` |
 | Stack and mechanics | **OPEN**: C3 over the current Board B U3 (3.31 × 4.05 mm); B.Cu parts face the floor | **OPEN**: the B20 layout must keep x 7.74–17.25, y 24.54–35.77 mm free | `boards/board-p/r3-draft/README.md` |
 | Simulation rows | **OPEN**: Q1 overshoot bound rests on TYP-only TPS16630 rows | Start, re-entry and band rows **PASS (SIM)**. No-load slope rows **FAIL (SIM)**, with an owner exception requested (nom +5 V 0.94 V/ms; exception wording ≤ 0.95 V/ms is with OSC). Ripple, let-through, reverse current and loaded discharge order **OPEN** | `manufacturing/board-b-20v-switcher-direct-draft.md` §4–§5f; `manufacturing/sim/board-b20-phase12/results.json` |
 | Component evidence | **OPEN**: strict validator PASS, but VBEN drive, Q6 RDS(on)/leakage and STUSB 28 V limits are UNSOURCED, and no 20 V / 5 A NVM image is defined | **OPEN**: 3 values bound to owned parts; 68 placements resolved to distributor listings only (no manufacturer document, no owner record); 27 nF and 47 nF C0G **UNKNOWN**; 1206 discharge pulse rating **UNKNOWN** | `.claude/skills/component-spec-audit/scripts/validate.py --strict`; `b20-identity-resolution.json` |
@@ -38,13 +39,60 @@ comparison at the end.
 | BOM completeness | **PASS** against the spec | **PASS (drawn)** for J10/J11 (phase 13). TVS1–TVS3 and the three status LEDs with ballasts are priced as adders only, not drawn: their leakage and ~10 mA loads change the no-load, discharge and reverse-current rows | `board_b20_spec.py`; `b20-identity-resolution.json` `like_for_like_adders` |
 | Bench acceptance tests | **NOT RUN**: no hardware | **NOT RUN**: no hardware | list below |
 
-### Stock gaps and evidenced alternatives (2026-10-31 listings)
+### Stock gaps and evidenced alternatives (2026-11-01 listings)
 
-| Blocked line | Need (5 sets) | In-stock listing | Status |
+| Blocked line | Need (5 sets) | Alternative | Status |
 |---|---|---|---|
-| TVS2200DRVR C523793 (TI), 4 in stock | 5 | C55616459 "TVS2200DRVR" from Wuxi Maxinmicro (1,264): same number, other maker, no datasheet read. ESTVS2200DRVR C42400188 ElecSuper (2,866): listing clamp 28.6 V, above the 28 V node bound that only the TI clamp holds | **BLOCKED**: no evidenced drop-in |
-| RT0603BRD07680RL C861519 (current Board B R21/R27), 0 in stock | 10 | AT0603BRD07680RL C5455478 (Yageo, 0.1 %, 25 ppm/°C, 439); TNPW0603680RBEEA C2079059 (Vishay, 0.1 %, 25 ppm/°C, 5,141); RT0603BRE07680RL C705871 (50 ppm/°C, 4,764) | **OPEN**: same class in stock; listing facts only, no owner record |
-| GVT1E477M0810CNVC C2983319 (current Board B C11), 1 in stock | 5 | RVT1E471M0810 C696190 (Honor, 470 µF 25 V, D8 × L10.2, 4,625), the maker of the owned RVT1H101M0810 on the same 8 mm footprint | **OPEN**: ESR and ripple not in the listing; no owner record |
+| TVS2200DRVR C523793 (TI), 4 in stock | 5 | C55616459 "TVS2200DRVR" from Wuxi Maxinmicro (1,264). Its V1.0 sheet is retained as an extract and hash in `readiness/tvs2200-second-source.json`: 22 V standoff and the pinout match, but the single 26.1 V clamp has no test current, limit or temperature, and Ipp × Vc (1,566 W) disagrees with the stated 1,120 W. ESTVS2200DRVR C42400188 (ElecSuper, 2,861) lists a 28.6 V clamp, above the 28 V node bound | **BLOCKED**: equivalence not established |
+| RT0603BRD07680RL C861519 (current Board B R21/R27), 0 in stock | 10 | Candidate `cand-at0603brd07680rl-c5455478`: YAGEO AT0603BRD07680RL C5455478 (410–439). The hashed YAGEO sheet matches every incumbent row: 680 Ω, 0.1 %, 25 ppm/°C, 0.1 W at 70 °C, 75 V, 1.6 × 0.8 mm (AEC-Q200) | **OPEN**: shortlisted, not adopted |
+| GVT1E477M0810CNVC C2983319 (current Board B C11), 1 in stock | 5 | Candidate `cand-rvt1e471m0810-c696190`: Honor RVT1E471M0810 C696190 (4,085–4,625). HONORCAP sheet: 470 µF 25 V, Φ8 × 10.2 mm on the same Φ8 land as the owned RVT1H101M0810, 228 mA at 120 Hz × 1.50 = 342 mA at 150 kHz (incumbent 312 mA), Tan δ 0.16 (ESR 0.45 Ω at 120 Hz; incumbent 0.51 Ω) | **OPEN**: shortlisted; the ESR-weighted ripple share and the LM2596 loop with the lower ESR are not measured |
+
+### Current lineup reorder (Board P 15 V + Board B): BLOCKED on 2 stock lines, then OPEN on source parity
+
+The ordered revision is `manufacturing/releases/corner-support-review/` (BOM, CPL and Gerbers for both boards).
+A full stock refresh on 2026-11-01 of its 53 lines against 5 sets finds:
+
+| Item | Status |
+|---|---|
+| C861519 (R21/R27) 0 in stock, C2983319 (C11) 1 in stock | **BLOCKED** until a candidate above is adopted through `board_b_spec.py`, regeneration and a refreshed package |
+| C861332 RT0603BRD0733RL (R24) 10 in stock against 5 | **OPEN**: in stock, no margin |
+| Board P 15 V source parity: `scripts/schgen/board_p_spec.py` and `boards/board-p/board-p.kicad_sch` now describe the 20 V r3 draft, while `board-p.kicad_pcb` and the package are the 15 V as-built | **OPEN**: a 15 V reorder must use the package files unchanged; schematic-to-PCB parity for it exists only in history |
+| Any BOM change on Board B | **OPEN**: needs a new package from one revision with ERC, DRC and BOM/CPL parity; the existing package stays the ordered revision |
+| Electrical qualification (full-load start, ripple, thermal, fuse hold, surge, low input) and mechanical fit (wire, torque, retention, seating, printed leg, M3 in the 3.0 mm holes) | **OPEN**, as listed in `ORDER-NOTES.md`; not reorder blockers by themselves |
+| First power procedure: 5 V-only current-limited source, Board B disconnected, verify the 15 V NVM image and readback | Required at bring-up (`ORDER-NOTES.md`) |
+| PCB fabrication, shipping and duty | **UNKNOWN** (not retrieved) |
+| Controller block on the 15 V Board P (stay as is, RESET subset or full block; next section) | **OPEN**: user choice; a changed board needs a 15 V spec source, a re-routed PCB and a new package |
+
+### Current Board P controller block: stay as is only with the #144 RESET geometry accepted; the RESET subset costs nothing in parts
+
+The as-built 15 V Board P predates the common block. A pcbnew clearance scan of `boards/board-p/board-p.kicad_pcb`
+(sha256 `407f6349…`, unchanged) finds the RESET track passing between the R13 pads at 0.222 mm (VBUS_OUT and DISCH)
+and 0.325 mm from a VBUS_VS_DISCH via. Those are the distances of the ordered LED Board P, whose RESET read 0.93 V
+(VIL max 0.35 V) in the #144 desk analysis (`manufacturing/readiness/board-p-15v-reset-clearance.json`,
+`scripts/pcb/board-p-reset-clearance.py`). Other differences from the r3 block:
+
+- R21 is a 10 kΩ pull-down, not a 0 Ω strap;
+- RESET is on the J2.4 pogo pad;
+- R15/R16 pull SCL/SDA up to VREG_2V7;
+- VDD (U1.24) sits directly on VBUS_IN with D5 SMAJ16A. That gives +2.00 V to the 28 V pin limit at the
+  26.0 V, 10/1000 µs, 25 °C point only, and −0.6 V at the TYP-based 28.6 V hot estimate
+  (`input-clamp-fix.md`).
+
+Costs are for a 5-unit lot from `scripts/pcb/calculate-lineup-cost.py` (`p15_*` rows). They cover catalog parts
+plus assembly. PCB fabrication and any new-revision NRE are UNKNOWN.
+
+| Option | Changes | Lot cost (per set) | Risk |
+|---|---|---|---|
+| Stay as is | None; reorder the `corner-support-review` package unchanged | USD 48.06 (9.61) | **OPEN, inherited**: RESET geometry identical to #144; RESET on a bare pad; VREG_2V7 loading (R1.3); VDD hot margin negative on the TYP estimate. No new layout risk |
+| R1.1–R1.3 subset | R21 becomes a 0 Ω strap at U1.6, routed away from VBUS / VBUS_VS_DISCH / DISCH / VBEN; J2.4 becomes NC; R15/R16 move to the jig | USD 48.00 (9.60); 12 lines, 5 extended | Needs a re-routed PCB, ERC/DRC and a new package. I2C idle without pull-ups is not stated by ST (OPEN). VDD clamp margin is unchanged |
+| Full common block, top only | Subset plus D9–D12, Q6 cascode, R28–R32, C38; R13 4.7 kΩ, R14 2 × 1 kΩ; SMAJ16A and AO3401A stay | USD 60.00 (12.00); 17 lines, 8 extended (+3) | Top-only fit on the 27 × 40 mm outline is **NOT RUN**: no placement search was made for this variant. VDD bound about 20.8 V (r3 arithmetic at the 28.35 V row, not redone at 28.6 V). Adds the r3 OPEN items: TDISPAR0V ≥ 13 in the 15 V NVM image, VBEN/Q6 ratings UNSOURCED, attach headroom with the operating IDD unknown |
+| Full common block, two-sided | As above, if top only does not fit | USD 134.21 (26.84) | Standard double-side PCBA: +USD 86.15 per lot over as built; same OPEN items |
+
+Recommendation (not a decision): take the R1.1–R1.3 subset as the floor. Its part and assembly cost is
+neutral, and it removes the one layout defect with a recorded failure. Add the full block only if a top-only
+placement fits. That would close the VDD clamp margin for about USD 2.40 per set more. In every changed
+option the 15 V board needs its own spec source: `board_p_spec.py` now describes r3, and the 15 V schematic
+exists only in history.
 
 ### Residual risks
 
@@ -105,3 +153,32 @@ one-sided board uses the cheaper of Economic and Standard PCBA; a two-sided boar
   Economic once a board has many extended lines (B20: USD 187.50 against 222.60 per lot).
 - **Availability.** Both lineups are BLOCKED for a 5-unit lot on 2026-10-31 (renewal: TVS2200DRVR plus
   8 B20 lines; current: C861519 and C2983319, with in-stock same-class listings above).
+
+## B20 cost levers (desk only): line count and the protection/servo blocks dominate; none is free
+
+These figures are for one 5-unit lot of the like-for-like renewal (USD 702.24), from `calculate-lineup-cost.py --json`. B20 assembly is
+Standard single-side, USD 196.82:
+
+| Assembly item | USD |
+|---|---|
+| 88 feeder lines × 1.53 | 134.64 |
+| Setup and stencil | 33.77 |
+| Handling | 14.93 |
+| Hand-soldering labour | 3.58 |
+| 751 SMD joints × 5 boards | 6.01 |
+| 42 TH joints × 5 boards | 3.44 |
+
+Economic PCBA is USD 235.02 (69 extended lines × 3.07). It only becomes cheaper below 57 extended lines.
+No schematic was changed for this table.
+
+| # | Contributor (lot of 5) | Lever | Saves (lot of 5) | Breaks or costs |
+|---|---|---|---|---|
+| 1 | B20 unique lines: 88 × USD 1.53 feeder loading = 134.64. 55 of the lines are resistors (USD 46.84 in parts) | Collapse the 0.1 % divider values to about 20 shared values (ratio-matched pairs, series pairs) | Up to about 53.55 in feeder fees (−35 lines) plus up to about 30 in minimum-buy parts | Every set point and threshold moves: rail dividers, window and tracking comparators, LIMIT dividers. The §5 band, start-order and slope simulations must be re-run. Series pairs add placements |
+| 2 | Board P r3 two-sided: Standard double only, USD 131.48 | Single-sided Board P (Economic) | 60.34 (Standard single-side would save 33.77) | Not available: the top-only search leaves 20 parts unplaced, and those are the STUSB4500 pin-local clamps and dividers (D9–D12, R21 within 2.5 mm). Moving them breaks that rule |
+| 3 | OPA2187 × 9 (servo, window and tracking amplifiers): USD 76.85, plus REF5025 at 4.54 | Drop the post-shunt servo and regulate at the converter feedback; keep only the window and tracking amplifiers | Up to about 81 in parts plus their R/C lines | The terminal-accuracy and ripple contract loses its shunt and switch-drop correction. Band entry and tracking rows need re-simulation. Another zero-drift dual would need an evidenced part; its price is UNKNOWN |
+| 4 | Interface limiter: INA301 × 2 (24.03) + PCSR2512 shunts × 2 (25.39) = 49.42 | Fuse-style PTC protection, as on the current Board B | About 48 in parts and 2–4 lines | The §1 interface-maximum trip window and latched shutdown are lost. PTC hold/trip spread and slow response replace a defined limit |
+| 5 | Reverse blocking, CSD18543Q3A × 6: 31.99. Output bank, GRM32ER71H106KA12L × 19: 29.90 | One FET per rail instead of back-to-back pairs. GRM32 to basic 1206 CL31A106KBHNNNE | Up to 16 (FETs). 9.80 (capacitors), and 3.07 per line only under Economic | Single FETs lose reverse-current blocking (the ≤ 1 mA row) and the tracked-pair discharge order. X5R 1206 effective capacitance at bias drops, so the ripple rows reopen |
+
+Combining levers 1, 3 and 4 would cut roughly USD 210 per lot. That still leaves the like-for-like renewal at
+about USD 490 against 354.11 for the current lineup. Each of those levers removes a contract row that the renewal
+was drawn to meet.

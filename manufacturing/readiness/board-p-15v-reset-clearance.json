@@ -1,0 +1,92 @@
+{
+ "_comment": "Phase 14 scan of the as-built 15 V Board P: closest same-layer distances (mm) from RESET copper to VBUS_IN, VBUS_VS_DISCH, DISCH, VBEN, VBUS_OUT and Q1_G copper, from scripts/pcb/board-p-reset-clearance.py in the pinned KiCad 10.0.6 image. Desk geometry only; no leakage is measured.",
+ "board": "boards/board-p/board-p.kicad_pcb",
+ "board_sha256": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278",
+ "closest": [
+  {
+   "mm": 0.222,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "R13.1",
+   "hv_net": "VBUS_OUT",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.222,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "R13.2",
+   "hv_net": "DISCH",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.325,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_VIA",
+   "hv_net": "VBUS_VS_DISCH",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.327,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_VIA",
+   "hv_net": "VBUS_OUT",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.354,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "R13.1",
+   "hv_net": "VBUS_OUT",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.354,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "R13.2",
+   "hv_net": "DISCH",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.377,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_OUT",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.425,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_OUT",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.45,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.48,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "R13.1",
+   "hv_net": "VBUS_OUT",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.5,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layer": "F.Cu"
+  },
+  {
+   "mm": 0.53,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layer": "F.Cu"
+  }
+ ],
+ "led_144_reference": "RESET between R13 pads at 0.222 mm and 0.326 mm from a VBUS_VS_DISCH via; RESET read 0.93 V (manager led-requirements-for-common-block.md R1.1)"
+}

@@ -132,6 +132,30 @@ BOARDS['lever_board_p_r3_one_sided_infeasible'] = {'Board P r3 one-sided (does n
                                                     'B20 + current-Board-B adders': BOARDS['renewal_like_for_like']['B20 + current-Board-B adders']}
 
 
+def p15_variant(full_block, double_sided=False):
+    # phase 14 desk scenarios for the separate 15 V product; refs and LCSC codes follow board_p_spec.py (r3 controller block)
+    b = BOARDS['current']['Board P 15 V (as built)']
+    lines = {k: list(v) for k, v in b['lines'].items()}
+    joints = dict(b['joints'])
+    lines.pop('C23162')                              # R15/R16 I2C pull-ups move to the jig (R1.3)
+    joints['smd'] -= 4
+    lines['C17414'].remove('R21'); lines.pop('C17414')
+    lines['C21189'].append('R21')                    # R21 becomes the 0R RESET strap (R1.1)
+    if full_block:
+        add = {'C23162': ['R13'], 'C21190': ['R14', 'R28', 'R29'], 'C25803': ['R31', 'R32'], 'C15849': ['C38'],
+               'C192739': ['D9', 'D11', 'D12'], 'C260890': ['D10'], 'C40912': ['Q6']}
+        lines['C23179'] = ['R30']
+        for code, refs in add.items():
+            lines.setdefault(code, []).extend(refs)
+        joints['smd'] += 2 * 10 + 3                  # ten two-terminal parts and the SOT-23 cascode
+    return {'lines': lines, 'unknown': [], 'joints': joints, 'double_sided': double_sided}
+
+
+BOARDS['p15_as_built'] = {'Board P 15 V (as built)': BOARDS['current']['Board P 15 V (as built)']}
+BOARDS['p15_reset_subset'] = {'Board P 15 V + R1.1-R1.3 RESET/I2C subset': p15_variant(False)}
+BOARDS['p15_full_block_one_sided'] = {'Board P 15 V + full controller block, top only (fit NOT RUN)': p15_variant(True)}
+BOARDS['p15_full_block_two_sided'] = {'Board P 15 V + full controller block, two-sided': p15_variant(True, True)}
+
 def main():
     res = {}
     for lineup, boards in BOARDS.items():
