@@ -38,7 +38,6 @@
       "c260890",
       "c2832269",
       "c2941042",
-      "c2983319",
       "c3024223",
       "c335982",
       "c40912",
@@ -46,7 +45,9 @@
       "c461081",
       "c492405",
       "c523793",
+      "c5455478",
       "c666306",
+      "c696190",
       "c705719",
       "c705781",
       "c74561",
@@ -56,7 +57,6 @@
       "c861163",
       "c861332",
       "c861371",
-      "c861519",
       "c861589",
       "c970687",
       "cand-smaj6-5a-c87267",
@@ -157,8 +157,6 @@
       "src-c2832269-page",
       "src-c2941042-identity",
       "src-c2941042-primary",
-      "src-c2983319-boardbdoc",
-      "src-c2983319-datasheet",
       "src-c3024223-identity",
       "src-c3024223-primary",
       "src-c335982-identity",
@@ -174,9 +172,13 @@
       "src-c492405-page",
       "src-c523793-identity",
       "src-c523793-primary",
+      "src-c5455478-identity",
+      "src-c5455478-primary",
       "src-c666306-identity",
       "src-c666306-mirror",
       "src-c666306-primary-attempt",
+      "src-c696190-identity",
+      "src-c696190-primary",
       "src-c70119-model-review",
       "src-c705719-identity",
       "src-c705719-primary",
@@ -199,8 +201,6 @@
       "src-c861332-primary",
       "src-c861371-identity",
       "src-c861371-primary",
-      "src-c861519-identity",
-      "src-c861519-primary",
       "src-c861589-identity",
       "src-c861589-primary",
       "src-c883133-model-review",
@@ -482,97 +482,97 @@
     {
       "key": "fact.factId",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.class",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.value",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.unit",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.conditions",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.locator",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.provenance",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.verdict",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.dependsOn",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "fact.expression",
       "decision": "PUBLISH",
-      "emitted": 739,
+      "emitted": 741,
       "withheld": 0
     },
     {
       "key": "coverage.coverageId",
       "decision": "PUBLISH",
-      "emitted": 208,
+      "emitted": 207,
       "withheld": 0
     },
     {
       "key": "coverage.domain",
       "decision": "PUBLISH",
-      "emitted": 208,
+      "emitted": 207,
       "withheld": 0
     },
     {
       "key": "coverage.status",
       "decision": "PUBLISH",
-      "emitted": 208,
+      "emitted": 207,
       "withheld": 0
     },
     {
       "key": "coverage.reason",
       "decision": "PUBLISH",
-      "emitted": 208,
+      "emitted": 207,
       "withheld": 0
     },
     {
       "key": "coverage.factIds",
       "decision": "PUBLISH",
-      "emitted": 208,
+      "emitted": 207,
       "withheld": 0
     },
     {
       "key": "coverage.blockingFactIds",
       "decision": "PUBLISH",
-      "emitted": 208,
+      "emitted": 207,
       "withheld": 0
     },
     {
@@ -1292,18 +1292,6 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
-      "sourceId": "src-c2983319-boardbdoc",
-      "url": "https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-b-synth-power.md",
-      "decision": "ALLOW",
-      "reason": "ABSOLUTE_HTTP_URL"
-    },
-    {
-      "sourceId": "src-c2983319-datasheet",
-      "url": "https://datasheet.lcsc.com/datasheet/pdf/f76751dd68fab11b5416a14bab337a4c.pdf",
-      "decision": "ALLOW",
-      "reason": "ABSOLUTE_HTTP_URL"
-    },
-    {
       "sourceId": "src-c3024223-identity",
       "url": "https://jlcpcb.com/partdetail/DiodesIncorporated-SDT5A60SA13/C3024223",
       "decision": "ALLOW",
@@ -1394,6 +1382,18 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
+      "sourceId": "src-c5455478-identity",
+      "url": "https://www.lcsc.com/product-detail/C5455478.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c5455478-primary",
+      "url": "https://yageogroup.com/component-documentation/download/specsheet/AT0603BRD07680RL",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
       "sourceId": "src-c666306-identity",
       "url": "https://www.lcsc.com/product-detail/C666306.html",
       "decision": "ALLOW",
@@ -1408,6 +1408,18 @@
     {
       "sourceId": "src-c666306-primary-attempt",
       "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/3015fb.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c696190-identity",
+      "url": "https://www.lcsc.com/product-detail/C696190.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c696190-primary",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/4ec4cfc2b89f173d2532ed891957b1a7.pdf?productCode=C696190",
       "decision": "ALLOW",
       "reason": "ABSOLUTE_HTTP_URL"
     },
@@ -1540,18 +1552,6 @@
     {
       "sourceId": "src-c861371-primary",
       "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD073K09L",
-      "decision": "ALLOW",
-      "reason": "ABSOLUTE_HTTP_URL"
-    },
-    {
-      "sourceId": "src-c861519-identity",
-      "url": "https://www.lcsc.com/product-detail/C861519.html",
-      "decision": "ALLOW",
-      "reason": "ABSOLUTE_HTTP_URL"
-    },
-    {
-      "sourceId": "src-c861519-primary",
-      "url": "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD07680RL",
       "decision": "ALLOW",
       "reason": "ABSOLUTE_HTTP_URL"
     },
@@ -1912,8 +1912,8 @@
   ],
   "counts": {
     "generatedPages": 74,
-    "publishedCoverageDomains": 208,
-    "publishedFacts": 739,
+    "publishedCoverageDomains": 207,
+    "publishedFacts": 741,
     "publishedIntegrationRules": 11,
     "publishedInteractions": 40,
     "publishedPinMaps": 70,
