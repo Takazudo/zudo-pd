@@ -2,6 +2,8 @@
 
 **Status: exploration only. Nothing here is adopted.** No model, name, rating, contract relaxation, part or circuit is selected. Every schematic and PCB stays an unvalidated draft, and **nothing on this page is measured**. No hardware change, fabrication, NVM programming or energizing is implied. "zudo-PD-60W" is a tentative working name only.
 
+**Decided 2026-11-01 (user decision card, `dec-separate-products`):** separate products. The current 15 V zudo-pd continues, and Board P r3 + B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 controller block is common to both. This supersedes the single-lineup decision of 2026-10-31. Readiness and cost: [`pd-ab-readiness.md`](pd-ab-readiness.md).
+
 Owner direction (zudo-pd#218, 2026-10-20): evaluate the **current model** as its own lightweight-use product, separately from a redesigned higher-power model. Do not make a common-PCB two-SKU lineup the default recommendation for manufacturing convenience alone. Do not assume the current model is already safe or cheaper. The current-model cost baseline belongs to this comparison.
 
 Sources reused unchanged: [`supply-capability.md`](supply-capability.md) (and `scripts/pcb/calculate-supply-capability.py --load`), [`supply-alternatives.md`](supply-alternatives.md), [`input-clamp-fix.md`](input-clamp-fix.md), [`design-gaps-20v.md`](design-gaps-20v.md), [`power-limit-60w.md`](power-limit-60w.md) and [`product-lineup.md`](product-lineup.md). Evidence classes: **G** guaranteed, **G-U** guaranteed but mirror-only or unsourced, **TYP** typical, **PA** project assumption, **CP** catalog price (non-binding), **UNAV** unavailable. "calc" means calculated and unverified.

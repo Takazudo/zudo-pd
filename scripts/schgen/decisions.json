@@ -31,7 +31,8 @@
     "nvm-per-unit-programming",
     "p-front-end-r3-migration",
     "p-stusb-local-clamp",
-    "p-stusb-vdd-feed"
+    "p-stusb-vdd-feed",
+    "separate-products"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -612,17 +613,32 @@
     {
       "key": "single-lineup",
       "id": "dec-single-lineup",
-      "title": "Single lineup: the 20 V / 5 A revision becomes the new zudo-pd",
+      "title": "Single lineup: the 20 V / 5 A revision becomes the new zudo-pd (superseded by dec-separate-products, 2026-11-01)",
       "status": "LOCKED",
       "applies_to": [
         "doc"
       ],
-      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: there is one zudo-pd lineup. The 20 V / 5 A revision (Board P 20 V draft with the switcher-direct Board B) replaces the 15 V zudo-pd; no separate 15 V product is kept.",
+      "decision": "SUPERSEDED on 2026-11-01 by dec-separate-products; kept for the record. User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: there is one zudo-pd lineup. The 20 V / 5 A revision (Board P 20 V draft with the switcher-direct Board B) replaces the 15 V zudo-pd; no separate 15 V product is kept.",
       "rationale": "The cost comparison (manager pd-controller-cost.md, desk prices, USD assumed) puts the recommended revision at about +3.3 per set over the current design for known parts. The switcher-direct Board B removes the LDO stage. All figures are desk values; nothing is quoted or ordered.",
       "evidence": [
         "cand-tps16630pwpr-c1849461",
         "cand-lm74700-c2941042",
         "cand-tps54560ddar-c31966"
+      ]
+    },
+    {
+      "key": "separate-products",
+      "id": "dec-separate-products",
+      "title": "Separate products: the 15 V zudo-pd continues; Board P r3 + B20 becomes a separate 20 V / 5 A OSC-oriented unit",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card 2026-11-01 04:59Z, relayed by the coordinator; supersedes dec-single-lineup. The current zudo-pd (Board P 15 V as built + Board B) continues as its own product. The Board P r3 draft with the B20 switcher-direct Board B becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 controller block (dec-common-controller-block) stays common to both. scripts/schgen/board_p_spec.py keeps describing the r3 draft; the 15 V product is defined by the as-built boards/board-p/board-p.kicad_pcb and the corner-support-review package until a 15 V spec source is restored. Whether the 15 V Board P takes the r3 controller-block changes is open (manufacturing/pd-ab-readiness.md).",
+      "rationale": "The phase 12-14 cost comparison (manufacturing/pd-ab-readiness.md, catalog prices and JLCPCB fee table, not quotes) puts the renewal at about twice the current lineup per 5-unit lot, and its 20 V / 5 A capability serves the OSC rather than the general 15 V use. Nothing is measured.",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "cand-tps16630pwpr-c1849461"
       ]
     },
     {

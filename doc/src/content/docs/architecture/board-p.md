@@ -23,13 +23,28 @@ The machine records are `dec-p-20v-revision`, `dec-p-20v-front-end-r2` and the Q
 only**.
 
 A second card on 2026-10-31 at 15:39Z made the STUSB4500 the common controller block for the
-LED lamp and zudo-pd, kept a single lineup (this revision becomes the new zudo-pd), replaced the
+LED lamp and zudo-pd, kept a single lineup (this revision becomes the new zudo-pd; superseded below), replaced the
 TPS26630 front end with TPS16630PWPR + LM74700-Q1 + Q3, and accepted per-unit NVM programming
 (`dec-common-controller-block`, `dec-single-lineup`, `dec-p-20v-front-end-r3`,
 `dec-nvm-per-unit-programming`). Phase 8 moved the inventory-bound `board_p_spec.py` to that r3
 front end (`dec-p-front-end-r3-migration`); the separate r3 draft spec is retired. TPS26630RGER and
 the 10 kΩ R21 remain as REJECTED candidate records. The Board P PCB still carries the r2 layout
 and has not been re-synchronised.
+
+## The 15 V zudo-pd and the 20 V / 5 A unit are separate products
+
+On 2026-11-01 at 04:59Z the user chose separate products on a decision card
+(`dec-separate-products`, which supersedes `dec-single-lineup`):
+
+- the current zudo-pd, Board P 15 V as built with the current Board B, continues as its own product;
+- the Board P r3 draft with the B20 switcher-direct Board B becomes a separate 20 V / 5 A unit
+  oriented to the OSC;
+- the STUSB4500 controller block stays common to both.
+
+`board_p_spec.py` and the generated schematic keep describing the r3 draft. The 15 V product is
+defined by the as-built `boards/board-p/board-p.kicad_pcb` and the `corner-support-review` package.
+Whether the 15 V board takes the r3 controller-block changes is open; the options and their cost
+are in `manufacturing/pd-ab-readiness.md`.
 
 The generated schematic and `board_p_spec.py` on the development branch now carry an
 unvalidated draft:
