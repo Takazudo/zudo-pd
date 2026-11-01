@@ -45,7 +45,7 @@ B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 contro
 |---|---|---|---|
 | TVS2200DRVR C523793 (TI), 4 in stock | 5 | C55616459 "TVS2200DRVR" from Wuxi Maxinmicro (1,264). Its V1.0 sheet is retained as an extract and hash in `readiness/tvs2200-second-source.json`: 22 V standoff and the pinout match, but the single 26.1 V clamp has no test current, limit or temperature, and Ipp × Vc (1,566 W) disagrees with the stated 1,120 W. ESTVS2200DRVR C42400188 (ElecSuper, 2,861) lists a 28.6 V clamp, above the 28 V node bound | **BLOCKED**: equivalence not established |
 | RT0603BRD07680RL C861519 (former Board B R21/R27), 0 in stock | 10 | Adopted `line-c5455478`: YAGEO AT0603BRD07680RL C5455478 (410–439). The hashed YAGEO sheet matches every incumbent row: 680 Ω, 0.1 %, 25 ppm/°C, 0.1 W at 70 °C, 75 V, 1.6 × 0.8 mm (AEC-Q200) | **ADOPTED** 2026-11-01 (`dec-b-stock-gap-substitutions`); BB-R-1..3 NOT RUN |
-| GVT1E477M0810CNVC C2983319 (former Board B C11), 1 in stock | 5 | Adopted `line-c696190`: Honor RVT1E471M0810 C696190 (4,085–4,625). HONORCAP sheet: 470 µF 25 V, Φ8 × 10.2 mm on the same Φ8 land as the owned RVT1H101M0810, 228 mA at 120 Hz × 1.50 = 342 mA at 150 kHz (incumbent 312 mA), Tan δ 0.16 (ESR 0.45 Ω at 120 Hz; incumbent 0.51 Ω) | **ADOPTED** 2026-11-01 (`dec-b-stock-gap-substitutions`); the 1/ESR desk split gives C11 269 mA of 342 mA rated; the 150 kHz ESR and the LM2596 loop with it are not measured; BB-C-1..5 NOT RUN |
+| GVT1E477M0810CNVC C2983319 (former Board B C11), 1 in stock | 5 | Adopted `line-c696190`: Honor RVT1E471M0810 C696190 (4,085–4,625). HONORCAP sheet: 470 µF 25 V, Φ8 × 10.2 mm on the same Φ8 land as the owned RVT1H101M0810, 228 mA at 120 Hz × 1.50 = 342 mA at 150 kHz (incumbent 312 mA), Tan δ 0.18 at 25 V (ESR 0.508 Ω at 120 Hz, equal to the incumbent; corrected from a misread 0.16) | **ADOPTED** 2026-11-01 (`dec-b-stock-gap-substitutions`); the 1/ESR desk split on the −14.145 V basis gives C11 257 mA of 342 mA rated (75.1 %; 74.2–77.3 % over Vsat and a −5 % input) and each C24/C12 can 71.7 % (70.8–73.8 %); the 150 kHz ESR and the LM2596 loop with it are not measured; BB-C-1..5 NOT RUN |
 
 ### Current lineup reorder (Board P 15 V + Board B): BLOCKED on 2 stock lines, then OPEN on source parity
 
@@ -206,7 +206,7 @@ refreshed development review package. The acceptance tests in `readiness/board-b
 | Refs | Replaced (stock 2026-11-01, need for 5 sets) | Adopted (stock) | Desk match | Acceptance tests |
 |---|---|---|---|---|
 | R21, R27 | YAGEO RT0603BRD07680RL C861519 (0, need 10) | YAGEO AT0603BRD07680RL C5455478 (410–439) | every recorded row matches: 680 Ω, 0.1 %, 25 ppm/°C | BB-R-1 to BB-R-3: NOT RUN |
-| C11 | HRK GVT1E477M0810CNVC C2983319 (1, need 5) | Honor RVT1E471M0810 C696190 (4,085–4,625) | 470 µF 25 V on the same Φ8 land; 342 mA ripple rating against 312 mA; lower ESR changes the LM2596 loop (not measured) | BB-C-1 to BB-C-5: NOT RUN |
+| C11 | HRK GVT1E477M0810CNVC C2983319 (1, need 5) | Honor RVT1E471M0810 C696190 (4,085–4,625) | 470 µF 25 V on the same Φ8 land; 342 mA ripple rating against 312 mA; same 0.508 Ω 120 Hz ESR (tan δ 0.18); 150 kHz ESR and LM2596 loop not measured | BB-C-1 to BB-C-5: NOT RUN |
 
 ### Bench tests still NOT RUN for this pair
 

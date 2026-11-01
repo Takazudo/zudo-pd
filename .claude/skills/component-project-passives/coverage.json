@@ -916,7 +916,8 @@
         "fact-c696190-ripple-120hz",
         "fact-c696190-ripple-freq-multiplier",
         "fact-c696190-ripple-hf-derate",
-        "fact-c696190-case-size"
+        "fact-c696190-case-size",
+        "fact-c696190-rail-margin"
       ],
       "blocking_fact_ids": []
     },
@@ -925,7 +926,7 @@
       "record_id": "rec-c696190",
       "domain": "switching-frequency-ripple-current",
       "status": "OPEN",
-      "reason": "The 1/ESR bank split gives C11 269 mA of the 0.807 A ripple against 342 mA rated at 150 kHz, but the 150 kHz ESR and the LM2596 loop with this part are not measured.",
+      "reason": "The 1/ESR bank split on the -14.145 V basis gives C11 257 mA (75.1 %; 74.2-77.3 % over Vsat and a -5 % input) against 342 mA rated at 150 kHz, but the 150 kHz ESR and the LM2596 loop with this part are not measured.",
       "fact_ids": [
         "fact-c696190-c11-ripple-share-3can",
         "fact-c696190-c11-ripple-margin"

@@ -2781,9 +2781,9 @@
       "record_id": "rec-c22387780",
       "source_id": "src-c22387780-boardbdoc",
       "class": "PROJECT_STATE",
-      "value": 268.96886765240527,
+      "value": 288.9196362537822,
       "unit": "mA",
-      "conditions": "Per-can share for C24 and C12 (identical parts) of the 0.807 A rms output ripple on '/DC-DC Conversion/-13.5V OUT' after decision neg-rail-cap-bank adds C12, i.e. the three-can bank C11 || C24 || C12 at the 0.8 A rated load. Ripple divides as conductance 1/ESR because ESR dominates each branch at the LM2596's 150 kHz. Since dec-b-stock-gap-substitutions (2026-11-01) C11 is RVT1E471M0810 C696190, whose 120 Hz ESR equals these cans', so the bank splits evenly: against fact-c22387780-ripple-hf-derate (403 mA) this is 66.7%, inside the 85% sizing bar (69.3% with the former C11). VSAT-INCLUSIVE BASIS (issue #171 resolved): the expression's bare numbers are D = (13.53 + 0.55) / (15 - 1.16 + 13.53 + 0.55) = 0.5043 and Irms = 0.8 * sqrt(D/(1-D)) = 0.8069 A, where 13.53 V is the U4 setpoint magnitude (fact-lm2596-u4-vout-setpoint-magnitude), 0.55 V the SS34 catch-diode drop (fact-ss34-vf), 15 V the nominal input (fact-lm2596-vin-project), 1.16 V the LM2596 typical switch saturation voltage (fact-lm2596-vsat) and 0.8 A the rated -12V rail load; those four inputs are inlined as constants because the validator scopes depends_on to this bundle. SENSITIVITY at the guaranteed maximum Vsat (fact-lm2596-vsat-max, 1.5 V over temperature; 1.4 V at 25C): Irms rises to 0.817 A and this per-can share to 282.8 mA = 70.2% (281.8 mA = 69.9% at the 25C limit) -- still inside the bar. These 35 V cans are the slack members: C11 binds first at 85%, so the same 120Hz-ESR caveat as the sibling fact applies here with more margin behind it (absolute Ohm values pessimistic, ratio trustworthy).",
+      "conditions": "Per-can share for C24 and C12 (identical parts) of the LM2596 U4 output ripple on '/DC-DC Conversion/-13.5V OUT' (now -14.145 V) after decision neg-rail-cap-bank adds C12, in the bank C11 || C24 || C12 at the 0.8 A rated load. BASIS (corrected 2026-11-01 after the independent package review): the current U4 setpoint magnitude 14.145 V (not the legacy 13.53 V), the 0.55 V SS34 drop, 15 V nominal input and the 1.5 V guaranteed maximum LM2596 Vsat: D = (14.145 + 0.55) / (15 - 1.5 + 14.145 + 0.55) = 0.5212 and Irms = 0.8 * sqrt(D/(1-D)) = 0.8347 A. Ripple divides as 1/ESR at 120 Hz: C11 RVT1E471M0810 is 0.508 ohm max (tan delta 0.18 at 25 V), each C24/C12 can 0.4515 ohm, so the bank does NOT split evenly. Range over Vsat 1.16 V typical at 15 V to a 14.25 V (-5 %) input at Vsat 1.5 V: each can 285.3-297.3 mA, 70.8-73.8 % of fact-c22387780-ripple-hf-derate (403 mA); the value here is 288.9 mA, 71.7 %. Inside the 85 % sizing bar. The 120 Hz ESR ratio is the trustworthy part; absolute 150 kHz ESR is not printed, so the bench check stays open.",
       "locator": "calculated from the ESR rows of both records (fact-c696190-esr-120hz, fact-c22387780-esr-120hz) against the Vsat-inclusive 0.807 A output-cap ripple of spec-architecture-review.md section BB-7; duty-cycle inputs per fact-lm2596-vsat, fact-ss34-vf, fact-lm2596-vin-project and fact-lm2596-u4-vout-setpoint-magnitude; bank membership per board_b_spec.py NETS row '/DC-DC Conversion/-13.5V OUT'",
       "provenance": "CALCULATED",
       "verdict": "NEEDS BENCH",
@@ -2791,7 +2791,7 @@
         "fact-c696190-esr-120hz",
         "fact-c22387780-esr-120hz"
       ],
-      "expression": "0.8 * ((13.53 + 0.55) / (15 - 1.16 + 13.53 + 0.55) / (1 - (13.53 + 0.55) / (15 - 1.16 + 13.53 + 0.55))) ** 0.5 * 1000 * (1 / fact_c22387780_esr_120hz) / (1 / fact_c696190_esr_120hz + 2 / fact_c22387780_esr_120hz)"
+      "expression": "0.8 * ((14.145 + 0.55) / (15 - 1.5 + 14.145 + 0.55) / (1 - (14.145 + 0.55) / (15 - 1.5 + 14.145 + 0.55))) ** 0.5 * 1000 * (1 / fact_c22387780_esr_120hz) / (1 / fact_c696190_esr_120hz + 2 / fact_c22387780_esr_120hz)"
     },
     {
       "fact_id": "fact-c14663-manufacturer",
@@ -3271,7 +3271,7 @@
       "record_id": "rec-c696190",
       "source_id": "src-c696190-primary",
       "class": "GUARANTEED_ELECTRICAL",
-      "value": 0.16,
+      "value": 0.18,
       "unit": "NONE",
       "conditions": "maximum dissipation factor at 120 Hz, 20 C, 25 V row",
       "locator": "Page 1 Specifications table (category temperature, tolerance, leakage, Tan delta by rated voltage, load life)",
@@ -3285,7 +3285,7 @@
       "record_id": "rec-c696190",
       "source_id": "src-c696190-primary",
       "class": "GUARANTEED_ELECTRICAL",
-      "value": 0.4515033846578592,
+      "value": 0.5079413077400916,
       "unit": "Ohm",
       "conditions": "maximum ESR at 120 Hz, 20 C, derived as tan-delta / (2*pi*f*C); the sheet prints no ESR row",
       "locator": "Page 1 Specifications table (category temperature, tolerance, leakage, Tan delta by rated voltage, load life)",
@@ -3361,9 +3361,9 @@
       "record_id": "rec-c696190",
       "source_id": "src-c696190-primary",
       "class": "PROJECT_STATE",
-      "value": 268.96886765240527,
+      "value": 256.8174544478064,
       "unit": "mA",
-      "conditions": "C11's share of the 0.807 A rms output ripple on '/DC-DC Conversion/-13.5V OUT' in the three-can bank C11 || C24 || C12 at the 0.8 A rated load, ripple dividing as 1/ESR at the LM2596's 150 kHz. C11 RVT1E471M0810 and the C24/C12 cans have the same 120 Hz maximum ESR (0.4515 ohm), so each carries one third: against fact-c696190-ripple-hf-derate (342 mA) this is 78.6%, inside the 85% sizing bar. Same Vsat-inclusive duty-cycle basis and constants as fact-c22387780-can-ripple-share-3can; the 150 kHz ESR of neither part is printed, so the split is a 120 Hz-ratio estimate and the bench check stays open.",
+      "conditions": "C11's share of the LM2596 U4 output ripple on '/DC-DC Conversion/-13.5V OUT' (now -14.145 V) in the three-can bank C11 || C24 || C12 at the 0.8 A rated load. BASIS (corrected 2026-11-01 after the independent package review): the current U4 setpoint magnitude 14.145 V (not the legacy 13.53 V), the 0.55 V SS34 drop, 15 V nominal input and the 1.5 V guaranteed maximum LM2596 Vsat: D = (14.145 + 0.55) / (15 - 1.5 + 14.145 + 0.55) = 0.5212 and Irms = 0.8 * sqrt(D/(1-D)) = 0.8347 A. Ripple divides as 1/ESR at 120 Hz: C11 RVT1E471M0810 is 0.508 ohm max (tan delta 0.18 at 25 V), each C24/C12 can 0.4515 ohm, so the bank does NOT split evenly. Range over Vsat 1.16 V typical at 15 V to a 14.25 V (-5 %) input at Vsat 1.5 V: C11 253.6-264.3 mA, 74.2-77.3 % of fact-c696190-ripple-hf-derate (342 mA); the value here is 256.8 mA, 75.1 %. Inside the 85 % sizing bar. The 150 kHz ESR of neither part is printed, so the split is a 120 Hz-ratio estimate and the bench check stays open.",
       "locator": "calculated from fact-c696190-esr-120hz and fact-c22387780-esr-120hz against the Vsat-inclusive 0.807 A output-cap ripple (spec-architecture-review.md section BB-7); bank membership per board_b_spec.py NETS row '/DC-DC Conversion/-13.5V OUT'",
       "provenance": "CALCULATED",
       "verdict": "NEEDS BENCH",
@@ -3371,21 +3371,37 @@
         "fact-c696190-esr-120hz",
         "fact-c22387780-esr-120hz"
       ],
-      "expression": "0.8 * ((13.53 + 0.55) / (15 - 1.16 + 13.53 + 0.55) / (1 - (13.53 + 0.55) / (15 - 1.16 + 13.53 + 0.55))) ** 0.5 * 1000 * (1 / fact_c696190_esr_120hz) / (1 / fact_c696190_esr_120hz + 2 / fact_c22387780_esr_120hz)"
+      "expression": "0.8 * ((14.145 + 0.55) / (15 - 1.5 + 14.145 + 0.55) / (1 - (14.145 + 0.55) / (15 - 1.5 + 14.145 + 0.55))) ** 0.5 * 1000 * (1 / fact_c696190_esr_120hz) / (1 / fact_c696190_esr_120hz + 2 / fact_c22387780_esr_120hz)"
     },
     {
       "fact_id": "fact-c696190-c11-ripple-margin",
       "record_id": "rec-c696190",
       "source_id": "src-c696190-primary",
       "class": "PROJECT_STATE",
-      "value": "C11 3-can bank share 269.0 mA rms (fact-c696190-c11-ripple-share-3can) against 342 mA rated at 150 kHz / 105 C (78.6%). The 150 kHz ESR of neither bank part is printed, so the share is a 120 Hz-ratio estimate.",
+      "value": "C11 3-can bank share 256.8 mA rms (fact-c696190-c11-ripple-share-3can) against 342 mA rated at 150 kHz / 105 C: 75.1 % (74.2-77.3 % over Vsat and a -5 % input). C11's 0.508 ohm 120 Hz ESR exceeds each C24/C12 can's 0.4515 ohm, so C11 carries less than a third. The 150 kHz ESR of no bank part is printed, so the share is a 120 Hz-ratio estimate.",
       "unit": "NONE",
-      "conditions": "Board B -13.5 V (now -14.145 V) LM2596 output bank C11 || C24 || C12 at the 0.8 A budget; not measured",
+      "conditions": "Board B -14.145 V LM2596 output bank C11 || C24 || C12 at the 0.8 A budget; not measured",
       "locator": "Page 3 Dimensions table (Phi 8, L 10.2 row), Standard Size table (470 uF / 25 V: 8x10.2, 228 mA), ripple Frequency coefficient table",
       "provenance": "PROJECT-CHOICE",
       "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c696190-rail-margin",
+      "record_id": "rec-c696190",
+      "source_id": "src-c696190-primary",
+      "class": "PROJECT_STATE",
+      "value": 10.855,
+      "unit": "V",
+      "conditions": "25 V rating (fact-c696190-voltage) minus the 14.145 V magnitude of the U4 output it sits across (C11.1 GND, C11.2 -14.145 V); DC only, ripple and start overshoot not included",
+      "locator": "Page 3 Dimensions table (Phi 8, L 10.2 row), Standard Size table (470 uF / 25 V: 8x10.2, 228 mA), ripple Frequency coefficient table",
+      "provenance": "CALCULATED",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [
+        "fact-c696190-voltage"
+      ],
+      "expression": "fact_c696190_voltage - 14.145"
     },
     {
       "fact_id": "fact-c696190-candidate-scope",
