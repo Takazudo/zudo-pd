@@ -1,0 +1,202 @@
+{
+ "_comment": "Phase 21 desk self-check of the B20 switching-stage loops and shunt sense routing (no field solver, nothing measured).",
+ "stages": {
+  "A": {
+   "ic": "U1",
+   "input_cap": "C3",
+   "diode": "D1",
+   "hot_loop_polygon_mm2": 54.9,
+   "hot_loop_perimeter_mm": 30.9,
+   "vin_branch": {
+    "routed": true,
+    "length_mm": 7.09,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "sw_branch": {
+    "routed": true,
+    "length_mm": 5.87,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "return_branch_diode_to_cin": {
+    "routed": true,
+    "length_mm": 2.0,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "inductor_branch": {
+    "routed": true,
+    "length_mm": 3.5,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   }
+  },
+  "B": {
+   "ic": "U2",
+   "input_cap": "C7",
+   "diode": "D2",
+   "hot_loop_polygon_mm2": 54.9,
+   "hot_loop_perimeter_mm": 30.9,
+   "vin_branch": {
+    "routed": true,
+    "length_mm": 7.09,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "sw_branch": {
+    "routed": true,
+    "length_mm": 5.87,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "return_branch_diode_to_cin": {
+    "routed": true,
+    "length_mm": 2.0,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "inductor_branch": {
+    "routed": true,
+    "length_mm": 3.5,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   }
+  },
+  "C": {
+   "ic": "U3",
+   "input_cap": "CCIN1",
+   "diode": "D3",
+   "hot_loop_polygon_mm2": 54.9,
+   "hot_loop_perimeter_mm": 30.9,
+   "vin_branch": {
+    "routed": true,
+    "length_mm": 7.09,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "sw_branch": {
+    "routed": true,
+    "length_mm": 5.87,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "return_branch_diode_to_cin": {
+    "routed": true,
+    "length_mm": 2.0,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   },
+   "inductor_branch": {
+    "routed": true,
+    "length_mm": 3.5,
+    "layers": [
+     "F"
+    ],
+    "min_width_mm": 0.8
+   }
+  }
+ },
+ "sense": {
+  "RSH1": {
+   "ina": "U11",
+   "pins": {
+    "8": {
+     "routed": true,
+     "length_mm": 3.26,
+     "layers": [
+      "F"
+     ],
+     "min_width_mm": 0.25,
+     "net": "P12_PRE",
+     "lands_on": "sense pad"
+    },
+    "7": {
+     "routed": true,
+     "length_mm": 11.74,
+     "layers": [
+      "F"
+     ],
+     "min_width_mm": 0.2,
+     "net": "P12_SH",
+     "lands_on": "sense pad"
+    }
+   },
+   "largest_pair_gap_mm": 3.03
+  },
+  "RSH2": {
+   "ina": "U12",
+   "pins": {
+    "8": {
+     "routed": true,
+     "length_mm": 3.92,
+     "layers": [
+      "F"
+     ],
+     "min_width_mm": 0.25,
+     "net": "P5_PRE",
+     "lands_on": "current pad (no sense pad)"
+    },
+    "7": {
+     "routed": true,
+     "length_mm": 7.39,
+     "layers": [
+      "F"
+     ],
+     "min_width_mm": 0.2,
+     "net": "P5_SH",
+     "lands_on": "current pad (no sense pad)"
+    }
+   },
+   "largest_pair_gap_mm": 2.14
+  },
+  "RSH3": {
+   "ina": "U9",
+   "pins": {
+    "4": {
+     "routed": true,
+     "length_mm": 6.69,
+     "layers": [
+      "F"
+     ],
+     "min_width_mm": 0.25,
+     "net": "M12_PRE",
+     "lands_on": "sense pad"
+    },
+    "3": {
+     "routed": true,
+     "length_mm": 5.83,
+     "layers": [
+      "F"
+     ],
+     "min_width_mm": 0.2,
+     "net": "M12_SH",
+     "lands_on": "sense pad"
+    }
+   },
+   "largest_pair_gap_mm": 5.2
+  }
+ }
+}

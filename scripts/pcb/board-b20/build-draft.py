@@ -35,7 +35,8 @@ from board_b_layout import WIDTH, HEIGHT, PLACEMENTS, MOUNTING_HOLES, FIDUCIALS,
 LIB = str(ROOT / 'footprints/kicad/zudo-power.pretty')
 FIXED = ('J5', 'J6', 'J7', 'J10', 'J11')
 C3_KEEPOUT = (7.74, 24.54, 17.25, 35.77)
-CLEARANCE = 0.3
+CLEARANCE = 0.8          # phase 21: routing channels between greedily packed parts
+TEMPLATE_CLEARANCE = 0.3 # stage templates are packed tight on purpose (hot loops)
 BOARD_MARGIN = 0.5
 CELL = 0.1
 MAX_SIGNAL_PINS = 6
@@ -45,12 +46,29 @@ SUPPLY_NETS = {'GND', 'VIN', 'P5_SUP', 'REF25', 'M12_PRE', 'M12_RAW', 'FAULT_N',
 # Block anchors (mm). Power stages run along the top, rail switches and shunts toward the
 # J6/J7 terminals and the J10/J11 headers, supervision and servo logic on the right.
 ANCHORS = {
-    'U14': (31, 7), 'U1': (52, 9), 'U2': (78, 9), 'U3': (47, 38),
-    'Q1': (40, 52), 'Q3': (56, 50), 'Q5': (24, 44), 'U9': (33, 40),
-    'U11': (64, 26), 'U12': (66, 36), 'U10': (92, 28), 'U4': (80, 28),
-    'U13': (74, 46), 'U15': (84, 40), 'U16': (95, 40), 'U5': (104, 30),
-    'U6': (72, 58), 'U7': (84, 56), 'U8': (96, 54),
+    'U14': (31, 7), 'U1': (50, 11), 'U2': (78, 11), 'U3': (30, 48),
+    'Q1': (60, 30), 'Q3': (88, 30), 'Q5': (60, 54), 'U9': (52, 58),
+    'U11': (44.5, 30), 'U12': (72.5, 30), 'U10': (100, 24), 'U4': (100, 34),
+    'U13': (74, 46), 'U15': (84, 42), 'U16': (96, 44), 'U5': (104, 56),
+    'U6': (72, 60), 'U7': (84, 58), 'U8': (96, 62),
 }
+# Phase 21: the switching stages and their shunt/INA pairs are placed as fixed templates before the greedy fill.
+# Offsets (dx, dy, rotation) are relative to the stage IC at its anchor (rotation 0). The input capacitor, catch
+# diode and IC ground pad sit side by side so the hot loop (CIN -> VIN pin -> SW -> diode -> CIN return) closes
+# over about 10 x 6 mm; the inductor and output capacitors follow on the SW side.
+BUCK = (('ic', 0, 0, 0), ('boot', 0, -4.6, 0), ('cin', -3.4, -8.2, 0), ('diode', 3.6, -8.2, 180),
+        ('ind', 11.6, -5.2, 270), ('cout1', 11.6, 2.4, 0), ('cout2', 11.6, 6.6, 0))
+FILTER = (('lf', 3, 12.5, 0), ('cpoly', 13.2, 13.0, 0), ('shunt', 8, 20.2, 0), ('ina', -1, 20.2, 0))
+STAGES = {
+    'U1': dict(ic='U1', boot='C4', cin='C3', diode='D1', ind='L1', cout1='CAO1', cout2='CAO2',
+               lf='L2', cpoly='CAF1', shunt='RSH1', ina='U11'),
+    'U2': dict(ic='U2', boot='C8', cin='C7', diode='D2', ind='L3', cout1='CBO1', cout2='CBO2',
+               lf='L4', cpoly='CBF1', shunt='RSH2', ina='U12'),
+    'U3': dict(ic='U3', boot='C11', cin='CCIN1', cin2='CCIN2', diode='D3', ind='L5', cout1='CCO1', cout2='CCO2',
+               cout3='CCO3', cout4='CCO4', shunt='RSH3', ina='U9'),
+}
+EXTRA = {'U3': (('cin2', -3.4, -12.5, 0), ('cout3', 11.6, 11.0, 0), ('cout4', 11.6, 15.4, 0),
+                ('shunt', 22, 4, 0), ('ina', 22, 10.5, 180))}
 DEFAULT_ANCHOR = (100, 62)
 
 
@@ -99,11 +117,11 @@ class Grid:
             row = j * self.nx
             self.used[row + i0:row + i1 + 1] = b'\x01' * (i1 - i0 + 1)
 
-    def free(self, box):
+    def free(self, box, clearance=None):
         x0, y0, x1, y1 = box
         if x0 < BOARD_MARGIN or y0 < BOARD_MARGIN or x1 > WIDTH - BOARD_MARGIN or y1 > HEIGHT - BOARD_MARGIN:
             return False
-        i0, j0, i1, j1 = self._range(box, CLEARANCE)
+        i0, j0, i1, j1 = self._range(box, CLEARANCE if clearance is None else clearance)
         for j in range(j0, j1 + 1):
             row = j * self.nx
             if any(self.used[row + i0:row + i1 + 1]):
@@ -252,16 +270,30 @@ def main():
         grid.mark(courtyard_box(fp))
     grid.mark(C3_KEEPOUT)
 
+    templated = {}
+    for ic, roles in STAGES.items():
+        ax, ay = ANCHORS[ic]
+        rows = dict((r[0], r[1:]) for r in (BUCK + (() if ic == 'U3' else FILTER)))
+        rows.update((r[0], r[1:]) for r in EXTRA.get(ic, ()))
+        for role, (dx, dy, rot) in rows.items():
+            ref = roles[role]
+            put(footprints[ref], ax + dx, ay + dy, rot)
+            box = courtyard_box(footprints[ref])
+            if not grid.free(box, TEMPLATE_CLEARANCE):
+                raise SystemExit(f'stage template {ic}:{role} ({ref}) collides at {ax + dx}, {ay + dy}')
+            grid.mark(box)
+            templated[ref] = (ax + dx, ay + dy)
+
     owner, depth = blocks()
 
     def area(ref):
         x0, y0, x1, y1 = courtyard_box(footprints[ref])
         return (x1 - x0) * (y1 - y0)
 
-    order = sorted((r for r in spec.COMPONENTS if r not in FIXED),
+    order = sorted((r for r in spec.COMPONENTS if r not in FIXED and r not in templated),
                    key=lambda r: (r not in ANCHORS, list(ANCHORS).index(owner.get(r)) if owner.get(r) in ANCHORS else 99,
                                   depth.get(r, 99), -area(r), r))
-    placed_at = {}
+    placed_at = dict(templated)
     unplaced = []
     for ref in order:
         fp = footprints[ref]

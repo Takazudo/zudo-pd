@@ -1,7 +1,7 @@
 # Board B 20 V switcher-direct draft (unvalidated paper draft)
 
 **Status: unvalidated draft. Nothing here is adopted, measured, validated or released.**
-Phase 19 adds draft footprints and an unrouted placement-only PCB; there is no routing, no BOM change and no order file. `PASS` below means
+Phase 19 adds draft footprints and a placement PCB; phase 21 adds a partly routed draft of it (§3a). There is no BOM change and no order file. `PASS` below means
 only that the arithmetic in `scripts/pcb/calculate-board-b20-draft.py` closes on its tagged inputs,
 or that a named ngspice run with vendor models met the limit. A simulation is not a measurement.
 `OPEN` means the gate needs data or work that does not exist yet. An `OPEN` gate is not a pass.
@@ -117,15 +117,15 @@ from `gen_courtyards.py`). None is fabrication-reviewed and none has a 3D model.
 The RLS12 and PCSR2512 sheets were looked for on the manufacturers' own sites; neither exposes a direct
 PDF, so both stay mirror evidence and their primary-specification coverage is **OPEN**.
 
-### 3a. Phase 19 draft PCB: placement only
+### 3a. Draft PCB: phase 19 placement, phase 21 partial routing
 
 `scripts/pcb/board-b20/build-draft.py` (pinned KiCad 10.0.6 pcbnew) writes
-`boards/board-b20-draft/board-b20-draft.kicad_pcb`. It is an unrouted placement draft:
+`boards/board-b20-draft/board-b20-draft.kicad_pcb`. Phase 19 placed it without routing; phase 21 routes part of it (below):
 
 - Outline, mounting holes, fiducials and J5, J6, J7, J10, J11 come from `scripts/pcb/board_b_layout.py`
   unchanged.
 - A footprint keep-out rule area covers x 7.74–17.25, y 24.54–35.77 mm on both sides for Board P r3's C3.
-- The other 264 parts are packed greedily on the top side around block anchors (power stages along the
+- The other 264 parts are packed greedily on the top side around block anchors (phase 21: the switching stages use fixed templates, below) (power stages along the
   top, rail switches toward J6/J7/J10, supervision and servo logic on the right). Loop area, thermal
   spreading, return paths and creepage are **not** reviewed. Reference designators are on F.Fab.
 - The Board B design rules were copied into `board-b20-draft.kicad_pro`.
@@ -133,9 +133,59 @@ PDF, so both stay mirror evidence and their primary-specification coverage is **
 - J10/J11 front silk is clipped at local y = 11.73 mm, as `finish-board-b.py` does for the as-built Board B.
   The clip leaves two `lib_footprint_mismatch` warnings on J10/J11, which the as-built Board B DRC also carries.
 
-KiCad 10.0.6 DRC with schematic parity (pinned image, heavy-guard then `flock`): 0 violation errors,
+Phase 19 KiCad 10.0.6 DRC of the unrouted placement (pinned image, heavy-guard then `flock`): 0 violation errors,
 2 warnings (`lib_footprint_mismatch` on J10 and J11, from the silk clip), 0 parity issues and
 499 unconnected items. The unconnected items are the expected result of an unrouted draft; they are not a pass.
+
+#### Phase 21: power stages first, then the router
+
+`scripts/pcb/board-b20/run.sh` rebuilds the draft: `build-draft.py` (placement), `dump-geom.py` (pad and rule-area
+geometry), `route.py` (host grid router, 0.1 mm grid, two layers), `apply-routes.py` (tracks, vias, F.Cu and B.Cu
+GND pours, fill) and `loop-check.py` (desk loop and sense self-check, `loop-check.json`). The router result is in
+`routing-report.json`. The C3 keep-out rule area is unchanged and is honoured by placement and routing.
+
+- Each TPS54560 stage is placed from one fixed template (IC, boot capacitor, input capacitor, catch diode, inductor,
+  output capacitors), with the LC filter, shunt and INA301 beside it for stages A and B; stage C (−12 V) has its
+  own shunt and INA301 offset. A template collision stops the build.
+- Routing order: stage power pairs at 0.8 mm on F.Cu (input capacitor to VIN, SW to diode and inductor, boot
+  capacitor, inductor to output capacitors, diode anode to input-capacitor return, input-capacitor return to the IC
+  ground pin), then the INA301 Kelvin pairs, GND stubs, the remaining power nets, the supply nets, the signals by
+  span, two rip-up rounds and GND stitching vias (3 mm pitch).
+- The RESI PCSR2512 Kelvin footprint now sets `duplicate_pad_numbers_are_jumpers`, so each sense pad is joined to
+  its current pad inside the footprint. Its sense pads are point-symmetric (diagonal), so the two traces of a pair
+  cannot run side by side up to the resistor.
+- On the 0.1 mm grid a 0.25 mm track cannot leave the middle pin of a 0.65 mm pitch row with the clearance
+  margin; 0.2 mm (the board minimum) is the fallback width. All six sense traces now route.
+- Copper is rasterized onto every grid cell it touches, and a track end that cannot sit inside a pad narrower than
+  the track must still clear foreign copper, or the next narrower width is tried. An earlier run with a
+  centre-inside raster left 7 to 11 native clearance errors of up to 0.145 mm.
+
+Result: 2551 tracks, 737 vias (145 GND stitching), 64 router connections left open: 45 signal connections on
+33 nets and 19 GND stubs. This is an incomplete draft, not a routed board.
+
+KiCad 10.0.6 DRC with schematic parity (pinned image, heavy-guard then `flock`, Board B rules from
+`board-b20-draft.kicad_pro`): 0 errors, 0 parity issues; warnings: 2 `lib_footprint_mismatch` (J10/J11 silk clip),
+1 `via_dangling` (a GND stitching via), 1 `track_dangling`; **81 unconnected items** (34 GND, 47 on 33 signal nets).
+The unconnected items are open work, not a pass.
+
+Desk self-check (`loop-check.json`, pad-centre geometry and track lengths only; no field solver, nothing measured):
+
+| Stage | Hot loop (C<sub>IN</sub> → VIN → SW → diode → C<sub>IN</sub> return) | VIN / SW / inductor branch | Diode-to-C<sub>IN</sub> return |
+|---|---|---|---|
+| A (U1, C3, D1) | 54.9 mm² polygon, 30.9 mm perimeter | 7.09 / 5.87 / 3.5 mm, 0.8 mm F.Cu | 2.0 mm, 0.8 mm F.Cu |
+| B (U2, C7, D2) | same template: 54.9 mm², 30.9 mm | 7.09 / 5.87 / 3.5 mm | 2.0 mm F.Cu |
+| C (U3, CCIN1, D3) | same template: 54.9 mm², 30.9 mm | 7.09 / 5.87 / 3.5 mm | 2.0 mm F.Cu (M12_RAW return) |
+
+| Shunt | INA301 traces (+ / −) | Lands on | Largest pair gap |
+|---|---|---|---|
+| RSH1 (U11) | 3.26 mm (0.25) / 11.74 mm (0.2), F.Cu | sense pads | 3.03 mm |
+| RSH2 (U12) | 3.92 mm (0.25) / 7.39 mm (0.2), F.Cu | current pads: the selected shunt is two-terminal | 2.14 mm |
+| RSH3 (U9) | 6.69 mm (0.25) / 5.83 mm (0.2), F.Cu | sense pads | 5.2 mm |
+
+The hot-loop polygon is **OPEN**: the input capacitor sits 3.4 mm left of and 8.2 mm above the IC, so the loop
+encloses tens of mm²; a tighter template (input capacitor beside VIN and GND) is the next layout step. The RSH1 and
+RSH3 negative traces detour around the diagonal sense pads, and the RSH1 and RSH3 pairs separate by 3.03 and 5.2 mm, so the sense
+loops are **OPEN** too. Thermal spreading, creepage and the GND return under each SW node are not reviewed.
 
 ## 4. Gate table against the OSC–PD contract
 
@@ -538,8 +588,9 @@ needs a fix. This is an OSC question.
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 19) | 0 errors, 2 `lib_footprint_mismatch` warnings (J10/J11 silk clip), 0 parity issues; 499 unconnected items (unrouted, so not a pass) |
-| Routing, BOM/CPL | NOT RUN: placement only |
+| PCB DRC + schematic parity (phase 21, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 1 `via_dangling`, 1 `track_dangling` warnings; 81 unconnected items (34 GND, 47 signal), so **OPEN**, not a pass (phase 19 placement: 499) |
+| Routing | **OPEN**: power stages and all six sense traces routed; 64 router connections open (§3a); loop and sense self-check in `boards/board-b20-draft/loop-check.json` |
+| BOM/CPL | NOT RUN: no export |
 
 ## 7. Independent review findings (review of `bad5ddf`)
 
