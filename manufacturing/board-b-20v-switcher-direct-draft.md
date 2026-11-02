@@ -381,8 +381,8 @@ that run still reproduces the phase 26 routes exactly.
 
 The page lists 0.8–2.0 mm finished thicknesses but does not tie these layer values to one of them; they sum to about
 1.57 mm. It gives no core Er, so the core reuses 4.6. Loss tangent and mask thickness are KiCad defaults. **2 oz outer
-copper on 4 layers is UNKNOWN:** the page does not mention it. The 2-layer draft assumed 2 oz, so the copper-width and
-current checks at 0.035 mm outer copper are OPEN.
+copper on 4 layers is UNKNOWN:** the page does not mention it. The 2-layer draft assumed 2 oz; phase 30 rates the copper
+at 0.035 mm outer instead (below).
 
 **Router changes, 4-layer only.** The 2-layer output is unchanged.
 
@@ -435,6 +435,142 @@ These are **ideal-plane lower bounds**. They do not cover:
 
 The real pickup lies between the two columns. A field solver or a bench measurement would be needed to place it, so it
 is **OPEN**.
+
+#### Phase 30: current-rated trunks and cells on 1 oz copper, thermal desk screen, 5 unconnected
+
+**What changed in the router (4-layer only; `B20_LAYERS=2` still reproduces the retired 2-layer routes exactly).**
+
+- **Trunks.** 25 DC current paths are routed first as trunks, on F.Cu and B.Cu only (the outer layers are 1 oz). They
+  cover input to the stage capacitors, inductor to post filter, shunt, rail FETs, terminals J6/J7 and headers J10/J11.
+  - Widths step down from 1.5 mm for the 3 A input and inverter paths and from 1.0 mm for the 2 A rails.
+  - The 0.5 A +5 V chain runs at 0.6 mm.
+  - A 0.3 mm strap joins the three source pins of each rail FET Q1–Q6, so a trunk landing on pin 2 reaches pins 1 and 3.
+- **Via twins.** Where a 1.0 mm or wider trunk changes layer, two more vias are placed 1.2–1.9 mm away. Each is joined
+  by a stub on both outer layers. This happens before the signal nets claim the space, and all ten trunk layer changes got
+  three vias.
+- **Wide cells.** The switching-cell branches of the +12 V and inverter stages (SW pin, diode, inductor, input-capacitor
+  return, IC pad and VIN pin) try 1.5 mm and then 1.2 mm before the 0.8 mm template width. The +5 V cell is unchanged.
+- **Signal routing.** Fanout runs before the trunks, so the FET gate pins escape first. The B.Cu/In2.Cu signal cost is
+  0.8, and the fanout list has 71 pins.
+- **Touch-up.** A final pass closes raster near-misses: a same-net track or via that ends up to 0.2 mm short of a pad
+  gets a short stub. Same-net neighbour pins of one part get a strap, for example Q54 pins 1–3.
+
+**Trials toward the last five.** All trials use the phase 22 placement. Router open counts varied between 4 and 11 with
+the cost, the fanout list and the twin timing.
+
+| Trial | Router open | DRC unconnected |
+|---|---|---|
+| Trunks only, phase 28 fanout | 14–20 | NOT RUN |
+| + fanout before trunks, FET straps | 5–6 | 8–10, 0 errors |
+| + touch-up | 6 | 7, 0 errors |
+| B.Cu cost 0.8 with late twins (twins left 5 transitions at one via) | 4 | NOT RUN (via neck rejected) |
+| Cluster nets first | 11 | NOT RUN |
+| Comparator-cluster halo 0.4 / 0.6 mm | 21 / 14 | NOT RUN |
+| Dividers R66/R67/R70/R71 placed at U7/U8 | NOT RUN: the wirelength pass moved the dividers back and moved U8 to the far edge | NOT RUN |
+| **Adopted: early twins, wide cells, B.Cu cost 0.8, 71-pin fanout** | **5** | **5 (0 GND, 5 signal)** |
+
+**The 5 unconnected items are OPEN.** They are not all in the comparator cluster. Each one is a long signal net whose ends
+sit on opposite sides of the board:
+
+- UV5_DIV: divider R66/R67 at about (38, 14) to U7.6 at (86, 58);
+- UV5_CMP: Q45 at (34, 15) to U7.7;
+- EN_N: R37.1 to its fragment;
+- C_EN: RCEN1 to U3.3;
+- RDY_X: RRDY1 to RRDY2.
+
+Fanout, cost and halo changes trade one failure for another. Closing them needs the comparator inputs' partners placed
+beside U7/U8, which the greedy placement and wirelength pass currently undo. That is a placement change, not a nudge.
+
+**Current and width check (`current-check.py`, desk; output in `boards/board-b20-draft/current-check.json`).**
+
+- **Copper:** 1 oz outer (0.035 mm) and 0.5 oz inner (0.0175 mm), JLC7628. The design does not rely on the UNKNOWN
+  2 oz option.
+- **Method:**
+  - For each path, the check finds the widest route through the routed copper and rates its narrowest segment.
+  - The formula is IPC-2221 I = k·ΔT^0.44·A^0.725, with k 0.048 outer and 0.024 inner. It treats the segment as a long
+    isolated conductor, so short necks between large pads are overstated. Parallel pours are not credited.
+- **Via barrels:** each layer change is rated per barrel: 0.3 mm drill and 0.020 mm wall. The wall value is the low end of
+  "~20–25 µm" in JLCPCB's blog post on PCB plating thickness, read 2026-11-02; it is not a capabilities-page value.
+- **Currents:** the rail current at rated load (1.2 / 0.8 / 0.5 A) and at the limiter maximum (2.1 / 2.0 / 0.5 A). The
+  inverter's D3–L6 path carries 1.34 / 3.35 A. VIN branches carry each stage's input current at 19 V.
+
+| Path | Width (narrowest) | Layers | Vias per layer change | Rise rated / limiter max |
+|---|---|---|---|---|
+| VIN J5 → C1 | 1.5 mm | F | — | 1.9 / 9.1 K |
+| VIN C1 → C3 (+12 V stage) | 1.0 mm | F | — | 0.9 / 3.2 K |
+| VIN C1 → CCIN1 (inverter) | 1.5 mm | F | — | 0.2 / 1.7 K |
+| VIN C1 → C7 (+5 V stage) | 0.6 mm | F | — | 0.0 / 0.0 K |
+| +12 V L1 → L2 → RSH1 → Q1 → Q2 | 1.0 mm | F | — | 2.1 / 7.4 K |
+| +12 V Q2 → J7.2 → J10 → J11 | 1.0 mm | F, B | 2–3 | 2.1 / 7.4 K (via 1.2 / 4.3 K) |
+| −12 V D3 → L6 (M12_RAW) | 1.5 mm | F | — | 1.4 / 11.0 K |
+| −12 V L6 → RSH3 → Q5 → Q6 | 1.0 mm | F, B | 3 | 0.8 / 6.7 K (via 0.2 / 1.5 K) |
+| −12 V Q6 → J6.2 → J10 → J11 | 1.0 mm | F, B | 2–3 | 0.8 / 6.7 K (via 0.5 / 3.8 K) |
+| +5 V chain L3 → … → J11 | 0.6 mm | F, B | 1 | 0.7 / 0.7 K (via 0.8 / 0.8 K) |
+
+The switching cells are rated at the inductor RMS, √(IL² + ΔI²/12), which bounds every branch of the cell:
+
+| Cell branches (SW–diode, diode–L, return, IC pad) | Width | Rise rated / limiter max |
+|---|---|---|
+| +12 V cell (2.13 A bound) | 1.5 mm | 1.2 / 3.9 K |
+| Inverter cell (3.38 A bound) | 1.5 mm | 1.5 / 11.2 K |
+| +5 V cell (0.55 A bound) | 0.8 mm | 0.5 / 0.5 K |
+| CIN → VIN pin, +12 V / inverter | 1.2 mm | 1.7 / 5.7 K and 2.2 / 16.2 K at the bound |
+
+The inverter's CIN → VIN branch carries the switch current. Its RMS is about IL·√D = 3.35 × √0.40 = 2.1 A, which gives
+about 5.6 K. The 16.2 K figure is the inductor-RMS bound.
+
+Without twins and wide cells, the same check flagged three problems:
+
+- a single-via neck of 20.6 K on +12 V at the limiter maximum;
+- 0.8 mm inverter cell branches at 31.6 K;
+- 0.8 mm +12 V cell branches at 11.1 K.
+
+The adopted routing removes all three. At the limiter maximum, every path is at or below 11.2 K by this conservative
+rule, the cell CIN → VIN bound aside. At rated load, every path is at or below 2.2 K. The In1.Cu GND plane carries the
+returns over the full board width less the via antipads, so it is not the limit.
+
+The longest rail runs are Q2 → J7.2 (67 mm at 1.0 mm, about 33 mΩ) and Q6 → J6.2 (56 mm, about 27 mΩ). At the limiter
+maximum they drop about 69 mV and 55 mV. These are resistivity desk numbers.
+
+Adopted board, KiCad 10.0.6 DRC with schematic parity run in place (heavy-guard then `flock`):
+
+- 0 errors and 0 parity issues.
+- Warnings: 5 `via_dangling` and 2 `lib_footprint_mismatch` (J10/J11 silk clip).
+- **5 unconnected items, all signal** (listed above). The board has 3076 track segments and 759 vias.
+
+Hot loops are still 29.6 mm² polygons, and the magnetic pickup is unchanged. The wider cell copper raises the desk
+capacitive common-mode at the sense inputs from 0.02–0.12 to 0.03–0.13 µV peak over the ideal plane
+(`loop-check.json`).
+
+**Thermal desk screen (`thermal-check.py`, nothing measured).** The screen estimates per-stage loss from the TPS54560
+dissipation equations in SLVSBN0C §8.2.2.13 (equations 52–55). It also counts the SDT5A60SA catch diode (Vf 0.52 V,
+the 5 A / 25 °C maximum, used as a bound), the ASPI-0630LR-100M-T15 inductor DCR (0.068 Ω), the post-filter inductor,
+the 10 mΩ shunt and the back-to-back CSD18543Q3A rail FETs (15.6 mΩ × 1.25 hot, PA). A 0.3 W control allowance (PA)
+is added. The board mean rise uses the same still-air coefficient as the phase 29 Board B screen: 10–15 W/m²K over
+both faces of 110 × 85 mm. Each TPS54560 junction uses the datasheet's 42 °C/W standard-board θJA at 40 °C ambient.
+VIN is 19 V, the low end of the 19–21 V range.
+
+| Case (VIN 19 V) | Board loss | Efficiency | Input current | Mean board rise | TPS54560 TJ +12 / −12 / +5 |
+|---|---|---|---|---|---|
+| Rated 1.2 / 0.8 / 0.5 A, RDS(on) typical | 2.24 W | 92.3 % | 1.53 A | 8.0–12.0 K | 48.6 / 53.2 / 43.1 °C |
+| Rated, RDS(on) maximum (190 mΩ) | 2.43 W | 91.7 % | 1.54 A | 8.7–13.0 K | 52.9 / 56.4 / 43.5 °C |
+| Limiter maximum 2.1 / 2.0 / 0.5 A, typical | 5.48 W | 90.5 % | 3.04 A | 19.5–29.3 K | 58.6 / 79.7 / 43.1 °C |
+| Limiter maximum, RDS(on) maximum | 6.23 W | 89.4 % | 3.08 A | 22.2–33.3 K | 70.9 / 98.6 / 43.5 °C |
+
+**Comparison with the 15 V Board B (phase 29, same outline and coefficient).** Board B dissipates about 16 W at rated
+load: 9.72 W in the three LDOs plus about 6.26 W in the converters. That gives a mean rise of 57–86 K. B20 at the same
+rated load dissipates 2.24–2.43 W, so its mean rise is 8–13 K, **about 6.6 times lower**. Even at the limiter maximum,
+which is 52 W out, B20's 22–33 K is about 2.6 times below Board B at rated load.
+
+**Hot spots at the limiter maximum.**
+
+- **D3, the −12 V catch diode:** 1.04 W. At the datasheet's 56 °C/W θJA, it would be about 58 K above the local board.
+- **L5, the inverter inductor:** 0.775 W at 3.35 A. The rated Irms is 4 A for a 40 K rise.
+
+These are the parts to check first on a bench. At rated load they dissipate 0.42 W and 0.13 W.
+
+The screen does not cover diode capacitance, inductor core loss, or the difference between the real board and the
+JEDEC board. The thermal margins are **OPEN** until measured.
 
 ## 4. Gate table against the OSC–PD contract
 
@@ -837,8 +973,10 @@ needs a fix. This is an OSC question.
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 28, 4 layers, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 7 `via_dangling` warnings; 5 unconnected items (0 GND, 5 signal), so **OPEN**, not a pass (2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
-| Routing | **OPEN**: 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN); power stages and all six sense traces routed; 5 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28); self-check in `boards/board-b20-draft/loop-check.json` |
+| PCB DRC + schematic parity (phase 30, 4 layers, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 5 `via_dangling` warnings; 5 unconnected items (0 GND, 5 signal), so **OPEN**, not a pass (phase 28: 5 without current-rated trunks; 2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
+| Routing | **OPEN**: 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN and not relied on); phase 30 current-rated trunks, three-via layer changes and 1.5 mm +12 V / inverter cells; power stages and all six sense traces routed; 5 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28); self-check in `boards/board-b20-draft/loop-check.json` |
+| Current/width at 1 oz outer, 0.5 oz inner (`current-check.py`, desk) | Every trunk at or below 2.2 K rated and 11.2 K at the limiter maximum (IPC-2221, narrowest segment, no pour credit); via barrels at or below 4.3 K; inverter CIN → VIN cell branch 16.2 K at the inductor-RMS bound, about 5.6 K at its switch RMS. Desk numbers only, nothing measured: **OPEN** (§3a, phase 30; `boards/board-b20-draft/current-check.json`) |
+| Thermal desk screen (`thermal-check.py`) | 2.24–2.43 W at rated load, a 8–13 K mean board rise against 57–86 K for the 15 V Board B; 5.5–6.2 W and 19.5–33 K at the limiter maximum; TPS54560 TJ up to 56 °C rated and 99 °C at the inverter limiter maximum (standard-board θJA). Desk only: **OPEN** (§3a, phase 30; `boards/board-b20-draft/thermal-check.json`) |
 | BOM/CPL | NOT RUN: no export |
 
 ## 7. Independent review findings (review of `bad5ddf`)

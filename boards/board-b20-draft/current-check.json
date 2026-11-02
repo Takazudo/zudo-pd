@@ -1,0 +1,1102 @@
+{
+ "_comment": "Phase 30 desk current/width check of the B20 high-current paths on the JLC7628 4-layer stackup (nothing measured).",
+ "copper_mm": {
+  "F": 0.035,
+  "B": 0.035,
+  "In2": 0.0175
+ },
+ "paths": [
+  {
+   "net": "VIN",
+   "from": "J5.1",
+   "to": "C1.1",
+   "trunk_width_mm": 1.5,
+   "current_a": {
+    "rated": 1.54,
+    "limiter_max": 3.08
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 14.52,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 14.52,
+   "rise_k": {
+    "rated": 1.9,
+    "limiter_max": 9.1
+   }
+  },
+  {
+   "net": "VIN",
+   "from": "C1.1",
+   "to": "C3.1",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 0.81,
+    "limiter_max": 1.44
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 25.79,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 25.79,
+   "rise_k": {
+    "rated": 0.9,
+    "limiter_max": 3.2
+   }
+  },
+  {
+   "net": "VIN",
+   "from": "C1.1",
+   "to": "C7.1",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.15,
+    "limiter_max": 0.15
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 27.86,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 53.65,
+   "rise_k": {
+    "rated": 0.0,
+    "limiter_max": 0.0
+   }
+  },
+  {
+   "net": "VIN",
+   "from": "C1.1",
+   "to": "CCIN1.1",
+   "trunk_width_mm": 1.5,
+   "current_a": {
+    "rated": 0.57,
+    "limiter_max": 1.47
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 24.59,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 24.59,
+   "rise_k": {
+    "rated": 0.2,
+    "limiter_max": 1.7
+   }
+  },
+  {
+   "net": "P12_RAW",
+   "from": "L1.2",
+   "to": "L2.1",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 1.2,
+    "limiter_max": 2.1
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 19.79,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 19.79,
+   "rise_k": {
+    "rated": 2.1,
+    "limiter_max": 7.4
+   }
+  },
+  {
+   "net": "P5_RAW",
+   "from": "L3.2",
+   "to": "L4.1",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 19.15,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 19.15,
+   "rise_k": {
+    "rated": 0.7,
+    "limiter_max": 0.7
+   }
+  },
+  {
+   "net": "M12_RAW",
+   "from": "D3.2",
+   "to": "L6.1",
+   "trunk_width_mm": 1.5,
+   "current_a": {
+    "rated": 1.34,
+    "limiter_max": 3.35
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 18.3,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 18.3,
+   "rise_k": {
+    "rated": 1.4,
+    "limiter_max": 11.0
+   }
+  },
+  {
+   "net": "P12_PRE",
+   "from": "L2.2",
+   "to": "RSH1.1",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 1.2,
+    "limiter_max": 2.1
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 3.8,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 3.8,
+   "rise_k": {
+    "rated": 2.1,
+    "limiter_max": 7.4
+   }
+  },
+  {
+   "net": "P5_PRE",
+   "from": "L4.2",
+   "to": "RSH2.1",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 4.7,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 4.7,
+   "rise_k": {
+    "rated": 0.7,
+    "limiter_max": 0.7
+   }
+  },
+  {
+   "net": "M12_PRE",
+   "from": "L6.2",
+   "to": "RSH3.2",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 0.8,
+    "limiter_max": 2.0
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 28.38,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 28.38,
+   "rise_k": {
+    "rated": 0.8,
+    "limiter_max": 6.7
+   }
+  },
+  {
+   "net": "P12_SH",
+   "from": "RSH1.2",
+   "to": "Q1.9",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 1.2,
+    "limiter_max": 2.1
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 9.17,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 9.17,
+   "rise_k": {
+    "rated": 2.1,
+    "limiter_max": 7.4
+   }
+  },
+  {
+   "net": "P5_SH",
+   "from": "RSH2.2",
+   "to": "Q3.9",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 3.24,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 3.24,
+   "rise_k": {
+    "rated": 0.7,
+    "limiter_max": 0.7
+   }
+  },
+  {
+   "net": "M12_SH",
+   "from": "RSH3.1",
+   "to": "Q5.9",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 0.8,
+    "limiter_max": 2.0
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 14.57,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 14.57,
+   "rise_k": {
+    "rated": 0.8,
+    "limiter_max": 6.7
+   }
+  },
+  {
+   "net": "P12_CS",
+   "from": "Q1.2",
+   "to": "Q2.2",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 1.2,
+    "limiter_max": 2.1
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 5.43,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 5.43,
+   "rise_k": {
+    "rated": 2.1,
+    "limiter_max": 7.4
+   }
+  },
+  {
+   "net": "P5_CS",
+   "from": "Q3.2",
+   "to": "Q4.2",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 3.21,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 3.21,
+   "rise_k": {
+    "rated": 0.7,
+    "limiter_max": 0.7
+   }
+  },
+  {
+   "net": "M12_CS",
+   "from": "Q5.2",
+   "to": "Q6.2",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 0.8,
+    "limiter_max": 2.0
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 6.06,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 6.06,
+   "via_transitions": [
+    {
+     "at": [
+      55.6,
+      46.2
+     ],
+     "vias": 3
+    },
+    {
+     "at": [
+      56.8,
+      48.2
+     ],
+     "vias": 3
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.2,
+    "limiter_max": 1.5
+   },
+   "rise_k": {
+    "rated": 0.8,
+    "limiter_max": 6.7
+   }
+  },
+  {
+   "net": "P12_OUT",
+   "from": "Q2.9",
+   "to": "J7.2",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 1.2,
+    "limiter_max": 2.1
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 67.22,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 67.22,
+   "via_transitions": [
+    {
+     "at": [
+      30.0,
+      54.2
+     ],
+     "vias": 2
+    },
+    {
+     "at": [
+      64.3,
+      31.0
+     ],
+     "vias": 3
+    }
+   ],
+   "via_rise_k": {
+    "rated": 1.2,
+    "limiter_max": 4.3
+   },
+   "rise_k": {
+    "rated": 2.1,
+    "limiter_max": 7.4
+   }
+  },
+  {
+   "net": "P12_OUT",
+   "from": "J7.2",
+   "to": "J10.9",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 1.2,
+    "limiter_max": 2.1
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 37.4,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 37.4,
+   "rise_k": {
+    "rated": 2.1,
+    "limiter_max": 7.4
+   }
+  },
+  {
+   "net": "P12_OUT",
+   "from": "J10.10",
+   "to": "J11.10",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 1.2,
+    "limiter_max": 2.1
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 41.46,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 41.46,
+   "rise_k": {
+    "rated": 2.1,
+    "limiter_max": 7.4
+   }
+  },
+  {
+   "net": "P5_OUT",
+   "from": "Q4.9",
+   "to": "J7.1",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 93.08,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 93.08,
+   "via_transitions": [
+    {
+     "at": [
+      29.4,
+      41.3
+     ],
+     "vias": 1
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.8,
+    "limiter_max": 0.8
+   },
+   "rise_k": {
+    "rated": 0.7,
+    "limiter_max": 0.7
+   }
+  },
+  {
+   "net": "P5_OUT",
+   "from": "J7.1",
+   "to": "J10.11",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 31.32,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 31.32,
+   "via_transitions": [
+    {
+     "at": [
+      35.1,
+      69.9
+     ],
+     "vias": 1
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.8,
+    "limiter_max": 0.8
+   },
+   "rise_k": {
+    "rated": 0.7,
+    "limiter_max": 0.7
+   }
+  },
+  {
+   "net": "P5_OUT",
+   "from": "J10.12",
+   "to": "J11.12",
+   "trunk_width_mm": 0.6,
+   "current_a": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   },
+   "narrowest_mm": 0.6,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 40.92,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 40.92,
+   "via_transitions": [
+    {
+     "at": [
+      63.4,
+      77.5
+     ],
+     "vias": 1
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.8,
+    "limiter_max": 0.8
+   },
+   "rise_k": {
+    "rated": 0.7,
+    "limiter_max": 0.7
+   }
+  },
+  {
+   "net": "M12_OUT",
+   "from": "Q6.9",
+   "to": "J6.2",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 0.8,
+    "limiter_max": 2.0
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 55.79,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 55.79,
+   "via_transitions": [
+    {
+     "at": [
+      23.0,
+      37.3
+     ],
+     "vias": 2
+    },
+    {
+     "at": [
+      51.4,
+      39.7
+     ],
+     "vias": 2
+    },
+    {
+     "at": [
+      54.5,
+      42.8
+     ],
+     "vias": 3
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.5,
+    "limiter_max": 3.8
+   },
+   "rise_k": {
+    "rated": 0.8,
+    "limiter_max": 6.7
+   }
+  },
+  {
+   "net": "M12_OUT",
+   "from": "J6.2",
+   "to": "J10.1",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 0.8,
+    "limiter_max": 2.0
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 51.72,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 51.72,
+   "via_transitions": [
+    {
+     "at": [
+      22.5,
+      54.2
+     ],
+     "vias": 3
+    },
+    {
+     "at": [
+      31.8,
+      61.8
+     ],
+     "vias": 3
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.2,
+    "limiter_max": 1.5
+   },
+   "rise_k": {
+    "rated": 0.8,
+    "limiter_max": 6.7
+   }
+  },
+  {
+   "net": "M12_OUT",
+   "from": "J10.2",
+   "to": "J11.2",
+   "trunk_width_mm": 1.0,
+   "current_a": {
+    "rated": 0.8,
+    "limiter_max": 2.0
+   },
+   "narrowest_mm": 1.0,
+   "layers": [
+    "B",
+    "F"
+   ],
+   "narrow_length_mm": 40.68,
+   "path_layers": [
+    "B",
+    "F"
+   ],
+   "path_length_mm": 40.68,
+   "via_transitions": [
+    {
+     "at": [
+      66.3,
+      75.4
+     ],
+     "vias": 3
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.2,
+    "limiter_max": 1.5
+   },
+   "rise_k": {
+    "rated": 0.8,
+    "limiter_max": 6.7
+   }
+  }
+ ],
+ "stage_cells": [
+  {
+   "stage": "+12",
+   "branch": "SW pin to diode",
+   "net": "A_SW",
+   "from": "U1.8",
+   "to": "D1.1",
+   "current_bound_a": {
+    "rated": 1.254,
+    "limiter_max": 2.131
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 3.19,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 3.19,
+   "rise_k": {
+    "rated": 1.2,
+    "limiter_max": 3.9
+   }
+  },
+  {
+   "stage": "+12",
+   "branch": "diode to inductor",
+   "net": "A_SW",
+   "from": "D1.1",
+   "to": "L1.1",
+   "current_bound_a": {
+    "rated": 1.254,
+    "limiter_max": 2.131
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 2.2,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 2.2,
+   "rise_k": {
+    "rated": 1.2,
+    "limiter_max": 3.9
+   }
+  },
+  {
+   "stage": "+12",
+   "branch": "diode return to CIN",
+   "net": "GND",
+   "from": "D1.2",
+   "to": "C3.2",
+   "current_bound_a": {
+    "rated": 1.254,
+    "limiter_max": 2.131
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 2.5,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 2.5,
+   "rise_k": {
+    "rated": 1.2,
+    "limiter_max": 3.9
+   }
+  },
+  {
+   "stage": "+12",
+   "branch": "CIN return to IC pad",
+   "net": "GND",
+   "from": "C3.2",
+   "to": "U1.9",
+   "current_bound_a": {
+    "rated": 1.254,
+    "limiter_max": 2.131
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 2.62,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 2.62,
+   "rise_k": {
+    "rated": 1.2,
+    "limiter_max": 3.9
+   }
+  },
+  {
+   "stage": "+12",
+   "branch": "CIN to VIN pin",
+   "net": "VIN",
+   "from": "C3.1",
+   "to": "U1.2",
+   "current_bound_a": {
+    "rated": 1.254,
+    "limiter_max": 2.131
+   },
+   "narrowest_mm": 1.2,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 4.19,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 4.19,
+   "rise_k": {
+    "rated": 1.7,
+    "limiter_max": 5.7
+   }
+  },
+  {
+   "stage": "+5",
+   "branch": "SW pin to diode",
+   "net": "B_SW",
+   "from": "U2.8",
+   "to": "D2.1",
+   "current_bound_a": {
+    "rated": 0.552,
+    "limiter_max": 0.552
+   },
+   "narrowest_mm": 0.8,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 2.75,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 2.75,
+   "rise_k": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   }
+  },
+  {
+   "stage": "+5",
+   "branch": "diode to inductor",
+   "net": "B_SW",
+   "from": "D2.1",
+   "to": "L3.1",
+   "current_bound_a": {
+    "rated": 0.552,
+    "limiter_max": 0.552
+   },
+   "narrowest_mm": 0.8,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 1.4,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 1.4,
+   "rise_k": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   }
+  },
+  {
+   "stage": "+5",
+   "branch": "diode return to CIN",
+   "net": "GND",
+   "from": "D2.2",
+   "to": "C7.2",
+   "current_bound_a": {
+    "rated": 0.552,
+    "limiter_max": 0.552
+   },
+   "narrowest_mm": 0.8,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 1.7,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 1.7,
+   "rise_k": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   }
+  },
+  {
+   "stage": "+5",
+   "branch": "CIN return to IC pad",
+   "net": "GND",
+   "from": "C7.2",
+   "to": "U2.9",
+   "current_bound_a": {
+    "rated": 0.552,
+    "limiter_max": 0.552
+   },
+   "narrowest_mm": 0.8,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 1.55,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 1.55,
+   "rise_k": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   }
+  },
+  {
+   "stage": "+5",
+   "branch": "CIN to VIN pin",
+   "net": "VIN",
+   "from": "C7.1",
+   "to": "U2.2",
+   "current_bound_a": {
+    "rated": 0.552,
+    "limiter_max": 0.552
+   },
+   "narrowest_mm": 0.8,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 4.11,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 4.11,
+   "rise_k": {
+    "rated": 0.5,
+    "limiter_max": 0.5
+   }
+  },
+  {
+   "stage": "-12",
+   "branch": "SW pin to diode",
+   "net": "C_SW",
+   "from": "U3.8",
+   "to": "D3.1",
+   "current_bound_a": {
+    "rated": 1.401,
+    "limiter_max": 3.375
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 3.19,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 3.19,
+   "rise_k": {
+    "rated": 1.5,
+    "limiter_max": 11.2
+   }
+  },
+  {
+   "stage": "-12",
+   "branch": "diode to inductor",
+   "net": "C_SW",
+   "from": "D3.1",
+   "to": "L5.1",
+   "current_bound_a": {
+    "rated": 1.401,
+    "limiter_max": 3.375
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 2.2,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 2.2,
+   "rise_k": {
+    "rated": 1.5,
+    "limiter_max": 11.2
+   }
+  },
+  {
+   "stage": "-12",
+   "branch": "diode return to CIN",
+   "net": "M12_RAW",
+   "from": "D3.2",
+   "to": "CCIN1.2",
+   "current_bound_a": {
+    "rated": 1.401,
+    "limiter_max": 3.375
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 2.5,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 2.5,
+   "rise_k": {
+    "rated": 1.5,
+    "limiter_max": 11.2
+   }
+  },
+  {
+   "stage": "-12",
+   "branch": "CIN return to IC pad",
+   "net": "M12_RAW",
+   "from": "CCIN1.2",
+   "to": "U3.9",
+   "current_bound_a": {
+    "rated": 1.401,
+    "limiter_max": 3.375
+   },
+   "narrowest_mm": 1.5,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 2.62,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 2.62,
+   "rise_k": {
+    "rated": 1.5,
+    "limiter_max": 11.2
+   }
+  },
+  {
+   "stage": "-12",
+   "branch": "CIN to VIN pin",
+   "net": "VIN",
+   "from": "CCIN1.1",
+   "to": "U3.2",
+   "current_bound_a": {
+    "rated": 1.401,
+    "limiter_max": 3.375
+   },
+   "narrowest_mm": 1.2,
+   "layers": [
+    "F"
+   ],
+   "narrow_length_mm": 4.19,
+   "path_layers": [
+    "F"
+   ],
+   "path_length_mm": 4.19,
+   "rise_k": {
+    "rated": 2.2,
+    "limiter_max": 16.2
+   }
+  }
+ ]
+}

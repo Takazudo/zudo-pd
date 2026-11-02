@@ -29,7 +29,7 @@ CL, EDGE, MARGIN = 0.2, 0.5, 0.08
 RASTER = 0.0707   # half a cell diagonal: copper is marked on every cell it touches
 VIA_D, VIA_DRILL, HOLE_CL = 0.8, 0.3, 0.25
 VIA_COST = 3.0
-B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 0.7)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
+B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 0.8 if os.environ.get('B20_LAYERS', '4') == '4' else 0.7)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
 SUPPLY = ['P5_SUP', 'REF25', 'FAULT_N', 'EN_E']
 W_POWER, W_POWER_MIN, W_SIG = 0.8, 0.4, 0.25
 # 0.2 mm (the board minimum) is the fallback: on the 0.1 mm grid a 0.25 mm track cannot leave the middle pin of a
@@ -50,14 +50,47 @@ YS = np.arange(NY) * G
 # phase 27: B20_LAYERS=4 adds the inner signal/power layer In2 (In1 is a GND plane that the router does not use; every
 # via passes through it and a GND via lands on it)
 FOUR = os.environ.get('B20_LAYERS', '4') == '4'
-# phase 28: pins that get an escape via before the power and signal nets (4-layer default). The list is the pins earlier
-# runs left boxed in, plus every fine-pitch signal pin of U5, U7, U8, U13 and U16; the best of the phase 28 fanout trials.
+# phase 28/30: pins that get an escape via before the power and signal nets (4-layer default). Phase 28's list (the
+# pins earlier runs left boxed in, plus every fine-pitch signal pin of U5, U7, U8, U13 and U16) plus the pins that
+# phase 30 trunk runs left open; the best of the phase 30 trials with trunks, via twins and wide cells.
 FANOUT_4L = (
     'U4.3', 'U2.3', 'U5.7', 'U1.3', 'Q4.4', 'RCEN2.1', 'Q5.4', 'U9.7', 'U16.2', 'U6.6', 'U5.1', 'U7.3', 'U8.7',
     'U7.7', 'U7.6', 'R73.2', 'Q34.4', 'Q48.1', 'U13.7', 'U16.6', 'U16.5', 'R28.1', 'U16.3', 'U13.6', 'U8.1', 'U16.7',
     'R37.1', 'Q11.1', 'U13.1', 'U13.2', 'U13.3', 'U13.5', 'U13.8', 'U16.1', 'U16.4', 'U16.8', 'U5.2', 'U5.4', 'U5.5',
-    'U5.6', 'U5.8', 'U7.1', 'U7.2', 'U7.5', 'U7.8', 'U8.2', 'U8.4', 'U8.5', 'U8.8',
+    'U5.6', 'U5.8', 'U7.1', 'U7.2', 'U7.5', 'U7.8', 'U8.2', 'U8.4', 'U8.5', 'U8.8', 'RX5.1', 'U3.4', 'Q1.4', 'U3.3',
+    'Q6.4', 'R54.1', 'Q66.1', 'R75.1', 'R58.1', 'Q52.1', 'R63.1', 'Q36.1', 'R41.1', 'R71.1', 'Q65.1', 'R10.2',
+    'Q65.3', 'U15.1', 'U3.5', 'R75.2', 'U1.5', 'RHO2.1',
 )
+# phase 30: DC current paths routed as trunks before anything else on 4 layers (1 oz outer copper, JLC7628). Widths
+# step down to 0.8 mm, about 11 K rise at 2.1 A by IPC-2221 for 1 oz outer; the 3 A input and inverter paths keep
+# >= 1.0 mm and the 0.5 A +5 V chain >= 0.4 mm (about 1.3 K at 0.5 A).
+W_TRUNK, W_TRUNK_HI, W_TRUNK_LO = (1.0, 0.8), (1.5, 1.2, 1.0), (0.6, 0.4)
+TRUNKS = [] if os.environ.get('B20_TRUNKS', '1') != '1' else [
+    ('VIN', ('J5', '1'), ('C1', '1'), W_TRUNK_HI), ('VIN', ('C1', '1'), ('C3', '1'), W_TRUNK),
+    ('VIN', ('C1', '1'), ('C7', '1'), W_TRUNK_LO), ('VIN', ('C1', '1'), ('CCIN1', '1'), W_TRUNK_HI),
+    ('P12_RAW', ('L1', '2'), ('L2', '1'), W_TRUNK), ('P5_RAW', ('L3', '2'), ('L4', '1'), W_TRUNK_LO),
+    ('M12_RAW', ('D3', '2'), ('L6', '1'), W_TRUNK_HI),
+    ('P12_PRE', ('L2', '2'), ('RSH1', '1'), W_TRUNK), ('P5_PRE', ('L4', '2'), ('RSH2', '1'), W_TRUNK_LO),
+    ('M12_PRE', ('L6', '2'), ('RSH3', '2'), W_TRUNK),
+    ('P12_SH', ('RSH1', '2'), ('Q1', '9'), W_TRUNK), ('P5_SH', ('RSH2', '2'), ('Q3', '9'), W_TRUNK_LO),
+    ('M12_SH', ('RSH3', '1'), ('Q5', '9'), W_TRUNK),
+    ('P12_CS', ('Q1', '2'), ('Q2', '2'), W_TRUNK), ('P5_CS', ('Q3', '2'), ('Q4', '2'), W_TRUNK_LO),
+    ('M12_CS', ('Q5', '2'), ('Q6', '2'), W_TRUNK),
+    ('P12_OUT', ('Q2', '9'), ('J7', '2'), W_TRUNK), ('P12_OUT', ('J7', '2'), ('J10', '9'), W_TRUNK),
+    ('P12_OUT', ('J10', '10'), ('J11', '10'), W_TRUNK),
+    ('P5_OUT', ('Q4', '9'), ('J7', '1'), W_TRUNK_LO), ('P5_OUT', ('J7', '1'), ('J10', '11'), W_TRUNK_LO),
+    ('P5_OUT', ('J10', '12'), ('J11', '12'), W_TRUNK_LO),
+    ('M12_OUT', ('Q6', '9'), ('J6', '2'), W_TRUNK), ('M12_OUT', ('J6', '2'), ('J10', '1'), W_TRUNK),
+    ('M12_OUT', ('J10', '2'), ('J11', '2'), W_TRUNK),
+]
+OUTER_ONLY = False
+trunk_log = []
+TWINS_EARLY = os.environ.get('B20_TWINS', 'early') == 'early'
+trunk_vias = []   # (net, centre, trunk width, group) of every via a trunk route placed
+# phase 30: the +12 V and inverter cells carry 2.1 / 3.35 A at the limiter maximum; at 1 oz their 0.8 mm cell branches
+# would rise 11 / 32 K (current-check.py), so on 4 layers those branches try 1.5 and 1.2 mm first
+CELL_WIDE = ('A', 'C') if os.environ.get('B20_CELLW', '1') == '1' else ()
+CELL_W = (1.5, 1.2, 0.8, 0.4, 0.25)
 GND_FIRST = FOUR and os.environ.get('B20_GNDFIRST', '1') == '1'
 STUB_REACH = float(os.environ.get('B20_STUBREACH', 6.0 if FOUR else 2.5))   # phase 27: a second, wider GND-stub window
 LAYERS = ('F', 'In2', 'B') if FOUR else ('F', 'B')
@@ -358,6 +391,11 @@ def connect(src, dst, net, group, widths, b_cost, label, quiet_fail=False, extra
         free = free_masks(group, w / 2, box)
         vok = via_mask(group, box)
         s_src, s_dst = seat(src, group, w, box), seat(dst, group, w, box)
+        for l in LAYERS:
+            if OUTER_ONLY and l == 'In2':   # trunks stay off the 0.5 oz inner layer
+                free[l][:] = False
+                s_src[l][:] = False
+                s_dst[l][:] = False
         if not (s_src.ok and s_dst.ok) and (w, grow) != tries[-1]:
             continue
         path = astar(s_src, s_dst, free, vok, box, b_cost, extra_fn(box) if extra_fn else None)
@@ -527,6 +565,92 @@ def route_net(net, root_ref=None):
         failed.append(best)
         fail_by_net[net].append(label)
         log(f'{label}: UNROUTED')
+
+
+def via_twins(want=2, steps=(1.2, 1.5, 1.9)):
+    """A trunk that changes layer does so through one 0.3 mm via, a neck for 2 A. Right after the trunks (B20_TWINS=late:
+    after everything else), add up to `want` parallel vias 1.2-1.9 mm from each trunk via, each joined to it by a stub on F.Cu and B.Cu (trunk
+    width, else 0.6 mm), where the copper is free (phase 30; 4-layer only)."""
+    log_rows = []
+    for net, c, w, group in trunk_vias:
+        if w < 1.0:   # the 0.6 mm +5 V trunks carry 0.5 A, within one barrel
+            continue
+        if not any(v['net'] == net and tuple(v['at']) == c for v in vias):
+            continue
+        box = window(c[0], c[1], c[0], c[1], max(steps) + 1.0)
+        i0, i1, j0, j1 = box
+        n = 0
+        for step, k, sw in ((st, k, sw) for sw in dict.fromkeys((w, min(w, 0.6))) for st in steps for k in range(24)):
+            if n == want:
+                break
+            ang = 2 * math.pi * k / 24
+            q = (c[0] + step * math.cos(ang), c[1] + step * math.sin(ang))
+            vok = via_mask(group, box)
+            free = free_masks(group, sw / 2, box)
+            ci, cj = int(round(q[0] / G)) - i0, int(round(q[1] / G)) - j0
+            if not (0 <= ci < i1 - i0 and 0 <= cj < j1 - j0) or not vok[cj, ci]:
+                continue
+            m = int(math.ceil(step / G)) * 2
+            pts = [(c[0] + (q[0] - c[0]) * t / m, c[1] + (q[1] - c[1]) * t / m) for t in range(m + 1)]
+            cells = [(int(round(x / G)) - i0, int(round(y / G)) - j0) for x, y in pts]
+            if not all(free[l][jj, ii] for l in ('F', 'B') for ii, jj in cells if 0 <= ii < i1 - i0 and 0 <= jj < j1 - j0):
+                continue
+            add_track(c, q, sw, 'F', net, group)
+            add_track(c, q, sw, 'B', net, group)
+            add_via(q, net, group)
+            n += 1
+        log_rows.append(f'{net}@{c[0]:.1f},{c[1]:.1f}:{1 + n}')
+    log('trunk via counts: ' + ' '.join(log_rows))
+
+
+def touch_up():
+    """The raster joins copper within RASTER of a pad, so a track or via can end up to about 0.2 mm short of a
+    same-net surface pad it was counted as reaching. Where a same-net F.Cu track or via comes that close without
+    touching, add a stub from its nearest point to the pad centre (phase 30; 4-layer only)."""
+    def rect_dist(q, b):
+        dx = max(b[0] - q[0], 0, q[0] - b[2])
+        dy = max(b[1] - q[1], 0, q[1] - b[3])
+        return math.hypot(dx, dy)
+    by_net = {}
+    for x in tracks:
+        if x['layer'] == 'F':
+            by_net.setdefault(x['net'], []).append(x)
+    added = 0
+    for p in pads:
+        if p['drill'] or 'F' not in p['layers'] or p['net'] not in by_net:
+            continue
+        b = p['bbox']
+        best = None
+        for x in by_net[p['net']]:
+            n = max(1, int(math.dist(x['a'], x['b']) / 0.05))
+            for k in range(n + 1):
+                q = (x['a'][0] + (x['b'][0] - x['a'][0]) * k / n, x['a'][1] + (x['b'][1] - x['a'][1]) * k / n)
+                d = rect_dist(q, b) - x['w'] / 2
+                if best is None or d < best[0]:
+                    best = (d, q, x['w'])
+        for v in vias:
+            if v['net'] == p['net']:
+                d = rect_dist(v['at'], b) - v['d'] / 2
+                if best is None or d < best[0]:
+                    best = (d, v['at'], W_SIG)
+        if best and 0.0 < best[0] <= 0.2:
+            w = max(W_FINE, min(best[2], b[2] - b[0], b[3] - b[1]))
+            add_track(best[1], p['center'], round(w, 3), 'F', p['net'], pad_group[p['id']])
+            added += 1
+    # same-net neighbour pins of one part (e.g. Q54 pins 1-3): the raster can merge 0.23 mm pad gaps that DRC does not
+    by_ref = {}
+    for p in pads:
+        if not p['drill'] and p['layers'] == ['F']:
+            by_ref.setdefault((p['ref'], p['net']), []).append(p)
+    straps = 0
+    for ps in by_ref.values():
+        for a, b in zip(ps, ps[1:]):
+            (ax, ay), (bx, by) = a['center'], b['center']
+            if math.dist(a['center'], b['center']) <= 0.8 and (abs(ax - bx) < 0.01 or abs(ay - by) < 0.01):
+                w = max(W_FINE, round(min(a['bbox'][2] - a['bbox'][0], a['bbox'][3] - a['bbox'][1]) * 0.6, 3))
+                add_track(a['center'], b['center'], w, 'F', a['net'], pad_group[a['id']])
+                straps += 1
+    log(f'touch-up stubs: {added}, pin straps: {straps}')
 
 
 def gnd_stub(p):
@@ -723,16 +847,17 @@ def main():
     # 1. stage hot loops: VIN pin to input capacitor, SW pin to diode, inductor and boot capacitor, inductor to output
     for name, (ic, cins, diode, ind, boot, couts, ground) in STAGES.items():
         vin = pin(ic, '2')
-        route_pair(pin(cins[0], '1'), vin, f'{name}: CIN-VIN')
+        cw = CELL_W if FOUR and name in CELL_WIDE else None
+        route_pair(pin(cins[0], '1'), vin, f'{name}: CIN-VIN', cw)
         for extra in cins[1:]:
             route_pair(pin(extra, '1'), pin(cins[0], '1'), f'{name}: CIN2')
         sw = pin(ic, '8')
-        route_pair(pin(diode, '1'), sw, f'{name}: SW-diode')
-        route_pair(pin(ind, '1'), pin(diode, '1'), f'{name}: diode-L')
+        route_pair(pin(diode, '1'), sw, f'{name}: SW-diode', cw)
+        route_pair(pin(ind, '1'), pin(diode, '1'), f'{name}: diode-L', cw)
         # hot-loop return on F.Cu (TI SLVSBN0C 10.1): diode anode to the input-capacitor return pad, and that pad to the
         # exposed pad under the IC, before anything else crosses the top-side ground area
-        route_pair(pin(diode, '2'), pin(cins[0], '2'), f'{name}: diode-CIN return', (W_POWER, W_POWER_MIN, W_SIG))
-        route_pair(pin(cins[0], '2'), pin(ic, '9'), f'{name}: CIN-EP ground', (W_POWER, W_POWER_MIN, W_SIG))
+        route_pair(pin(diode, '2'), pin(cins[0], '2'), f'{name}: diode-CIN return', cw or (W_POWER, W_POWER_MIN, W_SIG))
+        route_pair(pin(cins[0], '2'), pin(ic, '9'), f'{name}: CIN-EP ground', cw or (W_POWER, W_POWER_MIN, W_SIG))
         route_pair(pin(diode, '2'), pin(ic, '9'), f'{name}: diode-EP ground', (W_POWER, W_POWER_MIN, W_SIG))
         route_pair(pin(boot, '2'), sw, f'{name}: boot-SW')
         # the BOOT trace runs on B.Cu (Figure 58) so it does not cut the top-side ground area
@@ -777,17 +902,38 @@ def main():
     for p in pads:
         if p['net'] == 'GND' and not p['drill'] and p['ref'] in stage_refs and p['layers'] == ['F']:
             gnd_stub(p)
+    # pin escapes named in B20_FANOUT (ref.pin list), e.g. the pins a previous run left boxed in; before the trunks,
+    # which would otherwise wall in the FET gate pins beside their source pins
+    for key in [k for k in os.environ.get('B20_FANOUT', ','.join(FANOUT_4L) if FOUR else '').split(',') if k]:
+        ref, num = key.split('.')
+        fp = next((p for p in pads if p['ref'] == ref and p['num'] == num and not p['drill']), None)
+        if fp and fp['net'] in NET_ID and (rippable(fp['net']) or fp['net'] in SUPPLY):
+            fanout(fp)
+    # 4-layer: high-current trunks before the other nets, on the 1 oz outer layers only, no narrower than their last width
+    global OUTER_ONLY
+    if FOUR and TRUNKS:
+        # strap each rail FET's three source pins along the pin row, so a wide trunk landing on pin 2 joins pins 1 and 3
+        for ref in ('Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6'):
+            a, b = pin(ref, '1'), pin(ref, '3')
+            if a['net'] == b['net'] == pin(ref, '2')['net']:
+                add_track(a['center'], b['center'], 0.3, 'F', a['net'], pad_group[a['id']])
+        OUTER_ONLY = True
+        for net, a, b, ws in TRUNKS:
+            p, q = pin(*a), pin(*b)
+            if p['net'] != net or q['net'] != net:
+                raise SystemExit(f'trunk {net}: {a} / {b} not on the net')
+            nv = len(vias)
+            w = route_pair(p, q, f'TRUNK {net}:{a[0]}.{a[1]}-{b[0]}.{b[1]}', ws)
+            trunk_vias.extend((v['net'], tuple(v['at']), w, pad_group[p['id']]) for v in vias[nv:])
+            trunk_log.append({'net': net, 'from': f'{a[0]}.{a[1]}', 'to': f'{b[0]}.{b[1]}', 'width_mm': w})
+        OUTER_ONLY = False
+        if TWINS_EARLY:
+            via_twins()
     # 4-layer: every GND surface pad takes its own via to the In1.Cu plane before the signals claim the via sites
     if GND_FIRST:
         for p in pads:
             if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F']:
                 gnd_stub(p)
-    # pin escapes named in B20_FANOUT (ref.pin list), e.g. the pins a previous run left boxed in
-    for key in [k for k in os.environ.get('B20_FANOUT', ','.join(FANOUT_4L) if FOUR else '').split(',') if k]:
-        ref, num = key.split('.')
-        fp = next((p for p in pads if p['ref'] == ref and p['num'] == num and not p['drill']), None)
-        if fp and fp['net'] in NET_ID and rippable(fp['net']):
-            fanout(fp)
     # 3. remaining power nets, then signals by span
     for net in sorted(POWER_NETS & set(NET_ID)):
         route_net(net, root_ref={'VIN': 'J5'}.get(net))
@@ -806,10 +952,14 @@ def main():
     for p in pads if not GND_FIRST else ():
         if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F']:
             gnd_stub(p)
+    if FOUR:
+        if not TWINS_EARLY:
+            via_twins()
+        touch_up()
     for v in fail_by_net.values():
         unrouted.extend(v)
     failed_nets = sorted({u.split(':')[0] for u in unrouted if not u.startswith('GND stub')})
-    json.dump({'tracks': tracks, 'vias': vias, 'unrouted': unrouted, 'failed_nets': failed_nets, 'first': first, 'notes': notes,
+    json.dump({'tracks': tracks, 'vias': vias, 'unrouted': unrouted, **({'trunks': trunk_log} if trunk_log else {}), 'failed_nets': failed_nets, 'first': first, 'notes': notes,
                **({'layers': list(LAYERS)} if FOUR else {})},
               open(sys.argv[2], 'w'), indent=0)
     print(f'{len(tracks)} tracks, {len(vias)} vias, {len(unrouted)} unrouted')
