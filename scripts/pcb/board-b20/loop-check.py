@@ -10,6 +10,7 @@ gap of the partner trace (coupled) and the longest run that does not.
 """
 import json
 import math
+import os
 import sys
 
 geom = json.load(open(sys.argv[1]))
@@ -169,6 +170,19 @@ VIN = 20.0
 T_RISE = (VIN * 0.16 + 3) * 1e-9
 SWITCHED_A = {'A': 1.2, 'B': 0.5, 'C': 0.8 * (1 + 12.0 / VIN)}
 F_EDGE = 1 / (math.pi * T_RISE)
+# 4-layer draft: height (mm) of the F.Cu loops above a solid GND plane; 0 keeps the free-space model of the 2-layer draft.
+# An ideal plane adds an image of each loop with opposite current 2h below it (dipole term), and terminates the field
+# between two traces (two-microstrip crosstalk rule of thumb, coupling x 1 / (1 + (d / h)^2)).
+# 0.2175 mm = the JLC7628 4-layer stackup's 0.2 mm prepreg + half the 0.035 mm F.Cu, used when the routes are 4-layer.
+PLANE_H = float(os.environ.get('B20_PLANE_H', 0.2175 if 'In2' in routes.get('layers', []) else 0))
+
+
+def plane_factor(r_mm):
+    if PLANE_H <= 0:
+        return 1.0
+    big = math.hypot(r_mm, 2 * PLANE_H)
+    cos2 = (2 * PLANE_H / big) ** 2
+    return abs(1 + (3 * cos2 - 1) * (r_mm / big) ** 3)
 INA_GAIN, INA_BW, INA_CMRR_1MHZ_DB = 100.0, 450e3, 65.0
 
 
@@ -211,7 +225,7 @@ for shunt, (ina, plus, minus) in SENSE.items():
         v_dm = 0.0
         for name, (a_h, ch) in hot.items():
             r = max(math.dist(c, ch), 1.0) * 1e-3
-            v_dm += MU0 * a_h * area * (SWITCHED_A[name] / T_RISE) / (4 * math.pi * r ** 3)
+            v_dm += MU0 * a_h * area * (SWITCHED_A[name] / T_RISE) / (4 * math.pi * r ** 3) * plane_factor(r * 1e3)
         # capacitive injection from the nearest SW copper into each trace
         cm = []
         for ts in (tp, tm):
@@ -230,12 +244,15 @@ for shunt, (ina, plus, minus) in SENSE.items():
                 d, wu, name = best
                 a_eff = (0.2 + wu) / 4
                 c_f = math.pi * EPS0 * EPS_EFF * length * 1e-3 / math.acosh(max(d / (2 * a_eff), 1.0001))
+                if PLANE_H > 0:
+                    c_f /= 1 + (d / PLANE_H) ** 2
                 i_inj = c_f * VIN / T_RISE
                 v_cm = i_inj * 2 * math.pi * F_EDGE * (length * 1e-9)
                 cm.append({'nearest_sw_stage': name, 'centre_distance_mm': round(d, 2), 'trace_mm': round(length, 2),
-                           'coupling_pf_upper': round(c_f * 1e12, 4), 'injected_ma_peak': round(i_inj * 1e3, 3), 'v_cm_mv_peak': round(v_cm * 1e3, 3)})
+                           'coupling_pf_upper': round(c_f * 1e12, 4), 'injected_ma_peak': round(i_inj * 1e3, 3), 'v_cm_mv_peak': round(v_cm * 1e3, 3),
+                           **({'v_cm_uv_peak': round(v_cm * 1e6, 4)} if PLANE_H > 0 else {})})
         geo.update({'sense_loop_area_mm2': round(area * 1e6, 2), 'differential_pickup_mv_peak_at_input': round(v_dm * 1e3, 3),
-                    'capacitive_common_mode': cm})
+                    'capacitive_common_mode': cm, **({'differential_pickup_uv_peak_at_input': round(v_dm * 1e6, 3)} if PLANE_H > 0 else {})})
         worst_cm = max((x['v_cm_mv_peak'] for x in cm), default=0.0)
         if ina.startswith('U1'):
             bw = INA_BW / F_EDGE
@@ -246,6 +263,7 @@ for shunt, (ina, plus, minus) in SENSE.items():
 out['pickup_assumptions'] = {'vin_v': VIN, 'sw_rise_ns': round(T_RISE * 1e9, 2), 'edge_frequency_mhz': round(F_EDGE / 1e6, 1),
                              'switched_current_a': {k: round(v, 3) for k, v in SWITCHED_A.items()},
                              'ina301a3': 'gain 100 V/V, BW 450 kHz, CMRR 65 dB at 1 MHz (SBOS713A Figure 9, typical)',
-                             'model': 'magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance'}
+                             'model': 'magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance'
+                             + (f'; ideal GND plane {PLANE_H} mm below F.Cu: image dipole, coupling x 1/(1+(d/h)^2)' if PLANE_H > 0 else '')}
 json.dump(out, open(sys.argv[3], 'w'), indent=1)
 print(json.dumps(out, indent=1))

@@ -1,7 +1,7 @@
 # Board B 20 V switcher-direct draft (unvalidated paper draft)
 
 **Status: unvalidated draft. Nothing here is adopted, measured, validated or released.**
-Phase 19 adds draft footprints and a placement PCB; phase 21 adds a partly routed draft of it (§3a). There is no BOM change and no order file. `PASS` below means
+Phase 19 adds draft footprints and a placement PCB; phase 21 adds a partly routed draft of it, and phase 28 makes that draft 4-layer by owner decision (§3a). There is no BOM change and no order file. `PASS` below means
 only that the arithmetic in `scripts/pcb/calculate-board-b20-draft.py` closes on its tagged inputs,
 or that a named ngspice run with vendor models met the limit. A simulation is not a measurement.
 `OPEN` means the gate needs data or work that does not exist yet. An `OPEN` gate is not a pass.
@@ -355,6 +355,86 @@ clearance, not a routed layout.
 The 2-layer router has not been run on a wider placement. A wider board would move the right-hand corner holes, its
 legs and the right fiducial by the same amount. J6/J7 on the left edge, J10/J11, J5 with Board P, and the P1/TP row keep
 their positions.
+
+#### Phase 28: 4-layer B20 adopted, JLC7628 stackup, 5 unconnected
+
+**Decision (owner, project decision card answered 2026-11-02 15:40Z, relayed by the coordinator):** B20 grows to
+4 copper layers rather than bottom-side placement or a larger outline. The phase 27 comparison is the basis. This
+draft decision is recorded here and not in `scripts/schgen/decisions.json`: that registry covers the Board P/A/B wave-6
+specs, accepts no `board_b20_spec` target, and requires component fact evidence, but a stackup has no component owner. The
+4-layer board replaces the 2-layer phase 26 board in `boards/board-b20-draft/board-b20-draft.kicad_pcb`. Under the
+latest-only rule, the 2-layer board is retired to Git history (`e0738a3`). `route.py` rebuilds it with `B20_LAYERS=2`;
+that run still reproduces the phase 26 routes exactly.
+
+**Stackup.** The stackup is JLC's published 4-layer "JLC7628" impedance-control stackup from the jlcpcb.com Help Center
+"PCB Stackup" page, read 2026-11-02:
+
+| Layer | Thickness |
+|---|---|
+| F.Cu | 0.035 mm |
+| 7628 prepreg | 0.2 mm, Er 4.6 |
+| In1.Cu (GND plane) | 0.0175 mm |
+| Core | 1.065 mm |
+| In2.Cu | 0.0175 mm |
+| 7628 prepreg | 0.2 mm, Er 4.6 |
+| B.Cu | 0.035 mm |
+
+The page lists 0.8–2.0 mm finished thicknesses but does not tie these layer values to one of them; they sum to about
+1.57 mm. It gives no core Er, so the core reuses 4.6. Loss tangent and mask thickness are KiCad defaults. **2 oz outer
+copper on 4 layers is UNKNOWN:** the page does not mention it. The 2-layer draft assumed 2 oz, so the copper-width and
+current checks at 0.035 mm outer copper are OPEN.
+
+**Router changes, 4-layer only.** The 2-layer output is unchanged.
+
+- Every GND surface pad gets its own via to the In1.Cu plane before any signal is routed.
+- A `fanout` pass lays a short escape stub and via on 49 pins (`FANOUT_4L`) before the power and signal nets. The
+  pins are the ones earlier runs left boxed in, plus the fine-pitch signal pins of U5, U7, U8, U13 and U16. Rip-up
+  keeps these escapes.
+
+| Trial (phase 22 placement unless named) | Router open | DRC unconnected |
+|---|---|---|
+| Phase 27 best (stub reach 6 mm) | 24 | 22 (8 GND, 14 signal) |
+| Phase 26 spread placements (0.6/0.6, IC halo 0.6) on 4 layers | 25 / 32 | NOT RUN (router result worse) |
+| GND pads first | 18 (0 GND) | NOT RUN (superseded by fanout) |
+| + fanout of the 18 failed pins | 6 | 7 (0 GND) |
+| + fanout of every fine-pitch pin of nine ICs (64 pins) | 10 | NOT RUN (router result worse) |
+| Iterated fanout lists, B.Cu/In2.Cu cost 0.6 / 0.7 / 0.8, 12 rip-up rounds | 5–7 | 6 for the best |
+| **Adopted: 49-pin fanout list** | **5** | **5 (0 GND, 5 signal)** |
+
+Adopted board, KiCad 10.0.6 DRC with schematic parity run in place (heavy-guard then `flock`):
+
+- 0 errors and 0 parity issues.
+- Warnings: 7 `via_dangling` and 2 `lib_footprint_mismatch` (J10/J11 silk clip).
+- **5 unconnected items, all signal:** U7.2 REF25, U7.6 UV5_DIV, U16.8 P5_SUP, U15.5 LVL12 and Q46.1–U8.1 OVN_CMP.
+  Each is one pad short of a routed fragment.
+- The board has 2821 track segments and 759 vias. **The 5 unconnected items are OPEN.**
+
+**Hot loop and sense geometry with In1.Cu under F.Cu (desk numbers, nothing measured).** The stage templates are
+unchanged. Each hot loop is still a 29.6 mm² polygon on F.Cu. The six sense traces are unchanged: 3.31–6.48 mm on F.Cu,
+loop areas 10.55 / 6.71 / 12.75 mm². What changes is the return path: In1.Cu now lies 0.2 mm under every F.Cu loop. The
+2-layer draft's nearest continuous return was the B.Cu pour, 1.5 mm down.
+
+| Quantity | Free-space model (phase 24) | Ideal plane 0.2175 mm below |
+|---|---|---|
+| Hot-loop inductance, trace-equivalent | about 11 nH (circular loop of equal area, 0.8 mm trace) | about 5 nH (0.19 nH/mm microstrip × 24.7 mm perimeter) |
+| Magnetic coupling hot loop → sense loop | ×1 | ×0.0016–0.0026 at the 18–23 mm stage distances |
+| Differential pickup at the amplifier inputs (RSH1 / RSH2 / RSH3) | 0.727 / 0.183 / 0.341 mV peak | 0.85 / 0.17 / 0.27 µV peak |
+| Capacitive common-mode at the inputs | 0.20–0.77 mV peak | 0.02–0.12 µV peak |
+
+Model: `loop-check.py` now applies the plane by default to 4-layer routes. A loop parallel to an ideal plane gets an
+image with opposite current 2h below it, so the magnetic coupling falls by
+|1 + (3cos²θ − 1)(r/R)³|, with R = √(r² + 4h²) and cos θ = 2h/R. Trace-to-trace capacitive coupling is scaled by
+1/(1 + (d/h)²), a two-microstrip crosstalk rule of thumb.
+
+These are **ideal-plane lower bounds**. They do not cover:
+
+- the plane's finite 0.0175 mm thickness (about 1.9 skin depths at the 51 MHz edge frequency, but thinner than one skin
+  depth below about 14 MHz);
+- 759 via antipads and the GND-plane cut-outs around them;
+- current crowding at the loop ends.
+
+The real pickup lies between the two columns. A field solver or a bench measurement would be needed to place it, so it
+is **OPEN**.
 
 ## 4. Gate table against the OSC–PD contract
 
@@ -757,8 +837,8 @@ needs a fix. This is an OSC question.
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 26, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 3 `via_dangling`, 1 `track_dangling` warnings; 55 unconnected items (16 GND, 39 signal), so **OPEN**, not a pass (phase 22: 62; phase 21: 81; phase 19 placement: 499) |
-| Routing | **OPEN**: power stages and all six sense traces routed; 49 router connections open (phase 26); placement at its density limit (§3a, phase 26); hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup estimate 0.18–0.73 mV peak differential at the inputs (§3a, phase 24); self-check in `boards/board-b20-draft/loop-check.json` |
+| PCB DRC + schematic parity (phase 28, 4 layers, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 7 `via_dangling` warnings; 5 unconnected items (0 GND, 5 signal), so **OPEN**, not a pass (2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
+| Routing | **OPEN**: 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN); power stages and all six sense traces routed; 5 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28); self-check in `boards/board-b20-draft/loop-check.json` |
 | BOM/CPL | NOT RUN: no export |
 
 ## 7. Independent review findings (review of `bad5ddf`)

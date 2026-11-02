@@ -153,28 +153,31 @@
     "start_edge_gap_0p2mm_tracks_mm": 0.45,
     "sense_pad_separation_mm": 6.41,
     "sense_loop_area_mm2": 10.55,
-    "differential_pickup_mv_peak_at_input": 0.727,
+    "differential_pickup_mv_peak_at_input": 0.001,
     "capacitive_common_mode": [
      {
       "nearest_sw_stage": "C",
       "centre_distance_mm": 18.2,
       "trace_mm": 3.31,
-      "coupling_pf_upper": 0.058,
-      "injected_ma_peak": 0.187,
-      "v_cm_mv_peak": 0.2
+      "coupling_pf_upper": 0.0,
+      "injected_ma_peak": 0.0,
+      "v_cm_mv_peak": 0.0,
+      "v_cm_uv_peak": 0.0286
      },
      {
       "nearest_sw_stage": "C",
       "centre_distance_mm": 17.67,
       "trace_mm": 6.48,
-      "coupling_pf_upper": 0.1143,
-      "injected_ma_peak": 0.369,
-      "v_cm_mv_peak": 0.771
+      "coupling_pf_upper": 0.0,
+      "injected_ma_peak": 0.0,
+      "v_cm_mv_peak": 0.0,
+      "v_cm_uv_peak": 0.1167
      }
     ],
+    "differential_pickup_uv_peak_at_input": 0.849,
     "ina301_output_mv_peak": {
-     "differential_bandwidth_limited": 0.637,
-     "common_mode_through_cmrr_1mhz": 0.0434
+     "differential_bandwidth_limited": 0.001,
+     "common_mode_through_cmrr_1mhz": 0.0
     }
    }
   },
@@ -211,28 +214,31 @@
     "start_edge_gap_0p2mm_tracks_mm": 0.45,
     "sense_pad_separation_mm": 3.15,
     "sense_loop_area_mm2": 6.71,
-    "differential_pickup_mv_peak_at_input": 0.183,
+    "differential_pickup_mv_peak_at_input": 0.0,
     "capacitive_common_mode": [
      {
       "nearest_sw_stage": "B",
       "centre_distance_mm": 22.2,
       "trace_mm": 3.91,
-      "coupling_pf_upper": 0.0654,
-      "injected_ma_peak": 0.211,
-      "v_cm_mv_peak": 0.266
+      "coupling_pf_upper": 0.0,
+      "injected_ma_peak": 0.0,
+      "v_cm_mv_peak": 0.0,
+      "v_cm_uv_peak": 0.0255
      },
      {
       "nearest_sw_stage": "B",
       "centre_distance_mm": 23.2,
       "trace_mm": 4.11,
-      "coupling_pf_upper": 0.0681,
-      "injected_ma_peak": 0.22,
-      "v_cm_mv_peak": 0.291
+      "coupling_pf_upper": 0.0,
+      "injected_ma_peak": 0.0,
+      "v_cm_mv_peak": 0.0,
+      "v_cm_uv_peak": 0.0256
      }
     ],
+    "differential_pickup_uv_peak_at_input": 0.17,
     "ina301_output_mv_peak": {
-     "differential_bandwidth_limited": 0.16,
-     "common_mode_through_cmrr_1mhz": 0.0164
+     "differential_bandwidth_limited": 0.0,
+     "common_mode_through_cmrr_1mhz": 0.0
     }
    }
   },
@@ -269,25 +275,28 @@
     "start_edge_gap_0p2mm_tracks_mm": 0.45,
     "sense_pad_separation_mm": 6.41,
     "sense_loop_area_mm2": 12.75,
-    "differential_pickup_mv_peak_at_input": 0.341,
+    "differential_pickup_mv_peak_at_input": 0.0,
     "capacitive_common_mode": [
      {
       "nearest_sw_stage": "C",
       "centre_distance_mm": 22.5,
       "trace_mm": 3.72,
-      "coupling_pf_upper": 0.0621,
-      "injected_ma_peak": 0.2,
-      "v_cm_mv_peak": 0.241
+      "coupling_pf_upper": 0.0,
+      "injected_ma_peak": 0.0,
+      "v_cm_mv_peak": 0.0,
+      "v_cm_uv_peak": 0.0225
      },
      {
       "nearest_sw_stage": "C",
       "centre_distance_mm": 22.91,
       "trace_mm": 6.41,
-      "coupling_pf_upper": 0.0958,
-      "injected_ma_peak": 0.309,
-      "v_cm_mv_peak": 0.639
+      "coupling_pf_upper": 0.0,
+      "injected_ma_peak": 0.0,
+      "v_cm_mv_peak": 0.0,
+      "v_cm_uv_peak": 0.0576
      }
-    ]
+    ],
+    "differential_pickup_uv_peak_at_input": 0.267
    }
   }
  },
@@ -301,6 +310,6 @@
    "C": 1.28
   },
   "ina301a3": "gain 100 V/V, BW 450 kHz, CMRR 65 dB at 1 MHz (SBOS713A Figure 9, typical)",
-  "model": "magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance"
+  "model": "magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance; ideal GND plane 0.2175 mm below F.Cu: image dipole, coupling x 1/(1+(d/h)^2)"
  }
 }

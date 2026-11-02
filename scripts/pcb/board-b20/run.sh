@@ -1,6 +1,7 @@
 #!/bin/bash
 # B20 draft (unvalidated): placement with stage templates, grid routing, GND pours. Rebuilds
 # boards/board-b20-draft/board-b20-draft.kicad_pcb and boards/board-b20-draft/routing-report.json from board_b20_spec.py.
+# Phase 28: 4 copper layers (In1.Cu GND plane, In2.Cu routed, JLC7628 stackup); B20_LAYERS=2 rebuilds the retired 2-layer form.
 # pcbnew steps run in the pinned KiCad image (--cpus 1, no KiCad lock); the router runs on the host.
 # Native DRC is separate and runs under heavy-guard -> flock /tmp/kicad-native.lock (see the draft doc).
 set -euo pipefail

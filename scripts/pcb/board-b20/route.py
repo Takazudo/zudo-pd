@@ -49,8 +49,17 @@ XS = np.arange(NX) * G
 YS = np.arange(NY) * G
 # phase 27: B20_LAYERS=4 adds the inner signal/power layer In2 (In1 is a GND plane that the router does not use; every
 # via passes through it and a GND via lands on it)
-FOUR = os.environ.get('B20_LAYERS', '2') == '4'
-STUB_REACH = float(os.environ.get('B20_STUBREACH', 2.5))   # phase 27: a second, wider GND-stub window
+FOUR = os.environ.get('B20_LAYERS', '4') == '4'
+# phase 28: pins that get an escape via before the power and signal nets (4-layer default). The list is the pins earlier
+# runs left boxed in, plus every fine-pitch signal pin of U5, U7, U8, U13 and U16; the best of the phase 28 fanout trials.
+FANOUT_4L = (
+    'U4.3', 'U2.3', 'U5.7', 'U1.3', 'Q4.4', 'RCEN2.1', 'Q5.4', 'U9.7', 'U16.2', 'U6.6', 'U5.1', 'U7.3', 'U8.7',
+    'U7.7', 'U7.6', 'R73.2', 'Q34.4', 'Q48.1', 'U13.7', 'U16.6', 'U16.5', 'R28.1', 'U16.3', 'U13.6', 'U8.1', 'U16.7',
+    'R37.1', 'Q11.1', 'U13.1', 'U13.2', 'U13.3', 'U13.5', 'U13.8', 'U16.1', 'U16.4', 'U16.8', 'U5.2', 'U5.4', 'U5.5',
+    'U5.6', 'U5.8', 'U7.1', 'U7.2', 'U7.5', 'U7.8', 'U8.2', 'U8.4', 'U8.5', 'U8.8',
+)
+GND_FIRST = FOUR and os.environ.get('B20_GNDFIRST', '1') == '1'
+STUB_REACH = float(os.environ.get('B20_STUBREACH', 6.0 if FOUR else 2.5))   # phase 27: a second, wider GND-stub window
 LAYERS = ('F', 'In2', 'B') if FOUR else ('F', 'B')
 
 geom = json.load(open(sys.argv[1]))
@@ -531,7 +540,21 @@ def gnd_stub(p):
     log(f'GND stub {p["ref"]}.{p["num"]}: UNROUTED')
 
 
-def gnd_stub_at(p, group, src, reach):
+def fanout(p):
+    """Pin escape: a short F.Cu stub from a signal pad to its own via, laid before the nets that would box it in."""
+    group = pad_group[p['id']]
+    for reach in (2.5, max(STUB_REACH, 4.0)):
+        nt, nv = len(tracks), len(vias)
+        if gnd_stub_at(p, group, mask_of_pad(p), reach, net=p['net']):
+            for x in tracks[nt:] + vias[nv:]:
+                x['fan'] = True   # rip-up keeps the escape
+            log(f'fanout {p["ref"]}.{p["num"]}')
+            return True
+    log(f'fanout {p["ref"]}.{p["num"]}: no via site')
+    return False
+
+
+def gnd_stub_at(p, group, src, reach, net='GND'):
     box = window(*p['bbox'], reach)
     vok = via_mask(group, box)
     for w in (0.5, W_SIG, W_FINE):
@@ -547,9 +570,9 @@ def gnd_stub_at(p, group, src, reach):
             continue
         path = astar(s_src, {l: full if l == 'F' else np.zeros_like(full) for l in LAYERS}, free, np.zeros_like(dst), box, 9.0)
         if path:
-            emit(path, w, 'GND', group, {l: free[l] | crop(s_src[l], box) if l == 'F' else free[l] for l in LAYERS}, box)
+            emit(path, w, net, group, {l: free[l] | crop(s_src[l], box) if l == 'F' else free[l] for l in LAYERS}, box)
             _, j, i = path[-1]
-            add_via((i * G, j * G), 'GND', group)
+            add_via((i * G, j * G), net, group)
             return True
     return False
 
@@ -579,12 +602,20 @@ def restore(s):
 
 def rip(net):
     group = NET_ID[net]
+    kept_t = [x for x in tracks if x['net'] == net and x.get('fan')]
+    kept_v = [v for v in vias if v['net'] == net and v.get('fan')]
     tracks[:] = [x for x in tracks if x['net'] != net]
-    gone = [v for v in vias if v['net'] == net]
+    gone = [v for v in vias if v['net'] == net and not v.get('fan')]
     vias[:] = [v for v in vias if v['net'] != net]
     for l in LAYERS:
         lab[l][lab[l] == group] = 0
         trk[l][trk[l] == group] = 0
+    for x in kept_t:
+        add_track(x['a'], x['b'], x['w'], x['layer'], net, group)
+        tracks[-1]['fan'] = True
+    for v in kept_v:
+        add_via(v['at'], net, group)
+        vias[-1]['fan'] = True
     for p in pads:
         if pad_group[p['id']] == group:
             for l in p['layers']:
@@ -746,6 +777,17 @@ def main():
     for p in pads:
         if p['net'] == 'GND' and not p['drill'] and p['ref'] in stage_refs and p['layers'] == ['F']:
             gnd_stub(p)
+    # 4-layer: every GND surface pad takes its own via to the In1.Cu plane before the signals claim the via sites
+    if GND_FIRST:
+        for p in pads:
+            if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F']:
+                gnd_stub(p)
+    # pin escapes named in B20_FANOUT (ref.pin list), e.g. the pins a previous run left boxed in
+    for key in [k for k in os.environ.get('B20_FANOUT', ','.join(FANOUT_4L) if FOUR else '').split(',') if k]:
+        ref, num = key.split('.')
+        fp = next((p for p in pads if p['ref'] == ref and p['num'] == num and not p['drill']), None)
+        if fp and fp['net'] in NET_ID and rippable(fp['net']):
+            fanout(fp)
     # 3. remaining power nets, then signals by span
     for net in sorted(POWER_NETS & set(NET_ID)):
         route_net(net, root_ref={'VIN': 'J5'}.get(net))
@@ -761,7 +803,7 @@ def main():
     ripup()
     stitch()
     # 4. every other GND surface pad
-    for p in pads:
+    for p in pads if not GND_FIRST else ():
         if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F']:
             gnd_stub(p)
     for v in fail_by_net.values():

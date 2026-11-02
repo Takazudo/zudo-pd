@@ -173,8 +173,10 @@ islands = stitch_islands()
 pcbnew.SaveBoard(sys.argv[3], b)
 rules.write_text(rules_text)
 if FOUR:
-    # a 1.6 mm 4-layer build in the shape of JLC's common prepreg/core/prepreg stack, B20's 2 oz outer copper kept;
-    # the dielectric thicknesses are placeholders (they do not enter DRC) until a stackup is chosen
+    # JLC's published 4-layer impedance-control stackup "JLC7628" (jlcpcb.com Help Center, PCB Stackup page, read
+    # 2026-11-02): 0.035 mm outer / 7628 prepreg 0.2 mm / 0.0175 mm inner / core 1.065 mm. The page gives Er 4.6 for 7628
+    # prepreg and none for the core, so the core reuses 4.6; loss tangent and mask thickness are KiCad defaults. The page
+    # names no 2 oz outer option for 4 layers, so the 2-layer draft's 2 oz outer copper is not assumed here
     out = pathlib.Path(sys.argv[3])
     text = out.read_text()
     i = text.index('(stackup')
@@ -192,13 +194,13 @@ if FOUR:
         '      (layer "F.SilkS" (type "Top Silk Screen"))',
         '      (layer "F.Paste" (type "Top Solder Paste"))',
         '      (layer "F.Mask" (type "Top Solder Mask") (thickness 0.01))',
-        '      (layer "F.Cu" (type "copper") (thickness 0.07))',
-        '      (layer "dielectric 1" (type "prepreg") (thickness 0.2104) (material "FR4") (epsilon_r 4.4) (loss_tangent 0.02))',
-        '      (layer "In1.Cu" (type "copper") (thickness 0.0152))',
+        '      (layer "F.Cu" (type "copper") (thickness 0.035))',
+        '      (layer "dielectric 1" (type "prepreg") (thickness 0.2) (material "7628") (epsilon_r 4.6) (loss_tangent 0.02))',
+        '      (layer "In1.Cu" (type "copper") (thickness 0.0175))',
         '      (layer "dielectric 2" (type "core") (thickness 1.065) (material "FR4") (epsilon_r 4.6) (loss_tangent 0.02))',
-        '      (layer "In2.Cu" (type "copper") (thickness 0.0152))',
-        '      (layer "dielectric 3" (type "prepreg") (thickness 0.2104) (material "FR4") (epsilon_r 4.4) (loss_tangent 0.02))',
-        '      (layer "B.Cu" (type "copper") (thickness 0.07))',
+        '      (layer "In2.Cu" (type "copper") (thickness 0.0175))',
+        '      (layer "dielectric 3" (type "prepreg") (thickness 0.2) (material "7628") (epsilon_r 4.6) (loss_tangent 0.02))',
+        '      (layer "B.Cu" (type "copper") (thickness 0.035))',
         '      (layer "B.Mask" (type "Bottom Solder Mask") (thickness 0.01))',
         '      (layer "B.Paste" (type "Bottom Solder Paste"))',
         '      (layer "B.SilkS" (type "Bottom Silk Screen"))',
