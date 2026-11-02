@@ -1,6 +1,6 @@
 
-$ /usr/local/bin/python3 /home/user/zudo-pd/.claude/skills/component-spec-audit/scripts/validate.py --strict
+$ /usr/local/bin/python3 .claude/skills/component-spec-audit/scripts/validate.py --strict
 PASS: component-spec contract; mode=strict; 70 lines; 23 candidates; 41 bundles; offline=True; refreshed=none
 
-$ /usr/local/bin/python3 /home/user/zudo-pd/.claude/skills/circuit-spec-integration/scripts/check_forward_tests.py --strict
+$ /usr/local/bin/python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py --strict
 PASS: mode=strict; 6 integration cases; 9 negative routes

@@ -186,13 +186,17 @@ package (2026-11-01, below) is not an order: nothing was uploaded, quoted or ord
 | Board B | `boards/board-b/board-b.kicad_sch` | `c978e81f3b75ba8e12d05100a30df4fcaf159878b9ab3d947b41e5cd96e1ae4d` | `d5fb2e5` |
 | Board B | `scripts/schgen/board_b_spec.py` | `7f1303494c58a8cb2787cc8136ec012570468ef1a453f98c1bdc6c1e0e344452` | `d5fb2e5` |
 
-- **Development review package (2026-11-01, not an order):** `manufacturing/releases/corner-support-review/` now holds
-  board-p15 + Board B exported from `3a3bf85` (`export-jlcpcb.py --boards board-p15 board-b`), with the adopted
+- **Development review package (2026-11-02, not an order):** `manufacturing/releases/corner-support-review/` now holds
+  board-p15 + Board B exported from `a11cc80` (`export-jlcpcb.py --boards board-p15 board-b`), with the adopted
   C5455478/C696190 lines. Exporter gates PASS: DRC 0 errors / 0 unconnected, ERC 0 errors, parity (board-p15
   `extra_footprint` only, Board B 0), BOM/CPL parity (board-p15 23 parts / 14 lines, Board B 75 / 39).
-  `verify-jlcpcb.py` PASS (identity, coordinates, hashes, Gerber/drill parse). `manifest.json` sha256
-  `8690c40502ee8d9d112c28fe040472f9f9bee79869785f00fb0e65ccbd86d8be`, `SHA256SUMS` sha256
-  `2d78efbaf86d551d84290d45b61f8a356621a90eba58458d3062be4462e315ae`. The ordered S3 package is at `f25194f`.
+  `verify-jlcpcb.py --write` PASS (identity, coordinates, hashes, Gerber/drill parse); a later read-only run left
+  `SHA256SUMS` unchanged. `manifest.json` sha256 `e023cea183dfedc916512d8913a71c9b519762edc23d1707c1a07a8a0213a23a`,
+  `SHA256SUMS` sha256 `0d973fbc96918762bd37c5c364ce3936f1d44fc0e2744ea5cb82574db67bc5ab`. `ORDER-NOTES.md` comes from
+  `manufacturing/package-notes-p15.md` and lists D5 C74561, D9 C192739 and C11 C696190 as mandatory JLC
+  placement-preview orientation checks. B20-only files outside the export import closure (`board_b20_spec.py`,
+  `calculate-board-b20-draft.py`) are listed in `source_lock_exclusions` and no longer stale it. The ordered S3
+  package is at `f25194f`.
 - The phase 20 scratch dry run (`export-jlcpcb.py --boards board-p15 board-b`) passed every exporter gate on these
   files. It still exported the incumbent Board B stock lines below.
 - The stack proof `boards/board-b/assembly-preview-p15` binds this board-p15 and Board B pair: collision PASS.
