@@ -225,6 +225,56 @@ diagonally at opposite ends of the resistor, so the pair must split over the res
 rotation. Getting below 0.3 mm would need a neck-down to 0.15 mm beside the pins, below the board's 0.2 mm minimum.
 Thermal spreading, creepage and the GND return under each SW node are still not reviewed.
 
+#### Phase 24: router trials, sense-pair geometry limit and pickup estimate
+
+- **Spec:** the RP680 library entry in `board_b20_spec.py` is the adopted AT0603BRD07680RL / C5455478 line
+  (`dec-b-stock-gap-substitutions`). RP680 is not placed on B20, so the generated schematic is unchanged.
+- **Router trials, none adopted.** Each ran on the phase 22 placement. KiCad 10.0.6 DRC with schematic parity
+  (pinned image, heavy-guard then `flock`) ran where the router result was competitive:
+
+  | Trial | Router connections open | DRC unconnected |
+  |---|---|---|
+  | Phase 22 (kept) | 53 | **62** (17 GND, 45 signal) |
+  | GND stubs try 2.5 then 6.0 mm, land on existing GND copper, run before stitching | 51 (44 signal, 7 GND) | 64 (19 GND, 45 signal) |
+  | Plus a pin-escape halo (soft F.Cu cost within 0.75 mm of another net's pad), cost 1.5 | 77 (46 signal, 31 GND) | NOT RUN (router result worse) |
+  | Halo cost 4 | 77 (46 signal, 31 GND) | NOT RUN (router result worse) |
+
+  The halo runs also routed a GND track tree, which added 24 GND failures. No trial lowered the DRC count, so the
+  board, `route.py`, `routing-report.json` and the DRC result stay at phase 22.
+- **Why 0 is not reached:** the signal failures are fine-pitch pins boxed in by other nets, on a board whose
+  courtyards cover 55 % of the area (75 % with a 0.8 mm keep-out halo). The GND items are pour fragments that the
+  fill leaves apart. Closing them needs placement changes (more room around U6 and the EN_E, RAMP_M12 and ARM_GND
+  pin groups), not router cost tuning. The **62 unconnected items are OPEN**.
+
+**Sense-pair geometry limit.** A pair coupled within a 0.3 mm edge gap over its length is not reachable with
+these parts, and the phase 22 note that a neck-down would fix it was wrong (narrower traces widen the gap):
+
+| Quantity | Value |
+|---|---|
+| INA301 (VSSOP-8) pin pitch; edge gap of two 0.2 mm traces at the pins | 0.65 mm; 0.45 mm |
+| Edge gap the traces could close to past the pins (board clearance) | 0.2 mm |
+| PCSR2512 sense-pad separation (diagonal, opposite resistor ends) | 6.41 mm (RSH1, RSH3); RSH2 lands on current pads 3.15 mm apart |
+| Routed trace lengths | 3.31–6.48 mm |
+
+The far ends of each pair are 6.41 mm apart, as far apart as the traces are long, so the two traces diverge from
+the amplifier pins and no parallel stretch exists; the router's coupling cost found 0 mm on every pair. Forcing a
+coupled stretch would lengthen the traces and enlarge the loop. Under the dipole model below, pickup scales with
+the enclosed loop area, so that is the figure carried:
+
+| Shunt | Traces (+ / −) | Sense loop | Differential pickup at input | Capacitive CM at input | Amplifier output |
+|---|---|---|---|---|---|
+| RSH1 (U11, INA301A3) | 3.31 / 6.48 mm | 10.55 mm² | 0.727 mV peak | 0.20 / 0.77 mV peak | 0.64 mV (differential, BW-limited); 0.043 mV (CM via CMRR) |
+| RSH2 (U12, INA301A3) | 3.91 / 4.11 mm | 6.71 mm² | 0.183 mV peak | 0.27 / 0.29 mV peak | 0.16 mV; 0.016 mV |
+| RSH3 (U9, OPA2187) | 3.72 / 6.41 mm | 12.75 mm² | 0.341 mV peak | 0.24 / 0.64 mV peak | not modelled (not an INA301) |
+
+Model and assumptions (desk estimate, not a measurement): 20 V input, 6.2 ns SW rise (SLVSBN0C, VIN×0.16 ns/V + 3 ns),
+switched currents A 1.2 A, B 0.5 A, C 1.28 A; a magnetic dipole between each stage's hot-loop polygon and the sense
+loop; two-wire capacitance to the nearest SW track (nearest SW centre 17.7–23.2 mm) with εeff 2.7 and 1 nH/mm
+trace inductance; INA301A3 gain 100 V/V, 450 kHz bandwidth, 65 dB CMRR at 1 MHz (SBOS713A Figure 9, typical; the
+guaranteed 110 dB is at DC only). The common-mode term is small next to the differential term because the SW nodes
+are 18–23 mm away. Every number is in `boards/board-b20-draft/loop-check.json` (`geometry_and_pickup`,
+`pickup_assumptions`). It is OPEN until a bench measurement exists.
+
 ## 4. Gate table against the OSC–PD contract
 
 | Contract item | Result | Basis |
@@ -626,8 +676,8 @@ needs a fix. This is an OSC question.
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 22, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch` warnings; 62 unconnected items (17 GND, 45 signal), so **OPEN**, not a pass (phase 21: 81; phase 19 placement: 499) |
-| Routing | **OPEN**: power stages and all six sense traces routed; 53 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm (§3a, phase 22); self-check in `boards/board-b20-draft/loop-check.json` |
+| PCB DRC + schematic parity (phase 22 board, kept in phase 24) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch` warnings; 62 unconnected items (17 GND, 45 signal), so **OPEN**, not a pass (phase 24 trials: 64 and worse; phase 21: 81; phase 19 placement: 499) |
+| Routing | **OPEN**: power stages and all six sense traces routed; 53 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup estimate 0.18–0.73 mV peak differential at the inputs (§3a, phase 24); self-check in `boards/board-b20-draft/loop-check.json` |
 | BOM/CPL | NOT RUN: no export |
 
 ## 7. Independent review findings (review of `bad5ddf`)

@@ -158,5 +158,94 @@ for shunt, (ina, plus, minus) in SENSE.items():
         rows[num]['coupled_mm'] = round(coupled, 2)       # F.Cu length within 0.3 mm edge gap of the partner trace
         rows[num]['longest_uncoupled_run_mm'] = round(longest, 2)
     out['sense'][shunt] = {'ina': ina, 'pins': rows}
+
+# Pickup estimate (desk arithmetic, order of magnitude; no field solver, nothing measured).
+# SW edge: TI SLVSBN0C eq. 55 note, trise = VIN x 0.16 ns/V + 3 ns, at VIN = 20 V. Switched current per stage:
+# A and B carry their +12 V / +5 V budgets; C (inverting) carries Iout x (1 + |Vout| / VIN).
+# INA301A3 (SBOS713A): CMR 110 dB min at DC; Figure 9 (typical) falls to about 85 dB at 100 kHz and 65 dB at 1 MHz;
+# gain 100 V/V; bandwidth 450 kHz.
+MU0, EPS0, EPS_EFF = 4e-7 * math.pi, 8.854e-12, 2.7
+VIN = 20.0
+T_RISE = (VIN * 0.16 + 3) * 1e-9
+SWITCHED_A = {'A': 1.2, 'B': 0.5, 'C': 0.8 * (1 + 12.0 / VIN)}
+F_EDGE = 1 / (math.pi * T_RISE)
+INA_GAIN, INA_BW, INA_CMRR_1MHZ_DB = 100.0, 450e3, 65.0
+
+
+def chain(ts, start):
+    """Order a branch's segments into a point list starting at the end nearest `start`."""
+    segs = [(tuple(t['a']), tuple(t['b'])) for t in ts]
+    pts, cur = [start], start
+    while segs:
+        k, flip = min(((k, f) for k in range(len(segs)) for f in (0, 1)), key=lambda kf: math.dist(cur, segs[kf[0]][kf[1]]))
+        a, b = segs.pop(k)
+        a, b = (a, b) if flip == 0 else (b, a)
+        pts += [a, b]
+        cur = b
+    return pts
+
+
+def centroid(pts):
+    return (sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts))
+
+
+sw_copper = {name: [t for t in routes['tracks'] if t['net'] == pad(ic, '8')['net']] for name, (ic, *_r) in STAGES.items()}
+hot = {}
+for name, (ic, cin, diode, ind, ground) in STAGES.items():
+    cg = next(p for p in geom['pads'] if p['ref'] == cin and p['net'] == ground)
+    poly = [pad(cin, '1')['center'], pad(ic, '2')['center'], pad(ic, '8')['center'], pad(diode, '1')['center'], pad(diode, '2')['center'], cg['center']]
+    hot[name] = (shoelace(poly) * 1e-6, centroid(poly))
+for shunt, (ina, plus, minus) in SENSE.items():
+    rows = out['sense'][shunt]['pins']
+    ip, im = pad(ina, plus), pad(ina, minus)
+    kp = min((p for p in geom['pads'] if p['ref'] == shunt and p['net'] == ip['net']), key=lambda p: (p['bbox'][2] - p['bbox'][0]) * (p['bbox'][3] - p['bbox'][1]))
+    km = min((p for p in geom['pads'] if p['ref'] == shunt and p['net'] == im['net']), key=lambda p: (p['bbox'][2] - p['bbox'][0]) * (p['bbox'][3] - p['bbox'][1]))
+    tp, tm = branch(ip['net'], ip, kp), branch(im['net'], im, km)
+    pitch = math.dist(ip['center'], im['center'])
+    geo = {'amplifier_pin_pitch_mm': round(pitch, 3), 'start_edge_gap_0p2mm_tracks_mm': round(pitch - 0.2, 3),
+           'sense_pad_separation_mm': round(math.dist(kp['center'], km['center']), 2)}
+    if tp and tm:
+        loop = chain(tp, tuple(ip['center'])) + [tuple(kp['center']), tuple(km['center'])] + chain(tm, tuple(im['center']))[::-1]
+        area = shoelace(loop) * 1e-6
+        c = centroid(loop)
+        v_dm = 0.0
+        for name, (a_h, ch) in hot.items():
+            r = max(math.dist(c, ch), 1.0) * 1e-3
+            v_dm += MU0 * a_h * area * (SWITCHED_A[name] / T_RISE) / (4 * math.pi * r ** 3)
+        # capacitive injection from the nearest SW copper into each trace
+        cm = []
+        for ts in (tp, tm):
+            best = None
+            for name, sws in sw_copper.items():
+                for t in ts:
+                    for u in sws:
+                        n = max(1, int(math.dist(t['a'], t['b']) / 0.1))
+                        for k in range(n + 1):
+                            q = (t['a'][0] + (t['b'][0] - t['a'][0]) * k / n, t['a'][1] + (t['b'][1] - t['a'][1]) * k / n)
+                            d = seg_dist(q, u['a'], u['b'])
+                            if best is None or d < best[0]:
+                                best = (d, u['w'], name)
+            length = sum(math.dist(t['a'], t['b']) for t in ts)
+            if best:
+                d, wu, name = best
+                a_eff = (0.2 + wu) / 4
+                c_f = math.pi * EPS0 * EPS_EFF * length * 1e-3 / math.acosh(max(d / (2 * a_eff), 1.0001))
+                i_inj = c_f * VIN / T_RISE
+                v_cm = i_inj * 2 * math.pi * F_EDGE * (length * 1e-9)
+                cm.append({'nearest_sw_stage': name, 'centre_distance_mm': round(d, 2), 'trace_mm': round(length, 2),
+                           'coupling_pf_upper': round(c_f * 1e12, 4), 'injected_ma_peak': round(i_inj * 1e3, 3), 'v_cm_mv_peak': round(v_cm * 1e3, 3)})
+        geo.update({'sense_loop_area_mm2': round(area * 1e6, 2), 'differential_pickup_mv_peak_at_input': round(v_dm * 1e3, 3),
+                    'capacitive_common_mode': cm})
+        worst_cm = max((x['v_cm_mv_peak'] for x in cm), default=0.0)
+        if ina.startswith('U1'):
+            bw = INA_BW / F_EDGE
+            geo['ina301_output_mv_peak'] = {
+                'differential_bandwidth_limited': round(v_dm * INA_GAIN * bw * 1e3, 3),
+                'common_mode_through_cmrr_1mhz': round(worst_cm * INA_GAIN * 10 ** (-INA_CMRR_1MHZ_DB / 20), 4)}
+    out['sense'][shunt]['geometry_and_pickup'] = geo
+out['pickup_assumptions'] = {'vin_v': VIN, 'sw_rise_ns': round(T_RISE * 1e9, 2), 'edge_frequency_mhz': round(F_EDGE / 1e6, 1),
+                             'switched_current_a': {k: round(v, 3) for k, v in SWITCHED_A.items()},
+                             'ina301a3': 'gain 100 V/V, BW 450 kHz, CMRR 65 dB at 1 MHz (SBOS713A Figure 9, typical)',
+                             'model': 'magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance'}
 json.dump(out, open(sys.argv[3], 'w'), indent=1)
 print(json.dumps(out, indent=1))
