@@ -315,6 +315,47 @@ Closing the remaining items needs more board area for this part count: parts on 
 parts. Those are design decisions, not router settings. **The unconnected items are OPEN.** The trial knobs stay in
 `build-draft.py` (`B20_CLEAR`, `B20_ICHALO`, defaults 0.8 and 0, which reproduce the phase 22 placement).
 
+#### Phase 27: 4-layer trial and outline fit study (not adopted)
+
+The 2-layer phase 26 board stays the committed draft. These trials ran on scratch copies of the phase 22 placement
+with the same spec, router and KiCad 10.0.6 DRC with schematic parity (heavy-guard then `flock`).
+
+**4-layer trial.** `B20_LAYERS=4` gives the router a third layer, In2.Cu, for signal and power. In1.Cu carries a full GND
+pour and is not routed. `apply-routes.py` writes a 4-layer stackup when the routes use In2.Cu. Its dielectric
+thicknesses are placeholders until a stackup is chosen; they do not enter DRC. `B20_STUBREACH` widens the search window
+for GND pad stubs.
+
+| Trial | Router open | DRC unconnected |
+|---|---|---|
+| 2-layer, phase 26 (committed) | 49 (39 signal, 10 GND stubs) | 55 (16 GND, 39 signal) |
+| 4-layer, B.Cu/In2.Cu cost 0.7 | 26 (14 signal, 12 GND stubs) | NOT RUN (superseded) |
+| **4-layer, GND stub reach 6 mm** | **24** (14 signal, 10 GND stubs) | **22 (8 GND, 14 signal)**; 0 errors, 0 parity issues |
+| 4-layer, reach 6 mm, cost 0.5 | 27 | NOT RUN (router result worse) |
+| 4-layer, reach 6 mm, 12 rip-up rounds | 24 (identical) | NOT RUN (same routes) |
+
+The best 4-layer board has 2407 track segments (F.Cu 1419, In2.Cu 483, B.Cu 505) and 738 vias. Its open signal
+items are one pin each on 13 nets (UV12_DIV has 2). EN_E, which had 8 open items on 2 layers, routes completely. The
+inner layer removes 60 % of the open items, but not all of them. **The 4-layer result is OPEN, not 0.** Its first DRC
+also found a tool defect: GND island-stitch vias were placed only against F.Cu/B.Cu copper, so 4 of them landed on In2.Cu
+signal tracks. `apply-routes.py` now keeps those vias clear of In2.Cu tracks; the 2-layer output is unaffected.
+
+**Outline fit study.** `B20_GROW_X` widens the packing area to the right and moves the right-hand corner holes and
+fiducial with the edge. The drawn outline is unchanged, so this is a placement-feasibility result at 1.0 mm courtyard
+clearance, not a routed layout.
+
+| Width | 1.0 mm clearance placement |
+|---|---|
+| 110 mm (current) | does not fit: 11 parts unplaced |
+| 112 mm | does not fit: 8 parts unplaced |
+| 113 mm | does not fit: 6 parts unplaced |
+| 114 mm | does not fit: 3 parts unplaced (CP1, RP1, RP2) |
+| **115 mm** | **fits: smallest whole-millimetre width** |
+| 120 mm / 130 mm | fits |
+
+The 2-layer router has not been run on a wider placement. A wider board would move the right-hand corner holes, its
+legs and the right fiducial by the same amount. J6/J7 on the left edge, J10/J11, J5 with Board P, and the P1/TP row keep
+their positions.
+
 ## 4. Gate table against the OSC–PD contract
 
 | Contract item | Result | Basis |

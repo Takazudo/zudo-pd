@@ -6,6 +6,7 @@ The design rules live in <out>.kicad_pro (copied from Board B). They are copied 
 zone fill uses them, and SaveBoard's rewrite of the project file is undone.
 """
 import json
+import math
 import pathlib
 import sys
 
@@ -17,12 +18,19 @@ pathlib.Path(sys.argv[1]).with_suffix('.kicad_pro').write_text(rules_text)
 b = pcbnew.LoadBoard(sys.argv[1])
 r = json.load(open(sys.argv[2]))
 mm = pcbnew.FromMM
+# phase 27: a four-layer route (an In2 signal/power layer from route.py B20_LAYERS=4) gets a 4-layer stackup with an
+# In1.Cu GND plane over the whole board
+FOUR = 'In2' in r.get('layers', []) or any(t['layer'] == 'In2' for t in r['tracks'])
+CU = {'F': pcbnew.F_Cu, 'B': pcbnew.B_Cu, 'In2': pcbnew.In2_Cu}
+if FOUR:
+    b.SetCopperLayerCount(4)
+    b.GetDesignSettings().SetCopperLayerCount(4)
 for t in r['tracks']:
     s = pcbnew.PCB_TRACK(b)
     s.SetStart(pcbnew.VECTOR2I(mm(t['a'][0]), mm(t['a'][1])))
     s.SetEnd(pcbnew.VECTOR2I(mm(t['b'][0]), mm(t['b'][1])))
     s.SetWidth(mm(t['w']))
-    s.SetLayer(pcbnew.F_Cu if t['layer'] == 'F' else pcbnew.B_Cu)
+    s.SetLayer(CU[t['layer']])
     s.SetNet(b.FindNet(t['net']))
     b.Add(s)
 for v in r['vias']:
@@ -36,11 +44,11 @@ for d in b.GetDrawings():
     if isinstance(d, pcbnew.PCB_TEXT) and d.GetText().startswith('B20 DRAFT'):
         d.SetText('B20 DRAFT - PARTLY ROUTED - NOT FOR FABRICATION')
 edge = b.GetBoardEdgesBoundingBox()
-for layer, priority in ((pcbnew.F_Cu, 0), (pcbnew.B_Cu, 0)):
+for layer, priority in ((pcbnew.F_Cu, 0), (pcbnew.B_Cu, 0)) + (((pcbnew.In1_Cu, 0),) if FOUR else ()):
     z = pcbnew.ZONE(b)
     z.SetLayer(layer)
     z.SetNet(b.FindNet('GND'))
-    z.SetZoneName('GND_F' if layer == pcbnew.F_Cu else 'GND_B')
+    z.SetZoneName({pcbnew.F_Cu: 'GND_F', pcbnew.B_Cu: 'GND_B', pcbnew.In1_Cu: 'GND_IN1'}[layer])
     z.SetAssignedPriority(priority)
     z.SetLocalClearance(mm(0.25))
     z.SetMinThickness(mm(0.25))
@@ -107,6 +115,18 @@ def stitch_islands(rounds=8):
                         a, c = frag(L[0], pad.GetPosition()), frag(L[1], pad.GetPosition())
                         if a and c:
                             parent[find(a)] = find(c)
+        # the pours stop at F/B copper, but a through via also crosses In2: keep it a clearance away from In2 tracks
+        inner = [(s.GetStart(), s.GetEnd(), s.GetWidth()) for s in b.GetTracks()
+                 if not isinstance(s, pcbnew.PCB_VIA) and s.GetLayer() == pcbnew.In2_Cu and s.GetNetCode() != gnd]
+
+        def clear_of_inner(pt):
+            for a, c, w in inner:
+                d = c - a
+                n2 = d.x * d.x + d.y * d.y
+                t = 0.0 if n2 == 0 else max(0.0, min(1.0, ((pt.x - a.x) * d.x + (pt.y - a.y) * d.y) / n2))
+                if math.hypot(pt.x - a.x - t * d.x, pt.y - a.y - t * d.y) < mm(0.4 + 0.25) + w // 2:
+                    return False
+            return True
         frags = [(l, i) for l in L for i in range(polys[l].OutlineCount())]
         area = {}
         for f in frags:
@@ -127,7 +147,8 @@ def stitch_islands(rounds=8):
                     pt = pcbnew.VECTOR2I(x, y)
                     if (polys[l].Contains(pt, i) and eroded[l].Contains(pt) and eroded[other].Contains(pt)
                             and frag(other, pt) is not None and find(frag(other, pt)) != find((l, i))
-                            and all((pt - h[0]).EuclideanNorm() >= mm(0.15 + 0.25) + h[1] // 2 for h in holes)):
+                            and all((pt - h[0]).EuclideanNorm() >= mm(0.15 + 0.25) + h[1] // 2 for h in holes)
+                            and clear_of_inner(pt)):
                         v = pcbnew.PCB_VIA(b)
                         v.SetPosition(pt)
                         v.SetWidth(mm(0.8))
@@ -151,4 +172,36 @@ def stitch_islands(rounds=8):
 islands = stitch_islands()
 pcbnew.SaveBoard(sys.argv[3], b)
 rules.write_text(rules_text)
+if FOUR:
+    # a 1.6 mm 4-layer build in the shape of JLC's common prepreg/core/prepreg stack, B20's 2 oz outer copper kept;
+    # the dielectric thicknesses are placeholders (they do not enter DRC) until a stackup is chosen
+    out = pathlib.Path(sys.argv[3])
+    text = out.read_text()
+    i = text.index('(stackup')
+    depth, k = 0, i
+    while True:
+        if text[k] == '(':
+            depth += 1
+        elif text[k] == ')':
+            depth -= 1
+            if depth == 0:
+                break
+        k += 1
+    out.write_text(text[:i] + '\n'.join([
+        '    (stackup',
+        '      (layer "F.SilkS" (type "Top Silk Screen"))',
+        '      (layer "F.Paste" (type "Top Solder Paste"))',
+        '      (layer "F.Mask" (type "Top Solder Mask") (thickness 0.01))',
+        '      (layer "F.Cu" (type "copper") (thickness 0.07))',
+        '      (layer "dielectric 1" (type "prepreg") (thickness 0.2104) (material "FR4") (epsilon_r 4.4) (loss_tangent 0.02))',
+        '      (layer "In1.Cu" (type "copper") (thickness 0.0152))',
+        '      (layer "dielectric 2" (type "core") (thickness 1.065) (material "FR4") (epsilon_r 4.6) (loss_tangent 0.02))',
+        '      (layer "In2.Cu" (type "copper") (thickness 0.0152))',
+        '      (layer "dielectric 3" (type "prepreg") (thickness 0.2104) (material "FR4") (epsilon_r 4.4) (loss_tangent 0.02))',
+        '      (layer "B.Cu" (type "copper") (thickness 0.07))',
+        '      (layer "B.Mask" (type "Bottom Solder Mask") (thickness 0.01))',
+        '      (layer "B.Paste" (type "Bottom Solder Paste"))',
+        '      (layer "B.SilkS" (type "Bottom Silk Screen"))',
+        '      (copper_finish "None") (dielectric_constraints no)',
+        '    )']) + text[k + 1:])
 print(f"{len(r['tracks'])} tracks, {len(r['vias'])} vias, GND pours on F.Cu and B.Cu filled, {islands} island vias")

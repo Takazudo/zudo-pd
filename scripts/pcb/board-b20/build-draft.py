@@ -33,6 +33,13 @@ from pcb_common import pcb_net_name  # noqa: E402
 from sexp import atom, find_all, load  # noqa: E402
 from board_b_layout import WIDTH, HEIGHT, PLACEMENTS, MOUNTING_HOLES, FIDUCIALS, SUPPORT_REFS, edge_primitives  # noqa: E402
 
+# phase 27 fit study only (B20_GROW_X mm): widen the packing area to the right, moving the right-hand corner holes and
+# fiducial with the edge. The drawn outline is unchanged, so such a board is a feasibility result, not a layout.
+GROW_X = float(os.environ.get('B20_GROW_X', 0))
+PACK_W = WIDTH + GROW_X
+MOUNTING_HOLES = [(x + GROW_X if x > WIDTH / 2 else x, y) for x, y in MOUNTING_HOLES]
+FIDUCIALS = [(x + GROW_X if x > WIDTH / 2 else x, y) for x, y in FIDUCIALS]
+
 LIB = str(ROOT / 'footprints/kicad/zudo-power.pretty')
 FIXED = ('J5', 'J6', 'J7', 'J10', 'J11')
 C3_KEEPOUT = (7.74, 24.54, 17.25, 35.77)
@@ -114,7 +121,7 @@ def courtyard_box(fp):
 
 class Grid:
     def __init__(self):
-        self.nx, self.ny = int(WIDTH / CELL) + 1, int(HEIGHT / CELL) + 1
+        self.nx, self.ny = int(PACK_W / CELL) + 1, int(HEIGHT / CELL) + 1
         self.used = bytearray(self.nx * self.ny)
 
     def _range(self, box, pad):
@@ -136,7 +143,7 @@ class Grid:
 
     def free(self, box, clearance=None):
         x0, y0, x1, y1 = box
-        if x0 < BOARD_MARGIN or y0 < BOARD_MARGIN or x1 > WIDTH - BOARD_MARGIN or y1 > HEIGHT - BOARD_MARGIN:
+        if x0 < BOARD_MARGIN or y0 < BOARD_MARGIN or x1 > PACK_W - BOARD_MARGIN or y1 > HEIGHT - BOARD_MARGIN:
             return False
         i0, j0, i1, j1 = self._range(box, CLEARANCE if clearance is None else clearance)
         for j in range(j0, j1 + 1):
@@ -491,7 +498,7 @@ def main():
     blocks_used = {}
     for ref in placed_at:
         blocks_used.setdefault(owner.get(ref, 'default'), []).append(ref)
-    print(f'placed {len(placed_at)} + {len(FIXED)} fixed parts on {WIDTH} x {HEIGHT} mm; '
+    print(f'placed {len(placed_at)} + {len(FIXED)} fixed parts on {PACK_W} x {HEIGHT} mm; '
           + ', '.join(f'{k}:{len(v)}' for k, v in sorted(blocks_used.items())))
 
 

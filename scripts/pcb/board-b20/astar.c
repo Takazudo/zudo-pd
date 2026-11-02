@@ -1,8 +1,9 @@
-/* Grid A* for route.py (two layers, 8 directions, through vias). Built by route.py with the system C compiler.
+/* Grid A* for route.py (nl copper layers, 8 directions, through vias). Built by route.py with the system C compiler.
  *
  * All arrays are row-major w*h windows. The free, dst and src arrays hold 0/1 bytes; each extra array is an optional
  * per-cell step cost (NULL for none). Moves: 4 orthogonal (cost 1) and 4 diagonal (cost 1.4142), a diagonal needing both orthogonal
- * neighbours passable; a layer change costs vcost where vok is set. Layer B steps are scaled by bcost. Returns the
+ * neighbours passable; a through via to any other layer costs vcost where vok is set. Steps on layer l are scaled by
+ * lc[l]. Returns the
  * node count written to out (node = layer * w * h + j * w + i, source first), 0 when no path, -1 when out is short.
  */
 #include <math.h>
@@ -35,15 +36,13 @@ static item pop(item *h, int *len) {
     return top;
 }
 
-int astar(int w, int h, const uint8_t *freeF, const uint8_t *freeB, const uint8_t *vok,
-          const uint8_t *srcF, const uint8_t *srcB, const uint8_t *dstF, const uint8_t *dstB,
-          const float *extraF, const float *extraB, double bcost, double vcost, int *out, int cap) {
+#define MAXL 4
+int astar(int w, int h, int nl, const uint8_t **fr, const uint8_t *vok, const uint8_t **sr, const uint8_t **dt,
+          const float **ex, const double *lc, double vcost, int *out, int cap) {
     const int N = w * h;
-    const uint8_t *fr[2] = {freeF, freeB}, *dt[2] = {dstF, dstB}, *sr[2] = {srcF, srcB};
-    const float *ex[2] = {extraF, extraB};
-    double lc[2] = {1.0, bcost};
+    if (nl < 1 || nl > MAXL) return -1;
     int tx0 = w, tx1 = -1, ty0 = h, ty1 = -1;
-    for (int l = 0; l < 2; l++)
+    for (int l = 0; l < nl; l++)
         for (int k = 0; k < N; k++)
             if (dt[l][k]) {
                 int j = k / w, i = k % w;
@@ -53,15 +52,15 @@ int astar(int w, int h, const uint8_t *freeF, const uint8_t *freeB, const uint8_
                 if (j > ty1) ty1 = j;
             }
     if (tx1 < 0) return 0;
-    double *dist = malloc(sizeof(double) * 2 * N);
-    int *prev = malloc(sizeof(int) * 2 * N);
+    double *dist = malloc(sizeof(double) * nl * N);
+    int *prev = malloc(sizeof(int) * nl * N);
     int hcap = 1 << 16, hlen = 0;
     item *heap = malloc(sizeof(item) * hcap);
-    for (int k = 0; k < 2 * N; k++) { dist[k] = INFINITY; prev[k] = -1; }
+    for (int k = 0; k < nl * N; k++) { dist[k] = INFINITY; prev[k] = -1; }
 #define HEUR(i, j) hypot((double)((tx0 - (i)) > 0 ? tx0 - (i) : ((i) - tx1) > 0 ? (i) - tx1 : 0), \
                          (double)((ty0 - (j)) > 0 ? ty0 - (j) : ((j) - ty1) > 0 ? (j) - ty1 : 0))
 #define PUSH(it) do { if (hlen == hcap) { hcap *= 2; heap = realloc(heap, sizeof(item) * hcap); } push(heap, &hlen, it); } while (0)
-    for (int l = 0; l < 2; l++)
+    for (int l = 0; l < nl; l++)
         for (int k = 0; k < N; k++)
             if (sr[l][k]) {
                 int n = l * N + k;
@@ -96,8 +95,10 @@ int astar(int w, int h, const uint8_t *freeF, const uint8_t *freeB, const uint8_
             }
         }
         if (vok[k]) {
-            int ol = 1 - l, nn = ol * N + k;
-            if (fr[ol][k] || dt[ol][k]) {
+            for (int ol = 0; ol < nl; ol++) {
+                if (ol == l) continue;
+                int nn = ol * N + k;
+                if (!(fr[ol][k] || dt[ol][k])) continue;
                 double ng = it.g + vcost;
                 if (ng < dist[nn]) {
                     dist[nn] = ng; prev[nn] = n;

@@ -47,12 +47,18 @@ KELVIN = [('U11', '8', 'RSH1'), ('U11', '7', 'RSH1'), ('U12', '8', 'RSH2'), ('U1
           ('U9', '3', 'RSH3'), ('U9', '4', 'RSH3')]
 XS = np.arange(NX) * G
 YS = np.arange(NY) * G
-LAYERS = ('F', 'B')
+# phase 27: B20_LAYERS=4 adds the inner signal/power layer In2 (In1 is a GND plane that the router does not use; every
+# via passes through it and a GND via lands on it)
+FOUR = os.environ.get('B20_LAYERS', '2') == '4'
+STUB_REACH = float(os.environ.get('B20_STUBREACH', 2.5))   # phase 27: a second, wider GND-stub window
+LAYERS = ('F', 'In2', 'B') if FOUR else ('F', 'B')
 
 geom = json.load(open(sys.argv[1]))
 pads = sorted(geom['pads'], key=lambda p: (p['ref'], p['num'], p['center']))
 for k, p in enumerate(pads):
     p['id'] = k
+    if FOUR and p['drill'] and p['layers']:
+        p['layers'] = list(LAYERS)
 nets = sorted({p['net'] for p in pads if p['net']})
 NET_ID = {n: i + 1 for i, n in enumerate(nets)}
 next_group = [len(nets) + 1]
@@ -225,8 +231,10 @@ def _load_astar():
     u8 = np.ctypeslib.ndpointer(np.uint8, flags='C_CONTIGUOUS')
     f32 = ctypes.c_void_p
     so.astar.restype = ctypes.c_int
-    so.astar.argtypes = [ctypes.c_int, ctypes.c_int, u8, u8, u8, u8, u8, u8, u8, f32, f32, ctypes.c_double,
-                         ctypes.c_double, np.ctypeslib.ndpointer(np.int32, flags='C_CONTIGUOUS'), ctypes.c_int]
+    pp = ctypes.POINTER(ctypes.c_void_p)
+    so.astar.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int, pp, u8, pp, pp, pp,
+                         np.ctypeslib.ndpointer(np.float64, flags='C_CONTIGUOUS'), ctypes.c_double,
+                         np.ctypeslib.ndpointer(np.int32, flags='C_CONTIGUOUS'), ctypes.c_int]
     return so
 
 
@@ -235,21 +243,29 @@ _SO = _load_astar()
 
 def astar(src, dst, free, vok, box, b_cost, extra=None):
     """src/dst: dict layer -> bool mask (full board); free/vok/extra: box windows. Returns [(l, j, i), ...] or None."""
+    import ctypes
     i0, i1, j0, j1 = box
     w, h = i1 - i0, j1 - j0
-    u = lambda a: np.ascontiguousarray(a, dtype=np.uint8)
-    ex = [None, None]
     keep = []
-    if extra is not None:
-        for n, l in enumerate(LAYERS):
-            a = np.ascontiguousarray(extra[l], dtype=np.float32)
+
+    def ptrs(arrays, dtype):
+        out = (ctypes.c_void_p * len(LAYERS))()
+        for n, a in enumerate(arrays):
+            if a is None:
+                out[n] = None
+                continue
+            a = np.ascontiguousarray(a, dtype=dtype)
             keep.append(a)
-            ex[n] = a.ctypes.data
-    cap = 2 * w * h
+            out[n] = a.ctypes.data
+        return ctypes.cast(out, ctypes.POINTER(ctypes.c_void_p))
+    fr = ptrs([free[l] for l in LAYERS], np.uint8)
+    sr = ptrs([src[l][j0:j1, i0:i1] for l in LAYERS], np.uint8)
+    dt = ptrs([dst[l][j0:j1, i0:i1] for l in LAYERS], np.uint8)
+    ex = ptrs([extra[l] if extra is not None else None for l in LAYERS], np.float32)
+    lc = np.array([1.0] + [float(b_cost)] * (len(LAYERS) - 1), np.float64)
+    cap = len(LAYERS) * w * h
     out = np.zeros(cap, np.int32)
-    n = _SO.astar(w, h, u(free['F']), u(free['B']), u(vok), u(src['F'][j0:j1, i0:i1]), u(src['B'][j0:j1, i0:i1]),
-                  u(dst['F'][j0:j1, i0:i1]), u(dst['B'][j0:j1, i0:i1]), ex[0], ex[1], float(b_cost), VIA_COST / G,
-                  out, cap)
+    n = _SO.astar(w, h, len(LAYERS), fr, np.ascontiguousarray(vok, dtype=np.uint8), sr, dt, ex, lc, VIA_COST / G, out, cap)
     if n <= 0:
         return None
     N = w * h
@@ -432,25 +448,27 @@ def route_pair(p, q, label, widths=None):
 
 
 def components(group):
-    """Connected copper of one group, F and B labelled separately and joined where a hole carries both layers."""
-    lf, nf = ndimage.label(lab['F'] == group)
-    lb, nb = ndimage.label(lab['B'] == group)
-    parent = list(range(nf + nb + 1))
+    """Connected copper of one group, each layer labelled separately and joined where a hole carries several layers."""
+    labels, offset = {}, 0
+    for l in LAYERS:
+        lab_l, n = ndimage.label(lab[l] == group)
+        labels[l] = np.where(lab_l > 0, lab_l + offset, 0)
+        offset += n
+    parent = list(range(offset + 1))
 
     def find(a):
         while parent[a] != a:
             parent[a] = parent[parent[a]]
             a = parent[a]
         return a
-    both = holes & (lf > 0) & (lb > 0)
-    for a, b in set(zip(lf[both].tolist(), (lb[both] + nf).tolist())):
-        ra, rb = find(a), find(b)
-        if ra != rb:
-            parent[ra] = rb
-    roots = np.array([find(a) for a in range(nf + nb + 1)])
-    cf = np.where(lf > 0, roots[lf], 0)
-    cb = np.where(lb > 0, roots[np.where(lb > 0, lb + nf, 0)], 0)
-    return {'F': cf, 'B': cb}
+    for la, lb in zip(LAYERS, LAYERS[1:]):
+        both = holes & (labels[la] > 0) & (labels[lb] > 0)
+        for a, b in set(zip(labels[la][both].tolist(), labels[lb][both].tolist())):
+            ra, rb = find(a), find(b)
+            if ra != rb:
+                parent[ra] = rb
+    roots = np.array([find(a) for a in range(offset + 1)])
+    return {l: roots[labels[l]] for l in LAYERS}
 
 
 def comp_of(p, comps):
@@ -480,7 +498,7 @@ def route_net(net, root_ref=None):
         if not todo:
             return
         tree = {l: comps[l] == rc for l in LAYERS}
-        tj, ti = np.nonzero(tree['F'] | tree['B'])
+        tj, ti = np.nonzero(np.logical_or.reduce([tree[l] for l in LAYERS]))
         pts = np.stack([ti * G, tj * G], 1)
         best = min(todo, key=lambda p: float(np.min((pts[:, 0] - p['center'][0]) ** 2 + (pts[:, 1] - p['center'][1]) ** 2)))
         bc = comp_of(best, comps)
@@ -490,12 +508,12 @@ def route_net(net, root_ref=None):
         ws = widths_for(best, nearest_pad)
         label = f'{net}:{best["ref"]}.{best["num"]}'
         local = near_part(tree, best['center'], 12.0)
-        if (local['F'] | local['B']).any() and connect(src, local, net, group, ws, B_COST.get(net, B_COST[kind]), label, quiet_fail=True):
+        if any(local[l].any() for l in LAYERS) and connect(src, local, net, group, ws, B_COST.get(net, B_COST[kind]), label, quiet_fail=True):
             continue
         if connect(src, tree, net, group, ws[-1:], B_COST.get(net, B_COST[kind]), label, quiet_fail=True):
             continue
         others = {l: (comps[l] > 0) & (comps[l] != bc) & (comps[l] != rc) for l in LAYERS}
-        if (others['F'] | others['B']).any() and connect(src, near_part(others, best['center'], 12.0), net, group, ws[-1:], B_COST.get(net, B_COST[kind]), label + ' (to a fragment)', quiet_fail=True):
+        if any(others[l].any() for l in LAYERS) and connect(src, near_part(others, best['center'], 12.0), net, group, ws[-1:], B_COST.get(net, B_COST[kind]), label + ' (to a fragment)', quiet_fail=True):
             continue
         failed.append(best)
         fail_by_net[net].append(label)
@@ -506,11 +524,19 @@ def gnd_stub(p):
     """Short F.Cu stub from a GND surface pad to a via that reaches the B.Cu GND plane."""
     group = NET_ID['GND']
     src = mask_of_pad(p)
-    box = window(*p['bbox'], 2.5)
+    for reach in (2.5,) + ((STUB_REACH,) if STUB_REACH > 2.5 else ()):
+        if gnd_stub_at(p, group, src, reach):
+            return True
+    unrouted.append(f'GND stub {p["ref"]}.{p["num"]}')
+    log(f'GND stub {p["ref"]}.{p["num"]}: UNROUTED')
+
+
+def gnd_stub_at(p, group, src, reach):
+    box = window(*p['bbox'], reach)
     vok = via_mask(group, box)
     for w in (0.5, W_SIG, W_FINE):
         free = free_masks(group, w / 2, box)
-        dst = vok & free['F'] & free['B']
+        dst = vok & np.logical_and.reduce([free[l] for l in LAYERS])
         if not dst.any():
             continue
         i0, i1, j0, j1 = box
@@ -519,14 +545,12 @@ def gnd_stub(p):
         s_src = seat(src, group, w, box)
         if not s_src.ok and w != W_FINE:
             continue
-        path = astar(s_src, {'F': full, 'B': np.zeros_like(full)}, free, np.zeros_like(dst), box, 9.0)
+        path = astar(s_src, {l: full if l == 'F' else np.zeros_like(full) for l in LAYERS}, free, np.zeros_like(dst), box, 9.0)
         if path:
-            emit(path, w, 'GND', group, {'F': free['F'] | crop(s_src['F'], box), 'B': free['B']}, box)
+            emit(path, w, 'GND', group, {l: free[l] | crop(s_src[l], box) if l == 'F' else free[l] for l in LAYERS}, box)
             _, j, i = path[-1]
             add_via((i * G, j * G), 'GND', group)
             return True
-    unrouted.append(f'GND stub {p["ref"]}.{p["num"]}')
-    log(f'GND stub {p["ref"]}.{p["num"]}: UNROUTED')
     return False
 
 
@@ -743,7 +767,8 @@ def main():
     for v in fail_by_net.values():
         unrouted.extend(v)
     failed_nets = sorted({u.split(':')[0] for u in unrouted if not u.startswith('GND stub')})
-    json.dump({'tracks': tracks, 'vias': vias, 'unrouted': unrouted, 'failed_nets': failed_nets, 'first': first, 'notes': notes},
+    json.dump({'tracks': tracks, 'vias': vias, 'unrouted': unrouted, 'failed_nets': failed_nets, 'first': first, 'notes': notes,
+               **({'layers': list(LAYERS)} if FOUR else {})},
               open(sys.argv[2], 'w'), indent=0)
     print(f'{len(tracks)} tracks, {len(vias)} vias, {len(unrouted)} unrouted')
 
