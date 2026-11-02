@@ -572,6 +572,80 @@ These are the parts to check first on a bench. At rated load they dissipate 0.42
 The screen does not cover diode capacitance, inductor core loss, or the difference between the real board and the
 JEDEC board. The thermal margins are **OPEN** until measured.
 
+#### Phase 31: In2.Cu comparator pre-routes, 0 unconnected; D3 copper
+
+**Approach.** The phase 30 failures were long nets whose two ends sit on opposite sides of the board. They are not
+placement-local, so the router now routes them first instead of pinning parts.
+
+- **Pre-routes.** UVN_CMP, UV5_DIV, UV5_CMP, C_EN and RDY_X are routed right after the stage cells, sense pairs and
+  stage GND stubs, and before fanout and trunks.
+  - They run mainly on the otherwise empty In2.Cu, with layer costs F 2, In2 0.6 and B 3.
+  - Rip-up treats them as fixed (`PREROUTE`, `B20_PREROUTE`).
+- **Late retry.** Connections still open after rip-up get one more route and rip-up round under the same In2-preferring
+  costs.
+- **Fanout.** RHO2.2 is added to the fanout list (72 pins).
+- **Placement.** Unchanged: phase 22, with the stage templates, sense geometry and hot-loop polygons as in phase 30. The
+  placement-pin option was not needed.
+
+| Trial | Router open | DRC unconnected |
+|---|---|---|
+| Phase 30 adopted | 5 | 5 |
+| Pre-route the five phase 30 nets (EN_N included) | 3 | NOT RUN |
+| Pre-route four (EN_N left to the router) | 2 | 2, 0 errors |
+| + UVN_CMP first | 1 | 1, 0 errors |
+| Other orders, or LIM5/OV5_DIV/EN_HO/RAMP_M12 added to the list | 3–10 | NOT RUN |
+| **Adopted: UVN_CMP first + RHO2.2 fanout** | **0** | **0** |
+
+Adopted board, KiCad 10.0.6 DRC with schematic parity run in place (heavy-guard then `flock`):
+
+- **0 unconnected, 0 errors and 0 parity issues.**
+- Warnings: 2 `via_dangling` and 2 `lib_footprint_mismatch` (J10/J11 silk clip).
+- 3063 track segments and 735 vias.
+- The silk now reads "B20 DRAFT - UNVALIDATED - NOT FOR FABRICATION".
+- A default `route.py` run reproduces these routes byte for byte, and `B20_LAYERS=2` still reproduces the retired 2-layer routes.
+
+The current check is unchanged from phase 30 within 0.1 K. The M12_CS path now stays on F.Cu, and every path is at or
+below 11.2 K at the limiter maximum.
+
+This closes routing completeness only. Layout review, DFM and fabrication review are **OPEN**.
+
+**D3, the inverter catch diode, at the limiter maximum (desk; evidence `src-c3024223-primary`, SDT5A60SA DS41091 Rev. 4-2).** I downloaded the PDF again on 2026-11-02 and checked it against the retained SHA-256 (`4985d958…`); it matches. Page 2 and page 3 were read.
+
+| Datasheet item | Value | Conditions |
+|---|---|---|
+| Operating and storage junction range | −55 to +150 °C | Thermal Characteristics table |
+| RθJA / RθJC | 56 / 27 °C/W | Note 6: FR-4, 1 × 1 in, 2 oz single-sided, 0.56 × 0.73 in (264 mm²) copper pad |
+| Average rectified current IO | 5 A | TA = 25 °C; Figure 4 derates it to 4 A at TA 100 °C and 0 A at 150 °C (Note 6 board) |
+| VF maximum at 5 A | 0.52 V (25 °C), 0.45 V (125 °C) | Short pulse |
+| IR typical at 60 V | 50 mA (125 °C) | Figure 3 typical curves; no maximum at 125 °C |
+
+- **Loss.** The thermal screen uses 1.04 W, which is VF 0.52 V × the 2.0 A average diode current at the limiter maximum.
+  This is an upper bound: the 125 °C maximum VF gives 0.90 W, and Figure 1 (TJ 150 °C) reads about 0.7 W at 2 A.
+- **Leakage.** In this inverter the diode blocks VIN + |VOUT|, about 35 V at VIN 21 V, while the switch is on (≈40 %
+  of the period). The table gives a typical 50 mA at 60 V and TJ 125 °C, with no maximum. Holding 50 mA at 35 V
+  would add up to 0.7 W at 125 °C, as much as the forward loss. The Figure 3 curves are flatter in voltage than they are
+  in temperature, and they fall several-fold per 25 K. So near 100 °C the reverse loss is a small fraction of that.
+  The loss grows with temperature: this is the thermal-runaway direction.
+- **On the datasheet's own board (Note 6).** TJ = 40 °C + 1.04 W × 56 °C/W = 98 °C. That leaves 52 K to the 150 °C
+  limit, with reverse loss still small near 100 °C. On Figure 4, 2.0 A average stays inside the derating curve
+  up to 125 °C ambient. **On the datasheet's copper, the rating holds.**
+- **On B20, the margin is not demonstrated: UNKNOWN.**
+  - Before phase 31, D3 had only its two 2.5 × 1.7 mm pads and 1.5 mm cell tracks in 1 oz copper. The Note 6 board has
+    a 264 mm² pad in 2 oz.
+  - θJA on B20 is not known. TJ reaches 150 °C at about 106 °C/W into 40 °C air.
+  - If the board around D3 sits at the screen's 33 K mean rise, the limit drops to about 74 °C/W.
+  - With the leakage feedback above, these limits are short of a demonstrated margin.
+- **Copper change made (phase 31).**
+  - `apply-routes.py` adds an F.Cu `M12_RAW_D3` pour, priority 1 above GND, in the box x 19.5–33.4 mm, y 38.5–46.7 mm.
+    It fills the free copper around the D3 anode, the CCIN1/CCIN2 returns and the U3 pad.
+  - M12_RAW is the inverter's quiet reference node, so the pour does not enlarge the SW node. D3's cathode stays on the
+    1.5 mm C_SW cell.
+  - Filled area: 55.6 mm² in two pieces, about a fifth of the Note 6 pad and in half its copper thickness. The
+    0.0175 mm In1.Cu GND plane lies 0.2 mm under it and spreads heat further. Neither figure makes the θJA known.
+- **Cooler part.** No other ≥ 60 V Schottky has an owner record in the inventory. A larger-package part, such as an SMB,
+  SMC or PowerDI5 rectifier, would need new component evidence before it can be proposed by MPN. **OPEN.** Measure D3's
+  case temperature at 2.0 A on −12 V and VIN 21 V; that is the bench row that decides.
+
 ## 4. Gate table against the OSC–PD contract
 
 | Contract item | Result | Basis |
@@ -973,8 +1047,8 @@ needs a fix. This is an OSC question.
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 30, 4 layers, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 5 `via_dangling` warnings; 5 unconnected items (0 GND, 5 signal), so **OPEN**, not a pass (phase 28: 5 without current-rated trunks; 2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
-| Routing | **OPEN**: 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN and not relied on); phase 30 current-rated trunks, three-via layer changes and 1.5 mm +12 V / inverter cells; power stages and all six sense traces routed; 5 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28); self-check in `boards/board-b20-draft/loop-check.json` |
+| PCB DRC + schematic parity (phase 31, 4 layers, routed draft) | **PASS (DRC)**: 0 unconnected, 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 2 `via_dangling` warnings. Routing completeness only: no layout review, DFM or fabrication review (phase 30: 5; phase 28: 5 without current-rated trunks; 2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
+| Routing | **OPEN** (complete but unreviewed; phase 31 In2.Cu pre-routes for the long comparator nets, D3 M12_RAW pour): 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN and not relied on); phase 30 current-rated trunks, three-via layer changes and 1.5 mm +12 V / inverter cells; power stages and all six sense traces routed; 0 router connections open (phase 31); hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28); self-check in `boards/board-b20-draft/loop-check.json` |
 | Current/width at 1 oz outer, 0.5 oz inner (`current-check.py`, desk) | Every trunk at or below 2.2 K rated and 11.2 K at the limiter maximum (IPC-2221, narrowest segment, no pour credit); via barrels at or below 4.3 K; inverter CIN → VIN cell branch 16.2 K at the inductor-RMS bound, about 5.6 K at its switch RMS. Desk numbers only, nothing measured: **OPEN** (§3a, phase 30; `boards/board-b20-draft/current-check.json`) |
 | Thermal desk screen (`thermal-check.py`) | 2.24–2.43 W at rated load, a 8–13 K mean board rise against 57–86 K for the 15 V Board B; 5.5–6.2 W and 19.5–33 K at the limiter maximum; TPS54560 TJ up to 56 °C rated and 99 °C at the inverter limiter maximum (standard-board θJA). Desk only: **OPEN** (§3a, phase 30; `boards/board-b20-draft/thermal-check.json`) |
 | BOM/CPL | NOT RUN: no export |

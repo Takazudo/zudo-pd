@@ -42,7 +42,7 @@ for v in r['vias']:
     b.Add(s)
 for d in b.GetDrawings():
     if isinstance(d, pcbnew.PCB_TEXT) and d.GetText().startswith('B20 DRAFT'):
-        d.SetText('B20 DRAFT - PARTLY ROUTED - NOT FOR FABRICATION')
+        d.SetText('B20 DRAFT - UNVALIDATED - NOT FOR FABRICATION' if not r.get('unrouted') else 'B20 DRAFT - PARTLY ROUTED - NOT FOR FABRICATION')
 edge = b.GetBoardEdgesBoundingBox()
 for layer, priority in ((pcbnew.F_Cu, 0), (pcbnew.B_Cu, 0)) + (((pcbnew.In1_Cu, 0),) if FOUR else ()):
     z = pcbnew.ZONE(b)
@@ -61,6 +61,26 @@ for layer, priority in ((pcbnew.F_Cu, 0), (pcbnew.B_Cu, 0)) + (((pcbnew.In1_Cu, 
     for x, y in ((edge.GetLeft(), edge.GetTop()), (edge.GetRight(), edge.GetTop()),
                  (edge.GetRight(), edge.GetBottom()), (edge.GetLeft(), edge.GetBottom())):
         ol.Append(x, y)
+    b.Add(z)
+
+# phase 31: heat-spreading M12_RAW copper on F.Cu at the inverter catch diode D3 anode, the input-capacitor returns
+# and the U3 pad (the inverter cell's quiet reference node), above the GND pour; it fills only the free copper
+D3_SPREAD_BOX = (19.5, 38.5, 33.4, 46.7)   # mm: x0, y0, x1, y1 on the phase 22 placement
+if FOUR:
+    z = pcbnew.ZONE(b)
+    z.SetLayer(pcbnew.F_Cu)
+    z.SetNet(b.FindNet('M12_RAW'))
+    z.SetZoneName('M12_RAW_D3')
+    z.SetAssignedPriority(1)
+    z.SetLocalClearance(mm(0.25))
+    z.SetMinThickness(mm(0.25))
+    z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)
+    z.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)
+    ol = z.Outline()
+    ol.NewOutline()
+    x0, y0, x1, y1 = D3_SPREAD_BOX
+    for x, y in ((x0, y0), (x1, y0), (x1, y1), (x0, y1)):
+        ol.Append(mm(x), mm(y))
     b.Add(z)
 
 

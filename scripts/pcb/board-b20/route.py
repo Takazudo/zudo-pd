@@ -52,14 +52,14 @@ YS = np.arange(NY) * G
 FOUR = os.environ.get('B20_LAYERS', '4') == '4'
 # phase 28/30: pins that get an escape via before the power and signal nets (4-layer default). Phase 28's list (the
 # pins earlier runs left boxed in, plus every fine-pitch signal pin of U5, U7, U8, U13 and U16) plus the pins that
-# phase 30 trunk runs left open; the best of the phase 30 trials with trunks, via twins and wide cells.
+# phase 30 trunk runs left open, and RHO2.2 (phase 31); the best of the trials with trunks, via twins and pre-routes.
 FANOUT_4L = (
     'U4.3', 'U2.3', 'U5.7', 'U1.3', 'Q4.4', 'RCEN2.1', 'Q5.4', 'U9.7', 'U16.2', 'U6.6', 'U5.1', 'U7.3', 'U8.7',
     'U7.7', 'U7.6', 'R73.2', 'Q34.4', 'Q48.1', 'U13.7', 'U16.6', 'U16.5', 'R28.1', 'U16.3', 'U13.6', 'U8.1', 'U16.7',
     'R37.1', 'Q11.1', 'U13.1', 'U13.2', 'U13.3', 'U13.5', 'U13.8', 'U16.1', 'U16.4', 'U16.8', 'U5.2', 'U5.4', 'U5.5',
     'U5.6', 'U5.8', 'U7.1', 'U7.2', 'U7.5', 'U7.8', 'U8.2', 'U8.4', 'U8.5', 'U8.8', 'RX5.1', 'U3.4', 'Q1.4', 'U3.3',
     'Q6.4', 'R54.1', 'Q66.1', 'R75.1', 'R58.1', 'Q52.1', 'R63.1', 'Q36.1', 'R41.1', 'R71.1', 'Q65.1', 'R10.2',
-    'Q65.3', 'U15.1', 'U3.5', 'R75.2', 'U1.5', 'RHO2.1',
+    'Q65.3', 'U15.1', 'U3.5', 'R75.2', 'U1.5', 'RHO2.1', 'RHO2.2',
 )
 # phase 30: DC current paths routed as trunks before anything else on 4 layers (1 oz outer copper, JLC7628). Widths
 # step down to 0.8 mm, about 11 K rise at 2.1 A by IPC-2221 for 1 oz outer; the 3 A input and inverter paths keep
@@ -91,6 +91,10 @@ trunk_vias = []   # (net, centre, trunk width, group) of every via a trunk route
 # would rise 11 / 32 K (current-check.py), so on 4 layers those branches try 1.5 and 1.2 mm first
 CELL_WIDE = ('A', 'C') if os.environ.get('B20_CELLW', '1') == '1' else ()
 CELL_W = (1.5, 1.2, 0.8, 0.4, 0.25)
+# phase 31: the long comparator nets whose ends sit on opposite sides of the board (phase 30 left them open) are routed
+# first, mainly on In2.Cu (cost F 2, In2 0.6, B 3), right after the stage cells and sense pairs; rip-up leaves them fixed
+PREROUTE = [n for n in os.environ.get('B20_PREROUTE', 'UVN_CMP,UV5_DIV,UV5_CMP,C_EN,RDY_X').split(',') if n] if FOUR else []
+LC_PREROUTE = None
 GND_FIRST = FOUR and os.environ.get('B20_GNDFIRST', '1') == '1'
 STUB_REACH = float(os.environ.get('B20_STUBREACH', 6.0 if FOUR else 2.5))   # phase 27: a second, wider GND-stub window
 LAYERS = ('F', 'In2', 'B') if FOUR else ('F', 'B')
@@ -304,7 +308,7 @@ def astar(src, dst, free, vok, box, b_cost, extra=None):
     sr = ptrs([src[l][j0:j1, i0:i1] for l in LAYERS], np.uint8)
     dt = ptrs([dst[l][j0:j1, i0:i1] for l in LAYERS], np.uint8)
     ex = ptrs([extra[l] if extra is not None else None for l in LAYERS], np.float32)
-    lc = np.array([1.0] + [float(b_cost)] * (len(LAYERS) - 1), np.float64)
+    lc = np.array(LC_PREROUTE if LC_PREROUTE else [1.0] + [float(b_cost)] * (len(LAYERS) - 1), np.float64)
     cap = len(LAYERS) * w * h
     out = np.zeros(cap, np.int32)
     n = _SO.astar(w, h, len(LAYERS), fr, np.ascontiguousarray(vok, dtype=np.uint8), sr, dt, ex, lc, VIA_COST / G, out, cap)
@@ -705,7 +709,8 @@ RIPPABLE = None
 
 
 def rippable(net):
-    return net in NET_ID and net not in POWER_NETS and net not in SUPPLY and net != 'GND' and not net.startswith('unconnected')
+    return (net in NET_ID and net not in POWER_NETS and net not in SUPPLY and net != 'GND' and not net.startswith('unconnected')
+            and net not in PREROUTE)
 
 
 def snapshot():
@@ -902,6 +907,11 @@ def main():
     for p in pads:
         if p['net'] == 'GND' and not p['drill'] and p['ref'] in stage_refs and p['layers'] == ['F']:
             gnd_stub(p)
+    global LC_PREROUTE
+    LC_PREROUTE = [{'F': 2.0, 'In2': 0.6, 'B': 3.0}[l] for l in LAYERS]
+    for net in PREROUTE:
+        route_net(net)
+    LC_PREROUTE = None
     # pin escapes named in B20_FANOUT (ref.pin list), e.g. the pins a previous run left boxed in; before the trunks,
     # which would otherwise wall in the FET gate pins beside their source pins
     for key in [k for k in os.environ.get('B20_FANOUT', ','.join(FANOUT_4L) if FOUR else '').split(',') if k]:
@@ -947,6 +957,14 @@ def main():
     for net in first + [n for n in signals if n not in first]:
         route_net(net)
     ripup()
+    # phase 31: the connections still open get one more try under the In2.Cu-preferring pre-route costs
+    if FOUR:
+        LC_PREROUTE = [{'F': 2.0, 'In2': 0.6, 'B': 3.0}[l] for l in LAYERS]
+        for net in sorted(n for n, v in fail_by_net.items() if v):
+            route_net(net)
+            log(f'In2 retry {net}: {"routed" if not fail_by_net[net] else "still open"}')
+        ripup()
+        LC_PREROUTE = None
     stitch()
     # 4. every other GND surface pad
     for p in pads if not GND_FIRST else ():

@@ -12,15 +12,15 @@ cost, manufacturability and bench plan close. On 2026-11-01 the user chose separ
 (`dec-separate-products`): the current 15 V zudo-pd (Board P as built + Board B) continues, and Board P r3 +
 B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 controller block stays common.
 
-## A gates: open on both boards; B20 has a partly routed draft only
+## A gates: open on both boards; B20 has a fully routed but unreviewed 4-layer draft
 
 | Gate | Board P r3 | B20 | Evidence |
 |---|---|---|---|
 | Spec | **PASS** (generated spec, 29 decisions) | **PASS** (paper draft spec; phase 13 adds J10/J11) | `scripts/schgen/board_p_spec.py`, `scripts/schgen/decisions.json`, `scripts/schgen/board_b20_spec.py` |
 | Schematic ERC | **PASS**: 0 errors, 33 `pin_to_pin` warnings | **PASS**: 0 errors, 35 `pin_to_pin` warnings on the unspecified J5/J10/J11 pins (phase 19; the 21 missing-footprint warnings are gone) | native KiCad 10.0.6 ERC + `verify_netlist.py` (P: 46 nets; B20: 142 nets) |
 | Footprints | **PASS** (shared library) | **OPEN**: the 5 former `*_DRAFT` names are drawn in `footprints/kicad/` (phase 19) from TI DDA0008B / DGK0008A / D0008A drawings (primary) and RLS12 / PCSR2512 mirror sheets (UNSOURCED); no fabrication review, no 3D models | `manufacturing/board-b-20v-switcher-direct-draft.md` §3 footprint table |
-| PCB DRC | **OPEN**: native DRC 0 clearance/short/courtyard errors, 5 `items_not_allowed` (owners in their own keep-outs), 0 unconnected items (3 in phase 13, 8 in phase 12); warnings: 2 `via_dangling` (SCL, ATT) and 1 `track_dangling` (CC1, 0.65 mm); `route-power.py` now finds 0 detached GND clusters, matching native DRC (its phase 14 cluster was a false positive from endpoint-only joins, fixed in phase 15); no layout review | **OPEN**: partly routed draft `boards/board-b20-draft/board-b20-draft.kicad_pcb` (phase 21): DRC 0 errors, 0 parity issues, warnings 2 `lib_footprint_mismatch` (J10/J11 silk clip), 1 `via_dangling`, 1 `track_dangling`; 81 unconnected items (34 GND, 47 signal); hot-loop desk check 54.9 mm² per stage (**OPEN**); no thermal or creepage review | `boards/board-p/r3-draft/placement-report.json`, `routing-report.json` |
-| Current capacity | **OPEN**: 5 A pours ≥ 1.85 mm against 1.82 mm (IPC-2221, 20 °C rise PA); no thermal check | **PASS (arithmetic)** converter and switch current | r3 `routing-report.json`; `calculate-board-b20-draft.py` |
+| PCB DRC | **OPEN**: native DRC 0 clearance/short/courtyard errors, 5 `items_not_allowed` (owners in their own keep-outs), 0 unconnected items (3 in phase 13, 8 in phase 12); warnings: 2 `via_dangling` (SCL, ATT) and 1 `track_dangling` (CC1, 0.65 mm); `route-power.py` now finds 0 detached GND clusters, matching native DRC (its phase 14 cluster was a false positive from endpoint-only joins, fixed in phase 15); no layout review | **OPEN**: 4-layer draft `boards/board-b20-draft/board-b20-draft.kicad_pcb` (phase 31, JLC7628 stackup): DRC 0 unconnected, 0 errors, 0 parity issues; warnings 2 `lib_footprint_mismatch` (J10/J11 silk clip) and 2 `via_dangling`; hot loops 29.6 mm² per stage (desk, **OPEN**); no layout, creepage or DFM review (see the B20 prototype section below) | `boards/board-p/r3-draft/placement-report.json`, `routing-report.json` |
+| Current capacity | **OPEN**: 5 A pours ≥ 1.85 mm against 1.82 mm (IPC-2221, 20 °C rise PA); no thermal check | **PASS (arithmetic)** converter and switch current; copper **OPEN (desk)**: every routed path at or below 11.2 K at the limiter maximum on 1 oz outer (`boards/board-b20-draft/current-check.json`); 2.24–2.43 W board loss at rated load (`thermal-check.json`); D3 thermal margin UNKNOWN on this copper | r3 `routing-report.json`; `calculate-board-b20-draft.py` |
 | Stack and mechanics | **OPEN**: C3 over the current Board B U3 (3.31 × 4.05 mm); B.Cu parts face the floor | **OPEN**: the B20 draft keeps x 7.74–17.25, y 24.54–35.77 mm free with a both-side footprint rule area (`BOARD_P_R3_C3_KEEPOUT`); no B20 stack preview exists | `boards/board-p/r3-draft/README.md` |
 | Simulation rows | **OPEN**: Q1 overshoot bound rests on TYP-only TPS16630 rows | Start, re-entry and band rows **PASS (SIM)**. No-load slope rows **FAIL (SIM)**, with an owner exception requested (nom +5 V 0.94 V/ms; exception wording ≤ 0.95 V/ms is with OSC). Ripple, let-through, reverse current and loaded discharge order **OPEN** | `manufacturing/board-b-20v-switcher-direct-draft.md` §4–§5f; `manufacturing/sim/board-b20-phase12/results.json` |
 | Component evidence | **OPEN**: strict validator PASS, but VBEN drive, Q6 RDS(on)/leakage and STUSB 28 V limits are UNSOURCED, and no 20 V / 5 A NVM image is defined | **OPEN**: 3 values bound to owned parts; 68 placements resolved to distributor listings only (no manufacturer document, no owner record); 27 nF and 47 nF C0G **UNKNOWN**; 1206 discharge pulse rating **UNKNOWN** | `.claude/skills/component-spec-audit/scripts/validate.py --strict`; `b20-identity-resolution.json` |
@@ -34,8 +34,8 @@ B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 contro
 | Unit cost, parts | USD 12.05 (lot 1), 12.05 per board in a lot of 5 | USD 76.79 (lot 1), 62.58 per board in a lot of 5; 2 parts UNKNOWN | `calculate-lineup-cost.py` |
 | 5-unit lot, parts | USD 60.26 | USD 312.88 | same |
 | Assembly fee, 5-unit lot | USD 131.48: Standard PCBA, double-side (only class for a two-sided board: setup 51.12, stencil 16.42, 28 lines × 1.53 feeder loading, handling ≥ 14.93) | USD 187.50: Standard PCBA, single-side (82 lines × 1.53). Economic PCBA would be USD 222.60 (65 extended lines × 3.07) | snapshot `assembly_fees` |
-| PCB fabrication | **UNKNOWN** (not retrieved) | **UNKNOWN** (no PCB) | — |
-| DFM | **OPEN**: two-sided assembly forces Standard PCBA; 0603 library courtyards larger than the as-built lands; no DFM run | **NOT RUN**: no PCB | r3 `placement-report.json` |
+| PCB fabrication | **UNKNOWN** (not retrieved) | **UNKNOWN**: 4-layer 110 × 85 mm price not published; a quote is an owner action | — |
+| DFM | **OPEN**: two-sided assembly forces Standard PCBA; 0603 library courtyards larger than the as-built lands; no DFM run | **NOT RUN**: routed draft exists (phase 31), no DFM run | r3 `placement-report.json` |
 | BOM completeness | **PASS** against the spec | **PASS (drawn)** for J10/J11 (phase 13). TVS1–TVS3 and the three status LEDs with ballasts are priced as adders only, not drawn: their leakage and ~10 mA loads change the no-load, discharge and reverse-current rows | `board_b20_spec.py`; `b20-identity-resolution.json` `like_for_like_adders` |
 | Bench acceptance tests | **NOT RUN**: no hardware | **NOT RUN**: no hardware | list below |
 
@@ -167,6 +167,31 @@ development review package. The tests below stay as prototype acceptance tests.
 | Discharge time and order under load | B20 | ≤ 100 ms; contract §3 order | NOT RUN |
 | J10/J11 pin map against a keyed synth cable (pins 1/2 −12 V) | B20 | each pin at its rail | NOT RUN |
 | Stack fit: P on B with the 18 mm legs; C3 and U3 clearance | P + B | no contact; measured gaps | NOT RUN |
+
+## B20 first 20 V prototype: the routed draft closes, and fabrication, assembly and bench gates stay open (phase 31)
+
+The B20 4-layer draft, `boards/board-b20-draft/board-b20-draft.kicad_pcb`, reached 0 unconnected items in phase 31.
+KiCad 10.0.6 DRC with schematic parity reports 0 errors and 0 parity issues. The warnings left are `via_dangling` and
+the J10/J11 `lib_footprint_mismatch` silk clip.
+
+This is a routed **draft**. It has had no layout review, DFM run or fabrication review. The silk says
+"UNVALIDATED - NOT FOR FABRICATION", and no order package exists. Before a first 20 V prototype, the following
+remain:
+
+| Item | Status | What closes it |
+|---|---|---|
+| Routing completeness | **PASS (DRC)**: 0 unconnected, 0 errors, 0 parity (phase 31) | — |
+| Layout review | **OPEN**: auto-routed. Hot loops are 29.6 mm² per stage. The current check is desk only and so is the sense-pickup estimate (0.17–0.85 µV over an ideal plane, real value between that and the free-space mV figure) | Independent PCB review of the hot loops, the Kelvin pairs, the In2.Cu comparator pre-routes and the GND plane cut-outs from 759 antipads |
+| Current and thermal | **OPEN (desk)**: all paths at or below 11.2 K at the limiter maximum on 1 oz. Board loss 2.24–2.43 W at rated load (8–13 K mean rise). D3 margin is UNKNOWN on this copper (heat-spreading M12_RAW pour added) | Bench: D3, L5 and U3 case temperatures at the limiter maximum, VIN 21 V |
+| Footprints | **OPEN**: the HSOP-8 / VSSOP-8 / SOIC-8 lands come from TI drawings (primary). The R1206 (TA-I RLS12) and R2512 (RESI PCSR2512) lands are **UNSOURCED** (distributor mirrors). None is fabrication-reviewed | Manufacturer-primary land sources for RLS12 / PCSR2512. A fabrication review of all five project footprints |
+| 3D models | **OPEN**: none of the five project footprints has a 3D model; the D3 SMA model is illustrative | Exact or reviewed models, then a native STEP datum check (`verify-step-datums.py`) |
+| Stackup and 4-layer fabrication | **UNKNOWN**: JLC7628 layer thicknesses are taken from JLC's published stackup page. 2 oz outer copper on 4 layers is not published, and the design no longer depends on it. 4-layer price for 110 × 85 mm × 5 is not published | A fabrication quote, which is an outward action reserved for the owner |
+| Assembly | **OPEN**: Standard PCBA single-side, USD 196.82 per 5-unit lot from the 2026-10-31 fee table (88 lines); not a quote | DFM and BOM/CPL export from one final revision with BOM/CPL parity. **NOT RUN**: no export exists |
+| BOM availability | **BLOCKED**: 8 resolved lines below a 5-unit lot (2026-10-31). 27 nF and 47 nF C0G are **UNKNOWN** | Re-check stock; bind or replace the 8 lines and the 2 unknown values |
+| Component evidence | **OPEN**: 68 placements resolve to distributor listings only, and the new ICs are SHORTLISTED candidates | Owner records with manufacturer documents for every fitted line |
+| Simulation rows | **OPEN / FAIL (SIM)**: no-load slope FAIL (SIM) pending the OSC exception. Ripple, let-through, reverse current and loaded discharge order are OPEN | Owner exception decision; re-run §5 after any value change |
+| Bench acceptance | **NOT RUN**: no hardware | The §5 rows on a built unit: start order, band entry, ripple, limiter trip, reverse current, discharge order, thermal at the limiter maximum |
+| Cost | Parts USD 62.58 per board in a 5-unit lot (2 parts UNKNOWN). Assembly USD 196.82 per lot. PCB fabrication, shipping and duty **UNKNOWN** | Quote (owner) |
 
 ## 15 V prototype order: decision inputs (desk only; no order, quote or package exists)
 
