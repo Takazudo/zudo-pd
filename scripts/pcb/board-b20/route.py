@@ -29,7 +29,7 @@ CL, EDGE, MARGIN = 0.2, 0.5, 0.08
 RASTER = 0.0707   # half a cell diagonal: copper is marked on every cell it touches
 VIA_D, VIA_DRILL, HOLE_CL = 0.8, 0.3, 0.25
 VIA_COST = 3.0
-B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 1.0)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
+B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 0.7)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
 SUPPLY = ['P5_SUP', 'REF25', 'FAULT_N', 'EN_E']
 W_POWER, W_POWER_MIN, W_SIG = 0.8, 0.4, 0.25
 # 0.2 mm (the board minimum) is the fallback: on the 0.1 mm grid a 0.25 mm track cannot leave the middle pin of a

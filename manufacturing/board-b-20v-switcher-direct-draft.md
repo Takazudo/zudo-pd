@@ -275,6 +275,46 @@ guaranteed 110 dB is at DC only). The common-mode term is small next to the diff
 are 18–23 mm away. Every number is in `boards/board-b20-draft/loop-check.json` (`geometry_and_pickup`,
 `pickup_assumptions`). It is OPEN until a bench measurement exists.
 
+#### Phase 26: placement spacing trials, B.Cu signal cost 0.7
+
+The aim was to unbox the blocked pins by spreading the placement, then reroute toward 0 unconnected. Every row below
+ran on the same spec. DRC is KiCad 10.0.6 with schematic parity (pinned image, heavy-guard then `flock`); "NOT RUN"
+rows were dropped on their router result.
+
+| Trial | Placement | Router open | DRC unconnected |
+|---|---|---|---|
+| Phase 22 | 0.8 mm courtyard clearance | 53 | 62 (17 GND) |
+| Extra 0.6 mm keep-out around the VSSOP/SOIC/TSOT ICs (`B20_ICHALO=0.6`) | spread | 70 | 84 (24 GND) |
+| IC keep-out 1.2 mm | does not fit: 9 parts unplaced | — | — |
+| 1.0 mm clearance for every part (`B20_CLEAR=1.0`) | does not fit: 11 parts unplaced | — | — |
+| 0.6 mm clearance + 0.6 mm IC keep-out, B.Cu cost 0.8 | fits | 65 | 67 (19 GND) |
+| Same placement, B.Cu cost 0.6 | fits | 55 | NOT RUN |
+| Phase 22 placement, gate-drive nets (EN_E, P5_G, P12_G, M12_G, EN_N, FAULT_N) routed before power nets | phase 22 | 60 | 68 (20 GND) |
+| Phase 22 placement, EN_E only first / EN_E grown from RE1 | phase 22 | 71 / 61 | NOT RUN |
+| Phase 22 placement, no copper between fine-pitch IC pin rows | phase 22 | 73 | NOT RUN |
+| Phase 22 placement, signals longest-first | phase 22 | 60 | NOT RUN |
+| Phase 22 placement, B.Cu signal cost 0.8 / 0.6 / 0.5 | phase 22 | 52 / 54 / 50 | 60 / 58 / 57 |
+| **Phase 22 placement, B.Cu signal cost 0.7 (adopted)** | phase 22 | **49** (39 signal, 10 GND stubs) | **55 (16 GND, 39 signal)** |
+
+Adopted result: 0 errors, 0 parity issues; warnings 2 `lib_footprint_mismatch` (J10/J11 silk clip), 3
+`via_dangling`, 1 `track_dangling`; **55 unconnected items** (16 GND, 39 signal; EN_E 8, TRK12 3, ARM_GND 3).
+
+**Findings:**
+- **Placement is at its density limit.** With the stage templates and fixed hardware, the greedy packer cannot raise
+  the clearance anywhere without leaving parts unplaced (1.0 mm all round, or 1.2 mm around the ICs). Every spread
+  placement that does fit routed worse, because it lengthens the nets that the wirelength pass had shortened.
+- **The remaining failures are not one cause.** EN_E (8 items) fails because its first pad, the Q24 gate, sits in a
+  pocket of the Q24 source copper. Growing EN_E from RE1 routes 8 of its 9 pads, but the copper it takes strands more
+  pins elsewhere (61 open).
+- **Results are noisy.** The B.Cu cost sweep moves the count by ±4 with no trend. The adopted 0.7 is the best of the
+  sweep, not a tuned optimum. Rip-up stops at round 6 with no gain; 12 rounds give the identical result.
+- **Unchanged:** the sense pairs, hot loops and pickup estimate are identical to phase 24
+  (`boards/board-b20-draft/loop-check.json`).
+
+Closing the remaining items needs more board area for this part count: parts on B.Cu, a larger outline, or fewer
+parts. Those are design decisions, not router settings. **The unconnected items are OPEN.** The trial knobs stay in
+`build-draft.py` (`B20_CLEAR`, `B20_ICHALO`, defaults 0.8 and 0, which reproduce the phase 22 placement).
+
 ## 4. Gate table against the OSC–PD contract
 
 | Contract item | Result | Basis |
@@ -676,8 +716,8 @@ needs a fix. This is an OSC question.
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 22 board, kept in phase 24) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch` warnings; 62 unconnected items (17 GND, 45 signal), so **OPEN**, not a pass (phase 24 trials: 64 and worse; phase 21: 81; phase 19 placement: 499) |
-| Routing | **OPEN**: power stages and all six sense traces routed; 53 router connections open; hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup estimate 0.18–0.73 mV peak differential at the inputs (§3a, phase 24); self-check in `boards/board-b20-draft/loop-check.json` |
+| PCB DRC + schematic parity (phase 26, partly routed) | 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 3 `via_dangling`, 1 `track_dangling` warnings; 55 unconnected items (16 GND, 39 signal), so **OPEN**, not a pass (phase 22: 62; phase 21: 81; phase 19 placement: 499) |
+| Routing | **OPEN**: power stages and all six sense traces routed; 49 router connections open (phase 26); placement at its density limit (§3a, phase 26); hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup estimate 0.18–0.73 mV peak differential at the inputs (§3a, phase 24); self-check in `boards/board-b20-draft/loop-check.json` |
 | BOM/CPL | NOT RUN: no export |
 
 ## 7. Independent review findings (review of `bad5ddf`)

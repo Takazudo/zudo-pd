@@ -16,6 +16,7 @@ This is an unrouted, unvalidated placement draft. It is generated, never hand-ed
 Courtyards keep at least CLEARANCE mm apart and BOARD_MARGIN mm inside the board edge.
 """
 import math
+import os
 import sys
 from pathlib import Path
 
@@ -35,9 +36,13 @@ from board_b_layout import WIDTH, HEIGHT, PLACEMENTS, MOUNTING_HOLES, FIDUCIALS,
 LIB = str(ROOT / 'footprints/kicad/zudo-power.pretty')
 FIXED = ('J5', 'J6', 'J7', 'J10', 'J11')
 C3_KEEPOUT = (7.74, 24.54, 17.25, 35.77)
-CLEARANCE = 0.8          # phase 21: routing channels between greedily packed parts
+CLEARANCE = float(os.environ.get('B20_CLEAR', 0.8))  # phase 21: routing channels between greedily packed parts
 TEMPLATE_CLEARANCE = 0.1 # stage templates are packed tight on purpose (hot loops); courtyards still never overlap
 BOARD_MARGIN = 0.5
+# phase 26: extra keep-out around fine-pitch ICs so their pin rows keep escape channels (phase 22 failures were pins
+# boxed in by neighbouring parts and the tracks between them)
+IC_HALO = float(os.environ.get('B20_ICHALO', 0))
+IC_FOOTPRINTS = ('VSSOP-8', 'SOIC-8', 'TSOT-23-6')
 CELL = 0.1
 MAX_SIGNAL_PINS = 6
 MAX_SUPPLY_PINS = 24
@@ -123,8 +128,8 @@ class Grid:
             row = j * self.nx
             self.used[row + i0:row + i1 + 1] = b'\x01' * (i1 - i0 + 1)
 
-    def unmark(self, box):
-        i0, j0, i1, j1 = self._range(box, 0.0)
+    def unmark(self, box, pad=0.0):
+        i0, j0, i1, j1 = self._range(box, pad)
         for j in range(j0, j1 + 1):
             row = j * self.nx
             self.used[row + i0:row + i1 + 1] = b'\x00' * (i1 - i0 + 1)
@@ -139,6 +144,10 @@ class Grid:
             if any(self.used[row + i0:row + i1 + 1]):
                 return False
         return True
+
+
+def halo(ref):
+    return IC_HALO if any(k in spec.COMPONENTS[ref][3] for k in IC_FOOTPRINTS) else 0.0
 
 
 def blocks():
@@ -237,13 +246,13 @@ def improve(footprints, grid, put, frozen, passes=4):
                 continue
             before = cost(ref)
             box0 = courtyard_box(fp)
-            grid.unmark(box0)
+            grid.unmark(box0, halo(ref))
             best = None
             for ring in rings:
                 for dx, dy in ring:
                     x, y = round((tx + dx) / 0.05) * 0.05, round((ty + dy) / 0.05) * 0.05
                     for rot in (0, 90, 180, 270):
-                        if grid.free(box_at(ref, x, y, rot)):
+                        if grid.free(box_at(ref, x, y, rot), CLEARANCE + halo(ref)):
                             put(fp, x, y, rot)
                             c = cost(ref)
                             if best is None or c < best[0]:
@@ -256,7 +265,7 @@ def improve(footprints, grid, put, frozen, passes=4):
                 moved += 1
             else:
                 put(fp, old[0], old[1], old[2])
-            grid.mark(courtyard_box(fp))
+            grid.mark(courtyard_box(fp), halo(ref))
         if gain < 1.0:
             break
     return moved
@@ -410,8 +419,8 @@ def main():
                     x, y = round((ax + dx) / 0.05) * 0.05, round((ay + dy) / 0.05) * 0.05
                     put(fp, x, y, rot)
                     box = courtyard_box(fp)
-                    if grid.free(box):
-                        grid.mark(box)
+                    if grid.free(box, CLEARANCE + halo(ref)):
+                        grid.mark(box, halo(ref))
                         placed_at[ref] = (x, y)
                         done = True
                         break
