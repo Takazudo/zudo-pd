@@ -31,19 +31,18 @@ P_BOARDS = ('board-p', 'board-p15')
 B_BOARDS = ('board-b', 'board-b20-draft')
 PCB_FILES = {'board-p15': 'board-p15-draft.kicad_pcb'}
 SPEC_MODULES = {'board-b20-draft': 'board_b20_spec'}
-# Reports and the stack preview belong to one Board P + Board B pair. The board-b20-draft paths are where its power
-# report and stack preview go; none exists yet, so an export that includes B20 stops at those gates.
+# Reports and the stack preview belong to one Board P + Board B pair. PD20: board-p is Board P r3 (20 V / 5 A), so it
+# pairs only with board-b20-draft; the 15 V Board B pairs with board-p15. The retired r2 board-p + Board B stack keeps its
+# records (manufacturing/power-budget.json, boards/board-b/assembly-preview/, PCB in git at 6cb02c8) but is not exported.
 PAIRS = {
-    ('board-p', 'board-b'): {'budget': 'power-budget.json', 'layout': 'power-layout.json', 'notes': 'README.md',
-                             'preview': 'boards/board-b/assembly-preview'},
     ('board-p15', 'board-b'): {'budget': 'power-budget-p15.json', 'layout': 'power-layout.json', 'notes': 'package-notes-p15.md',
                                'preview': 'boards/board-b/assembly-preview-p15'},
     ('board-p', 'board-b20-draft'): {'budget': 'power-budget-b20.json', 'layout': 'power-layout-b20.json',
                                      'notes': 'package-notes-b20.md', 'preview': 'boards/board-b20-draft/assembly-preview'},
 }
-POWER_BUDGETS = {p: PAIRS[(p, 'board-b')]['budget'] for p in P_BOARDS}
-ORDER_NOTES = {p: PAIRS[(p, 'board-b')]['notes'] for p in P_BOARDS}
-ASSEMBLY_PREVIEWS = {p: PAIRS[(p, 'board-b')]['preview'] for p in P_BOARDS}
+POWER_BUDGETS = {p: pair['budget'] for (p, _), pair in PAIRS.items()}
+ORDER_NOTES = {p: pair['notes'] for (p, _), pair in PAIRS.items()}
+PARTNER = {**{p: b for p, b in PAIRS}, **{b: p for p, b in PAIRS}}
 
 
 def pcb_path(name, root=None):
@@ -410,7 +409,7 @@ def export_board(name, output, cli, inventory, kicad_python, board_p='board-p', 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output', type=Path)
-    parser.add_argument('--boards', nargs='+', choices=(*P_BOARDS, *B_BOARDS), default=['board-p', 'board-b'])
+    parser.add_argument('--boards', nargs='+', choices=(*P_BOARDS, *B_BOARDS), default=['board-p15', 'board-b'])
     parser.add_argument('--kicad-cli', default=shutil.which('kicad-cli'))
     mac_python = Path('/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3')
     parser.add_argument('--kicad-python', default=str(mac_python) if mac_python.is_file() else sys.executable,
@@ -423,8 +422,8 @@ def main():
     b_boards = [b for b in args.boards if b in B_BOARDS]
     require(len(p_boards) <= 1 and len(b_boards) <= 1 and len(set(args.boards)) == len(args.boards),
             'Export at most one Board P variant and one Board B variant, each board once')
-    board_p = p_boards[0] if p_boards else 'board-p'
-    board_b = b_boards[0] if b_boards else 'board-b'
+    board_p = p_boards[0] if p_boards else PARTNER[b_boards[0]]
+    board_b = b_boards[0] if b_boards else PARTNER[p_boards[0]]
     require((board_p, board_b) in PAIRS, f'No reviewed stack pairing for {board_p} + {board_b}')
     pair = PAIRS[(board_p, board_b)]
     verify_power_report_freshness(board_p=board_p, board_b=board_b)

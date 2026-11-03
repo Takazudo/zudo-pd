@@ -1,15 +1,22 @@
 # Board P r3 placement draft
 
 **Unvalidated draft: power-path and ground pours with grid-routed signals; native DRC finds no open connection, and no layout review exists.
-Not for fabrication or ordering.** The as-built
-`../board-p.kicad_pcb` is unchanged and remains the routed 15 V module.
+Not for fabrication or ordering.** PD20: the routed r3 board is `../board-p.kicad_pcb`, the board the exporter's
+`board-p` packages (paired only with `board-b20-draft`). The routed 15 V as-built module it replaced stays in git at
+`6cb02c8`; `run.sh` reads its outline, connectors and holes from there. This folder keeps the placement inputs and the
+routing and fit reports.
 
-`board-p-r3-draft.kicad_pcb` takes every footprint from the shared library named in
+Native DRC with `--schematic-parity` against `../board-p.kicad_sch` (KiCad 10.0.6, PD20 rebuild): 0 errors, 0 unconnected
+items, parity only `extra_footprint` MH1–MH3; warnings are silkscreen, text height, 3 library-footprint notes and 3
+dangling fan-out items. The builder writes each LCSC field, marks bare-copper parts exclude-from-BOM/CPL, names the
+no-connect pin nets and keeps the pin-corridor keep-outs to vias only.
+
+The board takes every footprint from the shared library named in
 `scripts/schgen/board_p_spec.py`, with the spec nets. The outline, J1, JOUT1, J2, J3,
 MH1–MH3 keep their as-built coordinates. R21 (RESET strap) and the D9–D11 local clamps sit
 1.78–2.46 mm (pad centre to pin pad centre) from their STUSB4500 pins on F.Cu, and each pin
 corridor is a footprint/via keep-out. D12 (DISCH) sits on B.Cu directly below U1.9 (0.05 mm in plane,
-one via; phase 11: 5.71 mm on F.Cu). Rebuild with `scripts/pcb/board-p-r3-draft/run.sh`.
+one via; phase 11: 5.71 mm on F.Cu). Rebuild with `scripts/pcb/board-p-r3-draft/run.sh` (the committed placement is kept; `R3_SEARCH=1` re-runs the search).
 
 Phase 11 floorplan (`floorplan.json`): the power-path parts are pre-placed along one chain,
 J1 VBUS → D5 / Q3 (U3 beside) → U2 → VBUS_P to C3 and Q1 → VBUS_OUT to JOUT1.1/.2, and the 5 A

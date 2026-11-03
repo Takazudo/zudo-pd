@@ -4,7 +4,7 @@ usage: python3 build-draft.py <repo> <out.kicad_pcb> <report.json> <asbuilt-stri
 Starts from the as-built outline and mounting holes only (strip-asbuilt.py); every component footprint is
 loaded from the shared library named in the spec and given the spec nets. J1, JOUT1, J2, J3, MH1-MH3 and U1
 stay at their as-built coordinates; the other positions come from search-placement.py. The RESET-strap and
-STUSB local-clamp pin corridors become footprint/via keep-out rule areas. Floorplan 'pre' parts (phase 11)
+STUSB local-clamp pin corridors become via keep-out rule areas; footprint intrusion is asserted here. Floorplan 'pre' parts (phase 11)
 override the as-built position, which moves U1 (not a connector). Power routing is route-power.py.
 """
 import importlib.util, json, math, sys
@@ -26,6 +26,23 @@ asbuilt = json.load(open(sys.argv[5]))
 _unused = {fp.GetReference(): (pcbnew.ToMM(fp.GetPosition().x), pcbnew.ToMM(fp.GetPosition().y), fp.GetOrientationDegrees())
            for fp in board.GetFootprints()}
 
+def pin_names():
+    """(symbol, pin number) -> pin name, so no-connect nets carry KiCad's schematic names (as board-b20 build-draft)."""
+    sys.path.insert(0, f'{repo}/scripts/schgen')
+    from sexp import atom, find_all, load
+    names = {}
+    for sym in find_all(load(f'{repo}/symbols/zudo-pd.kicad_sym'), 'symbol'):
+        top = atom(sym[1])
+        for unit in [sym] + find_all(sym, 'symbol'):
+            for pin in find_all(unit, 'pin'):
+                number = [atom(n[1]) for n in find_all(pin, 'number')]
+                name = [atom(n[1]) for n in find_all(pin, 'name')]
+                if number and name:
+                    names[(top, number[0])] = name[0]
+    return names
+
+
+PIN_NAMES = pin_names()
 nets = {}
 for name in spec.NETS:
     ni = pcbnew.NETINFO_ITEM(board, name); board.Add(ni); nets[name] = ni
@@ -43,12 +60,23 @@ for ref, (sym, value, lcsc, fpname, dnp, _pos) in spec.COMPONENTS.items():
     assert fp is not None, fpname
     fp.SetReference(ref); fp.SetValue(value)
     fp.SetFPID(pcbnew.LIB_ID('zudo-pd', fpname.split(':', 1)[1]))
+    # exact supplier identity from the spec, as the exporter's identity gate and schematic-parity DRC require
+    if lcsc:
+        fp.SetField('LCSC', lcsc)
+        fp.GetField('LCSC').SetVisible(False)
+    else:
+        fp.SetAttributes(fp.GetAttributes() | pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES)
     if dnp:
         fp.SetDNP(True)
     for pad in fp.Pads():
         key = f'{ref}.{pad.GetNumber()}'
         if key in pad_net:
             pad.SetNet(nets[pad_net[key]])
+        elif key in spec.NO_CONNECT:
+            pin = PIN_NAMES.get((sym, pad.GetNumber()), '~')
+            label = f'{ref}-Pad{pad.GetNumber()}' if pin in ('~', '', pad.GetNumber()) else f'{ref}-{pin}-Pad{pad.GetNumber()}'
+            ni = pcbnew.NETINFO_ITEM(board, f'unconnected-({label})'); board.Add(ni)
+            pad.SetNet(ni)
     have = {p.GetNumber() for p in fp.Pads()}
     missing_pads += [p for p in pad_net if p.split('.')[0] == ref and p.split('.', 1)[1] not in have]
     board.Add(fp); fps[ref] = fp
@@ -151,8 +179,19 @@ for ref, (x, y, rot, side) in SEARCH['pos'].items():
 for ref in unplaced:
     put(fps[ref], W + 8, 5 + 6 * unplaced.index(ref), 0)
 
+# Each corridor runs from a protected STUSB4500 pin to its owner's pad, so the owner and U1 necessarily touch it.
+# A footprint-disallow rule area therefore flagged exactly those owners (5 items_not_allowed). The corridor stays a
+# via keep-out for DRC, and the footprint rule is checked here instead: only U1 and the protected owners may touch one
+# (a neighbouring owner's courtyard may clip a corridor; the report lists every touching footprint).
+CORRIDOR_OWNERS = {'U1', *pin_dist}
+corridor_touch = []
 for k in keepouts:
-    z = pcbnew.ZONE(board); z.SetIsRuleArea(True); z.SetDoNotAllowFootprints(True)
+    touching = sorted(r for r in spec.COMPONENTS if fps[r].GetLayer() == pcbnew.F_Cu
+                      and (lambda c: c[0] < k[2] and c[2] > k[0] and c[1] < k[3] and c[3] > k[1])(courtyard(fps[r])))
+    assert set(touching) <= CORRIDOR_OWNERS, f'corridor {k} intruded by {touching}'
+    corridor_touch.append(touching)
+for k in keepouts:
+    z = pcbnew.ZONE(board); z.SetIsRuleArea(True); z.SetDoNotAllowFootprints(False)
     z.SetDoNotAllowTracks(False); z.SetDoNotAllowVias(True); z.SetDoNotAllowPads(False); z.SetDoNotAllowZoneFills(False)
     z.SetLayer(pcbnew.F_Cu)
     ol = z.Outline(); ol.NewOutline()
@@ -171,6 +210,8 @@ report = {
     'unplaced': unplaced, 'missing_pads': missing_pads,
     'pin_to_part_pad_mm': {r: (round(d, 3) if d is not None else None) for r, d in pin_dist.items()},
     'keepouts_mm': [[round(v, 3) for v in k] for k in keepouts],
+    'keepout_rule': 'vias not allowed; footprints checked by build-draft.py: only U1 and protected owners touch a corridor',
+    'keepout_footprints': corridor_touch,
     'area_mm2': {'board': area_board, 'mounting_hole_courtyards': round(area_holes, 1),
                  'component_courtyards_library': round(area_parts, 1),
                  'utilisation_of_board_less_holes': round(area_parts / (area_board - area_holes), 3)},

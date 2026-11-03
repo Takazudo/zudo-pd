@@ -145,15 +145,16 @@ def board_cost(b, lot):
 BOARDS = {
     'current': {'Board P 15 V (board-p15 package)': bom_board('manufacturing/releases/corner-support-review/board-p15/bom.csv', 'boards/board-p15/board-p15-draft.kicad_pcb'),
                 'Board B (current)': bom_board('manufacturing/releases/corner-support-review/board-b/bom.csv', 'boards/board-b/board-b.kicad_pcb')},
-    'renewal': {'Board P r3 draft': spec_board('board_p_spec', 'boards/board-p/r3-draft/board-p-r3-draft.kicad_pcb'),
+    'renewal': {'Board P r3 draft': spec_board('board_p_spec', 'boards/board-p/board-p.kicad_pcb'),
                 'B20 paper draft': spec_board('board_b20_spec', resolve=True)},
-    'renewal_like_for_like': {'Board P r3 draft': spec_board('board_p_spec', 'boards/board-p/r3-draft/board-p-r3-draft.kicad_pcb'),
+    'renewal_like_for_like': {'Board P r3 draft': spec_board('board_p_spec', 'boards/board-p/board-p.kicad_pcb'),
                               'B20 + current-Board-B adders': spec_board('board_b20_spec', resolve=True, adders=True)},
 }
 # lever check (phase 13): Board P r3 one-sided would allow Economic PCBA, but the top-only placement leaves 20 parts
 # unplaced (boards/board-p/r3-draft/search-top-only.json); this row prices that infeasible board for the saving only
 _p1 = dict(BOARDS['renewal']['Board P r3 draft'], double_sided=False)
-AS_BUILT_P = bom_board(AS_BUILT_P_BOM, 'boards/board-p/board-p.kicad_pcb')
+# the as-built pads are cached under the commit that still held that PCB (PD20 bound r3 to boards/board-p/board-p.kicad_pcb)
+AS_BUILT_P = bom_board(AS_BUILT_P_BOM, 'boards/board-p/board-p.kicad_pcb@6cb02c8')
 BOARDS['lever_board_p_r3_one_sided_infeasible'] = {'Board P r3 one-sided (does not fit)': _p1,
                                                     'B20 + current-Board-B adders': BOARDS['renewal_like_for_like']['B20 + current-Board-B adders']}
 
@@ -198,7 +199,8 @@ def main():
     res = {}
     for lineup, boards in BOARDS.items():
         res[lineup] = {}
-        for lot in (1, 5):
+        # lot 2 is the prototype order quantity (owner rule 2026-11-03: JLCPCB PCBA needs at least two assembled sets)
+        for lot in (1, 2, 5):
             per = {n: board_cost(b, lot) for n, b in boards.items()}
             res[lineup][f'lot_{lot}'] = {'boards': per, 'parts_usd': round(sum(p['parts_usd'] for p in per.values()), 2),
                                          'assembly_usd': round(sum(p['assembly_usd'] for p in per.values()), 2),
@@ -207,7 +209,7 @@ def main():
     if '--json' in sys.argv:
         print(json.dumps(res, indent=1)); return
     for lineup in res:
-        for lot in (1, 5):
+        for lot in (1, 2, 5):
             r = res[lineup][f'lot_{lot}']
             print(f"{lineup:8s} lot {lot}: parts ${r['parts_usd']:.2f} (per set ${r['parts_usd'] / lot:.2f}), assembly ${r['assembly_usd']:.2f}, "
                   f"UNKNOWN parts {r['unknown_parts']}; PCB fabrication UNKNOWN")
