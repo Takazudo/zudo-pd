@@ -116,13 +116,24 @@ describe("root workspace workflow contract", () => {
       assert.ok(component.includes(command), `component-spec-skills.yml omits ${command}`);
     }
     assert.match(component, /python-version:\s*'3\.12'/u);
-    assert.match(component, /unittest discover -s \.claude\/skills\/component-spec-audit\/scripts/u);
-    assert.match(component, /check_forward_tests\.py --strict/u);
-    assert.match(component, /gen_schematic\.py board_[abp]_spec/u);
-    assert.match(component, /check_baseline\.py/u);
-    assert.match(component, /verify_geometry\.py/u);
-    assert.match(component, /gen_courtyards\.py --check/u);
-    assert.match(component, /check_bare_copper_attrs\.py/u);
+    // CI and the local b4push share one Python gate script, so neither can drop a gate alone.
+    assert.match(component, /bash circuit\/scripts\/run-python-gates\.sh/u);
+    const b4push = await readFile(join(REPO_ROOT, "circuit", "scripts", "run-b4push.sh"), "utf8");
+    assert.match(b4push, /bash circuit\/scripts\/run-python-gates\.sh/u);
+    const gates = await readFile(join(REPO_ROOT, "circuit", "scripts", "run-python-gates.sh"), "utf8");
+    assert.match(gates, /^set -euo pipefail$/mu);
+    assert.match(gates, /validate\.py --strict/u);
+    assert.match(gates, /unittest discover -s \.claude\/skills\/component-spec-audit\/scripts/u);
+    assert.match(gates, /check_forward_tests\.py --strict/u);
+    for (const spec of ["board_a_spec", "board_b_spec", "board_p_spec", "board_p15_spec"]) {
+      assert.match(gates, new RegExp(`gen_schematic\\.py ${spec}\\b`, "u"));
+    }
+    assert.match(gates, /check_baseline\.py/u);
+    assert.match(gates, /verify_geometry\.py/u);
+    assert.match(gates, /check_decisions\.py/u);
+    assert.match(gates, /board-p15\/nvm-image\.py --check/u);
+    assert.match(gates, /gen_courtyards\.py --check/u);
+    assert.match(gates, /check_bare_copper_attrs\.py/u);
     assert.match(component, /pnpm install --frozen-lockfile/u);
   });
 
