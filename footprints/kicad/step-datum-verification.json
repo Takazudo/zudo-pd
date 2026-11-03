@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "review_sha256": "350bf7ce6444422c0ce7928d5de6c7ae444df6e8dd1323758028f16aa9703e0e",
+  "review_sha256": "23681ee2d75777cc15b134b3cf31a7401e344adabbdd1b8ed98f7d3daae4fa94",
   "boards": [
     {
       "path": "boards/board-p/board-p.kicad_pcb",
-      "sha256": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278"
+      "sha256": "67b0e0960c8d5590dec0efc6de22218d3f7a21fa098abcaffdd57433f3e0058d"
     },
     {
       "path": "boards/board-p15/board-p15-draft.kicad_pcb",
@@ -17,7 +17,7 @@
     },
     {
       "path": "boards/board-b20-draft/board-b20-draft.kicad_pcb",
-      "sha256": "7bed70f50c820e34d9c652906b15ce62b36ec247028552f07d4938480dfffeac"
+      "sha256": "8910dec80c478a109cd73d91ceeb235ec42715d2c4f08392fe2ff4b48553db2f"
     }
   ],
   "verifier_sha256": "72ad2e7c540e3d051fc23262d6132e0208a75ce0dc36b8dc0b5a3c246d857dc8",
@@ -2238,6 +2238,153 @@
         "wrl_samples_strictly_inside_step_exception": 0
       },
       "status": "PASS"
+    },
+    {
+      "wrl": "HTSSOP-20_PWP_MaxEnvelope_W4.5-L6.6-H1.2.wrl",
+      "step": "HTSSOP-20_PWP_MaxEnvelope_W4.5-L6.6-H1.2.step",
+      "uses_at_review": [
+        "board-p/U2"
+      ],
+      "wrl_sha256": "eda81dbe8b758cdde3fff5a45914ba256cef56fe601dd7d6393df61d6551299a",
+      "step_sha256": "9c56ae08b3bf9607ddb556182c5aa1448bcfc003cd8ee7789d4700c4ccdb3097",
+      "input_step_sha256": "9c56ae08b3bf9607ddb556182c5aa1448bcfc003cd8ee7789d4700c4ccdb3097",
+      "original_step_sha256": "9c56ae08b3bf9607ddb556182c5aa1448bcfc003cd8ee7789d4700c4ccdb3097",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -2.25,
+          -3.3,
+          0.0
+        ],
+        [
+          2.25,
+          3.3,
+          1.2
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -2.25,
+          -3.3,
+          0.0
+        ],
+        [
+          2.25,
+          3.3,
+          1.2
+        ]
+      ],
+      "volume_before_mm3": 35.64,
+      "volume_after_mm3": 35.64,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 1.220046286221077e-11,
+        "step_to_wrl_max_mm": 1.220090695142062e-11,
+        "wrl_to_step_p99_mm": 1.220046286221077e-11,
+        "step_to_wrl_p99_mm": 1.220090695142062e-11,
+        "wrl_samples": 20,
+        "step_samples": 20,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45.wrl",
+      "step": "SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45.step",
+      "uses_at_review": [
+        "board-p/U3"
+      ],
+      "wrl_sha256": "f32bdf2f837617896f338422c7ace5d259f5266704f40c00d58c3183687fb137",
+      "step_sha256": "a63a0a7c6f4189ec335a3ba1ca74941ca592ebc6e79d16964983ab97dc1c230b",
+      "input_step_sha256": "a63a0a7c6f4189ec335a3ba1ca74941ca592ebc6e79d16964983ab97dc1c230b",
+      "original_step_sha256": "a63a0a7c6f4189ec335a3ba1ca74941ca592ebc6e79d16964983ab97dc1c230b",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.525,
+          -0.875,
+          0.0
+        ],
+        [
+          1.525,
+          0.875,
+          1.45
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.525,
+          -0.875,
+          0.0
+        ],
+        [
+          1.525,
+          0.875,
+          1.45
+        ]
+      ],
+      "volume_before_mm3": 7.739374999999998,
+      "volume_after_mm3": 7.739374999999998,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 1.0198508704206688e-12,
+        "step_to_wrl_max_mm": 1.5747779282470412e-12,
+        "wrl_to_step_p99_mm": 1.0198508704206688e-12,
+        "step_to_wrl_p99_mm": 1.5747779282470412e-12,
+        "wrl_samples": 20,
+        "step_samples": 20,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "wrl": "WSON-6_DRV_MaxEnvelope_L2.1-W2.1-H0.8.wrl",
+      "step": "WSON-6_DRV_MaxEnvelope_L2.1-W2.1-H0.8.step",
+      "uses_at_review": [
+        "board-p/D5"
+      ],
+      "wrl_sha256": "5354dd2dd7627ab6186787ec5dc9b77d1bead85c286a0e6aee6cdc236ad8cfa9",
+      "step_sha256": "f572f17f577c9366ca841d56e68e5e2facc34636b88909e5a8de3f6484a2b982",
+      "input_step_sha256": "f572f17f577c9366ca841d56e68e5e2facc34636b88909e5a8de3f6484a2b982",
+      "original_step_sha256": "f572f17f577c9366ca841d56e68e5e2facc34636b88909e5a8de3f6484a2b982",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.05,
+          -1.05,
+          0.0
+        ],
+        [
+          1.05,
+          1.05,
+          0.8
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.05,
+          -1.05,
+          0.0
+        ],
+        [
+          1.05,
+          1.05,
+          0.8
+        ]
+      ],
+      "volume_before_mm3": 3.5280000000000005,
+      "volume_after_mm3": 3.5280000000000005,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 8.799627693178991e-13,
+        "step_to_wrl_max_mm": 8.799627693178991e-13,
+        "wrl_to_step_p99_mm": 8.799627693178991e-13,
+        "step_to_wrl_p99_mm": 8.799627693178991e-13,
+        "wrl_samples": 20,
+        "step_samples": 20,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
     }
   ],
   "limits": [
@@ -2247,6 +2394,6 @@
     "Agreement with existing WRL does not certify manufacturer accuracy, normalized land-pattern fit, unseen geometry or physical mating. ASPI remains a conservative illustrative envelope.",
     "The exact BD8 capacitor retains internal WRL faces contained within the STEP solid; its outer STEP-to-WRL screen must still pass."
   ],
-  "model_pairs_checked": 41,
+  "model_pairs_checked": 44,
   "step_translations_applied_this_run": 0
 }

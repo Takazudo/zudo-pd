@@ -61,6 +61,12 @@ for ref, (sym, value, lcsc, fpname, dnp, _pos) in spec.COMPONENTS.items():
     fp.SetReference(ref); fp.SetValue(value)
     fp.SetFPID(pcbnew.LIB_ID('zudo-pd', fpname.split(':', 1)[1]))
     # exact supplier identity from the spec, as the exporter's identity gate and schematic-parity DRC require
+    # library footprints may carry a supplier alias field from another part (the shared SOD-123 has C92321); the
+    # exporter rejects any alias that differs from LCSC, so every alias present takes the spec's LCSC (pcbnew 10 has
+    # no field removal)
+    for alias in ('LCSC Part', 'LCSC Part #', 'JLCPCB Part #'):
+        if fp.HasField(alias):
+            fp.SetField(alias, lcsc or '')
     if lcsc:
         fp.SetField('LCSC', lcsc)
         fp.GetField('LCSC').SetVisible(False)
