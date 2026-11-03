@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "package": "manufacturing/releases/corner-support-review",
+  "scope": "Development review package (board-p15 + board-b), not an order. Proof that the re-export carries the same fabrication content as the previous export.",
+  "previous_export": {
+    "git_base": "a11cc804e9a306692bf6d2b149c6eb6120ee57b8",
+    "manifest_sha256": "e023cea183dfedc916512d8913a71c9b519762edc23d1707c1a07a8a0213a23a",
+    "SHA256SUMS_sha256": "0d973fbc96918762bd37c5c364ce3936f1d44fc0e2744ea5cb82574db67bc5ab"
+  },
+  "current_export": {
+    "git_base": "a123805103d34a12e01818d501c37b5126562f9e",
+    "manifest_sha256": "06fac328e504cf08c22f7dacd8a35ddbb1d6def32c55d2ea284a5d213582d787",
+    "SHA256SUMS_sha256": "07e93b7b16ef33bb70ae0142c510bff359ae09309aec2ffc498fea1a51102f67",
+    "independent_validation_sha256": "fd12c1bbf38d46934aa149eeda18eec3d95d5b5ede4b26c743dc73fff202c8f0"
+  },
+  "filtered_line_patterns": [
+    "%TF.CreationDate,...*% (Gerber)",
+    "G04 Created by KiCad (PCBNEW 10.0.6) date ...* (Gerber)",
+    "; DRILL file KiCad 10.0.6 date ... (Excellon)",
+    "; #@! TF.CreationDate,... (Excellon)",
+    "\"CreationDate\": ... (Gerber job)"
+  ],
+  "filter_reason": "KiCad 10.0.6 writes the export time into these lines; no other bytes may differ (coordinator decision 2026-11-03).",
+  "verdict": "TIMESTAMP-ONLY",
+  "summary": {
+    "IDENTICAL": 6,
+    "TIMESTAMP ONLY": 26
+  },
+  "byte_identical": [
+    "board-p15/bom.csv",
+    "board-p15/cpl.csv",
+    "board-p15/excluded.csv",
+    "board-b/bom.csv",
+    "board-b/cpl.csv",
+    "board-b/excluded.csv"
+  ],
+  "timestamp_only": [
+    "board-p15/board-p15-gerbers.zip",
+    "board-p15/gerbers/board-p15-B_Cu.gbl",
+    "board-p15/gerbers/board-p15-B_Mask.gbs",
+    "board-p15/gerbers/board-p15-B_Paste.gbp",
+    "board-p15/gerbers/board-p15-B_Silkscreen.gbo",
+    "board-p15/gerbers/board-p15-Edge_Cuts.gm1",
+    "board-p15/gerbers/board-p15-F_Cu.gtl",
+    "board-p15/gerbers/board-p15-F_Mask.gts",
+    "board-p15/gerbers/board-p15-F_Paste.gtp",
+    "board-p15/gerbers/board-p15-F_Silkscreen.gto",
+    "board-p15/gerbers/board-p15-NPTH.drl",
+    "board-p15/gerbers/board-p15-PTH.drl",
+    "board-p15/gerbers/board-p15-job.gbrjob",
+    "board-b/board-b-gerbers.zip",
+    "board-b/gerbers/board-b-B_Cu.gbl",
+    "board-b/gerbers/board-b-B_Mask.gbs",
+    "board-b/gerbers/board-b-B_Paste.gbp",
+    "board-b/gerbers/board-b-B_Silkscreen.gbo",
+    "board-b/gerbers/board-b-Edge_Cuts.gm1",
+    "board-b/gerbers/board-b-F_Cu.gtl",
+    "board-b/gerbers/board-b-F_Mask.gts",
+    "board-b/gerbers/board-b-F_Paste.gtp",
+    "board-b/gerbers/board-b-F_Silkscreen.gto",
+    "board-b/gerbers/board-b-NPTH.drl",
+    "board-b/gerbers/board-b-PTH.drl",
+    "board-b/gerbers/board-b-job.gbrjob"
+  ],
+  "other_differences": [],
+  "independent_renders_identical": [
+    "board-b/gerber-top.svg",
+    "board-b/gerber-bottom.svg",
+    "board-p15/gerber-top.svg",
+    "board-p15/gerber-bottom.svg",
+    "board-b/gerber-top.png",
+    "board-p15/gerber-top.png",
+    "independent-validation.json"
+  ],
+  "non_fab_changes": "ORDER-NOTES.md (Board L disconnect step), manifest git_base and source-lock hashes, SHA256SUMS, step-datum copies, KiCad check reports, schematic PDFs, netlists, renders and preflight log.",
+  "checks": {
+    "verify-jlcpcb.py read-only on the candidate at 2e7984c": "PASS",
+    "verify-jlcpcb.py read-only on the copied package": "PASS",
+    "pnpm b4push": "PASS"
+  }
+}
