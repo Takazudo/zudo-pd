@@ -59,6 +59,8 @@ step "Decision lock (decisions.json)"
 python3 scripts/schgen/check_decisions.py
 step "P15 NVM image rebuild check"
 python3 scripts/pcb/board-p15/nvm-image.py --check
+step "Board P r3 20 V NVM intent rebuild check"
+python3 scripts/pcb/board-p/nvm-intent-20v.py --check
 
 step "Courtyards enclose every pad"
 python3 footprints/scripts/gen_courtyards.py --check
