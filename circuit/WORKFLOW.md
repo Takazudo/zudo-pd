@@ -68,7 +68,7 @@ Run these from the project root.
 | `pnpm check:site` | Post-build checks: built references, publication scan, strict link check | No |
 | `pnpm b4push` | Retained circuit tests, strict project gates, host/CAD/model checks, build, site checks and generated-output determinism under one outer heavy guard | No |
 | `pnpm dev` | Dev server with generation in watch mode | No |
-| `pnpm previews:generate` | Render footprint SVG previews with the pinned KiCad Docker image (`zudo-circuit-doc footprints generate`) | Image pull only |
+| `pnpm previews:generate` | Render footprint SVG previews with the pinned KiCad Docker image (`circuit/scripts/previews-generate.sh` around `zudo-circuit-doc footprints generate`) | Image pull only |
 | `pnpm exec zudo-circuit-doc new-component <suffix>` | Create an owner bundle `.claude/skills/component-<suffix>/` from the package template | No |
 | `pnpm exec zudo-circuit-doc validate --online` | Re-download every non-volatile source and compare hashes; never alters retained evidence | **Yes** |
 | `pnpm exec zudo-circuit-doc validate --refresh-source <SOURCE_ID>` | Re-download named sources only | **Yes** |
@@ -235,7 +235,7 @@ If acquisition is blocked (paywall, login, bot wall, dead link, transport error)
 
 **Input:** the exact orderable variant and its intended board or mechanical use. CAD checks run only when `cad.enabled` is `true` in `circuit.config.ts`, with its symbol libraries, footprint roots and model root configured; otherwise the pin-asset check is reported as SKIPPED.
 
-The live project configuration is [`circuit.config.ts`](../circuit.config.ts): library `zudo-pd`, symbol library `symbols/zudo-pd.kicad_sym`, master root `footprints/kicad`, KiCad library `footprints/kicad/zudo-power.pretty`, model root `footprints/kicad/zudo-pd.3dshapes`, and the reviewed KiCad 9.0.9 preview renderer. Read those exact values before changing CAD configuration; do not copy an upstream minimal example's library names or paths into this project.
+The live project configuration is [`circuit.config.ts`](../circuit.config.ts): library `zudo-pd`, symbol library `symbols/zudo-pd.kicad_sym`, master root `footprints/kicad`, KiCad library `footprints/kicad/zudo-power.pretty`, model root `footprints/kicad/zudo-pd.3dshapes`, and the preview renderer pinned to the KiCad 10.0.6 oracle image (the same digest as the PCB and schematic oracle). `pnpm previews:generate` runs it through `circuit/scripts/previews-generate.sh`, which runs the container as the invoking uid so it can read the generator's private temporary mount. Read those exact values before changing CAD configuration; do not copy an upstream minimal example's library names or paths into this project.
 
 - `libraryName` — the KiCad library name the project's symbols and footprints live under.
 - `symbolLibraries` — one or more `.kicad_sym` paths merged for pin lookups.

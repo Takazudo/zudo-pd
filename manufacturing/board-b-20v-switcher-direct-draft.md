@@ -865,15 +865,14 @@ Desk screens:
 The SMC land costs a 50 % larger inverter hot loop. Its loop inductance and pickup are **OPEN** (desk). D3's local
 copper temperature stays **UNKNOWN**.
 
-**Previews: the R2512 Kelvin land cannot be rendered by the pinned preview renderer (BLOCKED).** Binding B20 added
-six packages to the publication corpus, so `expect.packages` is 46. The preview renderer is pinned to KiCad 9.0.9 and
-cannot load `R2512_RESI-PCSR2512_Kelvin`. The file's `(duplicate_pad_numbers_are_jumpers yes)` token makes KiCad
-9.0.9 report "Unable to load library"; without the token the land renders. The other five new lands render. The
-renderer image also runs as uid 1000, which cannot read the generator's root-owned 0700 temporary directory, so the
-render used a scratch `docker` wrapper adding `--user 0:0`. `pnpm check` therefore fails at `footprints check`
-(manifest 40 against 46 selected). The steps after it pass when run on their own: CAD pairs (46) and the documentation
-type check. The land was not edited, because removing the token changes how KiCad 10 treats the Kelvin pads.
-Updating the renderer pin or the land is a separate decision.
+**Previews: all 46 packages render on the KiCad 10.0.6 oracle image (phase 34).** Binding B20 added six packages
+to the publication corpus, so `expect.packages` is 46. In phase 33 the preview renderer was pinned to KiCad 9.0.9,
+which cannot load `R2512_RESI-PCSR2512_Kelvin` because of its `(duplicate_pad_numbers_are_jumpers yes)` token. Phase
+34 moves `previewRenderer` to the same KiCad 10.0.6 image digest as the PCB and schematic oracle. The land keeps its
+jumper token. `pnpm previews:generate` now runs `circuit/scripts/previews-generate.sh`, which puts a `docker` shim on
+PATH that runs the container as the invoking uid:gid with a writable HOME, so the image can read the generator's
+private 0700 temporary mount. The other 40 previews re-render with KiCad 10.0.6 output. A preview is a rendering, not
+dimensional proof.
 
 **Lineup cost (`calculate-lineup-cost.py`).** The B20 renewal row is USD 75.02 for lot 1 and USD 304.91 per 5-unit
 lot (87 lines, 70 extended, 0 UNKNOWN). Assembly is USD 195.18 per lot (Standard PCBA, single side, 737 SMD and 42 THT
