@@ -624,11 +624,12 @@
         "doc"
       ],
       "decision": "SUPERSEDED on 2026-11-01 by dec-separate-products; kept for the record. User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: there is one zudo-pd lineup. The 20 V / 5 A revision (Board P 20 V draft with the switcher-direct Board B) replaces the 15 V zudo-pd; no separate 15 V product is kept.",
-      "rationale": "The cost comparison (manager pd-controller-cost.md, desk prices, USD assumed) puts the recommended revision at about +3.3 per set over the current design for known parts. The switcher-direct Board B removes the LDO stage. All figures are desk values; nothing is quoted or ordered.",
+      "rationale": "The cost comparison (manager pd-controller-cost.md, desk prices, USD assumed) puts the recommended revision at about +3.3 per set over the current design for known parts. The switcher-direct Board B removes the LDO stage. All figures are desk values; nothing is quoted or ordered. Evidence migration 2026-11-03: the former ref cand-tps54560ddar-c31966 left candidates.json in ef51fed when TPS54560DDAR C31966 was bound to the central inventory; it now cites the same exact part as line-c31966 and its owner fact fact-c31966-candidate-scope (component-board-b20-draft-candidates).",
       "evidence": [
         "cand-tps16630pwpr-c1849461",
         "cand-lm74700-c2941042",
-        "cand-tps54560ddar-c31966"
+        "line-c31966",
+        "fact-c31966-candidate-scope"
       ]
     },
     {
@@ -656,11 +657,11 @@
         "doc"
       ],
       "decision": "Coordinator phase-15 direction 2026-11-01, after the phase-14 desk options: the 15 V Board P (board_p15_spec.py) keeps the as-built design except for LED requirements R1.1-R1.3 of the common controller block. R21 changes from 0805W8F1002T5E C17414 10k to 0603WAF0000T5E C21189 0R, strapping U1.6 RESET to GND; RESET leaves J2.4, which becomes unconnected; R15/R16 (4.7k to VREG_2V7 on SCL/SDA) are removed and the pull-ups move to the programming jig. The draft PCB re-routes RESET with at least 1.0 mm to VBUS-class copper on its layer. D5 SMAJ16A, Q1 AO3401A, VDD on VBUS_IN and the 15 V NVM image are unchanged; the local clamps of dec-p-stusb-local-clamp are not taken.",
-      "rationale": "A pcbnew scan of the as-built board-p.kicad_pcb (manufacturing/readiness/board-p-15v-reset-clearance.json) found RESET 0.222 mm from the R13 pads and 0.325 mm from a VBUS_VS_DISCH via, the geometry of the ordered LED Board P whose RESET read 0.93 V (VIL max 0.35 V) in the #144 desk analysis. The subset is cost-neutral in parts and assembly (calculate-lineup-cost.py p15 rows). DS12499 does not state I2C idle behaviour without pull-ups (OPEN). Nothing is measured.",
+      "rationale": "A pcbnew scan of the as-built board-p.kicad_pcb (manufacturing/readiness/board-p-15v-reset-clearance.json) found RESET 0.222 mm from the R13 pads and 0.325 mm from a VBUS_VS_DISCH via, the geometry of the ordered LED Board P whose RESET read 0.93 V (VIL max 0.35 V) in the #144 desk analysis. The subset is cost-neutral in parts and assembly (calculate-lineup-cost.py p15 rows). DS12499 does not state I2C idle behaviour without pull-ups (OPEN). Nothing is measured. Evidence migration 2026-11-03: the former ref cand-0805w8f1002t5e-c17414 left candidates.json in ef51fed when 0805W8F1002T5E C17414 became inventory line-c17414 for unrelated B20 placements; the superseded R21 role is cited through its owner fact fact-c17414-reset-ctrl-topology (component-project-passives).",
       "evidence": [
         "rec-stusb4500qtr",
         "fact-stusb-pin-states",
-        "cand-0805w8f1002t5e-c17414",
+        "fact-c17414-reset-ctrl-topology",
         "line-c21189"
       ]
     },
