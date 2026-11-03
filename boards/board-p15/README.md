@@ -103,8 +103,11 @@ and the exported review package are unchanged.
 
 - **LED first, then zudo-pd.** LED bring-up with the existing Board L uses a P15 r1 unit first. The same board then goes
   to zudo-pd Board B without a rewrite.
-- **Program and verify before any mating.** Every P15 is programmed and passes P15-NVM-4, P15-NVM-5 and P15-NVM-6 from a
-  5 V-only, current-limited source, with Board L and Board B both disconnected. Only then may it mate with either board.
+- **Program and verify before any mating.** Board L and Board B stay disconnected through all three stages, in this order:
+  1. On a current-limited 5 V-only source: write, power-cycle, then pass P15-NVM-4 and P15-NVM-5.
+  2. Still with no load connected, move to a current-limited PD test source that also offers 20 V and pass P15-NVM-6
+     (15 V contract; VBUS_OUT off at 5 V). A 5 V-only source cannot exercise this test.
+  3. Only after P15-NVM-6 passes may the board mate with Board L or Board B.
 - **The voltage window depends only on the NVM.** P15 r1 has no hardware window or eFuse after the sink switch, and no
   footprint for one. A factory or lost image can pass 5 V, or request 20 V into the SMAJ16A D5. At the prototype stage
   this is an accepted residual (LED requirement R2.3, with R2.4 and R2.6 for the same cause). Per-unit NVM acceptance

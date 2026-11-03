@@ -23,8 +23,11 @@ On 2026-11-03 the user chose P15 r1 as the common Board P for the LED project an
 population and the same 3 A image.
 
 - LED bring-up with the existing Board L uses a P15 r1 unit first. The same board then goes to zudo-pd.
-- Program every P15 and pass P15-NVM-4, P15-NVM-5 and P15-NVM-6 (below) from a 5 V-only source before it mates with
-  anything. Board L and Board B must both be disconnected during these steps.
+- Program and accept every P15 before it mates with anything. Board L and Board B stay disconnected through all of it:
+  1. On a 5 V-only source, write, power-cycle, and pass P15-NVM-4 and P15-NVM-5 (steps 1–8 below).
+  2. With no load connected, move to a PD test source that also offers 20 V and pass P15-NVM-6 (step 9). A 5 V-only
+     source cannot exercise this test.
+  3. Only then connect Board L or Board B.
 - The output voltage window depends only on the NVM image. No hardware window follows the sink switch. This is an
   accepted residual at the prototype stage (LED requirement R2.3).
 - The desk compatibility evidence is the manager report `led-p15-compatibility.md`. Its summary is in
@@ -82,8 +85,9 @@ Each bound below holds with the 100 kΩ pull-down present, taking its 1 % low va
 
 ## Procedure: write once, then accept only a power-cycle readback
 
-Power the board from a **current-limited 5 V-only source** with Board B and Board L disconnected. The archived page explains
-why a factory 20 V request must never reach an unprogrammed board.
+Steps 1–8 run from a **current-limited 5 V-only source** with Board B and Board L disconnected. The archived page explains
+why a factory 20 V request must never reach an unprogrammed board. Step 9 is the only step on a PD source, and it
+follows a passing step 7 readback. Board B and Board L stay disconnected until step 9 passes.
 
 1. **Power up.** Apply 5 V. Check J3.4 (VBUS_IN) at about 5 V and J3.3 (VREG_2V7) at about 2.7 V.
 2. **Connect the jig.** Enable the jig pull-up rail only now, and clamp the pogo clip to J2:
@@ -104,9 +108,11 @@ why a factory 20 V request must never reach an unprogrammed board.
    - A RESET pulse is not available: R21 holds RESET low.
 7. **Power-cycle readback.** Read the 40 bytes again. **Accept only an exact match with the file's SHA-256.** Then
    read the volatile PDO registers 0x85–0x90 (UM2650 Rev 3, mirror) and check PDO2 = 15 V / 3 A and two sink PDOs.
-8. **Disconnect.** Remove the jig rail, then the clip.
-9. **First PD attach.** Use a source that also offers 20 V, through a current-limited path with Board B and
-   Board L still disconnected. VBUS_OUT (JOUT1.1/2) must stay off until the 15 V contract, then follow 15 V.
+8. **Disconnect.** Remove the jig rail, then the clip. Remove the 5 V-only source.
+9. **First PD attach (P15-NVM-6).** Move to a PD test source that also offers 20 V, through a current-limited path,
+   with Board B and Board L still disconnected. VBUS_OUT (JOUT1.1/2) must stay off at 5 V, then follow 15 V after the
+   15 V contract.
+10. **Connect the load.** Only after step 9 passes, connect Board L or Board B.
 
 ## 15 V NVM image: desk-built from a third-party field map, checked against the Rev 7 defaults
 
@@ -137,5 +143,5 @@ why a factory 20 V request must never reach an unprogrammed board.
 | P15-NVM-3 | Pre-write dump saved with its hash | file and hash recorded |
 | P15-NVM-4 | Power-cycle readback (step 7) | equal to sha256 `76622e14…` |
 | P15-NVM-5 | PDO registers after the power cycle | 2 sink PDOs, PDO2 15 V / 3 A |
-| P15-NVM-6 | First attach to a 20 V-capable source | 15 V contract; VBUS_OUT off at 5 V |
+| P15-NVM-6 | First attach to a 20 V-capable PD test source (step 9), no load connected | 15 V contract; VBUS_OUT off at 5 V |
 | P15-NVM-7 | VDD (U1.24, via C2.2) at a 4.75 V input during communication | ≥ 4.1 V (attach margin with the 1.47 kΩ feed) |
