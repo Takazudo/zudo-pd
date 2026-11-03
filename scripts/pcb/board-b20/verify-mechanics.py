@@ -6,8 +6,9 @@ usage: kicad-python verify-mechanics.py [pcb] [--output report.json]
 B20 keeps the Board B outline, PD stack, corner supports, terminal blocks and bus sockets (boards/board-b/mechanical.json)
 but carries its own nets. This mirrors scripts/pcb/verify-board-b.py and the shared parts of
 scripts/pcb/verify-compact-mechanics.py with the B20 net names, without changing either Board B verifier (their hashes
-bind the 15 V package's stack proof). The Board B top-edge pogo row (P1, TP3-TP5) and the front/back rail labels are not
-on the draft yet; they are reported under absent_features as OPEN, never as PASS.
+bind the 15 V package's stack proof). The front/back rail labels follow the reviewed Board B contract and are checked
+against the J6/J7 pin nets (PD20). The Board B top-edge pogo row (P1, TP3-TP5) is not on the draft; it is reported under
+absent_features as OPEN, never as PASS.
 """
 import argparse
 import importlib.util
@@ -175,6 +176,36 @@ def main():
             require(pads[1].GetShape() == p.PAD_SHAPE_RECT, ref + ': no rectangular pin-1 marker')
         return 'PASS'
 
+    def rail_labels():
+        contract = json.loads(CONTRACT.read_text())['terminal_blocks']['rail_labels']
+        require(contract == {'back_labels': compact.BACK_RAIL_LABELS, 'back_rotation_deg': 0, 'back_mirrored': True,
+                             'front_x_mm': .8, 'front_size_mm': .8, 'front_rotation_deg': 90, 'front_mirrored': False},
+                'unreviewed front/back rail-label contract')
+        rows = []
+        for text, (ref, pin) in compact.RAIL_LABEL_PINS.items():
+            pad = next(q for q in fps[ref].Pads() if q.GetNumber() == pin)
+            require(pad.GetNetname() == TERMINAL_NETS[ref][pin], f'{text}: {ref}.{pin} carries {pad.GetNetname()}')
+            for side, layer in (('front', p.F_SilkS), ('back', p.B_SilkS)):
+                found = [v for v in board.GetDrawings() if isinstance(v, p.PCB_TEXT) and v.GetLayer() == layer
+                         and v.GetText() == text]
+                require(len(found) == 1, f'{side} {text}: expected exactly one board text label')
+                label = found[0]
+                reviewed = contract['back_labels'][text] if side == 'back' else None
+                target = reviewed['center_mm'] if reviewed else [contract['front_x_mm'], xy(pad)[1]]
+                size = reviewed['size_mm'] if reviewed else contract['front_size_mm']
+                require(near(xy(label), target, .01), f'{side} {text}: position differs from the contract')
+                require(label.IsMirrored() == contract[side + '_mirrored']
+                        and abs(label.GetTextAngle().AsDegrees() % 360 - contract[side + '_rotation_deg']) < .001
+                        and all(abs(p.ToMM(v) - size) < .001 for v in (label.GetTextSize().x, label.GetTextSize().y)),
+                        f'{side} {text}: wrong mirror, orientation or size')
+                if reviewed:
+                    require(label.IsBold() == reviewed['bold']
+                            and abs(p.ToMM(label.GetTextThickness()) - reviewed['thickness_mm']) < .001,
+                            f'{side} {text}: bold weight or stroke differs')
+                rows.append({'side': side, 'text': text, 'pin': f'{ref}.{pin}', 'net': pad.GetNetname(),
+                             'center_mm': xy(label), 'mirrored': label.IsMirrored()})
+        return rows
+
     result = {'board': 'board-b20-draft', 'size_mm': [WIDTH, HEIGHT], 'component_count': len(spec.COMPONENTS),
               'schematic_pad_identity': check('identity', identity),
               'outline_mm': check('outline', outline),
@@ -183,8 +214,8 @@ def main():
               'terminal_blocks': check('terminals', terminals),
               'eurorack_pin_contract': check('sockets', sockets),
               'absent_features': {
-                  'pogo_row': 'OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft' if 'P1' not in fps else 'present, not checked here',
-                  'rail_labels': 'OPEN: the B20 draft carries no silkscreen rail labels yet'},
+                  'pogo_row': 'OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft' if 'P1' not in fps else 'present, not checked here'},
+              'rail_labels': check('rail_labels', rail_labels),
               'physical_stack_and_cable_fit': 'NOT MEASURED',
               'errors': errors}
     result['status'] = 'FAIL' if errors else 'PASS'

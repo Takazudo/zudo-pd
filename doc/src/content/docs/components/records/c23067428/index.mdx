@@ -73,7 +73,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c23067428-primary-specification` · **Status:** OPEN
 
-**Reason:** Only a DigiKey-hosted copy of the C\&B/RESI PCSR2512 sheet (V8) was retrieved and hashed 2026-11-01; no manufacturer-hosted copy. PDF not retained.
+**Reason:** Two DigiKey-hosted copies of the C\&B/RESI PCSR2512 sheet were hashed: V8 (retrieved 2026-11-01) and the earlier C16009 dated 2024/03/24 (retrieved 2026-11-03). Only C16009 lists the exact unmarked PCSR2512BR010M6 row, and the two revisions disagree on its rating (1 W / 10 A against 2 W / 14 A). No manufacturer-hosted copy was found. PDFs not retained.
 
 **Facts in this domain:**
 
@@ -82,6 +82,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 - [`fact-c23067428-tcr`](#fact-c23067428-tcr)
 - [`fact-c23067428-power`](#fact-c23067428-power)
 - [`fact-c23067428-max-current`](#fact-c23067428-max-current)
+- [`fact-c23067428-exact-row-c16009`](#fact-c23067428-exact-row-c16009)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
@@ -89,6 +90,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 - [`fact-c23067428-tcr`](#fact-c23067428-tcr)
 - [`fact-c23067428-power`](#fact-c23067428-power)
 - [`fact-c23067428-max-current`](#fact-c23067428-max-current)
+- [`fact-c23067428-exact-row-c16009`](#fact-c23067428-exact-row-c16009)
 
 ### placement
 
@@ -122,7 +124,7 @@ A never-exceed limit. Reaching it may damage the part; it is not an operating ta
 
   **Value:** 2 · **Unit:** `NONE`
 
-  **Conditions:** Rated power at +70 C, 5-10 mOhm row; derating curve not extracted.
+  **Conditions:** Rated power at +70 C from the V8 sheet's 5-10 mOhm row; derating curve not extracted. The earlier C16009 sheet rates the exact PCSR2512BR010M6 row at 1 W (fact-c23067428-exact-row-c16009); 1 W is the project working bound.
 
   **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
 
@@ -136,11 +138,25 @@ A never-exceed limit. Reaching it may damage the part; it is not an operating ta
 
   **Value:** 14 · **Unit:** `NONE`
 
-  **Conditions:** Maximum operating current for the 10 mOhm part number rows.
+  **Conditions:** Maximum operating current for the 10 mOhm marked (M9) rows of the V8 sheet. The earlier C16009 sheet lists the exact unmarked PCSR2512BR010M6 at 10 A (fact-c23067428-exact-row-c16009); 10 A is the project working bound.
 
   **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
 
   **Evidence:** [`src-c23067428-primary`](#src-c23067428-primary) — Popular Part Numbers table row PCSR2512BR010M9 page 9
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c23067428-exact-row-c16009" />
+
+  **Fact:** `fact-c23067428-exact-row-c16009`
+
+  **Value:** PCSR2512BR010M6: 10 mOhm +/-0.1 %, unmarked, +/-15 ppm/C, 1 W, 10 A · **Unit:** `NONE`
+
+  **Conditions:** Exact-MPN row of the 2024/03/24 C16009 sheet. It conflicts with the later V8 sheet (2 W, 14 A for the 10 mOhm M9 rows). The project uses the lower pair, 1 W and 10 A, as its working bound until a manufacturer-hosted document resolves the revision. B20 shunt duty is at most 2.0 A (20 ms transient) on RSH1 and RSH3: 0.04 W, so neither revision limits the design.
+
+  **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
+
+  **Evidence:** [`src-c23067428-c16009-2024`](#src-c23067428-c16009-2024) — Electrical Parameters table page 1/14; Popular Part Numbers table, PCSR2512BR010M6 row
 </EvidenceFact>
 
 ### GUARANTEED\_ELECTRICAL
@@ -311,6 +327,26 @@ Every document cited above, with its identification, when it was retrieved, and 
 **Availability:** AVAILABLE
 
 **Document URL:** [https://jlcpcb.com/partdetail/RESI-PCSR2512BR010M6/C23067428](https://jlcpcb.com/partdetail/RESI-PCSR2512BR010M6/C23067428)
+
+### PCSR2512 High-Precision Low-TCR Molded Alloy Current Sensing Resistor
+
+<EvidenceAnchor id="src-c23067428-c16009-2024" />
+
+**Source ID:** `src-c23067428-c16009-2024` · **Authority:** MANUFACTURER\_MIRROR
+
+| Field           | Recorded value                                                                                      |
+| --------------- | --------------------------------------------------------------------------------------------------- |
+| Document number | C16009                                                                                              |
+| Revision        | Version digit not legible in the text layer; dated 2024/03/24 on the cover (PDF created 2024-05-07) |
+| Document date   | 2024-03-24                                                                                          |
+| Retrieved       | 2026-11-03                                                                                          |
+| Printed page    | 1/14, part-number tables                                                                            |
+
+**Locator:** Electrical Parameters table page 1/14; Popular Part Numbers table, PCSR2512BR010M6 row
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6166/PCSR2512.pdf](https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6166/PCSR2512.pdf)
 
 ## Legend
 

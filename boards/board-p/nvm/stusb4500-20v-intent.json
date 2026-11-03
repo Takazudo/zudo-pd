@@ -1,0 +1,91 @@
+{
+ "_comment": "INTENT RECORD and PARTIAL desk bytes for the Board P r3 20 V / 5 A unit (dec PWR-D3 = D3-A, PWR-D5 = D5-1). Not an image to program: status BLOCKED. Never written to any part or read back.",
+ "status": "BLOCKED (TDISPAR0V position unavailable; capability-mismatch behaviour unknown)",
+ "intent": {
+  "SNK_PDO_NUMB": "2 (PDO1 5 V, PDO2 20 V)",
+  "PDO2": "20.00 V, 5.00 A; needs a 5 A e-marked cable and a source offering 20 V / 5 A",
+  "POWER_ONLY_ABOVE_5V": "1 (Q1 stays off at 5 V)",
+  "TDISPAR0V": ">= 13 so the 2 kOhm VBUS_VS_DISCH feed reaches vSafe0V (default 9 gives >= 630 ms, too short)",
+  "accept_or_refuse": "VBUS_OUT only on a 20 V contract at 5 A; any lower-current 20 V contract must leave Q1 off (no degraded mode)",
+  "other fields": "Rev 7 defaults, unchanged"
+ },
+ "blocked": [
+  {
+   "item": "TDISPAR0V",
+   "status": "UNAVAILABLE",
+   "reason": "No retained field map gives its sector/byte/bit (third-party map has no discharge-time field; no ST NVM map document retained). Needed: an ST-authored NVM map or the ST GUI export format."
+  },
+  {
+   "item": "capability mismatch",
+   "status": "UNKNOWN",
+   "reason": "Retained evidence does not state whether VBUS_EN_SNK asserts after a PDO2 request granted below 5 A or with the capability-mismatch bit set. Until a primary ST statement or a bench test closes it, accept-or-refuse cannot rely on the NVM alone. Board-side alternative: refuse through the B20 VIN UV and current limits, which do not detect a 3 A contract."
+  }
+ ],
+ "partial_sectors_hex": [
+  "00 00 B0 AA 00 45 00 00",
+  "10 40 9C 1C FF 01 3C DF",
+  "02 40 0F 00 32 00 FC F1",
+  "00 19 54 AF FF 35 5F 00",
+  "00 64 90 21 43 00 48 FB"
+ ],
+ "partial_sha256": "be65fd35cec40c109e096bd72d9f6cfb1549a35b98675e09d3203ac4bc000d41",
+ "changes_from_base": [
+  {
+   "sector": 3,
+   "byte": 2,
+   "from": "0x56",
+   "to": "0x54"
+  },
+  {
+   "sector": 3,
+   "byte": 4,
+   "from": "0xF5",
+   "to": "0xFF"
+  },
+  {
+   "sector": 4,
+   "byte": 1,
+   "from": "0x4B",
+   "to": "0x64"
+  },
+  {
+   "sector": 4,
+   "byte": 6,
+   "from": "0x40",
+   "to": "0x48"
+  }
+ ],
+ "decoded": {
+  "SNK_PDO_NUMB": 2,
+  "PDO1": {
+   "V": 5.0,
+   "I_SNK_PDO1_code": 5,
+   "A": 1.5
+  },
+  "PDO2": {
+   "V_code": 400,
+   "V": 20.0,
+   "I_SNK_PDO2_code": 15,
+   "A": 5.0
+  },
+  "PDO3": {
+   "V_code": 400,
+   "V": 20.0,
+   "I_SNK_PDO3_code": 3,
+   "A": 1.0
+  },
+  "I_SNK_PDO_FLEX_A": 2.0,
+  "POWER_ONLY_ABOVE_5V": 1,
+  "REQ_SRC_CURRENT": 0,
+  "POWER_OK_CFG": 2,
+  "GPIO_CFG": 1,
+  "SNK_UNCONS_POWER": 0,
+  "USB_COMM_CAPABLE": 0,
+  "SHIFT_VBUS_HL1_pct": 10,
+  "SHIFT_VBUS_LL2_pct": 15,
+  "SHIFT_VBUS_HL2_pct": 5,
+  "SHIFT_VBUS_LL3_pct": 15,
+  "SHIFT_VBUS_HL3_pct": 5
+ },
+ "base_and_field_map": "scripts/pcb/board-p15/nvm-image.py (BASE, decode, setbits; THIRD_PARTY map, Rev 7 default cross-check PASS)"
+}

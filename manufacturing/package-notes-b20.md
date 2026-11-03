@@ -10,14 +10,21 @@ Links below resolve inside an export of this pair. Repository documents are name
 
 ## Open before any order
 
-- **Board P r3 is not bound to the exporter.** `board-p` exports `boards/board-p/board-p.kicad_pcb`. The r3 front end
-  draft (`boards/board-p/r3-draft/`) still has identity, DRC and BOM/CPL failures.
-- **Missing B20 front-edge features.** B20 has no top-edge pogo row (P1, TP3–TP5) and no front or back rail labels.
-  Board B requires both.
+- **Board P r3 is the exported board-p (PD20).** It routes with 0 open connections and passes native DRC with
+  schematic parity (0 errors; parity only the mechanical MH1–MH3). No layout review exists for it, and it is a
+  two-sided board (Standard PCBA, double side).
+- **Missing B20 top-edge probe row.** B20 has no P1/TP3–TP5 pogo row; which nets it carries is an owner decision. The
+  front and back rail labels are on the board and checked against the J6/J7 pin nets.
+- **Independent layout review findings** (repository `manufacturing/pd20-b20-layout-review.md`, made on the board
+  before the PD20 fixes). The −12 V limiter
+  Kelvin blocker is fixed (RL3C now ties to the RSH3 sense pad). Still OPEN: the −12 V output capacitors reach U3/D3
+  through a 0.4 mm path that crosses the FB/COMP parts, the −12 V hot loop follows copper at 47.9–51.4 mm² with CCIN2
+  off the fast loop, and D3/U3 share an unvented 48 mm² island (D3 junction at the limiter maximum UNKNOWN).
 - **Electrical behavior is unmeasured.**
   - Full-load, low-line, thermal and transient behavior: OPEN.
-  - The inverter hot loop is 44.4 mm². Its inductance is OPEN.
+  - The inverter hot loop is 44.4 mm² between pad centres and 47.9–51.4 mm² along the copper. Its inductance is OPEN.
   - D3 copper temperature: UNKNOWN.
+- **Prototype quantity is 2** (JLCPCB PCBA needs at least two assembled sets).
 - **Placement-preview orientation checks.** Before any order, check every polarized part against pad 1 of `cpl.csv`
   in JLC's placement preview. Start with these:
   - D1–D3 Schottky diodes. For D3 (B560C-13-F C85100, SMC), the cathode is pad 1 on C_SW.

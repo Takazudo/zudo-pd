@@ -245,9 +245,9 @@
   "RSH3": {
    "ina": "U9",
    "pins": {
-    "4": {
+    "R35.2": {
      "routed": true,
-     "length_mm": 3.72,
+     "length_mm": 17.13,
      "layers": [
       "F"
      ],
@@ -255,7 +255,7 @@
      "net": "M12_PRE",
      "lands_on": "sense pad",
      "coupled_mm": 0.0,
-     "longest_uncoupled_run_mm": 3.72
+     "longest_uncoupled_run_mm": 17.13
     },
     "3": {
      "routed": true,
@@ -271,20 +271,20 @@
     }
    },
    "geometry_and_pickup": {
-    "amplifier_pin_pitch_mm": 0.65,
-    "start_edge_gap_0p2mm_tracks_mm": 0.45,
+    "amplifier_pin_pitch_mm": 12.22,
+    "start_edge_gap_0p2mm_tracks_mm": 12.02,
     "sense_pad_separation_mm": 6.41,
-    "sense_loop_area_mm2": 12.75,
-    "differential_pickup_mv_peak_at_input": 0.0,
+    "sense_loop_area_mm2": 18.21,
+    "differential_pickup_mv_peak_at_input": 0.001,
     "capacitive_common_mode": [
      {
       "nearest_sw_stage": "C",
-      "centre_distance_mm": 20.46,
-      "trace_mm": 3.72,
+      "centre_distance_mm": 18.86,
+      "trace_mm": 17.13,
       "coupling_pf_upper": 0.0,
       "injected_ma_peak": 0.0,
-      "v_cm_mv_peak": 0.0,
-      "v_cm_uv_peak": 0.0316
+      "v_cm_mv_peak": 0.001,
+      "v_cm_uv_peak": 0.8039
      },
      {
       "nearest_sw_stage": "C",
@@ -296,7 +296,7 @@
       "v_cm_uv_peak": 0.0891
      }
     ],
-    "differential_pickup_uv_peak_at_input": 0.401
+    "differential_pickup_uv_peak_at_input": 0.911
    }
   }
  },

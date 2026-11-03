@@ -18,6 +18,17 @@ sys.path.insert(0,str(ROOT/'scripts/schgen'))
 from sexp import atom,find_all,load
 
 
+# Per-variant contract. Each board names its schematic spec, its copper layer stack and its nominal outline; the
+# 2-layer variants keep exactly the earlier checks, and board-b20-draft (phase 33 binding) is the 4-layer B20 draft.
+VARIANTS={
+    'board-p':{'spec':'board_p_spec','copper':('F.Cu','B.Cu'),'size':(27,40)},
+    'board-p15':{'spec':'board_p15_spec','copper':('F.Cu','B.Cu'),'size':(27,40)},
+    'board-b':{'spec':'board_b_spec','copper':('F.Cu','B.Cu'),'size':(BOARD_B_WIDTH,BOARD_B_HEIGHT)},
+    'board-b20-draft':{'spec':'board_b20_spec','copper':('F.Cu','In1.Cu','In2.Cu','B.Cu'),'size':(BOARD_B_WIDTH,BOARD_B_HEIGHT)},
+}
+P_VARIANTS,B_VARIANTS={'board-p','board-p15'},{'board-b','board-b20-draft'}
+
+
 def require(ok,message):
     if not ok: raise ValueError(message)
 
@@ -59,7 +70,8 @@ def main():
     manifest=json.loads((release/'manifest.json').read_text())
     records=manifest.get('boards', [])
     names=[r['board'] for r in records]
-    require(bool(names) and len(names)==len(set(names)) and set(names)<={'board-p','board-p15','board-b'} and not {'board-p','board-p15'}<=set(names), 'Invalid or empty board selection')
+    require(bool(names) and len(names)==len(set(names)) and set(names)<=set(VARIANTS)
+            and len(set(names)&P_VARIANTS)<=1 and len(set(names)&B_VARIANTS)<=1, 'Invalid or empty board selection')
     require(bool(manifest.get('artifact_hashes')), 'Missing exported artifact locks')
     for relative,sha in manifest['artifact_hashes'].items():
         path=(release/relative).resolve()
@@ -69,7 +81,9 @@ def main():
     require(set(manifest['artifact_hashes'])<=checksum_paths, 'Export artifacts missing from checksums')
     for record in records:
         name=record['board']; dest=release/name
-        spec=importlib.import_module(name.replace('-','_')+'_spec')
+        variant=VARIANTS[name]
+        spec=importlib.import_module(variant['spec'])
+        require(tuple(record.get('copper_layers',()))==variant['copper'],f'{name}: exported copper layers differ from the variant stack')
         expected={ref:comp[2] for ref,comp in spec.COMPONENTS.items() if comp[2] and not comp[4]}
         bom={}
         for row in rows(dest/'bom.csv'):
@@ -115,8 +129,17 @@ def main():
         # gerbonara names its temporary extraction directory in each note; keep only the file name so reports are deterministic
         notes=[re.sub(r'\S*/input/','',str(w.message)) for w in caught if not issubclass(w.category,ResourceWarning)]
         require(all('G90 header statement found after end of header' in n for n in notes),f'Unexpected Gerber parser warnings: {notes}')
-        require(len(stack.copper_layers)==2 and stack.drill_pth is not None and stack.drill_npth is not None,'Expected two copper layers and PTH/NPTH drill data')
-        expected_size={'board-p':(27,40),'board-p15':(27,40),'board-b':(BOARD_B_WIDTH,BOARD_B_HEIGHT)}[name]
+        copper=variant['copper']
+        require(len(stack.copper_layers)==len(copper) and stack.drill_pth is not None and stack.drill_npth is not None,
+                f'Expected {len(copper)} copper layers and PTH/NPTH drill data')
+        inner=[layer for layer in copper if layer.startswith('In')]
+        gerber_names=[p.name for p in (dest/'gerbers').iterdir()]
+        for layer in copper:
+            tag=layer.replace('.','_')
+            require(sum(n.startswith(f'{name}-{tag}.') for n in gerber_names)==1,f'{name}: expected one {layer} Gerber')
+        stray=[n for n in gerber_names if re.search(r'In\d+_Cu',n) and not any(l.replace('.','_') in n for l in inner)]
+        require(not stray,f'{name}: inner-layer Gerbers outside the variant stack: {stray}')
+        expected_size=variant['size']
         width,height=stack.outline.size('mm')
         require(abs(width-expected_size[0])<.06 and abs(height-expected_size[1])<.06,'Wrong board outline')
         for side in ('top','bottom'):

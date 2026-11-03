@@ -20,7 +20,16 @@ STAGES = {
     'B': ('U2', 'C7', 'D2', 'L3', 'GND'),
     'C': ('U3', 'CCIN1', 'D3', 'L5', 'M12_RAW'),
 }
-SENSE = {'RSH1': ('U11', '8', '7'), 'RSH2': ('U12', '8', '7'), 'RSH3': ('U9', '4', '3')}
+# builder names -> annotated PCB references (board_b20_spec.BUILDER_REFS)
+import importlib.util as _ilu
+_s = _ilu.spec_from_file_location('board_b20_spec', __import__('pathlib').Path(__file__).resolve().parents[2] / 'schgen/board_b20_spec.py')
+_m = _ilu.module_from_spec(_s)
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2] / 'schgen'))
+_s.loader.exec_module(_m)
+B20_REFS = _m.BUILDER_REFS
+# shunt: (amplifier, + sense pin, - sense pin); a pin given as (ref, num) sits on another part. RSH3's M12_PRE sense
+# is RL3C.2, the tie of the U9A - reference (U9.4 is the op-amp V- supply; PD20 independent review)
+SENSE = {'RSH1': ('U11', '8', '7'), 'RSH2': ('U12', '8', '7'), 'RSH3': ('U9', (B20_REFS.get('RL3C', 'RL3C'), '2'), '3')}
 
 
 def pad(ref, num, biggest=True):
@@ -132,15 +141,17 @@ for name, (ic, cin, diode, ind, ground) in STAGES.items():
 for shunt, (ina, plus, minus) in SENSE.items():
     rows = {}
     for num in (plus, minus):
-        ip = pad(ina, num)
+        ip = pad(*num) if isinstance(num, tuple) else pad(ina, num)
+        num = '.'.join(num) if isinstance(num, tuple) else num
         group = [t for t in routes['tracks'] if t['net'] == ip['net']]
         kel = [p for p in geom['pads'] if p['ref'] == shunt and p['net'] == ip['net']]
         target = min(kel, key=lambda p: (p['bbox'][2] - p['bbox'][0]) * (p['bbox'][3] - p['bbox'][1]))
         ts = branch(ip['net'], ip, target)
         rows[num] = dict(describe(ts), net=ip['net'], lands_on='sense pad' if len(kel) == 2 else 'current pad (no sense pad)')
         rows[num]['segs'] = [t for t in (ts or []) if t['layer'] == 'F']
-    pa, pb = rows[plus].pop('segs'), rows[minus].pop('segs')
-    for me, other, num in ((pa, pb, plus), (pb, pa, minus)):
+    key = lambda n: '.'.join(n) if isinstance(n, tuple) else n
+    pa, pb = rows[key(plus)].pop('segs'), rows[key(minus)].pop('segs')
+    for me, other, num in ((pa, pb, key(plus)), (pb, pa, key(minus))):
         if not me or not other:
             continue
         coupled = run = longest = 0.0
@@ -211,7 +222,7 @@ for name, (ic, cin, diode, ind, ground) in STAGES.items():
     hot[name] = (shoelace(poly) * 1e-6, centroid(poly))
 for shunt, (ina, plus, minus) in SENSE.items():
     rows = out['sense'][shunt]['pins']
-    ip, im = pad(ina, plus), pad(ina, minus)
+    ip, im = [pad(*n) if isinstance(n, tuple) else pad(ina, n) for n in (plus, minus)]
     kp = min((p for p in geom['pads'] if p['ref'] == shunt and p['net'] == ip['net']), key=lambda p: (p['bbox'][2] - p['bbox'][0]) * (p['bbox'][3] - p['bbox'][1]))
     km = min((p for p in geom['pads'] if p['ref'] == shunt and p['net'] == im['net']), key=lambda p: (p['bbox'][2] - p['bbox'][0]) * (p['bbox'][3] - p['bbox'][1]))
     tp, tm = branch(ip['net'], ip, kp), branch(im['net'], im, km)

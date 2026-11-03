@@ -160,19 +160,21 @@
       "record_id": "rec-c23067428",
       "domain": "primary-specification",
       "status": "OPEN",
-      "reason": "Only a DigiKey-hosted copy of the C&B/RESI PCSR2512 sheet (V8) was retrieved and hashed 2026-11-01; no manufacturer-hosted copy. PDF not retained.",
+      "reason": "Two DigiKey-hosted copies of the C&B/RESI PCSR2512 sheet were hashed: V8 (retrieved 2026-11-01) and the earlier C16009 dated 2024/03/24 (retrieved 2026-11-03). Only C16009 lists the exact unmarked PCSR2512BR010M6 row, and the two revisions disagree on its rating (1 W / 10 A against 2 W / 14 A). No manufacturer-hosted copy was found. PDFs not retained.",
       "fact_ids": [
         "fact-c23067428-manufacturer",
         "fact-c23067428-resistance",
         "fact-c23067428-tcr",
         "fact-c23067428-power",
-        "fact-c23067428-max-current"
+        "fact-c23067428-max-current",
+        "fact-c23067428-exact-row-c16009"
       ],
       "blocking_fact_ids": [
         "fact-c23067428-resistance",
         "fact-c23067428-tcr",
         "fact-c23067428-power",
-        "fact-c23067428-max-current"
+        "fact-c23067428-max-current",
+        "fact-c23067428-exact-row-c16009"
       ]
     },
     {
@@ -1694,7 +1696,7 @@
       "record_id": "rec-c5451690",
       "domain": "primary-specification",
       "status": "OPEN",
-      "reason": "Only an LCSC-hosted copy of the Holy Stone NCC Series catalog (2016) was retrieved and hashed 2026-11-03; it does not list NP0 1206 or 47 nF NP0 in its range table. PDF not retained.",
+      "reason": "Only an LCSC-hosted copy of the Holy Stone NCC Series catalog (2016) was retrieved and hashed 2026-11-03; it does not list NP0 1206 or 47 nF NP0 in its range table. PDF not retained. Rechecked 2026-11-03 (phase PD20): the LCSC-hosted catalog URL still returns the same bytes (hash 256abb63...), and no Holy Stone document listing C1206N473J050T or NP0 1206 at 47 nF was found. A substitute with a manufacturer-hosted sheet, for example YAGEO CC1206JKNPO9BN473 (LCSC C3855647, 47 nF 5 % 50 V C0G 1206, 2605 in stock on 2026-11-03, read only), is a component change that needs approval; it is not applied.",
       "fact_ids": [
         "fact-c5451690-manufacturer",
         "fact-c5451690-capacitance",

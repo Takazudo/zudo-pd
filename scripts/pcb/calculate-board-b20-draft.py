@@ -431,7 +431,7 @@ def ramps():
                              'four completed loaded runs (all threshold shifts); at no load +5 V 0.85-0.90 V/ms and -12 V 1.21-1.47 V/ms '
                              '(adv fails the 1.22 row). Phase 9 (100 nF) gave +5 V 0.53-1.03 V/ms in every run. No-load cause: the '
                              'source-only pairs overshoot their pre-bias targets, cannot pull the output back without a load, and the '
-                             'integrators wind to their rails again before RAMP moves; a requested owner exception covers it.')
+                             'integrators wind to their rails again before RAMP moves; an owner exception covers it (user decision 2026-11-03, card cmsg_01Pv35emdXEU6gCRF3teSpo2GzmXCn8kfxsnNg5p6WdFzN: no load only, +5 V <= 0.95 V/ms below 0.45 V, -12 V <= 1.47 V/ms below 0.75 V; loaded starts keep the contract slopes).')
     out['start_skew_status'] = 'FAIL (SIM)'
     out['start_skew_note'] = ('Arithmetic cannot bound the time-form start skew (loop dynamics and FET thresholds). '
                               'The phase-10 ngspice runs (CRMD 470 nF) give 2.24-3.93 ms against 0.41 ms (phase 9: 1.16-2.42 ms), '
