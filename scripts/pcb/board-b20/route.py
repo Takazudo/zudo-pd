@@ -20,6 +20,13 @@ import os
 import sys
 
 import numpy as np
+# builder names -> annotated PCB references (board_b20_spec.BUILDER_REFS)
+import importlib.util as _ilu
+_s = _ilu.spec_from_file_location('board_b20_spec', __import__('pathlib').Path(__file__).resolve().parents[2] / 'schgen/board_b20_spec.py')
+_m = _ilu.module_from_spec(_s)
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2] / 'schgen'))
+_s.loader.exec_module(_m)
+B20_REFS = _m.BUILDER_REFS
 from scipy import ndimage
 
 G = 0.1
@@ -29,7 +36,8 @@ CL, EDGE, MARGIN = 0.2, 0.5, 0.08
 RASTER = 0.0707   # half a cell diagonal: copper is marked on every cell it touches
 VIA_D, VIA_DRILL, HOLE_CL = 0.8, 0.3, 0.25
 VIA_COST = 3.0
-B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 0.8 if os.environ.get('B20_LAYERS', '4') == '4' else 0.7)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
+# PD20: B.Cu signal cost 0.75 on 4 layers (0.8 left LVL12 at U15.5 open once the RSH3 Kelvin pair moved to RL3C)
+B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 0.75 if os.environ.get('B20_LAYERS', '4') == '4' else 0.7)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
 SUPPLY = ['P5_SUP', 'REF25', 'FAULT_N', 'EN_E']
 W_POWER, W_POWER_MIN, W_SIG = 0.8, 0.4, 0.25
 # 0.2 mm (the board minimum) is the fallback: on the 0.1 mm grid a 0.25 mm track cannot leave the middle pin of a
@@ -43,8 +51,10 @@ STAGES = {  # stage: (IC, input caps, diode, inductor, boot cap, output caps, IC
     'B': ('U2', ['C7'], 'D2', 'L3', 'C8', ['CBO1', 'CBO2'], 'GND'),
     'C': ('U3', ['CCIN1', 'CCIN2'], 'D3', 'L5', 'C11', ['CCO1', 'CCO2', 'CCO3', 'CCO4'], 'M12_RAW'),
 }
+# -12 V limiter (U9A): + input M12_SH at U9.3; its - reference is LIM12N, tied to M12_PRE through RL3C, so the
+# M12_PRE sense is RL3C.2 (U9.4 is the op-amp V- supply). PD20 independent review: a trunk-side tie added ~11 mOhm.
 KELVIN = [('U11', '8', 'RSH1'), ('U11', '7', 'RSH1'), ('U12', '8', 'RSH2'), ('U12', '7', 'RSH2'),
-          ('U9', '3', 'RSH3'), ('U9', '4', 'RSH3')]
+          ('U9', '3', 'RSH3'), (B20_REFS.get('RL3C', 'RL3C'), '2', 'RSH3')]
 XS = np.arange(NX) * G
 YS = np.arange(NY) * G
 # phase 27: B20_LAYERS=4 adds the inner signal/power layer In2 (In1 is a GND plane that the router does not use; every

@@ -95,9 +95,98 @@
   ],
   "eurorack_pin_contract": "PASS",
   "absent_features": {
-    "pogo_row": "OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft",
-    "rail_labels": "OPEN: the B20 draft carries no silkscreen rail labels yet"
+    "pogo_row": "OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft"
   },
+  "rail_labels": [
+    {
+      "side": "front",
+      "text": "-12V",
+      "pin": "J6.2",
+      "net": "M12_OUT",
+      "center_mm": [
+        0.8,
+        45.46
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "-12V",
+      "pin": "J6.2",
+      "net": "M12_OUT",
+      "center_mm": [
+        12.2,
+        46.0
+      ],
+      "mirrored": true
+    },
+    {
+      "side": "front",
+      "text": "GND",
+      "pin": "J6.1",
+      "net": "GND",
+      "center_mm": [
+        0.8,
+        50.54
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "GND",
+      "pin": "J6.1",
+      "net": "GND",
+      "center_mm": [
+        11.6,
+        50.5
+      ],
+      "mirrored": true
+    },
+    {
+      "side": "front",
+      "text": "+12V",
+      "pin": "J7.2",
+      "net": "P12_OUT",
+      "center_mm": [
+        0.8,
+        58.46
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "+12V",
+      "pin": "J7.2",
+      "net": "P12_OUT",
+      "center_mm": [
+        12.2,
+        58.4
+      ],
+      "mirrored": true
+    },
+    {
+      "side": "front",
+      "text": "+5V",
+      "pin": "J7.1",
+      "net": "P5_OUT",
+      "center_mm": [
+        0.8,
+        63.54
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "+5V",
+      "pin": "J7.1",
+      "net": "P5_OUT",
+      "center_mm": [
+        11.8,
+        63.8
+      ],
+      "mirrored": true
+    }
+  ],
   "physical_stack_and_cable_fit": "NOT MEASURED",
   "errors": [],
   "status": "PASS"

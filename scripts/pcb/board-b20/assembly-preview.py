@@ -11,7 +11,7 @@ Drives the unchanged helpers of scripts/pcb/export-assembly-preview.py (native S
 B(y-0.5,x+12) transform, the cross-board collision screen and the corner-support collar screen) for B20. That
 generator and the Board B mechanical verifiers stay unchanged because their hashes bind the 15 V package's stack proof.
 B20 differences:
-- the mechanical check is scripts/pcb/board-b20/verify-mechanics.py (B20 net names; pogo row and rail labels OPEN);
+- the mechanical check is scripts/pcb/board-b20/verify-mechanics.py (B20 net names and rail labels; pogo row OPEN);
 - the B20 stackup (JLC7628 layer values from the draft page) sums to 1.59 mm against the declared 1.6 mm board, so the
   B20 core uses a local copy of native_parts that takes the thickness from the PCB instead of the fixed 1.6 mm;
 - B20 has no bulk C5. The reviewed C5 envelope (11.2 x 11.2 x 11.0 mm at the contract center) is still screened as a
@@ -44,7 +44,11 @@ VERIFIER = ROOT / 'scripts/pcb/board-b20/verify-mechanics.py'
 
 
 def native_parts(tree,project,scratch,cli):
-    """Copy of the shared helper with the board thickness taken from the PCB's own stackup (B20: 1.59 mm, see module doc)."""
+    """Copy of the shared helper with the board thickness taken from the PCB's own stackup (B20: 1.59 mm, see module doc).
+
+    PD20: Board P r3 is two-sided, so B.Cu component models are accepted too. KiCad flips a B.Cu footprint's model, so a
+    B.Cu model is attributed to the footprint within the length of its XY offset (plus 0.001 mm) instead of exactly.
+    """
     work=copy.deepcopy(tree);sources={};expected={}
     for footprint in find_all(work,'footprint'):
         ref=properties(footprint)['Reference']
@@ -58,12 +62,16 @@ def native_parts(tree,project,scratch,cli):
             model[1]=('str',str(step))
             if fitted:
                 require(ref not in expected,'Multiple models per fitted component need explicit grouping')
-                require(atom(find_all(footprint,'layer')[0][1])=='F.Cu','Front-stack screen requires all component models on F.Cu')
+                side=atom(find_all(footprint,'layer')[0][1])
+                require(side in ('F.Cu','B.Cu'),'Component models must sit on F.Cu or B.Cu')
                 at=[float(atom(v)) for v in find_all(footprint,'at')[0][1:]]
                 theta=math.radians(at[2] if len(at)>2 else 0)
                 offset=[float(atom(v)) for v in find_all(find_all(model,'offset')[0],'xyz')[0][1:]]
-                expected[ref]=(at[0]+offset[0]*math.cos(theta)-offset[1]*math.sin(theta),
-                               -at[1]+offset[0]*math.sin(theta)+offset[1]*math.cos(theta))
+                if side=='F.Cu':
+                    expected[ref]=(at[0]+offset[0]*math.cos(theta)-offset[1]*math.sin(theta),
+                                   -at[1]+offset[0]*math.sin(theta)+offset[1]*math.cos(theta),.001)
+                else:
+                    expected[ref]=(at[0],-at[1],math.hypot(offset[0],offset[1])+.001)
     temporary=scratch/'native-export.kicad_pcb';temporary.write_text(serialize(work)+'\n')
     exported=[]
     for tag,flags in [('core',['--board-only']),('populated',[])]:
@@ -92,7 +100,7 @@ def native_parts(tree,project,scratch,cli):
         if all(abs(a-b)<.003 for a,b in zip(bounds(shape),bb)):
             cores.append(shape);continue
         origin=child.loc.toTuple()[0]
-        matches=[ref for ref,point in expected.items() if math.dist(origin[:2],point)<.001]
+        matches=[ref for ref,point in expected.items() if math.dist(origin[:2],point[:2])<point[2]]
         require(len(matches)==1,'Native component cannot be uniquely attributed: '+child.name+' '+str(origin))
         ref=matches[0];require(ref not in parts,'Duplicate native component '+ref)
         parts[ref]=shape.translate((0,0,shift))
@@ -150,7 +158,7 @@ def main():
         (scratch / 'b').mkdir()
         (scratch / 'p').mkdir()
         b_core, b_parts, b_sources, b_datum = native_parts(b_tree, project, scratch / 'b', args.kicad_cli)
-        p_core, p_parts, p_sources, p_datum = ap.native_parts(p_tree, p_pcb.parent, scratch / 'p', args.kicad_cli)
+        p_core, p_parts, p_sources, p_datum = native_parts(p_tree, p_pcb.parent, scratch / 'p', args.kicad_cli)
         p_core = ap.place_board_p(p_core, contract)
         p_parts = {ref: ap.place_board_p(part, contract) for ref, part in p_parts.items()}
         collision = ap.cross_board_screen(b_core, b_parts, p_core, p_parts, contract)
@@ -251,8 +259,8 @@ def main():
         'Review-only Board P + board-b20-draft assembly. Open preview.kicad_pcb in KiCad and use its 3D viewer. '
         'Component models are bundled locally. The display footprint for Board P is BOM/CPL-excluded; never use this '
         'file for fabrication. Source PCBs are unchanged. populated-stack.step is a local-only derivative. Nominal CAD '
-        'fit does not qualify installed hardware, wire access or powered behavior. The B20 draft has no top-edge pogo '
-        'row or rail labels yet (OPEN).\n')
+        'fit does not qualify installed hardware, wire access or powered behavior. The B20 draft carries the front/back '
+        'rail labels but no top-edge pogo row (OPEN).\n')
     mech = json.loads((output / 'mechanical-check.json').read_text())
     report = {'schema_version': 1, 'status': 'PASS', 'board_b': B_NAME, 'board_p': p_name, 'board_p_pcb': ap.P_BOARDS[p_name],
               'draft': True, 'pcb_sha256': source_hashes,

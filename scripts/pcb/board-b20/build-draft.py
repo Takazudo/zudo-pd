@@ -12,7 +12,7 @@ This is an unrouted, unvalidated placement draft. It is generated, never hand-ed
     A part joins the block of the nearest seed part through signal nets (nets with more than
     MAX_SIGNAL_PINS pins, and the supply nets in SUPPLY_NETS, do not link parts); a part reached only
     through supply nets joins the block of a part on its smallest shared supply net other than GND.
-  - Reference designators sit on F.Fab, so the placement draft carries no silkscreen text yet.
+  - Reference designators sit on F.Fab. The only silkscreen text is the Board B rail labels (PD20), front and mirrored back.
   - Phase 33: when placement-lock.json exists beside this script, its parts keep their recorded positions and only the
     rest are placed (stage-template roles not in the lock by their offsets, then the greedy fill).
 Courtyards keep at least CLEARANCE mm apart and BOARD_MARGIN mm inside the board edge.
@@ -31,6 +31,8 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / 'scripts/schgen'))
 sys.path.insert(0, str(ROOT / 'scripts/pcb'))
 import board_b20_spec as spec  # noqa: E402
+# terminal pin of each rail label; the same map as scripts/pcb/verify-compact-mechanics.py RAIL_LABEL_PINS
+RAIL_LABEL_PINS = {'-12V': ('J6', '2'), 'GND': ('J6', '1'), '+12V': ('J7', '2'), '+5V': ('J7', '1')}
 from schgen_core import new_uuid  # noqa: E402
 from pcb_common import pcb_net_name  # noqa: E402
 from sexp import atom, find_all, load  # noqa: E402
@@ -483,6 +485,31 @@ def main():
         item.SetLayer(p.Edge_Cuts)
         item.SetWidth(p.FromMM(.05))
         board.Add(item)
+    # PD20: the Board B rail labels from the reviewed contract (boards/board-b/mechanical.json), front beside each
+    # terminal pin and mirrored on B.SilkS so the back reads normally; B20 keeps the Board B J6/J7 pin nets
+    labels = json.loads((ROOT / 'boards/board-b/mechanical.json').read_text())['terminal_blocks']['rail_labels']
+    placed = {fp.GetReference(): fp for fp in board.GetFootprints()}
+    for text, (ref, pin) in RAIL_LABEL_PINS.items():
+        pad = next(q for q in placed[ref].Pads() if q.GetNumber() == pin)
+        front = p.PCB_TEXT(board)
+        front.SetText(text)
+        front.SetPosition(p.VECTOR2I(p.FromMM(labels['front_x_mm']), pad.GetPosition().y))
+        front.SetTextAngle(p.EDA_ANGLE(labels['front_rotation_deg'], p.DEGREES_T))
+        front.SetTextSize(mm(labels['front_size_mm'], labels['front_size_mm']))
+        front.SetTextThickness(p.FromMM(0.15))
+        front.SetLayer(p.F_SilkS)
+        board.Add(front)
+        reviewed = labels['back_labels'][text]
+        back = p.PCB_TEXT(board)
+        back.SetText(text)
+        back.SetPosition(mm(*reviewed['center_mm']))
+        back.SetLayer(p.B_SilkS)
+        back.SetMirrored(labels['back_mirrored'])
+        back.SetTextSize(mm(reviewed['size_mm'], reviewed['size_mm']))
+        back.SetBold(reviewed['bold'])
+        back.SetTextThickness(p.FromMM(reviewed['thickness_mm']))
+        board.Add(back)
+
     note = p.PCB_TEXT(board)
     note.SetText('B20 DRAFT - UNROUTED PLACEMENT - NOT FOR FABRICATION')
     note.SetPosition(mm(WIDTH / 2, HEIGHT - 1.5))
