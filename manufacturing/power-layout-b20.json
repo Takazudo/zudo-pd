@@ -1,0 +1,609 @@
+{
+  "board": "board-b20-draft",
+  "board_p": "board-p",
+  "draft": true,
+  "status": "PASS",
+  "status_scope": "PASS means only that the listed geometry gates hold on the current saved PCB: routing is complete, every hot-loop branch and high-current path is routed, and the pours are filled. It is not a current-capacity, loop-inductance, EMI or thermal pass. DRAFT desk screen of an unvalidated draft board. Nothing is measured; values come from routed geometry and datasheet-maximum desk models and do not establish ratings, temperatures or qualification.",
+  "pcb_sha256": "7bed70f50c820e34d9c652906b15ce62b36ec247028552f07d4938480dfffeac",
+  "source_generator": "scripts/pcb/board-b20/power-report.py",
+  "source_generator_sha256": "89c5fe8a3206dbe24789a6453a8bb761c3c7838b7cdd4c8404ca0be8a0067557",
+  "source_reports_sha256": {
+    "boards/board-b20-draft/routing-report.json": "a82514cb7784ac4dbccce6c00e8adb23a5460258218c571b022ab8aaa285c1cd",
+    "boards/board-b20-draft/loop-check.json": "e90bd21428cd48aff213dcacbe2ba1dd7fb57548451655278ed51d80a8605b13",
+    "boards/board-b20-draft/current-check.json": "f2ad68eaa36f197cccb68736f8aeb55d36d8de4a8c9645b78c92483b2d0d9cb9",
+    "boards/board-b20-draft/thermal-check.json": "d1de381a90c1a60e2e0de2926ad3e935e65f0b3b4bca5dcd6cbaeb241776e6c0"
+  },
+  "checks": {
+    "routing_complete": true,
+    "switcher_hot_loop_branches_routed": true,
+    "high_current_paths_routed": true,
+    "ground_pours_filled": true,
+    "negative_pour_filled": true
+  },
+  "switcher_hot_loops": {
+    "A": {
+      "ic": "U1",
+      "input_cap": "C3",
+      "diode": "D1",
+      "hot_loop_polygon_mm2": 29.6,
+      "hot_loop_perimeter_mm": 24.7,
+      "branches_routed": true,
+      "minimum_branch_width_mm": 1.2
+    },
+    "B": {
+      "ic": "U2",
+      "input_cap": "C7",
+      "diode": "D2",
+      "hot_loop_polygon_mm2": 29.6,
+      "hot_loop_perimeter_mm": 24.7,
+      "branches_routed": true,
+      "minimum_branch_width_mm": 0.8
+    },
+    "C": {
+      "ic": "U3",
+      "input_cap": "CCIN1",
+      "diode": "D3",
+      "hot_loop_polygon_mm2": 44.4,
+      "hot_loop_perimeter_mm": 31.4,
+      "branches_routed": true,
+      "minimum_branch_width_mm": 1.2
+    }
+  },
+  "hot_loop_open": "The inverter (stage C, U3/CCIN1/D3) loop is 44.4 mm2 on the SMC D3 land, against 29.6 mm2 for stages A and B. Loop inductance, ringing and radiated pickup are OPEN: no field solver or measurement was run.",
+  "high_current_paths": [
+    {
+      "net": "VIN",
+      "from": "J5.1",
+      "to": "C1.1",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.9,
+        "limiter_max": 9.1
+      }
+    },
+    {
+      "net": "VIN",
+      "from": "C1.1",
+      "to": "C3.1",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.9,
+        "limiter_max": 3.2
+      }
+    },
+    {
+      "net": "VIN",
+      "from": "C1.1",
+      "to": "C7.1",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.0,
+        "limiter_max": 0.0
+      }
+    },
+    {
+      "net": "VIN",
+      "from": "C1.1",
+      "to": "CCIN1.1",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.2,
+        "limiter_max": 1.7
+      }
+    },
+    {
+      "net": "P12_RAW",
+      "from": "L1.2",
+      "to": "L2.1",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.1,
+        "limiter_max": 7.4
+      }
+    },
+    {
+      "net": "P5_RAW",
+      "from": "L3.2",
+      "to": "L4.1",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.7,
+        "limiter_max": 0.7
+      }
+    },
+    {
+      "net": "M12_RAW",
+      "from": "D3.2",
+      "to": "L6.1",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.4,
+        "limiter_max": 11.0
+      }
+    },
+    {
+      "net": "P12_PRE",
+      "from": "L2.2",
+      "to": "RSH1.1",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.1,
+        "limiter_max": 7.4
+      }
+    },
+    {
+      "net": "P5_PRE",
+      "from": "L4.2",
+      "to": "RSH2.1",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.7,
+        "limiter_max": 0.7
+      }
+    },
+    {
+      "net": "M12_PRE",
+      "from": "L6.2",
+      "to": "RSH3.2",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.8,
+        "limiter_max": 6.7
+      }
+    },
+    {
+      "net": "P12_SH",
+      "from": "RSH1.2",
+      "to": "Q1.9",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.1,
+        "limiter_max": 7.4
+      }
+    },
+    {
+      "net": "P5_SH",
+      "from": "RSH2.2",
+      "to": "Q3.9",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.7,
+        "limiter_max": 0.7
+      }
+    },
+    {
+      "net": "M12_SH",
+      "from": "RSH3.1",
+      "to": "Q5.9",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.8,
+        "limiter_max": 6.7
+      }
+    },
+    {
+      "net": "P12_CS",
+      "from": "Q1.2",
+      "to": "Q2.2",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.1,
+        "limiter_max": 7.4
+      }
+    },
+    {
+      "net": "P5_CS",
+      "from": "Q3.2",
+      "to": "Q4.2",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.7,
+        "limiter_max": 0.7
+      }
+    },
+    {
+      "net": "M12_CS",
+      "from": "Q5.2",
+      "to": "Q6.2",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "B",
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.8,
+        "limiter_max": 6.7
+      }
+    },
+    {
+      "net": "P12_OUT",
+      "from": "Q2.9",
+      "to": "J7.2",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "B",
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.1,
+        "limiter_max": 7.4
+      }
+    },
+    {
+      "net": "P12_OUT",
+      "from": "J7.2",
+      "to": "J10.9",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.1,
+        "limiter_max": 7.4
+      }
+    },
+    {
+      "net": "P12_OUT",
+      "from": "J10.10",
+      "to": "J11.10",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.1,
+        "limiter_max": 7.4
+      }
+    },
+    {
+      "net": "P5_OUT",
+      "from": "Q4.9",
+      "to": "J7.1",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "B",
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.7,
+        "limiter_max": 0.7
+      }
+    },
+    {
+      "net": "P5_OUT",
+      "from": "J7.1",
+      "to": "J10.11",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.7,
+        "limiter_max": 0.7
+      }
+    },
+    {
+      "net": "P5_OUT",
+      "from": "J10.12",
+      "to": "J11.12",
+      "narrowest_mm": 0.6,
+      "path_layers": [
+        "B",
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.7,
+        "limiter_max": 0.7
+      }
+    },
+    {
+      "net": "M12_OUT",
+      "from": "Q6.9",
+      "to": "J6.2",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "B",
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.8,
+        "limiter_max": 6.7
+      }
+    },
+    {
+      "net": "M12_OUT",
+      "from": "J6.2",
+      "to": "J10.1",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "B",
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.8,
+        "limiter_max": 6.7
+      }
+    },
+    {
+      "net": "M12_OUT",
+      "from": "J10.2",
+      "to": "J11.2",
+      "narrowest_mm": 1.0,
+      "path_layers": [
+        "B",
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.8,
+        "limiter_max": 6.7
+      }
+    },
+    {
+      "net": "A_SW",
+      "from": "U1.8",
+      "to": "D1.1",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.2,
+        "limiter_max": 3.9
+      }
+    },
+    {
+      "net": "A_SW",
+      "from": "D1.1",
+      "to": "L1.1",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.2,
+        "limiter_max": 3.9
+      }
+    },
+    {
+      "net": "GND",
+      "from": "D1.2",
+      "to": "C3.2",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.2,
+        "limiter_max": 3.9
+      }
+    },
+    {
+      "net": "GND",
+      "from": "C3.2",
+      "to": "U1.9",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.2,
+        "limiter_max": 3.9
+      }
+    },
+    {
+      "net": "VIN",
+      "from": "C3.1",
+      "to": "U1.2",
+      "narrowest_mm": 1.2,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.7,
+        "limiter_max": 5.7
+      }
+    },
+    {
+      "net": "B_SW",
+      "from": "U2.8",
+      "to": "D2.1",
+      "narrowest_mm": 0.8,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.5,
+        "limiter_max": 0.5
+      }
+    },
+    {
+      "net": "B_SW",
+      "from": "D2.1",
+      "to": "L3.1",
+      "narrowest_mm": 0.8,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.5,
+        "limiter_max": 0.5
+      }
+    },
+    {
+      "net": "GND",
+      "from": "D2.2",
+      "to": "C7.2",
+      "narrowest_mm": 0.8,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.5,
+        "limiter_max": 0.5
+      }
+    },
+    {
+      "net": "GND",
+      "from": "C7.2",
+      "to": "U2.9",
+      "narrowest_mm": 0.8,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.5,
+        "limiter_max": 0.5
+      }
+    },
+    {
+      "net": "VIN",
+      "from": "C7.1",
+      "to": "U2.2",
+      "narrowest_mm": 0.8,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 0.5,
+        "limiter_max": 0.5
+      }
+    },
+    {
+      "net": "C_SW",
+      "from": "U3.8",
+      "to": "D3.1",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.5,
+        "limiter_max": 11.2
+      }
+    },
+    {
+      "net": "C_SW",
+      "from": "D3.1",
+      "to": "L5.1",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.5,
+        "limiter_max": 11.2
+      }
+    },
+    {
+      "net": "M12_RAW",
+      "from": "D3.2",
+      "to": "CCIN1.2",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.5,
+        "limiter_max": 11.2
+      }
+    },
+    {
+      "net": "M12_RAW",
+      "from": "CCIN1.2",
+      "to": "U3.9",
+      "narrowest_mm": 1.5,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 1.5,
+        "limiter_max": 11.2
+      }
+    },
+    {
+      "net": "VIN",
+      "from": "CCIN1.1",
+      "to": "U3.2",
+      "narrowest_mm": 1.2,
+      "path_layers": [
+        "F"
+      ],
+      "rise_k": {
+        "rated": 2.2,
+        "limiter_max": 16.2
+      }
+    }
+  ],
+  "hottest_path_limiter_max": {
+    "net": "VIN",
+    "from": "CCIN1.1",
+    "to": "U3.2",
+    "rise_k": 16.2
+  },
+  "path_rise_basis": "Desk trace-rise estimate from routed width, length and copper thickness at the rated and limiter-maximum currents (current-check.py). Not a measured temperature.",
+  "negative_filled_zone_areas": [
+    {
+      "regulator": "U3",
+      "layer": "F.Cu",
+      "net": "M12_RAW",
+      "filled_zone_area_mm2": 59.281,
+      "excluded_other_polygons_mm2": 0.0
+    }
+  ],
+  "ground_filled_zone_areas_mm2": {
+    "B.Cu": 6342.94,
+    "F.Cu": 4808.709,
+    "In1.Cu": 8373.658
+  },
+  "open": [
+    "Inverter hot-loop inductance and pickup (OPEN, desk only).",
+    "D3 local copper temperature (UNKNOWN).",
+    "Ground polygon connectivity and stitch adequacy beyond DRC connectivity (NOT RUN for B20).",
+    "Any measured temperature, ripple or efficiency (NOT RUN: no hardware)."
+  ]
+}

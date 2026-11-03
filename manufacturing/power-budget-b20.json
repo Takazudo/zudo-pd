@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "draft": true,
+  "status": "DRAFT 20 V SWITCHER-DIRECT DESK BUDGET; DRAFT desk screen of an unvalidated draft board. Nothing is measured; values come from routed geometry and datasheet-maximum desk models and do not establish ratings, temperatures or qualification.",
+  "board_p": "board-p",
+  "board_b": "board-b20-draft",
+  "rated_targets": {
+    "plus12": {
+      "voltage_v": 12,
+      "current_a": 1.2
+    },
+    "minus12": {
+      "voltage_v": -12,
+      "current_a": 0.8
+    },
+    "plus5": {
+      "voltage_v": 5,
+      "current_a": 0.5
+    }
+  },
+  "switcher_path": "VIN (PD 20 V contract, 19 V desk input) feeds three switchers directly: +12 V buck U1, +5 V buck U2 and the -12 V inverting stage U3. Each stage passes a post filter, a shunt (RSH1-RSH3) and its rail FETs to J6/J7 and the J10/J11 bus headers.",
+  "desk_assumptions": {
+    "vin_v": 19.0,
+    "fsw_hz": 556700.0,
+    "ambient_c": 40.0,
+    "h_w_per_m2k": [
+      10.0,
+      15.0
+    ],
+    "area_both_faces_m2": 0.0187,
+    "control_allowance_w": 0.3
+  },
+  "desk_loss_cases": {
+    "rated_typ_rds": {
+      "board_loss_w": 2.39,
+      "output_w": 26.82,
+      "efficiency": 0.9181,
+      "input_a_at_19v": 1.538,
+      "mean_board_rise_k": [
+        12.8,
+        8.5
+      ],
+      "stage_loss_w": {
+        "+12": 0.697,
+        "-12": 1.087,
+        "+5": 0.309
+      },
+      "stage_tj_std_board_c": {
+        "+12": 48.6,
+        "-12": 53.3,
+        "+5": 43.1
+      }
+    },
+    "rated_max_rds": {
+      "board_loss_w": 2.58,
+      "output_w": 26.82,
+      "efficiency": 0.9122,
+      "input_a_at_19v": 1.548,
+      "mean_board_rise_k": [
+        13.8,
+        9.2
+      ],
+      "stage_loss_w": {
+        "+12": 0.798,
+        "-12": 1.165,
+        "+5": 0.318
+      },
+      "stage_tj_std_board_c": {
+        "+12": 52.9,
+        "-12": 56.6,
+        "+5": 43.5
+      }
+    },
+    "limiter_max_typ_rds": {
+      "board_loss_w": 5.86,
+      "output_w": 52.32,
+      "efficiency": 0.8993,
+      "input_a_at_19v": 3.062,
+      "mean_board_rise_k": [
+        31.3,
+        20.9
+      ],
+      "stage_loss_w": {
+        "+12": 1.642,
+        "-12": 3.608,
+        "+5": 0.309
+      },
+      "stage_tj_std_board_c": {
+        "+12": 58.6,
+        "-12": 80.2,
+        "+5": 43.1
+      }
+    },
+    "limiter_max_max_rds": {
+      "board_loss_w": 6.62,
+      "output_w": 52.32,
+      "efficiency": 0.8877,
+      "input_a_at_19v": 3.102,
+      "mean_board_rise_k": [
+        35.4,
+        23.6
+      ],
+      "stage_loss_w": {
+        "+12": 1.935,
+        "-12": 4.066,
+        "+5": 0.318
+      },
+      "stage_tj_std_board_c": {
+        "+12": 70.9,
+        "-12": 99.4,
+        "+5": 43.5
+      }
+    }
+  },
+  "board_loss_at_limiter_max_with_max_rdson_w": 6.62,
+  "loss_basis": "thermal-check.py desk model: conduction, switching, gate and quiescent IC terms plus diode, inductor, post-filter, shunt and rail-FET losses, with mean board rise from the board area and an assumed convection coefficient range. Not a thermal simulation or measurement.",
+  "source_generator": "scripts/pcb/board-b20/power-report.py",
+  "source_generator_sha256": "89c5fe8a3206dbe24789a6453a8bb761c3c7838b7cdd4c8404ca0be8a0067557",
+  "thermal_source": "boards/board-b20-draft/thermal-check.json",
+  "thermal_source_sha256": "d1de381a90c1a60e2e0de2926ad3e935e65f0b3b4bca5dcd6cbaeb241776e6c0",
+  "board_p_spec_sha256": "e2e7a7e46eb4a6023833a1f9789caebfeb9d7a53c39655a426de6360d49541e2",
+  "board_b20_draft_spec_sha256": "9136476346fdf16b8780a412a458377e6f1b656a2be5279e0066f3c34771ec9c",
+  "protection_pcb_source_sha256": {
+    "board-p": "407f634942a641e8c91dfbd141e7ebe3eed2ac803b2d57c44871c6c44717d278",
+    "board-b20-draft": "7bed70f50c820e34d9c652906b15ce62b36ec247028552f07d4938480dfffeac"
+  },
+  "actual_filled_copper": {
+    "pcb_sha256": "7bed70f50c820e34d9c652906b15ce62b36ec247028552f07d4938480dfffeac",
+    "negative_zones": [
+      {
+        "regulator": "U3",
+        "layer": "F.Cu",
+        "net": "M12_RAW",
+        "filled_zone_area_mm2": 59.281,
+        "excluded_other_polygons_mm2": 0.0
+      }
+    ],
+    "ground_zone_areas_mm2": {
+      "B.Cu": 6342.94,
+      "F.Cu": 4808.709,
+      "In1.Cu": 8373.658
+    }
+  },
+  "open_qualification": [
+    "Full-load, low-line, thermal and transient behavior (OPEN: no hardware).",
+    "The -12 V stage carries the largest desk loss and junction estimate; its copper temperature is UNKNOWN.",
+    "Input current against the PD contract during startup (OPEN)."
+  ]
+}
