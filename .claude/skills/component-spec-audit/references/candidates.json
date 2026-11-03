@@ -122,18 +122,6 @@
       "rationale": "Removed fromrenewalBoardB byuser-authorizedpower-stage redesign; retainedonlyashistoricalevidence for the former regulator, not a current BOM component."
     },
     {
-      "candidate_id": "cand-c25804-retired",
-      "mpn": "0603WAF1002T5E",
-      "manufacturer": "UNI-ROYAL",
-      "lcsc": "C25804",
-      "package": "R0603",
-      "function": "10 kOhm resistor, DC-DC feedback divider bottom resistor",
-      "owner_skill": "component-project-passives",
-      "status": "REJECTED",
-      "replaces_line_id": "line-c861679",
-      "rationale": "Former LM2596 U2 R1 10 kOhm divider was superseded by the AP63201 158 kOhm/10 kOhm precision divider. Retained solely as historical evidence."
-    },
-    {
       "mpn": "63951-1",
       "manufacturer": "TE Connectivity",
       "lcsc": "C591344",
@@ -144,6 +132,66 @@
       "status": "REJECTED",
       "replaces_line_id": "line-c8465",
       "rationale": "User-selected two-pole screw terminals replace all four Fastons in the current board. Retained only as historical guarded-revision evidence and CAD assets; no active BOM placement."
+    },
+    {
+      "candidate_id": "cand-rls12ftcr020-c163047",
+      "mpn": "RLS12FTCR020",
+      "manufacturer": "TA-I Technology",
+      "lcsc": "C163047",
+      "package": "1206 (3216 metric)",
+      "function": "Board B 20 V draft 20 mOhm limiter shunt alternative (higher stock)",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "status": "SHORTLISTED",
+      "replaces_line_id": null,
+      "rationale": "Shortlisted 2026-10-31 for the Board B 20 V switcher-direct draft (manufacturing/board-b-20v-switcher-direct-draft.md). Primary TRLS-XXOS002B retrieved; used only by the unbound board_b20_spec.py."
+    },
+    {
+      "candidate_id": "cand-tps26630rger-c1850276",
+      "mpn": "TPS26630RGER",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C1850276",
+      "package": "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7",
+      "function": "20V input eFuse with B_GATE blocking-FET driver (Board P r2 U2, superseded)",
+      "owner_skill": "component-tps26630rger",
+      "status": "REJECTED",
+      "replaces_line_id": null,
+      "rationale": "Board P r2 U2. Superseded 2026-10-31 by user decision dec-p-20v-front-end-r3 (TPS16630PWPR + LM74700-Q1 + Q3) and removed from the inventory-bound board_p_spec.py in the phase-8 migration (dec-p-front-end-r3-migration). Evidence retained as the r2 record; the archived r2 integration rules and observed runs cite it."
+    },
+    {
+      "candidate_id": "cand-rt0603brd07680rl-c861519",
+      "mpn": "RT0603BRD07680RL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861519",
+      "package": "R0603",
+      "function": "680 ohm 0.1% 25 ppm/C 0603 thin-film resistor, former Board B R21/R27 line (superseded)",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c5455478",
+      "rationale": "Superseded 2026-11-01 by dec-b-stock-gap-substitutions: the owner adopted AT0603BRD07680RL C5455478 for R21/R27 because C861519 listed 0 in stock against 10 needed for a 5-set Board B lot. Its evidence stays owned for comparison and for the boards already built with it; it is not placed by any generator spec."
+    },
+    {
+      "candidate_id": "cand-gvt1e477m0810cnvc-c2983319",
+      "mpn": "GVT1E477M0810CNVC",
+      "manufacturer": "HRK",
+      "lcsc": "C2983319",
+      "package": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD",
+      "function": "470 uF 25 V 8x10.2 mm aluminum electrolytic, former Board B C11 line (superseded)",
+      "owner_skill": "component-project-passives",
+      "status": "REJECTED",
+      "replaces_line_id": "line-c696190",
+      "rationale": "Superseded 2026-11-01 by dec-b-stock-gap-substitutions: the owner adopted Honor RVT1E471M0810 C696190 for C11 because C2983319 listed 1 in stock against 5 needed. Its evidence stays owned for comparison and for the boards already built with it; it is not placed by any generator spec."
+    },
+    {
+      "candidate_id": "cand-pds760-13-c96113",
+      "mpn": "PDS760-13",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C96113",
+      "package": "PowerDI5",
+      "function": "Board B 20 V draft D3 alternative 60 V Schottky (PowerDI5)",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "status": "SHORTLISTED",
+      "replaces_line_id": null,
+      "rationale": "Phase 32 (2026-11-02): larger-package alternative to the B20 inverter catch diode SDT5A60SA-13 (SMA). Diodes datasheet retrieved and hashed; land does not fit the current B20 placement."
     }
   ],
   "promoted_candidates": [
@@ -151,6 +199,21 @@
       "candidate_id": "cand-smaj6-5a-c87267",
       "promoted_to_line_id": "line-c87267",
       "note": "Promoted to inventory line-c87267 (TVS2) by wave-6 decision dec-a-tvs2-replacement (locked by #123, implemented by #125). This tombstone keeps the locked decisions.json evidence ref 'cand-smaj6-5a-c87267' resolvable in the fact base after promotion; the record's full evidence lives on in component-sd05-c502527 as rec-cand-smaj6-5a-c87267."
+    },
+    {
+      "candidate_id": "cand-tps16630pwpr-c1849461",
+      "promoted_to_line_id": "line-c1849461",
+      "note": "Promoted to inventory line-c1849461 (Board P U2) in the phase-8 migration of board_p_spec.py to the r3 front end (dec-p-front-end-r3-migration). This tombstone keeps the locked decisions.json evidence ref resolvable; the record lives on in component-tps16630pwpr as rec-c1849461."
+    },
+    {
+      "candidate_id": "cand-lm74700-c2941042",
+      "promoted_to_line_id": "line-c2941042",
+      "note": "Promoted to inventory line-c2941042 (Board P U3) in the phase-8 migration of board_p_spec.py to the r3 front end (dec-p-front-end-r3-migration). The Board B 20 V reverse-blocking use remains unplaced. This tombstone keeps the locked decisions.json evidence ref resolvable; the record lives on in component-lm74700qdbvrq1 as rec-c2941042."
+    },
+    {
+      "candidate_id": "cand-retired-c74561",
+      "promoted_to_line_id": "line-c74561",
+      "note": "Returned to inventory line-c74561 (15 V Board P D5, board_p15_spec.py) by dec-separate-products and dec-p15-reset-subset (phase 15, 2026-11-01). The 20 V Board P keeps TVS2200DRVR C523793. This tombstone keeps locked evidence refs to 'cand-retired-c74561' resolvable; the record lives on in component-renewal-input-protection as rec-c74561."
     }
   ]
 }

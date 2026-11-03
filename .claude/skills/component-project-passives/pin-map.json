@@ -419,7 +419,7 @@
           "function": "anode"
         }
       ],
-      "reviewed_by": "2026-09-21 review against symbols/zudo-pd.kicad_sym symbol 'YLED0603YG' (pin 1=K, pin 2=A), footprints/kicad/zudo-power.pretty/LED0603-RD.kicad_mod (pad 1, pad 2), the LCSC/EasyEDA library entry for C2289 and the JLCPCB placement preview; not a manufacturer datasheet"
+      "reviewed_by": "2026-09-21 review against symbols/zudo-pd.kicad_sym symbol 'YLED0603YG' (pin 1=K, pin 2=A; the placed 'KT-0603YG' symbol was renumbered to match on 2026-10-31), footprints/kicad/zudo-power.pretty/LED0603-RD.kicad_mod (pad 1, pad 2), the LCSC/EasyEDA library entry for C2289 and the JLCPCB placement preview; not a manufacturer datasheet"
     },
     {
       "pin_map_id": "pinmap-c2288",
@@ -546,6 +546,27 @@
         }
       ],
       "reviewed_by": "generated-netlist audit 2026-08-02"
+    },
+    {
+      "pin_map_id": "pinmap-c696190",
+      "record_id": "rec-c696190",
+      "symbol": "RVT1E471M0810",
+      "footprint": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "positive terminal (+ marker beside symbol pin 1); Board B C11.1 is GND"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "negative terminal; Board B C11.2 is -13.5V OUT"
+        }
+      ],
+      "reviewed_by": "2026-11-01 HONORCAP dimension figure (positive / negative terminal) against the shared Phi 8 land; no new asset; 2026-11-01 adoption: project symbol RVT1E471M0810 cloned from GVT1E477M0810CNVC, whose drawing marks pin 1 positive; pad 1 positive per the HONORCAP figure"
     }
   ]
 }

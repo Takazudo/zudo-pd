@@ -1006,6 +1006,183 @@
         "normalized_step_sha256": "e7ab1216723bbee032969a27b7c8752922a7ac8325b97c1b581d801c9293070d",
         "scope": "Component owner normalized this asset before this independent datum audit; no further translation is prescribed."
       }
+    },
+    {
+      "wrl": "SOD-123_L2.8-W1.8-LS3.7-RD.wrl",
+      "uses_at_review": [
+        "board-p15/D9"
+      ],
+      "reviewed_wrl_sha256": "45ee4c503da44795a4f422d2d92f51802d3df66ad926d926d4878cd01c406507",
+      "original_step_sha256": "39d20e9e6c37049f4a9fa09f8be14334ee9f1d78ffccd660706c8ac0d590dcdc",
+      "surface_before_normalization": {
+        "wrl_to_step": {
+          "max_mm": 0.5701039999999999,
+          "p99_mm": 0.5701039999999999,
+          "samples": 1115
+        },
+        "step_to_wrl": {
+          "max_mm": 0.550038001800912,
+          "p99_mm": 0.5452046227730929,
+          "samples": 3072
+        }
+      },
+      "reviewed_translation_mm": [
+        0.0,
+        0.0,
+        0.55
+      ],
+      "reviewed_translated_surface_screen": {
+        "wrl_to_step": {
+          "max_mm": 0.020103999999999955,
+          "p99_mm": 0.020103999999999955,
+          "samples": 1115
+        },
+        "step_to_wrl": {
+          "max_mm": 0.0016840276327889628,
+          "p99_mm": 0.0015545375925449102,
+          "samples": 3072
+        }
+      }
+    },
+    {
+      "wrl": "HSOP-8_DDA_MaxEnvelope_W4.0-L5.0-H1.7.wrl",
+      "uses_at_review": [
+        "board-b20-draft/U1",
+        "board-b20-draft/U2",
+        "board-b20-draft/U3"
+      ],
+      "reviewed_wrl_sha256": "b4fb4378fd16b6b2b147a51c850bdf05e6158f4d570488a7e54e255b4a4a689e",
+      "original_step_sha256": "e914b080461010d9e1c1ba22b64a0f34fa000afbe253452daa99305dbcf19637",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "PowerDI3333-8_MaxEnvelope_L3.35-W3.35-H0.85.wrl",
+      "uses_at_review": [
+        "board-b20-draft/Q24",
+        "board-b20-draft/Q31",
+        "board-b20-draft/Q34",
+        "board-b20-draft/Q54",
+        "board-b20-draft/Q56"
+      ],
+      "reviewed_wrl_sha256": "b3695cc87afb7ec472b898c7e3505708e55f1d97d49ee4b87cf8f116c40dae47",
+      "original_step_sha256": "0cbf674ddfb7c8a0849adb76cedc9b068929eed2d66f0bc276a9d0c2ec7a1f58",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "R1206_MaxEnvelope_L3.45-W1.85-H0.89.wrl",
+      "uses_at_review": [
+        "board-b20-draft/R76",
+        "board-b20-draft/RSH2",
+        "board-b20-draft/RX5",
+        "board-b20-draft/RX12"
+      ],
+      "reviewed_wrl_sha256": "46176c083a4729d0df070f83a89f3ade70f501e192969b013c31c9acb30020b8",
+      "original_step_sha256": "85b95e6e6df4ec876ac0aff05d16455f3561aa7a5a1be6ffb6eab16e4feb1014",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "R2512_PCSR2512_MaxEnvelope_L6.6-W3.4-H0.9.wrl",
+      "uses_at_review": [
+        "board-b20-draft/RSH1",
+        "board-b20-draft/RSH3"
+      ],
+      "reviewed_wrl_sha256": "b020e25e8824a8fcef6e400bbecd4aae8a76e6470735b2825e0eb639de428bce",
+      "original_step_sha256": "0cacfed4275ff92d74b11e5ed94388bf119072037007ca4ce4f82f664fabe03d",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "SMC_MaxEnvelope_L8.13-W6.22-H2.5.wrl",
+      "uses_at_review": [
+        "board-b20-draft/D3"
+      ],
+      "reviewed_wrl_sha256": "dac4c53c08ef704adde8a1c23f4cc20c37fc15c8a0719215a2e68d6e7f0567cc",
+      "original_step_sha256": "a5803a1e6690add546eda0dec43d621f2ef25a1ffece05d8c70293b69262c521",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "SOIC-8_D_MaxEnvelope_W3.98-L5.0-H1.75.wrl",
+      "uses_at_review": [
+        "board-b20-draft/U10"
+      ],
+      "reviewed_wrl_sha256": "8b2ae0b63985a1d9323a74dc8b00078193972885745ab83fded6b5f8690249a5",
+      "original_step_sha256": "005251ad7ef15525bf41d139217c5e2234311867851afafed2ee34d4f1c122db",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "SON-8_Q3A_MaxEnvelope_L3.25-W3.25-H0.9.wrl",
+      "uses_at_review": [
+        "board-b20-draft/Q1",
+        "board-b20-draft/Q2",
+        "board-b20-draft/Q3",
+        "board-b20-draft/Q4",
+        "board-b20-draft/Q5",
+        "board-b20-draft/Q6"
+      ],
+      "reviewed_wrl_sha256": "1f070ce0e6a50b45372632262c7988636c4c82877c340e5df5383be9d41ba3ea",
+      "original_step_sha256": "1c8d0ab10bf011d28e8357da0e4436a6eb6c6af6c24704533cb69c62466c4a64",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "SOT-23_DS30144_MaxEnvelope_W1.4-L3.0-H1.15.wrl",
+      "uses_at_review": [
+        "board-b20-draft/Q10",
+        "board-b20-draft/Q11",
+        "board-b20-draft/Q12",
+        "board-b20-draft/Q25",
+        "board-b20-draft/Q30",
+        "board-b20-draft/Q32",
+        "board-b20-draft/Q33",
+        "board-b20-draft/Q35",
+        "board-b20-draft/Q36",
+        "board-b20-draft/Q37",
+        "board-b20-draft/Q38",
+        "board-b20-draft/Q39",
+        "board-b20-draft/Q40",
+        "board-b20-draft/Q41",
+        "board-b20-draft/Q42",
+        "board-b20-draft/Q43",
+        "board-b20-draft/Q44",
+        "board-b20-draft/Q45",
+        "board-b20-draft/Q46",
+        "board-b20-draft/Q47",
+        "board-b20-draft/Q48",
+        "board-b20-draft/Q49",
+        "board-b20-draft/Q50",
+        "board-b20-draft/Q51",
+        "board-b20-draft/Q52",
+        "board-b20-draft/Q55",
+        "board-b20-draft/Q57",
+        "board-b20-draft/Q59",
+        "board-b20-draft/Q60",
+        "board-b20-draft/Q61",
+        "board-b20-draft/Q62",
+        "board-b20-draft/Q63",
+        "board-b20-draft/Q64",
+        "board-b20-draft/Q65",
+        "board-b20-draft/Q66"
+      ],
+      "reviewed_wrl_sha256": "e223a967e3c7c2a3067a119c4d6ece20e4dd8bdadfec656e14558f9b98fd6658",
+      "original_step_sha256": "f3a1fd0ce0b1d341967c355c5b852685b42a6214a2477a9a608db040e293ee1d",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
+    },
+    {
+      "wrl": "VSSOP-8_DGK_MaxEnvelope_W3.1-L3.1-H1.1.wrl",
+      "uses_at_review": [
+        "board-b20-draft/U4",
+        "board-b20-draft/U5",
+        "board-b20-draft/U6",
+        "board-b20-draft/U7",
+        "board-b20-draft/U8",
+        "board-b20-draft/U9",
+        "board-b20-draft/U11",
+        "board-b20-draft/U12",
+        "board-b20-draft/U13",
+        "board-b20-draft/U15",
+        "board-b20-draft/U16"
+      ],
+      "reviewed_wrl_sha256": "85f9bba30405f973b21f772a29f7ea1b72cfb73452d1e9c2db69790abfaa6671",
+      "original_step_sha256": "2ab9ac664bba6a013fbb86b6aa4979d922181b6ba7debf2f28940bd3f244ae7f",
+      "review_status": "REVIEWED (independent read-only review, 2026-11-03, PASS, no fix required): WRL/STEP maximum deviation 0.000000 mm, current hashes equal the reviewed values, and the box axes, Z=0 seating plane and courtyard margins match the B20 footprints. The box carries no pin-1 or cathode cue; orientation is marked on Fab and Silk only. Added in phase 33 for the board-b20-draft binding. Visualization only; not physical fit. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The surface screen is in footprints/kicad/step-datum-verification.json, not in this manifest."
     }
   ]
 }

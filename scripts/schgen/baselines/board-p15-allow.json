@@ -1,0 +1,55 @@
+{
+  "_comment": "Intentional deltas of the 15 V Board P spec (board_p15_spec.py) against the as-built routed-module baseline board-p.json, which the as-built boards/board-p/board-p.kicad_pcb and the corner-support-review package match pin for pin (stage 1, phase 15). dec-p15-reset-subset applies LED requirements R1.1-R1.3 from the common controller block: R21 becomes a 0 Ohm C21189 strap from U1.6 RESET to GND (same pins, so no net delta), J2.4 is left unconnected, and the R15/R16 I2C pull-ups to VREG_2V7 move to the programming jig. check_baseline.py checks every declared delta still holds. Phase 17: dec-p15-i2c-pulldowns adds R22/R23 100k C25803 from SCL/SDA to GND; dec-p15-vdd-local-clamp moves U1.24 VDD and C2.2 off VBUS_IN onto VDD_LOC behind R29 1k C21190 + R30 470R C23179 (VDD_MID between them) with D9 BZT52C18-7-F C192739 to GND. Phase 18: dec-p15-vdd-decoupling adds C38 1 uF C15849 from VDD_LOC to GND.",
+  "added_nets": [
+    "VDD_MID",
+    "VDD_LOC"
+  ],
+  "removed_nets": [],
+  "added_pins": {
+    "VBUS_IN": [
+      "R29.1"
+    ],
+    "SCL": [
+      "R22.1"
+    ],
+    "SDA": [
+      "R23.1"
+    ],
+    "GND": [
+      "R22.2",
+      "R23.2",
+      "D9.2",
+      "C38.2"
+    ],
+    "VDD_MID": [
+      "R29.2",
+      "R30.1"
+    ],
+    "VDD_LOC": [
+      "U1.24",
+      "C2.2",
+      "R30.2",
+      "D9.1",
+      "C38.1"
+    ]
+  },
+  "removed_pins": {
+    "VREG_2V7": [
+      "R15.2",
+      "R16.2"
+    ],
+    "SCL": [
+      "R15.1"
+    ],
+    "SDA": [
+      "R16.1"
+    ],
+    "RESET": [
+      "J2.4"
+    ],
+    "VBUS_IN": [
+      "U1.24",
+      "C2.2"
+    ]
+  }
+}

@@ -1,0 +1,311 @@
+{
+ "width_rule": {
+  "current_a": 5.0,
+  "temperature_rise_c": 20.0,
+  "copper": "35 um (1 oz) outer, board stackup",
+  "method": "IPC-2221 external-layer chart (PA)",
+  "min_width_mm": 1.82
+ },
+ "pours": [
+  {
+   "net": "VBUS_IN",
+   "layer": "F.Cu",
+   "outlines_mm": [
+    [
+     [
+      7.2,
+      7.85
+     ],
+     [
+      11.45,
+      7.85
+     ],
+     [
+      11.45,
+      6.3
+     ],
+     [
+      12.5,
+      6.3
+     ],
+     [
+      12.5,
+      7.85
+     ],
+     [
+      14.5,
+      7.85
+     ],
+     [
+      14.5,
+      6.3
+     ],
+     [
+      15.6,
+      6.3
+     ],
+     [
+      15.6,
+      10.55
+     ],
+     [
+      7.2,
+      10.55
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "EF_IN",
+   "layer": "F.Cu",
+   "outlines_mm": [
+    [
+     [
+      5.75,
+      10.75
+     ],
+     [
+      9.3,
+      10.75
+     ],
+     [
+      9.3,
+      15.95
+     ],
+     [
+      5.75,
+      15.95
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "VBUS_P",
+   "layer": "F.Cu",
+   "outlines_mm": [
+    [
+     [
+      9.3,
+      12.3
+     ],
+     [
+      16.8,
+      12.3
+     ],
+     [
+      16.8,
+      15.6
+     ],
+     [
+      11.2,
+      15.6
+     ],
+     [
+      11.2,
+      21.0
+     ],
+     [
+      10.3,
+      21.0
+     ],
+     [
+      10.3,
+      23.5
+     ],
+     [
+      9.3,
+      23.5
+     ],
+     [
+      9.3,
+      26.45
+     ],
+     [
+      5.6,
+      26.45
+     ],
+     [
+      5.6,
+      22.0
+     ],
+     [
+      7.3,
+      22.0
+     ],
+     [
+      7.3,
+      19.9
+     ],
+     [
+      9.3,
+      19.9
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "VBUS_OUT",
+   "layer": "F.Cu",
+   "outlines_mm": [
+    [
+     [
+      4.6,
+      26.75
+     ],
+     [
+      9.3,
+      26.75
+     ],
+     [
+      9.3,
+      38.9
+     ],
+     [
+      4.6,
+      38.9
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "GND",
+   "layer": "F.Cu",
+   "outlines_mm": [
+    [
+     [
+      0.3,
+      0.3
+     ],
+     [
+      26.7,
+      0.3
+     ],
+     [
+      26.7,
+      39.7
+     ],
+     [
+      0.3,
+      39.7
+     ]
+    ]
+   ]
+  },
+  {
+   "net": "GND",
+   "layer": "B.Cu",
+   "outlines_mm": [
+    [
+     [
+      0.3,
+      0.3
+     ],
+     [
+      26.7,
+      0.3
+     ],
+     [
+      26.7,
+      39.7
+     ],
+     [
+      0.3,
+      39.7
+     ]
+    ]
+   ]
+  }
+ ],
+ "cross_sections": [
+  {
+   "net": "VBUS_IN",
+   "cut": "x=10.0",
+   "span_mm": [
+    7.85,
+    10.55
+   ],
+   "aggregate_filled_mm": 2.7,
+   "largest_run_mm": 2.7,
+   "meets_min_width": true
+  },
+  {
+   "net": "VBUS_IN",
+   "cut": "x=13.5",
+   "span_mm": [
+    7.85,
+    10.55
+   ],
+   "aggregate_filled_mm": 2.7,
+   "largest_run_mm": 2.7,
+   "meets_min_width": true
+  },
+  {
+   "net": "EF_IN",
+   "cut": "y=14.05",
+   "span_mm": [
+    5.75,
+    9.3
+   ],
+   "aggregate_filled_mm": 3.25,
+   "largest_run_mm": 3.25,
+   "meets_min_width": true
+  },
+  {
+   "net": "VBUS_P",
+   "cut": "y=17.5",
+   "span_mm": [
+    9.3,
+    11.2
+   ],
+   "aggregate_filled_mm": 1.85,
+   "largest_run_mm": 1.85,
+   "meets_min_width": true
+  },
+  {
+   "net": "VBUS_P",
+   "cut": "x=13.5",
+   "span_mm": [
+    12.3,
+    15.6
+   ],
+   "aggregate_filled_mm": 3.3,
+   "largest_run_mm": 3.3,
+   "meets_min_width": true
+  },
+  {
+   "net": "VBUS_P",
+   "cut": "y=24.5",
+   "span_mm": [
+    5.6,
+    9.3
+   ],
+   "aggregate_filled_mm": 3.7,
+   "largest_run_mm": 3.7,
+   "meets_min_width": true
+  },
+  {
+   "net": "VBUS_OUT",
+   "cut": "y=33.0",
+   "span_mm": [
+    4.6,
+    9.3
+   ],
+   "aggregate_filled_mm": 4.7,
+   "largest_run_mm": 4.7,
+   "meets_min_width": true
+  }
+ ],
+ "island_vias": [
+  [
+   12.06,
+   15.91
+  ]
+ ],
+ "gnd_clusters_detached": [],
+ "stitching_vias": {
+  "count": 58,
+  "diameter_mm": 0.6,
+  "drill_mm": 0.3,
+  "pitch_mm": 2.0
+ }
+}

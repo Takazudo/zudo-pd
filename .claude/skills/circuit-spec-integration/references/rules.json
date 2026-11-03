@@ -71,13 +71,21 @@
         "rec-c666306",
         "rec-c861077",
         "rec-c110776",
-        "rec-c74561",
         "rec-c3024223",
         "rec-c970687",
         "rec-c22387780",
         "rec-c13585",
         "rec-c14663",
-        "rec-grm32er71h106ka12l"
+        "rec-grm32er71h106ka12l",
+        "rec-c523793",
+        "rec-c1849461",
+        "rec-c2941042",
+        "rec-c861163",
+        "rec-rt0603brd0710kl",
+        "rec-c840100",
+        "rec-c461081",
+        "rec-c192739",
+        "rec-c260890"
       ],
       "fact_ids": [
         "fact-high-diode-smaj20a-standoff",
@@ -99,20 +107,44 @@
         "fact-c110776-tolerance",
         "fact-c861077-tcr",
         "fact-c110776-tcr",
-        "fact-c74561-standoff",
-        "fact-c74561-clamp",
-        "fact-c74561-vbr-tempco-typ",
         "fact-c3024223-vrrm",
         "fact-c970687-voltage",
         "fact-c22387780-voltage",
         "fact-c13585-voltage",
         "fact-c14663-voltage",
         "fact-grm32er71h106ka12l-voltage",
-        "fact-lm2596-vin-operating-max"
+        "fact-lm2596-vin-operating-max",
+        "fact-c523793-vrwm",
+        "fact-c523793-vbr",
+        "fact-c523793-vclamp-40a",
+        "fact-c523793-vclamp-35a-125c",
+        "fact-c1849461-in-absmax",
+        "fact-c2941042-gate-anode-absmax",
+        "fact-c2941042-cp-off-max",
+        "fact-c840100-vds",
+        "fact-c840100-vgs",
+        "fact-c1849461-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-c861163-tolerance",
+        "fact-c861163-tcr",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-rt0603brd0710kl-tolerance",
+        "fact-rt0603brd0710kl-tcr",
+        "fact-c461081-vds",
+        "fact-c461081-vgs",
+        "fact-c1849461-ovp-toff-max",
+        "fact-c1849461-fast-trip-typ-only",
+        "fact-c192739-vz-max",
+        "fact-c192739-tc-max",
+        "fact-c192739-zzt",
+        "fact-c260890-vz-max",
+        "fact-c260890-tc-max",
+        "fact-c260890-zzt",
+        "fact-stusb-vbus-pin-absolute-max"
       ],
-      "conditions": "Current P D5 is Littelfuse SMAJ16A C74561 and B D3 is Diodes SDT5A60SA-13 C3024223. Normal prototype source input is 15 V ±5% (14.25..15.75 V), leaving only 0.25 V below 16 V standoff. The 26 V maximum clamp is specified at 15.4 A,10/1000 us,25C; it is not a universal hot/installed-surge ceiling, and VBR temperature coefficient cannot be applied as a VC correction. With selected full-temperature reference and 0.35% resistor/TCR negative maximum 14.814410 V, conditioned combined stress is40.814410 V: below U4 absolute45 V,D3 reverse60 V,C9 50 V, but above U4 operating40 V. STUSB28 V,Q1 VDS30 V and input capacitors35/50 V have conditioned margin. Output TVS/load limits and actual waveforms remain separate; old SMAJ20A32.4 V/SS34 40 V comparison is explicitly retired.",
+      "conditions": "Board P spec is the 20 V r3 draft (dec-p-20v-revision, dec-p-20v-front-end-r3, dec-p-front-end-r3-migration): D5 TVS2200DRVR C523793 clamps connector VBUS_IN; Q3 CSD18543Q3A driven by the LM74700QDBVRQ1 C2941042 ideal-diode controller U3 (ANODE/EN on VBUS_IN, CATHODE on EF_IN) and U2 TPS16630PWPR C1849461 feed protected VBUS_P, which carries STUSB4500 VDD, Q1 and Board B. The TPS26630 and Q4 B_GATE pulldown of r2 are removed; the r2 arithmetic is archived. The Board P PCB is still the 15 V as-built SMAJ16A layout and is not re-synchronised. TVS2200 standoff (a DC maximum) is 22 V, 1.0 V above the 21.0 V project normal high (20 V +5 %); its clamp maximum is 28.0 V at 40 A 8/20 us 27 C and 28.35 V at 35 A 8/20 us 125 C. Board P Q1 is proposed as DMP3036SFG-7 C461081 (dec-p-20v-q1-5a; VDSS -30 V, VGSS +/-25 V), the same -30 V VDS as the AO3401A that remains on Board A and the as-built Board P PCB. That clamp point leaves 38.65 V to U2 IN/P_IN 67 V and 31.65 V to Q3 VDS 60 V. Q3 VGS is bounded by U3: 13.9 V maximum charge-pump turn-off leaves 6.1 V to the 20 V VGS rating, and the 15 V GATE-ANODE absolute maximum leaves 5 V. C1 C13585 and C2 C14663 on VBUS_IN are 50 V parts. The OVP trip maximum is 22.564238 V at initial tolerance and 22.671207 V with 25 ppm/C over 100 C (TPS16630 V(OVPR) 1.224 V maximum, the same row as the TPS26630); a slow connector overvoltage up to that trip overlaps the 22 V standoff but stays below the 24.6 V minimum breakdown, so D5 only leaks there. U2 keeps conducting for up to 14 us (OVP_toff(dly) maximum) after a trip. The 2.53665 V hot-unplug overshoot is a project assumption without fact entries; it is eFuse let-through charge into the 80 uF VBUS_P bulk, so it applies to VBUS_P, not to the D5 connector node, giving 25.207857 V and 2.792143 V STUSB 28 V margin in the hot case. It rests on TYP rows (fast trip and I(SCP) have no tabulated maximum) and on a bulk ESR with no datasheet maximum, so no guaranteed VBUS_P transient bound exists. STUSB limits keep their mirror-source trust limitation. The current Board B was screened for 15 V +/-5 % only; its 20 V coverage is not established. Output TVS/load limits and actual waveforms remain separate; the old SMAJ20A 32.4 V against U4 45 V comparison is explicitly retired and kept only as a labelled historical calculation. Phase 9 local clamps (dec-p-stusb-local-clamp): the STUSB4500 high-voltage pins no longer sit on VBUS_P. VDD (U1.24) is fed through R29 1k + R30 470R (phase 10, dec-p-stusb-vdd-feed, 1.47 kOhm; was 2 x 1k) into VDD_LOC with D9 BZT52C18-7-F C192739 and C38 1 uF; VBUS_VS_DISCH (U1.18) keeps R14 + R28 (now 2 x 1k) with D10 BZT52C20-7-F C260890 on the pin; DISCH (U1.9) sits behind R13 4.7k with D12 BZT52C18-7-F; VBUS_EN_SNK (U1.16) drives R12 through a Q6 BSS138 cascode whose gate is VDD_LOC/2 (R31/R32 100k), with D11 BZT52C18-7-F on the pin. With VBUS_P at the 28.35 V TVS2200 35 A / 125 C clamp row, the pin bound is the zener VZ maximum at IZT plus the TC maximum above 25 C, plus ZZT maximum times any current beyond IZT (a project linearisation, at most 3.65 mA and 0.16 V on VDD). The TC minimum of 12.4 mV/C (in the tc-max fact conditions) is positive, so a cold row is bounded by the 25 C VZ maximum. The pin bound is therefore 20.794 V on VDD and 23.0 V on VBUS_VS_DISCH at 125 C, under the 28 V limits. These local-clamp margins are scenario-conditioned: they assume VBUS_P at the 28.35 V TVS2200 connector-node row, which this rule does not treat as a guaranteed VBUS_P transient bound (see the overshoot discussion above); each pin margin holds for any VBUS_P up to the voltage at which its clamp current would make VZ + ZZT x (I - IZT) reach 28 V. The STUSB 28 V pin limit therefore no longer bounds the main surge path; Q1 DMP3036SFG-7 VDS -30 V does (1.65 V at the 28.35 V row). The calc-p20-stusb-node-margin rows remain the unclamped reference.",
       "verdict": "UNSOURCED",
-      "refusal": "Do not certify hot or installed surge survival from the25C table point or enable20V operation; measure source/gate/switch/rail transients and preserve downstream source-trust and attached-load limits.",
+      "refusal": "Do not certify surge survival or 20 V operation from 8/20 us table points, a static OVP bound or an assumed overshoot; measure connector, VBUS_P, gate and rail transients, and keep the current 15 V Board B off a 20 V contract.",
       "conditioned_calculations": [
         {
           "calculation_id": "calc-renewal-u4-tvs-margin",
@@ -129,169 +161,267 @@
           "margin_v": -1.5449999999999982
         },
         {
-          "calculation_id": "calc-protection-stusb-clamp-margin",
+          "calculation_id": "calc-p20-ovp-trip-max",
+          "fact_ids": [
+            "fact-c1849461-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
+          ],
+          "expression": "(fact_c1849461_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000))))",
+          "result_key": "trip_max_v",
+          "conditions": "Fitted 174k/10k 0.1 % divider with the TPS16630 V(OVPR) maximum and opposed resistor limits: initial tolerance only, and with 25 ppm/C TCR over a 100 C excursion. The up-to-14 us OVP_toff(dly) during which U2 still conducts is excluded.",
+          "results": [
+            {
+              "temperature_delta_c": 0,
+              "trip_max_v": 22.564237837837833
+            },
+            {
+              "temperature_delta_c": 100,
+              "trip_max_v": 22.67120682388359
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-stusb-node-margin",
           "fact_ids": [
             "fact-stusb-vdd-absolute-max",
-            "fact-c74561-clamp"
+            "fact-c1849461-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
           ],
-          "expression": "fact_stusb_vdd_absolute_max - fact_c74561_clamp",
+          "expression": "fact_stusb_vdd_absolute_max - (fact_c1849461_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
           "result_key": "margin_v",
-          "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
+          "conditions": "overshoot_v 0 is the static trip bound; 2.53665 V is the project hot-unplug assumption (2 x I(OL)max x 14 us plus 45 A x 1 us into 80 uF, 30 mOhm ESR). It is built on TYP rows (fast trip 2 x I(OL), I(SCP) 45 A) and an ESR without a datasheet maximum, so it is not a guaranteed bound (fact-c1849461-fast-trip-typ-only); it is not a measured waveform.",
           "results": [
             {
-              "margin_v": 2
+              "temperature_delta_c": 0,
+              "overshoot_v": 0,
+              "margin_v": 5.435762162162167
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 0,
+              "margin_v": 5.32879317611641
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 2.53665,
+              "margin_v": 2.7921431761164097
             }
           ]
         },
         {
-          "calculation_id": "calc-protection-q1-vds-clamp-margin",
+          "calculation_id": "calc-p20-q1-vds-node-margin",
           "fact_ids": [
-            "fact-umw-ao3401a-vds",
-            "fact-c74561-clamp"
+            "fact-c461081-vds",
+            "fact-c1849461-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
           ],
-          "expression": "-fact_umw_ao3401a_vds - fact_c74561_clamp",
+          "expression": "-fact_c461081_vds - (fact_c1849461_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
           "result_key": "margin_v",
-          "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
+          "conditions": "Proposed Q1 DMP3036SFG-7 off-state VDS with output near 0 V at the VBUS_P bound; same scenarios as calc-p20-stusb-node-margin.",
           "results": [
             {
-              "margin_v": 4
+              "temperature_delta_c": 0,
+              "overshoot_v": 0,
+              "margin_v": 7.435762162162167
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 0,
+              "margin_v": 7.32879317611641
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 2.53665,
+              "margin_v": 4.79214317611641
             }
           ]
         },
         {
-          "calculation_id": "calc-protection-input35-clamp-margin",
+          "calculation_id": "calc-p20-tvs-standoff-margin",
+          "fact_ids": [
+            "fact-c523793-vrwm"
+          ],
+          "expression": "fact_c523793_vrwm - normal_high_v",
+          "result_key": "margin_v",
+          "conditions": "normal_high_v 21.0 V is the project 20 V +5 % source envelope; standoff is not the clamp level.",
+          "results": [
+            {
+              "normal_high_v": 21.0,
+              "margin_v": 1.0
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-u2-in-clamp-margin",
+          "fact_ids": [
+            "fact-c1849461-in-absmax",
+            "fact-c523793-vclamp-35a-125c"
+          ],
+          "expression": "fact_c1849461_in_absmax - fact_c523793_vclamp_35a_125c",
+          "result_key": "margin_v",
+          "conditions": "TVS2200 35 A 8/20 us 125 C clamp point against U2 TPS16630 IN/P_IN continuous 67 V (U2 IN sits behind Q3, so the connector clamp bounds it); longer pulses and installed waveforms are not covered.",
+          "results": [
+            {
+              "margin_v": 38.65
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-q3-vds-clamp-margin",
+          "fact_ids": [
+            "fact-c840100-vds",
+            "fact-c523793-vclamp-35a-125c"
+          ],
+          "expression": "fact_c840100_vds - fact_c523793_vclamp_35a_125c",
+          "result_key": "margin_v",
+          "conditions": "Q3 drain-source stress bounded by the larger of the connector clamp point and VBUS_P; 8/20 us table point only.",
+          "results": [
+            {
+              "margin_v": 31.65
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-q3-vgs-u3-drive-margin",
+          "fact_ids": [
+            "fact-c840100-vgs",
+            "fact-c2941042-cp-off-max"
+          ],
+          "expression": "fact_c840100_vgs - fact_c2941042_cp_off_max",
+          "result_key": "margin_v",
+          "conditions": "Q3 VGS (source on ANODE) bounded by the U3 LM74700 VCAP-ANODE charge-pump turn-off maximum, which GATE cannot exceed in regulation; replaces the r2 TPS26630 B_GATE clamp.",
+          "results": [
+            {
+              "margin_v": 6.1
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-q3-vgs-u3-absmax-margin",
+          "fact_ids": [
+            "fact-c840100-vgs",
+            "fact-c2941042-gate-anode-absmax"
+          ],
+          "expression": "fact_c840100_vgs - fact_c2941042_gate_anode_absmax",
+          "result_key": "margin_v",
+          "conditions": "Q3 VGS rating against the U3 GATE-ANODE 15 V absolute maximum (fault ceiling; the LM74700 also requires an FET VGS rating of at least 15 V).",
+          "results": [
+            {
+              "margin_v": 5
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p20-input35-node-margin",
           "fact_ids": [
             "fact-c22387780-voltage",
-            "fact-c74561-clamp"
+            "fact-c1849461-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr"
           ],
-          "expression": "fact_c22387780_voltage - fact_c74561_clamp",
+          "expression": "fact_c22387780_voltage - (fact_c1849461_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v",
           "result_key": "margin_v",
-          "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
-          "results": [
-            {
-              "margin_v": 9
-            }
-          ]
-        },
-        {
-          "calculation_id": "calc-protection-input50-clamp-margin",
-          "fact_ids": [
-            "fact-c13585-voltage",
-            "fact-c74561-clamp"
-          ],
-          "expression": "fact_c13585_voltage - fact_c74561_clamp",
-          "result_key": "margin_v",
-          "conditions": "Current26 V clamp table-point comparison only; device/source temperature conditions and waveform qualification remain explicit.",
-          "results": [
-            {
-              "margin_v": 24
-            }
-          ]
-        },
-        {
-          "calculation_id": "calc-protection-u4-abs-hot-negative-margin",
-          "fact_ids": [
-            "fact-lm2596-vin-absmax",
-            "fact-c74561-clamp",
-            "fact-lm2596-fb-vref-max-full-temp",
-            "fact-c861077-resistance",
-            "fact-c110776-resistance",
-            "fact-c861077-tolerance",
-            "fact-c110776-tolerance",
-            "fact-c861077-tcr",
-            "fact-c110776-tcr"
-          ],
-          "expression": "fact_lm2596_vin_absmax - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
-          "result_key": "margin_v",
-          "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
+          "conditions": "Board B 35 V input capacitors at the VBUS_P bound; only relevant to a future 20 V Board B, which is not established.",
           "results": [
             {
               "temperature_delta_c": 100,
-              "margin_v": 4.185589563472151
+              "overshoot_v": 2.53665,
+              "margin_v": 9.79214317611641
             }
           ]
         },
         {
-          "calculation_id": "calc-protection-u4-operating-hot-negative-margin",
+          "calculation_id": "calc-p20-stusb-local-clamp-vdd",
           "fact_ids": [
-            "fact-lm2596-vin-operating-max",
-            "fact-c74561-clamp",
-            "fact-lm2596-fb-vref-max-full-temp",
-            "fact-c861077-resistance",
-            "fact-c110776-resistance",
-            "fact-c861077-tolerance",
-            "fact-c110776-tolerance",
-            "fact-c861077-tcr",
-            "fact-c110776-tcr"
+            "fact-stusb-vdd-absolute-max",
+            "fact-c192739-vz-max",
+            "fact-c192739-tc-max",
+            "fact-c192739-zzt"
           ],
-          "expression": "fact_lm2596_vin_operating_max - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "expression": "fact_stusb_vdd_absolute_max - (fact_c192739_vz_max + fact_c192739_tc_max / 1000 * (t_c - 25) + beyond_izt_ma / 1000 * fact_c192739_zzt)",
           "result_key": "margin_v",
-          "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
+          "conditions": "VDD_LOC with D9 BZT52C18-7-F fed from VBUS_P through R29 1k + R30 470R 1 % (1455.3 ohm minimum). Scenario-conditioned on VBUS_P = 28.35 V (the TVS2200 35 A / 125 C connector-node row, not a guaranteed VBUS_P transient bound). beyond_izt_ma = (28.35 - VZmin(T)) / 1455.3 ohm - IZT, with VZmin(T) = 16.8 V + TC x (T - 25 C) using the 12.4 mV/C TC minimum above 25 C and the 16.0 mV/C maximum below it (both DS18004 rows; the minimum is in the fact-c192739-tc-max conditions), computed in scripts/pcb/calculate-input-ovp-20v.py; ZZT maximum as the slope above IZT is a project linearisation. STUSB limits keep their mirror-source trust limitation.",
           "results": [
             {
-              "temperature_delta_c": 100,
-              "margin_v": -0.8144104365278491
+              "case": "-40 C, bounded by the 25 C VZ maximum (positive TC)",
+              "t_c": 25,
+              "beyond_izt_ma": 3.651,
+              "margin_v": 8.735705
+            },
+            {
+              "case": "25 C",
+              "t_c": 25,
+              "beyond_izt_ma": 2.937,
+              "margin_v": 8.767834999999998
+            },
+            {
+              "case": "105 C",
+              "t_c": 105,
+              "beyond_izt_ma": 2.255,
+              "margin_v": 7.518524999999997
+            },
+            {
+              "case": "125 C",
+              "t_c": 125,
+              "beyond_izt_ma": 2.084,
+              "margin_v": 7.206219999999998
             }
           ]
         },
         {
-          "calculation_id": "calc-protection-d3-reverse-hot-negative-margin",
+          "calculation_id": "calc-p20-stusb-local-clamp-vs-disch",
           "fact_ids": [
-            "fact-c3024223-vrrm",
-            "fact-c74561-clamp",
-            "fact-lm2596-fb-vref-max-full-temp",
-            "fact-c861077-resistance",
-            "fact-c110776-resistance",
-            "fact-c861077-tolerance",
-            "fact-c110776-tolerance",
-            "fact-c861077-tcr",
-            "fact-c110776-tcr"
+            "fact-stusb-vbus-pin-absolute-max",
+            "fact-c260890-vz-max",
+            "fact-c260890-tc-max",
+            "fact-c260890-zzt"
           ],
-          "expression": "fact_c3024223_vrrm - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "expression": "fact_stusb_vbus_pin_absolute_max - (fact_c260890_vz_max + fact_c260890_tc_max / 1000 * (t_c - 25) + beyond_izt_ma / 1000 * fact_c260890_zzt)",
           "result_key": "margin_v",
-          "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
+          "conditions": "VBUS_VS_DISCH with D10 BZT52C20-7-F fed from VBUS_P through R14 + R28 2 x 1k 1 %; scenario-conditioned on VBUS_P = 28.35 V (connector-node row, not a guaranteed VBUS_P bound). beyond_izt_ma = (28.35 - VZmin(T)) / 1980 ohm - IZT, floored at 0, with VZmin(T) from the 18.8 V minimum and the 14.4 / 18.0 mV/C TC rows. The DISCH (R13 4.7k) and VBUS_EN_SNK (Q6 cascode) pins use BZT52C18 at lower current and are bounded below the VDD rows because their series resistance is higher. Same linearisation and trust limitation as calc-p20-stusb-local-clamp-vdd.",
           "results": [
             {
-              "temperature_delta_c": 100,
-              "margin_v": 19.18558956347215
-            }
-          ]
-        },
-        {
-          "calculation_id": "calc-protection-c9-hot-negative-margin",
-          "fact_ids": [
-            "fact-c970687-voltage",
-            "fact-c74561-clamp",
-            "fact-lm2596-fb-vref-max-full-temp",
-            "fact-c861077-resistance",
-            "fact-c110776-resistance",
-            "fact-c861077-tolerance",
-            "fact-c110776-tolerance",
-            "fact-c861077-tcr",
-            "fact-c110776-tcr"
-          ],
-          "expression": "fact_c970687_voltage - fact_c74561_clamp - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
-          "result_key": "margin_v",
-          "conditions": "Current26 V clamp at15.4 A,10/1000us,25C plus the100C-excursion resistor/reference negative screen; not a simultaneous proven hot surge bound.",
-          "results": [
+              "case": "-40 C, bounded by the 25 C VZ maximum (positive TC)",
+              "t_c": 25,
+              "beyond_izt_ma": 0.414,
+              "margin_v": 6.777229999999999
+            },
             {
-              "temperature_delta_c": 100,
-              "margin_v": 9.185589563472151
-            }
-          ]
-        },
-        {
-          "calculation_id": "calc-protection-standoff-margin",
-          "fact_ids": [
-            "fact-c74561-standoff"
-          ],
-          "expression": "fact_c74561_standoff - normal_high_v",
-          "result_key": "margin_v",
-          "conditions": "Prototype15V±5% normal source envelope;20V unsupported. Standoff is not the clamp level.",
-          "results": [
+              "case": "25 C",
+              "t_c": 25,
+              "beyond_izt_ma": 0.0,
+              "margin_v": 6.800000000000001
+            },
             {
-              "normal_high_v": 15.75,
-              "margin_v": 0.25
+              "case": "105 C",
+              "t_c": 105,
+              "beyond_izt_ma": 0.0,
+              "margin_v": 5.359999999999999
+            },
+            {
+              "case": "125 C",
+              "t_c": 125,
+              "beyond_izt_ma": 0.0,
+              "margin_v": 5.0
             }
           ]
         }
@@ -306,7 +436,9 @@
         "rec-c110776",
         "rec-c970687",
         "rec-c3024223",
-        "rec-c74561"
+        "rec-c1849461",
+        "rec-c861163",
+        "rec-rt0603brd0710kl"
       ],
       "fact_ids": [
         "fact-lm2596-fb-vref",
@@ -319,18 +451,24 @@
         "fact-c3024223-vrrm",
         "fact-c3024223-vf-max-5a-25c",
         "fact-c3024223-vf-max-5a-125c",
-        "fact-c74561-clamp",
         "fact-lm2596-fb-vref-max-full-temp",
         "fact-c861077-tolerance",
         "fact-c110776-tolerance",
         "fact-c861077-tcr",
         "fact-c110776-tcr",
         "fact-c3024223-leakage-max-25c",
-        "fact-c3024223-leakage-typ-125c"
+        "fact-c3024223-leakage-typ-125c",
+        "fact-c1849461-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-c861163-tolerance",
+        "fact-c861163-tcr",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-rt0603brd0710kl-tolerance",
+        "fact-rt0603brd0710kl-tcr"
       ],
-      "conditions": "U4 local GND/ON-OFF/tab ride the renewed negative intermediate. Normal prototype input is15 V±5%;20 V is unsupported. Effective input and D3 reverse stress are VBUS plus negative magnitude:29.145 V nominal,30.564410 V at15.75 V and the14.814410 V hot/TCR screen,40.814410 V at the conditioned26 V TVS point. New D3 has60 V reverse rating and maximum0.52 V at5 A/25C (0.45 V at5 A/125C); use0.52 V for the25C conduction screen, without extrapolating a full-temperature ceiling. C9 is50 V. CCM input-current/loss calculations include25C winding DCR, while hot DCR, switching/core/quiescent losses, ringing and startup remain open. Reverse leakage is0.5 mA maximum at60 V/25C and50 mA typical only at60 V/125C; the latter is not a guaranteed hot leakage bound. Reverse-leakage heating remains outside the forward-conduction model and requires qualification.",
+      "conditions": "U4 local GND/ON-OFF/tab ride the renewed negative intermediate. The current Board B is a 15 V +/-5 % design: effective input and D3 reverse stress are VBUS plus negative magnitude, 29.145 V nominal and 30.564410 V at 15.75 V with the 14.814410 V hot/TCR screen. The 20 V Board P r3 draft bounds VBUS_P at 22.564238 V (U2 TPS16630 OVP maximum, initial tolerance) and 22.671207 V with divider TCR over 100 C. With the hot/TCR negative screen U4 would see 37.485617 V, 2.514383 V below its 40 V operating limit; adding the 2.53665 V overshoot assumption gives -0.022267 V, so the operating limit is not maintained in that combined screen. Board B at 20 V input is not covered: AP63201, LDO dissipation, startup and the Board B limiter are unscreened. New D3 has 60 V reverse rating and maximum 0.52 V at 5 A/25C (0.45 V at 5 A/125C); use 0.52 V for the 25C conduction screen. C9 is 50 V. Reverse leakage is 0.5 mA maximum at 60 V/25C and 50 mA typical only at 60 V/125C; reverse-leakage heating is outside the forward-conduction model and requires qualification.",
       "verdict": "NEEDS BENCH",
-      "refusal": "Do not infer surge or startup acceptance from normal DC margin; preserve the negative rail, floating ground and semiconductor stress calculations after every setpoint change.",
+      "refusal": "Do not infer surge, startup or 20 V acceptance from normal DC margin or the static OVP bound; preserve the negative rail, floating ground and semiconductor stress calculations after every setpoint or source change.",
       "conditioned_calculations": [
         {
           "calculation_id": "calc-renewal-u4-effective-input",
@@ -341,7 +479,7 @@
           ],
           "expression": "vbus_v + (fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance))",
           "result_key": "effective_v",
-          "conditions": "Nominal negative setpoint with explicit15V-only normal source endpoints and the current26 V conditioned clamp point; retired32.4 V comparison is archived and retained in the protection rule.",
+          "conditions": "Nominal negative setpoint at 15 V-only normal endpoints and, for the 20 V Board P draft, at 21.0 V project normal high and the 22.564238 V initial-tolerance OVP bound. Archived SMAJ16A 26 V and SMAJ20A 32.4 V points are retired.",
           "results": [
             {
               "vbus_v": 14.25,
@@ -356,8 +494,12 @@
               "effective_v": 29.895
             },
             {
-              "vbus_v": 26,
-              "effective_v": 40.144999999999996
+              "vbus_v": 21.0,
+              "effective_v": 35.144999999999996
+            },
+            {
+              "vbus_v": 22.564237837837833,
+              "effective_v": 36.70923783783783
             }
           ]
         },
@@ -371,7 +513,7 @@
           ],
           "expression": "fact_c970687_voltage - vbus_v - (fact_lm2596_fb_vref * (1 + fact_c861077_resistance / fact_c110776_resistance))",
           "result_key": "margin_v",
-          "conditions": "C9 rated-voltage screen at nominal negative setpoint; hot/TCR calculation is separate, and ripple/transient waveforms are not included.",
+          "conditions": "C9 rated-voltage screen at nominal negative setpoint; the 20 V row uses the initial-tolerance Board P draft OVP bound; ripple and transients excluded.",
           "results": [
             {
               "vbus_v": 15,
@@ -382,8 +524,8 @@
               "margin_v": 20.105
             },
             {
-              "vbus_v": 26,
-              "margin_v": 9.855
+              "vbus_v": 22.564237837837833,
+              "margin_v": 13.290762162162167
             }
           ]
         },
@@ -407,6 +549,41 @@
               "magnitude_v": 14.814410436527849
             }
           ]
+        },
+        {
+          "calculation_id": "calc-p20-u4-operating-hot-margin",
+          "fact_ids": [
+            "fact-lm2596-vin-operating-max",
+            "fact-c1849461-ovp-rising-max",
+            "fact-c861163-resistance",
+            "fact-c861163-tolerance",
+            "fact-c861163-tcr",
+            "fact-rt0603brd0710kl-resistance",
+            "fact-rt0603brd0710kl-tolerance",
+            "fact-rt0603brd0710kl-tcr",
+            "fact-lm2596-fb-vref-max-full-temp",
+            "fact-c861077-resistance",
+            "fact-c110776-resistance",
+            "fact-c861077-tolerance",
+            "fact-c110776-tolerance",
+            "fact-c861077-tcr",
+            "fact-c110776-tcr"
+          ],
+          "expression": "fact_lm2596_vin_operating_max - (fact_c1849461_ovp_rising_max * (1 + fact_c861163_resistance * (1 + fact_c861163_tolerance / 100 + fact_c861163_tcr * temperature_delta_c / 1000000) / (fact_rt0603brd0710kl_resistance * (1 - fact_rt0603brd0710kl_tolerance - fact_rt0603brd0710kl_tcr * temperature_delta_c / 1000000)))) - overshoot_v - (fact_lm2596_fb_vref_max_full_temp * (1 + fact_c861077_resistance * (1 + fact_c861077_tolerance / 100 + fact_c861077_tcr * temperature_delta_c / 1000000) / (fact_c110776_resistance * (1 - fact_c110776_tolerance / 100 - fact_c110776_tcr * temperature_delta_c / 1000000))))",
+          "result_key": "margin_v",
+          "conditions": "U4 40 V operating limit at the 20 V draft VBUS_P bound (divider TCR included) plus the hot/TCR negative screen; overshoot 0 and the 2.53665 V project assumption. Not a measured or simultaneous worst case.",
+          "results": [
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 0,
+              "margin_v": 2.514382739588566
+            },
+            {
+              "temperature_delta_c": 100,
+              "overshoot_v": 2.53665,
+              "margin_v": -0.02226726041143401
+            }
+          ]
         }
       ]
     },
@@ -420,7 +597,7 @@
         "rec-c459702",
         "rec-c666306",
         "rec-c861589",
-        "rec-c861519"
+        "rec-c5455478"
       ],
       "fact_ids": [
         "fact-lm2596-fb-vref-min-full-temp",
@@ -442,7 +619,7 @@
         "fact-c666306-adj-bias-max",
         "fact-c666306-divider-r1-max",
         "fact-c861589-resistance",
-        "fact-c861519-resistance",
+        "fact-c5455478-resistance",
         "fact-c666306-dropout-max-1a5",
         "fact-c666306-ground-current-max-1a5",
         "fact-c666306-cout-min",
@@ -544,9 +721,15 @@
         "rec-c25803",
         "rec-c22807",
         "rec-c14663",
-        "rec-c17414",
+        "rec-c21189",
         "rec-stusb4500qtr",
-        "rec-c74561"
+        "rec-c1849461",
+        "rec-c861163",
+        "rec-rt0603brd0710kl",
+        "rec-c461081",
+        "rec-c23162",
+        "rec-bzt52c11-c92321",
+        "rec-c40912"
       ],
       "fact_ids": [
         "fact-umw-ao3401a-vgs",
@@ -554,15 +737,31 @@
         "fact-c22807-resistance",
         "fact-c22807-r12-topology",
         "fact-c14663-c35-topology",
-        "fact-c17414-reset-ctrl-topology",
+        "fact-c21189-reset-strap-topology",
         "fact-stusb-vben",
         "fact-stusb-artifact",
-        "fact-c74561-standoff",
-        "fact-c74561-clamp"
+        "fact-c1849461-ovp-rising-max",
+        "fact-c861163-resistance",
+        "fact-c861163-tolerance",
+        "fact-c861163-tcr",
+        "fact-rt0603brd0710kl-resistance",
+        "fact-rt0603brd0710kl-tolerance",
+        "fact-rt0603brd0710kl-tcr",
+        "fact-c461081-vgs",
+        "fact-c461081-vgsth-max",
+        "fact-c23162-resistance",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-vz-max",
+        "fact-bzt52c11-board-p-d8-role",
+        "fact-c461081-rdson-5v-max",
+        "fact-c40912-vgs",
+        "fact-c40912-vgsth-max",
+        "fact-c40912-board-p-q6-role",
+        "fact-c40912-vds"
       ],
-      "conditions": "Board P uses100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35. Ideal asserted drive is-6 V at15 V,-6.3 V at15.75 V and-10.4 V at the26 V conditioned clamp point. These steady numbers do not establish transient gate safety. This prototype is15 V±5% only;20 V is unsupported and exceeds the new16 V TVS standoff. First power/programming must use a current-limited5 V-only source with B disconnected. Resolve jig voltage/pull-up loading and verify15 V-only NVM image/readback/reload before attaching any15 V-capable PD source. The archived-12.96 V result belongs to the retired32.4 V comparison.",
-      "verdict": "NEEDS BENCH",
-      "refusal": "Do not enable20 V or skip5 V-only first programming/readback; current gate arithmetic and a26 V table clamp do not qualify unknown factory NVM, hot surge response or measured gate/source behavior.",
+      "conditions": "The as-built Board P PCB and the superseded dec-p-20v-q1-5a draft use 100 k source-to-gate/150 k gate-to-VBEN and source-referenced C35; in the 20 V draft Q1 source is the protected VBUS_P node (after U3 LM74700/Q3 and U2 TPS16630 in r3). RESET is strapped to GND by R21 0 Ohm C21189 in r3; it sets no gate-drive polarity. Ideal asserted drive is -6 V at 15 V, -8 V at 20 V, -8.4 V at 21 V, -9.025695 V at the 22.564238 V OVP bound, -9.068483 V at the 22.671207 V hot/TCR bound and -10.083143 V with the 2.53665 V overshoot assumption, against the +/-25 V VGS rating of the proposed Q1 DMP3036SFG-7 C461081 (dec-p-20v-q1-5a), leaving 14.916857 V in the hot overshoot case. These 100 k/150 k rows are the superseded dec-p-20v-q1-5a divider; the as-built PCB has the same divider with the 12 V AO3401A, which they do not screen. The phase-6 draft (dec-p-20v-q1-gate-clamp) changes the draft spec to R11 150 k (C22807) source-to-gate, R12 4.7 k (C23162) gate-to-VBEN and adds D8 BZT52C11-7-F (cathode VBUS_P, anode Q1_G): the open-clamp divider gives -4.605 V at 4.75 V, -4.848 V at 5 V and -5.090 V at 5.25 V, so the old -2.0 V threshold-band drive is gone, but the guaranteed DMP3036SFG 29 mOhm row is at -5 V, which this divider reaches only above about 5.157 V VBUS (-5.090 V at 5.25 V) and no divider can reach at 5.00 V nominal; 5 V conduction is in any case excluded by POWER_ONLY_ABOVE_5V. From about 10.7 V up D8 conducts and holds |VGS| at 10.4-11.6 V (13.4 V minimum margin to 25 V); its current is about 3.08 mA at the 25.207857 V overshoot case, and VBEN sinks about 3.15 mA in total, D8 plus the 0.069 mA R11 share (the VBEN rating is UNSOURCED). With D8 open the divider alone gives -24.442 V there (0.558 V left) and -27.488 V at the 28.35 V TVS2200 connector row, 2.488 V beyond VGSS. Phase 11 (dec-p-q1-gate-clamp-redundant) adds D13 BZT52C11-7-F in parallel with D8, so one open clamp still holds |VGS| at 11.6 V or less; only a double fault (both open) exposes Q1. At 28.35 V the pair carries about 3.75 mA and VBEN sinks about 3.82 mA. These steady numbers do not establish transient gate safety, and the asserted-low premise rests on the UNSOURCED VBEN fact, which bench work must confirm. The as-built PCB and NVM policy remain 15 V-only; no 20 V/5 A NVM image has been defined or read back, a 5 A e-marked cable is required, and the current Board B is not covered at 20 V. First power/programming must use a current-limited 5 V-only source with B disconnected; NVM programming, ordering and energizing need separate explicit permission. Verdict UNSOURCED (phase 6): the draft's clamp current must be sunk by VBEN, whose drive and sink rating rest on the UNSOURCED fact-stusb-vben, so the weakest input is unsourced before any bench question. Phase 10, with the phase-9 Q6 cascode (dec-p-stusb-local-clamp): R12 now ends on VBEN, the drain of Q6 BSS138-7-F C40912; its source is U1.16 (VBEN_PIN, D11) and its gate is VG_LOC = VDD_LOC x 0.495-0.505 (R31/R32 100k C25803). The asserted rows above hold only if the Q6 drain-source drop at about 3.15 mA is small; the bundle has no BSS138 RDS(on) row (UNSOURCED). calc-p10-q6-vgs-margin keeps Q6 VGS 9.499 V inside the 20 V rating; calc-p10-q6-gate-drive-at-attach gives 0.665 / 0.583 V of overdrive at a 5 V attach (about 32 uA needed; POWER_ONLY_ABOVE_5V keeps Q1 off there). Released, the pin sees at most VG_LOC - VGS(th), about 10.5 V, and the Q6 drain up to VBUS_P (28.35 V row) against its 50 V VDS (fact-c40912-vds); Q1 off-state integrity then depends on Q6 hot drain leakage, which is not in the bundle (UNSOURCED). The VBEN sink rating is UNSOURCED by absence: fact-stusb-vben records polarity and configuration only. The phase-7 C36/Q5/R27 soft-start network acts only while Q1 slews and is outside these steady rows. The verdict stays UNSOURCED; the weakest inputs are fact-stusb-vben and the missing Q6 RDS(on) and hot-leakage rows.",
+      "verdict": "UNSOURCED",
+      "refusal": "Do not program a 20 V PDO or certify the load switch from steady gate arithmetic, a static OVP bound or an assumed overshoot; the 20 V NVM image, readback, cable, Board B coverage and measured gate/source behaviour are all open.",
       "conditioned_calculations": [
         {
           "calculation_id": "calc-renewal-q1-gate-voltage",
@@ -572,7 +771,7 @@
           ],
           "expression": "-vbus_v * fact_c25803_resistance / (fact_c25803_resistance + fact_c22807_resistance)",
           "result_key": "vgs_v",
-          "conditions": "Current15 V-only source policy and26 V conditioned clamp scenario; ideal asserted open-drain low, with capacitor/parasitic/time behavior excluded.",
+          "conditions": "Ideal asserted open-drain low, capacitor/parasitic/time behaviour excluded. 15 V-only as-built rows plus 20 V draft rows at 20 V, the 21 V project normal high, the initial-tolerance OVP bound, the hot/TCR OVP bound, and the hot/TCR bound plus the overshoot assumption.",
           "results": [
             {
               "vbus_v": 5,
@@ -588,11 +787,182 @@
             },
             {
               "vbus_v": 15.75,
-              "vgs_v": -6.300000000000001
+              "vgs_v": -6.3
             },
             {
-              "vbus_v": 26,
-              "vgs_v": -10.4
+              "vbus_v": 20,
+              "vgs_v": -8.0
+            },
+            {
+              "vbus_v": 21.0,
+              "vgs_v": -8.4
+            },
+            {
+              "vbus_v": 22.564237837837833,
+              "vgs_v": -9.025695135135132
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "vgs_v": -9.068482729553438
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "vgs_v": -10.083142729553435
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-q1-gate-divider-open-clamp",
+          "fact_ids": [
+            "fact-c22807-resistance",
+            "fact-c23162-resistance"
+          ],
+          "expression": "-vbus_v * fact_c22807_resistance / (fact_c22807_resistance + fact_c23162_resistance)",
+          "result_key": "vgs_v",
+          "conditions": "Phase-6 draft divider R11 150 k / R12 4.7 k with D8 absent or open, ideal asserted open-drain low; also the drive below the D8 knee. Same 20 V draft scenarios as calc-renewal-q1-gate-voltage plus the 5 V contract band.",
+          "results": [
+            {
+              "vbus_v": 4.75,
+              "vgs_v": -4.605688429217841
+            },
+            {
+              "vbus_v": 5,
+              "vgs_v": -4.848093083387201
+            },
+            {
+              "vbus_v": 5.25,
+              "vgs_v": -5.090497737556561
+            },
+            {
+              "vbus_v": 20,
+              "vgs_v": -19.392372333548803
+            },
+            {
+              "vbus_v": 21.0,
+              "vgs_v": -20.361990950226243
+            },
+            {
+              "vbus_v": 22.564237837837833,
+              "vgs_v": -21.878705078705075
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "vgs_v": -21.98242419898215
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "vgs_v": -24.442007262976976
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-q1-vgs-margin-d8-open",
+          "fact_ids": [
+            "fact-c461081-vgs",
+            "fact-c22807-resistance",
+            "fact-c23162-resistance"
+          ],
+          "expression": "fact_c461081_vgs - vbus_v * fact_c22807_resistance / (fact_c22807_resistance + fact_c23162_resistance)",
+          "result_key": "margin_v",
+          "conditions": "Single-fault case: D8 open (and, since phase 11, D13 open too), DMP3036SFG VGSS 25 V minus the divider drive. The 28.35 V row is the TVS2200 connector-node scenario of rule-tvs-clamp-vs-absmax.",
+          "results": [
+            {
+              "vbus_v": 20,
+              "margin_v": 5.607627666451197
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "margin_v": 3.0175758010178484
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "margin_v": 0.5579927370230244
+            },
+            {
+              "vbus_v": 28.35,
+              "margin_v": -2.488687782805428
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-q1-vgs-margin-clamped",
+          "fact_ids": [
+            "fact-c461081-vgs",
+            "fact-bzt52c11-vz-max"
+          ],
+          "expression": "fact_c461081_vgs - fact_bzt52c11_vz_max",
+          "result_key": "margin_v",
+          "conditions": "D8 conducting: VGSS 25 V minus the 11.6 V VZ maximum at IZT 5 mA; the installed current is lower (calc-p6-d8-clamp-current), and the knee at that current is a bench item.",
+          "results": [
+            {
+              "margin_v": 13.4
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p6-d8-clamp-current",
+          "fact_ids": [
+            "fact-c23162-resistance",
+            "fact-c22807-resistance",
+            "fact-bzt52c11-vz-min"
+          ],
+          "expression": "(vbus_v - fact_bzt52c11_vz_min) / fact_c23162_resistance - fact_bzt52c11_vz_min / fact_c22807_resistance",
+          "result_key": "iz_a",
+          "conditions": "D8 current with VBEN ideally low at the 10.4 V knee minimum (the largest current). The total VBEN sink current is (vbus - VZ)/R12, which is this D8 current plus the VZ/R11 share. Since phase 11 this is the total of D8 and D13 in parallel; the share between them is a bench item.",
+          "results": [
+            {
+              "vbus_v": 20,
+              "iz_a": 0.0019732198581560285
+            },
+            {
+              "vbus_v": 22.67120682388359,
+              "iz_a": 0.002541561735578069
+            },
+            {
+              "vbus_v": 25.20785682388359,
+              "iz_a": 0.0030812745015355155
+            },
+            {
+              "vbus_v": 28.35,
+              "iz_a": 0.0037498156028368803
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p10-q6-vgs-margin",
+          "fact_ids": [
+            "fact-c40912-vgs"
+          ],
+          "expression": "fact_c40912_vgs - vdd_loc_v * 0.505",
+          "result_key": "margin_v",
+          "conditions": "Q6 gate at VDD_LOC x R32 / (R31 + R32) with 1 % resistors (0.505 maximum ratio) and the source at about 0 V while U1.16 is asserted. vdd_loc_v rows: 20.38 V is the 105 C BZT52C18 VZ maximum at IZT without the ZZT excess term (19.1 V + 80 C x 16.0 mV/C), the continuous operating bound; 20.794 V is the 125 C surge-row pin bound of calc-p20-stusb-local-clamp-vdd (rule-tvs-clamp-vs-absmax).",
+          "results": [
+            {
+              "vdd_loc_v": 20.38,
+              "margin_v": 9.7081
+            },
+            {
+              "vdd_loc_v": 20.794,
+              "margin_v": 9.49903
+            }
+          ]
+        },
+        {
+          "calculation_id": "calc-p10-q6-gate-drive-at-attach",
+          "fact_ids": [
+            "fact-c40912-vgsth-max"
+          ],
+          "expression": "vdd_attach_v * 0.495 - fact_c40912_vgsth_max",
+          "result_key": "overdrive_v",
+          "conditions": "Q6 gate overdrive at a 5 V attach with U1.16 asserted: VDD_LOC minimum (VBUS 4.72 V, the 4.75 V vSafe5V minimum less a 0.03 V Q3/U2 drop (PA), less the 1.4847 kOhm feed drop at the stated IDD, scripts/pcb/calculate-input-ovp-20v.py) x 0.495 minimum divider ratio, minus the 1.5 V VGS(th) maximum (VDS = VGS, 250 uA, 25 C only). The current needed is about 32 uA; overdrive is not an RDS(on) bound.",
+          "results": [
+            {
+              "vdd_attach_v": 4.373,
+              "overdrive_v": 0.6646350000000001
+            },
+            {
+              "vdd_attach_v": 4.209,
+              "overdrive_v": 0.5834549999999998
             }
           ]
         }

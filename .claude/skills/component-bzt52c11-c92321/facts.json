@@ -63,6 +63,20 @@
       "expression": ""
     },
     {
+      "fact_id": "fact-bzt52c11-vz-max",
+      "record_id": "rec-bzt52c11-c92321",
+      "source_id": "src-bzt52c11-diodes-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 11.6,
+      "unit": "V",
+      "conditions": "maximum zener voltage VZ at IZT 5 mA, TA=+25 C; the deterministic upper bound of the clamp window",
+      "locator": "src-bzt52c11-diodes-primary: page 2 electrical characteristics table, BZT52C11 row, VZ max column",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
       "fact_id": "fact-bzt52c11-ir-leakage",
       "record_id": "rec-bzt52c11-c92321",
       "source_id": "src-bzt52c11-diodes-primary",
@@ -119,6 +133,20 @@
       "expression": ""
     },
     {
+      "fact_id": "fact-bzt52c11-footprint-review",
+      "record_id": "rec-bzt52c11-c92321",
+      "source_id": "src-bzt52c11-diodes-primary",
+      "class": "PROJECT_STATE",
+      "value": "Project land SOD-123_L2.8-W1.8-LS3.7-RD corrected to the Diodes SOD123 suggested pad layout: pads 0.90 x 0.95 mm at x +/-1.575 mm (X1 4.05 mm outer extent)",
+      "unit": "NONE",
+      "conditions": "Phase-8 correction of the earlier 0.95 x 1.15 mm / 4.33 mm land after the LED land check. Shared by every C92321 placement (Board P D8, Board A D8, B20 Z11). Solder-mask, stencil and assembly yield are not reviewed.",
+      "locator": "Figure suggested pad layout SOD123 page 4, dimension rows X 0.900 / Y 0.950 / X1 4.050",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
       "fact_id": "fact-bzt52c11-knee-margin-15v",
       "record_id": "rec-bzt52c11-c92321",
       "source_id": "src-bzt52c11-diodes-primary",
@@ -141,6 +169,20 @@
       "unit": "NONE",
       "conditions": "dec-e-q1-20v-gate-guard placement, locked by scripts/schgen/board_a_spec.py (D8 in NETS: VBUS_IN += D8.1, Net-(Q1-G) += D8.2) and the generated board-a schematic; Eeschema ERC/visual review and gate soft-start behavior with the added junction capacitance remain open bench items",
       "locator": "src-bzt52c11-diodes-primary: page 1 mechanical data polarity row (cathode band) versus the generator-spec pin lock; bench soft-start/turn-on measurement pending",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-bzt52c11-board-p-d8-role",
+      "record_id": "rec-bzt52c11-c92321",
+      "source_id": "src-bzt52c11-diodes-primary",
+      "class": "PROJECT_STATE",
+      "value": "Board P draft D8 and redundant D13 (phase 11): each cathode (pin 1) on VBUS_P (Q1 source), anode (pin 2) on Q1_G, with R11 150k source-gate and R12 4.7k gate-VBEN",
+      "unit": "NONE",
+      "conditions": "dec-p-20v-q1-gate-clamp and dec-p-q1-gate-clamp-redundant placements locked by scripts/schgen/board_p_spec.py (VBUS_P += D8.1, D13.1; Q1_G += D8.2, D13.2); at 20 V the divider alone would give 19.39 V, so the pair conducts about 2 mA in total and sets |VGS|; either diode alone holds the clamp, so one open diode is tolerated. Current sharing, the knee at the installed current, and gate timing with the added junction capacitance are bench items",
+      "locator": "src-bzt52c11-diodes-primary: page 1 mechanical data polarity row (cathode band) versus the generator-spec pin lock",
       "provenance": "PROJECT-CHOICE",
       "verdict": "NEEDS BENCH",
       "depends_on": [],

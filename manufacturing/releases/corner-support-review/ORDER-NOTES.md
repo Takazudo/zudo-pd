@@ -1,244 +1,93 @@
-# Fabrication review package
+# Package notes: Board P 15 V (board-p15) + Board B
 
-The active design pairs the reusable 27 × 40 mm **Board P** USB-PD module with
-**Board B**, the synth conversion and distribution board. The older Board A and
-root v4 project remain historical references.
+**These are development review files, not an order.** This package pairs the Board P 15 V draft (`board-p15/`)
+with Board B (`board-b/`). Board B carries the adopted C5455478 (R21/R27) and C696190 (C11) lines
+(`dec-b-stock-gap-substitutions`). The package has not been uploaded, quoted or ordered, and nothing in it is
+validated, qualified or released. Board B as ordered on 2026-09-20 is package state S3. S3 is not this package; it is
+kept in the repository at commit `f25194f`.
 
-The 110 × 85 mm corner-support revision moves the PD module down and the seven
-top-edge contacts right to free the fourth independent support. The PCB is implemented
-and native layout and power-path checks pass. Reports in `corner-support-review`
-determine CAD and export status. Board B is installed
-on legs with its front/component face down. The separately developed
-[18 mm printed-leg prototype](../3dp-files/adhesive-leg/README.md) addresses the
-earlier HC-11 option's nominal floor-height conflict without changing the PCB or
-JLCPCB package. Physical wire fit, tightening torque, retention, connector
-seating and full-load qualification remain open. Only the current prototype
-package is maintained. No renewal hardware has been released or ordered; the
-active PCB and component records are the design authority.
+Links below resolve inside this package. Repository documents are named by their path in
+[Takazudo/zudo-pd](https://github.com/Takazudo/zudo-pd).
 
-## Generate files from checked sources
+## Mandatory JLC placement-preview orientation checks
 
-### Local assembly previews
+Neither board has been placed by JLC with these exact parts on these lands. Before ordering, check each one in
+JLC's placement preview against pad 1 of `cpl.csv`.
 
-Large `populated-stack.step` and `installed-assembly.step` files are local-only
-generated previews. Git LFS is prohibited. The
-[omission inventory](local-only-assembly-previews.json) records the three current paths
-and two distinct assembled objects, with sizes and expected hashes. Local copies
-are retained and ignored. Component
-models, native KiCad previews, printable STLs, Gerbers, drills, BOMs and CPLs
-remain tracked.
+| Ref | Part | Pad 1 | If reversed |
+|---|---|---|---|
+| board-p15 D5 | Littelfuse SMAJ16A C74561 (SMA) | cathode band on VBUS_IN | forward-clamps VBUS |
+| board-p15 D9 | BZT52C18 C192739 (SOD-123) | cathode band on VDD_LOC | clamps VDD near 0.7 V; the STUSB4500 never powers |
+| Board B C11 | Honor RVT1E471M0810 C696190 (Φ8 can) | + terminal on GND (the rail is −14.145 V) | about 14 V reverse bias on an aluminium electrolytic |
 
-The active Board B assembly preview, current prototype package and printed-leg
-assembly each omit their large assembled STEP from Git. Their reports still
-identify the expected local bytes. Full verification therefore requires those
-local files; a fresh clone alone is not a complete mechanical review. Checks
-continue to reject a missing or changed required file.
+The CPL uses native KiCad rotations with a common drill/place origin. Do not negate Y. Check every other polarized
+part in the same preview as well.
 
-For a new current-board assembly review on the documented macOS KiCad setup,
-use a new output directory:
+## Contents
 
-```sh
-uv run scripts/pcb/export-assembly-preview.py --output tmp/local-assembly-preview --kicad-cli /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli
-```
+- `board-p15/` and `board-b/`: each folder holds:
+  - a Gerber/drill ZIP;
+  - `bom.csv`, `cpl.csv` and `excluded.csv`;
+  - the schematic PDF and assembly drawings;
+  - a source snapshot (`source/`);
+  - check reports (`checks/`: DRC with schematic parity, ERC, model checks, export validation and commands).
+- Intentional DNP parts and bare test pads and holes are in `excluded.csv`, never in the BOM or CPL.
+- `manifest.json`: the source revision (`git_base`) plus the source and artifact hashes. `SHA256SUMS` locks every file.
+- [`power-budget-p15.json`](power-budget-p15.json), [`power-budget.md`](power-budget.md) and
+  [`power-layout.json`](power-layout.json): conditioned desk calculations and filled-copper geometry. They are not
+  measurements.
+- [`step-datum-verification.json`](step-datum-verification.json): a model-datum and orientation screen, not a physical
+  fit proof.
+- [`mechanical/assembly/`](mechanical/assembly/): the P+B stack preview and its collision report. The large
+  `populated-stack.step` is a local-only file.
+- [`mechanical/supports/`](mechanical/supports/README.md): the retained HC-11 support evidence.
 
-This writes new STEP and verification outputs. STEP creation timestamps mean
-these are not byte-identical replacements for the existing assemblies. The leg's
-existing verifier requires its original local assembly hash; it has no override
-for substituting a newly generated assembly. Preserve that check and establish
-new verification separately when revising the design.
+## Board P 15 V (board-p15)
 
-### New fabrication export
+- **Status:** unvalidated draft, 27 × 40 mm, two layers. The back silk reads `P15 r1`.
+- **J2 pins:**
+  - J2.4 is `NC`: it has no connection, because R21 straps RESET to GND (`dec-p15-reset-subset`).
+  - J2.1/J2.2 (SCL/SDA) carry 100 kΩ pull-downs and no pull-ups. The programming jig supplies the pull-ups, to at
+    most 4.5 V and never from J3.3 VREG_2V7.
+- **NVM reload:** RESET cannot be pulsed, so only a full power cycle reloads the NVM. Accept the image only when a
+  power-cycle readback equals the desk image `boards/board-p15/nvm/stusb4500-15v.bin`. The procedure is the
+  repository page `doc/src/content/docs/architecture/board-p15-programming.md`.
+- **First power and programming:**
+  - Use a current-limited 5 V-only source, with Board B and Board L disconnected.
+  - Verify the 15 V-only NVM image, its readback and its reload before connecting a PD-capable source.
+  - A factory 20 V request can drive the 16 V TVS (D5, SMAJ16A) into sustained conduction. Twenty-volt operation is
+    unsupported.
+- **Pogo artwork:** J3.4 is `VBUS` and J3.5 is `GND`. Library-mismatch warnings keep this intentional artwork.
 
-```sh
-python3 scripts/pcb/export-jlcpcb.py tmp/current-prototype-export
-uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py tmp/current-prototype-export
-```
+## Board B
 
-Use `--boards board-p` to export the PD module alone. Output directories must be
-new. Validate the temporary export before replacing the sole current package in
-`manufacturing/releases/corner-support-review/`; do not retain superseded renewal
-packages as backup sets. The exporter refuses missing PCB files, PCB/schematic/registry differences,
-DRC errors, unrouted connections, and ERC errors. It preserves intentional DNP
-parts and excludes bare test pads and mounting holes from both BOM and CPL.
+- **Board:** 110 × 85 mm, three top fiducials, 0.07 mm (2 oz) outer copper. It is installed on legs with its
+  component face down.
+- **J10/J11:** DEALON DW254P-2X8-L0 C4749189, right-angle through-hole. Pins 1/2 carry −12 V. Confirm the wave or
+  through-hole process and the footprint orientation at JLC.
+- **J6/J7:** WJ500V-5.08-2P C8465, with wire entries facing left. J6.1=GND, J6.2=−12 V, J7.1=+5 V, J7.2=+12 V.
+- **Top-edge contacts:** P1 and TP3–TP5 form seven contacts: ATT, PDOK, GND, NC, +13.44 V PRE, +6.519 V PRE and
+  −14.145 V PRE. P1.3 is the shared probe return, and NC stays unconnected.
+- **Board P stack:** J5 is on F.Cu. Board P mates face to face, at nominal Z=+11.1 mm in CAD, with
+  `pd_to_board_b(x,y)=(y−0.5,x+12)`.
+- **Holes:** three Ø3.2 mm PD holes, plus four Ø3.0 mm NPTH corner holes H4–H7 at (106,4), (4,81), (106,81) and
+  (4,4). M3 screws have zero nominal diametral clearance in them.
+- **Tabs:** the U4/U8 tabs carry the negative intermediate rail. Do not bond them to ground or to a shared heatsink.
+- **Warnings:**
+  - Silkscreen-over-pad warnings are retained.
+  - J10/J11 silk is clipped at the straight edge on purpose.
+  - Both stay in the DRC report.
 
-Each board folder contains a Gerber/drill ZIP, `bom.csv`, `cpl.csv`, excluded-part
-list, schematic PDF, assembly drawings, source snapshot, and full check reports.
-The package also includes the power budget and source-locked filled-copper geometry report.
-The manifest locks source and exported artifact hashes. Review drawings and warnings alongside the manufacturing
-files. An electrically unqualified prototype does not become qualified by passing
-DRC, ERC, or a file-format check.
+## Still open
 
-The directory name `releases` is an output convention, not a claim that the
-prototype has been released. Refresh the current package's source locks and
-validation reports whenever its source or supporting evidence changes. A package
-must describe the actual current files and its remaining qualification limits.
+- **Board B acceptance tests:** BB-R-1..3 (R21/R27) and BB-C-1..5 (C11) are NOT RUN.
+- **Bench qualification:** full-load startup, ripple, thermal coupling, low-line, surge and transient behaviour
+  are NOT RUN.
+- **C11 ripple share:** 256.8 mA of 342 mA (75.1 %, 120 Hz ESR ratio). The 150 kHz ESR is not printed for any bank
+  part.
+- **board-p15 identities:** R12 C22807 (UNI-ROYAL 0603WAF1503T5E) and C2/C35 C14663 (Yageo CC0603KRX7R9BB104) are
+  now bound LCSC-to-MPN by distributor identity extracts retrieved 2026-11-01, on top of their manufacturer sheets.
+  Their OPEN owner domains (pulse energy; bias, aging and ripple) remain open.
+- **Mechanical fit:** the printed-leg fit, screw passage and connector seating are unmeasured.
 
-## Fabrication and assembly
-
-- Two copper layers, 1.6 mm FR-4. Board P reuses the 27 × 40 mm routed module and mounting geometry, with updated TVS lands.
-- Board B is 110 × 85 mm with three top fiducials and 0.07 mm (2 oz) outer copper; power-current and thermal limits still require
-  measurement on the assembled prototype.
-- DEALON DW254P-2X8-L0 C4749189 at J10/J11 replaces the custom printed socket guards.
-  It is a right-angle through-hole header, not an SMT-only assembly item. Confirm
-  the applicable wave/through-hole assembly process and exact supplier footprint
-  orientation in JLCPCB's placement review.
-- J6/J7 are top-side WJ500V-5.08-2P / C8465 two-pole screw-terminal blocks with
-  wire entries facing left. J6.1=GND, J6.2=−12 V, J7.1=+5 V and J7.2=+12 V.
-  Verify actual wire-entry orientation, pin numbering and termination against the
-  exact component record and assembly drawing. J8/J9 are retired.
-- The left edge is plain. No printed terminal guard is required. The current
-  [printed accessory](../3dp-files/README.md) is the adhesive leg.
-- P1 and TP3/TP4/TP5 form seven top-edge contacts at 2.54 mm pitch and y=1.8 mm:
-  ATT, PDOK, GND, NC, +13.44 V PRE, +6.519 V PRE, −14.145 V PRE. Use P1.3 as the
-  shared measurement return. The NC contact stays unconnected. The complete row
-  shifts 20 mm right, with contact centers x=56.19–71.43 mm, beyond the PD module.
-- Board B's J5 female header is on F.Cu. The PD module faces it from above B in
-  CAD coordinates, with P's component face down and its front plane nominally at
-  Z=+11.1 mm. When B is installed front-down on legs, P is physically below B.
-  Map P's XY coordinates with `pd_to_board_b(x,y)=(y−0.5,x+12)` for all holes and
-  mating pads. P projects to x=−0.5–39.5 mm, y=12–39 mm; J5 is at (37.2,24.9).
-  The nominal plane spacing does not establish actual seated header height.
-- The three PD holes remain Ø3.2 mm. Four independent HC-11 holes H4–H7 are
-  Ø3.0 mm NPTH at (106,4), (4,81), (106,81) and (4,4), respectively. All four
-  corner centers are 4 mm from adjacent edges. These board-only holes and the
-  separately installed supports are excluded from the electrical BOM and CPL.
-- Keep the front screw-terminal labels and their B.SilkS duplicates. Back labels
-  must read normally when viewed from the back. Check each label against its actual
-  electrical pin after changing sides in the viewer.
-- Check leg height, P/B component clearance, wire access and front-edge probe access
-  in the installed orientation. Use the final populated assembly, including the
-  modeled maximum terminal tails, when selecting mechanical spacing.
-- Socket pins 1/2 carry −12 V; verify the actual ribbon red stripe and keyed shell
-  before plugging in a module. The sockets and screw terminals share each board-level rail budget.
-- CPL uses native KiCad Cartesian coordinates with a common drill/place origin.
-  Do not negate Y again. Rotations are native KiCad angles and still need the
-  exact-part JLCPCB placement preview check.
-
-## Printed legs and retained support evidence
-
-The selected [printed leg](../3dp-files/adhesive-leg/README.md) has an 18 mm seating
-height, 14 × 14 × 2 mm base and straight Ø7 mm pole. Its exact 27-vertex M3 profile
-forms a 4.5 mm blind bore with no larger lower cavity. Start with an M3 × 5 mm
-screw; through the 1.6 mm PCB it inserts 3.4 mm, leaving 1.1 mm nominal blind-floor
-clearance. Do not use the earlier M3 × 8 mm recommendation. Existing Ø3.0 mm PCB
-holes provide zero nominal diametral clearance for M3, so check actual screw
-passage. Printing, screw retention and adhesive loading remain physical tests.
-The four feet require a 116 × 91 mm adhesive footprint. Their CAD verification is
-separate from the unchanged PCB and JLCPCB package.
-
-The [HC-11 support record](../boards/board-b/supports/README.md) retains the exact
-seller drawing. Its 11 mm dimension runs from the drawn base underside to the PCB
-seating shoulder. Adhesive thickness, compression and finished bonded-floor datum
-are not separately specified; do not add an assumed tape allowance. Complete head,
-column and base envelopes are unavailable. The Ø6 mm Fab circle and 6.5 mm square
-courtyard are layout assumptions, not supplier dimensions.
-
-For B's component face toward a flat floor, P's back substrate plane is 12.7 mm
-from B's front, already 1.7 mm beyond the nominal HC-11 floor plane. The terminal
-is 14.0 mm nominal and 14.2 mm at the drawing maximum, exceeding that plane by
-3.0–3.2 mm. P solder tails may extend farther. Moving P in X/Y frees the corner
-but cannot resolve this vertical conflict. The selected 18 mm printed leg provides
-3.8 mm nominal clearance over the terminal drawing maximum. Its model does not
-qualify physical fit, retention or temperature performance. The HC-11 support
-record documents that option's limitations; the printed leg has its own CAD
-verification. Neither establishes physical testing of the printed accessory.
-
-## Native 3D review
-
-Open `boards/board-p/board-p.kicad_pro` or `boards/board-b/board-b.kicad_pro` with
-its paired PCB. Active model references resolve through
-`${KIPRJMOD}/../../footprints/kicad/zudo-pd.3dshapes/`; no global KiCad path variable
-is required. Export snapshots rebase those paths for their deeper `source/`
-directory. Do not copy snapshot paths back into the active board.
-
-The inductor L1 model is an explicitly illustrative maximum-body envelope,
-7.5 × 6.85 × 3.0 mm. The exact manufacturer STEP download was unavailable. It
-supports a body-clearance review, not terminal or manufacturing geometry. Some
-other preview models are also illustrative; canonical land patterns and retained
-component drawings remain the dimensional evidence. Active model paths, transforms
-and STEP companions must match the current part selection. Model alignment does
-not establish physical wire, screw, shroud or mounting fit.
-PTC1/PTC2 model offsets now place their opaque bodies over the pad lands; PTC3's
-centered model is retained. These catalog illustrations are not maximum-tolerance
-package envelopes, so final physical clearance still needs review.
-The C8465 illustration has shorter solder tails than its drawing: use the documented
-4.7 mm maximum below the housing for physical clearance, not the model's 3.5 mm tail.
-
-The [retained STEP datum audit](../footprints/kicad/step-datum-verification.json)
-checks the reviewed active STEP/WRL pairs after alignment. It compares sampled surfaces in
-both directions and preserves solid volume; the documented BD8 capacitor's interior
-WRL faces are the narrow exception. This is a model-datum/orientation screen, not
-an exact geometry proof or physical qualification. The default command below is
-read-only for model assets; it writes only the requested report.
-
-```sh
-python3 scripts/pcb/check-model-paths.py boards/board-p/board-p.kicad_pcb
-python3 scripts/pcb/check-model-paths.py boards/board-b/board-b.kicad_pcb
-uv run scripts/pcb/verify-step-datums.py --output tmp/step-datum-check.json
-```
-
-The combined [P/B assembly preview](../boards/board-b/assembly-preview/preview.kicad_pcb)
-opens both boards together in KiCad and carries local model files. Its
-[verification report](../boards/board-b/assembly-preview/verification.json) identifies
-the source revisions and modeled clearances. This is an interactive review copy;
-export fabrication files from the active board projects.
-
-## Electrical qualification remains open
-
-The intended rail targets are +12 V / 1.2 A, −12 V / 0.8 A, and +5 V / 0.5 A.
-They are not measured capabilities. The renewed design uses AP63201 for the
-+13.44 V intermediate rail, LM2596 stages at +6.519 V and −14.145 V, LT1963A
-positive regulators, and an adjustable LT3015 (R26/R27/R28 divider, nominal −12.054 V) for the negative rail. Precision feedback
-resistors and dedicated low-ESR polymer output capacitors address the previous
-headroom and capacitor-evidence gaps. See `power-budget.json` and
-`power-budget.md` for conditioned calculations and their assumptions.
-
-Full-load startup, ripple, thermal coupling, hot fuse hold current, surge behavior,
-and low-input-voltage operation still require qualification. The retained ADI
-binary sources are manufacturer-document mirrors; independently retrieved primary
-PDF text does not substitute for a missing primary binary hash in the evidence
-registry. This limitation remains explicit in the component catalog.
-
-The U4 and U8 tabs carry the negative intermediate rail. Do not bond them to ground
-or to an uninsulated common heatsink with the positive regulators. Their copper
-areas are isolated from system ground. Copper area alone is not a measured thermal
-resistance. Use `power-layout.json` and `power-budget.json` for current source-locked
-areas and conditioned limits. The ground report separately measures aggregate
-sampled width and the largest individual run across connected copper polygons;
-it does not describe one continuous corridor. Polygon connectivity and specified
-ground stitches must also pass. Full-load testing must establish coupled temperatures
-with the board front-down on its legs and the final terminals, wiring and enclosure; passing geometry checks does not
-qualify cooling.
-
-Board B retains vendor silkscreen-over-pad warnings; the exported silkscreen is
-subtracted from the solder-mask openings. J10/J11 have intentional board-specific
-silkscreen clipping at the straight edge, with their pads and body geometry
-verified separately. These warnings remain in the full DRC report.
-Board P's reused pogo artwork has application-specific label corrections:
-J2.4 is `RST` (RESET), J3.4 is `VBUS`, and J3.5 is `GND`. Their electrical pinout
-is unchanged; library-mismatch warnings retain this intentional artwork difference.
-
-The renewed input TVS is Littelfuse SMAJ16A, paired with a 60 V
-SDT5A60SA-13 catch diode at Board B D3. The specified 26 V clamp at 15.4 A,
-10/1000 µs and 25 °C leaves conditional absolute-maximum margin; it is not a
-universal voltage ceiling. Adapter/cable overshoot, hot behavior and protection
-response remain unqualified. These files are for prototype fabrication and
-assembly review, not a declaration of qualified full-load performance.
-
-**First power and programming must use a current-limited 5 V-only source, with
-Board B disconnected. Verify the 15 V-only NVM image, readback and reload before
-connecting a PD-capable source.** A factory 20 V request can drive the 16 V TVS
-into sustained conduction. Twenty-volt operation is unsupported. Board P artwork
-and source records do not prove what a supplied STUSB4500 is programmed to request.
-A USB-PD source's 45 W nameplate budget does not prove successful startup under the
-negative converter's input-current transient.
-
-This workflow prepares reviewable files. It does not place or pay for an order.
-
-## External file-format references
-
-- [JLCPCB KiCad BOM and CPL guide](https://jlcpcb.com/help/article/how-to-generate-the-bom-and-centroid-file-from-kicad)
-- [JLCPCB pick-and-place requirements](https://jlcpcb.com/help/article/pick-place-file-for-pcb-assembly)
-- [JLCPCB copper weight and fabrication limits](https://jlcpcb.com/help/article/jlcpcb-copper-weight)
-- [Mixed SMT and through-hole assembly](https://jlcpcb.com/blog/mixed-technology-pcb-assembly-combining-smt-and-tht)
-- [Exact DEALON component](https://jlcpcb.com/partdetail/DEALON-DW254P_2X8L0/C4749189)
+This package prepares reviewable files. It does not place or pay for an order.

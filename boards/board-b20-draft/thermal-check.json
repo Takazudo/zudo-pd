@@ -1,0 +1,313 @@
+{
+ "assumptions": {
+  "vin_v": 19.0,
+  "fsw_hz": 556700.0,
+  "ambient_c": 40.0,
+  "h_w_per_m2k": [
+   10.0,
+   15.0
+  ],
+  "area_both_faces_m2": 0.0187,
+  "control_allowance_w": 0.3
+ },
+ "rated_typ_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6539,
+    "inductor_a": 1.2,
+    "ic_w": 0.206,
+    "ic_terms_w": {
+     "conduction": 0.0945,
+     "switching": 0.0767,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.216,
+     "inductor": 0.107,
+     "post_filter": 0.098,
+     "shunt": 0.014,
+     "rail_fets": 0.056
+    },
+    "stage_w": 0.697,
+    "output_w": 14.58,
+    "tj_std_board_c": 48.6
+   },
+   "-12": {
+    "duty": 0.4042,
+    "inductor_a": 1.343,
+    "ic_w": 0.317,
+    "ic_terms_w": {
+     "conduction": 0.0738,
+     "switching": 0.1863,
+     "gate": 0.0521,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 0.56,
+     "inductor": 0.135,
+     "post_filter": 0.044,
+     "shunt": 0.006,
+     "rail_fets": 0.025
+    },
+    "stage_w": 1.087,
+    "output_w": 9.704,
+    "tj_std_board_c": 53.3
+   },
+   "+5": {
+    "duty": 0.2889,
+    "inductor_a": 0.5,
+    "ic_w": 0.075,
+    "ic_terms_w": {
+     "conduction": 0.0081,
+     "switching": 0.0319,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.185,
+     "inductor": 0.021,
+     "post_filter": 0.017,
+     "shunt": 0.003,
+     "rail_fets": 0.01
+    },
+    "stage_w": 0.309,
+    "output_w": 2.54,
+    "tj_std_board_c": 43.1
+   }
+  },
+  "board_loss_w": 2.39,
+  "output_w": 26.82,
+  "efficiency": 0.9181,
+  "input_a_at_19v": 1.538,
+  "mean_rise_k": [
+   12.8,
+   8.5
+  ]
+ },
+ "rated_max_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6539,
+    "inductor_a": 1.2,
+    "ic_w": 0.306,
+    "ic_terms_w": {
+     "conduction": 0.1952,
+     "switching": 0.0767,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.216,
+     "inductor": 0.107,
+     "post_filter": 0.098,
+     "shunt": 0.014,
+     "rail_fets": 0.056
+    },
+    "stage_w": 0.798,
+    "output_w": 14.58,
+    "tj_std_board_c": 52.9
+   },
+   "-12": {
+    "duty": 0.4042,
+    "inductor_a": 1.343,
+    "ic_w": 0.395,
+    "ic_terms_w": {
+     "conduction": 0.1524,
+     "switching": 0.1863,
+     "gate": 0.0521,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 0.56,
+     "inductor": 0.135,
+     "post_filter": 0.044,
+     "shunt": 0.006,
+     "rail_fets": 0.025
+    },
+    "stage_w": 1.165,
+    "output_w": 9.704,
+    "tj_std_board_c": 56.6
+   },
+   "+5": {
+    "duty": 0.2889,
+    "inductor_a": 0.5,
+    "ic_w": 0.083,
+    "ic_terms_w": {
+     "conduction": 0.0167,
+     "switching": 0.0319,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.185,
+     "inductor": 0.021,
+     "post_filter": 0.017,
+     "shunt": 0.003,
+     "rail_fets": 0.01
+    },
+    "stage_w": 0.318,
+    "output_w": 2.54,
+    "tj_std_board_c": 43.5
+   }
+  },
+  "board_loss_w": 2.58,
+  "output_w": 26.82,
+  "efficiency": 0.9122,
+  "input_a_at_19v": 1.548,
+  "mean_rise_k": [
+   13.8,
+   9.2
+  ]
+ },
+ "limiter_max_typ_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6575,
+    "inductor_a": 2.1,
+    "ic_w": 0.443,
+    "ic_terms_w": {
+     "conduction": 0.2747,
+     "switching": 0.1342,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.374,
+     "inductor": 0.309,
+     "post_filter": 0.3,
+     "shunt": 0.044,
+     "rail_fets": 0.172
+    },
+    "stage_w": 1.642,
+    "output_w": 25.515,
+    "tj_std_board_c": 58.6
+   },
+   "-12": {
+    "duty": 0.406,
+    "inductor_a": 3.367,
+    "ic_w": 0.956,
+    "ic_terms_w": {
+     "conduction": 0.4302,
+     "switching": 0.4695,
+     "gate": 0.0523,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 1.4,
+     "inductor": 0.783,
+     "post_filter": 0.272,
+     "shunt": 0.04,
+     "rail_fets": 0.156
+    },
+    "stage_w": 3.608,
+    "output_w": 24.26,
+    "tj_std_board_c": 80.2
+   },
+   "+5": {
+    "duty": 0.2889,
+    "inductor_a": 0.5,
+    "ic_w": 0.075,
+    "ic_terms_w": {
+     "conduction": 0.0081,
+     "switching": 0.0319,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.185,
+     "inductor": 0.021,
+     "post_filter": 0.017,
+     "shunt": 0.003,
+     "rail_fets": 0.01
+    },
+    "stage_w": 0.309,
+    "output_w": 2.54,
+    "tj_std_board_c": 43.1
+   }
+  },
+  "board_loss_w": 5.86,
+  "output_w": 52.32,
+  "efficiency": 0.8993,
+  "input_a_at_19v": 3.062,
+  "mean_rise_k": [
+   31.3,
+   20.9
+  ]
+ },
+ "limiter_max_max_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6575,
+    "inductor_a": 2.1,
+    "ic_w": 0.736,
+    "ic_terms_w": {
+     "conduction": 0.5673,
+     "switching": 0.1342,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.374,
+     "inductor": 0.309,
+     "post_filter": 0.3,
+     "shunt": 0.044,
+     "rail_fets": 0.172
+    },
+    "stage_w": 1.935,
+    "output_w": 25.515,
+    "tj_std_board_c": 70.9
+   },
+   "-12": {
+    "duty": 0.406,
+    "inductor_a": 3.367,
+    "ic_w": 1.415,
+    "ic_terms_w": {
+     "conduction": 0.8885,
+     "switching": 0.4695,
+     "gate": 0.0523,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 1.4,
+     "inductor": 0.783,
+     "post_filter": 0.272,
+     "shunt": 0.04,
+     "rail_fets": 0.156
+    },
+    "stage_w": 4.066,
+    "output_w": 24.26,
+    "tj_std_board_c": 99.4
+   },
+   "+5": {
+    "duty": 0.2889,
+    "inductor_a": 0.5,
+    "ic_w": 0.083,
+    "ic_terms_w": {
+     "conduction": 0.0167,
+     "switching": 0.0319,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.185,
+     "inductor": 0.021,
+     "post_filter": 0.017,
+     "shunt": 0.003,
+     "rail_fets": 0.01
+    },
+    "stage_w": 0.318,
+    "output_w": 2.54,
+    "tj_std_board_c": 43.5
+   }
+  },
+  "board_loss_w": 6.62,
+  "output_w": 52.32,
+  "efficiency": 0.8877,
+  "input_a_at_19v": 3.102,
+  "mean_rise_k": [
+   35.4,
+   23.6
+  ]
+ }
+}

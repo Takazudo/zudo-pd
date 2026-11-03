@@ -131,10 +131,13 @@ def surface_check(shape, vertices, faces, tolerance, allow_internal=False):
             'wrl_samples_strictly_inside_step_exception':internal_count}
 
 
-def run(normalize=False,board_b=None):
+def run(normalize=False,board_b=None,board_b20=None):
     review = json.loads(REVIEW.read_text())
     tolerance = review['maximum_external_surface_deviation_mm']
-    boards=[ROOT/'boards/board-p/board-p.kicad_pcb',board_b or ROOT/'boards/board-b/board-b.kicad_pcb']
+    # both Board P variants (as built and the board-p15 15 V draft) share one reviewed model set with Board B and,
+    # since phase 33, with the board-b20-draft PCB (its models are listed with a pending-review note)
+    boards=[ROOT/'boards/board-p/board-p.kicad_pcb',ROOT/'boards/board-p15/board-p15-draft.kicad_pcb',board_b or ROOT/'boards/board-b/board-b.kicad_pcb',
+            board_b20 or ROOT/'boards/board-b20-draft/board-b20-draft.kicad_pcb']
     active_names=set()
     for board in boards:
         for footprint in find_all(load(board),'footprint'):
@@ -204,8 +207,9 @@ def main():
     parser.add_argument('--normalize-reviewed',action='store_true')
     parser.add_argument('--output',type=Path)
     parser.add_argument('--board-b',type=Path,help='Board B candidate whose complete model set is checked; Board P uses its active project')
+    parser.add_argument('--board-b20',type=Path,help='B20 draft candidate checked in place of boards/board-b20-draft')
     args=parser.parse_args()
-    result=run(args.normalize_reviewed,args.board_b)
+    result=run(args.normalize_reviewed,args.board_b,args.board_b20)
     if args.output:
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.write_text(json.dumps(result,indent=2)+'\n')

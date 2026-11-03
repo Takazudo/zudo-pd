@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c1850276-primary-specification",
+      "record_id": "rec-c1850276",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "TI SLVSE94G datasheet bytes retrieved and hashed 2026-10-31; selected limits and pin table reviewed against the PDF text.",
+      "fact_ids": [
+        "fact-c1850276-manufacturer",
+        "fact-c1850276-vin-operating",
+        "fact-c1850276-pin-absmax",
+        "fact-c1850276-uvlo-rising",
+        "fact-c1850276-ovp-rising",
+        "fact-c1850276-iol-4k02",
+        "fact-c1850276-mode-latch",
+        "fact-c1850276-pgth-gnd",
+        "fact-c1850276-dvdt-equation",
+        "fact-c1850276-thermal-rthja",
+        "fact-c1850276-ovp-rising-max",
+        "fact-c1850276-in-absmax",
+        "fact-c1850276-bgate-clamp-max",
+        "fact-c1850276-blocking-fet-topology"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c1850276-distributor-identity",
+      "record_id": "rec-c1850276",
+      "domain": "distributor-identity",
+      "status": "COVERED",
+      "reason": "Exact JLCPCB catalog identity read 2026-10-31.",
+      "fact_ids": [
+        "fact-c1850276-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c1850276-footprint-land-pattern",
+      "record_id": "rec-c1850276",
+      "domain": "footprint-land-pattern",
+      "status": "OPEN",
+      "reason": "Imported footprint not reviewed against the TI land drawing; courtyard undersized.",
+      "fact_ids": [
+        "fact-c1850276-footprint-review"
+      ],
+      "blocking_fact_ids": [
+        "fact-c1850276-footprint-review"
+      ]
+    },
+    {
+      "coverage_id": "cov-c1850276-assembled-qualification",
+      "record_id": "rec-c1850276",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Board P configuration, surge, inrush, thermal and latch behaviour are unmeasured.",
+      "fact_ids": [
+        "fact-c1850276-board-p-config",
+        "fact-c1850276-visualization-envelope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c1850276-board-p-config"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+#!/usr/bin/env python3
+"""Check board-b20-draft against its schematic and the shared Board B mechanical contract.
+
+usage: kicad-python verify-mechanics.py [pcb] [--output report.json]
+
+B20 keeps the Board B outline, PD stack, corner supports, terminal blocks and bus sockets (boards/board-b/mechanical.json)
+but carries its own nets. This mirrors scripts/pcb/verify-board-b.py and the shared parts of
+scripts/pcb/verify-compact-mechanics.py with the B20 net names, without changing either Board B verifier (their hashes
+bind the 15 V package's stack proof). The Board B top-edge pogo row (P1, TP3-TP5) and the front/back rail labels are not
+on the draft yet; they are reported under absent_features as OPEN, never as PASS.
+"""
+import argparse
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+import wx
+_KICAD_APP = wx.GetApp() or wx.App(False)
+import pcbnew as p
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / 'scripts/pcb'))
+sys.path.insert(0, str(ROOT / 'scripts/schgen'))
+from board_b_layout import WIDTH, HEIGHT, pd_to_board_b  # noqa: E402
+from pcb_common import pcb_net_name  # noqa: E402
+import board_b20_spec as spec  # noqa: E402
+
+_compact = importlib.util.spec_from_file_location('compact_mechanics', ROOT / 'scripts/pcb/verify-compact-mechanics.py')
+compact = importlib.util.module_from_spec(_compact)
+_compact.loader.exec_module(compact)
+
+CONTRACT = ROOT / 'boards/board-b/mechanical.json'
+# Board P r3 contact roles on B20: VBUS_OUT feeds VIN directly; ATT is not used by the B20 draft (J5.3 no-connect).
+PD_NETS = {'VBUS_OUT': 'VIN', 'ATT': None, 'PDOK': 'PDOK', 'GND': 'GND'}
+TERMINAL_NETS = {'J6': {'1': 'GND', '2': 'M12_OUT'}, 'J7': {'1': 'P5_OUT', '2': 'P12_OUT'}}
+SOCKET_NETS = {1: 'M12_OUT', 2: 'M12_OUT', **{n: 'GND' for n in range(3, 9)}, 9: 'P12_OUT', 10: 'P12_OUT',
+               11: 'P5_OUT', 12: 'P5_OUT', 13: 'CV', 14: 'CV', 15: 'GATE', 16: 'GATE'}
+
+
+def require(ok, message):
+    if not ok:
+        raise ValueError(message)
+
+
+def xy(item):
+    pos = item.GetPosition()
+    return [p.ToMM(pos.x), p.ToMM(pos.y)]
+
+
+def near(a, b, tol=.001):
+    return len(a) == len(b) and all(abs(x - y) <= tol for x, y in zip(a, b))
+
+
+def unconnected(pad):
+    return pad.GetNetCode() == 0 or pad.GetNetname().startswith('unconnected-')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('pcb', nargs='?', type=Path, default=ROOT / 'boards/board-b20-draft/board-b20-draft.kicad_pcb')
+    parser.add_argument('--output', type=Path)
+    args = parser.parse_args()
+    board = p.LoadBoard(str(args.pcb))
+    fps = {}
+    for fp in board.GetFootprints():
+        ref = fp.GetReference()
+        require(ref not in fps, 'Duplicate reference ' + ref)
+        fps[ref] = fp
+    contract = json.loads(CONTRACT.read_text())
+    errors = []
+
+    def check(name, fn):
+        try:
+            return fn()
+        except (KeyError, ValueError, StopIteration) as error:
+            errors.append(f'{name}: {error}')
+
+    def identity():
+        expected = {pin: pcb_net_name(net) for net, pins in spec.NETS.items() for pin in pins}
+        seen = set()
+        for ref, comp in spec.COMPONENTS.items():
+            require(ref in fps, 'missing ' + ref)
+            fp = fps[ref]
+            require(fp.GetValue() == comp[1] and fp.GetFPIDAsString() == comp[3] and fp.IsDNP() == comp[4],
+                    ref + ': identity/population mismatch')
+            require(fp.GetFieldText('LCSC') == comp[2], ref + ': LCSC mismatch')
+            for pad in fp.Pads():
+                key = ref + '.' + pad.GetNumber()
+                if pad.GetAttribute() == p.PAD_ATTRIB_NPTH:
+                    continue
+                if key in spec.NO_CONNECT:
+                    require(unconnected(pad), key + ': no-connect was connected')
+                else:
+                    require(expected.get(key) == pad.GetNetname(), key + ': incorrect/missing net ' + pad.GetNetname())
+                    seen.add(key)
+        require(seen == set(expected), 'not all schematic pins have matching PCB pads')
+        return 'PASS'
+
+    def outline():
+        x0, y0, x1, y1 = compact.outline_bounds(board)
+        require(abs(x1 - x0 - WIDTH) < .01 and abs(y1 - y0 - HEIGHT) < .01, f'outline {x1-x0} x {y1-y0}')
+        require(contract['size_mm'] == [WIDTH, HEIGHT], 'contract size differs')
+        return [x0, y0, x1, y1]
+
+    def pd_mating():
+        board_p = json.loads((ROOT / 'boards/board-p/mechanical.json').read_text())
+        stack = contract['pd_stack']
+        require(stack['point_transform'] == 'P(x,y) -> B(y-0.5,x+12)' and stack['nominal_board_p_top_z_mm'] == 11.1,
+                'unreviewed stack transform or spacing')
+        header = fps['J5']
+        pads = {pad.GetNumber(): pad for pad in header.Pads()}
+        require(set(pads) == {str(i) for i in range(1, 7)}, 'J5 must have exactly six contacts')
+        require(header.GetLayer() == p.F_Cu and abs(header.GetOrientationDegrees() % 360 - 270) < .001,
+                'J5 must be front-side at rotation 270')
+        rows = []
+        for pin in board_p['interface']['pads']:
+            pad = pads[str(pin['pin'])]
+            target = pd_to_board_b(pin['center'])
+            require(near(xy(pad), target), f'J5.{pin["pin"]}: mating pad position')
+            locked = next(v for v in stack['pads'] if v['pin'] == pin['pin'])
+            require(near(target, locked['center_mm']), 'contract pad differs from source Board P')
+            want = PD_NETS[pin['net']]
+            require(unconnected(pad) if want is None else pad.GetNetname() == pcb_net_name(want),
+                    f'J5.{pin["pin"]}: net {pad.GetNetname()} for Board P {pin["net"]}')
+            rows.append({'pin': pin['pin'], 'board_p_net': pin['net'], 'center_mm': xy(pad),
+                         'board_b20_net': pad.GetNetname() or 'unconnected'})
+        for i, hole in enumerate(board_p['mounting_holes'], 1):
+            pad = list(fps['H' + str(i)].Pads())
+            require(len(pad) == 1 and near(xy(pad[0]), pd_to_board_b(hole['center']))
+                    and pad[0].GetAttribute() == p.PAD_ATTRIB_NPTH
+                    and near([p.ToMM(pad[0].GetDrillSize().x)], [hole['drill']]), f'H{i}: PD mount mismatch')
+        return rows
+
+    def corners():
+        support = contract['corner_supports']
+        expected = {'H4': [WIDTH - 4, 4], 'H5': [4, HEIGHT - 4], 'H6': [WIDTH - 4, HEIGHT - 4], 'H7': [4, 4]}
+        require(support['placements'] == expected and support['hole_diameter_mm'] == 3.0, 'corner contract')
+        for ref, center in expected.items():
+            fp = fps[ref]
+            pads = list(fp.Pads())
+            require(fp.GetFPIDAsString() == support['footprint'] and len(pads) == 1, ref + ': support footprint')
+            q = pads[0]
+            require(near(xy(q), center, .01) and q.GetAttribute() == p.PAD_ATTRIB_NPTH and q.GetNetCode() == 0
+                    and abs(p.ToMM(q.GetDrillSize().x) - 3.0) < .001, ref + ': netless 3 mm NPTH at the corner')
+        return 'PASS'
+
+    def terminals():
+        terminal = contract['terminal_blocks']
+        positions = {item['reference']: item for item in terminal['placements']}
+        rows = []
+        for ref, nets in TERMINAL_NETS.items():
+            fp = fps[ref]
+            require(fp.GetLayer() == p.F_Cu and abs(fp.GetOrientationDegrees() % 360 - 90) < .001, ref + ': rotation')
+            require(fp.GetFPIDAsString() == terminal['footprint'] and fp.GetFieldText('LCSC') == terminal['lcsc'],
+                    ref + ': footprint or C8465 identity')
+            fx, fy = xy(fp)
+            require(near([fx, fy], positions[ref]['center_mm'], .01), ref + ': origin differs from the contract')
+            for number, q in {q.GetNumber(): q for q in fp.Pads()}.items():
+                lx, ly = terminal['pad_centers_local_mm'][number]
+                require(near(xy(q), [fx + ly, fy - lx], .01) and q.GetNetname() == nets[number]
+                        and q.GetAttribute() == p.PAD_ATTRIB_PTH, f'{ref}.{number}: position, net or plating')
+            rows.append({'reference': ref, 'origin_mm': [fx, fy], 'pins': nets})
+        return rows
+
+    def sockets():
+        for ref in ('J10', 'J11'):
+            fp = fps[ref]
+            require(fp.GetLayer() == p.F_Cu and abs(fp.GetOrientationDegrees()) < .001, ref + ': mating direction')
+            require(abs(xy(fp)[1] + 12.23 - HEIGHT) < .001, ref + ': mating face not at the board edge')
+            pads = {int(q.GetNumber()): q for q in fp.Pads()}
+            require(set(pads) == set(SOCKET_NETS), ref + ': contacts')
+            for number, net in SOCKET_NETS.items():
+                require(pads[number].GetNetname() == net, f'{ref}.{number}: wrong rail {pads[number].GetNetname()}')
+            require(pads[1].GetShape() == p.PAD_SHAPE_RECT, ref + ': no rectangular pin-1 marker')
+        return 'PASS'
+
+    result = {'board': 'board-b20-draft', 'size_mm': [WIDTH, HEIGHT], 'component_count': len(spec.COMPONENTS),
+              'schematic_pad_identity': check('identity', identity),
+              'outline_mm': check('outline', outline),
+              'pd_mating': check('pd_mating', pd_mating),
+              'corner_supports': check('corner_supports', corners),
+              'terminal_blocks': check('terminals', terminals),
+              'eurorack_pin_contract': check('sockets', sockets),
+              'absent_features': {
+                  'pogo_row': 'OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft' if 'P1' not in fps else 'present, not checked here',
+                  'rail_labels': 'OPEN: the B20 draft carries no silkscreen rail labels yet'},
+              'physical_stack_and_cable_fit': 'NOT MEASURED',
+              'errors': errors}
+    result['status'] = 'FAIL' if errors else 'PASS'
+    text = json.dumps(result, indent=2) + '\n'
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(text)
+    print(text, end='')
+    return 0 if not errors else 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

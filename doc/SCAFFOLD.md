@@ -79,6 +79,53 @@ legacy retirement. Runtime tests compare the installed package projection to the
 legacy pages at that same base. These baselines supplement #205's 313 covered project
 file hashes and IDs; they do not assert generated MDX byte identity.
 
+2026-10-31 refresh for the Board P 20 V draft branch: the legacy adapter is retired, so
+changed entries could not be recaptured from it. They were recaptured from the installed
+runtime projection, and every other entry kept its legacy hash. Changed entries:
+
+- added records c1850276, c523793, c861163, c705781, c840100, c40912, c705719 and c461081;
+- c2289 facts, from the KT-0603YG renumbering;
+- c14663 identity, sources and facts, plus c22807, c17414 and type-c-31-m-17 sources,
+  from the C35 topology update and the re-hashed `board_p_spec.py` generator sources;
+- the umw-ao3401a-c347476, c970687 and rt0603brd0710kl identities, from the placement
+  changes;
+- the integration hash.
+
+A third refresh on the same date recaptured the entries changed by the Board P Q1 soft-start
+draft (`dec-p-20v-q1-soft-start`) from the installed runtime projection:
+
+- c15849, c23179 and c22807 identities and facts, from the C36, R28 and R27 placements and
+  their topology facts;
+- c40912 identity, facts and coverage, from the Q5 placement and its new role fact.
+
+A fourth refresh on the same date (PD phase 8, `dec-p-front-end-r3-migration`) recaptured the
+entries changed when `board_p_spec.py` moved to the r3 front end, again from the installed runtime
+projection:
+
+- added records c1849461 (TPS16630PWPR) and c2941042 (LM74700QDBVRQ1);
+- removed records c1850276 and c17414, which became REJECTED candidates and are no longer
+  published; the c17414 page and its catalog anchor left the anchor baseline, which now covers
+  62 retained legacy pages;
+- c15849, c23162 and c40912 identities and facts, from the C37 placement, the R15/R16 removal
+  and the Q4 removal (plus c40912 coverage);
+- c21189 identity, sources and facts, from the R21 strap placement and its new generator source;
+- c840100 facts, from the LM74700 gate-drive conditions;
+- the integration hash.
+
+The retired c74561 record left both baselines, and its page and catalog anchor went with
+it. The nine retired `calc-protection-*` integration anchors were also dropped. The anchor
+baseline therefore covers the 63 retained legacy pages. New pages carry no legacy anchor
+lock.
+
+A second refresh on the same date recaptured the entries changed by the Board P Q1 gate
+clamp draft (`dec-p-20v-q1-gate-clamp`) from the installed runtime projection:
+
+- bzt52c11-c92321 identity, facts and coverage (its Board P D8 placement and two new facts);
+- the c25803, c23162 and c22807 identities, from the R11/R12 placement moves, plus c22807
+  sources, facts and interactions;
+- type-c-31-m-17, c14663 and c17414 sources, from the re-hashed `board_p_spec.py`;
+- the integration hash.
+
 The bridge additionally rejects document exceptions naming nonexistent records, preserving
 the old reference contract. The installed package regression is retained in references.test.ts.
 At the initial #207 integration, legacy test/caller retirement remained for #208;

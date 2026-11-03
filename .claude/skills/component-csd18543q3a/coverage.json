@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c840100-primary-specification",
+      "record_id": "rec-c840100",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet retrieved and hashed 2026-10-31.",
+      "fact_ids": [
+        "fact-c840100-manufacturer",
+        "fact-c840100-vds",
+        "fact-c840100-vgs",
+        "fact-c840100-rdson-10v-max",
+        "fact-c840100-rdson-4v5-max"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c840100-distributor-identity",
+      "record_id": "rec-c840100",
+      "domain": "distributor-identity",
+      "status": "COVERED",
+      "reason": "Exact JLCPCB catalog identity read 2026-10-31.",
+      "fact_ids": [
+        "fact-c840100-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c840100-assembled-qualification",
+      "record_id": "rec-c840100",
+      "domain": "assembled-qualification",
+      "status": "OPEN",
+      "reason": "Footprint, layout, thermal and switching behaviour on Board P are unreviewed and unmeasured.",
+      "fact_ids": [
+        "fact-c840100-footprint-review",
+        "fact-c840100-board-p-role",
+        "fact-c840100-visualization-envelope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c840100-footprint-review",
+        "fact-c840100-board-p-role"
+      ]
+    }
+  ]
+}

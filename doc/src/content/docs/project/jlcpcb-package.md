@@ -14,8 +14,8 @@ printed leg addresses the earlier HC-11 option's nominal height conflict without
 changing the PCB or package. Check the
 [support contract](../architecture/board-contract.md#independent-corner-supports),
 including actual M3 passage through the existing Ø3.0 mm PCB holes.
-Only the current prototype package is maintained; no renewal hardware has been
-released or ordered.
+Only the current prototype package is maintained. Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered.
+No renewal hardware is released or validated.
 
 Export each board independently from its final KiCad project. Retain validation
 reports and exports with the current prototype package. Record source revision,
@@ -66,8 +66,12 @@ Generate a temporary candidate from the current design using a new output direct
 
 ```sh
 python3 scripts/pcb/export-jlcpcb.py tmp/current-prototype-export --boards board-p board-b
-uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py tmp/current-prototype-export
+uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py --write tmp/current-prototype-export
 ```
+
+`--write` stores the Gerber renders and `independent-validation.json` in the fresh export and refreshes its
+`SHA256SUMS`. Without it the verifier leaves the package untouched and writes to a temporary directory (or
+`--out`); use that form to re-check the committed package.
 
 The exporter checks ERC, DRC and schematic/PCB parity. Inspect its reports and
 the [manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md) for actual release status. The independent rendering step

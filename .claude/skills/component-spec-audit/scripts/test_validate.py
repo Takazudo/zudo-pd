@@ -110,6 +110,8 @@ class ComponentSpecValidatorTests(unittest.TestCase):
             {"board": "board-a", "spec": "absent_board_a_spec.py"},
             {"board": "board-b", "spec": "absent_board_b_spec.py"},
             {"board": "board-p", "spec": "absent_board_p_spec.py"},
+            {"board": "board-p15", "spec": "absent_board_p15_spec.py"},
+            {"board": "board-b20-draft", "spec": "absent_board_b20_components.py"},
         ]
         lines, generated = validator.validate_inventory(changed, self.schema, staged=True, root=validator.SYNTHETIC)
         self.assertIsNone(generated)

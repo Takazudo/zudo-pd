@@ -62,7 +62,7 @@
           "function": "anode"
         }
       ],
-      "reviewed_by": "child-114 prospective mapping for an unplaced replacement candidate: no KiCad symbol exists yet; cathode band per the Brightking SMAJ datasheet; the SMA/D-FLAT repository footprint (shared with SMAJ15A/SMAJ20A) is the intended landing pattern; numbering is finalized at symbol import if the candidate is selected"
+      "reviewed_by": "child-114 prospective mapping, then fitted as Board B TVS2 (line-c87267, wave-6 dec-a-tvs2-replacement). 2026-10-31 desk re-check: symbols/zudo-pd.kicad_sym 'SMAJ6.5A_C87267' numbers pin 1=C (cathode, bar side) and pin 2=A; footprints/kicad/zudo-power.pretty/D-FLAT_L4.3-W2.6-LS5.3-RD.kicad_mod puts pad 1 at local -X under the silk triangle-and-bar; scripts/schgen/board_b_spec.py puts TVS2.1 on '+5V rail' and TVS2.2 on GND, and boards/board-b/board-b.kicad_pcb places TVS2 pad 1 on '+5V rail'. Cathode band per the Brightking SMAJ datasheet; body marking on the built board is not inspected"
     },
     {
       "pin_map_id": "pinmap-cand-smaj6-0a-c5353156",

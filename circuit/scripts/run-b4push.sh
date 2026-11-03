@@ -17,7 +17,7 @@ cd "$ROOT_DIR"
 pnpm circuit:check
 pnpm test:circuit
 pnpm test:compatibility
-python3 -m unittest discover -s .claude/skills/component-spec-audit/scripts -p 'test_*.py'
+bash circuit/scripts/run-python-gates.sh
 pnpm check
 pnpm build
 pnpm check:site

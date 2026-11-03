@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-c1850276",
+      "record_id": "rec-c1850276",
+      "symbol": "TPS26630RGER",
+      "footprint": "VQFN-24_L4.0-W4.0-P0.50-TL-EP2.7",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "IN",
+          "footprint_pad": "1",
+          "function": "power input from Q3 drain (EF_IN)"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "IN",
+          "footprint_pad": "2",
+          "function": "power input from Q3 drain (EF_IN)"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "B_GATE",
+          "footprint_pad": "3",
+          "function": "external blocking FET Q3 gate (EF_BGATE)"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "DRV",
+          "footprint_pad": "4",
+          "function": "pulldown switch Q4 gate drive (EF_DRV)"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "IN_SYS",
+          "footprint_pad": "5",
+          "function": "controller supply input on connector-side VBUS_IN; Q3 source"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "UVLO",
+          "footprint_pad": "6",
+          "function": "UVLO divider input"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "OVP",
+          "footprint_pad": "7",
+          "function": "OVP divider input"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "GND",
+          "footprint_pad": "8",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "9",
+          "name": "dVdT",
+          "footprint_pad": "9",
+          "function": "output slew capacitor"
+        },
+        {
+          "symbol_pin": "10",
+          "name": "ILIM",
+          "footprint_pad": "10",
+          "function": "current-limit resistor"
+        },
+        {
+          "symbol_pin": "11",
+          "name": "MODE",
+          "footprint_pad": "11",
+          "function": "fault mode select, open = latch"
+        },
+        {
+          "symbol_pin": "12",
+          "name": "~{SHDN}",
+          "footprint_pad": "12",
+          "function": "shutdown input, open = enabled"
+        },
+        {
+          "symbol_pin": "13",
+          "name": "IMON",
+          "footprint_pad": "13",
+          "function": "current monitor output (unused)"
+        },
+        {
+          "symbol_pin": "14",
+          "name": "~{FLT}",
+          "footprint_pad": "14",
+          "function": "open-drain fault output (unused)"
+        },
+        {
+          "symbol_pin": "15",
+          "name": "PGTH",
+          "footprint_pad": "15",
+          "function": "PGOOD comparator input, tied to GND"
+        },
+        {
+          "symbol_pin": "16",
+          "name": "PGOOD",
+          "footprint_pad": "16",
+          "function": "power-good output (unused)"
+        },
+        {
+          "symbol_pin": "17",
+          "name": "OUT",
+          "footprint_pad": "17",
+          "function": "power output"
+        },
+        {
+          "symbol_pin": "18",
+          "name": "OUT",
+          "footprint_pad": "18",
+          "function": "power output"
+        },
+        {
+          "symbol_pin": "19",
+          "name": "N.C.",
+          "footprint_pad": "19",
+          "function": "no connect"
+        },
+        {
+          "symbol_pin": "20",
+          "name": "N.C.",
+          "footprint_pad": "20",
+          "function": "no connect"
+        },
+        {
+          "symbol_pin": "21",
+          "name": "N.C.",
+          "footprint_pad": "21",
+          "function": "no connect"
+        },
+        {
+          "symbol_pin": "22",
+          "name": "N.C.",
+          "footprint_pad": "22",
+          "function": "no connect"
+        },
+        {
+          "symbol_pin": "23",
+          "name": "N.C.",
+          "footprint_pad": "23",
+          "function": "no connect"
+        },
+        {
+          "symbol_pin": "24",
+          "name": "N.C.",
+          "footprint_pad": "24",
+          "function": "no connect"
+        },
+        {
+          "symbol_pin": "25",
+          "name": "EP",
+          "footprint_pad": "25",
+          "function": "PowerPAD, connect to GND plane"
+        }
+      ],
+      "reviewed_by": "2026-10-31 PD worker: SLVSE94G Table 5-1 VQFN column against imported symbol pins and footprint pads 1-25; single-reviewer project lock"
+    }
+  ]
+}

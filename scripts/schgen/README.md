@@ -12,7 +12,9 @@ contract.
 
 ## Files
 
-- `board_a_spec.py`, `board_b_spec.py` — per-board `COMPONENTS` / `NETS` /
+- `board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py` (20 V r3 draft) and
+  `board_p15_spec.py` (15 V Board P, as built plus the RESET subset; deltas in
+  `baselines/board-p15-allow.json` against `baselines/board-p.json`) — per-board `COMPONENTS` / `NETS` /
   `NO_CONNECT` tables. Edit these, never the generated `.kicad_sch` directly.
 - `decisions.json` — the wave-6 decision lock for epic #86 (part swaps,
   provisions, dispositions the board specs must implement), with rationale and

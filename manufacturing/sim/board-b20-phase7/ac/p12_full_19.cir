@@ -1,0 +1,32 @@
+* p12_full_19 TPS54560 average-model loop gain (vendor SLVMCU2 AVG.LIB)
+.include ../lib/tps54560_avg.lib
+VIN vin 0 19.0
+XU comp 0 sw vin fb TPS54560_AVG PARAMS: L=10u FS=557k
+L1 sw rawl 10u
+RL1 rawl raw 68m
+CO raw rco 1.1016e-05
+RCO rco 0 0.0015
+RFT raw fbd 145000.0
+RFB fbd 0 10k
+Vinj fb fbd DC 0 AC 1
+RJ fbd vj 1meg
+VJ vj 0 0.8
+RCP comp cz 10000.0
+CCP cz 0 6.8e-09
+CHF comp 0 4.7e-11
+LF raw prel 10u
+RLF prel pre 68m
+CF1 pre cf1 47u
+RCF1 cf1 0 30m
+CF2 pre cf2 5.508u
+RCF2 cf2 0 3m
+RLOAD pre 0 5.785714285714286
+
+.control
+op
+print v(pre) v(raw) v(comp)
+ac dec 50 100 1meg
+let t = -v(fbd)/v(fb)
+wrdata p12_full_19.dat t
+.endc
+.end

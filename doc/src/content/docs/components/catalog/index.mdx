@@ -23,68 +23,136 @@ Four columns describe state. None of them is a grade, and there is deliberately 
 <EvidenceAnchor id="catalog-index" />
 
 <EvidenceTable label="parts-index">
-  | Part                                                                                                                               | Record                              | Function                                                                                                                      | Fit             | Identity   | Sources            | Open domains |
-  | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------- | ---------- | ------------------ | ------------ |
-  | <EvidenceAnchor id="rec-stusb4500qtr" />[STUSB4500QTR](/docs/components/records/stusb4500qtr/)                                     | `rec-stusb4500qtr`                  | USB-PD sink controller, negotiates the 15V PD contract                                                                        | Fitted          | VERIFIED   | AVAILABLE          | 7 of 7       |
-  | <EvidenceAnchor id="rec-usb-type-c-009-c456012" />[USB-TYPE-C-009](/docs/components/records/usb-type-c-009-c456012/)               | `rec-usb-type-c-009-c456012`        | USB Type-C receptacle, 6-pin SMD, PD sink input                                                                               | Fitted          | VERIFIED   | AVAILABLE          | 5 of 5       |
-  | <EvidenceAnchor id="rec-umw-ao3401a-c347476" />[AO3401A](/docs/components/records/umw-ao3401a-c347476/)                            | `rec-umw-ao3401a-c347476`           | P-channel MOSFET load switch, gates VBUS\_OUT from U1                                                                         | Fitted          | VERIFIED   | AVAILABLE          | 2 of 5       |
-  | <EvidenceAnchor id="rec-high-diode-smaj20a-c571370" />[SMAJ20A](/docs/components/records/high-diode-smaj20a-c571370/)              | `rec-high-diode-smaj20a-c571370`    | 20V-standoff TVS diode, VBUS\_IN surge/overvoltage clamp                                                                      | Fitted          | VERIFIED   | AVAILABLE          | 1 of 7       |
-  | <EvidenceAnchor id="rec-bzt52c11-c92321" />[BZT52C11-7-F](/docs/components/records/bzt52c11-c92321/)                               | `rec-bzt52c11-c92321`               | 11V zener diode, Q1 gate-source clamp                                                                                         | Fitted          | VERIFIED   | AVAILABLE          | 1 of 3       |
-  | <EvidenceAnchor id="rec-c25803" />[0603WAF1003T5E](/docs/components/records/c25803/)                                               | `rec-c25803`                        | 100 kOhm resistor, U1 VBEN pull-up network                                                                                    | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c23206" />[0603WAF5602T5E](/docs/components/records/c23206/)                                               | `rec-c23206`                        | 56 kOhm resistor, U1 VBEN pull-up network                                                                                     | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c23179" />[0603WAF4700T5E](/docs/components/records/c23179/)                                               | `rec-c23179`                        | 470 Ohm resistor, VBUS\_VS\_DISCH discharge path (pin 18)                                                                     | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c23162" />[0603WAF4701T5E](/docs/components/records/c23162/)                                               | `rec-c23162`                        | 4.7 kOhm resistor, U1 SCL/SDA I2C pull-up                                                                                     | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c23186" />[0603WAF5101T5E](/docs/components/records/c23186/)                                               | `rec-c23186`                        | 5.1 kOhm 0603 resistor; DNP CC-line Rd placement on Board A, fitted DC-DC feedback-divider placement on Board B               | DNP or hand-fit | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c21189" />[0603WAF0000T5E](/docs/components/records/c21189/)                                               | `rec-c21189`                        | 0 Ohm link resistor, CC-line debounce net jumper                                                                              | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c13585" />[CL31A106KBHNNNE](/docs/components/records/c13585/)                                              | `rec-c13585`                        | 10 uF ceramic capacitor, VBUS\_IN bulk decoupling                                                                             | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c1711" />[CC0805KRX7R9BB104](/docs/components/records/c1711/)                                              | `rec-c1711`                         | 100 nF ceramic capacitor, general decoupling across U1/DC-DC/LDO stages                                                       | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c15849" />[CL10A105KB8NNNC](/docs/components/records/c15849/)                                              | `rec-c15849`                        | 1 uF ceramic capacitor, U1 VREG\_2V7/VREG\_1V2 decoupling                                                                     | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-jst-b6b-xh-a" />[B6B-XH-A(LF)(SN)](/docs/components/records/jst-b6b-xh-a/)                                 | `rec-jst-b6b-xh-a`                  | 6-pin JST XH board-to-board interface connector (+15V x2, ATT, PDOK, GND x2)                                                  | Fitted          | VERIFIED   | AVAILABLE          | 1 of 3       |
-  | <EvidenceAnchor id="rec-pesd24vs1ub-c85382" />[PESD24VS1UB](/docs/components/records/pesd24vs1ub-c85382/)                          | `rec-pesd24vs1ub-c85382`            | Unidirectional ESD/TVS diode, CC-line DNP protection provision                                                                | DNP or hand-fit | VERIFIED   | AVAILABLE          | 1 of 3       |
-  | <EvidenceAnchor id="rec-lm2596s-adj-c347423" />[LM2596S-ADJ](/docs/components/records/lm2596s-adj-c347423/)                        | `rec-lm2596s-adj-c347423`           | Adjustable buck/inverting DC-DC converter IC, intermediate-rail generation                                                    | Fitted          | VERIFIED   | AVAILABLE          | 3 of 8       |
-  | <EvidenceAnchor id="rec-cya1265-100uh-c19268674" />[CYA1265-100UH](/docs/components/records/cya1265-100uh-c19268674/)              | `rec-cya1265-100uh-c19268674`       | 100 uH power inductor, DC-DC converter energy storage                                                                         | Fitted          | VERIFIED   | AVAILABLE          | 0 of 2       |
-  | <EvidenceAnchor id="rec-ss34-c8678" />[SS34](/docs/components/records/ss34-c8678/)                                                 | `rec-ss34-c8678`                    | 40V/3A Schottky diode, DC-DC converter freewheeling/rectifier                                                                 | Fitted          | VERIFIED   | AVAILABLE          | 1 of 3       |
-  | <EvidenceAnchor id="rec-c2983319" />[GVT1E477M0810CNVC](/docs/components/records/c2983319/)                                        | `rec-c2983319`                      | 470 uF 25V aluminum electrolytic capacitor, +13.5V and -13.5V DC-DC output bulk filter                                        | Fitted          | VERIFIED   | AVAILABLE          | 1 of 5       |
-  | <EvidenceAnchor id="rec-c335982" />[RVT1A471M0607](/docs/components/records/c335982/)                                              | `rec-c335982`                       | 470 uF 10V aluminum electrolytic capacitor, +7.5V DC-DC output bulk filter (canonical LCSC per decision c)                    | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c970687" />[RVT1H101M0810](/docs/components/records/c970687/)                                              | `rec-c970687`                       | 100 uF 50V aluminum electrolytic capacitor, -13.5V DC-DC output bulk filter (28.5V nominal / 33.5V edge-case bridging rating) | Fitted          | VERIFIED   | AVAILABLE          | 0 of 2       |
-  | <EvidenceAnchor id="rec-c1729" />[CL21B223KBANNNC](/docs/components/records/c1729/)                                                | `rec-c1729`                         | 22 nF ceramic capacitor, DC-DC feedforward compensation                                                                       | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c21190" />[0603WAF1001T5E](/docs/components/records/c21190/)                                               | `rec-c21190`                        | 1 kOhm resistor, DC-DC feedback divider bottom resistor                                                                       | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-ptc-smd1210p150tf16-c7529589" />[SMD1210P150TF/16](/docs/components/records/ptc-smd1210p150tf16-c7529589/) | `rec-ptc-smd1210p150tf16-c7529589`  | 1.5A-hold 16V PTC resettable fuse, +12V output overcurrent protection (decision g replacement)                                | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
-  | <EvidenceAnchor id="rec-ptc-msmd110-33v-c70119" />[mSMD110-33V](/docs/components/records/ptc-msmd110-33v-c70119/)                  | `rec-ptc-msmd110-33v-c70119`        | 1.1A-hold PTC resettable fuse, +5V output overcurrent protection                                                              | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
-  | <EvidenceAnchor id="rec-ptc-bsmd1206-150-16v-c883133" />[BSMD1206-150-16V](/docs/components/records/ptc-bsmd1206-150-16v-c883133/) | `rec-ptc-bsmd1206-150-16v-c883133`  | 1.5A-hold PTC resettable fuse, -12V output overcurrent protection                                                             | Fitted          | VERIFIED   | AVAILABLE          | 2 of 5       |
-  | <EvidenceAnchor id="rec-smaj15a-c571368" />[SMAJ15A](/docs/components/records/smaj15a-c571368/)                                    | `rec-smaj15a-c571368`               | 15V-standoff TVS diode, +12V/-12V output overvoltage protection                                                               | Fitted          | VERIFIED   | AVAILABLE          | 1 of 4       |
-  | <EvidenceAnchor id="rec-cand-smaj6-5a-c87267" />[SMAJ6.5A](/docs/components/records/cand-smaj6-5a-c87267/)                         | `rec-cand-smaj6-5a-c87267`          | 400W unidirectional TVS diode, +5V output overvoltage protection (decision a replacement for the SD05)                        | Fitted          | VERIFIED   | AVAILABLE          | 0 of 3       |
-  | <EvidenceAnchor id="rec-c22387780" />[EFVH035ADA471M10B0](/docs/components/records/c22387780/)                                     | `rec-c22387780`                     | 470 uF 35V aluminum electrolytic capacitor, +15V input-bus bulk and LDO output/protection-stage decoupling                    | Fitted          | VERIFIED   | AVAILABLE          | 1 of 4       |
-  | <EvidenceAnchor id="rec-c1623" />[CL10B474KA8NNNC](/docs/components/records/c1623/)                                                | `rec-c1623`                         | 470 nF ceramic capacitor, LDO output decoupling                                                                               | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c17513" />[0805W8F1001T5E](/docs/components/records/c17513/)                                               | `rec-c17513`                        | 1 kOhm resistor, LED current-limit                                                                                            | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c2289" />[KT-0603YG](/docs/components/records/c2289/)                                                      | `rec-c2289`                         | 0603 LED, +12V rail status indicator                                                                                          | Fitted          | VERIFIED   | AVAILABLE          | 1 of 4       |
-  | <EvidenceAnchor id="rec-c2288" />[KT-0603B](/docs/components/records/c2288/)                                                       | `rec-c2288`                         | 0603 LED, +5V rail status indicator                                                                                           | Fitted          | VERIFIED   | AVAILABLE          | 1 of 4       |
-  | <EvidenceAnchor id="rec-c2286" />[KT-0603R](/docs/components/records/c2286/)                                                       | `rec-c2286`                         | 0603 LED, -12V rail status indicator                                                                                          | Fitted          | VERIFIED   | AVAILABLE          | 1 of 4       |
-  | <EvidenceAnchor id="rec-c8465" />[WJ500V-5.08-2P](/docs/components/records/c8465/)                                                 | `rec-c8465`                         | two-pole screw terminal, separate protected output rails                                                                      | Fitted          | VERIFIED   | AVAILABLE          | 4 of 5       |
-  | <EvidenceAnchor id="rec-dealon-dw254p-2x8-l0-c4749189" />[DW254P-2X8-L0](/docs/components/records/dealon-dw254p-2x8-l0-c4749189/)  | `rec-dealon-dw254p-2x8-l0-c4749189` | 16-pin 2.54mm shrouded right-angle through-hole Eurorack power header                                                         | Fitted          | VERIFIED   | AVAILABLE          | 4 of 5       |
-  | <EvidenceAnchor id="rec-type-c-31-m-17" />[TYPE-C-31-M-17](/docs/components/records/type-c-31-m-17/)                               | `rec-type-c-31-m-17`                | USB-C receptacle                                                                                                              | Fitted          | VERIFIED   | AVAILABLE          | 2 of 6       |
-  | <EvidenceAnchor id="rec-c14663" />[CC0603KRX7R9BB104](/docs/components/records/c14663/)                                            | `rec-c14663`                        | 100 nF 50 V MLCC                                                                                                              | Fitted          | UNRESOLVED | SOURCE UNAVAILABLE | 3 of 5       |
-  | <EvidenceAnchor id="rec-c22807" />[0603WAF1503T5E](/docs/components/records/c22807/)                                               | `rec-c22807`                        | 150 kOhm resistor                                                                                                             | Fitted          | UNRESOLVED | SOURCE UNAVAILABLE | 1 of 2       |
-  | <EvidenceAnchor id="rec-c17414" />[0805W8F1002T5E](/docs/components/records/c17414/)                                               | `rec-c17414`                        | 10 kOhm resistor                                                                                                              | Fitted          | UNRESOLVED | SOURCE UNAVAILABLE | 1 of 2       |
-  | <EvidenceAnchor id="rec-c492405" />[PZ254V-11-06P](/docs/components/records/c492405/)                                              | `rec-c492405`                       | male board-to-board header                                                                                                    | Fitted          | VERIFIED   | AVAILABLE          | 2 of 3       |
-  | <EvidenceAnchor id="rec-c2832269" />[PM254V-11-06-H85](/docs/components/records/c2832269/)                                         | `rec-c2832269`                      | female board-to-board header                                                                                                  | Fitted          | VERIFIED   | AVAILABLE          | 2 of 3       |
-  | <EvidenceAnchor id="rec-c459702" />[LT1963AEQ#TRPBF](/docs/components/records/c459702/)                                            | `rec-c459702`                       | LT1963AEQ#TRPBF renewal power-stage component                                                                                 | Fitted          | VERIFIED   | AVAILABLE          | 1 of 1       |
-  | <EvidenceAnchor id="rec-c666306" />[LT3015EQ#PBF](/docs/components/records/c666306/)                                               | `rec-c666306`                       | LT3015EQ#PBF renewal power-stage component                                                                                    | Fitted          | VERIFIED   | AVAILABLE          | 1 of 1       |
-  | <EvidenceAnchor id="rec-c110776" />[RT0603BRD071KL](/docs/components/records/c110776/)                                             | `rec-c110776`                       | RT0603BRD071KL renewal power-stage component                                                                                  | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
-  | <EvidenceAnchor id="rec-c861589" />[RT0603BRD078K2L](/docs/components/records/c861589/)                                            | `rec-c861589`                       | RT0603BRD078K2L renewal power-stage component                                                                                 | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
-  | <EvidenceAnchor id="rec-c861519" />[RT0603BRD07680RL](/docs/components/records/c861519/)                                           | `rec-c861519`                       | RT0603BRD07680RL renewal power-stage component                                                                                | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
-  | <EvidenceAnchor id="rec-c861371" />[RT0603BRD073K09L](/docs/components/records/c861371/)                                           | `rec-c861371`                       | RT0603BRD073K09L renewal power-stage component                                                                                | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
-  | <EvidenceAnchor id="rec-c861332" />[RT0603BRD0733RL](/docs/components/records/c861332/)                                            | `rec-c861332`                       | RT0603BRD0733RL renewal power-stage component                                                                                 | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
-  | <EvidenceAnchor id="rec-c861077" />[RT0603BRD0710K5L](/docs/components/records/c861077/)                                           | `rec-c861077`                       | RT0603BRD0710K5L renewal power-stage component                                                                                | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
-  | <EvidenceAnchor id="rec-c23159" />[0603WAF4301T5E](/docs/components/records/c23159/)                                               | `rec-c23159`                        | 0603WAF4301T5E renewal power-stage component                                                                                  | Fitted          | VERIFIED   | AVAILABLE          | 0 of 1       |
-  | <EvidenceAnchor id="rec-c136280" />[25SVPF47M](/docs/components/records/c136280/)                                                  | `rec-c136280`                       | 47uF25VlowESRpolymerLDOoutputcapacitor                                                                                        | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-ap63201wu-7" />[AP63201WU-7](/docs/components/records/ap63201wu-7/)                                        | `rec-ap63201wu-7`                   | synchronous positive pre-regulator                                                                                            | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-aspi-0630lr-100m-t15" />[ASPI-0630LR-100M-T15](/docs/components/records/aspi-0630lr-100m-t15/)             | `rec-aspi-0630lr-100m-t15`          | 10 uH shielded buck inductor                                                                                                  | Fitted          | VERIFIED   | AVAILABLE          | 2 of 4       |
-  | <EvidenceAnchor id="rec-grm32er71h106ka12l" />[GRM32ER71H106KA12L](/docs/components/records/grm32er71h106ka12l/)                   | `rec-grm32er71h106ka12l`            | 10 uF 50 V ceramic power capacitor                                                                                            | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-rt0603bre07158kl" />[RT0603BRE07158KL](/docs/components/records/rt0603bre07158kl/)                         | `rec-rt0603bre07158kl`              | 158 kOhm precision feedback resistor                                                                                          | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-rt0603brd0710kl" />[RT0603BRD0710KL](/docs/components/records/rt0603brd0710kl/)                            | `rec-rt0603brd0710kl`               | 10 kOhm precision feedback resistor                                                                                           | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
-  | <EvidenceAnchor id="rec-c74561" />[SMAJ16A](/docs/components/records/c74561/)                                                      | `rec-c74561`                        | 15V-only input surge TVS                                                                                                      | Fitted          | VERIFIED   | AVAILABLE          | 2 of 2       |
-  | <EvidenceAnchor id="rec-c3024223" />[SDT5A60SA-13](/docs/components/records/c3024223/)                                             | `rec-c3024223`                      | inverting converter60V catch diode                                                                                            | Fitted          | VERIFIED   | AVAILABLE          | 1 of 2       |
+  | Part                                                                                                                               | Record                              | Function                                                                                                                            | Fit             | Identity   | Sources   | Open domains |
+  | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------- | ---------- | --------- | ------------ |
+  | <EvidenceAnchor id="rec-stusb4500qtr" />[STUSB4500QTR](/docs/components/records/stusb4500qtr/)                                     | `rec-stusb4500qtr`                  | USB-PD sink controller, negotiates the 15V PD contract                                                                              | Fitted          | VERIFIED   | AVAILABLE | 7 of 7       |
+  | <EvidenceAnchor id="rec-usb-type-c-009-c456012" />[USB-TYPE-C-009](/docs/components/records/usb-type-c-009-c456012/)               | `rec-usb-type-c-009-c456012`        | USB Type-C receptacle, 6-pin SMD, PD sink input                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 5 of 5       |
+  | <EvidenceAnchor id="rec-umw-ao3401a-c347476" />[AO3401A](/docs/components/records/umw-ao3401a-c347476/)                            | `rec-umw-ao3401a-c347476`           | P-channel MOSFET load switch, gates VBUS\_OUT from U1                                                                               | Fitted          | VERIFIED   | AVAILABLE | 2 of 5       |
+  | <EvidenceAnchor id="rec-high-diode-smaj20a-c571370" />[SMAJ20A](/docs/components/records/high-diode-smaj20a-c571370/)              | `rec-high-diode-smaj20a-c571370`    | 20V-standoff TVS diode, VBUS\_IN surge/overvoltage clamp                                                                            | Fitted          | VERIFIED   | AVAILABLE | 1 of 7       |
+  | <EvidenceAnchor id="rec-bzt52c11-c92321" />[BZT52C11-7-F](/docs/components/records/bzt52c11-c92321/)                               | `rec-bzt52c11-c92321`               | 11V zener diode, Q1 gate-source clamp (Board P D8 with redundant D13)                                                               | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-c192739" />[BZT52C18-7-F](/docs/components/records/c192739/)                                               | `rec-c192739`                       | 18V zener diode, STUSB4500 local clamps (VDD, VBUS\_EN\_SNK, DISCH)                                                                 | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-c260890" />[BZT52C20-7-F](/docs/components/records/c260890/)                                               | `rec-c260890`                       | 20V zener diode, STUSB4500 VBUS\_VS\_DISCH local clamp                                                                              | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-c25803" />[0603WAF1003T5E](/docs/components/records/c25803/)                                               | `rec-c25803`                        | 100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider                                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23206" />[0603WAF5602T5E](/docs/components/records/c23206/)                                               | `rec-c23206`                        | 56 kOhm resistor, U1 VBEN pull-up network                                                                                           | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23179" />[0603WAF4700T5E](/docs/components/records/c23179/)                                               | `rec-c23179`                        | 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH; Board P STUSB4500 VDD feed R30                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23162" />[0603WAF4701T5E](/docs/components/records/c23162/)                                               | `rec-c23162`                        | 4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up, Board P Q1 gate resistor R12 and DISCH series resistor R13                       | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23186" />[0603WAF5101T5E](/docs/components/records/c23186/)                                               | `rec-c23186`                        | 5.1 kOhm 0603 resistor; DNP CC-line Rd placement on Board A, fitted DC-DC feedback-divider placement on Board B                     | DNP or hand-fit | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c21189" />[0603WAF0000T5E](/docs/components/records/c21189/)                                               | `rec-c21189`                        | 0 Ohm link resistor, CC-line debounce net jumper and Board P RESET-to-GND strap                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c13585" />[CL31A106KBHNNNE](/docs/components/records/c13585/)                                              | `rec-c13585`                        | 10 uF ceramic capacitor, VBUS\_IN bulk decoupling                                                                                   | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c1711" />[CC0805KRX7R9BB104](/docs/components/records/c1711/)                                              | `rec-c1711`                         | 100 nF ceramic capacitor, general decoupling across U1/DC-DC/LDO stages                                                             | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c15849" />[CL10A105KB8NNNC](/docs/components/records/c15849/)                                              | `rec-c15849`                        | 1 uF ceramic capacitor, U1 VREG\_2V7/VREG\_1V2 decoupling, Board P soft-start Miller capacitor, LM74700 VCAP and STUSB4500 VDD\_LOC | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-jst-b6b-xh-a" />[B6B-XH-A(LF)(SN)](/docs/components/records/jst-b6b-xh-a/)                                 | `rec-jst-b6b-xh-a`                  | 6-pin JST XH board-to-board interface connector (+15V x2, ATT, PDOK, GND x2)                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 3       |
+  | <EvidenceAnchor id="rec-pesd24vs1ub-c85382" />[PESD24VS1UB](/docs/components/records/pesd24vs1ub-c85382/)                          | `rec-pesd24vs1ub-c85382`            | Unidirectional ESD/TVS diode, CC-line DNP protection provision                                                                      | DNP or hand-fit | VERIFIED   | AVAILABLE | 1 of 3       |
+  | <EvidenceAnchor id="rec-lm2596s-adj-c347423" />[LM2596S-ADJ](/docs/components/records/lm2596s-adj-c347423/)                        | `rec-lm2596s-adj-c347423`           | Adjustable buck/inverting DC-DC converter IC, intermediate-rail generation                                                          | Fitted          | VERIFIED   | AVAILABLE | 3 of 8       |
+  | <EvidenceAnchor id="rec-cya1265-100uh-c19268674" />[CYA1265-100UH](/docs/components/records/cya1265-100uh-c19268674/)              | `rec-cya1265-100uh-c19268674`       | 100 uH power inductor, DC-DC converter energy storage                                                                               | Fitted          | VERIFIED   | AVAILABLE | 0 of 2       |
+  | <EvidenceAnchor id="rec-ss34-c8678" />[SS34](/docs/components/records/ss34-c8678/)                                                 | `rec-ss34-c8678`                    | 40V/3A Schottky diode, DC-DC converter freewheeling/rectifier                                                                       | Fitted          | VERIFIED   | AVAILABLE | 1 of 3       |
+  | <EvidenceAnchor id="rec-c696190" />[RVT1E471M0810](/docs/components/records/c696190/)                                              | `rec-c696190`                       | 470 uF 25 V aluminum electrolytic capacitor, Board B -13.5V DC-DC output bulk filter                                                | Fitted          | VERIFIED   | AVAILABLE | 1 of 3       |
+  | <EvidenceAnchor id="rec-c335982" />[RVT1A471M0607](/docs/components/records/c335982/)                                              | `rec-c335982`                       | 470 uF 10V aluminum electrolytic capacitor, +7.5V DC-DC output bulk filter (canonical LCSC per decision c)                          | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c970687" />[RVT1H101M0810](/docs/components/records/c970687/)                                              | `rec-c970687`                       | 100 uF 50V aluminum electrolytic capacitor, -13.5V DC-DC output bulk filter (28.5V nominal / 33.5V edge-case bridging rating)       | Fitted          | VERIFIED   | AVAILABLE | 0 of 2       |
+  | <EvidenceAnchor id="rec-c1729" />[CL21B223KBANNNC](/docs/components/records/c1729/)                                                | `rec-c1729`                         | 22 nF ceramic capacitor, DC-DC feedforward compensation                                                                             | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c21190" />[0603WAF1001T5E](/docs/components/records/c21190/)                                               | `rec-c21190`                        | 1 kOhm resistor, DC-DC feedback divider bottom resistor; Board P STUSB4500 VDD and VBUS\_VS\_DISCH series resistors                 | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-ptc-smd1210p150tf16-c7529589" />[SMD1210P150TF/16](/docs/components/records/ptc-smd1210p150tf16-c7529589/) | `rec-ptc-smd1210p150tf16-c7529589`  | 1.5A-hold 16V PTC resettable fuse, +12V output overcurrent protection (decision g replacement)                                      | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-ptc-msmd110-33v-c70119" />[mSMD110-33V](/docs/components/records/ptc-msmd110-33v-c70119/)                  | `rec-ptc-msmd110-33v-c70119`        | 1.1A-hold PTC resettable fuse, +5V output overcurrent protection                                                                    | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-ptc-bsmd1206-150-16v-c883133" />[BSMD1206-150-16V](/docs/components/records/ptc-bsmd1206-150-16v-c883133/) | `rec-ptc-bsmd1206-150-16v-c883133`  | 1.5A-hold PTC resettable fuse, -12V output overcurrent protection                                                                   | Fitted          | VERIFIED   | AVAILABLE | 2 of 5       |
+  | <EvidenceAnchor id="rec-smaj15a-c571368" />[SMAJ15A](/docs/components/records/smaj15a-c571368/)                                    | `rec-smaj15a-c571368`               | 15V-standoff TVS diode, +12V/-12V output overvoltage protection                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 4       |
+  | <EvidenceAnchor id="rec-cand-smaj6-5a-c87267" />[SMAJ6.5A](/docs/components/records/cand-smaj6-5a-c87267/)                         | `rec-cand-smaj6-5a-c87267`          | 400W unidirectional TVS diode, +5V output overvoltage protection (decision a replacement for the SD05)                              | Fitted          | VERIFIED   | AVAILABLE | 0 of 3       |
+  | <EvidenceAnchor id="rec-c22387780" />[EFVH035ADA471M10B0](/docs/components/records/c22387780/)                                     | `rec-c22387780`                     | 470 uF 35V aluminum electrolytic capacitor, +15V input-bus bulk and LDO output/protection-stage decoupling                          | Fitted          | VERIFIED   | AVAILABLE | 1 of 4       |
+  | <EvidenceAnchor id="rec-c1623" />[CL10B474KA8NNNC](/docs/components/records/c1623/)                                                | `rec-c1623`                         | 470 nF ceramic capacitor, LDO output decoupling                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c17513" />[0805W8F1001T5E](/docs/components/records/c17513/)                                               | `rec-c17513`                        | 1 kOhm resistor, LED current-limit                                                                                                  | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c2289" />[KT-0603YG](/docs/components/records/c2289/)                                                      | `rec-c2289`                         | 0603 LED, +12V rail status indicator                                                                                                | Fitted          | VERIFIED   | AVAILABLE | 1 of 4       |
+  | <EvidenceAnchor id="rec-c2288" />[KT-0603B](/docs/components/records/c2288/)                                                       | `rec-c2288`                         | 0603 LED, +5V rail status indicator                                                                                                 | Fitted          | VERIFIED   | AVAILABLE | 1 of 4       |
+  | <EvidenceAnchor id="rec-c2286" />[KT-0603R](/docs/components/records/c2286/)                                                       | `rec-c2286`                         | 0603 LED, -12V rail status indicator                                                                                                | Fitted          | VERIFIED   | AVAILABLE | 1 of 4       |
+  | <EvidenceAnchor id="rec-c8465" />[WJ500V-5.08-2P](/docs/components/records/c8465/)                                                 | `rec-c8465`                         | two-pole screw terminal, separate protected output rails                                                                            | Fitted          | VERIFIED   | AVAILABLE | 4 of 5       |
+  | <EvidenceAnchor id="rec-dealon-dw254p-2x8-l0-c4749189" />[DW254P-2X8-L0](/docs/components/records/dealon-dw254p-2x8-l0-c4749189/)  | `rec-dealon-dw254p-2x8-l0-c4749189` | 16-pin 2.54mm shrouded right-angle through-hole Eurorack power header                                                               | Fitted          | VERIFIED   | AVAILABLE | 4 of 5       |
+  | <EvidenceAnchor id="rec-type-c-31-m-17" />[TYPE-C-31-M-17](/docs/components/records/type-c-31-m-17/)                               | `rec-type-c-31-m-17`                | USB-C receptacle                                                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 2 of 6       |
+  | <EvidenceAnchor id="rec-c14663" />[CC0603KRX7R9BB104](/docs/components/records/c14663/)                                            | `rec-c14663`                        | 100 nF 50 V MLCC                                                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 3 of 5       |
+  | <EvidenceAnchor id="rec-c22807" />[0603WAF1503T5E](/docs/components/records/c22807/)                                               | `rec-c22807`                        | 150 kOhm resistor                                                                                                                   | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c2941042" />[LM74700QDBVRQ1](/docs/components/records/c2941042/)                                           | `rec-c2941042`                      | Ideal-diode controller driving the Board P reverse-blocking FET Q3                                                                  | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-c492405" />[PZ254V-11-06P](/docs/components/records/c492405/)                                              | `rec-c492405`                       | male board-to-board header                                                                                                          | Fitted          | VERIFIED   | AVAILABLE | 2 of 3       |
+  | <EvidenceAnchor id="rec-c2832269" />[PM254V-11-06-H85](/docs/components/records/c2832269/)                                         | `rec-c2832269`                      | female board-to-board header                                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 2 of 3       |
+  | <EvidenceAnchor id="rec-c459702" />[LT1963AEQ#TRPBF](/docs/components/records/c459702/)                                            | `rec-c459702`                       | LT1963AEQ#TRPBF renewal power-stage component                                                                                       | Fitted          | VERIFIED   | AVAILABLE | 1 of 1       |
+  | <EvidenceAnchor id="rec-c666306" />[LT3015EQ#PBF](/docs/components/records/c666306/)                                               | `rec-c666306`                       | LT3015EQ#PBF renewal power-stage component                                                                                          | Fitted          | VERIFIED   | AVAILABLE | 1 of 1       |
+  | <EvidenceAnchor id="rec-c110776" />[RT0603BRD071KL](/docs/components/records/c110776/)                                             | `rec-c110776`                       | RT0603BRD071KL renewal power-stage component                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c861589" />[RT0603BRD078K2L](/docs/components/records/c861589/)                                            | `rec-c861589`                       | RT0603BRD078K2L renewal power-stage component                                                                                       | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c5455478" />[AT0603BRD07680RL](/docs/components/records/c5455478/)                                         | `rec-c5455478`                      | 680 ohm 0.1% 25 ppm/C 0603 thin-film resistor (AT series), Board B R21/R27 feedback divider                                         | Fitted          | VERIFIED   | AVAILABLE | 0 of 2       |
+  | <EvidenceAnchor id="rec-c861371" />[RT0603BRD073K09L](/docs/components/records/c861371/)                                           | `rec-c861371`                       | RT0603BRD073K09L renewal power-stage component                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c861332" />[RT0603BRD0733RL](/docs/components/records/c861332/)                                            | `rec-c861332`                       | RT0603BRD0733RL renewal power-stage component                                                                                       | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c861077" />[RT0603BRD0710K5L](/docs/components/records/c861077/)                                           | `rec-c861077`                       | RT0603BRD0710K5L renewal power-stage component                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c23159" />[0603WAF4301T5E](/docs/components/records/c23159/)                                               | `rec-c23159`                        | 0603WAF4301T5E renewal power-stage component                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c136280" />[25SVPF47M](/docs/components/records/c136280/)                                                  | `rec-c136280`                       | 47uF25VlowESRpolymerLDOoutputcapacitor                                                                                              | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-ap63201wu-7" />[AP63201WU-7](/docs/components/records/ap63201wu-7/)                                        | `rec-ap63201wu-7`                   | synchronous positive pre-regulator                                                                                                  | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-aspi-0630lr-100m-t15" />[ASPI-0630LR-100M-T15](/docs/components/records/aspi-0630lr-100m-t15/)             | `rec-aspi-0630lr-100m-t15`          | 10 uH shielded buck inductor                                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-grm32er71h106ka12l" />[GRM32ER71H106KA12L](/docs/components/records/grm32er71h106ka12l/)                   | `rec-grm32er71h106ka12l`            | 10 uF 50 V ceramic power capacitor                                                                                                  | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-rt0603bre07158kl" />[RT0603BRE07158KL](/docs/components/records/rt0603bre07158kl/)                         | `rec-rt0603bre07158kl`              | 158 kOhm precision feedback resistor                                                                                                | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-rt0603brd0710kl" />[RT0603BRD0710KL](/docs/components/records/rt0603brd0710kl/)                            | `rec-rt0603brd0710kl`               | 10 kOhm precision feedback resistor                                                                                                 | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c74561" />[SMAJ16A](/docs/components/records/c74561/)                                                      | `rec-c74561`                        | 15V-only input surge TVS (15 V Board P)                                                                                             | Fitted          | VERIFIED   | AVAILABLE | 2 of 2       |
+  | <EvidenceAnchor id="rec-c3024223" />[SDT5A60SA-13](/docs/components/records/c3024223/)                                             | `rec-c3024223`                      | inverting converter60V catch diode                                                                                                  | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c1849461" />[TPS16630PWPR](/docs/components/records/c1849461/)                                             | `rec-c1849461`                      | 20V input eFuse with adjustable OVP, UVLO and current limit (Board P r3 front end)                                                  | Fitted          | VERIFIED   | AVAILABLE | 3 of 5       |
+  | <EvidenceAnchor id="rec-c523793" />[TVS2200DRVR](/docs/components/records/c523793/)                                                | `rec-c523793`                       | 20V connector flat-clamp TVS, 22V standoff                                                                                          | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-c861163" />[RT0603BRD07174KL](/docs/components/records/c861163/)                                           | `rec-c861163`                       | 174 kOhm precision eFuse OVP divider resistor                                                                                       | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c705781" />[RT0603BRD074K02L](/docs/components/records/c705781/)                                           | `rec-c705781`                       | 4.02 kOhm precision eFuse current-limit and UVLO divider resistor                                                                   | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c840100" />[CSD18543Q3A](/docs/components/records/c840100/)                                                | `rec-c840100`                       | 20V input reverse-blocking power MOSFET                                                                                             | Fitted          | VERIFIED   | AVAILABLE | 1 of 3       |
+  | <EvidenceAnchor id="rec-c40912" />[BSS138-7-F](/docs/components/records/c40912/)                                                   | `rec-c40912`                        | small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network and Q6 VBUS\_EN\_SNK cascode                         | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
+  | <EvidenceAnchor id="rec-c705719" />[RT0603BRD0711K5L](/docs/components/records/c705719/)                                           | `rec-c705719`                       | 11.5 kOhm precision eFuse UVLO divider resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 0 of 1       |
+  | <EvidenceAnchor id="rec-c461081" />[DMP3036SFG-7](/docs/components/records/c461081/)                                               | `rec-c461081`                       | Board P 20 V / 5 A output load-switch P-channel MOSFET                                                                              | Fitted          | VERIFIED   | AVAILABLE | 1 of 3       |
+  | <EvidenceAnchor id="rec-c162241" />[GRM1885C1H682JA01D](/docs/components/records/c162241/)                                         | `rec-c162241`                       | Board B 20 V draft 6.8 nF C0G 0603 capacitor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c1671" />[CL10C470JB8NNNC](/docs/components/records/c1671/)                                                | `rec-c1671`                         | Board B 20 V draft 47 pF C0G 0603 capacitor                                                                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c3882413" />[GRM2165C1H273JA01D](/docs/components/records/c3882413/)                                       | `rec-c3882413`                      | Board B 20 V draft 27 nF C0G 0805 capacitor                                                                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c37298" />[CL10C151JB8NNNC](/docs/components/records/c37298/)                                              | `rec-c37298`                        | Board B 20 V draft 150 pF C0G 0603 capacitor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c5451690" />[C1206N473J050T](/docs/components/records/c5451690/)                                           | `rec-c5451690`                      | Board B 20 V draft 47 nF C0G 1206 capacitor                                                                                         | Fitted          | UNRESOLVED | AVAILABLE | 2 of 2       |
+  | <EvidenceAnchor id="rec-c107046" />[CC0603JRNPO9BN271](/docs/components/records/c107046/)                                          | `rec-c107046`                       | Board B 20 V draft 270 pF C0G 0603 capacitor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c85973" />[GRM1885C1H103JA01D](/docs/components/records/c85973/)                                           | `rec-c85973`                        | Board B 20 V draft 10 nF C0G 0603 capacitor                                                                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c162204" />[GRM1885C1H152JA01D](/docs/components/records/c162204/)                                         | `rec-c162204`                       | Board B 20 V draft 1.5 nF C0G 0603 capacitor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c85100" />[B560C-13-F](/docs/components/records/c85100/)                                                   | `rec-c85100`                        | Board B 20 V draft D3 60 V Schottky (SMC (DO-214AB))                                                                                | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c25804" />[0603WAF1002T5E](/docs/components/records/c25804/)                                               | `rec-c25804`                        | 10 kOhm resistor, DC-DC feedback divider bottom resistor                                                                            | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c5455461" />[AT0603BRD07145KL](/docs/components/records/c5455461/)                                         | `rec-c5455461`                      | Board B 20 V draft 145 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c728593" />[RT0603BRD0754K9L](/docs/components/records/c728593/)                                           | `rec-c728593`                       | Board B 20 V draft 54.9 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861462" />[RT0603BRD0752K3L](/docs/components/records/c861462/)                                           | `rec-c861462`                       | Board B 20 V draft 52.3 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c122538" />[RT0603BRD07100KL](/docs/components/records/c122538/)                                           | `rec-c122538`                       | Board B 20 V draft 100 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23163" />[0603WAF4704T5E](/docs/components/records/c23163/)                                               | `rec-c23163`                        | Board B 20 V draft 4.7 MOhm 1 % 0603 resistor                                                                                       | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c705791" />[RT0603BRD07649RL](/docs/components/records/c705791/)                                           | `rec-c705791`                       | Board B 20 V draft 649 Ohm 0.1 % 0603 resistor                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861304" />[RT0603BRD072K74L](/docs/components/records/c861304/)                                           | `rec-c861304`                       | Board B 20 V draft 2.74 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c705741" />[RT0603BRD071K5L](/docs/components/records/c705741/)                                            | `rec-c705741`                       | Board B 20 V draft 1.5 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c515735" />[RT0603BRD0710K2L](/docs/components/records/c515735/)                                           | `rec-c515735`                       | Board B 20 V draft 10.2 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c4353204" />[TNPW060310K1BEEA](/docs/components/records/c4353204/)                                         | `rec-c4353204`                      | Board B 20 V draft 10.1 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c723637" />[RT0603BRD0720KL](/docs/components/records/c723637/)                                            | `rec-c723637`                       | Board B 20 V draft 20 kOhm 0.1 % 0603 resistor                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861526" />[RT0603BRD0769K8L](/docs/components/records/c861526/)                                           | `rec-c861526`                       | Board B 20 V draft 69.8 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c7250" />[0603WAF1005T5E](/docs/components/records/c7250/)                                                 | `rec-c7250`                         | Board B 20 V draft 10 MOhm 1 % 0603 resistor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861244" />[RT0603BRD0723K2L](/docs/components/records/c861244/)                                           | `rec-c861244`                       | Board B 20 V draft 23.2 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c705799" />[RT0603BRD0793K1L](/docs/components/records/c705799/)                                           | `rec-c705799`                       | Board B 20 V draft 93.1 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861550" />[RT0603BRD07750KL](/docs/components/records/c861550/)                                           | `rec-c861550`                       | Board B 20 V draft 750 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c136962" />[RT0603BRD0747K5L](/docs/components/records/c136962/)                                           | `rec-c136962`                       | Board B 20 V draft 47.5 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c326735" />[RT0603BRD0712KL](/docs/components/records/c326735/)                                            | `rec-c326735`                       | Board B 20 V draft 12 kOhm 0.1 % 0603 resistor                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861162" />[RT0603BRD07172KL](/docs/components/records/c861162/)                                           | `rec-c861162`                       | Board B 20 V draft 172 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23178" />[0603WAF4703T5E](/docs/components/records/c23178/)                                               | `rec-c23178`                        | Board B 20 V draft 470 kOhm 1 % 0603 resistor                                                                                       | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c22935" />[0603WAF1004T5E](/docs/components/records/c22935/)                                               | `rec-c22935`                        | Board B 20 V draft 1 MOhm 1 % 0603 resistor                                                                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861420" />[RT0603BRD0746K4L](/docs/components/records/c861420/)                                           | `rec-c861420`                       | Board B 20 V draft 46.4 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861266" />[RT0603BRD0726K4L](/docs/components/records/c861266/)                                           | `rec-c861266`                       | Board B 20 V draft 26.4 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c136967" />[RT0603BRD0724K9L](/docs/components/records/c136967/)                                           | `rec-c136967`                       | Board B 20 V draft 24.9 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861076" />[RT0603BRD0710K4L](/docs/components/records/c861076/)                                           | `rec-c861076`                       | Board B 20 V draft 10.4 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861078" />[RT0603BRD0710K7L](/docs/components/records/c861078/)                                           | `rec-c861078`                       | Board B 20 V draft 10.7 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c326729" />[RT0603BRD0724KL](/docs/components/records/c326729/)                                            | `rec-c326729`                       | Board B 20 V draft 24 kOhm 0.1 % 0603 resistor                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861086" />[RT0603BRD07118KL](/docs/components/records/c861086/)                                           | `rec-c861086`                       | Board B 20 V draft 118 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c326723" />[RT0603BRD0763K4L](/docs/components/records/c326723/)                                           | `rec-c326723`                       | Board B 20 V draft 63.4 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861309" />[RT0603BRD07301KL](/docs/components/records/c861309/)                                           | `rec-c861309`                       | Board B 20 V draft 301 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c17414" />[0805W8F1002T5E](/docs/components/records/c17414/)                                               | `rec-c17414`                        | 10 kOhm resistor (Board P r2 R21 RESET pulldown, superseded)                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c17917" />[1206W4F1500T5E](/docs/components/records/c17917/)                                               | `rec-c17917`                        | Board B 20 V draft 150 Ohm 1 % 1206 resistor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23153" />[0603WAF3902T5E](/docs/components/records/c23153/)                                               | `rec-c23153`                        | Board B 20 V draft 39 kOhm 1 % 0603 resistor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861510" />[RT0603BRD0764K9L](/docs/components/records/c861510/)                                           | `rec-c861510`                       | Board B 20 V draft 64.9 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861616" />[RT0603BRD079K76L](/docs/components/records/c861616/)                                           | `rec-c861616`                       | Board B 20 V draft 9.76 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861068" />[RT0603BRD07102KL](/docs/components/records/c861068/)                                           | `rec-c861068`                       | Board B 20 V draft 102 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c326733" />[RT0603BRD0715KL](/docs/components/records/c326733/)                                            | `rec-c326733`                       | Board B 20 V draft 15 kOhm 0.1 % 0603 resistor                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c23067428" />[PCSR2512BR010M6](/docs/components/records/c23067428/)                                        | `rec-c23067428`                     | Board B 20 V draft 10 mOhm 0.1 % limiter shunt candidate                                                                            | Fitted          | UNRESOLVED | AVAILABLE | 2 of 2       |
+  | <EvidenceAnchor id="rec-c164156" />[PE1206FRF470R02L](/docs/components/records/c164156/)                                           | `rec-c164156`                       | Board B 20 V draft 20 mOhm limiter shunt candidate                                                                                  | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c861233" />[RT0603BRD07226KL](/docs/components/records/c861233/)                                           | `rec-c861233`                       | Board B 20 V draft 226 kOhm 0.1 % 0603 resistor                                                                                     | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c309650" />[RT0603BRD0718KL](/docs/components/records/c309650/)                                            | `rec-c309650`                       | Board B 20 V draft 18 kOhm 0.1 % 0603 resistor                                                                                      | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c705764" />[RT0603BRD0730K1L](/docs/components/records/c705764/)                                           | `rec-c705764`                       | Board B 20 V draft 30.1 kOhm 0.1 % 0603 resistor                                                                                    | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c18005" />[1206W4F330JT5E](/docs/components/records/c18005/)                                               | `rec-c18005`                        | Board B 20 V draft 33 Ohm 1 % 1206 resistor                                                                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c17901" />[1206W4F1000T5E](/docs/components/records/c17901/)                                               | `rec-c17901`                        | Board B 20 V draft 100 Ohm 1 % 1206 resistor                                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c31966" />[TPS54560DDAR](/docs/components/records/c31966/)                                                 | `rec-c31966`                        | Board B 20 V draft buck and inverting buck-boost converter candidate                                                                | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c2863562" />[OPA2187IDGKR](/docs/components/records/c2863562/)                                             | `rec-c2863562`                      | Board B 20 V draft precision servo and window comparator op amp candidate                                                           | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c11341" />[REF5025AIDR](/docs/components/records/c11341/)                                                  | `rec-c11341`                        | Board B 20 V draft 2.5 V precision reference candidate                                                                              | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c2861552" />[INA301A3IDGKR](/docs/components/records/c2861552/)                                            | `rec-c2861552`                      | Board B interface limiter current-sense comparator candidate                                                                        | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
 </EvidenceTable>
 
 ## Part entries
@@ -104,7 +172,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c2678061`                                                                                      |
 | Also known as  | `STMicroelectronics`, `ST`, `USB-PD sink controller`, `USB PD sink controller`, `PD sink controller` |
 
-**Placements:** board-a U1 (fitted); board-p U1 (fitted)
+**Placements:** board-a U1 (fitted); board-p U1 (fitted); board-p15 U1 (fitted)
 
 **Fit:** Fitted
 
@@ -154,7 +222,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c347476`                                                                                              |
 | Also known as  | `UMW (Youtai Semiconductor)`, `Youtai Semiconductor`, `P-channel load-switch MOSFET`, `board-a load switch` |
 
-**Placements:** board-a Q1 (fitted); board-p Q1 (fitted)
+**Placements:** board-a Q1 (fitted); board-p15 Q1 (fitted)
 
 **Fit:** Fitted
 
@@ -193,18 +261,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### BZT52C11-7-F
 
-| Field          | Recorded value                        |
-| -------------- | ------------------------------------- |
-| Record ID      | `rec-bzt52c11-c92321`                 |
-| Kind           | standalone — audited in its own right |
-| Manufacturer   | Diodes Incorporated                   |
-| Function       | 11V zener diode, Q1 gate-source clamp |
-| Orderable ID   | `C92321`                              |
-| Package        | `SOD-123_L2.8-W1.8-LS3.7-RD`          |
-| Inventory line | `line-c92321`                         |
-| Also known as  | `zener diode`, `gate clamp`           |
+| Field          | Recorded value                                                        |
+| -------------- | --------------------------------------------------------------------- |
+| Record ID      | `rec-bzt52c11-c92321`                                                 |
+| Kind           | standalone — audited in its own right                                 |
+| Manufacturer   | Diodes Incorporated                                                   |
+| Function       | 11V zener diode, Q1 gate-source clamp (Board P D8 with redundant D13) |
+| Orderable ID   | `C92321`                                                              |
+| Package        | `SOD-123_L2.8-W1.8-LS3.7-RD`                                          |
+| Inventory line | `line-c92321`                                                         |
+| Also known as  | `zener diode`, `gate clamp`                                           |
 
-**Placements:** board-a D8 (fitted)
+**Placements:** board-a D8 (fitted); board-p D8 (fitted), D13 (fitted); board-b20-draft DZ1 (fitted), DZ2 (fitted), DZ3 (fitted)
 
 **Fit:** Fitted
 
@@ -212,24 +280,74 @@ One entry per record, carrying the orderable identity and every board placement.
 
 **Source state:** AVAILABLE
 
-**Open coverage domains:** 1 open of 3 published
+**Open coverage domains:** 2 open of 4 published
 
 [BZT52C11-7-F record details](/docs/components/records/bzt52c11-c92321/) — No owning bundle is identified in the published model.
 
+### BZT52C18-7-F
+
+| Field          | Recorded value                                                      |
+| -------------- | ------------------------------------------------------------------- |
+| Record ID      | `rec-c192739`                                                       |
+| Kind           | standalone — audited in its own right                               |
+| Manufacturer   | Diodes Incorporated                                                 |
+| Function       | 18V zener diode, STUSB4500 local clamps (VDD, VBUS\_EN\_SNK, DISCH) |
+| Orderable ID   | `C192739`                                                           |
+| Package        | `SOD-123_L2.8-W1.8-LS3.7-RD`                                        |
+| Inventory line | `line-c192739`                                                      |
+| Also known as  | `zener diode`, `STUSB4500 local clamp`                              |
+
+**Placements:** board-p D9 (fitted), D11 (fitted), D12 (fitted); board-p15 D9 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 4 published
+
+[BZT52C18-7-F record details](/docs/components/records/c192739/) — No owning bundle is identified in the published model.
+
+### BZT52C20-7-F
+
+| Field          | Recorded value                                         |
+| -------------- | ------------------------------------------------------ |
+| Record ID      | `rec-c260890`                                          |
+| Kind           | standalone — audited in its own right                  |
+| Manufacturer   | Diodes Incorporated                                    |
+| Function       | 20V zener diode, STUSB4500 VBUS\_VS\_DISCH local clamp |
+| Orderable ID   | `C260890`                                              |
+| Package        | `SOD-123_L2.8-W1.8-LS3.7-RD`                           |
+| Inventory line | `line-c260890`                                         |
+| Also known as  | `zener diode`, `STUSB4500 local clamp`                 |
+
+**Placements:** board-p D10 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 4 published
+
+[BZT52C20-7-F record details](/docs/components/records/c260890/) — No owning bundle is identified in the published model.
+
 ### 0603WAF1003T5E
 
-| Field          | Recorded value                             |
-| -------------- | ------------------------------------------ |
-| Record ID      | `rec-c25803`                               |
-| Kind           | standalone — audited in its own right      |
-| Manufacturer   | UNI-ROYAL                                  |
-| Function       | 100 kOhm resistor, U1 VBEN pull-up network |
-| Orderable ID   | `C25803`                                   |
-| Package        | `R0603`                                    |
-| Inventory line | `line-c25803`                              |
-| Also known as  | `resistor`                                 |
+| Field          | Recorded value                                                              |
+| -------------- | --------------------------------------------------------------------------- |
+| Record ID      | `rec-c25803`                                                                |
+| Kind           | standalone — audited in its own right                                       |
+| Manufacturer   | UNI-ROYAL                                                                   |
+| Function       | 100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider |
+| Orderable ID   | `C25803`                                                                    |
+| Package        | `R0603`                                                                     |
+| Inventory line | `line-c25803`                                                               |
+| Also known as  | `resistor`                                                                  |
 
-**Placements:** board-a R11 (fitted); board-p R11 (fitted)
+**Placements:** board-a R11 (fitted); board-p R31 (fitted), R32 (fitted); board-p15 R11 (fitted), R22 (fitted), R23 (fitted); board-b20-draft R37 (fitted), R41 (fitted), R45 (fitted), R51 (fitted), R52 (fitted), R53 (fitted), R54 (fitted), R56 (fitted), R60 (fitted), R74 (fitted), RE2 (fitted), RF3 (fitted), RP1 (fitted), RP2 (fitted), RRDY1 (fitted), RRDY2 (fitted)
 
 **Fit:** Fitted
 
@@ -254,7 +372,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c23206`                             |
 | Also known as  | `resistor`                                |
 
-**Placements:** board-a R12 (fitted)
+**Placements:** board-a R12 (fitted); board-b20-draft R55 (fitted), R75 (fitted)
 
 **Fit:** Fitted
 
@@ -268,18 +386,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### 0603WAF4700T5E
 
-| Field          | Recorded value                                            |
-| -------------- | --------------------------------------------------------- |
-| Record ID      | `rec-c23179`                                              |
-| Kind           | standalone — audited in its own right                     |
-| Manufacturer   | UNI-ROYAL                                                 |
-| Function       | 470 Ohm resistor, VBUS\_VS\_DISCH discharge path (pin 18) |
-| Orderable ID   | `C23179`                                                  |
-| Package        | `R0603`                                                   |
-| Inventory line | `line-c23179`                                             |
-| Also known as  | `resistor`                                                |
+| Field          | Recorded value                                                                                              |
+| -------------- | ----------------------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c23179`                                                                                                |
+| Kind           | standalone — audited in its own right                                                                       |
+| Manufacturer   | UNI-ROYAL                                                                                                   |
+| Function       | 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH; Board P STUSB4500 VDD feed R30 |
+| Orderable ID   | `C23179`                                                                                                    |
+| Package        | `R0603`                                                                                                     |
+| Inventory line | `line-c23179`                                                                                               |
+| Also known as  | `resistor`                                                                                                  |
 
-**Placements:** board-a R13 (fitted), R14 (fitted); board-p R13 (fitted), R14 (fitted)
+**Placements:** board-a R13 (fitted), R14 (fitted); board-p R30 (fitted); board-p15 R13 (fitted), R14 (fitted), R30 (fitted)
 
 **Fit:** Fitted
 
@@ -293,18 +411,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### 0603WAF4701T5E
 
-| Field          | Recorded value                            |
-| -------------- | ----------------------------------------- |
-| Record ID      | `rec-c23162`                              |
-| Kind           | standalone — audited in its own right     |
-| Manufacturer   | UNI-ROYAL                                 |
-| Function       | 4.7 kOhm resistor, U1 SCL/SDA I2C pull-up |
-| Orderable ID   | `C23162`                                  |
-| Package        | `R0603`                                   |
-| Inventory line | `line-c23162`                             |
-| Also known as  | `resistor`                                |
+| Field          | Recorded value                                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c23162`                                                                                                  |
+| Kind           | standalone — audited in its own right                                                                         |
+| Manufacturer   | UNI-ROYAL                                                                                                     |
+| Function       | 4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up, Board P Q1 gate resistor R12 and DISCH series resistor R13 |
+| Orderable ID   | `C23162`                                                                                                      |
+| Package        | `R0603`                                                                                                       |
+| Inventory line | `line-c23162`                                                                                                 |
+| Also known as  | `resistor`                                                                                                    |
 
-**Placements:** board-a R15 (fitted), R16 (fitted); board-p R15 (fitted), R16 (fitted)
+**Placements:** board-a R15 (fitted), R16 (fitted); board-p R12 (fitted), R13 (fitted); board-b20-draft R48 (fitted), RE1 (fitted), RF2 (fitted)
 
 **Fit:** Fitted
 
@@ -329,7 +447,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c23186`                                                                                                   |
 | Also known as  | `resistor`                                                                                                      |
 
-**Placements:** board-a R17 (DNP or hand-fit), R18 (DNP or hand-fit); board-p R17 (DNP or hand-fit), R18 (DNP or hand-fit)
+**Placements:** board-a R17 (DNP or hand-fit), R18 (DNP or hand-fit); board-p R17 (DNP or hand-fit), R18 (DNP or hand-fit); board-p15 R17 (DNP or hand-fit), R18 (DNP or hand-fit)
 
 **Fit:** DNP or hand-fit
 
@@ -343,18 +461,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### 0603WAF0000T5E
 
-| Field          | Recorded value                                   |
-| -------------- | ------------------------------------------------ |
-| Record ID      | `rec-c21189`                                     |
-| Kind           | standalone — audited in its own right            |
-| Manufacturer   | UNI-ROYAL                                        |
-| Function       | 0 Ohm link resistor, CC-line debounce net jumper |
-| Orderable ID   | `C21189`                                         |
-| Package        | `R0603`                                          |
-| Inventory line | `line-c21189`                                    |
-| Also known as  | `jumper`                                         |
+| Field          | Recorded value                                                                  |
+| -------------- | ------------------------------------------------------------------------------- |
+| Record ID      | `rec-c21189`                                                                    |
+| Kind           | standalone — audited in its own right                                           |
+| Manufacturer   | UNI-ROYAL                                                                       |
+| Function       | 0 Ohm link resistor, CC-line debounce net jumper and Board P RESET-to-GND strap |
+| Orderable ID   | `C21189`                                                                        |
+| Package        | `R0603`                                                                         |
+| Inventory line | `line-c21189`                                                                   |
+| Also known as  | `jumper`                                                                        |
 
-**Placements:** board-a R19 (fitted), R20 (fitted); board-p R19 (fitted), R20 (fitted)
+**Placements:** board-a R19 (fitted), R20 (fitted); board-p R19 (fitted), R20 (fitted), R21 (fitted); board-p15 R19 (fitted), R20 (fitted), R21 (fitted)
 
 **Fit:** Fitted
 
@@ -379,7 +497,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c13585`                                     |
 | Also known as  | `ceramic capacitor`                               |
 
-**Placements:** board-a C1 (fitted); board-p C1 (fitted)
+**Placements:** board-a C1 (fitted); board-p C1 (fitted); board-p15 C1 (fitted); board-b20-draft C18 (fitted), C39 (fitted), C41 (fitted), C42 (fitted)
 
 **Fit:** Fitted
 
@@ -418,18 +536,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### CL10A105KB8NNNC
 
-| Field          | Recorded value                                            |
-| -------------- | --------------------------------------------------------- |
-| Record ID      | `rec-c15849`                                              |
-| Kind           | standalone — audited in its own right                     |
-| Manufacturer   | Samsung Electro-Mechanics                                 |
-| Function       | 1 uF ceramic capacitor, U1 VREG\_2V7/VREG\_1V2 decoupling |
-| Orderable ID   | `C15849`                                                  |
-| Package        | `C0603`                                                   |
-| Inventory line | `line-c15849`                                             |
-| Also known as  | `ceramic capacitor`                                       |
+| Field          | Recorded value                                                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c15849`                                                                                                                        |
+| Kind           | standalone — audited in its own right                                                                                               |
+| Manufacturer   | Samsung Electro-Mechanics                                                                                                           |
+| Function       | 1 uF ceramic capacitor, U1 VREG\_2V7/VREG\_1V2 decoupling, Board P soft-start Miller capacitor, LM74700 VCAP and STUSB4500 VDD\_LOC |
+| Orderable ID   | `C15849`                                                                                                                            |
+| Package        | `C0603`                                                                                                                             |
+| Inventory line | `line-c15849`                                                                                                                       |
+| Also known as  | `ceramic capacitor`                                                                                                                 |
 
-**Placements:** board-a C30 (fitted), C34 (fitted); board-p C30 (fitted), C34 (fitted)
+**Placements:** board-a C30 (fitted), C34 (fitted); board-p C30 (fitted), C34 (fitted), C36 (fitted), C37 (fitted), C38 (fitted); board-p15 C30 (fitted), C34 (fitted), C38 (fitted); board-b20-draft C16 (fitted), C17 (fitted), C27 (fitted), C40 (fitted), CP1 (fitted)
 
 **Fit:** Fitted
 
@@ -479,7 +597,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c85382`                                                  |
 | Also known as  | `ESD protection diode`, `CC-line protection`                   |
 
-**Placements:** board-a D6 (DNP or hand-fit), D7 (DNP or hand-fit); board-p D6 (DNP or hand-fit), D7 (DNP or hand-fit)
+**Placements:** board-a D6 (DNP or hand-fit), D7 (DNP or hand-fit); board-p D6 (DNP or hand-fit), D7 (DNP or hand-fit); board-p15 D6 (DNP or hand-fit), D7 (DNP or hand-fit)
 
 **Fit:** DNP or hand-fit
 
@@ -566,18 +684,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 [SS34 record details](/docs/components/records/ss34-c8678/) — No owning bundle is identified in the published model.
 
-### GVT1E477M0810CNVC
+### RVT1E471M0810
 
-| Field          | Recorded value                                                                         |
-| -------------- | -------------------------------------------------------------------------------------- |
-| Record ID      | `rec-c2983319`                                                                         |
-| Kind           | standalone — audited in its own right                                                  |
-| Manufacturer   | HRK                                                                                    |
-| Function       | 470 uF 25V aluminum electrolytic capacitor, +13.5V and -13.5V DC-DC output bulk filter |
-| Orderable ID   | `C2983319`                                                                             |
-| Package        | `CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD`                                                     |
-| Inventory line | `line-c2983319`                                                                        |
-| Also known as  | `electrolytic capacitor`                                                               |
+| Field          | Recorded value                                                                       |
+| -------------- | ------------------------------------------------------------------------------------ |
+| Record ID      | `rec-c696190`                                                                        |
+| Kind           | standalone — audited in its own right                                                |
+| Manufacturer   | Honor Elec                                                                           |
+| Function       | 470 uF 25 V aluminum electrolytic capacitor, Board B -13.5V DC-DC output bulk filter |
+| Orderable ID   | `C696190`                                                                            |
+| Package        | `CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD`                                                   |
+| Inventory line | `line-c696190`                                                                       |
+| Also known as  | `470 uF 25 V electrolytic replacement candidate`                                     |
 
 **Placements:** board-b C11 (fitted)
 
@@ -587,9 +705,9 @@ One entry per record, carrying the orderable identity and every board placement.
 
 **Source state:** AVAILABLE
 
-**Open coverage domains:** 1 open of 5 published
+**Open coverage domains:** 1 open of 3 published
 
-[GVT1E477M0810CNVC record details](/docs/components/records/c2983319/) — No owning bundle is identified in the published model.
+[RVT1E471M0810 record details](/docs/components/records/c696190/) — No owning bundle is identified in the published model.
 
 ### RVT1A471M0607
 
@@ -629,7 +747,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c970687`                                                                                                                |
 | Also known as  | `electrolytic capacitor`                                                                                                      |
 
-**Placements:** board-b C9 (fitted)
+**Placements:** board-b C9 (fitted); board-p C3 (fitted); board-b20-draft C1 (fitted)
 
 **Fit:** Fitted
 
@@ -668,18 +786,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### 0603WAF1001T5E
 
-| Field          | Recorded value                                          |
-| -------------- | ------------------------------------------------------- |
-| Record ID      | `rec-c21190`                                            |
-| Kind           | standalone — audited in its own right                   |
-| Manufacturer   | UNI-ROYAL                                               |
-| Function       | 1 kOhm resistor, DC-DC feedback divider bottom resistor |
-| Orderable ID   | `C21190`                                                |
-| Package        | `R0603`                                                 |
-| Inventory line | `line-c21190`                                           |
-| Also known as  | `resistor`                                              |
+| Field          | Recorded value                                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c21190`                                                                                                        |
+| Kind           | standalone — audited in its own right                                                                               |
+| Manufacturer   | UNI-ROYAL                                                                                                           |
+| Function       | 1 kOhm resistor, DC-DC feedback divider bottom resistor; Board P STUSB4500 VDD and VBUS\_VS\_DISCH series resistors |
+| Orderable ID   | `C21190`                                                                                                            |
+| Package        | `R0603`                                                                                                             |
+| Inventory line | `line-c21190`                                                                                                       |
+| Also known as  | `resistor`                                                                                                          |
 
-**Placements:** board-b R4 (fitted)
+**Placements:** board-b R4 (fitted); board-p R14 (fitted), R28 (fitted), R29 (fitted); board-p15 R29 (fitted); board-b20-draft RCP1 (fitted), RCP2 (fitted), RCP3 (fitted)
 
 **Fit:** Fitted
 
@@ -854,7 +972,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c1623`                                    |
 | Also known as  | `ceramic capacitor`                             |
 
-**Placements:** board-b C15 (fitted), C16 (fitted)
+**Placements:** board-b C15 (fitted), C16 (fitted); board-b20-draft C28 (fitted), CRMP2 (fitted)
 
 **Fit:** Fitted
 
@@ -979,7 +1097,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c8465`                                                         |
 | Also known as  | `KANGNEX`, `two-pole screw terminal`, `J6/J7 screw output terminals` |
 
-**Placements:** board-b J6 (fitted), J7 (fitted)
+**Placements:** board-b J6 (fitted), J7 (fitted); board-b20-draft J6 (fitted), J7 (fitted)
 
 **Fit:** Fitted
 
@@ -1004,7 +1122,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c4749189`                                                       |
 | Also known as  | `shrouded Eurorack power header`, `J10/J11 keyed output connector`    |
 
-**Placements:** board-b J10 (fitted), J11 (fitted)
+**Placements:** board-b J10 (fitted), J11 (fitted); board-b20-draft J10 (fitted), J11 (fitted)
 
 **Fit:** Fitted
 
@@ -1029,7 +1147,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c283540`                                |
 | Also known as  | `Korean Hroparts Elec`, `Board P USB-C inlet` |
 
-**Placements:** board-p J1 (fitted)
+**Placements:** board-p J1 (fitted); board-p15 J1 (fitted)
 
 **Fit:** Fitted
 
@@ -1053,13 +1171,13 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `C0603`                               |
 | Inventory line | `line-c14663`                         |
 
-**Placements:** board-p C2 (fitted), C35 (fitted)
+**Placements:** board-p C2 (fitted), C35 (fitted), C5 (fitted); board-p15 C2 (fitted), C35 (fitted); board-b20-draft C4 (fitted), C8 (fitted), C11 (fitted), C15 (fitted), C19 (fitted), C20 (fitted), C21 (fitted), C23 (fitted), C24 (fitted), C25 (fitted), C26 (fitted), C29 (fitted), C31 (fitted), C32 (fitted), C33 (fitted), C34 (fitted), C35 (fitted), C36 (fitted), C37 (fitted), C38 (fitted), CF1 (fitted), CF3 (fitted)
 
 **Fit:** Fitted
 
-**Identity state:** UNRESOLVED
+**Identity state:** VERIFIED
 
-**Source state:** SOURCE UNAVAILABLE
+**Source state:** AVAILABLE
 
 **Open coverage domains:** 3 open of 5 published
 
@@ -1077,41 +1195,42 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `R0603`                               |
 | Inventory line | `line-c22807`                         |
 
-**Placements:** board-p R12 (fitted)
+**Placements:** board-p R11 (fitted), R27 (fitted); board-p15 R12 (fitted); board-b20-draft RHO1 (fitted), RHO2 (fitted)
 
 **Fit:** Fitted
 
-**Identity state:** UNRESOLVED
+**Identity state:** VERIFIED
 
-**Source state:** SOURCE UNAVAILABLE
+**Source state:** AVAILABLE
 
 **Open coverage domains:** 1 open of 2 published
 
 [0603WAF1503T5E record details](/docs/components/records/c22807/) — No owning bundle is identified in the published model.
 
-### 0805W8F1002T5E
+### LM74700QDBVRQ1
 
-| Field          | Recorded value                        |
-| -------------- | ------------------------------------- |
-| Record ID      | `rec-c17414`                          |
-| Kind           | standalone — audited in its own right |
-| Manufacturer   | UNI-ROYAL                             |
-| Function       | 10 kOhm resistor                      |
-| Orderable ID   | `C17414`                              |
-| Package        | `R0805`                               |
-| Inventory line | `line-c17414`                         |
+| Field          | Recorded value                                                     |
+| -------------- | ------------------------------------------------------------------ |
+| Record ID      | `rec-c2941042`                                                     |
+| Kind           | standalone — audited in its own right                              |
+| Manufacturer   | Texas Instruments                                                  |
+| Function       | Ideal-diode controller driving the Board P reverse-blocking FET Q3 |
+| Orderable ID   | `C2941042`                                                         |
+| Package        | `SOT-23-6_TI-DBV0006A`                                             |
+| Inventory line | `line-c2941042`                                                    |
+| Also known as  | `Board P reverse-blocking ideal-diode controller`                  |
 
-**Placements:** board-p R21 (fitted)
+**Placements:** board-p U3 (fitted)
 
 **Fit:** Fitted
 
-**Identity state:** UNRESOLVED
+**Identity state:** VERIFIED
 
-**Source state:** SOURCE UNAVAILABLE
+**Source state:** AVAILABLE
 
-**Open coverage domains:** 1 open of 2 published
+**Open coverage domains:** 2 open of 4 published
 
-[0805W8F1002T5E record details](/docs/components/records/c17414/) — No owning bundle is identified in the published model.
+[LM74700QDBVRQ1 record details](/docs/components/records/c2941042/) — No owning bundle is identified in the published model.
 
 ### PZ254V-11-06P
 
@@ -1126,7 +1245,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c492405`                                                                         |
 | Also known as  | `Board P male board-to-board header`, `JOUT1 male header`, `Board P JOUT1 male header` |
 
-**Placements:** board-p JOUT1 (fitted)
+**Placements:** board-p JOUT1 (fitted); board-p15 JOUT1 (fitted)
 
 **Fit:** Fitted
 
@@ -1151,7 +1270,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c2832269`                                                                        |
 | Also known as  | `Board B female board-to-board header`, `J2 female header`, `Board B J5 female header` |
 
-**Placements:** board-b J5 (fitted)
+**Placements:** board-b J5 (fitted); board-b20-draft J5 (fitted)
 
 **Fit:** Fitted
 
@@ -1247,7 +1366,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `R0603`                                       |
 | Inventory line | `line-c861589`                                |
 
-**Placements:** board-b R20 (fitted), R26 (fitted)
+**Placements:** board-b R20 (fitted), R26 (fitted); board-b20-draft R10 (fitted), RVR1 (fitted), RVR2 (fitted)
 
 **Fit:** Fitted
 
@@ -1259,17 +1378,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 [RT0603BRD078K2L record details](/docs/components/records/c861589/) — No owning bundle is identified in the published model.
 
-### RT0603BRD07680RL
+### AT0603BRD07680RL
 
-| Field          | Recorded value                                 |
-| -------------- | ---------------------------------------------- |
-| Record ID      | `rec-c861519`                                  |
-| Kind           | standalone — audited in its own right          |
-| Manufacturer   | YAGEO                                          |
-| Function       | RT0603BRD07680RL renewal power-stage component |
-| Orderable ID   | `C861519`                                      |
-| Package        | `R0603`                                        |
-| Inventory line | `line-c861519`                                 |
+| Field          | Recorded value                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c5455478`                                                                              |
+| Kind           | standalone — audited in its own right                                                       |
+| Manufacturer   | YAGEO                                                                                       |
+| Function       | 680 ohm 0.1% 25 ppm/C 0603 thin-film resistor (AT series), Board B R21/R27 feedback divider |
+| Orderable ID   | `C5455478`                                                                                  |
+| Package        | `R0603`                                                                                     |
+| Inventory line | `line-c5455478`                                                                             |
+| Also known as  | `680 ohm 0.1% 0603 resistor replacement candidate`                                          |
 
 **Placements:** board-b R21 (fitted), R27 (fitted)
 
@@ -1279,9 +1399,9 @@ One entry per record, carrying the orderable identity and every board placement.
 
 **Source state:** AVAILABLE
 
-**Open coverage domains:** 0 open of 1 published
+**Open coverage domains:** 0 open of 2 published
 
-[RT0603BRD07680RL record details](/docs/components/records/c861519/) — No owning bundle is identified in the published model.
+[AT0603BRD07680RL record details](/docs/components/records/c5455478/) — No owning bundle is identified in the published model.
 
 ### RT0603BRD073K09L
 
@@ -1295,7 +1415,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `R0603`                                        |
 | Inventory line | `line-c861371`                                 |
 
-**Placements:** board-b R23 (fitted)
+**Placements:** board-b R23 (fitted); board-b20-draft R22 (fitted), R31 (fitted)
 
 **Fit:** Fitted
 
@@ -1319,7 +1439,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `R0603`                                       |
 | Inventory line | `line-c861332`                                |
 
-**Placements:** board-b R24 (fitted)
+**Placements:** board-b R24 (fitted); board-b20-draft R35 (fitted)
 
 **Fit:** Fitted
 
@@ -1392,7 +1512,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c136280`                            |
 | Also known as  | `25SVPF47M renewal power-stage component` |
 
-**Placements:** board-b C40 (fitted), C41 (fitted), C42 (fitted)
+**Placements:** board-b C40 (fitted), C41 (fitted), C42 (fitted); board-b20-draft CAF1 (fitted), CBF1 (fitted), CCF1 (fitted), CSO3 (fitted)
 
 **Fit:** Fitted
 
@@ -1416,7 +1536,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR`  |
 | Inventory line | `line-c2071044`                       |
 
-**Placements:** board-b U2 (fitted)
+**Placements:** board-b U2 (fitted); board-b20-draft U14 (fitted)
 
 **Fit:** Fitted
 
@@ -1440,7 +1560,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `ASPI-0630LR_L7.5-W6.85`              |
 | Inventory line | `line-c1334133`                       |
 
-**Placements:** board-b L1 (fitted)
+**Placements:** board-b L1 (fitted); board-b20-draft L1 (fitted), L2 (fitted), L3 (fitted), L4 (fitted), L5 (fitted), L6 (fitted), L7 (fitted)
 
 **Fit:** Fitted
 
@@ -1464,7 +1584,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `C1210`                               |
 | Inventory line | `line-c77102`                         |
 
-**Placements:** board-b C14 (fitted), C20 (fitted), C3 (fitted), C36 (fitted), C37 (fitted), C39 (fitted), C46 (fitted)
+**Placements:** board-b C14 (fitted), C20 (fitted), C3 (fitted), C36 (fitted), C37 (fitted), C39 (fitted), C46 (fitted); board-b20-draft C2 (fitted), C3 (fitted), C7 (fitted), C14 (fitted), CAF2 (fitted), CAO1 (fitted), CAO2 (fitted), CBF2 (fitted), CBO1 (fitted), CBO2 (fitted), CCF2 (fitted), CCIN1 (fitted), CCIN2 (fitted), CCO1 (fitted), CCO2 (fitted), CCO3 (fitted), CCO4 (fitted), CSO1 (fitted), CSO2 (fitted)
 
 **Fit:** Fitted
 
@@ -1512,7 +1632,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `R0603`                               |
 | Inventory line | `line-c95204`                         |
 
-**Placements:** board-b R2 (fitted)
+**Placements:** board-b R2 (fitted); board-p R25 (fitted); board-b20-draft R4 (fitted), R8 (fitted), R12 (fitted), R14 (fitted), R19 (fitted), R39 (fitted), R43 (fitted), RVX2 (fitted)
 
 **Fit:** Fitted
 
@@ -1526,17 +1646,18 @@ One entry per record, carrying the orderable identity and every board placement.
 
 ### SMAJ16A
 
-| Field          | Recorded value                        |
-| -------------- | ------------------------------------- |
-| Record ID      | `rec-c74561`                          |
-| Kind           | standalone — audited in its own right |
-| Manufacturer   | Littelfuse                            |
-| Function       | 15V-only input surge TVS              |
-| Orderable ID   | `C74561`                              |
-| Package        | `SMA_Littelfuse_SMAJ16A_C74561`       |
-| Inventory line | `line-c74561`                         |
+| Field          | Recorded value                          |
+| -------------- | --------------------------------------- |
+| Record ID      | `rec-c74561`                            |
+| Kind           | standalone — audited in its own right   |
+| Manufacturer   | Littelfuse                              |
+| Function       | 15V-only input surge TVS (15 V Board P) |
+| Orderable ID   | `C74561`                                |
+| Package        | `SMA_Littelfuse_SMAJ16A_C74561`         |
+| Inventory line | `line-c74561`                           |
+| Also known as  | `15V-only input surge TVS`              |
 
-**Placements:** board-p D5 (fitted)
+**Placements:** board-p15 D5 (fitted)
 
 **Fit:** Fitted
 
@@ -1560,7 +1681,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Package        | `SMA_Diodes_SDT5A60SA_C3024223`       |
 | Inventory line | `line-c3024223`                       |
 
-**Placements:** board-b D3 (fitted)
+**Placements:** board-b D3 (fitted); board-b20-draft D1 (fitted), D2 (fitted)
 
 **Fit:** Fitted
 
@@ -1571,3 +1692,1595 @@ One entry per record, carrying the orderable identity and every board placement.
 **Open coverage domains:** 1 open of 2 published
 
 [SDT5A60SA-13 record details](/docs/components/records/c3024223/) — No owning bundle is identified in the published model.
+
+### TPS16630PWPR
+
+| Field          | Recorded value                                                                     |
+| -------------- | ---------------------------------------------------------------------------------- |
+| Record ID      | `rec-c1849461`                                                                     |
+| Kind           | standalone — audited in its own right                                              |
+| Manufacturer   | Texas Instruments                                                                  |
+| Function       | 20V input eFuse with adjustable OVP, UVLO and current limit (Board P r3 front end) |
+| Orderable ID   | `C1849461`                                                                         |
+| Package        | `HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT`                                         |
+| Inventory line | `line-c1849461`                                                                    |
+| Also known as  | `20V input electronic fuse (Board P r3)`                                           |
+
+**Placements:** board-p U2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 3 open of 5 published
+
+[TPS16630PWPR record details](/docs/components/records/c1849461/) — No owning bundle is identified in the published model.
+
+### TVS2200DRVR
+
+| Field          | Recorded value                             |
+| -------------- | ------------------------------------------ |
+| Record ID      | `rec-c523793`                              |
+| Kind           | standalone — audited in its own right      |
+| Manufacturer   | Texas Instruments                          |
+| Function       | 20V connector flat-clamp TVS, 22V standoff |
+| Orderable ID   | `C523793`                                  |
+| Package        | `WSON-6_L2.0-W2.0-P0.65-BL-EP`             |
+| Inventory line | `line-c523793`                             |
+| Also known as  | `20V connector flat-clamp TVS`             |
+
+**Placements:** board-p D5 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 4 published
+
+[TVS2200DRVR record details](/docs/components/records/c523793/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07174KL
+
+| Field          | Recorded value                                |
+| -------------- | --------------------------------------------- |
+| Record ID      | `rec-c861163`                                 |
+| Kind           | standalone — audited in its own right         |
+| Manufacturer   | YAGEO                                         |
+| Function       | 174 kOhm precision eFuse OVP divider resistor |
+| Orderable ID   | `C861163`                                     |
+| Package        | `R0603`                                       |
+| Inventory line | `line-c861163`                                |
+
+**Placements:** board-p R24 (fitted); board-b20-draft R1 (fitted), R5 (fitted), R9 (fitted), R18 (fitted), R20 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 0 open of 1 published
+
+[RT0603BRD07174KL record details](/docs/components/records/c861163/) — No owning bundle is identified in the published model.
+
+### RT0603BRD074K02L
+
+| Field          | Recorded value                                                    |
+| -------------- | ----------------------------------------------------------------- |
+| Record ID      | `rec-c705781`                                                     |
+| Kind           | standalone — audited in its own right                             |
+| Manufacturer   | YAGEO                                                             |
+| Function       | 4.02 kOhm precision eFuse current-limit and UVLO divider resistor |
+| Orderable ID   | `C705781`                                                         |
+| Package        | `R0603`                                                           |
+| Inventory line | `line-c705781`                                                    |
+| Also known as  | `4.02 kOhm precision eFuse current-limit resistor`                |
+
+**Placements:** board-p R26 (fitted), R23 (fitted); board-b20-draft R6 (fitted), R16 (fitted), R17 (fitted), R21 (fitted), R23 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 0 open of 1 published
+
+[RT0603BRD074K02L record details](/docs/components/records/c705781/) — No owning bundle is identified in the published model.
+
+### CSD18543Q3A
+
+| Field          | Recorded value                          |
+| -------------- | --------------------------------------- |
+| Record ID      | `rec-c840100`                           |
+| Kind           | standalone — audited in its own right   |
+| Manufacturer   | Texas Instruments                       |
+| Function       | 20V input reverse-blocking power MOSFET |
+| Orderable ID   | `C840100`                               |
+| Package        | `VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A`    |
+| Inventory line | `line-c840100`                          |
+
+**Placements:** board-p Q3 (fitted); board-b20-draft Q1 (fitted), Q2 (fitted), Q3 (fitted), Q4 (fitted), Q5 (fitted), Q6 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 3 published
+
+[CSD18543Q3A record details](/docs/components/records/c840100/) — No owning bundle is identified in the published model.
+
+### BSS138-7-F
+
+| Field          | Recorded value                                                                                              |
+| -------------- | ----------------------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c40912`                                                                                                |
+| Kind           | standalone — audited in its own right                                                                       |
+| Manufacturer   | Diodes Incorporated                                                                                         |
+| Function       | small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network and Q6 VBUS\_EN\_SNK cascode |
+| Orderable ID   | `C40912`                                                                                                    |
+| Package        | `SOT-23_DIODES-DS30144-SUGGESTED`                                                                           |
+| Inventory line | `line-c40912`                                                                                               |
+| Also known as  | `blocking FET gate pulldown small-signal MOSFET`                                                            |
+
+**Placements:** board-p Q5 (fitted), Q6 (fitted); board-b20-draft Q10 (fitted), Q11 (fitted), Q12 (fitted), Q25 (fitted), Q30 (fitted), Q32 (fitted), Q33 (fitted), Q35 (fitted), Q36 (fitted), Q37 (fitted), Q38 (fitted), Q39 (fitted), Q40 (fitted), Q41 (fitted), Q42 (fitted), Q43 (fitted), Q44 (fitted), Q45 (fitted), Q46 (fitted), Q47 (fitted), Q48 (fitted), Q49 (fitted), Q50 (fitted), Q51 (fitted), Q52 (fitted), Q55 (fitted), Q57 (fitted), Q59 (fitted), Q60 (fitted), Q61 (fitted), Q62 (fitted), Q63 (fitted), Q64 (fitted), Q65 (fitted), Q66 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 4 published
+
+[BSS138-7-F record details](/docs/components/records/c40912/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0711K5L
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c705719`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | 11.5 kOhm precision eFuse UVLO divider resistor |
+| Orderable ID   | `C705719`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c705719`                                  |
+
+**Placements:** board-p R22 (fitted); board-b20-draft R15 (fitted), R24 (fitted), R25 (fitted), R26 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 0 open of 1 published
+
+[RT0603BRD0711K5L record details](/docs/components/records/c705719/) — No owning bundle is identified in the published model.
+
+### DMP3036SFG-7
+
+| Field          | Recorded value                                         |
+| -------------- | ------------------------------------------------------ |
+| Record ID      | `rec-c461081`                                          |
+| Kind           | standalone — audited in its own right                  |
+| Manufacturer   | Diodes Incorporated                                    |
+| Function       | Board P 20 V / 5 A output load-switch P-channel MOSFET |
+| Orderable ID   | `C461081`                                              |
+| Package        | `PowerDI3333-8_DMP3036SFG`                             |
+| Inventory line | `line-c461081`                                         |
+
+**Placements:** board-p Q1 (fitted); board-b20-draft Q24 (fitted), Q31 (fitted), Q34 (fitted), Q54 (fitted), Q56 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 3 published
+
+[DMP3036SFG-7 record details](/docs/components/records/c461081/) — No owning bundle is identified in the published model.
+
+### GRM1885C1H682JA01D
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c162241`                                |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | Murata Electronics                           |
+| Function       | Board B 20 V draft 6.8 nF C0G 0603 capacitor |
+| Orderable ID   | `C162241`                                    |
+| Package        | `C0603`                                      |
+| Inventory line | `line-c162241`                               |
+
+**Placements:** board-b20-draft C5 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[GRM1885C1H682JA01D record details](/docs/components/records/c162241/) — No owning bundle is identified in the published model.
+
+### CL10C470JB8NNNC
+
+| Field          | Recorded value                              |
+| -------------- | ------------------------------------------- |
+| Record ID      | `rec-c1671`                                 |
+| Kind           | standalone — audited in its own right       |
+| Manufacturer   | Samsung Electro-Mechanics                   |
+| Function       | Board B 20 V draft 47 pF C0G 0603 capacitor |
+| Orderable ID   | `C1671`                                     |
+| Package        | `C0603`                                     |
+| Inventory line | `line-c1671`                                |
+
+**Placements:** board-b20-draft C6 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[CL10C470JB8NNNC record details](/docs/components/records/c1671/) — No owning bundle is identified in the published model.
+
+### GRM2165C1H273JA01D
+
+| Field          | Recorded value                              |
+| -------------- | ------------------------------------------- |
+| Record ID      | `rec-c3882413`                              |
+| Kind           | standalone — audited in its own right       |
+| Manufacturer   | Murata Electronics                          |
+| Function       | Board B 20 V draft 27 nF C0G 0805 capacitor |
+| Orderable ID   | `C3882413`                                  |
+| Package        | `C0805`                                     |
+| Inventory line | `line-c3882413`                             |
+
+**Placements:** board-b20-draft C9 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[GRM2165C1H273JA01D record details](/docs/components/records/c3882413/) — No owning bundle is identified in the published model.
+
+### CL10C151JB8NNNC
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c37298`                                 |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | Samsung Electro-Mechanics                    |
+| Function       | Board B 20 V draft 150 pF C0G 0603 capacitor |
+| Orderable ID   | `C37298`                                     |
+| Package        | `C0603`                                      |
+| Inventory line | `line-c37298`                                |
+
+**Placements:** board-b20-draft C10 (fitted), C13 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[CL10C151JB8NNNC record details](/docs/components/records/c37298/) — No owning bundle is identified in the published model.
+
+### C1206N473J050T
+
+| Field          | Recorded value                              |
+| -------------- | ------------------------------------------- |
+| Record ID      | `rec-c5451690`                              |
+| Kind           | standalone — audited in its own right       |
+| Manufacturer   | Holy Stone Enterprise Co., Ltd.             |
+| Function       | Board B 20 V draft 47 nF C0G 1206 capacitor |
+| Orderable ID   | `C5451690`                                  |
+| Package        | `C1206`                                     |
+| Inventory line | `line-c5451690`                             |
+| Also known as  | `Holy Stone`                                |
+
+**Placements:** board-b20-draft C12 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** UNRESOLVED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 2 published
+
+[C1206N473J050T record details](/docs/components/records/c5451690/) — No owning bundle is identified in the published model.
+
+### CC0603JRNPO9BN271
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c107046`                                |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | YAGEO                                        |
+| Function       | Board B 20 V draft 270 pF C0G 0603 capacitor |
+| Orderable ID   | `C107046`                                    |
+| Package        | `C0603`                                      |
+| Inventory line | `line-c107046`                               |
+
+**Placements:** board-b20-draft C22 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[CC0603JRNPO9BN271 record details](/docs/components/records/c107046/) — No owning bundle is identified in the published model.
+
+### GRM1885C1H103JA01D
+
+| Field          | Recorded value                              |
+| -------------- | ------------------------------------------- |
+| Record ID      | `rec-c85973`                                |
+| Kind           | standalone — audited in its own right       |
+| Manufacturer   | Murata Electronics                          |
+| Function       | Board B 20 V draft 10 nF C0G 0603 capacitor |
+| Orderable ID   | `C85973`                                    |
+| Package        | `C0603`                                     |
+| Inventory line | `line-c85973`                               |
+
+**Placements:** board-b20-draft C30 (fitted), CT5 (fitted), CT12 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[GRM1885C1H103JA01D record details](/docs/components/records/c85973/) — No owning bundle is identified in the published model.
+
+### GRM1885C1H152JA01D
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c162204`                                |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | Murata Electronics                           |
+| Function       | Board B 20 V draft 1.5 nF C0G 0603 capacitor |
+| Orderable ID   | `C162204`                                    |
+| Package        | `C0603`                                      |
+| Inventory line | `line-c162204`                               |
+
+**Placements:** board-b20-draft CI5 (fitted), CI12 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[GRM1885C1H152JA01D record details](/docs/components/records/c162204/) — No owning bundle is identified in the published model.
+
+### B560C-13-F
+
+| Field          | Recorded value                                                     |
+| -------------- | ------------------------------------------------------------------ |
+| Record ID      | `rec-c85100`                                                       |
+| Kind           | standalone — audited in its own right                              |
+| Manufacturer   | Diodes Incorporated                                                |
+| Function       | Board B 20 V draft D3 60 V Schottky (SMC (DO-214AB))               |
+| Orderable ID   | `C85100`                                                           |
+| Package        | `SMC_Diodes_B560C_C85100`                                          |
+| Inventory line | `line-c85100`                                                      |
+| Also known as  | `Board B 20 V draft D3 alternative 60 V Schottky (SMC (DO-214AB))` |
+
+**Placements:** board-b20-draft D3 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[B560C-13-F record details](/docs/components/records/c85100/) — No owning bundle is identified in the published model.
+
+### 0603WAF1002T5E
+
+| Field          | Recorded value                                           |
+| -------------- | -------------------------------------------------------- |
+| Record ID      | `rec-c25804`                                             |
+| Kind           | standalone — audited in its own right                    |
+| Manufacturer   | UNI-ROYAL                                                |
+| Function       | 10 kOhm resistor, DC-DC feedback divider bottom resistor |
+| Orderable ID   | `C25804`                                                 |
+| Package        | `R0603`                                                  |
+| Inventory line | `line-c25804`                                            |
+| Also known as  | `resistor`                                               |
+
+**Placements:** board-b20-draft R2 (fitted), R49 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0603WAF1002T5E record details](/docs/components/records/c25804/) — No owning bundle is identified in the published model.
+
+### AT0603BRD07145KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c5455461`                                  |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 145 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C5455461`                                      |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c5455461`                                 |
+
+**Placements:** board-b20-draft R3 (fitted), R11 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[AT0603BRD07145KL record details](/docs/components/records/c5455461/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0754K9L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c728593`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 54.9 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C728593`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c728593`                                   |
+
+**Placements:** board-b20-draft R7 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0754K9L record details](/docs/components/records/c728593/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0752K3L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861462`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 52.3 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861462`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861462`                                   |
+
+**Placements:** board-b20-draft R13 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0752K3L record details](/docs/components/records/c861462/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07100KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c122538`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 100 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C122538`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c122538`                                  |
+
+**Placements:** board-b20-draft R27 (fitted), RI5 (fitted), RI12 (fitted), RMA1 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07100KL record details](/docs/components/records/c122538/) — No owning bundle is identified in the published model.
+
+### 0603WAF4704T5E
+
+| Field          | Recorded value                                |
+| -------------- | --------------------------------------------- |
+| Record ID      | `rec-c23163`                                  |
+| Kind           | standalone — audited in its own right         |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                      |
+| Function       | Board B 20 V draft 4.7 MOhm 1 % 0603 resistor |
+| Orderable ID   | `C23163`                                      |
+| Package        | `R0603`                                       |
+| Inventory line | `line-c23163`                                 |
+
+**Placements:** board-b20-draft R28 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0603WAF4704T5E record details](/docs/components/records/c23163/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07649RL
+
+| Field          | Recorded value                                 |
+| -------------- | ---------------------------------------------- |
+| Record ID      | `rec-c705791`                                  |
+| Kind           | standalone — audited in its own right          |
+| Manufacturer   | YAGEO                                          |
+| Function       | Board B 20 V draft 649 Ohm 0.1 % 0603 resistor |
+| Orderable ID   | `C705791`                                      |
+| Package        | `R0603`                                        |
+| Inventory line | `line-c705791`                                 |
+
+**Placements:** board-b20-draft R29 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07649RL record details](/docs/components/records/c705791/) — No owning bundle is identified in the published model.
+
+### RT0603BRD072K74L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861304`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 2.74 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861304`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861304`                                   |
+
+**Placements:** board-b20-draft R30 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD072K74L record details](/docs/components/records/c861304/) — No owning bundle is identified in the published model.
+
+### RT0603BRD071K5L
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c705741`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 1.5 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C705741`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c705741`                                  |
+
+**Placements:** board-b20-draft R32 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD071K5L record details](/docs/components/records/c705741/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0710K2L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c515735`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 10.2 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C515735`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c515735`                                   |
+
+**Placements:** board-b20-draft R33 (fitted), RLM2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0710K2L record details](/docs/components/records/c515735/) — No owning bundle is identified in the published model.
+
+### TNPW060310K1BEEA
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c4353204`                                   |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | Vishay Intertech                                 |
+| Function       | Board B 20 V draft 10.1 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C4353204`                                       |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c4353204`                                  |
+
+**Placements:** board-b20-draft R34 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[TNPW060310K1BEEA record details](/docs/components/records/c4353204/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0720KL
+
+| Field          | Recorded value                                 |
+| -------------- | ---------------------------------------------- |
+| Record ID      | `rec-c723637`                                  |
+| Kind           | standalone — audited in its own right          |
+| Manufacturer   | YAGEO                                          |
+| Function       | Board B 20 V draft 20 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C723637`                                      |
+| Package        | `R0603`                                        |
+| Inventory line | `line-c723637`                                 |
+
+**Placements:** board-b20-draft R36 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0720KL record details](/docs/components/records/c723637/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0769K8L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861526`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 69.8 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861526`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861526`                                   |
+
+**Placements:** board-b20-draft R38 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0769K8L record details](/docs/components/records/c861526/) — No owning bundle is identified in the published model.
+
+### 0603WAF1005T5E
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c7250`                                  |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                     |
+| Function       | Board B 20 V draft 10 MOhm 1 % 0603 resistor |
+| Orderable ID   | `C7250`                                      |
+| Package        | `R0603`                                      |
+| Inventory line | `line-c7250`                                 |
+
+**Placements:** board-b20-draft R40 (fitted), R44 (fitted), R50 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0603WAF1005T5E record details](/docs/components/records/c7250/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0723K2L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861244`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 23.2 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861244`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861244`                                   |
+
+**Placements:** board-b20-draft R42 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0723K2L record details](/docs/components/records/c861244/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0793K1L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c705799`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 93.1 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C705799`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c705799`                                   |
+
+**Placements:** board-b20-draft R46 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0793K1L record details](/docs/components/records/c705799/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07750KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c861550`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 750 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861550`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c861550`                                  |
+
+**Placements:** board-b20-draft R47 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07750KL record details](/docs/components/records/c861550/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0747K5L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c136962`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 47.5 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C136962`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c136962`                                   |
+
+**Placements:** board-b20-draft R57 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0747K5L record details](/docs/components/records/c136962/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0712KL
+
+| Field          | Recorded value                                 |
+| -------------- | ---------------------------------------------- |
+| Record ID      | `rec-c326735`                                  |
+| Kind           | standalone — audited in its own right          |
+| Manufacturer   | YAGEO                                          |
+| Function       | Board B 20 V draft 12 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C326735`                                      |
+| Package        | `R0603`                                        |
+| Inventory line | `line-c326735`                                 |
+
+**Placements:** board-b20-draft R58 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0712KL record details](/docs/components/records/c326735/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07172KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c861162`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 172 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861162`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c861162`                                  |
+
+**Placements:** board-b20-draft R59 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07172KL record details](/docs/components/records/c861162/) — No owning bundle is identified in the published model.
+
+### 0603WAF4703T5E
+
+| Field          | Recorded value                                |
+| -------------- | --------------------------------------------- |
+| Record ID      | `rec-c23178`                                  |
+| Kind           | standalone — audited in its own right         |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                      |
+| Function       | Board B 20 V draft 470 kOhm 1 % 0603 resistor |
+| Orderable ID   | `C23178`                                      |
+| Package        | `R0603`                                       |
+| Inventory line | `line-c23178`                                 |
+
+**Placements:** board-b20-draft R61 (fitted), RAEN1 (fitted), RBEN1 (fitted), RCEN1 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0603WAF4703T5E record details](/docs/components/records/c23178/) — No owning bundle is identified in the published model.
+
+### 0603WAF1004T5E
+
+| Field          | Recorded value                              |
+| -------------- | ------------------------------------------- |
+| Record ID      | `rec-c22935`                                |
+| Kind           | standalone — audited in its own right       |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                    |
+| Function       | Board B 20 V draft 1 MOhm 1 % 0603 resistor |
+| Orderable ID   | `C22935`                                    |
+| Package        | `R0603`                                     |
+| Inventory line | `line-c22935`                               |
+
+**Placements:** board-b20-draft R62 (fitted), RJ5 (fitted), RJ12 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0603WAF1004T5E record details](/docs/components/records/c22935/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0746K4L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861420`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 46.4 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861420`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861420`                                   |
+
+**Placements:** board-b20-draft R63 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0746K4L record details](/docs/components/records/c861420/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0726K4L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861266`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 26.4 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861266`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861266`                                   |
+
+**Placements:** board-b20-draft R64 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0726K4L record details](/docs/components/records/c861266/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0724K9L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c136967`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 24.9 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C136967`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c136967`                                   |
+
+**Placements:** board-b20-draft R65 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0724K9L record details](/docs/components/records/c136967/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0710K4L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861076`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 10.4 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861076`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861076`                                   |
+
+**Placements:** board-b20-draft R66 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0710K4L record details](/docs/components/records/c861076/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0710K7L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861078`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 10.7 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861078`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861078`                                   |
+
+**Placements:** board-b20-draft R67 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0710K7L record details](/docs/components/records/c861078/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0724KL
+
+| Field          | Recorded value                                 |
+| -------------- | ---------------------------------------------- |
+| Record ID      | `rec-c326729`                                  |
+| Kind           | standalone — audited in its own right          |
+| Manufacturer   | YAGEO                                          |
+| Function       | Board B 20 V draft 24 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C326729`                                      |
+| Package        | `R0603`                                        |
+| Inventory line | `line-c326729`                                 |
+
+**Placements:** board-b20-draft R68 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0724KL record details](/docs/components/records/c326729/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07118KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c861086`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 118 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861086`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c861086`                                  |
+
+**Placements:** board-b20-draft R69 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07118KL record details](/docs/components/records/c861086/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0763K4L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c326723`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 63.4 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C326723`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c326723`                                   |
+
+**Placements:** board-b20-draft R70 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0763K4L record details](/docs/components/records/c326723/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07301KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c861309`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 301 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861309`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c861309`                                  |
+
+**Placements:** board-b20-draft R71 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07301KL record details](/docs/components/records/c861309/) — No owning bundle is identified in the published model.
+
+### 0805W8F1002T5E
+
+| Field          | Recorded value                                               |
+| -------------- | ------------------------------------------------------------ |
+| Record ID      | `rec-c17414`                                                 |
+| Kind           | standalone — audited in its own right                        |
+| Manufacturer   | UNI-ROYAL                                                    |
+| Function       | 10 kOhm resistor (Board P r2 R21 RESET pulldown, superseded) |
+| Orderable ID   | `C17414`                                                     |
+| Package        | `R0805`                                                      |
+| Inventory line | `line-c17414`                                                |
+| Also known as  | `10 kOhm resistor`                                           |
+
+**Placements:** board-b20-draft R72 (fitted), R73 (fitted), RF1 (fitted), RG1 (fitted), RG2 (fitted), RG3 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0805W8F1002T5E record details](/docs/components/records/c17414/) — No owning bundle is identified in the published model.
+
+### 1206W4F1500T5E
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c17917`                                 |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                     |
+| Function       | Board B 20 V draft 150 Ohm 1 % 1206 resistor |
+| Orderable ID   | `C17917`                                     |
+| Package        | `R1206_TA-I-RLS12`                           |
+| Inventory line | `line-c17917`                                |
+
+**Placements:** board-b20-draft R76 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[1206W4F1500T5E record details](/docs/components/records/c17917/) — No owning bundle is identified in the published model.
+
+### 0603WAF3902T5E
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c23153`                                 |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                     |
+| Function       | Board B 20 V draft 39 kOhm 1 % 0603 resistor |
+| Orderable ID   | `C23153`                                     |
+| Package        | `R0603`                                      |
+| Inventory line | `line-c23153`                                |
+
+**Placements:** board-b20-draft RAEN2 (fitted), RBEN2 (fitted), RCEN2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0603WAF3902T5E record details](/docs/components/records/c23153/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0764K9L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861510`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 64.9 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861510`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861510`                                   |
+
+**Placements:** board-b20-draft RLM1 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0764K9L record details](/docs/components/records/c861510/) — No owning bundle is identified in the published model.
+
+### RT0603BRD079K76L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c861616`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 9.76 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861616`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c861616`                                   |
+
+**Placements:** board-b20-draft RLV1 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD079K76L record details](/docs/components/records/c861616/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07102KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c861068`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 102 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861068`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c861068`                                  |
+
+**Placements:** board-b20-draft RLV2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07102KL record details](/docs/components/records/c861068/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0715KL
+
+| Field          | Recorded value                                 |
+| -------------- | ---------------------------------------------- |
+| Record ID      | `rec-c326733`                                  |
+| Kind           | standalone — audited in its own right          |
+| Manufacturer   | YAGEO                                          |
+| Function       | Board B 20 V draft 15 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C326733`                                      |
+| Package        | `R0603`                                        |
+| Inventory line | `line-c326733`                                 |
+
+**Placements:** board-b20-draft RMA2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0715KL record details](/docs/components/records/c326733/) — No owning bundle is identified in the published model.
+
+### PCSR2512BR010M6
+
+| Field          | Recorded value                                           |
+| -------------- | -------------------------------------------------------- |
+| Record ID      | `rec-c23067428`                                          |
+| Kind           | standalone — audited in its own right                    |
+| Manufacturer   | RESI                                                     |
+| Function       | Board B 20 V draft 10 mOhm 0.1 % limiter shunt candidate |
+| Orderable ID   | `C23067428`                                              |
+| Package        | `R2512_RESI-PCSR2512_Kelvin`                             |
+| Inventory line | `line-c23067428`                                         |
+
+**Placements:** board-b20-draft RSH1 (fitted), RSH3 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** UNRESOLVED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 2 open of 2 published
+
+[PCSR2512BR010M6 record details](/docs/components/records/c23067428/) — No owning bundle is identified in the published model.
+
+### PE1206FRF470R02L
+
+| Field          | Recorded value                                     |
+| -------------- | -------------------------------------------------- |
+| Record ID      | `rec-c164156`                                      |
+| Kind           | standalone — audited in its own right              |
+| Manufacturer   | YAGEO                                              |
+| Function       | Board B 20 V draft 20 mOhm limiter shunt candidate |
+| Orderable ID   | `C164156`                                          |
+| Package        | `R1206_TA-I-RLS12`                                 |
+| Inventory line | `line-c164156`                                     |
+
+**Placements:** board-b20-draft RSH2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[PE1206FRF470R02L record details](/docs/components/records/c164156/) — No owning bundle is identified in the published model.
+
+### RT0603BRD07226KL
+
+| Field          | Recorded value                                  |
+| -------------- | ----------------------------------------------- |
+| Record ID      | `rec-c861233`                                   |
+| Kind           | standalone — audited in its own right           |
+| Manufacturer   | YAGEO                                           |
+| Function       | Board B 20 V draft 226 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C861233`                                       |
+| Package        | `R0603`                                         |
+| Inventory line | `line-c861233`                                  |
+
+**Placements:** board-b20-draft RVU1 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD07226KL record details](/docs/components/records/c861233/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0718KL
+
+| Field          | Recorded value                                 |
+| -------------- | ---------------------------------------------- |
+| Record ID      | `rec-c309650`                                  |
+| Kind           | standalone — audited in its own right          |
+| Manufacturer   | YAGEO                                          |
+| Function       | Board B 20 V draft 18 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C309650`                                      |
+| Package        | `R0603`                                        |
+| Inventory line | `line-c309650`                                 |
+
+**Placements:** board-b20-draft RVU2 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0718KL record details](/docs/components/records/c309650/) — No owning bundle is identified in the published model.
+
+### RT0603BRD0730K1L
+
+| Field          | Recorded value                                   |
+| -------------- | ------------------------------------------------ |
+| Record ID      | `rec-c705764`                                    |
+| Kind           | standalone — audited in its own right            |
+| Manufacturer   | YAGEO                                            |
+| Function       | Board B 20 V draft 30.1 kOhm 0.1 % 0603 resistor |
+| Orderable ID   | `C705764`                                        |
+| Package        | `R0603`                                          |
+| Inventory line | `line-c705764`                                   |
+
+**Placements:** board-b20-draft RVX1 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[RT0603BRD0730K1L record details](/docs/components/records/c705764/) — No owning bundle is identified in the published model.
+
+### 1206W4F330JT5E
+
+| Field          | Recorded value                              |
+| -------------- | ------------------------------------------- |
+| Record ID      | `rec-c18005`                                |
+| Kind           | standalone — audited in its own right       |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                    |
+| Function       | Board B 20 V draft 33 Ohm 1 % 1206 resistor |
+| Orderable ID   | `C18005`                                    |
+| Package        | `R1206_TA-I-RLS12`                          |
+| Inventory line | `line-c18005`                               |
+
+**Placements:** board-b20-draft RX5 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[1206W4F330JT5E record details](/docs/components/records/c18005/) — No owning bundle is identified in the published model.
+
+### 1206W4F1000T5E
+
+| Field          | Recorded value                               |
+| -------------- | -------------------------------------------- |
+| Record ID      | `rec-c17901`                                 |
+| Kind           | standalone — audited in its own right        |
+| Manufacturer   | UNI-ROYAL(Uniroyal Elec)                     |
+| Function       | Board B 20 V draft 100 Ohm 1 % 1206 resistor |
+| Orderable ID   | `C17901`                                     |
+| Package        | `R1206_TA-I-RLS12`                           |
+| Inventory line | `line-c17901`                                |
+
+**Placements:** board-b20-draft RX12 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[1206W4F1000T5E record details](/docs/components/records/c17901/) — No owning bundle is identified in the published model.
+
+### TPS54560DDAR
+
+| Field          | Recorded value                                                       |
+| -------------- | -------------------------------------------------------------------- |
+| Record ID      | `rec-c31966`                                                         |
+| Kind           | standalone — audited in its own right                                |
+| Manufacturer   | Texas Instruments                                                    |
+| Function       | Board B 20 V draft buck and inverting buck-boost converter candidate |
+| Orderable ID   | `C31966`                                                             |
+| Package        | `HSOP-8_TI-DDA0008B`                                                 |
+| Inventory line | `line-c31966`                                                        |
+
+**Placements:** board-b20-draft U1 (fitted), U2 (fitted), U3 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[TPS54560DDAR record details](/docs/components/records/c31966/) — No owning bundle is identified in the published model.
+
+### OPA2187IDGKR
+
+| Field          | Recorded value                                                            |
+| -------------- | ------------------------------------------------------------------------- |
+| Record ID      | `rec-c2863562`                                                            |
+| Kind           | standalone — audited in its own right                                     |
+| Manufacturer   | Texas Instruments                                                         |
+| Function       | Board B 20 V draft precision servo and window comparator op amp candidate |
+| Orderable ID   | `C2863562`                                                                |
+| Package        | `VSSOP-8_TI-DGK0008A`                                                     |
+| Inventory line | `line-c2863562`                                                           |
+
+**Placements:** board-b20-draft U4 (fitted), U5 (fitted), U6 (fitted), U7 (fitted), U8 (fitted), U9 (fitted), U13 (fitted), U15 (fitted), U16 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[OPA2187IDGKR record details](/docs/components/records/c2863562/) — No owning bundle is identified in the published model.
+
+### REF5025AIDR
+
+| Field          | Recorded value                                         |
+| -------------- | ------------------------------------------------------ |
+| Record ID      | `rec-c11341`                                           |
+| Kind           | standalone — audited in its own right                  |
+| Manufacturer   | Texas Instruments                                      |
+| Function       | Board B 20 V draft 2.5 V precision reference candidate |
+| Orderable ID   | `C11341`                                               |
+| Package        | `SOIC-8_TI-D0008A`                                     |
+| Inventory line | `line-c11341`                                          |
+
+**Placements:** board-b20-draft U10 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[REF5025AIDR record details](/docs/components/records/c11341/) — No owning bundle is identified in the published model.
+
+### INA301A3IDGKR
+
+| Field          | Recorded value                                               |
+| -------------- | ------------------------------------------------------------ |
+| Record ID      | `rec-c2861552`                                               |
+| Kind           | standalone — audited in its own right                        |
+| Manufacturer   | Texas Instruments                                            |
+| Function       | Board B interface limiter current-sense comparator candidate |
+| Orderable ID   | `C2861552`                                                   |
+| Package        | `VSSOP-8_TI-DGK0008A`                                        |
+| Inventory line | `line-c2861552`                                              |
+
+**Placements:** board-b20-draft U11 (fitted), U12 (fitted)
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[INA301A3IDGKR record details](/docs/components/records/c2861552/) — No owning bundle is identified in the published model.

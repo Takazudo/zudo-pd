@@ -38,7 +38,8 @@ Use the [manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manu
 BOM/CPL scope, drawings and check reports. Local paths are `manufacturing/README.md`
 and `manufacturing/releases/corner-support-review/`. Package reports determine final ERC,
 DRC and fabrication-file status. Maintain only this current prototype package and
-the active design files. No renewal hardware has been released or ordered; the
+the active design files. The directory now holds a 2026-11-01 development review package (board-p15 + Board B with C5455478/C696190), not an order. Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered.
+Nothing is released or validated (`manufacturing/as-built-and-controller.md`); the
 directory name `releases` does not establish product-release status.
 
 The [STEP datum audit](https://github.com/Takazudo/zudo-pd/blob/main/footprints/kicad/step-datum-verification.json) covers the reviewed active STEP/WRL pairs.

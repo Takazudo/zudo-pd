@@ -12,6 +12,10 @@ Littelfuse primary web text independently agrees, but direct binary retrieval wa
 denied; the registry retains that primary-binary evidence gap. Catalog identity
 does not prove current stock.
 
+SMAJ16A C74561 is the D5 line of the 15 V Board P (`line-c74561`, `board_p15_spec.py`), which
+continues as its own product (`dec-separate-products`, 2026-11-01). The 20 V / 5 A Board P revision
+(`dec-p-20v-revision`) uses TVS2200DRVR C523793 instead; `cand-retired-c74561` is kept as a tombstone.
+
 SMAJ16A has 16 V standoff and a maximum 26 V clamp at 15.4 A,
 10/1000 us, 25 C. Its typical VBR temperature coefficient is not a guaranteed bound or
 VC coefficient. Do not represent 26 V as an unconditional rail ceiling.
@@ -27,6 +31,12 @@ Both parts map project pin 1 to the banded cathode at local negative X and
 pin 2 to the anode. Their new canonical footprints follow their own
 manufacturer mounting drawings; do not restore the generic imported lands.
 The standard SMA model is illustrative and does not establish land geometry.
+
+The SDT5A60SA-13 footprint (`SMA_Diodes_SDT5A60SA_C3024223`) draws its cathode band on
+F.Fab only. Its silkscreen is an outline with end ticks at the pad-1 (cathode) end and no
+band, and the S3 Board B F_Silkscreen Gerber for D3 matches that (no cathode mark). On the
+built board, identify D3's cathode by the body stripe and the pad continuous with U4 pin 2,
+not by silkscreen. Adding a silk band is a footprint and PCB change, not made here.
 
 ## Human component reference
 

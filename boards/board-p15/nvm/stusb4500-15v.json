@@ -1,0 +1,116 @@
+{
+ "_comment": "DESK IMAGE for board-p15 (dec-p15-reset-subset, dec-p15-i2c-pulldowns). Not written to any part and not read back: status NOT RUN. The field positions come from a third-party library and are checked only against the Rev 7 defaults listed under cross_check. Write it with the procedure in doc/src/content/docs/architecture/board-p15-programming.md and accept it only on a power-cycle readback equal to these 40 bytes.",
+ "status": "NOT RUN (never written or read back)",
+ "file": "stusb4500-15v.bin",
+ "sha256": "76622e14862e53cf318b24eb662f7dc9f34d48134867cf954b30c195c26e8eeb",
+ "sectors_hex": [
+  "00 00 B0 AA 00 45 00 00",
+  "10 40 9C 1C FF 01 3C DF",
+  "02 40 0F 00 32 00 FC F1",
+  "00 19 54 AF FB 35 5F 00",
+  "00 4B 90 21 43 00 48 FB"
+ ],
+ "changes_from_base": [
+  {
+   "sector": 3,
+   "byte": 2,
+   "from": "0x56",
+   "to": "0x54"
+  },
+  {
+   "sector": 3,
+   "byte": 4,
+   "from": "0xF5",
+   "to": "0xFB"
+  },
+  {
+   "sector": 4,
+   "byte": 6,
+   "from": "0x40",
+   "to": "0x48"
+  }
+ ],
+ "decoded": {
+  "SNK_PDO_NUMB": 2,
+  "PDO1": {
+   "V": 5.0,
+   "I_SNK_PDO1_code": 5,
+   "A": 1.5
+  },
+  "PDO2": {
+   "V_code": 300,
+   "V": 15.0,
+   "I_SNK_PDO2_code": 11,
+   "A": 3.0
+  },
+  "PDO3": {
+   "V_code": 400,
+   "V": 20.0,
+   "I_SNK_PDO3_code": 3,
+   "A": 1.0
+  },
+  "I_SNK_PDO_FLEX_A": 2.0,
+  "POWER_ONLY_ABOVE_5V": 1,
+  "REQ_SRC_CURRENT": 0,
+  "POWER_OK_CFG": 2,
+  "GPIO_CFG": 1,
+  "SNK_UNCONS_POWER": 0,
+  "USB_COMM_CAPABLE": 0,
+  "SHIFT_VBUS_HL1_pct": 10,
+  "SHIFT_VBUS_LL2_pct": 15,
+  "SHIFT_VBUS_HL2_pct": 5,
+  "SHIFT_VBUS_LL3_pct": 15,
+  "SHIFT_VBUS_HL3_pct": 5
+ },
+ "intent": {
+  "SNK_PDO_NUMB": "2 (PDO1 5 V + PDO2 15 V; 20 V never requested)",
+  "PDO2": "15.00 V, 3.00 A",
+  "POWER_ONLY_ABOVE_5V": "1 (Q1 stays off at 5 V)",
+  "other fields": "Rev 7 defaults, unchanged"
+ },
+ "base": {
+  "bytes_hex": [
+   "00 00 B0 AA 00 45 00 00",
+   "10 40 9C 1C FF 01 3C DF",
+   "02 40 0F 00 32 00 FC F1",
+   "00 19 56 AF F5 35 5F 00",
+   "00 4B 90 21 43 00 40 FB"
+  ],
+  "source": "SparkFun_STUSB4500_Arduino_Library src/SparkFun_STUSB4500.cpp default_sector, commit 7f76188b7900d930aeb7908319d463b6446257c6, file sha256 0d047860c8bed18c071115c4b8a79d9ceecf01e7faeb1d73653f2dcef21db48a (MIT)",
+  "authority": "THIRD_PARTY"
+ },
+ "field_map": {
+  "source": "same library, NVM getters and setters (sector/byte/bit positions)",
+  "authority": "THIRD_PARTY",
+  "st_map_document": "UNAVAILABLE: no ST NVM map is retained in this repository"
+ },
+ "cross_check": {
+  "reference": "DS12499 Rev 7 Table 16 defaults, Table 17 current LUT, Table 18 default PDOs",
+  "rev7_sha256": "407ee6767128cc4075926e01d945fe846440f932359ed81f45a957485778399e",
+  "rev7_copy": "byte-identical to Doc/stusb4500_datasheet_v7.pdf in ST's usb-c/STUSB4500 GitHub repository at commit 55d1109e7ef0cffc2ffef2494095d23306594601",
+  "base_decodes_to_rev7_defaults": "PASS",
+  "checked_fields": [
+   "GPIO_CFG",
+   "I_SNK_PDO_FLEX_A",
+   "PDO1",
+   "PDO2",
+   "PDO3",
+   "POWER_OK_CFG",
+   "POWER_ONLY_ABOVE_5V",
+   "REQ_SRC_CURRENT",
+   "SHIFT_VBUS_HL1_pct",
+   "SHIFT_VBUS_HL2_pct",
+   "SHIFT_VBUS_HL3_pct",
+   "SHIFT_VBUS_LL2_pct",
+   "SHIFT_VBUS_LL3_pct",
+   "SNK_PDO_NUMB",
+   "SNK_UNCONS_POWER",
+   "USB_COMM_CAPABLE"
+  ],
+  "not_checked": "every other bit of the 40 bytes (left at the base value)"
+ },
+ "st_example_not_used": {
+  "source": "usb-c/STUSB4500 NVM_Flasher/Src/NVM/STUSB_NVM.h at 55d1109e, sha256 7505a77235f1259d657af3443b5506d6ff12ab4407e3ab6e9370044906d05006",
+  "note": "an ST example image, not the factory default (it differs from the Rev 7 defaults)"
+ }
+}

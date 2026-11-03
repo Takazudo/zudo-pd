@@ -30,13 +30,13 @@ export default {
     vendorQualifiers: ".claude/skills/component-spec-audit/references/external-vendor-qualifiers.json",
     sourceCache: ".circuit-cache/sources",
   },
-  inventoryProvider: { kind: "led-generator-v1", mpnFromValueLcsc: ["C144397", "C591344"], specs: [{path: "scripts/schgen/board_a_spec.py"}, {path: "scripts/schgen/board_b_spec.py"}, {path: "scripts/schgen/board_p_spec.py"}] },
+  inventoryProvider: { kind: "led-generator-v1", mpnFromValueLcsc: ["C144397", "C591344"], specs: [{path: "scripts/schgen/board_a_spec.py"}, {path: "scripts/schgen/board_b_spec.py"}, {path: "scripts/schgen/board_p_spec.py"}, {path: "scripts/schgen/board_p15_spec.py"}, {path: "scripts/schgen/board_b20_components.py"}] },
   publication: {
     selection: "circuit/publication/selection.json",
     assets: "circuit/publication/assets.json",
     matrix: "circuit/publication/matrix.json",
   },
-  cad: { enabled: true, libraryName: "zudo-pd", symbolLibraries: ["symbols/zudo-pd.kicad_sym"], footprintMasterRoot: "footprints/kicad", footprintLibraryRoot: "footprints/kicad/zudo-power.pretty", modelRoot: "footprints/kicad/zudo-pd.3dshapes", modelLocatorPrefix: "${KIPRJMOD}/../../footprints/kicad/zudo-pd.3dshapes/", previewRenderer: { image: "kicad/kicad@sha256:e638b79b0321f29395a5b783e94bb9f3c73303e8da15da27b8f5cb4b67a37729", version: "9.0.9", platform: "linux/amd64", layers: ["F.Cu", "F.Silkscreen", "F.Fabrication", "F.Courtyard"], theme: "KiCad Default", options: ["--black-and-white"] } },
+  cad: { enabled: true, libraryName: "zudo-pd", symbolLibraries: ["symbols/zudo-pd.kicad_sym"], footprintMasterRoot: "footprints/kicad", footprintLibraryRoot: "footprints/kicad/zudo-power.pretty", modelRoot: "footprints/kicad/zudo-pd.3dshapes", modelLocatorPrefix: "${KIPRJMOD}/../../footprints/kicad/zudo-pd.3dshapes/", previewRenderer: { image: "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec", version: "10.0.6", platform: "linux/amd64", layers: ["F.Cu", "F.Silkscreen", "F.Fabrication", "F.Courtyard"], theme: "KiCad Default", options: ["--black-and-white"] } },
   validation: { pythonMinVersion: "3.12" },
   browserSmoke: { representatives: [
     { kind: "passive", path: "/docs/components/records/c1623/", slug: "c1623", identity: "CL10B474KA8NNNC" },

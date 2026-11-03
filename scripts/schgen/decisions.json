@@ -19,7 +19,25 @@
     "renewal-eurorack-sockets",
     "renewal-ldos",
     "renewal-input-protection",
-    "renewal-screw-terminals"
+    "renewal-screw-terminals",
+    "p-20v-revision",
+    "p-20v-front-end-r2",
+    "p-20v-q1-5a",
+    "p-20v-q1-gate-clamp",
+    "p-20v-q1-soft-start",
+    "common-controller-block",
+    "single-lineup",
+    "p-20v-front-end-r3",
+    "nvm-per-unit-programming",
+    "p-front-end-r3-migration",
+    "p-stusb-local-clamp",
+    "p-stusb-vdd-feed",
+    "separate-products",
+    "p15-reset-subset",
+    "p15-i2c-pulldowns",
+    "p15-vdd-local-clamp",
+    "p15-vdd-decoupling",
+    "b-stock-gap-substitutions"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -411,14 +429,14 @@
     {
       "key": "renewal-input-protection",
       "id": "dec-renewal-input-protection",
-      "title": "Prototype protection coordination: SMAJ16A and 60 V catch diode",
+      "title": "Prototype protection coordination: SMAJ16A and 60 V catch diode (Board P part superseded for the 20 V revision by dec-p-20v-revision)",
       "status": "LOCKED",
       "applies_to": [
         "board_p_spec",
         "board_b_spec"
       ],
       "decision": "Board P D5 uses Littelfuse SMAJ16A C74561; Board B D3 uses Diodes SDT5A60SA-13 C3024223. Preserve existing cathode/anode net mapping and board origins, use separately reviewed manufacturer-derived lands. Board A SMAJ20A and Board B D2 SS34 remain unchanged.",
-      "rationale": "At the specified 25 C pulse point, a 26 V TVS and 60 V catch diode remove the earlier 32.4 V coordination mismatch. This is a bounded prototype improvement, not universal surge qualification: first NVM programming uses 5 V-only input, 15 V-only policy must be verified before operation, and 20 V is unsupported. Actual hot clamping, overshoot, source energy, thermal behavior and repeated-pulse performance remain open.",
+      "rationale": "At the specified 25 C pulse point, a 26 V TVS and 60 V catch diode remove the earlier 32.4 V coordination mismatch. This is a bounded prototype improvement, not universal surge qualification: first NVM programming uses 5 V-only input, 15 V-only policy must be verified before operation, and 20 V is unsupported. Actual hot clamping, overshoot, source energy, thermal behavior and repeated-pulse performance remain open. SUPERSEDED for Board P by dec-p-20v-revision (user decision card 2026-10-31 11:11Z): the 15 V-only SMAJ16A target remains the historical record of the never-built 15 V Board P and of the unchanged board-p PCB; Board B D3 is unaffected.",
       "evidence": [
         "fact-c74561-standoff",
         "fact-c74561-clamp",
@@ -456,6 +474,390 @@
         "fact-c8465-lead-length-max",
         "fact-c8465-model-datum",
         "fact-c8465-rail-budget"
+      ]
+    },
+    {
+      "key": "p-20v-revision",
+      "id": "dec-p-20v-revision",
+      "title": "Board P 20 V / 5 A revision: TPS26630 input eFuse, TVS2200 connector clamp, accept-or-refuse (UVLO divider and bulk superseded by dec-p-20v-front-end-r2)",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Source: user decision card cmsg_01Pv35emdXEU6gCRF3teSpo23Q1CUhqDN2ebZaArfgF1Ru, 2026-10-31 11:11Z: D3-A (PD revision to PDO2 20 V / 5 A with a 5 A e-marked cable) and D5-1 (no degraded mode; accept or refuse). Board P draft: D5 TVS2200DRVR C523793 at connector VBUS_IN; U2 TPS26630RGER C1850276 between VBUS_IN and protected node VBUS_P ahead of every other Board P part; OVP 174k/10k 0.1 % (21.60-22.56 V rising); UVLO 10.5k/4.3k (4.02-4.25 V rising); R(ILIM) 4.02k (I(OL) 4.185-4.815 A); dVdT 100 nF; MODE open (latch); PGTH to GND; bulk C3/C4 2x100 uF 50 V on VBUS_P. STUSB4500 VDD, VBUS sense/discharge and Q1 move to VBUS_P. Applies to the revision only; design work on the branch is approved development, while canonical adoption, NVM programming, ordering and energizing remain separate permissions.",
+      "rationale": "SMAJ16A's 16 V standoff cannot carry a 20 V contract. Moving the STUSB4500 behind the eFuse keeps its 28 V VDD abs max off the TVS-clamped connector node (OSC gate L7). The 4.02k point is a guaranteed SLVSE94G table row and stays below the 5 A contract. The 15 V-only target stays as the historical/as-built record: the 15 V Board P was never built and the board-p PCB is not yet updated. Nothing is measured; the 5 A NVM image, blocking FET, Board B limiter and PCB remain open.",
+      "evidence": [
+        "fact-c1850276-ovp-rising",
+        "fact-c1850276-uvlo-rising",
+        "fact-c1850276-iol-4k02",
+        "fact-c1850276-mode-latch",
+        "fact-c1850276-pgth-gnd",
+        "fact-c523793-vrwm",
+        "fact-c523793-vclamp-40a",
+        "fact-c861163-resistance",
+        "fact-c705781-resistance"
+      ]
+    },
+    {
+      "key": "p-20v-front-end-r2",
+      "id": "dec-p-20v-front-end-r2",
+      "title": "Board P 20 V front end r2: reverse-blocking FET, UVLO at or above 4.5 V rising, single 100 uF bulk",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-4 direction 2026-10-31 within the user-approved 20 V revision (dec-p-20v-revision). Q3 CSD18543Q3A C840100 is the SLVSE94G 8.3.5 blocking FET: source on connector-side VBUS_IN (U2 IN_SYS), drain on EF_IN (U2 IN 1/2), gate on EF_BGATE (U2 B_GATE). Q4 BSS138-7-F C40912 is the B_GATE pulldown: gate EF_DRV (U2 DRV), source VBUS_IN, drain EF_BGATE. UVLO R22/R23 becomes 11.5k C705719 / 4.02k C705781 0.1 % (rising 4.53-4.73 V, falling 4.20-4.45 V). Bulk on VBUS_P is the single C3 100 uF 50 V RVT1H101M0810 C970687; C4 is removed. All other dec-p-20v-revision values are unchanged.",
+      "rationale": "Without Q3, U2 IN_SYS/IN are shorted and the protected node can back-feed the source; OSC proposes reverse current at most 1 mA. Q4 meets the datasheet pulldown rule (>= 15 V VDS, 20 V VGS, Ciss <= 50 pF, VGTH <= 3 V). The previous 10.5k/4.3k UVLO rose at 4.02-4.25 V, below the 4.5 V project floor; 11.5k/4.02k guarantees rising >= 4.5 V while falling 4.20-4.45 V remains a residual below 4.5 V. With 2 x 100 uF (up to 240 uF) the 5 V to 20 V PD transition at the source slew ceiling would draw about 7 A, above the 4.185 A I(OL) minimum; one 100 uF part (80-120 uF) limits it to about 3.6 A, while the hot-unplug overshoot estimate at 80 uF stays below the STUSB4500 28 V limit. The slew ceiling, ESR and overshoot terms are project assumptions; nothing is measured.",
+      "evidence": [
+        "fact-c1850276-blocking-fet-topology",
+        "fact-c1850276-bgate-clamp-max",
+        "fact-c840100-vds",
+        "fact-c840100-vgs",
+        "fact-c40912-vds",
+        "fact-c40912-ciss-max",
+        "fact-c40912-vgsth-max",
+        "fact-c705719-resistance",
+        "fact-c705781-resistance",
+        "fact-c1850276-uvlo-rising",
+        "fact-c1850276-iol-4k02",
+        "fact-c970687-voltage"
+      ]
+    },
+    {
+      "key": "p-20v-q1-5a",
+      "id": "dec-p-20v-q1-5a",
+      "title": "Board P 20 V / 5 A draft: proposed Q1 output switch DMP3036SFG-7 in place of AO3401A",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-5 direction 2026-10-31 within the user-approved 20 V revision (dec-p-20v-revision): the Board P draft spec PROPOSES Q1 = Diodes DMP3036SFG-7 C461081 (PowerDI3333-8) instead of UMW AO3401A C347476, whose -4.2 A continuous rating is below the 5 A target. Pins 1-3 S on VBUS_P, 4 G on Q1_G, 5-8 and exposed pad 9 D on VBUS_OUT. R11/R12/C35 and R13 are unchanged. Board A Q1 keeps AO3401A. The PCB, the TPS26630 controller and the eFuse choice are not changed by this record; the controller question is with the user.",
+      "rationale": "DS37038 Rev. 6-2 rates VDSS -30 V (same as AO3401A, so the Q1 off-state VDS margins keep their values), VGSS +/-25 V (the -10.08 V hot overshoot gate case leaves 14.9 V), and -7.2 A at 25 C / -5.8 A at 70 C with VGS -5 V, but only on 2 oz FR-4 with 1 in2 of copper (Note 6). RDS(on) is 29 mOhm max at -5 V / -5 A, so 5 A costs about 0.725 W: about 40 C rise at 55 C/W (1 in2) and about 99 C at 137 C/W (minimum pad). The unchanged divider gives -2.0 V at 5 V VBUS, inside the -1.0 to -2.5 V threshold range, so 5 V enhancement is not guaranteed; a stronger divider is a separate proposal. The footprint is a text-extracted draft. Nothing is measured.",
+      "evidence": [
+        "fact-c461081-vds",
+        "fact-c461081-vgs",
+        "fact-c461081-current-vgs5-ta25",
+        "fact-c461081-current-vgs5-ta70",
+        "fact-c461081-rdson-5v-max",
+        "fact-c461081-vgsth-max",
+        "fact-c461081-theta-ja-1in2",
+        "fact-c461081-theta-ja-min-pad",
+        "fact-c461081-footprint-review",
+        "fact-c461081-board-p-role",
+        "fact-umw-ao3401a-current"
+      ]
+    },
+    {
+      "key": "p-20v-q1-gate-clamp",
+      "id": "dec-p-20v-q1-gate-clamp",
+      "title": "Board P 20 V / 5 A draft: proposed Q1 gate divider R11 150k / R12 4.7k with D8 BZT52C11-7-F clamp",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-6 direction 2026-10-31 (draft, within dec-p-20v-revision): the Board P draft spec PROPOSES R11 (VBUS_P to Q1_G) 150k C22807, R12 (Q1_G to VBEN) 4.7k C23162 and a new D8 BZT52C11-7-F C92321 with cathode on VBUS_P and anode on Q1_G, the topology of Board A dec-e-q1-20v-gate-guard. C35 100 nF/50 V, Q1 DMP3036SFG-7 and the PCB are unchanged. The as-built Board P PCB keeps 100k/150k and no D8.",
+      "rationale": "The 100k/150k divider gave -2.0 V at 5 V VBUS, inside the DMP3036SFG -1.0 to -2.5 V threshold range. The new open-clamp divider gives -4.606/-4.848/-5.090 V at 4.75/5.00/5.25 V; the guaranteed 29 mOhm RDS(on) row is at -5 V, which this divider reaches only above about 5.157 V VBUS and no divider can reach at 5.00 V nominal, but POWER_ONLY_ABOVE_5V keeps Q1 off at 5 V anyway. At 20 V the divider alone would give -19.39 V, so D8 conducts (about 1.97 mA at 20 V, 3.08 mA at the 25.208 V overshoot case) and holds |VGS| to 10.4-11.6 V, leaving at least 13.4 V to the 25 V VGSS. If D8 fails open the overshoot case gives -24.44 V, a 0.56 V margin. VBEN sinks up to 3.15 mA in total (D8 3.08 mA plus the R11 share); its rating is UNSOURCED. The turn-on gate time constant falls from 6.0 ms to 0.46 ms and the turn-off constant rises from 10 ms to 15 ms; the Board B input inrush at the faster turn-on against the TPS26630 I(OL) is not calculated. Nothing is measured.",
+      "evidence": [
+        "fact-c22807-resistance",
+        "fact-c23162-resistance",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-vz-max",
+        "fact-bzt52c11-board-p-d8-role",
+        "fact-c461081-vgs",
+        "fact-c461081-vgsth-max",
+        "fact-c461081-rdson-5v-max",
+        "fact-stusb-vben"
+      ]
+    },
+    {
+      "key": "p-20v-q1-soft-start",
+      "id": "dec-p-20v-q1-soft-start",
+      "title": "Board P 20 V / 5 A draft: proposed Q1 Miller soft start (C36, Q5 body diode, R27) and 2 x 470R VBUS_VS_DISCH resistance",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-7 direction 2026-10-31 after the independent review (finding 3 HIGH, finding 10 LOW), draft within dec-p-20v-revision: C36 CL10A105KB8NNNC C15849 1 uF from VBUS_OUT to Q1_MX, Q5 BSS138-7-F C40912 with gate and source on Q1_MX and drain on Q1_G (body diode Q1_MX to Q1_G), R27 0603WAF1503T5E C22807 150k from VBUS_P to Q1_MX, and R28 0603WAF4700T5E C23179 in series with R14 between U1.18 and VBUS_P. The as-built Board P PCB is unchanged.",
+      "rationale": "With C35 gate-to-source only, the Q1 drain transition was Miller-limited by Q1's own Crss and lasted microseconds, so closing at 20 V dumped C3 into the uncharged Board B bank. C36 makes the drain slew equal the R12 gate current (3.45-4.0 mA at 20 V with a PA plateau of 1.5-3.5 V) divided by C36 (0.4-1.1 uF PA, the DC-bias curve is not in the bundle): 3.1-10 V/ms, at most 2.5 A into 250 uF, below the TPS26630 I(OL) 4.185 A minimum, so the eFuse does not current-limit and C3 does not charge-share. The Q5 diode blocks the reverse path, so a VBUS_P rise with Q1 off cannot pull Q1_G below the source; R27 recharges Q1_MX (tau 0.15 s) and assists turn-off. Q1 dissipates about 50 mJ per 20 V closure over 2.0-6.5 ms; DMP3036SFG SOA is not in the bundle (OPEN). R14 + R28 = 940 ohm keeps the VBUS_VS_DISCH current at 26.7 mA at 25.1 V, below the 50 mA maximum; the discharge time constant doubles against the 800 ms default (OPEN interaction). Nothing is measured.",
+      "evidence": [
+        "fact-c15849-capacitance",
+        "fact-c15849-curve-caveat",
+        "fact-c40912-vds",
+        "fact-c40912-board-p-q5-role",
+        "fact-c22807-resistance",
+        "fact-c23179-resistance",
+        "fact-stusb-vbus-vs-disch",
+        "fact-stusb-discharge-registers",
+        "fact-c461081-vgsth-max",
+        "fact-c461081-vds"
+      ]
+    },
+    {
+      "key": "common-controller-block",
+      "id": "dec-common-controller-block",
+      "title": "STUSB4500 common controller block for the LED lamp, zudo-pd and the 20 V revision",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: the STUSB4500 is the common USB-PD controller block for the LED product and for zudo-pd, including the 20 V / 5 A revision. The block is STUSB4500 with its passives, VBUS sensing and discharge, the power-switch interface and NVM programming access; its interface and per-product parameters are specified in manager common-controller-block.md. The first drawn implementation is the Board P r3 draft (scripts/schgen/board_p_r3_spec.py), which also takes the LED hard requirements R1.1-R1.3 (RESET strapped to GND by R21 0R, RESET off the pogo pads, I2C pull-ups on the programming jig).",
+      "rationale": "Only the STUSB4500 among the compared controllers can hold its sink switch off on a contract mismatch (POWER_ONLY_ABOVE_5V, DS12499 Rev 7 section 2.2.10 and Table 16; mirror authority). Both the adopted LED design and the current zudo-pd already use it. Its cost is the lowest of the compared options (manager pd-controller-cost.md). The LED #144 desk analysis attributes the ordered LED Board P failure to RESET at 0.93 V, so the block fixes RESET handling by construction. Nothing is measured.",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "fact-stusb-vben",
+        "fact-stusb-vdd-absolute-max",
+        "fact-stusb-pin-states",
+        "fact-stusb-artifact"
+      ]
+    },
+    {
+      "key": "single-lineup",
+      "id": "dec-single-lineup",
+      "title": "Single lineup: the 20 V / 5 A revision becomes the new zudo-pd (superseded by dec-separate-products, 2026-11-01)",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "SUPERSEDED on 2026-11-01 by dec-separate-products; kept for the record. User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: there is one zudo-pd lineup. The 20 V / 5 A revision (Board P 20 V draft with the switcher-direct Board B) replaces the 15 V zudo-pd; no separate 15 V product is kept.",
+      "rationale": "The cost comparison (manager pd-controller-cost.md, desk prices, USD assumed) puts the recommended revision at about +3.3 per set over the current design for known parts. The switcher-direct Board B removes the LDO stage. All figures are desk values; nothing is quoted or ordered. Evidence migration 2026-11-03: the former ref cand-tps54560ddar-c31966 left candidates.json in ef51fed when TPS54560DDAR C31966 was bound to the central inventory; it now cites the same exact part as line-c31966 and its owner fact fact-c31966-candidate-scope (component-board-b20-draft-candidates).",
+      "evidence": [
+        "cand-tps16630pwpr-c1849461",
+        "cand-lm74700-c2941042",
+        "line-c31966",
+        "fact-c31966-candidate-scope"
+      ]
+    },
+    {
+      "key": "separate-products",
+      "id": "dec-separate-products",
+      "title": "Separate products: the 15 V zudo-pd continues; Board P r3 + B20 becomes a separate 20 V / 5 A OSC-oriented unit",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card 2026-11-01 04:59Z, relayed by the coordinator; supersedes dec-single-lineup. The current zudo-pd (Board P 15 V as built + Board B) continues as its own product. The Board P r3 draft with the B20 switcher-direct Board B becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 controller block (dec-common-controller-block) stays common to both. scripts/schgen/board_p_spec.py keeps describing the r3 draft; the 15 V product is defined by the as-built boards/board-p/board-p.kicad_pcb and the corner-support-review package until a 15 V spec source is restored. Whether the 15 V Board P takes the r3 controller-block changes is open (manufacturing/pd-ab-readiness.md).",
+      "rationale": "The phase 12-14 cost comparison (manufacturing/pd-ab-readiness.md, catalog prices and JLCPCB fee table, not quotes) puts the renewal at about twice the current lineup per 5-unit lot, and its 20 V / 5 A capability serves the OSC rather than the general 15 V use. Nothing is measured.",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "cand-tps16630pwpr-c1849461"
+      ]
+    },
+    {
+      "key": "p15-reset-subset",
+      "id": "dec-p15-reset-subset",
+      "title": "15 V Board P: common-controller-block RESET subset (R21 0 Ohm strap, J2.4 NC, I2C pull-ups on the jig)",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-15 direction 2026-11-01, after the phase-14 desk options: the 15 V Board P (board_p15_spec.py) keeps the as-built design except for LED requirements R1.1-R1.3 of the common controller block. R21 changes from 0805W8F1002T5E C17414 10k to 0603WAF0000T5E C21189 0R, strapping U1.6 RESET to GND; RESET leaves J2.4, which becomes unconnected; R15/R16 (4.7k to VREG_2V7 on SCL/SDA) are removed and the pull-ups move to the programming jig. The draft PCB re-routes RESET with at least 1.0 mm to VBUS-class copper on its layer. D5 SMAJ16A, Q1 AO3401A, VDD on VBUS_IN and the 15 V NVM image are unchanged; the local clamps of dec-p-stusb-local-clamp are not taken.",
+      "rationale": "A pcbnew scan of the as-built board-p.kicad_pcb (manufacturing/readiness/board-p-15v-reset-clearance.json) found RESET 0.222 mm from the R13 pads and 0.325 mm from a VBUS_VS_DISCH via, the geometry of the ordered LED Board P whose RESET read 0.93 V (VIL max 0.35 V) in the #144 desk analysis. The subset is cost-neutral in parts and assembly (calculate-lineup-cost.py p15 rows). DS12499 does not state I2C idle behaviour without pull-ups (OPEN). Nothing is measured. Evidence migration 2026-11-03: the former ref cand-0805w8f1002t5e-c17414 left candidates.json in ef51fed when 0805W8F1002T5E C17414 became inventory line-c17414 for unrelated B20 placements; the superseded R21 role is cited through its owner fact fact-c17414-reset-ctrl-topology (component-project-passives).",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "fact-stusb-pin-states",
+        "fact-c17414-reset-ctrl-topology",
+        "line-c21189"
+      ]
+    },
+    {
+      "key": "p15-i2c-pulldowns",
+      "id": "dec-p15-i2c-pulldowns",
+      "title": "15 V Board P: weak 100k pull-downs on SCL/SDA, pull-ups on the jig",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-17 direction 2026-11-01, after the independent board-p15 review (F3): R22 and R23 0603WAF1003T5E C25803 100k pull SCL (U1.7) and SDA (U1.8) to GND on the board, so both pins are defined in normal use. The programming jig supplies the pull-ups (at most 4.5 V, never from VREG_2V7 on J3.3) and overrides the pull-downs while programming. J2.1/J2.2 stay the jig contacts.",
+      "rationale": "With R15/R16 removed (dec-p15-reset-subset) SCL/SDA connected only to bare pogo pads. DS12499 Rev 7 lists SCL/SDA as inputs needing external pull-ups, and its no-MCU minimum implementation ties them to GND (p.25 Fig. 9); floating inputs are not described. A 100k pull-down keeps the pin below VIL 0.35 V for any pin leakage below 3.46 uA (0.35 V / 101 kOhm, not a datasheet row; leakage is UNKNOWN), and loads a 3.3 V jig pull-up by 33 uA. The jig pull-up range that meets the Rev 7 VIH/VIL, 3 mA VOL and 300 ns rise-time rows with the pull-downs present is in doc architecture/board-p15-programming. Nothing is measured.",
+      "evidence": [
+        "rec-stusb4500qtr",
+        "fact-stusb-pin-states",
+        "line-c25803"
+      ]
+    },
+    {
+      "key": "p15-vdd-local-clamp",
+      "id": "dec-p15-vdd-local-clamp",
+      "title": "15 V Board P: r3 VDD feed and local clamp (R29 1k + R30 470R, D9 BZT52C18) on the top side",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-17 direction 2026-11-01 (review F8, applied because it fits on the top side without moving any as-built part): U1.24 VDD moves from VBUS_IN onto VDD_LOC, fed through R29 0603WAF1001T5E C21190 1k and R30 0603WAF4700T5E C23179 470R in series (VDD_MID between them), with D9 BZT52C18-7-F C192739 (cathode VDD_LOC, anode GND). The as-built C2 100 nF stays at U1.24 and now decouples VDD_LOC; r3's C38 1 uF was not fitted in phase 17; phase 18 adds it (dec-p15-vdd-decoupling). VBUS_VS_DISCH, DISCH and VBUS_EN_SNK keep the as-built connections.",
+      "rationale": "With VDD on VBUS_IN the 28 V VDD limit had +2.00 V at the SMAJ16A 26.0 V, 25 C point and -0.6 V at the TYP-based 28.6 V hot estimate (input-clamp-fix.md). calculate-input-ovp-20v.py stusb_local_clamp with the 1.47 kOhm feed gives a VDD pin bound of 20.802 V at 125 C with 28.6 V in (+7.198 V to 28 V; 20.721 V, +7.279 V at 26.0 V), from the guaranteed BZT52C18 VZ max and TC max rows; the D9 current at 28.6 V and -40 C is 8.82 mA. At a 4.72 V attach input VDD stays >= 4.373 V at the idle IDD maximum (0.273 V over the 4.1 V row) and 4.209 V at 2 x typical IDD; the active-communication IDD is not in the datasheet (OPEN). At 15 V the zener stays below its guaranteed VZ window at 25 C and above (VZ min 16.8 V). Phase 20 correction (review F7): a positive TC lowers VZ when cold, so the guaranteed minimum uses the TC maximum: VZ min 15.76 V at -40 C, only +0.01 V above a 15.75 V (+5 %) input (VDD_LOC itself sits 0.24-0.32 V lower at the idle IDD). Knee leakage at the cold +5 % corner is possible (IR 0.1 uA at 12.6 V and ZZK 225 Ohm at 1 mA are the only rows); sub-mA through 1.47 kOhm costs at most a few hundred mV of VDD, functionally benign. BZT52C20-7-F C260890 was evaluated (scripts/pcb/board-p15/zener-choice.py, boards/board-p15/d9-zener-choice.json): 23.041 V pin bound at 28.6 V / 125 C leaves 4.959 V to 28 V (< 5 V required) and its 22.64 V VZ max at 105 C exceeds the 22 V VDD operating row, so BZT52C18 stays. The phase-17 omission of C38 is superseded by dec-p15-vdd-decoupling. Nothing is measured.",
+      "evidence": [
+        "fact-c192739-vz-max",
+        "fact-c192739-tc-max",
+        "fact-c192739-board-p-role",
+        "fact-stusb-vdd-absolute-max",
+        "fact-stusb-supplies",
+        "line-c21190",
+        "line-c23179",
+        "fact-c192739-vz-min",
+        "fact-c260890-vz-max",
+        "fact-c260890-tc-max"
+      ]
+    },
+    {
+      "key": "p15-vdd-decoupling",
+      "id": "dec-p15-vdd-decoupling",
+      "title": "15 V Board P: r3 C38 1 uF VDD_LOC decoupler on the top side",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p15_spec",
+        "doc"
+      ],
+      "decision": "Coordinator phase-18 direction 2026-11-01: add r3's C38 CL10A105KB8NNNC C15849 1 uF/50 V C0603 from VDD_LOC to GND, because a top-side slot right of C2/C30 holds it without moving any part. C2 100 nF stays at U1.24; C38 joins VDD_LOC through a track to C2.2 and returns to an existing GND via.",
+      "rationale": "Behind the 1.47 kOhm R29+R30 feed, C2 100 nF alone is the VDD reservoir; r3 pairs C2-class decoupling with C38 1 uF (board_p_spec.py). C15849 is an existing board-p15 line (C30, C34), so the BOM line count is unchanged. Its 50 V rating covers the 20.802 V VDD_LOC bound of dec-p15-vdd-local-clamp. The feed and C2 + C38 (1.1 uF nominal) form a tau of about 1.62 ms (phase 20 correction of the earlier 1.47 ms, review F8); DS12499 Rev 7 gives no VDD ramp or UVLO requirement to check it against (UNKNOWN); the attach-time VDD rise and its effect on the STUSB4500 start-up are not in the evidence (OPEN). Effective capacitance under DC bias is not retained (OPEN). Nothing is measured.",
+      "evidence": [
+        "line-c15849",
+        "fact-stusb-supplies",
+        "fact-stusb-vdd-absolute-max"
+      ]
+    },
+    {
+      "key": "p-20v-front-end-r3",
+      "id": "dec-p-20v-front-end-r3",
+      "title": "Board P r3 draft front end: TPS16630PWPR + LM74700-Q1 + Q3 replacing TPS26630 and Q4",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: the input protection becomes TPS16630PWPR C1849461 (U2) with an LM74700QDBVRQ1 C2941042 ideal-diode controller (U3) driving Q3 CSD18543Q3A, replacing TPS26630RGER and the Q4 B_GATE pulldown. Drawn in the unbound sibling draft scripts/schgen/board_p_r3_spec.py with the same OVP (174k/10k), UVLO (11.5k/4.02k), R(ILIM) 4.02k, dVdT 100 nF and MODE-open latch, plus C37 1 uF VCAP. The inventory-bound board_p_spec.py stays on r2 (TPS26630) until its integration rules and hash-locked observed runs are refreshed against the TPS16630 evidence.",
+      "rationale": "SLVSET9G gives TPS16630 the same V(OVPR), V(UVLOR) and I(OL) rows as the TPS26630, and OVP_toff 14 us maximum, so the OVP arithmetic and the L7 node analysis carry over. TPS16630 has no B_GATE, so reverse blocking moves to LM74700 (V(AK REV) -17..-2 mV, ANODE 4..60 V operating, SNOSD17G). JLC stock 1,089 (TPS16630PWPR) and 7,663 (LM74700) against 100 for TPS26630 (read-only lookups 2026-10-31). The HTSSOP-20 land is a TI PWP0020T-derived draft. L7 stays BLOCKING; Q1 SOA and the STUSB VBUS-sense behaviour stay OPEN.",
+      "evidence": [
+        "fact-c1849461-ovp-rising",
+        "fact-c1849461-uvlo-rising",
+        "fact-c1849461-iol-4k02",
+        "fact-c1849461-ovp-toff",
+        "fact-c1849461-in-absmax",
+        "fact-c2941042-anode-operating",
+        "fact-c2941042-vak-rev",
+        "fact-c2941042-candidate-scope",
+        "cand-tps16630pwpr-c1849461",
+        "cand-tps26630rger-c1850276"
+      ]
+    },
+    {
+      "key": "nvm-per-unit-programming",
+      "id": "dec-nvm-per-unit-programming",
+      "title": "Per-unit STUSB4500 NVM programming accepted",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "User decision card cmsg_01Pv35emdXEU6gCRF3teSpo2NJCTaS8BiqY6PnsmkVXgj2, 2026-10-31 15:39Z, relayed by the coordinator: every unit's STUSB4500 NVM is programmed individually. The procedure (manager common-controller-block.md) dumps the factory 40 bytes, writes, reads back, power-cycles and reads back again, and archives all three dumps with the unit serial. The two proposed images (PD revision and LED 15 V-only) are text proposals only; nothing has been programmed.",
+      "rationale": "The STUSB4500 configuration lives only in NVM (DS12499 Rev 7 section 5.1); a factory part requests the default PDOs with POWER_ONLY_ABOVE_5V = 0. No dump survived from the LED #144 boards, so the archive step is required evidence. Byte-level encoding is not in DS12499 and is an evidence gap.",
+      "evidence": [
+        "fact-stusb-artifact",
+        "fact-stusb-nvm-load",
+        "fact-stusb-volatile-pdo"
+      ]
+    },
+    {
+      "key": "p-front-end-r3-migration",
+      "id": "dec-p-front-end-r3-migration",
+      "title": "Inventory-bound Board P spec migrated to the r3 front end",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator instruction 2026-10-31 (PD phase 8), carrying out dec-p-20v-front-end-r3: scripts/schgen/board_p_spec.py now holds the r3 front end (U2 TPS16630PWPR C1849461, U3 LM74700QDBVRQ1 C2941042 driving Q3 CSD18543Q3A, C37 1 uF VCAP, R21 0 Ohm C21189 RESET strap, I2C pull-ups R15/R16 and the Q4 B_GATE pulldown removed). The unbound board_p_r3_spec.py draft and its board directory are retired. TPS26630RGER C1850276 and 0805W8F1002T5E C17414 become REJECTED candidate records; the affected integration rules, forward tests and observed runs were archived as *-before-front-end-r3.json and re-run. The Board P PCB is not re-synchronised and still carries r2.",
+      "rationale": "The user chose TPS16630 + LM74700 on the 15:39Z card; keeping two Board P specs would leave the inventory, BOM and integration evidence describing a front end the user has replaced. Evidence ref 'line-c1850276' in dec-p-20v-front-end-r3 now cites the same part as cand-tps26630rger-c1850276, because the inventory line no longer exists.",
+      "evidence": [
+        "fact-c1849461-board-p-config",
+        "fact-c2941042-board-p-config",
+        "fact-c21189-reset-strap-topology"
+      ]
+    },
+    {
+      "key": "p-stusb-local-clamp",
+      "id": "dec-p-stusb-local-clamp",
+      "title": "STUSB4500 high-voltage pins on local small-current clamps",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator phase-9 direction 2026-10-31, draft within dec-p-front-end-r3-migration: the STUSB4500 VDD, VBUS_VS_DISCH, DISCH and VBUS_EN_SNK pins are moved off VBUS_P onto local clamped nodes. VDD: R29 + R30 0603WAF1001T5E C21190 2 x 1k into VDD_LOC with D9 BZT52C18-7-F C192739 and C38 CL10A105KB8NNNC C15849 1 uF. VBUS_VS_DISCH: R14 + R28 become 2 x 1k C21190 and D10 BZT52C20-7-F C260890 clamps U1.18. DISCH: R13 becomes 0603WAF4701T5E C23162 4.7k and D12 BZT52C18-7-F clamps U1.9. VBUS_EN_SNK: Q6 BSS138-7-F C40912 cascode (source VBEN_PIN = U1.16 with D11 BZT52C18-7-F and J3.8, drain VBEN = R12, gate VG_LOC = VDD_LOC through R31/R32 0603WAF1003T5E C25803 100k/100k). CC pins are unchanged. The factory NVM image must set TDISPAR0V >= 13 so the 2 kOhm VBUS_VS_DISCH discharge can reach vSafe0V. The Board P PCB is unchanged and still carries r2.",
+      "rationale": "The 28 V STUSB pin limit was the binding constraint on the main surge path (rule-tvs-clamp-vs-absmax). With mA-level series feeds into guaranteed zener rows (DS18004 VZ max at IZT plus TC max), the pin bound is 20.709 V (VDD) and 23.0 V (VBUS_VS_DISCH) with VBUS_P at the 28.35 V TVS2200 35 A / 125 C row, and VDD stays <= 20.38 V at 105 C, inside the 22 V operating row. Attach headroom at 5 V depends on an operating IDD maximum the copied datasheet does not give (OPEN); STUSB VMONUSBH no longer works as an overvoltage monitor behind the clamp, so U2 OVP alone protects against slow overvoltage.",
+      "evidence": [
+        "fact-c192739-vz-max",
+        "fact-c192739-tc-max",
+        "fact-c260890-vz-max",
+        "fact-c260890-tc-max",
+        "fact-c192739-board-p-role",
+        "fact-c260890-board-p-role",
+        "fact-stusb-vbus-pin-absolute-max"
+      ]
+    },
+    {
+      "key": "p-stusb-vdd-feed",
+      "id": "dec-p-stusb-vdd-feed",
+      "title": "STUSB4500 VDD feed sized for twice the idle typical IDD",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator phase-10 direction 2026-10-31, within dec-p-stusb-local-clamp: R30 changes from 0603WAF1001T5E C21190 1k to 0603WAF4700T5E C23179 470 Ohm, so the VDD feed R29 + R30 is 1.47 kOhm. At a 5 V attach (VBUS >= 4.72 V) VDD stays >= 4.209 V with IDD at 320 uA, twice the 160 uA idle typical, and >= 4.373 V at the 210 uA idle maximum. The Board P PCB is unchanged.",
+      "rationale": "No DS12499 revision with an active-communication or hot IDD maximum is reachable (st.com refused the download on 2026-10-31), so the feed is sized for a conservative project IDD with explicit margin. The surge-row D9 current rises to 8.65 mA (0.18 W) at -40 C against the 500 mW PD row, and the VDD pin bound rises to 20.794 V, 7.206 V under 28 V.",
+      "evidence": [
+        "fact-c192739-vz-max",
+        "fact-c192739-zzt",
+        "fact-c192739-pd",
+        "fact-c192739-board-p-role",
+        "fact-c23179-topology"
+      ]
+    },
+    {
+      "key": "p-q1-gate-clamp-redundant",
+      "id": "dec-p-q1-gate-clamp-redundant",
+      "title": "Redundant Q1 gate clamp D13 in parallel with D8",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec"
+      ],
+      "decision": "Coordinator phase-11 direction 2026-10-31, within dec-p-20v-q1-gate-clamp: add D13 BZT52C11-7-F C92321 in parallel with D8 (cathode VBUS_P, anode Q1_G). R11 150k and R12 4.7k are unchanged. The as-built Board P PCB is unchanged; the r3 placement draft carries D13.",
+      "rationale": "With D8 open, the R11/R12 divider alone gives -27.49 V at the 28.35 V TVS2200 connector-node row, 2.49 V beyond the DMP3036SFG-7 25 V VGSS. A divider change cannot fix it without losing the low-voltage drive (25 V at 28.35 V needs a ratio of 0.882 or less, which moves the guaranteed -5 V RDS(on) row to 5.67 V). One more existing SOD-123 part makes a single open clamp harmless: either diode alone holds |VGS| at 11.6 V or less. Both open remains a double-fault exposure.",
+      "evidence": [
+        "fact-bzt52c11-vz-max",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-board-p-d8-role",
+        "fact-c461081-vgs",
+        "fact-c22807-resistance",
+        "fact-c23162-resistance"
+      ]
+    },
+    {
+      "key": "b-stock-gap-substitutions",
+      "id": "dec-b-stock-gap-substitutions",
+      "title": "Board B stock-gap substitutions: R21/R27 AT0603BRD07680RL and C11 RVT1E471M0810",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_b_spec"
+      ],
+      "decision": "Owner decision recorded on the project decision card answered 2026-11-01 19:00Z (relayed by the coordinator): adopt YAGEO AT0603BRD07680RL C5455478 for Board B R21 and R27 in place of RT0603BRD07680RL C861519, and Honor RVT1E471M0810 C696190 for C11 in place of HRK GVT1E477M0810CNVC C2983319, then rebuild the development review package. Lands, nets and values are unchanged. BB-R-1..3 and BB-C-1..5 stay as prototype acceptance tests (NOT RUN).",
+      "rationale": "The fitted lines could not cover a 5-set lot: C861519 listed 0 in stock against 10 needed and C2983319 listed 1 against 5. The AT part matches every recorded RT row (680 ohm, 0.1 %, 25 ppm/C, 0.1 W, 75 V, 0603) and adds AEC-Q200. The RVT part keeps 470 uF / 25 V on the same Phi 8 land with a higher 150 kHz ripple rating (342 mA against the 257 mA bank share on the -14.145 V basis, 75.1 %) and the same 25 V Tan delta 0.18, so the same 0.508 ohm 120 Hz maximum ESR as the replaced part (corrected 2026-11-01 after the independent package review; an earlier record read the 35 V column, 0.16). The 150 kHz ESR and the LM2596 output loop with this part are not measured.",
+      "evidence": [
+        "fact-c5455478-resistance",
+        "fact-c5455478-tolerance",
+        "fact-c5455478-tcr",
+        "fact-c5455478-power",
+        "fact-c5455478-voltage",
+        "fact-c5455478-candidate-scope",
+        "fact-c696190-capacitance",
+        "fact-c696190-voltage",
+        "fact-c696190-ripple-120hz",
+        "fact-c696190-ripple-freq-multiplier",
+        "fact-c696190-c11-ripple-margin",
+        "fact-c696190-candidate-scope"
       ]
     }
   ]

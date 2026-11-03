@@ -123,8 +123,8 @@
     },
     {
       "record_id": "rec-c25804",
-      "line_id": null,
-      "candidate_id": "cand-c25804-retired",
+      "line_id": "line-c25804",
+      "candidate_id": null,
       "kind": "standalone",
       "parent_record_id": null,
       "mpn": "0603WAF1002T5E",
@@ -257,7 +257,8 @@
       "package": "R0603",
       "source_ids": [
         "src-c21189-uniroyal",
-        "src-c21189-boardadoc"
+        "src-c21189-boardadoc",
+        "src-c21189-generator"
       ],
       "fact_ids": [
         "fact-c21189-manufacturer",
@@ -266,7 +267,8 @@
         "fact-c21189-overload-current",
         "fact-c21189-temperature",
         "fact-c21189-topology",
-        "fact-c21189-pulse-caveat"
+        "fact-c21189-pulse-caveat",
+        "fact-c21189-reset-strap-topology"
       ],
       "interaction_ids": [],
       "open_domains": [
@@ -424,8 +426,8 @@
     },
     {
       "record_id": "rec-c2983319",
-      "line_id": "line-c2983319",
-      "candidate_id": null,
+      "line_id": null,
+      "candidate_id": "cand-gvt1e477m0810cnvc-c2983319",
       "kind": "standalone",
       "parent_record_id": null,
       "mpn": "GVT1E477M0810CNVC",
@@ -698,7 +700,8 @@
       "package": "C0603",
       "source_ids": [
         "src-c14663-yageo",
-        "src-c14663-generator"
+        "src-c14663-generator",
+        "src-c14663-identity"
       ],
       "fact_ids": [
         "fact-c14663-manufacturer",
@@ -708,7 +711,8 @@
         "fact-c14663-dielectric",
         "fact-c14663-termination",
         "fact-c14663-simulation-caveat",
-        "fact-c14663-c35-topology"
+        "fact-c14663-c35-topology",
+        "fact-c14663-identity"
       ],
       "interaction_ids": [
         "int-c14663-c35"
@@ -731,7 +735,8 @@
       "package": "R0603",
       "source_ids": [
         "src-c22807-uniroyal",
-        "src-c22807-generator"
+        "src-c22807-generator",
+        "src-c22807-identity"
       ],
       "fact_ids": [
         "fact-c22807-manufacturer",
@@ -742,7 +747,8 @@
         "fact-c22807-voltage",
         "fact-c22807-rcwv-squared",
         "fact-c22807-r12-topology",
-        "fact-c22807-pulse-caveat"
+        "fact-c22807-pulse-caveat",
+        "fact-c22807-identity"
       ],
       "interaction_ids": [
         "int-c22807-r12"
@@ -783,6 +789,43 @@
         "pulse-energy-at-installed-waveform"
       ],
       "candidate_id": null
+    },
+    {
+      "record_id": "rec-c696190",
+      "line_id": "line-c696190",
+      "candidate_id": null,
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "RVT1E471M0810",
+      "manufacturer": "Honor Elec",
+      "lcsc": "C696190",
+      "package": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD",
+      "source_ids": [
+        "src-c696190-primary",
+        "src-c696190-identity"
+      ],
+      "fact_ids": [
+        "fact-c696190-manufacturer",
+        "fact-c696190-identity",
+        "fact-c696190-capacitance",
+        "fact-c696190-tolerance",
+        "fact-c696190-voltage",
+        "fact-c696190-temperature",
+        "fact-c696190-tan-delta",
+        "fact-c696190-esr-120hz",
+        "fact-c696190-ripple-120hz",
+        "fact-c696190-ripple-freq-multiplier",
+        "fact-c696190-ripple-hf-derate",
+        "fact-c696190-case-size",
+        "fact-c696190-c11-ripple-share-3can",
+        "fact-c696190-c11-ripple-margin",
+        "fact-c696190-candidate-scope",
+        "fact-c696190-rail-margin"
+      ],
+      "interaction_ids": [],
+      "open_domains": [
+        "switching-frequency-ripple-current"
+      ]
     }
   ]
 }

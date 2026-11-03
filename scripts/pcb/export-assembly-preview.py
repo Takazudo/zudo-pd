@@ -27,6 +27,8 @@ import uuid
 import cadquery as cq
 
 ROOT=Path(__file__).resolve().parents[2]
+# Board P variants that mate with Board B through the same JOUT1/J5 stack contract
+P_BOARDS={'board-p':'boards/board-p/board-p.kicad_pcb','board-p15':'boards/board-p15/board-p15-draft.kicad_pcb'}
 sys.path.insert(0,str(ROOT/'scripts/schgen'))
 from sexp import atom,find_all,load,parse,tokenize
 
@@ -271,6 +273,7 @@ def self_test():
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--board-b',type=Path,default=ROOT/'boards/board-b/board-b.kicad_pcb')
+    parser.add_argument('--board-p',choices=sorted(P_BOARDS),default='board-p',help='Board P variant stacked on Board B')
     parser.add_argument('--project-dir',type=Path)
     parser.add_argument('--output',type=Path,default=ROOT/'boards/board-b/assembly-preview')
     parser.add_argument('--kicad-cli',default=shutil.which('kicad-cli'))
@@ -279,9 +282,9 @@ def main():
     args=parser.parse_args()
     if args.self_test:print(json.dumps(self_test(),indent=2));return
     require(args.kicad_cli,'kicad-cli is required')
-    b_pcb=args.board_b.resolve();p_pcb=ROOT/'boards/board-p/board-p.kicad_pcb';project=(args.project_dir or b_pcb.parent).resolve()
+    p_name=args.board_p;b_pcb=args.board_b.resolve();p_pcb=ROOT/P_BOARDS[p_name];project=(args.project_dir or b_pcb.parent).resolve()
     output=args.output.resolve();require(not output.exists(),'Choose a new preview output directory; never overwrite an existing review')
-    b_tree,p_tree=load(b_pcb),load(p_pcb);source_hashes={'board-b':sha(b_pcb),'board-p':sha(p_pcb)}
+    b_tree,p_tree=load(b_pcb),load(p_pcb);source_hashes={'board-b':sha(b_pcb),p_name:sha(p_pcb)}
     contract_path=ROOT/'boards/board-b/mechanical.json';contract=json.loads(contract_path.read_text())
     contract_hash=sha(contract_path);generator_hash=sha(Path(__file__))
     verification_sources={str(path.relative_to(ROOT)):sha(path) for path in
@@ -378,11 +381,11 @@ def main():
     require(not list(output.glob('*.lck')),'Preview is still open/locked; close it before freezing review artifacts')
     sources={**b_sources,**p_sources}
     for name,expected in sources.items():require(sha(ROOT/name)==expected,'Component model changed during preview generation')
-    require(sha(b_pcb)==source_hashes['board-b'] and sha(p_pcb)==source_hashes['board-p'],'Source PCB changed during preview generation')
+    require(sha(b_pcb)==source_hashes['board-b'] and sha(p_pcb)==source_hashes[p_name],'Source PCB changed during preview generation')
     require(sha(contract_path)==contract_hash and sha(Path(__file__))==generator_hash,'Preview generator or mechanical contract changed during generation')
     for name,expected in verification_sources.items():require(sha(ROOT/name)==expected,'Mechanical verifier changed during generation')
     (output/'README.md').write_text('Review-only assembly. Open preview.kicad_pcb in KiCad and use its 3D viewer. Component models are bundled locally; no global model path is needed. This file adds one BOM/CPL-excluded display footprint for Board P and must not be used for fabrication. The source PCBs are unchanged. Nominal CAD fit does not qualify installed hardware, wire/screwdriver access or powered behavior.\n')
-    report={'schema_version':1,'status':'PASS','pcb_sha256':source_hashes,'generator_sha256':generator_hash,
+    report={'schema_version':1,'status':'PASS','board_p':p_name,'board_p_pcb':P_BOARDS[p_name],'pcb_sha256':source_hashes,'generator_sha256':generator_hash,
             'mechanical_spec_sha256':contract_hash,'model_sources_sha256':sources,'verification_sources_sha256':verification_sources,
             'original_B_nonmodel_geometry_unchanged':True,'model_only_footprints_added':1,'manufacturing_use':False,
             'pd_transform':'P(x,y) -> B(y-0.5,x+12)','board_p_top_z_mm':contract['pd_stack']['nominal_board_p_top_z_mm'],

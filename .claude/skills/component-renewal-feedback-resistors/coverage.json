@@ -112,6 +112,82 @@
         "fact-c23159-power"
       ],
       "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c861163-specification",
+      "record_id": "rec-c861163",
+      "domain": "specification",
+      "status": "COVERED",
+      "reason": "Exact primary specification and distributor identity reviewed.",
+      "fact_ids": [
+        "fact-c861163-manufacturer",
+        "fact-c861163-identity",
+        "fact-c861163-resistance",
+        "fact-c861163-tolerance",
+        "fact-c861163-tcr",
+        "fact-c861163-power"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c705781-specification",
+      "record_id": "rec-c705781",
+      "domain": "specification",
+      "status": "COVERED",
+      "reason": "Exact primary specification and distributor identity reviewed.",
+      "fact_ids": [
+        "fact-c705781-manufacturer",
+        "fact-c705781-identity",
+        "fact-c705781-resistance",
+        "fact-c705781-tolerance",
+        "fact-c705781-tcr",
+        "fact-c705781-power"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c705719-specification",
+      "record_id": "rec-c705719",
+      "domain": "specification",
+      "status": "COVERED",
+      "reason": "Exact primary specification and distributor identity reviewed.",
+      "fact_ids": [
+        "fact-c705719-manufacturer",
+        "fact-c705719-identity",
+        "fact-c705719-resistance",
+        "fact-c705719-tolerance",
+        "fact-c705719-tcr",
+        "fact-c705719-power"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c5455478-specification",
+      "record_id": "rec-c5455478",
+      "domain": "specification",
+      "status": "COVERED",
+      "reason": "Exact YAGEO specification retrieved and hashed 2026-11-01; every row equals the incumbent C861519 record.",
+      "fact_ids": [
+        "fact-c5455478-manufacturer",
+        "fact-c5455478-identity",
+        "fact-c5455478-resistance",
+        "fact-c5455478-tolerance",
+        "fact-c5455478-tcr",
+        "fact-c5455478-power",
+        "fact-c5455478-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c5455478-placement",
+      "record_id": "rec-c5455478",
+      "domain": "placement",
+      "status": "COVERED",
+      "reason": "Adopted 2026-11-01 by dec-b-stock-gap-substitutions; board_b_spec.py places it on the former line's land and nets. Prototype acceptance tests BB-R-1..3 remain NOT RUN.",
+      "fact_ids": [
+        "fact-c5455478-candidate-scope"
+      ],
+      "blocking_fact_ids": []
     }
   ]
 }

@@ -1,0 +1,131 @@
+{
+ "_comment": "Phase 18 checks, rerun in phase 20 after the back-silk mark change, of the 15 V Board P draft PCB (unvalidated draft, no layout review). DRC: native KiCad 10.0.6 kicad-cli pcb drc --severity-all --refill-zones --schematic-parity, run as heavy-guard -> flock /tmp/kicad-native.lock, with board-p15.kicad_sch beside the draft in a scratch tree. The as-built row is the phase 15 run of the unchanged as-built board. ERC: kicad-cli sch erc on board-p15.kicad_sch. RESET scans: scripts/pcb/board-p-reset-clearance.py (same layer, and in-plane to the other copper layer with --cross-layer); the HV set includes VDD_LOC and VDD_MID. Net parity: scripts/pcb/board-p15/pcb-net-parity.py against board_p15_spec.py (net-parity.json).",
+ "board": "boards/board-p15/board-p15-draft.kicad_pcb",
+ "board_sha256": "97acc5f4c712f0be01dbc5d6809a5bd17ecdceb97f3e6a831bef94500117d065",
+ "drc": {
+  "draft": {
+   "unconnected": 0,
+   "violations": {
+    "warning:lib_footprint_issues": 3,
+    "warning:lib_footprint_mismatch": 27,
+    "warning:silk_edge_clearance": 2,
+    "warning:silk_over_copper": 2,
+    "warning:text_height": 16
+   },
+   "schematic_parity": {
+    "extra_footprint": 3
+   }
+  },
+  "as_built": {
+   "unconnected": 0,
+   "violations": {
+    "warning:lib_footprint_issues": 3,
+    "warning:lib_footprint_mismatch": 24,
+    "warning:silk_edge_clearance": 2,
+    "warning:silk_over_copper": 2,
+    "warning:text_height": 18
+   }
+  },
+  "errors": 0,
+  "new_warnings": "None in a silk class beyond the as-built board: silk_over_copper 2 (J1 circle, R12 reference over D5) and silk_edge_clearance 2 (J2/J3 edge lines), both as built; silk_overlap 0. Phase 18 hid the added supplier fields on F.Fab, moved the J2 SCL/SDA, J3 VBUS and U1 reference texts, and put the C30 reference on F.Fab (C38 occupies its as-built spot). lib_footprint_mismatch 27 and text_height 16 are as-built artwork classes.",
+  "schematic_parity_note": "extra_footprint only: MH1, MH2 and MH3, the mounting holes with no schematic symbol, which the exporter rule allows.",
+  "phase20_note": "Phase 20 (review F5): the back-silk mark rev2 reads 'P15 r1', moved 3.071 mm up so it ends where rev2 ended. Placed at the rev2 anchor it reached y=42.26 mm and added one silk_edge_clearance warning; after the move every DRC, parity and ERC count equals phase 18."
+ },
+ "erc": {
+  "errors": 0,
+  "warnings": {
+   "pin_to_pin": 29
+  },
+  "note": "all from the STUSB4500 symbol unspecified pin types"
+ },
+ "reset_clearance_same_layer_mm": [
+  {
+   "mm": 1.353,
+   "reset_item": "U1.6",
+   "hv_item": "U1.9",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.448,
+   "reset_item": "U1.6",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.567,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "U1.9",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.654,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 1.94,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "U1.9",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  },
+  {
+   "mm": 2.016,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "DISCH",
+   "layers": "F.Cu"
+  }
+ ],
+ "reset_clearance_other_layer_mm": [
+  {
+   "mm": 0.686,
+   "reset_item": "R21.1",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.686,
+   "reset_item": "R21.1",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.746,
+   "reset_item": "R21.1",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.811,
+   "reset_item": "U1.6",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.811,
+   "reset_item": "U1.6",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  },
+  {
+   "mm": 0.862,
+   "reset_item": "PCB_TRACK",
+   "hv_item": "PCB_TRACK",
+   "hv_net": "VBUS_VS_DISCH",
+   "layers": "F.Cu/B.Cu"
+  }
+ ],
+ "target": "RESET copper at least 1.0 mm from VBUS_IN, VBUS_VS_DISCH, DISCH, VBEN, VBUS_OUT and Q1_G copper on its layer (the LED proposed 1.0 mm RESET strap keep-out; no manufacturer source)",
+ "as_built_reference": "same-layer 0.222 mm (R13 pads) and 0.325 mm (VBUS_VS_DISCH via); other-layer 0.0 mm (B.Cu VBUS_OUT and VBUS_VS_DISCH tracks under the RESET track)"
+}

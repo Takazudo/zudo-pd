@@ -23,7 +23,7 @@ Do this at the start of every task.
 | `doc/src/content/docs/{project,architecture,research,decisions,verification}/` | Authored narrative: intent, rationale, decisions, plans, handoff | Project | Yes |
 | `circuit/WORKFLOW.md`, `circuit/agent-task-examples.md`, `circuit/templates/` | This agreement, request examples, unpublished authoring templates | Project | Yes |
 | `.claude/skills/component-*/` | Owner evidence bundles (v1 contract), one per exact component or group | Project | Yes, following the contract |
-| `.claude/skills/component-spec-audit/references/inventory.json` | Orderable identities and placements bound by the `led-generator-v1` provider to three board specs | Project | Yes |
+| `.claude/skills/component-spec-audit/references/inventory.json` | Orderable identities and placements bound by the `led-generator-v1` provider to four board specs | Project | Yes |
 | `.claude/skills/component-spec-audit/fixtures/direct-routing.json`, `.claude/skills/component-spec-audit/references/external-vendor-qualifiers.json` | Routing cases and vendor qualifiers | Project | Yes |
 | `.claude/skills/circuit-spec-integration/references/rules.json` | Cross-component integration rules | Project | Yes |
 | `circuit/publication/selection.json` | What is published: record, source and linkable-source IDs, document selections, `expect` count locks | Project | Yes, as a reviewed diff |
@@ -68,7 +68,7 @@ Run these from the project root.
 | `pnpm check:site` | Post-build checks: built references, publication scan, strict link check | No |
 | `pnpm b4push` | Retained circuit tests, strict project gates, host/CAD/model checks, build, site checks and generated-output determinism under one outer heavy guard | No |
 | `pnpm dev` | Dev server with generation in watch mode | No |
-| `pnpm previews:generate` | Render footprint SVG previews with the pinned KiCad Docker image (`zudo-circuit-doc footprints generate`) | Image pull only |
+| `pnpm previews:generate` | Render footprint SVG previews with the pinned KiCad Docker image (`circuit/scripts/previews-generate.sh` around `zudo-circuit-doc footprints generate`) | Image pull only |
 | `pnpm exec zudo-circuit-doc new-component <suffix>` | Create an owner bundle `.claude/skills/component-<suffix>/` from the package template | No |
 | `pnpm exec zudo-circuit-doc validate --online` | Re-download every non-volatile source and compare hashes; never alters retained evidence | **Yes** |
 | `pnpm exec zudo-circuit-doc validate --refresh-source <SOURCE_ID>` | Re-download named sources only | **Yes** |
@@ -179,9 +179,9 @@ The validator recomputes the arithmetic. **Arithmetic is not dimensional proof:*
    - Keep one line per orderable identity, with a unique `line_id` and unique (manufacturer, complete MPN) pair. The line identity fields must match its owner bundle. This project requires a canonical non-empty LCSC C-number for an inventory line; never fabricate or guess one. If exact identity is unresolved, retain it as a candidate or ask for the missing supplier identity before adding an inventory line.
    - Unselected parts belong in `.claude/skills/component-spec-audit/references/candidates.json`; the current 12 candidate records remain validated research and are not published inventory identities.
    - The finite `inventoryProvider.mpnFromValueLcsc` exceptions are `C144397` and `C591344`; preserve those reviewed value-field identities and do not expand the exception without evidence and review.
-   - Record actual placements in `placements[]` with their own board, reference designator and `dnp` state. The provider binds the three generated board specs `scripts/schgen/board_a_spec.py`, `board_b_spec.py` and `board_p_spec.py`; placement binding and DNP are project-checked, not merely declared.
+   - Record actual placements in `placements[]` with their own board, reference designator and `dnp` state. The provider binds the four generated board specs `scripts/schgen/board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py` and `board_p15_spec.py`; placement binding and DNP are project-checked, not merely declared.
    - Update reviewed assertion counts and all affected board generator expectations. Add direct-routing cases to `.claude/skills/component-spec-audit/fixtures/direct-routing.json` for each line.
-6. **Read the `SCOPE:` line** printed by `pnpm circuit:check`. It names the `led-generator-v1` provider, its three bound specs, line/placement/exclusion counts and pin-asset check result. Repeat the actual scope in the report; it proves the declared generator and asset checks ran, not that a physical board was assembled or measured.
+6. **Read the `SCOPE:` line** printed by `pnpm circuit:check`. It names the `led-generator-v1` provider, its four bound specs, line/placement/exclusion counts and pin-asset check result. Repeat the actual scope in the report; it proves the declared generator and asset checks ran, not that a physical board was assembled or measured.
 7. **Obtain CAD** through Workflow D if the part goes on a board.
 8. **Update the publication selection in the same task** (see [Publication policy](#publication-policy)), then run `pnpm circuit:generate`, `pnpm circuit:check`, `pnpm check`, `pnpm build` and `pnpm check:site` from the repository root.
 9. **For a substitution,** compare electrical, firmware, startup, thermal and mechanical dependencies of both exact parts, and record changed design decisions explicitly (use a change-impact note).
@@ -235,7 +235,7 @@ If acquisition is blocked (paywall, login, bot wall, dead link, transport error)
 
 **Input:** the exact orderable variant and its intended board or mechanical use. CAD checks run only when `cad.enabled` is `true` in `circuit.config.ts`, with its symbol libraries, footprint roots and model root configured; otherwise the pin-asset check is reported as SKIPPED.
 
-The live project configuration is [`circuit.config.ts`](../circuit.config.ts): library `zudo-pd`, symbol library `symbols/zudo-pd.kicad_sym`, master root `footprints/kicad`, KiCad library `footprints/kicad/zudo-power.pretty`, model root `footprints/kicad/zudo-pd.3dshapes`, and the reviewed KiCad 9.0.9 preview renderer. Read those exact values before changing CAD configuration; do not copy an upstream minimal example's library names or paths into this project.
+The live project configuration is [`circuit.config.ts`](../circuit.config.ts): library `zudo-pd`, symbol library `symbols/zudo-pd.kicad_sym`, master root `footprints/kicad`, KiCad library `footprints/kicad/zudo-power.pretty`, model root `footprints/kicad/zudo-pd.3dshapes`, and the preview renderer pinned to the KiCad 10.0.6 oracle image (the same digest as the PCB and schematic oracle). `pnpm previews:generate` runs it through `circuit/scripts/previews-generate.sh`, which runs the container as the invoking uid so it can read the generator's private temporary mount. Read those exact values before changing CAD configuration; do not copy an upstream minimal example's library names or paths into this project.
 
 - `libraryName` — the KiCad library name the project's symbols and footprints live under.
 - `symbolLibraries` — one or more `.kicad_sym` paths merged for pin lookups.

@@ -1,0 +1,104 @@
+{
+  "board": "board-b20-draft",
+  "size_mm": [
+    110,
+    85
+  ],
+  "component_count": 269,
+  "schematic_pad_identity": "PASS",
+  "outline_mm": [
+    0.0,
+    0.0,
+    110.0,
+    85.0
+  ],
+  "pd_mating": [
+    {
+      "pin": 1,
+      "board_p_net": "VBUS_OUT",
+      "center_mm": [
+        37.2,
+        18.55
+      ],
+      "board_b20_net": "VIN"
+    },
+    {
+      "pin": 2,
+      "board_p_net": "VBUS_OUT",
+      "center_mm": [
+        37.2,
+        21.09
+      ],
+      "board_b20_net": "VIN"
+    },
+    {
+      "pin": 3,
+      "board_p_net": "ATT",
+      "center_mm": [
+        37.2,
+        23.63
+      ],
+      "board_b20_net": "unconnected-(J5-Pad3)"
+    },
+    {
+      "pin": 4,
+      "board_p_net": "PDOK",
+      "center_mm": [
+        37.2,
+        26.17
+      ],
+      "board_b20_net": "PDOK"
+    },
+    {
+      "pin": 5,
+      "board_p_net": "GND",
+      "center_mm": [
+        37.2,
+        28.71
+      ],
+      "board_b20_net": "GND"
+    },
+    {
+      "pin": 6,
+      "board_p_net": "GND",
+      "center_mm": [
+        37.2,
+        31.25
+      ],
+      "board_b20_net": "GND"
+    }
+  ],
+  "corner_supports": "PASS",
+  "terminal_blocks": [
+    {
+      "reference": "J6",
+      "origin_mm": [
+        7.0,
+        48.0
+      ],
+      "pins": {
+        "1": "GND",
+        "2": "M12_OUT"
+      }
+    },
+    {
+      "reference": "J7",
+      "origin_mm": [
+        7.0,
+        61.0
+      ],
+      "pins": {
+        "1": "P5_OUT",
+        "2": "P12_OUT"
+      }
+    }
+  ],
+  "eurorack_pin_contract": "PASS",
+  "absent_features": {
+    "pogo_row": "OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft",
+    "rail_labels": "OPEN: the B20 draft carries no silkscreen rail labels yet"
+  },
+  "physical_stack_and_cable_fit": "NOT MEASURED",
+  "errors": [],
+  "status": "PASS"
+}

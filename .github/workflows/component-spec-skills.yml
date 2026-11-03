@@ -29,6 +29,7 @@ on:
       - 'lefthook.yml'
       - 'scripts/mdx-format.sh'
       - 'scripts/schgen/**'
+      - 'scripts/pcb/board-p15/**'
       - 'boards/**'
       - 'symbols/**'
       - 'footprints/**'
@@ -55,6 +56,7 @@ on:
       - 'lefthook.yml'
       - 'scripts/mdx-format.sh'
       - 'scripts/schgen/**'
+      - 'scripts/pcb/board-p15/**'
       - 'boards/**'
       - 'symbols/**'
       - 'footprints/**'
@@ -82,46 +84,12 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
-      - name: Validate frozen component contract (offline, strict)
-        run: python3 .claude/skills/component-spec-audit/scripts/validate.py --strict
-      - name: Test validator and fixtures (offline)
-        run: python3 -m unittest discover -s .claude/skills/component-spec-audit/scripts -p 'test_*.py'
-      - name: Test cross-component routing and refusals (offline, strict)
-        run: python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py --strict
-      - name: Self-test the baseline checker (fixture corpus)
-        run: python3 scripts/schgen/check_baseline.py --self-test
-      - name: Smoke-test the schematic generator (temp dir, geometry checks included)
-        run: bash scripts/schgen/run_smoke_test.sh
-      - name: Schematic verifier regression tests
-        run: python3 -m unittest discover -s scripts/schgen -p 'test_*.py'
-      - name: Regen-idempotency check — boards A, B and P (pure Python, no KiCad)
-        # `--intent-to-add` first: a generator change that emits a NEW file
-        # leaves it untracked, and `git diff` cannot see untracked files on
-        # its own — without this the gate passes on a real drift.
-        run: |
-          python3 scripts/schgen/gen_schematic.py board_a_spec
-          python3 scripts/schgen/gen_schematic.py board_b_spec
-          python3 scripts/schgen/gen_schematic.py board_p_spec
-          git add --intent-to-add -A -- boards/
-          git diff --exit-code -- boards/
-      - name: Label-geometry check — boards A, B and P (labels on pin endpoints, no cross-net collisions)
-        run: |
-          python3 scripts/schgen/verify_geometry.py scripts/schgen/board_a_spec.py boards/board-a/board-a.kicad_sch
-          python3 scripts/schgen/verify_geometry.py scripts/schgen/board_b_spec.py boards/board-b/board-b.kicad_sch
-          python3 scripts/schgen/verify_geometry.py scripts/schgen/board_p_spec.py boards/board-p/board-p.kicad_sch
-      - name: Connectivity-baseline drift check — boards A, B and P
-        run: |
-          python3 scripts/schgen/check_baseline.py scripts/schgen/board_a_spec.py scripts/schgen/baselines/board-a.json --allow scripts/schgen/baselines/board-a-allowed-deltas.json
-          python3 scripts/schgen/check_baseline.py scripts/schgen/board_b_spec.py scripts/schgen/baselines/board-b.json --allow scripts/schgen/baselines/board-b-allow.json
-          python3 scripts/schgen/check_baseline.py scripts/schgen/board_p_spec.py scripts/schgen/baselines/board-p.json
-      - name: Validate wave-6 decision lock (decisions.json)
-        run: python3 scripts/schgen/check_decisions.py
-      - name: Courtyards enclose every pad (footprint library)
-        run: python3 footprints/scripts/gen_courtyards.py --check
-      - name: Courtyard geometry and library synchronization regressions
-        run: python3 -m unittest discover -s footprints/scripts -p 'test_gen_courtyards.py'
-      - name: Bare-copper footprints carry CPL/BOM exclusion attrs
-        run: python3 footprints/scripts/check_bare_copper_attrs.py
+      - name: Project Python gates (shared with the local b4push)
+        # One script owns the list so CI and `pnpm b4push` cannot drift apart:
+        # strict component audit, integration forward tests, schgen tests,
+        # regen idempotency, label geometry, baseline drift, decisions.json,
+        # the P15 NVM image rebuild check and the footprint courtyard checks.
+        run: bash circuit/scripts/run-python-gates.sh
 
   # The installed package, project host and compatibility regressions need
   # Node and Python, hence their own root-workspace job.

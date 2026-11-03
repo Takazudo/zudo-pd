@@ -19,5 +19,5 @@ for the prototype's scope and limits.
 The current 110 × 85 mm Board B uses two top-side WJ500V-5.08-2P / C8465 screw-terminal
 blocks and shrouded DEALON synth headers. It requires no printed connector guard.
 Only the current adhesive-leg design is maintained here. Current prototype
-manufacturing outputs are in `manufacturing/releases/corner-support-review/`;
-no renewal hardware has been released or ordered.
+manufacturing outputs are in `manufacturing/releases/corner-support-review/`.
+Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered. Nothing is released or validated.

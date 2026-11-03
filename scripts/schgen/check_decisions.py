@@ -31,7 +31,7 @@ REQUIRED_TOP_KEYS = {
 }
 REQUIRED_FIELDS = {"key", "id", "title", "status", "applies_to", "decision", "rationale", "evidence"}
 STATUS_ENUM = {"LOCKED", "NO-SPEC-CHANGE-NEEDS-BENCH", "DISPOSITION"}
-APPLIES_TO_RE = re.compile(r"^(#\d+|board_[abp]_spec|doc)$")
+APPLIES_TO_RE = re.compile(r"^(#\d+|board_([abp]|p15)_spec|doc)$")
 LCSC_RE = re.compile(r"^C\d+$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 ID_VALUE_RE = re.compile(r"^(fact|int|cov|rule|calc|cand|rec|src|line)-[A-Za-z0-9./+-]+$")

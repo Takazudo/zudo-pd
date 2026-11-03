@@ -94,4 +94,5 @@ a new assembly review with its own source and output hashes.
 The root `zudo-pd.kicad_*` project and `jlcpcb-order-snapshots/` preserve the old
 combined-board orders and their evidence. The [printed accessories](3dp-files/README.md)
 contain the current adhesive legs. Only the latest renewal PCB, prototype outputs
-and leg design are maintained; no renewal hardware has been released or ordered.
+and leg design are maintained. Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered. Nothing is released or validated; see
+[as-built identity](manufacturing/as-built-and-controller.md).

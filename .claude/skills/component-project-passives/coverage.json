@@ -781,11 +781,12 @@
       "record_id": "rec-c14663",
       "domain": "identity-and-rated-capacitance",
       "status": "COVERED",
-      "reason": "fact-c14663-manufacturer; fact-c14663-capacitance; fact-c14663-voltage",
+      "reason": "fact-c14663-manufacturer; fact-c14663-capacitance; fact-c14663-voltage; fact-c14663-identity",
       "fact_ids": [
         "fact-c14663-manufacturer",
         "fact-c14663-capacitance",
-        "fact-c14663-voltage"
+        "fact-c14663-voltage",
+        "fact-c14663-identity"
       ],
       "blocking_fact_ids": []
     },
@@ -845,14 +846,15 @@
       "record_id": "rec-c22807",
       "domain": "identity-value-tolerance-and-thermal-rating",
       "status": "COVERED",
-      "reason": "fact-c22807-manufacturer; fact-c22807-resistance; fact-c22807-tolerance; fact-c22807-power; fact-c22807-tcr; fact-c22807-voltage",
+      "reason": "fact-c22807-manufacturer; fact-c22807-resistance; fact-c22807-tolerance; fact-c22807-power; fact-c22807-tcr; fact-c22807-voltage; fact-c22807-identity",
       "fact_ids": [
         "fact-c22807-manufacturer",
         "fact-c22807-resistance",
         "fact-c22807-tolerance",
         "fact-c22807-power",
         "fact-c22807-tcr",
-        "fact-c22807-voltage"
+        "fact-c22807-voltage",
+        "fact-c22807-identity"
       ],
       "blocking_fact_ids": []
     },
@@ -897,6 +899,54 @@
       "blocking_fact_ids": [
         "fact-c17414-pulse-caveat"
       ]
+    },
+    {
+      "coverage_id": "cov-c696190-electrical-limits",
+      "record_id": "rec-c696190",
+      "domain": "electrical-limits",
+      "status": "COVERED",
+      "reason": "Capacitance, tolerance, rated voltage, temperature range, Tan delta and the 120 Hz ripple rating with its frequency coefficient read from the HONORCAP RVT guide (hashed 2026-11-01).",
+      "fact_ids": [
+        "fact-c696190-manufacturer",
+        "fact-c696190-identity",
+        "fact-c696190-capacitance",
+        "fact-c696190-tolerance",
+        "fact-c696190-voltage",
+        "fact-c696190-temperature",
+        "fact-c696190-tan-delta",
+        "fact-c696190-esr-120hz",
+        "fact-c696190-ripple-120hz",
+        "fact-c696190-ripple-freq-multiplier",
+        "fact-c696190-ripple-hf-derate",
+        "fact-c696190-case-size",
+        "fact-c696190-rail-margin"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c696190-ripple",
+      "record_id": "rec-c696190",
+      "domain": "switching-frequency-ripple-current",
+      "status": "OPEN",
+      "reason": "The 1/ESR bank split on the -14.145 V basis gives C11 257 mA (75.1 %; 74.2-77.3 % over Vsat and a -5 % input) against 342 mA rated at 150 kHz, but the 150 kHz ESR and the LM2596 loop with this part are not measured.",
+      "fact_ids": [
+        "fact-c696190-c11-ripple-share-3can",
+        "fact-c696190-c11-ripple-margin"
+      ],
+      "blocking_fact_ids": [
+        "fact-c696190-c11-ripple-margin"
+      ]
+    },
+    {
+      "coverage_id": "cov-c696190-placement",
+      "record_id": "rec-c696190",
+      "domain": "placement",
+      "status": "COVERED",
+      "reason": "Adopted 2026-11-01 by dec-b-stock-gap-substitutions; board_b_spec.py places it on the former line's land and nets. Prototype acceptance tests BB-C-1..5 remain NOT RUN.",
+      "fact_ids": [
+        "fact-c696190-candidate-scope"
+      ],
+      "blocking_fact_ids": []
     }
   ]
 }

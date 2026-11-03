@@ -1,0 +1,342 @@
+{
+ "status": "SIMULATION of an unvalidated draft; not a measurement. Vendor OPAx187 (SBOMAB6) and CSD18543Q3A (SLPM286) models; BSS138 body diodes and switches are generic (PA).",
+ "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec (ngspice -b, ngbehavior=psa)",
+ "decks": "gen_tracking.py <dir> uic|ramp; run_ladder.sh records the solver variant. RCV1 100 Mohm across Q5 is a simulation-only convergence aid. Phase 10 changes only CRMD (RAMP reset delay) from 100 nF to 470 nF in the deck (CDLY), and moves disable to 235 ms and tstop to 250 ms.",
+ "change": "CRMD 100 nF -> 470 nF C1623: RAMP release 12.0-23.0 ms -> 56.4-108.1 ms after enable (RRMD 100k, Q12 BSS138 VGS(th) 1.5 V max / 0.5 V PA min).",
+ "enable_s": 0.04,
+ "disable_s": 0.235,
+ "solver_variant": {
+  "ramp": {
+   "nom": "FAILED all variants (stops at 0.85 ms, before enable; base, rshunt=1e9, trap+rshunt, trap+2u, 10u, 20u, CCV1)",
+   "adv": "method=trap + rshunt=1e9",
+   "rev": "method=trap",
+   "nomR": "method=trap",
+   "advR": "method=trap",
+   "revR": "method=trap",
+   "disR": "FAILED at the disable edge (stops at 235.017 ms, as in phase 9); the start portion to 235 ms is analysed"
+  },
+  "uic": {
+   "nom": "FAILED (8.4 us)",
+   "adv": "FAILED (57.5 ms, before RAMP release)",
+   "rev": "FAILED (0.42 ms)",
+   "nomR": "FAILED (0.43 ms)",
+   "advR": "FAILED (161.8 ms)",
+   "revR": "FAILED (0.42 ms)",
+   "disR": "NOT RUN (disconnect path unchanged; phase-7 row stands)"
+  }
+ },
+ "runs": {
+  "ramp": {
+   "adv": {
+    "t_end_ms": 250.0,
+    "+12": {
+     "prebias_plateau_v": 0.1435,
+     "ramp_start_ms": 96.175,
+     "band_entry_ms": 140.045,
+     "max_slope_v_per_ms": 0.323,
+     "v_before_disable": 12.172
+    },
+    "+5": {
+     "prebias_plateau_v": 0.0514,
+     "ramp_start_ms": 98.415,
+     "band_entry_ms": 140.555,
+     "max_slope_v_per_ms": 0.849,
+     "v_before_disable": 5.094
+    },
+    "-12": {
+     "prebias_plateau_v": 0.0971,
+     "ramp_start_ms": 97.215,
+     "band_entry_ms": 139.675,
+     "max_slope_v_per_ms": 1.469,
+     "v_before_disable": -12.142
+    },
+    "peak_source_a": {
+     "+12": 0.058,
+     "+5": 0.103,
+     "-12": 0.266
+    },
+    "steady_source_a": {
+     "+12": 0.0,
+     "+5": -0.0,
+     "-12": 0.001
+    },
+    "max_p12_minus_absm12_v": 0.3644,
+    "min_p12_minus_absm12_v": -0.2928,
+    "ramp_start_skew_ms": 2.24,
+    "band_entry_skew_ms": 0.88,
+    "p5_last": true,
+    "settled_pp_mv_225_234ms": {
+     "+12": 0.0,
+     "+5": 0.0,
+     "-12": 0.0
+    },
+    "p12_max_while_absm12_lt_0v1": 0.4334,
+    "p12_max_while_absm12_lt_0v6": 0.5834,
+    "absm12_max_while_p12_le_0v5": 0.14,
+    "absm12_max_while_p12_lt_5v2": 5.3583,
+    "p5_max_while_min_analog_lt_1v45": 0.6119,
+    "p5_max_while_min_analog_lt_8v": 3.3753
+   },
+   "advR": {
+    "t_end_ms": 250.0,
+    "+12": {
+     "prebias_plateau_v": 0.0883,
+     "ramp_start_ms": 87.892,
+     "band_entry_ms": 140.602,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": 12.0758
+    },
+    "+5": {
+     "prebias_plateau_v": 0.0296,
+     "ramp_start_ms": 90.877,
+     "band_entry_ms": 141.302,
+     "max_slope_v_per_ms": 0.134,
+     "v_before_disable": 5.0713
+    },
+    "-12": {
+     "prebias_plateau_v": 0.0546,
+     "ramp_start_ms": 87.232,
+     "band_entry_ms": 140.512,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": -12.0528
+    },
+    "peak_source_a": {
+     "+12": 2.013,
+     "+5": 0.403,
+     "-12": 1.91
+    },
+    "steady_source_a": {
+     "+12": 2.013,
+     "+5": 0.401,
+     "-12": 1.91
+    },
+    "max_p12_minus_absm12_v": 0.0888,
+    "min_p12_minus_absm12_v": -0.1618,
+    "ramp_start_skew_ms": 3.645,
+    "band_entry_skew_ms": 0.79,
+    "p5_last": true,
+    "settled_pp_mv_225_234ms": {
+     "+12": 0.0,
+     "+5": 0.0,
+     "-12": 0.0
+    },
+    "p12_max_while_absm12_lt_0v1": 0.126,
+    "p12_max_while_absm12_lt_0v6": 0.5699,
+    "absm12_max_while_p12_le_0v5": 0.5233,
+    "absm12_max_while_p12_lt_5v2": 5.3608,
+    "p5_max_while_min_analog_lt_1v45": 0.6337,
+    "p5_max_while_min_analog_lt_8v": 3.3763
+   },
+   "disR": {
+    "t_end_ms": 235.017,
+    "+12": {
+     "prebias_plateau_v": 0.0882,
+     "ramp_start_ms": 87.885,
+     "band_entry_ms": 140.605,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": 12.0751
+    },
+    "+5": {
+     "prebias_plateau_v": 0.0296,
+     "ramp_start_ms": 90.865,
+     "band_entry_ms": 141.31,
+     "max_slope_v_per_ms": 0.134,
+     "v_before_disable": 5.0713
+    },
+    "-12": {
+     "prebias_plateau_v": 0.0547,
+     "ramp_start_ms": 87.22,
+     "band_entry_ms": 140.515,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": -12.053
+    },
+    "peak_source_a": {
+     "+12": 2.013,
+     "+5": 0.403,
+     "-12": 1.91
+    },
+    "steady_source_a": {
+     "+12": 2.013,
+     "+5": 0.401,
+     "-12": 1.91
+    },
+    "max_p12_minus_absm12_v": 0.0349,
+    "min_p12_minus_absm12_v": -0.1619,
+    "ramp_start_skew_ms": 3.645,
+    "band_entry_skew_ms": 0.795,
+    "p5_last": true,
+    "disconnect_us_to_10mA": {
+     "+12": null,
+     "+5": null,
+     "-12": null
+    },
+    "gate_below_1v_us": {
+     "+12": 16.92,
+     "+5": null
+    },
+    "rails_at_end": {
+     "+12": 11.972,
+     "+5": 5.071,
+     "-12": -12.052
+    },
+    "p12_max_while_absm12_lt_0v1": 0.1259,
+    "p12_max_while_absm12_lt_0v6": 0.5693,
+    "absm12_max_while_p12_le_0v5": 0.5234,
+    "absm12_max_while_p12_lt_5v2": 5.3608,
+    "p5_max_while_min_analog_lt_1v45": 0.6337,
+    "p5_max_while_min_analog_lt_8v": 3.3765
+   },
+   "nomR": {
+    "t_end_ms": 250.0,
+    "+12": {
+     "prebias_plateau_v": 0.0883,
+     "ramp_start_ms": 87.893,
+     "band_entry_ms": 140.603,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": 12.0751
+    },
+    "+5": {
+     "prebias_plateau_v": 0.0296,
+     "ramp_start_ms": 90.878,
+     "band_entry_ms": 141.303,
+     "max_slope_v_per_ms": 0.134,
+     "v_before_disable": 5.0713
+    },
+    "-12": {
+     "prebias_plateau_v": 0.0546,
+     "ramp_start_ms": 87.233,
+     "band_entry_ms": 140.513,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": -12.053
+    },
+    "peak_source_a": {
+     "+12": 2.013,
+     "+5": 0.403,
+     "-12": 1.91
+    },
+    "steady_source_a": {
+     "+12": 2.013,
+     "+5": 0.401,
+     "-12": 1.91
+    },
+    "max_p12_minus_absm12_v": 0.035,
+    "min_p12_minus_absm12_v": -0.1618,
+    "ramp_start_skew_ms": 3.645,
+    "band_entry_skew_ms": 0.79,
+    "p5_last": true,
+    "settled_pp_mv_225_234ms": {
+     "+12": 0.0,
+     "+5": 0.0,
+     "-12": 0.0
+    },
+    "p12_max_while_absm12_lt_0v1": 0.126,
+    "p12_max_while_absm12_lt_0v6": 0.5695,
+    "absm12_max_while_p12_le_0v5": 0.5234,
+    "absm12_max_while_p12_lt_5v2": 5.361,
+    "p5_max_while_min_analog_lt_1v45": 0.6338,
+    "p5_max_while_min_analog_lt_8v": 3.3763
+   },
+   "rev": {
+    "t_end_ms": 250.0,
+    "+12": {
+     "prebias_plateau_v": 0.1447,
+     "ramp_start_ms": 97.939,
+     "band_entry_ms": 140.09,
+     "max_slope_v_per_ms": 0.449,
+     "v_before_disable": 12.172
+    },
+    "+5": {
+     "prebias_plateau_v": 0.0521,
+     "ramp_start_ms": 99.541,
+     "band_entry_ms": 140.59,
+     "max_slope_v_per_ms": 0.901,
+     "v_before_disable": 5.094
+    },
+    "-12": {
+     "prebias_plateau_v": 0.0959,
+     "ramp_start_ms": 95.609,
+     "band_entry_ms": 139.715,
+     "max_slope_v_per_ms": 1.211,
+     "v_before_disable": -12.142
+    },
+    "peak_source_a": {
+     "+12": 0.081,
+     "+5": 0.109,
+     "-12": 0.22
+    },
+    "steady_source_a": {
+     "+12": 0.0,
+     "+5": -0.0,
+     "-12": 0.001
+    },
+    "max_p12_minus_absm12_v": 0.2022,
+    "min_p12_minus_absm12_v": -0.2615,
+    "ramp_start_skew_ms": 3.932,
+    "band_entry_skew_ms": 0.875,
+    "p5_last": true,
+    "settled_pp_mv_225_234ms": {
+     "+12": 0.0,
+     "+5": 0.0,
+     "-12": 0.0
+    },
+    "p12_max_while_absm12_lt_0v1": 0.1447,
+    "p12_max_while_absm12_lt_0v6": 0.6576,
+    "absm12_max_while_p12_le_0v5": 0.3211,
+    "absm12_max_while_p12_lt_5v2": 5.3602,
+    "p5_max_while_min_analog_lt_1v45": 0.6367,
+    "p5_max_while_min_analog_lt_8v": 3.3754
+   },
+   "revR": {
+    "t_end_ms": 250.0,
+    "+12": {
+     "prebias_plateau_v": 0.0883,
+     "ramp_start_ms": 87.892,
+     "band_entry_ms": 140.602,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": 12.0742
+    },
+    "+5": {
+     "prebias_plateau_v": 0.0296,
+     "ramp_start_ms": 90.877,
+     "band_entry_ms": 141.302,
+     "max_slope_v_per_ms": 0.134,
+     "v_before_disable": 5.0712
+    },
+    "-12": {
+     "prebias_plateau_v": 0.0546,
+     "ramp_start_ms": 87.232,
+     "band_entry_ms": 140.512,
+     "max_slope_v_per_ms": 0.322,
+     "v_before_disable": -12.0533
+    },
+    "peak_source_a": {
+     "+12": 2.013,
+     "+5": 0.403,
+     "-12": 1.91
+    },
+    "steady_source_a": {
+     "+12": 2.013,
+     "+5": 0.401,
+     "-12": 1.91
+    },
+    "max_p12_minus_absm12_v": 0.0344,
+    "min_p12_minus_absm12_v": -0.1618,
+    "ramp_start_skew_ms": 3.645,
+    "band_entry_skew_ms": 0.79,
+    "p5_last": true,
+    "settled_pp_mv_225_234ms": {
+     "+12": 0.0,
+     "+5": 0.0,
+     "-12": 0.0
+    },
+    "p12_max_while_absm12_lt_0v1": 0.126,
+    "p12_max_while_absm12_lt_0v6": 0.5699,
+    "absm12_max_while_p12_le_0v5": 0.5233,
+    "absm12_max_while_p12_lt_5v2": 5.3608,
+    "p5_max_while_min_analog_lt_1v45": 0.6337,
+    "p5_max_while_min_analog_lt_8v": 3.3763
+   }
+  }
+ },
+ "phase9_reference": "../board-b20-phase9/results.json"
+}

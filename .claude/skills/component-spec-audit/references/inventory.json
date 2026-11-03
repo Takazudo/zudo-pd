@@ -12,14 +12,22 @@
     {
       "board": "board-p",
       "spec": "scripts/schgen/board_p_spec.py"
+    },
+    {
+      "board": "board-p15",
+      "spec": "scripts/schgen/board_p15_spec.py"
+    },
+    {
+      "board": "board-b20-draft",
+      "spec": "scripts/schgen/board_b20_components.py"
     }
   ],
   "assertions": {
-    "orderable_lines": 60,
-    "fitted_lines": 58,
+    "orderable_lines": 128,
+    "fitted_lines": 126,
     "dnp_or_hand_fit_lines": 2,
-    "fitted_placements": 113,
-    "dnp_placements": 8
+    "fitted_placements": 430,
+    "dnp_placements": 12
   },
   "exclusions": [
     {
@@ -76,6 +84,16 @@
       "board": "board-p",
       "refdes": "J3",
       "reason": "bare-copper programming/debug pogo pads; no orderable component"
+    },
+    {
+      "board": "board-p15",
+      "refdes": "J2",
+      "reason": "bare-copper programming/debug pogo pads; no orderable component"
+    },
+    {
+      "board": "board-p15",
+      "refdes": "J3",
+      "reason": "bare-copper programming/debug pogo pads; no orderable component"
     }
   ],
   "lines": [
@@ -97,6 +115,11 @@
         },
         {
           "board": "board-p",
+          "refdes": "U1",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "U1",
           "dnp": false
         }
@@ -137,7 +160,7 @@
           "dnp": false
         },
         {
-          "board": "board-p",
+          "board": "board-p15",
           "refdes": "Q1",
           "dnp": false
         }
@@ -170,11 +193,87 @@
       "owner_skill": "component-bzt52c11-c92321",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "11V zener diode, Q1 gate-source clamp",
+      "function": "11V zener diode, Q1 gate-source clamp (Board P D8 with redundant D13)",
       "placements": [
         {
           "board": "board-a",
           "refdes": "D8",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "D8",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "D13",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "DZ1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "DZ2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "DZ3",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c192739",
+      "mpn": "BZT52C18-7-F",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C192739",
+      "package": "SOD-123_L2.8-W1.8-LS3.7-RD",
+      "owner_skill": "component-bzt52c18-7-f",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "18V zener diode, STUSB4500 local clamps (VDD, VBUS_EN_SNK, DISCH)",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D9",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "D11",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "D12",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "D9",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c260890",
+      "mpn": "BZT52C20-7-F",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C260890",
+      "package": "SOD-123_L2.8-W1.8-LS3.7-RD",
+      "owner_skill": "component-bzt52c20-7-f",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20V zener diode, STUSB4500 VBUS_VS_DISCH local clamp",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D10",
           "dnp": false
         }
       ]
@@ -188,7 +287,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "100 kOhm resistor, U1 VBEN pull-up network",
+      "function": "100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider",
       "placements": [
         {
           "board": "board-a",
@@ -197,7 +296,107 @@
         },
         {
           "board": "board-p",
+          "refdes": "R31",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R32",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "R11",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R22",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R23",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R37",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R41",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R45",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R51",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R52",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R53",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R54",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R56",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R60",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R74",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RE2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RF3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RP1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RP2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RRDY1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RRDY2",
           "dnp": false
         }
       ]
@@ -217,6 +416,16 @@
           "board": "board-a",
           "refdes": "R12",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R55",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R75",
+          "dnp": false
         }
       ]
     },
@@ -229,7 +438,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "470 Ohm resistor, VBUS_VS_DISCH discharge path (pin 18)",
+      "function": "470 Ohm resistor, Board A VBUS_VS_DISCH discharge path (pin 18) and DISCH; Board P STUSB4500 VDD feed R30",
       "placements": [
         {
           "board": "board-a",
@@ -243,12 +452,22 @@
         },
         {
           "board": "board-p",
+          "refdes": "R30",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "R13",
           "dnp": false
         },
         {
-          "board": "board-p",
+          "board": "board-p15",
           "refdes": "R14",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R30",
           "dnp": false
         }
       ]
@@ -262,7 +481,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "4.7 kOhm resistor, U1 SCL/SDA I2C pull-up",
+      "function": "4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up, Board P Q1 gate resistor R12 and DISCH series resistor R13",
       "placements": [
         {
           "board": "board-a",
@@ -276,12 +495,27 @@
         },
         {
           "board": "board-p",
-          "refdes": "R15",
+          "refdes": "R12",
           "dnp": false
         },
         {
           "board": "board-p",
-          "refdes": "R16",
+          "refdes": "R13",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R48",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RE1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RF2",
           "dnp": false
         }
       ]
@@ -316,6 +550,16 @@
           "board": "board-p",
           "refdes": "R18",
           "dnp": true
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R17",
+          "dnp": true
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R18",
+          "dnp": true
         }
       ]
     },
@@ -328,7 +572,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "0 Ohm link resistor, CC-line debounce net jumper",
+      "function": "0 Ohm link resistor, CC-line debounce net jumper and Board P RESET-to-GND strap",
       "placements": [
         {
           "board": "board-a",
@@ -348,6 +592,26 @@
         {
           "board": "board-p",
           "refdes": "R20",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R21",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R19",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R20",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R21",
           "dnp": false
         }
       ]
@@ -371,6 +635,31 @@
         {
           "board": "board-p",
           "refdes": "C1",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C18",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C39",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C41",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C42",
           "dnp": false
         }
       ]
@@ -442,7 +731,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling",
+      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling, Board P soft-start Miller capacitor, LM74700 VCAP and STUSB4500 VDD_LOC",
       "placements": [
         {
           "board": "board-a",
@@ -462,6 +751,61 @@
         {
           "board": "board-p",
           "refdes": "C34",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C36",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C37",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C38",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C30",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C34",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C38",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C16",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C17",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C27",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C40",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CP1",
           "dnp": false
         }
       ]
@@ -512,6 +856,16 @@
         },
         {
           "board": "board-p",
+          "refdes": "D7",
+          "dnp": true
+        },
+        {
+          "board": "board-p15",
+          "refdes": "D6",
+          "dnp": true
+        },
+        {
+          "board": "board-p15",
           "refdes": "D7",
           "dnp": true
         }
@@ -582,15 +936,15 @@
       ]
     },
     {
-      "line_id": "line-c2983319",
-      "mpn": "GVT1E477M0810CNVC",
-      "manufacturer": "HRK",
-      "lcsc": "C2983319",
+      "line_id": "line-c696190",
+      "mpn": "RVT1E471M0810",
+      "manufacturer": "Honor Elec",
+      "lcsc": "C696190",
       "package": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD",
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "470 uF 25V aluminum electrolytic capacitor, +13.5V and -13.5V DC-DC output bulk filter",
+      "function": "470 uF 25 V aluminum electrolytic capacitor, Board B -13.5V DC-DC output bulk filter",
       "placements": [
         {
           "board": "board-b",
@@ -642,6 +996,16 @@
           "board": "board-b",
           "refdes": "C9",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C1",
+          "dnp": false
         }
       ]
     },
@@ -677,11 +1041,46 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "1 kOhm resistor, DC-DC feedback divider bottom resistor",
+      "function": "1 kOhm resistor, DC-DC feedback divider bottom resistor; Board P STUSB4500 VDD and VBUS_VS_DISCH series resistors",
       "placements": [
         {
           "board": "board-b",
           "refdes": "R4",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R14",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R28",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R29",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "R29",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RCP1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RCP2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RCP3",
           "dnp": false
         }
       ]
@@ -844,6 +1243,16 @@
           "board": "board-b",
           "refdes": "C16",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C28",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CRMP2",
+          "dnp": false
         }
       ]
     },
@@ -949,6 +1358,16 @@
           "board": "board-b",
           "refdes": "J7",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "J6",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "J7",
+          "dnp": false
         }
       ]
     },
@@ -972,6 +1391,16 @@
           "board": "board-b",
           "refdes": "J11",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "J10",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "J11",
+          "dnp": false
         }
       ]
     },
@@ -990,6 +1419,11 @@
           "board": "board-p",
           "refdes": "J1",
           "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "J1",
+          "dnp": false
         }
       ]
     },
@@ -1000,8 +1434,8 @@
       "lcsc": "C14663",
       "package": "C0603",
       "owner_skill": "component-project-passives",
-      "identity_state": "UNRESOLVED",
-      "source_state": "SOURCE UNAVAILABLE",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
       "function": "100 nF 50 V MLCC",
       "placements": [
         {
@@ -1013,6 +1447,131 @@
           "board": "board-p",
           "refdes": "C35",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "C5",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C2",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "C35",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C4",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C8",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C11",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C15",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C19",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C20",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C21",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C23",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C24",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C25",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C26",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C29",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C31",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C32",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C33",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C34",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C35",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C36",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C37",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C38",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CF1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CF3",
+          "dnp": false
         }
       ]
     },
@@ -1023,31 +1582,51 @@
       "lcsc": "C22807",
       "package": "R0603",
       "owner_skill": "component-project-passives",
-      "identity_state": "UNRESOLVED",
-      "source_state": "SOURCE UNAVAILABLE",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
       "function": "150 kOhm resistor",
       "placements": [
         {
           "board": "board-p",
+          "refdes": "R11",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R27",
+          "dnp": false
+        },
+        {
+          "board": "board-p15",
           "refdes": "R12",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RHO1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RHO2",
           "dnp": false
         }
       ]
     },
     {
-      "line_id": "line-c17414",
-      "mpn": "0805W8F1002T5E",
-      "manufacturer": "UNI-ROYAL",
-      "lcsc": "C17414",
-      "package": "R0805",
-      "owner_skill": "component-project-passives",
-      "identity_state": "UNRESOLVED",
-      "source_state": "SOURCE UNAVAILABLE",
-      "function": "10 kOhm resistor",
+      "line_id": "line-c2941042",
+      "mpn": "LM74700QDBVRQ1",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C2941042",
+      "package": "SOT-23-6_TI-DBV0006A",
+      "owner_skill": "component-lm74700qdbvrq1",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Ideal-diode controller driving the Board P reverse-blocking FET Q3",
       "placements": [
         {
           "board": "board-p",
-          "refdes": "R21",
+          "refdes": "U3",
           "dnp": false
         }
       ]
@@ -1067,6 +1646,11 @@
           "board": "board-p",
           "refdes": "JOUT1",
           "dnp": false
+        },
+        {
+          "board": "board-p15",
+          "refdes": "JOUT1",
+          "dnp": false
         }
       ]
     },
@@ -1083,6 +1667,11 @@
       "placements": [
         {
           "board": "board-b",
+          "refdes": "J5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
           "refdes": "J5",
           "dnp": false
         }
@@ -1182,19 +1771,34 @@
           "board": "board-b",
           "refdes": "R26",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R10",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RVR1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RVR2",
+          "dnp": false
         }
       ]
     },
     {
-      "line_id": "line-c861519",
-      "mpn": "RT0603BRD07680RL",
+      "line_id": "line-c5455478",
+      "mpn": "AT0603BRD07680RL",
       "manufacturer": "YAGEO",
-      "lcsc": "C861519",
+      "lcsc": "C5455478",
       "package": "R0603",
       "owner_skill": "component-renewal-feedback-resistors",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "RT0603BRD07680RL renewal power-stage component",
+      "function": "680 ohm 0.1% 25 ppm/C 0603 thin-film resistor (AT series), Board B R21/R27 feedback divider",
       "placements": [
         {
           "board": "board-b",
@@ -1223,6 +1827,16 @@
           "board": "board-b",
           "refdes": "R23",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R22",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R31",
+          "dnp": false
         }
       ]
     },
@@ -1240,6 +1854,11 @@
         {
           "board": "board-b",
           "refdes": "R24",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R35",
           "dnp": false
         }
       ]
@@ -1305,6 +1924,26 @@
           "board": "board-b",
           "refdes": "C42",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CAF1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CBF1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCF1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CSO3",
+          "dnp": false
         }
       ]
     },
@@ -1323,6 +1962,11 @@
           "board": "board-b",
           "refdes": "U2",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U14",
+          "dnp": false
         }
       ]
     },
@@ -1340,6 +1984,41 @@
         {
           "board": "board-b",
           "refdes": "L1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "L1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "L2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "L3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "L4",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "L5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "L6",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "L7",
           "dnp": false
         }
       ]
@@ -1389,6 +2068,101 @@
           "board": "board-b",
           "refdes": "C46",
           "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C7",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C14",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CAF2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CAO1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CAO2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CBF2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CBO1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CBO2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCF2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCIN1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCIN2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCO1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCO2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCO3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CCO4",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CSO1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CSO2",
+          "dnp": false
         }
       ]
     },
@@ -1425,6 +2199,51 @@
           "board": "board-b",
           "refdes": "R2",
           "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R25",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R4",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R8",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R12",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R14",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R19",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R39",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R43",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RVX2",
+          "dnp": false
         }
       ]
     },
@@ -1437,10 +2256,10 @@
       "owner_skill": "component-renewal-input-protection",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "15V-only input surge TVS",
+      "function": "15V-only input surge TVS (15 V Board P)",
       "placements": [
         {
-          "board": "board-p",
+          "board": "board-p15",
           "refdes": "D5",
           "dnp": false
         }
@@ -1460,6 +2279,1694 @@
         {
           "board": "board-b",
           "refdes": "D3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "D1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "D2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c1849461",
+      "mpn": "TPS16630PWPR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C1849461",
+      "package": "HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT",
+      "owner_skill": "component-tps16630pwpr",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20V input eFuse with adjustable OVP, UVLO and current limit (Board P r3 front end)",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "U2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c523793",
+      "mpn": "TVS2200DRVR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C523793",
+      "package": "WSON-6_L2.0-W2.0-P0.65-BL-EP",
+      "owner_skill": "component-tvs2200drvr",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20V connector flat-clamp TVS, 22V standoff",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D5",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861163",
+      "mpn": "RT0603BRD07174KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861163",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "174 kOhm precision eFuse OVP divider resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R24",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R9",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R18",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R20",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c705781",
+      "mpn": "RT0603BRD074K02L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C705781",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "4.02 kOhm precision eFuse current-limit and UVLO divider resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R26",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "R23",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R6",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R16",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R17",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R21",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R23",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c840100",
+      "mpn": "CSD18543Q3A",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C840100",
+      "package": "VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A",
+      "owner_skill": "component-csd18543q3a",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20V input reverse-blocking power MOSFET",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "Q3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q4",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q6",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c40912",
+      "mpn": "BSS138-7-F",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C40912",
+      "package": "SOT-23_DIODES-DS30144-SUGGESTED",
+      "owner_skill": "component-diodes-bss138-7-f",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "small-signal MOSFET, Board P Q5 body diode in the Q1 Miller soft-start network and Q6 VBUS_EN_SNK cascode",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "Q5",
+          "dnp": false
+        },
+        {
+          "board": "board-p",
+          "refdes": "Q6",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q10",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q11",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q12",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q25",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q30",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q32",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q33",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q35",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q36",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q37",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q38",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q39",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q40",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q41",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q42",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q43",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q44",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q45",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q46",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q47",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q48",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q49",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q50",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q51",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q52",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q55",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q57",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q59",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q60",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q61",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q62",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q63",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q64",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q65",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q66",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c705719",
+      "mpn": "RT0603BRD0711K5L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C705719",
+      "package": "R0603",
+      "owner_skill": "component-renewal-feedback-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "11.5 kOhm precision eFuse UVLO divider resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R22",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R15",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R24",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R25",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R26",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c461081",
+      "mpn": "DMP3036SFG-7",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C461081",
+      "package": "PowerDI3333-8_DMP3036SFG",
+      "owner_skill": "component-diodes-dmp3036sfg-7",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board P 20 V / 5 A output load-switch P-channel MOSFET",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "Q1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q24",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q31",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q34",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q54",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "Q56",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c162241",
+      "mpn": "GRM1885C1H682JA01D",
+      "manufacturer": "Murata Electronics",
+      "lcsc": "C162241",
+      "package": "C0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 6.8 nF C0G 0603 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "C5",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c1671",
+      "mpn": "CL10C470JB8NNNC",
+      "manufacturer": "Samsung Electro-Mechanics",
+      "lcsc": "C1671",
+      "package": "C0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 47 pF C0G 0603 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "C6",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c3882413",
+      "mpn": "GRM2165C1H273JA01D",
+      "manufacturer": "Murata Electronics",
+      "lcsc": "C3882413",
+      "package": "C0805",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 27 nF C0G 0805 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "C9",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c37298",
+      "mpn": "CL10C151JB8NNNC",
+      "manufacturer": "Samsung Electro-Mechanics",
+      "lcsc": "C37298",
+      "package": "C0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 150 pF C0G 0603 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "C10",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "C13",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c5451690",
+      "mpn": "C1206N473J050T",
+      "manufacturer": "Holy Stone Enterprise Co., Ltd.",
+      "lcsc": "C5451690",
+      "package": "C1206",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "UNRESOLVED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 47 nF C0G 1206 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "C12",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c107046",
+      "mpn": "CC0603JRNPO9BN271",
+      "manufacturer": "YAGEO",
+      "lcsc": "C107046",
+      "package": "C0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 270 pF C0G 0603 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "C22",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c85973",
+      "mpn": "GRM1885C1H103JA01D",
+      "manufacturer": "Murata Electronics",
+      "lcsc": "C85973",
+      "package": "C0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 10 nF C0G 0603 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "C30",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CT5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CT12",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c162204",
+      "mpn": "GRM1885C1H152JA01D",
+      "manufacturer": "Murata Electronics",
+      "lcsc": "C162204",
+      "package": "C0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 1.5 nF C0G 0603 capacitor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "CI5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "CI12",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c85100",
+      "mpn": "B560C-13-F",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C85100",
+      "package": "SMC_Diodes_B560C_C85100",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft D3 60 V Schottky (SMC (DO-214AB))",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "D3",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c25804",
+      "mpn": "0603WAF1002T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C25804",
+      "package": "R0603",
+      "owner_skill": "component-project-passives",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "10 kOhm resistor, DC-DC feedback divider bottom resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R49",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c5455461",
+      "mpn": "AT0603BRD07145KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C5455461",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 145 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R3",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R11",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c728593",
+      "mpn": "RT0603BRD0754K9L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C728593",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 54.9 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R7",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861462",
+      "mpn": "RT0603BRD0752K3L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861462",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 52.3 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R13",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c122538",
+      "mpn": "RT0603BRD07100KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C122538",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 100 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R27",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RI5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RI12",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RMA1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23163",
+      "mpn": "0603WAF4704T5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C23163",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 4.7 MOhm 1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R28",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c705791",
+      "mpn": "RT0603BRD07649RL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C705791",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 649 Ohm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R29",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861304",
+      "mpn": "RT0603BRD072K74L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861304",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 2.74 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R30",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c705741",
+      "mpn": "RT0603BRD071K5L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C705741",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 1.5 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R32",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c515735",
+      "mpn": "RT0603BRD0710K2L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C515735",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 10.2 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R33",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RLM2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c4353204",
+      "mpn": "TNPW060310K1BEEA",
+      "manufacturer": "Vishay Intertech",
+      "lcsc": "C4353204",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 10.1 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R34",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c723637",
+      "mpn": "RT0603BRD0720KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C723637",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 20 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R36",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861526",
+      "mpn": "RT0603BRD0769K8L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861526",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 69.8 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R38",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c7250",
+      "mpn": "0603WAF1005T5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C7250",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 10 MOhm 1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R40",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R44",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R50",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861244",
+      "mpn": "RT0603BRD0723K2L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861244",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 23.2 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R42",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c705799",
+      "mpn": "RT0603BRD0793K1L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C705799",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 93.1 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R46",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861550",
+      "mpn": "RT0603BRD07750KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861550",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 750 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R47",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c136962",
+      "mpn": "RT0603BRD0747K5L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C136962",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 47.5 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R57",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c326735",
+      "mpn": "RT0603BRD0712KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C326735",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 12 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R58",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861162",
+      "mpn": "RT0603BRD07172KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861162",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 172 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R59",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23178",
+      "mpn": "0603WAF4703T5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C23178",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 470 kOhm 1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R61",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RAEN1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RBEN1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RCEN1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c22935",
+      "mpn": "0603WAF1004T5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C22935",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 1 MOhm 1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R62",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RJ5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RJ12",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861420",
+      "mpn": "RT0603BRD0746K4L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861420",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 46.4 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R63",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861266",
+      "mpn": "RT0603BRD0726K4L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861266",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 26.4 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R64",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c136967",
+      "mpn": "RT0603BRD0724K9L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C136967",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 24.9 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R65",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861076",
+      "mpn": "RT0603BRD0710K4L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861076",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 10.4 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R66",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861078",
+      "mpn": "RT0603BRD0710K7L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861078",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 10.7 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R67",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c326729",
+      "mpn": "RT0603BRD0724KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C326729",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 24 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R68",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861086",
+      "mpn": "RT0603BRD07118KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861086",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 118 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R69",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c326723",
+      "mpn": "RT0603BRD0763K4L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C326723",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 63.4 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R70",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861309",
+      "mpn": "RT0603BRD07301KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861309",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 301 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R71",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c17414",
+      "mpn": "0805W8F1002T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C17414",
+      "package": "R0805",
+      "owner_skill": "component-project-passives",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "10 kOhm resistor (Board P r2 R21 RESET pulldown, superseded)",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R72",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "R73",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RF1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RG1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RG2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RG3",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c17917",
+      "mpn": "1206W4F1500T5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C17917",
+      "package": "R1206_TA-I-RLS12",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 150 Ohm 1 % 1206 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "R76",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23153",
+      "mpn": "0603WAF3902T5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C23153",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 39 kOhm 1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RAEN2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RBEN2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RCEN2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861510",
+      "mpn": "RT0603BRD0764K9L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861510",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 64.9 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RLM1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861616",
+      "mpn": "RT0603BRD079K76L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861616",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 9.76 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RLV1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861068",
+      "mpn": "RT0603BRD07102KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861068",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 102 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RLV2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c326733",
+      "mpn": "RT0603BRD0715KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C326733",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 15 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RMA2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23067428",
+      "mpn": "PCSR2512BR010M6",
+      "manufacturer": "RESI",
+      "lcsc": "C23067428",
+      "package": "R2512_RESI-PCSR2512_Kelvin",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "UNRESOLVED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 10 mOhm 0.1 % limiter shunt candidate",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RSH1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "RSH3",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c164156",
+      "mpn": "PE1206FRF470R02L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C164156",
+      "package": "R1206_TA-I-RLS12",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 20 mOhm limiter shunt candidate",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RSH2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c861233",
+      "mpn": "RT0603BRD07226KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C861233",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 226 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RVU1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c309650",
+      "mpn": "RT0603BRD0718KL",
+      "manufacturer": "YAGEO",
+      "lcsc": "C309650",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 18 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RVU2",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c705764",
+      "mpn": "RT0603BRD0730K1L",
+      "manufacturer": "YAGEO",
+      "lcsc": "C705764",
+      "package": "R0603",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 30.1 kOhm 0.1 % 0603 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RVX1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c18005",
+      "mpn": "1206W4F330JT5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C18005",
+      "package": "R1206_TA-I-RLS12",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 33 Ohm 1 % 1206 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RX5",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c17901",
+      "mpn": "1206W4F1000T5E",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "lcsc": "C17901",
+      "package": "R1206_TA-I-RLS12",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 100 Ohm 1 % 1206 resistor",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "RX12",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c31966",
+      "mpn": "TPS54560DDAR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C31966",
+      "package": "HSOP-8_TI-DDA0008B",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft buck and inverting buck-boost converter candidate",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "U1",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U2",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U3",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2863562",
+      "mpn": "OPA2187IDGKR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C2863562",
+      "package": "VSSOP-8_TI-DGK0008A",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft precision servo and window comparator op amp candidate",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "U4",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U5",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U6",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U7",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U8",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U9",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U13",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U15",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U16",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c11341",
+      "mpn": "REF5025AIDR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C11341",
+      "package": "SOIC-8_TI-D0008A",
+      "owner_skill": "component-board-b20-draft-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B 20 V draft 2.5 V precision reference candidate",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "U10",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2861552",
+      "mpn": "INA301A3IDGKR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C2861552",
+      "package": "VSSOP-8_TI-DGK0008A",
+      "owner_skill": "component-ti-board-b-limiter-candidates",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "Board B interface limiter current-sense comparator candidate",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refdes": "U11",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "U12",
           "dnp": false
         }
       ]
