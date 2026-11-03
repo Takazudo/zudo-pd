@@ -98,12 +98,13 @@ flowchart LR
 | RLS12FTCR020 C163047 (TA-I) | stock alternative for the 20 mΩ shunts | Candidate `rec-c163047`. Source is an LCSC-hosted manufacturer sheet (MANUFACTURER_MIRROR); facts are **UNSOURCED** until a manufacturer-primary copy is retained. JLC stock 24,785 (read-only lookup, 2026-10-31) |
 | INA301A3IDGKR C2861552 | U11, U12 | Existing candidate `rec-c2861552`, SBOS713A (G) |
 | CSD18543Q3A, BSS138, DMP3036SFG-7, BZT52C11, ASPI-0630LR, 25SVPF47M, GRM32 10 µF, RT0603 0.1 % values, project 0603/0805/1206 passives | switches, logic, filters, dividers | Existing owner records |
-| Values labelled `R_PROPOSED` / `C_PROPOSED` | FB tops, compensation, window dividers, servo injection, tracking network, discharge loads, hold-up | **PROPOSED**, no owner record. Phase 13: 10k 0.1 %, 4.02k 1 % and 8.2k 1 % are bound to the owned RT0603 parts (C95204, C705781, C861589). The other 70 placements resolve to distributor listings in `manufacturing/readiness/b20-identity-resolution.json` (no manufacturer document, no owner record), except 27 nF and 47 nF C0G (**UNKNOWN**, no exact 0603 listing found) |
+| Values labelled `R_PROPOSED` / `C_PROPOSED` | FB tops, compensation, window dividers, servo injection, tracking network, discharge loads, hold-up | **PROPOSED**. Phase 13: 10k 0.1 %, 4.02k 1 % and 8.2k 1 % are bound to the owned RT0603 parts (C95204, C705781, C861589). Phase 32: 64 of the remaining placements have SHORTLISTED candidate records with a hashed manufacturer document (YAGEO, UNI-ROYAL, Vishay, Murata, Samsung) in `component-board-b20-draft-candidates`; FH 0603CG271J500NT (270 pF) is still a distributor listing only, and 27 nF / 47 nF C0G have no in-stock 0603 part (**BLOCKED** on a land change, §3a phase 32). Identities: `manufacturing/readiness/b20-identity-resolution.json` |
 | DW254P-2X8-L0 C4749189 | J10, J11 (phase 13) | Existing owner `component-dealon-dw254p-2x8-l0-c4749189`; pin map as on the current Board B (1/2 −12 V, 3–8 GND, 9/10 +12 V, 11/12 +5 V, 13/14 CV, 15/16 GATE) |
 
 The new ICs are SHORTLISTED candidates in `.claude/skills/component-board-b20-draft-candidates/`.
 Phase 19 drew the five former `*_DRAFT` footprints in `footprints/kicad/` (both library copies; courtyards
-from `gen_courtyards.py`). None is fabrication-reviewed and none has a 3D model. Each land is recorded as a
+from `gen_courtyards.py`). None is fabrication-reviewed. Phase 32 attached maximum-envelope body models (boxes at the
+outline maxima, `scripts/pcb/generate-package-envelopes.py`; visualization only). Each land is recorded as a
 `-land-pattern` fact in its owner bundle:
 
 | Footprint (was) | Placements | Land source | Evidence class |
@@ -646,6 +647,150 @@ This closes routing completeness only. Layout review, DFM and fabrication review
   SMC or PowerDI5 rectifier, would need new component evidence before it can be proposed by MPN. **OPEN.** Measure D3's
   case temperature at 2.0 A on −12 V and VIN 21 V; that is the bench row that decides.
 
+#### Phase 32: in-stock divider values, passive evidence, D3 alternatives, body models, export dry run
+
+**Stock-short dividers replaced by ratio-preserving in-stock pairs (spec change).** The eight values that were below a
+5-unit lot on 2026-10-31 had no in-stock 0.1 % listing in 0603. A sweep of all 576 YAGEO RT0603BRD E192 order codes
+(2026-11-02, read-only JLCPCB catalog API; 321 with stock ≥ 10) gave pairs that keep each divider ratio. The lands
+stay 0603, so placement and routing are unchanged. Every new value is a YAGEO RT0603BRD 0.1 % 25 ppm/°C part with a
+hashed per-part YAGEO sheet:
+
+| Divider | Was | Now | Ratio error | Threshold (nominal) | Stock (2026-11-02) |
+|---|---|---|---|---|---|
+| RVU1 / RVU2 (VIN UV) | 221k / 17.6k | 226k / 18k | −0.010 % | 16.946 → 16.944 V | 1457 / 47401 |
+| RT12NB / RT12NA (−12 V tracking) | 806k / 100k | 750k / 93.1k | −0.05 % | gain 8.060 → 8.056; clamp bound A_M12 1.0947 → 1.0942 | 5648 / 8088 |
+| RLV2 / RLV1 (+12 V level) | 92k / 8.87k | 102k / 9.76k | +0.014 % | weight 0.91816 → 0.91817 (SEQ unchanged to 4 places) | 8850 / 2604 |
+| ROV12A / B | 54.2k / 13.7k | 47.5k / 12k | +0.054 % | OV 12.390 → 12.396 V | 1612 / 47617 |
+| RUV12A / B | 232k / 62.6k | 172k / 46.4k | +0.022 % | UV 11.765 → 11.767 V | 4185 / 17343 |
+| ROV5A / B | 10.6k / 10k | 26.4k / 24.9k | +0.023 % | OV 5.150 → 5.151 V | 3659 / 14650 |
+| ROVNA / B (REF to −12 V) | 40.7k / 200k | 24k / 118k | −0.054 % | OV \|V\| 12.285 → 12.292 V | 51037 / 8149 |
+| RUVNA / B | 41.7k / 198k | 63.4k / 301k | +0.012 % | UV \|V\| 11.871 → 11.869 V | 6835 / 7323 |
+
+- RT12NA also loads RAMP (20k from REF25). 93.1k moves the RAMP end point from 2.083 V to 2.058 V; the initial ramp
+  slope (REF / 20k / C) does not change. `calculate-board-b20-draft.py` now gives first band entry ≥ 28.03 ms (was
+  27.65 ms) and band-entry skew 1.510 ms (was 1.500 ms); every row keeps its previous status (OV/UV windows, VIN UV,
+  slopes, ramp duration: PASS (arithmetic)).
+- The §5 ngspice decks were not re-run with the new values: **NOT RUN** (time; the arithmetic shifts above are
+  0.01–0.05 % on thresholds and 1.2 % on the RAMP end point). Re-run §5c–§5f before relying on the simulated rows.
+- UV5 (10.4k / 10.7k) stays: both were in stock (11 and 90). 10.4k at 11 units is thin for a 5-unit lot plus attrition.
+
+**27 nF and 47 nF C0G: BLOCKED on a land change.** No 0603 C0G 27 nF or 47 nF part (any voltage) was found in stock
+(Murata GRM1885, Samsung CL10C, FH 0603CG, TDK C1608, KEMET, Yageo CC0603 model queries). In-stock C0G parts need a
+larger land: Murata GRM2165C1H273JA01D C3882413 (0805, 7108 in stock, Murata reference sheet hashed; new candidate
+`rec-c3882413`) for buck B's CBCP, and Holy Stone C1206N473J050T C5451690 (1206, 1204) or C1210N473K050T C106097 (1210,
+1818) for CCCP (no manufacturer sheet retrieved: listing only). Both sites are packed: CCCP (C12) sits 3 mm from R11,
+CBCP (C9) 4.7 mm from RJ5 and 3.9 mm from D2. The spec keeps 0603 until a layout change is chosen. Changing the
+dielectric to X7R in 0603 would keep the layout but move the compensation zero with X7R tolerance and temperature;
+that needs the AC runs again and is not proposed here.
+
+**Passive owner evidence (68 listing-only placements, power path first).** 47 SHORTLISTED candidate records were added
+to `component-board-b20-draft-candidates`, each with a manufacturer document retrieved and hashed on 2026-11-02 and a
+locked distributor identity:
+
+| Family | Records | Source |
+|---|---|---|
+| YAGEO RT0603BRD / AT0603BRD 0.1 % 25 ppm/°C | 32 | per-part YAGEO sheet (`yageogroup.com/component-documentation/download/specsheet/<MPN>`); the sheet is generated on request, so the hash is of that day's bytes |
+| UNI-ROYAL 0603WAF / 1206W4F 1 % | 8 (incl. the 1206 discharge loads 33 / 100 / 150 Ω) | SMD-SP-001 V.7, same SHA-256 as the component-project-passives source; values decoded by its part-number system |
+| Vishay TNPW060310K1BEEA | 1 | document 28758 (10-Apr-2026) |
+| Murata GRM1885C1H 1.5 nF / 6.8 nF / 10 nF C0G | 3 | GRM1885C1H…-01A reference sheets |
+| Samsung CL10C151JB8NNNC / CL10C470JB8NNNC | 2 | Samsung reference sheets |
+| Murata GRM2165C1H273JA01D (unplaced 0805 alternative) | 1 | GRM2165C1H273JA01-01A reference sheet |
+
+64 of the placed draft passives now cite a manufacturer document. Still open: FH 0603CG271J500NT (CI12N, 270 pF) is a
+listing only; 27 nF / 47 nF C0G (above). The UNI-ROYAL sheet gives continuous power (1/4 W to 70 °C, derated to zero
+at 155 °C) and 200 V maximum working voltage for 1206, but no pulse or single-shot energy rating, so the discharge-load
+pulse rating stays **UNKNOWN**. None of these is bound to the central inventory: B20 remains unbound.
+
+**D3 alternatives (≥ 60 V Schottky in a larger package).** Two Diodes Incorporated parts in stock on 2026-11-02, with
+hashed manufacturer datasheets and new SHORTLISTED candidate records:
+
+| Item | SDT5A60SA-13 (fitted, SMA) | PDS760-13 C96113 (PowerDI5) | B560C-13-F C85100 (SMC) |
+|---|---|---|---|
+| Datasheet | DS41091 Rev. 4-2 | DS30477 Rev. 14-2 | DS13012 Rev. 19-2 |
+| VRRM / IO | 60 V / 5 A | 60 V / 7 A | 60 V / 5 A |
+| VF max | 0.52 V at 5 A, 25 °C | 0.62 V at 7 A (0.54 V at 3.5 A), 25 °C; 0.56 / 0.47 V at 125 °C | 0.70 V at 5 A, 25 °C |
+| IR max hot | none (50 mA typical at 125 °C) | 20 mA at 60 V, 125 °C | 20 mA at rated VR, 100 °C |
+| Junction to package | RθJC 27 °C/W | RθJS ≤ 1.5 °C/W (soldering point) | RθJT 10 °C/W (terminal) |
+| RθJA on the datasheet board | 56 °C/W (1 in², 2 oz, 264 mm² pad) | 85 (FR-4 2 oz, minimum pad) / 45 (polyimide 2 oz, 9.4 × 7.2 mm cathode pad) | 50 (8 mm pads, 0.033 mm) |
+| Stock | 771 | 7918 | 109197 |
+
+Thermal re-estimate at the limiter maximum (2.0 A average diode current, 40 °C air), desk only:
+
+| | SDT5A60SA | PDS760 | B560C |
+|---|---|---|---|
+| Forward loss bound | 1.04 W | 1.24 W (7 A row; the diode current peaks near 4.1 A, above the 3.5 A row) | 1.40 W |
+| Junction above its package reference | ≤ 28 K (case) | ≤ 1.9 K (soldering point) | ≤ 14 K (terminal) |
+| TJ on the datasheet's own board | 98 °C | 145 °C on FR-4 minimum pad; 96 °C on the Note 7 pad | 110 °C |
+| Reverse-loss bound at about 35 V, 40 % of the period | none (typical 0.7 W at 125 °C) | ≤ 0.28 W at 125 °C | ≤ 0.28 W at 100 °C |
+
+- PDS760 removes the junction-to-case term, so its junction follows the copper it is soldered to, but that copper is
+  its cathode tab, which in this inverter is the C_SW switching node. Spreading its heat means enlarging the SW node.
+- B560C has a bounded leakage and a 10 °C/W terminal path, which the anode can take into the M12_RAW_D3 pour, but it
+  dissipates about 35 % more than SDT5A60SA.
+- Neither is a demonstrated improvement on B20: the board's local copper temperature is still UNKNOWN. **OPEN**.
+
+**Footprint fit: FAIL at the current placement.** A courtyard screen at D3's centre (x 33.05, y 42.98, 180°):
+PowerDI5 (land 5.60 × 4.86 mm from the Suggested Pad Layout, courtyard 6.2 × 5.4 mm) overlaps C11 and U3 in either
+orientation (and Q47 when turned); SMC (land 9.40 × 3.30 mm, courtyard 9.9 × 3.8 mm) overlaps CCIN1 and L5. No
+overlap-free position exists within ±4 mm of the current centre. Either part needs a change to the inverter stage
+template and a re-route; no land or model was drawn.
+
+**Body models for the five project footprints.** `scripts/pcb/generate-package-envelopes.py --only …` writes
+maximum-envelope STEP/WRL pairs from the outline maxima, the same convention as the Board P draft parts:
+
+| Footprint | Model | Outline source |
+|---|---|---|
+| `HSOP-8_TI-DDA0008B` | `HSOP-8_DDA_MaxEnvelope_W4.0-L5.0-H1.7` | DDA0008B 4214849/B (SLVSBN0C, hash matches the retained source) |
+| `VSSOP-8_TI-DGK0008A` | `VSSOP-8_DGK_MaxEnvelope_W3.1-L3.1-H1.1` | DGK0008A 4214862/A (SBOS807E, hash matches) |
+| `SOIC-8_TI-D0008A` | `SOIC-8_D_MaxEnvelope_W3.98-L5.0-H1.75` | D0008A 4214825/C (SBOS410O, hash matches) |
+| `R1206_TA-I-RLS12` | `R1206_MaxEnvelope_L3.45-W1.85-H0.89` | YAGEO PE1206 L/W/T maxima; covers the UNI-ROYAL 1206 body |
+| `R2512_RESI-PCSR2512_Kelvin` | `R2512_PCSR2512_MaxEnvelope_L6.6-W3.4-H0.9` | RESI PCSR2512 V8 (mirror copy, **UNSOURCED**) |
+
+They are boxes at body maxima without leads or exposed pads: visualization envelopes, not manufacturer CAD. Leads
+reach the 5.8–6.2 mm span outside the HSOP/SOIC boxes. The generator read each STEP back at exactly its box size. `verify-step-datums.py --board-b <B20 PCB>` (scratch
+output) is **FAIL**: the B20 active model set differs from the reviewed datum manifest
+`scripts/pcb/step-datum-normalizations.json`, which covers only the Board P, board-p15 and Board B models. Adding B20 to
+that reviewed audit is a review step and was not taken.
+
+**PCB carried forward without re-routing.** `build-draft.py` rebuilt the placement from the edited spec, and its
+`dump-geom.py` output is byte-identical to the phase 22 geometry. The phase 31 routes therefore apply unchanged: 3063
+segments and 742 vias, identical to the committed board apart from UUIDs. The board was regenerated from the phase 22
+placement with three things taken from the rebuilt placement: the 16 changed values, the 21 new model references, and
+R65's attributes. R65 is ROV5B; it moved from the owned 10k binding to a proposed 24.9k, so like every unbound draft
+passive it is now excluded from BOM and positions. Native KiCad 10.0.6 DRC with schematic parity (heavy-guard, KiCad
+lock): **PASS (DRC)**, 0 unconnected, 0 errors, 0 parity issues; warnings 2 `via_dangling`, 2
+`lib_footprint_mismatch`. `loop-check.json`, `current-check.json`, `thermal-check.json` and `routing-report.json`
+are unchanged.
+
+**Scratch dry run of the exporter gates (B20 and Board P r3).** A scratch harness runs each gate of
+`scripts/pcb/export-jlcpcb.py` on its own and records the result instead of stopping at the first failure. Nothing
+was written under `manufacturing/releases/`; there was no upload, quote or order. Board P r3 is
+`boards/board-p/r3-draft/board-p-r3-draft.kicad_pcb`, paired with the generated `boards/board-p/board-p.kicad_sch`.
+
+| # | Gate | B20 | Board P r3 |
+|---|---|---|---|
+| 1 | Exporter board binding (`--boards`) | **BLOCKED**: only board-p, board-p15, board-b | **BLOCKED**: same |
+| 2 | Power report freshness | **BLOCKED**: no B20 power-layout / power-budget report | **BLOCKED**: the reports bind the 15 V pair |
+| 3 | STEP datum proof | **FAIL**: model set not in the reviewed manifest | **BLOCKED**: the verifier takes only the as-built board-p |
+| 4 | Assembly (stack) preview freshness | **BLOCKED**: no B20 stack preview | **BLOCKED**: no r3 stack preview |
+| 5 | `validate.py --strict` | PASS | PASS |
+| 6 | `check_forward_tests.py --strict` | PASS | PASS |
+| 7 | Spec / PCB / inventory identity | **FAIL**: footprints and values match, but no B20 placement is in the inventory (198 parts) and 71 proposed passives have no LCSC in the spec | **FAIL**: identities match the inventory, but 48 PCB footprints have no `LCSC` field |
+| 8 | DRC with zone refill and parity | PASS: 0 errors, 0 unconnected, 0 parity | **FAIL**: 5 `items_not_allowed` (keep-outs: R21, U1, D9–D11); parity: 48 missing `LCSC` fields, 14 `net_conflict` on unconnected pins, 3 extra footprints |
+| 9 | Model paths / model bodies | PASS / PASS (198 fitted, all with models) | PASS / PASS (44 fitted) |
+| 10 | ERC | PASS: 0 errors, 35 `pin_to_pin` warnings | PASS: 0 errors, 33 warnings |
+| 11 | Netlist export + `verify_netlist.py` | PASS: 142 nets, 779 nodes | PASS: 46 nets, 184 nodes |
+| 12 | Gerbers, drill, positions, layer set | **FAIL**: the exporter plots F.Cu and B.Cu only, so a 4-layer B20 package would lack In1.Cu and In2.Cu | PASS |
+| 13 | BOM / CPL parity | **FAIL**: no BOM row can be formed (no inventory identity); the 71 proposed parts are excluded from positions | PASS for the 44 fitted parts with identities (J2/J3 are registered bare copper) |
+
+What closes the gates:
+
+- Bind B20 (and r3) to the inventory and to the exporter.
+- Add the inner copper layers to the exporter layer set for 4-layer boards.
+- Write the r3 `LCSC` fields, and resolve its keep-out and unconnected-pin parity items.
+- Add the B20 models to the reviewed STEP datum manifest.
+- Build the B20 and r3 stack previews and power reports.
+
 ## 4. Gate table against the OSC–PD contract
 
 | Contract item | Result | Basis |
@@ -663,7 +808,7 @@ This closes routing completeness only. Layout review, DFM and fabrication review
 | Discharge order under load (§3) | **OPEN** | After disconnect each rail falls at I/C into its own load (2.0 A on 180 µF is 11 V/ms). An asymmetric OSC load reorders the rails. Guaranteeing the order needs a tracked ramp-down (RAMP falling while the pairs stay in tracking): a contract change, proposed but not drawn |
 | Discharge resistor pulse rating | **OPEN** | The PROPOSED 1206 loads have no owner record or pulse curve |
 | Disconnect skew ≤ 1 ms (§3) | **PASS (SIM)** | Run `disR`: source current below 10 mA at 21.4 / 20.0 / 24.0 µs after EN_N; skew 4 µs. Gate below 1 V at 15.9 / 16.5 µs |
-| Monotonic common ramp ≥ 10 ms, slope limits (§5) | **PASS (SIM) at the I_TRANSIENT_MIN load; FAIL (SIM) at no load: owner exception requested** | Arithmetic: 0.754 / 0.314 / 0.762 V/ms unclamped and 0.845 / 0.425 / 0.834 V/ms clamped, PASS. Phase 10 (§5d, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in all four completed loaded runs. At no load +5 V reaches 0.85–0.90 V/ms (limit 0.51) and −12 V 1.21–1.47 V/ms (limit 1.22, `adv` fails). Phase 9 failed +5 V in every run |
+| Monotonic common ramp ≥ 10 ms, slope limits (§5) | **PASS (SIM) at the I_TRANSIENT_MIN load; no load: accepted by OSC (+5 V ≤ 0.95 V/ms below 0.45 V; −12 V ≤ 1.47 V/ms below 0.75 V, OSC `pd-interface-20v.md`), owner record pending** | Arithmetic: 0.754 / 0.314 / 0.762 V/ms unclamped and 0.845 / 0.425 / 0.834 V/ms clamped, PASS. Phase 10 (§5d, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in all four completed loaded runs. At no load +5 V reaches 0.85–0.90 V/ms (limit 0.51) and −12 V 1.21–1.47 V/ms (limit 1.22, `adv` fails). Phase 9 failed +5 V in every run |
 | Re-enable inside the RAMP reset window (§5, interrupted ramp) | **PASS (SIM, phase-12 interlock)** | Phase 12 (§5f): the minimum-off interlock holds every re-enable for 18.6–121 ms (arithmetic). All eight re-entry runs at the shortest hold pass every §5 row. Phase 11 (§5e), without the interlock, failed the slope rows at 6 ms off from steady state |
 | Start skew ≤ 0.41 ms (§5) | **Voltage form PASS (SIM, drawn clamps); time form FAIL (SIM)** | Phase 10 (§5d), six completed runs: voltage forms held (worst +12 V 0.433 V while \|−12\| < 0.1 V; \|−12\| 0.523 V while +12 V ≤ 0.5 V); ramp start skew 2.24–3.93 ms. Phase 9 (§5c), ten completed runs: +12 V ≤ 0.408 V while \|−12\| < 0.1 V (limit 0.5 V); \|−12\| ≤ 0.72 V while +12 V ≤ 0.5 V (limit 6 V). Ramp start skew is 1.16–2.42 ms. The 0.41 ms row is the time form of the +12 V-alone limit at the fastest slope; the clamps meet the voltage form without it. Arithmetic: ≤ 0.411 V and ≤ 0.553 V |
 | Band-entry skew ≤ 2 ms; +5 V up last (§5) | **PASS (SIM)** | Phase 10: 0.79–0.88 ms, +5 V last in every completed run. Phase 9: 0.74–0.83 ms; +5 V last in every completed run. Arithmetic: 1.500 ms |
@@ -959,7 +1104,7 @@ carried forward as phase-10 results.
 | +5 V while either analog rail < 1.45 V | ≤ 0.8 V | 0.637 V | **PASS (SIM)** (definition 1, accepted by OSC) |
 | Band-entry skew; +5 V last | ≤ 2 ms | 0.79–0.88 ms; +5 V last in all runs | **PASS (SIM)** |
 | Slopes at the I_TRANSIENT_MIN load | 1.23 / 0.51 / 1.22 V/ms | 0.32 / 0.13 / 0.32 V/ms | **PASS (SIM)** |
-| Slopes at no load | 1.23 / 0.51 / 1.22 V/ms | 0.45 / 0.90 / 1.47 V/ms | **FAIL (SIM)**: owner exception requested |
+| Slopes at no load | 1.23 / 0.51 / 1.22 V/ms | 0.45 / 0.90 / 1.47 V/ms | **accepted by OSC (+5 V ≤ 0.95 V/ms below 0.45 V; −12 V ≤ 1.47 V/ms below 0.75 V, OSC `pd-interface-20v.md`), owner record pending** |
 
 **Why no load still steps.** With no load, each source-only pair overshoots its pre-bias target, to
 0.14 / 0.05 / 0.10 V. It cannot pull the output back down, so the integrator winds to its rail again
@@ -973,6 +1118,8 @@ minimum and 500 mA maximum. The phase-10 no-load +5 V step is lower, at most 0.9
 request is a contract exception for the no-load start only: a +5 V excursion of ≤ 0.90 V/ms below
 0.45 V, and a −12 V excursion of ≤ 1.47 V/ms below 0.75 V (≤ 265 mA into 180 µF). The −12 V part has
 no OSC evaluation yet. Loaded starts meet the slope rows.
+
+**Phase 32 status.** OSC has since accepted the no-load exception in its `pd-interface-20v.md`: +5 V ≤ 0.95 V/ms below 0.45 V and −12 V ≤ 1.47 V/ms below 0.75 V. The owner record is pending. The slope rows read "accepted by OSC, owner record pending", not FAIL.
 
 ### 5e. Phase 11: re-enable inside the RAMP reset window (loaded, nominal)
 
@@ -1027,15 +1174,15 @@ hold (0.5 V, 0.6 µF: 19 ms) and a behavioural model of the latch.
 | reB6 / reB10 / reB14 / reB20 (in-band disable) | 19.1 / 19.1 / 19.2 / 21.2 ms | 0.32 / 0.13 / 0.32 | ≤ 0.126 V | −0.162 / +0.035 V | 0.79–0.80 ms; yes | **PASS (SIM)** |
 | reR6 / reR10 / reR14 / reR20 (mid-ramp disable) | 19.1 / 19.1 / 19.2 / 21.2 ms | 0.32 / 0.13 / 0.32 | ≤ 0.126 V | −0.162 / +0.035 V | 0.79–0.80 ms; yes | **PASS (SIM)** |
 | nomR / advR / revR (loaded start) | enable at 40.5 ms (hold already run) | 0.32 / 0.13 / 0.32 | ≤ 0.126 V | −0.162 / +0.089 V | 0.79 ms; yes | **PASS (SIM)**, same as §5d |
-| adv / rev (no-load start) | same | 0.32–0.45 / 0.85–0.90 / 1.21–1.47 | ≤ 0.433 V | −0.293 / +0.364 V | 0.87–0.88 ms; yes | **FAIL (SIM)** slope rows, same as §5d |
-| nom (no-load start; failed in phase 10, completes now with rshunt 1e9) | same | 0.35 / **0.94** / 0.84 | 0.144 V | −0.197 / +0.100 V | 0.88 ms; yes | **FAIL (SIM)** +5 V slope |
+| adv / rev (no-load start) | same | 0.32–0.45 / 0.85–0.90 / 1.21–1.47 | ≤ 0.433 V | −0.293 / +0.364 V | 0.87–0.88 ms; yes | Slope rows inside the no-load exception accepted by OSC (+5 V ≤ 0.95 V/ms below 0.45 V; −12 V ≤ 1.47 V/ms below 0.75 V, OSC `pd-interface-20v.md`), owner record pending |
+| nom (no-load start; failed in phase 10, completes now with rshunt 1e9) | same | 0.35 / **0.94** / 0.84 | 0.144 V | −0.197 / +0.100 V | 0.88 ms; yes | +5 V 0.94 V/ms inside the ≤ 0.95 V/ms no-load exception: accepted by OSC (+5 V ≤ 0.95 V/ms below 0.45 V; −12 V ≤ 1.47 V/ms below 0.75 V, OSC `pd-interface-20v.md`), owner record pending |
 
 In every run |−12| stays ≤ 0.60 V while +12 V ≤ 0.5 V, ≤ 5.36 V while +12 V < 5.2 V, and +5 V
 ≤ 0.637 V while an analog rail is below 1.45 V. The phase-11 failure (re-enable 6 ms after an in-band
 disable) no longer occurs: the request waits for the hold. **New finding:** the `nom` no-load start,
 which phase 10 could not complete, gives +5 V 0.94 V/ms. That is above the 0.90 V/ms bound of the
 requested no-load exception (§5d). The exception would have to state ≤ 0.95 V/ms, or the no-load step
-needs a fix. This is an OSC question.
+needs a fix. OSC has since accepted ≤ 0.95 V/ms (phase 32 status in §5d); owner record pending.
 
 ## 6. Checks run on this draft
 
@@ -1045,9 +1192,9 @@ needs a fix. This is an OSC question.
 | `verify_geometry.py` | PASS: 772 spec pins matched (phase 13) |
 | KiCad 10.0.6 native ERC (pinned image; phase 10 serialised through `flock`) | exit 0. 0 errors and 35 warnings (phase 19; the 21 missing `*_DRAFT` footprint warnings of phase 13 are gone): 35 `pin_to_pin` warnings on the unspecified pins of J5 (5) and J10/J11 (30, the same symbol pin type as on the current Board B). Two `power_pin_not_driven` errors on U14 were closed with PWR_FLAGs on VIN and GND |
 | KiCad 10.0.6 native netlist + `verify_netlist.py` | PASS: 142 nets, 779 nodes (phase 13) |
-| `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / FAIL (SIM) no load; everything else PASS. Phase 10 uses CRMD 470 nF |
+| `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / no load accepted by OSC, owner record pending; everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
-| PCB DRC + schematic parity (phase 31, 4 layers, routed draft) | **PASS (DRC)**: 0 unconnected, 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 2 `via_dangling` warnings. Routing completeness only: no layout review, DFM or fabrication review (phase 30: 5; phase 28: 5 without current-rated trunks; 2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
+| PCB DRC + schematic parity (phase 32 values and models on the phase 31 routes, 4 layers, routed draft) | **PASS (DRC)**: 0 unconnected, 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 2 `via_dangling` warnings. Routing completeness only: no layout review, DFM or fabrication review (phase 30: 5; phase 28: 5 without current-rated trunks; 2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
 | Routing | **OPEN** (complete but unreviewed; phase 31 In2.Cu pre-routes for the long comparator nets, D3 M12_RAW pour): 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN and not relied on); phase 30 current-rated trunks, three-via layer changes and 1.5 mm +12 V / inverter cells; power stages and all six sense traces routed; 0 router connections open (phase 31); hot loop 29.6 mm² per stage; Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28); self-check in `boards/board-b20-draft/loop-check.json` |
 | Current/width at 1 oz outer, 0.5 oz inner (`current-check.py`, desk) | Every trunk at or below 2.2 K rated and 11.2 K at the limiter maximum (IPC-2221, narrowest segment, no pour credit); via barrels at or below 4.3 K; inverter CIN → VIN cell branch 16.2 K at the inductor-RMS bound, about 5.6 K at its switch RMS. Desk numbers only, nothing measured: **OPEN** (§3a, phase 30; `boards/board-b20-draft/current-check.json`) |
 | Thermal desk screen (`thermal-check.py`) | 2.24–2.43 W at rated load, a 8–13 K mean board rise against 57–86 K for the 15 V Board B; 5.5–6.2 W and 19.5–33 K at the limiter maximum; TPS54560 TJ up to 56 °C rated and 99 °C at the inverter limiter maximum (standard-board θJA). Desk only: **OPEN** (§3a, phase 30; `boards/board-b20-draft/thermal-check.json`) |

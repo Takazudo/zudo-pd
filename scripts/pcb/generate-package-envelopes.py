@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate conservative maximum-envelope package models for the Board P 20 V draft parts.
+"""Generate conservative maximum-envelope package models for the Board P 20 V and B20 draft parts.
 
-Run: uv run --python 3.12 --with cadquery==2.8.0 python scripts/pcb/generate-package-envelopes.py
+Run: uv run --python 3.12 --with cadquery==2.8.0 python scripts/pcb/generate-package-envelopes.py [--only NAME ...]
 
 Each model is a plain box at the package's maximum body length, width and height, read
 from the manufacturer package outline. The box is centered on the footprint origin with
@@ -33,6 +33,18 @@ ENVELOPES = [
     # Footprint pins 1/2 and 3 face X, so the box is X 1.4 (E1 body width) by Y 3.0 (D body length).
     ('SOT-23_DS30144_MaxEnvelope_W1.4-L3.0-H1.15', (1.4, 3.0, 1.15),
      'Diodes BSS138 DS30144 Rev. 25-2 SOT23 (Standard) outline: D 2.80-3.00, E1 1.20-1.40 mm, A 0.90-1.15 mm'),
+    # B20 draft lands (phase 32). IC pad rows face X, so X is the body width and Y the body length.
+    ('HSOP-8_DDA_MaxEnvelope_W4.0-L5.0-H1.7', (4.0, 5.0, 1.7),
+     'TI TPS54560 SLVSBN0C DDA0008B outline 4214849/B: body 4.8-5.0 x 3.8-4.0 mm (flash excluded), 1.7 mm max height'),
+    ('VSSOP-8_DGK_MaxEnvelope_W3.1-L3.1-H1.1', (3.1, 3.1, 1.1),
+     'TI OPA2187 SBOS807E DGK0008A outline 4214862/A: body 2.9-3.1 x 2.9-3.1 mm (flash excluded), 1.1 mm max height'),
+    ('SOIC-8_D_MaxEnvelope_W3.98-L5.0-H1.75', (3.98, 5.0, 1.75),
+     'TI REF5025 SBOS410O D0008A outline 4214825/C: body 4.81-5.00 x 3.81-3.98 mm (flash excluded), 1.75 mm max height'),
+    # Two-terminal lands have their pads on X.
+    ('R1206_MaxEnvelope_L3.45-W1.85-H0.89', (3.45, 1.85, 0.89),
+     'YAGEO PE1206FRF470R02L sheet: L 3.2 +/-0.25, W 1.6 +/-0.25, T 0.64 +/-0.25 mm (it also covers the UNI-ROYAL 1206 3.10 +/-0.15 x 1.55 +0.15 x 0.55 +/-0.10 mm body)'),
+    ('R2512_PCSR2512_MaxEnvelope_L6.6-W3.4-H0.9', (6.6, 3.4, 0.9),
+     'RESI PCSR2512 sheet V8 (distributor-hosted copy, UNSOURCED): L 6.4 +/-0.2, W 3.2 +/-0.2, T 0.8 +/-0.1 mm'),
 ]
 
 
@@ -67,9 +79,15 @@ def write_pair(dest, name, size, source):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output-directory', type=Path, default=ROOT/'footprints/kicad/zudo-pd.3dshapes')
+    parser.add_argument('--only', nargs='+', metavar='NAME', help='write only these model names')
     args = parser.parse_args()
     args.output_directory.mkdir(parents=True, exist_ok=True)
+    known = {name for name, _, _ in ENVELOPES}
+    if args.only and not set(args.only) <= known:
+        parser.error(f'unknown model names: {sorted(set(args.only) - known)}')
     for name, size, source in ENVELOPES:
+        if args.only and name not in args.only:
+            continue
         write_pair(args.output_directory, name, size, source)
 
 

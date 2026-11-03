@@ -120,9 +120,9 @@ SENSE = {  # sense dividers on the post-filter nodes (0.1 % owner-record values)
     '-12': {'neg': 3 * 11.5e3, 'ref': 3.09e3 + 4.02e3},
 }
 UVLO = {'top': 470e3, 'bot': 39e3}   # PROPOSED, every converter EN divider
-# common tracking reference: REF25 -> RRMP 20k -> RAMP, CRMP 1 uF + CRMP2 470 nF (phase 9), loaded by RT12NA 100k
-RAMP_NET = {'R': 20e3, 'C': 1.47e-6, 'C_TOL': 0.10, 'LOAD': 100e3}
-TRACK_K = {'+12': 1 + 69.8e3 / 10e3, '+5': 1 + 23.2e3 / 10e3, '-12': 806e3 / 100e3}
+# common tracking reference: REF25 -> RRMP 20k -> RAMP, CRMP 1 uF + CRMP2 470 nF (phase 9), loaded by RT12NA 93.1k
+RAMP_NET = {'R': 20e3, 'C': 1.47e-6, 'C_TOL': 0.10, 'LOAD': 93.1e3}
+TRACK_K = {'+12': 1 + 69.8e3 / 10e3, '+5': 1 + 23.2e3 / 10e3, '-12': 750e3 / 93.1e3}
 RAMP_RELEASE = {'R': 100e3, 'C': 470e-9}
 PREBIAS_R, PREBIAS_CT = 10e6, 10e-9                # RT12O / RT5O / RT12NO 10M 1 %, CT12 / CT5 / CT12N 10 nF C0G
 PREBIAS_M12_PRE_MIN_V = 12.0                       # PA: M12_PRE magnitude after the -12 V pre-regulator is up      # RRMD / CRMD from EN_N to the Q12 gate (phase 10: was 100 nF)
@@ -135,7 +135,7 @@ SUP_FB = (52.3e3, 10e3)                       # AP63201 feedback, PROPOSED top /
 FB_DIV = {'+12': (145e3, 10e3), '+5': (54.9e3, 10e3), '-12': (145e3, 10e3)}   # PROPOSED top 0.1 %, C95204 bottom
 SERVO_RJ = {'+12': 1e6, '+5': 1e6, '-12': 4.7e6}     # PROPOSED 1 % injection resistors
 FB_R_TOL, RJ_TOL = 0.001, 0.01
-VIN_UV_RES = (221e3, 17.6e3)  # PROPOSED 0.1 %, compared with REF/2 from two C861589 8.2 k
+VIN_UV_RES = (226e3, 18e3)  # PROPOSED 0.1 %, compared with REF/2 from two C861589 8.2 k
 VIN_UV_MAX_PA = VIN_MIN       # PA: trip must stay below the minimum operating VIN
 DISCHARGE_R = {'+12': 100.0, '-12': 150.0, '+5': 33.0}     # PROPOSED 1206
 HOLDUP = {'C': 10e-6, 'R_gate': 100e3, 'R_m12': 470e3 + 1e6, 'R_charge': 56e3}   # CDH, R60, R61 + R62, RDH
@@ -146,8 +146,8 @@ LIMIT_DIV = {  # INA301 LIMIT dividers from REF (0.1 %); LIMIT also carries ILIM
 M12_LIMIT_DIV = {'top': 10.2e3 + 10.1e3, 'bot': 33.0}     # GND -> node -> -12 pre (RL3A/RL3B, RL3C)
 TA_SPAN = 20.0                 # PA: +/-20 C around the 25 C reference
 # window dividers (PROPOSED E192 0.1 %): positive rails top/bottom to GND, -12 V REF-to-terminal
-OV_RES = {'+12': (54.2e3, 13.7e3), '+5': (10.6e3, 10e3), '-12': (200e3, 40.7e3)}
-UV_RES = {'+12': (232e3, 62.6e3), '+5': (10.4e3, 10.7e3), '-12': (198e3, 41.7e3)}
+OV_RES = {'+12': (47.5e3, 12e3), '+5': (26.4e3, 24.9e3), '-12': (118e3, 24e3)}
+UV_RES = {'+12': (172e3, 46.4e3), '+5': (10.4e3, 10.7e3), '-12': (301e3, 63.4e3)}
 
 
 def _trip(rail, res):
@@ -453,7 +453,7 @@ def ramps():
 # manufacturing/sim/board-b20-phase9/. Each tracking target is the minimum of its RAMP term and a
 # clamp from the other rails' actual output voltages (U15/U16 OPA2187, BSS138 body-diode clamps):
 #   |-12| <= A_M12 x V(+12)             LVLM12 = P12_OUT x 10.2k / (64.9k + 10.2k), RAMP_M12 scale
-#   V(+12) <= A_P12 x |-12| + OFF_P12   MABS = |-12| x 15k / 100k; LVL12 = 92k/8.87k gain, 30.1k/10k REF offset
+#   V(+12) <= A_P12 x |-12| + OFF_P12   MABS = |-12| x 15k / 100k; LVL12 = 102k/9.76k gain, 30.1k/10k REF offset
 #   V(+5) <= C_P5 x |-12|               MABS against RAMP_P5 (with |-12| <= A_M12 x V(+12), +5 also trails +12)
 # Followers only lag their targets and the contract excludes overshoot, so every clamp inequality
 # holds on the actual outputs; precision-clamp amplifier and diode errors are PA (CLAMP_TOL, not bounded).
