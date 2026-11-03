@@ -1,0 +1,46 @@
+{
+  "_comment": "P15P local orientation evidence for the three parts JLCPCB has never placed from this project. This is project-side evidence only: it shows that the package footprint, pad nets, silkscreen/fab marks, 3D model and CPL agree with the owner pin maps. It does not show how JLCPCB's own library footprint is oriented; that is confirmed only in JLCPCB's placement preview at the actual order step.",
+  "package": "manufacturing/releases/corner-support-review/ (manifest sha256 7afcef99c3a0b0e83a8321aef4aca7a68fd13b901e087804d5931b2c866e13bb, git_base 3b9821b)",
+  "checked_at": "6cb02c8 (sources unchanged from git_base; 498/622 source locks match)",
+  "parts": [
+    {
+      "board": "board-p15",
+      "ref": "D5",
+      "part": "Littelfuse SMAJ16A C74561 (SMA)",
+      "cpl": "D5,22.2500mm,-10.0800mm,Top,0",
+      "pads": {"1": "VBUS_IN at local (-1.8, 0)", "2": "GND at local (+1.8, 0)"},
+      "owner_pin_map": "fact-c74561-polarity (component-renewal-input-protection): pin 1 = cathode at local -X, stripe identifies cathode",
+      "footprint_mark": "F.Fab cathode bar at local x = -1.75 (pad 1 side); F.SilkS outline brackets only",
+      "model_mark": "SMA_Littelfuse_SMAJ16A_C74561.wrl: light band on the top face at x = -1.57..-1.32 mm (pad 1 side); model is an illustrative SMA body (owner fact), not a manufacturer model",
+      "local_result": "PASS: cathode, pad 1 and VBUS_IN coincide in footprint, model and pin map",
+      "if_reversed": "forward-clamps VBUS_IN",
+      "order_step_check": "In JLCPCB placement preview, the body stripe must sit on the pad toward the board's left (smaller X), i.e. the VBUS_IN pad"
+    },
+    {
+      "board": "board-p15",
+      "ref": "D9",
+      "part": "Diodes BZT52C18-7-F C192739 (SOD-123)",
+      "cpl": "D9,18.9000mm,-24.9500mm,Top,0",
+      "pads": {"1": "VDD_LOC at local (-1.575, 0)", "2": "GND at local (+1.575, 0)"},
+      "owner_pin_map": "fact-c192739-polarity (component-bzt52c18-7-f, PRIMARY-SPEC): cathode band; pad 1 = cathode",
+      "footprint_mark": "F.SilkS double cathode bar at local x = -0.97 / -0.83 and pin-1 dot at (-1.85, 0.9)",
+      "model_mark": "SOD-123_L2.8-W1.8-LS3.7-RD.wrl: band on the top face at x = -0.91..-0.74 mm (pad 1 side)",
+      "local_result": "PASS: cathode, pad 1 and VDD_LOC coincide in footprint, model and pin map",
+      "if_reversed": "clamps VDD near 0.7 V; the STUSB4500 never powers",
+      "order_step_check": "In JLCPCB placement preview, the band must sit on the VDD_LOC pad (smaller X)"
+    },
+    {
+      "board": "board-b",
+      "ref": "C11",
+      "part": "HONORCAP RVT1E471M0810 C696190 (Phi 8 aluminium electrolytic)",
+      "cpl": "C11,62.0000mm,30.0000mm,Top,0",
+      "pads": {"1": "GND at local (-3.29, 0) = positive terminal", "2": "-14.145V PRE at local (+3.29, 0) = negative terminal"},
+      "owner_pin_map": "pinmap-c696190 / fact-c696190-candidate-scope (component-project-passives): C11.1 GND = positive terminal",
+      "footprint_mark": "F.SilkS chamfered corners and '+' on the pad 1 side, '-' on the pad 2 side",
+      "model_mark": "CAP-SMD_BD8.0-L8.3-W8.3-LS9.1-FD.wrl carries no colour-separated polarity mark; the model does not add evidence",
+      "local_result": "PASS for footprint and pin map; model NOT APPLICABLE",
+      "if_reversed": "about 14 V reverse bias on the electrolytic",
+      "order_step_check": "Only applies if new Board Bs are assembled. In JLCPCB placement preview, the base-plate chamfers / + mark must sit on the GND pad (smaller X)"
+    }
+  ]
+}
