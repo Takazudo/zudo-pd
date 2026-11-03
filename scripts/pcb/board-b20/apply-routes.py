@@ -64,13 +64,18 @@ for layer, priority in ((pcbnew.F_Cu, 0), (pcbnew.B_Cu, 0)) + (((pcbnew.In1_Cu, 
     b.Add(z)
 
 # phase 31: heat-spreading M12_RAW copper on F.Cu at the inverter catch diode D3 anode, the input-capacitor returns
-# and the U3 pad (the inverter cell's quiet reference node), above the GND pour; it fills only the free copper
+# and the U3 pad (the inverter cell's quiet reference node), above the GND pour; it fills only the free copper.
+# PD20 layout review: route.py now owns the M12_RAW pour regions (M12_RAW_D3 on F.Cu, M12_RAW_CCO on F.Cu at the
+# output bank and M12_RAW_B on B.Cu) and keeps other nets out of them; a routes file without them keeps the phase 31 box
 D3_SPREAD_BOX = (19.5, 38.5, 33.4, 46.7)   # mm: x0, y0, x1, y1 on the phase 22 placement
-if FOUR:
+POURS = r.get('m12_pours') or ({'M12_RAW_D3': {'layer': 'F', 'pts': [(D3_SPREAD_BOX[0], D3_SPREAD_BOX[1]),
+                                (D3_SPREAD_BOX[2], D3_SPREAD_BOX[1]), (D3_SPREAD_BOX[2], D3_SPREAD_BOX[3]),
+                                (D3_SPREAD_BOX[0], D3_SPREAD_BOX[3])]}} if FOUR else {})
+for name, pour in POURS.items():
     z = pcbnew.ZONE(b)
-    z.SetLayer(pcbnew.F_Cu)
+    z.SetLayer(CU[pour['layer']])
     z.SetNet(b.FindNet('M12_RAW'))
-    z.SetZoneName('M12_RAW_D3')
+    z.SetZoneName(name)
     z.SetAssignedPriority(1)
     z.SetLocalClearance(mm(0.25))
     z.SetMinThickness(mm(0.25))
@@ -78,8 +83,7 @@ if FOUR:
     z.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)
     ol = z.Outline()
     ol.NewOutline()
-    x0, y0, x1, y1 = D3_SPREAD_BOX
-    for x, y in ((x0, y0), (x1, y0), (x1, y1), (x0, y1)):
+    for x, y in pour['pts']:
         ol.Append(mm(x), mm(y))
     b.Add(z)
 

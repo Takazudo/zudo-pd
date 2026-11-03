@@ -1,5 +1,5 @@
 {
- "_comment": "Phase 33 placement lock (unvalidated draft). build-draft.py places these parts at the phase 32 positions of boards/board-b20-draft/board-b20-draft.kicad_pcb (commit 31df875). Five positions are set by hand (adjusted): C12 keeps its site with the larger 1206 land; Q55, RCEN2 and CAF2 shift by 1.05 mm or less to clear the SMC D3 and the moved L5; Q47 lost its site under D3 and moves to the nearest courtyard-clear site found with 0.5 mm clearance. The parts in replaced are placed by the generator: D3 and L5 by the U3 stage template, C9 (0805) by the greedy fill. Delete this file to return to a full greedy placement. PD20: C1 (10.2 mm tall) moves out of the Board P r3 shadow, where the stack screen found it 0.38 mm into U2 and 0.03 mm into Q1; C35 and CP1, which held the new site, are placed by the greedy fill.",
+ "_comment": "Phase 33 placement lock (unvalidated draft). build-draft.py places these parts at the phase 32 positions of boards/board-b20-draft/board-b20-draft.kicad_pcb (commit 31df875). Five positions are set by hand (adjusted): C12 keeps its site with the larger 1206 land; Q55, RCEN2 and CAF2 shift by 1.05 mm or less to clear the SMC D3 and the moved L5; Q47 lost its site under D3 and moves to the nearest courtyard-clear site found with 0.5 mm clearance. The parts in replaced are placed by the generator: D3 and L5 by the U3 stage template, C9 (0805) by the greedy fill. Delete this file to return to a full greedy placement. PD20: C1 (10.2 mm tall) moves out of the Board P r3 shadow, where the stack screen found it 0.38 mm into U2 and 0.03 mm into Q1; C35 and CP1, which held the new site, are placed by the greedy fill. PD20 layout review: CCIN2 stacks above CCIN1 so both input-capacitor returns sit in one column on the M12_RAW_D3 pour and the VIN feed reaches both VIN pads from outside it; RRDY2 and RCEN2 move to the freed CCIN2 site.",
  "source_commit": "31df875",
  "replaced": [
   "C35",
@@ -255,8 +255,8 @@
    0.0
   ],
   "CCIN2": [
-   20.44,
-   42.87,
+   26.4,
+   39.07,
    0.0
   ],
   "CCO1": [
@@ -1135,8 +1135,8 @@
    180.0
   ],
   "RRDY2": [
-   23.95,
-   38.85,
+   19.0,
+   41.6,
    0.0
   ],
   "RSH1": [
@@ -1280,8 +1280,8 @@
    0.0
   ],
   "RCEN2": [
-   27.6,
-   39.1,
+   19.0,
+   43.8,
    0.0
   ],
   "CAF2": [
@@ -1327,6 +1327,11 @@
    "phase33": [
     27.6,
     39.1,
+    0.0
+   ],
+   "pd20-layout": [
+    19.0,
+    43.8,
     0.0
    ]
   },
@@ -1376,6 +1381,30 @@
     16.48,
     6.34,
     90.0
+   ]
+  },
+  "CCIN2": {
+   "phase33": [
+    20.44,
+    42.87,
+    0.0
+   ],
+   "pd20-layout": [
+    26.4,
+    39.07,
+    0.0
+   ]
+  },
+  "RRDY2": {
+   "phase33": [
+    23.95,
+    38.85,
+    0.0
+   ],
+   "pd20-layout": [
+    19.0,
+    41.6,
+    0.0
    ]
   }
  }

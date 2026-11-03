@@ -36,8 +36,9 @@ CL, EDGE, MARGIN = 0.2, 0.5, 0.08
 RASTER = 0.0707   # half a cell diagonal: copper is marked on every cell it touches
 VIA_D, VIA_DRILL, HOLE_CL = 0.8, 0.3, 0.25
 VIA_COST = 3.0
-# PD20: B.Cu signal cost 0.75 on 4 layers (0.8 left LVL12 at U15.5 open once the RSH3 Kelvin pair moved to RL3C)
-B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 0.75 if os.environ.get('B20_LAYERS', '4') == '4' else 0.7)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
+# PD20: B.Cu signal cost 0.75 on 4 layers (0.8 left LVL12 at U15.5 open once the RSH3 Kelvin pair moved to RL3C);
+# 0.7 since the M12_RAW pours (0.6-0.8 trials in manufacturing/pd20-status.md)
+B_COST = {'power': 1.2, 'signal': float(os.environ.get('B20_BSIG', 0.7)), 'P5_SUP': 0.8, 'REF25': 0.8, 'EN_E': 0.8, 'FAULT_N': 0.8}
 SUPPLY = ['P5_SUP', 'REF25', 'FAULT_N', 'EN_E']
 W_POWER, W_POWER_MIN, W_SIG = 0.8, 0.4, 0.25
 # 0.2 mm (the board minimum) is the fallback: on the 0.1 mm grid a 0.25 mm track cannot leave the middle pin of a
@@ -70,6 +71,7 @@ FANOUT_4L = (
     'U5.6', 'U5.8', 'U7.1', 'U7.2', 'U7.5', 'U7.8', 'U8.2', 'U8.4', 'U8.5', 'U8.8', 'RX5.1', 'U3.4', 'Q1.4', 'U3.3',
     'Q6.4', 'R54.1', 'Q66.1', 'R75.1', 'R58.1', 'Q52.1', 'R63.1', 'Q36.1', 'R41.1', 'R71.1', 'Q65.1', 'R10.2',
     'Q65.3', 'U15.1', 'U3.5', 'R75.2', 'U1.5', 'RHO2.1', 'RHO2.2',
+    'R30.1', 'R29.2', 'U15.5', 'RCP1.1', 'U15.2', 'Q48.3',   # PD20: the pins the M12_RAW pours' re-route left boxed in
 )
 # phase 30: DC current paths routed as trunks before anything else on 4 layers (1 oz outer copper, JLC7628). Widths
 # step down to 0.8 mm, about 11 K rise at 2.1 A by IPC-2221 for 1 oz outer; the 3 A input and inverter paths keep
@@ -105,8 +107,30 @@ CELL_W = (1.5, 1.2, 0.8, 0.4, 0.25)
 # first, mainly on In2.Cu (cost F 2, In2 0.6, B 3), right after the stage cells and sense pairs; rip-up leaves them fixed
 # phase 33: after the SMC D3 / L5 re-placement the OV12/OV5 divider and comparator nets join them, and P5_DRV leads the
 # signal order (B20_FIRST); trial results are in manufacturing/board-b-20v-switcher-direct-draft.md, phase 33
-PREROUTE = [n for n in os.environ.get('B20_PREROUTE', 'UVN_CMP,UV5_DIV,UV5_CMP,C_EN,RDY_X,OV12_DIV,OV5_CMP,OV5_DIV').split(',') if n] if FOUR else []
+# PD20: ARM_GND joins them; the M12_RAW pours took the B.Cu path it used across the inverter
+PREROUTE = [n for n in os.environ.get('B20_PREROUTE', 'UVN_CMP,UV5_DIV,UV5_CMP,C_EN,RDY_X,OV12_DIV,OV5_CMP,OV5_DIV,ARM_GND').split(',') if n] if FOUR else []
 LC_PREROUTE = None
+# PD20 layout review (three MAJOR findings, 4-layer only): M12_RAW, the inverter's IC ground and output node, is copper
+# area rather than a routed net. Each region (layer, polygon in mm) becomes an M12_RAW pour in apply-routes.py, and the
+# router keeps every other net out of it. M12_RAW_B on B.Cu joins the U3 PAD vias, vias beside the D3 anode and the
+# CCO1-CCO4 bank, running above U3 under D3 and L5 so U3 pins 5-8 keep via sites on their right; M12_RAW_CCO on F.Cu joins the bank's M12_RAW pads to their vias; M12_RAW_D3 is the phase 31 F.Cu
+# spreader at D3, CCIN1/CCIN2 and the PAD top, now right of the VIN pads so both input-capacitor returns share it.
+M12_POURS = {
+    'M12_RAW_B': ('B', [(28.0, 39.3), (46.9, 39.3), (46.9, 63.3), (44.4, 63.3), (44.4, 45.3), (31.6, 45.3), (31.6, 51.2),
+                        (28.0, 51.2)]),
+    'M12_RAW_CCO': ('F', [(44.6, 46.6), (46.9, 46.6), (46.9, 63.3), (44.6, 63.3)]),
+    'M12_RAW_D3': ('F', [(26.3, 37.0), (33.4, 37.0), (33.4, 46.7), (26.3, 46.7)]),
+} if FOUR and os.environ.get('B20_M12POUR', '1') == '1' else {}
+EARLY_POURS = ('M12_RAW_B', 'M12_RAW_CCO')   # reserved before the stage cells, so the BOOT trace leaves B.Cu to In2
+# through-via sites (x0, y0, x1, y1): beside and below the D3 anode pad (heat into M12_RAW_B), and between the CCO pads
+M12_VIA_SITES = [(29.0, 39.4, 29.7, 43.0), (29.0, 43.3, 32.6, 45.1), (44.9, 46.7, 46.6, 63.2)]
+M12_VIA_PITCH = 1.1
+# the quiet M12_RAW returns of the U3 FB divider bottom (RCFB), COMP capacitors (CCHF, CCCP) and RT resistor (RCRT):
+# their own copper group, joined to the IC only at one point on the PAD's lower edge (TI SLVSBN0C section 10.1), so
+# no stage current flows in it
+EARLY_FANOUT = ('U3.6', 'U3.5', 'U3.4', 'U3.3', B20_REFS.get('RCFT', 'RCFT') + '.2')
+QUIET_M12 = [(B20_REFS.get(r, r), '2') for r in ('RCFB', 'CCHF', 'RCRT', 'CCCP')]
+QUIET_STUB = 0.8   # mm below the PAD edge
 GND_FIRST = FOUR and os.environ.get('B20_GNDFIRST', '1') == '1'
 STUB_REACH = float(os.environ.get('B20_STUBREACH', 6.0 if FOUR else 2.5))   # phase 27: a second, wider GND-stub window
 LAYERS = ('F', 'In2', 'B') if FOUR else ('F', 'B')
@@ -860,7 +884,96 @@ def coupling(path, pitch=0.5, weight=2.0, cap=3.0):
     return fn
 
 
+def poly_cells(pts):
+    """Full-board mask of the grid cells whose centres lie inside the polygon (even-odd rule)."""
+    xs, ys = [q[0] for q in pts], [q[1] for q in pts]
+    i0, i1, j0, j1 = window(min(xs), min(ys), max(xs), max(ys))
+    x, y = XS[i0:i1][None, :], YS[j0:j1][:, None]
+    inside = np.zeros((j1 - j0, i1 - i0), bool)
+    for (xa, ya), (xb, yb) in zip(pts, pts[1:] + pts[:1]):
+        if ya == yb:
+            continue
+        inside ^= ((ya > y) != (yb > y)) & (x < xa + (y - ya) * (xb - xa) / (yb - ya))
+    m = np.zeros((NY, NX), bool)
+    m[j0:j1, i0:i1] = inside
+    return m
+
+
+def reserve_pour(name):
+    """Mark the free cells of an M12_RAW pour region as M12_RAW copper, so other nets keep their clearance from it."""
+    layer, pts = M12_POURS[name]
+    m = poly_cells(pts) & (lab[layer] == 0)
+    lab[layer][m] = NET_ID['M12_RAW']
+    log(f'{name}: {layer} region reserved, {m.sum() * G * G:.1f} mm2 free')
+
+
+def m12_vias():
+    """Through vias that tie the F.Cu M12_RAW regions to M12_RAW_B, at least M12_VIA_PITCH apart."""
+    group = NET_ID['M12_RAW']
+    inside = {l: np.zeros((NY, NX), bool) for l in ('F', 'B')}
+    for layer, pts in M12_POURS.values():
+        inside[layer] |= poly_cells(pts)
+    placed = []
+    for x0, y0, x1, y1 in M12_VIA_SITES:
+        box = window(x0, y0, x1, y1)
+        vok = via_mask(group, box)
+        i0, i1, j0, j1 = box
+        for j in range(j0, j1):
+            for i in range(i0, i1):
+                c = (i * G, j * G)
+                if not (x0 <= c[0] <= x1 and y0 <= c[1] <= y1) or not vok[j - j0, i - i0]:
+                    continue
+                if not (inside['F'][j, i] and inside['B'][j, i] and lab['F'][j, i] == group):
+                    continue
+                if any(math.dist(c, q) < M12_VIA_PITCH for q in placed):
+                    continue
+                add_via(c, 'M12_RAW', group)
+                placed.append(c)
+    log(f'M12_RAW pour vias: {len(placed)}')
+    return placed
+
+
+QUIET = {}
+
+
+def quiet_root():
+    """Strap U3 pin 7 to the PAD, then start the quiet group as a short F.Cu stub below the PAD's lower edge: the one
+    point where the quiet returns meet the stage copper. Laid before the COMP/FB escapes so they keep clear of it."""
+    gq = new_group()
+    pin7 = pin('U3', '7')
+    pad9 = max((p for p in pads if p['ref'] == 'U3' and p['num'] == '9'),
+               key=lambda p: (p['bbox'][2] - p['bbox'][0]) * (p['bbox'][3] - p['bbox'][1]))
+    add_track(pin7['center'], (pad9['bbox'][2] - 0.4, pin7['center'][1]), 0.5, 'F', 'M12_RAW', NET_ID['M12_RAW'])
+    cx, bottom = (pad9['bbox'][0] + pad9['bbox'][2]) / 2, pad9['bbox'][3]
+    add_track((cx, bottom - 0.3), (cx, bottom + QUIET_STUB), 0.4, 'F', 'M12_RAW', gq)
+    QUIET.update(group=gq, at=(cx, bottom))
+
+
+def quiet_ground():
+    """Route the quiet M12_RAW pads as their own copper group to the stub below the U3 PAD."""
+    gq = QUIET['group']
+    members = [pin(r, n) for r, n in QUIET_M12]
+    for p in members:
+        pad_group[p['id']] = gq
+        for l in p['layers']:
+            pad_mask(p, lab[l], gq)
+    todo = sorted(members, key=lambda q: math.dist(q['center'], QUIET['at']))
+    while todo:
+        # the target is the tree grown from the stub so far: group copper minus every pad not yet joined
+        p = todo.pop(0)
+        src = mask_of_pad(p)
+        loose = [mask_of_pad(q) for q in todo]
+        tree = {l: (lab[l] == gq) & ~src[l] & ~np.logical_or.reduce([m[l] for m in loose] + [np.zeros((NY, NX), bool)])
+                for l in LAYERS}
+        connect(src, tree, 'M12_RAW', gq, (0.4, W_SIG, W_FINE), B_COST['signal'], f'quiet M12_RAW {p["ref"]}.{p["num"]}')
+    notes.append(f'quiet M12_RAW ({", ".join(p["ref"] + "." + p["num"] for p in members)}) joins the stage copper only '
+                 f'at the U3 PAD lower edge ({QUIET["at"][0]:.2f}, {QUIET["at"][1]:.2f})')
+
+
 def main():
+    if M12_POURS:
+        for name in EARLY_POURS:
+            reserve_pour(name)
     # 1. stage hot loops: VIN pin to input capacitor, SW pin to diode, inductor and boot capacitor, inductor to output
     for name, (ic, cins, diode, ind, boot, couts, ground) in STAGES.items():
         vin = pin(ic, '2')
@@ -885,6 +998,17 @@ def main():
         for c in couts:
             cp = next(p for p in pads if p['ref'] == c and p['net'] == outnet)
             route_pair(cp, pin(ind, '2'), f'{name}: L-COUT {c}', (W_POWER, W_POWER_MIN, W_SIG))
+    if M12_POURS:
+        for name in M12_POURS:
+            if name not in EARLY_POURS:
+                reserve_pour(name)
+        m12_vias()
+        quiet_root()
+        # U3's signal pins and the FB divider top (RCFT) sit between the PAD and the quiet parts: their escape vias go
+        # in before the quiet traces
+        for key in EARLY_FANOUT:
+            fanout(next(p for p in pads if f"{p['ref']}.{p['num']}" == key))
+        quiet_ground()
     # 1b. Kelvin sense pairs, both traces of a shunt together; the second order is tried when the first leaves one open
     pairs = {}
     for (ina, num), row in sense_pad.items():
@@ -928,6 +1052,8 @@ def main():
     # which would otherwise wall in the FET gate pins beside their source pins
     for key in [k for k in os.environ.get('B20_FANOUT', ','.join(FANOUT_4L) if FOUR else '').split(',') if k]:
         ref, num = key.split('.')
+        if M12_POURS and key in EARLY_FANOUT:
+            continue
         fp = next((p for p in pads if p['ref'] == ref and p['num'] == num and not p['drill']), None)
         if fp and fp['net'] in NET_ID and (rippable(fp['net']) or fp['net'] in SUPPLY):
             fanout(fp)
@@ -990,7 +1116,8 @@ def main():
         unrouted.extend(v)
     failed_nets = sorted({u.split(':')[0] for u in unrouted if not u.startswith('GND stub')})
     json.dump({'tracks': tracks, 'vias': vias, 'unrouted': unrouted, **({'trunks': trunk_log} if trunk_log else {}), 'failed_nets': failed_nets, 'first': first, 'notes': notes,
-               **({'layers': list(LAYERS)} if FOUR else {})},
+               **({'layers': list(LAYERS)} if FOUR else {}),
+               **({'m12_pours': {k: {'layer': l, 'pts': pts} for k, (l, pts) in M12_POURS.items()}} if M12_POURS else {})},
               open(sys.argv[2], 'w'), indent=0)
     print(f'{len(tracks)} tracks, {len(vias)} vias, {len(unrouted)} unrouted')
 
