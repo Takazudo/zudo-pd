@@ -71,30 +71,31 @@ footprint marks, the 3D model mark and the owner pin map.
 
 JLC places with its own library footprint, so local agreement does not prove the placed orientation.
 
-## Quantities: two P15 for LED, P15 for zudo-pd, and new Board Bs only if needed
+## Quantities: 2 assembled P15, reusing the 2 Board Ls and the existing Board B
 
-The old "5 sets" figure was a cost basis, not a requirement. Needs per use:
+**Owner rule (2026-11-03): every test order is 2 sets, because JLCPCB PCBA needs at least 2 assembled sets.**
+The first order is therefore 2 × P15 r1 assembled. The old "5 sets" figure was a cost basis, not a requirement.
 
 | Use | Reused (on hand) | New |
 | --- | --- | --- |
-| LED lamp | 2 Board L from the 2026-09-19 order, unchanged (RS1 200 mΩ, MCU believed blank) | 2 × P15 r1 (one per Board L). The old LED Board Ps (#144) are not part of this path |
-| 15 V zudo-pd | Board B from the 2026-09-20 order (S3 BOM), **count and condition not recorded here**; needs the D1 unpowered check first | 1–2 × P15 r1 for the first sets; new Board Bs only if more sets are wanted or the C11/R21/R27 substitute rows must be tested |
-| Spare / first-article | — | 1 × P15 r1 to run the NVM procedure first and to keep for a destructive or repeat test |
+| LED lamp (first) | 2 Board L from the 2026-09-19 order, unchanged (RS1 200 mΩ, MCU believed blank) | 2 × P15 r1, one per Board L. The old LED Board Ps (#144) are not part of this path |
+| 15 V zudo-pd (after LED) | Board B from the 2026-09-20 order (S3 BOM), **count and condition not recorded here**; needs the D1 unpowered check first | None: an accepted P15 is handed over from the LED stack (the owner's LED-first, then zudo-pd plan) |
+| New Board B | — | Not in this order. Only if more zudo-pd sets are wanted or the C11/R21/R27 substitute rows must be tested, again as 2 sets |
+
+There is no spare P15 in this order: the first unit through the NVM procedure is also an LED unit.
 
 Read-only catalog refresh 2026-11-03 19:12Z (`manufacturing/readiness/jlc-snapshot-2026-11-03-p15.json`, priced
-by `scripts/pcb/p15-order-scenarios.py`). Parts plus assembly only; PCB fabrication, its minimum quantity, shipping
-and duty are UNKNOWN. The assembly fee page still reads "Last updated on Oct 22, 2026".
+by `scripts/pcb/p15-order-scenarios.py`). Parts plus assembly only; PCB fabrication, the bare-PCB quantity,
+shipping and duty are UNKNOWN. The assembly fee page still reads "Last updated on Oct 22, 2026".
 
 | Scenario | P15 assembled | New Board B | Parts + assembly (USD) |
 | --- | --- | --- | --- |
-| A: LED only | 2 | 0 | 39.94 |
-| **B: LED + zudo-pd on existing Board B (recommended)** | 5 | 0 | **51.62** |
-| C: as B, plus 2 new Board B | 5 | 2 | 246.33 |
-| D: reference, the old 5 sets | 5 | 5 | 357.84 |
+| **A: 2 P15, existing Board B (recommended)** | 2 | 0 | **39.94** |
+| B: 2 P15 plus 2 new Board B | 2 | 2 | 234.65 |
+| Superseded: 5 P15 (earlier recommendation) | 5 | 0 | 51.62 |
+| Superseded: the old 5 sets | 5 | 5 | 357.84 |
 
-Going from 2 to 5 assembled P15 adds about USD 11.7, because the Economic PCBA setup dominates.
-
-Stock on the refresh date: every P15 line covers 5 boards (lowest: TYPE-C-31-M-17 C283540 at 1,165). For new Board
+Stock on the refresh date: every P15 line covers 5 boards, so 2 are safe (lowest: TYPE-C-31-M-17 C283540 at 1,165). For new Board
 Bs, RT0603BRD0733RL C861332 (R24) has **10** and RT0603BRE07158KL C861679 has **12**: enough for 2 boards, not much
 more. Re-check stock on the order day.
 
@@ -124,7 +125,7 @@ more. Re-check stock on the order day.
 
 ## Decisions for the owner
 
-1. **Quantity:** scenario B (5 × P15 assembled, no new Board B now), or C if new Board Bs are wanted now.
-2. **Existing Board B:** how many S3 Board Bs are on hand and usable, which decides whether B is enough.
+1. **Quantity:** settled by the owner rule: 2 × P15 assembled (scenario A). Ordering is done separately by the owner.
+2. **Existing Board B:** how many S3 Board Bs are on hand and usable is still unrecorded; the D1 check answers it.
 
 Ordering, payment, quotes, uploads, programming and energizing all stay with the owner.

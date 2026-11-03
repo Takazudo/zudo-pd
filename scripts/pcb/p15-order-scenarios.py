@@ -19,13 +19,14 @@ PACKAGE = ROOT / 'manufacturing/releases/corner-support-review'
 API = 'https://jlcpcb.com/api/overseas-pcb-order/v1/shoppingCart/smtGood/selectSmtComponentList'
 
 # Units needed per use (P15P decision packet). Board B counts are new boards only; reused S3 boards are not priced.
+# Owner rule (2026-11-03): every test order is 2 assembled sets, the JLCPCB PCBA minimum.
 SCENARIOS = {
-    'A_led_only': {'note': 'P15 for the two existing Board Ls; no new Board B', 'board-p15': 2, 'board-b': 0},
-    'B_led_plus_pd_reuse_s3': {'note': '2 LED + 2 zudo-pd (paired with on-hand S3 Board Bs) + 1 spare P15; no new Board B',
-                               'board-p15': 5, 'board-b': 0},
-    'C_led_plus_pd_new_b2': {'note': '2 LED + 2 zudo-pd + 1 spare P15; 2 new Board Bs', 'board-p15': 5, 'board-b': 2},
-    'D_old_five_sets': {'note': 'Reference only: the 2026-11-02 five-set estimate (5 P15 + 5 new Board B)',
-                        'board-p15': 5, 'board-b': 5},
+    'A_two_p15': {'note': 'Recommended: 2 P15 for the two existing Board Ls (LED first, then handed to zudo-pd with the '
+                          'on-hand S3 Board B); no new Board B', 'board-p15': 2, 'board-b': 0},
+    'B_two_p15_two_board_b': {'note': '2 P15 + 2 new Board B (only if new Board Bs are wanted)', 'board-p15': 2, 'board-b': 2},
+    'X_superseded_five_p15': {'note': 'Superseded 2026-11-03 by the 2-set rule: 5 P15, no new Board B', 'board-p15': 5, 'board-b': 0},
+    'X_superseded_old_five_sets': {'note': 'Superseded: the 2026-11-02 five-set estimate (5 P15 + 5 new Board B)',
+                                   'board-p15': 5, 'board-b': 5},
 }
 
 
