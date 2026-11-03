@@ -117,28 +117,35 @@
   "source_generator": "scripts/pcb/board-b20/power-report.py",
   "source_generator_sha256": "89c5fe8a3206dbe24789a6453a8bb761c3c7838b7cdd4c8404ca0be8a0067557",
   "thermal_source": "boards/board-b20-draft/thermal-check.json",
-  "thermal_source_sha256": "d1de381a90c1a60e2e0de2926ad3e935e65f0b3b4bca5dcd6cbaeb241776e6c0",
+  "thermal_source_sha256": "2ff3a84ae4a21790b46bae6d4aa86fba4fd42f6d6d840d857c9eded6b226ce62",
   "board_p_spec_sha256": "e2e7a7e46eb4a6023833a1f9789caebfeb9d7a53c39655a426de6360d49541e2",
   "board_b20_draft_spec_sha256": "9136476346fdf16b8780a412a458377e6f1b656a2be5279e0066f3c34771ec9c",
   "protection_pcb_source_sha256": {
     "board-p": "67b0e0960c8d5590dec0efc6de22218d3f7a21fa098abcaffdd57433f3e0058d",
-    "board-b20-draft": "8910dec80c478a109cd73d91ceeb235ec42715d2c4f08392fe2ff4b48553db2f"
+    "board-b20-draft": "c9eab1099f3ae755360ab469912949e0f2d3061a111b12b93d72318783e4afc0"
   },
   "actual_filled_copper": {
-    "pcb_sha256": "8910dec80c478a109cd73d91ceeb235ec42715d2c4f08392fe2ff4b48553db2f",
+    "pcb_sha256": "c9eab1099f3ae755360ab469912949e0f2d3061a111b12b93d72318783e4afc0",
     "negative_zones": [
+      {
+        "regulator": "U3",
+        "layer": "B.Cu",
+        "net": "M12_RAW",
+        "filled_zone_area_mm2": 179.581,
+        "excluded_other_polygons_mm2": 0.0
+      },
       {
         "regulator": "U3",
         "layer": "F.Cu",
         "net": "M12_RAW",
-        "filled_zone_area_mm2": 61.439,
+        "filled_zone_area_mm2": 100.61,
         "excluded_other_polygons_mm2": 0.0
       }
     ],
     "ground_zone_areas_mm2": {
-      "B.Cu": 6231.889,
-      "F.Cu": 4941.607,
-      "In1.Cu": 8385.127
+      "B.Cu": 5946.466,
+      "F.Cu": 4751.688,
+      "In1.Cu": 8366.698
     }
   },
   "open_qualification": [

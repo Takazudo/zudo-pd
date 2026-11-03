@@ -7,7 +7,7 @@ bench row below is a test sheet that has **not been executed**; each one needs o
 Fixed decisions this stream works under:
 
 - 20 V / 5 A is a separate product for OSC, with a 5 A e-marked cable and no degraded mode.
-- OSC current contract: +12 / −12 / +5 V continuous 1.7 / 1.6 / 0.3 A; 20 ms transient 2.0 / 1.9 / 0.4 A.
+- OSC current contract: +12 / −12 / +5 V continuous 1.7 / 1.6 / 0.3 A; 20 ms transient 2.0 / 1.9 / 0.4 A; let-through maximum 2.1 / 2.0 / 0.5 A including tolerance. OSC canonical +12 V demand is 1.6 A after its S2b switch; the 1.7 A contract is unchanged.
 - STUSB4500 common controller block; B20 is a four-layer board (JLC7628 stackup).
 - Every prototype order is **quantity 2** (owner rule: JLCPCB PCBA needs at least two assembled sets).
 
@@ -46,11 +46,13 @@ at `6cb02c8`, and `scripts/pcb/board-p-r3-draft/run.sh` reads its outline, conne
 | Front and back rail labels | **Added** | B20 builder writes the Board B rail-label contract (`boards/board-b/mechanical.json`); `scripts/pcb/board-b20/verify-mechanics.py` checks position, mirror, size and the J6/J7 pin net of each label |
 | Top-edge pogo row (P1, TP3–TP5) | **OPEN** | Board B's row probes ATT, PDOK and three pre-regulator rails. B20 has no ATT and different internal rails, so which nets the row carries is a design choice that needs the owner; the verifier reports it as OPEN |
 | 3D interference with Board P r3 | **Found and fixed (nominal CAD)** | The first r3 + B20 screen found B20 C1 (100 µF, 10.2 mm) 0.38 mm into r3 U2 and 0.03 mm into Q1. C1 moved to (16.48, 6.34), outside Board P's shadow; C35 and CP1 are re-placed by the generator. The rerun screen PASSES (cross-board, C5 envelope, support collars). The preview helper now accepts r3's B.Cu models. Nominal CAD only, not a physical fit |
-| Independent layout review (hot loop, Kelvin sense, return path, D3 heat) | **1 blocker fixed; 3 major OPEN** | [`pd20-b20-layout-review.md`](pd20-b20-layout-review.md), a separate reviewer's desk analysis of the board before the fixes |
-| −12 V limiter Kelvin (review blocker) | **Fixed** | U9A's − reference LIM12N ties to M12_PRE through RL3C, 22.6 mm up the load trunk (about 11 mΩ added, trip ≈ 0.93 A instead of 1.97 A). The router now pairs RL3C.2 (PCB R35) with the RSH3 sense pad; `loop-check.json` checks that pin instead of U9.4, the op-amp V− supply. B.Cu signal cost 0.75 closes the routing |
-| −12 V output-cap path through FB/COMP parts (review major) | **OPEN** | 0.4 mm path, about 29 mΩ; about 12 mVp-p on FB (desk). Needs M12_RAW pours and a quiet control ground |
-| −12 V hot loop along copper (review major) | **OPEN** | 47.9–51.4 mm² (44.4 mm² is the pad-centre polygon); CCIN2 sits on a separate island |
-| D3/U3 shared island (review major) | **OPEN** | 48.1 mm², no vias at D3; D3 junction at the limiter maximum UNKNOWN (desk 120–185 °C). `thermal-check.json` has no D3 row |
+| Independent layout review (hot loop, Kelvin sense, return path, D3 heat) | **1 blocker fixed; 3 majors addressed, 2 parts OPEN** | [`pd20-b20-layout-review.md`](pd20-b20-layout-review.md), a separate reviewer's desk analysis of the board before the fixes |
+| −12 V limiter Kelvin (review blocker) | **Fixed** | U9A's − reference LIM12N ties to M12_PRE through RL3C, 22.6 mm up the load trunk (about 11 mΩ added, trip ≈ 0.93 A instead of 1.97 A). The router now pairs RL3C.2 (PCB R35) with the RSH3 sense pad; `loop-check.json` checks that pin instead of U9.4, the op-amp V− supply. B.Cu signal cost 0.75 closed the routing then; 0.7 after the M12_RAW pours below |
+| −12 V output-cap path through FB/COMP parts (review major) | **Fixed (desk)** | M12_RAW is now pour, not a routed net. `M12_RAW_B` (B.Cu, 179.6 mm² filled) runs from the U3 PAD vias above U3, under D3 and L5, down the CCO column; `M12_RAW_CCO` (F.Cu) joins CCO1–CCO4 to 10 vias between their pads. Desk path about 3 mΩ instead of about 29 mΩ. RCFB, CCHF, RCRT and CCCP (R12, C13, R9, C12) return through their own trace to one point on the U3 PAD's lower edge; with that stub removed they are isolated from the rest of M12_RAW (pcbnew connectivity check) |
+| −12 V hot loop: CCIN2 return (review major) | **Fixed** | CCIN2 stacks above CCIN1, so both M12_RAW returns sit in one column on the `M12_RAW_D3` pour with D3's anode, and VIN reaches both VIN pads from outside it (`loop-check.json` `input_cap_returns_in_one_pour`). RRDY2 and RCEN2 moved to the freed site |
+| −12 V hot loop: area (review major) | **OPEN** | Pad-centre polygon still 44.4 mm² (copper path about 48–51 mm²). A search of D3 and CCIN placements (four rotations, 0.25–0.5 mm grid, courtyard-clear of U3 and C11, short VIN and SW branches) found nothing below the current site: the SMC part's 6.9 mm pad pitch sets the loop. Reaching ≤ 30 mm² needs a smaller diode package, a component change for the owner. The suggested 0.1–1 µF U3.2-to-PAD capacitor is a component addition and is not applied |
+| D3/U3 shared island (review major) | **Improved; limiter maximum OPEN** | 10 vias beside and below the D3 anode and U3's 8 PAD vias now land on `M12_RAW_B`. `thermal-check.json` `inverter_island` is a desk node model of the shared island (F.Cu 62.2 mm², B.Cu 179.6 mm², 20 joining vias). D3 junction: 67–79 °C rated, 109–147 °C at the limiter maximum (the same model gives 76–93 / 132–188 °C on the board before the fix, close to the review's 71–89 / 120–185 °C). The worst case sits 3 K under the 150 °C limit, so the limiter-maximum case stays OPEN for T2. U3 gets only the PAD temperature (61–73 / 95–133 °C), because its junction-to-PAD resistance is not retained |
+| Router settings after the M12_RAW pours | **Fully routed** | The pours displaced B.Cu routes across the inverter. B.Cu signal cost 0.7 (trials 0.58–0.8 left 1–10 connections open), ARM_GND joins the In2.Cu pre-routes, and R29.2, R30.1, RCP1.1, U15.2, U15.5 and Q48.3 get pin escapes; U3 pins 3–6 and RCFT.2 escape before the quiet return is laid. The D3-to-L6 M12_RAW trunk now drops to B.Cu and returns through 2 vias near L6: `current-check.json` gives 1.5 K rated and 12.3 K at the limiter maximum for that transition (desk) |
 | CU6D (PCB C35) far from U6 | **OPEN (pre-existing)** | The U6 decoupling capacitor sits 50+ mm from U6 at HEAD and after PD20; the greedy fill places it by net, not by IC |
 
 ## Export binding and the per-variant verifier
@@ -94,9 +96,9 @@ inner-layer Gerber. The 2-layer checks are unchanged, and the results schema is 
 | Disconnect skew ≤ 1 ms | **PASS (SIM)**: 4 µs |
 | Startup ramp and slope limits | **PASS (SIM)** loaded; no-load +5 V and −12 V slopes accepted by the owner (below) |
 | Start skew ≤ 0.41 ms | Voltage form **PASS (SIM)**; time form **FAIL (SIM)** |
-| Band-entry skew ≤ 2 ms, +5 V last | **PASS (SIM)** |
-| Let-through (maximum never delivered) | **OPEN**: the limiter trips, it does not regulate current |
-| +5 V ≤ 0.8 V before analog rails are "up" | **OPEN (definition)**: a question for OSC |
+| Band-entry skew ≤ 2 ms (all rails in band) | **PASS (SIM)**: 0.73 ms in the phase-33 re-entry runs. +5 V entering last is a PD design choice that avoids the one-rail case, not an OSC rule |
+| Let-through maximum 2100 / 2000 / 500 mA (+12 / −12 / +5 V, including tolerance and let-through) | **OPEN**: the limiter trips, it does not regulate current; let-through not simulated or measured |
+| +5 V ≤ 0.8 V until both analog rails exceed about 1.5 V magnitude (OSC Definition 1, answered) | **PASS (SIM)** at startup: worst 0.637 V while the lower analog rail is below 1.45 V (phase-33 start runs). The 1.45 V analysis threshold is slightly below OSC's "about 1.5 V"; re-running at 1.5 V is NOT RUN. Ramp-down is covered by T5, not by this row |
 | Renegotiation: vSafe0V after a hard reset | **OPEN**: depends on TDISPAR0V (NVM above) and needs a bench run |
 | Inrush from Board P into the B20 bulk | **OPEN**: Q1 SOA not in its bundle |
 
@@ -114,7 +116,7 @@ None of these has been executed. Each needs owner approval and the two prototype
 | T2 Thermal | 25 °C ambient, continuous load for 30 min; thermocouples on D3, U4, the 10 mΩ shunts and Board P Q1 | D3 and every IC inside its rated junction limit with the measured θ; no part above its derated limit | D3 copper temperature UNKNOWN; desk loss 6.62 W at the limiter maximum |
 | T3 Startup and re-entry | Scope all three rails and EN_N at no load and at transient load; repeat with 6 ms and 18.6 ms off times | Every §5 row of the draft page, with the owner-accepted no-load exceptions | Phase 9–12 simulations |
 | T4 NVM readback | Write the 20 V image only after TDISPAR0V is located; power-cycle, read back 40 bytes | Readback equals the image; PDO2 = 20 V / 5 A | NVM status BLOCKED |
-| T5 Discharge and order | Disconnect at zero load and at an asymmetric OSC load | ≤ 100 ms; \|−12 V\| ≤ 6 V while +12 V is low; 1206 discharge resistors without visible damage after 100 cycles | Discharge rows above; pulse rating OPEN |
+| T5 Discharge and order | Disconnect at zero load and at an asymmetric OSC load | ≤ 100 ms; \|−12 V\| ≤ 6 V while +12 V is low; +12 V ≤ 0.5 V while −12 V is absent; +5 V ≤ 0.8 V by the time the first analog rail leaves; 1206 discharge resistors without visible damage after 100 cycles | Discharge rows above; pulse rating OPEN |
 | T6 Reverse current | Back-drive each output from a bench supply with the board unpowered and at 60 °C | ≤ 1 mA per rail | Reverse current OPEN |
 | T7 Fault latch | Short each rail through a current-limited load | All rails off and latched until re-plug; let-through charge recorded | Latch PASS (topology); let-through OPEN |
 | T8 Hard reset | Force a PD hard reset from a source analyser | VBUS reaches vSafe0V within the PD timing; B20 latches off and restarts cleanly | Renegotiation OPEN |

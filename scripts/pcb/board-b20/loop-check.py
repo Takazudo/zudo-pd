@@ -138,6 +138,25 @@ for name, (ic, cin, diode, ind, ground) in STAGES.items():
         'return_branch_diode_to_cin': describe(ret) if ret else {'routed': False, 'via': 'pour and vias only' if ground == 'GND' else 'no copper path'},
         'inductor_branch': describe(branch(sw['net'], dk, pad(ind, '1'))),
     }
+# PD20 layout review: the inverter's M12_RAW pour regions (route.py M12_POURS): which input-capacitor returns and
+# output-bank pads sit inside them, and the M12_RAW vias that join the F.Cu regions to the B.Cu one
+POURS = routes.get('m12_pours', {})
+if POURS:
+    def in_poly(pt, pts):
+        hit = False
+        for (xa, ya), (xb, yb) in zip(pts, pts[1:] + pts[:1]):
+            if (ya > pt[1]) != (yb > pt[1]) and pt[0] < xa + (pt[1] - ya) * (xb - xa) / (yb - ya):
+                hit = not hit
+        return hit
+    m12 = [p for p in geom['pads'] if p['net'] == 'M12_RAW' and not p['drill']]
+    vias = [v['at'] for v in routes['vias'] if v['net'] == 'M12_RAW']
+    out['m12_raw_pours'] = {
+        name: {'layer': z['layer'],
+               'pads': sorted({f"{p['ref']}.{p['num']}" for p in m12 if z['layer'] == 'F' and in_poly(p['center'], z['pts'])}),
+               'vias_inside': sum(in_poly(v, z['pts']) for v in vias)}
+        for name, z in POURS.items()}
+    out['stages']['C']['input_cap_returns_in_one_pour'] = all(
+        f'{c}.2' in out['m12_raw_pours']['M12_RAW_D3']['pads'] for c in ('CCIN1', 'CCIN2'))
 for shunt, (ina, plus, minus) in SENSE.items():
     rows = {}
     for num in (plus, minus):
