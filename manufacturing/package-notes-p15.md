@@ -53,7 +53,7 @@ part in the same preview as well.
   power-cycle readback equals the desk image `boards/board-p15/nvm/stusb4500-15v.bin`. The procedure is the
   repository page `doc/src/content/docs/architecture/board-p15-programming.md`.
 - **First power and programming:**
-  - Use a current-limited 5 V-only source, with Board B disconnected.
+  - Use a current-limited 5 V-only source, with Board B and Board L disconnected.
   - Verify the 15 V-only NVM image, its readback and its reload before connecting a PD-capable source.
   - A factory 20 V request can drive the 16 V TVS (D5, SMAJ16A) into sustained conduction. Twenty-volt operation is
     unsupported.
