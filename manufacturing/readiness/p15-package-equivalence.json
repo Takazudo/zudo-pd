@@ -8,9 +8,9 @@
     "SHA256SUMS_sha256": "0d973fbc96918762bd37c5c364ce3936f1d44fc0e2744ea5cb82574db67bc5ab"
   },
   "current_export": {
-    "git_base": "a123805103d34a12e01818d501c37b5126562f9e",
-    "manifest_sha256": "06fac328e504cf08c22f7dacd8a35ddbb1d6def32c55d2ea284a5d213582d787",
-    "SHA256SUMS_sha256": "07e93b7b16ef33bb70ae0142c510bff359ae09309aec2ffc498fea1a51102f67",
+    "git_base": "3b9821b48cf4c77e8512ce653cada3db962d2c88",
+    "manifest_sha256": "7afcef99c3a0b0e83a8321aef4aca7a68fd13b901e087804d5931b2c866e13bb",
+    "SHA256SUMS_sha256": "a72dedecc3b928870ee2eff4717521c96f70492610ad05fcf0c7ed6ba7ec27ac",
     "independent_validation_sha256": "fd12c1bbf38d46934aa149eeda18eec3d95d5b5ede4b26c743dc73fff202c8f0"
   },
   "filtered_line_patterns": [
@@ -72,10 +72,17 @@
     "board-p15/gerber-top.png",
     "independent-validation.json"
   ],
-  "non_fab_changes": "ORDER-NOTES.md (Board L disconnect step), manifest git_base and source-lock hashes, SHA256SUMS, step-datum copies, KiCad check reports, schematic PDFs, netlists, renders and preflight log.",
+  "non_fab_changes": "ORDER-NOTES.md (Board L disconnect step); Board B source schematic and schematic.pdf (C95204 symbol pins typed passive; connectivity and netlist unchanged per verify_netlist); manifest git_base and source-lock hashes; SHA256SUMS; step-datum copies; KiCad check reports, netlists, renders and preflight log.",
   "checks": {
-    "verify-jlcpcb.py read-only on the candidate at 2e7984c": "PASS",
+    "verify-jlcpcb.py read-only on the candidate at 3b9821b": "PASS",
     "verify-jlcpcb.py read-only on the copied package": "PASS",
-    "pnpm b4push": "PASS"
+    "pnpm b4push": "PASS",
+    "Board B ERC after the symbol fix": "0 errors, 54 pin_to_pin warnings (unchanged)"
+  },
+  "intermediate_export": {
+    "git_base": "a123805103d34a12e01818d501c37b5126562f9e",
+    "manifest_sha256": "06fac328e504cf08c22f7dacd8a35ddbb1d6def32c55d2ea284a5d213582d787",
+    "SHA256SUMS_sha256": "07e93b7b16ef33bb70ae0142c510bff359ae09309aec2ffc498fea1a51102f67",
+    "superseded_because": "the RT0603BRD0710KL symbol pin-type fix (3b9821b) changed the locked symbol library and the Board B schematic"
   }
 }

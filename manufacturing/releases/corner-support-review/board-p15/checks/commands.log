@@ -1,12 +1,12 @@
 
-$ kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o tmp/p34-export2/board-p15/checks/drc.json tmp/p34-export2/board-p15/source/board-p15.kicad_pcb
+$ kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o tmp/p35-export/board-p15/checks/drc.json tmp/p35-export/board-p15/source/board-p15.kicad_pcb
 Found 51 violations
 Found 0 unconnected items
 Found 3 schematic parity issues
-Saved DRC Report to tmp/p34-export2/board-p15/checks/drc.json
+Saved DRC Report to tmp/p35-export/board-p15/checks/drc.json
 Saved board
 
-$ /usr/local/bin/python3 scripts/pcb/check-model-paths.py tmp/p34-export2/board-p15/source/board-p15.kicad_pcb --output tmp/p34-export2/board-p15/checks/model-paths.json
+$ /usr/local/bin/python3 scripts/pcb/check-model-paths.py tmp/p35-export/board-p15/source/board-p15.kicad_pcb --output tmp/p35-export/board-p15/checks/model-paths.json
 {
   "pcb": "board-p15.kicad_pcb",
   "pcb_sha256": "0e2e1d7d4c456d844b9ee1210c76f019a6060c3f4c7da2fcfb98980c029f30ab",
@@ -18,7 +18,7 @@ $ /usr/local/bin/python3 scripts/pcb/check-model-paths.py tmp/p34-export2/board-
   "scope": "Model paths, file availability, visible fitted-part coverage and finite/nonzero transforms only. Models are visualization assets; physical dimensions, polarity, assembly fit and exact-part provenance require separate review."
 }
 
-$ /usr/local/bin/python3 scripts/pcb/check-model-bodies.py tmp/p34-export2/board-p15/source/board-p15.kicad_pcb --output tmp/p34-export2/board-p15/checks/model-bodies.json
+$ /usr/local/bin/python3 scripts/pcb/check-model-bodies.py tmp/p35-export/board-p15/source/board-p15.kicad_pcb --output tmp/p35-export/board-p15/checks/model-bodies.json
 {
   "status": "PASS",
   "scope": "Opaque-body placement sanity screen only; not exact manufacturer geometry, collision/occlusion certification, native pixel coverage or physical fit.",
@@ -29,7 +29,7 @@ $ /usr/local/bin/python3 scripts/pcb/check-model-bodies.py tmp/p34-export2/board
   "errors": []
 }
 
-$ kicad-cli pcb render --width 1800 --height 1400 --quality high --rotate 20,0,-15 --zoom 0.8 -o tmp/p34-export2/board-p15/3d-top.png tmp/p34-export2/board-p15/source/board-p15.kicad_pcb
+$ kicad-cli pcb render --width 1800 --height 1400 --quality high --rotate 20,0,-15 --zoom 0.8 -o tmp/p35-export/board-p15/3d-top.png tmp/p35-export/board-p15/source/board-p15.kicad_pcb
 Loading…
 Build board outline
 
@@ -101,103 +101,101 @@ Build BVH for holes and vias
 Load Raytracing: board
 Load Raytracing: layers
 Loading 3D models...
-Reload time 0.418 s
+Reload time 0.415 s
 Rendering: 4 %
 Rendering: 7 %
-Rendering: 10 %
+Rendering: 9 %
 Rendering: 12 %
 Rendering: 15 %
 Rendering: 16 %
-Rendering: 16 %
 Rendering: 17 %
 Rendering: 18 %
-Rendering: 19 %
+Rendering: 18 %
 Rendering: 20 %
 Rendering: 20 %
-Rendering: 21 %
+Rendering: 22 %
 Rendering: 23 %
 Rendering: 24 %
-Rendering: 25 %
 Rendering: 25 %
 Rendering: 26 %
 Rendering: 27 %
 Rendering: 28 %
-Rendering: 29 %
 Rendering: 30 %
 Rendering: 31 %
 Rendering: 33 %
 Rendering: 36 %
-Rendering: 38 %
-Rendering: 41 %
-Rendering: 44 %
-Rendering: 48 %
+Rendering: 39 %
+Rendering: 42 %
+Rendering: 46 %
+Rendering: 49 %
 Rendering: 51 %
-Rendering: 52 %
-Rendering: 54 %
+Rendering: 53 %
 Rendering: 55 %
 Rendering: 56 %
 Rendering: 57 %
+Rendering: 57 %
+Rendering: 58 %
 Rendering: 58 %
 Rendering: 59 %
-Rendering: 59 %
 Rendering: 60 %
-Rendering: 62 %
-Rendering: 65 %
-Rendering: 68 %
-Rendering: 72 %
-Rendering: 75 %
+Rendering: 61 %
+Rendering: 64 %
+Rendering: 66 %
+Rendering: 70 %
+Rendering: 73 %
+Rendering: 76 %
 Rendering: 77 %
-Rendering: 78 %
 Rendering: 78 %
 Rendering: 79 %
 Rendering: 80 %
-Rendering: 82 %
-Rendering: 86 %
+Rendering: 81 %
+Rendering: 85 %
 Rendering: 88 %
+Rendering: 89 %
 Rendering: 91 %
-Rendering: 95 %
+Rendering: 94 %
 Rendering: 98 %
 Rendering: 100 %
 Rendering: Post processing shader
-Rendering time 23.625 s
+Rendering time 22.983 s
 Successfully created 3D render image
 
-$ kicad-cli sch erc --format json -o tmp/p34-export2/board-p15/checks/erc.json tmp/p34-export2/board-p15/source/board-p15.kicad_sch
+$ kicad-cli sch erc --format json -o tmp/p35-export/board-p15/checks/erc.json tmp/p35-export/board-p15/source/board-p15.kicad_sch
 Found 29 violations
-Saved ERC Report to tmp/p34-export2/board-p15/checks/erc.json
+Saved ERC Report to tmp/p35-export/board-p15/checks/erc.json
 
-$ kicad-cli sch export pdf -o tmp/p34-export2/board-p15/schematic.pdf tmp/p34-export2/board-p15/source/board-p15.kicad_sch
-Plotted to 'tmp/p34-export2/board-p15/schematic.pdf'.
+$ kicad-cli sch export pdf -o tmp/p35-export/board-p15/schematic.pdf tmp/p35-export/board-p15/source/board-p15.kicad_sch
+Plotted to 'tmp/p35-export/board-p15/schematic.pdf'.
 Done.
 
-$ kicad-cli sch export netlist --format kicadsexpr -o tmp/p34-export2/board-p15/raw/board-p15.net tmp/p34-export2/board-p15/source/board-p15.kicad_sch
+$ kicad-cli sch export netlist --format kicadsexpr -o tmp/p35-export/board-p15/raw/board-p15.net tmp/p35-export/board-p15/source/board-p15.kicad_sch
 
-$ /usr/local/bin/python3 scripts/schgen/verify_netlist.py board_p15_spec tmp/p34-export2/board-p15/raw/board-p15.net
+$ /usr/local/bin/python3 scripts/schgen/verify_netlist.py board_p15_spec tmp/p35-export/board-p15/raw/board-p15.net
 PASS: 26 nets, 99 nodes (20 expected nets + 6 unconnected)
 
-$ kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o tmp/p34-export2/board-p15/gerbers tmp/p34-export2/board-p15/source/board-p15.kicad_pcb
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-F_Cu.gtl'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-B_Cu.gbl'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-F_Paste.gtp'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-B_Paste.gbp'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-F_Silkscreen.gto'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-B_Silkscreen.gbo'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-F_Mask.gts'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-B_Mask.gbs'.
-Plotted to 'tmp/p34-export2/board-p15/gerbers/board-p15-Edge_Cuts.gm1'.
+$ kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o tmp/p35-export/board-p15/gerbers tmp/p35-export/board-p15/source/board-p15.kicad_pcb
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-F_Cu.gtl'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-B_Cu.gbl'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-F_Paste.gtp'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-B_Paste.gbp'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-F_Silkscreen.gto'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-B_Silkscreen.gbo'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-F_Mask.gts'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-B_Mask.gbs'.
+Plotted to 'tmp/p35-export/board-p15/gerbers/board-p15-Edge_Cuts.gm1'.
 
-$ kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o tmp/p34-export2/board-p15/gerbers tmp/p34-export2/board-p15/source/board-p15.kicad_pcb
-Created file 'tmp/p34-export2/board-p15/gerbers/board-p15-PTH.drl'
-Created file 'tmp/p34-export2/board-p15/gerbers/board-p15-NPTH.drl'
+$ kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o tmp/p35-export/board-p15/gerbers tmp/p35-export/board-p15/source/board-p15.kicad_pcb
+Created file 'tmp/p35-export/board-p15/gerbers/board-p15-PTH.drl'
+Created file 'tmp/p35-export/board-p15/gerbers/board-p15-NPTH.drl'
 Done.
 
-$ kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o tmp/p34-export2/board-p15/raw/positions.csv tmp/p34-export2/board-p15/source/board-p15.kicad_pcb
-Wrote position data to 'tmp/p34-export2/board-p15/raw/positions.csv'.
+$ kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o tmp/p35-export/board-p15/raw/positions.csv tmp/p35-export/board-p15/source/board-p15.kicad_pcb
+Wrote position data to 'tmp/p35-export/board-p15/raw/positions.csv'.
 
-$ kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o tmp/p34-export2/board-p15/assembly-top.svg tmp/p34-export2/board-p15/source/board-p15.kicad_pcb
-Plotted to 'tmp/p34-export2/board-p15/assembly-top.svg'.
+$ kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o tmp/p35-export/board-p15/assembly-top.svg tmp/p35-export/board-p15/source/board-p15.kicad_pcb
+Plotted to 'tmp/p35-export/board-p15/assembly-top.svg'.
 Done.
 
-$ kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o tmp/p34-export2/board-p15/assembly-bottom.svg --mirror tmp/p34-export2/board-p15/source/board-p15.kicad_pcb
-Plotted to 'tmp/p34-export2/board-p15/assembly-bottom.svg'.
+$ kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o tmp/p35-export/board-p15/assembly-bottom.svg --mirror tmp/p35-export/board-p15/source/board-p15.kicad_pcb
+Plotted to 'tmp/p35-export/board-p15/assembly-bottom.svg'.
 Done.
