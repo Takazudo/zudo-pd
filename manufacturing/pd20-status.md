@@ -7,7 +7,7 @@ bench row below is a test sheet that has **not been executed**; each one needs o
 Fixed decisions this stream works under:
 
 - 20 V / 5 A is a separate product for OSC, with a 5 A e-marked cable and no degraded mode.
-- OSC current contract: +12 / −12 / +5 V continuous 1.7 / 1.6 / 0.3 A; 20 ms transient 2.0 / 1.9 / 0.4 A.
+- OSC current contract: +12 / −12 / +5 V continuous 1.7 / 1.6 / 0.3 A; 20 ms transient 2.0 / 1.9 / 0.4 A; let-through maximum 2.1 / 2.0 / 0.5 A including tolerance. OSC canonical +12 V demand is 1.6 A after its S2b switch; the 1.7 A contract is unchanged.
 - STUSB4500 common controller block; B20 is a four-layer board (JLC7628 stackup).
 - Every prototype order is **quantity 2** (owner rule: JLCPCB PCBA needs at least two assembled sets).
 
@@ -94,9 +94,9 @@ inner-layer Gerber. The 2-layer checks are unchanged, and the results schema is 
 | Disconnect skew ≤ 1 ms | **PASS (SIM)**: 4 µs |
 | Startup ramp and slope limits | **PASS (SIM)** loaded; no-load +5 V and −12 V slopes accepted by the owner (below) |
 | Start skew ≤ 0.41 ms | Voltage form **PASS (SIM)**; time form **FAIL (SIM)** |
-| Band-entry skew ≤ 2 ms, +5 V last | **PASS (SIM)** |
-| Let-through (maximum never delivered) | **OPEN**: the limiter trips, it does not regulate current |
-| +5 V ≤ 0.8 V before analog rails are "up" | **OPEN (definition)**: a question for OSC |
+| Band-entry skew ≤ 2 ms (all rails in band) | **PASS (SIM)**: 0.73 ms in the phase-33 re-entry runs. +5 V entering last is a PD design choice that avoids the one-rail case, not an OSC rule |
+| Let-through maximum 2100 / 2000 / 500 mA (+12 / −12 / +5 V, including tolerance and let-through) | **OPEN**: the limiter trips, it does not regulate current; let-through not simulated or measured |
+| +5 V ≤ 0.8 V until both analog rails exceed about 1.5 V magnitude (OSC Definition 1, answered) | **PASS (SIM)** at startup: worst 0.637 V while the lower analog rail is below 1.45 V (phase-33 start runs). The 1.45 V analysis threshold is slightly below OSC's "about 1.5 V"; re-running at 1.5 V is NOT RUN. Ramp-down is covered by T5, not by this row |
 | Renegotiation: vSafe0V after a hard reset | **OPEN**: depends on TDISPAR0V (NVM above) and needs a bench run |
 | Inrush from Board P into the B20 bulk | **OPEN**: Q1 SOA not in its bundle |
 
@@ -114,7 +114,7 @@ None of these has been executed. Each needs owner approval and the two prototype
 | T2 Thermal | 25 °C ambient, continuous load for 30 min; thermocouples on D3, U4, the 10 mΩ shunts and Board P Q1 | D3 and every IC inside its rated junction limit with the measured θ; no part above its derated limit | D3 copper temperature UNKNOWN; desk loss 6.62 W at the limiter maximum |
 | T3 Startup and re-entry | Scope all three rails and EN_N at no load and at transient load; repeat with 6 ms and 18.6 ms off times | Every §5 row of the draft page, with the owner-accepted no-load exceptions | Phase 9–12 simulations |
 | T4 NVM readback | Write the 20 V image only after TDISPAR0V is located; power-cycle, read back 40 bytes | Readback equals the image; PDO2 = 20 V / 5 A | NVM status BLOCKED |
-| T5 Discharge and order | Disconnect at zero load and at an asymmetric OSC load | ≤ 100 ms; \|−12 V\| ≤ 6 V while +12 V is low; 1206 discharge resistors without visible damage after 100 cycles | Discharge rows above; pulse rating OPEN |
+| T5 Discharge and order | Disconnect at zero load and at an asymmetric OSC load | ≤ 100 ms; \|−12 V\| ≤ 6 V while +12 V is low; +12 V ≤ 0.5 V while −12 V is absent; +5 V ≤ 0.8 V by the time the first analog rail leaves; 1206 discharge resistors without visible damage after 100 cycles | Discharge rows above; pulse rating OPEN |
 | T6 Reverse current | Back-drive each output from a bench supply with the board unpowered and at 60 °C | ≤ 1 mA per rail | Reverse current OPEN |
 | T7 Fault latch | Short each rail through a current-limited load | All rails off and latched until re-plug; let-through charge recorded | Latch PASS (topology); let-through OPEN |
 | T8 Hard reset | Force a PD hard reset from a source analyser | VBUS reaches vSafe0V within the PD timing; B20 latches off and restarts cleanly | Renegotiation OPEN |
