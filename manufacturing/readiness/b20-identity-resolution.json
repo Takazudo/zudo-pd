@@ -2659,10 +2659,11 @@
    "status": "RESOLVED"
   },
   "270pF C0G": {
-   "lcsc": "C501846",
-   "mpn": "0603CG271J500NT",
-   "brand": "FH (Guangdong Fenghua Advanced Tech)",
-   "status": "RESOLVED"
+   "lcsc": "C107046",
+   "mpn": "CC0603JRNPO9BN271",
+   "brand": "YAGEO",
+   "status": "RESOLVED",
+   "note": "phase 33: replaced the phase-32 FH listing C501846 (distributor listing only) with a YAGEO line that has a retained manufacturer sheet (rec-c107046)"
   },
   "47pF C0G": {
    "lcsc": "C1671",
@@ -2677,18 +2678,20 @@
    "status": "RESOLVED"
   },
   "27nF C0G": {
-   "lcsc": null,
-   "mpn": null,
-   "brand": null,
-   "status": "UNKNOWN",
-   "note": "no exact 0603 50 V C0G listing found (Samsung CL10C, Murata GRM1885C1H/C1E, FH 0603CG, TDK C1608/CGA3, KEMET C0603C model queries and free-text search)"
+   "lcsc": "C3882413",
+   "mpn": "GRM2165C1H273JA01D",
+   "brand": "Murata",
+   "status": "RESOLVED",
+   "package": "0805",
+   "note": "phase 33: no in-stock 0603 C0G above 10 nF exists; the divider capacitor moved to the 0805 Murata line (engineering call relayed by the manager)"
   },
   "47nF C0G": {
-   "lcsc": null,
-   "mpn": null,
-   "brand": null,
-   "status": "UNKNOWN",
-   "note": "no exact 0603 50 V C0G listing found (same queries as 27 nF)"
+   "lcsc": "C5451690",
+   "mpn": "C1206N473J050T",
+   "brand": "Holy Stone",
+   "status": "RESOLVED",
+   "package": "1206",
+   "note": "phase 33: no 0603 C0G pair works (largest in-stock 0603 C0G is 10 nF; 2 x 10 nF = 20 nF, -57 % from 47 nF), so one 1206 C0G is used per the relayed fallback. Identity rests on the distributor listing and the Holy Stone NCC catalog mirror, whose range table does not list NP0 1206 47 nF; manufacturer facts stay UNSOURCED"
   },
   "102k 0.1%": {
    "lcsc": "C861068",
@@ -3171,6 +3174,876 @@
   "unresolved": {
    "27nF C0G": "no 0603 C0G listing in stock; GRM2165C1H273JA01D C3882413 (0805, 7108) needs a land change",
    "47nF C0G": "no 0603 C0G listing in stock; Holy Stone C1206N473J050T C5451690 (1206, 1204) and C1210N473K050T C106097 (1210, 1818) need a land change; no manufacturer sheet retrieved"
+  }
+ },
+ "catalog_phase33": {
+  "_comment": "Phase 33 read-only JLCPCB catalog lookups for the phase 32 divider LCSCs and the phase 33 part changes. Distributor listings only; stock and prices change daily and are not quotes. No order, quote request or upload was made.",
+  "retrieved": "2026-11-03",
+  "endpoint": "jlcpcb.com overseas-pcb-order selectSmtComponentList (keyword = LCSC code)",
+  "raw_sha256": "1659ec6d2e92935b0931da2ef0127dc0cd798d3538deff6b4aad2f51cdac4161",
+  "parts": {
+   "C136962": {
+    "model": "RT0603BRD0747K5L",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 1612,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0358
+     ],
+     [
+      200,
+      599,
+      0.0306
+     ],
+     [
+      600,
+      4999,
+      0.0274
+     ],
+     [
+      5000,
+      9999,
+      0.0256
+     ],
+     [
+      10000,
+      19999,
+      0.0242
+     ],
+     [
+      20000,
+      -1,
+      0.0233
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 47.5kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C136967": {
+    "model": "RT0603BRD0724K9L",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 14630,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0394
+     ],
+     [
+      200,
+      599,
+      0.0337
+     ],
+     [
+      600,
+      4999,
+      0.0304
+     ],
+     [
+      5000,
+      9999,
+      0.0286
+     ],
+     [
+      10000,
+      19999,
+      0.0269
+     ],
+     [
+      20000,
+      -1,
+      0.026
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 24.9kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C309650": {
+    "model": "RT0603BRD0718KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 47401,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0401
+     ],
+     [
+      200,
+      599,
+      0.0325
+     ],
+     [
+      600,
+      4999,
+      0.0284
+     ],
+     [
+      5000,
+      9999,
+      0.0258
+     ],
+     [
+      10000,
+      19999,
+      0.0237
+     ],
+     [
+      20000,
+      -1,
+      0.0225
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 18kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C326723": {
+    "model": "RT0603BRD0763K4L",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 6815,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0473
+     ],
+     [
+      200,
+      599,
+      0.0392
+     ],
+     [
+      600,
+      4999,
+      0.0347
+     ],
+     [
+      5000,
+      9999,
+      0.0307
+     ],
+     [
+      10000,
+      19999,
+      0.0284
+     ],
+     [
+      20000,
+      -1,
+      0.0273
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 63.4kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C326729": {
+    "model": "RT0603BRD0724KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 51017,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0376
+     ],
+     [
+      200,
+      599,
+      0.032
+     ],
+     [
+      600,
+      4999,
+      0.0289
+     ],
+     [
+      5000,
+      9999,
+      0.0269
+     ],
+     [
+      10000,
+      19999,
+      0.0255
+     ],
+     [
+      20000,
+      -1,
+      0.0245
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 24kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C326735": {
+    "model": "RT0603BRD0712KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 47597,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.054
+     ],
+     [
+      200,
+      599,
+      0.046
+     ],
+     [
+      600,
+      4999,
+      0.0415
+     ],
+     [
+      5000,
+      9999,
+      0.0389
+     ],
+     [
+      10000,
+      19999,
+      0.0366
+     ],
+     [
+      20000,
+      -1,
+      0.0353
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 12kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C705799": {
+    "model": "RT0603BRD0793K1L",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 8088,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.035
+     ],
+     [
+      200,
+      599,
+      0.0299
+     ],
+     [
+      600,
+      4999,
+      0.0269
+     ],
+     [
+      5000,
+      9999,
+      0.0253
+     ],
+     [
+      10000,
+      19999,
+      0.0238
+     ],
+     [
+      20000,
+      -1,
+      0.023
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 75V 93.1kΩ Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861068": {
+    "model": "RT0603BRD07102KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 8830,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.037
+     ],
+     [
+      200,
+      599,
+      0.0315
+     ],
+     [
+      600,
+      4999,
+      0.0286
+     ],
+     [
+      5000,
+      9999,
+      0.0268
+     ],
+     [
+      10000,
+      19999,
+      0.0251
+     ],
+     [
+      20000,
+      -1,
+      0.0243
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 102kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861086": {
+    "model": "RT0603BRD07118KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 8149,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0553
+     ],
+     [
+      200,
+      599,
+      0.0473
+     ],
+     [
+      600,
+      4999,
+      0.0429
+     ],
+     [
+      5000,
+      9999,
+      0.0401
+     ],
+     [
+      10000,
+      19999,
+      0.0378
+     ],
+     [
+      20000,
+      -1,
+      0.0365
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 118kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861162": {
+    "model": "RT0603BRD07172KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 4185,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0547
+     ],
+     [
+      200,
+      599,
+      0.0468
+     ],
+     [
+      600,
+      4999,
+      0.0424
+     ],
+     [
+      5000,
+      9999,
+      0.0397
+     ],
+     [
+      10000,
+      19999,
+      0.0374
+     ],
+     [
+      20000,
+      -1,
+      0.0361
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 172kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861233": {
+    "model": "RT0603BRD07226KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 1457,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0509
+     ],
+     [
+      200,
+      599,
+      0.0429
+     ],
+     [
+      600,
+      4999,
+      0.0384
+     ],
+     [
+      5000,
+      9999,
+      0.0358
+     ],
+     [
+      10000,
+      19999,
+      0.0335
+     ],
+     [
+      20000,
+      -1,
+      0.0322
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 226kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861266": {
+    "model": "RT0603BRD0726K4L",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 3659,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0256
+     ],
+     [
+      200,
+      599,
+      0.0204
+     ],
+     [
+      600,
+      4999,
+      0.0176
+     ],
+     [
+      5000,
+      9999,
+      0.0159
+     ],
+     [
+      10000,
+      19999,
+      0.0144
+     ],
+     [
+      20000,
+      -1,
+      0.0136
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 26.4kΩ Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861309": {
+    "model": "RT0603BRD07301KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 7323,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0381
+     ],
+     [
+      200,
+      599,
+      0.0325
+     ],
+     [
+      600,
+      4999,
+      0.0296
+     ],
+     [
+      5000,
+      9999,
+      0.0276
+     ],
+     [
+      10000,
+      19999,
+      0.0261
+     ],
+     [
+      20000,
+      -1,
+      0.0251
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 301kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861420": {
+    "model": "RT0603BRD0746K4L",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 17343,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0571
+     ],
+     [
+      200,
+      599,
+      0.0488
+     ],
+     [
+      600,
+      4999,
+      0.0442
+     ],
+     [
+      5000,
+      9999,
+      0.0414
+     ],
+     [
+      10000,
+      19999,
+      0.0389
+     ],
+     [
+      20000,
+      -1,
+      0.0378
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 46.4kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861550": {
+    "model": "RT0603BRD07750KL",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 5628,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0389
+     ],
+     [
+      200,
+      599,
+      0.033
+     ],
+     [
+      600,
+      4999,
+      0.0296
+     ],
+     [
+      5000,
+      9999,
+      0.0276
+     ],
+     [
+      10000,
+      19999,
+      0.026
+     ],
+     [
+      20000,
+      -1,
+      0.025
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 750kΩ 75V Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C861616": {
+    "model": "RT0603BRD079K76L",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 2584,
+    "price_tiers_usd": [
+     [
+      1,
+      199,
+      0.0504
+     ],
+     [
+      200,
+      599,
+      0.043
+     ],
+     [
+      600,
+      4999,
+      0.0389
+     ],
+     [
+      5000,
+      9999,
+      0.0365
+     ],
+     [
+      10000,
+      19999,
+      0.0343
+     ],
+     [
+      20000,
+      -1,
+      0.0332
+     ]
+    ],
+    "listing": "-55℃~+155℃ 100mW 75V 9.76kΩ Thin Film Resistor ±0.1% ±25ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+   },
+   "C3882413": {
+    "model": "GRM2165C1H273JA01D",
+    "brand": "Murata Electronics",
+    "package": "0805",
+    "library_type": "expand",
+    "stock": 7108,
+    "price_tiers_usd": [
+     [
+      1,
+      49,
+      0.1406
+     ],
+     [
+      50,
+      149,
+      0.1158
+     ],
+     [
+      150,
+      499,
+      0.1034
+     ],
+     [
+      500,
+      2499,
+      0.094
+     ],
+     [
+      2500,
+      3999,
+      0.0866
+     ],
+     [
+      4000,
+      -1,
+      0.0829
+     ]
+    ],
+    "listing": "27nF 50V C0G ±5% 0805 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+   },
+   "C5451690": {
+    "model": "C1206N473J050T",
+    "brand": "IHHEC(HOLY STONE ENTERPRISE CO., LTD)",
+    "package": "1206",
+    "library_type": "expand",
+    "stock": 1204,
+    "price_tiers_usd": [
+     [
+      1,
+      49,
+      0.1794
+     ],
+     [
+      50,
+      149,
+      0.1391
+     ],
+     [
+      150,
+      499,
+      0.1219
+     ],
+     [
+      500,
+      1999,
+      0.1004
+     ],
+     [
+      2000,
+      3999,
+      0.0909
+     ],
+     [
+      4000,
+      -1,
+      0.085
+     ]
+    ],
+    "listing": "47nF 50V NP0 ±5% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+   },
+   "C85100": {
+    "model": "B560C-13-F",
+    "brand": "Diodes Incorporated",
+    "package": "SMC(DO-214AB)",
+    "library_type": "expand",
+    "stock": 109191,
+    "price_tiers_usd": [
+     [
+      1,
+      49,
+      0.1942
+     ],
+     [
+      50,
+      149,
+      0.1478
+     ],
+     [
+      150,
+      499,
+      0.1252
+     ],
+     [
+      500,
+      2999,
+      0.105
+     ],
+     [
+      3000,
+      5999,
+      0.0994
+     ],
+     [
+      6000,
+      -1,
+      0.096
+     ]
+    ],
+    "listing": "-55℃~+150℃ 1 Independent 100A 500uA@60V 5A 60V 700mV@5A SMC(DO-214AB) Schottky Diodes ROHS"
+   },
+   "C106097": {
+    "model": "C1210N473K050T",
+    "brand": "IHHEC(HOLY STONE ENTERPRISE CO., LTD)",
+    "package": "1210",
+    "library_type": "expand",
+    "stock": 1818,
+    "price_tiers_usd": [
+     [
+      1,
+      9,
+      0.1923
+     ],
+     [
+      10,
+      29,
+      0.1552
+     ],
+     [
+      30,
+      99,
+      0.1391
+     ],
+     [
+      100,
+      499,
+      0.1193
+     ],
+     [
+      500,
+      999,
+      0.1104
+     ],
+     [
+      1000,
+      -1,
+      0.0886
+     ]
+    ],
+    "listing": "47nF 50V NP0 ±10% 1210 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+   },
+   "C107046": {
+    "model": "CC0603JRNPO9BN271",
+    "brand": "YAGEO",
+    "package": "0603",
+    "library_type": "expand",
+    "stock": 130270,
+    "price_tiers_usd": [
+     [
+      1,
+      499,
+      0.0096
+     ],
+     [
+      500,
+      1499,
+      0.0076
+     ],
+     [
+      1500,
+      3999,
+      0.0065
+     ],
+     [
+      4000,
+      23999,
+      0.0057
+     ],
+     [
+      24000,
+      47999,
+      0.0051
+     ],
+     [
+      48000,
+      -1,
+      0.0048
+     ]
+    ],
+    "listing": "270pF 50V NP0 ±5% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+   }
+  },
+  "raw_sha256_c107046": "94cdb3cd32f294a72178b3332860df6a2641c3b88f1bca5fe402b38f8b7c972c"
+ },
+ "phase33": {
+  "_comment": "Phase 33 part decisions (2026-11-03). Read-only catalog lookups; stock is volatile and is not a quote.",
+  "c0g_search": {
+   "scope": "in-stock C0G/NP0 0603 >= 10 nF, then 0805/1206/1210 at 47 nF",
+   "largest_in_stock_0603_c0g": "10 nF (C85973; C82282 listed with 11 units)",
+   "pair_option": "2 x 10 nF = 20 nF, -57.4 % from 47 nF: rejected",
+   "in_stock_47nF_c0g_up_to_1210": [
+    "C5451690 (1206, Holy Stone C1206N473J050T)",
+    "C106097 (1210)",
+    "C22093795 (Walsin, 21 units)"
+   ],
+   "selected": "C5451690"
+  },
+  "schottky": {
+   "ref": "D3",
+   "from": "SDT5A60SA-13 PowerDI5 candidate",
+   "to": "B560C-13-F / C85100 (SMC)",
+   "land": "zudo-pd:SMC_Diodes_B560C_C85100, pads 2.5 x 3.3 mm at +/-3.45 mm, courtyard 9.9 x 6.72 mm",
+   "correction": "the phase 32 SMC courtyard (9.9 x 3.8 mm) ignored the 6.22 mm body width"
   }
  }
 }

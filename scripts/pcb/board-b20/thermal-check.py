@@ -17,7 +17,9 @@ import sys
 RDS = {'typ': 0.092, 'max': 0.190}
 QG, IQ, THETA_JA_STD = 3e-9, 146e-6, 42.0
 FSW = 556.7e3                      # calculate-board-b20-draft.py fsw_typical_hz
-VF = 0.52                          # SDT5A60SA fact-c3024223-vf-max-5a-25c (5 A, 25 C maximum; a bound at these currents)
+# catch-diode forward voltage per rail (5 A, 25 C maxima; bounds at these currents): the bucks keep SDT5A60SA
+# (fact-c3024223-vf-max-5a-25c), the inverter has B560C-13-F since phase 33 (fact-c85100-vf-max-5a-25c)
+VF_RAIL = {'+12': 0.52, '+5': 0.52, '-12': 0.70}
 DCR = 0.068                        # ASPI-0630LR-100M-T15 fact-aspi-0630lr-100m-t15-dcr-max
 R_SHUNT = 0.010                    # PCSR2512 fact-c23067428-resistance
 R_FET = 0.0156 * 1.25              # CSD18543Q3A 4.5 V maximum x the draft's 1.25 hot factor (PA)
@@ -32,6 +34,7 @@ T_AMB = 40.0
 
 def stage(rail, io, vin, rds):
     vo = VOUT[rail] + io * (R_SHUNT + DCR)          # raw node above the servo-regulated SH node
+    VF = VF_RAIL[rail]
     di = RIPPLE_PP[rail]
     if rail == '-12':                                # inverting buck-boost: the IC switches VIN + |VOUT|
         d = (vo + VF) / (vin + vo + VF)

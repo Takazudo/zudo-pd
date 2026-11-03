@@ -791,6 +791,164 @@ What closes the gates:
 - Add the B20 models to the reviewed STEP datum manifest.
 - Build the B20 and r3 stack previews and power reports.
 
+#### Phase 33: C0G and D3 part changes, B20 bound to the inventory, exporter paths, divider re-simulation
+
+**C0G capacitors stay C0G; the lands grow (spec change).** A repeat of the read-only catalog sweep (2026-11-03,
+JLCPCB catalog API) found no in-stock 0603 C0G part above 10 nF. The largest are C85973 (GRM1885C1H103JA01D, 10 nF)
+and C82282, which has 11 units listed. Two 0603 parts in parallel therefore give at most 20 nF against 47 nF
+(−57.4 %), so no 0603 pair meets the ratio. The relayed fallback applies:
+
+| Site | Was (0603, no part) | Now | Package | Stock (2026-11-03) | Evidence |
+|---|---|---|---|---|---|
+| C9 (CBCP, buck B compensation pole) | 27 nF C0G | Murata GRM2165C1H273JA01D C3882413 | 0805 | 7108 | Murata reference sheet (hashed in phase 32); record `rec-c3882413` |
+| C12 (CCCP, inverter compensation pole) | 47 nF C0G | Holy Stone C1206N473J050T C5451690 | 1206 | 1204 | Distributor listing plus the Holy Stone NCC catalog (LCSC-hosted mirror). Its range table lists no NP0 1206 47 nF, so the manufacturer facts are **UNSOURCED**; record `rec-c5451690` |
+| CI12N and the other 270 pF sites | FH 0603CG271J500NT C501846 (listing only) | YAGEO CC0603JRNPO9BN271 C107046 | 0603 | 130270 | YAGEO sheet hashed; record `rec-c107046` |
+
+The other in-stock C0G 47 nF parts up to 1210 were C106097 (1210, 1818) and Walsin C22093795 (21 units). The capacitance
+values do not change, so the AC runs in §5 still apply to these sites.
+
+**D3 is B560C-13-F C85100 (SMC); the inverter template moves (spec and layout change).** The new land
+`SMC_Diodes_B560C_C85100` follows the DS13012 Rev. 19-2 Suggested Pad Layout: two 2.5 × 3.3 mm pads at ±3.45 mm,
+pad 1 cathode. Its courtyard is 9.9 × 6.72 mm. The phase 32 fit screen used 9.9 × 3.8 mm, which left out the 6.22 mm
+body width, so its result understated the conflict. A new maximum-envelope model `SMC_MaxEnvelope_L8.13-W6.22-H2.5`
+(STEP read back at 8.13 × 6.22 × 2.5 mm) is attached. In the U3 stage template D3 moves from (3.05, −5.02) to
+(4.6, −6.75) relative to U3, and L5 moves from 11.34 to 14.4 mm. The anode pad (x 31.15, y 41.25) stays inside the
+M12_RAW_D3 spreading area beside the CCIN1 return. The cathode pad sits on the C_SW node, but the SMC cathode is a
+lead, not a tab, so the node does not grow to carry heat. `thermal-check.py` now uses VF 0.70 V for the −12 V stage:
+the limiter-maximum diode loss rises from 1.04 to 1.40 W and the desk board loss from 6.23 to 6.62 W.
+
+**Re-placed and re-routed: DRC PASS, 0 unconnected, 0 errors, 0 parity issues (draft, no layout review).** A full greedy
+re-placement moved 157 parts and left 19 connections open. A larger 1206 or 0805 land reorders the area-sorted fill,
+so the change rippled across the board. Phase 33 therefore keeps the phase 32 placement and moves only the affected
+sites:
+
+- `scripts/pcb/board-b20/placement-lock.json` holds the phase 32 position of every part except D3, L5 and C9.
+  `build-draft.py` places locked parts first, the U3 template places D3 and L5, and the greedy fill places C9.
+- Five parts are set by hand, and the lock records their old and new positions:
+
+  | Part | Change |
+  |---|---|
+  | C12 | Keeps its site; its 1206 courtyard fits between RHO2 and C39 with about 0.1 mm to spare on each side |
+  | Q55 | Moved 0.5 mm, clear of D3 |
+  | RCEN2 | Moved 1.05 mm, clear of D3 |
+  | CAF2 | Moved 0.65 mm, clear of L5 |
+  | Q47 | Lost its site under D3; moved to the nearest courtyard-clear site found with 0.5 mm clearance, (56.4, 41.5) |
+
+- C9 moved 0.3 mm. Eight footprints moved or changed land relative to phase 32; every other position is unchanged.
+
+Router trials on that placement (`route.py`, 4-layer, deterministic):
+
+| Trial | In2.Cu pre-routes added to the phase 31 set | Signal order | Unrouted |
+|---|---|---|---|
+| default | none | default | 5 (OV12_DIV, OV5_CMP, OV5_DIV, SV12) |
+| A | OV12_DIV, OV5_CMP, OV5_DIV, SV12 | default | 2 (I12_N, P5_G) |
+| F | OV12_DIV, OV5_CMP, OV5_DIV | default | 1 (P5_DRV) |
+| **J (adopted)** | OV12_DIV, OV5_CMP, OV5_DIV | P5_DRV first | **0** |
+
+Seven other trials (SV12, I12_N or P5_DRV pre-routed, other orders, more rip-up rounds) left 1–7 open. The J settings are now the
+`route.py` defaults, and a re-run reproduces its routes byte for byte. The result is 3241 segments and 767 vias.
+
+Native KiCad 10.0.6 DRC with schematic parity (heavy-guard, KiCad lock) is **PASS (DRC)**: 0 unconnected, 0 errors
+and 0 parity issues. The warnings are 3 `via_dangling` and 2 `lib_footprint_mismatch` (the J10/J11 silk clip, as
+before).
+
+Desk screens:
+
+| Screen | Phase 32 | Phase 33 |
+|---|---|---|
+| Inverter hot loop (U3, CCIN1, D3) | 29.6 mm², 24.7 mm perimeter | **44.4 mm², 31.4 mm** (SW pin to D3 cathode 5.92 mm, was 3.19 mm) |
+| +12 V / +5 V hot loops | 29.6 mm² each | unchanged |
+| Hottest routed path at the limiter maximum | 11.0 K (M12_RAW, D3.2 to L6.1) | 11.0 K, same path |
+| Stage cells at the limiter maximum | ≤ 16.2 K | ≤ 16.2 K |
+| Board loss, rated / limiter maximum (max RDS(on)) | 2.43 / 6.23 W | 2.58 / 6.62 W |
+
+The SMC land costs a 50 % larger inverter hot loop. Its loop inductance and pickup are **OPEN** (desk). D3's local
+copper temperature stays **UNKNOWN**.
+
+**Previews: the R2512 Kelvin land cannot be rendered by the pinned preview renderer (BLOCKED).** Binding B20 added
+six packages to the publication corpus, so `expect.packages` is 46. The preview renderer is pinned to KiCad 9.0.9 and
+cannot load `R2512_RESI-PCSR2512_Kelvin`. The file's `(duplicate_pad_numbers_are_jumpers yes)` token makes KiCad
+9.0.9 report "Unable to load library"; without the token the land renders. The other five new lands render. The
+renderer image also runs as uid 1000, which cannot read the generator's root-owned 0700 temporary directory, so the
+render used a scratch `docker` wrapper adding `--user 0:0`. `pnpm check` therefore fails at `footprints check`
+(manifest 40 against 46 selected). The steps after it pass when run on their own: CAD pairs (46) and the documentation
+type check. The land was not edited, because removing the token changes how KiCad 10 treats the Kelvin pads.
+Updating the renderer pin or the land is a separate decision.
+
+**Lineup cost (`calculate-lineup-cost.py`).** The B20 renewal row is USD 75.02 for lot 1 and USD 304.91 per 5-unit
+lot (87 lines, 70 extended, 0 UNKNOWN). Assembly is USD 195.18 per lot (Standard PCBA, single side, 737 SMD and 42 THT
+joints). These are distributor listings from 2026-11-03, not quotes.
+
+**B20 is bound to the central inventory (evidence change).** The validator's generator DSL cannot run the helper
+functions in `board_b20_spec.py`. `scripts/schgen/gen_b20_components.py` therefore writes a literal projection,
+`scripts/schgen/board_b20_components.py`, which is registered as the `board-b20-draft` generator spec. `--check`
+fails when the projection differs from the spec. Every one of the 269 placements now has an LCSC code (87 distinct).
+Each formerly proposed value maps to the exact MPN and LCSC chosen in phases 13 and 32–33 (`EXACT` in the spec). The
+SHORTLISTED candidate records for the placed parts became 58 new inventory lines, including the two new records
+`rec-c107046` and `rec-c5451690`. 55 are owned by `component-board-b20-draft-candidates`, 2 by
+`component-project-passives` and 1 by `component-ti-board-b-limiter-candidates`; 29 existing lines gained B20
+placements. 56 new lines are identity VERIFIED. C5451690 and PCSR2512BR010M6 C23067428 stay UNRESOLVED because their
+manufacturer facts rest on mirror copies. Unplaced alternatives (PDS760-13 C96113 and others) stay in `candidates.json`
+(16 remain). Other results:
+
+- The inventory has 128 lines. Its assertions count 126 fitted lines, 2 DNP lines, 430 fitted placements and 12 DNP
+  placements.
+- Pin maps name the KiCad symbol and footprint of each part, and the golden pin-map locks were re-hashed.
+- The publication corpus has 128 records, 293 sources and 46 packages.
+- 51 symbols were added to `symbols/zudo-pd.kicad_sym`. They are cloned from the RT0603, CC0603 and SDT5A60SA
+  templates and carry the exact value, footprint and LCSC.
+- `validate.py --strict`, the unit tests, `check_forward_tests.py --strict` and `pnpm circuit:check` are PASS.
+- The bundle keeps the name `component-board-b20-draft-candidates` for link stability.
+
+**Exporter paths (tooling change; no export was made).** `scripts/pcb/export-jlcpcb.py` now accepts one Board P
+variant and one Board B variant (`board-b` or `board-b20-draft`), and the pair must be listed in `PAIRS`:
+
+- Every copper layer in the board's layer table is plotted. A 4-layer board gets In1.Cu and In2.Cu gerbers, and the
+  export requires them. A 2-layer board plots the same layer set as before.
+- `PAIRS` holds each pair's power budget, power layout report, package notes and stack-preview folder. For
+  board-p + board-b20-draft these are `manufacturing/power-budget-b20.json`, `manufacturing/power-layout-b20.json`,
+  `manufacturing/package-notes-b20.md` and `boards/board-b20-draft/assembly-preview/`.
+- None of those four exists yet. The power-report and stack-preview gates fail with a message that names the missing
+  file. They do not fall back to the Board B reports.
+- The schematic-spec hash check reads `board_b20_spec.py` for B20, through `SPEC_MODULES`.
+
+`scripts/pcb/calculate-lineup-cost.py` now reads the current `manufacturing/releases/corner-support-review/board-p15/bom.csv`
+package path. It reads the as-built Board P BOM from git at `658b377^` and counts pads from each PCB. Every B20 part is
+priced from the 2026-11-03 catalog records.
+
+**STEP datum manifest: 9 B20 models added, pending independent review.** `verify-step-datums.py` now includes the
+`board-b20-draft` PCB in its active model set (`--board-b20` replaces it with a candidate). The 9 models only B20 uses
+were appended to `scripts/pcb/step-datum-normalizations.json`:
+
+- HSOP-8 DDA, VSSOP-8 DGK, SOIC-8 D, SON-8 Q3A, PowerDI3333-8, SOT-23 DS30144, R1206, R2512 PCSR2512 and SMC.
+- Each entry has the WRL and STEP hashes, its `board-b20-draft/<ref>` uses and a `review_status` of PENDING
+  independent review.
+- No translation is prescribed.
+- The entries are the PD worker's own addition and need the manager's independent review before the audit counts as
+  reviewed.
+
+**§5 tracking and re-entry decks re-run with the phase 32 divider values: PASS (SIM).** `manufacturing/sim/board-b20-phase33/`
+copies the phase 12 deck generator with four values changed: RT12NA 93.1k, RT12NB 750k, RLV1 9.76k and RLV2 102k. All 14
+cases ran in the pinned image (ngspice `-b`, `ngbehavior=psa`, one CPU, heavy-guard) with the same vendor models and the
+same solver-variant ladder. Each case's variant is recorded in `results.json`. The other phase 32 divider changes
+(the UV and OV comparators and VIN UV) are not modelled in these decks; their thresholds move by 0.01–0.05 %
+(arithmetic, phase 32).
+
+| Row | Phase 12 | Phase 33 | Limit |
+|---|---|---|---|
+| First band entry after enable (6 start cases) | 140.51–141.36 ms | 141.02–141.90 ms (+0.49 to +0.59 ms per case) | none |
+| Band-entry skew, start / re-entry | 0.79–0.88 / 0.79–0.80 ms | 0.73–0.81 / 0.73–0.74 ms | ≤ 2 ms |
+| Max slope +12 / +5 / −12 V (start) | 0.449 / 0.941 / 1.467 V/ms | 0.449 / 0.943 / 1.464 V/ms | 1.23 / 0.95 / 1.47 V/ms (+5 V and −12 V accepted by OSC) |
+| +12 V − \|−12 V\| maximum (start) | 0.364 V | 0.364 V | ≤ 0.5 V |
+| \|−12 V\| while +12 V ≤ 0.5 V | ≤ 0.597 V | ≤ 0.595 V | ≤ 6 V |
+| +5 V while the lowest analog rail < 1.45 V | ≤ 0.637 V | ≤ 0.637 V | ≤ 0.8 V |
+| Re-entry: effective re-enable after disable | 19.14–21.18 ms | unchanged | hold ≥ 18.6 ms |
+| +5 V last, slope rows after re-enable | all true | all true | true |
+
+Every start and re-entry row that was PASS (SIM) in phase 12 is PASS (SIM) with the new values. The shifts come from
+RT12NA, which loads RAMP, and match the phase 32 arithmetic (RAMP end point 2.083 → 2.058 V). The decks keep the
+phase 12 behavioural elements (PA): the BSS138 switches, the body diodes and the enable latch.
+
 ## 4. Gate table against the OSC–PD contract
 
 | Contract item | Result | Basis |

@@ -13,8 +13,11 @@ This is an unrouted, unvalidated placement draft. It is generated, never hand-ed
     MAX_SIGNAL_PINS pins, and the supply nets in SUPPLY_NETS, do not link parts); a part reached only
     through supply nets joins the block of a part on its smallest shared supply net other than GND.
   - Reference designators sit on F.Fab, so the placement draft carries no silkscreen text yet.
+  - Phase 33: when placement-lock.json exists beside this script, its parts keep their recorded positions and only the
+    rest are placed (stage-template roles not in the lock by their offsets, then the greedy fill).
 Courtyards keep at least CLEARANCE mm apart and BOARD_MARGIN mm inside the board edge.
 """
+import json
 import math
 import os
 import sys
@@ -43,6 +46,8 @@ FIDUCIALS = [(x + GROW_X if x > WIDTH / 2 else x, y) for x, y in FIDUCIALS]
 LIB = str(ROOT / 'footprints/kicad/zudo-power.pretty')
 FIXED = ('J5', 'J6', 'J7', 'J10', 'J11')
 C3_KEEPOUT = (7.74, 24.54, 17.25, 35.77)
+LOCK_FILE = Path(__file__).with_name('placement-lock.json')
+LOCK = json.loads(LOCK_FILE.read_text())['positions'] if LOCK_FILE.is_file() else {}
 CLEARANCE = float(os.environ.get('B20_CLEAR', 0.8))  # phase 21: routing channels between greedily packed parts
 TEMPLATE_CLEARANCE = 0.1 # stage templates are packed tight on purpose (hot loops); courtyards still never overlap
 BOARD_MARGIN = 0.5
@@ -85,7 +90,10 @@ STAGES = {
                cout3='CCO3', cout4='CCO4', shunt='RSH3', ina='U9'),
 }
 # U9 senses RSH3 with pin 4 on M12_PRE (RSH3 pin 2): RSH3 turns to 90 degrees so its pin-2 sense pad is top-left.
-EXTRA = {'U3': (('cin2', -9.56, -5.13, 0), ('cout3', 14.2, 9.0, 0), ('cout4', 14.2, 13.0, 0),
+# Phase 33: the inverter diode is the SMC B560C (courtyard 9.9 x 6.72 mm). It sits 1.73 mm higher and 1.55 mm right of the SMA, clear
+# of the U3 courtyard, with its anode pad still beside the CCIN1 return in the M12_RAW_D3 copper; L5 moves 3.06 mm right.
+EXTRA = {'U3': (('diode', 4.6, -6.75, 180), ('ind', 14.4, -5.02, 0),
+                ('cin2', -9.56, -5.13, 0), ('cout3', 14.2, 9.0, 0), ('cout4', 14.2, 13.0, 0),
                 ('shunt', 29.0, 10.0, 90), ('ina', 21.0, 10.65, 180))}
 DEFAULT_ANCHOR = (100, 62)
 
@@ -383,6 +391,9 @@ def main():
         board.Add(fp)
         grid.mark(courtyard_box(fp))
     grid.mark(C3_KEEPOUT)
+    for ref, (x, y, rot) in LOCK.items():
+        put(footprints[ref], x, y, rot)
+        grid.mark(courtyard_box(footprints[ref]), halo(ref))
 
     templated = {}
     for ic, roles in STAGES.items():
@@ -391,6 +402,9 @@ def main():
         rows.update((r[0], r[1:]) for r in EXTRA.get(ic, ()))
         for role, (dx, dy, rot) in rows.items():
             ref = roles[role]
+            if ref in LOCK:
+                templated[ref] = tuple(LOCK[ref][:2])
+                continue
             put(footprints[ref], ax + dx, ay + dy, rot)
             box = courtyard_box(footprints[ref])
             if not grid.free(box, TEMPLATE_CLEARANCE):
@@ -404,10 +418,10 @@ def main():
         x0, y0, x1, y1 = courtyard_box(footprints[ref])
         return (x1 - x0) * (y1 - y0)
 
-    order = sorted((r for r in spec.COMPONENTS if r not in FIXED and r not in templated),
+    order = sorted((r for r in spec.COMPONENTS if r not in FIXED and r not in templated and r not in LOCK),
                    key=lambda r: (r not in ANCHORS, list(ANCHORS).index(owner.get(r)) if owner.get(r) in ANCHORS else 99,
                                   depth.get(r, 99), -area(r), r))
-    placed_at = dict(templated)
+    placed_at = {**{r: tuple(v[:2]) for r, v in LOCK.items()}, **templated}
     unplaced = []
     for ref in order:
         fp = footprints[ref]
@@ -439,7 +453,7 @@ def main():
             unplaced.append(ref)
     if unplaced:
         raise SystemExit(f'no room for {unplaced}')
-    moved = improve(footprints, grid, put, set(templated) | set(FIXED))
+    moved = improve(footprints, grid, put, set(templated) | set(FIXED) | set(LOCK))
     print(f"wirelength pass moved {moved} parts")
 
     zone = p.ZONE(board)

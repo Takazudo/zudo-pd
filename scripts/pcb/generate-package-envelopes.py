@@ -45,6 +45,8 @@ ENVELOPES = [
      'YAGEO PE1206FRF470R02L sheet: L 3.2 +/-0.25, W 1.6 +/-0.25, T 0.64 +/-0.25 mm (it also covers the UNI-ROYAL 1206 3.10 +/-0.15 x 1.55 +0.15 x 0.55 +/-0.10 mm body)'),
     ('R2512_PCSR2512_MaxEnvelope_L6.6-W3.4-H0.9', (6.6, 3.4, 0.9),
      'RESI PCSR2512 sheet V8 (distributor-hosted copy, UNSOURCED): L 6.4 +/-0.2, W 3.2 +/-0.2, T 0.8 +/-0.1 mm'),
+    ('SMC_MaxEnvelope_L8.13-W6.22-H2.5', (8.13, 6.22, 2.5),
+     'Diodes DS13012 Rev. 19-2 SMC outline: E 7.75-8.13 mm over the leads, A 5.59-6.22 mm body width, J 2.00-2.50 mm height'),
 ]
 
 

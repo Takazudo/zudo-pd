@@ -2,6 +2,10 @@
 lineup (Board P r3 draft + B20 paper draft), from the retained JLCPCB snapshot.
 
 usage: python3 scripts/pcb/calculate-lineup-cost.py [--json]
+Phase 33: the current lineup reads the current development review package (board-p15 + Board B under
+manufacturing/releases/corner-support-review/). The as-built Board P BOM left that package in 658b377; the phase 14/17
+board-p15 desk scenarios still start from it and read it from git history (AS_BUILT_P_BOM). Pads of a board missing
+from pad-counts.json are counted from its PCB file (SMD / through-hole pads per footprint).
 Inputs: manufacturing/readiness/jlc-snapshot-2026-10-31.json (catalog tiers, assembly fee table), the phase 13 B20
 resolution manufacturing/readiness/b20-identity-resolution.json (distributor listings for the unbound *_PROPOSED values
 and the like-for-like adders), the release BOMs of the current boards, the r3 and B20 generator specs, and
@@ -13,7 +17,7 @@ in both classes and the cheaper one is used, with both totals reported. Economic
 extended lines, Standard PCBA for every line. PCB fabrication, shipping and duty are UNKNOWN.
 These are catalog prices on the retrieval date, not quotes.
 """
-import csv, importlib.util, json, sys
+import csv, importlib.util, io, json, subprocess, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,7 +25,7 @@ SNAP = json.loads((ROOT / 'manufacturing/readiness/jlc-snapshot-2026-10-31.json'
 PARTS = SNAP['catalog']['parts']
 FEES = SNAP['assembly_fees']
 RES = json.loads((ROOT / 'manufacturing/readiness/b20-identity-resolution.json').read_text())
-PARTS = {**RES['catalog']['parts'], **PARTS}
+PARTS = {**RES['catalog_phase33']['parts'], **RES['catalog']['parts'], **PARTS}
 RESOLVED = {v: e['lcsc'] for v, e in RES['values'].items() if e['status'] == 'RESOLVED'}
 PADS = json.loads((ROOT / 'manufacturing/readiness/pad-counts.json').read_text())['boards']
 NOT_ASSEMBLED = ('MH', 'TP', 'H')
@@ -67,9 +71,30 @@ def spec_board(name, pcb=None, resolve=False, adders=False):
     return {'lines': lines, 'unknown': unknown, 'joints': joints, 'double_sided': 'B' in sides}
 
 
+AS_BUILT_P_BOM = ('658b377^', 'manufacturing/releases/corner-support-review/board-p/bom.csv')
+
+
+def pcb_pads(pcb):
+    sys.path.insert(0, str(ROOT / 'scripts/schgen'))
+    from sexp import atom, find_all, load
+    out = {}
+    for fp in find_all(load(ROOT / pcb), 'footprint'):
+        ref = next(atom(p[2]) for p in find_all(fp, 'property') if atom(p[1]) == 'Reference')
+        kinds = [atom(pad[2]) for pad in find_all(fp, 'pad')]
+        layer = atom(find_all(fp, 'layer')[0][1])
+        out[ref] = {'smd': kinds.count('smd'), 'th': kinds.count('thru_hole'), 'side': layer[0]}
+    return out
+
+
 def bom_board(path, pcb):
     lines, joints = {}, {'smd': 0, 'th': 0}
-    for r in csv.DictReader(open(ROOT / path)):
+    if pcb not in PADS:
+        PADS[pcb] = pcb_pads(pcb)
+    if isinstance(path, tuple):
+        text = subprocess.run(['git', 'show', f'{path[0]}:{path[1]}'], cwd=ROOT, check=True, capture_output=True, text=True).stdout
+    else:
+        text = (ROOT / path).read_text()
+    for r in csv.DictReader(io.StringIO(text)):
         refs = [x.strip() for x in r['Designator'].split(',') if x.strip()]
         lines.setdefault(r['JLCPCB Part #'], []).extend(refs)
         for ref in refs:
@@ -118,7 +143,7 @@ def board_cost(b, lot):
 
 
 BOARDS = {
-    'current': {'Board P 15 V (as built)': bom_board('manufacturing/releases/corner-support-review/board-p/bom.csv', 'boards/board-p/board-p.kicad_pcb'),
+    'current': {'Board P 15 V (board-p15 package)': bom_board('manufacturing/releases/corner-support-review/board-p15/bom.csv', 'boards/board-p15/board-p15-draft.kicad_pcb'),
                 'Board B (current)': bom_board('manufacturing/releases/corner-support-review/board-b/bom.csv', 'boards/board-b/board-b.kicad_pcb')},
     'renewal': {'Board P r3 draft': spec_board('board_p_spec', 'boards/board-p/r3-draft/board-p-r3-draft.kicad_pcb'),
                 'B20 paper draft': spec_board('board_b20_spec', resolve=True)},
@@ -128,13 +153,14 @@ BOARDS = {
 # lever check (phase 13): Board P r3 one-sided would allow Economic PCBA, but the top-only placement leaves 20 parts
 # unplaced (boards/board-p/r3-draft/search-top-only.json); this row prices that infeasible board for the saving only
 _p1 = dict(BOARDS['renewal']['Board P r3 draft'], double_sided=False)
+AS_BUILT_P = bom_board(AS_BUILT_P_BOM, 'boards/board-p/board-p.kicad_pcb')
 BOARDS['lever_board_p_r3_one_sided_infeasible'] = {'Board P r3 one-sided (does not fit)': _p1,
                                                     'B20 + current-Board-B adders': BOARDS['renewal_like_for_like']['B20 + current-Board-B adders']}
 
 
 def p15_variant(full_block, double_sided=False):
     # phase 14 desk scenarios for the separate 15 V product; refs and LCSC codes follow board_p_spec.py (r3 controller block)
-    b = BOARDS['current']['Board P 15 V (as built)']
+    b = AS_BUILT_P
     lines = {k: list(v) for k, v in b['lines'].items()}
     joints = dict(b['joints'])
     lines.pop('C23162')                              # R15/R16 I2C pull-ups move to the jig (R1.3)
@@ -160,7 +186,7 @@ def p15_phase17():
     return b
 
 
-BOARDS['p15_as_built'] = {'Board P 15 V (as built)': BOARDS['current']['Board P 15 V (as built)']}
+BOARDS['p15_as_built'] = {'Board P 15 V (as built)': AS_BUILT_P}
 BOARDS['p15_reset_subset'] = {'Board P 15 V + R1.1-R1.3 RESET/I2C subset': p15_variant(False)}
 BOARDS['p15_full_block_one_sided'] = {'Board P 15 V + full controller block, top only (fit NOT RUN)': p15_variant(True)}
 BOARDS['p15_full_block_two_sided'] = {'Board P 15 V + full controller block, two-sided': p15_variant(True, True)}

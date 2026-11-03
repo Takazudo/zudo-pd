@@ -30,7 +30,7 @@ export default {
     vendorQualifiers: ".claude/skills/component-spec-audit/references/external-vendor-qualifiers.json",
     sourceCache: ".circuit-cache/sources",
   },
-  inventoryProvider: { kind: "led-generator-v1", mpnFromValueLcsc: ["C144397", "C591344"], specs: [{path: "scripts/schgen/board_a_spec.py"}, {path: "scripts/schgen/board_b_spec.py"}, {path: "scripts/schgen/board_p_spec.py"}, {path: "scripts/schgen/board_p15_spec.py"}] },
+  inventoryProvider: { kind: "led-generator-v1", mpnFromValueLcsc: ["C144397", "C591344"], specs: [{path: "scripts/schgen/board_a_spec.py"}, {path: "scripts/schgen/board_b_spec.py"}, {path: "scripts/schgen/board_p_spec.py"}, {path: "scripts/schgen/board_p15_spec.py"}, {path: "scripts/schgen/board_b20_components.py"}] },
   publication: {
     selection: "circuit/publication/selection.json",
     assets: "circuit/publication/assets.json",

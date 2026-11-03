@@ -37,7 +37,7 @@ W_POWER, W_POWER_MIN, W_SIG = 0.8, 0.4, 0.25
 W_FINE = 0.2
 POWER_NETS = {'VIN', 'A_SW', 'B_SW', 'C_SW', 'P12_RAW', 'P5_RAW', 'M12_RAW', 'P12_PRE', 'P5_PRE', 'M12_PRE',
               'P12_SH', 'P5_SH', 'M12_SH', 'P12_CS', 'P5_CS', 'M12_CS', 'P12_OUT', 'P5_OUT', 'M12_OUT'}
-POWER_FP = ('HSOP-8', 'VSON-8', 'ASPI-0630', 'SMA_', 'R2512', 'R1206_TA-I', 'C1210', 'CAP-SMD', 'HDR', 'IDC', 'WJ500V')
+POWER_FP = ('HSOP-8', 'VSON-8', 'ASPI-0630', 'SMA_', 'SMC_', 'R2512', 'R1206_TA-I', 'C1210', 'CAP-SMD', 'HDR', 'IDC', 'WJ500V')
 STAGES = {  # stage: (IC, input caps, diode, inductor, boot cap, output caps, IC ground net)
     'A': ('U1', ['C3'], 'D1', 'L1', 'C4', ['CAO1', 'CAO2'], 'GND'),
     'B': ('U2', ['C7'], 'D2', 'L3', 'C8', ['CBO1', 'CBO2'], 'GND'),
@@ -93,7 +93,9 @@ CELL_WIDE = ('A', 'C') if os.environ.get('B20_CELLW', '1') == '1' else ()
 CELL_W = (1.5, 1.2, 0.8, 0.4, 0.25)
 # phase 31: the long comparator nets whose ends sit on opposite sides of the board (phase 30 left them open) are routed
 # first, mainly on In2.Cu (cost F 2, In2 0.6, B 3), right after the stage cells and sense pairs; rip-up leaves them fixed
-PREROUTE = [n for n in os.environ.get('B20_PREROUTE', 'UVN_CMP,UV5_DIV,UV5_CMP,C_EN,RDY_X').split(',') if n] if FOUR else []
+# phase 33: after the SMC D3 / L5 re-placement the OV12/OV5 divider and comparator nets join them, and P5_DRV leads the
+# signal order (B20_FIRST); trial results are in manufacturing/board-b-20v-switcher-direct-draft.md, phase 33
+PREROUTE = [n for n in os.environ.get('B20_PREROUTE', 'UVN_CMP,UV5_DIV,UV5_CMP,C_EN,RDY_X,OV12_DIV,OV5_CMP,OV5_DIV').split(',') if n] if FOUR else []
 LC_PREROUTE = None
 GND_FIRST = FOUR and os.environ.get('B20_GNDFIRST', '1') == '1'
 STUB_REACH = float(os.environ.get('B20_STUBREACH', 6.0 if FOUR else 2.5))   # phase 27: a second, wider GND-stub window
@@ -953,7 +955,7 @@ def main():
     for net in SUPPLY:
         route_net(net)
     signals = sorted((n for n in NET_ID if n not in POWER_NETS and n not in SUPPLY and n != 'GND' and not n.startswith('unconnected')), key=span)
-    first = [n for n in os.environ.get('B20_FIRST', '').split(',') if n in signals]
+    first = [n for n in os.environ.get('B20_FIRST', 'P5_DRV' if FOUR else '').split(',') if n in signals]
     for net in first + [n for n in signals if n not in first]:
         route_net(net)
     ripup()

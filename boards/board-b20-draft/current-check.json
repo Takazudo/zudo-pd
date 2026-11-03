@@ -19,11 +19,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 14.32,
+   "narrow_length_mm": 16.08,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 14.32,
+   "path_length_mm": 16.08,
    "rise_k": {
     "rated": 1.9,
     "limiter_max": 9.1
@@ -42,11 +42,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 25.79,
+   "narrow_length_mm": 26.04,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 25.79,
+   "path_length_mm": 26.04,
    "rise_k": {
     "rated": 0.9,
     "limiter_max": 3.2
@@ -69,7 +69,7 @@
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 53.65,
+   "path_length_mm": 53.89,
    "rise_k": {
     "rated": 0.0,
     "limiter_max": 0.0
@@ -157,11 +157,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 18.3,
+   "narrow_length_mm": 18.51,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 18.3,
+   "path_length_mm": 18.51,
    "rise_k": {
     "rated": 1.4,
     "limiter_max": 11.0
@@ -362,13 +362,35 @@
    },
    "narrowest_mm": 1.0,
    "layers": [
+    "B",
     "F"
    ],
-   "narrow_length_mm": 7.11,
+   "narrow_length_mm": 6.06,
    "path_layers": [
+    "B",
     "F"
    ],
-   "path_length_mm": 7.11,
+   "path_length_mm": 6.06,
+   "via_transitions": [
+    {
+     "at": [
+      55.6,
+      46.2
+     ],
+     "vias": 3
+    },
+    {
+     "at": [
+      56.8,
+      48.2
+     ],
+     "vias": 3
+    }
+   ],
+   "via_rise_k": {
+    "rated": 0.2,
+    "limiter_max": 1.5
+   },
    "rise_k": {
     "rated": 0.8,
     "limiter_max": 6.7
@@ -388,17 +410,17 @@
     "B",
     "F"
    ],
-   "narrow_length_mm": 67.22,
+   "narrow_length_mm": 66.81,
    "path_layers": [
     "B",
     "F"
    ],
-   "path_length_mm": 67.22,
+   "path_length_mm": 66.81,
    "via_transitions": [
     {
      "at": [
-      30.0,
-      54.2
+      26.6,
+      55.6
      ],
      "vias": 2
     },
@@ -432,11 +454,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 37.4,
+   "narrow_length_mm": 38.2,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 37.4,
+   "path_length_mm": 38.2,
    "rise_k": {
     "rated": 2.1,
     "limiter_max": 7.4
@@ -479,17 +501,17 @@
     "B",
     "F"
    ],
-   "narrow_length_mm": 93.13,
+   "narrow_length_mm": 89.46,
    "path_layers": [
     "B",
     "F"
    ],
-   "path_length_mm": 93.13,
+   "path_length_mm": 89.46,
    "via_transitions": [
     {
      "at": [
-      29.4,
-      41.3
+      46.3,
+      46.9
      ],
      "vias": 1
     }
@@ -514,28 +536,13 @@
    },
    "narrowest_mm": 0.6,
    "layers": [
-    "B",
     "F"
    ],
-   "narrow_length_mm": 31.32,
+   "narrow_length_mm": 31.3,
    "path_layers": [
-    "B",
     "F"
    ],
-   "path_length_mm": 31.32,
-   "via_transitions": [
-    {
-     "at": [
-      35.1,
-      69.9
-     ],
-     "vias": 1
-    }
-   ],
-   "via_rise_k": {
-    "rated": 0.8,
-    "limiter_max": 0.8
-   },
+   "path_length_mm": 31.3,
    "rise_k": {
     "rated": 0.7,
     "limiter_max": 0.7
@@ -593,38 +600,38 @@
     "B",
     "F"
    ],
-   "narrow_length_mm": 53.99,
+   "narrow_length_mm": 55.91,
    "path_layers": [
     "B",
     "F"
    ],
-   "path_length_mm": 53.99,
+   "path_length_mm": 55.91,
    "via_transitions": [
     {
      "at": [
-      35.4,
-      38.7
+      41.4,
+      40.4
      ],
      "vias": 3
     },
     {
      "at": [
-      51.4,
-      39.7
+      52.6,
+      40.6
      ],
-     "vias": 2
+     "vias": 1
     },
     {
      "at": [
-      54.5,
-      42.8
+      58.2,
+      48.0
      ],
      "vias": 3
     }
    ],
    "via_rise_k": {
-    "rated": 0.5,
-    "limiter_max": 3.8
+    "rated": 2.3,
+    "limiter_max": 18.5
    },
    "rise_k": {
     "rated": 0.8,
@@ -645,31 +652,24 @@
     "B",
     "F"
    ],
-   "narrow_length_mm": 51.72,
+   "narrow_length_mm": 53.96,
    "path_layers": [
     "B",
     "F"
    ],
-   "path_length_mm": 51.72,
+   "path_length_mm": 53.96,
    "via_transitions": [
     {
      "at": [
-      22.5,
-      54.2
+      18.5,
+      57.7
      ],
-     "vias": 3
-    },
-    {
-     "at": [
-      31.8,
-      61.8
-     ],
-     "vias": 3
+     "vias": 1
     }
    ],
    "via_rise_k": {
-    "rated": 0.2,
-    "limiter_max": 1.5
+    "rated": 2.3,
+    "limiter_max": 18.5
    },
    "rise_k": {
     "rated": 0.8,
@@ -970,11 +970,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 3.19,
+   "narrow_length_mm": 5.92,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 3.19,
+   "path_length_mm": 5.92,
    "rise_k": {
     "rated": 1.5,
     "limiter_max": 11.2
@@ -994,11 +994,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 2.2,
+   "narrow_length_mm": 2.3,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 2.2,
+   "path_length_mm": 2.3,
    "rise_k": {
     "rated": 1.5,
     "limiter_max": 11.2
@@ -1018,11 +1018,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 2.5,
+   "narrow_length_mm": 2.6,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 2.5,
+   "path_length_mm": 2.6,
    "rise_k": {
     "rated": 1.5,
     "limiter_max": 11.2

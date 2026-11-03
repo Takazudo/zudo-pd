@@ -2,10 +2,12 @@
 
 This is a separate spec on purpose. Board B (board_b_spec.py) is the S3 design that was
 ordered on 2026-09-20; editing it in place would orphan the as-ordered schematic and
-its inventory placements, integration rules and observed runs. This draft is not bound
-to the central inventory, has no PCB, and adopts nothing. New ICs are SHORTLISTED
-candidates (component-board-b20-draft-candidates); values marked R_PROPOSED /
-C_PROPOSED have no owner record.
+its inventory placements, integration rules and observed runs. Phase 33 binds this draft
+to the central inventory as board-b20-draft: every placement carries an exact MPN and LCSC
+(EXACT below; owner records in component-board-b20-draft-candidates and the existing owner
+bundles). The validator reads the declarative projection board_b20_components.py, which
+gen_b20_components.py writes from this spec. Binding is identity only: nothing is validated,
+assembled or measured, and the draft adopts nothing.
 
 Architecture (scripts/pcb/calculate-board-b20-draft.py has the arithmetic; phase 7 folds in
 the independent review of bad5ddf):
@@ -74,6 +76,8 @@ P = {
     'SHUNT': ('PE1206FRF470R02L', '20mR 1% 1W', 'C164156', 'zudo-pd:R1206_TA-I-RLS12'),
     'L10U': ('ASPI-0630LR-100M-T15', '10uH', 'C1334133', 'zudo-pd:ASPI-0630LR_L7.5-W6.85'),
     'DSCH': ('SDT5A60SA-13', 'SDT5A60SA-13', 'C3024223', 'zudo-pd:SMA_Diodes_SDT5A60SA_C3024223'),
+    # phase 33: the inverter catch diode is the SMC B560C-13-F (DS13012 Rev. 19-2 land); the bucks keep SDT5A60SA
+    'DSCHC': ('B560C-13-F', 'B560C-13-F', 'C85100', 'zudo-pd:SMC_Diodes_B560C_C85100'),
     'NFET': ('CSD18543Q3A', 'CSD18543Q3A', 'C840100', 'zudo-pd:VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A'),
     'BSS': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED'),
     'PFET': ('DMP3036SFG-7', 'DMP3036SFG-7', 'C461081', 'zudo-pd:PowerDI3333-8_DMP3036SFG'),
@@ -126,20 +130,83 @@ def part(ref, key, *pin_nets):
 # phase 13: proposed values that an owned exact part already covers are bound to it (a 0.1 % part in a 1 % slot)
 OWNED_BINDING = {'10k 0.1%': 'RP10K', '4.02k 1%': 'RP4K02', '8.2k 1%': 'RP8K2'}
 
+# phase 33: the exact part for every other designed value, value -> (MPN, LCSC[, footprint]). Identities and stock:
+# manufacturing/readiness/b20-identity-resolution.json. 27 nF and 47 nF C0G have no in-stock 0603 part, so they take an
+# 0805 Murata and a 1206 Holy Stone land; 270 pF moves from the listing-only FH part to YAGEO CC0603JRNPO9BN271.
+EXACT = {
+    '1.5k 0.1%': ('RT0603BRD071K5L', 'C705741'),
+    '1.5nF C0G': ('GRM1885C1H152JA01D', 'C162204'),
+    '10.1k 0.1%': ('TNPW060310K1BEEA', 'C4353204'),
+    '10.2k 0.1%': ('RT0603BRD0710K2L', 'C515735'),
+    '10.4k 0.1%': ('RT0603BRD0710K4L', 'C861076'),
+    '10.7k 0.1%': ('RT0603BRD0710K7L', 'C861078'),
+    '100 1% 1206': ('1206W4F1000T5E', 'C17901'),
+    '100k 0.1%': ('RT0603BRD07100KL', 'C122538'),
+    '102k 0.1%': ('RT0603BRD07102KL', 'C861068'),
+    '10M 1%': ('0603WAF1005T5E', 'C7250'),
+    '10k 1%': ('0603WAF1002T5E', 'C25804'),
+    '10mR 0.1% 2512 PCSR2512BR010M6': ('PCSR2512BR010M6', 'C23067428'),
+    '10nF C0G': ('GRM1885C1H103JA01D', 'C85973'),
+    '118k 0.1%': ('RT0603BRD07118KL', 'C861086'),
+    '12k 0.1%': ('RT0603BRD0712KL', 'C326735'),
+    '145k 0.1%': ('AT0603BRD07145KL', 'C5455461'),
+    '150 1% 1206': ('1206W4F1500T5E', 'C17917'),
+    '150pF C0G': ('CL10C151JB8NNNC', 'C37298'),
+    '15k 0.1%': ('RT0603BRD0715KL', 'C326733'),
+    '172k 0.1%': ('RT0603BRD07172KL', 'C861162'),
+    '18k 0.1%': ('RT0603BRD0718KL', 'C309650'),
+    '1M 1%': ('0603WAF1004T5E', 'C22935'),
+    '2.74k 0.1%': ('RT0603BRD072K74L', 'C861304'),
+    '20k 0.1%': ('RT0603BRD0720KL', 'C723637'),
+    '226k 0.1%': ('RT0603BRD07226KL', 'C861233'),
+    '23.2k 0.1%': ('RT0603BRD0723K2L', 'C861244'),
+    '24.9k 0.1%': ('RT0603BRD0724K9L', 'C136967'),
+    '24k 0.1%': ('RT0603BRD0724KL', 'C326729'),
+    '26.4k 0.1%': ('RT0603BRD0726K4L', 'C861266'),
+    '270pF C0G': ('CC0603JRNPO9BN271', 'C107046'),
+    '27nF C0G': ('GRM2165C1H273JA01D', 'C3882413', 'zudo-pd:C0805'),
+    '30.1k 0.1%': ('RT0603BRD0730K1L', 'C705764'),
+    '301k 0.1%': ('RT0603BRD07301KL', 'C861309'),
+    '33 1% 1206': ('1206W4F330JT5E', 'C18005'),
+    '39k 1%': ('0603WAF3902T5E', 'C23153'),
+    '4.7M 1%': ('0603WAF4704T5E', 'C23163'),
+    '46.4k 0.1%': ('RT0603BRD0746K4L', 'C861420'),
+    '47.5k 0.1%': ('RT0603BRD0747K5L', 'C136962'),
+    '470k 1%': ('0603WAF4703T5E', 'C23178'),
+    '47nF C0G': ('C1206N473J050T', 'C5451690', 'zudo-pd:C1206'),
+    '47pF C0G': ('CL10C470JB8NNNC', 'C1671'),
+    '52.3k 0.1%': ('RT0603BRD0752K3L', 'C861462'),
+    '54.9k 0.1%': ('RT0603BRD0754K9L', 'C728593'),
+    '6.8nF C0G': ('GRM1885C1H682JA01D', 'C162241'),
+    '63.4k 0.1%': ('RT0603BRD0763K4L', 'C326723'),
+    '64.9k 0.1%': ('RT0603BRD0764K9L', 'C861510'),
+    '649 0.1%': ('RT0603BRD07649RL', 'C705791'),
+    '69.8k 0.1%': ('RT0603BRD0769K8L', 'C861526'),
+    '750k 0.1%': ('RT0603BRD07750KL', 'C861550'),
+    '9.76k 0.1%': ('RT0603BRD079K76L', 'C861616'),
+    '93.1k 0.1%': ('RT0603BRD0793K1L', 'C705799'),
+}
+
+
+def _exact(ref, value, a, b, fp, generic):
+    if value in EXACT:
+        mpn, lcsc, *land = EXACT[value]
+        COMPONENTS[ref] = (mpn, value, lcsc, land[0] if land else fp, False, _place())
+    else:
+        COMPONENTS[ref] = (generic, value, '', fp, False, _place())
+    NETS.setdefault(a, []).append(f'{ref}.1')
+    NETS.setdefault(b, []).append(f'{ref}.2')
+
 
 def rprop(ref, value, a, b, fp='zudo-pd:R0603'):
     if value in OWNED_BINDING and fp == 'zudo-pd:R0603':
         two(ref, OWNED_BINDING[value], a, b)
         return
-    COMPONENTS[ref] = ('R_PROPOSED', value, '', fp, False, _place())
-    NETS.setdefault(a, []).append(f'{ref}.1')
-    NETS.setdefault(b, []).append(f'{ref}.2')
+    _exact(ref, value, a, b, fp, 'R_PROPOSED')
 
 
 def cprop(ref, value, a, b, fp='zudo-pd:C0603'):
-    COMPONENTS[ref] = ('C_PROPOSED', value, '', fp, False, _place())
-    NETS.setdefault(a, []).append(f'{ref}.1')
-    NETS.setdefault(b, []).append(f'{ref}.2')
+    _exact(ref, value, a, b, fp, 'C_PROPOSED')
 
 
 def two(ref, key, a, b):
@@ -228,7 +295,7 @@ cprop('CCHF', '150pF C0G', 'C_COMP', 'M12_RAW')
 rprop('RCFT', '145k 0.1%', 'GND', 'C_FB')
 two('RCFB', 'RP10K', 'C_FB', 'M12_RAW')
 two('LC', 'L10U', 'C_SW', 'GND')
-part('DC', 'DSCH', ('1', 'C_SW'), ('2', 'M12_RAW'))
+part('DC', 'DSCHC', ('1', 'C_SW'), ('2', 'M12_RAW'))
 for i in range(1, 5):
     two(f'CCO{i}', 'C10U50', 'GND', 'M12_RAW')
 two('LCF', 'L10U', 'M12_RAW', 'M12_PRE')
