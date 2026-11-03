@@ -95,6 +95,34 @@ Checks are recorded in `draft-checks.json` and `net-parity.json`.
 The 1.0 mm target is the LED project's proposed RESET strap keep-out. It has no manufacturer source.
 Leakage is OPEN.
 
+## Common Board P: P15 r1 serves LED and zudo-pd (user decision 2026-11-03)
+
+On 2026-11-03 the user chose P15 r1 as the common Board P for the LED project and zudo-pd. Both use the same PCB, the same
+population and the same 3 A NVM image (`nvm/stusb4500-15v.bin`). This is a documentation record. The PCB, the BOM
+and the exported review package are unchanged.
+
+- **LED first, then zudo-pd.** LED bring-up with the existing Board L uses a P15 r1 unit first. The same board then goes
+  to zudo-pd Board B without a rewrite.
+- **Program and verify before any mating.** Every P15 is programmed and passes P15-NVM-4, P15-NVM-5 and P15-NVM-6 from a
+  5 V-only, current-limited source, with Board L and Board B both disconnected. Only then may it mate with either board.
+- **The voltage window depends only on the NVM.** P15 r1 has no hardware window or eFuse after the sink switch, and no
+  footprint for one. A factory or lost image can pass 5 V, or request 20 V into the SMAJ16A D5. At the prototype stage
+  this is an accepted residual (LED requirement R2.3, with R2.4 and R2.6 for the same cause). Per-unit NVM acceptance
+  is the only mitigation, and it is NOT RUN.
+- **Desk evidence: manager report `led-p15-compatibility.md` (2026-11-03, desk only, nothing built or energized).** It
+  found:
+  - **Mechanics: PASS (desk).** The outline (27 × 40 mm), the three Ø3.2 mm holes, J1 and JOUT1 equal the ordered LED
+    Board P. JOUT1 mates with Board L J2 and Board B J5, which share the pin map 1/2 VBUS, 3 ATT, 4 PDOK, 5/6 GND.
+  - **Added parts: PASS (desk).** All parts added on F.Cu sit at least 7.9 mm from a hole and at least 5 mm from Board L
+    J2. The LED enclosure STEP interference pass is NOT RUN.
+  - **Electrical rows:** R1.1–R1.4, R3.1–R3.3 and R3.5 are PASS (desk). R1.5 and R1.6 are PASS as procedures, with
+    execution NOT RUN. R2.3, R2.4 and R2.6 are FAIL (no hardware window), and R2.5 is UNKNOWN.
+  - **NVM image.** The image intent (two PDOs, PDO2 15 V, POWER_ONLY_ABOVE_5V = 1) equals the image the LED's as-built
+    Board P was programmed with. The 3 A PDO2 only narrows charger compatibility, because a 15 V charger rated below
+    3 A gives Board L nothing.
+  - **Current limit.** P15 sets no current limit toward Board L, whose only limit is its F1 PPTC (0.75 A hold). The
+    report advises a current-limited bench source for the first energizing of each Board L.
+
 ## Programming: jig pull-ups, power-cycle reload, NOT RUN
 
 The procedure is [Board P15 NVM Programming](../../doc/src/content/docs/architecture/board-p15-programming.md).

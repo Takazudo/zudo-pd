@@ -17,6 +17,19 @@ in three ways:
 - R22 and R23 (100 kΩ) pull SCL and SDA to GND, so both pins are defined in normal use
   (`dec-p15-i2c-pulldowns`). The jig pull-ups override them.
 
+## One common Board P: the same P15 r1 serves the LED project first, then zudo-pd
+
+On 2026-11-03 the user chose P15 r1 as the common Board P for the LED project and zudo-pd. Both use the same PCB, the same
+population and the same 3 A image.
+
+- LED bring-up with the existing Board L uses a P15 r1 unit first. The same board then goes to zudo-pd.
+- Program every P15 and pass P15-NVM-4, P15-NVM-5 and P15-NVM-6 (below) from a 5 V-only source before it mates with
+  anything. Board L and Board B must both be disconnected during these steps.
+- The output voltage window depends only on the NVM image. No hardware window follows the sink switch. This is an
+  accepted residual at the prototype stage (LED requirement R2.3).
+- The desk compatibility evidence is the manager report `led-p15-compatibility.md`. Its summary is in
+  `boards/board-p15/README.md`.
+
 ## Datasheet facts are from DS12499 Rev 7; the Rev 8 copy named by the owner bundle was not re-read
 
 The owner bundle `component-stusb4500qtr` cites DS12499 **Rev 8** (sha256 `82d6080e…`). That copy is not in this
@@ -69,7 +82,7 @@ Each bound below holds with the 100 kΩ pull-down present, taking its 1 % low va
 
 ## Procedure: write once, then accept only a power-cycle readback
 
-Power the board from a **current-limited 5 V-only source** with Board B disconnected. The archived page explains
+Power the board from a **current-limited 5 V-only source** with Board B and Board L disconnected. The archived page explains
 why a factory 20 V request must never reach an unprogrammed board.
 
 1. **Power up.** Apply 5 V. Check J3.4 (VBUS_IN) at about 5 V and J3.3 (VREG_2V7) at about 2.7 V.
@@ -92,8 +105,8 @@ why a factory 20 V request must never reach an unprogrammed board.
 7. **Power-cycle readback.** Read the 40 bytes again. **Accept only an exact match with the file's SHA-256.** Then
    read the volatile PDO registers 0x85–0x90 (UM2650 Rev 3, mirror) and check PDO2 = 15 V / 3 A and two sink PDOs.
 8. **Disconnect.** Remove the jig rail, then the clip.
-9. **First PD attach.** Use a source that also offers 20 V, through a current-limited path with Board B still
-   disconnected. VBUS_OUT (JOUT1.1/2) must stay off until the 15 V contract, then follow 15 V.
+9. **First PD attach.** Use a source that also offers 20 V, through a current-limited path with Board B and
+   Board L still disconnected. VBUS_OUT (JOUT1.1/2) must stay off until the 15 V contract, then follow 15 V.
 
 ## 15 V NVM image: desk-built from a third-party field map, checked against the Rev 7 defaults
 
