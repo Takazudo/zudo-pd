@@ -13,8 +13,9 @@ Links below resolve inside an export of this pair. Repository documents are name
 - **Board P r3 is the exported board-p (PD20).** It routes with 0 open connections and passes native DRC with
   schematic parity (0 errors; parity only the mechanical MH1–MH3). No layout review exists for it, and it is a
   two-sided board (Standard PCBA, double side).
-- **Missing B20 top-edge probe row.** B20 has no P1/TP3–TP5 pogo row; which nets it carries is an owner decision. The
-  front and back rail labels are on the board and checked against the J6/J7 pin nets.
+- **B20 top-edge probe row.** P1/TP3–TP5 sit at Board B's positions with B20 nets (owner decision 2026-11-04): P1 =
+  NC, PDOK, GND, NC (no ATT) and TP3/TP4/TP5 = P12_PRE, P5_PRE, M12_PRE. They are bare copper, outside the BOM and CPL.
+  The front and back rail labels are on the board and checked against the J6/J7 pin nets.
 - **Independent layout review findings** (repository `manufacturing/pd20-b20-layout-review.md`, made on the board
   before the PD20 fixes). The −12 V limiter
   Kelvin blocker is fixed (RL3C now ties to the RSH3 sense pad). The −12 V output capacitors now reach U3/D3 through

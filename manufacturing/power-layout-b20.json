@@ -4,13 +4,13 @@
   "draft": true,
   "status": "PASS",
   "status_scope": "PASS means only that the listed geometry gates hold on the current saved PCB: routing is complete, every hot-loop branch and high-current path is routed, and the pours are filled. It is not a current-capacity, loop-inductance, EMI or thermal pass. DRAFT desk screen of an unvalidated draft board. Nothing is measured; values come from routed geometry and datasheet-maximum desk models and do not establish ratings, temperatures or qualification.",
-  "pcb_sha256": "c9eab1099f3ae755360ab469912949e0f2d3061a111b12b93d72318783e4afc0",
+  "pcb_sha256": "5cb95bdc97919556db3c07dcde24dd50869e252c02932c2e9f75e6e1ee9c5ae3",
   "source_generator": "scripts/pcb/board-b20/power-report.py",
   "source_generator_sha256": "89c5fe8a3206dbe24789a6453a8bb761c3c7838b7cdd4c8404ca0be8a0067557",
   "source_reports_sha256": {
-    "boards/board-b20-draft/routing-report.json": "bd581b74729d9121886c446b76dc9247bfe8f5d6d5970d4f225e56e02b66d687",
+    "boards/board-b20-draft/routing-report.json": "063a10cff6eb485678ab45c9e68ec4fb3bb39c97989cac8727f6bf750e39d65b",
     "boards/board-b20-draft/loop-check.json": "8ff5d6f93f34e54c592c32d8ef84d96691ca1c30582fdc150afb91c132838cce",
-    "boards/board-b20-draft/current-check.json": "e0249067646cf252e7620907a360853a3ba714c25d10ad04ba07b99f109b06b3",
+    "boards/board-b20-draft/current-check.json": "08dffe612d6e7bd2c25c05a34fd43b158466374182b303bbf6af83ccf320f6b2",
     "boards/board-b20-draft/thermal-check.json": "2ff3a84ae4a21790b46bae6d4aa86fba4fd42f6d6d840d857c9eded6b226ce62"
   },
   "checks": {
@@ -605,9 +605,9 @@
     }
   ],
   "ground_filled_zone_areas_mm2": {
-    "B.Cu": 5946.466,
-    "F.Cu": 4751.688,
-    "In1.Cu": 8366.698
+    "B.Cu": 5828.555,
+    "F.Cu": 4645.977,
+    "In1.Cu": 8345.679
   },
   "open": [
     "Inverter hot-loop inductance and pickup (OPEN, desk only).",

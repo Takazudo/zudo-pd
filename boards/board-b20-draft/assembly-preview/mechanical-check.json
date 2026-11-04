@@ -4,7 +4,7 @@
     110,
     85
   ],
-  "component_count": 269,
+  "component_count": 273,
   "schematic_pad_identity": "PASS",
   "outline_mm": [
     0.0,
@@ -94,9 +94,64 @@
     }
   ],
   "eurorack_pin_contract": "PASS",
-  "absent_features": {
-    "pogo_row": "OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft"
-  },
+  "pogo_row": [
+    {
+      "pad": "P1.1",
+      "center_mm": [
+        56.19,
+        1.8
+      ],
+      "net": null
+    },
+    {
+      "pad": "P1.2",
+      "center_mm": [
+        58.73,
+        1.8
+      ],
+      "net": "PDOK"
+    },
+    {
+      "pad": "P1.3",
+      "center_mm": [
+        61.27,
+        1.8
+      ],
+      "net": "GND"
+    },
+    {
+      "pad": "P1.4",
+      "center_mm": [
+        63.81,
+        1.8
+      ],
+      "net": null
+    },
+    {
+      "pad": "TP3.1",
+      "center_mm": [
+        66.349999,
+        1.8
+      ],
+      "net": "P12_PRE"
+    },
+    {
+      "pad": "TP4.1",
+      "center_mm": [
+        68.89,
+        1.8
+      ],
+      "net": "P5_PRE"
+    },
+    {
+      "pad": "TP5.1",
+      "center_mm": [
+        71.43,
+        1.8
+      ],
+      "net": "M12_PRE"
+    }
+  ],
   "rail_labels": [
     {
       "side": "front",

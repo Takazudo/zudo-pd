@@ -7,8 +7,8 @@ B20 keeps the Board B outline, PD stack, corner supports, terminal blocks and bu
 but carries its own nets. This mirrors scripts/pcb/verify-board-b.py and the shared parts of
 scripts/pcb/verify-compact-mechanics.py with the B20 net names, without changing either Board B verifier (their hashes
 bind the 15 V package's stack proof). The front/back rail labels follow the reviewed Board B contract and are checked
-against the J6/J7 pin nets (PD20). The Board B top-edge pogo row (P1, TP3-TP5) is not on the draft; it is reported under
-absent_features as OPEN, never as PASS.
+against the J6/J7 pin nets (PD20). The Board B top-edge pogo row (P1, TP3-TP5) keeps the contract positions with the
+B20 nets of the 2026-11-04 owner decision: no ATT (P1.1 and P1.4 open), PDOK, the shared GND P1.3 and the three *_PRE nodes.
 """
 import argparse
 import importlib.util
@@ -35,6 +35,8 @@ CONTRACT = ROOT / 'boards/board-b/mechanical.json'
 # Board P r3 contact roles on B20: VBUS_OUT feeds VIN directly; ATT is not used by the B20 draft (J5.3 no-connect).
 PD_NETS = {'VBUS_OUT': 'VIN', 'ATT': None, 'PDOK': 'PDOK', 'GND': 'GND'}
 TERMINAL_NETS = {'J6': {'1': 'GND', '2': 'M12_OUT'}, 'J7': {'1': 'P5_OUT', '2': 'P12_OUT'}}
+# owner decision 2026-11-04: Board B's seven contacts left to right, carrying B20 nets (None: unconnected copper)
+POGO_NETS = (None, 'PDOK', 'GND', None, 'P12_PRE', 'P5_PRE', 'M12_PRE')
 SOCKET_NETS = {1: 'M12_OUT', 2: 'M12_OUT', **{n: 'GND' for n in range(3, 9)}, 9: 'P12_OUT', 10: 'P12_OUT',
                11: 'P5_OUT', 12: 'P5_OUT', 13: 'CV', 14: 'CV', 15: 'GATE', 16: 'GATE'}
 
@@ -206,6 +208,39 @@ def main():
                              'center_mm': xy(label), 'mirrored': label.IsMirrored()})
         return rows
 
+    def pogo_row():
+        row = json.loads(CONTRACT.read_text())['edge_pogo']
+        refs = row['references']
+        require(refs == ['P1', 'TP3', 'TP4', 'TP5'] and row['contact_count'] == len(POGO_NETS), 'pogo contract changed')
+        require(near(xy(fps['P1']), row['origin_mm'], .01), 'P1: origin differs from the contract')
+        pads = []
+        for ref in refs:
+            fp = fps[ref]
+            require(fp.GetLayer() == p.F_Cu and abs(fp.GetOrientationDegrees()) < .001, ref + ': side or rotation')
+            require(not fp.GetFieldText('LCSC') and fp.GetAttributes() & p.FP_EXCLUDE_FROM_BOM
+                    and fp.GetAttributes() & p.FP_EXCLUDE_FROM_POS_FILES, ref + ': bare copper must stay out of BOM/CPL')
+            pads += sorted(fp.Pads(), key=lambda q: xy(q)[0])
+        require(len(pads) == len(POGO_NETS), 'pogo contact count')
+        x0 = xy(pads[0])[0]
+        rows = []
+        for i, (q, net) in enumerate(zip(pads, POGO_NETS)):
+            cx, cy = xy(q)
+            require(abs(cx - x0 - i * row['pitch_mm']) < .01 and abs(cy - row['center_y_mm']) < .01,
+                    f'contact {i + 1}: off the {row["pitch_mm"]} mm row')
+            require(abs(cy - p.ToMM(q.GetSize().y) / 2 - row['copper_to_top_edge_mm']) < .01, f'contact {i + 1}: edge gap')
+            layers = q.GetLayerSet()
+            require(layers.Contains(p.F_Cu) and layers.Contains(p.F_Mask) and not layers.Contains(p.F_Paste)
+                    and layers.CuStack().size() == 1, f'contact {i + 1}: must be F.Cu/F.Mask only')
+            got = q.GetNetname()
+            require(got == net if net else (not got or got.startswith('unconnected-')), f'contact {i + 1}: carries {got}')
+            rows.append({'pad': f'{q.GetParentFootprint().GetReference()}.{q.GetNumber()}', 'center_mm': [cx, cy],
+                         'net': net})
+        require(rows[2]['pad'] == row['shared_ground'], 'shared probe ground moved')
+        labels = sorted((t for t in fps['P1'].GraphicalItems() if isinstance(t, p.PCB_TEXT) and t.GetLayer() == p.F_SilkS),
+                        key=lambda t: xy(t)[0])
+        require([t.GetText() for t in labels] == ['NC', 'PDOK', 'GND', 'NC'], 'P1 silk labels differ from the B20 pin nets')
+        return rows
+
     result = {'board': 'board-b20-draft', 'size_mm': [WIDTH, HEIGHT], 'component_count': len(spec.COMPONENTS),
               'schematic_pad_identity': check('identity', identity),
               'outline_mm': check('outline', outline),
@@ -213,8 +248,7 @@ def main():
               'corner_supports': check('corner_supports', corners),
               'terminal_blocks': check('terminals', terminals),
               'eurorack_pin_contract': check('sockets', sockets),
-              'absent_features': {
-                  'pogo_row': 'OPEN: the Board B top-edge P1/TP3-TP5 contacts are not on the B20 draft' if 'P1' not in fps else 'present, not checked here'},
+              'pogo_row': check('pogo_row', pogo_row),
               'rail_labels': check('rail_labels', rail_labels),
               'physical_stack_and_cable_fit': 'NOT MEASURED',
               'errors': errors}

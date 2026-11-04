@@ -46,7 +46,7 @@ MOUNTING_HOLES = [(x + GROW_X if x > WIDTH / 2 else x, y) for x, y in MOUNTING_H
 FIDUCIALS = [(x + GROW_X if x > WIDTH / 2 else x, y) for x, y in FIDUCIALS]
 
 LIB = str(ROOT / 'footprints/kicad/zudo-power.pretty')
-FIXED = ('J5', 'J6', 'J7', 'J10', 'J11')
+FIXED = ('J5', 'J6', 'J7', 'J10', 'J11', 'P1', 'TP3', 'TP4', 'TP5')  # P1/TP3-TP5: Board B probe row positions
 C3_KEEPOUT = (7.74, 24.54, 17.25, 35.77)
 LOCK_FILE = Path(__file__).with_name('placement-lock.json')
 LOCK = json.loads(LOCK_FILE.read_text())['positions'] if LOCK_FILE.is_file() else {}
@@ -288,6 +288,13 @@ def improve(footprints, grid, put, frozen, passes=4):
     return moved
 
 
+def relabel_pogo(fp):
+    """B20 has no ATT: P1.1 is unconnected copper, so its Board B 'ATT' silk label reads 'NC'."""
+    labels = [t for t in fp.GraphicalItems() if isinstance(t, p.PCB_TEXT) and t.GetText() == 'ATT']
+    assert len(labels) == 1, 'P1 footprint lost its ATT label'
+    labels[0].SetText('NC')
+
+
 def clip_header_silk(footprints, limit=11.73):
     """Clip J10/J11 F.SilkS segments at local y=11.73 mm, as finish-board-b.py does for the as-built Board B."""
     for ref in ('J10', 'J11'):
@@ -371,6 +378,7 @@ def main():
         put(footprints[ref], x, y, rot)
         grid.mark(courtyard_box(footprints[ref]))
     clip_header_silk(footprints)
+    relabel_pogo(footprints['P1'])
     for i, (x, y) in enumerate(MOUNTING_HOLES, 1):
         name = 'MountingHole_HC11_3mm' if f'H{i}' in SUPPORT_REFS else 'MountingHole_M3'
         fp = p.FootprintLoad(LIB, name)

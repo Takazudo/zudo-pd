@@ -3976,6 +3976,102 @@
 		      )
 		    )
 		  )
+		(symbol "zudo-pd:PogoPad_1x04"
+		    (in_bom yes)
+		    (on_board yes)
+		    (property
+		      "Reference"
+		      "J"
+		      (id 0)
+		      (at 0 8.89 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Value"
+		      "PogoPad_1x04"
+		      (id 1)
+		      (at 0 -8.89 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Footprint"
+		      "zudo-pd:PogoPad_1x04_P2.54mm"
+		      (id 2)
+		      (at 0 -11.43 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (symbol "PogoPad_1x04_0_1"
+		      (rectangle
+		        (start -2.54 6.35)
+		        (end 2.54 -6.35)
+		        (stroke (width 0) (type default))
+		        (fill (type background))
+		      )
+		      (pin passive line
+		        (at -5.08 3.81 0)
+		        (length 2.54)
+		        (name "SCL" (effects (font (size 1.27 1.27))))
+		        (number "1" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at -5.08 1.27 0)
+		        (length 2.54)
+		        (name "SDA" (effects (font (size 1.27 1.27))))
+		        (number "2" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at -5.08 -1.27 0)
+		        (length 2.54)
+		        (name "GND" (effects (font (size 1.27 1.27))))
+		        (number "3" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at -5.08 -3.81 0)
+		        (length 2.54)
+		        (name "NC" (effects (font (size 1.27 1.27))))
+		        (number "4" (effects (font (size 1.27 1.27))))
+		      )
+		    )
+		  )
+		(symbol "zudo-pd:TestPoint"
+		    (in_bom yes)
+		    (on_board yes)
+		    (property
+		      "Reference"
+		      "TP"
+		      (id 0)
+		      (at 2.032 1.778 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Value"
+		      "TestPoint"
+		      (id 1)
+		      (at 2.032 -1.778 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Footprint"
+		      ""
+		      (id 2)
+		      (at 0 -2.54 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (symbol "TestPoint_0_1"
+		      (circle
+		        (center 0 0.762)
+		        (radius 0.762)
+		        (stroke (width 0) (type default))
+		        (fill (type none))
+		      )
+		      (pin passive line
+		        (at 0 -2.54 90)
+		        (length 2.54)
+		        (name "1" (effects (font (size 1.27 1.27))))
+		        (number "1" (effects (font (size 1.27 1.27))))
+		      )
+		    )
+		  )
 		(symbol "zudo-pd:RT0603BRD07174KL"
 		    (in_bom yes)
 		    (on_board yes)
@@ -16205,6 +16301,203 @@
 		)
 	)
 	(symbol
+		(lib_id "zudo-pd:PogoPad_1x04")
+		(at 279.4 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "2b697437-98fc-5192-89b3-bccb0a536dd3")
+		(property "Reference" "P1"
+			(at 279.4 382.27 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "PDOK/GND pads"
+			(at 279.4 400.05 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:PogoEdge_BoardB_1x04_P2.54mm"
+			(at 279.4 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 279.4 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "57b001f8-beff-51b1-9871-415301d4ddfc")
+		)
+		(pin "2"
+			(uuid "b9af8429-3afb-5cf8-a072-873bbb531bdf")
+		)
+		(pin "3"
+			(uuid "2cc97733-192d-58ec-b669-1da8e4b54151")
+		)
+		(pin "4"
+			(uuid "8dea09a8-6d8d-5fdf-8811-d5d4432435c8")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "P1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:TestPoint")
+		(at 330.2 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "1e1f172f-0b8b-5ae7-acf7-7787933078d4")
+		(property "Reference" "TP3"
+			(at 342.9 388.62 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "P12_PRE"
+			(at 330.2 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:PogoEdge_1x01_1.5x2.5mm"
+			(at 330.2 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 330.2 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "12ff6b18-9a57-5114-ae05-09bfad7fb6f5")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "TP3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:TestPoint")
+		(at 381 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "d71f071f-b162-5d94-b116-56320b642a50")
+		(property "Reference" "TP4"
+			(at 393.7 388.62 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "P5_PRE"
+			(at 381 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:PogoEdge_1x01_1.5x2.5mm"
+			(at 381 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 381 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "317fab41-56e7-5dc4-b7a4-112cc277f250")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "TP4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:TestPoint")
+		(at 431.8 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "b268dd29-0a62-53f7-854b-497377389db6")
+		(property "Reference" "TP5"
+			(at 444.5 388.62 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "M12_PRE"
+			(at 431.8 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:PogoEdge_1x01_1.5x2.5mm"
+			(at 431.8 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 431.8 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ff584f56-77e1-5d84-ac25-f86804a08b5f")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "TP5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "zudo-pd:GRM32ER71H106KA12L")
 		(at 431.8 25.4 0)
 		(unit 1)
@@ -23461,6 +23754,15 @@
 		)
 		(uuid "09b69758-42ec-5a87-95e9-be5e4aff4e2e")
 	)
+	(global_label "PDOK"
+		(shape passive)
+		(at 274.32 389.89 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "375ec49e-442f-5863-9070-719d7cbc4df1")
+	)
 	(global_label "GND"
 		(shape passive)
 		(at 21.59 29.21 180)
@@ -24703,6 +25005,15 @@
 		)
 		(uuid "a4f8a781-26e8-593e-b315-267dc3fc9b33")
 	)
+	(global_label "GND"
+		(shape passive)
+		(at 274.32 392.43 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "c25bb5d0-b555-5dbd-86a0-cbf5b9bb67d7")
+	)
 	(global_label "M12_OUT"
 		(shape passive)
 		(at 77.47 30.48 270)
@@ -25450,6 +25761,15 @@
 		)
 		(uuid "3aae3e3e-c70c-5a0b-8e28-67a02f28db31")
 	)
+	(global_label "P12_PRE"
+		(shape passive)
+		(at 330.2 393.7 270)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "9c0277d4-e903-5e20-9861-a8d074ed67f3")
+	)
 	(global_label "B_BOOT"
 		(shape passive)
 		(at 187.96 50.8 0)
@@ -25719,6 +26039,15 @@
 			(justify right)
 		)
 		(uuid "3f5986eb-ac2b-5ef3-aa2a-ec0a77717dd1")
+	)
+	(global_label "P5_PRE"
+		(shape passive)
+		(at 381 393.7 270)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "96fbcdc9-fc0e-5059-b12f-3faa8ea139fb")
 	)
 	(global_label "C_BOOT"
 		(shape passive)
@@ -26214,6 +26543,15 @@
 			(justify left)
 		)
 		(uuid "b616f123-38c2-5187-9943-1a6985f19f34")
+	)
+	(global_label "M12_PRE"
+		(shape passive)
+		(at 431.8 393.7 270)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "7f153c75-a886-522d-a5ba-9ca6d7761a1e")
 	)
 	(global_label "SUP_FB"
 		(shape passive)
@@ -30220,6 +30558,14 @@
 	(no_connect
 		(at 289.56 176.53)
 		(uuid "7a6a64a0-9b55-55cb-8265-a9d15fb38b69")
+	)
+	(no_connect
+		(at 274.32 387.35)
+		(uuid "3714f25d-8e2b-5e01-b856-78850268159e")
+	)
+	(no_connect
+		(at 274.32 394.97)
+		(uuid "1c16598e-4762-57c9-a272-8e79e5f3a409")
 	)
 	(sheet_instances
 		(path "/"
