@@ -272,7 +272,7 @@ def main():
               'original_B_nonmodel_geometry_unchanged': True, 'model_only_footprints_added': 1, 'manufacturing_use': False,
               'pd_transform': 'P(x,y) -> B(y-0.5,x+12)', 'board_p_top_z_mm': contract['pd_stack']['nominal_board_p_top_z_mm'],
               'native_step_datums': {B_NAME: b_datum, 'board-p': p_datum},
-              'mechanical_check_status': mech['status'], 'absent_features': mech['absent_features'],
+              'mechanical_check_status': mech['status'], 'pogo_row': mech['pogo_row'],
               'terminal_to_pd_clearance': terminal_screens, 'populated_cross_board_clearance': collision,
               'c5_envelope_clearance': c5_screen, 'header_spacing_comparison': header_spacing,
               'project_support_collar_clearance': support_screen,

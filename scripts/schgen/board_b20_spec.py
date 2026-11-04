@@ -109,6 +109,11 @@ P = {
     'RP680': ('AT0603BRD07680RL', '680 0.1%', 'C5455478', 'zudo-pd:R0603'),  # dec-b-stock-gap-substitutions
     'RP33': ('RT0603BRD0733RL', '33 0.1%', 'C861332', 'zudo-pd:R0603'),
     'AP63': ('AP63201WU-7', 'AP63201WU-7', 'C2071044', 'zudo-pd:TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR'),
+    # bare-copper top-edge probe row at Board B's P1/TP3-TP5 positions (owner decision 2026-11-04); no LCSC line
+    'POGO4': ('PogoPad_1x04', 'PDOK/GND pads', '', 'zudo-pd:PogoEdge_BoardB_1x04_P2.54mm'),
+    'TP12': ('TestPoint', 'P12_PRE', '', 'zudo-pd:PogoEdge_1x01_1.5x2.5mm'),
+    'TP5V': ('TestPoint', 'P5_PRE', '', 'zudo-pd:PogoEdge_1x01_1.5x2.5mm'),
+    'TPM12': ('TestPoint', 'M12_PRE', '', 'zudo-pd:PogoEdge_1x01_1.5x2.5mm'),
 }
 
 
@@ -571,6 +576,12 @@ rprop('R61', '470k 1%', 'M12_DGX', 'M12_DG')
 rprop('R62', '1M 1%', 'M12_DG', 'M12_OUT')
 nfet('Q55', 'M12_DG', 'M12_OUT', 'M12_DX')
 rprop('RXN', '150 1% 1206', 'GND', 'M12_DX', fp='zudo-pd:R1206_TA-I-RLS12')
+
+# top-edge probe row: Board B's pin order with no ATT on B20 (P1.1 and P1.4 open); P1.3 is the shared probe ground
+part('P1', 'POGO4', ('1', None), ('2', 'PDOK'), ('3', 'GND'), ('4', None))
+part('TP3', 'TP12', ('1', 'P12_PRE'))
+part('TP4', 'TP5V', ('1', 'P5_PRE'))
+part('TP5', 'TPM12', ('1', 'M12_PRE'))
 
 
 # VIN arrives from Board P through J5 and GND is the system return; these flags declare the

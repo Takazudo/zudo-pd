@@ -72,6 +72,7 @@ FANOUT_4L = (
     'Q6.4', 'R54.1', 'Q66.1', 'R75.1', 'R58.1', 'Q52.1', 'R63.1', 'Q36.1', 'R41.1', 'R71.1', 'Q65.1', 'R10.2',
     'Q65.3', 'U15.1', 'U3.5', 'R75.2', 'U1.5', 'RHO2.1', 'RHO2.2',
     'R30.1', 'R29.2', 'U15.5', 'RCP1.1', 'U15.2', 'Q48.3',   # PD20: the pins the M12_RAW pours' re-route left boxed in
+    'P1.2', 'P1.3',   # PD20 probe row: the top-edge PDOK and shared-GND contacts drop straight to a via
 )
 # phase 30: DC current paths routed as trunks before anything else on 4 layers (1 oz outer copper, JLC7628). Widths
 # step down to 0.8 mm, about 11 K rise at 2.1 A by IPC-2221 for 1 oz outer; the 3 A input and inverter paths keep
@@ -520,7 +521,19 @@ def is_power_pad(p):
     return p['net'] in POWER_NETS and p['fp'].startswith(POWER_FP)
 
 
+# PD20 top-edge probe row: probe-only pads join their nets last with signal-width tracks, so the long sense runs from
+# the top edge never take channels that the stage and switch nets need
+PROBE_PADS = {'P1.2', 'TP3.1', 'TP4.1', 'TP5.1'}
+probe_pass = False
+
+
+def is_probe(p):
+    return f"{p['ref']}.{p['num']}" in PROBE_PADS
+
+
 def widths_for(p, q):
+    if is_probe(p) or is_probe(q):
+        return (W_SIG, W_FINE)
     if is_power_pad(p) and is_power_pad(q):
         return (W_POWER, W_POWER_MIN, W_SIG)
     if p['net'] in POWER_NETS:
@@ -570,11 +583,11 @@ def route_net(net, root_ref=None):
     """Grow from the root pad's copper to the nearest unconnected pad; a pad that cannot reach the root joins any other
     copper of the net, so the net ends as few pieces as the board allows."""
     group = NET_ID[net]
-    members = [p for p in pads if p['net'] == net and pad_group[p['id']] == group]
+    members = [p for p in pads if p['net'] == net and pad_group[p['id']] == group and (probe_pass or not is_probe(p))]
     if len(members) < 2:
         return
     kind = 'power' if net in POWER_NETS else 'signal'
-    root = next((p for p in members if p['ref'] == root_ref), members[0])
+    root = next((p for p in members if p['ref'] == root_ref), next((p for p in members if not is_probe(p)), members[0]))
     failed = []
     fail_by_net[net] = []
     while True:
@@ -1093,6 +1106,10 @@ def main():
     signals = sorted((n for n in NET_ID if n not in POWER_NETS and n not in SUPPLY and n != 'GND' and not n.startswith('unconnected')), key=span)
     first = [n for n in os.environ.get('B20_FIRST', 'P5_DRV' if FOUR else '').split(',') if n in signals]
     for net in first + [n for n in signals if n not in first]:
+        route_net(net)
+    global probe_pass
+    probe_pass = True
+    for net in sorted({p['net'] for p in pads if is_probe(p)}):
         route_net(net)
     ripup()
     # phase 31: the connections still open get one more try under the In2.Cu-preferring pre-route costs
