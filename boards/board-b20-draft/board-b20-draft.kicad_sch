@@ -23509,6 +23509,63 @@
 		)
 	)
 	(symbol
+		(lib_id "zudo-pd:CC0603KRX7R9BB104")
+		(at 482.6 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4db9e2d9-29a4-5fe8-b1a5-9196d5e8a916")
+		(property "Reference" "C43"
+			(at 482.6 386.08 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "100nF/50V"
+			(at 482.6 396.24 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:C0603"
+			(at 482.6 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 482.6 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C14663"
+			(at 482.6 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "311215dc-17b1-5d3a-b706-73065a57046c")
+		)
+		(pin "2"
+			(uuid "c0140572-c117-5562-b4f4-76c69dddb2a7")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "C43")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
         (lib_id "zudo-pd:PWR_FLAG") (at 25.4 800.1 0) (unit 1)
         (exclude_from_sim no) (in_bom no) (on_board no) (dnp no)
         (uuid "24142d99-ca00-5d06-9649-a531fc0a2c01")
@@ -23717,6 +23774,15 @@
 			(justify right)
 		)
 		(uuid "0f6d6f2a-7678-5d48-9e47-1ccd88810e5e")
+	)
+	(global_label "VIN"
+		(shape passive)
+		(at 487.68 391.16 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "c4e3b802-c789-5051-8938-d83303feea54")
 	)
 	(global_label "PDOK"
 		(shape passive)
@@ -26309,6 +26375,15 @@
 			(justify right)
 		)
 		(uuid "2465d5d1-015f-55cf-8cd4-98729f0b2c6a")
+	)
+	(global_label "M12_RAW"
+		(shape passive)
+		(at 477.52 391.16 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "8a092e52-655c-5c56-93dc-23277f5bbf67")
 	)
 	(global_label "C_SW"
 		(shape passive)

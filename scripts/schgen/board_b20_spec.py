@@ -583,6 +583,10 @@ part('TP3', 'TP12', ('1', 'P12_PRE'))
 part('TP4', 'TP5V', ('1', 'P5_PRE'))
 part('TP5', 'TPM12', ('1', 'M12_PRE'))
 
+# PD20 layout review (owner decision 2026-11-04): a 100 nF high-frequency bypass from U3 pin 2 (VIN) to its PAD
+# (M12_RAW), beside the IC; it sees VIN + |Vout|, about 33 V (37.6 V worst case) on the 50 V X7R part
+two('CU3D', 'C100N', 'M12_RAW', 'VIN')
+
 
 # VIN arrives from Board P through J5 and GND is the system return; these flags declare the
 # external source role for ERC only (no PCB or BOM part).
