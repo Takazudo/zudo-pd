@@ -48,6 +48,7 @@ COMPONENTS = {
     'C40': ('CL10A105KB8NNNC', '1uF 50V', 'C15849', 'zudo-pd:C0603', False, (25.4, 360.68)),
     'C41': ('CL31A106KBHNNNE', '10uF 50V', 'C13585', 'zudo-pd:C1206', False, (482.6, 360.68)),
     'C42': ('CL31A106KBHNNNE', '10uF 50V', 'C13585', 'zudo-pd:C1206', False, (787.4, 360.68)),
+    'C43': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603', False, (482.6, 391.16)),
     'CAF1': ('25SVPF47M', '47uF 25V polymer', 'C136280', 'zudo-pd:CAP-SMD_BD6.3-L6.6-W6.6-FD', False, (76.2, 55.88)),
     'CAF2': ('GRM32ER71H106KA12L', '10uF 50V X7R', 'C77102', 'zudo-pd:C1210', False, (127.0, 55.88)),
     'CAO1': ('GRM32ER71H106KA12L', '10uF 50V X7R', 'C77102', 'zudo-pd:C1210', False, (1041.4, 25.4)),

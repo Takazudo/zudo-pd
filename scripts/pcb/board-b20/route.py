@@ -118,13 +118,15 @@ LC_PREROUTE = None
 # spreader at D3, CCIN1/CCIN2 and the PAD top, now right of the VIN pads so both input-capacitor returns share it.
 M12_POURS = {
     'M12_RAW_B': ('B', [(28.0, 39.3), (46.9, 39.3), (46.9, 63.3), (44.4, 63.3), (44.4, 45.3), (31.6, 45.3), (31.6, 51.2),
-                        (28.0, 51.2)]),
+                        (28.0, 51.2), (28.0, 47.0), (22.4, 47.0), (22.4, 44.85), (28.0, 44.85)]),
     'M12_RAW_CCO': ('F', [(44.6, 46.6), (46.9, 46.6), (46.9, 63.3), (44.6, 63.3)]),
     'M12_RAW_D3': ('F', [(26.3, 37.0), (33.4, 37.0), (33.4, 46.7), (26.3, 46.7)]),
+    # PD20: the U3 pin-2 bypass return (C43 pad 1) drops through vias into the M12_RAW_B tongue under U3's left pins
+    'M12_RAW_BYP': ('F', [(22.4, 44.85), (23.75, 44.85), (23.75, 47.0), (22.4, 47.0)]),
 } if FOUR and os.environ.get('B20_M12POUR', '1') == '1' else {}
 EARLY_POURS = ('M12_RAW_B', 'M12_RAW_CCO')   # reserved before the stage cells, so the BOOT trace leaves B.Cu to In2
 # through-via sites (x0, y0, x1, y1): beside and below the D3 anode pad (heat into M12_RAW_B), and between the CCO pads
-M12_VIA_SITES = [(29.0, 39.4, 29.7, 43.0), (29.0, 43.3, 32.6, 45.1), (44.9, 46.7, 46.6, 63.2)]
+M12_VIA_SITES = [(29.0, 39.4, 29.7, 43.0), (29.0, 43.3, 32.6, 45.1), (44.9, 46.7, 46.6, 63.2), (22.8, 44.95, 23.6, 45.4)]
 M12_VIA_PITCH = 1.1
 # the quiet M12_RAW returns of the U3 FB divider bottom (RCFB), COMP capacitors (CCHF, CCCP) and RT resistor (RCRT):
 # their own copper group, joined to the IC only at one point on the PAD's lower edge (TI SLVSBN0C section 10.1), so
@@ -703,7 +705,56 @@ def touch_up():
                 w = max(W_FINE, round(min(a['bbox'][2] - a['bbox'][0], a['bbox'][3] - a['bbox'][1]) * 0.6, 3))
                 add_track(a['center'], b['center'], w, 'F', a['net'], pad_group[a['id']])
                 straps += 1
-    log(f'touch-up stubs: {added}, pin straps: {straps}')
+    # PD20: the same raster gap at vias. A track end that meets nothing else (no other track end, via or pad) but stops
+    # within 0.4 mm of a same-net via's copper is joined to the via centre on its own layer.
+    ends = {}
+    for x in tracks:
+        for e in (x['a'], x['b']):
+            ends.setdefault((x['layer'], round(e[0], 2), round(e[1], 2)), []).append(x)
+    via_stubs = 0
+    for (layer, ex, ey), xs in list(ends.items()):
+        if len(xs) != 1:
+            continue
+        net, w = xs[0]['net'], xs[0]['w']
+        if any(v['net'] == net and math.dist(v['at'], (ex, ey)) <= v['d'] / 2 for v in vias):
+            continue
+        if any(p['net'] == net and layer in p['layers'] and rect_dist((ex, ey), p['bbox']) <= w / 2 for p in pads):
+            continue
+        near = [v for v in vias if v['net'] == net and 0 < math.dist(v['at'], (ex, ey)) - v['d'] / 2 - w / 2 <= 0.4]
+        if near:
+            v = min(near, key=lambda v: math.dist(v['at'], (ex, ey)))
+            add_track((ex, ey), v['at'], w, layer, net, NET_ID[net])
+            via_stubs += 1
+    # a fan-out via whose only copper is its own pad stub, beside (not on) the same-net route it was counted as joining:
+    # join it to the nearest point of that route's tracks or vias, on the route's layer
+    def seg_point(q, x):
+        (ax, ay), (bx, by) = x['a'], x['b']
+        L2 = (bx - ax) ** 2 + (by - ay) ** 2
+        t = 0 if L2 == 0 else max(0, min(1, ((q[0] - ax) * (bx - ax) + (q[1] - ay) * (by - ay)) / L2))
+        return (ax + t * (bx - ax), ay + t * (by - ay))
+    fan_joins = 0
+    for v in [v for v in vias if v.get('fan')]:
+        net, r = v['net'], v['d'] / 2
+        touching = [x for x in tracks if x['net'] == net and math.dist(seg_point(v['at'], x), v['at']) <= r + x['w'] / 2]
+        if any(not x.get('fan') for x in touching) or any(
+                o is not v and o['net'] == net and math.dist(o['at'], v['at']) <= r + o['d'] / 2 for o in vias):
+            continue
+        best = None
+        for x in tracks:
+            if x['net'] == net and not x.get('fan'):
+                q = seg_point(v['at'], x)
+                gap = math.dist(q, v['at']) - r - x['w'] / 2
+                if 0 < gap <= 0.4 and (best is None or gap < best[0]):
+                    best = (gap, q, x['layer'], x['w'])
+        for o in vias:
+            if o is not v and o['net'] == net:
+                gap = math.dist(o['at'], v['at']) - r - o['d'] / 2
+                if 0 < gap <= 0.4 and (best is None or gap < best[0]):
+                    best = (gap, o['at'], 'In2' if FOUR else 'B', W_SIG)
+        if best:
+            add_track(v['at'], best[1], best[3], best[2], net, NET_ID[net])
+            fan_joins += 1
+    log(f'touch-up stubs: {added}, pin straps: {straps}, via stubs: {via_stubs}, fan-via joins: {fan_joins}')
 
 
 def gnd_stub(p):
@@ -1109,7 +1160,7 @@ def main():
         route_net(net)
     global probe_pass
     probe_pass = True
-    for net in sorted({p['net'] for p in pads if is_probe(p)}):
+    for net in sorted({p['net'] for p in pads if is_probe(p)}, key=lambda n: (n != 'P5_PRE', n)):   # TP4 is the boxed middle pad
         route_net(net)
     ripup()
     # phase 31: the connections still open get one more try under the In2.Cu-preferring pre-route costs

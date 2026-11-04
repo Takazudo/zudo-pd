@@ -4,14 +4,14 @@
   "draft": true,
   "status": "PASS",
   "status_scope": "PASS means only that the listed geometry gates hold on the current saved PCB: routing is complete, every hot-loop branch and high-current path is routed, and the pours are filled. It is not a current-capacity, loop-inductance, EMI or thermal pass. DRAFT desk screen of an unvalidated draft board. Nothing is measured; values come from routed geometry and datasheet-maximum desk models and do not establish ratings, temperatures or qualification.",
-  "pcb_sha256": "5cb95bdc97919556db3c07dcde24dd50869e252c02932c2e9f75e6e1ee9c5ae3",
+  "pcb_sha256": "43581fb334a4b5b543f010947ddfd25eda36c53db4c328190bf1086f1d32c28a",
   "source_generator": "scripts/pcb/board-b20/power-report.py",
   "source_generator_sha256": "89c5fe8a3206dbe24789a6453a8bb761c3c7838b7cdd4c8404ca0be8a0067557",
   "source_reports_sha256": {
-    "boards/board-b20-draft/routing-report.json": "063a10cff6eb485678ab45c9e68ec4fb3bb39c97989cac8727f6bf750e39d65b",
-    "boards/board-b20-draft/loop-check.json": "8ff5d6f93f34e54c592c32d8ef84d96691ca1c30582fdc150afb91c132838cce",
-    "boards/board-b20-draft/current-check.json": "08dffe612d6e7bd2c25c05a34fd43b158466374182b303bbf6af83ccf320f6b2",
-    "boards/board-b20-draft/thermal-check.json": "2ff3a84ae4a21790b46bae6d4aa86fba4fd42f6d6d840d857c9eded6b226ce62"
+    "boards/board-b20-draft/routing-report.json": "43b1a90b38647ce77cebc871d412d5b044a04a0342cc7d3f9585bab467c37690",
+    "boards/board-b20-draft/loop-check.json": "5e4567460a282bc5108f671afcb8e72ded82db746a599a58b3881d79194bc87f",
+    "boards/board-b20-draft/current-check.json": "874769101bcf634029b292cce6d61763c524c84f97f8a5854d164e96f322568c",
+    "boards/board-b20-draft/thermal-check.json": "ecf3bea270461a5115ff84659227f36214703867314516e1e20557109000ed23"
   },
   "checks": {
     "routing_complete": true,
@@ -593,21 +593,21 @@
       "regulator": "U3",
       "layer": "B.Cu",
       "net": "M12_RAW",
-      "filled_zone_area_mm2": 179.581,
+      "filled_zone_area_mm2": 191.613,
       "excluded_other_polygons_mm2": 0.0
     },
     {
       "regulator": "U3",
       "layer": "F.Cu",
       "net": "M12_RAW",
-      "filled_zone_area_mm2": 100.61,
+      "filled_zone_area_mm2": 102.566,
       "excluded_other_polygons_mm2": 0.0
     }
   ],
   "ground_filled_zone_areas_mm2": {
-    "B.Cu": 5828.555,
-    "F.Cu": 4645.977,
-    "In1.Cu": 8345.679
+    "B.Cu": 5713.821,
+    "F.Cu": 4579.833,
+    "In1.Cu": 8329.944
   },
   "open": [
     "Inverter hot-loop inductance and pickup (OPEN, desk only).",

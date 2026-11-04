@@ -20,9 +20,9 @@ Links below resolve inside an export of this pair. Repository documents are name
   before the PD20 fixes). The −12 V limiter
   Kelvin blocker is fixed (RL3C now ties to the RSH3 sense pad). The −12 V output capacitors now reach U3/D3 through
   M12_RAW pours on F.Cu and B.Cu, and the FB/COMP/RT parts return through their own trace to one point on the U3 PAD.
-  Both input-capacitor returns share the D3 anode pour. D3 and U3 heat now spreads into the B.Cu pour through 18
-  vias. Still OPEN: the hot-loop area (unchanged; it needs a smaller diode package) and the D3 junction at the
-  limiter maximum (desk 109–147 °C against a 150 °C limit).
+  Both input-capacitor returns share the D3 anode pour. D3 and U3 heat now spreads into the B.Cu pour through 17
+  joining vias. C43 (100 nF) now bypasses U3 pin 2 to its PAD. Still OPEN: the hot-loop area (the owner kept the SMC diode
+  for its heat spreading) and the D3 junction at the limiter maximum (desk 109–147 °C against a 150 °C limit).
 - **Electrical behavior is unmeasured.**
   - Full-load, low-line, thermal and transient behavior: OPEN.
   - The inverter hot loop is 44.4 mm² between pad centres and 47.9–51.4 mm² along the copper. Its inductance is OPEN.
