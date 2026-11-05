@@ -8,7 +8,7 @@ The same PCB, population and NVM image serve both. Source: `board-p15-draft.kica
 acceptance. The [2026-11-03 packet](../../manufacturing/p15-order-decision-packet.md) records two assembled P15 planned,
 no executed order, and fixed-revision package verification with original STEP. Current `../board-p/` is PD20 r3;
 the retired 15 V r2 design used below is retained at `6cb02c8` and was never physically built for PD.
-The detailed implementation chronology below is retained; historical uses of “retired r2 design” in its headings mean that
+The detailed implementation chronology below is retained; historical uses of “as built” in its headings mean that
 retired design baseline, not manufactured PD hardware. Earlier ERC warning counts are dated results; later symbol
 pin-type fixes are recorded in `manufacturing/pd20-status.md`.
 

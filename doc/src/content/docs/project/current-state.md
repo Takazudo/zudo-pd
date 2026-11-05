@@ -8,7 +8,7 @@ This page owns current status. [Variant architecture](../architecture/index.mdx)
 [release readiness](../architecture/release-readiness.md) owns acceptance gates. A software check, CAD result,
 export receipt, order plan, received unit and bench measurement establish different things.
 
-## P15 r1 — shared input module
+## P15 r1 shared input module
 
 | Dimension | Recorded state and next gate |
 | --- | --- |
@@ -24,7 +24,7 @@ per-unit NVM acceptance; it is not a measured protection claim. The packet retai
 hot resistor-derating and other unknowns. Referenced manager `led-p15-compatibility.md` is absent here; the
 accessible packet and programming contract support the summary above, not a recovered manager report.
 
-## PD15 — P15 plus Board B
+## PD15 P15 plus Board B
 
 | Dimension | Recorded state and next gate |
 | --- | --- |
@@ -37,14 +37,14 @@ accessible packet and programming contract support the summary above, not a reco
 | Programming/measurements | P15 acceptance NOT RUN. LED Board P measurements belong only to those earlier LED units. No PD15 whole-stack measured rating is established |
 | Remaining gate | [D1 unpowered inspection](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/board-b-unpowered-check.md), then [PD15 staged bring-up](../verification/renewal-bring-up.md): startup, low-line, load, ripple, thermal, surge and installed mechanical qualification |
 
-## PD20 — Board P r3 plus B20
+## PD20 Board P r3 plus B20
 
 | Dimension | Recorded state and next gate |
 | --- | --- |
 | Adopted design/source | Valid pair **`board-p + board-b20-draft`**. Current `boards/board-p/board-p.kicad_pcb` is **20 V r3**, bound to `scripts/schgen/board_p_spec.py`. B20: `boards/board-b20-draft/board-b20-draft.kicad_pcb`; inventory input `scripts/schgen/board_b20_components.py` |
 | Input intent | 20 V / 5 A, 5 A e-marked cable, no degraded mode; independent of P15's image and voltage policy |
 | Implementation/artifacts | Routed r3; four-layer B20 includes merged review fixes, probe row and C43. Current fitted count **270**, [PR 226](https://github.com/Takazudo/zudo-pd/pull/226) (`ffffa40`) and component projection/model-body record. P1 contacts are NC, PDOK, GND, NC; PD15 retains ATT |
-| Recorded checks | [2026-11-04 disposition](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-status.md) records native DRC/ERC, nominal interference screens and conditioned simulations. Its older **269-component export receipt stays historical**; it does not prove a new 270-component HEAD export. [Independent B20 review](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-b20-layout-review.md) retains original findings; disposition records subsequent fixes |
+| Recorded checks | [2026-11-04 disposition](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-status.md) records native DRC/ERC, nominal interference screens and conditioned simulations. Its older **269-component export receipt stays historical**. PR 226 separately records a 270-fitted scratch export and independent-verifier PASS at `ffffa40`; neither is a new export/replay by this documentation session. [Independent B20 review](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-b20-layout-review.md) retains original findings; disposition records subsequent fixes |
 | Replay limits | Source-locked reports apply to their revisions; no new export or physical check is claimed by this documentation work |
 | NVM | `boards/board-p/nvm/stusb4500-20v-intent.json` is intent only, **no program-ready binary**. TDISPAR0V encoding unavailable; lower-current 20 V source behavior unresolved |
 | Order/physical state | Development hardware; no order/received PD20 units, programming/readback acceptance or measurements recorded |

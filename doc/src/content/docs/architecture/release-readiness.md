@@ -29,7 +29,7 @@ The absence of a hardware voltage window/eFuse is a recorded prototype residual,
 | Mechanics | Front-down stack, unkeyed J5 alignment, wire/terminal/shroud clearance; printed-leg fit, M3 passage through Ø3.0 mm holes, retention and 116 × 91 mm footprint |
 | Model evidence | Source-specific datum/clearance reports; sampled geometry does not establish physical fit |
 
-### The selected power stage requires qualification
+## The selected power stage requires qualification
 
 PD15's +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A are targets. Its
 [power-stage material](./power-stage-options.md) describes the AP63201/LM2596/LT1963A/LT3015 design only.

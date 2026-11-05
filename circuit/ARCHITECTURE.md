@@ -60,10 +60,10 @@ Current counts are defined by the [inventory](../.claude/skills/component-spec-a
 [publication selection](publication/selection.json) and [generated preflight](generated/preflight.json).
 Run `pnpm circuit:check` and read its actual SCOPE output; counts are review locks, not measurements or suitability.
 
-The custom 99-field publication matrix preserves the earlier decisions and adds
-only reviewed footprint/model preview publication. Eleven fields remain denied,
+The reviewed publication matrix in `circuit/publication/` preserves earlier decisions and
+allows selected footprint/model previews. Its denied fields remain unchanged,
 including raw evidence extracts, identity owner routes and binary content.
-Publication selection separates 59 curated document selections from the one
+Publication selection separates curated document selections from the documented
 honest `rec-c335982` document exception. Its distributor identity stays visible
 with distributor authority; no manufacturer PDF is invented. The retained
 `document-verification.json` records its dated source audit, mirrors and

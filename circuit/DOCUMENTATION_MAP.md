@@ -24,7 +24,7 @@ P15 is a shared 15 V module; PD15 = P15+B; PD20 = current P r3+B20. The word “
 
 Before edits, the full tracked checkout was scanned for path/basename links, SHA-256 source locks and heading locators.
 The migration keeps all pre-existing authored routes and heading fragments. Ordinary links are maintained; new indexes
-curate current recommendations instead of blanket CategoryNav. Historical pages can still appear in sidebars.
+curate current recommendations instead of blanket CategoryNav. Historical pages can still appear in sidebars and automatic previous/next pagers.
 
 - Current evidence references: owner bundles, inventory, rules, decisions, publication data and generated evidence remain unchanged.
   No source hash is silently re-pinned. Referenced manager `common-controller-block.md`, `led-p15-compatibility.md` and
