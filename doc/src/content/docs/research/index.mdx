@@ -1,22 +1,30 @@
 ---
-title: Research
+title: Research and Candidate Comparisons
 sidebar_position: 1
-description: Existing research and exploratory records that inform zudo-pd design work.
 ---
 
-This section points to research notes and exploratory design records retained for
-context. Current component choices and board interfaces remain documented in the
-[component catalog](../components/catalog/index.mdx) and
-[architecture](../architecture/index.mdx).
+Research evaluates options; [decisions](../decisions/index.mdx) records adoption. The common STUSB4500 controller,
+per-unit NVM flow and separate products are adopted. HUSB238/Adafruit-derived and CYPD3177 comparisons remain
+alternative research unless later evidence changes that conclusion.
+
+## Current questions and retained comparisons
+
+| Material | Scope / how to use |
+| --- | --- |
+| [PD20 status](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-status.md) | Current disposition and remaining NVM, thermal/EMI, sequencing and let-through questions |
+| [Identity/controller research](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/as-built-and-controller.md) | Received identity and LED-only observations plus candidate comparison; not replacement adoption |
+| [Product lineup screen](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/product-lineup.md) | Dated demand/cost exploration with later separate-products decision explicitly scoped |
+| [Supply alternatives](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/supply-alternatives.md) | Conditioned efficiencies/stress/cost screens, not ratings or quotes |
+| [P15 order packet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-decision-packet.md) | Revision-specific checks and order plan; Nov 3 cost/stock snapshots remain dated, not freshly checked |
+| [Manufacturing index](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md) | Classifies technical references, receipts, candidate research and phase journals |
+
+Candidate exact-part records are distinct from fitted inventory. Missing source bytes or manager documents remain
+explicit; a plausible alternative cannot fill an evidence gap.
 
 ## Existing research records
 
-- [AI circuit design research](../learning/ai-circuit-design-research.md) records
-  earlier use of generated net tables and diagrams in this repository.
-- [Two-stage DC-DC and LDO architecture](../learning/two-stage-dc-dc-ldo-architecture.md)
-  and [USB-PD versus traditional USB](../learning/usb-pd-vs-traditional-usb.md)
-  retain background exploration; verify current designs against their current records.
-- [Learning notes](../learning/index.mdx) collect the rest of the retained exploratory
-  material at stable historical routes.
-
-<CategoryNav category="research" />
+[AI circuit research](../learning/ai-circuit-design-research.md),
+[two-stage architecture](../learning/two-stage-dc-dc-ldo-architecture.md),
+[USB-PD background](../learning/usb-pd-vs-traditional-usb.md) and
+[learning notes](../learning/index.mdx) retain earlier context at stable URLs. Use the current variant designs
+for recommendations. This index does not copy phase journals or promote their earlier states to current status.

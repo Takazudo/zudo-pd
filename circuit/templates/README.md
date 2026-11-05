@@ -8,11 +8,11 @@ The `project-docs/` tree mirrors the site's sections. To use a template, copy it
 
 | Template | Use it when | What to enter |
 | --- | --- | --- |
-| [project/index.mdx](./project-docs/project/index.mdx) | The brief must be rebuilt from scratch (the live brief is already published at `project/index.mdx`) | Purpose, user behavior, constraints, current design revision |
-| [project/next-actions.mdx](./project-docs/project/next-actions.mdx) | Resetting the handoff page (the live page is already published) | Current open questions, the next bounded task, blocked work |
+| [project/index.mdx](./project-docs/project/index.mdx) | Starting a project brief (current zudo-pd brief is `project/project-brief.md`) | Purpose, user behavior, constraints, current design revision |
+| [project/next-actions.mdx](./project-docs/project/next-actions.mdx) | Creating a project-specific task handoff (no live next-actions page exists here) | Current open questions, the next bounded task, blocked work |
 | [project/task-request.mdx](./project-docs/project/task-request.mdx) | Delegating a bounded research or implementation task to an agent | Goal, scope, references, outputs and a definition of done |
 | [project/change-impact.mdx](./project-docs/project/change-impact.mdx) | Before applying a change with downstream effects (Workflow G) | Affected components, interfaces, generated assets and tests |
-| [architecture/overview.mdx](./project-docs/architecture/overview.mdx) | Resetting the architecture overview (the live page is already published) | Functional blocks, operating states, unconfirmed boundaries |
+| [architecture/overview.mdx](./project-docs/architecture/overview.mdx) | Starting an overview (current zudo-pd overview is `architecture/index.mdx`) | Functional blocks, operating states, unconfirmed boundaries |
 | [architecture/interfaces.mdx](./project-docs/architecture/interfaces.mdx) | Once blocks or connectors are proposed | Power, signal, mechanical and programming boundaries |
 | [research/component-candidate.mdx](./project-docs/research/component-candidate.mdx) | Comparing or researching a component (Workflow A) | Research question, criteria, linked evidence, missing proof |
 | [decisions/decision.mdx](./project-docs/decisions/decision.mdx) | Making a consequential choice | Alternatives, chosen direction, tradeoffs, evidence and conditions |
@@ -31,3 +31,11 @@ These pages explain intent, rationale and decisions. Exact component identity, s
 | [cad-asset-receipt.md](./cad-asset-receipt.md) | Explains every receipt field and the fidelity classes; copy it beside the JSON only when a longer explanation is needed |
 
 See [WORKFLOW.md](../WORKFLOW.md) for the workflows that use each template and [agent-task-examples.md](../agent-task-examples.md) for short requests that lead to them.
+
+## zudo-pd owner routing
+
+These are unpublished templates, not live pages. In this repository, current status belongs to
+`doc/src/content/docs/project/current-state.md`, stable design to the P15/PD15/PD20 architecture pages and
+acceptance criteria to `architecture/release-readiness.md`. `project/next-actions.mdx` in the table is a template;
+there is no corresponding live page. Use the active task/decision for other work ledgers.
+Navigation is defined by `doc/zfb.config.ts`; preserve the six-group limit and matching category values.

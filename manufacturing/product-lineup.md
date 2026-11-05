@@ -1,6 +1,10 @@
 # Product lineup screen (PD-003)
 
-**Status: screening and exploration only. Nothing here is adopted.** Every schematic and PCB is an unvalidated draft. Efficiency, thermal, ripple, startup and surge checks are `NOT RUN` for every option. Nothing here is validated, qualified or released, and no option is chosen. Recommendations are marked as such; they are not decisions.
+**Scope: dated screening and exploration with a recorded separate-products adoption.**
+The 2026-11-01 separate-products decision below supersedes single lineup; the other candidate comparisons,
+rough costs and recommendations remain research. Use [current decisions](../doc/src/content/docs/decisions/index.mdx)
+and [current state](../doc/src/content/docs/project/current-state.md). Calculations/simulations do not establish
+measured performance, an order or a release.
 
 **Decided 2026-11-01 (user decision card, `dec-separate-products`):** separate products. The current 15 V zudo-pd continues, and Board P r3 + B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 controller block is common to both. This supersedes the single-lineup decision of 2026-10-31. Readiness and cost: [`pd-ab-readiness.md`](pd-ab-readiness.md).
 

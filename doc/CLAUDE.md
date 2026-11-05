@@ -7,8 +7,8 @@ are registered through `src/chrome-bindings.tsx`.
 
 ## Content ownership
 
-- `project/`: project brief, evidence limits, repeatable design procedures and repository entry points.
-- `architecture/`: current board roles, interfaces, component map and release gates.
+- `project/`: current-state owner, project brief, evidence limits, current procedures and repository entry points.
+- `architecture/`: P15 shared input, PD15 and PD20 designs, interfaces, component map and acceptance-gate owner.
 - `research/`: orientation to existing research and exploratory records.
 - `decisions/`: project decisions linked to their retained rationale.
 - `verification/`: assembly, bring-up and test procedures with explicit evidence limits.
@@ -71,3 +71,13 @@ guaranteed limits, project connectivity, programmed state and measured behavior.
 
 For a local docs URL, read the matching source under `src/content/docs/`; browser
 checks remain useful when verifying rendered navigation, interactions or layout.
+
+## Maintain current owners and historical routes
+
+On an adopted design change, update `project/current-state.md` with dated artifact/check/physical state, the affected
+variant design page with source/interface responsibilities, and `architecture/release-readiness.md` if gates change.
+Update `circuit/DOCUMENTATION_MAP.md` for ownership/migration changes. Entry READMEs link these owners.
+`zfb.config.ts` owns the six supported groups and matching `categoryMatch` values; dropdowns include landing children.
+Curated indexes define current recommendations; retained legacy pages can still appear in category sidebars.
+Use the inventory/config/preflight for current counts: five inventory inputs A/B/P/P15/B20, four A/B/P/P15
+pure-Python schematic regeneration gates, B20 projection `board_b20_components.py`.

@@ -1,6 +1,11 @@
 # As-built identity, LED Board P bring-up findings and PD controller options (research)
 
-**Status: research only. Nothing here is adopted.** No part, schematic, PCB, NVM image or controller is changed or selected. No rework, NVM programming, energizing or bench step is authorized by this page; every bench step below is a proposal that needs its own owner approval. Every schematic and PCB stays an unvalidated draft. Requested on zudo-pd#218 (comment 6286606035, items 1 and 4).
+**Scope: revision-specific hardware identity and LED-only observations, plus controller research.**
+The common STUSB4500 and per-unit NVM decisions are adopted; the alternatives compared below are not.
+Use [current state](../doc/src/content/docs/project/current-state.md) and the
+[decisions register](../doc/src/content/docs/decisions/index.mdx) for later adoption and active paths.
+No rework, programming, energizing or bench step is authorized by this page. The dated body retains the
+original variant/path vocabulary; its PD-specific 15 V input was never physically built.
 
 Sibling repository: [Takazudo/zudo-led-lamp](https://github.com/Takazudo/zudo-led-lamp), read only at `origin/main` `1fc399e` (the commit the LED audit also used). Evidence classes: **G** guaranteed (official primary source), **G-U** guaranteed figure from a mirror or unsourced copy, **TYP** typical, **PA** project assumption, **UNAV** unavailable. "Measured" below always means a measurement reported on the **LED** boards; nothing has been measured on any zudo-PD board.
 

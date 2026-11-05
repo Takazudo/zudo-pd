@@ -36,13 +36,24 @@ export default defineConfig(
     // The publication matrix exposes reviewed component evidence, not raw skills.
     claudeResources: false,
     headerNav: [
+      { label: "Project", path: "/docs/project", categoryMatch: "project" },
+      { label: "Architecture", path: "/docs/architecture", categoryMatch: "architecture" },
+      { label: "Verification", path: "/docs/verification", categoryMatch: "verification" },
+      { label: "Components", path: "/docs/components", categoryMatch: "components" },
       {
-        label: "Project",
-        path: "/docs/project",
-        categoryMatch: "project",
+        label: "Decisions & Research",
+        path: "/docs/decisions",
+        categoryMatch: "decisions",
         children: [
-          { label: "Project Overview", path: "/docs/project" },
-          { label: "Procedures", path: "/docs/project/procedures" },
+          { label: "Decisions Overview", path: "/docs/decisions", categoryMatch: "decisions" },
+          { label: "Research Overview", path: "/docs/research", categoryMatch: "research" },
+        ],
+      },
+      {
+        label: "Archive",
+        path: "/docs/archive",
+        categoryMatch: "archive",
+        children: [
           { label: "Archive Guide", path: "/docs/archive", categoryMatch: "archive" },
           { label: "Previous Design", path: "/docs/overview", categoryMatch: "overview" },
           { label: "Diagnosis & Decisions", path: "/docs/inbox", categoryMatch: "inbox" },
@@ -50,11 +61,6 @@ export default defineConfig(
           { label: "Legacy Resources", path: "/docs/misc", categoryMatch: "misc" },
         ],
       },
-      { label: "Architecture", path: "/docs/architecture", categoryMatch: "architecture" },
-      { label: "Research", path: "/docs/research", categoryMatch: "research" },
-      { label: "Decisions", path: "/docs/decisions", categoryMatch: "decisions" },
-      { label: "Verification", path: "/docs/verification", categoryMatch: "verification" },
-      { label: "Components", path: "/docs/components", categoryMatch: "components" },
     ],
     headerRightItems: [
       { type: "component", component: "github-link" },

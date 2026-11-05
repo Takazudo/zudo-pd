@@ -1,23 +1,27 @@
 ---
 title: Current Architecture
 sidebar_position: 1
-description: Board boundaries, component choices and manufacturing readiness for the renewed design.
 ---
 
-The USB-PD input module supplies switched DC power. The synth board owns conversion,
-protection and output connectors.
+Read [current state](../project/current-state.md) for status and [release readiness](./release-readiness.md) for
+acceptance gates. These pages own stable design responsibilities:
+
+- [P15 shared input](./p15-shared-input.md): common 15 V / 3 A module for LED first, then PD15.
+- [PD15](./pd15.md): P15 plus Board B; intermediate converters and linear post-regulation.
+- [PD20](./pd20.md): Board P r3 plus four-layer B20; 20 V / 5 A input intent, no degraded mode.
+- [Board contract](./board-contract.md): variant-specific interfaces and PD15 mounting/probes.
+- [Component map](./component-map.md): component ownership and evidence boundaries.
+- [Board P lineage](./board-p.md): resolve the reused path and earlier revision references.
+- [P15 NVM programming](./board-p15-programming.md): mandatory per-unit acceptance before either load.
 
 ```mermaid
 flowchart TD
-  SOURCE["USB-C PD source"] --> INPUT["Separate USB-PD input board"]
-  INPUT -->|"Configured 15 V and GND"| SYNTH["Synth conversion board"]
-  SYNTH --> POS["+12 V output"]
-  SYNTH --> NEG["−12 V output"]
-  SYNTH --> FIVE["+5 V output"]
+  S15[15 V / 3 A source] --> P15[P15 shared module]
+  P15 --> L[LED Board L first]
+  P15 --> B[PD15 Board B]
+  S20[20 V / 5 A source and e-marked cable] --> P3[PD20 Board P r3]
+  P3 --> B20[PD20 B20 four-layer conversion]
 ```
 
-Start with the [board contract](./board-contract.md), then the
-[component map](./component-map.md) and [release readiness](./release-readiness.md).
-Part facts and provenance live in the [component records](/docs/components/records/).
-
-<CategoryNav category="architecture" />
+[Positive pre-regulator](./positive-pre-regulator.md) and [power-stage options](./power-stage-options.md) describe
+PD15 only. Earlier lineage material remains in sidebars and history with explicit scope.

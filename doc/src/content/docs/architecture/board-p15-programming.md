@@ -1,10 +1,10 @@
 ---
 title: Board P15 NVM Programming
 sidebar_position: 6
-description: Jig pull-ups, power-cycle reload and readback for the 15 V Board P draft, with the desk 15 V NVM image.
+description: Jig pull-ups, power-cycle reload and readback for shared P15 r1, with the desk 15 V NVM image.
 ---
 
-This is the programming-jig procedure for the 15 V Board P draft (`boards/board-p15/`). That board is an
+This is the programming-jig procedure for shared P15 r1 (`boards/board-p15/`). That board is an
 unvalidated draft. No step on this page has been run, and no NVM image has been written or read back.
 Every result below is **NOT RUN**.
 
@@ -30,7 +30,7 @@ population and the same 3 A image.
   3. Only then connect Board L or Board B.
 - The output voltage window depends only on the NVM image. No hardware window follows the sink switch. This is an
   accepted residual at the prototype stage (LED requirement R2.3).
-- The desk compatibility evidence is the manager report `led-p15-compatibility.md`. Its summary is in
+- The referenced manager report `led-p15-compatibility.md` is absent from this checkout. Its accessible summary is in
   `boards/board-p15/README.md`.
 
 ## Datasheet facts are from DS12499 Rev 7; the Rev 8 copy named by the owner bundle was not re-read

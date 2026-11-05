@@ -10,12 +10,10 @@ programming and diagnostic access. Its connector, controller, VBUS protection an
 switch form one reviewed circuit. A board that can negotiate a different voltage
 is not automatically suitable for the synth board.
 
-[Board P](./board-p.md) is the reusable input-board direction. The older generated Board A remains
-as a design reference; its component records are retained. Board P must have its
-own configuration, harness and mechanical contract rather than inherit Board A's
-connector assumptions. Its 16 V input TVS requires verified 15 V-only operation:
-first programming power is 5 V only, followed by NVM readback that disables every
-20 V request before higher-voltage-capable PD use.
+[P15 r1](./p15-shared-input.md) is the shared 15 V input for PD15 and LED; current `board-p` is
+[PD20 r3](./pd20.md). Valid pairs are `board-p15 + board-b` and `board-p + board-b20-draft`.
+The connector/mounting and conversion detail below applies to **PD15 Board B with P15** unless explicitly historical.
+P15 provisioning uses the [canonical procedure](./board-p15-programming.md); PD20 NVM remains blocked.
 
 ## The synth board owns conversion and distribution
 
@@ -70,12 +68,11 @@ Mounting coordinates and board thickness belong in the PCB mechanical record.
 
 ## Screw-terminal and mounting contract
 
-Board B retains a 110 × 85 mm outline with a plain left edge. Board P's unchanged
-27 × 40 mm PCB now mates to front-side J5 with its component face toward B.
+Board B retains a 110 × 85 mm outline with a plain left edge. P15's 27 × 40 mm PCB mates to front-side J5 with its component face toward B.
 Board B is installed front-down on legs, so the PD module is physically below B;
 in CAD, P's front face is down above B at nominal Z=+11.1 mm. The
 `pd_to_board_b(x,y)=(y−0.5,x+12)` mapping transforms all three holes and six mating pins
-together; see [Board P](./board-p.md).
+together; see [P15](./p15-shared-input.md).
 
 J6 and J7 are top-side WJ500V-5.08-2P / C8465 two-pole blocks with wire entries
 facing left. Their assignments are:
@@ -156,3 +153,9 @@ accessible beyond the PD module. The contact order from left to right is:
 The intermediate values are nominal design values, not measured acceptance limits.
 Use P1.3 as the common measurement ground; the NC contact is not a second return.
 Review jig alignment and signal-voltage limits before applying a probe fixture.
+
+## PD20 interface boundary
+
+B20 shares mechanical probe positions but P1 is **NC, PDOK, GND, NC**, without ATT.
+TP3/TP4/TP5 are P12_PRE/P5_PRE/M12_PRE; do not transfer the PD15 nominal pre-rail values or ATT function.
+[PD20](./pd20.md) owns that variant; [current state](../project/current-state.md) owns dated status.

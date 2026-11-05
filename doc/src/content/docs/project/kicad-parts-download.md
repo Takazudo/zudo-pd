@@ -3,6 +3,16 @@ title: Download KiCad Footprints and Symbols
 sidebar_position: 3
 ---
 
+<Note title="Historical KiCad example">
+
+This retained example describes an earlier hardware/library workflow. Its parts, archived BOM links,
+manual editing/export steps and whole-library copy commands are historical, not current recommendations.
+Use [current hardware workflow](./hardware-workflow.md), [component assets](./component-assets.md) and
+[package preparation](./jlcpcb-package.md). Merge only the intended symbol into the shared library;
+resolve current identities from inventory. The original technical body and fragments are retained below.
+
+</Note>
+
 This guide explains how to download KiCad footprints and symbols from LCSC/EasyEDA using the easyeda2kicad.py tool.
 
 ## Overview

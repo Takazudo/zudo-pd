@@ -1,28 +1,30 @@
-# Board P 15 V (separate 15 V zudo-pd product)
+# P15 r1 — shared 15 V input module
 
-**Unvalidated draft. Not for fabrication or ordering.** No layout review exists, and nothing here is
-measured. The as-built `../board-p/board-p.kicad_pcb` is unchanged. On 2026-11-01 this draft was exported with Board B into
-the `corner-support-review` directory as development review files, not an order; the ordered revision S3 stays at
-commit `f25194f`.
+P15 r1 is the common 27 × 40 mm STUSB4500 15 V / 3 A module for LED first, then PD15.
+The same PCB, population and NVM image serve both. Source: `board-p15-draft.kicad_pcb` and
+`../../scripts/schgen/board_p15_spec.py`. It is not a third product lineup.
 
-The user chose separate products on 2026-11-01 (`dec-separate-products`). The 15 V zudo-pd keeps the
-as-built 15 V Board P, except for the RESET subset of the common controller block (`dec-p15-reset-subset`,
-LED requirements R1.1 to R1.3) and the phase 17 additions: SCL/SDA pull-downs (`dec-p15-i2c-pulldowns`) and the
-VDD feed with a local clamp (`dec-p15-vdd-local-clamp`).
+[Current state](../../doc/src/content/docs/project/current-state.md) owns dated artifacts, order plans and physical
+acceptance. The [2026-11-03 packet](../../manufacturing/p15-order-decision-packet.md) records two assembled P15 planned,
+no executed order, and fixed-revision package verification with original STEP. Current `../board-p/` is PD20 r3;
+the retired 15 V r2 design used below is retained at `6cb02c8` and was never physically built for PD.
+The detailed implementation chronology below is retained; historical uses of “retired r2 design” in its headings mean that
+retired design baseline, not manufactured PD hardware. Earlier ERC warning counts are dated results; later symbol
+pin-type fixes are recorded in `manufacturing/pd20-status.md`.
 
 ## Schematic: as built plus the RESET subset
 
 Source: `scripts/schgen/board_p15_spec.py`, generated into `board-p15.kicad_sch`.
 
-**Stage 1 matched the as-built board pin for pin.** That spec copied the as-built design: D5 SMAJ16A,
+**Stage 1 matched the retired r2 design board pin for pin.** That spec copied the retired r2 design: D5 SMAJ16A,
 Q1 AO3401A, VDD on VBUS_IN, R13/R14 470 Ω and R21 10 kΩ. Three comparisons matched exactly:
 
 - `check_baseline.py` against `scripts/schgen/baselines/board-p.json`;
-- `scripts/pcb/board-p15/pcb-net-parity.py` against the as-built PCB: 18 nets and the 5 no-connect pins;
+- `scripts/pcb/board-p15/pcb-net-parity.py` against the retired r2 design PCB: 18 nets and the 5 no-connect pins;
 - the LCSC codes and DNP flags of the package BOM, all 25 references.
 
 **Stage 2 is the committed spec.** `scripts/schgen/baselines/board-p15-allow.json` declares every delta from
-the as-built baseline:
+the retired r2 design baseline:
 
 - R21 becomes a 0 Ω C21189 strap from U1.6 RESET to GND;
 - J2.4 is not connected;
@@ -54,7 +56,7 @@ UNKNOWN), and D9 at most 183.5 mW (370 mW at 25 °C on FR-4).
 
 ## Draft PCB: as-built placement with RESET re-routed
 
-Build it with `scripts/pcb/board-p15/build-draft.py`, which only reads the as-built file. Every as-built
+Build it with `scripts/pcb/board-p15/build-draft.py`, which takes an explicit input PCB path; use the retired r2 source extracted from Git at `6cb02c8`. Every retired r2 design
 placement and track is kept, apart from these changes:
 
 - R15/R16 and their SCL, SDA and VREG_2V7 branches are removed.
@@ -71,8 +73,8 @@ placement and track is kept, apart from these changes:
   and its GND end joins the existing GND via right of C30. No part moved.
 - Silk (phase 18, text only): the supplier fields of every added part are hidden on F.Fab; the J2 SCL/SDA, J3
   VBUS and U1 reference texts moved off the new pads; the C30 reference is on F.Fab because C38 occupies its
-  as-built spot.
-- Back silk (phase 20, review F5, text only): the variant mark reads `P15 r1` instead of the as-built `rev2`, so
+  retired r2 design spot.
+- Back silk (phase 20, review F5, text only): the variant mark reads `P15 r1` instead of the retired r2 design `rev2`, so
   a 15 V unit is not taken for an ordered rev2 board. The longer text is moved 3.071 mm up so it ends where
   `rev2` ended; at the `rev2` anchor it crossed the bottom edge. The wording is reversible.
 
@@ -82,15 +84,15 @@ Checks are recorded in `draft-checks.json` and `net-parity.json`.
 - **DRC: no errors and no unconnected items** (phase 20 rerun, same counts as phase 18), with schematic parity: only the `extra_footprint` items
   MH1–MH3. Warnings: `lib_footprint_mismatch` 27, `text_height` 16, `lib_footprint_issues` 3,
   `silk_over_copper` 2 and `silk_edge_clearance` 2.
-  - The silk classes now equal the as-built board: no `silk_overlap`, and the same 2 `silk_over_copper`
+  - The silk classes now equal the retired r2 design board: no `silk_overlap`, and the same 2 `silk_over_copper`
     (J1 circle, R12 reference over D5) and 2 edge warnings.
   - The phase 17 silk warnings came from the added parts' supplier fields, which landed visible on F.SilkS,
     not from D9's library silk; the SOD-123 footprint is unchanged.
 - **RESET clearance, same layer: met.** The closest VBUS-class copper on the same layer is 1.353 mm away
-  (U1.6 to the U1.9 DISCH pin, fixed by the QFN). The target was at least 1.0 mm; the as-built board
+  (U1.6 to the U1.9 DISCH pin, fixed by the QFN). The target was at least 1.0 mm; the retired r2 design board
   measured 0.222 mm.
 - **RESET clearance, other layer:** the closest copper is 0.686 mm in plane, from R21.1 to the B.Cu
-  VBUS_VS_DISCH track. VDD_LOC and VDD_MID are in the scanned set and are not among the closest items. The as-built board measured 0.0 mm, with B.Cu tracks under the RESET track.
+  VBUS_VS_DISCH track. VDD_LOC and VDD_MID are in the scanned set and are not among the closest items. The retired r2 design board measured 0.0 mm, with B.Cu tracks under the RESET track.
 
 The 1.0 mm target is the LED project's proposed RESET strap keep-out. It has no manufacturer source.
 Leakage is OPEN.
@@ -117,11 +119,10 @@ and the exported review package are unchanged.
   - **Mechanics: PASS (desk).** The outline (27 × 40 mm), the three Ø3.2 mm holes, J1 and JOUT1 equal the ordered LED
     Board P. JOUT1 mates with Board L J2 and Board B J5, which share the pin map 1/2 VBUS, 3 ATT, 4 PDOK, 5/6 GND.
   - **Added parts: PASS (desk).** All parts added on F.Cu sit at least 7.9 mm from a hole and at least 5 mm from Board L
-    J2. The LED enclosure STEP interference pass is NOT RUN.
+    J2. The later 2026-11-03 order packet records the LED enclosure STEP interference PASS; the earlier manager summary did not run it.
   - **Electrical rows:** R1.1–R1.4, R3.1–R3.3 and R3.5 are PASS (desk). R1.5 and R1.6 are PASS as procedures, with
     execution NOT RUN. R2.3, R2.4 and R2.6 are FAIL (no hardware window), and R2.5 is UNKNOWN.
-  - **NVM image.** The image intent (two PDOs, PDO2 15 V, POWER_ONLY_ABOVE_5V = 1) equals the image the LED's as-built
-    Board P was programmed with. The 3 A PDO2 only narrows charger compatibility, because a 15 V charger rated below
+  - **NVM image.** The image intent (two PDOs, PDO2 15 V, POWER_ONLY_ABOVE_5V = 1) equals the image the earlier physical LED Board P was programmed with. The 3 A PDO2 only narrows charger compatibility, because a 15 V charger rated below
     3 A gives Board L nothing.
   - **Current limit.** P15 sets no current limit toward Board L, whose only limit is its F1 PPTC (0.75 A hold). The
     report advises a current-limited bench source for the first energizing of each Board L.

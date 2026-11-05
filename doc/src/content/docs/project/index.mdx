@@ -1,23 +1,27 @@
 ---
 title: Start Here
 sidebar_position: 1
-description: A component-first guide to the renewed USB-PD modular synthesizer power supply.
 ---
 
-zudo-pd is a USB-C powered supply for modular synthesizers. The design separates the
-USB-PD input module from the board that produces +12 V, −12 V and +5 V.
+zudo-pd has two products and a shared input module. Begin with [current state](./current-state.md) for dated
+artifacts, received units, verification and remaining work.
 
-The renewed documentation starts with current architecture and exact component
-records. Previous board orders, debugging notes and superseded design explanations
-are available in the [Archive](../archive/index.mdx).
+| Stream | Read next | Valid source pair |
+| --- | --- | --- |
+| P15 shared input | [P15 r1](../architecture/p15-shared-input.md), [per-unit programming](../architecture/board-p15-programming.md) | `board-p15`, shared LED first then PD15 |
+| PD15 product | [PD15](../architecture/pd15.md), [bring-up](../verification/renewal-bring-up.md) | `board-p15 + board-b` |
+| PD20 product | [PD20](../architecture/pd20.md), [blocked NVM and test sheets](../verification/pd20-verification.md) | `board-p + board-b20-draft` |
 
-1. Read the [project brief](./project-brief.md) for targets and evidence limits.
-2. Use the [repository map](./repository-map.md) to find project sources and checks.
-3. Follow the [architecture](../architecture/index.mdx) for board roles and interfaces.
-4. Use the [component catalog](/docs/components/catalog/) for actual selected parts,
-   pin maps, footprints and source evidence.
-5. Follow the [design workflow](./component-first-design.md) when changing a part,
-   schematic, PCB or manufacturing package, and use the [procedures](./procedures.mdx)
-   for repeatable design and manufacturing work.
+## Current reading path
 
-<CategoryNav category="project" />
+- [Project brief](./project-brief.md) and [repository map](./repository-map.md): intent and authoritative paths.
+- [Architecture](../architecture/index.mdx), [board contract](../architecture/board-contract.md) and
+  [release gates](../architecture/release-readiness.md): responsibilities, interfaces and acceptance.
+- [Components](/docs/components/catalog/): exact inventory and provenance; a generated record is not a physical test.
+- [Decisions](../decisions/index.mdx) and [research](../research/index.mdx): adopted direction versus candidates.
+- [Current procedures](./procedures.mdx): generation, assets, packages and per-stream verification.
+- [Archive](../archive/index.mdx): earlier designs and diagnostic history at stable URLs.
+
+This is a curated index. Historical pages remain accessible in category sidebars; their presence is not a current
+workflow recommendation. [Documentation ownership](https://github.com/Takazudo/zudo-pd/blob/main/circuit/DOCUMENTATION_MAP.md)
+records the migration and evidence constraints.

@@ -1,10 +1,10 @@
 ---
-title: Renewal Prototype Bring-Up
+title: PD15 Renewal Prototype Bring-Up
 sidebar_position: 3
-description: Staged qualification for the current Board P and redesigned Board B.
+description: Staged qualification for P15 plus revision-identified PD15 Board B.
 ---
 
-This procedure applies to the current AP63201 / LT1963A / LT3015 design. The
+This procedure applies only to PD15, **P15 + Board B**, with the AP63201 / LT1963A / LT3015 design. The
 +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A figures are whole-board targets,
 shared by the output sockets and screw terminals. Use dummy loads until polarity, regulation and
 startup are established. Record the exact PCB revision, populated BOM, PD source,
@@ -21,7 +21,7 @@ and must be isolated from ground. U6/U7 tabs must connect to ground.
 
 Check for shorts between input, ground and each rail. Account for capacitors
 charging during resistance measurements. Confirm P-to-B pin 1 alignment against
-the [module contract](../architecture/board-p.md), including the front-side J5
+the [module contract](../architecture/p15-shared-input.md#accepted-interface), including the front-side J5
 orientation and face-to-face stack. The unkeyed stacking connector needs a mechanical orientation check.
 Confirm both synth connectors' pad 1 and cable red stripe identify −12 V; do not
 reuse an older cable assignment without a continuity test.
@@ -45,21 +45,15 @@ in the actual enclosure before installation. See the
 
 ## 2. Qualify Board P separately
 
-Board P's 16 V TVS makes **20 V negotiation unsafe**, including when the output
-switch is off. First power and program P from a current-limited **5 V-only source**,
-with B disconnected. Before connecting a programming jig, resolve the VREG_2V7
-pull-up external-load and jig-voltage questions recorded in
-`boards/board-p/README.md`.
+Here “Board P” means **P15 r1**, not PD20 r3. Complete every [P15-NVM-1–7 test](../architecture/board-p15-programming.md).
+Both Board L and Board B stay disconnected: current-limited 5 V-only provisioning, factory dump, write/readback,
+full power-cycle with external jig pull-up sequencing and configuration verification, then NVM-6 using a
+current-limited PD test source also offering 20 V. RESET is grounded and cannot be pulsed. Only an accepted
+P15 may proceed to the downstream boards. File regeneration is not programming or readback.
 
-Program the STUSB4500 for two PDOs, with PDO2 at 15 V / 3 A and
-`POWER_ONLY_ABOVE_5V` enabled. Disable every 20 V request. Read back and retain the
-actual NVM image, then verify it after a power cycle. **Complete this readback
-before using a source capable of 15 V or 20 V.** Factory settings are not accepted
-as evidence of the required configuration.
-
-With B still disconnected, verify actual input VBUS and switched VBUS_OUT during
-attachment, negotiation, failed negotiation, detach and reconnect. Check ATT and
-PDOK at the documented test points and voltage domain before connecting B.
+Before Board B power, identify the unit/population against S3 and complete
+[D1 inspection](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/board-b-unpowered-check.md).
+Do not assume current development substitutions describe received Board B. Physical tests below remain unperformed.
 
 ## 3. Inspect Board B under controlled power
 

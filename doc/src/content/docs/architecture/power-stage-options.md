@@ -4,6 +4,9 @@ sidebar_position: 5
 description: Selected regulator changes, voltage calculations, and remaining qualification limits.
 ---
 
+**Scope: PD15 Board B only.** This AP63201/LM2596/LDO material does not describe B20.
+See [PD15](./pd15.md), [PD20](./pd20.md) and [current state](../project/current-state.md).
+
 The renewal keeps the nominal output targets **+12 V / 1.2 A, +5 V / 0.5 A,
 and −12 V / 0.8 A** and changes the regulators to recover headroom. These are
 whole-board targets shared by the output connectors. They remain prototype

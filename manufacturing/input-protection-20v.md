@@ -1,6 +1,9 @@
 # 20 V input protection for Board P: clamp vs STUSB4500 limits (L7 screen)
 
-**Status: desk analysis only. Nothing here is adopted.** No schematic, PCB, BOM, NVM or part selection changes. Every schematic and PCB stays an unvalidated draft. **Nothing on this page is measured.** This page serves the OSC-recommended direction D3-A (20 V contract at ≥ 3.38 A, preferably 20 V / 5 A) with D5-1 (accept or refuse, no partial supply). That direction is a recommendation pending the user's decision. It is not adopted.
+**Scope: dated input-protection screen feeding later adopted r3 development.**
+The original proposal and source conditions below remain unchanged. The later 20 V / 5 A and common-controller
+choices are adopted; use [decisions](../doc/src/content/docs/decisions/index.mdx) and [PD20 status](pd20-status.md)
+for implementation/disposition. No measured protection or physical approval is established here.
 
 Figures come from [`../scripts/pcb/calculate-input-ovp-20v.py`](../scripts/pcb/calculate-input-ovp-20v.py). This page extends [`input-clamp-fix.md`](input-clamp-fix.md) (PD-CLAMP-2 scope) and bounds, but does not close, GAP-1 in [`design-gaps-20v.md`](design-gaps-20v.md). GAP-2 is bounded but not closed.
 

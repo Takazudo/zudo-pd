@@ -1,19 +1,17 @@
 # schgen — schematic generation from board spec modules
 
-Board schematics under `boards/` are not hand-drawn. Each board is generated
-from a Python spec module (`board_a_spec.py` / `board_b_spec.py`) that lists
-components, positions, nets, and no-connects. The spec is the source of
-truth; the `.kicad_sch` file is a build artifact of it.
-
-The toolchain was ported from `zudo-led-lamp`; both board spec modules are
-committed and both boards under `boards/` are generated from them. See
-`doc/src/content/docs/inbox/board-split-decision.md` for the A/B interface
-contract.
+Generated board schematics are owned by executable Python specs. The pure-Python regeneration gate covers
+A/B/P/P15. P15 is shared 15 V input, P is current 20 V r3, B is PD15 conversion and A is historical.
+B20 has its own `board_b20_spec.py`; inventory uses `board_b20_components.py`, the fifth provider input.
+Read [current source mapping](../../doc/src/content/docs/project/repository-map.md),
+[hardware workflow](../../doc/src/content/docs/project/hardware-workflow.md) and `circuit.config.ts`.
+Historical generator docstrings may use earlier “as-built” vocabulary; the PD-specific retired r2 was never built.
+Do not change executable Python merely to reconcile documentation.
 
 ## Files
 
 - `board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py` (20 V r3 draft) and
-  `board_p15_spec.py` (15 V Board P, as built plus the RESET subset; deltas in
+  `board_p15_spec.py` (shared P15 15 V input derived from retired r2; deltas in
   `baselines/board-p15-allow.json` against `baselines/board-p.json`) — per-board `COMPONENTS` / `NETS` /
   `NO_CONNECT` tables. Edit these, never the generated `.kicad_sch` directly.
 - `decisions.json` — the wave-6 decision lock for epic #86 (part swaps,
@@ -77,7 +75,7 @@ contract.
 
 ## Regen + verify workflow
 
-1. Edit the spec module (`board_a_spec.py` or `board_b_spec.py`) — add/move a
+1. Edit the spec module (the intended `board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py` or `board_p15_spec.py`) — add/move a
    component, change a net, etc.
 2. Regenerate the schematic:
    ```
@@ -128,13 +126,13 @@ app) to exercise the real path.
 ## What CI checks
 
 `.github/workflows/component-spec-skills.yml` runs, for every PR touching
-this toolchain (and pushes to `main`):
+this toolchain (and pushes to `main`), using `circuit/scripts/run-python-gates.sh` as the canonical sequence:
 
-- **Regen-idempotency** — regenerate both boards against the checked-out tree
+- **Regen-idempotency** — regenerate A/B/P/P15 against the checked-out tree
   and fail on any diff under `boards/` (with `git add --intent-to-add` first,
   so a newly emitted untracked file also fails). Catches "spec and committed
   schematic drifted apart".
-- **Label geometry** — `verify_geometry.py` on both committed boards: labels
+- **Label geometry** — `verify_geometry.py` on A/B/P/P15 committed schematics: labels
   on pin endpoints, no cross-net coordinate collisions, label net map equal
   to the spec, no-connects matching.
 - **Baseline drift** — `check_baseline.py` per board against

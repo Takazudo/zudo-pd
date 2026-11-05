@@ -23,7 +23,7 @@ Do this at the start of every task.
 | `doc/src/content/docs/{project,architecture,research,decisions,verification}/` | Authored narrative: intent, rationale, decisions, plans, handoff | Project | Yes |
 | `circuit/WORKFLOW.md`, `circuit/agent-task-examples.md`, `circuit/templates/` | This agreement, request examples, unpublished authoring templates | Project | Yes |
 | `.claude/skills/component-*/` | Owner evidence bundles (v1 contract), one per exact component or group | Project | Yes, following the contract |
-| `.claude/skills/component-spec-audit/references/inventory.json` | Orderable identities and placements bound by the `led-generator-v1` provider to four board specs | Project | Yes |
+| `.claude/skills/component-spec-audit/references/inventory.json` | Orderable identities and placements bound by the `led-generator-v1` provider to five inventory inputs A/B/P/P15/B20 | Project | Yes |
 | `.claude/skills/component-spec-audit/fixtures/direct-routing.json`, `.claude/skills/component-spec-audit/references/external-vendor-qualifiers.json` | Routing cases and vendor qualifiers | Project | Yes |
 | `.claude/skills/circuit-spec-integration/references/rules.json` | Cross-component integration rules | Project | Yes |
 | `circuit/publication/selection.json` | What is published: record, source and linkable-source IDs, document selections, `expect` count locks | Project | Yes, as a reviewed diff |
@@ -50,8 +50,8 @@ A project may add its own top-level authored section (for example `testing/` or 
 
 1. Add the content under `doc/src/content/docs/<section>/`, with an `index.mdx` as the section's landing page.
 2. Give it a matching `categoryMatch` (equal to the section's directory name) wherever it appears in `headerNav` in `doc/zfb.config.ts`. Without a matching `categoryMatch`, the section's sidebar stays empty even though the pages exist.
-3. The header nav is capped at **6 top-level items** (zudo-doc 5.27.0; the zudo-circuit-doc project documentation's "Getting started → What you get" page states the same cap). Project, Architecture, Research, Decisions, Verification and Components already fill it, so add the new section as a `children` entry under one of the existing dropdown items instead of a seventh top-level entry.
-4. The project brief, repository map, architecture overview and release-readiness page remain the shared starting context. Update release-readiness only when a release gate changes; use the active issue or accepted decision for other task handoffs.
+3. The header nav is capped at **6 top-level items** (zudo-doc 5.27.0; the zudo-circuit-doc project documentation's "Getting started → What you get" page states the same cap). Project, Architecture, Verification, Components, Decisions & Research and Archive already fill it, so add the new section as a `children` entry under one of the existing dropdown items instead of a seventh top-level entry.
+4. The project brief, current-state, repository map, architecture overview and release-readiness page remain the shared starting context. Update release-readiness only when a release gate changes; use the active issue or accepted decision for other task handoffs.
 
 ## Commands
 
@@ -177,11 +177,11 @@ The validator recomputes the arithmetic. **Arithmetic is not dimensional proof:*
 4. **Map pins:** symbol pins, footprint pads and current nets in `pin-map.json`. Board placement is project state with its own revision.
 5. **Update the inventory** (`.claude/skills/component-spec-audit/references/inventory.json`) under the configured `led-generator-v1` provider:
    - Keep one line per orderable identity, with a unique `line_id` and unique (manufacturer, complete MPN) pair. The line identity fields must match its owner bundle. This project requires a canonical non-empty LCSC C-number for an inventory line; never fabricate or guess one. If exact identity is unresolved, retain it as a candidate or ask for the missing supplier identity before adding an inventory line.
-   - Unselected parts belong in `.claude/skills/component-spec-audit/references/candidates.json`; the current 12 candidate records remain validated research and are not published inventory identities.
+   - Unselected parts belong in `.claude/skills/component-spec-audit/references/candidates.json`; the records in `candidates.json` remain validated research and are not published inventory identities.
    - The finite `inventoryProvider.mpnFromValueLcsc` exceptions are `C144397` and `C591344`; preserve those reviewed value-field identities and do not expand the exception without evidence and review.
-   - Record actual placements in `placements[]` with their own board, reference designator and `dnp` state. The provider binds the four generated board specs `scripts/schgen/board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py` and `board_p15_spec.py`; placement binding and DNP are project-checked, not merely declared.
+   - Record actual placements in `placements[]` with their own board, reference designator and `dnp` state. The provider binds five inventory inputs `scripts/schgen/board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py`, `board_p15_spec.py` and `board_b20_components.py`; placement binding and DNP are project-checked, not merely declared.
    - Update reviewed assertion counts and all affected board generator expectations. Add direct-routing cases to `.claude/skills/component-spec-audit/fixtures/direct-routing.json` for each line.
-6. **Read the `SCOPE:` line** printed by `pnpm circuit:check`. It names the `led-generator-v1` provider, its four bound specs, line/placement/exclusion counts and pin-asset check result. Repeat the actual scope in the report; it proves the declared generator and asset checks ran, not that a physical board was assembled or measured.
+6. **Read the `SCOPE:` line** printed by `pnpm circuit:check`. It names the `led-generator-v1` provider, its five bound inventory inputs, line/placement/exclusion counts and pin-asset check result. Repeat the actual scope in the report; it proves the declared generator and asset checks ran, not that a physical board was assembled or measured.
 7. **Obtain CAD** through Workflow D if the part goes on a board.
 8. **Update the publication selection in the same task** (see [Publication policy](#publication-policy)), then run `pnpm circuit:generate`, `pnpm circuit:check`, `pnpm check`, `pnpm build` and `pnpm check:site` from the repository root.
 9. **For a substitution,** compare electrical, firmware, startup, thermal and mechanical dependencies of both exact parts, and record changed design decisions explicitly (use a change-impact note).
@@ -356,3 +356,13 @@ Root `CLAUDE.md` is authoritative for current hardware state, evidence limits, n
 The build repeats these gates before copying models or generating pages. Raw agent resources are withheld.
 The generated catalog is a reviewed projection; it does not establish assembled or measured behavior.
 Do not replace canonical owner skills with the initializer templates.
+
+## Documentation maintenance ownership
+
+`project/current-state.md` owns dated implementation/artifact, recorded/replay, order/received/programmed/measured status.
+`architecture/p15-shared-input.md`, `pd15.md` and `pd20.md` own stable design responsibilities and source/interface mapping.
+`architecture/release-readiness.md` owns acceptance criteria. Update each affected owner when a future decision changes;
+keep entry READMEs short and link detail. Record document migrations in [DOCUMENTATION_MAP.md](DOCUMENTATION_MAP.md).
+Preserve historical source bodies, URLs, heading/evidence baselines and frozen package source locks.
+The inventory has five inputs A/B/P/P15/B20; the existing pure-Python schematic regeneration gate covers **four**
+generators A/B/P/P15. B20 inventory uses `board_b20_components.py`. Do not change the checks to simplify this wording.

@@ -4,6 +4,14 @@ sidebar_position: 3
 description: Find each circuit function in the exact component inventory and generated catalog.
 ---
 
+## Choose the variant before using a component row
+
+The table below describes **PD15 Board B and P15**. Its “Board P input TVS” row means P15, not current r3.
+For [PD20](./pd20.md), use `board_p_spec.py` and `board_b20_components.py` plus the exact inventory placements;
+its protected input and switcher-direct B20 are different selections. The canonical provider has five inputs
+A/B/P/P15/B20. Counts/placements come from inventory and generated preflight, not this table.
+[Current state](../project/current-state.md) keeps current source separate from received S3 hardware.
+
 The [catalog](/docs/components/catalog/) lists exact fitted and DNP placements,
 order codes, source availability and open evidence domains. It is generated from
 records checked against schematic specs.

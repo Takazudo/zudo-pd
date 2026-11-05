@@ -15,17 +15,25 @@ backup snapshot folders or retain superseded generated packages.
 
 ## Current work and evidence boundary
 
-This repository designs a USB-C PD supply for modular synthesizers. The renewal
-separates a reusable **Board P** USB-PD input module from **Board B** synth conversion.
-The previous generated **Board A** input design remains a reference. The root
-combined-board KiCad project is the historical v0.4.0 assembly, not the renewed layout.
+This repository designs separate PD15 and PD20 products. **P15 r1** is the shared 15 V / 3 A input
+module for LED first, then PD15: `boards/board-p15/board-p15-draft.kicad_pcb`, schematic owner
+`scripts/schgen/board_p15_spec.py`. PD15 pairs P15 with `boards/board-b/`.
+Current `boards/board-p/board-p.kicad_pcb` is **20 V Board P r3**, paired only with four-layer
+`boards/board-b20-draft/` for PD20 (20 V / 5 A intent, 5 A e-marked cable, no degraded mode).
+Retired 15 V Board P r2 is in Git at `6cb02c8` and was never physically built for PD.
+Board A and root v0.4.0 are historical.
+
+`doc/src/content/docs/project/current-state.md` owns dated artifacts, checks, order/received/programmed/measured
+state. Variant architecture pages own design responsibilities; `architecture/release-readiness.md` owns acceptance.
+Keep entry READMEs short and link these owners. On a future decision change, update the affected variant,
+current-state evidence, changed gates and `circuit/DOCUMENTATION_MAP.md` ownership as applicable.
 
 Start with `doc/src/content/docs/project/` and `architecture/`. Earlier
 `overview/`, `inbox/`, `learning/` and `misc/` pages are archived at stable URLs because
 component records and bench history cite them. Do not use an archived assertion as
 current design authority.
 
-Output budgets are +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A. They are design
+PD15 output budgets are +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A. They are design
 targets, not measured ratings. The selected Board B chain now uses AP63201 at +13.44 V, LM2596 stages at
 +6.519 V and −14.145 V, LT1963A positive regulators and adjustable LT3015 negative
 regulation. Those selections replace the earlier L7812/L7805/CJ7912 headroom
@@ -43,6 +51,9 @@ are −12 V. Do not carry the previous connector's orientation assumptions forwa
 
 ## Current screw-terminal revision
 
+The following screw-terminal, support and pre-rail detail is **PD15 Board B** scope.
+B20 uses different circuitry; P1 is NC/PDOK/GND/NC, not ATT.
+
 Board B is 110 × 85 mm with a plain left edge. Two top-side
 WJ500V-5.08-2P / C8465 blocks replace the four Fastons, with wire entries facing
 left. J6.1=GND, J6.2=−12 V, J7.1=+5 V and J7.2=+12 V. J8/J9 are retired.
@@ -54,8 +65,7 @@ or restore superseded T-notch edges and underside Faston positions.
 
 Board B is installed on legs with its front/component face DOWN. J5 is on F.Cu.
 Board P mates face-to-face on that side, front face down in CAD at nominal
-Z=+11.1 mm; it is physically below B after installation. Board P's own PCB remains
-unchanged. `pd_to_board_b` in `scripts/pcb/board_b_layout.py` maps `(x,y)` to `(y−0.5,x+12)`;
+Z=+11.1 mm; it is physically below B after installation. P15 retains the module outline; do not confuse it with current r3 source. `pd_to_board_b` in `scripts/pcb/board_b_layout.py` maps `(x,y)` to `(y−0.5,x+12)`;
 apply it to every P hole and mating pin. Do not restore the earlier bottom J5 or
 in-plane `(y,27-x)` stack transform.
 
@@ -91,10 +101,14 @@ seven front-edge contacts: ATT, PDOK, GND, NC, +13.44 V PRE, +6.519 V PRE and
 −14.145 V PRE. The row is shifted 20 mm right, with contact centers x=56.19–71.43 mm
 at y=1.8 mm. P1.3 is their shared probe ground; preserve NC.
 
-The sole current prototype export destination is `manufacturing/releases/corner-support-review/`.
-Despite the directory name, these are development review files, not a released
-product or a submitted order. Active board files are authoritative. Keep useful
-design notes and evidence from actual earlier orders, but no renewal backup sets.
+`manufacturing/releases/corner-support-review/` is a **fixed P15+B package** at manifest base `3b9821b`,
+not an export of arbitrary HEAD. Preserve its recorded 151/151 checksum and full verifier success with original STEP;
+replay requires matching historical source hashes plus the original local-only file. Do not refresh its locks for
+documentation changes. Separate development exports use new destinations and valid pairs. Preparing files is not
+an order or release. Received Board B's factory BOM matches S3 (`f25194f`) but fabrication identity, LED2 rotation,
+usable count and D1 remain incomplete; current development substitutions are not received S3.
+P15 per-unit physical programming/acceptance is NOT RUN; PD20 has intent JSON only, with TDISPAR0V encoding and
+lower-current 20 V behavior unresolved. See current-state and per-stream verification owners.
 Ground-layout reports distinguish aggregate sampled copper width
 from the largest individual run; neither proves one continuous corridor or rated
 current. Require polygon-connectivity and specified ground-stitch checks as well.
@@ -122,8 +136,9 @@ human reference, then validation. The component catalog under
 
 ## Schematic and PCB ownership
 
-Board P/A/B schematics are generated from `scripts/schgen/board_p_spec.py`,
-`board_a_spec.py` and `board_b_spec.py`. Edit those specs and regenerate via
+The pure-Python regeneration gate covers A/B/P/P15 via `scripts/schgen/board_a_spec.py`,
+`board_b_spec.py`, `board_p_spec.py` and `board_p15_spec.py`. B20 has its own `board_b20_spec.py`;
+the five-input inventory provider uses `board_b20_components.py` for B20. Edit those specs and regenerate via
 `gen_schematic.py`; do not
 hand-edit their `.kicad_sch` outputs. See `scripts/schgen/README.md` for baseline,
 decision and ERC checks. Reused board projects retain their board-local source

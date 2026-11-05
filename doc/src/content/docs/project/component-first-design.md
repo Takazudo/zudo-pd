@@ -31,6 +31,7 @@ python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py -
 python3 scripts/schgen/gen_schematic.py scripts/schgen/board_p_spec.py
 python3 scripts/schgen/gen_schematic.py board_a_spec
 python3 scripts/schgen/gen_schematic.py board_b_spec
+python3 scripts/schgen/gen_schematic.py board_p15_spec
 ```
 
 See `scripts/schgen/README.md` for complete regeneration and ERC commands. Edit
@@ -56,3 +57,6 @@ without creating them.
 
 The [catalog](/docs/components/catalog/) publishes unresolved domains alongside
 facts. Publishing a component page does not close its open design questions.
+
+Choose the intended stream through [hardware workflow](./hardware-workflow.md); the commands above are examples,
+not instructions to regenerate all hardware during a docs-only change. B20 inventory uses `board_b20_components.py`.

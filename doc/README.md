@@ -9,7 +9,9 @@ From the root, `pnpm dev` starts the site on port 4321, history on 4322, and the
 package-owned component watcher. `pnpm build` prepares selected models and pages
 before building the site. `pnpm b4push` runs the complete guarded repository gate.
 
-The current reading path is **Getting Started → Architecture → Components → How-To**.
+The current reading path starts at **Project → Current State**, then variant Architecture, Verification and Components.
+The six navigation groups are Project, Architecture, Verification, Components, Decisions & Research, and Archive;
+`zfb.config.ts` is canonical. Use the curated procedure indexes; retained historical pages may still appear in sidebars.
 The Archive groups previous overview, diagnosis and learning pages at their stable
 URLs. Old claims never override the current inventory or schematic.
 
@@ -23,3 +25,7 @@ authoring and validation details.
 `zfb.config.ts` owns site settings and navigation. `pages/` contains package route
 stubs. `src/chrome-bindings.tsx` registers the component previews. `public/` contains
 reviewed static assets; deployment configuration remains in `wrangler.toml`.
+
+On a design change update `project/current-state.md`, the affected P15/PD15/PD20 design page and changed acceptance
+criteria in `architecture/release-readiness.md`. [Documentation map](../circuit/DOCUMENTATION_MAP.md) inventories
+ownership, routes and preservation constraints. Do not duplicate status ledgers across entry READMEs.
