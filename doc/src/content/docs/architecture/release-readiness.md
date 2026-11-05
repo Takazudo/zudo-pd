@@ -1,89 +1,56 @@
 ---
 title: Release Readiness
 sidebar_position: 4
-description: What the design files establish and what must be closed before a prototype order.
 ---
 
-The renewed boards are development hardware prepared for **prototype
-fabrication and assembly review**. Board B's screw-terminal revision retains
-110 × 85 mm, two copper layers and 2 oz outer copper. Two top-side
-WJ500V-5.08-2P / C8465 blocks replace the Fastons; their wire entries face left.
-The left edge is plain and no printed terminal guard is required. Board B is
-installed front-down on legs. Front-side J5 carries the face-down PD module above
-B in CAD and physically below B when installed. P's own 27 × 40 mm PCB is unchanged.
-Voltage labels appear on both sides and must read normally from each side.
-P moves down to free the independent top-left corner support. P1 and TP3/TP4/TP5
-move 20 mm right together, retaining seven top-edge contacts on 2.54 mm pitch.
+This page owns **acceptance criteria**, not a running status ledger. Read [current state](../project/current-state.md)
+for dated results, artifacts, order plans and received hardware. Development exports, CAD checks and publication
+checks do not establish a product release or measured rating.
 
-The PCB is implemented and native layout and power-path checks pass. Package
-reports determine CAD and export status. Required reports check input/output
-power paths, thermal vias, copper-polygon connectivity,
-specified ground stitches and modeled assembly clearance against the recorded revision. Aggregate sampled copper
-width is distinct from the largest individual run; it does not describe one
-continuous corridor. Geometry cannot establish current capacity, wire termination,
-cooling or full-load output performance. Physical wire fit, tightening torque,
-support retention and connector seating also remain unmeasured.
-
-The selected [18 mm printed adhesive-leg prototype](https://github.com/Takazudo/zudo-pd/blob/main/3dp-files/adhesive-leg/README.md)
-addresses the earlier HC-11 option's nominal height conflict: P's back substrate
-plane reaches 12.7 mm and the terminal drawing maximum is 14.2 mm. The PCB remains
-unchanged, including its Ø3.0 mm corner holes. M3 screw passage has zero nominal
-diametral clearance and needs an actual fit check. Printed fit, screw retention,
-adhesive loading and temperature behavior remain unqualified; see the
-[support contract](./board-contract.md#independent-corner-supports). The HC-11
-support record documents that option's limitations; the leg has separate CAD verification.
-
-Use the [manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md) and
-[corner-support review destination](https://github.com/Takazudo/zudo-pd/tree/main/manufacturing/releases/corner-support-review) for source snapshots,
-BOM/CPL scope, drawings and check reports. Local paths are `manufacturing/README.md`
-and `manufacturing/releases/corner-support-review/`. Package reports determine final ERC,
-DRC and fabrication-file status. Maintain only this current prototype package and
-the active design files. The directory now holds a 2026-11-01 development review package (board-p15 + Board B with C5455478/C696190), not an order. Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered.
-Nothing is released or validated (`manufacturing/as-built-and-controller.md`); the
-directory name `releases` does not establish product-release status.
-
-The [STEP datum audit](https://github.com/Takazudo/zudo-pd/blob/main/footprints/kicad/step-datum-verification.json) covers the reviewed active STEP/WRL pairs.
-Its sampled surface checks establish model consistency, with the documented BD8
-interior-face exception; they do not establish exact physical geometry or mating
-fit. The [manufacturing guide](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/README.md#native-3d-review)
-gives the read-only replay command. Refresh the active model set when a component
-changes instead of relying on a prior revision's report.
-
-Board P's new 16 V TVS makes factory 20 V operation unsafe. Follow the mandatory
-[configuration and input-protection procedure](./board-p.md) before first PD use.
-The 26 V clamp screen and 60 V D3 improve the prototype's conditioned stress margin;
-hot, installed surge and overshoot behavior remain unqualified.
-
-## The selected power stage requires qualification
-
-The output targets remain +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A. The
-selected chain now uses AP63201, LT1963A and adjustable LT3015 parts to address the old
-regulator-headroom constraints. The schematic, catalog and layout must describe
-those same selections. Selection research is retained in
-[Power Stage Options](./power-stage-options.md).
-
-## Order gates
+## P15 acceptance before either load
 
 | Gate | Required evidence |
 | --- | --- |
-| Exact parts | Strict inventory, pin-map and generator parity checks pass |
-| Electrical rules | ERC reviewed; exclusions have specific reasons |
-| PCB connectivity | Layout matches final schematic; no unresolved airwires |
-| PCB geometry | DRC reviewed; closed outline; mounting and connector clearance checked |
-| Corner supports | Printed-leg fit; M3 passage through Ø3.0 mm holes; screw/adhesive retention; 116 × 91 mm base footprint and actual enclosure clearance |
-| Power layout | Converter loops, return paths, trace/via current and cooling reviewed |
-| Input compatibility | First programming at 5 V only; NVM readback disables 20 V and confirms the 15 V-only policy; current path, pinout and startup documented |
-| Manufacturing files | Gerbers, drills, BOM and CPL from one final revision |
-| Assembly | DNP, side, rotation and through-hole assembly scope checked |
-| Prototype tests | Staged bring-up and load, thermal and ripple measurement procedure |
+| Identity and incoming inspection | P15 r1 source/population/NVM identity; D5/D9 orientation, U1/J1 seating, no bridges |
+| Provisioning | [P15-NVM-1–5 and P15-NVM-7](./board-p15-programming.md), current-limited 5 V-only source and both Board L and B disconnected; factory dump, write, immediate readback, full power cycle and configuration verification |
+| Jig | External pull-ups, no VREG_2V7 loading, grounded RESET, no RESET pulse; canonical power sequencing and measured I/O levels/rise time |
+| First PD attach | NVM-6 on a current-limited test source also offering 20 V, still no downstream boards; 15 V contract and output off at 5 V |
+| Handover | Only an accepted module proceeds to LED first, then PD15; retain unit-specific results |
 
-The [integration records](/docs/components/integration/) identify unresolved
-arithmetic and evidence. Headroom calculations are conditioned on source/path voltage, temperature and
-ripple assumptions. A clean DRC cannot prove the output targets are achievable.
+The absence of a hardware voltage window/eFuse is a recorded prototype residual, not proof of fault protection.
 
-The root PCB and `jlcpcb-order-snapshots/` are historical order artifacts. Do not
-mix their Gerbers or assembly tables with renewed board files.
+## PD15 qualification
 
-See [JLCPCB package preparation](../project/jlcpcb-package.md) for file-level review.
-Every package must state its blockers instead of presenting a partial layout as
-ready to order.
+| Gate | Required evidence |
+| --- | --- |
+| Received Board B identity | S3 factory BOM plus D1 inspection, copper/mask/paste/silk boundary, LED2 orientation and usable quantity; distinguish later development substitutions |
+| Electrical rules and PCB | Exact part/pin-map parity, reviewed ERC/DRC/connectivity, converter loops, returns, copper/vias and conditioned stress limits |
+| Power behavior | [Staged bring-up](../verification/renewal-bring-up.md): startup, low-line, load, ripple, thermal, surge and coupled operation at the target rail budgets |
+| Mechanics | Front-down stack, unkeyed J5 alignment, wire/terminal/shroud clearance; printed-leg fit, M3 passage through Ø3.0 mm holes, retention and 116 × 91 mm footprint |
+| Model evidence | Source-specific datum/clearance reports; sampled geometry does not establish physical fit |
+
+## The selected power stage requires qualification
+
+PD15's +12 V / 1.2 A, −12 V / 0.8 A and +5 V / 0.5 A are targets. Its
+[power-stage material](./power-stage-options.md) describes the AP63201/LM2596/LT1963A/LT3015 design only.
+Headroom calculations retain source/path voltage, temperature, ripple and ceramic-bank assumptions.
+
+## PD20 qualification
+
+| Gate | Required evidence |
+| --- | --- |
+| Input design | Independent P r3 layout/electrical review, exact component evidence, inrush/SOA and transient bounds |
+| Configuration | Resolved TDISPAR0V encoding and lower-current 20 V source behavior; reviewed program-ready binary before any T4 execution |
+| B20 review | Disposition of original review, retained SMC hot-loop/EMI and limiter-maximum D3/U3 thermal limits; component/pulse/DC-bias gaps |
+| OSC behavior | Sequencing, re-entry, asymmetric discharge, reverse leakage, let-through and fault-latch acceptance |
+| Physical evidence | All [T1–T8](../verification/pd20-verification.md), actual 5 A e-marked source/cable, assembled thermal and mechanical checks |
+
+## Order gates
+
+Each export needs one exact valid pair, final-revision Gerbers/drills/BOM/CPL, reviewed DNP/side/rotation/THT scope,
+source locks, reports and named blockers. Use [package preparation](../project/jlcpcb-package.md).
+An export is neither an executed order nor a release. Prototype residual acceptance does not waive product qualification.
+
+The P15 `corner-support-review` package is fixed at manifest base `3b9821b`; retain its historical full-verifier
+and 151/151 checksum PASS with the original STEP. Current HEAD does not inherit that result. A historical replay
+needs a tree matching its source hashes and the original required local-only STEP. Do not refresh the frozen locks.

@@ -1,25 +1,43 @@
 # Fabrication review package
 
-**Development review files, not an order.** The current package in `manufacturing/releases/corner-support-review/`
-was exported on 2026-11-01 from one revision: the Board P 15 V draft (`board-p15`) and Board B with the adopted
-C5455478 (R21/R27) and C696190 (C11) substitutions (`dec-b-stock-gap-substitutions`). It has not been uploaded,
-quoted or ordered. It is not the ordered state S3, which is `git show f25194f:manufacturing/releases/corner-support-review/`.
+[Current state](../doc/src/content/docs/project/current-state.md) owns implementation, dated checks, actual
+procurement/physical state and remaining work. [Variant designs](../doc/src/content/docs/architecture/index.mdx)
+and [release gates](../doc/src/content/docs/architecture/release-readiness.md) own responsibilities and acceptance.
 
-The active design pairs the reusable 27 × 40 mm **Board P** USB-PD module with
-**Board B**, the synth conversion and distribution board. The older Board A and
-root v4 project remain historical references.
+Valid development pairs are **PD15 `board-p15 + board-b`** and **PD20 `board-p + board-b20-draft`**.
+Current `board-p` is 20 V r3. P15 is shared 15 V / 3 A hardware for LED first, then PD15.
+The detailed screw-terminal, leg and AP63201/LM2596/LDO material below is **PD15-specific**;
+PD20 has its own [status/disposition](pd20-status.md) and four-layer B20 contract.
 
-The 110 × 85 mm corner-support revision moves the PD module down and the seven
-top-edge contacts right to free the fourth independent support. The PCB is implemented
-and native layout and power-path checks pass. Reports in `corner-support-review`
-determine CAD and export status. Board B is installed
-on legs with its front/component face down. The separately developed
-[18 mm printed-leg prototype](../3dp-files/adhesive-leg/README.md) addresses the
-earlier HC-11 option's nominal floor-height conflict without changing the PCB or
-JLCPCB package. Physical wire fit, tightening torque, retention, connector
-seating and full-load qualification remain open. Only the current prototype
-package is maintained. Renewal Board B was ordered on 2026-09-20 with zudo-bus; its JLCPCB component BOM matches package state S3 (`f25194f`). Its fabricated copper, mask, paste and silk, LED2 rotation and factory-file hashes are unconfirmed. No PD Board P was ordered. Nothing is released or validated; see
-[as-built identity](as-built-and-controller.md). The active PCB and component records are the design authority.
+`releases/corner-support-review/` is a **fixed P15+B snapshot**, manifest base `3b9821b`.
+The [2026-11-03 order packet](p15-order-decision-packet.md) records matching source checks at `5a21ab9`,
+151/151 checksums and full independent-verifier PASS with the original local-only STEP. Preserve those results.
+They do not verify current HEAD. The verifier compares against its working tree; historical replay needs matching
+source hashes plus that original required STEP. This documentation work does not replay or regenerate the package.
+Its older `manufacturing/README.md` source hash remains an intentional historical boundary as this guide evolves.
+
+Received Board B matches the S3 factory BOM (`f25194f`), with full fabrication identity, LED2 rotation,
+usable quantity and D1 inspection incomplete. Development C11/R21/R27 substitutions do not describe received S3.
+The two-P15 plan is not an executed order; no physical programming/readback acceptance is recorded.
+
+## Narrative classification and reading order
+
+| Document | Classification / stream |
+| --- | --- |
+| [README](README.md), [package notes P15](package-notes-p15.md), [package notes B20](package-notes-b20.md) | Current technical/reference guidance; exact package scope and blockers |
+| [PD20 status](pd20-status.md) | Current technical/reference disposition plus dated verification receipts; original 269-component receipt retained separately from current 270 source |
+| [P15 order decision](p15-order-decision-packet.md) | Revision-specific verification/order-decision record, 2026-11-03; plan, not receipt of an order |
+| [As-built identity and controllers](as-built-and-controller.md) | Revision-specific received identity/LED observations plus controller research; LED measurements only |
+| [Board B unpowered check](board-b-unpowered-check.md) | Current procedure for received PD15 Board B D1, not an executed result |
+| [Independent B20 review](pd20-b20-layout-review.md) | Original revision-specific review; findings preserved, later disposition in PD20 status |
+| [PD A/B readiness](pd-ab-readiness.md), [B20 draft chronology](board-b-20v-switcher-direct-draft.md) | Historical development journals, retaining decisions/calculation/simulation chronology; current disposition in PD20 status |
+| [Power budget](power-budget.md) | Source-locked revision-specific calculation record; old P r2 identity is historical, not a current path claim |
+| [B1 gates](b1-gates.md), [design gaps](design-gaps-20v.md), [input clamp](input-clamp-fix.md), [input protection](input-protection-20v.md), [B20 protection](board-b-protection-20v.md) | Research/development screens feeding later adopted designs; preserve dated assumptions and decision chronology |
+| [Supply capability](supply-capability.md), [supply alternatives](supply-alternatives.md), [OSC options](osc-supply-options.md), [supply alternatives comparison](product-comparison.md) | Research/candidate comparisons, not measured ratings |
+| [Product lineup](product-lineup.md), [power limit](power-limit-60w.md), [multiport chargers](multiport-chargers.md), [heat spreader](heat-spreader-concept.md) | Research/candidate comparisons; adopted decisions explicitly scoped, other options remain unadopted |
+
+Cost and stock snapshots retain their retrieval dates, including 2026-11-03. They are not fresh stock checks or quotes.
+The [documentation map](../circuit/DOCUMENTATION_MAP.md) inventories every retained document and constraint.
 
 ## Generate files from checked sources
 
@@ -55,37 +73,21 @@ new verification separately when revising the design.
 
 ### New fabrication export
 
+When an export is separately requested, use a new destination and explicit pair:
+
 ```sh
-python3 scripts/pcb/export-jlcpcb.py tmp/current-prototype-export
-uv run --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py --write tmp/current-prototype-export
+python3 scripts/pcb/export-jlcpcb.py tmp/pd15-review --boards board-p15 board-b
+python3 scripts/pcb/export-jlcpcb.py tmp/pd20-review --boards board-p board-b20-draft
 ```
 
-`--write` stores the Gerber renders and `independent-validation.json` in the fresh export and refreshes its
-`SHA256SUMS`. Without it the verifier leaves the package untouched and writes to a temporary directory (or
-`--out`); use that form to re-check the committed package.
-
-Use `--boards board-p` to export the PD module alone. Output directories must be
-new. Validate the temporary export before replacing the sole current package in
-`manufacturing/releases/corner-support-review/`; do not retain superseded renewal
-packages as backup sets. The exporter refuses missing PCB files, PCB/schematic/registry differences,
-DRC errors, unrouted connections, and ERC errors. It preserves intentional DNP
-parts and excludes bare test pads and mounting holes from both BOM and CPL.
-
-Each board folder contains a Gerber/drill ZIP, `bom.csv`, `cpl.csv`, excluded-part
-list, schematic PDF, assembly drawings, source snapshot, and full check reports.
-The package also includes the power budget and source-locked filled-copper geometry report.
-The manifest locks source and exported artifact hashes. Review drawings and warnings alongside the manufacturing
-files. An electrically unqualified prototype does not become qualified by passing
-DRC, ERC, or a file-format check.
-
-The directory name `releases` is an output convention, not a claim that the
-prototype has been released. Refresh the current package's source locks and
-validation reports whenever its source or supporting evidence changes. A package
-must describe the actual current files and its remaining qualification limits.
+The retired `--boards board-p board-b` pair is rejected. Exporting does not order or release anything.
+See [package preparation](../doc/src/content/docs/project/jlcpcb-package.md) for native-tool requirements,
+independent verification, `--write` only on a fresh export and fixed-package replay limitations.
+Never refresh the fixed P15 package's source locks/checksums merely because HEAD changes.
 
 ## Fabrication and assembly
 
-- Two copper layers, 1.6 mm FR-4. Board P reuses the 27 × 40 mm routed module and mounting geometry, with updated TVS lands.
+- Two copper layers, 1.6 mm FR-4. P15 uses the 27 × 40 mm module and mounting geometry, with updated TVS lands.
 - Board B is 110 × 85 mm with three top fiducials and 0.07 mm (2 oz) outer copper; power-current and thermal limits still require
   measurement on the assembled prototype.
 - DEALON DW254P-2X8-L0 C4749189 at J10/J11 replaces the custom printed socket guards.
@@ -155,7 +157,7 @@ verification. Neither establishes physical testing of the printed accessory.
 
 ## Native 3D review
 
-Open `boards/board-p/board-p.kicad_pro` or `boards/board-b/board-b.kicad_pro` with
+For PD15 open `boards/board-p15/board-p15.kicad_pro` or `boards/board-b/board-b.kicad_pro` with
 its paired PCB. Active model references resolve through
 `${KIPRJMOD}/../../footprints/kicad/zudo-pd.3dshapes/`; no global KiCad path variable
 is required. Export snapshots rebase those paths for their deeper `source/`
@@ -182,16 +184,16 @@ an exact geometry proof or physical qualification. The default command below is
 read-only for model assets; it writes only the requested report.
 
 ```sh
-python3 scripts/pcb/check-model-paths.py boards/board-p/board-p.kicad_pcb
+python3 scripts/pcb/check-model-paths.py boards/board-p15/board-p15-draft.kicad_pcb
 python3 scripts/pcb/check-model-paths.py boards/board-b/board-b.kicad_pcb
 uv run scripts/pcb/verify-step-datums.py --output tmp/step-datum-check.json
 ```
 
-The combined [P/B assembly preview](../boards/board-b/assembly-preview/preview.kicad_pcb)
+The historical r2 [P/B assembly preview](../boards/board-b/assembly-preview/preview.kicad_pcb)
 opens both boards together in KiCad and carries local model files. Its
 [verification report](../boards/board-b/assembly-preview/verification.json) identifies
 the source revisions and modeled clearances. This is an interactive review copy;
-export fabrication files from the active board projects.
+it does not establish current P15 or r3 stack clearance. Use the intended variant and revision for any new review.
 
 ## Electrical qualification remains open
 
@@ -224,20 +226,15 @@ Board B retains vendor silkscreen-over-pad warnings; the exported silkscreen is
 subtracted from the solder-mask openings. J10/J11 have intentional board-specific
 silkscreen clipping at the straight edge, with their pads and body geometry
 verified separately. These warnings remain in the full DRC report.
-Board P's reused pogo artwork has application-specific label corrections:
-J2.4 is `RST` (RESET), J3.4 is `VBUS`, and J3.5 is `GND`. Their electrical pinout
-is unchanged; library-mismatch warnings retain this intentional artwork difference.
+P15 J2.4 is **NC**, with RESET strapped to GND; J2.1/J2.2 have 100 kΩ pull-downs and no board pull-ups.
+The jig supplies external pull-ups, at most 4.5 V and never from VREG_2V7. Follow
+[Board P15 NVM Programming](../doc/src/content/docs/architecture/board-p15-programming.md) in full, including
+P15-NVM-1–7, current-limited 5 V-only provisioning with both downstream boards disconnected, factory dump,
+write/readback, full power-cycle/jig sequencing and configuration verification, then NVM-6 on a 20 V-capable PD test
+source with no downstream board. RESET cannot be pulsed. Only an accepted module proceeds to L or B.
+Regeneration of the desk binary is not physical programming/readback.
 
-The 15 V Board P draft (`boards/board-p15/`, unvalidated, not ordered) changes these
-notes. J2.4 is `NC`: it has no connection, because R21 straps RESET to GND
-(`dec-p15-reset-subset`). J2.1/J2.2 (SCL/SDA) carry 100 kΩ pull-downs and no
-pull-ups. The programming jig supplies the pull-ups, to at most 4.5 V and never from
-J3.3 VREG_2V7. Because RESET cannot be pulsed, only a full power cycle reloads the
-NVM. Follow [Board P15 NVM Programming](../doc/src/content/docs/architecture/board-p15-programming.md)
-and accept the image only on a power-cycle readback equal to
-`boards/board-p15/nvm/stusb4500-15v.bin`.
-
-The renewed input TVS is Littelfuse SMAJ16A, paired with a 60 V
+The PD15/P15 input TVS is Littelfuse SMAJ16A, paired with a 60 V
 SDT5A60SA-13 catch diode at Board B D3. The specified 26 V clamp at 15.4 A,
 10/1000 µs and 25 °C leaves conditional absolute-maximum margin; it is not a
 universal voltage ceiling. Adapter/cable overshoot, hot behavior and protection
@@ -247,7 +244,7 @@ assembly review, not a declaration of qualified full-load performance.
 **First power and programming must use a current-limited 5 V-only source, with
 Board B disconnected. Verify the 15 V-only NVM image, readback and reload before
 connecting a PD-capable source.** A factory 20 V request can drive the 16 V TVS
-into sustained conduction. Twenty-volt operation is unsupported. Board P artwork
+into sustained conduction. Twenty-volt operation is unsupported **for P15**. PD20 r3 is a separate design with blocked 20 V NVM intent. Board P artwork
 and source records do not prove what a supplied STUSB4500 is programmed to request.
 A USB-PD source's 45 W nameplate budget does not prove successful startup under the
 negative converter's input-current transient.

@@ -1,6 +1,6 @@
 # Everyday agent requests for a circuit project
 
-These are nine short requests an owner can give an agent in this project, each in English and Japanese. They are **task examples**, not an installed skill. The agent handles each one by following [WORKFLOW.md](./WORKFLOW.md); the "Workflow and commands" line under each example names the section and the project commands involved.
+These are nine short requests an owner can give an agent in this project, in English. They are **task examples**, not an installed skill. The agent handles each one by following [WORKFLOW.md](./WORKFLOW.md); the "Workflow and commands" line under each example names the section and the project commands involved.
 
 The everyday request should remain short. This project supplies the shared conventions for exact identity, evidence retention, asset checks, generated documentation, and truthful status reporting. The “completion expectations” below explain what those short requests should produce. Every task starts with the project context and `pnpm circuit:check` before editing, then ends with the four-part completion report.
 
@@ -12,9 +12,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > Download the datasheet for COMPONENT_ID and keep it with the component evidence. Check that it covers the exact manufacturer, MPN, and package suffix we are using. Update the source record and tell me which design-relevant information is still missing.
 
-**日本語の依頼例**
-
-> COMPONENT_ID のデータシートをダウンロードして、部品のエビデンスと一緒に保存して。採用候補のメーカー・正式型番・パッケージ末尾まで一致する資料か確認し、出典の記録を更新してほしい。設計上必要な情報で、まだ確認できていないものも教えて。
 
 **Completion expectations**
 
@@ -31,9 +28,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > Find 3D data for COMPONENT_ID and add it to the project. Check the body dimensions, mounting datum, and relevant pin or actuator positions against the exact part's drawing. If only a family model is available, make that limitation visible and tell me what must be corrected.
 
-**日本語の依頼例**
-
-> COMPONENT_ID の 3D データを探してプロジェクトに追加して。外形寸法、取り付け基準面、関係する端子や操作部の位置を、その型番の図面と照合してほしい。シリーズ共通モデルしかない場合は、そのことを明記して、修正が必要な箇所を教えて。
 
 **Completion expectations**
 
@@ -50,9 +44,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > Check whether CLAIM_ID is actually supported for COMPONENT_ID in our intended use. Use the retained primary source, preserve the value's conditions and whether it is typical, guaranteed, recommended, or an absolute maximum, and update the canonical evidence. Explain whether the project conclusion still follows.
 
-**日本語の依頼例**
-
-> COMPONENT_ID について、CLAIM_ID の仕様が本当に根拠付きで言えるか確認して。このプロジェクトの使用条件に対して成り立つか見てほしい。一次資料の該当箇所を確認して、typical・保証値・推奨条件・絶対最大定格の違いと条件を残したうえで部品のエビデンスを更新し、設計上の結論がそのまま成り立つか教えて。
 
 **Completion expectations**
 
@@ -69,9 +60,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > Review INTERFACE_ID at REVISION. Trace the relevant component facts and configuration through the complete connection, including startup, reset, and one-side-powered conditions where they apply. Record the conditioned calculations and identify what still requires measurement.
 
-**日本語の依頼例**
-
-> REVISION の INTERFACE_ID を確認して。関係する部品の仕様と設定を、接続全体として追ってほしい。関係する場合は起動時、リセット時、片側だけ給電されている状態も含めて確認し、計算に使った条件と根拠を残して。実測しないと分からない点も分けて教えて。
 
 **Completion expectations**
 
@@ -88,9 +76,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > PART_A is becoming hard to source. Assess PART_B as a replacement at the current placements. Compare the exact identities, relevant behavior, pins, package, mechanical fit, firmware effects, and assembly implications. Give me a change-impact note and a recommendation with any remaining conditions.
 
-**日本語の依頼例**
-
-> PART_A の入手が難しくなってきたので、今の実装箇所で PART_B に置き換えられるか調べて。正式型番、必要な動作、ピン、パッケージ、機械的な収まり、ファームウェアと実装方法への影響を比較してほしい。変更影響のメモを作って、残っている確認条件と一緒に採用の見立てを教えて。
 
 **Completion expectations**
 
@@ -107,9 +92,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > Apply DECISION_ID to REVISION. Update the authoritative design inputs, dependent component and integration evidence, relevant CAD assets, generated documentation, and the change-impact note. Run the checks supported by this project and report the exact changes, results, and any hardware checks still pending.
 
-**日本語の依頼例**
-
-> DECISION_ID の変更を REVISION に反映して。設計の正本、関係する部品・組み合わせのエビデンス、必要な CAD データ、生成ドキュメント、変更影響メモまで揃えて更新してほしい。このプロジェクトで実行できる確認を行い、変更内容と結果、まだ必要な実機確認をまとめて。
 
 **Completion expectations**
 
@@ -126,9 +108,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > Prepare a bring-up plan for BUILD_ID from the current evidence and open questions. Define the setup, prerequisites, staged checks where needed, expected criteria, and evidence to capture. Keep it clearly marked as an unperformed plan; I will run the physical measurements locally.
 
-**日本語の依頼例**
-
-> BUILD_ID の立ち上げ手順を、今ある根拠と未解決事項から作って。接続や測定器の準備、前提条件、必要なら段階的な確認、判定基準、残すべき測定データをまとめてほしい。実測は手元で行うので、まだ実行していない計画であることを明記して。
 
 **Completion expectations**
 
@@ -145,9 +124,6 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 > Organize the attached measurements for BUILD_ID into a verification report. Preserve the raw observations, setup, revision, and configuration. Compare only against criteria we have evidence for, update the relevant coverage, and list any questions the results reopen.
 
-**日本語の依頼例**
-
-> 添付した BUILD_ID の測定結果を検証レポートに整理して。生の観測値、測定条件、基板のリビジョン、設定内容を残してほしい。根拠がある判定基準だけと比較して、関係する確認状況を更新し、結果から再確認が必要になった点も挙げて。
 
 **Completion expectations**
 
@@ -162,11 +138,8 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 
 **English request**
 
-> Read the current project snapshot and next actions, then complete the next unblocked research task. Keep the component evidence and authored rationale consistent, update the handoff, and tell me the result and the next unresolved decision.
+> Read project/current-state.md and the relevant acceptance gates, then complete the next unblocked research task. Keep the component evidence and authored rationale consistent, update the handoff, and tell me the result and the next unresolved decision.
 
-**日本語の依頼例**
-
-> 現在のプロジェクト状況と次の作業を読んで、着手可能な調査タスクを一つ完了して。部品のエビデンスと説明文の整合を取り、引き継ぎメモを更新してほしい。今回分かったことと、次に決める必要がある未解決事項を教えて。
 
 **Completion expectations**
 
@@ -175,4 +148,4 @@ Replace uppercase tokens such as `COMPONENT_ID`, `CLAIM_ID`, and `REVISION` with
 - Resolve or reopen questions only with supporting evidence or a recorded decision.
 - End with a concrete next result, not a broad request to “continue investigating.”
 
-**Workflow and commands:** Shared entry, then whichever workflow the next action needs; update the relevant decision or the release-readiness page when a release gate changes, then run `pnpm circuit:check` and `pnpm check`.
+**Workflow and commands:** Shared entry, then whichever workflow the next action needs; update the relevant decision, current-state evidence, affected variant design, and release-readiness when a gate changes, then run `pnpm circuit:check` and `pnpm check`.

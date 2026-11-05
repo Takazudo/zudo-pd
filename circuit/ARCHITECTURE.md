@@ -17,10 +17,10 @@ authored rationale, root scripts and project-specific checks.
 | Path | Owner | Contract |
 | --- | --- | --- |
 | `.claude/skills/component-*/` | Evidence owners | Exact part facts, provenance, coverage, routing, interactions and pin maps |
-| `.claude/skills/component-spec-audit/references/inventory.json` | Project | Orderable identities and placements, checked against the three board generator specs |
+| `.claude/skills/component-spec-audit/references/inventory.json` | Project | Orderable identities and placements, checked against five configured inventory inputs (A/B/P/P15/B20) |
 | `.claude/skills/component-spec-audit/references/candidates.json` | Project | Validated alternatives that are not inventory records or published parts |
 | `.claude/skills/circuit-spec-integration/references/rules.json` | Project | Eleven current cross-component rules, their inputs, conditions and open evidence stages |
-| `circuit.config.ts` | Project | Provider (`led-generator-v1`), Board A/B/P bindings, package paths, Python floor and preview configuration |
+| `circuit.config.ts` | Project | Provider (`led-generator-v1`), Board A/B/P/P15/B20 bindings, package paths, Python floor and preview configuration |
 | `circuit/publication/` | Project | Reviewed field matrix, selected records/sources, asset allowlist, document audit and integration gloss |
 | `@takazudo/zudo-circuit-doc` | Package | Generic validator, projection, renderers, islands and CLI |
 | `patches/@takazudo__zudo-circuit-doc@0.1.0.patch` | Temporary component-package bridge | Reviewed compatibility until the released package supplies the same contracts |
@@ -47,23 +47,23 @@ flowchart LR
 
 The configured provider is `led-generator-v1`. It binds placement identity and
 placement-level DNP state to `scripts/schgen/board_a_spec.py`,
-`board_b_spec.py` and `board_p_spec.py`. The two finite value-field MPN exceptions
+`board_b_spec.py`, `board_p_spec.py`, `board_p15_spec.py` and `board_b20_components.py`.
+The pure-Python schematic regeneration gate in `circuit/scripts/run-python-gates.sh` covers four generators
+A/B/P/P15; B20 inventory projection is not a fifth regeneration gate. The two finite value-field MPN exceptions
 are `C144397` and `C591344`; the setting is in `circuit.config.ts`. The canonical
 direct-routing fixture is
 `.claude/skills/component-spec-audit/fixtures/direct-routing.json`.
 
 ## Published contract
 
-Current corpus locks cover 60 inventory records, 154 selected sources, 622 facts,
-175 coverage domains, 41 interactions, 60 pin maps, 196 pins and 11 integration
-rules. The project validates 30 owner bundles, including 12 candidate records;
-25 inventory owners are published. There are 34 package references. These counts
-are review locks, not measurements or evidence of suitability.
+Current counts are defined by the [inventory](../.claude/skills/component-spec-audit/references/inventory.json),
+[publication selection](publication/selection.json) and [generated preflight](generated/preflight.json).
+Run `pnpm circuit:check` and read its actual SCOPE output; counts are review locks, not measurements or suitability.
 
-The custom 99-field publication matrix preserves the earlier decisions and adds
-only reviewed footprint/model preview publication. Eleven fields remain denied,
+The reviewed publication matrix in `circuit/publication/` preserves earlier decisions and
+allows selected footprint/model previews. Its denied fields remain unchanged,
 including raw evidence extracts, identity owner routes and binary content.
-Publication selection separates 59 curated document selections from the one
+Publication selection separates curated document selections from the documented
 honest `rec-c335982` document exception. Its distributor identity stays visible
 with distributor authority; no manufacturer PDF is invented. The retained
 `document-verification.json` records its dated source audit, mirrors and

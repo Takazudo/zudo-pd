@@ -4,6 +4,9 @@ sidebar_position: 4
 description: The selected AP63201 13.44 V stage, exact component choices and qualification conditions.
 ---
 
+**Scope: PD15 Board B only.** This AP63201/LM2596/LDO material does not describe B20.
+See [PD15](./pd15.md), [PD20](./pd20.md) and [current state](../project/current-state.md).
+
 U2 is an [AP63201WU-7](/docs/components/records/ap63201wu-7/) synchronous buck.
 It supplies U6's positive linear stage from the switched input rail. The part is
 the adjustable, 500 kHz forced-PWM member of its family; AP63203 and AP63205 are

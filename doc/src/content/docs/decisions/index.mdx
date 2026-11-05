@@ -1,22 +1,40 @@
 ---
-title: Decisions
+title: Decisions Register
 sidebar_position: 1
-description: Current architecture and retained project decision records.
 ---
 
-Current board boundaries and interfaces are summarized in the
-[board contract](../architecture/board-contract.md). The records below preserve
-the reasoning and reviews behind project choices; use the current architecture
-and component evidence when checking the implemented design.
+Adopted direction comes from chronology and source evidence, not a JSON status word alone.
+[Current state](../project/current-state.md) owns artifacts/physical status; [design pages](../architecture/index.mdx)
+own stable responsibilities. The original IDs remain in
+[decisions.json](https://github.com/Takazudo/zudo-pd/blob/main/scripts/schgen/decisions.json), unchanged.
+
+| Variant | Adopted decision | Date/source | Supersedes / boundary | Remaining verification |
+| --- | --- | --- | --- | --- |
+| Shared / both products | STUSB4500 common controller, `dec-common-controller-block` | 2026-10-31, decisions.json | HUSB238/Adafruit-derived and CYPD3177 remain alternative research | Exact component/electrical behavior and per-variant acceptance |
+| Shared / both products | Per-unit NVM programming, `dec-nvm-per-unit-programming` | 2026-10-31, decisions.json | Factory defaults are not acceptance | Factory dump/write/readback/full power-cycle/configuration record per unit |
+| PD15 / PD20 | Separate products, `dec-separate-products` | 2026-11-01, decisions.json | `dec-single-lineup` still says LOCKED but explicitly records supersession | Independent product qualification |
+| P15 | Grounded RESET, J2.4 NC, jig pull-ups; `dec-p15-reset-subset` | 2026-11-01, decisions.json | Retired r2 10 kΩ RESET/pogo/pull-up circuit | P15-NVM-1–7 NOT RUN |
+| P15 | Pull-downs, local VDD feed/clamp and decoupling; `dec-p15-i2c-pulldowns`, `dec-p15-vdd-local-clamp`, `dec-p15-vdd-decoupling` | 2026-11-01, decisions.json | Earlier VDD direct feed and C38 omission | Communication current, cold knee, leakage, ramp/derating gaps |
+| PD15 development B | C11/R21/R27 substitutions, `dec-b-stock-gap-substitutions` | 2026-11-01, decisions.json | Does not change received S3 identity | BB-R/BB-C and physical inspection NOT RUN |
+| Shared P15 | Same PCB/population/image, LED first then PD15 | 2026-11-03, [programming](../architecture/board-p15-programming.md), [order packet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-decision-packet.md) | No separate LED/PD15 rewrite; no invented JSON ID | Per-unit acceptance before either downstream board |
+| P15 prototype plan | Two assembled P15; reuse two Board Ls and existing Board B | 2026-11-03, order packet | Earlier five-set costing is not quantity requirement or executed order | Order receipt, usable B count, D1 and physical tests |
+| PD20 | Four-layer B20 | Phase 28, 2026-11-03 [draft chronology](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/board-b-20v-switcher-direct-draft.md) | Earlier two-layer development layout | Finished stack tolerance and physical/EMI/thermal tests |
+| PD20 B20 | Keep SMC B560C for heat spreading; loop area remains OPEN | 2026-11-04, [disposition](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-status.md) | Smaller-diode search did not close loop/thermal tradeoff | Bench EMI and T2 limiter-maximum thermal |
+| PD20 B20 | Probe row with NC/PDOK/GND/NC; rail labels | 2026-11-04, [PR 225](https://github.com/Takazudo/zudo-pd/pull/225), disposition | Shared positions do not preserve PD15 ATT | Physical fixture and signal checks |
+| PD20 B20 | C43 U3 pin-2 bypass, current fitted count 270 | 2026-11-04, [PR 226](https://github.com/Takazudo/zudo-pd/pull/226), disposition | Older 269 export receipt stays unchanged | DC bias, inductance, EMI and physical validation |
+
+## Review findings and their disposition
+
+[Original independent B20 review](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-b20-layout-review.md)
+retains pre-fix Kelvin, output-return, hot-loop and thermal findings.
+[Current disposition](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-status.md) records the merged fixes,
+remaining SMC hot-loop area/thermal limits and other gaps. A fixed finding does not erase its original evidence.
+
+The manager `common-controller-block.md` is referenced but absent here. Accessible decision text and the P15
+programming page support the contract summarized above; no missing manager document or recovered decision is invented.
 
 ## Decision records
 
-- [Board split decision](../inbox/board-split-decision.md) records the decision to
-  separate USB-PD input from synth conversion.
-- [Board B architecture review](../inbox/board-b-architecture-review.md) retains
-  a review of the renewed conversion board.
-- [Specification architecture review](../inbox/spec-architecture-review.md) and
-  [as-built audit](../inbox/v4-asbuilt-audit.md) preserve earlier analysis and
-  evidence boundaries.
-
-<CategoryNav category="decisions" />
+[Board split](../inbox/board-split-decision.md), [Board B review](../inbox/board-b-architecture-review.md),
+[specification review](../inbox/spec-architecture-review.md) and [v4 audit](../inbox/v4-asbuilt-audit.md) retain their
+original historical scope. They do not override later adopted choices.

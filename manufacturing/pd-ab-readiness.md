@@ -1,5 +1,11 @@
 # PD A/B readiness matrix: Board P r3 + B20 (unvalidated drafts)
 
+**Scope: historical development readiness/cost journal with dated decisions and receipts.**
+Later adopted P15 and PD20 sources are mapped in [current state](../doc/src/content/docs/project/current-state.md).
+Use [PD20 status](pd20-status.md) for current r3 binding, probe row, labels and review fixes.
+“As built” below names a retired design baseline; no PD-specific 15 V input was manufactured.
+Earlier FAIL/OPEN/269-component rows remain revision-specific evidence, not newly evaluated HEAD results.
+
 Status words: **PASS**, **FAIL**, **BLOCKED**, **NOT RUN** (with the reason), **UNKNOWN**, **OPEN**.
 No item here is validated, qualified or released. Nothing was ordered, quoted or uploaded.
 Prices come from read-only JLCPCB catalog and fee-table retrievals on 2026-10-31 and are not quotes

@@ -1,10 +1,10 @@
 # Board B 20 V switcher-direct draft (unvalidated paper draft)
 
-**Status: unvalidated draft. Nothing here is adopted, measured, validated or released.**
-Phase 19 adds draft footprints and a placement PCB; phase 21 adds a partly routed draft of it, and phase 28 makes that draft 4-layer by owner decision (§3a). There is no BOM change and no order file. `PASS` below means
-only that the arithmetic in `scripts/pcb/calculate-board-b20-draft.py` closes on its tagged inputs,
-or that a named ngspice run with vendor models met the limit. A simulation is not a measurement.
-`OPEN` means the gate needs data or work that does not exist yet. An `OPEN` gate is not a pass.
+**Scope: B20 development chronology, adopted design choices and conditioned desk/simulation records.**
+The four-layer direction and later owner choices are adopted as recorded; this does not qualify hardware.
+Read [PD20 status](pd20-status.md) for current source and finding disposition; dated phase rows below retain
+older path, inventory, layout and export states. An earlier absent feature does not describe later HEAD.
+PASS rows retain their arithmetic/simulation scope; physical tests remain NOT RUN.
 
 - Spec: `scripts/schgen/board_b20_spec.py` → `boards/board-b20-draft/board-b20-draft.kicad_sch` (generated).
 - Arithmetic: `python3 scripts/pcb/calculate-board-b20-draft.py` (`--json` for every row).

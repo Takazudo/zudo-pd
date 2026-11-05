@@ -1,5 +1,10 @@
 # Board B protection concept at 20 V input: interface limiter, reverse blocking, all-rail shutdown and NVM (draft)
 
+**Scope: dated protection concept feeding later PD20 development.** The original proposal/criteria below retain
+its decision-time state. The 20 V / 5 A accept-or-refuse direction was later adopted; use
+[decisions](../doc/src/content/docs/decisions/index.mdx) and [PD20 status](pd20-status.md) for present disposition.
+This concept body is not a program-ready NVM recipe or measured protection result.
+
 **Status: concept draft only. Nothing here is adopted.** No schematic, PCB, BOM, NVM or part selection changes. Every schematic and PCB stays an unvalidated draft. **Nothing on this page is measured.** The page serves the OSC-recommended direction D3-A (20 V at ≥ 3.38 A, preferably 20 V / 5 A) with D5-1 (accept or refuse, no partial supply). That direction is pending the user's decision.
 
 It drafts how the requirements R5 (GAP-5), R6 (GAP-6) and R7 (GAP-7) in [`design-gaps-20v.md`](design-gaps-20v.md) could be met on the switcher-direct Board B basis (C2 / B1: three TPS54560 stages, LC post-filters, terminal sense; [`supply-alternatives.md`](supply-alternatives.md), [`b1-gates.md`](b1-gates.md)). The Board P front end is in [`input-protection-20v.md`](input-protection-20v.md). The existing S3 Board B (15 V LDO chain) is **not** in scope here.

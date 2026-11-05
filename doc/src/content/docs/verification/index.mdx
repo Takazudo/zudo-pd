@@ -1,21 +1,19 @@
 ---
 title: Verification
 sidebar_position: 1
-description: Bring-up, assembly and bench procedures with explicit evidence limits.
 ---
 
-These pages document procedures for current bring-up and earlier Board B hardware.
-Use [release readiness](../architecture/release-readiness.md) to check current
-manufacturing status. A procedure by itself does not establish measured
-qualification.
+Use [current state](../project/current-state.md) for dated results and
+[release readiness](../architecture/release-readiness.md) for acceptance criteria. A procedure is not a measurement.
 
 ## Procedures
 
-- [Renewal prototype bring-up](./renewal-bring-up.md) covers staged checks for the
-  current Board P and redesigned Board B.
-- [Regulator assembly and inspection](./regulator-assembly-and-inspection.md)
-  documents the earlier linear-regulator stage assembly checklist.
-- [Power rail bench test](./power-rail-bench-test.md) describes bench tests for the
-  earlier Board B regulator stage.
+- [P15 programming and acceptance](../architecture/board-p15-programming.md): all P15-NVM-1–7, before either load.
+- [PD15 bring-up](./renewal-bring-up.md): accepted P15 plus revision-identified Board B.
+- [PD20 verification](./pd20-verification.md): blocked 20 V NVM and existing T1–T8 sheets, all NOT RUN.
 
-<CategoryNav category="verification" />
+## Historical procedures
+
+[Regulator assembly](./regulator-assembly-and-inspection.md) and [power rail bench test](./power-rail-bench-test.md)
+retain earlier Board B procedures. They are historical, not current component/pin-map authority.
+Category sidebars may include these retained pages; the list above defines current recommendations.

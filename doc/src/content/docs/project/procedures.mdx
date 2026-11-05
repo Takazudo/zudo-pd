@@ -1,17 +1,18 @@
 ---
 title: Design and Verification Workflows
-sidebar_position: 1
+sidebar_position: 4
 ---
 
-Start current work with these procedures:
+Use these current procedures, scoped to the intended stream:
 
-- [Component-first design](./component-first-design.md): exact identities, evidence, schematic and integration checks.
-- [JLCPCB package preparation](./jlcpcb-package.md): export one consistent board revision and review the release reports.
-- [Renewal prototype bring-up](../verification/renewal-bring-up.md): current pin maps, configuration, staged loads and qualification.
-- [KiCad parts download](./kicad-parts-download.md): importing assets for verification against manufacturer drawings.
+- [Hardware workflow](./hardware-workflow.md): authoritative specs, schematic generation and checks.
+- [Component assets](./component-assets.md): exact identity, evidence and safe shared-library integration.
+- [Component-first design](./component-first-design.md): evidence ownership and change dependencies.
+- [JLCPCB package preparation](./jlcpcb-package.md): valid pairs, separate exports and fixed-package limits.
+- [P15 programming](../architecture/board-p15-programming.md): all acceptance IDs before either load.
+- [PD15 bring-up](../verification/renewal-bring-up.md): P15 + revision-identified Board B.
+- [PD20 verification](../verification/pd20-verification.md): blocked NVM and existing T1–T8 sheets.
 
-Earlier converter, regulator, net-table and export guides remain available alongside
-these procedures. Their historical banners identify instructions that must be
-adapted to the renewed hardware. See the [archive](../archive/index.mdx).
-
-<CategoryNav category="project" />
+Earlier KiCad/plugin/converter/regulator procedures remain at their established URLs for historical reference.
+Use the [archive guide](../archive/index.mdx) for that context. Category sidebars can still include historical pages;
+this curated list defines current recommendations.
