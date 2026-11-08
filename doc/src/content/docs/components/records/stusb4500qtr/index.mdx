@@ -133,15 +133,19 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-stusb-nvm` · **Status:** OPEN
 
-**Reason:** No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact
+**Reason:** No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact; field positions: TDISPAR0V is located only by an unnumbered ST draft note (fact-stusb-nvm-tdispar0v-position) and the POWER\_ONLY\_ABOVE\_5V bit conflicts with that note (fact-stusb-nvm-power-only-position)
 
 **Facts in this domain:**
 
 - [`fact-stusb-artifact`](#fact-stusb-artifact)
+- [`fact-stusb-nvm-tdispar0v-position`](#fact-stusb-nvm-tdispar0v-position)
+- [`fact-stusb-nvm-power-only-position`](#fact-stusb-nvm-power-only-position)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
 - [`fact-stusb-artifact`](#fact-stusb-artifact)
+- [`fact-stusb-nvm-tdispar0v-position`](#fact-stusb-nvm-tdispar0v-position)
+- [`fact-stusb-nvm-power-only-position`](#fact-stusb-nvm-power-only-position)
 
 ### NVM write endurance and production write budget
 
@@ -625,6 +629,34 @@ A value this project recorded about how the part is used here — a chosen opera
   **Evidence:** [src-stusb-board-a-baseline: nets rows ATT and PDOK](#src-stusb-board-a-baseline)
 </EvidenceFact>
 
+<EvidenceFact>
+  <EvidenceAnchor id="fact-stusb-nvm-tdispar0v-position" />
+
+  **Fact:** `fact-stusb-nvm-tdispar0v-position`
+
+  **Value:** TDISPAR0V (DISCHARGE\_TIME\_TO\_0V) occupies NVM 0xCA = sector 1 byte 2, bits \[7:4]; bits \[3:0] hold TDISPARPDO; default 0x9C (9 and 12) · **Unit:** `NONE`
+
+  **Conditions:** position from an unnumbered ST draft note; the defaults agree with DS12499 (TDISPAR0V 9, TDISPARPDO 12) and the project base bytes; no released ST map and no readback confirm it; the 20 V value (14 or 15) is an owner decision
+
+  **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
+
+  **Evidence:** [src-stusb-tn-nvm: Section 1.3 bank 1 row 0xCA (page 5) and Section 4 DISCHARGE\_TIME\_CTRL table (page 22)](#src-stusb-tn-nvm)
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-stusb-nvm-power-only-position" />
+
+  **Fact:** `fact-stusb-nvm-power-only-position`
+
+  **Value:** CONFLICTED: POWER\_ONLY\_ABOVE\_5V is written at NVM 0xE6 = sector 4 byte 6, bit 3 by the P15 image and the 20 V intent, but the ST note lists 0xE6 bits \[3:0] as reserved 0x0 · **Unit:** `NONE`
+
+  **Conditions:** the bit-3 position rests on the third-party SparkFun field map and a non-ST user's GUI-export diff (ST Community thread 32193, 2023-11-02); the ST example image STUSB\_NVM.h has 0xE6 = 0x50 (bit 3 clear) and neither confirms nor refutes it; P15 acceptance measures VBUS\_OUT off during the 5 V phase instead of relying on the NVM
+
+  **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
+
+  **Evidence:** [src-stusb-tn-nvm: Section 1.3 bank 4 row 0xE6 (page 6) and Section 4 VBUS\_CTRL table (page 28)](#src-stusb-tn-nvm)
+</EvidenceFact>
+
 ## Pin maps
 
 The mapping between schematic pins and PCB pads, or physical terminals for an external part, as recorded. A record may carry more than one map when the same part is documented in more than one context.
@@ -926,6 +958,26 @@ Every document cited above, with its identification, when it was retrieved, and 
 **Availability:** AVAILABLE
 
 **Document URL:** [https://raw.githubusercontent.com/Takazudo/zudo-pd/c89c1541fbd6315c9d41fd4f55737368ebcb7bbf/scripts/schgen/baselines/board-a.json](https://raw.githubusercontent.com/Takazudo/zudo-pd/c89c1541fbd6315c9d41fd4f55737368ebcb7bbf/scripts/schgen/baselines/board-a.json)
+
+### STUSB4500 NVM registers: description and generic access (technical note)
+
+<EvidenceAnchor id="src-stusb-tn-nvm" />
+
+**Source ID:** `src-stusb-tn-nvm` · **Authority:** MANUFACTURER\_MIRROR
+
+| Field           | Recorded value                 |
+| --------------- | ------------------------------ |
+| Document number | TNxxx (unnumbered draft)       |
+| Revision        | none stated                    |
+| Document date   | 2019-05-10 (PDF creation date) |
+| Retrieved       | 2026-11-08                     |
+| Printed page    | 22                             |
+
+**Locator:** Section 1.2 bank map and default values (page 4); Section 1.3 full list (pages 5-6); 0xCA DISCHARGE\_TIME\_CTRL (page 22); 0xE6 VBUS\_CTRL (page 28)
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://community.st.com/topic/trackAttachment?file\_uuid=42542a85-96dd-517f-8a98-5fdc9af66b5a\&redirect=1](https://community.st.com/topic/trackAttachment?file_uuid=42542a85-96dd-517f-8a98-5fdc9af66b5a\&redirect=1)
 
 ## Legend
 

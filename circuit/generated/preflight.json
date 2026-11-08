@@ -139,9 +139,9 @@
     ]
   },
   "sources": {
-    "available": 294,
-    "selected": 294,
-    "linkable": 276,
+    "available": 295,
+    "selected": 295,
+    "linkable": 277,
     "ids": [
       "src-ao3401a-board-a-baseline",
       "src-ao3401a-usb-pd-input-sch",
@@ -422,6 +422,7 @@
       "src-stusb-ds12499-primary-attempt",
       "src-stusb-ds12499-ratings",
       "src-stusb-stsw004",
+      "src-stusb-tn-nvm",
       "src-stusb-um2398",
       "src-stusb-um2650",
       "src-stusb-um2650-primary-attempt",
@@ -569,151 +570,151 @@
     {
       "key": "source.sourceId",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.documentTitle",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.documentNumber",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.revision",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.documentDate",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.retrievalDate",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.authorityClass",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.availability",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.locator",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.printedPageLabel",
       "decision": "PUBLISH",
-      "emitted": 294,
+      "emitted": 295,
       "withheld": 0
     },
     {
       "key": "source.physicalPdfPageIndex",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 294
+      "withheld": 295
     },
     {
       "key": "source.authoritativeUrl",
       "decision": "PUBLISH",
-      "emitted": 276,
+      "emitted": 277,
       "withheld": 0
     },
     {
       "key": "source.alternateAuthoritativeUrl",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 294
+      "withheld": 295
     },
     {
       "key": "source.sha256",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 294
+      "withheld": 295
     },
     {
       "key": "source.evidenceExtract",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 294
+      "withheld": 295
     },
     {
       "key": "fact.factId",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.class",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.value",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.unit",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.conditions",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.locator",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.provenance",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.verdict",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.dependsOn",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
       "key": "fact.expression",
       "decision": "PUBLISH",
-      "emitted": 1213,
+      "emitted": 1215,
       "withheld": 0
     },
     {
@@ -2711,6 +2712,12 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
+      "sourceId": "src-stusb-tn-nvm",
+      "url": "https://community.st.com/topic/trackAttachment?file_uuid=42542a85-96dd-517f-8a98-5fdc9af66b5a&redirect=1",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
       "sourceId": "src-stusb-um2398",
       "url": "https://www.st.com/resource/en/user_manual/um2398-getting-started-with-the-stevalisc005v1-evaluation-board-for-stusb4500-stmicroelectronics.pdf",
       "decision": "ALLOW",
@@ -2804,11 +2811,11 @@
   "counts": {
     "generatedPages": 132,
     "publishedCoverageDomains": 323,
-    "publishedFacts": 1213,
+    "publishedFacts": 1215,
     "publishedIntegrationRules": 11,
     "publishedInteractions": 41,
     "publishedPinMaps": 128,
     "publishedRecords": 128,
-    "publishedSources": 294
+    "publishedSources": 295
   }
 }
