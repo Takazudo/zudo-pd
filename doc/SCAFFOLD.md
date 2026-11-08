@@ -1,5 +1,31 @@
 # Scaffold provenance
 
+## Upgrade to circuit-doc 0.3.0 and zudo-doc 9.1.4 (2026-11-08)
+
+`create-zudo-circuit-doc@0.2.1` (source `388fca9da838ffb6c10a83ef3fac4a0c006542b0`) was run
+into a separate, empty reference directory outside this repository. It was never run over this
+checkout and is not a dependency. Its output pins `@takazudo/zudo-circuit-doc` 0.3.0
+(tag `v0.3.0`, `ff278409c693be0efe43f043f0e40d2c56af1e47`), zudo-doc 9.1.4 (create-zudo-doc
+gitHead `054c1dabb5810afa24485a5431bce094b14fae21`) and zfb 5.2.2. Each scaffold-derived path
+below was diffed against that reference and merged by hand:
+
+| Path | Result against the 0.2.1 reference |
+|---|---|
+| `doc/scripts/check-links.js`, `doc/pages/lib/_circuit-doc-islands.ts` | Byte-identical |
+| `doc/pages/docs/[[...slug]].tsx` | Same code as the reference (route context, chrome, `DocHistoryBoundary`, island seed); shorter header comment |
+| `doc/src/styles/global.css` | Reference Wind CSS chain and circuit stylesheet order; the empty `:root` override slot is omitted. The #3388 task-list workaround and Tailwind directives were removed because 9.1.4 `content.css` ships the marker reset |
+| `doc/pages/index.tsx`, `doc/tsconfig.json` | Retained package-shaped equivalents (`scripts` stays in `include`; no `@/*` path alias is used) |
+| `doc/src/chrome-bindings.tsx` | Preact pragmas removed; project home extras and MDX bindings retained |
+| `doc/package.json`, `package.json`, `pnpm-workspace.yaml` | Versions from the reference; Preact, Tailwind, KaTeX and the design-token panel package removed because this site enables none of them; Node `>=24 <25` |
+| `circuit.config.ts` | `fit: "placement"`, five board inputs, `mpnFromValueLcsc: ["C144397"]`, `publicCanonicalFootprints`, reviewed scan floors; all project bindings retained |
+| `doc/zfb.config.ts`, `.gitignore`, `AGENTS.md`, `circuit/**` | Project content retained; no reference change was required |
+
+Intentional differences stay as listed below for the 0.1.0 adoption (raw agent resources off,
+header navigation, asset indexing off, sitemap false, `sumi` theme). The 0.3.0 scanner still
+rejects a nonempty sitemap. The current patch set is documented in `patches/README.md`.
+
+## Original 0.1.0 adoption (2026-09-29, historical)
+
 The initializer was run externally into `/tmp/pd-scaffold-S7V5WS/zudo-pd` on 2026-09-29:
 
 ```sh

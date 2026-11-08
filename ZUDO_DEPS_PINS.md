@@ -2,39 +2,33 @@
 
 | Path | Source | Full commit / version | Date | Track | Sync | Reason |
 |---|---|---|---|---|---|---|
-| Scaffold-derived paths | Takazudo/zudo-circuit-doc create-zudo-circuit-doc@0.1.0 | 5d0e2b630776489d394be341586b889dfe0d1cb8 | 2026-09-29 | releases | external initializer, diff/merge per doc/SCAFFOLD.md | Reviewed host integration |
-| doc host scaffold | zudolab/zudo-doc packages/create-zudo-doc/templates/default/app | 50cbd5c6c9e5a795d72a74a855e105e4939d4eab (5.27.0) | 2026-09-29 | releases | external scaffold diff; preserve project bindings | SSR, routes, CSS, history |
-| root/doc manifests and root lock | @takazudo/zudo-circuit-doc registry | 0.1.0 (^0.1.0), source 5d0e2b630776489d394be341586b889dfe0d1cb8 | 2026-09-29 | releases | update both consumers and retain #210 bridge until tested release | Evidence/publication parity |
-| root/doc manifests and root lock | @takazudo/zfb, runtime, md-wasm, adapter-cloudflare registry | 2.21.0 | 2026-09-29 | releases | align family together, frozen root install, guarded integration build | Cloudflare host and island support |
-| root/doc manifests and root lock | @takazudo/zudo-doc, history-server registry | 5.27.0 | 2026-09-29 | releases | align together; verify sumi/history | Host chrome |
-| patches/@takazudo__zudo-circuit-doc@0.1.0.patch | Project #205, #210; upstream #103–107 | Reviewed project bridge over source 5d0e2b630776489d394be341586b889dfe0d1cb8 | 2026-09-29 | project bridge | Follow #210 removal procedure, compare real tarball behavior | DNP, candidates, finite MPN exceptions, availability, deny/scan/hash parity |
+| Scaffold-derived paths | Takazudo/zudo-circuit-doc create-zudo-circuit-doc@0.2.1 | 388fca9da838ffb6c10a83ef3fac4a0c006542b0 | 2026-11-08 | releases | run the initializer into a separate scratch directory, diff and merge per doc/SCAFFOLD.md | Reviewed host integration |
+| doc host scaffold | zudolab/zudo-doc packages/create-zudo-doc/templates/base | 054c1dabb5810afa24485a5431bce094b14fae21 (create-zudo-doc@9.1.4 npm gitHead) | 2026-11-08 | releases | external scaffold diff; preserve project bindings | SSR, routes, CSS, history |
+| root/doc manifests and root lock | @takazudo/zudo-circuit-doc registry | 0.3.0 (^0.3.0), tag v0.3.0 = ff278409c693be0efe43f043f0e40d2c56af1e47 | 2026-11-08 | releases | update both consumers together; root lock records the registry integrity | Evidence/publication parity |
+| root/doc manifests and root lock | @takazudo/zfb, runtime, md-wasm, adapter-cloudflare registry | 5.2.2 | 2026-11-08 | releases | align family together, frozen root install, guarded integration build | Cloudflare host and island support |
+| root/doc manifests and root lock | @takazudo/zudo-doc, history-server registry | 9.1.4 | 2026-11-08 | releases | align together; verify sumi/history | Host chrome |
+| patches/@takazudo__zudo-circuit-doc@0.3.0.patch | Project #210; upstream report pending | Reviewed project bridge over the 0.3.0 tarball | 2026-11-08 | project bridge | Remove when a released checker accepts a document-unavailable record's own model link | One `scan/built-references.js` branch |
 
-Registry versions are exact pins except the requested runtime caret; the root lock fixes its
-patched 0.1.0 resolution. Registry-only dependencies have no vendored file copy; source commits
-are recorded where the scaffold supplies them. See doc/SCAFFOLD.md for every copied/derived
-path, deliberate sitemap disablement and initializer README #102 correction. Never change
-the KiCad renderer pin while updating host dependencies without separate byte/hash review.
+Registry versions are exact pins except the requested runtime caret. Node is `>=24 <25`;
+Python stays 3.12; pnpm stays 11.5.2. Registry-only dependencies have no vendored file copy;
+source commits are recorded where the scaffold supplies them. See doc/SCAFFOLD.md for every
+copied/derived path. Never change the KiCad renderer pin while updating host dependencies
+without separate byte/hash review.
 
-Additional runtime bridge source: https://github.com/Takazudo/zudo-circuit-doc/issues/108
-(headless foreground launcher restoration); still tracked under project #210.
+## Retired bridges
 
-| Path | Source | Full commit / version | Date | Track | Sync | Reason |
-|---|---|---|---|---|---|---|
-| patches/@takazudo__zudo-doc@5.27.0.patch; root workspace/lock | zudolab/zudo-doc registry, shipped dist/extract-headings/index.js | 5.27.0; source pin 50cbd5c6c9e5a795d72a74a855e105e4939d4eab | 2026-09-29 | temporary project bridge | Inspect released native-heading parity; remove only after #211 checks | Complete protected entity decoding and correct code fences; upstream #4428 |
+The 0.1.0 circuit-runtime patch (upstream #103–#109) and the `@takazudo/zudo-doc@5.27.0`
+heading-extractor patch (zudolab/zudo-doc #4428, project #211) were deleted with this upgrade.
+The released 0.3.0 and 9.1.4 packages passed the retained regressions that each patch was
+kept for: placement fit, candidates, finite MPN exceptions, document availability,
+deny/scan/hash parity, the foreground browser launcher, long-identity viewer CSS and the
+built-heading parity fixtures. The enlarged-image alt bridge (#110) stays removed.
 
-Both root/doc consumers resolve this same patched SDK. This bridge is independent of runtime
-#210; see https://github.com/Takazudo/zudo-pd/issues/211 and
-https://github.com/zudolab/zudo-doc/issues/4428 for release prerequisites. All exported
-synchronous helper signatures and declarations are unchanged.
+## 0.3.0 checker bridge
 
-Additional runtime CSS bridge source: https://github.com/Takazudo/zudo-circuit-doc/issues/109
-(long package-caption intrinsic sizing). The controlled live-CSS experiment preserves full
-identity while containing the model at375px; remove only when published CSS and unchanged
-48-case browser assertions pass per runtime tracker #210.
-
-Footprint modal accessibility correction:
-https://github.com/Takazudo/zudo-circuit-doc/issues/110 records intentional SDK design.
-The temporary enlarged-image alt bridge was removed. The named modal supplies the exact
-inline image description, and its child image stays decorative. The project browser and
-installed-island contracts now verify that complete identity and no removed-title reference.
-There is no #110 patch hunk or removal prerequisite under runtime tracker #210.
+`zudo-circuit-doc check-built` 0.3.0 rejects any link inside the Component references section
+of a document-unavailable record other than the footprint SVG. Its own model card renders an
+"Open model file" link, so record c335982 (document unavailable, WRL declared) fails the
+released checker. The bridge also allows that section's own declared `data-model-url` WRL;
+every other destination, including another WRL or any document URL, still fails. See
+`patches/README.md` and https://github.com/Takazudo/zudo-pd/issues/210.
