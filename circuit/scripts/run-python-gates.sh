@@ -59,6 +59,9 @@ step "Decision lock (decisions.json)"
 python3 scripts/schgen/check_decisions.py
 step "P15 NVM image rebuild check"
 python3 scripts/pcb/board-p15/nvm-image.py --check
+step "Shared P15 r1 source identity (byte identity only; needs full Git history)"
+python3 scripts/pcb/board-p15/verify-shared-reference.py --worktree
+python3 -m unittest discover -s scripts/pcb/board-p15 -p 'test_*.py'
 step "Board P r3 20 V NVM intent rebuild check"
 python3 scripts/pcb/board-p/nvm-intent-20v.py --check
 
