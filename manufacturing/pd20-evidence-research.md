@@ -98,7 +98,11 @@ covered by a one-time qualification test. A pulse-rated part remains a component
 
 Murata (`GRM32ER71H106KA12-01.pdf`) and YAGEO MLCC datasheet URLs returned HTML instead of PDFs from the research
 container, and SimSurfing is interactive. C43 (CC0603KRX7R9BB104 at about 33 V) and the six B20 VIN 10 µF parts at
-20 V remain without retained DC-bias data. The SOA screen above uses nominal +10 % capacitance, which bounds the inrush
+20 V remain without retained DC-bias data. On 2026-11-08 the owner supplied YAGEO "Surface-Mount Ceramic Multilayer Capacitors, General Purpose & High Cap.
+X7R 6.3 V to 250 V" Version 27 (2026-03-06, SHA-256 `3aa10c5d01fbea28f638f1e4bca56a14b9b3342f593d68641830b1cbdb3720e6`).
+It publishes no capacitance-versus-DC-bias curve for C43's line; it gives only the ±15 % X7R temperature characteristic.
+The owner also supplied a text extract of Murata's general catalog (C02E, 2021-01-18), which does not list
+GRM32ER71H106KA12. The gap therefore stays open for both parts. The SOA screen above uses nominal +10 % capacitance, which bounds the inrush
 from above.
 
 ## U6 decoupling (B20 PCB C35): measured, handed to the B20 layout owner
