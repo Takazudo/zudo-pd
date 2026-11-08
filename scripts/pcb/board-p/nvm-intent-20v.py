@@ -6,12 +6,15 @@ Writes boards/board-p/nvm/stusb4500-20v-intent.json. --check rebuilds it in memo
 differs. Byte handling and field positions are imported unchanged from scripts/pcb/board-p15/nvm-image.py, so the
 base bytes, the third-party field map and the DS12499 Rev 7 default cross-check are the same ones used for P15.
 
-Status is BLOCKED, not a finished image. Two required settings cannot be expressed from retained evidence:
-- TDISPAR0V >= 13 (board-p.md, calculate-input-ovp-20v.py): the third-party field map has no discharge-time field and
-  no ST NVM map document is retained, so its sector/byte/bit position is UNAVAILABLE.
-- Accept or refuse (dec PWR-D5 = D5-1, no degraded mode): with PDO2 = 20 V / 5 A the sink must not enable VBUS_OUT on a
-  20 V contract below 5 A (for example a 3 A cable). How the STUSB4500 requests and flags a capability mismatch, and
-  whether VBUS_EN_SNK still asserts then, is not stated in the retained evidence; it is UNKNOWN.
+Status is BLOCKED, not a finished image. Research of 2026-11-08 (manufacturing/pd20-evidence-research.md):
+- TDISPAR0V is located: ST technical note "TNxxx STUSB4500 NVM registers" (ST-authored draft, no revision, posted by
+  an ST moderator on ST Community) puts DISCHARGE_TIME_TO_0V at NVM 0xCA = sector 1 byte 2 bits [7:4], default 0x9C
+  (9 and TDISPARPDO 12, matching DS12499). The value (13, 14 or 15) is an owner choice; it is NOT set in the bytes.
+- Capability mismatch is answered by DS12499 section 3.3.2 (Rev 2 mirror; Rev 8 recheck NOT RUN): a PDO match needs
+  I(SNK_PDO) <= I(SRC_PDO), so a 20 V source offering under 5 A gives no PDO2 match and a 5 V contract; with
+  POWER_ONLY_ABOVE_5V = 1, VBUS_EN_SNK then stays Hi-Z (Table 6).
+- New conflict: the same ST note marks 0xE6 bits [3:0] RESERVED, while POWER_ONLY_ABOVE_5V at 0xE6 bit 3 rests on the
+  third-party map and a non-ST community GUI diff only. This bit also carries the P15 image.
 No .bin is written, so the partial bytes cannot be mistaken for a programmable image.
 """
 import hashlib, importlib.util, json, sys
@@ -44,7 +47,8 @@ def build():
     return {
         '_comment': 'INTENT RECORD and PARTIAL desk bytes for the Board P r3 20 V / 5 A unit (dec PWR-D3 = D3-A, '
                     'PWR-D5 = D5-1). Not an image to program: status BLOCKED. Never written to any part or read back.',
-        'status': 'BLOCKED (TDISPAR0V position unavailable; capability-mismatch behaviour unknown)',
+        'status': 'BLOCKED (TDISPAR0V value is an owner choice and not set; POWER_ONLY_ABOVE_5V position conflicts '
+                  'with the ST note; no reviewed image)',
         'intent': {
             'SNK_PDO_NUMB': '2 (PDO1 5 V, PDO2 20 V)',
             'PDO2': '20.00 V, 5.00 A; needs a 5 A e-marked cable and a source offering 20 V / 5 A',
@@ -54,15 +58,32 @@ def build():
                                 'Q1 off (no degraded mode)',
             'other fields': 'Rev 7 defaults, unchanged',
         },
-        'blocked': [
-            {'item': 'TDISPAR0V', 'status': 'UNAVAILABLE',
-             'reason': 'No retained field map gives its sector/byte/bit (third-party map has no discharge-time field; '
-                       'no ST NVM map document retained). Needed: an ST-authored NVM map or the ST GUI export format.'},
-            {'item': 'capability mismatch', 'status': 'UNKNOWN',
-             'reason': 'Retained evidence does not state whether VBUS_EN_SNK asserts after a PDO2 request granted below '
-                       '5 A or with the capability-mismatch bit set. Until a primary ST statement or a bench test '
-                       'closes it, accept-or-refuse cannot rely on the NVM alone. Board-side alternative: refuse '
-                       'through the B20 VIN UV and current limits, which do not detect a 3 A contract.'},
+        'field_evidence': [
+            {'item': 'TDISPAR0V', 'status': 'LOCATED (ST-authored draft note)',
+             'position': 'NVM 0xCA = sector 1 byte 2, bits [7:4] DISCHARGE_TIME_TO_0V; bits [3:0] '
+                         'VBUS_DISCH_TIME_TO_PDO (TDISPARPDO); default 0x9C',
+             'source': 'ST technical note TNxxx "STUSB4500 NVM registers, description and generic access", pages 5 '
+                       'and 22; PDF sha256 a1f35ffea672cef0a32bbd818dd7f5795cfe4bd641960bbf70a5b2374a3927e4; '
+                       'attached by an ST technical moderator, ST Community thread 157984 (2025-10-13)',
+             'candidates': {'13': '0xDC: TDISUSB0V min 0.910 s against 0.906 s needed (0.4 % margin)',
+                            '14': '0xEC: min 0.980 s (8 % margin)',
+                            '15': '0xFC: min 1.050 s (16 % margin), max 1.500 s'},
+             'not_applied': 'Owner selects the value; the partial bytes keep the default 0x9C'},
+            {'item': 'capability mismatch', 'status': 'ANSWERED (datasheet, mirror revision)',
+             'finding': 'DS12499 section 3.3.2: a match needs V(SNK_PDOi) = V(SRC_PDOj) and I(SNK_PDOi) <= '
+                        'I(SRC_PDOj). A 20 V offer below 5 A does not match PDO2 = 20 V / 5 A, so the contract falls '
+                        'to 5 V (PDO1, or a mismatch RDO at 5 V). With POWER_ONLY_ABOVE_5V = 1, VBUS_EN_SNK stays Hi-Z '
+                        'without a PDO2 or PDO3 contract (Table 6, section 6.1.2), so Q1 stays off.',
+             'source': 'DS12499 Rev 2 (2018-07), Farnell mirror datasheets/2710898.pdf, sha256 '
+                       '650afb8fd690f996d3075451efc6621c8f22ab05b52a77e08baf0488ea6ada59; Rev 8 recheck NOT RUN '
+                       '(st.com and web.archive.org unreachable from the research container)',
+             'residual': 'A source that later re-advertises 20 V below 5 A during a 20 V contract: the transition '
+                         'behaviour of VBUS_EN_SNK is not stated (bench T8)'},
+            {'item': 'POWER_ONLY_ABOVE_5V position', 'status': 'CONFLICT',
+             'finding': 'Set here and in the P15 image at 0xE6 = sector 4 byte 6 bit 3 (third-party map). The ST note '
+                        'lists 0xE6 [3:0] as RESERVED 0x0; the only other location statement is a non-ST user GUI '
+                        'diff (ST Community thread 32193, 2023-11-02). Needs an ST statement or a bench readback of a '
+                        'GUI-exported image.'},
         ],
         'partial_sectors_hex': [' '.join(f'{b:02X}' for b in row) for row in s],
         'partial_sha256': hashlib.sha256(raw).hexdigest(),
