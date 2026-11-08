@@ -24,9 +24,9 @@
       "record_id": "rec-stusb4500qtr",
       "domain": "project NVM image and factory-state capture",
       "status": "OPEN",
-      "reason": "No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact",
-      "fact_ids": ["fact-stusb-artifact"],
-      "blocking_fact_ids": ["fact-stusb-artifact"]
+      "reason": "No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact; field positions: TDISPAR0V is located only by an unnumbered ST draft note (fact-stusb-nvm-tdispar0v-position) and the POWER_ONLY_ABOVE_5V bit conflicts with that note (fact-stusb-nvm-power-only-position)",
+      "fact_ids": ["fact-stusb-artifact", "fact-stusb-nvm-tdispar0v-position", "fact-stusb-nvm-power-only-position"],
+      "blocking_fact_ids": ["fact-stusb-artifact", "fact-stusb-nvm-tdispar0v-position", "fact-stusb-nvm-power-only-position"]
     },
     {
       "coverage_id": "cov-stusb-endurance",
