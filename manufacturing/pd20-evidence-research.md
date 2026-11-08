@@ -27,7 +27,7 @@ The value is an **owner decision** and is not written into the partial bytes. 13
 longer discharge interacts with source re-application after a hard reset is not stated in any retained document
 (bench T8).
 
-## Lower-current 20 V source: the sink does not enable VBUS_OUT
+## Lower-current 20 V source: the sink does not enable VBUS_OUT (DS12499 Rev 8)
 
 DS12499 section 3.3.2 (decision algorithm): a sink PDO matches a source PDO only when `V(SNK_PDOi) = V(SRC_PDOj)` **and**
 `I(SNK_PDOi) ≤ I(SRC_PDOj)`. With PDO2 = 20 V / 5 A and SNK_PDO_NUMB = 2, a 20 V offer below 5 A (a 3 A cable, for
@@ -37,11 +37,9 @@ Hi-Z unless a PDO2 or PDO3 explicit contract exists, and "in case of mismatch, t
 the source provides 5 V". So Q1 stays off, which satisfies "no degraded mode" **if** the POWER_ONLY_ABOVE_5V bit is in
 the position the image writes (next section).
 
-- Source: DS12499 **Rev 2** (July 2018), Farnell mirror `farnell.com/datasheets/2710898.pdf`, SHA-256
-  `650afb8fd690f996d3075451efc6621c8f22ab05b52a77e08baf0488ea6ada59`, pages 8, 11, 19–20 and 25.
-- Rev 8 recheck: **NOT RUN**. `st.com` and `web.archive.org` reset every connection from the research container.
-  The retained Rev 8 mirror (`src-stusb-ds12499`, SHA-256 `82d6080e…`) must be checked for the same section before
-  this closes as primary.
+- Source: DS12499 **Rev 8** (November 2022), sections 2.2.10 (Table 6), 3.3.2 and 6.1.2. The owner supplied the copy
+  on 2026-11-08 (SHA-256 `82d6080e6d3e994f0969f4f018039d1f0871db9f6793c80c09e63e80325029e8`), byte-identical to the
+  retained `src-stusb-ds12499` mirror. The Rev 2 Farnell mirror (SHA-256 `650afb8f…`) carries the same text.
 - Residual: if a source re-advertises 20 V below 5 A during an established 20 V contract, the behaviour of
   VBUS_EN_SNK through the transition is not stated (bench T8).
 

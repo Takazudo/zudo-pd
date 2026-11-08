@@ -24,9 +24,9 @@
   },
   {
    "item": "capability mismatch",
-   "status": "ANSWERED (datasheet, mirror revision)",
+   "status": "ANSWERED (DS12499 Rev 8)",
    "finding": "DS12499 section 3.3.2: a match needs V(SNK_PDOi) = V(SRC_PDOj) and I(SNK_PDOi) <= I(SRC_PDOj). A 20 V offer below 5 A does not match PDO2 = 20 V / 5 A, so the contract falls to 5 V (PDO1, or a mismatch RDO at 5 V). With POWER_ONLY_ABOVE_5V = 1, VBUS_EN_SNK stays Hi-Z without a PDO2 or PDO3 contract (Table 6, section 6.1.2), so Q1 stays off.",
-   "source": "DS12499 Rev 2 (2018-07), Farnell mirror datasheets/2710898.pdf, sha256 650afb8fd690f996d3075451efc6621c8f22ab05b52a77e08baf0488ea6ada59; Rev 8 recheck NOT RUN (st.com and web.archive.org unreachable from the research container)",
+   "source": "DS12499 Rev 8 (2022-11), sections 2.2.10 (Table 6), 3.3.2 and 6.1.2; owner-supplied copy 2026-11-08, sha256 82d6080e6d3e994f0969f4f018039d1f0871db9f6793c80c09e63e80325029e8, byte-identical to the retained src-stusb-ds12499 mirror. Rev 2 (Farnell mirror, sha256 650afb8f...) carries the same text",
    "residual": "A source that later re-advertises 20 V below 5 A during a 20 V contract: the transition behaviour of VBUS_EN_SNK is not stated (bench T8)"
   },
   {

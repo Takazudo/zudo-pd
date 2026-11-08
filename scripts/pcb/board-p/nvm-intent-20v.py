@@ -10,7 +10,7 @@ Status is BLOCKED, not a finished image. Research of 2026-11-08 (manufacturing/p
 - TDISPAR0V is located: ST technical note "TNxxx STUSB4500 NVM registers" (ST-authored draft, no revision, posted by
   an ST moderator on ST Community) puts DISCHARGE_TIME_TO_0V at NVM 0xCA = sector 1 byte 2 bits [7:4], default 0x9C
   (9 and TDISPARPDO 12, matching DS12499). The value (13, 14 or 15) is an owner choice; it is NOT set in the bytes.
-- Capability mismatch is answered by DS12499 section 3.3.2 (Rev 2 mirror; Rev 8 recheck NOT RUN): a PDO match needs
+- Capability mismatch is answered by DS12499 Rev 8 section 3.3.2 (owner-supplied copy, 2026-11-08): a PDO match needs
   I(SNK_PDO) <= I(SRC_PDO), so a 20 V source offering under 5 A gives no PDO2 match and a 5 V contract; with
   POWER_ONLY_ABOVE_5V = 1, VBUS_EN_SNK then stays Hi-Z (Table 6).
 - New conflict: the same ST note marks 0xE6 bits [3:0] RESERVED, while POWER_ONLY_ABOVE_5V at 0xE6 bit 3 rests on the
@@ -69,14 +69,15 @@ def build():
                             '14': '0xEC: min 0.980 s (8 % margin)',
                             '15': '0xFC: min 1.050 s (16 % margin), max 1.500 s'},
              'not_applied': 'Owner selects the value; the partial bytes keep the default 0x9C'},
-            {'item': 'capability mismatch', 'status': 'ANSWERED (datasheet, mirror revision)',
+            {'item': 'capability mismatch', 'status': 'ANSWERED (DS12499 Rev 8)',
              'finding': 'DS12499 section 3.3.2: a match needs V(SNK_PDOi) = V(SRC_PDOj) and I(SNK_PDOi) <= '
                         'I(SRC_PDOj). A 20 V offer below 5 A does not match PDO2 = 20 V / 5 A, so the contract falls '
                         'to 5 V (PDO1, or a mismatch RDO at 5 V). With POWER_ONLY_ABOVE_5V = 1, VBUS_EN_SNK stays Hi-Z '
                         'without a PDO2 or PDO3 contract (Table 6, section 6.1.2), so Q1 stays off.',
-             'source': 'DS12499 Rev 2 (2018-07), Farnell mirror datasheets/2710898.pdf, sha256 '
-                       '650afb8fd690f996d3075451efc6621c8f22ab05b52a77e08baf0488ea6ada59; Rev 8 recheck NOT RUN '
-                       '(st.com and web.archive.org unreachable from the research container)',
+             'source': 'DS12499 Rev 8 (2022-11), sections 2.2.10 (Table 6), 3.3.2 and 6.1.2; owner-supplied copy '
+                       '2026-11-08, sha256 82d6080e6d3e994f0969f4f018039d1f0871db9f6793c80c09e63e80325029e8, '
+                       'byte-identical to the retained src-stusb-ds12499 mirror. Rev 2 (Farnell mirror, sha256 '
+                       '650afb8f...) carries the same text',
              'residual': 'A source that later re-advertises 20 V below 5 A during a 20 V contract: the transition '
                          'behaviour of VBUS_EN_SNK is not stated (bench T8)'},
             {'item': 'POWER_ONLY_ABOVE_5V position', 'status': 'CONFLICT',

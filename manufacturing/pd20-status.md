@@ -81,7 +81,7 @@ inner-layer Gerber. The 2-layer checks are unchanged, and the results schema is 
 - **TDISPAR0V: LOCATED, value not set.** An ST-authored draft technical note (TNxxx, attached by an ST moderator on ST
   Community) puts it at NVM 0xCA = sector 1 byte 2, bits [7:4], default 0x9C. 13 gives 0.4 % margin over the 0.906 s
   need; 14 (0xEC) or 15 (0xFC) give 8 % or 16 %. The value is an owner choice ([`pd20-evidence-research.md`](pd20-evidence-research.md)).
-- **Capability mismatch: ANSWERED (datasheet mirror Rev 2; Rev 8 recheck NOT RUN).** A PDO match needs
+- **Capability mismatch: ANSWERED (DS12499 Rev 8, sections 3.3.2 and 6.1.2).** A PDO match needs
   I(SNK) ≤ I(SRC), so a 20 V offer below 5 A gives a 5 V contract, and POWER_ONLY_ABOVE_5V keeps VBUS_EN_SNK Hi-Z.
 - **POWER_ONLY_ABOVE_5V position: CONFLICT.** The ST note marks 0xE6 bits [3:0] reserved; bit 3 rests on the
   third-party map and a non-ST GUI diff. The P15 image uses the same bit.
