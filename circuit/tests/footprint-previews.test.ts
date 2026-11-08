@@ -71,7 +71,7 @@ describe("footprint preview no-KiCad drift check", () => {
     assert.equal(new Set(selections.flatMap((entry) => entry.recordIds)).size, EXPECTED_RECORDS);
   });
 
-  it("fails on missing, extra, stale input/output, unsafe output, and changed alias reuse", async () => {
+  it("fails on missing, extra, stale input/output, unsafe output, and changed package identity or order", async () => {
     const makeFixture = async (name: string) => {
       const root = join(fixtureRoot, name);
       const assets = join(root, "assets");
@@ -115,8 +115,11 @@ describe("footprint preview no-KiCad drift check", () => {
     await symlink(join(PREVIEW_ROOT, `${first.footprintName}.svg`), linkedFile);
     await assert.rejects(checkFootprintPreviews(selections, linked.assets, linked.footprints, linked.master), /regular file/u);
 
-    const changed = selections.map((entry, index) => index === 0 ? { ...entry, recordIds: [...entry.recordIds, "rec-invented"] } : entry);
+    // Package membership is DENY in the publication matrix, so the public manifest omits recordIds;
+    // alias coverage is enforced when selections are derived, and package identity/order stay locked here.
+    const changed = selections.map((entry, index) => index === 0 ? { ...entry, packageId: `${entry.packageId}-invented` } : entry);
     await assert.rejects(checkFootprintPreviews(changed), /stale package selection/u);
+    await assert.rejects(checkFootprintPreviews([...selections].reverse()), /stale package selection/u);
   });
 
   it("fails when either dual-location footprint inventory or bytes drift", async () => {

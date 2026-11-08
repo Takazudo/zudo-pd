@@ -6,7 +6,7 @@ export const FOOTPRINT_MASTER_ROOT = mapped.paths.footprintMasterRoot;
 export const FOOTPRINT_ROOT = mapped.paths.footprintLibraryRoot;
 export const PREVIEW_ROOT = mapped.paths.footprintPreviewRoot;
 const check = await internal("footprint-previews/check.js");
-export const checkFootprintPreviews = (selections, previewRoot=PREVIEW_ROOT, footprintLibraryRoot=FOOTPRINT_ROOT, footprintMasterRoot=FOOTPRINT_MASTER_ROOT) => check.checkFootprintPreviews({selections,previewRoot,footprintLibraryRoot,footprintMasterRoot,renderer:mapped.config.cad.previewRenderer});
+export const checkFootprintPreviews = (selections, previewRoot=PREVIEW_ROOT, footprintLibraryRoot=FOOTPRINT_ROOT, footprintMasterRoot=FOOTPRINT_MASTER_ROOT) => check.checkFootprintPreviews({selections,previewRoot,footprintLibraryRoot,footprintMasterRoot,renderer:mapped.config.cad.previewRenderer,publishMembership:mapped.matrix["reference.package.recordIds"]==="PUBLISH"});
 export const { assertFootprintLibraryParity } = await internal("footprint-previews/parity.js");
 export const { suppressFootprintText } = await internal("footprint-previews/footprint.js");
 export const { normalizeSvg, validateSvg } = await internal("footprint-previews/svg.js");

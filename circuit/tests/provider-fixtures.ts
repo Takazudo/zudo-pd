@@ -24,6 +24,7 @@ import type {
 } from "@takazudo/zudo-circuit-doc";
 import type { ProviderIntegrationRule } from "@takazudo/zudo-circuit-doc";
 import type {
+  CircuitDocumentReference,
   CircuitPackageReference,
   CircuitReferenceContract,
 } from "@takazudo/zudo-circuit-doc";
@@ -407,7 +408,7 @@ export const FIXTURE_MATRIX: PublicationMatrix = CIRCUIT_PUBLICATION_MATRIX;
  * fixture records, so the resolved-document branch is covered.
  */
 export function withFixtureReferences(index: EvidenceIndex): EvidenceIndex {
-  const documentsByRecordId = new Map(FIXTURE_SELECTION.documentExceptions.map(e => [e.recordId, {recordId: e.recordId, unresolvedReason: e.reason}]));
+  const documentsByRecordId = new Map<string, CircuitDocumentReference>();
   for (const selected of FIXTURE_SELECTION.documentSelections) {
     const source = index.recordById
       .get(selected.recordId)
@@ -433,13 +434,13 @@ export function withFixtureReferences(index: EvidenceIndex): EvidenceIndex {
   const packageByRecordId = new Map(
     packages.map((entry) => [entry.recordIds[0] as string, entry]),
   );
-  const documentUnresolvedReasonByRecordId = new Map(
+  const documentExceptionsByRecordId = new Map(
     FIXTURE_SELECTION.documentExceptions.map((entry) => [entry.recordId, entry.reason]),
   );
   const references: CircuitReferenceContract = {
     unpublishedPackageRecordIds: new Set(),
     documentsByRecordId,
-    documentUnresolvedReasonByRecordId,
+    documentExceptionsByRecordId,
     packages,
     packageByRecordId,
   };

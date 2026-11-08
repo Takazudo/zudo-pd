@@ -14,6 +14,7 @@ import {
   decodeModelDescriptor,
   encodeModelDescriptor,
   MODEL_ASSET_BASE,
+  MODEL_UNAVAILABLE_TEXT,
   mapped,
   PublicationPolicy,
   projectIndex,
@@ -165,7 +166,8 @@ describe("model descriptors projected from the installed package", () => {
       "utf8",
     );
     assert.match(componentReferences, /modelDescriptor\s*===\s*null/u);
-    assert.match(componentReferences, /Package model unavailable\./u);
+    assert.match(componentReferences, /data-model-unavailable[^\n]*MODEL_UNAVAILABLE_TEXT/u);
+    assert.equal(MODEL_UNAVAILABLE_TEXT, "No 3D model is declared by this footprint; geometry and physical fit remain unverified.");
     assert.match(componentReferences, /PackageModelViewer/u);
   });
 });
