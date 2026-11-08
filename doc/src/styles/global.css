@@ -1,62 +1,13 @@
-/* Cascade layers: preflight → flow → (unlayered utilities). Tokens/base rules
-   ship from @takazudo/zudo-doc/theme.css.
-   NOTE: the `@takazudo/zdtp/styles.css` import is intentionally NOT here —
-   it is inserted right after the @layer line above, ONLY when
-   designTokenPanel is selected (see features/design-token-panel.ts). It
-   can't ship unconditionally because it pulls in zdtp's own bytes. */
-@layer zd-preflight, zd-flow;
-@import "tailwindcss/preflight" layer(zd-preflight);
-@import "tailwindcss/utilities";
+/* create-zudo-doc 9.1.4 Wind CSS chain. zfb's zudo-wind preset owns the reset
+   and generated utility layer; declare the package layers first so authored
+   flow styles keep their cascade order. The GFM task-list marker reset for
+   zudolab/zudo-doc#3388 now ships in @takazudo/zudo-doc/content.css. */
+@layer zw-reset, zd-flow;
 
-/* Package-shipped tokens, safelist, content typography, and feature CSS.
-   Order is load-bearing — theme.css MUST precede features.css. Do not reorder. */
 @import "@takazudo/zudo-doc/theme.css";
-@import "@takazudo/zudo-doc/safelist.css";
 @import "@takazudo/zudo-doc/content.css";
 @import "@takazudo/zudo-doc/page-loading.css";
 @import "@takazudo/zudo-doc/features.css";
+
+/* ADR-015: the circuit package's unlayered styles, after the zudo-doc CSS. */
 @import "@takazudo/zudo-circuit-doc/styles.css";
-
-/* Scan the host's authored content, bindings and route stubs. Package evidence
-   components ship their own CSS through the import above. */
-@source "src/content/**/*.{mdx,md}";
-@source "src/**/*.{tsx,ts,jsx,js}";
-@source "pages/**/*.{tsx,ts,jsx,js}";
-
-
-/* ========================================
- * GFM task lists
- *
- * Workaround for https://github.com/zudolab/zudo-doc/issues/3388 — remove once
- * the package ships its own task-list marker reset.
- *
- * The zudo-doc preset hardcodes `gfm.taskListItem: true` with no opt-out, so
- * `- [ ]` items render a real `<input type=checkbox>`. The emitted markup is
- * bare — `<li><p><input type=checkbox> …` with NO class on the `ul`/`li` (no
- * `contains-task-list` / `task-list-item` hook), and the package ships no rule
- * suppressing the list marker. Without this the disc paints beside the
- * checkbox and every row reads as double-bulleted.
- *
- * Structural `:has()` is the only available hook. Both forms are matched: the
- * loose form (all 95 items in this corpus today) and the tight form, which is
- * what a future item authored without surrounding blank lines would produce.
- *
- * `[disabled]` narrows it for free: GFM always emits task checkboxes disabled,
- * so a genuine interactive checkbox authored inside a list item keeps its
- * marker instead of silently losing it. `list-style-type` (not the shorthand)
- * because only the type is being suppressed — the shorthand would also reset
- * `-image` and `-position`.
- *
- * WHY THIS WORKS, AND HOW IT WOULD SILENTLY BREAK: ordinary markers are not
- * set by any class rule — the MDX pipeline emits the declaration INLINE on the
- * list itself (`<ul style="padding-left:2em;list-style-type:disc">`). This rule
- * wins only because it targets the `li`, and a rule on the child outranks a
- * value merely inherited from the parent's inline style. If that inline
- * `list-style-type` ever moves from the `ul` onto the `li`, inline style beats
- * this stylesheet and every task item silently gets its disc back.
- * ======================================== */
-
-.zd-content li:has(> p > input[type="checkbox"][disabled]),
-.zd-content li:has(> input[type="checkbox"][disabled]) {
-  list-style-type: none;
-}
