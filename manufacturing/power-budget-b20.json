@@ -4,20 +4,54 @@
   "status": "DRAFT 20 V SWITCHER-DIRECT DESK BUDGET; DRAFT desk screen of an unvalidated draft board. Nothing is measured; values come from routed geometry and datasheet-maximum desk models and do not establish ratings, temperatures or qualification.",
   "board_p": "board-p",
   "board_b": "board-b20-draft",
-  "rated_targets": {
-    "plus12": {
-      "voltage_v": 12,
-      "current_a": 1.2
+  "load_cases": {
+    "continuous": {
+      "loads_a": {
+        "+12": 1.7,
+        "-12": 1.6,
+        "+5": 0.3
+      },
+      "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": continuous 1.7 / 1.6 / 0.3 A, all rails at once",
+      "evidence": "CONTRACT",
+      "model_limit": "Steady-state desk evaluation at the continuous contract current."
     },
-    "minus12": {
-      "voltage_v": -12,
-      "current_a": 0.8
+    "transient_20ms": {
+      "loads_a": {
+        "+12": 2.0,
+        "-12": 1.9,
+        "+5": 0.4
+      },
+      "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": 20 ms transient 2.0 / 1.9 / 0.4 A",
+      "evidence": "CONTRACT",
+      "model_limit": "Steady-state desk evaluation held at the 20 ms transient current. It is not a transient model: a 20 ms event is far shorter than the board and part thermal time constants, so the copper and junction temperatures shown overstate one event; no hold-up, slope or limiter timing is covered."
     },
-    "plus5": {
-      "voltage_v": 5,
-      "current_a": 0.5
+    "let_through_max": {
+      "loads_a": {
+        "+12": 2.1,
+        "-12": 2.0,
+        "+5": 0.5
+      },
+      "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": let-through maximum 2.1 / 2.0 / 0.5 A including tolerance",
+      "evidence": "CONTRACT",
+      "model_limit": "Steady-state desk evaluation held at the let-through maximum (the case earlier records call the limiter maximum). The limiter trips; it does not regulate current, so this level is a bound, not an operating point. Let-through is not simulated or measured."
+    },
+    "legacy_pd15_budget": {
+      "loads_a": {
+        "+12": 1.2,
+        "-12": 0.8,
+        "+5": 0.5
+      },
+      "source": "LEGACY: the PD15 Board B output budget (CLAUDE.md), which phase 30-33 B20 reports mislabelled \"rated\". It is not a PD20 contract case and not a B20 rating",
+      "evidence": "LEGACY_COMPARISON_ONLY",
+      "model_limit": "Kept only so earlier phase records can be compared; no PD20 acceptance reads it."
     }
   },
+  "contract_cases": [
+    "continuous",
+    "transient_20ms",
+    "let_through_max"
+  ],
+  "rating_status": "No B20 rating exists. The contract cases are OSC demand levels evaluated by a desk model; the legacy case is comparison only.",
   "switcher_path": "VIN (PD 20 V contract, 19 V desk input) feeds three switchers directly: +12 V buck U1, +5 V buck U2 and the -12 V inverting stage U3. Each stage passes a post filter, a shunt (RSH1-RSH3) and its rail FETs to J6/J7 and the J10/J11 bus headers.",
   "desk_assumptions": {
     "vin_v": 19.0,
@@ -31,47 +65,87 @@
     "control_allowance_w": 0.3
   },
   "desk_loss_cases": {
-    "rated_typ_rds": {
-      "board_loss_w": 2.39,
-      "output_w": 26.82,
-      "efficiency": 0.9181,
-      "input_a_at_19v": 1.538,
+    "continuous_typ_rds": {
+      "board_loss_w": 4.29,
+      "output_w": 41.59,
+      "efficiency": 0.9064,
+      "input_a_at_19v": 2.415,
       "mean_board_rise_k": [
-        12.8,
-        8.5
+        23.0,
+        15.3
       ],
       "stage_loss_w": {
-        "+12": 0.697,
-        "-12": 1.087,
-        "+5": 0.309
+        "+12": 1.173,
+        "-12": 2.632,
+        "+5": 0.189
       },
       "stage_tj_std_board_c": {
-        "+12": 48.6,
-        "-12": 53.3,
-        "+5": 43.1
+        "+12": 53.7,
+        "-12": 69.7,
+        "+5": 42.4
       }
     },
-    "rated_max_rds": {
-      "board_loss_w": 2.58,
-      "output_w": 26.82,
-      "efficiency": 0.9122,
-      "input_a_at_19v": 1.548,
+    "continuous_max_rds": {
+      "board_loss_w": 4.79,
+      "output_w": 41.59,
+      "efficiency": 0.8968,
+      "input_a_at_19v": 2.441,
       "mean_board_rise_k": [
-        13.8,
-        9.2
+        25.6,
+        17.1
       ],
       "stage_loss_w": {
-        "+12": 0.798,
-        "-12": 1.165,
-        "+5": 0.318
+        "+12": 1.367,
+        "-12": 2.927,
+        "+5": 0.193
       },
       "stage_tj_std_board_c": {
-        "+12": 52.9,
-        "-12": 56.6,
-        "+5": 43.5
+        "+12": 61.8,
+        "-12": 82.1,
+        "+5": 42.6
       }
     },
-    "limiter_max_typ_rds": {
+    "transient_20ms_typ_rds": {
+      "board_loss_w": 5.42,
+      "output_w": 49.38,
+      "efficiency": 0.9012,
+      "input_a_at_19v": 2.884,
+      "mean_board_rise_k": [
+        29.0,
+        19.3
+      ],
+      "stage_loss_w": {
+        "+12": 1.518,
+        "-12": 3.351,
+        "+5": 0.247
+      },
+      "stage_tj_std_board_c": {
+        "+12": 57.3,
+        "-12": 77.4,
+        "+5": 42.8
+      }
+    },
+    "transient_20ms_max_rds": {
+      "board_loss_w": 6.1,
+      "output_w": 49.38,
+      "efficiency": 0.89,
+      "input_a_at_19v": 2.92,
+      "mean_board_rise_k": [
+        32.6,
+        21.8
+      ],
+      "stage_loss_w": {
+        "+12": 1.784,
+        "-12": 3.765,
+        "+5": 0.253
+      },
+      "stage_tj_std_board_c": {
+        "+12": 68.5,
+        "-12": 94.8,
+        "+5": 43.0
+      }
+    },
+    "let_through_max_typ_rds": {
       "board_loss_w": 5.86,
       "output_w": 52.32,
       "efficiency": 0.8993,
@@ -91,7 +165,7 @@
         "+5": 43.1
       }
     },
-    "limiter_max_max_rds": {
+    "let_through_max_max_rds": {
       "board_loss_w": 6.62,
       "output_w": 52.32,
       "efficiency": 0.8877,
@@ -110,14 +184,55 @@
         "-12": 99.4,
         "+5": 43.5
       }
+    },
+    "legacy_pd15_budget_typ_rds": {
+      "board_loss_w": 2.39,
+      "output_w": 26.82,
+      "efficiency": 0.9181,
+      "input_a_at_19v": 1.538,
+      "mean_board_rise_k": [
+        12.8,
+        8.5
+      ],
+      "stage_loss_w": {
+        "+12": 0.697,
+        "-12": 1.087,
+        "+5": 0.309
+      },
+      "stage_tj_std_board_c": {
+        "+12": 48.6,
+        "-12": 53.3,
+        "+5": 43.1
+      }
+    },
+    "legacy_pd15_budget_max_rds": {
+      "board_loss_w": 2.58,
+      "output_w": 26.82,
+      "efficiency": 0.9122,
+      "input_a_at_19v": 1.548,
+      "mean_board_rise_k": [
+        13.8,
+        9.2
+      ],
+      "stage_loss_w": {
+        "+12": 0.798,
+        "-12": 1.165,
+        "+5": 0.318
+      },
+      "stage_tj_std_board_c": {
+        "+12": 52.9,
+        "-12": 56.6,
+        "+5": 43.5
+      }
     }
   },
-  "board_loss_at_limiter_max_with_max_rdson_w": 6.62,
+  "board_loss_at_let_through_max_with_max_rdson_w": 6.62,
+  "board_loss_at_continuous_with_max_rdson_w": 4.79,
   "loss_basis": "thermal-check.py desk model: conduction, switching, gate and quiescent IC terms plus diode, inductor, post-filter, shunt and rail-FET losses, with mean board rise from the board area and an assumed convection coefficient range. Not a thermal simulation or measurement.",
   "source_generator": "scripts/pcb/board-b20/power-report.py",
-  "source_generator_sha256": "89c5fe8a3206dbe24789a6453a8bb761c3c7838b7cdd4c8404ca0be8a0067557",
+  "source_generator_sha256": "f0077e40c914726d4b337423918387e6fad79f198eb27b9a081b50f773118752",
   "thermal_source": "boards/board-b20-draft/thermal-check.json",
-  "thermal_source_sha256": "ecf3bea270461a5115ff84659227f36214703867314516e1e20557109000ed23",
+  "thermal_source_sha256": "2b57f4555dfb15c0318d739fe9387c100aefc82fbb6b36cba9edadb4019df3b6",
   "board_p_spec_sha256": "e2e7a7e46eb4a6023833a1f9789caebfeb9d7a53c39655a426de6360d49541e2",
   "board_b20_draft_spec_sha256": "730a4b72efb73175e3125d8d01a1432517038da1bcfaa6021f278f9a8752060f",
   "protection_pcb_source_sha256": {

@@ -22,7 +22,8 @@ Links below resolve inside an export of this pair. Repository documents are name
   M12_RAW pours on F.Cu and B.Cu, and the FB/COMP/RT parts return through their own trace to one point on the U3 PAD.
   Both input-capacitor returns share the D3 anode pour. D3 and U3 heat now spreads into the B.Cu pour through 17
   joining vias. C43 (100 nF) now bypasses U3 pin 2 to its PAD. Still OPEN: the hot-loop area (the owner kept the SMC diode
-  for its heat spreading) and the D3 junction at the limiter maximum (desk 109–147 °C against a 150 °C limit).
+  for its heat spreading) and the D3 junction at the limiter maximum (desk 109–147 °C against a 150 °C limit; 93–120 °C at the
+  continuous contract load, 2026-11-08 load cases).
 - **Electrical behavior is unmeasured.**
   - Full-load, low-line, thermal and transient behavior: OPEN.
   - The inverter hot loop is 44.4 mm² between pad centres and 47.9–51.4 mm² along the copper. Its inductance is OPEN.
@@ -47,7 +48,8 @@ Links below resolve inside an export of this pair. Repository documents are name
   - check reports.
 - **Power reports (desk drafts, not measurements):**
   - [`power-budget-b20.json`](power-budget-b20.json) holds the switcher path and the desk losses. The board loss is
-    6.62 W at the limiter maximum with maximum RDS(on).
+    6.62 W at the limiter (let-through) maximum with maximum RDS(on); 4.29–4.79 W at the continuous contract load
+    (1.7 / 1.6 / 0.3 A, 2026-11-08 load cases).
   - [`power-layout-b20.json`](power-layout-b20.json) holds the hot loops, high-current paths and filled copper.
 - **[`mechanical/assembly/`](mechanical/assembly/):** the Board P + B20 stack preview from
   `scripts/pcb/board-b20/assembly-preview.py`, with its collision and mechanical reports. Nominal CAD only. The large

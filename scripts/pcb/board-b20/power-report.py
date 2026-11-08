@@ -17,6 +17,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / 'scripts/schgen'))
 import sexp  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from load_cases import CASES, CONTRACT_CASES, case_record  # noqa: E402
 
 BOARD_P, BOARD_B = 'board-p', 'board-b20-draft'
 BOARD_DIR = ROOT / 'boards' / BOARD_B
@@ -87,7 +89,7 @@ def main():
     paths = current['paths'] + current['stage_cells']
     path_rows = [{'net': p['net'], 'from': p['from'], 'to': p['to'], 'narrowest_mm': p['narrowest_mm'],
                   'path_layers': p['path_layers'], 'rise_k': p['rise_k']} for p in paths]
-    hottest = max(paths, key=lambda p: p['rise_k']['limiter_max'])
+    hottest = max(paths, key=lambda p: p['rise_k']['let_through_max'])
 
     checks = {
         'routing_complete': not routing['unrouted'],
@@ -114,10 +116,11 @@ def main():
                           'stages A and B. Loop inductance, ringing and radiated pickup are OPEN: no field solver or '
                           'measurement was run.'),
         'high_current_paths': path_rows,
-        'hottest_path_limiter_max': {'net': hottest['net'], 'from': hottest['from'], 'to': hottest['to'],
-                                     'rise_k': hottest['rise_k']['limiter_max']},
-        'path_rise_basis': ('Desk trace-rise estimate from routed width, length and copper thickness at the rated and '
-                            'limiter-maximum currents (current-check.py). Not a measured temperature.'),
+        'hottest_path_let_through_max': {'net': hottest['net'], 'from': hottest['from'], 'to': hottest['to'],
+                                         'rise_k': hottest['rise_k']['let_through_max']},
+        'path_rise_basis': ('Desk steady-state trace-rise estimate from routed width, length and copper thickness at '
+                            'each load case of load_cases.py (current-check.py). The 20 ms transient case is held '
+                            'steady, so it overstates one event. Not a transient or measured temperature.'),
         'negative_filled_zone_areas': negative,
         'ground_filled_zone_areas_mm2': ground,
         'open': [
@@ -129,7 +132,7 @@ def main():
     }
 
     stages = {}
-    for case in ('rated_typ_rds', 'rated_max_rds', 'limiter_max_typ_rds', 'limiter_max_max_rds'):
+    for case in (f'{c}_{corner}_rds' for c in CASES for corner in ('typ', 'max')):
         row = thermal[case]
         stages[case] = {'board_loss_w': row['board_loss_w'], 'output_w': row['output_w'], 'efficiency': row['efficiency'],
                         'input_a_at_19v': row['input_a_at_19v'], 'mean_board_rise_k': row['mean_rise_k'],
@@ -141,14 +144,17 @@ def main():
         'status': 'DRAFT 20 V SWITCHER-DIRECT DESK BUDGET; ' + DRAFT,
         'board_p': BOARD_P,
         'board_b': BOARD_B,
-        'rated_targets': {'plus12': {'voltage_v': 12, 'current_a': 1.2}, 'minus12': {'voltage_v': -12, 'current_a': 0.8},
-                          'plus5': {'voltage_v': 5, 'current_a': 0.5}},
+        'load_cases': {case: case_record(case) for case in CASES},
+        'contract_cases': list(CONTRACT_CASES),
+        'rating_status': ('No B20 rating exists. The contract cases are OSC demand levels evaluated by a desk model; '
+                          'the legacy case is comparison only.'),
         'switcher_path': ('VIN (PD 20 V contract, 19 V desk input) feeds three switchers directly: +12 V buck U1, +5 V buck '
                           'U2 and the -12 V inverting stage U3. Each stage passes a post filter, a shunt (RSH1-RSH3) and '
                           'its rail FETs to J6/J7 and the J10/J11 bus headers.'),
         'desk_assumptions': thermal['assumptions'],
         'desk_loss_cases': stages,
-        'board_loss_at_limiter_max_with_max_rdson_w': thermal['limiter_max_max_rds']['board_loss_w'],
+        'board_loss_at_let_through_max_with_max_rdson_w': thermal['let_through_max_max_rds']['board_loss_w'],
+        'board_loss_at_continuous_with_max_rdson_w': thermal['continuous_max_rds']['board_loss_w'],
         'loss_basis': ('thermal-check.py desk model: conduction, switching, gate and quiescent IC terms plus diode, '
                        'inductor, post-filter, shunt and rail-FET losses, with mean board rise from the board area and '
                        'an assumed convection coefficient range. Not a thermal simulation or measurement.'),
@@ -168,7 +174,7 @@ def main():
     for name, data in (('power-layout-b20.json', layout), ('power-budget-b20.json', budget)):
         (ROOT / 'manufacturing' / name).write_text(json.dumps(data, indent=2) + '\n')
     print(json.dumps({'status': layout['status'], 'checks': checks, 'ground_mm2': ground, 'negative': negative,
-                      'board_loss_w': budget['board_loss_at_limiter_max_with_max_rdson_w']}, indent=1))
+                      'board_loss_w': budget['board_loss_at_let_through_max_with_max_rdson_w']}, indent=1))
     return 0 if layout['status'] == 'PASS' else 1
 
 

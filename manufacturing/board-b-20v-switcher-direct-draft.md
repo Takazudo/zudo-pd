@@ -573,6 +573,25 @@ These are the parts to check first on a bench. At rated load they dissipate 0.42
 The screen does not cover diode capacitance, inductor core loss, or the difference between the real board and the
 JEDEC board. The thermal margins are **OPEN** until measured.
 
+**Correction 2026-11-08 (load cases, #230).** The phase 30–33 tables above call 1.2 / 0.8 / 0.5 A the "rated" load. That
+is the PD15 Board B output budget, not a B20 rating and not the PD20 contract; read those rows as the **legacy PD15
+comparison** case. The limiter-maximum rows are the contract's let-through maximum (2.1 / 2.0 / 0.5 A). The scripts now
+read one table, `scripts/pcb/board-b20/load_cases.py`, bound to the OSC current contract in
+[PD20 status](pd20-status.md), and derive the VIN branch, inverter inductor and cell RMS currents from the same stage
+model. Two hand-copied let-through constants were stale (J5 3.08 → 3.102 A, inverter inductor 3.348 → 3.367 A). The
+regenerated reports, VIN 19 V, maximum-RDS corner unless noted (desk only, nothing measured):
+
+| Case (`load_cases.py`) | Board loss typ / max RDS | Mean board rise | TPS54560 TJ +12 / −12 / +5 (max RDS) | Hottest routed path | Stage cells |
+|---|---|---|---|---|---|
+| Continuous 1.7 / 1.6 / 0.3 A (contract) | 4.29 / 4.79 W | 15.3–25.6 K | 61.8 / 82.1 / 42.6 °C | 6.7 K | ≤ 10.0 K |
+| 20 ms transient 2.0 / 1.9 / 0.4 A, held steady | 5.42 / 6.10 W | 19.3–32.6 K | 68.5 / 94.8 / 43.0 °C | 9.9 K | ≤ 14.6 K |
+| Let-through maximum 2.1 / 2.0 / 0.5 A (contract) | 5.86 / 6.62 W | 20.9–35.4 K | 70.9 / 99.4 / 43.5 °C | 11.2 K | ≤ 16.4 K |
+| Legacy PD15 comparison 1.2 / 0.8 / 0.5 A | 2.39 / 2.58 W | 8.5–13.8 K | 52.9 / 56.6 / 43.5 °C | 2.1 K | ≤ 2.2 K |
+
+The transient row holds the 20 ms current as if it were continuous. It is not a transient model: one 20 ms event
+heats the copper and junctions far less than this, and hold-up, slope and limiter timing are not covered. No row is a
+rating, and the thermal margins stay **OPEN** until measured.
+
 #### Phase 31: In2.Cu comparator pre-routes, 0 unconnected; D3 copper
 
 **Approach.** The phase 30 failures were long nets whose two ends sit on opposite sides of the board. They are not
@@ -863,6 +882,9 @@ Desk screens:
 | Hottest routed path at the limiter maximum | 11.0 K (M12_RAW, D3.2 to L6.1) | 11.0 K, same path |
 | Stage cells at the limiter maximum | ≤ 16.2 K | ≤ 16.2 K |
 | Board loss, rated / limiter maximum (max RDS(on)) | 2.43 / 6.23 W | 2.58 / 6.62 W |
+
+"Rated" here is the legacy PD15 comparison case; see the 2026-11-08 load-case correction in phase 30. With derived
+currents the let-through figures are 11.2 K and ≤ 16.4 K.
 
 The SMC land costs a 50 % larger inverter hot loop. Its loop inductance and pickup are **OPEN** (desk). D3's local
 copper temperature stays **UNKNOWN**.
@@ -1354,9 +1376,9 @@ needs a fix. OSC has since accepted ≤ 0.95 V/ms (phase 32 status in §5d); own
 | `calculate-board-b20-draft.py` | FAIL (SIM) start skew (time form); OPEN let-through, ripple, loaded discharge order; ramp slope PASS (SIM) loaded / no load accepted by OSC, owner exception recorded 2026-11-03 (user decision card `cmsg_01Pv35emdXEU6gCRF3teSpo2GzmXCn8kfxsnNg5p6WdFzN`); everything else PASS. Phase 10 uses CRMD 470 nF |
 | ngspice AC and tracking runs | As in §5 |
 | PCB DRC + schematic parity (phase 32 values and models on the phase 31 routes, 4 layers, routed draft) | **PASS (DRC)**: 0 unconnected, 0 errors, 0 parity issues; 2 `lib_footprint_mismatch`, 2 `via_dangling` warnings. Routing completeness only: no layout review, DFM or fabrication review (phase 30: 5; phase 28: 5 without current-rated trunks; 2-layer phase 26: 55; phase 22: 62; phase 21: 81; phase 19 placement: 499) |
-| Routing | **OPEN** (complete but unreviewed; phase 31 In2.Cu pre-routes for the long comparator nets, D3 M12_RAW pour; PD20 M12_RAW pours on F.Cu and B.Cu with a quiet control return, `manufacturing/pd20-status.md`): 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN and not relied on); phase 30 current-rated trunks, three-via layer changes and 1.5 mm +12 V / inverter cells; power stages and all six sense traces routed; 0 router connections open (phase 31; PD20 rebuild too); hot loop 29.6 / 29.6 / 44.4 mm² (+12 / +5 / −12 V) between pad centres (PD20 independent review: 35.5 / 36.4 / 47.9–51.4 mm² along the copper, `manufacturing/pd20-b20-layout-review.md`); Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28); self-check in `boards/board-b20-draft/loop-check.json` |
-| Current/width at 1 oz outer, 0.5 oz inner (`current-check.py`, desk) | Every trunk at or below 2.2 K rated and 11.2 K at the limiter maximum (IPC-2221, narrowest segment, no pour credit); via barrels at or below 4.3 K; inverter CIN → VIN cell branch 16.2 K at the inductor-RMS bound, about 5.6 K at its switch RMS. Desk numbers only, nothing measured: **OPEN** (§3a, phase 30; `boards/board-b20-draft/current-check.json`) |
-| Thermal desk screen (`thermal-check.py`) | 2.24–2.43 W at rated load, a 8–13 K mean board rise against 57–86 K for the 15 V Board B; 5.5–6.2 W and 19.5–33 K at the limiter maximum; TPS54560 TJ up to 56 °C rated and 99 °C at the inverter limiter maximum (standard-board θJA). Desk only: **OPEN** (§3a, phase 30; `boards/board-b20-draft/thermal-check.json`) |
+| Routing | **OPEN** (complete but unreviewed; phase 31 In2.Cu pre-routes for the long comparator nets, D3 M12_RAW pour; PD20 M12_RAW pours on F.Cu and B.Cu with a quiet control return, `manufacturing/pd20-status.md`): 4 layers with an In1.Cu GND plane (phase 28, JLC7628 stackup; 2 oz outer UNKNOWN and not relied on); phase 30 current-rated trunks, three-via layer changes and 1.5 mm +12 V / inverter cells; power stages and all six sense traces routed; 0 router connections open (phase 31; PD20 rebuild too); hot loop 29.6 / 29.6 / 44.4 mm² (+12 / +5 / −12 V) between pad centres (PD20 independent review: 35.5 / 36.4 / 47.9–51.4 mm² along the copper, `manufacturing/pd20-b20-layout-review.md`); Kelvin pairs not coupled within 0.3 mm, a geometry limit (pads 6.41 mm apart); desk pickup 0.18–0.73 mV peak differential in free space, 0.17–0.85 µV peak over an ideal In1.Cu plane, real value between (§3a, phases 24 and 28; those used the legacy 1.2 / 0.5 / 0.8 A switched currents. Since 2026-11-08 the estimate uses the let-through maximum as a bound: 0.22–2.30 µV peak over the plane, against 0.18–1.09 µV from the same routes with the legacy currents); self-check in `boards/board-b20-draft/loop-check.json` |
+| Current/width at 1 oz outer, 0.5 oz inner (`current-check.py`, desk) | 2026-11-08 load cases (`load_cases.py`, contract-bound): every trunk at or below 6.7 K continuous, 9.9 K at the 20 ms transient held steady and 11.2 K at the let-through maximum (IPC-2221, narrowest segment, no pour credit); via barrels at or below 3.0 / 4.4 / 5.0 K; stage cells at or below 10.0 / 14.6 / 16.4 K, the inverter CIN → VIN branch at the inductor-RMS bound. Earlier rows quoted 2.2 K "rated", which is the legacy PD15 comparison case (1.2 / 0.8 / 0.5 A), and 16.2 K from stale hand-copied currents. Desk numbers only, nothing measured: **OPEN** (§3a, phase 30; `boards/board-b20-draft/current-check.json`) |
+| Thermal desk screen (`thermal-check.py`) | 2026-11-08 load cases: 4.29–4.79 W and a 15.3–25.6 K mean board rise at the continuous contract load; 5.42–6.10 W at the 20 ms transient held steady (not a transient model); 5.86–6.62 W and 20.9–35.4 K at the let-through maximum; TPS54560 TJ up to 82 °C continuous and 99 °C at the let-through maximum (standard-board θJA). The earlier 2.24–2.58 W "rated" figure is the legacy PD15 comparison case (1.2 / 0.8 / 0.5 A), not a B20 load. Desk only: **OPEN** (§3a, phase 30; `boards/board-b20-draft/thermal-check.json`) |
 | BOM/CPL | PD20: a scratch export of Board P r3 + B20 passes the exporter and `verify-jlcpcb.py` (269 fitted, 87 BOM lines, four copper layers); see `manufacturing/pd20-status.md` |
 | PD20 changes | −12 V limiter Kelvin fixed (RL3C ties to the RSH3 sense pad, not 22.6 mm up the trunk); C1 moved out of Board P r3's shadow after the stack screen found it 0.38 mm into U2; front/back rail labels added. DRC + parity: 0 errors, 0 unconnected, 0 parity; 4 `via_dangling`, 2 `lib_footprint_mismatch`, 1 `copper_sliver` warnings. Status record: `manufacturing/pd20-status.md` |
 
