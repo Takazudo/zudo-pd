@@ -31,6 +31,7 @@ at `6cb02c8`, and `scripts/pcb/board-p-r3-draft/run.sh` reads its outline, conne
 | Layout | **Routed, unreviewed** | Committed placement kept (a re-run search did not route VREG_2V7); router seed 12 closes every signal connection; 0 detached GND clusters. Pin-corridor keep-outs forbid vias only, and the builder checks that only U1 and the protected owners touch a corridor |
 | DRC with schematic parity | **PASS (DRC)** | KiCad 10.0.6: 0 errors, 0 unconnected, parity only `extra_footprint` MH1–MH3. Warnings: 69 silk overlap, 34 silk over copper, 14 text height, 2 silk edge, 3 library-footprint notes, 3 dangling fan-out items |
 | STEP datum screen | **PASS (screen)** | 44 model pairs; the three r3-only boxes (HTSSOP-20 PWP, SOT-23-6 DBV, WSON-6 DRV) joined the reviewed manifest as PENDING INDEPENDENT REVIEW |
+| Independent review (2026-11-08) | **DRC reproduced; 2 majors, 2 minors OPEN** | [`independent-review.md`](../boards/board-p/r3-draft/independent-review.md): one via under the U2 PowerPAD; Q1 on about 57 mm² of 1 oz copper with no drain-pad vias (rated on 1 in² of 2 oz); Q3 pad vias; C30/C34 4–5 mm from U1. No layout change made |
 | Retired r2 + Board B records | **Kept, not exported** | `manufacturing/power-budget.json`, `boards/board-b/assembly-preview/` and the adhesive-leg check still bind the r2 PCB; rebinding the leg check to the board-p15 stack needs the local-only populated STEP (NOT RUN here) |
 
 ## B20 changes and evidence
@@ -41,7 +42,7 @@ at `6cb02c8`, and `scripts/pcb/board-p-r3-draft/run.sh` reads its outline, conne
 | 14 two-pin symbols with input-typed pins | **Fixed** | Pins made passive in `symbols/zudo-pd.kicad_sym`; B20 ERC pin_to_pin warnings 148 → 0 (B 54 → 18, P 33 → 27, P15 29 → 23; 0 errors) |
 | PCSR2512BR010M6 (C23067428) exact evidence | **UNSOURCED, conflict recorded** | DigiKey copy of the manufacturer sheet (2024-03-24) gives 1 W / 10 A for the 10 mΩ 0.1 % row; the V8 sheet gives 2 W / 14 A. The working bound is 1 W / 10 A against a 2 A duty (0.04 W). Mirror authority only |
 | C5451690 exact evidence | **Gap retained** | Re-fetched bytes are unchanged. Substitute named, not applied: YAGEO CC1206JKNPO9BN473 (C3855647). A component change needs owner approval |
-| 1206 discharge resistor pulse rating | **OPEN** | Peak 1.56 / 1.02 / 0.82 W (+12 V 100 Ω, −12 V 150 Ω, +5 V 33 Ω); energy 14.0 / 13.8 / 1.6 mJ; τ ≈ 18 / 27 / 4 ms. The parts are rated 0.25 W continuous and no pulse curve is retained. A pulse-rated (anti-surge) 1206 would be a component change and is not applied |
+| 1206 discharge resistor pulse rating | **Single event inside the manufacturer test envelope; repetition UNSOURCED** | Peak 1.56 / 1.02 / 0.82 W (+12 V 100 Ω, −12 V 150 Ω, +5 V 33 Ω); energy 14.0 / 13.8 / 1.6 mJ; τ ≈ 18 / 27 / 4 ms. UNI-ROYAL V.7 short-time overload (2.5 × RCWV for 5 s) covers one event, including an inlet held for the whole 1.33 s window. +12 V peaks at 99.8 % of that test voltage, and no repetitive-pulse curve is published ([`pd20-evidence-research.md`](pd20-evidence-research.md)). A pulse-rated (anti-surge) 1206 would be a component change and is not applied |
 | Four-layer stackup | **Recorded, nominal** | JLC7628 values (0.035 / 0.2 / 0.0175 / 1.065 mm) plus 0.01 mm masks sum to 1.59 mm against the declared 1.6 mm board. The stack preview takes the thickness from the PCB. Finished thickness is the fab's tolerance, not a design value |
 | Front and back rail labels | **Added** | B20 builder writes the Board B rail-label contract (`boards/board-b/mechanical.json`); `scripts/pcb/board-b20/verify-mechanics.py` checks position, mirror, size and the J6/J7 pin net of each label |
 | Top-edge pogo row (P1, TP3–TP5) | **Added (owner decision 2026-11-04)** | Board B's seven contacts at its fixed positions (x 56.19–71.43 mm, y 1.8 mm, 2.54 mm pitch): P1 = NC, PDOK, GND (shared probe ground P1.3), NC; TP3/TP4/TP5 = P12_PRE, P5_PRE, M12_PRE. B20 has no ATT. Bare F.Cu/F.Mask copper, out of BOM/CPL (inventory exclusions). To clear the row, L1 with CAO1/CAO2 drops 1.3 mm as one group (the U1 SW node gains about 1.3 mm), RJ12, RE1, R65 and RJ5 move by 0.6 mm or less. The router joins the probe pads last with signal-width tracks. `verify-mechanics.py` checks positions, pitch, edge gap, layers and nets against `boards/board-b/mechanical.json` |
@@ -54,7 +55,7 @@ at `6cb02c8`, and `scripts/pcb/board-p-r3-draft/run.sh` reads its outline, conne
 | U3 pin-2 high-frequency bypass (review suggestion) | **Added (owner decision 2026-11-04)** | C43, 100 nF 50 V X7R 0603 (CC0603KRX7R9BB104 / C14663, an existing B20 line), from U3 pin 2 (VIN) to the PAD's M12_RAW. It sits left of U3 between CCIN1 and R11; pad 2 joins the 1.2 mm VIN feed about 2.7 mm from pin 2, pad 1 sits on a small M12_RAW F.Cu pour with a via into a new M12_RAW_B tongue under U3's left pins. It sees about 33 V DC (37.6 V worst case), so its effective capacitance is well below 100 nF (DC-bias curve not retained). Its loop inductance is not computed; the CCIN1/D3 hot-loop polygon is unchanged |
 | D3/U3 shared island (review major) | **Improved; limiter maximum OPEN** | Vias beside and below the D3 anode and U3's 8 PAD vias now land on `M12_RAW_B`. `thermal-check.json` `inverter_island` is a desk node model of the shared island (F.Cu 61.3 mm², B.Cu 191.6 mm², 17 joining vias after the C43 bypass re-route; was 62.2 / 179.6 mm² and 20). D3 junction: 67–79 °C rated, 109–147 °C at the limiter maximum (the same model gives 76–93 / 132–188 °C on the board before the fix, close to the review's 71–89 / 120–185 °C). The worst case sits 3 K under the 150 °C limit, so the limiter-maximum case stays OPEN for T2. U3 gets only the PAD temperature (61–73 / 95–133 °C), because its junction-to-PAD resistance is not retained |
 | Router settings after the M12_RAW pours | **Fully routed** | The pours displaced B.Cu routes across the inverter. B.Cu signal cost 0.7 (trials 0.58–0.8 left 1–10 connections open), ARM_GND joins the In2.Cu pre-routes, and R29.2, R30.1, RCP1.1, U15.2, U15.5 and Q48.3 get pin escapes; U3 pins 3–6 and RCFT.2 escape before the quiet return is laid. The D3-to-L6 M12_RAW trunk now drops to B.Cu and returns through 2 vias near L6: `current-check.json` gives 1.5 K rated and 12.3 K at the limiter maximum for that transition (desk) |
-| CU6D (PCB C35) far from U6 | **OPEN (pre-existing)** | The U6 decoupling capacitor sits 50+ mm from U6 at HEAD and after PD20; the greedy fill places it by net, not by IC |
+| CU6D (PCB C35) far from U6 | **OPEN (pre-existing)** | The U6 decoupling capacitor sits 50+ mm from U6 at HEAD and after PD20; the greedy fill places it by net, not by IC. Measured 2026-11-08 with KiCad 10.0.6: 52.3 mm to U6 pin 8 and 57.2 mm to pin 4. Handed to the B20 layout owner |
 
 ## Export binding and the per-variant verifier
 
@@ -77,11 +78,13 @@ inner-layer Gerber. The 2-layer checks are unchanged, and the results schema is 
 
 - Intent: SNK_PDO_NUMB 2, PDO2 20.00 V / 5.00 A (V code 400, I code 15), POWER_ONLY_ABOVE_5V 1; the rest stays at the
   DS12499 Rev 7 defaults. Partial desk bytes differ from the base in s3b2, s3b4, s4b1 and s4b6.
-- **TDISPAR0V: UNAVAILABLE.** The field map (SparkFun library, third party) has no position for it, and no ST NVM map is
-  retained. The default (9) gives at least 630 ms of discharge, too short for the 2 kΩ VBUS_VS_DISCH feed to reach
-  vSafe0V; the intent is ≥ 13.
-- **Capability-mismatch behaviour: UNKNOWN.** What the part does when a 20 V source offers less than 5 A is not in a
-  retained document.
+- **TDISPAR0V: LOCATED, value not set.** An ST-authored draft technical note (TNxxx, attached by an ST moderator on ST
+  Community) puts it at NVM 0xCA = sector 1 byte 2, bits [7:4], default 0x9C. 13 gives 0.4 % margin over the 0.906 s
+  need; 14 (0xEC) or 15 (0xFC) give 8 % or 16 %. The value is an owner choice ([`pd20-evidence-research.md`](pd20-evidence-research.md)).
+- **Capability mismatch: ANSWERED (datasheet mirror Rev 2; Rev 8 recheck NOT RUN).** A PDO match needs
+  I(SNK) ≤ I(SRC), so a 20 V offer below 5 A gives a 5 V contract, and POWER_ONLY_ABOVE_5V keeps VBUS_EN_SNK Hi-Z.
+- **POWER_ONLY_ABOVE_5V position: CONFLICT.** The ST note marks 0xE6 bits [3:0] reserved; bit 3 rests on the
+  third-party map and a non-ST GUI diff. The P15 image uses the same bit.
 - The run-python gates rebuild the intent and fail if the committed record differs.
 
 ## OSC interface status (B20 draft page §4)
@@ -100,8 +103,8 @@ inner-layer Gerber. The 2-layer checks are unchanged, and the results schema is 
 | Band-entry skew ≤ 2 ms (all rails in band) | **PASS (SIM)**: 0.73 ms in the phase-33 re-entry runs. +5 V entering last is a PD design choice that avoids the one-rail case, not an OSC rule |
 | Let-through maximum 2100 / 2000 / 500 mA (+12 / −12 / +5 V, including tolerance and let-through) | **OPEN**: the limiter trips, it does not regulate current; let-through not simulated or measured |
 | +5 V ≤ 0.8 V until both analog rails exceed about 1.5 V magnitude (OSC Definition 1, answered) | **PASS (SIM)** at startup: worst 0.637 V while the lower analog rail is below 1.45 V (phase-33 start runs). The 1.45 V analysis threshold is slightly below OSC's "about 1.5 V"; re-running at 1.5 V is NOT RUN. Ramp-down is covered by T5, not by this row |
-| Renegotiation: vSafe0V after a hard reset | **OPEN**: depends on TDISPAR0V (NVM above) and needs a bench run |
-| Inrush from Board P into the B20 bulk | **OPEN**: Q1 SOA not in its bundle |
+| Renegotiation: vSafe0V after a hard reset | **OPEN**: TDISPAR0V is located but its value is not chosen (NVM above); needs a bench run |
+| Inrush from Board P into the B20 bulk | **PASS (desk, graph read)**: 41 mJ, ≤ 39 W peak for 2.1 ms against about 87 W allowed on DS37038 Fig. 12 (2.2× at 25 °C, 1.6× at 60 °C); bench T3 |
 
 **Slope-exception owner, recorded.** The owner accepted OSC's no-load ramp-slope exceptions on 2026-11-03 (decision card
 `cmsg_01Pv35emdXEU6gCRF3teSpo2GzmXCn8kfxsnNg5p6WdFzN`): no load only; +5 V ≤ 0.95 V/ms below 0.45 V at ≤ 114 mA;
@@ -116,7 +119,7 @@ None of these has been executed. Each needs owner approval and the two prototype
 | T1 Output ripple | 20 V / 5 A e-marked source; each rail at the OSC continuous load (1.7 / 1.6 / 0.3 A) and at 20 ms transient peaks; 20 MHz-limited probe with a tip-and-barrel ground at J10 | < 1 mVp-p at load on each rail | OSC contract §0; the averaged model gives 22.6 / 13.4 / 43.6 µVp-p, not a switching simulation |
 | T2 Thermal | 25 °C ambient, continuous load for 30 min; thermocouples on D3, U4, the 10 mΩ shunts and Board P Q1 | D3 and every IC inside its rated junction limit with the measured θ; no part above its derated limit | D3 copper temperature UNKNOWN; desk loss 6.62 W at the limiter maximum |
 | T3 Startup and re-entry | Scope all three rails and EN_N at no load and at transient load; repeat with 6 ms and 18.6 ms off times | Every §5 row of the draft page, with the owner-accepted no-load exceptions | Phase 9–12 simulations |
-| T4 NVM readback | Write the 20 V image only after TDISPAR0V is located; power-cycle, read back 40 bytes | Readback equals the image; PDO2 = 20 V / 5 A | NVM status BLOCKED |
+| T4 NVM readback | Write the 20 V image only after the TDISPAR0V value is chosen, the POWER_ONLY_ABOVE_5V position is confirmed and the image is reviewed; power-cycle, read back 40 bytes | Readback equals the image; PDO2 = 20 V / 5 A | NVM status BLOCKED |
 | T5 Discharge and order | Disconnect at zero load and at an asymmetric OSC load | ≤ 100 ms; \|−12 V\| ≤ 6 V while +12 V is low; +12 V ≤ 0.5 V while −12 V is absent; +5 V ≤ 0.8 V by the time the first analog rail leaves; 1206 discharge resistors without visible damage after 100 cycles | Discharge rows above; pulse rating OPEN |
 | T6 Reverse current | Back-drive each output from a bench supply with the board unpowered and at 60 °C | ≤ 1 mA per rail | Reverse current OPEN |
 | T7 Fault latch | Short each rail through a current-limited load | All rails off and latched until re-plug; let-through charge recorded | Latch PASS (topology); let-through OPEN |
