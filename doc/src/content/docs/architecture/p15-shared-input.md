@@ -12,6 +12,8 @@ tracks artifacts, order plans and physical acceptance; [release gates](./release
 - PCB: `boards/board-p15/board-p15-draft.kicad_pcb`; schematic source: `scripts/schgen/board_p15_spec.py`.
 - Stable procedure: [Board P15 NVM Programming](./board-p15-programming.md), including all P15-NVM-1–7 tests.
 - Revision-specific packet: [P15 order decision](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-decision-packet.md).
+- Source identity record: `boards/board-p15/shared-reference.json`, checked by `scripts/pcb/board-p15/verify-shared-reference.py --rev <commit>` (byte identity only; consumers reference it by commit).
+- Order-day checklist: [P15 order handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md).
 - Exact part behavior belongs to the [component records](/docs/components/records/), not historical docstrings.
 
 ## Accepted interface
