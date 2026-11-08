@@ -1,4 +1,3 @@
-// Target config: evidence.candidates and inventoryProvider.mpnFromValueLcsc require the #205 patch.
 import type { CircuitConfig } from "@takazudo/zudo-circuit-doc/config";
 
 export default {
@@ -30,7 +29,20 @@ export default {
     vendorQualifiers: ".claude/skills/component-spec-audit/references/external-vendor-qualifiers.json",
     sourceCache: ".circuit-cache/sources",
   },
-  inventoryProvider: { kind: "led-generator-v1", mpnFromValueLcsc: ["C144397", "C591344"], specs: [{path: "scripts/schgen/board_a_spec.py"}, {path: "scripts/schgen/board_b_spec.py"}, {path: "scripts/schgen/board_p_spec.py"}, {path: "scripts/schgen/board_p15_spec.py"}, {path: "scripts/schgen/board_b20_components.py"}] },
+  inventoryProvider: {
+    kind: "led-generator-v1",
+    // DNP is recorded per placement in inventory.json; a line may mix fitted and DNP placements.
+    fit: "placement",
+    // C591344 was removed: no current generator input uses it, and runtime 0.3.0 rejects inert exceptions.
+    mpnFromValueLcsc: ["C144397"],
+    specs: [
+      { path: "scripts/schgen/board_a_spec.py", board: "board-a" },
+      { path: "scripts/schgen/board_b_spec.py", board: "board-b" },
+      { path: "scripts/schgen/board_p_spec.py", board: "board-p" },
+      { path: "scripts/schgen/board_p15_spec.py", board: "board-p15" },
+      { path: "scripts/schgen/board_b20_components.py", board: "board-b20-draft" },
+    ],
+  },
   publication: {
     selection: "circuit/publication/selection.json",
     assets: "circuit/publication/assets.json",
@@ -43,5 +55,15 @@ export default {
     { kind: "controller", path: "/docs/components/records/stusb4500qtr/", slug: "stusb4500qtr", identity: "STUSB4500QTR" },
     { kind: "synth connector", path: "/docs/components/records/dealon-dw254p-2x8-l0-c4749189/", slug: "dealon-dw254p-2x8-l0-c4749189", identity: "DW254P-2X8-L0" },
   ] },
-  scan: { minimumSiteCanaries: 150, minimumSiteFiles: 50, positiveControlRecord: "stusb4500qtr" },
+  scan: {
+    minimumSiteCanaries: 150,
+    minimumSiteFiles: 50,
+    positiveControlRecord: "stusb4500qtr",
+    // Reviewed 2026-11-08 on runtime 0.3.0: authored narrative pages already publish 32
+    // denied-only values (owner skill names, routing terms, three JLCPCB part URLs).
+    expectedWithheld: 32,
+    // The only published footprint whose canonical bytes are also a denied evidence hash
+    // (src-dw254p-project); every other evidence sha256 stays a SITE canary.
+    publicCanonicalFootprints: ["IDC-TH_16P-P2.54_321016RG0ABK00A01"],
+  },
 } satisfies CircuitConfig;

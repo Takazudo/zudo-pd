@@ -50,7 +50,7 @@ A project may add its own top-level authored section (for example `testing/` or 
 
 1. Add the content under `doc/src/content/docs/<section>/`, with an `index.mdx` as the section's landing page.
 2. Give it a matching `categoryMatch` (equal to the section's directory name) wherever it appears in `headerNav` in `doc/zfb.config.ts`. Without a matching `categoryMatch`, the section's sidebar stays empty even though the pages exist.
-3. The header nav is capped at **6 top-level items** (zudo-doc 5.27.0; the zudo-circuit-doc project documentation's "Getting started → What you get" page states the same cap). Project, Architecture, Verification, Components, Decisions & Research and Archive already fill it, so add the new section as a `children` entry under one of the existing dropdown items instead of a seventh top-level entry.
+3. This project retains **6 top-level header items** as a navigation convention carried from the create-zudo-circuit-doc 0.2.1 scaffold; it is not a document-ancestry rule. Project, Architecture, Verification, Components, Decisions & Research and Archive already fill it, so add the new section as a `children` entry under one of the existing dropdown items instead of a seventh top-level entry.
 4. The project brief, current-state, repository map, architecture overview and release-readiness page remain the shared starting context. Update release-readiness only when a release gate changes; use the active issue or accepted decision for other task handoffs.
 
 ## Commands
@@ -178,8 +178,8 @@ The validator recomputes the arithmetic. **Arithmetic is not dimensional proof:*
 5. **Update the inventory** (`.claude/skills/component-spec-audit/references/inventory.json`) under the configured `led-generator-v1` provider:
    - Keep one line per orderable identity, with a unique `line_id` and unique (manufacturer, complete MPN) pair. The line identity fields must match its owner bundle. This project requires a canonical non-empty LCSC C-number for an inventory line; never fabricate or guess one. If exact identity is unresolved, retain it as a candidate or ask for the missing supplier identity before adding an inventory line.
    - Unselected parts belong in `.claude/skills/component-spec-audit/references/candidates.json`; the records in `candidates.json` remain validated research and are not published inventory identities.
-   - The finite `inventoryProvider.mpnFromValueLcsc` exceptions are `C144397` and `C591344`; preserve those reviewed value-field identities and do not expand the exception without evidence and review.
-   - Record actual placements in `placements[]` with their own board, reference designator and `dnp` state. The provider binds five inventory inputs `scripts/schgen/board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py`, `board_p15_spec.py` and `board_b20_components.py`; placement binding and DNP are project-checked, not merely declared.
+   - The finite `inventoryProvider.mpnFromValueLcsc` exception is `C144397`; preserve that reviewed value-field identity and do not expand the exception without evidence and review. Runtime 0.3.0 rejects an exception that no generator input uses, so `C591344` was removed when no current input carried it; re-adding it needs a current generator line.
+   - Record actual placements in `placements[]` with their own board, reference designator and `dnp` state (`inventoryProvider.fit: "placement"`; a line may mix fitted and DNP placements). The provider binds five inventory inputs `scripts/schgen/board_a_spec.py`, `board_b_spec.py`, `board_p_spec.py`, `board_p15_spec.py` and `board_b20_components.py`; placement binding and DNP are project-checked, not merely declared.
    - Update reviewed assertion counts and all affected board generator expectations. Add direct-routing cases to `.claude/skills/component-spec-audit/fixtures/direct-routing.json` for each line.
 6. **Read the `SCOPE:` line** printed by `pnpm circuit:check`. It names the `led-generator-v1` provider, its five bound inventory inputs, line/placement/exclusion counts and pin-asset check result. Repeat the actual scope in the report; it proves the declared generator and asset checks ran, not that a physical board was assembled or measured.
 7. **Obtain CAD** through Workflow D if the part goes on a board.
@@ -327,7 +327,7 @@ Adding evidence does not publish it. `circuit/publication/selection.json` lists 
 
 | Tool | Status | Needed for |
 | --- | --- | --- |
-| Node.js ≥22.18 | Required | Everything |
+| Node.js 24 (`>=24 <25`) | Required | Everything |
 | pnpm 11 (via corepack) | Required | Install and scripts |
 | Python ≥3.12 (stdlib only) | Required | `pnpm circuit:check` and the project strict validator |
 | git | Required | History, review diffs, doc history |

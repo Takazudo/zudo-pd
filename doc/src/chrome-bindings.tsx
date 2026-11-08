@@ -1,6 +1,3 @@
-/** @jsxRuntime automatic */
-/** @jsxImportSource preact */
-
 import { defineChromeBindings } from "@takazudo/zudo-doc/chrome-bindings";
 import { circuitDocMdxExtras } from "@takazudo/zudo-circuit-doc/mdx-extras";
 

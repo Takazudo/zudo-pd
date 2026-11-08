@@ -25,7 +25,7 @@ import { projectIndex, readEvidenceIndex } from "./project-context.mjs";
 import { DENIED_PROVIDER_KEYS } from "@takazudo/zudo-circuit-doc";
 import { mapped } from "./project-context.mjs";
 import { readCanaries as packageCanaries } from "@takazudo/zudo-circuit-doc";
-const readCanaries = () => packageCanaries(mapped.paths, mapped.matrix);
+const readCanaries = () => packageCanaries(mapped.paths, { matrix: mapped.matrix, integrationOwnerSkill: mapped.integrationOwnerSkill });
 import { CIRCUIT_PUBLICATION_MATRIX } from "./project-context.mjs";
 import { CIRCUIT_SELECTION } from "./project-context.mjs";
 import type { PublicViewModel } from "@takazudo/zudo-circuit-doc";

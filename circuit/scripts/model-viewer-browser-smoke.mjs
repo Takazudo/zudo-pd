@@ -362,8 +362,9 @@ async function inspectReferencePage(cdp, representative, width, theme) {
       })),
       documentLabel: label?.textContent.trim(),
       documentHref: documentLink?.href,
-      unresolvedReasons: [...section.querySelectorAll('.zcd-component-references__document > p')]
-        .map((element) => element.textContent.replace(/^\\s*Unresolved\\.\\s*/u, '').trim()),
+      // 0.3.0 marks the unavailable-document reason paragraph explicitly.
+      unresolvedReasons: [...section.querySelectorAll('.zcd-component-references__document [data-document-unavailable="true"]')]
+        .map((element) => element.textContent.trim()),
       availability,
       footprintObjectFit: getComputedStyle(footprintImage).objectFit,
       footprintNatural: [footprintImage.naturalWidth, footprintImage.naturalHeight],
@@ -390,6 +391,7 @@ async function inspectReferencePage(cdp, representative, width, theme) {
     assertEqual(report.documentHref, undefined, `${representative.kind} unresolved document has no destination`);
     assertEqual(report.unresolvedReasons.length, 1, `${representative.kind} unresolved card count`);
     assertEqual(report.unresolvedReasons.every((reason) => reason.length > 0), true, `${representative.kind} unresolved reason is stated`);
+    assertEqual(report.documentLabel, 'Document unavailable', `${representative.kind} unavailable document label`);
   } else {
     assertEqual(report.unresolvedReasons.length, 0, `${representative.kind} resolves every card`);
     assertEqual(ALLOWED_PDF_LABELS.includes(report.documentLabel), true, `${representative.kind} PDF label`);

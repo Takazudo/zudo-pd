@@ -1,6 +1,6 @@
 # Documentation guidance
 
-This is a zudo-doc site using zfb, MDX, Tailwind and Preact. Framework packages own
+This is a zudo-doc site using zfb, MDX, zudo-wind CSS and zfb's zudo-react islands. Framework packages own
 layout and chrome. `zfb.config.ts` owns the project configuration, using the `sumi`
 theme. The route stubs under `pages/` stay package-shaped; custom preview components
 are registered through `src/chrome-bindings.tsx`.
@@ -43,7 +43,7 @@ pnpm b4push                    # complete guarded local repository quality gate
 ```
 
 Run `pnpm install --frozen-lockfile` from the repository root; the root lockfile
-pins the patched package and zudo-doc scaffold. Deployment uses the Cloudflare
+pins the circuit package (with its one reviewed checker patch) and the zudo-doc scaffold. Deployment uses the Cloudflare
 adapter in `wrangler.toml` and the repository workflows; local builds do not deploy.
 A successful doc build does not validate hardware or authorize an order. The root
 `pnpm b4push` is wrapped by one outer heavy guard when available. Browser checks run

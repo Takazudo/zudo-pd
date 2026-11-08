@@ -425,7 +425,7 @@ describe("integration page", () => {
     const withoutOwner = { ...model, integration: [noOwner] };
     const rendered = renderIntegration(withoutOwner, buildRecordIndex(withoutOwner), {agentResources: false, integrationDomainGloss: {}, generatedNotice: true}).contents;
     assert.ok(!rendered.includes("/docs/claude-skills/"));
-    assert.ok(rendered.includes("No owning bundle is identified in the published model."));
+    assert.ok(rendered.includes("No owning bundle is identified in the published model, so no reciprocal link can be given."));
   });
 
   it("keeps the index anchor other pages link by", () => {
