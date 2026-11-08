@@ -10,161 +10,384 @@
   "area_both_faces_m2": 0.0187,
   "control_allowance_w": 0.3
  },
- "rated_typ_rds": {
+ "load_cases": {
+  "continuous": {
+   "loads_a": {
+    "+12": 1.7,
+    "-12": 1.6,
+    "+5": 0.3
+   },
+   "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": continuous 1.7 / 1.6 / 0.3 A, all rails at once",
+   "evidence": "CONTRACT",
+   "model_limit": "Steady-state desk evaluation at the continuous contract current."
+  },
+  "transient_20ms": {
+   "loads_a": {
+    "+12": 2.0,
+    "-12": 1.9,
+    "+5": 0.4
+   },
+   "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": 20 ms transient 2.0 / 1.9 / 0.4 A",
+   "evidence": "CONTRACT",
+   "model_limit": "Steady-state desk evaluation held at the 20 ms transient current. It is not a transient model: a 20 ms event is far shorter than the board and part thermal time constants, so the copper and junction temperatures shown overstate one event; no hold-up, slope or limiter timing is covered."
+  },
+  "let_through_max": {
+   "loads_a": {
+    "+12": 2.1,
+    "-12": 2.0,
+    "+5": 0.5
+   },
+   "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": let-through maximum 2.1 / 2.0 / 0.5 A including tolerance",
+   "evidence": "CONTRACT",
+   "model_limit": "Steady-state desk evaluation held at the let-through maximum (the case earlier records call the limiter maximum). The limiter trips; it does not regulate current, so this level is a bound, not an operating point. Let-through is not simulated or measured."
+  },
+  "legacy_pd15_budget": {
+   "loads_a": {
+    "+12": 1.2,
+    "-12": 0.8,
+    "+5": 0.5
+   },
+   "source": "LEGACY: the PD15 Board B output budget (CLAUDE.md), which phase 30-33 B20 reports mislabelled \"rated\". It is not a PD20 contract case and not a B20 rating",
+   "evidence": "LEGACY_COMPARISON_ONLY",
+   "model_limit": "Kept only so earlier phase records can be compared; no PD20 acceptance reads it."
+  }
+ },
+ "contract_cases": [
+  "continuous",
+  "transient_20ms",
+  "let_through_max"
+ ],
+ "model_limit": "Every case is a steady-state desk evaluation of an unvalidated draft. No case is a transient, thermal simulation or measured result.",
+ "continuous_typ_rds": {
   "stages": {
    "+12": {
-    "duty": 0.6539,
-    "inductor_a": 1.2,
-    "ic_w": 0.206,
+    "duty": 0.6559,
+    "inductor_a": 1.7,
+    "inductor_rms_a": 1.738,
+    "ic_w": 0.325,
     "ic_terms_w": {
-     "conduction": 0.0945,
-     "switching": 0.0767,
+     "conduction": 0.1823,
+     "switching": 0.1086,
      "gate": 0.0317,
      "quiescent": 0.0028
     },
     "other_w": {
-     "diode": 0.216,
-     "inductor": 0.107,
-     "post_filter": 0.098,
-     "shunt": 0.014,
-     "rail_fets": 0.056
+     "diode": 0.304,
+     "inductor": 0.205,
+     "post_filter": 0.197,
+     "shunt": 0.029,
+     "rail_fets": 0.113
     },
-    "stage_w": 0.697,
-    "output_w": 14.58,
-    "tj_std_board_c": 48.6
+    "stage_w": 1.173,
+    "output_w": 20.655,
+    "input_a": 1.149,
+    "tj_std_board_c": 53.7
    },
    "-12": {
-    "duty": 0.4042,
-    "inductor_a": 1.343,
-    "ic_w": 0.317,
+    "duty": 0.4054,
+    "inductor_a": 2.691,
+    "inductor_rms_a": 2.724,
+    "ic_w": 0.708,
     "ic_terms_w": {
-     "conduction": 0.0738,
-     "switching": 0.1863,
-     "gate": 0.0521,
+     "conduction": 0.2768,
+     "switching": 0.3746,
+     "gate": 0.0522,
      "quiescent": 0.0046
     },
     "other_w": {
-     "diode": 0.56,
-     "inductor": 0.135,
-     "post_filter": 0.044,
-     "shunt": 0.006,
-     "rail_fets": 0.025
+     "diode": 1.12,
+     "inductor": 0.505,
+     "post_filter": 0.174,
+     "shunt": 0.026,
+     "rail_fets": 0.1
     },
-    "stage_w": 1.087,
-    "output_w": 9.704,
-    "tj_std_board_c": 53.3
+    "stage_w": 2.632,
+    "output_w": 19.408,
+    "input_a": 1.16,
+    "tj_std_board_c": 69.7
    },
    "+5": {
-    "duty": 0.2889,
-    "inductor_a": 0.5,
-    "ic_w": 0.075,
+    "duty": 0.2881,
+    "inductor_a": 0.3,
+    "inductor_rms_a": 0.38,
+    "ic_w": 0.058,
     "ic_terms_w": {
-     "conduction": 0.0081,
-     "switching": 0.0319,
+     "conduction": 0.0038,
+     "switching": 0.0192,
      "gate": 0.0317,
      "quiescent": 0.0028
     },
     "other_w": {
-     "diode": 0.185,
-     "inductor": 0.021,
-     "post_filter": 0.017,
-     "shunt": 0.003,
-     "rail_fets": 0.01
+     "diode": 0.111,
+     "inductor": 0.01,
+     "post_filter": 0.006,
+     "shunt": 0.001,
+     "rail_fets": 0.004
     },
-    "stage_w": 0.309,
-    "output_w": 2.54,
-    "tj_std_board_c": 43.1
+    "stage_w": 0.189,
+    "output_w": 1.524,
+    "input_a": 0.09,
+    "tj_std_board_c": 42.4
    }
   },
-  "board_loss_w": 2.39,
-  "output_w": 26.82,
-  "efficiency": 0.9181,
-  "input_a_at_19v": 1.538,
+  "board_loss_w": 4.29,
+  "output_w": 41.59,
+  "efficiency": 0.9064,
+  "input_a_at_19v": 2.415,
   "mean_rise_k": [
-   12.8,
-   8.5
+   23.0,
+   15.3
   ]
  },
- "rated_max_rds": {
+ "continuous_max_rds": {
   "stages": {
    "+12": {
-    "duty": 0.6539,
-    "inductor_a": 1.2,
-    "ic_w": 0.306,
+    "duty": 0.6559,
+    "inductor_a": 1.7,
+    "inductor_rms_a": 1.738,
+    "ic_w": 0.52,
     "ic_terms_w": {
-     "conduction": 0.1952,
-     "switching": 0.0767,
+     "conduction": 0.3765,
+     "switching": 0.1086,
      "gate": 0.0317,
      "quiescent": 0.0028
     },
     "other_w": {
-     "diode": 0.216,
-     "inductor": 0.107,
-     "post_filter": 0.098,
-     "shunt": 0.014,
-     "rail_fets": 0.056
+     "diode": 0.304,
+     "inductor": 0.205,
+     "post_filter": 0.197,
+     "shunt": 0.029,
+     "rail_fets": 0.113
     },
-    "stage_w": 0.798,
-    "output_w": 14.58,
-    "tj_std_board_c": 52.9
+    "stage_w": 1.367,
+    "output_w": 20.655,
+    "input_a": 1.159,
+    "tj_std_board_c": 61.8
    },
    "-12": {
-    "duty": 0.4042,
-    "inductor_a": 1.343,
-    "ic_w": 0.395,
+    "duty": 0.4054,
+    "inductor_a": 2.691,
+    "inductor_rms_a": 2.724,
+    "ic_w": 1.003,
     "ic_terms_w": {
-     "conduction": 0.1524,
-     "switching": 0.1863,
-     "gate": 0.0521,
+     "conduction": 0.5717,
+     "switching": 0.3746,
+     "gate": 0.0522,
      "quiescent": 0.0046
     },
     "other_w": {
-     "diode": 0.56,
-     "inductor": 0.135,
-     "post_filter": 0.044,
-     "shunt": 0.006,
-     "rail_fets": 0.025
+     "diode": 1.12,
+     "inductor": 0.505,
+     "post_filter": 0.174,
+     "shunt": 0.026,
+     "rail_fets": 0.1
     },
-    "stage_w": 1.165,
-    "output_w": 9.704,
-    "tj_std_board_c": 56.6
+    "stage_w": 2.927,
+    "output_w": 19.408,
+    "input_a": 1.176,
+    "tj_std_board_c": 82.1
    },
    "+5": {
-    "duty": 0.2889,
-    "inductor_a": 0.5,
-    "ic_w": 0.083,
+    "duty": 0.2881,
+    "inductor_a": 0.3,
+    "inductor_rms_a": 0.38,
+    "ic_w": 0.062,
     "ic_terms_w": {
-     "conduction": 0.0167,
-     "switching": 0.0319,
+     "conduction": 0.0079,
+     "switching": 0.0192,
      "gate": 0.0317,
      "quiescent": 0.0028
     },
     "other_w": {
-     "diode": 0.185,
-     "inductor": 0.021,
-     "post_filter": 0.017,
-     "shunt": 0.003,
-     "rail_fets": 0.01
+     "diode": 0.111,
+     "inductor": 0.01,
+     "post_filter": 0.006,
+     "shunt": 0.001,
+     "rail_fets": 0.004
     },
-    "stage_w": 0.318,
-    "output_w": 2.54,
-    "tj_std_board_c": 43.5
+    "stage_w": 0.193,
+    "output_w": 1.524,
+    "input_a": 0.09,
+    "tj_std_board_c": 42.6
    }
   },
-  "board_loss_w": 2.58,
-  "output_w": 26.82,
-  "efficiency": 0.9122,
-  "input_a_at_19v": 1.548,
+  "board_loss_w": 4.79,
+  "output_w": 41.59,
+  "efficiency": 0.8968,
+  "input_a_at_19v": 2.441,
   "mean_rise_k": [
-   13.8,
-   9.2
+   25.6,
+   17.1
   ]
  },
- "limiter_max_typ_rds": {
+ "transient_20ms_typ_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6571,
+    "inductor_a": 2.0,
+    "inductor_rms_a": 2.033,
+    "ic_w": 0.412,
+    "ic_terms_w": {
+     "conduction": 0.2498,
+     "switching": 0.1278,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.357,
+     "inductor": 0.281,
+     "post_filter": 0.272,
+     "shunt": 0.04,
+     "rail_fets": 0.156
+    },
+    "stage_w": 1.518,
+    "output_w": 24.3,
+    "input_a": 1.359,
+    "tj_std_board_c": 57.3
+   },
+   "-12": {
+    "duty": 0.4058,
+    "inductor_a": 3.198,
+    "inductor_rms_a": 3.226,
+    "ic_w": 0.891,
+    "ic_terms_w": {
+     "conduction": 0.3886,
+     "switching": 0.4457,
+     "gate": 0.0522,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 1.33,
+     "inductor": 0.708,
+     "post_filter": 0.245,
+     "shunt": 0.036,
+     "rail_fets": 0.141
+    },
+    "stage_w": 3.351,
+    "output_w": 23.047,
+    "input_a": 1.389,
+    "tj_std_board_c": 77.4
+   },
+   "+5": {
+    "duty": 0.2885,
+    "inductor_a": 0.4,
+    "inductor_rms_a": 0.463,
+    "ic_w": 0.066,
+    "ic_terms_w": {
+     "conduction": 0.0057,
+     "switching": 0.0256,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.148,
+     "inductor": 0.015,
+     "post_filter": 0.011,
+     "shunt": 0.002,
+     "rail_fets": 0.006
+    },
+    "stage_w": 0.247,
+    "output_w": 2.032,
+    "input_a": 0.12,
+    "tj_std_board_c": 42.8
+   }
+  },
+  "board_loss_w": 5.42,
+  "output_w": 49.38,
+  "efficiency": 0.9012,
+  "input_a_at_19v": 2.884,
+  "mean_rise_k": [
+   29.0,
+   19.3
+  ]
+ },
+ "transient_20ms_max_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6571,
+    "inductor_a": 2.0,
+    "inductor_rms_a": 2.033,
+    "ic_w": 0.678,
+    "ic_terms_w": {
+     "conduction": 0.5158,
+     "switching": 0.1278,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.357,
+     "inductor": 0.281,
+     "post_filter": 0.272,
+     "shunt": 0.04,
+     "rail_fets": 0.156
+    },
+    "stage_w": 1.784,
+    "output_w": 24.3,
+    "input_a": 1.373,
+    "tj_std_board_c": 68.5
+   },
+   "-12": {
+    "duty": 0.4058,
+    "inductor_a": 3.198,
+    "inductor_rms_a": 3.226,
+    "ic_w": 1.305,
+    "ic_terms_w": {
+     "conduction": 0.8025,
+     "switching": 0.4457,
+     "gate": 0.0522,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 1.33,
+     "inductor": 0.708,
+     "post_filter": 0.245,
+     "shunt": 0.036,
+     "rail_fets": 0.141
+    },
+    "stage_w": 3.765,
+    "output_w": 23.047,
+    "input_a": 1.411,
+    "tj_std_board_c": 94.8
+   },
+   "+5": {
+    "duty": 0.2885,
+    "inductor_a": 0.4,
+    "inductor_rms_a": 0.463,
+    "ic_w": 0.072,
+    "ic_terms_w": {
+     "conduction": 0.0118,
+     "switching": 0.0256,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.148,
+     "inductor": 0.015,
+     "post_filter": 0.011,
+     "shunt": 0.002,
+     "rail_fets": 0.006
+    },
+    "stage_w": 0.253,
+    "output_w": 2.032,
+    "input_a": 0.12,
+    "tj_std_board_c": 43.0
+   }
+  },
+  "board_loss_w": 6.1,
+  "output_w": 49.38,
+  "efficiency": 0.89,
+  "input_a_at_19v": 2.92,
+  "mean_rise_k": [
+   32.6,
+   21.8
+  ]
+ },
+ "let_through_max_typ_rds": {
   "stages": {
    "+12": {
     "duty": 0.6575,
     "inductor_a": 2.1,
+    "inductor_rms_a": 2.131,
     "ic_w": 0.443,
     "ic_terms_w": {
      "conduction": 0.2747,
@@ -181,11 +404,13 @@
     },
     "stage_w": 1.642,
     "output_w": 25.515,
+    "input_a": 1.429,
     "tj_std_board_c": 58.6
    },
    "-12": {
     "duty": 0.406,
     "inductor_a": 3.367,
+    "inductor_rms_a": 3.394,
     "ic_w": 0.956,
     "ic_terms_w": {
      "conduction": 0.4302,
@@ -202,11 +427,13 @@
     },
     "stage_w": 3.608,
     "output_w": 24.26,
+    "input_a": 1.467,
     "tj_std_board_c": 80.2
    },
    "+5": {
     "duty": 0.2889,
     "inductor_a": 0.5,
+    "inductor_rms_a": 0.552,
     "ic_w": 0.075,
     "ic_terms_w": {
      "conduction": 0.0081,
@@ -223,6 +450,7 @@
     },
     "stage_w": 0.309,
     "output_w": 2.54,
+    "input_a": 0.15,
     "tj_std_board_c": 43.1
    }
   },
@@ -235,11 +463,12 @@
    20.9
   ]
  },
- "limiter_max_max_rds": {
+ "let_through_max_max_rds": {
   "stages": {
    "+12": {
     "duty": 0.6575,
     "inductor_a": 2.1,
+    "inductor_rms_a": 2.131,
     "ic_w": 0.736,
     "ic_terms_w": {
      "conduction": 0.5673,
@@ -256,11 +485,13 @@
     },
     "stage_w": 1.935,
     "output_w": 25.515,
+    "input_a": 1.445,
     "tj_std_board_c": 70.9
    },
    "-12": {
     "duty": 0.406,
     "inductor_a": 3.367,
+    "inductor_rms_a": 3.394,
     "ic_w": 1.415,
     "ic_terms_w": {
      "conduction": 0.8885,
@@ -277,11 +508,13 @@
     },
     "stage_w": 4.066,
     "output_w": 24.26,
+    "input_a": 1.491,
     "tj_std_board_c": 99.4
    },
    "+5": {
     "duty": 0.2889,
     "inductor_a": 0.5,
+    "inductor_rms_a": 0.552,
     "ic_w": 0.083,
     "ic_terms_w": {
      "conduction": 0.0167,
@@ -298,6 +531,7 @@
     },
     "stage_w": 0.318,
     "output_w": 2.54,
+    "input_a": 0.15,
     "tj_std_board_c": 43.5
    }
   },
@@ -310,6 +544,168 @@
    23.6
   ]
  },
+ "legacy_pd15_budget_typ_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6539,
+    "inductor_a": 1.2,
+    "inductor_rms_a": 1.254,
+    "ic_w": 0.206,
+    "ic_terms_w": {
+     "conduction": 0.0945,
+     "switching": 0.0767,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.216,
+     "inductor": 0.107,
+     "post_filter": 0.098,
+     "shunt": 0.014,
+     "rail_fets": 0.056
+    },
+    "stage_w": 0.697,
+    "output_w": 14.58,
+    "input_a": 0.804,
+    "tj_std_board_c": 48.6
+   },
+   "-12": {
+    "duty": 0.4042,
+    "inductor_a": 1.343,
+    "inductor_rms_a": 1.409,
+    "ic_w": 0.317,
+    "ic_terms_w": {
+     "conduction": 0.0738,
+     "switching": 0.1863,
+     "gate": 0.0521,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 0.56,
+     "inductor": 0.135,
+     "post_filter": 0.044,
+     "shunt": 0.006,
+     "rail_fets": 0.025
+    },
+    "stage_w": 1.087,
+    "output_w": 9.704,
+    "input_a": 0.568,
+    "tj_std_board_c": 53.3
+   },
+   "+5": {
+    "duty": 0.2889,
+    "inductor_a": 0.5,
+    "inductor_rms_a": 0.552,
+    "ic_w": 0.075,
+    "ic_terms_w": {
+     "conduction": 0.0081,
+     "switching": 0.0319,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.185,
+     "inductor": 0.021,
+     "post_filter": 0.017,
+     "shunt": 0.003,
+     "rail_fets": 0.01
+    },
+    "stage_w": 0.309,
+    "output_w": 2.54,
+    "input_a": 0.15,
+    "tj_std_board_c": 43.1
+   }
+  },
+  "board_loss_w": 2.39,
+  "output_w": 26.82,
+  "efficiency": 0.9181,
+  "input_a_at_19v": 1.538,
+  "mean_rise_k": [
+   12.8,
+   8.5
+  ]
+ },
+ "legacy_pd15_budget_max_rds": {
+  "stages": {
+   "+12": {
+    "duty": 0.6539,
+    "inductor_a": 1.2,
+    "inductor_rms_a": 1.254,
+    "ic_w": 0.306,
+    "ic_terms_w": {
+     "conduction": 0.1952,
+     "switching": 0.0767,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.216,
+     "inductor": 0.107,
+     "post_filter": 0.098,
+     "shunt": 0.014,
+     "rail_fets": 0.056
+    },
+    "stage_w": 0.798,
+    "output_w": 14.58,
+    "input_a": 0.809,
+    "tj_std_board_c": 52.9
+   },
+   "-12": {
+    "duty": 0.4042,
+    "inductor_a": 1.343,
+    "inductor_rms_a": 1.409,
+    "ic_w": 0.395,
+    "ic_terms_w": {
+     "conduction": 0.1524,
+     "switching": 0.1863,
+     "gate": 0.0521,
+     "quiescent": 0.0046
+    },
+    "other_w": {
+     "diode": 0.56,
+     "inductor": 0.135,
+     "post_filter": 0.044,
+     "shunt": 0.006,
+     "rail_fets": 0.025
+    },
+    "stage_w": 1.165,
+    "output_w": 9.704,
+    "input_a": 0.572,
+    "tj_std_board_c": 56.6
+   },
+   "+5": {
+    "duty": 0.2889,
+    "inductor_a": 0.5,
+    "inductor_rms_a": 0.552,
+    "ic_w": 0.083,
+    "ic_terms_w": {
+     "conduction": 0.0167,
+     "switching": 0.0319,
+     "gate": 0.0317,
+     "quiescent": 0.0028
+    },
+    "other_w": {
+     "diode": 0.185,
+     "inductor": 0.021,
+     "post_filter": 0.017,
+     "shunt": 0.003,
+     "rail_fets": 0.01
+    },
+    "stage_w": 0.318,
+    "output_w": 2.54,
+    "input_a": 0.15,
+    "tj_std_board_c": 43.5
+   }
+  },
+  "board_loss_w": 2.58,
+  "output_w": 26.82,
+  "efficiency": 0.9122,
+  "input_a_at_19v": 1.548,
+  "mean_rise_k": [
+   13.8,
+   9.2
+  ]
+ },
  "inverter_island": {
   "copper": {
    "front_mm2": 61.3,
@@ -318,39 +714,71 @@
   },
   "d3_tj_max_c": 150,
   "cases": {
-   "rated_typ_rds": {
-    "p_d3_w": 0.56,
-    "p_u3_w": 0.317,
+   "continuous_typ_rds": {
+    "p_d3_w": 1.12,
+    "p_u3_w": 0.708,
     "best": {
      "island_k_per_w": 14.5,
-     "island_c": 61.2,
-     "d3_tj_c": 66.8,
-     "u3_pad_c_lower_bound_of_tj": 61.2
+     "island_c": 81.7,
+     "d3_tj_c": 92.9,
+     "u3_pad_c_lower_bound_of_tj": 81.7
     },
     "worst": {
      "island_k_per_w": 20.4,
-     "island_c": 70.7,
-     "d3_tj_c": 76.3,
-     "u3_pad_c_lower_bound_of_tj": 70.7
+     "island_c": 100.3,
+     "d3_tj_c": 111.5,
+     "u3_pad_c_lower_bound_of_tj": 100.3
     }
    },
-   "rated_max_rds": {
-    "p_d3_w": 0.56,
-    "p_u3_w": 0.395,
+   "continuous_max_rds": {
+    "p_d3_w": 1.12,
+    "p_u3_w": 1.003,
     "best": {
      "island_k_per_w": 14.5,
-     "island_c": 63.0,
-     "d3_tj_c": 68.6,
-     "u3_pad_c_lower_bound_of_tj": 63.0
+     "island_c": 87.8,
+     "d3_tj_c": 99.0,
+     "u3_pad_c_lower_bound_of_tj": 87.8
     },
     "worst": {
      "island_k_per_w": 20.4,
-     "island_c": 73.3,
-     "d3_tj_c": 78.9,
-     "u3_pad_c_lower_bound_of_tj": 73.3
+     "island_c": 108.9,
+     "d3_tj_c": 120.1,
+     "u3_pad_c_lower_bound_of_tj": 108.9
     }
    },
-   "limiter_max_typ_rds": {
+   "transient_20ms_typ_rds": {
+    "p_d3_w": 1.33,
+    "p_u3_w": 0.891,
+    "best": {
+     "island_k_per_w": 14.5,
+     "island_c": 91.4,
+     "d3_tj_c": 104.7,
+     "u3_pad_c_lower_bound_of_tj": 91.4
+    },
+    "worst": {
+     "island_k_per_w": 20.4,
+     "island_c": 114.3,
+     "d3_tj_c": 127.6,
+     "u3_pad_c_lower_bound_of_tj": 114.3
+    }
+   },
+   "transient_20ms_max_rds": {
+    "p_d3_w": 1.33,
+    "p_u3_w": 1.305,
+    "best": {
+     "island_k_per_w": 14.5,
+     "island_c": 99.9,
+     "d3_tj_c": 113.2,
+     "u3_pad_c_lower_bound_of_tj": 99.9
+    },
+    "worst": {
+     "island_k_per_w": 20.4,
+     "island_c": 126.4,
+     "d3_tj_c": 139.7,
+     "u3_pad_c_lower_bound_of_tj": 126.4
+    }
+   },
+   "let_through_max_typ_rds": {
     "p_d3_w": 1.4,
     "p_u3_w": 0.956,
     "best": {
@@ -366,7 +794,7 @@
      "u3_pad_c_lower_bound_of_tj": 119.4
     }
    },
-   "limiter_max_max_rds": {
+   "let_through_max_max_rds": {
     "p_d3_w": 1.4,
     "p_u3_w": 1.415,
     "best": {
@@ -380,6 +808,38 @@
      "island_c": 132.8,
      "d3_tj_c": 146.8,
      "u3_pad_c_lower_bound_of_tj": 132.8
+    }
+   },
+   "legacy_pd15_budget_typ_rds": {
+    "p_d3_w": 0.56,
+    "p_u3_w": 0.317,
+    "best": {
+     "island_k_per_w": 14.5,
+     "island_c": 61.2,
+     "d3_tj_c": 66.8,
+     "u3_pad_c_lower_bound_of_tj": 61.2
+    },
+    "worst": {
+     "island_k_per_w": 20.4,
+     "island_c": 70.7,
+     "d3_tj_c": 76.3,
+     "u3_pad_c_lower_bound_of_tj": 70.7
+    }
+   },
+   "legacy_pd15_budget_max_rds": {
+    "p_d3_w": 0.56,
+    "p_u3_w": 0.395,
+    "best": {
+     "island_k_per_w": 14.5,
+     "island_c": 63.0,
+     "d3_tj_c": 68.6,
+     "u3_pad_c_lower_bound_of_tj": 63.0
+    },
+    "worst": {
+     "island_k_per_w": 20.4,
+     "island_c": 73.3,
+     "d3_tj_c": 78.9,
+     "u3_pad_c_lower_bound_of_tj": 73.3
     }
    }
   },

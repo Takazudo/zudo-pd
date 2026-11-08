@@ -62,6 +62,9 @@ python3 scripts/pcb/board-p15/nvm-image.py --check
 step "Board P r3 20 V NVM intent rebuild check"
 python3 scripts/pcb/board-p/nvm-intent-20v.py --check
 
+step "B20 desk load cases bound to the PD20 contract; reports fresh"
+python3 -m unittest discover -s scripts/pcb/board-b20 -p 'test_*.py'
+
 step "Courtyards enclose every pad"
 python3 footprints/scripts/gen_courtyards.py --check
 step "Courtyard geometry and library synchronization regressions"

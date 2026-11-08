@@ -154,7 +154,7 @@
     "start_edge_gap_0p2mm_tracks_mm": 0.45,
     "sense_pad_separation_mm": 6.41,
     "sense_loop_area_mm2": 10.55,
-    "differential_pickup_mv_peak_at_input": 0.001,
+    "differential_pickup_mv_peak_at_input": 0.002,
     "capacitive_common_mode": [
      {
       "nearest_sw_stage": "C",
@@ -175,9 +175,9 @@
       "v_cm_uv_peak": 0.2059
      }
     ],
-    "differential_pickup_uv_peak_at_input": 1.087,
+    "differential_pickup_uv_peak_at_input": 2.298,
     "ina301_output_mv_peak": {
-     "differential_bandwidth_limited": 0.001,
+     "differential_bandwidth_limited": 0.002,
      "common_mode_through_cmrr_1mhz": 0.0
     }
    }
@@ -236,7 +236,7 @@
       "v_cm_uv_peak": 0.0256
      }
     ],
-    "differential_pickup_uv_peak_at_input": 0.175,
+    "differential_pickup_uv_peak_at_input": 0.215,
     "ina301_output_mv_peak": {
      "differential_bandwidth_limited": 0.0,
      "common_mode_through_cmrr_1mhz": 0.0
@@ -276,7 +276,7 @@
     "start_edge_gap_0p2mm_tracks_mm": 12.02,
     "sense_pad_separation_mm": 6.41,
     "sense_loop_area_mm2": 13.8,
-    "differential_pickup_mv_peak_at_input": 0.001,
+    "differential_pickup_mv_peak_at_input": 0.002,
     "capacitive_common_mode": [
      {
       "nearest_sw_stage": "C",
@@ -297,7 +297,7 @@
       "v_cm_uv_peak": 0.0891
      }
     ],
-    "differential_pickup_uv_peak_at_input": 0.701
+    "differential_pickup_uv_peak_at_input": 1.735
    }
   }
  },
@@ -338,10 +338,12 @@
   "vin_v": 20.0,
   "sw_rise_ns": 6.2,
   "edge_frequency_mhz": 51.3,
+  "switched_current_case": "let_through_max",
+  "switched_current_source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": let-through maximum 2.1 / 2.0 / 0.5 A including tolerance",
   "switched_current_a": {
-   "A": 1.2,
+   "A": 2.1,
    "B": 0.5,
-   "C": 1.28
+   "C": 3.2
   },
   "ina301a3": "gain 100 V/V, BW 450 kHz, CMRR 65 dB at 1 MHz (SBOS713A Figure 9, typical)",
   "model": "magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance; ideal GND plane 0.2175 mm below F.Cu: image dipole, coupling x 1/(1+(d/h)^2)"
