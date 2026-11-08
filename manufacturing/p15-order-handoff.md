@@ -66,7 +66,9 @@ five days old at this writing and must be read again at the order step.
 2. NVM provisioning on a current-limited 5 V-only source with Board L and Board B disconnected: P15-NVM-1 to -5 and
    -7 in [Board P15 NVM Programming](../doc/src/content/docs/architecture/board-p15-programming.md). Pass is a
    power-cycle readback equal to SHA-256 `76622e14862e53cf318b24eb662f7dc9f34d48134867cf954b30c195c26e8eeb`.
-3. No-load PD acceptance (P15-NVM-6) on a PD source that also offers 20 V: 15 V contract, VBUS_OUT off at 5 V.
+3. No-load PD acceptance (P15-NVM-6) on a PD source that also offers 20 V: 15 V contract, and VBUS_OUT measured off
+   during the 5 V phase of attach. That measurement is required: the POWER_ONLY_ABOVE_5V bit position is third-party
+   and an ST draft note marks it reserved (`manufacturing/pd20-evidence-research.md`).
 4. Only then mate a passing unit with a Board L (zudo-led-lamp `firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md`
    first) or, later, with Board B after its unpowered check (`manufacturing/board-b-unpowered-check.md`).
 

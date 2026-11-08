@@ -114,5 +114,8 @@
     "programmed": "NOT RUN",
     "measured": "NOT RUN"
   },
-  "accepted_prototype_residuals": "R2.3, R2.4, R2.6 FAIL and R2.5 UNKNOWN (no hardware voltage window or eFuse). Accepted for the prototype; not PASS evidence."
+  "accepted_prototype_residuals": "R2.3, R2.4, R2.6 FAIL and R2.5 UNKNOWN (no hardware voltage window or eFuse). Accepted for the prototype; not PASS evidence.",
+  "open_evidence": [
+    "POWER_ONLY_ABOVE_5V (NVM 0xE6 bit 3) position is from the SparkFun map; an ST draft note marks 0xE6[3:0] reserved (manufacturing/pd20-evidence-research.md, 2026-11-08). P15-NVM-6 must measure VBUS_OUT off during the 5 V phase."
+  ]
 }
