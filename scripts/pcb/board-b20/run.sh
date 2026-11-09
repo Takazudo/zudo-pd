@@ -3,8 +3,8 @@
 # boards/board-b20-draft/board-b20-draft.kicad_pcb and boards/board-b20-draft/routing-report.json from board_b20_spec.py.
 # Phase 28: 4 copper layers (In1.Cu GND plane, In2.Cu routed, JLC7628 stackup); B20_LAYERS=2 rebuilds the retired 2-layer form.
 # Phase 30: desk current/width (current-check.json) and thermal (thermal-check.json) screens of the routed draft.
-# pcbnew steps run in the pinned KiCad image (--cpus 1, no KiCad lock); the router runs on the host.
-# Native DRC is separate and runs under heavy-guard -> flock /tmp/kicad-native.lock (see the draft doc).
+# Run under heavy-guard, without an outer native lock: each pcbnew step and the
+# finalizer acquire /tmp/kicad-native.lock themselves. The router runs on the host.
 set -euo pipefail
 export PYTHONHASHSEED=0
 cd "$(dirname "$0")/../../.."
@@ -13,12 +13,19 @@ T=$(mktemp -d "${TMPDIR:-/tmp}/board-b20.XXXXXX")
 D=scripts/pcb/board-b20
 OUT=boards/board-b20-draft
 # wx needs a display, so a broadway GTK backend runs inside the container
-run() { docker run --rm --cpus 1 --user 0 -e PYTHONHASHSEED -v "$PWD":"$PWD" -v "$T":"$T" -w "$PWD" "$IMG" \
+run() { python3 -c 'import fcntl,subprocess,sys
+with open("/tmp/kicad-native.lock","a") as lock:
+ fcntl.flock(lock.fileno(),fcntl.LOCK_EX)
+ raise SystemExit(subprocess.call(sys.argv[1:]))' docker run --rm --platform linux/amd64 --cpus 1 --user 0 -e PYTHONHASHSEED -v "$PWD":"$PWD" -v "$T":"$T" -w "$PWD" "$IMG" \
   bash -c 'broadwayd :5 >/dev/null 2>&1 & sleep 1; GDK_BACKEND=broadway BROADWAY_DISPLAY=:5 exec python3 "$@"' kicad-python "$@"; }
 run $D/build-draft.py "$T/placed.kicad_pcb"
 run $D/dump-geom.py "$T/placed.kicad_pcb" > "$T/geom.json"
 uv run --python 3.12 --with numpy --with scipy python $D/route.py "$T/geom.json" "$T/routes.json"
-run $D/apply-routes.py "$T/placed.kicad_pcb" "$T/routes.json" "$OUT/board-b20-draft.kicad_pcb"
+cp "$OUT/board-b20-draft.kicad_pro" "$T/board-b20-draft.kicad_pro"
+run $D/apply-routes.py "$T/placed.kicad_pcb" "$T/routes.json" "$T/board-b20-draft.kicad_pcb"
+# CLI finalizer acquires the native lock and never saves the authored project.
+python3 $D/finalize_refill.py "$T/board-b20-draft.kicad_pcb" "$OUT/board-b20-draft.kicad_pcb" \
+  --project "$OUT/board-b20-draft.kicad_pro" --receipt "$OUT/refill-finalization.json"
 # Reports describe saved native copper, including post-routing cleanup and filled-plane stitches.
 run $D/dump-geom.py "$OUT/board-b20-draft.kicad_pcb" > "$T/final-geom.json"
 run $D/read-routed-copper.py "$OUT/board-b20-draft.kicad_pcb" "$T/routes.json" "$T/final-geom.json" "$T/final-routes.json" "$OUT/report-input-receipt.json"

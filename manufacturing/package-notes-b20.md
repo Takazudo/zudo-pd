@@ -75,3 +75,11 @@ Links below resolve inside an export of this pair. Repository documents are name
   `populated-stack.step` is a local-only file.
 - **[`step-datum-verification.json`](step-datum-verification.json):** a model-datum and orientation screen. It is not a
   physical fit proof.
+
+## Refill reproducibility
+
+The B20 generator finalizes through two fresh pinned KiCad CLI refills and requires
+byte-identical outputs, unchanged non-fill geometry and item identities, and the
+reviewed DRC disposition. The initial filled-plane delta is retained in repository
+`boards/board-b20-draft/refill-replay-adoption.json`. The exporter still requires
+exact source/staged geometry equality; this is not an electrical acceptance gate.

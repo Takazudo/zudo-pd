@@ -1,19 +1,19 @@
 {
-  "checked_utc": "2026-11-09T20:20:37.987239+00:00",
+  "checked_utc": "2026-11-09T22:03:49.101921+00:00",
   "scope": "Actual final native Mac pair assembly; nominal CAD only",
   "status": "PASS",
-  "execution_base_revision": "b552f6aa26cd397e42fa27b4c9b85605afde9484",
+  "execution_base_revision": "37767f59c72848e834e8ccaa162a73c5457ecd71",
   "working_tree_dirty": true,
   "pcb_sha256": {
-    "board-b20-draft": "7dd3cc43abd65e09f4fd4714885f60bbda6f2003bf71043ede39d1870a9ba784",
+    "board-b20-draft": "09cd97abf5f793d881ee30fc62c7a7b934b1c5973a37637b37c62d15224507ce",
     "board-p": "56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348"
   },
-  "assembly_verification_sha256": "648a41c0ae9f5570906a00edeaacfc22d05f259809a20a9735bebef3ee1d69fa",
+  "assembly_verification_sha256": "5f83fa708951c3c2af627633c58269203daa4079167cc3c9940ad4eef5d5244f",
   "artifact_count_verified": 63,
-  "guard_result": "heavy-guard: verdict=PASS exit=0 secs=550 min_mem_mb=6892 reason=-",
-  "command": "TMPDIR=/private/tmp bash \"$HOME/.codex/scripts/heavy-guard.sh\" --max-run 0 -- python3 tmp/mac-kicad-tools/native-lock.py uv run --python 3.12 --with cadquery==2.6.1 --with vtk==9.3.1 python tmp/run-c12-pair-reacceptance.py",
+  "guard_result": "heavy-guard: verdict=PASS exit=0 secs=446 min_mem_mb=6869 reason=-",
+  "command": "TMPDIR=/private/tmp bash \"$HOME/.codex/scripts/heavy-guard.sh\" --max-run 0 -- python3 tmp/mac-kicad-tools/native-lock.py uv run --python 3.12 --with cadquery==2.6.1 --with vtk==9.3.1 python tmp/run-refill-pair-reacceptance.py",
   "tools": "Official isolated native Mac KiCad10.0.6 CLI; pinned Docker pcbnew; Python3.12/CadQuery2.6.1/VTK9.3.1",
-  "visual_review": "Both fresh 1800x1400 native renders opened after reacceptance: expected stacked pair, probe row, rail labels and nominal component arrangement present. Render file hashes differ from the earlier run; no visual clearance claim replaces the source-bound collision screens. Not physical fit proof.",
+  "visual_review": "Both fresh 1800x1400 native renders opened after B20 refill finalization: expected stacked pair, probe row, front and back rail labels and nominal component arrangement present. Visual review does not replace source-bound collision screens or physical fit proof.",
   "large_derivatives": "populated-stack.step and board-p-stacked.step remain local and ignored; old canonical preview preserved in ignored archive",
   "wrapper_sha256": {
     "tmp/kicad-macos-10.0.6/kicad-cli": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
@@ -22,24 +22,24 @@
   },
   "reacceptance_chain": {
     "status": "PASS",
-    "finished_utc": "2026-11-09T20:20:06.893836+00:00",
-    "duration_seconds": 548.749,
-    "execution_base_revision": "b552f6aa26cd397e42fa27b4c9b85605afde9484",
+    "finished_utc": "2026-11-09T22:03:32.632581+00:00",
+    "duration_seconds": 445.611,
+    "execution_base_revision": "37767f59c72848e834e8ccaa162a73c5457ecd71",
     "working_tree_dirty": true,
-    "scope": "Fresh datum and native assembly after generator-produced C12 comment-only correction",
-    "datum_sha256": "9562b239660c5fc8d3188c640d53e941afdd9093e505de9998e736590436efd6",
-    "assembly_verification_sha256": "648a41c0ae9f5570906a00edeaacfc22d05f259809a20a9735bebef3ee1d69fa",
+    "scope": "Fresh datum and native assembly after reviewed B20 pinned refill finalization",
+    "datum_sha256": "9a0b25e8e07015e355feb70178afe0ad09d983f6d55c23e4b6b2a41d33462b40",
+    "assembly_verification_sha256": "5f83fa708951c3c2af627633c58269203daa4079167cc3c9940ad4eef5d5244f",
     "artifact_count": 63,
     "pcb_sha256": {
-      "board-b20-draft": "7dd3cc43abd65e09f4fd4714885f60bbda6f2003bf71043ede39d1870a9ba784",
+      "board-b20-draft": "09cd97abf5f793d881ee30fc62c7a7b934b1c5973a37637b37c62d15224507ce",
       "board-p": "56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348"
     },
-    "driver_sha256": "5830265a0791ede770e91b58f23b0ebdbae284c5c94cb252d92e20f605120e1b"
+    "driver_sha256": "80fcb02028690dd4507d91824606515669b451e70e10a94f47080decbd7013ed"
   },
-  "previous_receipt_sha256": "947bc57edf2ef21c9a54b3b31cec90302ecbae5146932a9048253f6f839cfb82",
-  "model_comment_correction": "Only C12 model comment changes; fresh datum/assembly executed, previous proof retained separately.",
+  "previous_receipt_sha256": "5ff236fe7fa1cefc85c08a87f6ba8cee87618e4aa5c807ae8430b1230090777d",
   "render_hashes_equal_previous_reviewed": {
     "top": false,
     "bottom": false
-  }
+  },
+  "refill_finalization": "Reviewed B20 two-refill finalization; fresh datum/assembly executed, previous proof retained separately."
 }
