@@ -1011,6 +1011,8 @@ phase 12 behavioural elements (PA): the BSS138 switches, the body diodes and the
 
 ## 5. Simulation (ngspice in the pinned KiCad 10.0.6 image)
 
+**2026-11-10 JST reproduction:** the four vendor archives below were recovered with matching hashes, and all 14 phase33 startup/re-entry cases completed with actual waveforms. The [new execution receipt and disposition](sim/board-b20-phase33/execution-20261110.md) uses the strengthened 1.5 V analyses, retains solver variants and model limits, and supersedes historical PASS wording as current acceptance evidence. Electrical pre-order holds remain; the dated runs below are preserved.
+
 All runs use `ngspice -b` from `kicad/kicad@sha256:18693567…dd3ec`, with `set ngbehavior=psa`.
 The vendor models were downloaded from TI's model pages on 2026-10-31 and are not retained.
 

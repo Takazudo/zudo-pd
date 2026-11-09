@@ -17,6 +17,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from load_cases import CASES, CONTRACT_CASES, VIN, case_currents, case_record  # noqa: E402
+from report_provenance import calculation_binding, digest
 
 CU_MM = {'F': 0.035, 'B': 0.035, 'In2': 0.0175}   # JLC7628: 1 oz outer, 0.5 oz inner (2 oz outer UNKNOWN)
 K = {'F': 0.048, 'B': 0.048, 'In2': 0.024}
@@ -193,7 +194,8 @@ def main():
                'contract_cases': list(CONTRACT_CASES), 'worst_rise_k': worst,
                'model_limit': ('IPC-2221 steady-state rise of the narrowest segment; desk only. No case is a transient '
                                'or measured temperature.'),
-               'paths': rows, 'stage_cells': cells},
+               'paths': rows, 'stage_cells': cells,
+               'input_binding': calculation_binding(__file__, {'geom': digest(sys.argv[1]), 'routes': digest(sys.argv[2])})},
               open(sys.argv[3], 'w'), indent=1)
     for c in cells:
         print(c['stage'], c['branch'], c['net'], c['from'], c['to'], c.get('narrowest_mm'), c.get('narrow_length_mm'), c.get('rise_k', c.get('status')))

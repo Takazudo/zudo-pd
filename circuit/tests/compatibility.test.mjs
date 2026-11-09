@@ -51,7 +51,7 @@ test('installed runtime preserves closed evidence identities, counts and canonic
   assert.deepEqual(model.corpus, baseline.corpus);
   for (const [label, entries, key] of [['records',index.records,'record'],['sources',index.records.flatMap(r=>r.sources),'source_id'],['facts',index.records.flatMap(r=>r.facts),'fact_id'],['coverage',index.records.flatMap(r=>r.coverage),'coverage_id'],['pins',index.records.flatMap(r=>r.pinMaps),'pin_map_id'],['integration',index.integrationRules,'rule_id']]) assert.deepEqual(entries.map(e=>label==='records'?e.record.record_id:e[key]).sort(), baseline.ids[label]);
   for (const [path, hash] of Object.entries(baseline.files)) assert.equal(createHash('sha256').update(await readFile(join(root,path))).digest('hex'),hash,path);
-  assert.equal(model.packagePreviews.length,46);
+  assert.equal(model.packagePreviews.length,47);
   const inv=await json(join(root,inventoryPath));
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,431);
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>p.dnp).length,12);

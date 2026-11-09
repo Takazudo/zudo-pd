@@ -347,12 +347,12 @@
     "B",
     "F"
    ],
-   "narrow_length_mm": 18.0,
+   "narrow_length_mm": 17.63,
    "path_layers": [
     "B",
     "F"
    ],
-   "path_length_mm": 18.0,
+   "path_length_mm": 17.63,
    "via_transitions": [
     {
      "at": [
@@ -583,11 +583,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 5.43,
+   "narrow_length_mm": 5.64,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 5.43,
+   "path_length_mm": 5.64,
    "rise_k": {
     "continuous": 4.6,
     "transient_20ms": 6.7,
@@ -610,11 +610,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 3.21,
+   "narrow_length_mm": 3.49,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 3.21,
+   "path_length_mm": 3.49,
    "rise_k": {
     "continuous": 0.2,
     "transient_20ms": 0.4,
@@ -787,12 +787,12 @@
     "B",
     "F"
    ],
-   "narrow_length_mm": 96.03,
+   "narrow_length_mm": 96.32,
    "path_layers": [
     "B",
     "F"
    ],
-   "path_length_mm": 96.03,
+   "path_length_mm": 96.32,
    "via_transitions": [
     {
      "at": [
@@ -1106,11 +1106,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 2.5,
+   "narrow_length_mm": 1.87,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 2.5,
+   "path_length_mm": 1.87,
    "rise_k": {
     "continuous": 2.5,
     "transient_20ms": 3.5,
@@ -1330,11 +1330,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 5.92,
+   "narrow_length_mm": 5.38,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 5.92,
+   "path_length_mm": 5.38,
    "rise_k": {
     "continuous": 6.9,
     "transient_20ms": 10.1,
@@ -1386,11 +1386,11 @@
    "layers": [
     "F"
    ],
-   "narrow_length_mm": 2.6,
+   "narrow_length_mm": 1.96,
    "path_layers": [
     "F"
    ],
-   "path_length_mm": 2.6,
+   "path_length_mm": 1.96,
    "rise_k": {
     "continuous": 6.9,
     "transient_20ms": 10.1,
@@ -1454,5 +1454,21 @@
     "legacy_pd15_budget": 2.2
    }
   }
- ]
+ ],
+ "input_binding": {
+  "schema": 1,
+  "producer": "scripts/pcb/board-b20/current-check.py",
+  "producer_sha256": "71db6143e4c064af6610fe2844d13227a77c11a2de508bcb18f162bdc7b13c1d",
+  "dependencies_sha256": {
+   "scripts/pcb/board-b20/load_cases.py": "c8496508919dc09b8a05283f17d0589f18eee843bc0a8ae1eab8578ba22d6e52",
+   "scripts/pcb/board-b20/report_provenance.py": "75d12621c282eba42a0a1a6b707c0cdfd969d5b7afec4903d121c3135b4a50e4",
+   "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af",
+   "scripts/schgen/sexp.py": "ba08b45d7c9bab16242687f0826bd252207ce5973a326202cbfd7063e940c920"
+  },
+  "inputs_sha256": {
+   "geom": "42a95a4a89cee9caeca267150c93521654dd3cb87c9ecf1b111478de37389e6c",
+   "routes": "ebada825c82b2d868509f9d01b28efdc8527a3f2d39a349ba4b1b85f8f9ccaa5"
+  },
+  "settings": {}
+ }
 }

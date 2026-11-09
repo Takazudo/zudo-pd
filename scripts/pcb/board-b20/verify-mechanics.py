@@ -6,8 +6,9 @@ usage: kicad-python verify-mechanics.py [pcb] [--output report.json]
 B20 keeps the Board B outline, PD stack, corner supports, terminal blocks and bus sockets (boards/board-b/mechanical.json)
 but carries its own nets. This mirrors scripts/pcb/verify-board-b.py and the shared parts of
 scripts/pcb/verify-compact-mechanics.py with the B20 net names, without changing either Board B verifier (their hashes
-bind the 15 V package's stack proof). The front/back rail labels follow the reviewed Board B contract and are checked
-against the J6/J7 pin nets (PD20). The Board B top-edge pogo row (P1, TP3-TP5) keeps the contract positions with the
+bind the 15 V package's stack proof). Rail label placement, orientation, mirroring and pin mapping follow the reviewed Board B contract.
+B20 overrides only front typography to 1.0 mm height and 0.15 mm stroke; the shared Board B/P15
+contract and rear typography remain unchanged. Labels are checked against the J6/J7 pin nets (PD20). The Board B top-edge pogo row (P1, TP3-TP5) keeps the contract positions with the
 B20 nets of the 2026-11-04 owner decision: no ATT (P1.1 and P1.4 open), PDOK, the shared GND P1.3 and the three *_PRE nodes.
 """
 import argparse
@@ -194,12 +195,14 @@ def main():
                 label = found[0]
                 reviewed = contract['back_labels'][text] if side == 'back' else None
                 target = reviewed['center_mm'] if reviewed else [contract['front_x_mm'], xy(pad)[1]]
-                size = reviewed['size_mm'] if reviewed else contract['front_size_mm']
+                size = reviewed['size_mm'] if reviewed else 1.0  # B20-local supplier legend minimum
                 require(near(xy(label), target, .01), f'{side} {text}: position differs from the contract')
                 require(label.IsMirrored() == contract[side + '_mirrored']
                         and abs(label.GetTextAngle().AsDegrees() % 360 - contract[side + '_rotation_deg']) < .001
                         and all(abs(p.ToMM(v) - size) < .001 for v in (label.GetTextSize().x, label.GetTextSize().y)),
                         f'{side} {text}: wrong mirror, orientation or size')
+                if not reviewed:
+                    require(abs(p.ToMM(label.GetTextThickness())-.15)<.001, 'front rail stroke changed')
                 if reviewed:
                     require(label.IsBold() == reviewed['bold']
                             and abs(p.ToMM(label.GetTextThickness()) - reviewed['thickness_mm']) < .001,
@@ -238,7 +241,22 @@ def main():
         require(rows[2]['pad'] == row['shared_ground'], 'shared probe ground moved')
         labels = sorted((t for t in fps['P1'].GraphicalItems() if isinstance(t, p.PCB_TEXT) and t.GetLayer() == p.F_SilkS),
                         key=lambda t: xy(t)[0])
-        require([t.GetText() for t in labels] == ['NC', 'PDOK', 'GND', 'NC'], 'P1 silk labels differ from the B20 pin nets')
+        require([t.GetText() for t in labels] == ['1', '2', '3', '4'], 'P1 contact ordinals changed')
+        for i, text in enumerate(labels):
+            require(near(xy(text), [rows[i]['center_mm'][0]+1.27, rows[i]['center_mm'][1]], .01)
+                    and all(abs(p.ToMM(v)-1)<.001 for v in (text.GetTextSize().x,text.GetTextSize().y))
+                    and abs(p.ToMM(text.GetTextThickness())-.15)<.001
+                    and not text.IsMirrored() and abs(text.GetTextAngle().AsDegrees())<.001,
+                    'P1 ordinal location, size or orientation changed')
+        legends = [text for text in board.GetDrawings() if isinstance(text,p.PCB_TEXT)
+                   and text.GetText() == 'P1 LEFT>RIGHT: NC PDOK GND NC' and text.GetLayer()==p.F_SilkS]
+        require(len(legends)==1, 'P1 must have one explicit left-to-right role legend')
+        legend=legends[0]
+        require(near(xy(legend), [92.2,1.2], .01)
+                and all(abs(p.ToMM(v)-1)<.001 for v in (legend.GetTextSize().x,legend.GetTextSize().y))
+                and abs(p.ToMM(legend.GetTextThickness())-.15)<.001
+                and not legend.IsMirrored() and abs(legend.GetTextAngle().AsDegrees())<.001,
+                'P1 role legend location, size or orientation changed')
         return rows
 
     result = {'board': 'board-b20-draft', 'size_mm': [WIDTH, HEIGHT], 'component_count': len(spec.COMPONENTS),

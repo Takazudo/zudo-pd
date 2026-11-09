@@ -1,0 +1,35 @@
+#VRML V2.0 utf8
+# PROJECT VISUALIZATION ONLY: conservative maximum package envelope.
+# Holy Stone HCN catalog SHA256 cc8cdf6caa98e48459e1bb3f40b54c2489dfdd40d8e767ad45f2bb21726728bc: PDF page3 1206 L3.20+/-0.30 W1.60+/-0.20 Tmax1.80; PDF page6 exact C1206N473J050T thickness E1.6+/-0.2 mm; not manufacturer CAD or exact terminal geometry.
+# Extent: 3.5 x 1.8 x 1.8 mm; centered in XY; seating plane Z=0.
+Shape {
+  appearance Appearance { material Material { diffuseColor 0.24 0.24 0.24 } }
+  geometry IndexedFaceSet {
+    ccw TRUE
+    solid TRUE
+    coord Coordinate { point [
+      -0.688976377953 -0.354330708661 0,
+      0.688976377953 -0.354330708661 0,
+      0.688976377953 0.354330708661 0,
+      -0.688976377953 0.354330708661 0,
+      -0.688976377953 -0.354330708661 0.708661417323,
+      0.688976377953 -0.354330708661 0.708661417323,
+      0.688976377953 0.354330708661 0.708661417323,
+      -0.688976377953 0.354330708661 0.708661417323
+    ] }
+    coordIndex [
+      0,3,2,-1,
+      0,2,1,-1,
+      4,5,6,-1,
+      4,6,7,-1,
+      0,1,5,-1,
+      0,5,4,-1,
+      1,2,6,-1,
+      1,6,5,-1,
+      2,3,7,-1,
+      2,7,6,-1,
+      3,0,4,-1,
+      3,4,7,-1
+    ]
+  }
+}

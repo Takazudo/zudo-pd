@@ -1191,7 +1191,7 @@
       ],
       "reviewed_wrl_sha256": "eda81dbe8b758cdde3fff5a45914ba256cef56fe601dd7d6393df61d6551299a",
       "original_step_sha256": "9c56ae08b3bf9607ddb556182c5aa1448bcfc003cd8ee7789d4700c4ccdb3097",
-      "review_status": "PENDING INDEPENDENT REVIEW: added in PD20 when Board P r3 became the exported board-p. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The implementer ran only the verifier surface screen (footprints/kicad/step-datum-verification.json). The box carries no pin-1 or cathode cue. Visualization only; not physical fit."
+      "review_status": "Independent review 2026-11-10: WRL/STEP hashes and pair surfaces match; centered XY, seating Z=0, footprint model offset/rotation zero and scale one. HOLD: body-only box omits gull-wing leads and allowed length flash. Drawing shows 6.2-6.6 mm over-lead span (marked TYP), versus 4.5 mm model X; 6.6 mm body Y excludes up to 0.15 mm flash per side (6.9 mm overall allowance). Full active-board datum/assembly verification remains separate; not physical fit. See circuit/cad-receipts/p-r3-envelope-review-20261110.json."
     },
     {
       "wrl": "SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45.wrl",
@@ -1200,7 +1200,7 @@
       ],
       "reviewed_wrl_sha256": "f32bdf2f837617896f338422c7ace5d259f5266704f40c00d58c3183687fb137",
       "original_step_sha256": "a63a0a7c6f4189ec335a3ba1ca74941ca592ebc6e79d16964983ab97dc1c230b",
-      "review_status": "PENDING INDEPENDENT REVIEW: added in PD20 when Board P r3 became the exported board-p. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The implementer ran only the verifier surface screen (footprints/kicad/step-datum-verification.json). The box carries no pin-1 or cathode cue. Visualization only; not physical fit."
+      "review_status": "Independent review 2026-11-10: WRL/STEP hashes and pair surfaces match; centered XY, seating Z=0, footprint model offset/rotation zero and scale one. HOLD: body-only box omits gull-wing leads and permitted body flash. Footprint rotates the drawing axes: model X3.05 is body length, Y1.75 is body width. Over-lead Y reaches 3.0 mm; body flash/protrusion allowance is 0.25 mm per side, allowing X3.55 mm. Full active-board datum/assembly verification remains separate; not physical fit. See circuit/cad-receipts/p-r3-envelope-review-20261110.json."
     },
     {
       "wrl": "WSON-6_DRV_MaxEnvelope_L2.1-W2.1-H0.8.wrl",
@@ -1209,7 +1209,16 @@
       ],
       "reviewed_wrl_sha256": "5354dd2dd7627ab6186787ec5dc9b77d1bead85c286a0e6aee6cdc236ad8cfa9",
       "original_step_sha256": "f572f17f577c9366ca841d56e68e5e2facc34636b88909e5a8de3f6484a2b982",
-      "review_status": "PENDING INDEPENDENT REVIEW: added in PD20 when Board P r3 became the exported board-p. Generated maximum-envelope box (scripts/pcb/generate-package-envelopes.py); no translation is prescribed. The implementer ran only the verifier surface screen (footprints/kicad/step-datum-verification.json). The box carries no pin-1 or cathode cue. Visualization only; not physical fit."
+      "review_status": "Independent review 2026-11-10: WRL/STEP hashes and pair surfaces match; centered XY, seating Z=0, footprint model offset/rotation zero and scale one. REVIEWED: 2.1 x 2.1 x 0.8 mm box bounds the stated no-lead package outline. Terminals/exposed pad are within that outline; optional side-wall detail is recessed. This is a derived enclosing box, not exact terminal or manufacturer CAD geometry. Full active-board datum/assembly verification remains separate; not physical fit. See circuit/cad-receipts/p-r3-envelope-review-20261110.json."
+    },
+    {
+      "wrl": "C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8.wrl",
+      "uses_at_review": [
+        "board-b20-draft/C12"
+      ],
+      "reviewed_wrl_sha256": "2eac23046f0d0526123bc5b41eb568e36dd4fd84d0eb58e04ee9a35164c21fb4",
+      "original_step_sha256": "f5ff5bfb4466a59084997bf315f414fcf993d15111f8b74f8a6305115efd4573",
+      "review_status": "2026-11-09 independent parent source/geometry review: HCN primary dimensions and exact MPN row inspected; STEP Cartesian extrema and WRL vertex bounds independently match 3.5 x 1.8 x 1.8 mm, seating Z=0. No translation. Fresh full datum surface screen and assembled clearance remain required; derived box, not manufacturer CAD or physical fit."
     }
   ]
 }

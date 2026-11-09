@@ -17,7 +17,7 @@ COMPONENTS = {
     'C9': ('GRM2165C1H273JA01D', '27nF C0G', 'C3882413', 'zudo-pd:C0805', False, (533.4, 55.88)),
     'C10': ('CL10C151JB8NNNC', '150pF C0G', 'C37298', 'zudo-pd:C0603', False, (584.2, 55.88)),
     'C11': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603', False, (127.0, 86.36)),
-    'C12': ('C1206N473J050T', '47nF C0G', 'C5451690', 'zudo-pd:C1206', False, (381.0, 86.36)),
+    'C12': ('C1206N473J050T', '47nF C0G', 'C5451690', 'zudo-pd:C1206_C5451690_HCN', False, (381.0, 86.36)),
     'C13': ('CL10C151JB8NNNC', '150pF C0G', 'C37298', 'zudo-pd:C0603', False, (431.8, 86.36)),
     'C14': ('GRM32ER71H106KA12L', '10uF 50V X7R', 'C77102', 'zudo-pd:C1210', False, (1092.2, 86.36)),
     'C15': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603', False, (25.4, 116.84)),

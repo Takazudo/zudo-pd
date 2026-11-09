@@ -13,11 +13,13 @@ import heapq, json, math, os, random, sys
 
 import numpy as np
 
-geom = json.load(open(sys.argv[1]))
+with open(sys.argv[1]) as source:
+    geom = json.load(source)
 # pcbnew lists footprints in load order, which differs between a fresh build and a saved board; route from a canonical order
 geom['pads'].sort(key=lambda p: (p['ref'], p['num'], p['center']))
 geom['rule_areas'].sort(key=lambda a: (a['layer'], a['points']))
-POUR_DOC = json.load(open(sys.argv[2]))
+with open(sys.argv[2]) as source:
+    POUR_DOC = json.load(source)
 pours = [p for p in POUR_DOC['pours'] if p['net'] != 'GND']
 FIXED_TRACKS = POUR_DOC.get('tracks', [])
 FIXED_VIAS = POUR_DOC.get('vias', [])
@@ -145,7 +147,7 @@ def via_ok_static(net, rippable):
         if p['drill'] and p['net'] != net:
             mark_seg(bad, p['center'], p['center'], HOLE_CL + VIA_DRILL / 2 + p['drill'] / 2)
     for v in geom['vias'] + routed_vias:
-        mark_seg(bad, v['at'], v['at'], HOLE_CL + VIA_DRILL)
+        mark_seg(bad, v['at'], v['at'], HOLE_CL + VIA_DRILL / 2 + v.get('drill', VIA_DRILL) / 2)
     return m & ~bad
 
 
@@ -163,7 +165,7 @@ def via_ok(net):
         if p['drill'] and p['net'] != net:
             mark_seg(bad, p['center'], p['center'], HOLE_CL + VIA_DRILL / 2 + p['drill'] / 2)
     for v in geom['vias'] + routed_vias:
-        mark_seg(bad, v['at'], v['at'], HOLE_CL + VIA_DRILL)
+        mark_seg(bad, v['at'], v['at'], HOLE_CL + VIA_DRILL / 2 + v.get('drill', VIA_DRILL) / 2)
     return m & ~bad
 
 
@@ -351,7 +353,9 @@ def route_net(net, soft_mode=False, frozen=()):
         p = pending.pop(0)
         src = {l: pad_cells(p) if l in p['layers'] else np.zeros((NY, NX), bool) for l in LAYERS}
         for g in [g for g in side if any((g[l] & src[l]).any() for l in LAYERS)]:
-            side.remove(g)
+            # Groups contain numpy masks: list.remove compares arrays by value and
+            # raises when the contacted group is not first. Remove this exact object.
+            side[:] = [other for other in side if other is not g]
             for l in LAYERS:
                 src[l] |= g[l]
             for q in list(pending):

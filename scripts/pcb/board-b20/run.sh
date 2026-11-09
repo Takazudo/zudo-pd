@@ -19,8 +19,11 @@ run $D/build-draft.py "$T/placed.kicad_pcb"
 run $D/dump-geom.py "$T/placed.kicad_pcb" > "$T/geom.json"
 uv run --python 3.12 --with numpy --with scipy python $D/route.py "$T/geom.json" "$T/routes.json"
 run $D/apply-routes.py "$T/placed.kicad_pcb" "$T/routes.json" "$OUT/board-b20-draft.kicad_pcb"
-python3 $D/loop-check.py "$T/geom.json" "$T/routes.json" "$OUT/loop-check.json" > /dev/null
-python3 $D/current-check.py "$T/geom.json" "$T/routes.json" "$OUT/current-check.json" > /dev/null
+# Reports describe saved native copper, including post-routing cleanup and filled-plane stitches.
+run $D/dump-geom.py "$OUT/board-b20-draft.kicad_pcb" > "$T/final-geom.json"
+run $D/read-routed-copper.py "$OUT/board-b20-draft.kicad_pcb" "$T/routes.json" "$T/final-geom.json" "$T/final-routes.json" "$OUT/report-input-receipt.json"
+python3 $D/loop-check.py "$T/final-geom.json" "$T/final-routes.json" "$OUT/loop-check.json" > /dev/null
+python3 $D/current-check.py "$T/final-geom.json" "$T/final-routes.json" "$OUT/current-check.json" > /dev/null
 python3 $D/thermal-check.py "$OUT/thermal-check.json"
-python3 -c "import json,sys; r=json.load(open(sys.argv[1])); json.dump({'tracks': len(r['tracks']), 'vias': len(r['vias']), 'unrouted': r['unrouted'], 'notes': r['notes']}, open(sys.argv[2], 'w'), indent=1)" "$T/routes.json" "$OUT/routing-report.json"
+python3 -c "import json,sys; r=json.load(open(sys.argv[1])); n=json.load(open(sys.argv[2])); json.dump({'tracks': len(n['tracks']), 'vias': len(n['vias']), 'counts_source': 'saved native PCB after cleanup and zone stitching', 'router_tracks': len(r['tracks']), 'router_vias': len(r['vias']), 'unrouted': r['unrouted'], 'notes': r['notes']}, open(sys.argv[3], 'w'), indent=1)" "$T/routes.json" "$T/final-routes.json" "$OUT/routing-report.json"
 echo "B20 draft rebuilt in $OUT"

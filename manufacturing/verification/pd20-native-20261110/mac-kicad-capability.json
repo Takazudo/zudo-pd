@@ -1,0 +1,34 @@
+{
+  "scope": "Synthetic native capability smoke only, not product CAD acceptance",
+  "python_version": "3.9.13 (v3.9.13:6de2ca5339, May 17 2022, 11:37:23) \n[Clang 13.0.0 (clang-1300.0.29.30)]",
+  "machine": "arm64",
+  "kicad_version": "10.0.6",
+  "wx_version": "4.2.2a1 osx-cocoa (phoenix) wxWidgets 3.2.8",
+  "paths": {
+    "python": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3",
+    "pcbnew": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/pcbnew.py",
+    "wx": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/wx/__init__.py",
+    "pcbnew_native": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so"
+  },
+  "sha256": {
+    "python": "646a13dfcac3c9d204d26a70842bc8a26deb7ea0c9fa6b15c2d9c6fbf1f19b63",
+    "pcbnew": "2b35ffe41666c7a3194cd7fb9a818d03be5257066c100e87d1be670ec5ac2f27",
+    "wx": "9c6be1649f1241692790169dcc18f29bf88bc873bca354834d257576869adcdf",
+    "pcbnew_native": "ad3e6245652e0524a86eb0a834e5360fca2e270c8379beb6dd87d8ce652ce41c"
+  },
+  "cli_sha256": "bc9966f4a3c24db726aaac04856debf5dae8c2cc43eee6a482182c0f5df14aa8",
+  "wrapper_sha256": {
+    "kicad-cli": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+    "kicad-python": "a7c0eee2995d798a276422e744f7395e69d93fd25dc7de863452c154537d39e4"
+  },
+  "render": {
+    "status": "PASS",
+    "kind": "synthetic bare-board smoke",
+    "width": 320,
+    "height": 240,
+    "quality": "high",
+    "image_sha256": "a47555c661d7b886c2371ee03d1771280cf5377dc03baf41b1768571a000946a",
+    "guard_log_sha256": "e76f774cf287ee41d115d84667bd64af0d527286fb75e345487bf3d1e4259e9f"
+  },
+  "initial_failure": "SIGSEGV in PCM library traversal with only CONFIG isolation; retained smoke.log. Retry also isolated official KICAD_DOCUMENTS_HOME and KICAD_CACHE_HOME; PASS. No user configuration changed."
+}

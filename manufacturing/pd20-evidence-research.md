@@ -197,3 +197,36 @@ the document proves actual current let-through or assembled temperature.
 The earlier UNI-ROYAL repetitive-pulse gap is unchanged. Rated-voltage load cycling and a single 5 s overload test
 supply no guaranteed repetitive endurance for the higher-voltage discharge waveform. No supplier contact,
 substitution, order, programming or physical result is implied by these acquisitions.
+
+### Calculation applicability of the new exact-part evidence
+
+C12 is the inverter's **CCCP compensation capacitor**, between C_CZ and M12_RAW, in series with RCCP 8.2 kΩ ±1%
+from C_COMP (`board_b20_spec.py`). Its ±5% initial capacitance range is **44.65–49.35 nF**. The simple RC-zero
+screen `1/(2πRC)` gives 412.960 Hz nominal and 389.402–439.086 Hz using both resistor and capacitor initial
+extremes. This is an arithmetic sensitivity screen, not closed-loop stability or an installed capacitance minimum.
+Temperature, the full compensation network and the converter/load operating point still matter.
+
+The current phase33 tracking decks model converter outputs as stiff sources and do not contain CCCP/C12.
+They therefore cannot qualify this compensation tolerance. Historical phase7 AC decks retain fixed 47 nF and
+33 nF comparison runs; their recorded nominal-47 nF phase margins of 58.3–93.4° do not test the 44.65/49.35 nF
+endpoints or qualify the final layout. A source-bound converter-loop tolerance sweep remains required before
+using those historical numbers as final compensation evidence. No new AC simulation was performed here.
+
+The current limiter desk calculation already uses the shunt's 10 mΩ, ±0.1% and 15 ppm/°C values. Its older
+`G-U (distributor listing)` label predates the newly acquired primary specification. It applies a ±20 °C span
+around a 25 °C reference, while the primary TCR table references 20 °C: for the same assumed 5–45 °C interval,
+the maximum difference from the manufacturer reference is 25 °C. A conservative arithmetic check gives
+`Rmax = 0.010 × (1 + 0.001 + 15e-6 × 25) = 0.01001375 Ω`; at the contractual +12 V maximum of 2.1 A,
+`I²R = 0.0441606 W` (−12 V at 2.0 A: 0.040055 W). These values are below the retained 1 W working bound,
+subject to actual temperature/derating and mounting. They do not establish the actual peak fault current,
+let-through, pulse energy or shunt temperature. The calculator correction below reconciles the reference-temperature convention; wider operating conditions
+and physical qualification remain open. No current ceiling is lowered or accepted here.
+
+
+The owner calculator now uses the manufacturer's 20 °C reference while retaining the same 5–45 °C PA interval.
+Fresh arithmetic gives +12 V trip 2.04159–2.08485 A (previously 2.04175–2.08470 A) and −12 V
+1.94216–1.99544 A (previously 1.94231–1.99529 A). The existing start-floor comparisons remain numerically PASS;
++5 V is unchanged. Only `limiter` and dependent `limiter_startup` output sections changed. The illustrative
+series-inductance screen at an assumed 2 µs switch-off becomes 1.624 mH / 5.351 mH (+12/−12 V), and stays OPEN:
+the delay is not a guaranteed fault bound. No excess-current charge/time budget is adopted. These trip calculations
+remain distinct from the required maximum delivered current and from physical acceptance.

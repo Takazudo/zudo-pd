@@ -45,3 +45,86 @@ overall efficiency at 20 V. The B20 calculator does not compute this figure. The
   rebuild and native DRC. This review does not edit the PCB.
 - **Thermal simulation: NOT RUN.** No field solver is available. The figures above are datasheet θJA arithmetic.
 - **Surge, inrush and fault waveforms: NOT RUN** (bench T3, T7 and T8).
+
+## 2026-11-10 JST corrective implementation disposition
+
+This follow-up preserves the November 8 findings above. It records implementation
+and executed native evidence; it does not turn the desk review into physical
+qualification or supplier acceptance. First corrective PCB SHA-256:
+`7b44efc3fa93df28f14fcef62123642a659e4246bf2bad7011f0799d3681cef6`.
+Source/tool/report hashes are in `native-drc-receipt.json` and
+`layout-correction-check.json`; fresh-builder replay evidence is retained in
+`native-full-builder-replay-20261110.json`.
+
+| Finding | Current disposition |
+| --- | --- |
+| R1 | Four 0.50/0.20 mm thermal vias inside the actual rectangular U2 exposed pad, connected through B.Cu GND. The contacted B polygons total about 598.263 mm² and join through the common F.Cu exposed pad. Native clearance/connectivity passed. Stencil/via-process acceptance and installed thermal resistance remain open. |
+| R2 | Four drain vias and 22.640 mm² of connected B.Cu VBUS_OUT copper added for Q1. The 5 A contract is unchanged. This is geometry improvement, not the datasheet's 1 in²/2 oz thermal reference or a measured current rating. |
+| R3 | Three drain vias and 3.137 mm² of connected B.Cu EF_IN copper added for Q3. The modest area is reported explicitly; no installed thermal rating is inferred. |
+| R4 | C30 is at (19.40, 24.25), F.Cu, 180°; C34 at (18.15, 24.75), B.Cu, 0°. Native pad distances are 2.866/1.602 mm. Planar supply paths are 3.237/2.382 mm with 0/1 via transitions; direct cap-to-return-via tracks are 0.900/0.986 mm. Ordinary via-opening separation is at least 0.203 mm. C30's 3.0 mm proximity target is an implementation constraint, not a manufacturer limit; actual paths and returns are separately bounded. |
+| R5 | Unchanged. Turn-off/undershoot behavior at U2 OUT still needs the T7 physical sheet; NOT RUN. |
+| R6 | The Q1 role and TPS16630 r3 configuration facts were refreshed through their component owners on November 9. The old divider and r2-layout descriptions are superseded. Native/thermal qualification is not inferred from that evidence cleanup. |
+| R7 | Conditional desk SOA result remains conditional. T3 physical acceptance is NOT RUN. |
+| R8 | D12 is unchanged; the native pad-center distance is 0.047 mm. The earlier 3.047 report value included a 3 mm bottom-side heuristic penalty, not physical distance. The generator now reports actual native distance. |
+
+All four retained default routing seeds (12/14/16/20) closed their signal routes;
+seed 12 was selected. Two fresh placement/spec/library builds followed by saved
+validated routes and fills, plus a third replay through the owned files, yielded
+byte-identical final PCB bytes. No heuristic placement search was used. Native
+router geometry was compared against the completed default-routing input.
+
+Pinned KiCad 10.0.6 on the selected Mac's Docker path reports zero errors and
+zero unconnected items. The only parity exceptions are mechanical MH1–MH3.
+The pre-artwork candidate had 123 warnings; two one-layer vias are functional
+annular junctions, not removable dead ends. Its functional probe artwork was
+then reviewed separately, including the inherited J3 VDD/RST mismatch with
+actual VBUS_IN/GND contacts. The final artwork disposition follows below.
+
+The conditioned 5 A I²R case is 1.325 W for U2, 0.750 W for Q1 and 0.585 W for
+Q3, with explicitly named resistance/temperature assumptions. Installed thermal
+resistance is UNKNOWN and bench thermal results are NOT RUN. Thermal via/paste
+process choice, shared Q1/Q3 land/stencil adaptations and the broader PD20
+interface/NVM/component gates remain separate pre-order obligations. No lower
+current ceiling, component substitution or unresolved-margin acceptance is
+adopted by this implementation.
+
+## November 10 final artwork follow-up
+
+The intermediate contact-artwork PCB was `76ff61f0487add2901168d5d684791a988fe03801012734057c20907dd8bd417`.
+The parent independently reviewed its native front/back artwork images before
+adoption. Front contact ordinals and indexed reverse-side role maps restore
+J3.4 VBUS/J3.5 GND and meet the retained 1.0 mm/.15 mm supplier text guidance.
+The exact 30-object artwork delta preserves all filled copper, pads, component
+geometry and electrical contracts. Native replay is byte-identical and
+idempotent; a wrong-net negative control fails. Actual final DRC/parity and
+R1–R4 geometry verification passed with current source hashes.
+
+There are 105 warnings: 2 functional one-layer annular junctions, 3 mechanical
+library-availability findings, 2 specifically reviewed J2/J3 artwork-library
+mismatches, 66 silk overlaps and 32 silk-over-copper findings. None involve
+the corrected functional artwork. The earlier 123-warning inventory above
+records the pre-artwork candidate. `layout-corrections.md` provides the current
+dispositions and exact fabrication clearances. Supplier printed-legibility,
+tenting and placement previews remain unobserved; no broad silk waiver, physical
+thermal rating or order-readiness claim follows. R5/R7 and all named electrical,
+land/stencil, via-process and physical gates remain open.
+
+## November 10 final polarity follow-up
+
+Current PCB SHA-256: `56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348`. Independent
+per-object review of the intermediate 76ff candidate identified two functional
+cue conflicts. Q3/D13 reference fields now remain on Fab rather than obscuring
+D5 pin1 and D8 cathode bars. D5 has a single printable corner cue tied to its
+actual pin1 and checked against exact body maxima and mask openings; the tiny
+duplicate is retained on comments only. The parent reviewed the native renders
+and corner crop before adoption.
+
+The owned result matches the four-object-only ignored prototype exactly. Native
+DRC reports zero errors/opens and only mechanical MH1–MH3 parity exceptions.
+The 95 warnings comprise 2 annular-junction vias, 3 mechanical library findings,
+3 reviewed artwork/library mismatches, 57 silk overlaps and 30 silk-over-copper
+findings. No corrected functional artwork has a native finding. Final geometry
+verification and deterministic/idempotent native replay passed; project sidecars
+remain byte-identical and incorrect J3/D5 net assignments are rejected. All
+electrical, thermal, supplier-process and physical holds above remain open.
+Prior 76ff evidence is preserved by the dated polarity-artwork history manifest.

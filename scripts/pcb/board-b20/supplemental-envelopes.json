@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "classification": "PROJECT drawing-based supplementary screen; not guaranteed manufacturer maxima",
+  "envelopes": [
+    {
+      "Reference": "U2",
+      "Value": "TPS16630PWPR",
+      "LCSC": "C1849461",
+      "footprint": "zudo-pd:HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT",
+      "model": "HTSSOP-20_PWP_MaxEnvelope_W4.5-L6.6-H1.2.wrl",
+      "body_mm": [
+        4.5,
+        6.6,
+        1.2
+      ],
+      "project_envelope_mm": [
+        6.6,
+        6.9,
+        1.2
+      ],
+      "model_sha256": {
+        "footprints/kicad/zudo-pd.3dshapes/HTSSOP-20_PWP_MaxEnvelope_W4.5-L6.6-H1.2.wrl": "eda81dbe8b758cdde3fff5a45914ba256cef56fe601dd7d6393df61d6551299a",
+        "footprints/kicad/zudo-pd.3dshapes/HTSSOP-20_PWP_MaxEnvelope_W4.5-L6.6-H1.2.step": "9c56ae08b3bf9607ddb556182c5aa1448bcfc003cd8ee7789d4700c4ccdb3097"
+      },
+      "basis": "HOLD: body-only box omits gull-wing leads and allowed length flash. Drawing shows 6.2-6.6 mm over-lead span (marked TYP), versus 4.5 mm model X; 6.6 mm body Y excludes up to 0.15 mm flash per side (6.9 mm overall allowance).",
+      "source": {
+        "url": "https://www.ti.com/lit/ds/symlink/tps1663.pdf",
+        "sha256": "8f91a0db2daf2da35abd335420ff9f8b4ac9a99c93dac93e215e0a75e9a866fe",
+        "physical_pdf_page_index": 40,
+        "drawing": "PWP0020T 4224598/A 10/2018"
+      }
+    },
+    {
+      "Reference": "U3",
+      "Value": "LM74700QDBVRQ1",
+      "LCSC": "C2941042",
+      "footprint": "zudo-pd:SOT-23-6_TI-DBV0006A",
+      "model": "SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45.wrl",
+      "body_mm": [
+        3.05,
+        1.75,
+        1.45
+      ],
+      "project_envelope_mm": [
+        3.55,
+        3.0,
+        1.45
+      ],
+      "model_sha256": {
+        "footprints/kicad/zudo-pd.3dshapes/SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45.wrl": "f32bdf2f837617896f338422c7ace5d259f5266704f40c00d58c3183687fb137",
+        "footprints/kicad/zudo-pd.3dshapes/SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45.step": "a63a0a7c6f4189ec335a3ba1ca74941ca592ebc6e79d16964983ab97dc1c230b"
+      },
+      "basis": "HOLD: body-only box omits gull-wing leads and permitted body flash. Footprint rotates the drawing axes: model X3.05 is body length, Y1.75 is body width. Over-lead Y reaches 3.0 mm; body flash/protrusion allowance is 0.25 mm per side, allowing X3.55 mm.",
+      "source": {
+        "url": "https://www.ti.com/lit/ds/symlink/lm74700-q1.pdf",
+        "sha256": "e16b3a8c0023201fafa5825436f5f2dd6f885b92b84e65602b3f50d741c58b6f",
+        "physical_pdf_page_index": 32,
+        "drawing": "DBV0006A 4214840/G 08/2024"
+      }
+    }
+  ],
+  "limits": [
+    "U2 over-lead span is marked TYP in the drawing; 6.6 mm is a PROJECT review dimension, not a guaranteed installed maximum.",
+    "U2 length includes 0.15 mm per-side flash allowance; U3 body length includes 0.25 mm per-side flash allowance.",
+    "The enclosing boxes deliberately overfill voids and do not model exact terminals, solder, flex or seating tolerances.",
+    "Only these two known P omissions are screened; other nominal body models are not promoted to full manufacturer CAD.",
+    "A PASS is conditioned on these PROJECT dimensions and the existing 0.005 mm3 intersection policy, not physical fit or order readiness."
+  ]
+}

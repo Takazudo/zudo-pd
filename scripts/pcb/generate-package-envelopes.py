@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate conservative maximum-envelope package models for the Board P 20 V and B20 draft parts.
 
-Run: uv run --python 3.12 --with cadquery==2.8.0 python scripts/pcb/generate-package-envelopes.py [--only NAME ...]
+Run: uv run --python 3.12 --with cadquery==2.6.1 --with vtk==9.3.1 python scripts/pcb/generate-package-envelopes.py [--only NAME ...]
 
 Each model is a plain box at the package's maximum body length, width and height, read
 from the manufacturer package outline. The box is centered on the footprint origin with
@@ -45,6 +45,8 @@ ENVELOPES = [
      'YAGEO PE1206FRF470R02L sheet: L 3.2 +/-0.25, W 1.6 +/-0.25, T 0.64 +/-0.25 mm (it also covers the UNI-ROYAL 1206 3.10 +/-0.15 x 1.55 +0.15 x 0.55 +/-0.10 mm body)'),
     ('R2512_PCSR2512_MaxEnvelope_L6.6-W3.4-H0.9', (6.6, 3.4, 0.9),
      'RESI PCSR2512 sheet V8 (distributor-hosted copy, UNSOURCED): L 6.4 +/-0.2, W 3.2 +/-0.2, T 0.8 +/-0.1 mm'),
+    ('C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8', (3.5, 1.8, 1.8),
+     'Holy Stone HCN catalog SHA256 cc8cdf6caa98e48459e1bb3f40b54c2489dfdd40d8e767ad45f2bb21726728bc: PDF page3 1206 L3.20+/-0.30 W1.60+/-0.20 Tmax1.80; PDF page6 exact C1206N473J050T thickness E1.6+/-0.2 mm'),
     ('SMC_MaxEnvelope_L8.13-W6.22-H2.5', (8.13, 6.22, 2.5),
      'Diodes DS13012 Rev. 19-2 SMC outline: E 7.75-8.13 mm over the leads, A 5.59-6.22 mm body width, J 2.00-2.50 mm height'),
 ]

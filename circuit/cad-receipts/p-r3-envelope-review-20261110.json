@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-11-10",
+  "tested_base_revision": "76f807f11d3b97a9625e8cc9dd6835e235bb99df",
+  "scope": "Independent source, dimension, orientation and model-pair review of three P-r3 envelopes only. No model/footprint/PCB geometry or frozen package changed.",
+  "tools": {
+    "cadquery": "2.6.1",
+    "vtk": "9.3.1",
+    "surface_checker": "scripts/pcb/verify-step-datums.py",
+    "surface_checker_sha256": "72ad2e7c540e3d051fc23262d6132e0208a75ce0dc36b8dc0b5a3c246d857dc8",
+    "surface_tolerance_mm": 0.001
+  },
+  "models": [
+    {
+      "board_ref": "board-p/U2",
+      "owner": ".claude/skills/component-tps16630pwpr",
+      "owner_json_sha256": {
+        "coverage.json": "760032251b72cf4a67e40d5f6c85e066b9ad192c6411368bebeedc88976d82fb",
+        "facts.json": "c36907d13e2c5210dca87ac4999fbcbe5a023ad4a35af0be25fc65069d8461d8",
+        "interactions.json": "37d4d91e11938d0a1aa3e37c711365c29bb100ad7cb7adf1854b024684d18245",
+        "manifest.json": "18e744d07fb70e837fb0a25ef77bfe929f1393b7c8485dd1b14b440fe5178a04",
+        "pin-map.json": "9a2ffc94dbc83fbe31694742567a0fb6390b3cd8ba8971ec52d1d76cd2d49191",
+        "routing.json": "a9a69ef75f4d4a590cedbe0498b27cfe9de7fe3de38e57c1ea3550763dfb2e6d",
+        "sources.json": "e2e2117abc0decf653883eb2bceef70889381716e61a1540d282bcf2bc6745e7"
+      },
+      "model": "HTSSOP-20_PWP_MaxEnvelope_W4.5-L6.6-H1.2",
+      "wrl_sha256": "eda81dbe8b758cdde3fff5a45914ba256cef56fe601dd7d6393df61d6551299a",
+      "step_sha256": "9c56ae08b3bf9607ddb556182c5aa1448bcfc003cd8ee7789d4700c4ccdb3097",
+      "step_bounds_mm": [
+        -2.25,
+        2.25,
+        -3.3,
+        3.3,
+        0.0,
+        1.2
+      ],
+      "wrl_min_mm": [
+        -2.25000000000116,
+        -3.3000000000122003,
+        0.0
+      ],
+      "wrl_max_mm": [
+        2.25000000000116,
+        3.3000000000122003,
+        1.20000000000028
+      ],
+      "surface": {
+        "wrl_to_step_max_mm": 1.220046286221077e-11,
+        "step_to_wrl_max_mm": 1.220090695142062e-11,
+        "wrl_to_step_p99_mm": 1.220046286221077e-11,
+        "step_to_wrl_p99_mm": 1.220090695142062e-11,
+        "wrl_samples": 20,
+        "step_samples": 20,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "footprint": "footprints/kicad/HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT.kicad_mod",
+      "footprint_sha256": "df79345dc76fff969f37652573f3251524f32613aedb24238b1ba2f71aa73aa3",
+      "model_transform": {
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "observed_pcb_sha256": "60bc043fc873a79b870cb59b070d2ef655f08100fcbbc835cf5c84aa5f467b88",
+      "observed_placement": [
+        "6",
+        "18",
+        "-90"
+      ],
+      "manufacturer_source": {
+        "url": "https://www.ti.com/lit/ds/symlink/tps1663.pdf",
+        "sha256": "8f91a0db2daf2da35abd335420ff9f8b4ac9a99c93dac93e215e0a75e9a866fe",
+        "physical_pdf_page_index": 40,
+        "drawing": "PWP0020T 4224598/A 10/2018",
+        "local_pdf": "tmp/r3-layout-evidence/tps1663.pdf",
+        "outline_render_sha256": "24ec001a047789115f340a6ed85882667a56402c99691990a6b75c88265709cf",
+        "acquisition": "Existing exact-hash local input reused"
+      },
+      "finding": "HOLD: body-only box omits gull-wing leads and allowed length flash. Drawing shows 6.2-6.6 mm over-lead span (marked TYP), versus 4.5 mm model X; 6.6 mm body Y excludes up to 0.15 mm flash per side (6.9 mm overall allowance).",
+      "candidate_enclosing_dimensions_mm_not_adopted": [
+        6.6,
+        6.9,
+        1.2
+      ],
+      "review_status": "Independent review 2026-11-10: WRL/STEP hashes and pair surfaces match; centered XY, seating Z=0, footprint model offset/rotation zero and scale one. HOLD: body-only box omits gull-wing leads and allowed length flash. Drawing shows 6.2-6.6 mm over-lead span (marked TYP), versus 4.5 mm model X; 6.6 mm body Y excludes up to 0.15 mm flash per side (6.9 mm overall allowance). Full active-board datum/assembly verification remains separate; not physical fit. See circuit/cad-receipts/p-r3-envelope-review-20261110.json."
+    },
+    {
+      "board_ref": "board-p/U3",
+      "owner": ".claude/skills/component-lm74700qdbvrq1",
+      "owner_json_sha256": {
+        "coverage.json": "460b2dab371aa2a2e736154875da2bb9941196464a0171512423f62b837c1d7a",
+        "facts.json": "18907268fe70e12002d8bcac66a5ce601a46a685d59f8640f6bbb262d96dd985",
+        "interactions.json": "37d4d91e11938d0a1aa3e37c711365c29bb100ad7cb7adf1854b024684d18245",
+        "manifest.json": "912e01fb92ed403ee069894ba89f13a3c6896f5401a2d279f1ccbeabed9c5d99",
+        "pin-map.json": "c5e4aae0ec33859e643ebb2127135a72a09e1438895213ecf36e816a7cff122e",
+        "routing.json": "028efff5a172724eb99aae61b357cbb0d8d674fb5719ab7f0f41b369e7be7a05",
+        "sources.json": "45fc5293eea3e2d799b1dde4d54fde0a9cc775ebdc777cb4210106c21b2a80de"
+      },
+      "model": "SOT-23-6_DBV_MaxEnvelope_L3.05-W1.75-H1.45",
+      "wrl_sha256": "f32bdf2f837617896f338422c7ace5d259f5266704f40c00d58c3183687fb137",
+      "step_sha256": "a63a0a7c6f4189ec335a3ba1ca74941ca592ebc6e79d16964983ab97dc1c230b",
+      "step_bounds_mm": [
+        -1.525,
+        1.525,
+        -0.875,
+        0.875,
+        0.0,
+        1.45
+      ],
+      "wrl_min_mm": [
+        -1.52499999999898,
+        -0.87499999999904,
+        0.0
+      ],
+      "wrl_max_mm": [
+        1.52499999999898,
+        0.87499999999904,
+        1.44999999999928
+      ],
+      "surface": {
+        "wrl_to_step_max_mm": 1.0198508704206688e-12,
+        "step_to_wrl_max_mm": 1.5747779282470412e-12,
+        "wrl_to_step_p99_mm": 1.0198508704206688e-12,
+        "step_to_wrl_p99_mm": 1.5747779282470412e-12,
+        "wrl_samples": 20,
+        "step_samples": 20,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "footprint": "footprints/kicad/SOT-23-6_TI-DBV0006A.kicad_mod",
+      "footprint_sha256": "6b4415c09335235e48dca9be98e67d51f056ec53e0f28416441e8f5f04445d0e",
+      "model_transform": {
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "observed_pcb_sha256": "60bc043fc873a79b870cb59b070d2ef655f08100fcbbc835cf5c84aa5f467b88",
+      "observed_placement": [
+        "4",
+        "11.2"
+      ],
+      "manufacturer_source": {
+        "url": "https://www.ti.com/lit/ds/symlink/lm74700-q1.pdf",
+        "sha256": "e16b3a8c0023201fafa5825436f5f2dd6f885b92b84e65602b3f50d741c58b6f",
+        "physical_pdf_page_index": 32,
+        "drawing": "DBV0006A 4214840/G 08/2024",
+        "local_pdf": "tmp/p-r3-model-review/lm74700.pdf",
+        "outline_render_sha256": "a64810ef98f43cd11664759fb94eb34ae5a1f224a2c9883c0702861d8d3955ae",
+        "acquisition": "Byte-identical manufacturer GET with retained response headers",
+        "response_headers": {
+          "path": "tmp/p-r3-model-review/lm74700.headers",
+          "sha256": "5fb5c2bf34fb9e6469df25b9b9e8cf9f1bd8d50eecf3850fe3de1bae2750bd99"
+        }
+      },
+      "finding": "HOLD: body-only box omits gull-wing leads and permitted body flash. Footprint rotates the drawing axes: model X3.05 is body length, Y1.75 is body width. Over-lead Y reaches 3.0 mm; body flash/protrusion allowance is 0.25 mm per side, allowing X3.55 mm.",
+      "candidate_enclosing_dimensions_mm_not_adopted": [
+        3.55,
+        3.0,
+        1.45
+      ],
+      "review_status": "Independent review 2026-11-10: WRL/STEP hashes and pair surfaces match; centered XY, seating Z=0, footprint model offset/rotation zero and scale one. HOLD: body-only box omits gull-wing leads and permitted body flash. Footprint rotates the drawing axes: model X3.05 is body length, Y1.75 is body width. Over-lead Y reaches 3.0 mm; body flash/protrusion allowance is 0.25 mm per side, allowing X3.55 mm. Full active-board datum/assembly verification remains separate; not physical fit. See circuit/cad-receipts/p-r3-envelope-review-20261110.json."
+    },
+    {
+      "board_ref": "board-p/D5",
+      "owner": ".claude/skills/component-tvs2200drvr",
+      "owner_json_sha256": {
+        "coverage.json": "00f742e334345a39ebbd5b3df7c09a4ae58a6c2766ed4edeafb19d1f96ab789d",
+        "facts.json": "877856d7fac95a171ed0149883c273540515ac9e1c19a023430d051928026732",
+        "interactions.json": "37d4d91e11938d0a1aa3e37c711365c29bb100ad7cb7adf1854b024684d18245",
+        "manifest.json": "9fdab78235c271c18826f38a1f9069eb94dadb144d9768c3bdf3d27e5d1e3bba",
+        "pin-map.json": "84a7074919a7353e6adbee8f68315c995d459d7c54d19cf3520fb2986e0e4bf6",
+        "routing.json": "c70c30e11f3fbad19276486ebc5d4fced1f184851b80a3fd31d6706db56be5b2",
+        "sources.json": "fa6376449e49c169d6ce0b51785d8188ff49aa3854b132233bce827c73eb0d76"
+      },
+      "model": "WSON-6_DRV_MaxEnvelope_L2.1-W2.1-H0.8",
+      "wrl_sha256": "5354dd2dd7627ab6186787ec5dc9b77d1bead85c286a0e6aee6cdc236ad8cfa9",
+      "step_sha256": "f572f17f577c9366ca841d56e68e5e2facc34636b88909e5a8de3f6484a2b982",
+      "step_bounds_mm": [
+        -1.05,
+        1.05,
+        -1.05,
+        1.05,
+        0.0,
+        0.8
+      ],
+      "wrl_min_mm": [
+        -1.05000000000088,
+        -1.05000000000088,
+        0.0
+      ],
+      "wrl_max_mm": [
+        1.05000000000088,
+        1.05000000000088,
+        0.79999999999934
+      ],
+      "surface": {
+        "wrl_to_step_max_mm": 8.799627693178991e-13,
+        "step_to_wrl_max_mm": 8.799627693178991e-13,
+        "wrl_to_step_p99_mm": 8.799627693178991e-13,
+        "step_to_wrl_p99_mm": 8.799627693178991e-13,
+        "wrl_samples": 20,
+        "step_samples": 20,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "footprint": "footprints/kicad/WSON-6_L2.0-W2.0-P0.65-BL-EP.kicad_mod",
+      "footprint_sha256": "17cd8bb07cbdcd97647feac177e72faeb5876c358a64bf3014196449d7f7d582",
+      "model_transform": {
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotate": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "observed_pcb_sha256": "60bc043fc873a79b870cb59b070d2ef655f08100fcbbc835cf5c84aa5f467b88",
+      "observed_placement": [
+        "11.3",
+        "10.6"
+      ],
+      "manufacturer_source": {
+        "url": "https://www.ti.com/lit/ds/symlink/tvs2200.pdf",
+        "sha256": "84c986c9cc4f323fdb0c6840bff455438802dd6df9af5fd89c73b8bce4dced9e",
+        "physical_pdf_page_index": 17,
+        "drawing": "DRV0006A 4222173/C 11/2025",
+        "local_pdf": "tmp/p-r3-model-review/tvs2200.pdf",
+        "outline_render_sha256": "50c2df26d1b571e5c3393b8c8e9eed46c40450a5f600fd6cb7991f9cb5809696",
+        "acquisition": "Byte-identical manufacturer GET with retained response headers",
+        "response_headers": {
+          "path": "tmp/p-r3-model-review/tvs2200.headers",
+          "sha256": "609493ad91d59a66257506577103a5a46d0814bf7e355ee23b76145b09c4232b"
+        }
+      },
+      "finding": "REVIEWED: 2.1 x 2.1 x 0.8 mm box bounds the stated no-lead package outline. Terminals/exposed pad are within that outline; optional side-wall detail is recessed. This is a derived enclosing box, not exact terminal or manufacturer CAD geometry.",
+      "candidate_enclosing_dimensions_mm_not_adopted": null,
+      "review_status": "Independent review 2026-11-10: WRL/STEP hashes and pair surfaces match; centered XY, seating Z=0, footprint model offset/rotation zero and scale one. REVIEWED: 2.1 x 2.1 x 0.8 mm box bounds the stated no-lead package outline. Terminals/exposed pad are within that outline; optional side-wall detail is recessed. This is a derived enclosing box, not exact terminal or manufacturer CAD geometry. Full active-board datum/assembly verification remains separate; not physical fit. See circuit/cad-receipts/p-r3-envelope-review-20261110.json."
+    }
+  ],
+  "remaining_gates": [
+    "U2/U3 full-package collision envelopes require correction or an explicitly scoped alternative proof before full-package mechanical acceptance.",
+    "Final active-board datum and integrated assembly checks remain required after final source/model adoption.",
+    "No pin-1/cathode cues are encoded by these plain boxes; footprint markings and supplier orientation review remain separate.",
+    "No physical fit, fabrication, thermal or electrical acceptance is established."
+  ]
+}

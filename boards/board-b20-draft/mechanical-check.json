@@ -1,0 +1,248 @@
+{
+  "board": "board-b20-draft",
+  "size_mm": [
+    110,
+    85
+  ],
+  "component_count": 274,
+  "schematic_pad_identity": "PASS",
+  "outline_mm": [
+    0.0,
+    0.0,
+    110.0,
+    85.0
+  ],
+  "pd_mating": [
+    {
+      "pin": 1,
+      "board_p_net": "VBUS_OUT",
+      "center_mm": [
+        37.2,
+        18.55
+      ],
+      "board_b20_net": "VIN"
+    },
+    {
+      "pin": 2,
+      "board_p_net": "VBUS_OUT",
+      "center_mm": [
+        37.2,
+        21.09
+      ],
+      "board_b20_net": "VIN"
+    },
+    {
+      "pin": 3,
+      "board_p_net": "ATT",
+      "center_mm": [
+        37.2,
+        23.63
+      ],
+      "board_b20_net": "unconnected-(J5-Pad3)"
+    },
+    {
+      "pin": 4,
+      "board_p_net": "PDOK",
+      "center_mm": [
+        37.2,
+        26.17
+      ],
+      "board_b20_net": "PDOK"
+    },
+    {
+      "pin": 5,
+      "board_p_net": "GND",
+      "center_mm": [
+        37.2,
+        28.71
+      ],
+      "board_b20_net": "GND"
+    },
+    {
+      "pin": 6,
+      "board_p_net": "GND",
+      "center_mm": [
+        37.2,
+        31.25
+      ],
+      "board_b20_net": "GND"
+    }
+  ],
+  "corner_supports": "PASS",
+  "terminal_blocks": [
+    {
+      "reference": "J6",
+      "origin_mm": [
+        7.0,
+        48.0
+      ],
+      "pins": {
+        "1": "GND",
+        "2": "M12_OUT"
+      }
+    },
+    {
+      "reference": "J7",
+      "origin_mm": [
+        7.0,
+        61.0
+      ],
+      "pins": {
+        "1": "P5_OUT",
+        "2": "P12_OUT"
+      }
+    }
+  ],
+  "eurorack_pin_contract": "PASS",
+  "pogo_row": [
+    {
+      "pad": "P1.1",
+      "center_mm": [
+        56.19,
+        1.8
+      ],
+      "net": null
+    },
+    {
+      "pad": "P1.2",
+      "center_mm": [
+        58.73,
+        1.8
+      ],
+      "net": "PDOK"
+    },
+    {
+      "pad": "P1.3",
+      "center_mm": [
+        61.27,
+        1.8
+      ],
+      "net": "GND"
+    },
+    {
+      "pad": "P1.4",
+      "center_mm": [
+        63.81,
+        1.8
+      ],
+      "net": null
+    },
+    {
+      "pad": "TP3.1",
+      "center_mm": [
+        66.349999,
+        1.8
+      ],
+      "net": "P12_PRE"
+    },
+    {
+      "pad": "TP4.1",
+      "center_mm": [
+        68.89,
+        1.8
+      ],
+      "net": "P5_PRE"
+    },
+    {
+      "pad": "TP5.1",
+      "center_mm": [
+        71.43,
+        1.8
+      ],
+      "net": "M12_PRE"
+    }
+  ],
+  "rail_labels": [
+    {
+      "side": "front",
+      "text": "-12V",
+      "pin": "J6.2",
+      "net": "M12_OUT",
+      "center_mm": [
+        0.8,
+        45.46
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "-12V",
+      "pin": "J6.2",
+      "net": "M12_OUT",
+      "center_mm": [
+        12.2,
+        46.0
+      ],
+      "mirrored": true
+    },
+    {
+      "side": "front",
+      "text": "GND",
+      "pin": "J6.1",
+      "net": "GND",
+      "center_mm": [
+        0.8,
+        50.54
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "GND",
+      "pin": "J6.1",
+      "net": "GND",
+      "center_mm": [
+        11.6,
+        50.5
+      ],
+      "mirrored": true
+    },
+    {
+      "side": "front",
+      "text": "+12V",
+      "pin": "J7.2",
+      "net": "P12_OUT",
+      "center_mm": [
+        0.8,
+        58.46
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "+12V",
+      "pin": "J7.2",
+      "net": "P12_OUT",
+      "center_mm": [
+        12.2,
+        58.4
+      ],
+      "mirrored": true
+    },
+    {
+      "side": "front",
+      "text": "+5V",
+      "pin": "J7.1",
+      "net": "P5_OUT",
+      "center_mm": [
+        0.8,
+        63.54
+      ],
+      "mirrored": false
+    },
+    {
+      "side": "back",
+      "text": "+5V",
+      "pin": "J7.1",
+      "net": "P5_OUT",
+      "center_mm": [
+        11.8,
+        63.8
+      ],
+      "mirrored": true
+    }
+  ],
+  "physical_stack_and_cable_fit": "NOT MEASURED",
+  "errors": [],
+  "status": "PASS"
+}

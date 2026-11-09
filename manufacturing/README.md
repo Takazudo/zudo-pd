@@ -25,6 +25,7 @@ The two-P15 plan is not an executed order; no physical programming/readback acce
 | Document | Classification / stream |
 | --- | --- |
 | [README](README.md), [package notes P15](package-notes-p15.md), [package notes B20](package-notes-b20.md) | Current technical/reference guidance; exact package scope and blockers |
+| [Prototype order readiness](prototype-order-readiness.md) | Current revision-bound execution ledger: separate integration, capability, verification and owner-decision registers for two P15 modules and the PD20 development pair |
 | [PD20 status](pd20-status.md) | Current technical/reference disposition plus dated verification receipts; original 269-component receipt retained separately from current 270 source |
 | [P15 order decision](p15-order-decision-packet.md) | Revision-specific verification/order-decision record, 2026-11-03; plan, not receipt of an order |
 | [P15 order handoff](p15-order-handoff.md) | Owner order-day checklist for 2 × P15, 2026-11-08: exact files, preview checks, stock re-check, arrival tests; not an order |

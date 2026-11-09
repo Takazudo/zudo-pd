@@ -1,8 +1,7 @@
 {
- "_comment": "Phase 33 placement lock (unvalidated draft). build-draft.py places these parts at the phase 32 positions of boards/board-b20-draft/board-b20-draft.kicad_pcb (commit 31df875). Five positions are set by hand (adjusted): C12 keeps its site with the larger 1206 land; Q55, RCEN2 and CAF2 shift by 1.05 mm or less to clear the SMC D3 and the moved L5; Q47 lost its site under D3 and moves to the nearest courtyard-clear site found with 0.5 mm clearance. The parts in replaced are placed by the generator: D3 and L5 by the U3 stage template, C9 (0805) by the greedy fill. Delete this file to return to a full greedy placement. PD20: C1 (10.2 mm tall) moves out of the Board P r3 shadow, where the stack screen found it 0.38 mm into U2 and 0.03 mm into Q1; C35 and CP1, which held the new site, are placed by the greedy fill. PD20 layout review: CCIN2 stacks above CCIN1 so both input-capacitor returns sit in one column on the M12_RAW_D3 pour and the VIN feed reaches both VIN pads from outside it; RRDY2 and RCEN2 move to the freed CCIN2 site. PD20 probe row: P1/TP3-TP5 take Board B's fixed top-edge positions (contacts x 56.19-71.43 mm, y 1.8 mm), so L1 with its output capacitors CAO1/CAO2 drops 1.3 mm as one group, RJ12 moves 0.5 mm left, RE1 turns to 0 degrees 0.6 mm lower, R65 turns to 90 degrees beside TP5 and RJ5 moves 0.35 mm right. PD20 U3 bypass: C43 (100 nF, U3 pin 2 VIN to the PAD's M12_RAW) sits left of U3 between CCIN1 and R11, pad 1 on a small M12_RAW F.Cu pour with vias into M12_RAW_B.",
+ "_comment": "Phase 33 placement lock (unvalidated draft). build-draft.py places these parts at the phase 32 positions of boards/board-b20-draft/board-b20-draft.kicad_pcb (commit 31df875). Five positions are set by hand (adjusted): C12 keeps its site with the larger 1206 land; Q55, RCEN2 and CAF2 shift by 1.05 mm or less to clear the SMC D3 and the moved L5; Q47 lost its site under D3 and moves to the nearest courtyard-clear site found with 0.5 mm clearance. The parts in replaced are placed by the generator: D3 and L5 by the U3 stage template, C9 (0805) by the greedy fill. Delete this file to return to a full greedy placement. PD20: C1 (10.2 mm tall) moves out of the Board P r3 shadow, where the stack screen found it 0.38 mm into U2 and 0.03 mm into Q1; CP1, which held the new site, is placed by the greedy fill. C35 previously used the greedy fill after this displacement; issue #237 now binds it to U6 as described below. PD20 layout review: CCIN2 stacks above CCIN1 so both input-capacitor returns sit in one column on the M12_RAW_D3 pour and the VIN feed reaches both VIN pads from outside it; RRDY2 and RCEN2 move to the freed CCIN2 site. PD20 probe row: P1/TP3-TP5 take Board B's fixed top-edge positions (contacts x 56.19-71.43 mm, y 1.8 mm), so L1 with its output capacitors CAO1/CAO2 drops 1.3 mm as one group, RJ12 moves 0.5 mm left, RE1 turns to 0 degrees 0.6 mm lower, R65 turns to 90 degrees beside TP5 and RJ5 moves 0.35 mm right. PD20 U3 bypass: C43 (100 nF, U3 pin 2 VIN to the PAD's M12_RAW) sits left of U3 between CCIN1 and R11, pad 1 on a small M12_RAW F.Cu pour with vias into M12_RAW_B. Issue #237: CU6D / PCB C35 is locked relative to U6 at (+6.5,-3.85,0 degrees), with a direct local P5_SUP connection and local ground-plane vias; it is no longer greedily placed.",
  "source_commit": "31df875",
  "replaced": [
-  "C35",
   "C9",
   "CP1",
   "D3",
@@ -1307,6 +1306,11 @@
   "C43": [
    23.96,
    46.26,
+   0.0
+  ],
+  "C35": [
+   78.5,
+   56.15,
    0.0
   ]
  },
