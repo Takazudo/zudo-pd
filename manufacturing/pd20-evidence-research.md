@@ -173,3 +173,27 @@ Page 6 (physical index 5) distinguishes the 5 s short-time-overload test from lo
 higher-voltage discharge pulse. No exact standard-series repetitive-pulse curve was found; AS/PS anti-surge
 series evidence is for different orderables. Preserve the single-event screen, the repetitive-pulse gap and T5.
 No supplier contact, substitution, programming or physical test occurred.
+
+## Exact C12 and shunt primary documents — 2026-11-09 Mac follow-up
+
+Holy Stone's manufacturer-hosted [HCN High Cap NP0 catalog](https://www.holystone.com.tw/downloads/series/10000/1000/60/20161108152237_file1.pdf)
+(SHA-256 `cc8cdf6caa98e48459e1bb3f40b54c2489dfdd40d8e767ad45f2bb21726728bc`, no printed revision;
+PDF creation date 2016-10-18) explicitly lists **C1206N473J050T/C5451690** on PDF page 6 (physical index 5):
+47 nF, 1206, J tolerance, 50 V, thickness 1.6 ±0.2 mm. PDF page 2 defines J as ±5% and the NP0 temperature range
+as −55 to +125 °C, coefficient ≤30 ppm/°C. The previous NCC catalog was the wrong series for establishing this
+range; its historical omission is preserved, but the exact-part primary-specification gap is now closed. Installed
+C12, its circuit behavior and mechanical acceptance remain unverified. No component was substituted.
+
+RESI's manufacturer-hosted [E16009 V9 PCSR2512 sheet](https://s.resistor.today/shop/products/epdf/PCSR2512.pdf)
+(SHA-256 `8305e9d8e0a9ff0b73aaa0772c2ecd9384482b9af488f032c6b8fac09d8f74ad`, revision V9 dated 2026-04-28)
+explains the historical power-rating discrepancy. Printed page 15/16 (physical index 15) records the V5 upgrade
+on 2024-07-30 from 1 W to 2 W for 5–10 mΩ. Printed page 1/16 specifies 2 W at +70 °C for that range;
+page 2/16 decodes B/R010/M/6 as ±0.1%, 10 mΩ, ±15 ppm/°C, unmarked. The M9 table is not silently relabelled M6.
+This supports the current family specification, but cannot identify the revision/date of supplier **C23067428**
+stock. Keep the exact older M6 row's **1 W/10 A working bound**, and keep supplier-lot applicability and Kelvin-land
+review open. At the contractual 2.1 A maximum, nominal 10 mΩ dissipation is 0.0441 W; neither this calculation nor
+the document proves actual current let-through or assembled temperature.
+
+The earlier UNI-ROYAL repetitive-pulse gap is unchanged. Rated-voltage load cycling and a single 5 s overload test
+supply no guaranteed repetitive endurance for the higher-voltage discharge waveform. No supplier contact,
+substitution, order, programming or physical result is implied by these acquisitions.

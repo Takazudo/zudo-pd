@@ -139,9 +139,9 @@
     ]
   },
   "sources": {
-    "available": 297,
-    "selected": 297,
-    "linkable": 279,
+    "available": 299,
+    "selected": 299,
+    "linkable": 281,
     "ids": [
       "src-ao3401a-board-a-baseline",
       "src-ao3401a-usb-pd-input-sch",
@@ -229,6 +229,7 @@
       "src-c22935-primary",
       "src-c23067428-c16009-2024",
       "src-c23067428-identity",
+      "src-c23067428-manufacturer-20261109",
       "src-c23067428-primary",
       "src-c23153-identity",
       "src-c23153-primary",
@@ -297,6 +298,7 @@
       "src-c523793-identity",
       "src-c523793-primary",
       "src-c5451690-identity",
+      "src-c5451690-manufacturer-20261109",
       "src-c5451690-primary",
       "src-c5455461-identity",
       "src-c5455461-primary",
@@ -572,92 +574,92 @@
     {
       "key": "source.sourceId",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.documentTitle",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.documentNumber",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.revision",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.documentDate",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.retrievalDate",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.authorityClass",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.availability",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.locator",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.printedPageLabel",
       "decision": "PUBLISH",
-      "emitted": 297,
+      "emitted": 299,
       "withheld": 0
     },
     {
       "key": "source.physicalPdfPageIndex",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 297
+      "withheld": 299
     },
     {
       "key": "source.authoritativeUrl",
       "decision": "PUBLISH",
-      "emitted": 279,
+      "emitted": 281,
       "withheld": 0
     },
     {
       "key": "source.alternateAuthoritativeUrl",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 297
+      "withheld": 299
     },
     {
       "key": "source.sha256",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 297
+      "withheld": 299
     },
     {
       "key": "source.evidenceExtract",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 297
+      "withheld": 299
     },
     {
       "key": "fact.factId",
@@ -1556,6 +1558,12 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
+      "sourceId": "src-c23067428-manufacturer-20261109",
+      "url": "https://s.resistor.today/shop/products/epdf/PCSR2512.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
       "sourceId": "src-c23067428-primary",
       "url": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8528/4506_PCSR2512.pdf",
       "decision": "ALLOW",
@@ -1960,6 +1968,12 @@
     {
       "sourceId": "src-c5451690-identity",
       "url": "https://www.lcsc.com/product-detail/C5451690.html",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c5451690-manufacturer-20261109",
+      "url": "https://www.holystone.com.tw/downloads/series/10000/1000/60/20161108152237_file1.pdf",
       "decision": "ALLOW",
       "reason": "ABSOLUTE_HTTP_URL"
     },
@@ -2830,6 +2844,6 @@
     "publishedInteractions": 41,
     "publishedPinMaps": 128,
     "publishedRecords": 128,
-    "publishedSources": 297
+    "publishedSources": 299
   }
 }

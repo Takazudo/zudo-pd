@@ -2083,11 +2083,11 @@
       "pin_map_id": "pinmap-c23067428",
       "canonical_sha256": "9a6e6231e52a5fd101ae564f1b174928adb4a6064e72273a605de00515947a39",
       "evidence_fact_ids": [
-        "fact-c23067428-manufacturer"
+        "fact-c23067428-land-pattern"
       ],
       "trust_status": "UNSOURCED",
       "critical_pins": [],
-      "reviewer": "2026-11-01 PD worker phase 19: PCSR2512BR010M6 two-terminal resistor read from a DigiKey-hosted copy of the RESI sheet; footprint R2512_RESI-PCSR2512_Kelvin; phase 33: bound to board-b20-draft, KiCad symbol PCSR2512BR010M6 on R2512_RESI-PCSR2512_Kelvin, pin numbers equal pad numbers"
+      "reviewer": "2026-11-01 PD worker phase 19: PCSR2512BR010M6 two-terminal resistor read from a DigiKey-hosted copy of the RESI sheet; footprint R2512_RESI-PCSR2512_Kelvin; phase 33: bound to board-b20-draft, KiCad symbol PCSR2512BR010M6 on R2512_RESI-PCSR2512_Kelvin, pin numbers equal pad numbers; 2026-11-09 primary electrical source acquired; pin lock remains tied to unreviewed project Kelvin land fact, not manufacturer identity"
     },
     {
       "record_id": "rec-c705741",
@@ -2646,9 +2646,9 @@
       "evidence_fact_ids": [
         "fact-c5451690-manufacturer"
       ],
-      "trust_status": "UNSOURCED",
+      "trust_status": "PROJECT-LOCKED",
       "critical_pins": [],
-      "reviewer": "2026-11-03 PD worker phase 33: non-polar two-terminal capacitor on the shared C1206 land; KiCad symbol C1206N473J050T"
+      "reviewer": "2026-11-03 PD worker phase 33: non-polar two-terminal capacitor on the shared C1206 land; KiCad symbol C1206N473J050T; 2026-11-09 exact HCN manufacturer catalog confirms non-polar two-terminal passive; numeric pad assignment stays project-locked, no fabricated or installed acceptance"
     }
   ]
 }
