@@ -123,6 +123,7 @@ VDIS dis 0 0
 .tran 2u 250m 0 5u
 .control
 run
+option numdgt=15
 wrdata revR.dat v(p12_out) v(p5_out) v(m12_out) v(ramp) i(VP12) i(VP5) i(VM12) v(p12_g) v(p5_g) v(m12_g) v(enn)
 .endc
 .end

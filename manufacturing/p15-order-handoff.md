@@ -61,11 +61,15 @@ edit the frozen package.
 
 ## Re-check dated stock and cost on the order day
 
-The latest evidence is the read-only catalog snapshot of **2026-11-03 19:12Z**
-(`manufacturing/readiness/jlc-snapshot-2026-11-03-p15.json`, priced by `scripts/pcb/p15-order-scenarios.py`):
-scenario A (2 × P15, no new Board B) is **USD 39.94 parts plus assembly**. PCB fabrication, shipping and duty were
-UNKNOWN. Every P15 line covered 5 boards; the lowest was TYPE-C-31-M-17 C283540 at 1,165. Stock and prices are
-five days old at this writing and must be read again at the order step.
+The latest evidence is the read-only catalog snapshot of **2026-11-09 09:32Z**
+(`manufacturing/readiness/jlc-snapshot-2026-11-09-p15.json`): 52 exact-code lookups, with no
+stock-below-purchase flags for scenario A (2 × P15, no new Board B). Catalog stock and prices are volatile;
+re-check them on the order day. No supplier quotation has been obtained.
+
+The **USD 39.94 parts-plus-assembly estimate is historical**, calculated from the November 3 snapshot
+(`manufacturing/readiness/jlc-snapshot-2026-11-03-p15.json`) and the retained assembly fee model by
+`scripts/pcb/p15-order-scenarios.py`. It is not a current quoted total. PCB fabrication, shipping and duty remain
+UNKNOWN; the November 9 catalog refresh does not refresh the assembly fee model.
 
 ## Run the arrival tests in this order (all NOT RUN)
 

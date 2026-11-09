@@ -151,6 +151,7 @@ RCLN cln m12_out 50m
 {ic}.tran 2u {tstop} 0 {maxstep}{uic}
 .control
 run
+option numdgt=15
 wrdata {name}.dat v(p12_out) v(p5_out) v(m12_out) v(ramp) i(VP12) i(VP5) i(VM12) v(p12_g) v(p5_g) v(m12_g) v(enn)
 .endc
 .end

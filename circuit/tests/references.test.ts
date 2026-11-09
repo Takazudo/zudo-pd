@@ -109,12 +109,22 @@ describe("reviewed document shortcuts", () => {
     assert.equal(String(drawing?.reference.document?.label), "Mechanical drawing PDF");
   });
 
-  it("publishes the ten mirror selections as mirrors, not as primaries", () => {
+  it("preserves historical mirror authority and the two explicitly acquired primary selections", () => {
     // Each of these is the best document that exists for its part, and the
     // card has to keep saying so — silently reading as MANUFACTURER_PRIMARY
     // would overstate the evidence.
     assert.equal(CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds.length, 10);
-    for (const sourceId of CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds) {
+    const replaced = new Map([
+      ["src-c23067428-primary", "src-c23067428-manufacturer-20261109"],
+      ["src-c5451690-primary", "src-c5451690-manufacturer-20261109"],
+    ]);
+    for (const [historical, current] of replaced) {
+      const record = model.records.find((entry) => String(entry.reference.document?.sourceId) === current);
+      assert.ok(record, `${current} must be selected`);
+      assert.equal(String(record.reference.document?.authorityClass), "MANUFACTURER_PRIMARY");
+      assert.ok(record.sources.some((source) => String(source.sourceId) === historical && String(source.authorityClass) === "MANUFACTURER_MIRROR"));
+    }
+    for (const sourceId of CIRCUIT_DOCUMENT_VERIFICATION.mirrorSourceIds.filter((id) => !replaced.has(id))) {
       const record = model.records.find(
         (entry) => String(entry.reference.document?.sourceId) === sourceId,
       );
@@ -125,7 +135,7 @@ describe("reviewed document shortcuts", () => {
     const mirrors = model.records.filter(
       (entry) => String(entry.reference.document?.authorityClass) === "MANUFACTURER_MIRROR",
     );
-    assert.equal(mirrors.length, 10);
+    assert.equal(mirrors.length, 8);
   });
 
   it("records how the document audit was performed, at its real strength", () => {

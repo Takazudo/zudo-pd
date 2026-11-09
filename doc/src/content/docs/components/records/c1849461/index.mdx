@@ -139,7 +139,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c1849461-assembled-qualification` · **Status:** OPEN
 
-**Reason:** Board P r3 configuration, surge, inrush, thermal and latch behaviour are unmeasured; PCB not re-synchronised.
+**Reason:** Board P r3 is routed; configuration, surge, inrush, thermal and latch behavior remain unmeasured. Current native layout correction acceptance is tracked separately.
 
 **Facts in this domain:**
 
@@ -387,7 +387,7 @@ A value this project recorded about how the part is used here — a chosen opera
 
   **Value:** Board P U2 (r3): IN (1-3) and P\_IN (6) on EF\_IN after the LM74700 ideal diode U3 and Q3 CSD18543Q3A; OUT (18-20) on VBUS\_P; UVLO 11.5k/4.02k and OVP 174k/10k dividers from VBUS\_IN; ILIM 4.02k; dVdT 100 nF; MODE open (latch); SHDN, IMON, FLT, PGOOD open; NC pins 4, 5, 17 open; PAD 21 to GND; single 100 uF bulk C3 on VBUS\_P · **Unit:** `NONE`
 
-  **Conditions:** Unvalidated draft connectivity in scripts/schgen/board\_p\_spec.py; the Board P PCB still carries the r2 TPS26630 layout and is not re-synchronised. No bench, thermal or surge result exists.
+  **Conditions:** Project-state refresh 2026-11-09: scripts/schgen/board\_p\_spec.py and the routed Board P r3 PCB use TPS16630PWPR, not the historical r2 TPS26630 layout. The r3 native/layout correction work is tracked separately and does not establish a measured 5 A thermal rating. No bench, thermal or surge result exists; fast-trip and short-circuit typical values do not provide a guaranteed let-through maximum.
 
   **Verdict:** NEEDS BENCH · **Provenance:** PROJECT-CHOICE
 

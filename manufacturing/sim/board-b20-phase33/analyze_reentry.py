@@ -6,7 +6,7 @@ start rows after the effective re-enable (TE to the end) and over the whole off/
 Slope limits are the contract rows (+12 / +5 / -12: 1.23 / 0.51 / 1.22 V/ms), over 50-100 us windows.
 """
 import json, re
-from analysis_inputs import REENTRY_CASES, load, run, selected_files, window
+from analysis_inputs import REENTRY_CASES, load, run, selected_files, window, adjacent_slope_screen
 
 SLOPE = {'+12': 1.23, '+5': 0.51, '-12': 1.22}
 BAND = {'+12': 12.00, '+5': 5.05, '-12': 12.00}
@@ -73,6 +73,9 @@ def main():
         res['at_end'] = {k: round(r[-1][i] * s, 4) for k, (i, s) in COL.items()}
         res['peak_source_a_after_reenable'] = {'+12': round(max(-x[5] for x in re_on), 3), '+5': round(max(-x[6] for x in re_on), 3),
                                                '-12': round(max(x[7] for x in re_on), 3)}
+        # Reviewed reR/reB decks all include external resistive loads; no no-load waiver applies.
+        res['adjacent_slope_screen_after_reenable'] = {
+            k: adjacent_slope_screen(re_on, i, sign, SLOPE[k]) for k, (i, sign) in COL.items()}
         out[name] = res
     print(json.dumps(out, indent=1))
 

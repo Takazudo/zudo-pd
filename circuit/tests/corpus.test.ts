@@ -44,8 +44,8 @@ describe("the corpus normalizes to the figures the epic states", () => {
     assert.equal(model.corpus.dnpOrHandFitLines, 2);
   });
 
-  it("counts 297 sources, 1217 facts, 323 coverage domains, 41 interactions", () => {
-    assert.equal(model.corpus.sources, 297);
+  it("counts 299 sources, 1217 facts, 323 coverage domains, 41 interactions", () => {
+    assert.equal(model.corpus.sources, 299);
     assert.equal(model.corpus.facts, 1217);
     assert.equal(model.corpus.coverageDomains, 323);
     assert.equal(model.corpus.interactions, 41);
@@ -59,7 +59,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
 
   it("publishes every instance without duplicating or dropping one", () => {
     assert.equal(model.records.length, 128);
-    assert.equal(sum(model.records, (entry) => entry.sources.length), 297);
+    assert.equal(sum(model.records, (entry) => entry.sources.length), 299);
     assert.equal(sum(model.records, (entry) => entry.facts.length), 1217);
     assert.equal(sum(model.records, (entry) => entry.coverage.length), 323);
     assert.equal(sum(model.records, (entry) => entry.pinMaps.length), 128);
@@ -93,7 +93,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
       assert.equal(new Set(anchors).size, anchors.length, entry.identity.slug);
       total += anchors.length;
     }
-    assert.equal(total, 128 + 297 + 1217 + 323 + 47 + 128);
+    assert.equal(total, 128 + 299 + 1217 + 323 + 47 + 128);
 
     // Record-scoped anchors stay globally unique — each belongs to one page.
     const scoped = model.records.flatMap((entry) => [
@@ -177,12 +177,12 @@ describe("the real records the epic calls out", () => {
   it("publishes open coverage, both with and without applicable blockers", () => {
     const coverage = model.records.flatMap((entry) => entry.coverage);
     const open = coverage.filter((entry) => entry.status === "OPEN");
-    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 169);
-    assert.equal(open.length, 154);
+    assert.equal(coverage.filter((entry) => entry.status === "COVERED").length, 170);
+    assert.equal(open.length, 153);
 
     const withBlockers = open.filter((entry) => entry.blockingFactIds.length > 0);
     const withoutBlockers = open.filter((entry) => entry.blockingFactIds.length === 0);
-    assert.equal(withBlockers.length, 143);
+    assert.equal(withBlockers.length, 142);
     assert.equal(withoutBlockers.length, 11);
 
     // An open domain never publishes without saying why it is open.
@@ -404,7 +404,7 @@ describe("denied evidence never reaches the public model", () => {
     }
   });
 
-  it("publishes only http(s) citation URLs, and records all 297 decisions", () => {
+  it("publishes only http(s) citation URLs, and records all 299 decisions", () => {
     const report = policy.buildReport({
       viewModelVersion: model.version,
       providerId: "circuit-component-spec",
@@ -414,8 +414,8 @@ describe("denied evidence never reaches the public model", () => {
       selectedSlugs: [],
       counts: {},
     });
-    assert.equal(report.urls.length, 297);
-    assert.equal(report.urls.filter((entry) => entry.decision === "ALLOW").length, 279);
+    assert.equal(report.urls.length, 299);
+    assert.equal(report.urls.filter((entry) => entry.decision === "ALLOW").length, 281);
 
     for (const source of model.records.flatMap((entry) => entry.sources)) {
       if (source.url === null) {

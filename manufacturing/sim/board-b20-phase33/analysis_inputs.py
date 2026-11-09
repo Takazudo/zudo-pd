@@ -75,3 +75,56 @@ def run(main):
     except (ValueError, OSError) as error:
         print(f'FAIL: {error}', file=sys.stderr)
         raise SystemExit(1)
+
+
+def adjacent_slope_screen(rows, index, sign, normal_limit, no_load=False, exception=None):
+    """Retain short excursions instead of treating a 50-100 us average as steepest slew.
+
+    exception is (voltage ceiling, slope ceiling, capacitive-current ceiling).
+    Source current is deliberately not used to approve a capacitive-current condition.
+    A segment straddling the voltage boundary is unresolved, not silently waived.
+    """
+    peak = None
+    negative_steps = []
+    normal_exceedances = 0
+    bound_exceedances = []
+    boundary_segments = []
+    for a, b in zip(rows, rows[1:]):
+        dt = b[0] - a[0]
+        require_increasing = dt > 0
+        if not require_increasing:
+            raise ValueError('adjacent slope requires increasing times')
+        v0, v1 = sign * a[index], sign * b[index]
+        delta = v1 - v0
+        row = {'slope_v_per_ms': abs(delta) / dt / 1000,
+               'start_ms': a[0] * 1000, 'end_ms': b[0] * 1000, 'interval_us': dt * 1e6,
+               'voltage_start_v': v0, 'voltage_end_v': v1}
+        if peak is None or row['slope_v_per_ms'] > peak['slope_v_per_ms']:
+            peak = row
+        if delta < 0:
+            negative_steps.append(delta)
+        if row['slope_v_per_ms'] <= normal_limit:
+            continue
+        normal_exceedances += 1
+        if not no_load or exception is None:
+            bound_exceedances.append(row)
+        elif max(v0, v1) <= exception[0]:
+            if row['slope_v_per_ms'] > exception[1]:
+                bound_exceedances.append(row)
+        elif min(v0, v1) >= exception[0]:
+            bound_exceedances.append(row)
+        else:
+            boundary_segments.append(row)
+    return {'method': 'absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound',
+            'normal_limit_v_per_ms': normal_limit, 'no_external_resistive_load_case': no_load,
+            'exception': None if not no_load or exception is None else {
+                'voltage_ceiling_v': exception[0], 'slope_ceiling_v_per_ms': exception[1],
+                'capacitive_current_ceiling_a': exception[2], 'capacitive_current_evidence': 'NOT LOGGED in the main waveform; source current is not a substitute'},
+            'maximum': peak, 'normal_limit_exceeding_segments': normal_exceedances,
+            'recorded_bound_exceeding_segments': len(bound_exceedances),
+            'worst_recorded_bound_exceedance': max(bound_exceedances, key=lambda r: r['slope_v_per_ms']) if bound_exceedances else None,
+            'voltage_boundary_straddling_segments': len(boundary_segments),
+            'largest_negative_step_v': min(negative_steps, default=0), 'negative_step_count': len(negative_steps),
+            'disposition': ('EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required' if bound_exceedances else
+                            'BOUNDARY STRADDLE REQUIRES REVIEW' if boundary_segments else
+                            'NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance')}

@@ -11,7 +11,8 @@ Board P r3 places it as U2 after the LM74700QDBVRQ1 C2941042 ideal-diode stage (
 CSD18543Q3A), which replaces the TPS26630 B_GATE and Q4. OVP, UVLO and I(OL) rows match the TPS26630
 values the dividers were sized for. Fast trip and I(SCP) are TYP only, so no guaranteed let-through bound
 exists. The HTSSOP-20 land follows the TI PWP0020T example layout and is not fabrication-reviewed. The
-Board P PCB still carries r2 and is not re-synchronised. Nothing here is measured.
+Board P r3 PCB is routed with TPS16630PWPR; layout corrections and native acceptance are tracked
+separately. This is not a measured thermal/current rating. Nothing here is measured.
 
 ## Human component reference
 

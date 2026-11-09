@@ -223,7 +223,7 @@
       "class": "PROJECT_STATE",
       "value": "Board P U2 (r3): IN (1-3) and P_IN (6) on EF_IN after the LM74700 ideal diode U3 and Q3 CSD18543Q3A; OUT (18-20) on VBUS_P; UVLO 11.5k/4.02k and OVP 174k/10k dividers from VBUS_IN; ILIM 4.02k; dVdT 100 nF; MODE open (latch); SHDN, IMON, FLT, PGOOD open; NC pins 4, 5, 17 open; PAD 21 to GND; single 100 uF bulk C3 on VBUS_P",
       "unit": "NONE",
-      "conditions": "Unvalidated draft connectivity in scripts/schgen/board_p_spec.py; the Board P PCB still carries the r2 TPS26630 layout and is not re-synchronised. No bench, thermal or surge result exists.",
+      "conditions": "Project-state refresh 2026-11-09: scripts/schgen/board_p_spec.py and the routed Board P r3 PCB use TPS16630PWPR, not the historical r2 TPS26630 layout. The r3 native/layout correction work is tracked separately and does not establish a measured 5 A thermal rating. No bench, thermal or surge result exists; fast-trip and short-circuit typical values do not provide a guaranteed let-through maximum.",
       "locator": "board_p_spec.py COMPONENTS U2/U3/Q3 rows and NETS rows VBUS_IN, EF_IN, EF_GATE, EF_VCAP, VBUS_P, EF_*",
       "provenance": "PROJECT-CHOICE",
       "verdict": "NEEDS BENCH",

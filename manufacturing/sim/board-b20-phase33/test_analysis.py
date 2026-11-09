@@ -18,6 +18,18 @@ def row(t, p12=0, p5=0, m12=0, enn=0):
 
 
 class AnalysisInputsTest(unittest.TestCase):
+    def test_wrdata_precision_preserves_close_adaptive_samples(self):
+        # Distinct double-precision solver times can collapse in default wrdata text.
+        times = (0, 1e-6, 1.0127414901e-6, 1.0127414902e-6, 2e-6, 3e-6, 4e-6)
+        def serialized(digits):
+            return ''.join(' '.join(format(v, f'.{digits}e') for _ in range(11)
+                                    for v in (t, 0)) + '\n' for t in times)
+        self.path.write_text(serialized(8))
+        with self.assertRaisesRegex(ValueError, 'time is not increasing'):
+            load(self.path)
+        self.path.write_text(serialized(15))
+        self.assertEqual(len(load(self.path)), len(times))
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
