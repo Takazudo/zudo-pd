@@ -14,7 +14,7 @@
  * Exercises this project's passive, controller and connector records, plus
  * the explicit document gap and illustrative inductor model provenance.
  *
- * Requires `pnpm build` first, and a Chrome on PATH (or `CHROME_BIN`).
+ * Requires `pnpm build` first, and Chrome on PATH, in the standard macOS app path, or `CHROME_BIN`.
  */
 
 import { spawn } from "node:child_process";
@@ -80,7 +80,9 @@ async function main() {
   const origin = `http://127.0.0.1:${address.port}`;
 
   const profile = await mkdtemp(join(tmpdir(), "zpd-model-viewer-chrome-"));
-  const executable = process.env.CHROME_BIN ?? "google-chrome";
+  const executable = process.env.CHROME_BIN ?? (process.platform === "darwin"
+    ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    : "google-chrome");
   const chrome = spawn(executable, [
     "--headless=new",
     "--no-sandbox",
@@ -108,6 +110,11 @@ async function main() {
     try {
       await cdp.send("Page.enable");
       await cdp.send("Page.bringToFront");
+      // On macOS, bringToFront can leave headless Chrome's document hidden:
+      // native dialog close events then remain pending after backdrop dismissal.
+      // This interaction suite requires an active page; keep all DOM focus,
+      // close-event cleanup and render-idle assertions intact.
+      await cdp.send("Emulation.setFocusEmulationEnabled", { enabled: true });
       await cdp.send("Runtime.enable");
       await cdp.send("Network.enable");
 
@@ -288,6 +295,7 @@ async function navigate(cdp, origin, path) {
   await cdp.send("Page.navigate", { url: target.href });
   await waitFor(cdp, `location.pathname === ${JSON.stringify(target.pathname)} && location.search === ${JSON.stringify(target.search)}`);
   await waitFor(cdp, `document.readyState === 'complete'`);
+  assertEqual(await evaluate(cdp, `document.visibilityState`), "visible", "interaction test page is active");
 }
 
 async function setDocumentTheme(cdp, theme) {
