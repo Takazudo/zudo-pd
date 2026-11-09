@@ -46,6 +46,15 @@ ORDER_NOTES = {p: pair['notes'] for (p, _), pair in PAIRS.items()}
 PARTNER = {**{p: b for p, b in PAIRS}, **{b: p for p, b in PAIRS}}
 
 
+def power_report_files(pair):
+    """Select narratives only for the product they actually describe."""
+    require(pair in PAIRS, f'No reviewed stack pairing for {pair}')
+    reports = PAIRS[pair]
+    if pair == ('board-p15', 'board-b'):
+        return (reports['budget'], 'power-budget.md', reports['layout'])
+    return (reports['budget'], reports['layout'])
+
+
 def pcb_path(name, root=None):
     return (root or ROOT) / 'boards' / name / PCB_FILES.get(name, name + '.kicad_pcb')
 
@@ -500,7 +509,7 @@ def main():
                 'git_base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
                 'boards': results}
     shutil.copyfile(ROOT / 'manufacturing' / pair['notes'], output / 'ORDER-NOTES.md')
-    for filename in (pair['budget'], 'power-budget.md', pair['layout']):
+    for filename in power_report_files((board_p, board_b)):
         shutil.copyfile(ROOT / 'manufacturing' / filename, output / filename)
     shutil.copyfile(ROOT/'footprints/kicad/step-datum-verification.json',output/'step-datum-verification.json')
     shutil.copyfile(ROOT/'scripts/pcb/step-datum-normalizations.json',output/'step-datum-normalizations.json')
