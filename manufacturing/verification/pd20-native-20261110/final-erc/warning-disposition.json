@@ -1,0 +1,361 @@
+{
+  "scope": "Read-only warning disposition for exact native ERC inputs, not electrical qualification",
+  "execution_revision": "76f807f11d3b97a9625e8cc9dd6835e235bb99df",
+  "working_tree_dirty": true,
+  "input_sha256": {
+    "symbols/zudo-pd.kicad_sym": "415fc3d47aa0df281a1ce1074930f854d74aeeee987760f15174d34ff35871cf",
+    "scripts/schgen/verify_netlist.py": "09eea9796effc521e335fe94f3f2b29d3952facbcaace43ba1ddc5e7dc0fdc15",
+    "scripts/schgen/schgen_core.py": "f70f8597632c73909c1a63eee4bc5873a2ed55dbef61675a3fcd66a75448de51",
+    "boards/board-p/board-p.kicad_sch": "24e294c9947543123c4a095d65f58e53ea4b3cf27fb8e9671ae0b8537f7f6f56",
+    "boards/board-p/board-p.kicad_pro": "c1790f00a7aabeffe42cabb9635541bc94f45c471d124506e9eb77bdaded0415",
+    "scripts/schgen/board_p_spec.py": "e2e7a7e46eb4a6023833a1f9789caebfeb9d7a53c39655a426de6360d49541e2",
+    "boards/board-b20-draft/board-b20-draft.kicad_sch": "18c00f1ed36eea24e8fe193fcab9c38cb563b591372122dc45f05efee7776a6f",
+    "boards/board-b20-draft/board-b20-draft.kicad_pro": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
+    "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af"
+  },
+  "erc_sha256": "72a28ce0407b19342d71041082070ac560b0c9c5b5e216febde6e4dce115070f",
+  "netlist_sha256": "e64a1e80f4e7deaedeb8fd60118e2a841ef2ce15db08fcd8cbd563b604e00261",
+  "method": "All warning endpoint pairs independently matched to native netlist and current owner schematic NETS; exact component pin-map role review. No symbol, schematic, PCB, or ERC settings changed.",
+  "board_p": {
+    "errors": 0,
+    "warnings": 27,
+    "rows": [
+      {
+        "index": 1,
+        "pins": [
+          "U1.1",
+          "R19.1"
+        ],
+        "net": "CC1DB",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Dead-battery CC1 connection through R19 to CC1; owner pin 1 role matches."
+      },
+      {
+        "index": 2,
+        "pins": [
+          "U1.2",
+          "J1.3"
+        ],
+        "net": "CC1",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Configuration channel 1 to receptacle A5; owner pin 2 role matches."
+      },
+      {
+        "index": 3,
+        "pins": [
+          "U1.4",
+          "J1.4"
+        ],
+        "net": "CC2",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Configuration channel 2 to receptacle B5; owner pin 4 role matches."
+      },
+      {
+        "index": 4,
+        "pins": [
+          "U1.5",
+          "R20.1"
+        ],
+        "net": "CC2DB",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Dead-battery CC2 connection through R20 to CC2; owner pin 5 role matches."
+      },
+      {
+        "index": 5,
+        "pins": [
+          "U1.6",
+          "R21.1"
+        ],
+        "net": "RESET",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Active-high reset with R21 ground pull-down; not an output conflict."
+      },
+      {
+        "index": 6,
+        "pins": [
+          "U1.7",
+          "J2.1"
+        ],
+        "net": "SCL",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "I2C clock to programming connector; external programmer/pull-up behavior is separate."
+      },
+      {
+        "index": 7,
+        "pins": [
+          "U1.8",
+          "J2.2"
+        ],
+        "net": "SDA",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "I2C open-drain data to programming connector; external pull-up behavior is separate."
+      },
+      {
+        "index": 8,
+        "pins": [
+          "U1.9",
+          "R13.2"
+        ],
+        "net": "DISCH",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Discharge pin through R13 from VBUS_OUT and local D12 clamp; pin role matches, timing/current qualification remains open."
+      },
+      {
+        "index": 9,
+        "pins": [
+          "U1.10",
+          "U1.12"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 10,
+        "pins": [
+          "U1.11",
+          "JOUT1.3"
+        ],
+        "net": "ATT",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Open-drain attach flag exported to JOUT1; downstream pull-up and interface behavior remain separately verified."
+      },
+      {
+        "index": 11,
+        "pins": [
+          "U1.12",
+          "U1.25"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 12,
+        "pins": [
+          "U1.25",
+          "U2.21"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 13,
+        "pins": [
+          "U1.24",
+          "C38.1"
+        ],
+        "net": "VDD_LOC",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "VDD supplied through adopted local clamp network, bypassed by C38; pin role matches, margin proof remains separate."
+      },
+      {
+        "index": 14,
+        "pins": [
+          "U1.23",
+          "C30.2"
+        ],
+        "net": "VREG_2V7",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "2.7 V regulator decoupling C30 plus debug access; no Board A R15/R16 pull-up loads are present in this P spec. Probe loading remains a limitation."
+      },
+      {
+        "index": 15,
+        "pins": [
+          "U1.22",
+          "U1.25"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 16,
+        "pins": [
+          "U1.21",
+          "C34.1"
+        ],
+        "net": "VREG_1V2",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "1.2 V regulator decoupling C34; correct pin 21."
+      },
+      {
+        "index": 17,
+        "pins": [
+          "U1.20",
+          "JOUT1.4"
+        ],
+        "net": "PDOK",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "POWER_OK2 open-drain status exported to JOUT1; NVM mapping and established-contract behavior remain open."
+      },
+      {
+        "index": 18,
+        "pins": [
+          "U1.18",
+          "D10.1"
+        ],
+        "net": "VBUS_VS_DISCH",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Sense/discharge pin behind series resistors with D10 cathode clamp; topology matches adopted spec, timing/current margins remain separate."
+      },
+      {
+        "index": 19,
+        "pins": [
+          "U1.16",
+          "D11.1"
+        ],
+        "net": "VBEN_PIN",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Active-low open-drain sink enable at local D11 clamp and Q6 source; role matches, electrical behavior remains separate."
+      },
+      {
+        "index": 20,
+        "pins": [
+          "U1.13",
+          "U1.22"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 21,
+        "pins": [
+          "D5.1",
+          "D5.2"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 22,
+        "pins": [
+          "D5.2",
+          "D5.3"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 23,
+        "pins": [
+          "D5.3",
+          "D5.7"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 24,
+        "pins": [
+          "D5.7",
+          "U1.22"
+        ],
+        "net": "GND",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "Ground, grounded address straps, unused VSYS, and exposed-pad returns intentionally share GND. VSYS may be grounded when unused; address straps select the low address."
+      },
+      {
+        "index": 25,
+        "pins": [
+          "D5.6",
+          "J1.2"
+        ],
+        "net": "VBUS_IN",
+        "description": "Pins of type Unspecified and Passive are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "TVS2200 IN pins 4/5/6 tied to connector VBUS; GND pins 1/2/3 and thermal pad 7 tied to GND per TI Table 6-1."
+      },
+      {
+        "index": 26,
+        "pins": [
+          "D5.5",
+          "D5.6"
+        ],
+        "net": "VBUS_IN",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "TVS2200 IN pins 4/5/6 tied to connector VBUS; GND pins 1/2/3 and thermal pad 7 tied to GND per TI Table 6-1."
+      },
+      {
+        "index": 27,
+        "pins": [
+          "D5.4",
+          "D5.5"
+        ],
+        "net": "VBUS_IN",
+        "description": "Pins of type Unspecified and Unspecified are connected",
+        "disposition": "RETAIN: imported Unspecified pin typing; no wrong-net finding in this warning",
+        "rationale": "TVS2200 IN pins 4/5/6 tied to connector VBUS; GND pins 1/2/3 and thermal pad 7 tied to GND per TI Table 6-1."
+      }
+    ]
+  },
+  "board_b20": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "limits": [
+    "Unspecified symbol pins reduce native electrical-type checking coverage. Retaining these warnings does not prove power-driver compatibility, NVM state, voltage/current/thermal margin, physical assembly, or T1-T8 behavior.",
+    "No blanket suppression or shared-library/P15 identity change recommended merely to silence these warnings.",
+    "Project ignores single_global_label, four_way_junction, simulation_model_issue, footprint_filter, as listed in native report. No excluded violation is used as acceptance."
+  ],
+  "component_evidence": {
+    "STUSB4500QTR": {
+      "owner": ".claude/skills/component-stusb4500qtr",
+      "document": "DS12499 Rev 8, Table 1 and section 2.2 pin functions",
+      "document_sha256": "82d6080e6d3e994f0969f4f018039d1f0871db9f6793c80c09e63e80325029e8",
+      "direct_pdf_check": "NOT RUN: previously acquired bytes not present in available local cache; no redundant reacquisition. This review used retained owner pin-map and source extracts, not a new direct PDF inspection."
+    },
+    "TVS2200DRVR": {
+      "owner": ".claude/skills/component-tvs2200drvr",
+      "document": "SLVSED5C Table 6-1, physical PDF index 2 / printed page 3",
+      "document_sha256": "84c986c9cc4f323fdb0c6840bff455438802dd6df9af5fd89c73b8bce4dced9e",
+      "direct_pdf_check": "Read retained primary PDF Table 6-1: pins 1/2/3 GND; 4/5/6 IN; exposed thermal pad GND; Figure 6-1 numbers thermal pad 7."
+    }
+  },
+  "owner_evidence_sha256": {
+    ".claude/skills/component-stusb4500qtr/coverage.json": "c3da018c4bfb5918b0553758df30ce3497df4afd7d4470084695283c731e1a77",
+    ".claude/skills/component-stusb4500qtr/facts.json": "1a8325690640cd6066bb89b10434cff46447ce6d5233815dff754224d8312c5a",
+    ".claude/skills/component-stusb4500qtr/interactions.json": "7752da8842140b65f6699f1c9ce9d2ca36fc3c3406ae973dca43772998597127",
+    ".claude/skills/component-stusb4500qtr/manifest.json": "ec9acc9e363d67eb6bc211920d16a2aa90fcd782e08594884a388ba163c72e8d",
+    ".claude/skills/component-stusb4500qtr/pin-map.json": "041eba027fdf6bd92048c2e42a65c437803b757f73dd8e040aa833813189716b",
+    ".claude/skills/component-stusb4500qtr/routing.json": "9755feee7f1856309a230d27d7099cfa4930ea2de74ef99dd8dfbcd2cdf07879",
+    ".claude/skills/component-stusb4500qtr/sources.json": "f8277060dba97a7523ddd3cf35adbb4b9ebdefc4a0340010a1b5a9395b153c93",
+    ".claude/skills/component-tvs2200drvr/coverage.json": "00f742e334345a39ebbd5b3df7c09a4ae58a6c2766ed4edeafb19d1f96ab789d",
+    ".claude/skills/component-tvs2200drvr/facts.json": "877856d7fac95a171ed0149883c273540515ac9e1c19a023430d051928026732",
+    ".claude/skills/component-tvs2200drvr/interactions.json": "37d4d91e11938d0a1aa3e37c711365c29bb100ad7cb7adf1854b024684d18245",
+    ".claude/skills/component-tvs2200drvr/manifest.json": "9fdab78235c271c18826f38a1f9069eb94dadb144d9768c3bdf3d27e5d1e3bba",
+    ".claude/skills/component-tvs2200drvr/pin-map.json": "84a7074919a7353e6adbee8f68315c995d459d7c54d19cf3520fb2986e0e4bf6",
+    ".claude/skills/component-tvs2200drvr/routing.json": "c70c30e11f3fbad19276486ebc5d4fced1f184851b80a3fd31d6706db56be5b2",
+    ".claude/skills/component-tvs2200drvr/sources.json": "fa6376449e49c169d6ce0b51785d8188ff49aa3854b132233bce827c73eb0d76"
+  }
+}

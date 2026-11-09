@@ -7,7 +7,7 @@ stay at their as-built coordinates; the other positions come from search-placeme
 STUSB local-clamp pin corridors become via keep-out rule areas; footprint intrusion is asserted here. Floorplan 'pre' parts (phase 11)
 override the as-built position, which moves U1 (not a connector). Power routing is route-power.py.
 """
-import importlib.util, json, math, sys
+import importlib.util, json, math, sys, uuid
 import pcbnew
 
 repo, out_pcb, out_rep = sys.argv[1:4]
@@ -185,6 +185,13 @@ for ref, (x, y, rot, side) in SEARCH['pos'].items():
 for ref in unplaced:
     put(fps[ref], W + 8, 5 + 6 * unplaced.index(ref), 0)
 
+# SEARCH pin_d is an optimization score with a 3 mm B-side penalty, not geometry.
+# Measure the actual placed pad centers for the generated engineering report.
+pin_dist = {ref: math.dist(pad_xy(ic, ip), pad_xy(ref, pp))
+            for ref, ic, ip, pp in [('R21', 'U1', '6', '1'), ('D9', 'U1', '24', '1'),
+                                   ('D10', 'U1', '18', '1'), ('D11', 'U1', '16', '1'),
+                                   ('D12', 'U1', '9', '1')]}
+
 # Each corridor runs from a protected STUSB4500 pin to its owner's pad, so the owner and U1 necessarily touch it.
 # A footprint-disallow rule area therefore flagged exactly those owners (5 items_not_allowed). The corridor stays a
 # via keep-out for DRC, and the footprint rule is checked here instead: only U1 and the protected owners may touch one
@@ -203,17 +210,40 @@ for k in keepouts:
     ol = z.Outline(); ol.NewOutline()
     for x, y in ((k[0], k[1]), (k[2], k[1]), (k[2], k[3]), (k[0], k[3])):
         ol.Append(mm(x), mm(y))
+    z.m_Uuid.Clone(pcbnew.KIID(str(uuid.uuid5(uuid.NAMESPACE_URL, 'zudo-pd/r3/keepout/'+json.dumps(k)))))
     board.Add(z)
+
+# Explicit pad-level constraints survive ordinary rebuilds without heuristic placement.
+local_decoupling = {}
+for ref, constraint in SEARCH.get('local_decoupling_constraints', {}).items():
+    ic, pin = constraint['ic_pad'].split('.')
+    distance = math.dist(pad_xy(ic, pin), pad_xy(ref, constraint['capacitor_pad']))
+    if distance > constraint['max_distance_mm']:
+        raise ValueError(f'{ref}: local decoupling distance {distance:.3f} mm')
+    local_decoupling[ref] = {**constraint, 'actual_distance_mm': round(distance, 3)}
 
 area_board = W * H
 area_parts = sum((c[2] - c[0]) * (c[3] - c[1]) for c in (courtyard(fps[r]) for r in spec.COMPONENTS))
 area_holes = sum((r[2] - r[0]) * (r[3] - r[1]) for r in rects if r[4].startswith('MH'))
+# Stable identities make native object ordering and filled copper reproducible.
+for ref, fp in sorted(fps.items()):
+    def identify(item, kind, key):
+        item.m_Uuid.Clone(pcbnew.KIID(str(uuid.uuid5(uuid.NAMESPACE_URL, 'zudo-pd/r3/'+ref+'/'+kind+'/'+str(key)))))
+    identify(fp, 'footprint', '')
+    for pad in fp.Pads():
+        identify(pad, 'pad', [pad.GetNumber(), pad.GetPosition().x, pad.GetPosition().y])
+    for field in fp.GetFields():
+        identify(field, 'field', field.GetName())
+    for index, item in enumerate(fp.GraphicalItems()):
+        identify(item, 'graphic', index)
+    for index, item in enumerate(fp.Zones()):
+        identify(item, 'zone', index)
 pcbnew.SaveBoard(out_pcb, board)
 report = {
     'board_mm': [W, H], 'grid_mm': GRID, 'edge_clearance_mm': EDGE, 'courtyard_gap_mm': GAP, 'side': 'top and bottom' if any(p[3] == 'B' for p in SEARCH['pos'].values()) else 'top only', 'bottom': sorted(r for r, p in SEARCH['pos'].items() if p[3] == 'B'),
     'fixed': {r: placed[r] for r in FIXED if r not in PRE}, 'floorplan_pre': PRE, 'mounting_holes': {r: asbuilt[r] for r in asbuilt if r.startswith('MH')},
     'placed': {r: [round(v, 3) for v in placed[r]] for r in placed if r not in FIXED},
-    'unplaced': unplaced, 'missing_pads': missing_pads,
+    'unplaced': unplaced, 'missing_pads': missing_pads, 'local_decoupling': local_decoupling,
     'pin_to_part_pad_mm': {r: (round(d, 3) if d is not None else None) for r, d in pin_dist.items()},
     'keepouts_mm': [[round(v, 3) for v in k] for k in keepouts],
     'keepout_rule': 'vias not allowed; footprints checked by build-draft.py: only U1 and protected owners touch a corridor',
@@ -223,4 +253,4 @@ report = {
                  'utilisation_of_board_less_holes': round(area_parts / (area_board - area_holes), 3)},
 }
 open(out_rep, 'w').write(json.dumps(report, indent=1) + '\n')
-print(json.dumps({'unplaced': unplaced, 'missing_pads': missing_pads, 'area': report['area_mm2'], 'pin': report['pin_to_part_pad_mm']}))
+print(json.dumps({'unplaced': unplaced, 'missing_pads': missing_pads, 'local_decoupling': local_decoupling, 'area': report['area_mm2'], 'pin': report['pin_to_part_pad_mm']}))

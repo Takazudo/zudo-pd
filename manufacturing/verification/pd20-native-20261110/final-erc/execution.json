@@ -1,0 +1,145 @@
+{
+  "started_utc": "2026-11-09T18:57:03.794093+00:00",
+  "execution_revision": "76f807f11d3b97a9625e8cc9dd6835e235bb99df",
+  "working_tree_dirty": true,
+  "input_sha256": {
+    "symbols/zudo-pd.kicad_sym": "415fc3d47aa0df281a1ce1074930f854d74aeeee987760f15174d34ff35871cf",
+    "scripts/schgen/verify_netlist.py": "09eea9796effc521e335fe94f3f2b29d3952facbcaace43ba1ddc5e7dc0fdc15",
+    "scripts/schgen/schgen_core.py": "f70f8597632c73909c1a63eee4bc5873a2ed55dbef61675a3fcd66a75448de51",
+    "boards/board-p/board-p.kicad_sch": "24e294c9947543123c4a095d65f58e53ea4b3cf27fb8e9671ae0b8537f7f6f56",
+    "boards/board-p/board-p.kicad_pro": "c1790f00a7aabeffe42cabb9635541bc94f45c471d124506e9eb77bdaded0415",
+    "scripts/schgen/board_p_spec.py": "e2e7a7e46eb4a6023833a1f9789caebfeb9d7a53c39655a426de6360d49541e2",
+    "boards/board-b20-draft/board-b20-draft.kicad_sch": "18c00f1ed36eea24e8fe193fcab9c38cb563b591372122dc45f05efee7776a6f",
+    "boards/board-b20-draft/board-b20-draft.kicad_pro": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
+    "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af"
+  },
+  "driver_sha256": "b237f699b516ff7a09890c9670e62658732d5e99f632eb025081e5e83d0d6df7",
+  "cli_wrapper_sha256": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+  "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+  "platform": "linux/amd64",
+  "status": "PASS: native ERC has no errors and exported netlists match both specs; warning disposition separate",
+  "boards": {
+    "board-p": {
+      "erc_command": [
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/kicad-cli",
+        "sch",
+        "erc",
+        "--severity-all",
+        "--format",
+        "json",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-native-erc-final-20261110/board-p-erc.json",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/boards/board-p/board-p.kicad_sch"
+      ],
+      "erc_sha256": "72a28ce0407b19342d71041082070ac560b0c9c5b5e216febde6e4dce115070f",
+      "severity_counts": {
+        "warning": 27
+      },
+      "type_counts": {
+        "pin_to_pin": 27
+      },
+      "netlist_sha256": "e64a1e80f4e7deaedeb8fd60118e2a841ef2ce15db08fcd8cbd563b604e00261",
+      "spec_netlist_parity": "PASS",
+      "warnings_require_disposition": true
+    },
+    "board-b20-draft": {
+      "erc_command": [
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/kicad-cli",
+        "sch",
+        "erc",
+        "--severity-all",
+        "--format",
+        "json",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-native-erc-final-20261110/board-b20-draft-erc.json",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/boards/board-b20-draft/board-b20-draft.kicad_sch"
+      ],
+      "erc_sha256": "9983fb9f6101a799c104dfec7756f3b3ee93427e4d3d3179864d13195c8948ed",
+      "severity_counts": {},
+      "type_counts": {},
+      "netlist_sha256": "3d07a97328af7fc70abb1112112f47f302d46c6477cd018ad27460f42e44b045",
+      "spec_netlist_parity": "PASS",
+      "warnings_require_disposition": true
+    }
+  },
+  "kicad_version": "10.0.6",
+  "execution_scope": "ERC/netlist use isolated native Mac 10.0.6 CLI; Docker tool hashes identify the separately retained pinned pcbnew workflow",
+  "mac_cli_capability": {
+    "scope": "Synthetic native capability smoke only, not product CAD acceptance",
+    "python_version": "3.9.13 (v3.9.13:6de2ca5339, May 17 2022, 11:37:23) \n[Clang 13.0.0 (clang-1300.0.29.30)]",
+    "machine": "arm64",
+    "kicad_version": "10.0.6",
+    "wx_version": "4.2.2a1 osx-cocoa (phoenix) wxWidgets 3.2.8",
+    "paths": {
+      "python": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3",
+      "pcbnew": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/pcbnew.py",
+      "wx": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/wx/__init__.py",
+      "pcbnew_native": "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/kicad-macos-10.0.6/mounted/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so"
+    },
+    "sha256": {
+      "python": "646a13dfcac3c9d204d26a70842bc8a26deb7ea0c9fa6b15c2d9c6fbf1f19b63",
+      "pcbnew": "2b35ffe41666c7a3194cd7fb9a818d03be5257066c100e87d1be670ec5ac2f27",
+      "wx": "9c6be1649f1241692790169dcc18f29bf88bc873bca354834d257576869adcdf",
+      "pcbnew_native": "ad3e6245652e0524a86eb0a834e5360fca2e270c8379beb6dd87d8ce652ce41c"
+    },
+    "cli_sha256": "bc9966f4a3c24db726aaac04856debf5dae8c2cc43eee6a482182c0f5df14aa8",
+    "wrapper_sha256": {
+      "kicad-cli": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+      "kicad-python": "a7c0eee2995d798a276422e744f7395e69d93fd25dc7de863452c154537d39e4"
+    },
+    "render": {
+      "status": "PASS",
+      "kind": "synthetic bare-board smoke",
+      "width": 320,
+      "height": 240,
+      "quality": "high",
+      "image_sha256": "a47555c661d7b886c2371ee03d1771280cf5377dc03baf41b1768571a000946a",
+      "guard_log_sha256": "e76f774cf287ee41d115d84667bd64af0d527286fb75e345487bf3d1e4259e9f"
+    },
+    "initial_failure": "SIGSEGV in PCM library traversal with only CONFIG isolation; retained smoke.log. Retry also isolated official KICAD_DOCUMENTS_HOME and KICAD_CACHE_HOME; PASS. No user configuration changed."
+  },
+  "image_identity": {
+    "Id": "sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+    "RepoDigests": [
+      "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec"
+    ],
+    "Architecture": "amd64",
+    "Os": "linux"
+  },
+  "tool_hashes": {
+    "python_version": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+    "executables": {
+      "kicad_cli": {
+        "path": "/usr/bin/kicad-cli",
+        "sha256": "170493658ffb66d554137711b4e1a8c760de23a5056267424f0148d3e3323f68"
+      },
+      "pcbnew_wrapper": {
+        "path": "/usr/lib/python3/dist-packages/pcbnew.py",
+        "sha256": "decfa18059b9731ae3247fb7990e580c02c501f1b89114f31938512955bb6d17"
+      },
+      "pcbnew_native": {
+        "path": "/usr/lib/python3/dist-packages/_pcbnew.so",
+        "sha256": "b20ed7a14df5f0f628e8c08fe31c5321dec70ab694a19cacd0a0fa74eede64c7"
+      },
+      "python": {
+        "path": "/usr/bin/python3",
+        "sha256": "889c603f0d17cb54060951bcf4c4f9b8c9ebd9e52b392c70209bbb9755d797d9"
+      }
+    }
+  },
+  "artifact_sha256": {
+    "image-inspect.log": "a3070eb2ced8c74842c91ed187b00b215fa6f07c813fbd775cfe832a1d34c63a",
+    "board-p-netlist.log": "48d1742e4eb8d891c783fb9298eeb3b7b38196001af8c8f9457e38ebf0e40b99",
+    "board-b20-draft-erc.log": "5d79ade56d5318e9a23342cc2139f418aac60955db1063522259967e9f0e2525",
+    "kicad-version.log": "79903cfb5fce27bbddaa3cda8e3265c336d8053b799426ca9cfc835ed648c85c",
+    "board-b20-draft-erc.json": "9983fb9f6101a799c104dfec7756f3b3ee93427e4d3d3179864d13195c8948ed",
+    "board-p-erc.log": "73802239c8129d69fa474c398cfea009be8019fc5db7d58c6ece45afb236740c",
+    "board-p-erc.json": "72a28ce0407b19342d71041082070ac560b0c9c5b5e216febde6e4dce115070f",
+    "board-b20-draft-netlist-parity.log": "6ea2b79071f502ae9a8d940921970ae4a4cafcfbe5081846aefd3fef2b55a4f2",
+    "board-p-netlist-parity.log": "91ac9a2d875283f819daad8d767f30577e91002b7990c3149d53dc983e81424d",
+    "tool-hashes.json": "ec01e6e8747868d95296a410a287437073141548b72e8bb3b0e32fd44fbcbcb1",
+    "board-b20-draft.net": "3d07a97328af7fc70abb1112112f47f302d46c6477cd018ad27460f42e44b045",
+    "board-b20-draft-netlist.log": "48d1742e4eb8d891c783fb9298eeb3b7b38196001af8c8f9457e38ebf0e40b99",
+    "board-p.net": "e64a1e80f4e7deaedeb8fd60118e2a841ef2ce15db08fcd8cbd563b604e00261"
+  }
+}

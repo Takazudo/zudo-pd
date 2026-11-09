@@ -378,7 +378,8 @@ def main():
         put(footprints[ref], x, y, rot)
         grid.mark(courtyard_box(footprints[ref]))
     clip_header_silk(footprints)
-    relabel_pogo(footprints['P1'])
+    from finish_details import probe_labels
+    probe_labels(board)
     for i, (x, y) in enumerate(MOUNTING_HOLES, 1):
         name = 'MountingHole_HC11_3mm' if f'H{i}' in SUPPORT_REFS else 'MountingHole_M3'
         fp = p.FootprintLoad(LIB, name)
@@ -401,6 +402,16 @@ def main():
         board.Add(fp)
         grid.mark(courtyard_box(fp))
     grid.mark(C3_KEEPOUT)
+    # OPA2187 SBOS807E section 10.1: the supply bypass belongs to its IC.
+    # Keep this relationship even if placement-lock.json is removed for a deliberate search.
+    u6 = LOCK.get('U6', (*ANCHORS['U6'], 0))
+    if u6[2] != 0:
+        raise SystemExit('U6 bypass template requires reviewed zero-degree U6 orientation')
+    bypass = [round(u6[0] + 6.5, 4), round(u6[1] - 3.85, 4), 0.0]
+    if 'C35' in LOCK and LOCK['C35'] != bypass:
+        raise SystemExit('C35 placement lock disagrees with U6 bypass template')
+    LOCK['U6'] = list(u6)
+    LOCK['C35'] = bypass
     for ref, (x, y, rot) in LOCK.items():
         put(footprints[ref], x, y, rot)
         grid.mark(courtyard_box(footprints[ref]), halo(ref))
@@ -465,6 +476,17 @@ def main():
         raise SystemExit(f'no room for {unplaced}')
     moved = improve(footprints, grid, put, set(templated) | set(FIXED) | set(LOCK))
     print(f"wirelength pass moved {moved} parts")
+    # The bypass uses the reviewed 0.1 mm local-template courtyard spacing, not
+    # the greedy fill's 0.8 mm routing channel. Include large neighbors (CCF1).
+    cx0, cy0, cx1, cy1 = courtyard_box(footprints['C35'])
+    for ref, fp in footprints.items():
+        if ref == 'C35':
+            continue
+        x0, y0, x1, y1 = courtyard_box(fp)
+        if not (cx1 + TEMPLATE_CLEARANCE <= x0 or x1 + TEMPLATE_CLEARANCE <= cx0 or
+                cy1 + TEMPLATE_CLEARANCE <= y0 or y1 + TEMPLATE_CLEARANCE <= cy0):
+            raise SystemExit(f'U6 bypass courtyard clearance fails against {ref}')
+
 
     zone = p.ZONE(board)
     zone.SetIsRuleArea(True)
@@ -526,6 +548,10 @@ def main():
     note.SetLayer(p.F_Fab)
     board.Add(note)
 
+    from finish_details import rail_typography
+    rail_typography(board)
+    from deterministic_ids import builder_ids
+    builder_ids(board)
     p.SaveBoard(str(out), board)
     stackup = '\n'.join([
         '    (stackup',

@@ -1,0 +1,24 @@
+{
+  "source_revision": "3f24a3abb43e0f24f5e0a12f739ba8ae6bbad03d",
+  "scope": "DEVELOPMENT REVIEW ONLY; PD20 electrical order HOLD",
+  "local_package": "tmp/pd20-review-refill-3f24a3a-20261110",
+  "manifest_sha256": "9e6aa6bd72202418d7537f0cc6a35cc14c504366685f7a64f94e1936f20bc967",
+  "checksums_sha256": "629d1a967210c29191fee3a9955881fe21e7be0d2a52cb5d8ddb2ab0a8200bb6",
+  "independent_verification_sha256": "9249fcf898e35416cc08bddc29563cc9fe33d159582092bb38ec73f27c9184fc",
+  "guard_result": "heavy-guard: verdict=PASS exit=0 secs=320 min_mem_mb=7076 reason=-",
+  "visual_review": "Four independent Gerber top/bottom renders and both native board renders opened. Correct outlines, connector rows, polarity/probe cues and rail labels visible. P retains individually dispositioned nonfunctional silkscreen overlaps. Visual review is not supplier placement or physical fit acceptance.",
+  "outline_note": "Nominal outlines P27x40 and B20110x85mm; parser bounds include0.05mm stroke (27.05x40.05 and110.05x85.05), not a changed board envelope.",
+  "parser_notes": "Only known G90-after-header Excellon notes; both PTH and NPTH parse successfully.",
+  "independent_review": "Read-only independent reviewer recomputed145 manifest artifacts, all source hashes, SHA256SUMS, BOM/CPL equality, native dispositions and strict staged geometry; no findings.",
+  "software": {
+    "source_revision": "3f24a3abb43e0f24f5e0a12f739ba8ae6bbad03d",
+    "b4push": "PASS488s;263 circuit tests,15 compatibility tests,45 B20/export tests and other configured Python/strict/build/site/determinism gates",
+    "b4push_log_sha256": "d22e44fcef927cc181eec3fae74395ae913afa4922ff9df76bb8f878e8af612f",
+    "scope_limits": [
+      "Local documentation-history generation SKIPPED by configured default",
+      "Physical programming and measurement NOT RUN",
+      "Browser proofs at37767f5:48 project cases and24 package viewport/theme navigations plus24 reference inspections. Subsequent changes do not alter browser-tested UI code, component models or doc/public component-preview assets. Native assembly preview images/PCB changed and were separately regenerated, hash-audited and visually reviewed."
+    ]
+  },
+  "source_locks_preserved": true
+}

@@ -42,7 +42,9 @@ Headroom calculations retain source/path voltage, temperature, ripple and cerami
 | Input design | Disposition and independent verification of the completed P r3 review findings, exact component evidence, inrush/SOA and transient bounds |
 | Configuration | TDISPAR0V value/reset timing decision, resolved POWER_ONLY_ABOVE_5V mapping conflict and established-contract downgrade behavior; reviewed program-ready binary before any T4 execution. Position 0xCA[7:4] and initial lower-current source matching are already documented |
 | B20 review | Disposition of original review, retained SMC hot-loop/EMI and limiter-maximum D3/U3 thermal limits; component/pulse/DC-bias gaps |
-| OSC behavior | Sequencing, re-entry, asymmetric discharge, reverse leakage, let-through and fault-latch acceptance |
+| OSC pre-order interface | Complete actual startup/re-entry waveforms and model scope; 1.5 V analog threshold for the +5 V hold condition; adopted no-load exception ceilings; loaded asymmetric discharge and output disconnection before discharge; maximum delivered current including overshoot. A limiter trip threshold or windowed slew average is insufficient |
+| Model and design decisions | Disposition unresolved numerical/model excursions without inventing a tolerance or excess-current budget; any ramp-down before disconnection, component substitution, lower current ceiling or acceptance of unresolved thermal margins needs an explicit decision |
+| Other OSC behavior | Reverse leakage, all-rail fault latch and the remaining interface obligations retain their documented acceptance criteria and evidence limits |
 | Physical evidence | All [T1–T8](../verification/pd20-verification.md), actual 5 A e-marked source/cable, assembled thermal and mechanical checks |
 
 ## Order gates
@@ -50,6 +52,14 @@ Headroom calculations retain source/path voltage, temperature, ripple and cerami
 Each export needs one exact valid pair, final-revision Gerbers/drills/BOM/CPL, reviewed DNP/side/rotation/THT scope,
 source locks, reports and named blockers. Use [package preparation](../project/jlcpcb-package.md).
 An export is neither an executed order nor a release. Prototype residual acceptance does not waive product qualification.
+
+The two-P15 local packet and the PD20 development pair have separate dispositions
+in the [execution ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md).
+P15 supplier placement preview and a current quotation remain owner steps;
+incoming inspection and provisioning follow arrival. Unperformed first-prototype
+arrival tests are not a circular prerequisite for ordering that settled P15
+candidate. Conversely, PD20's explicitly pre-order interface obligations cannot
+be reassigned to T1–T8 merely to make an order appear ready.
 
 The P15 `corner-support-review` package is fixed at manifest base `3b9821b`; retain its historical full-verifier
 and 151/151 checksum PASS with the original STEP. Current HEAD does not inherit that result. A historical replay

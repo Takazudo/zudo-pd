@@ -1,625 +1,1104 @@
 {
- "_comment": "Board P r3 draft copper pours (phase 11/12): power-path outlines shaped to floorplan.json, mm in KiCad board coordinates. Read by route-power.py (pours) and route-signals.py (keep other nets out of the power pours). Phase 12: EF_IN starts at x 5.75 so U2.7 (EF_UVLO) can escape; the VBUS_P riser (C3 branch) is x 9.3-11.2 so a 0.2 mm track passes beside the U1 left pins. \"tracks\": fixed stubs placed before routing (U2.6 EF_IN lies between NC U2.5 and U2.7, so the pour cannot reach it). Phase 13: the VBUS_P riser narrows to x 9.3-10.3 for y 21.0-23.5 (it only feeds the C35.2 tap there; the 5 A path runs through x 5.6-9.3), and \"vias\" with their F.Cu stubs fan U1.7 SCL, U1.8 SDA, U1.9 DISCH and U1.11 ATT out to B.Cu: the pour edge had left one 0.1 mm channel for four pins. U2.7 EF_UVLO and U3.1 EF_VCAP get the same fan-out via beside their pads, (5.05, 14.05) and (2.2, 12.5) left of U3.1: the order-dependent router otherwise left them open. The U1.6 RESET strap to R21.1 is a fixed straight track down its own pin corridor. Phase 14: U1.5 CC2DB runs straight up between the R21 pads (0.245 mm to each) to a fixed via at (13.9, 18.6), 0.25 mm from the B.Cu R20.1 pad; U1.4 CC2 takes a fixed via at (14.6, 20.4) in the 1 mm band between the R21.2 pad and the U1 pins (0.22 mm to R21.2). Every tried seed had left one of the two open. U3.3 and U3.6 (both VBUS_IN) are joined by a fixed 0.4 mm F.Cu track between the U3 rows (0.55 mm to U3.2/U3.4/U3.5), so VBUS_IN no longer loops round U3 and U3.2 GND can escape south. U1.2 CC1 has a fixed stub that steps right of the R21.2 pad (0.245 mm) beside the CC2 via.",
- "pours": [
-  {
-   "net": "VBUS_IN",
-   "layer": "F.Cu",
-   "priority": 40,
-   "outlines": [
-    [
-     [
-      7.2,
-      7.85
-     ],
-     [
-      11.45,
-      7.85
-     ],
-     [
-      11.45,
-      6.3
-     ],
-     [
-      12.5,
-      6.3
-     ],
-     [
-      12.5,
-      7.85
-     ],
-     [
-      14.5,
-      7.85
-     ],
-     [
-      14.5,
-      6.3
-     ],
-     [
-      15.6,
-      6.3
-     ],
-     [
-      15.6,
-      10.55
-     ],
-     [
-      7.2,
-      10.55
-     ]
-    ]
-   ]
-  },
-  {
-   "net": "EF_IN",
-   "layer": "F.Cu",
-   "priority": 40,
-   "outlines": [
-    [
-     [
-      5.75,
-      10.75
-     ],
-     [
-      9.3,
-      10.75
-     ],
-     [
-      9.3,
-      15.95
-     ],
-     [
-      5.75,
-      15.95
-     ]
-    ]
-   ]
-  },
-  {
-   "net": "VBUS_P",
-   "layer": "F.Cu",
-   "priority": 40,
-   "outlines": [
-    [
-     [
-      9.3,
-      12.3
-     ],
-     [
-      16.8,
-      12.3
-     ],
-     [
-      16.8,
-      15.6
-     ],
-     [
-      11.2,
-      15.6
-     ],
-     [
-      11.2,
-      21.0
-     ],
-     [
-      10.3,
-      21.0
-     ],
-     [
-      10.3,
-      23.5
-     ],
-     [
-      9.3,
-      23.5
-     ],
-     [
-      9.3,
-      26.45
-     ],
-     [
-      5.6,
-      26.45
-     ],
-     [
-      5.6,
-      22.0
-     ],
-     [
-      7.3,
-      22.0
-     ],
-     [
-      7.3,
-      19.9
-     ],
-     [
-      9.3,
-      19.9
-     ]
-    ]
-   ]
-  },
-  {
-   "net": "VBUS_OUT",
-   "layer": "F.Cu",
-   "priority": 40,
-   "outlines": [
-    [
-     [
-      4.6,
-      26.75
-     ],
-     [
-      9.3,
-      26.75
-     ],
-     [
-      9.3,
-      38.9
-     ],
-     [
-      4.6,
-      38.9
-     ]
-    ]
-   ]
-  },
-  {
-   "net": "GND",
-   "layer": "F.Cu",
-   "priority": 0,
-   "outlines": [
-    [
-     [
-      0.3,
-      0.3
-     ],
-     [
-      26.7,
-      0.3
-     ],
-     [
-      26.7,
-      39.7
-     ],
-     [
-      0.3,
-      39.7
-     ]
-    ]
-   ]
-  },
-  {
-   "net": "GND",
-   "layer": "B.Cu",
-   "priority": 0,
-   "outlines": [
-    [
-     [
-      0.3,
-      0.3
-     ],
-     [
-      26.7,
-      0.3
-     ],
-     [
-      26.7,
-      39.7
-     ],
-     [
-      0.3,
-      39.7
-     ]
-    ]
-   ]
+  "_comment": "Board P r3 draft copper pours (phase 11/12): power-path outlines shaped to floorplan.json, mm in KiCad board coordinates. Read by route-power.py (pours) and route-signals.py (keep other nets out of the power pours). Phase 12: EF_IN starts at x 5.75 so U2.7 (EF_UVLO) can escape; the VBUS_P riser (C3 branch) is x 9.3-11.2 so a 0.2 mm track passes beside the U1 left pins. \"tracks\": fixed stubs placed before routing (U2.6 EF_IN lies between NC U2.5 and U2.7, so the pour cannot reach it). Phase 13: the VBUS_P riser narrows to x 9.3-10.3 for y 21.0-23.5 (it only feeds the C35.2 tap there; the 5 A path runs through x 5.6-9.3), and \"vias\" with their F.Cu stubs fan U1.7 SCL, U1.8 SDA, U1.9 DISCH and U1.11 ATT out to B.Cu: the pour edge had left one 0.1 mm channel for four pins. U2.7 EF_UVLO and U3.1 EF_VCAP get the same fan-out via beside their pads, (5.05, 14.05) and (2.2, 12.5) left of U3.1: the order-dependent router otherwise left them open. The U1.6 RESET strap to R21.1 is a fixed straight track down its own pin corridor. Phase 14: U1.5 CC2DB runs straight up between the R21 pads (0.245 mm to each) to a fixed via at (13.9, 18.6), 0.25 mm from the B.Cu R20.1 pad; U1.4 CC2 takes a fixed via at (14.6, 20.4) in the 1 mm band between the R21.2 pad and the U1 pins (0.22 mm to R21.2). Every tried seed had left one of the two open. U3.3 and U3.6 (both VBUS_IN) are joined by a fixed 0.4 mm F.Cu track between the U3 rows (0.55 mm to U3.2/U3.4/U3.5), so VBUS_IN no longer loops round U3 and U3.2 GND can escape south. U1.2 CC1 has a fixed stub that steps right of the R21.2 pad (0.245 mm) beside the CC2 via.",
+  "pours": [
+    {
+      "net": "VBUS_IN",
+      "layer": "F.Cu",
+      "priority": 40,
+      "outlines": [
+        [
+          [
+            7.2,
+            7.85
+          ],
+          [
+            11.45,
+            7.85
+          ],
+          [
+            11.45,
+            6.3
+          ],
+          [
+            12.5,
+            6.3
+          ],
+          [
+            12.5,
+            7.85
+          ],
+          [
+            14.5,
+            7.85
+          ],
+          [
+            14.5,
+            6.3
+          ],
+          [
+            15.6,
+            6.3
+          ],
+          [
+            15.6,
+            10.55
+          ],
+          [
+            7.2,
+            10.55
+          ]
+        ]
+      ]
+    },
+    {
+      "net": "EF_IN",
+      "layer": "F.Cu",
+      "priority": 40,
+      "outlines": [
+        [
+          [
+            5.75,
+            10.75
+          ],
+          [
+            9.3,
+            10.75
+          ],
+          [
+            9.3,
+            15.95
+          ],
+          [
+            5.75,
+            15.95
+          ]
+        ]
+      ]
+    },
+    {
+      "net": "VBUS_P",
+      "layer": "F.Cu",
+      "priority": 40,
+      "outlines": [
+        [
+          [
+            9.3,
+            12.3
+          ],
+          [
+            16.8,
+            12.3
+          ],
+          [
+            16.8,
+            15.6
+          ],
+          [
+            11.2,
+            15.6
+          ],
+          [
+            11.2,
+            21.0
+          ],
+          [
+            10.3,
+            21.0
+          ],
+          [
+            10.3,
+            23.5
+          ],
+          [
+            9.3,
+            23.5
+          ],
+          [
+            9.3,
+            26.45
+          ],
+          [
+            5.6,
+            26.45
+          ],
+          [
+            5.6,
+            22.0
+          ],
+          [
+            7.3,
+            22.0
+          ],
+          [
+            7.3,
+            19.9
+          ],
+          [
+            9.3,
+            19.9
+          ]
+        ]
+      ]
+    },
+    {
+      "net": "VBUS_OUT",
+      "layer": "F.Cu",
+      "priority": 40,
+      "outlines": [
+        [
+          [
+            4.6,
+            26.75
+          ],
+          [
+            9.3,
+            26.75
+          ],
+          [
+            9.3,
+            38.9
+          ],
+          [
+            4.6,
+            38.9
+          ]
+        ]
+      ]
+    },
+    {
+      "net": "GND",
+      "layer": "F.Cu",
+      "priority": 0,
+      "outlines": [
+        [
+          [
+            0.3,
+            0.3
+          ],
+          [
+            26.7,
+            0.3
+          ],
+          [
+            26.7,
+            39.7
+          ],
+          [
+            0.3,
+            39.7
+          ]
+        ]
+      ]
+    },
+    {
+      "net": "GND",
+      "layer": "B.Cu",
+      "priority": 0,
+      "outlines": [
+        [
+          [
+            0.3,
+            0.3
+          ],
+          [
+            26.7,
+            0.3
+          ],
+          [
+            26.7,
+            39.7
+          ],
+          [
+            0.3,
+            39.7
+          ]
+        ]
+      ]
+    },
+    {
+      "net": "EF_IN",
+      "layer": "B.Cu",
+      "priority": 40,
+      "outlines": [
+        [
+          [
+            7.45,
+            10.8
+          ],
+          [
+            8.15,
+            10.8
+          ],
+          [
+            8.15,
+            12.15
+          ],
+          [
+            9.3,
+            12.15
+          ],
+          [
+            9.3,
+            12.75
+          ],
+          [
+            5.75,
+            12.75
+          ],
+          [
+            5.75,
+            12.1
+          ],
+          [
+            7.45,
+            12.1
+          ]
+        ]
+      ]
+    },
+    {
+      "net": "VBUS_OUT",
+      "layer": "B.Cu",
+      "priority": 40,
+      "outlines": [
+        [
+          [
+            5.75,
+            27.4
+          ],
+          [
+            7.25,
+            27.4
+          ],
+          [
+            7.25,
+            29.5
+          ],
+          [
+            9.3,
+            29.5
+          ],
+          [
+            9.3,
+            38.9
+          ],
+          [
+            7.8,
+            38.9
+          ],
+          [
+            7.8,
+            31.2
+          ],
+          [
+            4.6,
+            31.2
+          ],
+          [
+            4.6,
+            29.5
+          ],
+          [
+            5.75,
+            29.5
+          ]
+        ]
+      ]
+    }
+  ],
+  "tracks": [
+    {
+      "net": "EF_IN",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        5.675,
+        14.6
+      ],
+      "b": [
+        5.675,
+        14.0
+      ]
+    },
+    {
+      "net": "EF_IN",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        5.675,
+        14.0
+      ],
+      "b": [
+        6.2,
+        13.6
+      ]
+    },
+    {
+      "net": "SCL",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        12.4,
+        22.04
+      ],
+      "b": [
+        11.94,
+        22.04
+      ]
+    },
+    {
+      "net": "SCL",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        11.94,
+        22.04
+      ],
+      "b": [
+        11.55,
+        21.65
+      ]
+    },
+    {
+      "net": "SDA",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        12.4,
+        22.54
+      ],
+      "b": [
+        11.29,
+        22.54
+      ]
+    },
+    {
+      "net": "SDA",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        11.29,
+        22.54
+      ],
+      "b": [
+        10.95,
+        22.2
+      ]
+    },
+    {
+      "net": "DISCH",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        12.4,
+        23.04
+      ],
+      "b": [
+        11.66,
+        23.04
+      ]
+    },
+    {
+      "net": "DISCH",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        11.66,
+        23.04
+      ],
+      "b": [
+        11.45,
+        23.25
+      ]
+    },
+    {
+      "net": "ATT",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        12.4,
+        24.04
+      ],
+      "b": [
+        11.66,
+        24.04
+      ]
+    },
+    {
+      "net": "ATT",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        11.66,
+        24.04
+      ],
+      "b": [
+        11.45,
+        24.25
+      ]
+    },
+    {
+      "net": "EF_UVLO",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        5.025,
+        14.7
+      ],
+      "b": [
+        5.05,
+        14.05
+      ]
+    },
+    {
+      "net": "RESET",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        13.15,
+        21.29
+      ],
+      "b": [
+        13.15,
+        19.5
+      ]
+    },
+    {
+      "net": "CC2DB",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        13.65,
+        21.1
+      ],
+      "b": [
+        13.65,
+        20.5
+      ]
+    },
+    {
+      "net": "CC2DB",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        13.65,
+        20.5
+      ],
+      "b": [
+        14.0,
+        20.15
+      ]
+    },
+    {
+      "net": "CC2DB",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        14.0,
+        20.15
+      ],
+      "b": [
+        14.0,
+        18.75
+      ]
+    },
+    {
+      "net": "CC2DB",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        14.0,
+        18.75
+      ],
+      "b": [
+        13.9,
+        18.6
+      ]
+    },
+    {
+      "net": "CC2",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        14.15,
+        21.1
+      ],
+      "b": [
+        14.15,
+        20.75
+      ]
+    },
+    {
+      "net": "CC2",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        14.15,
+        20.75
+      ],
+      "b": [
+        14.45,
+        20.45
+      ]
+    },
+    {
+      "net": "CC2",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        14.45,
+        20.45
+      ],
+      "b": [
+        14.6,
+        20.4
+      ]
+    },
+    {
+      "net": "EF_VCAP",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        2.9,
+        12.5
+      ],
+      "b": [
+        2.2,
+        12.5
+      ]
+    },
+    {
+      "net": "VBUS_IN",
+      "layer": "F",
+      "w": 0.4,
+      "a": [
+        4.95,
+        12.3
+      ],
+      "b": [
+        4.95,
+        11.2
+      ]
+    },
+    {
+      "net": "VBUS_IN",
+      "layer": "F",
+      "w": 0.4,
+      "a": [
+        4.95,
+        11.2
+      ],
+      "b": [
+        3.05,
+        11.2
+      ]
+    },
+    {
+      "net": "VBUS_IN",
+      "layer": "F",
+      "w": 0.4,
+      "a": [
+        3.05,
+        11.2
+      ],
+      "b": [
+        3.05,
+        10.2
+      ]
+    },
+    {
+      "net": "CC1",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        15.15,
+        21.1
+      ],
+      "b": [
+        15.15,
+        20.6
+      ]
+    },
+    {
+      "net": "CC1",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        15.15,
+        20.6
+      ],
+      "b": [
+        15.5,
+        20.25
+      ]
+    },
+    {
+      "net": "CC1",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        15.5,
+        20.25
+      ],
+      "b": [
+        15.5,
+        19.6
+      ]
+    },
+    {
+      "net": "GND",
+      "layer": "B",
+      "w": 0.2,
+      "a": [
+        18.85,
+        24.75
+      ],
+      "b": [
+        19.7,
+        25.25
+      ]
+    },
+    {
+      "net": "VBUS_IN",
+      "layer": "B",
+      "w": 0.4,
+      "a": [
+        11.85,
+        13.15
+      ],
+      "b": [
+        11.85,
+        12.6
+      ]
+    },
+    {
+      "net": "VBUS_IN",
+      "layer": "B",
+      "w": 0.4,
+      "a": [
+        11.85,
+        12.6
+      ],
+      "b": [
+        12.0,
+        12.45
+      ]
+    },
+    {
+      "net": "VBUS_IN",
+      "layer": "B",
+      "w": 0.4,
+      "a": [
+        12.0,
+        12.45
+      ],
+      "b": [
+        12.0,
+        11.85
+      ]
+    },
+    {
+      "net": "VBUS_IN",
+      "layer": "B",
+      "w": 0.4,
+      "a": [
+        12.0,
+        11.85
+      ],
+      "b": [
+        12.1,
+        11.75
+      ]
+    },
+    {
+      "net": "GND",
+      "layer": "F",
+      "w": 0.3,
+      "a": [
+        20.1,
+        24.25
+      ],
+      "b": [
+        21.0,
+        24.25
+      ]
+    },
+    {
+      "net": "VREG_1V2",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        16.65,
+        23.55
+      ],
+      "b": [
+        17.6,
+        23.6
+      ]
+    },
+    {
+      "net": "VREG_1V2",
+      "layer": "B",
+      "w": 0.2,
+      "a": [
+        17.6,
+        24.4
+      ],
+      "b": [
+        17.6,
+        23.6
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        16.65,
+        22.55
+      ],
+      "b": [
+        17.05,
+        22.55
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        17.05,
+        22.55
+      ],
+      "b": [
+        17.35,
+        22.85
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        17.35,
+        22.85
+      ],
+      "b": [
+        17.75,
+        22.85
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        17.75,
+        22.85
+      ],
+      "b": [
+        18.1,
+        23.2
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        18.1,
+        23.2
+      ],
+      "b": [
+        18.1,
+        23.25
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        18.1,
+        23.25
+      ],
+      "b": [
+        18.15,
+        23.3
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        18.15,
+        23.3
+      ],
+      "b": [
+        18.15,
+        23.35
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        18.15,
+        23.35
+      ],
+      "b": [
+        18.2,
+        23.4
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        18.2,
+        23.4
+      ],
+      "b": [
+        18.2,
+        23.55
+      ]
+    },
+    {
+      "net": "VREG_2V7",
+      "layer": "F",
+      "w": 0.2,
+      "a": [
+        18.2,
+        23.55
+      ],
+      "b": [
+        18.55,
+        23.9
+      ]
+    }
+  ],
+  "vias": [
+    {
+      "net": "SCL",
+      "at": [
+        11.55,
+        21.65
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "SDA",
+      "at": [
+        10.95,
+        22.2
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "DISCH",
+      "at": [
+        11.45,
+        23.25
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "ATT",
+      "at": [
+        11.45,
+        24.25
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "EF_UVLO",
+      "at": [
+        5.05,
+        14.05
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "CC2DB",
+      "at": [
+        13.9,
+        18.6
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "CC2",
+      "at": [
+        14.6,
+        20.4
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "EF_VCAP",
+      "at": [
+        2.2,
+        12.5
+      ],
+      "d": 0.5
+    },
+    {
+      "net": "GND",
+      "at": [
+        5.35,
+        17.35
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "U2.21"
+    },
+    {
+      "net": "GND",
+      "at": [
+        5.35,
+        18.65
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "U2.21"
+    },
+    {
+      "net": "GND",
+      "at": [
+        6.65,
+        17.35
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "U2.21"
+    },
+    {
+      "net": "GND",
+      "at": [
+        6.65,
+        18.65
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "U2.21"
+    },
+    {
+      "net": "VBUS_OUT",
+      "at": [
+        6.5,
+        28.8
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "Q1.9"
+    },
+    {
+      "net": "VBUS_OUT",
+      "at": [
+        6.4,
+        28.1
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "Q1.9"
+    },
+    {
+      "net": "VBUS_OUT",
+      "at": [
+        6,
+        27.5
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "Q1.9"
+    },
+    {
+      "net": "VBUS_OUT",
+      "at": [
+        7.1,
+        27.9
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "Q1.9"
+    },
+    {
+      "net": "EF_IN",
+      "at": [
+        7.6,
+        12.3
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "Q3.9"
+    },
+    {
+      "net": "EF_IN",
+      "at": [
+        7.8,
+        11.6
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "Q3.9"
+    },
+    {
+      "net": "EF_IN",
+      "at": [
+        8.8,
+        12.5
+      ],
+      "d": 0.5,
+      "drill": 0.2,
+      "thermal_owner": "Q3.9"
+    },
+    {
+      "net": "GND",
+      "at": [
+        19.7,
+        25.25
+      ],
+      "d": 0.5,
+      "drill": 0.3,
+      "purpose": "C34 local return, outside paste apertures",
+      "minimum_hole_to_opening_mm": 0.1,
+      "local_return_owner": "C34.2",
+      "minimum_via_opening_to_pad_opening_mm": 0.1
+    },
+    {
+      "net": "GND",
+      "at": [
+        21.0,
+        24.25
+      ],
+      "d": 0.5,
+      "drill": 0.3,
+      "purpose": "C30 local return, outside paste apertures",
+      "local_return_owner": "C30.1",
+      "minimum_hole_to_opening_mm": 0.1,
+      "minimum_via_opening_to_pad_opening_mm": 0.1
+    },
+    {
+      "net": "VREG_1V2",
+      "at": [
+        17.6,
+        23.6
+      ],
+      "d": 0.5,
+      "drill": 0.3,
+      "purpose": "R4 supply transition outside both-side pad openings, preserving PDOK escape",
+      "minimum_hole_to_opening_mm": 0.1,
+      "minimum_via_opening_to_pad_opening_mm": 0.1
+    }
+  ],
+  "thermal_via_policy": "R1-R3 DEVELOPMENT REVIEW: 0.5 mm copper / 0.2 mm finished drill, 0.15 mm nominal annular ring. Existing front/back tenting retained; exposed-pad F.Mask opens the top. Tenting is not a complete seal and does not close solder-wicking risk under the unchanged full paste apertures. Supplier stencil and via process review is a PRE-ORDER gate; no filled/plugged/capped process or cost is adopted. JLC capability geometry read 2026-11-09: preferred 0.2 mm hole; 0.15 mm diameter-minus-hole preferred; 0.2 mm hole-to-hole minimum. See https://jlcpcb.com/capabilities/Capab and https://jlcpcb.com/blog/five-via-finishes (updated 2026-04-08): via-in-pad/exposed-side/near-mask-opening ink-plug restrictions; epoxy/copper fill requires explicit process selection. Thermal rating remains unmeasured.",
+  "back_spreading_constraints": "EF_IN B.Cu neck/strip clears R24/C1/C37 and stops at x9.3 to preserve the short C1-to-C2 VBUS_IN path. VBUS_OUT B.Cu island leaves R27/R11/R13/C36 non-output pads outside its reserved region. These supplement the unchanged main F.Cu path; widths/areas do not independently establish 5 A or thermal acceptance.",
+  "fixed_local_supply_routes": {
+    "C30": "U1.23 to C30.2, F.Cu; frozen short route from isolated production-router proof",
+    "C34": "U1.21 F escape to (17.6,23.6) via, then short B.Cu path to C34.1; PDOK escape checked jointly",
+    "VBUS_IN": "C1.2 to C2.2 B.Cu branch preserved"
   }
- ],
- "tracks": [
-  {
-   "net": "EF_IN",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    5.675,
-    14.6
-   ],
-   "b": [
-    5.675,
-    14.0
-   ]
-  },
-  {
-   "net": "EF_IN",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    5.675,
-    14.0
-   ],
-   "b": [
-    6.2,
-    13.6
-   ]
-  },
-  {
-   "net": "SCL",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    12.4,
-    22.04
-   ],
-   "b": [
-    11.94,
-    22.04
-   ]
-  },
-  {
-   "net": "SCL",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    11.94,
-    22.04
-   ],
-   "b": [
-    11.55,
-    21.65
-   ]
-  },
-  {
-   "net": "SDA",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    12.4,
-    22.54
-   ],
-   "b": [
-    11.29,
-    22.54
-   ]
-  },
-  {
-   "net": "SDA",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    11.29,
-    22.54
-   ],
-   "b": [
-    10.95,
-    22.2
-   ]
-  },
-  {
-   "net": "DISCH",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    12.4,
-    23.04
-   ],
-   "b": [
-    11.66,
-    23.04
-   ]
-  },
-  {
-   "net": "DISCH",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    11.66,
-    23.04
-   ],
-   "b": [
-    11.45,
-    23.25
-   ]
-  },
-  {
-   "net": "ATT",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    12.4,
-    24.04
-   ],
-   "b": [
-    11.66,
-    24.04
-   ]
-  },
-  {
-   "net": "ATT",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    11.66,
-    24.04
-   ],
-   "b": [
-    11.45,
-    24.25
-   ]
-  },
-  {
-   "net": "EF_UVLO",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    5.025,
-    14.7
-   ],
-   "b": [
-    5.05,
-    14.05
-   ]
-  },
-  {
-   "net": "RESET",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    13.15,
-    21.29
-   ],
-   "b": [
-    13.15,
-    19.5
-   ]
-  },
-  {
-   "net": "CC2DB",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    13.65,
-    21.1
-   ],
-   "b": [
-    13.65,
-    20.5
-   ]
-  },
-  {
-   "net": "CC2DB",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    13.65,
-    20.5
-   ],
-   "b": [
-    14.0,
-    20.15
-   ]
-  },
-  {
-   "net": "CC2DB",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    14.0,
-    20.15
-   ],
-   "b": [
-    14.0,
-    18.75
-   ]
-  },
-  {
-   "net": "CC2DB",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    14.0,
-    18.75
-   ],
-   "b": [
-    13.9,
-    18.6
-   ]
-  },
-  {
-   "net": "CC2",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    14.15,
-    21.1
-   ],
-   "b": [
-    14.15,
-    20.75
-   ]
-  },
-  {
-   "net": "CC2",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    14.15,
-    20.75
-   ],
-   "b": [
-    14.45,
-    20.45
-   ]
-  },
-  {
-   "net": "CC2",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    14.45,
-    20.45
-   ],
-   "b": [
-    14.6,
-    20.4
-   ]
-  },
-  {
-   "net": "EF_VCAP",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    2.9,
-    12.5
-   ],
-   "b": [
-    2.2,
-    12.5
-   ]
-  },
-  {
-   "net": "VBUS_IN",
-   "layer": "F",
-   "w": 0.4,
-   "a": [
-    4.95,
-    12.3
-   ],
-   "b": [
-    4.95,
-    11.2
-   ]
-  },
-  {
-   "net": "VBUS_IN",
-   "layer": "F",
-   "w": 0.4,
-   "a": [
-    4.95,
-    11.2
-   ],
-   "b": [
-    3.05,
-    11.2
-   ]
-  },
-  {
-   "net": "VBUS_IN",
-   "layer": "F",
-   "w": 0.4,
-   "a": [
-    3.05,
-    11.2
-   ],
-   "b": [
-    3.05,
-    10.2
-   ]
-  },
-  {
-   "net": "CC1",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    15.15,
-    21.1
-   ],
-   "b": [
-    15.15,
-    20.6
-   ]
-  },
-  {
-   "net": "CC1",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    15.15,
-    20.6
-   ],
-   "b": [
-    15.5,
-    20.25
-   ]
-  },
-  {
-   "net": "CC1",
-   "layer": "F",
-   "w": 0.2,
-   "a": [
-    15.5,
-    20.25
-   ],
-   "b": [
-    15.5,
-    19.6
-   ]
-  }
- ],
- "vias": [
-  {
-   "net": "SCL",
-   "at": [
-    11.55,
-    21.65
-   ],
-   "d": 0.5
-  },
-  {
-   "net": "SDA",
-   "at": [
-    10.95,
-    22.2
-   ],
-   "d": 0.5
-  },
-  {
-   "net": "DISCH",
-   "at": [
-    11.45,
-    23.25
-   ],
-   "d": 0.5
-  },
-  {
-   "net": "ATT",
-   "at": [
-    11.45,
-    24.25
-   ],
-   "d": 0.5
-  },
-  {
-   "net": "EF_UVLO",
-   "at": [
-    5.05,
-    14.05
-   ],
-   "d": 0.5
-  },
-  {
-   "net": "CC2DB",
-   "at": [
-    13.9,
-    18.6
-   ],
-   "d": 0.5
-  },
-  {
-   "net": "CC2",
-   "at": [
-    14.6,
-    20.4
-   ],
-   "d": 0.5
-  },
-  {
-   "net": "EF_VCAP",
-   "at": [
-    2.2,
-    12.5
-   ],
-   "d": 0.5
-  }
- ]
 }

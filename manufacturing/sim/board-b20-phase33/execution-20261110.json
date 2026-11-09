@@ -1,0 +1,3455 @@
+{
+  "execution_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+  "analysis_revision": "76f807f11d3b97a9625e8cc9dd6835e235bb99df",
+  "analysis_inputs_sha256": "e68f8421c964fb786c01c32d4a1ef888ef9d4caeca55ef4bd423666d523bce7f",
+  "audit_script_sha256": "cd3b8409fd88950dd53b28528dd59bfb2c35bd073e7f49e3c0ff7c5ef6cc7733",
+  "data_integrity": "COMPLETE",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "suite_receipt_sha256": "f4afa51d7f686de8b25d2ffa50b8af6d270df96a8f610e2555eae67e8e22b56a",
+  "model_recovery": {
+    "retrieved_utc": "2026-11-09T10:46:49.371767+00:00",
+    "source_urls": {
+      "sbomab6": "https://www.ti.com/lit/zip/sbomab6",
+      "slpm286": "https://www.ti.com/lit/zip/slpm286",
+      "slvmcu2": "https://www.ti.com/lit/zip/slvmcu2",
+      "slvmcu1": "https://www.ti.com/lit/zip/slvmcu1"
+    },
+    "conversion": "CSD18543Q3A: replace whitespace between parameter name and value with = on exactly five .PARAM lines; all other bytes preserved. OPAx187 unchanged.",
+    "files": {
+      "slvmcu1.zip": "e7dbf0f2b5026f18936790dedee28f479eb724ccf19dc7466cf95717a8735883",
+      "slvmcu2.zip": "e74a8842728963360a0342e940ac96ee93b8ec8d21b65005a2b8152202550597",
+      "sbomab6.zip": "50c3c188a17bca04f2760feac9c5e6350561eb12a1e25d5a2c19b08dcc2b3930",
+      "slpm286.zip": "fbf5e0b576e11f2e0a1a65b0b2c589f86a182ae9ef5c412a0b0b98cd8c569715",
+      "sbomab6/OPAx187.OLB": "6f3cfc6c043102184925bee9e164bec769ef2c4da611fb3fdd678f8825d1ddc9",
+      "sbomab6/OPAx187.LIBsig": "e8e1c1ea96751088d9621b175ccfae2ae47cd2831d042f9c43c1d7a737e8ec5b",
+      "sbomab6/OPAx187_Test_Circuit.OPJ": "16c3d473936fb11d4b69cf369cfc5b8035b20b495ecdbd9e4f99cfade186156c",
+      "sbomab6/OPAx187.LIB": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "sbomab6/OPAx187_Test_Circuit.DSN": "bf6ee37258976b563c7f11f0e3db16421e468cac3b1cef67b1a3199821a0e3c5",
+      "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+      "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "slpm286/CSD18543Q3A.OLB": "38b49aa4b8dd0f0ea3c999a67f8c99e2084b1519351f43a4d8f2573db63eb4cc",
+      "slpm286/CSD18543Q3A.LIB": "fa4ef72177bc7691b956ef047985e6fc0a490ae1e12d41295c787e6e51dba170",
+      "slvmcu2/TPS54560_PSPICE_AVG/TPS54560_AVG.LIB": "de1769384346d63575929e1d3f0063bd8b92c1a89a86ba33165b3d20f55dd790",
+      "slvmcu1/TPS54560_PSPICE_TRANS/TPS54560_TRANS.LIB": "6e12932012f266953754200559a2169a98f6ec99b91ff1dc326a071184346d3f",
+      "sbomab6/OPAx187_Test_Circuit-PSpiceFiles/SCHEMATIC/TRANS.sim": "10c3c1c1c2385272fce9e96477eb51d969fc1f1d7248b5b7481affade94306ff",
+      "sbomab6/OPAx187_Test_Circuit-PSpiceFiles/SCHEMATIC/Aol_Gain.sim": "f6a98b1308e0dc314b64934e1e301f4de06228989f7f1233432c65f06680f73b",
+      "sbomab6/OPAx187_Test_Circuit-PSpiceFiles/SCHEMATIC/Aol_Gain/Aol_Gain.prb": "92e982384110e4150afb9f2eaab17776f7e8ea7dd98b2bec73ae6e0865c1673e",
+      "sbomab6/OPAx187_Test_Circuit-PSpiceFiles/SCHEMATIC/Aol_Gain/Aol_Gain.mrk": "4ee12b2bb65094efc6a6c6ddb6634d2d38240f5fdfae2530eae83621f7f9244b",
+      "sbomab6/OPAx187_Test_Circuit-PSpiceFiles/SCHEMATIC/TRANS/TRANS.prb": "ea57cbe8f5fc6b8287642bf3f62b317fb8d75de95818ff2002c1d3915e9059ef",
+      "sbomab6/OPAx187_Test_Circuit-PSpiceFiles/SCHEMATIC/TRANS/TRANS.mrk": "2c28d45dab1861dda60630611b5354d1aaf125f7c46a4766a9b4f9744adfc05a"
+    }
+  },
+  "cases": {
+    "nom": {
+      "samples": 52139,
+      "end_s": 0.25,
+      "selected_variant": "original",
+      "receipt_path": "tmp/phase33-execution/ladder-mxq4rpzc/receipt.json",
+      "receipt_sha256": "f4bb5c0e89ec9526cc287a315d44b0f6bca302cdd45e92fac461f2772ed56ec0",
+      "receipt": {
+        "started_utc": "2026-11-09T11:33:03.157325+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "nom"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "nom.cir": "bb97282d84d3aecdccf56774d62c7b37475f626d736d4e8aa1e9bca8532208a2",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "nom": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-a0d2e707c9c047ff92e98d459268ba06",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-mxq4rpzc/nom/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "nom.cir"
+                ],
+                "deck_sha256": "bb97282d84d3aecdccf56774d62c7b37475f626d736d4e8aa1e9bca8532208a2",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "56ca2ba7a732733e3c47943a1c43e5ec5b6ee6fe0e36eed4065bc803ebb52d45",
+                "waveform_sha256": "eb7362942650f30d19df2d53202dcbebc77359696c689f225c41409159568d61",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 0
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "nom"
+      ]
+    },
+    "adv": {
+      "samples": 53332,
+      "end_s": 0.25,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-66yp90pd/receipt.json",
+      "receipt_sha256": "0ac3f75615f07d05da0f81783909d0a41273617aa5d2cf07417219ab0ae13696",
+      "receipt": {
+        "started_utc": "2026-11-09T11:35:26.362490+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "adv"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "adv.cir": "688e06d9d160c46bc3e86d4b7ed00b2e052ec63f09fa9b5c7c67f13523729ecd",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "adv": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-dd1bc3bbfc5e47afb00438955ddfb2ab",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-66yp90pd/adv/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "adv.cir"
+                ],
+                "deck_sha256": "688e06d9d160c46bc3e86d4b7ed00b2e052ec63f09fa9b5c7c67f13523729ecd",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "b3b5edf6dd30aeabf630a1fd987d8b80dc3c9796c70b2f8af32dc7fdba58dbe8",
+                "waveform_sha256": "f1d0973d660d3db0cc1c8f98bf1abeb9c2fc4815c825b8dc714c952bc79a1259",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-dccce9fbd2b2406d8b9f96255d5b5aa0",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-66yp90pd/adv/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "adv.cir"
+                ],
+                "deck_sha256": "a14cb19781da804bc4fe055936c87c6e2603724aa6b6b2f5b6c7e94e37ab0bb4",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "4adf9625786480e620e257a39a4de968c49e9d77aba02e5a733599d2c858c69e",
+                "waveform_sha256": "dc580003b948095fef780f85b2499a9d32bbd994d66bf025dcc2e261b5e302b9",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "adv"
+      ]
+    },
+    "rev": {
+      "samples": 53579,
+      "end_s": 0.25,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-tv5s9l66/receipt.json",
+      "receipt_sha256": "8138272166087bdaa888f2832d3df0abe5b0babe742fed0ec59a931f4e32816b",
+      "receipt": {
+        "started_utc": "2026-11-09T11:38:56.996539+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "rev"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "rev.cir": "0d447de3eaf96a27c089cea66f60e06517023b27e7b4fd324b4aa9a2235077a5",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "rev": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-f6f33a4cbb0a4ee29e580285ff6ec9ac",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-tv5s9l66/rev/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "rev.cir"
+                ],
+                "deck_sha256": "0d447de3eaf96a27c089cea66f60e06517023b27e7b4fd324b4aa9a2235077a5",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "890ee3790fd247f894aef8efeffd2d47c54afec99ee5df983c325c6380fb569f",
+                "waveform_sha256": "603e7838256a361b0f4ce0c4a249c5f56e89b70c02836ed5bd8e91af2b81a0d8",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-d4c3c4f60a294a88bb2fd153a0a56a62",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-tv5s9l66/rev/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "rev.cir"
+                ],
+                "deck_sha256": "e752908a4aad05e3663c6ec751f7397d170ce3b8af98d60caad973f10fe84727",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "d10456645643d31b6ee84cac9ef4b4c0e6452a7cb75dd33ebe52c9cc584d1bf1",
+                "waveform_sha256": "36054fea44176650d52c470a545f1eb462def7adc07de9fa788d503d887f6b21",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "rev"
+      ]
+    },
+    "nomR": {
+      "samples": 51523,
+      "end_s": 0.25,
+      "selected_variant": "original",
+      "receipt_path": "tmp/phase33-execution/ladder-kq3wq7ga/receipt.json",
+      "receipt_sha256": "3e6ac6688507b9eaa6065246263ab327e7c5d332242e1a81760c6e6ccd9e4f8c",
+      "receipt": {
+        "started_utc": "2026-11-09T11:50:19.265541+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "nomR"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "nomR.cir": "ccdef4b08ce98814a706bff1909d4c3c8eab6c71eeb33f0dc6395464eaf24032",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "nomR": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-c75e4c9829cc42f886bfaac972428aff",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-kq3wq7ga/nomR/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "nomR.cir"
+                ],
+                "deck_sha256": "ccdef4b08ce98814a706bff1909d4c3c8eab6c71eeb33f0dc6395464eaf24032",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "7b84d4e8923c89e51aa0b6e55ee9d6d4b6705143944a339ba49a88349c771b44",
+                "waveform_sha256": "663e6dd5235c9c5ea499d658fcc09c1451a38e548f6014b17c5ecf0fee6fdd4c",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 0
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "nomR"
+      ]
+    },
+    "advR": {
+      "samples": 51509,
+      "end_s": 0.25,
+      "selected_variant": "original",
+      "receipt_path": "tmp/phase33-execution/ladder-q0uldztx/receipt.json",
+      "receipt_sha256": "0e0be76aaa00f68bbbd2e174cd93eab440b2114548c8874eb1e0c21b5a5f35e6",
+      "receipt": {
+        "started_utc": "2026-11-09T11:53:44.621059+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "advR"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "advR.cir": "50eafcb6593f87d6d15936b4bfbfaacfe11bdd92d04448f29e4a12d87a0fa36a",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "advR": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-62e4429eca7b408992eb42ed93857cfb",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-q0uldztx/advR/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "advR.cir"
+                ],
+                "deck_sha256": "50eafcb6593f87d6d15936b4bfbfaacfe11bdd92d04448f29e4a12d87a0fa36a",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "d285e338b917c306a53cc4f6701cdc2a7aa3b307309b0cb4ae6cfd626e8a58b1",
+                "waveform_sha256": "c1e81ac8a46461ecad1effbb709ebf584e58140c637a1f4b060565b152127d0e",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 0
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "advR"
+      ]
+    },
+    "revR": {
+      "samples": 52750,
+      "end_s": 0.25,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-mqhafsv4/receipt.json",
+      "receipt_sha256": "20ed8de4c1353ead692be23c714a387e067fa795b3f2b01e9d76a8207a3c5c10",
+      "receipt": {
+        "started_utc": "2026-11-09T11:57:35.896311+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "revR"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "revR.cir": "339149c65444f1a80bdec1ff9cc702b4db91284ef9cf92959e1b23ce46524e06",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "revR": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-21354212cbe941688104ba3ae79dfe76",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-mqhafsv4/revR/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "revR.cir"
+                ],
+                "deck_sha256": "339149c65444f1a80bdec1ff9cc702b4db91284ef9cf92959e1b23ce46524e06",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "9277c0674f3301a3dbb3fc40329f641603fc19e56d18a5032fe7b6e46ce77143",
+                "waveform_sha256": "418c37a353de789690249c82f4c1ff66d38606420ba9db5ab30cfe9d3b245f84",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-d2b1b4c3814d431daa6350072ee65ed3",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-mqhafsv4/revR/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "revR.cir"
+                ],
+                "deck_sha256": "b55b72c96fea7770ced5909c24c25d8cb7892316714a54d4026915f7557f3814",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "9b0a9ec73e81f3d2688bd1734cd8b8761fa800dfd7c5f42a763eeb0197cee821",
+                "waveform_sha256": "579d6e2a9260c47eb388e40a9dc5a356da89c4b657acd25db0516a63dfa952f9",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "revR"
+      ]
+    },
+    "reR6": {
+      "samples": 66186,
+      "end_s": 0.32,
+      "selected_variant": "abstol",
+      "receipt_path": "tmp/phase33-execution/ladder-nxx33no_/receipt.json",
+      "receipt_sha256": "20ef298939dcf799c6b20f7f7a81d1655d53ee87111785dbc610e0d5949cb7b2",
+      "receipt": {
+        "started_utc": "2026-11-09T12:44:32.165120+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reR6"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "reR6.cir": "b90ae4d2af393eb285f4c63744e7d8b25814200f4acf83e36e47917871b9ce97",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reR6": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-a9d7f2299c734d79a00d3e2043658717",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-nxx33no_/reR6/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR6.cir"
+                ],
+                "deck_sha256": "b90ae4d2af393eb285f4c63744e7d8b25814200f4acf83e36e47917871b9ce97",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "09c28bc3c18c9dfd7ca73b5a856516189e3539ef2c360ba488806dac90d56721",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-891dfda272fe47d5b48c1d07292ddd5f",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-nxx33no_/reR6/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR6.cir"
+                ],
+                "deck_sha256": "dbfd80bebb41e27a1d8409a3f5fee7a85395bba90904747385593f459f652f43",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "64dfa985478b18e2ab1982de35ae44bb30eeea342171ce0b6ecfde5afae196e5",
+                "waveform_sha256": "f40c101518c02a840b0913a17a27233571fc96fc483fd310a144f9efafdbb150",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "maxstep",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-bec273848a3145aa84b44d4f69ba7ae6",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-nxx33no_/reR6/2:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR6.cir"
+                ],
+                "deck_sha256": "84753e0363d38a9e2591d136ac4bb591d2718225e77f3bf2778c65ac2e088f22",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "db0deb8a669ed52534db2c8464b3ec666a72c386b9f0a76851f907296f02d937",
+                "waveform_sha256": "6d8092548823249ffc213c8c5232798a616f26f7672bfa33310922af6d64f8c9",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "abstol",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-cddd6d2bd3c54109a792fbc1d956c784",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-nxx33no_/reR6/3:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR6.cir"
+                ],
+                "deck_sha256": "e0bcb7bffcfb99c44813740a021b64f19038f381ff91349f65168565b0b87cd9",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "5007260f412d985d099bc8f1df084100068511827553fffa642fb69c9fd4c071",
+                "waveform_sha256": "9c60eb0a3ffff414436b1e3c4af60067924176c4f6d7d3342a9f92490e105056",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 3
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reR6"
+      ]
+    },
+    "reR10": {
+      "samples": 68002,
+      "end_s": 0.32,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-fjd1is7x/receipt.json",
+      "receipt_sha256": "ede8fb5ac58e2dbf53b4c5cd929e6d276c988230f54b67ee27191b549cd227cf",
+      "receipt": {
+        "started_utc": "2026-11-09T12:57:59.492405+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reR10"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "reR10.cir": "b8c075b95c4705252821b0535fcb6e47a108498ab38b00dcd4c5b5575bb8c5ad",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reR10": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-f01544a65ece448aa95f56bf201621a9",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-fjd1is7x/reR10/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR10.cir"
+                ],
+                "deck_sha256": "b8c075b95c4705252821b0535fcb6e47a108498ab38b00dcd4c5b5575bb8c5ad",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "79758264d02ece6a1287585578bbb24012fa407684c790a2e44f08c71ad3b2b0",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-0ded383420dd4c1a9cf3a9a79d066e9e",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-fjd1is7x/reR10/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR10.cir"
+                ],
+                "deck_sha256": "64996aba614d85a73d55805c718ae876c5a2a066f0e168eb4eb95ea43b631bd9",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "fb08f5bb7913dfb73f2c461606c2fa8035900b44d2c3823b2f36706b395ef47f",
+                "waveform_sha256": "ff61d28c8afb538c28418eb4b7dac0f030e3a9c29251e96ffa77eae169594061",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reR10"
+      ]
+    },
+    "reR14": {
+      "samples": 68129,
+      "end_s": 0.32,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-ivevg569/receipt.json",
+      "receipt_sha256": "ab0c498262e5408d38366be7b1039173a369c8bed19282eb8d77f53f93b06204",
+      "receipt": {
+        "started_utc": "2026-11-09T13:23:51.746516+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reR14"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "reR14.cir": "95f5de86ef3bb3d198fbb5afb9961398b8c631574481d0e6a213c8b71d38024b",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reR14": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-dd1baf1000294301a38a90bf491d39d2",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-ivevg569/reR14/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR14.cir"
+                ],
+                "deck_sha256": "95f5de86ef3bb3d198fbb5afb9961398b8c631574481d0e6a213c8b71d38024b",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "6cc24963076bfbcebb9749f0d4a8d47ff65d10fd370322acb1bb1c81adbe4425",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-171f37157eed4bc29ac73d8706e398ae",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-ivevg569/reR14/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR14.cir"
+                ],
+                "deck_sha256": "8d664f2f455e97ee5ee35f6b167998ca5e0575d26300e5457681a9e6434336ed",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "abfdb2860276a9fd26a036bc0b98fff93f0927f898d7c2cb7f0b856f8ee80079",
+                "waveform_sha256": "c960a713bd9fb34bba2ba3f2e00035673fae48e03cb4d839ccf85b31c413622f",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reR14"
+      ]
+    },
+    "reR20": {
+      "samples": 68059,
+      "end_s": 0.32,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-2gpbif9z/receipt.json",
+      "receipt_sha256": "d2ca222a02bd84d554c88f6f80609ad48891bfde40ccf6f5a3c2f9986416e514",
+      "receipt": {
+        "started_utc": "2026-11-09T14:05:17.839015+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reR20"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "reR20.cir": "110466d60afa6f27331ba9a18ea0381d88db815660717b9ef3bd4fe01c90881a",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reR20": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-f6956e2ee3cb427c81b137c130c1f69d",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-2gpbif9z/reR20/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR20.cir"
+                ],
+                "deck_sha256": "110466d60afa6f27331ba9a18ea0381d88db815660717b9ef3bd4fe01c90881a",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "fa2eefefabdd25dca2a2601acd5bd4e452f80a21f0047f1bd76de953c9d56c26",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-7bf54bfa2d074976a003531ccc4d337e",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-2gpbif9z/reR20/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reR20.cir"
+                ],
+                "deck_sha256": "8d9a550f516b2f10ef1d3e5fc379d140ecd619b5fb0fde62a393f834d49b64e9",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "c61efd9cb38c806b3b2984d228bef3b3739457d5dd6ed45e78ac0990abe37c2d",
+                "waveform_sha256": "37956c98558d9042f229a6f97e3b11438de408df761ec3b7ab5706ac73cac343",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reR20"
+      ]
+    },
+    "reB6": {
+      "samples": 89220,
+      "end_s": 0.42,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-d4ip68cm/receipt.json",
+      "receipt_sha256": "ef0615ac00c642bc00ec6f85658ac31f911599eb03a9592b56857121880d838e",
+      "receipt": {
+        "started_utc": "2026-11-09T14:49:18.434026+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reB6"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "reB6.cir": "0d8df0d07a6065440e31417db5565e91cc5f7b06f63b8a9fe3299393393985b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reB6": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-7c1badb7156c43dcbd59eaa209fad9b8",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-d4ip68cm/reB6/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB6.cir"
+                ],
+                "deck_sha256": "0d8df0d07a6065440e31417db5565e91cc5f7b06f63b8a9fe3299393393985b9",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "2cc16e725634d1c8e9b31389c8dc6389b65e451007d5a1864a526833450a5081",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-1ced84dc514b46d3868bf6fedd8da6cc",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-d4ip68cm/reB6/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB6.cir"
+                ],
+                "deck_sha256": "1dd79bff79ee62661a263593b19920e31b9153067608fd0cbace2e56430ad55e",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "34e6ca7a9c95b53610e218aef4750a646fcf81e66cd1c6d157cb7f86a5d854db",
+                "waveform_sha256": "1c36ab8750890038c39b671721beae3a4720020770e5d4e1e6b119722ca4a6fe",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reB6"
+      ]
+    },
+    "reB10": {
+      "samples": 89192,
+      "end_s": 0.42,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-ay2eoq8b/receipt.json",
+      "receipt_sha256": "ae50139dd65932b0159f0a6922409c2a838882e0c5d81546263cc54c87a96ef1",
+      "receipt": {
+        "started_utc": "2026-11-09T15:01:11.970320+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reB10"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "reB10.cir": "243d63a3055fd7945f8a7e51ce62fd1288c0347fc2c439a79a094c0423073547",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reB10": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-32faa4a4054149bcb5649c459e0e784f",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-ay2eoq8b/reB10/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB10.cir"
+                ],
+                "deck_sha256": "243d63a3055fd7945f8a7e51ce62fd1288c0347fc2c439a79a094c0423073547",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "b247121ebb565e1920e2e70549e0d0fe490477460cc6cc0c9687e5d1bcb37a5a",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-b4ac547fad6745e4a86fe1a41b52f6ad",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-ay2eoq8b/reB10/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB10.cir"
+                ],
+                "deck_sha256": "3b14bba4ea0e1db1f3d7415b62ba51facc73e69ce4c497d0393e8a94924968be",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "bc110fdd4e5d3fb73a23da405d54c3096380361c2fd1e91241875a090edf5024",
+                "waveform_sha256": "52457fd7d1a73b02da1787154931e09af8564eca6dcbd99365adf26bba868f53",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reB10"
+      ]
+    },
+    "reB14": {
+      "samples": 89190,
+      "end_s": 0.42,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-iobxi85j/receipt.json",
+      "receipt_sha256": "eb2bddbb625ff6543310603a3e0d317637d7ac368e6db65c0e3ae2037e0daf14",
+      "receipt": {
+        "started_utc": "2026-11-09T15:41:54.766302+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reB14"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "reB14.cir": "3ee5b12f074fc063f58277746b87b644a199e8ad27aa7b46913691a40cd4972c",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reB14": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-d40ffa3d811645c5bb3e17341dada842",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-iobxi85j/reB14/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB14.cir"
+                ],
+                "deck_sha256": "3ee5b12f074fc063f58277746b87b644a199e8ad27aa7b46913691a40cd4972c",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "b35b6a101f44b051c1e3aa761ef52c978ea0eac2f49602a41db1a9b2b34da9be",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-82db3fb927b24229a201bc16744ab945",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-iobxi85j/reB14/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB14.cir"
+                ],
+                "deck_sha256": "7ddbc7ddc3502c702594a38419fa608e6e7ba93abcc902eaef24393dc165be64",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "2d408b73402cca9be6e72387eaff4c074a70ed59a8c098c8dda4dab29eb7a404",
+                "waveform_sha256": "8d53e45bd284874e33b7a93648a86ae39c25e7b6bd1444eedc0fa19f4776d1ed",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reB14"
+      ]
+    },
+    "reB20": {
+      "samples": 89285,
+      "end_s": 0.42,
+      "selected_variant": "rshunt",
+      "receipt_path": "tmp/phase33-execution/ladder-2qnghed9/receipt.json",
+      "receipt_sha256": "1358b3bcf85a42913599acf3cd273f42520c1c2c40960a2bfad16bb679a8eca4",
+      "receipt": {
+        "started_utc": "2026-11-09T18:18:37.051310+00:00",
+        "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+        "platform": "linux/amd64",
+        "source_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+        "requested_cases": [
+          "reB20"
+        ],
+        "source_dirty": false,
+        "runner_sha256": {
+          "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+          "run_ladder.py": "2a9084391471ade66cd7899fd42317b5f8adfb9abc4a84b6bd111680dab6e18f",
+          "analysis_inputs.py": "be6f35a37c434c89b78328c17e2eaed2bf42d8c92e6c2cd5c38fce9684a0f5de"
+        },
+        "input_sha256": {
+          "reB20.cir": "ac1a67428775f0fde46df9e623d10f55948daf0032b5d46315b5764d17ad9ff2",
+          ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+          "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+          "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+        },
+        "status": "COMPLETE",
+        "cases": {
+          "reB20": {
+            "status": "COMPLETE",
+            "attempts": [
+              {
+                "variant": "original",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-be2f2bb273a546529841190ef4e3e139",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-2qnghed9/reB20/0:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB20.cir"
+                ],
+                "deck_sha256": "ac1a67428775f0fde46df9e623d10f55948daf0032b5d46315b5764d17ad9ff2",
+                "returncode": 1,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "c4407a8eb82545f659d75aac40ca615ca4dd05fe023814e0030507e1d7813ec8",
+                "waveform_sha256": "2f825d95a7b264862b4b7f11e8e60563793aa928b11bacdc3a0233853664e6cf",
+                "status": "FAILED",
+                "reason": "solver failed, timed out, or aborted"
+              },
+              {
+                "variant": "rshunt",
+                "command": [
+                  "docker",
+                  "run",
+                  "--rm",
+                  "--name",
+                  "phase33-efc317ed3b3f4c4097d96db07129b992",
+                  "--platform",
+                  "linux/amd64",
+                  "--cpus",
+                  "1",
+                  "--user",
+                  "0",
+                  "-v",
+                  "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/ladder-2qnghed9/reB20/1:/w",
+                  "-w",
+                  "/w/tracking",
+                  "--entrypoint",
+                  "ngspice",
+                  "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+                  "-b",
+                  "reB20.cir"
+                ],
+                "deck_sha256": "f25a4ed2e3286754d246382707f3ba025c44bddee849f192f97eb98bd96f0301",
+                "returncode": 0,
+                "cleanup_returncode": 0,
+                "cleanup_stderr": "",
+                "log_sha256": "e6a931507fe4af7fee603ac679245916b66b7dfb3e617e62bc4803462e5872c0",
+                "waveform_sha256": "4eb85b4a53b123ef2c3b3c0e2af9ffcd86ef29494d977cd84ab6f59de6bb5c43",
+                "status": "COMPLETE"
+              }
+            ],
+            "selected_variant": 1
+          }
+        },
+        "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+        "solver_version_returncode": 0
+      },
+      "driver_command": [
+        "bash",
+        "/Users/takazudo/.codex/scripts/heavy-guard.sh",
+        "--max-run",
+        "0",
+        "--",
+        "bash",
+        "manufacturing/sim/board-b20-phase33/run_ladder.sh",
+        "/Users/takazudo/repos/circuits/zudo-pd-simulation/tmp/phase33-execution/tracking",
+        "reB20"
+      ]
+    }
+  },
+  "analyses": {
+    "analyze_tracking.py": {
+      "source_sha256": "57964b649576e658c0b3da633282affa0eb253b947bd9a08b13fac1a901b0475",
+      "results": {
+        "adv": {
+          "t_end_ms": 250.0,
+          "+12": {
+            "prebias_plateau_v": 0.1435,
+            "ramp_start_ms": 96.996,
+            "band_entry_ms": 141.324,
+            "max_slope_v_per_ms": 0.321,
+            "v_before_disable": 12.172
+          },
+          "+5": {
+            "prebias_plateau_v": 0.0514,
+            "ramp_start_ms": 99.23,
+            "band_entry_ms": 141.859,
+            "max_slope_v_per_ms": 0.849,
+            "v_before_disable": 5.094
+          },
+          "-12": {
+            "prebias_plateau_v": 0.097,
+            "ramp_start_ms": 98.036,
+            "band_entry_ms": 141.049,
+            "max_slope_v_per_ms": 1.464,
+            "v_before_disable": -12.142
+          },
+          "peak_source_a": {
+            "+12": 0.058,
+            "+5": 0.103,
+            "-12": 0.266
+          },
+          "steady_source_a": {
+            "+12": 0.0,
+            "+5": -0.0,
+            "-12": 0.001
+          },
+          "max_p12_minus_absm12_v": 0.3644,
+          "min_p12_minus_absm12_v": -0.2912,
+          "ramp_start_skew_ms": 2.234,
+          "band_entry_skew_ms": 0.81,
+          "p5_last": true,
+          "settled_pp_mv_225_234ms": {
+            "+12": 0.0,
+            "+5": 0.0,
+            "-12": 0.0
+          },
+          "p12_max_while_absm12_lt_0v1": 0.4327,
+          "p12_max_while_absm12_lt_0v6": 0.5843,
+          "absm12_max_while_p12_le_0v5": 0.1391,
+          "absm12_max_while_p12_lt_5v2": 5.353,
+          "p5_max_while_min_analog_lt_1v5": 0.6264,
+          "p5_max_while_min_analog_lt_8v": 3.3747,
+          "adjacent_slope_screen": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": true,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.32093235857470026,
+                "start_ms": 154.70945287514022,
+                "end_ms": 154.7144528751402,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.179127901870647,
+                "voltage_end_v": 5.180732563663522
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1024864249309374e-07,
+              "negative_step_count": 17286,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": true,
+              "exception": {
+                "voltage_ceiling_v": 0.45,
+                "slope_ceiling_v_per_ms": 0.95,
+                "capacitive_current_ceiling_a": 0.114,
+                "capacitive_current_evidence": "NOT LOGGED in the main waveform; source current is not a substitute"
+              },
+              "maximum": {
+                "slope_v_per_ms": 0.8581516012187396,
+                "start_ms": 139.3102721410088,
+                "end_ms": 139.31527214100882,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 0.2174565044132267,
+                "voltage_end_v": 0.2217472624193247
+              },
+              "normal_limit_exceeding_segments": 82,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -9.188723452957515e-08,
+              "negative_step_count": 17021,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": true,
+              "exception": {
+                "voltage_ceiling_v": 0.75,
+                "slope_ceiling_v_per_ms": 1.47,
+                "capacitive_current_ceiling_a": 0.265,
+                "capacitive_current_evidence": "NOT LOGGED in the main waveform; source current is not a substitute"
+              },
+              "maximum": {
+                "slope_v_per_ms": 1.47462462784787,
+                "start_ms": 138.2559965602168,
+                "end_ms": 138.2609965602168,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 0.4737078644595198,
+                "voltage_end_v": 0.4810809875987256
+              },
+              "normal_limit_exceeding_segments": 123,
+              "recorded_bound_exceeding_segments": 71,
+              "worst_recorded_bound_exceedance": {
+                "slope_v_per_ms": 1.47462462784787,
+                "start_ms": 138.2559965602168,
+                "end_ms": 138.2609965602168,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 0.4737078644595198,
+                "voltage_end_v": 0.4810809875987256
+              },
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -5.699300054118339e-08,
+              "negative_step_count": 27177,
+              "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+            }
+          }
+        },
+        "advR": {
+          "t_end_ms": 250.0,
+          "+12": {
+            "prebias_plateau_v": 0.0883,
+            "ramp_start_ms": 88.688,
+            "band_entry_ms": 141.848,
+            "max_slope_v_per_ms": 0.32,
+            "v_before_disable": 12.0758
+          },
+          "+5": {
+            "prebias_plateau_v": 0.0296,
+            "ramp_start_ms": 91.668,
+            "band_entry_ms": 142.583,
+            "max_slope_v_per_ms": 0.133,
+            "v_before_disable": 5.0713
+          },
+          "-12": {
+            "prebias_plateau_v": 0.0546,
+            "ramp_start_ms": 88.033,
+            "band_entry_ms": 141.858,
+            "max_slope_v_per_ms": 0.32,
+            "v_before_disable": -12.0528
+          },
+          "peak_source_a": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "steady_source_a": {
+            "+12": 2.013,
+            "+5": 0.401,
+            "-12": 1.91
+          },
+          "max_p12_minus_absm12_v": 0.0888,
+          "min_p12_minus_absm12_v": -0.1544,
+          "ramp_start_skew_ms": 3.635,
+          "band_entry_skew_ms": 0.735,
+          "p5_last": true,
+          "settled_pp_mv_225_234ms": {
+            "+12": 0.0,
+            "+5": 0.0,
+            "-12": 0.0
+          },
+          "p12_max_while_absm12_lt_0v1": 0.1261,
+          "p12_max_while_absm12_lt_0v6": 0.5705,
+          "absm12_max_while_p12_le_0v5": 0.5227,
+          "absm12_max_while_p12_lt_5v2": 5.3531,
+          "p5_max_while_min_analog_lt_1v5": 0.6554,
+          "p5_max_while_min_analog_lt_8v": 3.3758,
+          "adjacent_slope_screen": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.32005998855332474,
+                "start_ms": 154.8334760030275,
+                "end_ms": 154.8384760030275,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.235796556050606,
+                "voltage_end_v": 5.237396855993374
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.557207102834135e-06,
+              "negative_step_count": 10721,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13321696839052596,
+                "start_ms": 154.358476003027,
+                "end_ms": 154.363476003027,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 2.168942797722024,
+                "voltage_end_v": 2.169608882563977
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -9.57938266320929e-06,
+              "negative_step_count": 9233,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3195710135943132,
+                "start_ms": 154.2034760030268,
+                "end_ms": 154.20847600302682,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.188509708638581,
+                "voltage_end_v": 5.190107563706555
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.8288742797849256e-05,
+              "negative_step_count": 12943,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "nom": {
+          "t_end_ms": 250.0,
+          "+12": {
+            "prebias_plateau_v": 0.1441,
+            "ramp_start_ms": 98.064,
+            "band_entry_ms": 141.299,
+            "max_slope_v_per_ms": 0.354,
+            "v_before_disable": 12.172
+          },
+          "+5": {
+            "prebias_plateau_v": 0.0517,
+            "ramp_start_ms": 99.909,
+            "band_entry_ms": 141.829,
+            "max_slope_v_per_ms": 0.943,
+            "v_before_disable": 5.094
+          },
+          "-12": {
+            "prebias_plateau_v": 0.0969,
+            "ramp_start_ms": 98.234,
+            "band_entry_ms": 141.019,
+            "max_slope_v_per_ms": 0.84,
+            "v_before_disable": -12.142
+          },
+          "peak_source_a": {
+            "+12": 0.064,
+            "+5": 0.114,
+            "-12": 0.152
+          },
+          "steady_source_a": {
+            "+12": 0.0,
+            "+5": -0.0,
+            "-12": 0.001
+          },
+          "max_p12_minus_absm12_v": 0.0991,
+          "min_p12_minus_absm12_v": -0.1956,
+          "ramp_start_skew_ms": 1.845,
+          "band_entry_skew_ms": 0.81,
+          "p5_last": true,
+          "settled_pp_mv_225_234ms": {
+            "+12": 0.0,
+            "+5": 0.0,
+            "-12": 0.0
+          },
+          "p12_max_while_absm12_lt_0v1": 0.1445,
+          "p12_max_while_absm12_lt_0v6": 0.5004,
+          "absm12_max_while_p12_le_0v5": 0.5949,
+          "absm12_max_while_p12_lt_5v2": 5.3518,
+          "p5_max_while_min_analog_lt_1v5": 0.6433,
+          "p5_max_while_min_analog_lt_8v": 3.3751,
+          "adjacent_slope_screen": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": true,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.353981538389926,
+                "start_ms": 138.4640443738708,
+                "end_ms": 138.46904437387082,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 0.3777068116304102,
+                "voltage_end_v": 0.3794767193223616
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1046850897922234e-07,
+              "negative_step_count": 14599,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": true,
+              "exception": {
+                "voltage_ceiling_v": 0.45,
+                "slope_ceiling_v_per_ms": 0.95,
+                "capacitive_current_ceiling_a": 0.114,
+                "capacitive_current_evidence": "NOT LOGGED in the main waveform; source current is not a substitute"
+              },
+              "maximum": {
+                "slope_v_per_ms": 0.9547521611741869,
+                "start_ms": 139.9838748057964,
+                "end_ms": 139.9888748057964,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 0.2236979577663589,
+                "voltage_end_v": 0.2284717185722081
+              },
+              "normal_limit_exceeding_segments": 88,
+              "recorded_bound_exceeding_segments": 7,
+              "worst_recorded_bound_exceedance": {
+                "slope_v_per_ms": 0.9547521611741869,
+                "start_ms": 139.9838748057964,
+                "end_ms": 139.9888748057964,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 0.2236979577663589,
+                "voltage_end_v": 0.2284717185722081
+              },
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -9.215517000199513e-08,
+              "negative_step_count": 14323,
+              "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": true,
+              "exception": {
+                "voltage_ceiling_v": 0.75,
+                "slope_ceiling_v_per_ms": 1.47,
+                "capacitive_current_ceiling_a": 0.265,
+                "capacitive_current_evidence": "NOT LOGGED in the main waveform; source current is not a substitute"
+              },
+              "maximum": {
+                "slope_v_per_ms": 0.8430250997218398,
+                "start_ms": 138.659044373871,
+                "end_ms": 138.664044373871,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 0.4720825748374732,
+                "voltage_end_v": 0.4762977003360866
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -5.743470943286866e-08,
+              "negative_step_count": 25542,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "nomR": {
+          "t_end_ms": 250.0,
+          "+12": {
+            "prebias_plateau_v": 0.0883,
+            "ramp_start_ms": 88.686,
+            "band_entry_ms": 141.851,
+            "max_slope_v_per_ms": 0.32,
+            "v_before_disable": 12.0751
+          },
+          "+5": {
+            "prebias_plateau_v": 0.0296,
+            "ramp_start_ms": 91.671,
+            "band_entry_ms": 142.581,
+            "max_slope_v_per_ms": 0.133,
+            "v_before_disable": 5.0713
+          },
+          "-12": {
+            "prebias_plateau_v": 0.0546,
+            "ramp_start_ms": 88.031,
+            "band_entry_ms": 141.861,
+            "max_slope_v_per_ms": 0.32,
+            "v_before_disable": -12.053
+          },
+          "peak_source_a": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "steady_source_a": {
+            "+12": 2.013,
+            "+5": 0.401,
+            "-12": 1.91
+          },
+          "max_p12_minus_absm12_v": 0.0351,
+          "min_p12_minus_absm12_v": -0.1544,
+          "ramp_start_skew_ms": 3.64,
+          "band_entry_skew_ms": 0.73,
+          "p5_last": true,
+          "settled_pp_mv_225_234ms": {
+            "+12": 0.0,
+            "+5": 0.0,
+            "-12": 0.0
+          },
+          "p12_max_while_absm12_lt_0v1": 0.1261,
+          "p12_max_while_absm12_lt_0v6": 0.5702,
+          "absm12_max_while_p12_le_0v5": 0.5225,
+          "absm12_max_while_p12_lt_5v2": 5.3538,
+          "p5_max_while_min_analog_lt_1v5": 0.6552,
+          "p5_max_while_min_analog_lt_8v": 3.3755,
+          "adjacent_slope_screen": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.320059991259782,
+                "start_ms": 154.8307988753975,
+                "end_ms": 154.8357988753975,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.234939599608495,
+                "voltage_end_v": 5.236539899564796
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.5622913113744197e-06,
+              "negative_step_count": 9939,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13321697145900477,
+                "start_ms": 154.360798875397,
+                "end_ms": 154.365798875397,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 2.169252176775198,
+                "voltage_end_v": 2.169918261632494
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.0896209187663541e-05,
+              "negative_step_count": 8861,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3195710138470888,
+                "start_ms": 154.20079887539688,
+                "end_ms": 154.2057988753969,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.187654298205215,
+                "voltage_end_v": 5.189252153274452
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.8289353180510337e-05,
+              "negative_step_count": 12326,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "rev": {
+          "t_end_ms": 250.0,
+          "+12": {
+            "prebias_plateau_v": 0.1446,
+            "ramp_start_ms": 98.747,
+            "band_entry_ms": 141.374,
+            "max_slope_v_per_ms": 0.449,
+            "v_before_disable": 12.172
+          },
+          "+5": {
+            "prebias_plateau_v": 0.052,
+            "ramp_start_ms": 100.347,
+            "band_entry_ms": 141.904,
+            "max_slope_v_per_ms": 0.901,
+            "v_before_disable": 5.094
+          },
+          "-12": {
+            "prebias_plateau_v": 0.096,
+            "ramp_start_ms": 96.427,
+            "band_entry_ms": 141.094,
+            "max_slope_v_per_ms": 1.206,
+            "v_before_disable": -12.142
+          },
+          "peak_source_a": {
+            "+12": 0.081,
+            "+5": 0.109,
+            "-12": 0.219
+          },
+          "steady_source_a": {
+            "+12": 0.0,
+            "+5": -0.0,
+            "-12": 0.001
+          },
+          "max_p12_minus_absm12_v": 0.2012,
+          "min_p12_minus_absm12_v": -0.2606,
+          "ramp_start_skew_ms": 3.92,
+          "band_entry_skew_ms": 0.81,
+          "p5_last": true,
+          "settled_pp_mv_225_234ms": {
+            "+12": 0.0,
+            "+5": 0.0,
+            "-12": 0.0
+          },
+          "p12_max_while_absm12_lt_0v1": 0.1446,
+          "p12_max_while_absm12_lt_0v6": 0.6558,
+          "absm12_max_while_p12_le_0v5": 0.3213,
+          "absm12_max_while_p12_lt_5v2": 5.3526,
+          "p5_max_while_min_analog_lt_1v5": 0.6481,
+          "p5_max_while_min_analog_lt_8v": 3.3749,
+          "adjacent_slope_screen": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": true,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.4498774783940282,
+                "start_ms": 139.0124854627012,
+                "end_ms": 139.01748546270122,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 0.3575992716409946,
+                "voltage_end_v": 0.359848659032967
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1071948680108079e-07,
+              "negative_step_count": 13086,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": true,
+              "exception": {
+                "voltage_ceiling_v": 0.45,
+                "slope_ceiling_v_per_ms": 0.95,
+                "capacitive_current_ceiling_a": 0.114,
+                "capacitive_current_evidence": "NOT LOGGED in the main waveform; source current is not a substitute"
+              },
+              "maximum": {
+                "slope_v_per_ms": 0.9118399616644488,
+                "start_ms": 140.42690002740272,
+                "end_ms": 140.4319000274027,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 0.2237787089922796,
+                "voltage_end_v": 0.2283379088005811
+              },
+              "normal_limit_exceeding_segments": 87,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -9.247102990966871e-08,
+              "negative_step_count": 12682,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": true,
+              "exception": {
+                "voltage_ceiling_v": 0.75,
+                "slope_ceiling_v_per_ms": 1.47,
+                "capacitive_current_ceiling_a": 0.265,
+                "capacitive_current_evidence": "NOT LOGGED in the main waveform; source current is not a substitute"
+              },
+              "maximum": {
+                "slope_v_per_ms": 1.2137344054516794,
+                "start_ms": 139.852485462702,
+                "end_ms": 139.857485462702,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 0.6603239278967191,
+                "voltage_end_v": 0.6663925999239836
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -5.79633407937763e-08,
+              "negative_step_count": 26194,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "revR": {
+          "t_end_ms": 250.0,
+          "+12": {
+            "prebias_plateau_v": 0.0882,
+            "ramp_start_ms": 88.7,
+            "band_entry_ms": 141.9,
+            "max_slope_v_per_ms": 0.32,
+            "v_before_disable": 12.0742
+          },
+          "+5": {
+            "prebias_plateau_v": 0.0296,
+            "ramp_start_ms": 91.685,
+            "band_entry_ms": 142.63,
+            "max_slope_v_per_ms": 0.133,
+            "v_before_disable": 5.0712
+          },
+          "-12": {
+            "prebias_plateau_v": 0.0546,
+            "ramp_start_ms": 88.045,
+            "band_entry_ms": 141.91,
+            "max_slope_v_per_ms": 0.319,
+            "v_before_disable": -12.0533
+          },
+          "peak_source_a": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "steady_source_a": {
+            "+12": 2.013,
+            "+5": 0.401,
+            "-12": 1.91
+          },
+          "max_p12_minus_absm12_v": 0.0344,
+          "min_p12_minus_absm12_v": -0.1544,
+          "ramp_start_skew_ms": 3.64,
+          "band_entry_skew_ms": 0.73,
+          "p5_last": true,
+          "settled_pp_mv_225_234ms": {
+            "+12": 0.0,
+            "+5": 0.0,
+            "-12": 0.0
+          },
+          "p12_max_while_absm12_lt_0v1": 0.1259,
+          "p12_max_while_absm12_lt_0v6": 0.5701,
+          "absm12_max_while_p12_le_0v5": 0.5226,
+          "absm12_max_while_p12_lt_5v2": 5.3536,
+          "p5_max_while_min_analog_lt_1v5": 0.6553,
+          "p5_max_while_min_analog_lt_8v": 3.3759,
+          "adjacent_slope_screen": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31987751384988866,
+                "start_ms": 154.85462488582218,
+                "end_ms": 154.8596248858222,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.234738749860767,
+                "voltage_end_v": 5.236338137430018
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.5615922273476412e-06,
+              "negative_step_count": 10544,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314044533188082,
+                "start_ms": 154.3796248858217,
+                "end_ms": 154.3846248858217,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 2.168501613955808,
+                "voltage_end_v": 2.169167316182468
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.079127906464944e-05,
+              "negative_step_count": 9242,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3193858454320878,
+                "start_ms": 154.22462488582158,
+                "end_ms": 154.22962488582158,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.187585300637753,
+                "voltage_end_v": 5.189182229864915
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.487908774888691e-05,
+              "negative_step_count": 11818,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        }
+      }
+    },
+    "analyze_reentry.py": {
+      "source_sha256": "9e8c213683a3db2eed6b6a22c59182ed8c61e6ae6f5adbc91f4854fe61295734",
+      "results": {
+        "reB10": {
+          "t_end_ms": 420.0,
+          "disable_ms": 200.0,
+          "reenable_request_after_disable_ms": 10.0,
+          "effective_reenable_after_disable_ms": 19.147,
+          "at_disable": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053,
+            "ramp": 1.6799
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 89.927,
+            "+5": 90.657,
+            "-12": 89.932
+          },
+          "band_entry_skew_ms": 0.73,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.319
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 11.046,
+            "+5": 3.296,
+            "-12": 10.401
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.5227,
+            "absm12_max_while_p12_lt_5v2": 5.3539,
+            "p12_minus_absm12_v": [
+              -0.1545,
+              0.0336
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6553
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.6339,
+            "absm12_max_while_p12_lt_5v2": 5.8687,
+            "p12_minus_absm12_v": [
+              -1.0456,
+              0.0336
+            ],
+            "p5_max_while_min_analog_lt_1v5": 1.1837
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31987744818721403,
+                "start_ms": 282.0292032690905,
+                "end_ms": 282.0342032690905,
+                "interval_us": 5.000000000032756,
+                "voltage_start_v": 5.234938183604345,
+                "voltage_end_v": 5.236537570845291
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1381836313989203e-07,
+              "negative_step_count": 11450,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314041514852976,
+                "start_ms": 281.55420326909257,
+                "end_ms": 281.5592032690926,
+                "interval_us": 5.000000000032756,
+                "voltage_start_v": 2.168584330753789,
+                "voltage_end_v": 2.169250032829536
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -8.315655740873118e-06,
+              "negative_step_count": 11922,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31938574880396353,
+                "start_ms": 281.3992032690933,
+                "end_ms": 281.40420326909333,
+                "interval_us": 5.000000000032756,
+                "voltage_start_v": 5.18788389943521,
+                "voltage_end_v": 5.18948082817924
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1814659914885506e-05,
+              "negative_step_count": 18726,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "reB14": {
+          "t_end_ms": 420.0,
+          "disable_ms": 200.0,
+          "reenable_request_after_disable_ms": 14.0,
+          "effective_reenable_after_disable_ms": 19.164,
+          "at_disable": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053,
+            "ramp": 1.6799
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 90.005,
+            "+5": 90.735,
+            "-12": 90.01
+          },
+          "band_entry_skew_ms": 0.73,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.319
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 11.046,
+            "+5": 3.296,
+            "-12": 10.401
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.5226,
+            "absm12_max_while_p12_lt_5v2": 5.3538,
+            "p12_minus_absm12_v": [
+              -0.1545,
+              0.0336
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6553
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.6339,
+            "absm12_max_while_p12_lt_5v2": 5.8687,
+            "p12_minus_absm12_v": [
+              -1.0456,
+              0.0336
+            ],
+            "p5_max_while_min_analog_lt_1v5": 1.1837
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31987744949745484,
+                "start_ms": 282.1236147701547,
+                "end_ms": 282.12861477015474,
+                "interval_us": 5.000000000032756,
+                "voltage_start_v": 5.234838506381079,
+                "voltage_end_v": 5.236437893628577
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1377250369176966e-07,
+              "negative_step_count": 11451,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314041516555106,
+                "start_ms": 281.6486147701569,
+                "end_ms": 281.6536147701569,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 2.168542842776579,
+                "voltage_end_v": 2.169208544852404
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -8.373418270070376e-06,
+              "negative_step_count": 11948,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31938574930346825,
+                "start_ms": 281.4936147701576,
+                "end_ms": 281.4986147701576,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 5.187784450914039,
+                "voltage_end_v": 5.189381379660549
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1958703357600742e-05,
+              "negative_step_count": 19373,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "reB20": {
+          "t_end_ms": 420.0,
+          "disable_ms": 200.0,
+          "reenable_request_after_disable_ms": 20.0,
+          "effective_reenable_after_disable_ms": 21.179,
+          "at_disable": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053,
+            "ramp": 1.6799
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 94.299,
+            "+5": 95.034,
+            "-12": 94.309
+          },
+          "band_entry_skew_ms": 0.735,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.319
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 11.046,
+            "+5": 3.296,
+            "-12": 10.401
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.5227,
+            "absm12_max_while_p12_lt_5v2": 5.3541,
+            "p12_minus_absm12_v": [
+              -0.1545,
+              0.0345
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6554
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.6339,
+            "absm12_max_while_p12_lt_5v2": 5.8687,
+            "p12_minus_absm12_v": [
+              -1.0456,
+              0.0345
+            ],
+            "p5_max_while_min_analog_lt_1v5": 1.1837
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3198774450155289,
+                "start_ms": 288.43241430436586,
+                "end_ms": 288.4374143043659,
+                "interval_us": 5.000000000032756,
+                "voltage_start_v": 5.233544628465432,
+                "voltage_end_v": 5.23514401569052
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1179599831193134e-07,
+              "negative_step_count": 10772,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314041417872774,
+                "start_ms": 287.962414304368,
+                "end_ms": 287.967414304368,
+                "interval_us": 5.000000000032756,
+                "voltage_start_v": 2.168670004182987,
+                "voltage_end_v": 2.169335706253885
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.0200641073515593e-05,
+              "negative_step_count": 11420,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3193857424337498,
+                "start_ms": 287.8024143043688,
+                "end_ms": 287.8074143043687,
+                "interval_us": 4.999999999866223,
+                "voltage_start_v": 5.186497593139199,
+                "voltage_end_v": 5.188094521851325
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.6649577941500737e-05,
+              "negative_step_count": 17697,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "reB6": {
+          "t_end_ms": 420.0,
+          "disable_ms": 200.0,
+          "reenable_request_after_disable_ms": 6.0,
+          "effective_reenable_after_disable_ms": 19.137,
+          "at_disable": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053,
+            "ramp": 1.6799
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 89.842,
+            "+5": 90.572,
+            "-12": 89.852
+          },
+          "band_entry_skew_ms": 0.73,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.319
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 11.046,
+            "+5": 3.296,
+            "-12": 10.401
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.5226,
+            "absm12_max_while_p12_lt_5v2": 5.3538,
+            "p12_minus_absm12_v": [
+              -0.1545,
+              0.0335
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6553
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.1258,
+            "absm12_max_while_p12_le_0v5": 0.6339,
+            "absm12_max_while_p12_lt_5v2": 5.8687,
+            "p12_minus_absm12_v": [
+              -1.0456,
+              0.0335
+            ],
+            "p5_max_while_min_analog_lt_1v5": 1.1837
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3198774502261151,
+                "start_ms": 281.9334615423118,
+                "end_ms": 281.93846154231176,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 5.23475243453834,
+                "voltage_end_v": 5.236351821789463
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1383142687862891e-07,
+              "negative_step_count": 11456,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314041484041425,
+                "start_ms": 281.458461542314,
+                "end_ms": 281.4634615423139,
+                "interval_us": 4.999999999866223,
+                "voltage_start_v": 2.168507017656452,
+                "voltage_end_v": 2.169172719730636
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -8.251607920103932e-06,
+              "negative_step_count": 11831,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31938574816587567,
+                "start_ms": 281.3034615423147,
+                "end_ms": 281.3084615423146,
+                "interval_us": 4.999999999866223,
+                "voltage_start_v": 5.187698359975882,
+                "voltage_end_v": 5.189295288716669
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1655186777662085e-05,
+              "negative_step_count": 19351,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "reR10": {
+          "t_end_ms": 320.0,
+          "disable_ms": 150.0,
+          "reenable_request_after_disable_ms": 10.0,
+          "effective_reenable_after_disable_ms": 19.147,
+          "at_disable": {
+            "+12": 3.7049,
+            "+5": 1.5924,
+            "-12": 3.8533,
+            "ramp": 0.4778
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 95.534,
+            "+5": 96.269,
+            "-12": 95.544
+          },
+          "band_entry_skew_ms": 0.735,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.319
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 3.311,
+            "+5": 1.038,
+            "-12": 3.275
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.1259,
+            "absm12_max_while_p12_le_0v5": 0.5229,
+            "absm12_max_while_p12_lt_5v2": 5.3532,
+            "p12_minus_absm12_v": [
+              -0.1544,
+              0.0347
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6551
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.1259,
+            "absm12_max_while_p12_le_0v5": 0.5865,
+            "absm12_max_while_p12_lt_5v2": 5.3532,
+            "p12_minus_absm12_v": [
+              -0.2351,
+              0.0347
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.8475
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31987747379304193,
+                "start_ms": 237.6359938889035,
+                "end_ms": 237.6409938889035,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.234278656021946,
+                "voltage_end_v": 5.235878043390913
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1214891451534028e-07,
+              "negative_step_count": 5998,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314042473004947,
+                "start_ms": 237.165993888903,
+                "end_ms": 237.170993888903,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 2.168975512851505,
+                "voltage_end_v": 2.169641214975156
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.0430224139081068e-05,
+              "negative_step_count": 6467,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31938578329654665,
+                "start_ms": 237.0059938889029,
+                "end_ms": 237.0109938889029,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.187189885187448,
+                "voltage_end_v": 5.188786814103932
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.7210573955879493e-05,
+              "negative_step_count": 12116,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "reR14": {
+          "t_end_ms": 320.0,
+          "disable_ms": 150.0,
+          "reenable_request_after_disable_ms": 14.0,
+          "effective_reenable_after_disable_ms": 19.164,
+          "at_disable": {
+            "+12": 3.7049,
+            "+5": 1.5924,
+            "-12": 3.8533,
+            "ramp": 0.4778
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 95.602,
+            "+5": 96.332,
+            "-12": 95.612
+          },
+          "band_entry_skew_ms": 0.73,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.319
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 3.311,
+            "+5": 1.038,
+            "-12": 3.275
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.1259,
+            "absm12_max_while_p12_le_0v5": 0.523,
+            "absm12_max_while_p12_lt_5v2": 5.3535,
+            "p12_minus_absm12_v": [
+              -0.1544,
+              0.0347
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6552
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.1259,
+            "absm12_max_while_p12_le_0v5": 0.5865,
+            "absm12_max_while_p12_lt_5v2": 5.3535,
+            "p12_minus_absm12_v": [
+              -0.2351,
+              0.0347
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.8475
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31987747428455987,
+                "start_ms": 237.7208417997276,
+                "end_ms": 237.72584179972762,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.234526076760233,
+                "voltage_end_v": 5.236125464131657
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.1213132744648121e-07,
+              "negative_step_count": 5980,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314042387579947,
+                "start_ms": 237.2508417997271,
+                "end_ms": 237.2558417997271,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 2.169078495115272,
+                "voltage_end_v": 2.169744197234652
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.043984172076351e-05,
+              "negative_step_count": 6541,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31938578387102046,
+                "start_ms": 237.090841799727,
+                "end_ms": 237.095841799727,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.187436993234125,
+                "voltage_end_v": 5.189033922153482
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.723644001572905e-05,
+              "negative_step_count": 12229,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "reR20": {
+          "t_end_ms": 320.0,
+          "disable_ms": 150.0,
+          "reenable_request_after_disable_ms": 20.0,
+          "effective_reenable_after_disable_ms": 21.179,
+          "at_disable": {
+            "+12": 3.7049,
+            "+5": 1.5924,
+            "-12": 3.8533,
+            "ramp": 0.4778
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 99.231,
+            "+5": 99.966,
+            "-12": 99.241
+          },
+          "band_entry_skew_ms": 0.735,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.319
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 3.311,
+            "+5": 1.038,
+            "-12": 3.275
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.1259,
+            "absm12_max_while_p12_le_0v5": 0.5229,
+            "absm12_max_while_p12_lt_5v2": 5.3532,
+            "p12_minus_absm12_v": [
+              -0.1544,
+              0.0348
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6551
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.1259,
+            "absm12_max_while_p12_le_0v5": 0.5865,
+            "absm12_max_while_p12_lt_5v2": 5.3532,
+            "p12_minus_absm12_v": [
+              -0.2351,
+              0.0348
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.8475
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31987747112672965,
+                "start_ms": 243.3647072756585,
+                "end_ms": 243.3697072756585,
+                "interval_us": 4.999999999977245,
+                "voltage_start_v": 5.234225855783702,
+                "voltage_end_v": 5.235825243139328
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -9.189241120116654e-07,
+              "negative_step_count": 5843,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13314042374568133,
+                "start_ms": 242.8947072756581,
+                "end_ms": 242.8997072756581,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 2.168953537377691,
+                "voltage_end_v": 2.16961923949642
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.0738731045914496e-05,
+              "negative_step_count": 5997,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.31938577946245805,
+                "start_ms": 242.7347072756579,
+                "end_ms": 242.7397072756579,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.187141772937345,
+                "voltage_end_v": 5.188738701834659
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.804406822084048e-05,
+              "negative_step_count": 10986,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        },
+        "reR6": {
+          "t_end_ms": 320.0,
+          "disable_ms": 150.0,
+          "reenable_request_after_disable_ms": 6.0,
+          "effective_reenable_after_disable_ms": 19.137,
+          "at_disable": {
+            "+12": 3.7116,
+            "+5": 1.5952,
+            "-12": 3.86,
+            "ramp": 0.4787
+          },
+          "at_reenable": {
+            "+12": 0.0,
+            "+5": 0.0002,
+            "-12": 0.0,
+            "ramp": 0.0004
+          },
+          "ramp_min_while_off_v": 0.0004,
+          "band_entry_after_reenable_ms": {
+            "+12": 95.404,
+            "+5": 96.139,
+            "-12": 95.414
+          },
+          "band_entry_skew_ms": 0.735,
+          "p5_last": true,
+          "max_slope_v_per_ms_after_reenable": {
+            "+12": 0.32,
+            "+5": 0.133,
+            "-12": 0.32
+          },
+          "max_slope_v_per_ms_while_off": {
+            "+12": 3.317,
+            "+5": 1.04,
+            "-12": 3.281
+          },
+          "slope_rows_after_reenable": {
+            "+12": true,
+            "+5": true,
+            "-12": true
+          },
+          "forms_after_reenable": {
+            "p12_max_while_absm12_lt_0v1": 0.126,
+            "absm12_max_while_p12_le_0v5": 0.5227,
+            "absm12_max_while_p12_lt_5v2": 5.3529,
+            "p12_minus_absm12_v": [
+              -0.1544,
+              0.0348
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.6554
+          },
+          "forms_disable_to_end": {
+            "p12_max_while_absm12_lt_0v1": 0.126,
+            "absm12_max_while_p12_le_0v5": 0.5859,
+            "absm12_max_while_p12_lt_5v2": 5.3529,
+            "p12_minus_absm12_v": [
+              -0.2355,
+              0.0348
+            ],
+            "p5_max_while_min_analog_lt_1v5": 0.8489
+          },
+          "at_end": {
+            "+12": 12.0751,
+            "+5": 5.0713,
+            "-12": 12.053
+          },
+          "peak_source_a_after_reenable": {
+            "+12": 2.013,
+            "+5": 0.403,
+            "-12": 1.91
+          },
+          "adjacent_slope_screen_after_reenable": {
+            "+12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.23,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3200599876102569,
+                "start_ms": 237.5257339022809,
+                "end_ms": 237.5307339022809,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 5.235674514168692,
+                "voltage_end_v": 5.237274814106745
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.122362916299511e-07,
+              "negative_step_count": 5806,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "+5": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 0.51,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.13321696852144346,
+                "start_ms": 237.0507339022804,
+                "end_ms": 237.0557339022804,
+                "interval_us": 5.0000000000050004,
+                "voltage_start_v": 2.168891646926339,
+                "voltage_end_v": 2.169557731768947
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.0462192236909695e-05,
+              "negative_step_count": 6486,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            },
+            "-12": {
+              "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+              "normal_limit_v_per_ms": 1.22,
+              "no_external_resistive_load_case": false,
+              "exception": null,
+              "maximum": {
+                "slope_v_per_ms": 0.3195710063865772,
+                "start_ms": 236.8957339022802,
+                "end_ms": 236.9007339022803,
+                "interval_us": 5.000000000116023,
+                "voltage_start_v": 5.18839401633109,
+                "voltage_end_v": 5.18999187136306
+              },
+              "normal_limit_exceeding_segments": 0,
+              "recorded_bound_exceeding_segments": 0,
+              "worst_recorded_bound_exceedance": null,
+              "voltage_boundary_straddling_segments": 0,
+              "largest_negative_step_v": -1.710308966223345e-05,
+              "negative_step_count": 11944,
+              "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+            }
+          }
+        }
+      }
+    }
+  }
+}

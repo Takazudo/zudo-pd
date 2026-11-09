@@ -1,0 +1,516 @@
+{
+  "started_utc": "2026-11-09T22:12:16.377478+00:00",
+  "source_revision": "3f24a3abb43e0f24f5e0a12f739ba8ae6bbad03d",
+  "source_clean": true,
+  "status": "PASS: export and independent manufacturing verification; not electrical order acceptance",
+  "purpose": "DEVELOPMENT REVIEW ONLY; electrical order holds remain",
+  "output": "tmp/pd20-review-refill-3f24a3a-20261110",
+  "driver_sha256": "f3954b891daf9b66823c0095a41c75960ecc754e200c2e0a130a966d1edc2382",
+  "wrapper_sha256": {
+    "tmp/pd20-export-tools/kicad-cli": "b262fb34237dccb248e3684ce32f74887884cc3b02b9e5907b8b64dc8523d039",
+    "tmp/mac-kicad-tools/kicad-python": "3516294c5f98abc959196cffe63d3a669f822d94aa11465bd45eec767165f357",
+    "tmp/kicad-macos-10.0.6/kicad-cli": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+    "tmp/mac-kicad-tools/kicad-cli": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636"
+  },
+  "mac_cli_sha256": "bc9966f4a3c24db726aaac04856debf5dae8c2cc43eee6a482182c0f5df14aa8",
+  "commands": [
+    [
+      "/Users/takazudo/.cache/uv/builds-v0/.tmptlDFny/bin/python",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/scripts/pcb/export-jlcpcb.py",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110",
+      "--boards",
+      "board-p",
+      "board-b20-draft",
+      "--kicad-cli",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-export-tools/kicad-cli",
+      "--kicad-python",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/mac-kicad-tools/kicad-python"
+    ],
+    [
+      "uv",
+      "run",
+      "--python",
+      "3.12",
+      "--with",
+      "gerbonara",
+      "--with",
+      "resvg-py",
+      "python",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/scripts/pcb/verify-jlcpcb.py",
+      "--write",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110"
+    ]
+  ],
+  "python_version": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]",
+  "python_executable_sha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+  "docker_image_identity": {
+    "Id": "sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+    "RepoDigests": [
+      "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec"
+    ],
+    "Architecture": "amd64",
+    "Os": "linux"
+  },
+  "pinned_image_tool_hashes_retained_from_erc": {
+    "python_version": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+    "executables": {
+      "kicad_cli": {
+        "path": "/usr/bin/kicad-cli",
+        "sha256": "170493658ffb66d554137711b4e1a8c760de23a5056267424f0148d3e3323f68"
+      },
+      "pcbnew_wrapper": {
+        "path": "/usr/lib/python3/dist-packages/pcbnew.py",
+        "sha256": "decfa18059b9731ae3247fb7990e580c02c501f1b89114f31938512955bb6d17"
+      },
+      "pcbnew_native": {
+        "path": "/usr/lib/python3/dist-packages/_pcbnew.so",
+        "sha256": "b20ed7a14df5f0f628e8c08fe31c5321dec70ab694a19cacd0a0fa74eede64c7"
+      },
+      "python": {
+        "path": "/usr/bin/python3",
+        "sha256": "889c603f0d17cb54060951bcf4c4f9b8c9ebd9e52b392c70209bbb9755d797d9"
+      }
+    }
+  },
+  "manifest_sha256": "9e6aa6bd72202418d7537f0cc6a35cc14c504366685f7a64f94e1936f20bc967",
+  "SHA256SUMS_sha256": "629d1a967210c29191fee3a9955881fe21e7be0d2a52cb5d8ddb2ab0a8200bb6",
+  "independent_validation": [
+    {
+      "board": "board-p",
+      "identity_coordinates_hashes": "PASS",
+      "gerber_drill_parse": "PASS",
+      "size_mm": [
+        27.049999999999997,
+        40.05
+      ],
+      "fitted_components": 44,
+      "parser_notes": [
+        "board-p-NPTH.drl:12 \"G90\": G90 header statement found after end of header",
+        "board-p-PTH.drl:18 \"G90\": G90 header statement found after end of header"
+      ]
+    },
+    {
+      "board": "board-b20-draft",
+      "identity_coordinates_hashes": "PASS",
+      "gerber_drill_parse": "PASS",
+      "size_mm": [
+        110.05000000000001,
+        85.05000000000001
+      ],
+      "fitted_components": 270,
+      "parser_notes": [
+        "board-b20-draft-NPTH.drl:14 \"G90\": G90 header statement found after end of header",
+        "board-b20-draft-PTH.drl:20 \"G90\": G90 header statement found after end of header"
+      ]
+    }
+  ],
+  "dispatch": [
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:12:34.009288+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "drc",
+        "--refill-zones",
+        "--save-board",
+        "--schematic-parity",
+        "--format",
+        "json",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/checks/drc.json",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:12:46.476516+00:00",
+      "backend": "official native Mac10.0.6 render",
+      "wrapper": "tmp/kicad-macos-10.0.6/kicad-cli",
+      "wrapper_sha256": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+      "args": [
+        "pcb",
+        "render",
+        "--width",
+        "1800",
+        "--height",
+        "1400",
+        "--quality",
+        "high",
+        "--rotate",
+        "20,0,-15",
+        "--zoom",
+        "0.8",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/3d-top.png",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:03.633586+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "sch",
+        "erc",
+        "--format",
+        "json",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/checks/erc.json",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_sch"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:09.902622+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "sch",
+        "export",
+        "pdf",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/schematic.pdf",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_sch"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:16.919719+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/raw/board-p.net",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_sch"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:23.320622+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "gerbers",
+        "-l",
+        "F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste",
+        "--use-drill-file-origin",
+        "--subtract-soldermask",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/gerbers",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:28.967214+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "drill",
+        "--format",
+        "excellon",
+        "--drill-origin",
+        "plot",
+        "--excellon-units",
+        "mm",
+        "--excellon-separate-th",
+        "--excellon-oval-format",
+        "route",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/gerbers",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:34.892977+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "pos",
+        "--format",
+        "csv",
+        "--units",
+        "mm",
+        "--use-drill-file-origin",
+        "--exclude-dnp",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/raw/positions.csv",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:39.693353+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--sketch-pads-on-fab-layers",
+        "-l",
+        "F.Cu,F.Fab,F.Silkscreen,Edge.Cuts",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/assembly-top.svg",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:13:45.153448+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--sketch-pads-on-fab-layers",
+        "-l",
+        "B.Cu,B.Fab,B.Silkscreen,Edge.Cuts",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/assembly-bottom.svg",
+        "--mirror",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-p/source/board-p.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:14:03.170170+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "drc",
+        "--refill-zones",
+        "--save-board",
+        "--schematic-parity",
+        "--format",
+        "json",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/checks/drc.json",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:15:27.698224+00:00",
+      "backend": "official native Mac10.0.6 render",
+      "wrapper": "tmp/kicad-macos-10.0.6/kicad-cli",
+      "wrapper_sha256": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+      "args": [
+        "pcb",
+        "render",
+        "--width",
+        "1800",
+        "--height",
+        "1400",
+        "--quality",
+        "high",
+        "--rotate",
+        "20,0,-15",
+        "--zoom",
+        "0.8",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/3d-top.png",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:15:45.541849+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "sch",
+        "erc",
+        "--format",
+        "json",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/checks/erc.json",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_sch"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:15:54.209730+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "sch",
+        "export",
+        "pdf",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/schematic.pdf",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_sch"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:16:04.205039+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/raw/board-b20-draft.net",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_sch"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:16:10.723441+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "gerbers",
+        "-l",
+        "F.Cu,In1.Cu,In2.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste",
+        "--use-drill-file-origin",
+        "--subtract-soldermask",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/gerbers",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:16:20.471709+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "drill",
+        "--format",
+        "excellon",
+        "--drill-origin",
+        "plot",
+        "--excellon-units",
+        "mm",
+        "--excellon-separate-th",
+        "--excellon-oval-format",
+        "route",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/gerbers",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:16:28.841034+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "pos",
+        "--format",
+        "csv",
+        "--units",
+        "mm",
+        "--use-drill-file-origin",
+        "--exclude-dnp",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/raw/positions.csv",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:16:38.362047+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--sketch-pads-on-fab-layers",
+        "-l",
+        "F.Cu,F.Fab,F.Silkscreen,Edge.Cuts",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/assembly-top.svg",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:16:46.654044+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "pcb",
+        "export",
+        "svg",
+        "--mode-single",
+        "--fit-page-to-board",
+        "--exclude-drawing-sheet",
+        "--sketch-pads-on-fab-layers",
+        "-l",
+        "B.Cu,B.Fab,B.Silkscreen,Edge.Cuts",
+        "-o",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/assembly-bottom.svg",
+        "--mirror",
+        "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/pd20-review-refill-3f24a3a-20261110/board-b20-draft/source/board-b20-draft.kicad_pcb"
+      ]
+    },
+    {
+      "run_id": "refill-3f24a3a-20261110",
+      "utc": "2026-11-09T22:16:55.799190+00:00",
+      "backend": "pinned linux/amd64 Docker10.0.6 CLI",
+      "wrapper": "tmp/mac-kicad-tools/kicad-cli",
+      "wrapper_sha256": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+      "args": [
+        "--version"
+      ]
+    }
+  ],
+  "finished_utc": "2026-11-09T22:17:33.366984+00:00"
+}

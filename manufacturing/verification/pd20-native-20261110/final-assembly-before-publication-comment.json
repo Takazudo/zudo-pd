@@ -1,0 +1,23 @@
+{
+  "checked_utc": "2026-11-09T19:23:47.276638+00:00",
+  "scope": "Actual final native Mac pair assembly; nominal CAD only",
+  "status": "PASS",
+  "execution_base_revision": "76f807f11d3b97a9625e8cc9dd6835e235bb99df",
+  "working_tree_dirty": true,
+  "pcb_sha256": {
+    "board-b20-draft": "7dd3cc43abd65e09f4fd4714885f60bbda6f2003bf71043ede39d1870a9ba784",
+    "board-p": "56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348"
+  },
+  "assembly_verification_sha256": "f5bdcb9e917c86a107a721cddee20090097e8381a9d4a6621783be6367d628f4",
+  "artifact_count_verified": 63,
+  "guard_result": "PASS exit=0 secs=448",
+  "command": "TMPDIR=/private/tmp bash \"$HOME/.codex/scripts/heavy-guard.sh\" --max-run 0 -- python3 tmp/mac-kicad-tools/native-lock.py uv run --python 3.12 --with vtk==9.3.1 scripts/pcb/board-b20/assembly-preview.py --kicad-cli \"$PWD/tmp/kicad-macos-10.0.6/kicad-cli\" --kicad-python \"$PWD/tmp/mac-kicad-tools/kicad-python\" --output \"$PWD/tmp/pd20-final-assembly-20261110\"",
+  "tools": "Official isolated native Mac KiCad10.0.6 CLI; pinned Docker pcbnew; Python3.12/CadQuery2.6.1/VTK9.3.1",
+  "visual_review": "Both final1800x1400 native renders opened; expected stacked pair/probe rows/rail labels present. Not physical fit proof.",
+  "large_derivatives": "populated-stack.step and board-p-stacked.step remain local and ignored; old canonical preview preserved in ignored archive",
+  "wrapper_sha256": {
+    "tmp/kicad-macos-10.0.6/kicad-cli": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+    "tmp/mac-kicad-tools/kicad-python": "3516294c5f98abc959196cffe63d3a669f822d94aa11465bd45eec767165f357",
+    "tmp/mac-kicad-tools/native-lock.py": "9a20cb3d68e53481fd512eba8f03b4cb971ed1c12174e1b927d6da616cadbb54"
+  }
+}

@@ -19,6 +19,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'schgen'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sexp  # noqa: E402
+from report_provenance import calculation_binding, digest
 
 from load_cases import (CASES, CONTRACT_CASES, CONTROL_W, FSW, RDS, T_AMB, THETA_JA_STD, VIN,  # noqa: E402
                         case_record, stage)
@@ -139,4 +140,5 @@ out['inverter_island'] = {'copper': geom, 'd3_tj_max_c': 150, 'cases': rows,
                           'method': 'desk node model: F.Cu island to In1 through the prepreg, B.Cu pour through the vias '
                                     'and the board to In1, In1 spreading, plus the board-mean rise (the island heat is '
                                     'counted in both, conservative). Nothing measured.'}
+out['input_binding'] = calculation_binding(__file__, {'pcb': digest(pcb)})
 json.dump(out, open(sys.argv[1], 'w') if len(sys.argv) > 1 else sys.stdout, indent=1)

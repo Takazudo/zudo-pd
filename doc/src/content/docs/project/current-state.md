@@ -13,6 +13,18 @@ export receipt, order plan, received unit and bench measurement establish differ
 below, binds the B20 desk reports to the PD20 contract load cases, and lists the owner actions in order. Nothing was
 ordered, programmed, energized or measured.
 
+**Execution update 2026-11-10 JST (Mac):** [#234](https://github.com/Takazudo/zudo-pd/pull/234)
+and [#239](https://github.com/Takazudo/zudo-pd/pull/239) are merged; current main is
+`76f807f11d3b97a9625e8cc9dd6835e235bb99df`. Follow-up native layout, simulation
+and manufacturing work is tracked separately in the
+[revision and blocker ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md).
+The two-P15 local packet is ready; supplier placement preview and current
+quotation are pending. PD20 remains on a pre-order hold: fresh adjacent-sample
+analysis finds modeled no-load slope/current excursions beyond the adopted
+exceptions. Native layout corrections and all 14 actual tracking/re-entry cases
+are complete. Final pair assembly passed with source-bound native checks;
+a fresh DEVELOPMENT REVIEW export and independent manufacturing verification passed at `3f24a3a` after correcting the first export's strict B20 refill-geometry rejection. No source merge or software check constitutes hardware qualification.
+
 ## P15 r1 shared input module
 
 | Dimension | Recorded state and next gate |
@@ -50,12 +62,12 @@ accessible packet and programming contract support the summary above, not a reco
 | Adopted design/source | Valid pair **`board-p + board-b20-draft`**. Current `boards/board-p/board-p.kicad_pcb` is **20 V r3**, bound to `scripts/schgen/board_p_spec.py`. B20: `boards/board-b20-draft/board-b20-draft.kicad_pcb`; inventory input `scripts/schgen/board_b20_components.py` |
 | Input intent | 20 V / 5 A, 5 A e-marked cable, no degraded mode; independent of P15's image and voltage policy |
 | Implementation/artifacts | Routed r3; four-layer B20 includes merged review fixes, probe row and C43. Current fitted count **270**, [PR 226](https://github.com/Takazudo/zudo-pd/pull/226) (`ffffa40`) and component projection/model-body record. P1 contacts are NC, PDOK, GND, NC; PD15 retains ATT |
-| Recorded checks | [2026-11-04 disposition](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-status.md) records native DRC/ERC, nominal interference screens and conditioned simulations. Its older **269-component export receipt stays historical**. PR 226 separately records a 270-fitted scratch export and independent-verifier PASS at `ffffa40`; neither is a new export/replay by this documentation session. [Independent B20 review](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-b20-layout-review.md) retains original findings; disposition records subsequent fixes |
-| Replay limits | Source-locked reports apply to their revisions; no new export or physical check is claimed by this documentation work |
+| Recorded checks | [2026-11-04 disposition](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-status.md) records native DRC/ERC, nominal interference screens and conditioned simulations. Its older **269-component export receipt stays historical**. PR 226 separately records a 270-fitted scratch export and independent-verifier PASS at `ffffa40`; both stay historical. The 2026-11-10 Mac execution adds source-bound native R1–R4/C35 correction, DRC/parity, ERC/netlist and 45-model datum receipts; final pair assembly and export are tracked separately in the execution ledger. [Independent B20 review](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-b20-layout-review.md) retains original findings; disposition records subsequent fixes |
+| Replay limits | Source-locked reports apply to their exact inputs. Fresh corrected native geometry has been checked; the final assembly/render passed with all 63 artifact hashes verified; DEVELOPMENT REVIEW export and independent manufacturing verification passed at clean `3f24a3a`, with exact staged geometry and current datum/assembly proof. Frozen P15 historical replay remains NOT RUN because the required original STEP is absent. No physical check is claimed |
 | NVM | `boards/board-p/nvm/stusb4500-20v-intent.json` is intent only, **no program-ready binary**. TDISPAR0V is located at 0xCA[7:4]; value and reset interaction remain open. DS12499 Rev 8 answers initial lower-current source matching. POWER_ONLY_ABOVE_5V mapping conflicts with the ST draft; established-contract downgrade behavior remains open |
 | Order/physical state | Development hardware; no order/received PD20 units, programming/readback acceptance or measurements recorded |
-| Desk load cases (2026-11-08) | `scripts/pcb/board-b20/load_cases.py` binds the current, thermal, loop and power reports to the PD20 contract: continuous 1.7 / 1.6 / 0.3 A, 20 ms transient 2.0 / 1.9 / 0.4 A, let-through maximum 2.1 / 2.0 / 0.5 A (+12 / −12 / +5). The former "rated" 1.2 / 0.8 / 0.5 A case is kept only as the legacy PD15 comparison. At continuous load the desk model gives 4.29–4.79 W board loss and D3 TJ 99–120 °C (113–140 °C with the transient held steady, which overstates one 20 ms event). Steady-state desk figures, not transient or measured results ([#230](https://github.com/Takazudo/zudo-pd/issues/230)) |
-| Remaining gate | The [completed P r3 review](https://github.com/Takazudo/zudo-pd/blob/main/boards/board-p/r3-draft/independent-review.md) has open U2/Q1 thermal-layout majors and Q3/C30/C34 findings; component evidence and repetitive-pulse gaps; D3 thermal margin at the contract load; thermal/EMI, sequencing, let-through and [T1–T8](../verification/pd20-verification.md) all NOT RUN |
+| Desk load cases (2026-11-08) | `scripts/pcb/board-b20/load_cases.py` binds the current, thermal, loop and power reports to the PD20 contract: continuous 1.7 / 1.6 / 0.3 A, 20 ms transient 2.0 / 1.9 / 0.4 A, let-through maximum 2.1 / 2.0 / 0.5 A (+12 / −12 / +5). The former "rated" 1.2 / 0.8 / 0.5 A case is kept only as the legacy PD15 comparison. At continuous load the desk model gives 4.29–4.79 W board loss and D3 TJ 99.0–120.1 °C at maximum RDS (92.9–111.5 °C at typical RDS). At maximum RDS, the transient held steady gives 113.2–139.7 °C; this is not a 20 ms thermal model. Steady-state desk figures, not transient or measured results ([#230](https://github.com/Takazudo/zudo-pd/issues/230)) |
+| Remaining gate | R1–R4 and C35 geometry corrections have native evidence and independent review; functional probe/polarity artwork is independently reviewed and final pair assembly passed; manufacturing export verification passed at `3f24a3a`. Installed thermal margin, via/stencil process, capacitor bounds and repetitive-pulse evidence remain limited. Nominal 11.1 mm stack clearance does not establish header seating tolerance; the 11.0 mm comparison and HC11 flat-floor mounting retain explicit interference findings. Actual startup analysis exposes a modeled exception exceedance; loaded asymmetric discharge, shutdown/re-entry, maximum delivered current and NVM decisions remain pre-order holds. Thermal/EMI measurements and all physical [T1–T8](../verification/pd20-verification.md) are NOT RUN |
 
 ## Owner actions, in order
 
@@ -70,8 +82,9 @@ Each step needs the evidence named; record results here with the unit identity. 
 | 5 | PD15 staged qualification with an accepted P15 | [PD15 staged bring-up](../verification/renewal-bring-up.md) | Startup, low-line, load, ripple, thermal, surge, installed mechanics |
 | 6 | PD20: select TDISPAR0V with reset timing reviewed, resolve POWER_ONLY_ABOVE_5V mapping and established-contract transitions before any binary; address layout findings, then T1–T8 | [PD20 verification](../verification/pd20-verification.md) | Program-ready image review, then each T-gate result |
 
-The next cloud action is the integration PR review on [#228](https://github.com/Takazudo/zudo-pd/issues/228). Existing
-Board B units are not yet inspected or cleared to mate.
+Continue the local Mac execution through the linked ledger and
+[#228](https://github.com/Takazudo/zudo-pd/issues/228); the original integration PR
+has landed. Existing Board B units are not yet inspected or cleared to mate.
 
 ## Historical identity boundaries
 

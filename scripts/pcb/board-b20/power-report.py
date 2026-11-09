@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / 'scripts/schgen'))
 import sexp  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from load_cases import CASES, CONTRACT_CASES, case_record  # noqa: E402
+from report_provenance import verify_native_report_inputs
 
 BOARD_P, BOARD_B = 'board-p', 'board-b20-draft'
 BOARD_DIR = ROOT / 'boards' / BOARD_B
@@ -69,6 +70,7 @@ def filled_areas():
 
 def main():
     reports = {name: json.loads(path.read_text()) for name, path in SOURCES.items()}
+    native_binding = verify_native_report_inputs(ROOT, reports)
     areas = filled_areas()
     pcb_sha = digest(PCB)
     ground = {layer: round(area, 3) for (net, layer), area in sorted(areas.items()) if net == GROUND_NET}
@@ -110,6 +112,7 @@ def main():
         'source_generator': rel(__file__),
         'source_generator_sha256': digest(__file__),
         'source_reports_sha256': {rel(path): digest(path) for path in SOURCES.values()},
+        'native_input_binding': native_binding,
         'checks': checks,
         'switcher_hot_loops': hot_loops,
         'hot_loop_open': ('The inverter (stage C, U3/CCIN1/D3) loop is 44.4 mm2 on the SMC D3 land, against 29.6 mm2 for '
@@ -162,6 +165,7 @@ def main():
         'source_generator_sha256': digest(__file__),
         'thermal_source': rel(SOURCES['thermal-check']),
         'thermal_source_sha256': digest(SOURCES['thermal-check']),
+        'native_input_binding': native_binding,
         **{key: digest(path) for key, path in SPECS.items()},
         'protection_pcb_source_sha256': {BOARD_P: digest(P_PCB), BOARD_B: pcb_sha},
         'actual_filled_copper': {'pcb_sha256': pcb_sha, 'negative_zones': negative, 'ground_zone_areas_mm2': ground},

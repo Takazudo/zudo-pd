@@ -12,6 +12,7 @@ import json
 import math
 import os
 import sys
+from report_provenance import calculation_binding, digest
 
 geom = json.load(open(sys.argv[1]))
 routes = json.load(open(sys.argv[2]))
@@ -302,5 +303,6 @@ out['pickup_assumptions'] = {'vin_v': VIN, 'sw_rise_ns': round(T_RISE * 1e9, 2),
                              'ina301a3': 'gain 100 V/V, BW 450 kHz, CMRR 65 dB at 1 MHz (SBOS713A Figure 9, typical)',
                              'model': 'magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance'
                              + (f'; ideal GND plane {PLANE_H} mm below F.Cu: image dipole, coupling x 1/(1+(d/h)^2)' if PLANE_H > 0 else '')}
+out['input_binding'] = calculation_binding(__file__, {'geom': digest(sys.argv[1]), 'routes': digest(sys.argv[2])}, settings={'plane_height_mm': PLANE_H})
 json.dump(out, open(sys.argv[3], 'w'), indent=1)
 print(json.dumps(out, indent=1))

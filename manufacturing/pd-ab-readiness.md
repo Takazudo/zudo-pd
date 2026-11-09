@@ -6,6 +6,17 @@ Use [PD20 status](pd20-status.md) for current r3 binding, probe row, labels and 
 “As built” below names a retired design baseline; no PD-specific 15 V input was manufactured.
 Earlier FAIL/OPEN/269-component rows remain revision-specific evidence, not newly evaluated HEAD results.
 
+**2026-11-09 disposition:** the statements below that no P r3 review, B20 stack
+preview, probe row or rail labels exist describe earlier phases. The completed
+[P r3 independent review](../boards/board-p/r3-draft/independent-review.md),
+[B20 review](pd20-b20-layout-review.md) and current generators supersede those
+absence claims. Current B20 has 270 fitted components. Native corrective work
+and fresh pair verification are tracked in [the execution ledger](prototype-order-readiness.md);
+the old export and thermal receipts do not qualify the changed boards. The fresh
+2026-11-10 DEVELOPMENT REVIEW export at `3f24a3a` and independent verification
+passed; the execution ledger retains exact final board/report identities and all
+remaining order holds.
+
 Status words: **PASS**, **FAIL**, **BLOCKED**, **NOT RUN** (with the reason), **UNKNOWN**, **OPEN**.
 No item here is validated, qualified or released. Nothing was ordered, quoted or uploaded.
 Prices come from read-only JLCPCB catalog and fee-table retrievals on 2026-10-31 and are not quotes
@@ -18,7 +29,7 @@ cost, manufacturability and bench plan close. On 2026-11-01 the user chose separ
 (`dec-separate-products`): the current 15 V zudo-pd (Board P as built + Board B) continues, and Board P r3 +
 B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 controller block stays common.
 
-## A gates: open on both boards; B20 has a fully routed but unreviewed 4-layer draft
+## Historical A gates: earlier unreviewed four-layer draft
 
 | Gate | Board P r3 | B20 | Evidence |
 |---|---|---|---|
@@ -32,7 +43,7 @@ B20 becomes a separate 20 V / 5 A unit oriented to the OSC. The STUSB4500 contro
 | Component evidence | **OPEN**: strict validator PASS, but VBEN drive, Q6 RDS(on)/leakage and STUSB 28 V limits are UNSOURCED, and no 20 V / 5 A NVM image is defined | **OPEN**: phase 33 binds `board-b20-draft` to the central inventory (128 lines; 58 new B20 lines, 56 identity VERIFIED; C5451690 and PCSR2512BR010M6 UNRESOLVED on mirror sources). 270 pF is now YAGEO C107046 with a manufacturer sheet; 27 nF / 47 nF C0G use 0805 / 1206 lands. 1206 discharge pulse rating **UNKNOWN** (not in the UNI-ROYAL sheet) | `.claude/skills/component-spec-audit/scripts/validate.py --strict`; `b20-identity-resolution.json` |
 | Independent review | **OPEN**: the observed independent run refused (both rules UNSOURCED); no PCB review | **OPEN**: review findings of `bad5ddf` recorded; no review since phase 9 | `observed-runs.json`; draft page §7 |
 
-## B gates: BLOCKED on availability; the renewal costs about twice the current lineup per 5-unit lot
+## Historical B gates: BLOCKED on availability; the renewal costs about twice the current lineup per 5-unit lot
 
 | Gate | Board P r3 | B20 | Evidence |
 |---|---|---|---|
@@ -174,7 +185,7 @@ development review package. The tests below stay as prototype acceptance tests.
 | J10/J11 pin map against a keyed synth cable (pins 1/2 −12 V) | B20 | each pin at its rail | NOT RUN |
 | Stack fit: P on B with the 18 mm legs; C3 and U3 clearance | P + B | no contact; measured gaps | NOT RUN |
 
-## B20 first 20 V prototype: the routed draft closes, and fabrication, assembly and bench gates stay open (phases 31–33)
+## Historical B20 first 20 V prototype: the routed draft closes, and fabrication, assembly and bench gates stay open (phases 31–33)
 
 The B20 4-layer draft, `boards/board-b20-draft/board-b20-draft.kicad_pcb`, reached 0 unconnected items in phase 31. Phase 33 re-placed the D3 (SMC), L5, C9 (0805), C12 (1206) sites and four neighbours and re-routed: 0 unconnected again.
 KiCad 10.0.6 DRC with schematic parity reports 0 errors and 0 parity issues. The warnings left are `via_dangling` and
@@ -199,7 +210,12 @@ remain:
 | Bench acceptance | **NOT RUN**: no hardware | The §5 rows on a built unit: start order, band entry, ripple, limiter trip, reverse current, discharge order, thermal at the limiter maximum |
 | Cost | Parts USD 75.02 for one board, USD 304.91 per 5-unit lot (0 UNKNOWN, 2026-11-03 listings). Assembly USD 195.18 per lot. PCB fabrication, shipping and duty **UNKNOWN** | Quote (owner) |
 
-## 15 V prototype order: decision inputs (desk only; no order, quote or package exists)
+## Historical 15 V prototype order decision inputs
+
+The no-package and five-set assumptions below are historical. The settled local handoff
+is [exactly two assembled P15 modules](p15-order-handoff.md), with zero new Board B
+and zero new Board L. The frozen P15 package exists; current supplier placement preview
+and quotation remain pending. Preserve the following old quantities/costs as history.
 
 This section collects what an owner needs to decide on a 5-unit zudo-pd 15 V prototype lot: board-p15 on the
 current Board B. It is not an order file. Every board here is an unvalidated draft. The pair's development review

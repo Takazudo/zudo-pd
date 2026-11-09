@@ -1,0 +1,56 @@
+{
+  "pcb_sha256": {
+    "tmp/b20-deterministic2-a/board-b20-draft.kicad_pcb": "d377a60da1a3bf073a9ba51da0148392fbf9abfb8ed0d667757390e44ce49db1",
+    "tmp/b20-deterministic2-b/board-b20-draft.kicad_pcb": "d377a60da1a3bf073a9ba51da0148392fbf9abfb8ed0d667757390e44ce49db1"
+  },
+  "byte_identical": true,
+  "scope": "Fresh owned builders, matching project sidecar, fixed previously validated routing, final applicator and native fill; not a fresh heuristic routing run or hardware qualification.",
+  "source_revision": "76f807f11d3b97a9625e8cc9dd6835e235bb99df",
+  "working_tree_has_changes": true,
+  "tool": "KiCad/pcbnew 10.0.6 linux/amd64 pinned image on Mac",
+  "input_sha256": {
+    "scripts/pcb/board-b20/build-draft.py": "b039a7b5a90462a2499f78af2a9e7acadde4ec4c335c37b0abcad0fff31940a6",
+    "scripts/pcb/board-b20/apply-routes.py": "4141bc6361c084867ea7044d8b5cf92da928cc322189b596852da35414952805",
+    "scripts/pcb/board-b20/finish_details.py": "6680a661b9c276141c7d932500e9c5a21cef6623f38cfdbdf457a4566dee6ce9",
+    "scripts/pcb/board-b20/deterministic_ids.py": "0b8d08fee40100efeafed106cb66e442c62a9787e9d186f6d5b80a5f7a2ac4c4",
+    "scripts/pcb/board-b20/placement-lock.json": "e05ed24a6085d92c6b9f6ebc66e88e46f610a8e9618ddc1e8fe3088cbef7cabf",
+    "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af",
+    "scripts/pcb/board_b_layout.py": "0ef9eb9393892c107cf3c276277d71b1a59b8193b57db218d2fc3e8a0cfec821",
+    "boards/board-b20-draft/board-b20-draft.kicad_pro": "0ed86edd9c634c47e9752a44dd70ddccf0d866d0fde98e6462566615ea7ee012",
+    "/private/tmp/board-b20.VSuIpF/routes.json": "d38a0955173bfd911c224940432e2062f987bf23611d937623bd00b28ed1f44b"
+  },
+  "uuid_counts": {
+    "tmp/b20-deterministic2-a/placed.kicad_pcb": {
+      "count": 6123,
+      "unique": 6123
+    },
+    "tmp/b20-deterministic2-a/board-b20-draft.kicad_pcb": {
+      "count": 10394,
+      "unique": 10394
+    },
+    "tmp/b20-deterministic2-b/placed.kicad_pcb": {
+      "count": 6123,
+      "unique": 6123
+    },
+    "tmp/b20-deterministic2-b/board-b20-draft.kicad_pcb": {
+      "count": 10394,
+      "unique": 10394
+    }
+  },
+  "drc": {
+    "sha256": "b4b1cb03d8567b1706310199ed5f63352609ccd39e4c741b03a23b5e0ca0e964",
+    "errors": 0,
+    "unconnected": 0,
+    "schematic_parity": 0,
+    "warnings": [
+      "lib_footprint_mismatch",
+      "lib_footprint_mismatch"
+    ]
+  },
+  "revision_note": "HEAD captured when final receipt was assembled; shared worktree had uncommitted edits. Exact executed owner/project/routing bytes are identified by input_sha256, verified unchanged across the replay.",
+  "retained_local_route_copy": {
+    "path": "tmp/b20-237/validated-router-routes.json",
+    "sha256": "d38a0955173bfd911c224940432e2062f987bf23611d937623bd00b28ed1f44b",
+    "readme": "tmp/b20-237/README-replay.md"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "scope": "Issue #237 U6/CU6D (PCB C35) local decoupling; native CAD evidence, not electrical qualification",
+  "tool": "KiCad 10.0.6 pinned linux/amd64 on Mac",
+  "source_sha256": {
+    "scripts/pcb/board-b20/build-draft.py": "3d158b128962e1dcb2248070918623c945d58169b4930117313be514ff06606f",
+    "scripts/pcb/board-b20/placement-lock.json": "e05ed24a6085d92c6b9f6ebc66e88e46f610a8e9618ddc1e8fe3088cbef7cabf",
+    "scripts/pcb/board-b20/route.py": "8152a285f08bb4040714c86e276376edbcd1304828a476ab8592b153bfea003f",
+    "scripts/pcb/board-b20/apply-routes.py": "4141bc6361c084867ea7044d8b5cf92da928cc322189b596852da35414952805",
+    "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af",
+    "boards/board-b20-draft/board-b20-draft.kicad_pcb": "7dd3cc43abd65e09f4fd4714885f60bbda6f2003bf71043ede39d1870a9ba784",
+    "boards/board-b20-draft/board-b20-draft.kicad_sch": "18c00f1ed36eea24e8fe193fcab9c38cb563b591372122dc45f05efee7776a6f",
+    "scripts/pcb/board-b20/finish_details.py": "e9e3c3c9d23c5b698a8a5e8af0a5de70462f566e2c294ac25015d1194dcc7eb2",
+    "scripts/pcb/board-b20/read-routed-copper.py": "36baaf649d0d9cf00dee19ef8cd8f62f10db3978e83d0bce2b4e85e2bf351b60",
+    "scripts/pcb/board-b20/run.sh": "b26d658c8e70a590e11ee13dbfe9566306be1fc83bbdf8b20c014bc8165750a4",
+    "scripts/pcb/board-b20/verify-mechanics.py": "2099580260a2a6b3269fe8f75e2f9c6933d0ad60482ff554b1847709006faadc",
+    "scripts/pcb/board-b20/deterministic_ids.py": "0b8d08fee40100efeafed106cb66e442c62a9787e9d186f6d5b80a5f7a2ac4c4",
+    "scripts/pcb/board-b20/test-legend-native.py": "dd3c2f0232af910136a46ee02c7401e14ea61c5e1bf0abb791f02c12e77b032a",
+    "boards/board-b20-draft/board-b20-draft.kicad_pro": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab"
+  },
+  "placement": {
+    "C35": [
+      78.5,
+      56.15,
+      0
+    ],
+    "U6": [
+      72,
+      60,
+      0
+    ],
+    "only_position_changed": "C35"
+  },
+  "supply": {
+    "from": "C35.1",
+    "to": "U6.8",
+    "layer": "F.Cu",
+    "width_mm": 0.3,
+    "length_mm": 4.607127630096648
+  },
+  "returns": [
+    {
+      "pad": "C35.2",
+      "via": [
+        79.4,
+        57.1
+      ],
+      "stub_length_mm": 0.7000000000000028
+    },
+    {
+      "pad": "U6.4",
+      "via": [
+        69.6,
+        61.7
+      ],
+      "stub_length_mm": 0.6000000000000014
+    }
+  ],
+  "filled_plane_check": "PASS: both return vias share filled In1 GND polygon with J5 GND",
+  "router_unrouted": 0,
+  "drc": {
+    "errors": 0,
+    "unconnected": 0,
+    "schematic_parity": 0,
+    "warnings": 4,
+    "receipt": "u6-bypass-drc.json",
+    "sha256": "571d3fe3ef84d7363cb11841cd556752f89961561dbe2664d268a48e46666216"
+  },
+  "not_proven": [
+    "Final pair mechanical acceptance",
+    "Supplier assembly preview",
+    "Electrical transient/thermal performance",
+    "Order readiness"
+  ],
+  "finishing": {
+    "semantic_delta": "finish-semantic-delta.json",
+    "pre_cleanup_geometry_audit": "finish-warning-geometry.json",
+    "removed_reviewed_dead_end_stubs_and_vias": 3,
+    "probe_legend": "P1 LEFT>RIGHT: NC PDOK GND NC",
+    "probe_text_height_mm": 1.0,
+    "native_gc_negative_controls": "PASS; finish_details.py --self-test",
+    "visual_review": "PASS: native F.Cu/F.SilkS/Edge.Cuts SVG crop; front labels legible and separated from contacts/L1",
+    "remaining_warnings": "J6/J7 local left silk-outline label gaps; J10/J11 edge silk clipping; all pads/drills/layers/models unchanged"
+  },
+  "native_final_copper": {
+    "tracks": 3487,
+    "vias": 777
+  },
+  "report_sha256": {
+    "boards/board-b20-draft/report-input-receipt.json": "b425618212e963a716f0d055b645b006182738f678721e35bcf410cd6d74e0e6",
+    "boards/board-b20-draft/mechanical-check.json": "fce850cd980a06d7a2fb10432d833a880a3e08c707b30d89c6ff7f03b1d027a9",
+    "boards/board-b20-draft/current-check.json": "47bd6c4cdc54ed25e1c283c2dd322feab4cd849c2d74a5731ae986238ad3727b",
+    "boards/board-b20-draft/loop-check.json": "9050ff21614ff4a7333ede0cc21bd883611f3e0a5a29a4c00f1d11cc955554fc",
+    "boards/board-b20-draft/thermal-check.json": "1ff57366fd30b9567dd027302a6b526ed2db21dc27bf8175feedbb39728e8730",
+    "boards/board-b20-draft/routing-report.json": "3d12df8e4ee86fc0d83be4b5e96f415a1f27a3d3a18bdb93e394acfc778b146c",
+    "manufacturing/power-layout-b20.json": "ca9a0e04c63e35f45aa9dde98224bcec39f4555679eb0bc45cf9a383ef7b0b36",
+    "manufacturing/power-budget-b20.json": "edc37559fbacf2a120a53f62b59344802261b5eb1b455cda3b1266424281b3ef"
+  },
+  "report_status": "PASS: regenerated against final typography-only candidate; unchanged filled copper; native input/producer provenance verified.",
+  "deterministic_replay": "deterministic-replay.json",
+  "deterministic_fill_delta": "deterministic-fill-delta.json",
+  "focused_tests": {
+    "b20_unittest_discovery": {
+      "tests": 26,
+      "result": "PASS"
+    },
+    "native_finish_gc_and_negative_controls": "PASS",
+    "native_mechanics": "PASS",
+    "native_report_provenance": "PASS",
+    "native_legend_controls": "PASS: deterministic/idempotent owner artwork; altered outline/net/label position/clipped shape rejected"
+  },
+  "pair_board_p_sha256": "76ff61f0487add2901168d5d684791a988fe03801012734057c20907dd8bd417",
+  "legend_followup": "legend-review.json"
+}

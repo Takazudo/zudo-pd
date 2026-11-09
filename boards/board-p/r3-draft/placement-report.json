@@ -10,6 +10,7 @@
  "bottom": [
   "C1",
   "C2",
+  "C34",
   "C36",
   "C37",
   "C38",
@@ -202,9 +203,9 @@
    0
   ],
   "C30": [
-   20.75,
-   24.5,
-   0
+   19.4,
+   24.25,
+   180
   ],
   "C37": [
    7.5,
@@ -212,8 +213,8 @@
    0
   ],
   "C34": [
-   17.5,
-   19.5,
+   18.15,
+   24.75,
    0
   ],
   "R23": [
@@ -339,12 +340,27 @@
  },
  "unplaced": [],
  "missing_pads": [],
+ "local_decoupling": {
+  "C30": {
+   "ic_pad": "U1.23",
+   "capacitor_pad": "2",
+   "max_distance_mm": 3.0,
+   "basis": "Implementation-derived proximity target, revised from 2.5 mm to 3.0 mm to preserve D9 courtyard and adjacent PDOK escape; not a manufacturer numeric limit. Actual routed path and local return remain separately bounded.",
+   "actual_distance_mm": 2.866
+  },
+  "C34": {
+   "ic_pad": "U1.21",
+   "capacitor_pad": "1",
+   "max_distance_mm": 2.5,
+   "actual_distance_mm": 1.602
+  }
+ },
  "pin_to_part_pad_mm": {
   "R21": 1.793,
   "D9": 1.775,
   "D10": 1.96,
   "D11": 2.458,
-  "D12": 3.047
+  "D12": 0.047
  },
  "keepouts_mm": [
   [
@@ -395,10 +411,10 @@
  "area_mm2": {
   "board": 1080.0,
   "mounting_hole_courtyards": 146.6,
-  "component_courtyards_library": 798.4,
+  "component_courtyards_library": 798.2,
   "utilisation_of_board_less_holes": 0.855
  },
- "status": "UNVALIDATED DRAFT, GRID-ROUTED WITHOUT LAYOUT REVIEW (power-path pours, ground pours and grid-routed signals; 0 signal connection(s) open; route-power.py finds 0 detached GND cluster(s), in agreement with native DRC; see fit). Not for fabrication or ordering. PD20: the routed draft is boards/board-p/board-p.kicad_pcb, the exported board-p; the routed 15 V as-built PCB it replaced is read from git history (run.sh AS_BUILT_REV).",
+ "status": "DEVELOPMENT REVIEW, GRID-ROUTED; independent desk review dated 2026-11-08 (power-path pours, ground pours and grid-routed signals; 0 signal connection(s) open; route-power.py finds 0 detached GND cluster(s), native evidence is reported separately below). Not for fabrication or ordering. PD20: the routed draft is boards/board-p/board-p.kicad_pcb, the exported board-p; the routed 15 V as-built PCB it replaced is read from git history (run.sh AS_BUILT_REV).",
  "fit": {
   "floorplan": "floorplan.json (phase 11): power-path parts pre-placed and 5 A corridors reserved; U1 moved 2.67 mm right of its as-built x.",
   "top_only": {
@@ -461,7 +477,8 @@
    ]
   },
   "local_clamp_placement": "Phase 12: D12 (DISCH clamp) moves to B.Cu directly below U1.9 (0.05 mm pad-centre offset in plane, one via); R21 and D9-D11 stay on F.Cu at 1.78-2.46 mm.",
-  "native_drc_kicad_10_0_6_after_routing": {
+  "historical_native_drc_kicad_10_0_6_before_R1_R4_corrections": {
+   "scope": "Historical November 8 review at main 6b08236, PCB SHA 67b0e0960c8d5590dec0efc6de22218d3f7a21fa098abcaffdd57433f3e0058d; not acceptance of a rebuild.",
    "courtyard_overlap": 0,
    "clearance_or_shorting_errors": 0,
    "items_not_allowed": "0 (PD20: the pin-corridor keep-outs forbid vias only; build-draft.py checks that only U1 and the protected owners touch a corridor)",
@@ -474,12 +491,103 @@
    "other": "PD20 rebuild: 69 silk_overlap, 34 silk_over_copper, 14 text_height, 2 silk_edge_clearance and 3 lib_footprint_issues warnings; no error"
   },
   "open": [
-   "Native DRC finds no open connection, but the router is a grid router with rip-up and fixed fan-outs, and its result has had no layout review. No thermal, loop-inductance or ground-return review exists. The 5 A width uses IPC-2221 at an assumed 20 C rise (PA).",
+   "Independent desk/native review exists: independent-review.md, 2026-11-08, with dated corrective dispositions. R1\u2013R4 implementation and acceptance are separate; layout-corrections.md records source ownership and manufacturing residuals. Current native results require the matching receipt below. The 5 A width uses IPC-2221 at an assumed 20 C rise (PA), not a measured thermal rating.",
    "Two-sided assembly changes the JLCPCB assembly scope; not decided here.",
-   "B.Cu faces the enclosure floor in the installed stack (P is below B); bottom parts add to the 12.7 mm P envelope against the 18 mm printed-leg seating height. Part heights are not in the bundles.",
-   "C3 RVT1H101M0810 is 10.2 mm nominal (tolerance not stated) against the 11.1 mm nominal plane gap. Mapped onto the current Board B its base overlaps the U3 TO-263 courtyard by 3.31 x 4.05 mm; no shift inside the Board P outline clears it without moving J1 or MH2. The fix is a Board B side keep-out (B20 layout) or a U3 move on the current Board B; OPEN.",
+   "B.Cu faces the enclosure floor in the installed stack (P is below B); bottom parts add to the 12.7 mm P envelope against the 18 mm printed-leg seating height. Exact envelope evidence and final pair assembly reports must establish the resulting clearances.",
+   "C3 RVT1H101M0810 is 10.2 mm nominal (tolerance not stated) against the 11.1 mm nominal plane gap. The historical Board B collision motivated the adopted B20 r3 keepout. The valid PD20 pair is Board P plus B20; verify the final pair with fresh datum and assembly evidence.",
    "The library 0603 courtyard (3.37 x 1.91 mm) is larger than the as-built embedded lands; using compact lands would change geometry and needs layout review."
   ],
-  "courtyard_utilisation_of_board_less_hole_courtyards": 0.855
+  "courtyard_utilisation_of_board_less_hole_courtyards": 0.855,
+  "current_native_drc": {
+   "status": "EXECUTED; inspect errors, opens, parity and warning dispositions",
+   "receipt": "/Users/takazudo/repos/circuits/zudo-pd-review-234/boards/board-p/r3-draft/native-drc-receipt.json",
+   "report_sha256": "78cc59cc19c5703cde194a57bdaa49016e4aae73eb1da61e50683f2db83a40b8",
+   "pcb_sha256": "56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348",
+   "kicad_version": "10.0.6",
+   "date": "2026-11-09T19:05:17",
+   "errors": 0,
+   "unconnected_items": 0,
+   "schematic_parity": [
+    {
+     "description": "Extra footprint",
+     "items": [
+      {
+       "description": "Footprint MH1",
+       "pos": {
+        "x": 4.0,
+        "y": 4.0
+       },
+       "uuid": "058fd6f4-0a71-4846-95a0-de373a58db3c"
+      }
+     ],
+     "severity": "warning",
+     "type": "extra_footprint"
+    },
+    {
+     "description": "Extra footprint",
+     "items": [
+      {
+       "description": "Footprint MH3",
+       "pos": {
+        "x": 12.8,
+        "y": 32.6
+       },
+       "uuid": "82586680-3bb4-4f93-af5d-30ce589b0874"
+      }
+     ],
+     "severity": "warning",
+     "type": "extra_footprint"
+    },
+    {
+     "description": "Extra footprint",
+     "items": [
+      {
+       "description": "Footprint MH2",
+       "pos": {
+        "x": 23.0,
+        "y": 4.0
+       },
+       "uuid": "c22d9e4e-418d-44e5-96ee-83a0420ef7bc"
+      }
+     ],
+     "severity": "warning",
+     "type": "extra_footprint"
+    }
+   ],
+   "warning_counts": {
+    "lib_footprint_issues": 3,
+    "lib_footprint_mismatch": 3,
+    "silk_over_copper": 30,
+    "silk_overlap": 57,
+    "via_dangling": 2
+   },
+   "ignored_checks": [
+    {
+     "description": "Footprint has no courtyard defined",
+     "key": "missing_courtyard"
+    },
+    {
+     "description": "Track endpoint not centered on via",
+     "key": "track_not_centered_on_via"
+    },
+    {
+     "description": "Tuning profile track geometries",
+     "key": "tuning_profile_track_geometries"
+    },
+    {
+     "description": "Duplicate footprints",
+     "key": "duplicate_footprints"
+    },
+    {
+     "description": "Footprint doesn't match symbol's footprint filters",
+     "key": "footprint_filters_mismatch"
+    },
+    {
+     "description": "Footprint component type doesn't match footprint pads",
+     "key": "footprint_type_mismatch"
+    }
+   ],
+   "scope": "Native CAD evidence only; no electrical, thermal, supplier or physical acceptance is implied."
+  }
  }
 }

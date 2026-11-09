@@ -10,7 +10,12 @@ import math
 import pathlib
 import sys
 
+# wx must initialize before pcbnew on the pinned GTK/Broadway runtime.
+# The opposite order cannot create wx.App later during finishing.
+import wx
+_KICAD_APP = wx.GetApp() or wx.App(False)
 import pcbnew
+from deterministic_ids import stable_id
 
 rules = pathlib.Path(sys.argv[3]).with_suffix('.kicad_pro')
 rules_text = rules.read_text()
@@ -25,20 +30,22 @@ CU = {'F': pcbnew.F_Cu, 'B': pcbnew.B_Cu, 'In2': pcbnew.In2_Cu}
 if FOUR:
     b.SetCopperLayerCount(4)
     b.GetDesignSettings().SetCopperLayerCount(4)
-for t in r['tracks']:
+for index, t in enumerate(r['tracks']):
     s = pcbnew.PCB_TRACK(b)
     s.SetStart(pcbnew.VECTOR2I(mm(t['a'][0]), mm(t['a'][1])))
     s.SetEnd(pcbnew.VECTOR2I(mm(t['b'][0]), mm(t['b'][1])))
     s.SetWidth(mm(t['w']))
     s.SetLayer(CU[t['layer']])
     s.SetNet(b.FindNet(t['net']))
+    stable_id(s, 'routed-track', index, t)
     b.Add(s)
-for v in r['vias']:
+for index, v in enumerate(r['vias']):
     s = pcbnew.PCB_VIA(b)
     s.SetPosition(pcbnew.VECTOR2I(mm(v['at'][0]), mm(v['at'][1])))
     s.SetWidth(mm(v['d']))
     s.SetDrill(mm(0.3))
     s.SetNet(b.FindNet(v['net']))
+    stable_id(s, 'routed-via', index, v)
     b.Add(s)
 for d in b.GetDrawings():
     if isinstance(d, pcbnew.PCB_TEXT) and d.GetText().startswith('B20 DRAFT'):
@@ -61,6 +68,7 @@ for layer, priority in ((pcbnew.F_Cu, 0), (pcbnew.B_Cu, 0)) + (((pcbnew.In1_Cu, 
     for x, y in ((edge.GetLeft(), edge.GetTop()), (edge.GetRight(), edge.GetTop()),
                  (edge.GetRight(), edge.GetBottom()), (edge.GetLeft(), edge.GetBottom())):
         ol.Append(x, y)
+    stable_id(z, 'zone', 'GND', layer, priority, z.GetZoneName(), [edge.GetLeft(), edge.GetTop(), edge.GetRight(), edge.GetBottom()])
     b.Add(z)
 
 # phase 31: heat-spreading M12_RAW copper on F.Cu at the inverter catch diode D3 anode, the input-capacitor returns
@@ -85,6 +93,7 @@ for name, pour in POURS.items():
     ol.NewOutline()
     for x, y in pour['pts']:
         ol.Append(mm(x), mm(y))
+    stable_id(z, 'zone', 'M12_RAW', pour['layer'], name, pour['pts'])
     b.Add(z)
 
 
@@ -178,6 +187,7 @@ def stitch_islands(rounds=8):
                         v.SetWidth(mm(0.8))
                         v.SetDrill(mm(0.3))
                         v.SetNetCode(gnd)
+                        stable_id(v, 'ground-island-via', int(pt.x), int(pt.y))
                         b.Add(v)
                         holes.append((pt, mm(0.3)))
                         added += 1
@@ -194,6 +204,31 @@ def stitch_islands(rounds=8):
 
 
 islands = stitch_islands()
+# Preserve the accepted routing/stitching geometry, then apply the same bounded
+# finishing operation used for reviewed routed candidates. Do not reroute cosmetics.
+from finish_details import remove_unused_fanouts
+removed_fanouts = remove_unused_fanouts(b)
+print('Removed dead-end fanouts:', removed_fanouts)
+if removed_fanouts:
+    pcbnew.ZONE_FILLER(b).Fill(b.Zones())
+# A via's GND label alone does not prove a return into the filled plane. Check both
+# explicitly routed bypass returns against the same In1 polygon as mating J5 ground.
+returns = r.get('u6_bypass_returns', [])
+if {row['pad'] for row in returns} != {'C35.2', 'U6.4'}:
+    raise SystemExit('Missing U6 local bypass return provenance')
+plane = next(z.GetFilledPolysList(pcbnew.In1_Cu) for z in b.Zones()
+             if z.GetLayer() == pcbnew.In1_Cu and z.GetNetname() == 'GND')
+polygons = set(range(plane.OutlineCount()))
+for row in returns:
+    point = pcbnew.VECTOR2I(mm(row['via'][0]), mm(row['via'][1]))
+    polygons &= {i for i in range(plane.OutlineCount()) if plane.Contains(point, i)}
+    if not any(isinstance(t, pcbnew.PCB_VIA) and t.GetNetname() == 'GND' and t.GetPosition() == point for t in b.GetTracks()):
+        raise SystemExit('Missing physical U6 bypass GND via: ' + row['pad'])
+j5_ground = [pad for fp in b.GetFootprints() if fp.GetReference() == 'J5'
+             for pad in fp.Pads() if pad.GetNetname() == 'GND']
+if not any(plane.Contains(pad.GetPosition(), i) for i in polygons for pad in j5_ground):
+    raise SystemExit('U6 bypass returns do not share a filled In1 GND polygon with J5')
+print('U6 bypass: both local return vias share filled In1 GND with J5')
 pcbnew.SaveBoard(sys.argv[3], b)
 rules.write_text(rules_text)
 if FOUR:

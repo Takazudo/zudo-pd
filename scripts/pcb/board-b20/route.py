@@ -72,6 +72,7 @@ FANOUT_4L = (
     'Q6.4', 'R54.1', 'Q66.1', 'R75.1', 'R58.1', 'Q52.1', 'R63.1', 'Q36.1', 'R41.1', 'R71.1', 'Q65.1', 'R10.2',
     'Q65.3', 'U15.1', 'U3.5', 'R75.2', 'U1.5', 'RHO2.1', 'RHO2.2',
     'R30.1', 'R29.2', 'U15.5', 'RCP1.1', 'U15.2', 'Q48.3',   # PD20: the pins the M12_RAW pours' re-route left boxed in
+    'RG3.2',  # CU6D relocation: reserve the inverter gate-resistor escape before global trunks
     'P1.2', 'P1.3',   # PD20 probe row: the top-edge PDOK and shared-GND contacts drop straight to a via
 )
 # phase 30: DC current paths routed as trunks before anything else on 4 layers (1 oz outer copper, JLC7628). Widths
@@ -1034,7 +1035,34 @@ def quiet_ground():
                  f'at the U3 PAD lower edge ({QUIET["at"][0]:.2f}, {QUIET["at"][1]:.2f})')
 
 
+BYPASS_RETURNS = []
+
+
+def local_u6_bypass():
+    """Reserve the short V+ bypass and two local plane returns before global routing."""
+    if not FOUR:
+        raise SystemExit('U6 bypass acceptance requires the adopted four-layer GND plane')
+    a, b = pin('C35', '1'), pin('U6', '8')
+    if a['net'] != 'P5_SUP' or b['net'] != 'P5_SUP' or math.dist(a['center'], b['center']) > 4.7:
+        raise SystemExit('C35/U6 bypass supply geometry or net mismatch')
+    add_track(a['center'], b['center'], 0.3, 'F', 'P5_SUP', NET_ID['P5_SUP'])
+    for ref, num in (('C35', '2'), ('U6', '4')):
+        p = pin(ref, num)
+        if p['net'] != 'GND':
+            raise SystemExit(f'{ref}.{num}: expected local bypass GND')
+        nt, nv = len(tracks), len(vias)
+        if not gnd_stub_at(p, NET_ID['GND'], mask_of_pad(p), 1.0):
+            raise SystemExit(f'{ref}.{num}: no local bypass GND via site')
+        length = sum(math.dist(t['a'], t['b']) for t in tracks[nt:])
+        if length > 2.0 or len(vias) != nv + 1:
+            raise SystemExit(f'{ref}.{num}: local bypass return exceeds 2 mm or lacks single via')
+        BYPASS_RETURNS.append({'pad': f'{ref}.{num}', 'via': list(vias[-1]['at']), 'stub_length_mm': length})
+        notes.append(f'U6 bypass {ref}.{num}: {length:.3f} mm local F.Cu return to In1 GND via at {vias[-1]["at"]}')
+    notes.append('U6 bypass C35.1-U6.8: direct 0.3 mm F.Cu supply track; TI SBOS807E section 10.1')
+
+
 def main():
+    local_u6_bypass()
     if M12_POURS:
         for name in EARLY_POURS:
             reserve_pour(name)
@@ -1144,7 +1172,7 @@ def main():
     # 4-layer: every GND surface pad takes its own via to the In1.Cu plane before the signals claim the via sites
     if GND_FIRST:
         for p in pads:
-            if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F']:
+            if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F'] and (p['ref'], p['num']) not in (('C35', '2'), ('U6', '4')):
                 gnd_stub(p)
     # 3. remaining power nets, then signals by span
     for net in sorted(POWER_NETS & set(NET_ID)):
@@ -1174,7 +1202,7 @@ def main():
     stitch()
     # 4. every other GND surface pad
     for p in pads if not GND_FIRST else ():
-        if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F']:
+        if p['net'] == 'GND' and not p['drill'] and p['ref'] not in stage_refs and p['layers'] == ['F'] and (p['ref'], p['num']) not in (('C35', '2'), ('U6', '4')):
             gnd_stub(p)
     if FOUR:
         if not TWINS_EARLY:
@@ -1183,11 +1211,13 @@ def main():
     for v in fail_by_net.values():
         unrouted.extend(v)
     failed_nets = sorted({u.split(':')[0] for u in unrouted if not u.startswith('GND stub')})
-    json.dump({'tracks': tracks, 'vias': vias, 'unrouted': unrouted, **({'trunks': trunk_log} if trunk_log else {}), 'failed_nets': failed_nets, 'first': first, 'notes': notes,
+    json.dump({'tracks': tracks, 'vias': vias, 'unrouted': unrouted, 'u6_bypass_returns': BYPASS_RETURNS, **({'trunks': trunk_log} if trunk_log else {}), 'failed_nets': failed_nets, 'first': first, 'notes': notes,
                **({'layers': list(LAYERS)} if FOUR else {}),
                **({'m12_pours': {k: {'layer': l, 'pts': pts} for k, (l, pts) in M12_POURS.items()}} if M12_POURS else {})},
               open(sys.argv[2], 'w'), indent=0)
     print(f'{len(tracks)} tracks, {len(vias)} vias, {len(unrouted)} unrouted')
+    if unrouted:
+        raise SystemExit('B20 routing incomplete; refusing canonical PCB generation')
 
 
 if __name__ == '__main__':

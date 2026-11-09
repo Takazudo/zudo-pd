@@ -11,11 +11,12 @@ Drives the unchanged helpers of scripts/pcb/export-assembly-preview.py (native S
 B(y-0.5,x+12) transform, the cross-board collision screen and the corner-support collar screen) for B20. That
 generator and the Board B mechanical verifiers stay unchanged because their hashes bind the 15 V package's stack proof.
 B20 differences:
-- the mechanical check is scripts/pcb/board-b20/verify-mechanics.py (B20 net names and rail labels; pogo row OPEN);
+- the mechanical check is scripts/pcb/board-b20/verify-mechanics.py (B20 net names, rail labels and the implemented pogo row);
 - the B20 stackup (JLC7628 layer values from the draft page) sums to 1.59 mm against the declared 1.6 mm board, so the
   B20 core uses a local copy of native_parts that takes the thickness from the PCB instead of the fixed 1.6 mm;
 - B20 has no bulk C5. The reviewed C5 envelope (11.2 x 11.2 x 11.0 mm at the contract center) is still screened as a
   reserved column against Board P, and every fitted B20 part is screened in the populated collision check.
+Supplemental U2/U3 PROJECT boxes cover known lead/flash omissions separately; U2's over-lead dimension retains the drawing's TYP caveat. Existing body assets remain unchanged.
 Nominal CAD screening only: no physical fit, seating, flex or electrical qualification.
 """
 import argparse
@@ -41,6 +42,11 @@ B_NAME = 'board-b20-draft'
 B_PCB = ROOT / 'boards/board-b20-draft/board-b20-draft.kicad_pcb'
 HELPERS = ROOT / 'scripts/pcb/export-assembly-preview.py'
 VERIFIER = ROOT / 'scripts/pcb/board-b20/verify-mechanics.py'
+SUPPLEMENT = Path(__file__).with_name('supplemental-clearance.py')
+SUPPLEMENT_DATA = Path(__file__).with_name('supplemental-envelopes.json')
+_supp_spec = importlib.util.spec_from_file_location('supplemental_clearance', SUPPLEMENT)
+supplement = importlib.util.module_from_spec(_supp_spec)
+_supp_spec.loader.exec_module(supplement)
 
 
 def native_parts(tree,project,scratch,cli):
@@ -93,7 +99,7 @@ def native_parts(tree,project,scratch,cli):
     # Preserve native assembly hierarchy: imported STEP models may contain many
     # solids and lose their reference name, but each top-level component keeps
     # its native placement. Match that origin to the exact footprint/model node.
-    imported=NativeAssembly.load(str(scratch/'populated.step'));parts={};cores=[];native_solids=[]
+    imported=NativeAssembly.load(str(scratch/'populated.step'));parts={};origins={};cores=[];native_solids=[]
     for child in imported.children:
         shape=child.toCompound()
         native_solids.extend(shape.Solids())
@@ -104,6 +110,7 @@ def native_parts(tree,project,scratch,cli):
         require(len(matches)==1,'Native component cannot be uniquely attributed: '+child.name+' '+str(origin))
         ref=matches[0];require(ref not in parts,'Duplicate native component '+ref)
         parts[ref]=shape.translate((0,0,shift))
+        origins[ref]=[origin[0],origin[1],origin[2]+shift]
     require(len(cores)==1,'Native substrate is not uniquely identifiable')
     require(set(parts)==set(expected),'Native export omitted/added fitted model references')
     # Integrate each solid separately. OpenCascade's compound-level integration
@@ -122,6 +129,7 @@ def native_parts(tree,project,scratch,cli):
             'hierarchy_geometry_check':{'status':'PASS','solid_count_including_core':len(native_solids),
                                         'sum_individual_volume_mm3':attributed_volume,'flat_sum_individual_volume_mm3':flat_volume,
                                         'every_solid_bounds_match':True},
+            'component_origins_mm':origins,
             'component_bounds_mm':{ref:bounds(shape) for ref,shape in parts.items()}}
 
 
@@ -142,7 +150,7 @@ def main():
     contract = json.loads(contract_path.read_text())
     contract_hash, helpers_hash = sha(contract_path), sha(HELPERS)
     verification_sources = {str(path.relative_to(ROOT)): sha(path) for path in
-                            [Path(__file__).resolve(), VERIFIER, ROOT / 'scripts/pcb/verify-compact-mechanics.py',
+                            [Path(__file__).resolve(), VERIFIER, SUPPLEMENT, SUPPLEMENT_DATA, ROOT / 'scripts/pcb/verify-compact-mechanics.py',
                              ROOT / 'scripts/pcb/board_b_layout.py', ROOT / 'scripts/pcb/check-model-bodies.py',
                              ROOT / 'scripts/schgen/board_b20_spec.py', ROOT / 'boards/board-p/mechanical.json',
                              ROOT / 'boards/board-b/supports/hc11-evidence.json',
@@ -159,6 +167,10 @@ def main():
         (scratch / 'p').mkdir()
         b_core, b_parts, b_sources, b_datum = native_parts(b_tree, project, scratch / 'b', args.kicad_cli)
         p_core, p_parts, p_sources, p_datum = native_parts(p_tree, p_pcb.parent, scratch / 'p', args.kicad_cli)
+        require(p_name == 'board-p', 'Supplemental P-r3 envelopes require the adopted PD20 board pair')
+        supplemental = supplement.screen(p_tree, p_parts, p_datum['component_origins_mm'], p_sources, b_core, b_parts, contract, ap.place_board_p)
+        (output / 'supplemental-envelope-check.json').write_text(json.dumps(supplemental, indent=2) + '\n')
+        require(supplemental['status'] == 'PASS', 'Supplemental PROJECT envelope collision: ' + str(supplemental['failures']))
         p_core = ap.place_board_p(p_core, contract)
         p_parts = {ref: ap.place_board_p(part, contract) for ref, part in p_parts.items()}
         collision = ap.cross_board_screen(b_core, b_parts, p_core, p_parts, contract)
@@ -258,9 +270,12 @@ def main():
     (output / 'README.md').write_text(
         'Review-only Board P + board-b20-draft assembly. Open preview.kicad_pcb in KiCad and use its 3D viewer. '
         'Component models are bundled locally. The display footprint for Board P is BOM/CPL-excluded; never use this '
-        'file for fabrication. Source PCBs are unchanged. populated-stack.step is a local-only derivative. Nominal CAD '
+        'file for fabrication. Source PCBs are unchanged. populated-stack.step and board-p-stacked.step are local-only '
+        'assembled derivatives; regenerate this preview to obtain them. Nominal CAD '
         'fit does not qualify installed hardware, wire access or powered behavior. The B20 draft carries the front/back '
-        'rail labels but no top-edge pogo row (OPEN).\n')
+        'rail labels and the implemented top-edge pogo row; the mechanical report checks their geometry and nets. '
+        'supplemental-envelope-check.json screens drawing-based PROJECT U2/U3 boxes, including the U2 TYP caveat; '
+        'it does not promote other nominal models to full manufacturer CAD.\n')
     mech = json.loads((output / 'mechanical-check.json').read_text())
     report = {'schema_version': 1, 'status': 'PASS', 'board_b': B_NAME, 'board_p': p_name, 'board_p_pcb': ap.P_BOARDS[p_name],
               'draft': True, 'pcb_sha256': source_hashes,
@@ -276,11 +291,12 @@ def main():
               'terminal_to_pd_clearance': terminal_screens, 'populated_cross_board_clearance': collision,
               'c5_envelope_clearance': c5_screen, 'header_spacing_comparison': header_spacing,
               'project_support_collar_clearance': support_screen,
-              'limits': ['Catalog and maximum-envelope model geometry is illustrative; physical fit, board flex and seating '
+              'supplemental_project_envelopes': supplemental,
+              'limits': supplemental['limits'] + ['Catalog and maximum-envelope model geometry is illustrative; physical fit, board flex and seating '
                          'tolerances remain unmeasured.',
                          'Only the J5/JOUT1 contact columns may intersect; own-board interfaces are outside this test.',
                          'Support collar columns are project assumptions; the HC11 flat-floor height conflict remains open.',
-                         'The B20 pogo row and rail labels are absent (OPEN). No electrical or thermal qualification is implied.'],
+                         'The B20 pogo row and rail labels are checked as CAD geometry, not physical probe access. No electrical or thermal qualification is implied.'],
               'artifact_sha256': {str(path.relative_to(output)): sha(path) for path in sorted(output.rglob('*')) if path.is_file()}}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({'status': 'PASS', 'output': str(output), 'pcb_sha256': source_hashes}))

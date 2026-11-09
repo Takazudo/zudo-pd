@@ -2,12 +2,14 @@
 
 usage: python3 route-power.py <board.kicad_pcb> <report.json> <pours.json>   (inside the pinned KiCad image)
 The power nets are copper pours on F.Cu shaped along the floorplan corridors (floorplan.json); GND is
-a B.Cu pour plus an F.Cu fill, stitched with vias wherever both fills exist. Signal nets stay unrouted.
+a B.Cu pour plus an F.Cu fill, stitched with vias wherever both fills exist. Signal routing is supplied
+by route-signals.py/apply-tracks.py; this stage fills copper and checks ground connectivity.
 Widths: IPC-2221 external-layer chart, 1 oz (35 um, the board stackup), 5 A at a 20 C rise -> 1.82 mm
 minimum (PA: rise and chart are design assumptions, not a measured thermal result).
 """
-import json, math, sys
+import json, math, sys, uuid
 import pcbnew
+from native_connectivity import pad_polygon_contacts
 
 pcb_path, rep_path = sys.argv[1:3]
 board = pcbnew.LoadBoard(pcb_path)
@@ -29,6 +31,7 @@ def add_zone(net, layer, prio, r):
     ol = z.Outline(); ol.NewOutline()
     for x, y in r:
         ol.Append(mm(x), mm(y))
+    z.m_Uuid.Clone(pcbnew.KIID(str(uuid.uuid5(uuid.NAMESPACE_URL, 'zudo-pd/r3/zone/'+json.dumps([net,layer,prio,r])))))
     board.Add(z)
     return z
 
@@ -71,7 +74,7 @@ while y < 39.0:
         ok = ok and all(seg_dist(x, y, sg) > VIA_D / 2 + 0.2 + sg[4] / 2 + 0.05 for sg in segs)
         if ok:
             v = pcbnew.PCB_VIA(board); v.SetPosition(pt); v.SetWidth(mm(VIA_D)); v.SetDrill(mm(VIA_DRILL)); v.SetNet(gnd)
-            board.Add(v); vias.append((round(x, 2), round(y, 2))); segs.append((x, y, x, y, VIA_D))
+            v.m_Uuid.Clone(pcbnew.KIID(str(uuid.uuid5(uuid.NAMESPACE_URL, 'zudo-pd/r3/stitch/'+str(v.GetPosition().x)+'/'+str(v.GetPosition().y))))); board.Add(v); vias.append((round(x, 2), round(y, 2))); segs.append((x, y, x, y, VIA_D))
         x += PITCH
     y += PITCH
 filler = pcbnew.ZONE_FILLER(board)
@@ -118,17 +121,18 @@ def gnd_clusters():
     for z in fz + bz:
         pl = z.GetFilledPolysList(z.GetLayer())
         for i in range(pl.OutlineCount()):
-            polys.append((z.GetLayer(), pl.Outline(i)))
             ps = pcbnew.SHAPE_POLY_SET(); ps.AddOutline(pl.Outline(i))
             for j in range(pl.HoleCount(i)):
                 ps.AddHole(pl.Hole(i, j))
             polysets.append(ps)
+            polys.append((z.GetLayer(), ps.Outline(0)))
     vias_ = [t for t in board.GetTracks() if t.GetClass() == 'PCB_VIA' and t.GetNetname() == 'GND']
     tracks_ = [t for t in board.GetTracks() if t.GetClass() != 'PCB_VIA' and t.GetNetname() == 'GND']
     pads_ = [p for fp in board.GetFootprints() for p in fp.Pads() if p.GetNetname() == 'GND']
 
     def at(pt, layer):
-        hits = [('P', k) for k, (l, ch) in enumerate(polys) if l == layer and ch.PointInside(pt)]
+        # Retain holes for point contacts too; an outer-outline hit alone is not copper.
+        hits = [('P', k) for k, (l, _ch) in enumerate(polys) if l == layer and polysets[k].Contains(pt)]
         hits += [('V', k) for k, v in enumerate(vias_) if v.HitTest(pt)]
         hits += [('D', k) for k, p in enumerate(pads_) if p.IsOnLayer(layer) and p.HitTest(pt)]
         # phase 15: a track end on another track's copper joins it (track-to-track joints, T-junctions), as KiCad counts it
@@ -143,6 +147,9 @@ def gnd_clusters():
             if p.IsOnLayer(l):
                 for h in at(p.GetPosition(), l):
                     union(('D', k), h)
+    # A filled polygon may touch the edge of a pad without containing its center.
+    for pad_index, polygon_index in pad_polygon_contacts(pads_, polys, polysets):
+        union(('D', pad_index), ('P', polygon_index))
     for k, t in enumerate(tracks_):
         for pt in (t.GetStart(), t.GetEnd()):
             for h in at(pt, t.GetLayer()):
@@ -169,12 +176,12 @@ def gnd_clusters():
                                                 for m in members if m[0] == 'D'],
                          'vias': [[round(pcbnew.ToMM(vias_[m[1]].GetPosition().x), 2), round(pcbnew.ToMM(vias_[m[1]].GetPosition().y), 2)]
                                   for m in members if m[0] == 'V']})
-    return polys, [polys[k] for k in groups[main]], detached
+    return polys, [polys[k] for k in groups[main]], detached, polysets
 
 
 for _round in range(4):
     added = 0
-    polys, main_polys, detached = gnd_clusters()
+    polys, main_polys, detached, polygon_owners = gnd_clusters()
     for d in detached:
         done = False
         for k in d['polys']:
@@ -189,7 +196,7 @@ for _round in range(4):
                     q = pcbnew.VECTOR2I(mm(xx), mm(yy))
                     if ch.PointInside(q) and any(c.PointInside(q) for c in other) and via_point_ok(xx, yy):
                         v = pcbnew.PCB_VIA(board); v.SetPosition(q); v.SetWidth(mm(ISL_VIA_D)); v.SetDrill(mm(VIA_DRILL)); v.SetNet(gnd)
-                        board.Add(v); island_vias.append((round(xx, 2), round(yy, 2))); segs.append((xx, yy, xx, yy, ISL_VIA_D))
+                        v.m_Uuid.Clone(pcbnew.KIID(str(uuid.uuid5(uuid.NAMESPACE_URL, 'zudo-pd/r3/stitch/'+str(v.GetPosition().x)+'/'+str(v.GetPosition().y))))); board.Add(v); island_vias.append((round(xx, 2), round(yy, 2))); segs.append((xx, yy, xx, yy, ISL_VIA_D))
                         done = True; added += 1
                     xx += 0.05
                 yy += 0.05
@@ -199,7 +206,7 @@ for _round in range(4):
     filler.Fill(board.Zones())
     if not added:
         break
-polys, main_polys, detached = gnd_clusters()
+polys, main_polys, detached, polygon_owners = gnd_clusters()
 floating = []
 for d in detached:
     bbs = [polys[k][1].BBox() for k in d['polys']]

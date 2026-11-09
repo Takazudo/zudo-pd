@@ -27,14 +27,14 @@ C_LOAD_MAX = {'+12': 180e-6, '-12': 180e-6, '+5': 120e-6}
 RIPPLE_MAX_VPP = 1e-3
 RAMP_MIN_S = 10e-3
 SLOPE_MAX_V_PER_MS = {'+12': 1.23, '-12': 1.22, '+5': 0.51}
-START_SKEW_MAX_S = 0.41e-3
+START_SKEW_MAX_S = 0.41e-3             # CALCULATED fastest-slope proxy for the voltage-form requirement
 BAND_ENTRY_SKEW_MAX_S = 2e-3            # PROPOSED in the contract
 DISCHARGE_LEVEL = {'+12': 0.5, '-12': 0.6, '+5': 0.6}
 DISCHARGE_TIME_MAX_S = 0.100            # PROPOSED in the contract
 P5_ORDER_LEVEL = 0.8                    # +5 V must be <= 0.8 V before an analog rail is absent
 M12_WHILE_P12_ABSENT_MAX = 6.0          # R-VEE: |-12| <= 6 V while +12 absent
 OV_TRIP_MAX = {'+12': 12.48, '-12': 12.37, '+5': 5.20}   # PROPOSED trip = load-band maximum
-REVERSE_CURRENT_MAX_A = 1e-3            # PROPOSED
+REVERSE_CURRENT_MAX_A = 1e-3            # PROPOSED upstream, adopted by PD; discharge/backdrive timing unresolved
 
 # ---- Input (Board P VBUS_OUT) -----------------------------------------------
 VIN_NOM, VIN_MIN, VIN_MAX = 20.0, 19.0, 21.0      # PA: USB PD 20 V fixed PDO +/-5 %
@@ -73,11 +73,14 @@ INA_TP_S = 1e-6
 INA_ILIMIT = (79.2e-6, 80.0e-6, 80.8e-6)   # LIMIT pin source current (review finding 1)
 INA_VS_MAX = 5.5
 # Per-rail current shunts. +5 V: YAGEO PE1206FRF470R02L 20 mOhm product sheet (G).
-# +/-12 V (phase 9, drawn): RESI PCSR2512BR010M6 / C23067428 10 mOhm 0.1 % 15 ppm/C, distributor
-# listing only (G-U), no primary datasheet retained.
-SHUNT = {'+12': {'r': 0.010, 'tol': 0.001, 'tcr': 15e-6, 'evidence': 'G-U (distributor listing)'},
-         '-12': {'r': 0.010, 'tol': 0.001, 'tcr': 15e-6, 'evidence': 'G-U (distributor listing)'},
-         '+5': {'r': 0.020, 'tol': 0.01, 'tcr': 100e-6, 'evidence': 'G'}}
+# +/-12 V: manufacturer E16009 V9 acquired 2026-11-09 confirms B/R010/M codes.
+# TCR references +20 C, unlike the existing +25 C calculation convention.
+# Supplier lot revision remains unknown: retain the historical 1 W / 10 A working bound.
+SHUNT = {'+12': {'r': 0.010, 'tol': 0.001, 'tcr': 15e-6, 'temperature_reference_c': 20.0,
+                  'evidence': 'PRIMARY-SPEC E16009 V9; supplier lot applicability unresolved; 1 W / 10 A working bound'},
+         '-12': {'r': 0.010, 'tol': 0.001, 'tcr': 15e-6, 'temperature_reference_c': 20.0,
+                  'evidence': 'PRIMARY-SPEC E16009 V9; supplier lot applicability unresolved; 1 W / 10 A working bound'},
+         '+5': {'r': 0.020, 'tol': 0.01, 'tcr': 100e-6, 'temperature_reference_c': 25.0, 'evidence': 'G'}}
 # YAGEO RT0603 0.1 % (owner records; TCR 25 ppm/C assumed for the B tolerance class, PA)
 R01_TOL = 0.001
 R01_TCR = 25e-6
@@ -209,6 +212,12 @@ def terminal_band():
     return rows
 
 
+def shunt_temperature_span(shunt):
+    # Preserve the original PA operating interval: 25 +/-20 C = 5..45 C.
+    # Do not re-center that interval when the manufacturer's reference differs.
+    return max(abs(t - shunt['temperature_reference_c']) for t in (25.0 - TA_SPAN, 25.0 + TA_SPAN))
+
+
 def limiter():
     rows = {}
     for rail in ('+12', '+5'):
@@ -220,7 +229,7 @@ def limiter():
         rs = sh['r']
         itrip = vlim / (INA_GAIN * rs)
         vsense = itrip * rs
-        err = sh['tol'] + sh['tcr'] * TA_SPAN + INA_GAIN_ERR + INA_VOS / vsense \
+        err = sh['tol'] + sh['tcr'] * shunt_temperature_span(sh) + INA_GAIN_ERR + INA_VOS / vsense \
             + INA_CMP_VOS / vlim + (REF_ACC + 2 * R01_TOL) * vdiv / vlim \
             + (INA_ILIMIT[2] - INA_ILIMIT[1]) * rth / vlim
         lo, hi = itrip * (1 - err), itrip * (1 + err)
@@ -238,7 +247,7 @@ def limiter():
     sh = SHUNT['-12']
     rs = sh['r']
     itrip = vref / rs
-    err = sh['tol'] + sh['tcr'] * TA_SPAN + sp['tolerance_ratio'] + 2 * R01_TOL + OPA_VOS_MAX / vref \
+    err = sh['tol'] + sh['tcr'] * shunt_temperature_span(sh) + sp['tolerance_ratio'] + 2 * R01_TOL + OPA_VOS_MAX / vref \
         + I_MAX['-12'] * path_resistance('-12') / vmag
     lo, hi = itrip * (1 - err), itrip * (1 + err)
     rows['-12'] = {'device': 'OPA2187 comparator on the -12 V pre-node shunt', 'reference_v': round(vref, 6),
@@ -246,6 +255,17 @@ def limiter():
                    'trip_min_a': round(lo, 5), 'trip_max_a': round(hi, 5),
                    'window': [I_TRANSIENT_MIN['-12'], I_MAX['-12']], 'shunt_evidence': sh['evidence'],
                    'status': status(lo > I_TRANSIENT_MIN['-12'] and hi <= I_MAX['-12'])}
+    for rail in ('+12', '-12'):
+        sh = SHUNT[rail]
+        delta = shunt_temperature_span(sh)
+        rmax = sh['r'] * (1 + sh['tol'] + sh['tcr'] * delta)
+        rows[rail]['shunt_temperature_screen'] = {
+            'operating_interval_c': [25.0 - TA_SPAN, 25.0 + TA_SPAN],
+            'reference_c': sh['temperature_reference_c'], 'maximum_delta_c': delta,
+            'resistance_max_ohm': rmax,
+            'power_at_contract_max_w': I_MAX[rail] ** 2 * rmax,
+            'working_power_bound_w': 1.0,
+            'limit': 'Arithmetic at contractual current only; no measured temperature, fault-current or let-through bound.'}
     rows['let_through'] = {
         'status': 'OPEN',
         'reason': 'The limiter trips and opens the rail; it does not regulate current. Fault current between detection '
@@ -283,8 +303,8 @@ def limiter_startup():
     rows['let_through_series_l']['status'] = 'OPEN'
     rows['let_through_series_l']['reason'] = ('A series element that bounds a hard short to I_MAX needs millihenries '
                                               '(infeasible at 2 A) or a regulating current limit; switch-off time is not '
-                                              'guaranteed by any retained source. The contract needs let-through stated '
-                                              'as charge or time above I_MAX.')
+                                              'guaranteed by any retained source. No excess-current charge/time budget is adopted; '
+                                              'the existing maximum still requires supported compliance or explicit contract agreement.')
     return rows
 
 
@@ -426,13 +446,23 @@ def ramps():
     out['band_entry_skew_worst_s'] = round(max(c['band_entry_skew_s'] for c in cases), 5)
     out['band_entry_skew_status'] = status(out['band_entry_skew_worst_s'] <= BAND_ENTRY_SKEW_MAX_S)
     out['p5_last_status'] = status(all(c['p5_last'] for c in cases))
-    out['slope_sim_status'] = 'PASS (SIM) at the I_TRANSIENT_MIN load; FAIL (SIM) at no load'
-    out['slope_sim_note'] = ('Phase-10 ngspice runs (manufacturing/sim/board-b20-phase10, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in the '
+    out['historical_phase10_slope_sim_status'] = 'PASS (SIM) at the I_TRANSIENT_MIN load; FAIL (SIM) at no load'
+    out['historical_phase10_slope_sim_note'] = ('Phase-10 ngspice runs (manufacturing/sim/board-b20-phase10, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in the '
                              'four completed loaded runs (all threshold shifts); at no load +5 V 0.85-0.90 V/ms and -12 V 1.21-1.47 V/ms '
                              '(adv fails the 1.22 row). Phase 9 (100 nF) gave +5 V 0.53-1.03 V/ms in every run. No-load cause: the '
                              'source-only pairs overshoot their pre-bias targets, cannot pull the output back without a load, and the '
-                             'integrators wind to their rails again before RAMP moves; an owner exception covers it (user decision 2026-11-03, card cmsg_01Pv35emdXEU6gCRF3teSpo2GzmXCn8kfxsnNg5p6WdFzN: no load only, +5 V <= 0.95 V/ms below 0.45 V, -12 V <= 1.47 V/ms below 0.75 V; loaded starts keep the contract slopes).')
-    out['start_skew_status'] = 'FAIL (SIM)'
+                             'integrators wind to their rails again before RAMP moves. The owner recorded bounded exceptions '
+                             '(2026-11-03, card cmsg_01Pv35emdXEU6gCRF3teSpo2GzmXCn8kfxsnNg5p6WdFzN: no load only, '
+                             '+5 V <= 0.95 V/ms below 0.45 V at <=114 mA, -12 V <= 1.47 V/ms below 0.75 V at <=265 mA; '
+                             'loaded starts keep the contract slopes). This historical average is not current compliance evidence.')
+    out['slope_sim_status'] = 'OPEN (PRE-ORDER HOLD)'
+    out['slope_sim_note'] = ('Actual phase33 adjacent-sample analysis and 2 us refinements on 2026-11-09 expose no-load '
+                            'slope/current excess beyond those recorded exception ceilings. Small negative increments also '
+                            'remain. See manufacturing/sim/board-b20-phase33/startup-refinement.md and its hash-bound '
+                            'receipt. This calculator does not execute the solver or establish physical compliance.')
+    out['start_skew_criterion_authority'] = 'CALCULATED fastest-slope proxy; keep the direct voltage-form requirements separate'
+    out['band_entry_criterion_authority'] = 'PROPOSED upstream 2 ms criterion; not silently promoted to CONTRACT'
+    out['start_skew_status'] = 'HISTORICAL SIM: CALCULATED proxy exceeded'
     out['start_skew_note'] = ('Arithmetic cannot bound the time-form start skew (loop dynamics and FET thresholds). '
                               'The phase-10 ngspice runs (CRMD 470 nF) give 2.24-3.93 ms against 0.41 ms (phase 9: 1.16-2.42 ms), '
                               'while the voltage forms it derives from pass in every completed run; see the draft page section 5d.')
@@ -608,19 +638,21 @@ def discharge():
         'loaded_order_status': 'OPEN',
         'loaded_order_reason': 'Disconnect-then-discharge leaves each rail to its own load: a rail carrying I amps on C '
                                'falls at I/C (2.0 A on 180 uF is 11 V/ms) and only the discharge resistors set the zero-load '
-                               'order. Any OSC load asymmetry can make an analog rail absent first. Guaranteeing the order '
-                               'needs a tracked ramp-down (RAMP falling while the pairs stay in tracking), which is a '
-                               'contract change (disconnect then discharge) and is proposed, not drawn.',
+                               'order. OSC load asymmetry can make an analog rail absent first. Guaranteed order '
+                               'is not established. Tracked ramp-down while the pairs stay in tracking is only one proposal; '
+                               'it changes the accepted disconnect-before-discharge contract and requires explicit agreement. '
+                               'Loaded asymmetric discharge remains a pre-order gate.',
         'loaded_fall_rate_v_per_ms': {r: round(I_MAX[r] / C_LOAD_MAX[r] / 1e3, 3) for r in C_LOAD_MAX},
         'discharge_peak_current_a': {r: round(v, 4) for r, v in peak.items()},
         'pulse_rating_status': 'OPEN',
-        'pulse_rating_reason': 'No PROPOSED discharge resistor has an owner record. YAGEO RC1206 candidates (C137392 100R, '
-                               'C137308 33R; manufacturer sheets read) give 0.25 W at 70 C and 400 V overload but no '
-                               'pulse-energy curve.',
+        'pulse_rating_reason': 'The installed UNI-ROYAL 1206W4F1000T5E/C17901, 1206W4F1500T5E/C17917 and '
+                               '1206W4F330JT5E/C18005 have exact owner records. The retained V.7 short-time overload '
+                               'test bounds the recorded single-event screen only; repetitive discharge endurance is '
+                               'UNSOURCED. See manufacturing/pd20-evidence-research.md; no substitute is adopted.',
         'pulse_energy_j': {r: round(0.5 * C_LOAD_MAX[r] * LOAD_BAND[r][1] ** 2, 5) for r in C_LOAD_MAX},
         'reverse_current_after_window_status': 'OPEN',
         'reverse_current_reason': 'During the one-shot window the discharge path draws up to the peak currents above from an '
-                                  'externally held inlet, above the PROPOSED 1 mA; after it, leakage plus the terminal '
+                                  'externally held inlet, above the upstream-proposed, PD-adopted 1 mA; after it, leakage plus the terminal '
                                   'sense dividers remain (calculated below). The contract pair (discharge vs 1 mA reverse) '
                                   'needs joint agreement.',
     }

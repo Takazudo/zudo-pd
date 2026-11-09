@@ -1,0 +1,47 @@
+{
+  "scope": "Deterministic owner artwork-only replay over previously accepted filled copper; no reroute/refill or new full-builder fill proof. Prior full-fill proof remains in deterministic-replay.json.",
+  "prior_pcb_sha256": "d377a60da1a3bf073a9ba51da0148392fbf9abfb8ed0d667757390e44ce49db1",
+  "pcb_sha256": "7dd3cc43abd65e09f4fd4714885f60bbda6f2003bf71043ede39d1870a9ba784",
+  "shared_board_b_contract_sha256": "2dceea6453bb22d301218e4aed1b616512e55fdc4bc0afb0b140a703c7e446ee",
+  "source_sha256": {
+    "scripts/pcb/board-b20/finish_details.py": "e9e3c3c9d23c5b698a8a5e8af0a5de70462f566e2c294ac25015d1194dcc7eb2",
+    "scripts/pcb/board-b20/build-draft.py": "3d158b128962e1dcb2248070918623c945d58169b4930117313be514ff06606f",
+    "scripts/pcb/board-b20/verify-mechanics.py": "2099580260a2a6b3269fe8f75e2f9c6933d0ad60482ff554b1847709006faadc",
+    "scripts/pcb/board-b20/test-legend-native.py": "dd3c2f0232af910136a46ee02c7401e14ea61c5e1bf0abb791f02c12e77b032a",
+    "scripts/pcb/board-b20/deterministic_ids.py": "0b8d08fee40100efeafed106cb66e442c62a9787e9d186f6d5b80a5f7a2ac4c4"
+  },
+  "native_drc": {
+    "errors": 0,
+    "unconnected": 0,
+    "parity": 0,
+    "warnings": "J6/J7/J10/J11 reviewed silk-only library differences",
+    "sha256": "571d3fe3ef84d7363cb11841cd556752f89961561dbe2664d268a48e46666216",
+    "project_sha256": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
+    "command": "kicad-cli pcb drc --schematic-parity --format json --severity-all boards/board-b20-draft/board-b20-draft.kicad_pcb",
+    "tested_revision": "76f807f11d3b97a9625e8cc9dd6835e235bb99df"
+  },
+  "strict_rules": {
+    "min_text_height": 1.0,
+    "min_text_thickness": 0.15,
+    "min_silk_clearance": 0.15
+  },
+  "geometry": "All tracks/vias, exact filled polygons, zone settings, footprint pads/models/placement and non-artwork fields unchanged.",
+  "native_tests": "PASS: deterministic/idempotent owner output, altered outline/net/label position/clipped shape rejected; strict mechanics PASS",
+  "primary_evidence": "tmp/r3-layout-evidence/jlc-legend-constraints-20261110.json",
+  "primary_html_sha256": "22388e99bd6d6637f875f9215f4ebc2f4fd24c8a4bcdd6b78e3e4dab0bc67a4f",
+  "residual": "Published fabrication guidance and local CAD checks, not supplier preview or quotation.",
+  "project_sha256": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
+  "authored_project_correction": {
+    "base": "origin/main authored project",
+    "changes": [
+      "min_silk_clearance=0.15",
+      "min_text_height=1.0",
+      "min_text_thickness=0.15"
+    ],
+    "actual_native_execution": "__inbox/b20-legend/project-correction.sh",
+    "source_and_output_projects_preserved": "PASS: native repeated SaveBoard regression checks both original project byte streams",
+    "post_report_native_inputs_unchanged": "PASS: canonical project and PCB SHA-256 checks after complete DRC/report workflow",
+    "save_api": "KiCad 10.0.6 pcbnew.SaveBoard(output, board, True); checked success and unchanged source/output sidecars without rewriting either",
+    "native_regression": "PASS under actual pinned Docker: output exactly7dd3cc43; source/output project bytes unchanged; DRC/report workflow final PCB/project hashes unchanged"
+  }
+}

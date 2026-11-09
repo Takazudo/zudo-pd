@@ -5,6 +5,7 @@ import collections
 import csv
 import hashlib
 import importlib
+import importlib.util
 import json
 import math
 import os
@@ -43,6 +44,15 @@ PAIRS = {
 POWER_BUDGETS = {p: pair['budget'] for (p, _), pair in PAIRS.items()}
 ORDER_NOTES = {p: pair['notes'] for (p, _), pair in PAIRS.items()}
 PARTNER = {**{p: b for p, b in PAIRS}, **{b: p for p, b in PAIRS}}
+
+
+def power_report_files(pair):
+    """Select narratives only for the product they actually describe."""
+    require(pair in PAIRS, f'No reviewed stack pairing for {pair}')
+    reports = PAIRS[pair]
+    if pair == ('board-p15', 'board-b'):
+        return (reports['budget'], 'power-budget.md', reports['layout'])
+    return (reports['budget'], reports['layout'])
 
 
 def pcb_path(name, root=None):
@@ -135,6 +145,44 @@ def verify_power_report_freshness(root=ROOT, board_p='board-p', board_b='board-b
     require(copper.get('negative_zones') == layout.get('negative_filled_zone_areas')
             and copper.get('ground_zone_areas_mm2') == layout.get('ground_filled_zone_areas_mm2'),
             f"Stale {pair['budget']}: copper measurements differ from {pair['layout']}")
+    if board_b == 'board-b20-draft':
+        helper = ROOT/'scripts/pcb/board-b20/report_provenance.py'
+        module_spec = importlib.util.spec_from_file_location('b20_report_provenance', helper)
+        provenance = importlib.util.module_from_spec(module_spec)
+        module_spec.loader.exec_module(provenance)
+        binding = provenance.verify_native_report_inputs(root)
+        require(layout.get('native_input_binding') == binding and budget.get('native_input_binding') == binding,
+                'B20 aggregate reports do not bind the current native input receipt')
+        generator = 'scripts/pcb/board-b20/power-report.py'
+        for report in (layout, budget):
+            require(report.get('source_generator') == generator and report.get('source_generator_sha256') == digest(root/generator),
+                    'B20 power-report generator changed; regenerate aggregate reports')
+        report_hashes = {f'boards/board-b20-draft/{name}.json': digest(root/'boards/board-b20-draft'/f'{name}.json')
+                         for name in provenance.REPORT_NAMES}
+        require(layout.get('source_reports_sha256') == report_hashes, 'B20 source calculation reports changed')
+        thermal = 'boards/board-b20-draft/thermal-check.json'
+        require(budget.get('thermal_source') == thermal and budget.get('thermal_source_sha256') == report_hashes[thermal],
+                'B20 budget thermal source changed')
+
+
+def verify_p_r3_report_freshness(root=ROOT):
+    """Require the executed correction screen to describe current owned inputs."""
+    root = Path(root)
+    owner = root/'scripts/pcb/board-p-r3-draft'
+    report = json.loads((root/'boards/board-p/r3-draft/layout-correction-check.json').read_text())
+    require(report.get('pcb_sha256') == digest(root/'boards/board-p/board-p.kicad_pcb'),
+            'P r3 correction PCB proof is stale')
+    require(report.get('kicad_version') == '10.0.6', 'P r3 correction proof uses a different tool pin')
+    required = {str(path.relative_to(root)) for path in owner.glob('*.py')}
+    required.update(('scripts/pcb/board-p-r3-draft/run.sh',
+                     'boards/board-p/r3-draft/pours.json',
+                     'boards/board-p/r3-draft/search-two-sided.json',
+                     'boards/board-p/r3-draft/routes.json',
+                     'scripts/schgen/board_p_spec.py'))
+    hashes = report.get('source_hashes', {})
+    require(required <= hashes.keys(), 'P r3 correction proof omits current owner inputs')
+    for name, expected in hashes.items():
+        require(digest(root/name) == expected, 'P r3 correction source changed: '+name)
 
 
 def check_reused_geometry(report):
@@ -290,6 +338,15 @@ def export_board(name, output, cli, inventory, kicad_python, board_p='board-p', 
     dependencies.update(ROOT / 'manufacturing' / POWER_BUDGETS[p] for p in P_BOARDS if (ROOT / 'manufacturing' / POWER_BUDGETS[p]).is_file())
     if board_b != 'board-b':
         dependencies.update(ROOT / 'manufacturing' / PAIRS[(board_p, board_b)][key] for key in ('budget', 'layout', 'notes'))
+    if board_b == 'board-b20-draft':
+        dependencies.add(ROOT/'boards/board-b20-draft/report-input-receipt.json')
+        dependencies.update((ROOT/'scripts/pcb/board-b20').glob('*.py'))
+        dependencies.update((ROOT/'scripts/pcb/board-b20').glob('*.json'))
+        dependencies.update(ROOT/'scripts/pcb/board-b20'/filename for filename in ('run.sh', 'astar.c'))
+        dependencies.update((ROOT/'scripts/pcb/board-p-r3-draft').glob('*.py'))
+        dependencies.add(ROOT/'scripts/pcb/board-p-r3-draft/run.sh')
+        dependencies.update((ROOT/'boards/board-p/r3-draft').glob('*.md'))
+        dependencies.update((ROOT/'boards/board-b20-draft').glob('*.md'))
     dependencies.update((ROOT / 'boards/board-p').rglob('*.json'))
     dependencies.update(path for path in original.rglob('*') if path.is_file() and path.suffix in ('.json', '.bin'))
     dependencies.update((ROOT / 'boards/board-b').glob('*.json'))
@@ -331,6 +388,11 @@ def export_board(name, output, cli, inventory, kicad_python, board_p='board-p', 
     board_path, sch_path = source / (name + '.kicad_pcb'), source / (name + '.kicad_sch')
     run([cli, 'pcb', 'drc', '--refill-zones', '--save-board', '--schematic-parity',
          '--format', 'json', '-o', checks / 'drc.json', board_path], log)
+    if name in ('board-p', 'board-b20-draft'):
+        run([sys.executable, ROOT/'scripts/pcb/board-b20/verify_staged_geometry.py',
+             pcb_path(name), board_path, '--expected-source-sha256',
+             hashes[str(pcb_path(name).relative_to(ROOT))],
+             '--output', checks/'staged-geometry.json'], log)
     drc = json.loads((checks / 'drc.json').read_text())
     errors = [v for key in ('violations', 'unconnected_items', 'schematic_parity')
               for v in drc[key] if v['severity'] == 'error']
@@ -427,6 +489,8 @@ def main():
     require((board_p, board_b) in PAIRS, f'No reviewed stack pairing for {board_p} + {board_b}')
     pair = PAIRS[(board_p, board_b)]
     verify_power_report_freshness(board_p=board_p, board_b=board_b)
+    if board_p == 'board-p':
+        verify_p_r3_report_freshness()
     check_step_datums(board_p, board_b)
     output = args.output.resolve()
     require(not output.exists(), 'Choose a new staging directory; replace the current prototype outputs only after validation')
@@ -445,7 +509,7 @@ def main():
                 'git_base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
                 'boards': results}
     shutil.copyfile(ROOT / 'manufacturing' / pair['notes'], output / 'ORDER-NOTES.md')
-    for filename in (pair['budget'], 'power-budget.md', pair['layout']):
+    for filename in power_report_files((board_p, board_b)):
         shutil.copyfile(ROOT / 'manufacturing' / filename, output / filename)
     shutil.copyfile(ROOT/'footprints/kicad/step-datum-verification.json',output/'step-datum-verification.json')
     shutil.copyfile(ROOT/'scripts/pcb/step-datum-normalizations.json',output/'step-datum-normalizations.json')
