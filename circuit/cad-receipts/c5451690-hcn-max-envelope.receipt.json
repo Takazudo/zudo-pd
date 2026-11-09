@@ -61,7 +61,8 @@
     "output_sha256": {
       "C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8.step": "f5ff5bfb4466a59084997bf315f414fcf993d15111f8b74f8a6305115efd4573",
       "C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8.wrl": "2eac23046f0d0526123bc5b41eb568e36dd4fd84d0eb58e04ee9a35164c21fb4"
-    }
+    },
+    "scope": "Original pair generation; its original hashes remain historical. See publication_comment_revision for the current WRL and unchanged STEP."
   },
   "cad_use": {
     "symbol": "C1206N473J050T",
@@ -90,24 +91,29 @@
     "performed": [
       "CadQuery 2.6.1 generation and STEP readback dimensions 3.5 x 1.8 x 1.8 mm",
       "Dedicated footprint reverse substitutions equal generic C1206 bytes: pads/artwork/courtyard unchanged",
-      "New-pair-only verify-step-datums.surface_check with cadquery 2.6.1/vtk 9.3.1: 20 samples each direction, maximum external deviation 1.06e-12 mm, no internal-face exceptions (tmp/c12-datum-pair.json). Integrated active-board datum and assembly checks remain pending.",
+      "New-pair-only verify-step-datums.surface_check with cadquery 2.6.1/vtk 9.3.1: 20 samples each direction, maximum external deviation 1.06e-12 mm, no internal-face exceptions (tmp/c12-datum-pair.json). At initial derivation, integrated active-board datum and assembly checks were pending; the fresh execution below now supersedes that status.",
       "Pinned KiCad footprint preview generation under heavy and native locks: 47 previews; read-only footprint check PASS",
       "Model publication/check: 47 selected, no drift",
-      "Strict circuit check PASS: 128 lines, 443 placements, 17 exclusions; five generator inputs; pin-asset check performed"
+      "Strict circuit check PASS: 128 lines, 443 placements, 17 exclusions; five generator inputs; pin-asset check performed",
+      "2026-11-10: corrected C12 model comment independently verified byte-for-byte; fresh full 45-pair STEP/WRL datum PASS with zero translations and actual native Mac 10.0.6 assembly PASS. All 63 artifact hashes checked. See manufacturing/verification/pd20-native-20261110/final-assembly.json."
     ],
     "remaining_physical_checks": [
       "Actual component dimensions and solder seating",
       "Physical mating and assembly clearance"
     ],
-    "pending_native_checks": [
-      "B20 rebuild",
-      "Integrated active-board STEP/WRL datum screen",
-      "Native assembly/mechanical review"
-    ]
+    "pending_native_checks": []
   },
   "publication": {
     "preview_selected": true,
     "download_published": true,
     "permitted_scope": "Locally generated component WRL preview and model-file link; no manual deployment performed. STEP is ordinary Git source only, not copied to doc/public."
+  },
+  "publication_comment_revision": {
+    "receipt": "circuit/cad-receipts/c5451690-publication-comment-20261110.json",
+    "current_output_sha256": {
+      "C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8.step": "f5ff5bfb4466a59084997bf315f414fcf993d15111f8b74f8a6305115efd4573",
+      "C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8.wrl": "88258e1191be4ca7cb7311ddf79432d7a4cea57dc35177dbe0ddcf4dc0a8d18f"
+    },
+    "reason": "Keep withheld source evidence SHA in the evidence receipt, not in a published model comment. Generated non-comment bytes are identical; strict publication scanner unchanged."
   }
 }

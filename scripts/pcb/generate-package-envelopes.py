@@ -46,7 +46,7 @@ ENVELOPES = [
     ('R2512_PCSR2512_MaxEnvelope_L6.6-W3.4-H0.9', (6.6, 3.4, 0.9),
      'RESI PCSR2512 sheet V8 (distributor-hosted copy, UNSOURCED): L 6.4 +/-0.2, W 3.2 +/-0.2, T 0.8 +/-0.1 mm'),
     ('C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8', (3.5, 1.8, 1.8),
-     'Holy Stone HCN catalog SHA256 cc8cdf6caa98e48459e1bb3f40b54c2489dfdd40d8e767ad45f2bb21726728bc: PDF page3 1206 L3.20+/-0.30 W1.60+/-0.20 Tmax1.80; PDF page6 exact C1206N473J050T thickness E1.6+/-0.2 mm'),
+     'Holy Stone HCN catalog (source identity retained in the CAD evidence receipt): PDF page3 1206 L3.20+/-0.30 W1.60+/-0.20 Tmax1.80; PDF page6 exact C1206N473J050T thickness E1.6+/-0.2 mm'),
     ('SMC_MaxEnvelope_L8.13-W6.22-H2.5', (8.13, 6.22, 2.5),
      'Diodes DS13012 Rev. 19-2 SMC outline: E 7.75-8.13 mm over the leads, A 5.59-6.22 mm body width, J 2.00-2.50 mm height'),
 ]
