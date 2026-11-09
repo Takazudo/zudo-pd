@@ -12,7 +12,10 @@ preview, probe row or rail labels exist describe earlier phases. The completed
 [B20 review](pd20-b20-layout-review.md) and current generators supersede those
 absence claims. Current B20 has 270 fitted components. Native corrective work
 and fresh pair verification are tracked in [the execution ledger](prototype-order-readiness.md);
-the old export and thermal receipts do not qualify the changed boards.
+the old export and thermal receipts do not qualify the changed boards. The fresh
+2026-11-10 DEVELOPMENT REVIEW export at `3f24a3a` and independent verification
+passed; the execution ledger retains exact final board/report identities and all
+remaining order holds.
 
 Status words: **PASS**, **FAIL**, **BLOCKED**, **NOT RUN** (with the reason), **UNKNOWN**, **OPEN**.
 No item here is validated, qualified or released. Nothing was ordered, quoted or uploaded.

@@ -3,7 +3,7 @@
 Checkpoint: 2026-11-10 JST, local Mac. Parent [#228](https://github.com/Takazudo/zudo-pd/issues/228).
 This ledger separates source integration, local manufacturing inputs, supplier
 review and physical qualification. It is not an order authorization or a measured
-rating. The 14-case simulation reproduction is complete; native artwork corrections are independently reviewed, and fresh native pair verification for the refill-finalized B20 passed; manufacturing export verification remains pending. The first export failed its strict B20 refill-geometry gate; a reviewed pinned two-refill finalizer now produces byte-stable output without relaxing that gate.
+rating. The 14-case simulation reproduction is complete; native artwork corrections are independently reviewed, and fresh native pair verification for the refill-finalized B20 passed; manufacturing export and independent verification passed at `3f24a3abb43e0f24f5e0a12f739ba8ae6bbad03d`. The first export failed its strict B20 refill-geometry gate; a reviewed pinned two-refill finalizer now produces byte-stable output without relaxing that gate.
 
 ## Revision and integration register
 
@@ -11,10 +11,10 @@ rating. The 14-case simulation reproduction is complete; native artwork correcti
 | --- | --- | --- |
 | Existing bounded source/evidence integration | [#234](https://github.com/Takazudo/zudo-pd/pull/234) merged; main `44fd3ba810aad627fd461b90093a3482707b44da` | Preserve the separate hardware gates below |
 | Runner, evidence and analysis improvements | [#239](https://github.com/Takazudo/zudo-pd/pull/239) merged; main `76f807f11d3b97a9625e8cc9dd6835e235bb99df` | Independent review, Mac build/browser and exact-head CI completed; retain hardware gates |
-| P r3 native correction | [#236](https://github.com/Takazudo/zudo-pd/issues/236), in progress | Canonical PCB `56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348` adopted after fresh native acceptance and independent review; finish pair checks |
-| B20 U6 decoupling / pair | [#237](https://github.com/Takazudo/zudo-pd/issues/237), in progress | Canonical PCB `09cd97abf5f793d881ee30fc62c7a7b934b1c5973a37637b37c62d15224507ce` adopted after native acceptance and independent review; finish pair and manufacturing checks |
+| P r3 native correction | [#236](https://github.com/Takazudo/zudo-pd/issues/236) | Canonical PCB `56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348` adopted after fresh native acceptance and independent review; Native/pair/export acceptance complete in [PR #240](https://github.com/Takazudo/zudo-pd/pull/240); integration state is recorded there |
+| B20 U6 decoupling / pair | [#237](https://github.com/Takazudo/zudo-pd/issues/237) | Canonical PCB `09cd97abf5f793d881ee30fc62c7a7b934b1c5973a37637b37c62d15224507ce` adopted after native acceptance and independent review; Native/pair/export acceptance complete in [PR #240](https://github.com/Takazudo/zudo-pd/pull/240); integration state is recorded there |
 | Interface evidence | [#235](https://github.com/Takazudo/zudo-pd/issues/235), open | All 14 actual cases and strengthened analyses complete; retain the modeled limits and pre-order holds below |
-| Per-stream disposition | [#238](https://github.com/Takazudo/zudo-pd/issues/238), open | Refresh this ledger and the live current-state/package pages after final verification |
+| Per-stream disposition | [#238](https://github.com/Takazudo/zudo-pd/issues/238) | Local disposition and durable export receipts complete in PR #240; separate product holds remain below |
 
 The simulation execution tree is fixed at
 `fda0667df503aa7cdc8ec0d45920dd4c731dc56c`. Later analysis code is separately
@@ -92,17 +92,32 @@ inferred from that source reference, and no LED repository files were changed.
 
 | Evidence class | Checkpoint result | Outstanding obligation |
 | --- | --- | --- |
-| Software/evidence | Strict circuit checks pass; 30 phase33 regression tests and two shunt tests pass; independent actual refinement/C12 evidence audits pass integrity checks | Source #239 integrated after independent review, guarded Mac build/browser and exact-head CI; native follow-up checks remain separate |
+| Software/evidence | Full guarded b4push PASS488s at `3f24a3a`; strict circuit checks pass; 30 phase33 regression tests and two shunt tests pass; independent actual refinement/C12 evidence audits pass integrity checks | Source #239 integrated after independent review, guarded Mac build/browser and exact-head CI; native follow-up checks remain separate |
 | Startup simulation | Six actual startup cases complete at `fda0667`; strengthened 1.5 V predicate gives worst +5 V 0.6554 V while an analog magnitude is below 1.5 V | D1 and full model limitations prevent unconditional startup acceptance |
 | Re-entry simulation | All eight actual re-entry cases complete. Effective-reenable windows satisfy the sampled slope and 1.5 V screens; whole off-interval sufficient-screen maxima are 0.8489 / 1.1837 V, not direct one-rail/8 V hazard proof | [Actual execution receipt](sim/board-b20-phase33/execution-20261110.md) retains all attempts/model/deck/log/wave hashes; installed asymmetric shutdown/discharge and let-through remain unqualified |
 | P r3 layout | R1–R4 corrected through owned placement/router data; default full routing and byte-identical fresh-builder/fixed-route replays completed. Native errors/opens are zero; 11 thermal vias, connected copper and short regulator returns verified. Final probe/polarity artwork has deterministic finishing replay and individual dispositions for all 95 remaining warnings; only MH1–MH3 mechanical parity exceptions remain | Independent layout review and classified warning/process residuals remain separate from measured 5 A qualification |
 | B20 layout | C35 bound to U6 with a 4.607 mm direct supply path and local ground returns. Final PCB `09cd97abf5f793d881ee30fc62c7a7b934b1c5973a37637b37c62d15224507ce` has 0 native DRC errors/unconnected/parity and four specifically reviewed J6/J7/J10/J11 library-artwork warnings. Full fresh-builder/fixed-route twins and the subsequent artwork-only finishing replay are separately recorded | Final native current/loop/thermal/mechanical/power reports bind B20 `09cd97ab…` and P `56cbe0ab…`; 45 B20/exporter tests pass, including stale-input and noncanonical-plane rejection |
-| Final pair/manufacturing | Current-pair datum PASS for 45 model pairs, zero translations. Native ERC has zero errors; B20 zero warnings and P 27 specifically dispositioned imported-symbol typing warnings. Current-pair assembly PASS with 63 artifact hashes independently checked, 12195 cross-board pairs screened with zero unintended intersections, supplemental U2/U3 envelopes PASS and both native renders reviewed; First DEVELOPMENT REVIEW export failed the strict B20 refill-geometry gate; fresh finalized-pair datum/assembly now PASS; export reacceptance pending | Exact `board-p + board-b20-draft`, 270 fitted B20, four layers, parity, mechanics, BOM/CPL/DNP/THT/rotation and independent export verification; export success is not electrical readiness |
+| Final pair/manufacturing | Current-pair datum PASS for 45 model pairs, zero translations. Native ERC has zero errors; B20 zero warnings and P 27 specifically dispositioned imported-symbol typing warnings. Current-pair assembly PASS with 63 artifact hashes independently checked, 12195 cross-board pairs screened with zero unintended intersections, supplemental U2/U3 envelopes PASS and both native renders reviewed; First DEVELOPMENT REVIEW export failed the strict B20 refill-geometry gate; fresh finalized-pair datum/assembly and DEVELOPMENT REVIEW export plus independent verification now PASS at `3f24a3a` | Exact `board-p + board-b20-draft`, 270 fitted B20, four layers, parity, mechanics, BOM/CPL/DNP/THT/rotation and independent export verification; export success is not electrical readiness |
 
 Native schematic/tool evidence and individual ERC warning dispositions are retained in
 [the dated native verification receipt](verification/pd20-native-20261110/README.md).
 A zero-error result with Unspecified imported pin types is explicitly limited;
 netlist/owner checks do not turn it into full electrical qualification.
+
+## Revision-bound development package
+
+Local package: `tmp/pd20-review-refill-3f24a3a-20261110`, exported from clean
+`3f24a3abb43e0f24f5e0a12f739ba8ae6bbad03d`. Durable
+[review receipt](verification/pd20-native-20261110/development-export-review.json),
+manifest and independent result retain its identities. P r3: 44 fitted, 26 BOM
+lines, 22 parts per side, two copper layers, four DNP and two bare-pad exclusions.
+B20: 270 fitted on top, 87 BOM lines, four copper layers, zero DNP and four
+bare-pad exclusions. Both Gerber/drill sets, outlines/origins, BOM/CPL identity,
+sides/rotations, THT scope and schematic parity passed. All 145 manifest artifacts
+and source hashes were independently checked; four Gerber and two native board
+renders were inspected. The 320-second guarded export/independent-verifier run
+passed. It is a **DEVELOPMENT REVIEW**, not an electrically ready order packet.
+Later disposition-only documentation does not rewrite this package or its locks.
 
 ## Physical handoff — NOT RUN
 

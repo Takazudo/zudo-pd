@@ -10,6 +10,10 @@ The [local Mac ledger](prototype-order-readiness.md) separates current source,
 capability, verification and decision blockers. The earlier native/export rows
 below remain dated development evidence until replaced by final-source receipts.
 Current B20 has **270 fitted components**; the 269-component export is historical.
+Fresh native correction, pair assembly and independently verified DEVELOPMENT REVIEW
+export passed at clean `3f24a3abb43e0f24f5e0a12f739ba8ae6bbad03d`; see the
+[durable package review](verification/pd20-native-20261110/development-export-review.json).
+This closes local manufacturing verification, not the pre-order electrical holds below.
 
 Six fresh startup cases at `fda0667df503aa7cdc8ec0d45920dd4c731dc56c` have complete
 actual waveforms. The strengthened **1.5 V** predicate gives worst +5 V 0.6554 V
