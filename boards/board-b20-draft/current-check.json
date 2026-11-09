@@ -5,6 +5,169 @@
   "B": 0.035,
   "In2": 0.0175
  },
+ "vin_v": 19.0,
+ "load_cases": {
+  "continuous": {
+   "loads_a": {
+    "+12": 1.7,
+    "-12": 1.6,
+    "+5": 0.3
+   },
+   "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": continuous 1.7 / 1.6 / 0.3 A, all rails at once",
+   "evidence": "CONTRACT",
+   "model_limit": "Steady-state desk evaluation at the continuous contract current.",
+   "derived_currents_a": {
+    "rail_a": {
+     "+12": 1.7,
+     "-12": 1.6,
+     "+5": 0.3
+    },
+    "inductor_a": {
+     "+12": 1.7,
+     "-12": 2.691,
+     "+5": 0.3
+    },
+    "inductor_rms_a": {
+     "+12": 1.738,
+     "-12": 2.724,
+     "+5": 0.38
+    },
+    "stage_input_a": {
+     "+12": 1.159,
+     "-12": 1.176,
+     "+5": 0.09
+    },
+    "vin_total_a": 2.441
+   }
+  },
+  "transient_20ms": {
+   "loads_a": {
+    "+12": 2.0,
+    "-12": 1.9,
+    "+5": 0.4
+   },
+   "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": 20 ms transient 2.0 / 1.9 / 0.4 A",
+   "evidence": "CONTRACT",
+   "model_limit": "Steady-state desk evaluation held at the 20 ms transient current. It is not a transient model: a 20 ms event is far shorter than the board and part thermal time constants, so the copper and junction temperatures shown overstate one event; no hold-up, slope or limiter timing is covered.",
+   "derived_currents_a": {
+    "rail_a": {
+     "+12": 2.0,
+     "-12": 1.9,
+     "+5": 0.4
+    },
+    "inductor_a": {
+     "+12": 2.0,
+     "-12": 3.198,
+     "+5": 0.4
+    },
+    "inductor_rms_a": {
+     "+12": 2.033,
+     "-12": 3.226,
+     "+5": 0.463
+    },
+    "stage_input_a": {
+     "+12": 1.373,
+     "-12": 1.411,
+     "+5": 0.12
+    },
+    "vin_total_a": 2.92
+   }
+  },
+  "let_through_max": {
+   "loads_a": {
+    "+12": 2.1,
+    "-12": 2.0,
+    "+5": 0.5
+   },
+   "source": "manufacturing/pd20-status.md, fixed decision \"OSC current contract\": let-through maximum 2.1 / 2.0 / 0.5 A including tolerance",
+   "evidence": "CONTRACT",
+   "model_limit": "Steady-state desk evaluation held at the let-through maximum (the case earlier records call the limiter maximum). The limiter trips; it does not regulate current, so this level is a bound, not an operating point. Let-through is not simulated or measured.",
+   "derived_currents_a": {
+    "rail_a": {
+     "+12": 2.1,
+     "-12": 2.0,
+     "+5": 0.5
+    },
+    "inductor_a": {
+     "+12": 2.1,
+     "-12": 3.367,
+     "+5": 0.5
+    },
+    "inductor_rms_a": {
+     "+12": 2.131,
+     "-12": 3.394,
+     "+5": 0.552
+    },
+    "stage_input_a": {
+     "+12": 1.445,
+     "-12": 1.491,
+     "+5": 0.15
+    },
+    "vin_total_a": 3.102
+   }
+  },
+  "legacy_pd15_budget": {
+   "loads_a": {
+    "+12": 1.2,
+    "-12": 0.8,
+    "+5": 0.5
+   },
+   "source": "LEGACY: the PD15 Board B output budget (CLAUDE.md), which phase 30-33 B20 reports mislabelled \"rated\". It is not a PD20 contract case and not a B20 rating",
+   "evidence": "LEGACY_COMPARISON_ONLY",
+   "model_limit": "Kept only so earlier phase records can be compared; no PD20 acceptance reads it.",
+   "derived_currents_a": {
+    "rail_a": {
+     "+12": 1.2,
+     "-12": 0.8,
+     "+5": 0.5
+    },
+    "inductor_a": {
+     "+12": 1.2,
+     "-12": 1.343,
+     "+5": 0.5
+    },
+    "inductor_rms_a": {
+     "+12": 1.254,
+     "-12": 1.409,
+     "+5": 0.552
+    },
+    "stage_input_a": {
+     "+12": 0.809,
+     "-12": 0.572,
+     "+5": 0.15
+    },
+    "vin_total_a": 1.548
+   }
+  }
+ },
+ "contract_cases": [
+  "continuous",
+  "transient_20ms",
+  "let_through_max"
+ ],
+ "worst_rise_k": {
+  "continuous": {
+   "paths_max_rise_k": 6.7,
+   "stage_cells_max_rise_k": 10.0,
+   "via_max_rise_k": 3.0
+  },
+  "transient_20ms": {
+   "paths_max_rise_k": 9.9,
+   "stage_cells_max_rise_k": 14.6,
+   "via_max_rise_k": 4.4
+  },
+  "let_through_max": {
+   "paths_max_rise_k": 11.2,
+   "stage_cells_max_rise_k": 16.4,
+   "via_max_rise_k": 5.0
+  },
+  "legacy_pd15_budget": {
+   "paths_max_rise_k": 2.1,
+   "stage_cells_max_rise_k": 2.2,
+   "via_max_rise_k": 0.8
+  }
+ },
+ "model_limit": "IPC-2221 steady-state rise of the narrowest segment; desk only. No case is a transient or measured temperature.",
  "paths": [
   {
    "net": "VIN",
@@ -12,8 +175,10 @@
    "to": "C1.1",
    "trunk_width_mm": 1.5,
    "current_a": {
-    "rated": 1.54,
-    "limiter_max": 3.08
+    "continuous": 2.441,
+    "transient_20ms": 2.92,
+    "let_through_max": 3.102,
+    "legacy_pd15_budget": 1.548
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -25,8 +190,10 @@
    ],
    "path_length_mm": 27.09,
    "rise_k": {
-    "rated": 1.9,
-    "limiter_max": 9.1
+    "continuous": 5.4,
+    "transient_20ms": 8.1,
+    "let_through_max": 9.3,
+    "legacy_pd15_budget": 1.9
    }
   },
   {
@@ -35,8 +202,10 @@
    "to": "C3.1",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 0.81,
-    "limiter_max": 1.44
+    "continuous": 1.159,
+    "transient_20ms": 1.373,
+    "let_through_max": 1.445,
+    "legacy_pd15_budget": 0.809
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -48,8 +217,10 @@
    ],
    "path_length_mm": 28.92,
    "rise_k": {
-    "rated": 0.9,
-    "limiter_max": 3.2
+    "continuous": 1.9,
+    "transient_20ms": 2.8,
+    "let_through_max": 3.2,
+    "legacy_pd15_budget": 0.9
    }
   },
   {
@@ -58,8 +229,10 @@
    "to": "C7.1",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.15,
-    "limiter_max": 0.15
+    "continuous": 0.09,
+    "transient_20ms": 0.12,
+    "let_through_max": 0.15,
+    "legacy_pd15_budget": 0.15
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -71,8 +244,10 @@
    ],
    "path_length_mm": 57.86,
    "rise_k": {
-    "rated": 0.0,
-    "limiter_max": 0.0
+    "continuous": 0.0,
+    "transient_20ms": 0.0,
+    "let_through_max": 0.0,
+    "legacy_pd15_budget": 0.0
    }
   },
   {
@@ -81,8 +256,10 @@
    "to": "CCIN1.1",
    "trunk_width_mm": 1.5,
    "current_a": {
-    "rated": 0.57,
-    "limiter_max": 1.47
+    "continuous": 1.176,
+    "transient_20ms": 1.411,
+    "let_through_max": 1.491,
+    "legacy_pd15_budget": 0.572
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -94,8 +271,10 @@
    ],
    "path_length_mm": 35.62,
    "rise_k": {
-    "rated": 0.2,
-    "limiter_max": 1.7
+    "continuous": 1.0,
+    "transient_20ms": 1.5,
+    "let_through_max": 1.8,
+    "legacy_pd15_budget": 0.2
    }
   },
   {
@@ -104,8 +283,10 @@
    "to": "L2.1",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 1.2,
-    "limiter_max": 2.1
+    "continuous": 1.7,
+    "transient_20ms": 2.0,
+    "let_through_max": 2.1,
+    "legacy_pd15_budget": 1.2
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -117,8 +298,10 @@
    ],
    "path_length_mm": 18.73,
    "rise_k": {
-    "rated": 2.1,
-    "limiter_max": 7.4
+    "continuous": 4.6,
+    "transient_20ms": 6.7,
+    "let_through_max": 7.4,
+    "legacy_pd15_budget": 2.1
    }
   },
   {
@@ -127,8 +310,10 @@
    "to": "L4.1",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.3,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -140,8 +325,10 @@
    ],
    "path_length_mm": 19.15,
    "rise_k": {
-    "rated": 0.7,
-    "limiter_max": 0.7
+    "continuous": 0.2,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.7,
+    "legacy_pd15_budget": 0.7
    }
   },
   {
@@ -150,8 +337,10 @@
    "to": "L6.1",
    "trunk_width_mm": 1.5,
    "current_a": {
-    "rated": 1.34,
-    "limiter_max": 3.35
+    "continuous": 2.691,
+    "transient_20ms": 3.198,
+    "let_through_max": 3.367,
+    "legacy_pd15_budget": 1.343
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -181,12 +370,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.6,
-    "limiter_max": 4.9
+    "continuous": 3.0,
+    "transient_20ms": 4.4,
+    "let_through_max": 5.0,
+    "legacy_pd15_budget": 0.6
    },
    "rise_k": {
-    "rated": 1.4,
-    "limiter_max": 11.0
+    "continuous": 6.7,
+    "transient_20ms": 9.9,
+    "let_through_max": 11.2,
+    "legacy_pd15_budget": 1.4
    }
   },
   {
@@ -195,8 +388,10 @@
    "to": "RSH1.1",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 1.2,
-    "limiter_max": 2.1
+    "continuous": 1.7,
+    "transient_20ms": 2.0,
+    "let_through_max": 2.1,
+    "legacy_pd15_budget": 1.2
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -208,8 +403,10 @@
    ],
    "path_length_mm": 3.8,
    "rise_k": {
-    "rated": 2.1,
-    "limiter_max": 7.4
+    "continuous": 4.6,
+    "transient_20ms": 6.7,
+    "let_through_max": 7.4,
+    "legacy_pd15_budget": 2.1
    }
   },
   {
@@ -218,8 +415,10 @@
    "to": "RSH2.1",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.3,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -231,8 +430,10 @@
    ],
    "path_length_mm": 4.7,
    "rise_k": {
-    "rated": 0.7,
-    "limiter_max": 0.7
+    "continuous": 0.2,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.7,
+    "legacy_pd15_budget": 0.7
    }
   },
   {
@@ -241,8 +442,10 @@
    "to": "RSH3.2",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 0.8,
-    "limiter_max": 2.0
+    "continuous": 1.6,
+    "transient_20ms": 1.9,
+    "let_through_max": 2.0,
+    "legacy_pd15_budget": 0.8
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -272,12 +475,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.5,
-    "limiter_max": 3.8
+    "continuous": 2.3,
+    "transient_20ms": 3.4,
+    "let_through_max": 3.8,
+    "legacy_pd15_budget": 0.5
    },
    "rise_k": {
-    "rated": 0.8,
-    "limiter_max": 6.7
+    "continuous": 4.0,
+    "transient_20ms": 5.9,
+    "let_through_max": 6.7,
+    "legacy_pd15_budget": 0.8
    }
   },
   {
@@ -286,8 +493,10 @@
    "to": "Q1.9",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 1.2,
-    "limiter_max": 2.1
+    "continuous": 1.7,
+    "transient_20ms": 2.0,
+    "let_through_max": 2.1,
+    "legacy_pd15_budget": 1.2
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -299,8 +508,10 @@
    ],
    "path_length_mm": 9.17,
    "rise_k": {
-    "rated": 2.1,
-    "limiter_max": 7.4
+    "continuous": 4.6,
+    "transient_20ms": 6.7,
+    "let_through_max": 7.4,
+    "legacy_pd15_budget": 2.1
    }
   },
   {
@@ -309,8 +520,10 @@
    "to": "Q3.9",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.3,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -322,8 +535,10 @@
    ],
    "path_length_mm": 3.24,
    "rise_k": {
-    "rated": 0.7,
-    "limiter_max": 0.7
+    "continuous": 0.2,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.7,
+    "legacy_pd15_budget": 0.7
    }
   },
   {
@@ -332,8 +547,10 @@
    "to": "Q5.9",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 0.8,
-    "limiter_max": 2.0
+    "continuous": 1.6,
+    "transient_20ms": 1.9,
+    "let_through_max": 2.0,
+    "legacy_pd15_budget": 0.8
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -345,8 +562,10 @@
    ],
    "path_length_mm": 14.57,
    "rise_k": {
-    "rated": 0.8,
-    "limiter_max": 6.7
+    "continuous": 4.0,
+    "transient_20ms": 5.9,
+    "let_through_max": 6.7,
+    "legacy_pd15_budget": 0.8
    }
   },
   {
@@ -355,8 +574,10 @@
    "to": "Q2.2",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 1.2,
-    "limiter_max": 2.1
+    "continuous": 1.7,
+    "transient_20ms": 2.0,
+    "let_through_max": 2.1,
+    "legacy_pd15_budget": 1.2
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -368,8 +589,10 @@
    ],
    "path_length_mm": 5.43,
    "rise_k": {
-    "rated": 2.1,
-    "limiter_max": 7.4
+    "continuous": 4.6,
+    "transient_20ms": 6.7,
+    "let_through_max": 7.4,
+    "legacy_pd15_budget": 2.1
    }
   },
   {
@@ -378,8 +601,10 @@
    "to": "Q4.2",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.3,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -391,8 +616,10 @@
    ],
    "path_length_mm": 3.21,
    "rise_k": {
-    "rated": 0.7,
-    "limiter_max": 0.7
+    "continuous": 0.2,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.7,
+    "legacy_pd15_budget": 0.7
    }
   },
   {
@@ -401,8 +628,10 @@
    "to": "Q6.2",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 0.8,
-    "limiter_max": 2.0
+    "continuous": 1.6,
+    "transient_20ms": 1.9,
+    "let_through_max": 2.0,
+    "legacy_pd15_budget": 0.8
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -432,12 +661,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.5,
-    "limiter_max": 3.8
+    "continuous": 2.3,
+    "transient_20ms": 3.4,
+    "let_through_max": 3.8,
+    "legacy_pd15_budget": 0.5
    },
    "rise_k": {
-    "rated": 0.8,
-    "limiter_max": 6.7
+    "continuous": 4.0,
+    "transient_20ms": 5.9,
+    "let_through_max": 6.7,
+    "legacy_pd15_budget": 0.8
    }
   },
   {
@@ -446,8 +679,10 @@
    "to": "J7.2",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 1.2,
-    "limiter_max": 2.1
+    "continuous": 1.7,
+    "transient_20ms": 2.0,
+    "let_through_max": 2.1,
+    "legacy_pd15_budget": 1.2
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -470,12 +705,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.5,
-    "limiter_max": 1.7
+    "continuous": 1.1,
+    "transient_20ms": 1.5,
+    "let_through_max": 1.7,
+    "legacy_pd15_budget": 0.5
    },
    "rise_k": {
-    "rated": 2.1,
-    "limiter_max": 7.4
+    "continuous": 4.6,
+    "transient_20ms": 6.7,
+    "let_through_max": 7.4,
+    "legacy_pd15_budget": 2.1
    }
   },
   {
@@ -484,8 +723,10 @@
    "to": "J10.9",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 1.2,
-    "limiter_max": 2.1
+    "continuous": 1.7,
+    "transient_20ms": 2.0,
+    "let_through_max": 2.1,
+    "legacy_pd15_budget": 1.2
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -497,8 +738,10 @@
    ],
    "path_length_mm": 38.03,
    "rise_k": {
-    "rated": 2.1,
-    "limiter_max": 7.4
+    "continuous": 4.6,
+    "transient_20ms": 6.7,
+    "let_through_max": 7.4,
+    "legacy_pd15_budget": 2.1
    }
   },
   {
@@ -507,8 +750,10 @@
    "to": "J11.10",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 1.2,
-    "limiter_max": 2.1
+    "continuous": 1.7,
+    "transient_20ms": 2.0,
+    "let_through_max": 2.1,
+    "legacy_pd15_budget": 1.2
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -520,8 +765,10 @@
    ],
    "path_length_mm": 41.46,
    "rise_k": {
-    "rated": 2.1,
-    "limiter_max": 7.4
+    "continuous": 4.6,
+    "transient_20ms": 6.7,
+    "let_through_max": 7.4,
+    "legacy_pd15_budget": 2.1
    }
   },
   {
@@ -530,8 +777,10 @@
    "to": "J7.1",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.3,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -554,12 +803,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.8,
-    "limiter_max": 0.8
+    "continuous": 0.2,
+    "transient_20ms": 0.5,
+    "let_through_max": 0.8,
+    "legacy_pd15_budget": 0.8
    },
    "rise_k": {
-    "rated": 0.7,
-    "limiter_max": 0.7
+    "continuous": 0.2,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.7,
+    "legacy_pd15_budget": 0.7
    }
   },
   {
@@ -568,8 +821,10 @@
    "to": "J10.11",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.3,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -581,8 +836,10 @@
    ],
    "path_length_mm": 31.3,
    "rise_k": {
-    "rated": 0.7,
-    "limiter_max": 0.7
+    "continuous": 0.2,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.7,
+    "legacy_pd15_budget": 0.7
    }
   },
   {
@@ -591,8 +848,10 @@
    "to": "J11.12",
    "trunk_width_mm": 0.6,
    "current_a": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.3,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    },
    "narrowest_mm": 0.6,
    "layers": [
@@ -615,12 +874,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.8,
-    "limiter_max": 0.8
+    "continuous": 0.2,
+    "transient_20ms": 0.5,
+    "let_through_max": 0.8,
+    "legacy_pd15_budget": 0.8
    },
    "rise_k": {
-    "rated": 0.7,
-    "limiter_max": 0.7
+    "continuous": 0.2,
+    "transient_20ms": 0.4,
+    "let_through_max": 0.7,
+    "legacy_pd15_budget": 0.7
    }
   },
   {
@@ -629,8 +892,10 @@
    "to": "J6.2",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 0.8,
-    "limiter_max": 2.0
+    "continuous": 1.6,
+    "transient_20ms": 1.9,
+    "let_through_max": 2.0,
+    "legacy_pd15_budget": 0.8
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -667,12 +932,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.5,
-    "limiter_max": 3.8
+    "continuous": 2.3,
+    "transient_20ms": 3.4,
+    "let_through_max": 3.8,
+    "legacy_pd15_budget": 0.5
    },
    "rise_k": {
-    "rated": 0.8,
-    "limiter_max": 6.7
+    "continuous": 4.0,
+    "transient_20ms": 5.9,
+    "let_through_max": 6.7,
+    "legacy_pd15_budget": 0.8
    }
   },
   {
@@ -681,8 +950,10 @@
    "to": "J10.1",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 0.8,
-    "limiter_max": 2.0
+    "continuous": 1.6,
+    "transient_20ms": 1.9,
+    "let_through_max": 2.0,
+    "legacy_pd15_budget": 0.8
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -705,12 +976,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.2,
-    "limiter_max": 1.5
+    "continuous": 0.9,
+    "transient_20ms": 1.4,
+    "let_through_max": 1.5,
+    "legacy_pd15_budget": 0.2
    },
    "rise_k": {
-    "rated": 0.8,
-    "limiter_max": 6.7
+    "continuous": 4.0,
+    "transient_20ms": 5.9,
+    "let_through_max": 6.7,
+    "legacy_pd15_budget": 0.8
    }
   },
   {
@@ -719,8 +994,10 @@
    "to": "J11.2",
    "trunk_width_mm": 1.0,
    "current_a": {
-    "rated": 0.8,
-    "limiter_max": 2.0
+    "continuous": 1.6,
+    "transient_20ms": 1.9,
+    "let_through_max": 2.0,
+    "legacy_pd15_budget": 0.8
    },
    "narrowest_mm": 1.0,
    "layers": [
@@ -743,12 +1020,16 @@
     }
    ],
    "via_rise_k": {
-    "rated": 0.2,
-    "limiter_max": 1.5
+    "continuous": 0.9,
+    "transient_20ms": 1.4,
+    "let_through_max": 1.5,
+    "legacy_pd15_budget": 0.2
    },
    "rise_k": {
-    "rated": 0.8,
-    "limiter_max": 6.7
+    "continuous": 4.0,
+    "transient_20ms": 5.9,
+    "let_through_max": 6.7,
+    "legacy_pd15_budget": 0.8
    }
   }
  ],
@@ -760,8 +1041,10 @@
    "from": "U1.8",
    "to": "D1.1",
    "current_bound_a": {
-    "rated": 1.254,
-    "limiter_max": 2.131
+    "continuous": 1.738,
+    "transient_20ms": 2.033,
+    "let_through_max": 2.131,
+    "legacy_pd15_budget": 1.254
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -773,8 +1056,10 @@
    ],
    "path_length_mm": 3.19,
    "rise_k": {
-    "rated": 1.2,
-    "limiter_max": 3.9
+    "continuous": 2.5,
+    "transient_20ms": 3.5,
+    "let_through_max": 3.9,
+    "legacy_pd15_budget": 1.2
    }
   },
   {
@@ -784,8 +1069,10 @@
    "from": "D1.1",
    "to": "L1.1",
    "current_bound_a": {
-    "rated": 1.254,
-    "limiter_max": 2.131
+    "continuous": 1.738,
+    "transient_20ms": 2.033,
+    "let_through_max": 2.131,
+    "legacy_pd15_budget": 1.254
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -797,8 +1084,10 @@
    ],
    "path_length_mm": 2.2,
    "rise_k": {
-    "rated": 1.2,
-    "limiter_max": 3.9
+    "continuous": 2.5,
+    "transient_20ms": 3.5,
+    "let_through_max": 3.9,
+    "legacy_pd15_budget": 1.2
    }
   },
   {
@@ -808,8 +1097,10 @@
    "from": "D1.2",
    "to": "C3.2",
    "current_bound_a": {
-    "rated": 1.254,
-    "limiter_max": 2.131
+    "continuous": 1.738,
+    "transient_20ms": 2.033,
+    "let_through_max": 2.131,
+    "legacy_pd15_budget": 1.254
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -821,8 +1112,10 @@
    ],
    "path_length_mm": 2.5,
    "rise_k": {
-    "rated": 1.2,
-    "limiter_max": 3.9
+    "continuous": 2.5,
+    "transient_20ms": 3.5,
+    "let_through_max": 3.9,
+    "legacy_pd15_budget": 1.2
    }
   },
   {
@@ -832,8 +1125,10 @@
    "from": "C3.2",
    "to": "U1.9",
    "current_bound_a": {
-    "rated": 1.254,
-    "limiter_max": 2.131
+    "continuous": 1.738,
+    "transient_20ms": 2.033,
+    "let_through_max": 2.131,
+    "legacy_pd15_budget": 1.254
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -845,8 +1140,10 @@
    ],
    "path_length_mm": 2.62,
    "rise_k": {
-    "rated": 1.2,
-    "limiter_max": 3.9
+    "continuous": 2.5,
+    "transient_20ms": 3.5,
+    "let_through_max": 3.9,
+    "legacy_pd15_budget": 1.2
    }
   },
   {
@@ -856,8 +1153,10 @@
    "from": "C3.1",
    "to": "U1.2",
    "current_bound_a": {
-    "rated": 1.254,
-    "limiter_max": 2.131
+    "continuous": 1.738,
+    "transient_20ms": 2.033,
+    "let_through_max": 2.131,
+    "legacy_pd15_budget": 1.254
    },
    "narrowest_mm": 1.2,
    "layers": [
@@ -869,8 +1168,10 @@
    ],
    "path_length_mm": 4.19,
    "rise_k": {
-    "rated": 1.7,
-    "limiter_max": 5.7
+    "continuous": 3.6,
+    "transient_20ms": 5.1,
+    "let_through_max": 5.7,
+    "legacy_pd15_budget": 1.7
    }
   },
   {
@@ -880,8 +1181,10 @@
    "from": "U2.8",
    "to": "D2.1",
    "current_bound_a": {
-    "rated": 0.552,
-    "limiter_max": 0.552
+    "continuous": 0.38,
+    "transient_20ms": 0.463,
+    "let_through_max": 0.552,
+    "legacy_pd15_budget": 0.552
    },
    "narrowest_mm": 0.8,
    "layers": [
@@ -893,8 +1196,10 @@
    ],
    "path_length_mm": 2.75,
    "rise_k": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.2,
+    "transient_20ms": 0.3,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    }
   },
   {
@@ -904,8 +1209,10 @@
    "from": "D2.1",
    "to": "L3.1",
    "current_bound_a": {
-    "rated": 0.552,
-    "limiter_max": 0.552
+    "continuous": 0.38,
+    "transient_20ms": 0.463,
+    "let_through_max": 0.552,
+    "legacy_pd15_budget": 0.552
    },
    "narrowest_mm": 0.8,
    "layers": [
@@ -917,8 +1224,10 @@
    ],
    "path_length_mm": 1.4,
    "rise_k": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.2,
+    "transient_20ms": 0.3,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    }
   },
   {
@@ -928,8 +1237,10 @@
    "from": "D2.2",
    "to": "C7.2",
    "current_bound_a": {
-    "rated": 0.552,
-    "limiter_max": 0.552
+    "continuous": 0.38,
+    "transient_20ms": 0.463,
+    "let_through_max": 0.552,
+    "legacy_pd15_budget": 0.552
    },
    "narrowest_mm": 0.8,
    "layers": [
@@ -941,8 +1252,10 @@
    ],
    "path_length_mm": 1.7,
    "rise_k": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.2,
+    "transient_20ms": 0.3,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    }
   },
   {
@@ -952,8 +1265,10 @@
    "from": "C7.2",
    "to": "U2.9",
    "current_bound_a": {
-    "rated": 0.552,
-    "limiter_max": 0.552
+    "continuous": 0.38,
+    "transient_20ms": 0.463,
+    "let_through_max": 0.552,
+    "legacy_pd15_budget": 0.552
    },
    "narrowest_mm": 0.8,
    "layers": [
@@ -965,8 +1280,10 @@
    ],
    "path_length_mm": 1.55,
    "rise_k": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.2,
+    "transient_20ms": 0.3,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    }
   },
   {
@@ -976,8 +1293,10 @@
    "from": "C7.1",
    "to": "U2.2",
    "current_bound_a": {
-    "rated": 0.552,
-    "limiter_max": 0.552
+    "continuous": 0.38,
+    "transient_20ms": 0.463,
+    "let_through_max": 0.552,
+    "legacy_pd15_budget": 0.552
    },
    "narrowest_mm": 0.8,
    "layers": [
@@ -989,8 +1308,10 @@
    ],
    "path_length_mm": 4.11,
    "rise_k": {
-    "rated": 0.5,
-    "limiter_max": 0.5
+    "continuous": 0.2,
+    "transient_20ms": 0.3,
+    "let_through_max": 0.5,
+    "legacy_pd15_budget": 0.5
    }
   },
   {
@@ -1000,8 +1321,10 @@
    "from": "U3.8",
    "to": "D3.1",
    "current_bound_a": {
-    "rated": 1.401,
-    "limiter_max": 3.375
+    "continuous": 2.724,
+    "transient_20ms": 3.226,
+    "let_through_max": 3.394,
+    "legacy_pd15_budget": 1.409
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -1013,8 +1336,10 @@
    ],
    "path_length_mm": 5.92,
    "rise_k": {
-    "rated": 1.5,
-    "limiter_max": 11.2
+    "continuous": 6.9,
+    "transient_20ms": 10.1,
+    "let_through_max": 11.4,
+    "legacy_pd15_budget": 1.5
    }
   },
   {
@@ -1024,8 +1349,10 @@
    "from": "D3.1",
    "to": "L5.1",
    "current_bound_a": {
-    "rated": 1.401,
-    "limiter_max": 3.375
+    "continuous": 2.724,
+    "transient_20ms": 3.226,
+    "let_through_max": 3.394,
+    "legacy_pd15_budget": 1.409
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -1037,8 +1364,10 @@
    ],
    "path_length_mm": 2.3,
    "rise_k": {
-    "rated": 1.5,
-    "limiter_max": 11.2
+    "continuous": 6.9,
+    "transient_20ms": 10.1,
+    "let_through_max": 11.4,
+    "legacy_pd15_budget": 1.5
    }
   },
   {
@@ -1048,8 +1377,10 @@
    "from": "D3.2",
    "to": "CCIN1.2",
    "current_bound_a": {
-    "rated": 1.401,
-    "limiter_max": 3.375
+    "continuous": 2.724,
+    "transient_20ms": 3.226,
+    "let_through_max": 3.394,
+    "legacy_pd15_budget": 1.409
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -1061,8 +1392,10 @@
    ],
    "path_length_mm": 2.6,
    "rise_k": {
-    "rated": 1.5,
-    "limiter_max": 11.2
+    "continuous": 6.9,
+    "transient_20ms": 10.1,
+    "let_through_max": 11.4,
+    "legacy_pd15_budget": 1.5
    }
   },
   {
@@ -1072,8 +1405,10 @@
    "from": "CCIN1.2",
    "to": "U3.9",
    "current_bound_a": {
-    "rated": 1.401,
-    "limiter_max": 3.375
+    "continuous": 2.724,
+    "transient_20ms": 3.226,
+    "let_through_max": 3.394,
+    "legacy_pd15_budget": 1.409
    },
    "narrowest_mm": 1.5,
    "layers": [
@@ -1085,8 +1420,10 @@
    ],
    "path_length_mm": 2.62,
    "rise_k": {
-    "rated": 1.5,
-    "limiter_max": 11.2
+    "continuous": 6.9,
+    "transient_20ms": 10.1,
+    "let_through_max": 11.4,
+    "legacy_pd15_budget": 1.5
    }
   },
   {
@@ -1096,8 +1433,10 @@
    "from": "CCIN1.1",
    "to": "U3.2",
    "current_bound_a": {
-    "rated": 1.401,
-    "limiter_max": 3.375
+    "continuous": 2.724,
+    "transient_20ms": 3.226,
+    "let_through_max": 3.394,
+    "legacy_pd15_budget": 1.409
    },
    "narrowest_mm": 1.2,
    "layers": [
@@ -1109,8 +1448,10 @@
    ],
    "path_length_mm": 4.19,
    "rise_k": {
-    "rated": 2.2,
-    "limiter_max": 16.2
+    "continuous": 10.0,
+    "transient_20ms": 14.6,
+    "let_through_max": 16.4,
+    "legacy_pd15_budget": 2.2
    }
   }
  ]

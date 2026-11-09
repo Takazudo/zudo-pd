@@ -1,6 +1,6 @@
 # Board P r3 placement draft
 
-**Unvalidated draft: power-path and ground pours with grid-routed signals; native DRC finds no open connection, and no layout review exists.
+**Unvalidated draft: power-path and ground pours with grid-routed signals; the dated native DRC finds no open connection. The independent review exists with unresolved layout findings.
 Not for fabrication or ordering.** PD20: the routed r3 board is `../board-p.kicad_pcb`, the board the exporter's
 `board-p` packages (paired only with `board-b20-draft`). The routed 15 V as-built module it replaced stays in git at
 `6cb02c8`; `run.sh` reads its outline, connectors and holes from there. This folder keeps the placement inputs and the
@@ -66,9 +66,11 @@ Routing (`pours.json`, `route-signals.py`, `apply-tracks.py`, `route-power.py`; 
   (16.95, 22.15)–(16.95, 23.25) that meets its neighbour track and touches B.Cu fill #8. Native DRC
   was right. The repeated join passes had also added 20 duplicate segments.
 
-Thermal, loop, ground-return, assembly-side and stack-height checks are OPEN.
+The [2026-11-08 independent review](independent-review.md) records U2/Q1 thermal-layout majors, Q3 drain vias and C30/C34 placement findings. They are not yet corrected. Dated native checks above do not establish thermal ratings.
 
-**Stack conflict with Board B (OPEN).** Mapped onto the current Board B, C3's 8.3 × 8.3 mm base covers
+The valid PD20 pair is r3 + B20; its nominal stack disposition is in [PD20 status](../../../manufacturing/pd20-status.md). The old r3 + PD15 Board B analysis below is retained as history, not a requirement to redesign PD15.
+
+**Historical stack conflict with PD15 Board B (invalid pair).** Mapped onto the current Board B, C3's 8.3 × 8.3 mm base covers
 B x 8.35–16.65, y 26.0–34.3 mm. That overlaps the U3 TO-263-5 courtyard (x 13.34–29.95, y 30.25–41.75)
 by 3.31 × 4.05 mm, over the U3 tab.
 

@@ -23,8 +23,7 @@ authored rationale, root scripts and project-specific checks.
 | `circuit.config.ts` | Project | Provider (`led-generator-v1`), Board A/B/P/P15/B20 bindings, package paths, Python floor and preview configuration |
 | `circuit/publication/` | Project | Reviewed field matrix, selected records/sources, asset allowlist, document audit and integration gloss |
 | `@takazudo/zudo-circuit-doc` | Package | Generic validator, projection, renderers, islands and CLI |
-| `patches/@takazudo__zudo-circuit-doc@0.1.0.patch` | Temporary component-package bridge | Reviewed compatibility until the released package supplies the same contracts |
-| `patches/@takazudo__zudo-doc@5.27.0.patch` | Temporary scaffold bridge | Project heading-ID parity until the pinned scaffold release includes the reviewed behavior |
+| `patches/@takazudo__zudo-circuit-doc@0.3.0.patch` | Temporary component-package bridge | One built-site checker branch: a document-unavailable record may link its own declared model ([#210](https://github.com/Takazudo/zudo-pd/issues/210)) |
 | `doc/src/content/docs/components/**` | Generator | Generated catalog, record and integration pages; never edit by hand |
 | `circuit/generated/preflight.json` | Generator | Deterministic publication report; never edit by hand |
 | `doc/public/assets/component-previews/**` | Generator | Selected footprint SVGs and WRL models; never edit by hand |
@@ -49,8 +48,8 @@ The configured provider is `led-generator-v1`. It binds placement identity and
 placement-level DNP state to `scripts/schgen/board_a_spec.py`,
 `board_b_spec.py`, `board_p_spec.py`, `board_p15_spec.py` and `board_b20_components.py`.
 The pure-Python schematic regeneration gate in `circuit/scripts/run-python-gates.sh` covers four generators
-A/B/P/P15; B20 inventory projection is not a fifth regeneration gate. The two finite value-field MPN exceptions
-are `C144397` and `C591344`; the setting is in `circuit.config.ts`. The canonical
+A/B/P/P15; B20 inventory projection is not a fifth regeneration gate. The finite value-field MPN exception
+is `C144397`; the setting is in `circuit.config.ts`. The canonical
 direct-routing fixture is
 `.claude/skills/component-spec-audit/fixtures/direct-routing.json`.
 
@@ -77,35 +76,31 @@ physical fit, measured performance, assembly state or hardware sign-off. Keep
 
 ## Package and patch provenance
 
-The root workspace installs `@takazudo/zudo-circuit-doc` 0.1.0 and
-`@takazudo/zudo-doc` 5.27.0 from one root lockfile. Each package has its own
-temporary pnpm patch in `patches/`; root and `doc/` resolve those same patched
-installed modules. The circuit patch edits the shipped npm package, not a copied
-source checkout; `pnpm test:compatibility` checks installed behavior and the
-declaration consumer. The scaffold patch is limited to heading extraction parity
-and carries its own removal tracker.
+The root workspace installs `@takazudo/zudo-circuit-doc` 0.3.0, `@takazudo/zudo-doc`
+9.1.4 and the zfb 5.2.2 family from one root lockfile; root and `doc/` resolve the same
+installed modules. The released 0.3.0 runtime supplies the contracts the retired 0.1.0
+patch bridged: configured board/spec bindings and placement fit
+([circuit-doc #103](https://github.com/Takazudo/zudo-circuit-doc/issues/103)), candidate
+ownership and evidence partition ([#104](https://github.com/Takazudo/zudo-circuit-doc/issues/104)),
+independent document, footprint and model resolution
+([#105](https://github.com/Takazudo/zudo-circuit-doc/issues/105)), nullable denied owner
+fields and canary harvesting ([#106](https://github.com/Takazudo/zudo-circuit-doc/issues/106)),
+safe scanning of declared public canonical footprint hashes
+([#107](https://github.com/Takazudo/zudo-circuit-doc/issues/107)), the foreground browser
+launcher ([#108](https://github.com/Takazudo/zudo-circuit-doc/issues/108)) and long-identity
+viewer layout ([#109](https://github.com/Takazudo/zudo-circuit-doc/issues/109)). zudo-doc 9.1.4
+supplies the built heading-ID parity the 5.27.0 patch bridged
+([zudo-doc #4428](https://github.com/zudolab/zudo-doc/issues/4428), project
+[#211](https://github.com/Takazudo/zudo-pd/issues/211)). `pnpm test:compatibility` and the
+heading-parity tests check that installed behavior.
 
-Patch groups bridge the project's existing contracts: configured board/spec
-bindings and placement DNP ([circuit-doc #103](https://github.com/Takazudo/zudo-circuit-doc/issues/103)); candidate ownership and evidence partition
-([#104](https://github.com/Takazudo/zudo-circuit-doc/issues/104)); independent
-document, footprint and model resolution ([#105](https://github.com/Takazudo/zudo-circuit-doc/issues/105)); nullable denied owner fields and canary harvesting
-([#106](https://github.com/Takazudo/zudo-circuit-doc/issues/106)); and safe
-artifact scanning of published footprint hashes and generated output
-([#107](https://github.com/Takazudo/zudo-circuit-doc/issues/107)). The narrow
-generic asset-viewer exclusion is project host configuration, not a scanner
-exception. Browser launcher scheduling and responsive reference layout remain
-covered by project regressions while their upstream work proceeds
-([#108](https://github.com/Takazudo/zudo-circuit-doc/issues/108),
-[#109](https://github.com/Takazudo/zudo-circuit-doc/issues/109)). Dialog
-accessibility follows the package's media-label contract and is checked by the
-project browser smoke ([#110](https://github.com/Takazudo/zudo-circuit-doc/issues/110));
-it is not a separate patch hunk. The scaffold patch aligns built heading IDs
-with the reviewed native extractor behavior
-([zudo-doc #4428](https://github.com/zudolab/zudo-doc/issues/4428)). The upstream
-removal trackers are [zudo-pd #210](https://github.com/Takazudo/zudo-pd/issues/210)
-for the circuit package patch and [zudo-pd #211](https://github.com/Takazudo/zudo-pd/issues/211)
-for the scaffold patch. See [`patches/README.md`](../patches/README.md) for the
-patch map.
+One narrow pnpm patch remains: 0.3.0's built-site checker rejects the model card's own
+"Open model file" link on a document-unavailable record, so it is allowed only for that
+section's declared WRL ([zudo-pd #210](https://github.com/Takazudo/zudo-pd/issues/210)).
+The generic asset-viewer exclusion is host configuration, not a scanner exception, and
+dialog accessibility follows the package's media-label contract
+([#110](https://github.com/Takazudo/zudo-circuit-doc/issues/110)). See
+[`patches/README.md`](../patches/README.md).
 
 The package's current generic view model is version 2. The renderer owns the
 `zcd-*` components and stylesheet; the host registers

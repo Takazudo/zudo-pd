@@ -59,8 +59,17 @@ step "Decision lock (decisions.json)"
 python3 scripts/schgen/check_decisions.py
 step "P15 NVM image rebuild check"
 python3 scripts/pcb/board-p15/nvm-image.py --check
+step "Shared P15 r1 source identity (byte identity only; needs full Git history)"
+python3 scripts/pcb/board-p15/verify-shared-reference.py --worktree
+python3 -m unittest discover -s scripts/pcb/board-p15 -p 'test_*.py'
 step "Board P r3 20 V NVM intent rebuild check"
 python3 scripts/pcb/board-p/nvm-intent-20v.py --check
+
+step "B20 desk load cases bound to the PD20 contract; reports fresh"
+python3 -m unittest discover -s scripts/pcb/board-b20 -p 'test_*.py'
+
+step "B20 phase33 analysis input and threshold regressions (synthetic; not simulation qualification)"
+python3 -m unittest discover -s manufacturing/sim/board-b20-phase33 -p 'test_*.py'
 
 step "Courtyards enclose every pad"
 python3 footprints/scripts/gen_courtyards.py --check

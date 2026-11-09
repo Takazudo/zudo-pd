@@ -77,7 +77,8 @@ test('all archived circuit and entity-bearing heading IDs match actual productio
  }
  const fromRoot=await realpath(createRequire(join(root,'package.json')).resolve('@takazudo/zudo-doc/extract-headings'));
  assert.equal(await realpath(requireDoc.resolve('@takazudo/zudo-doc/extract-headings')),fromRoot);
- assert.match(fromRoot,/patch_hash=/u);
+ assert.doesNotMatch(fromRoot,/patch_hash=/u);
+ assert.equal(JSON.parse(await readFile(join(root,'doc/node_modules/@takazudo/zudo-doc/package.json'),'utf8')).version,'9.1.4');
 });
 
 test('strict scaffold caller accepts native deep/entity/inline-span anchors and still rejects code/missing targets',async()=>{

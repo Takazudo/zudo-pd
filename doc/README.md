@@ -1,6 +1,6 @@
 # zudo-pd documentation
 
-A component-first zudo-doc site built with zfb, MDX and Preact. Layout and navigation
+A component-first zudo-doc site built with zfb, MDX and zfb's zudo-react islands. Layout and navigation
 come from the framework; this directory owns project content and the reviewed
 component publication pipeline.
 

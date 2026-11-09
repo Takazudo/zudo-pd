@@ -1,0 +1,121 @@
+{
+  "schema": "zudo-pd/shared-p15-reference/1",
+  "purpose": "Source identity record for the shared P15 r1 USB-PD input module. A matching hash proves byte identity at a revision only; it is not electrical, mechanical, programmed or physical acceptance.",
+  "module": "P15 r1",
+  "canonical_repository": "https://github.com/Takazudo/zudo-pd",
+  "canonical_path": "boards/board-p15/",
+  "reviewed_commit": {
+    "sha": "6b08236a30331659756ca6a9af492e59f3fc6061",
+    "date": "2026-11-08",
+    "note": "zudo-pd main at which every artifact hash below was re-read for this record"
+  },
+  "adoption_revision": {
+    "sha": "4a0741fabf8d2332848a3740708aab26b8504133",
+    "date": "2026-11-03",
+    "note": "zudo-pd commit cited by zudo-led-lamp candidates/README.md when the owner adopted P15 r1 as the LED Board P"
+  },
+  "frozen_package": {
+    "path": "manufacturing/releases/corner-support-review/",
+    "manifest_git_base": "3b9821b48cf4c77e8512ce653cada3db962d2c88",
+    "manifest_sha256": "7afcef99c3a0b0e83a8321aef4aca7a68fd13b901e087804d5931b2c866e13bb",
+    "sha256sums_sha256": "a72dedecc3b928870ee2eff4717521c96f70492610ad05fcf0c7ed6ba7ec27ac",
+    "sha256sums_entries": 151,
+    "lock_board": "board-p15",
+    "fabrication_lock_paths": [
+      "boards/board-p15/board-p15-draft.kicad_pcb",
+      "boards/board-p15/nvm/stusb4500-15v.bin",
+      "boards/board-p15/nvm/stusb4500-15v.json",
+      "scripts/schgen/board_p15_spec.py"
+    ],
+    "local_only_full_replay_input": {
+      "name": "populated-stack.step",
+      "bytes": 158591651,
+      "sha256": "b2d5d8da200c4f4e989e33d4190912054475fb17d601f2f76c0b347ab3508167",
+      "note": "Original local-only derivative; required only for a full historical package replay. Never replaced by a regenerated file or uploaded elsewhere."
+    },
+    "note": "Fixed-revision snapshot. Its locks, checksums and receipts are never refreshed for later HEAD changes."
+  },
+  "artifacts": [
+    {
+      "role": "pcb",
+      "path": "boards/board-p15/board-p15-draft.kicad_pcb",
+      "sha256": "97acc5f4c712f0be01dbc5d6809a5bd17ecdceb97f3e6a831bef94500117d065"
+    },
+    {
+      "role": "schematic-spec",
+      "path": "scripts/schgen/board_p15_spec.py",
+      "sha256": "c20281447c89f32e4ed7b7bcd86e9b5bc36df7b24fe522f8f2860a07870cd713"
+    },
+    {
+      "role": "schematic-generated",
+      "path": "boards/board-p15/board-p15.kicad_sch",
+      "sha256": "bdb1c38b351471748e4b04c179afa3b2dc902fe3bea6f75ca5a13a318b5273cd",
+      "note": "Differs from the package lock since 9af3635 (two-pin symbol pins typed passive); connectivity baselines unchanged"
+    },
+    {
+      "role": "nvm-image",
+      "path": "boards/board-p15/nvm/stusb4500-15v.bin",
+      "sha256": "76622e14862e53cf318b24eb662f7dc9f34d48134867cf954b30c195c26e8eeb",
+      "note": "Desk image, PDO1 5 V / 1.5 A, PDO2 15 V / 3 A; never written or read back"
+    },
+    {
+      "role": "nvm-decode",
+      "path": "boards/board-p15/nvm/stusb4500-15v.json",
+      "sha256": "1734baffec3c356b687cfdb06a87fad5402c18a0fecb3ea7d0d7f1b9f56e945c"
+    },
+    {
+      "role": "population-bom",
+      "path": "manufacturing/releases/corner-support-review/board-p15/bom.csv",
+      "sha256": "23d6e2902307ce3920c405abe3296600610bcd5b54f0cca67ee0a8291ecfd59f"
+    },
+    {
+      "role": "population-cpl",
+      "path": "manufacturing/releases/corner-support-review/board-p15/cpl.csv",
+      "sha256": "a9116d1b9f1d7f092531173a7c8f4d49f4a4c282b9a88f449a89b0da3e030ce6"
+    }
+  ],
+  "allowed_path_prefixes": [
+    "boards/board-p15/",
+    "scripts/schgen/board_p15_spec.py",
+    "manufacturing/releases/corner-support-review/board-p15/"
+  ],
+  "forbidden_path_prefixes": [
+    "boards/board-p/",
+    "boards/board-b20-draft/"
+  ],
+  "consumers": [
+    {
+      "product": "LED lamp",
+      "repository": "https://github.com/Takazudo/zudo-led-lamp",
+      "board": "Board L (2026-09-19 order, two units reused unchanged, RS1 200 mOhm)",
+      "interface": "P15 JOUT1.1-6 to Board L J2 (VBUS_OUT x2, ATT, PDOK, GND x2)",
+      "interface_owner": "zudo-pd owns P15 JOUT1; zudo-led-lamp owns Board L J2 and the enclosure",
+      "consumer_reference": "zudo-led-lamp boards/p15-r1-reference.json",
+      "not_this": "zudo-led-lamp boards/board-p/ is the historical as-ordered LED Board P, not P15"
+    },
+    {
+      "product": "PD15",
+      "repository": "https://github.com/Takazudo/zudo-pd",
+      "board": "Board B (2026-09-20 order, S3 BOM; count and condition unrecorded)",
+      "interface": "P15 JOUT1.1-6 to Board B J5 (input pair, ATT, PDOK, GND x2)",
+      "interface_owner": "zudo-pd owns both sides"
+    }
+  ],
+  "procedure_owner": {
+    "programming_and_acceptance": "doc/src/content/docs/architecture/board-p15-programming.md (P15-NVM-1 to P15-NVM-7)",
+    "order_packet": "manufacturing/p15-order-decision-packet.md",
+    "order_handoff": "manufacturing/p15-order-handoff.md",
+    "dated_state": "doc/src/content/docs/project/current-state.md"
+  },
+  "status": {
+    "source_verification": "checked by scripts/pcb/board-p15/verify-shared-reference.py at an explicitly selected revision",
+    "ordered": "NOT ORDERED",
+    "received": "NOT RECEIVED",
+    "programmed": "NOT RUN",
+    "measured": "NOT RUN"
+  },
+  "accepted_prototype_residuals": "R2.3, R2.4, R2.6 FAIL and R2.5 UNKNOWN (no hardware voltage window or eFuse). Accepted for the prototype; not PASS evidence.",
+  "open_evidence": [
+    "POWER_ONLY_ABOVE_5V (NVM 0xE6 bit 3) position is from the SparkFun map; an ST draft note marks 0xE6[3:0] reserved (manufacturing/pd20-evidence-research.md, 2026-11-08). P15-NVM-6 must measure VBUS_OUT off during the 5 V phase."
+  ]
+}

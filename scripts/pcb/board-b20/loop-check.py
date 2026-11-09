@@ -192,13 +192,19 @@ for shunt, (ina, plus, minus) in SENSE.items():
 
 # Pickup estimate (desk arithmetic, order of magnitude; no field solver, nothing measured).
 # SW edge: TI SLVSBN0C eq. 55 note, trise = VIN x 0.16 ns/V + 3 ns, at VIN = 20 V. Switched current per stage:
-# A and B carry their +12 V / +5 V budgets; C (inverting) carries Iout x (1 + |Vout| / VIN).
+# A and B carry their +12 V / +5 V rail currents; C (inverting) carries Iout x (1 + |Vout| / VIN). The currents are the
+# load_cases.py let-through maximum, the largest contract case, so the estimate bounds every contract case (pickup is
+# linear in the switched current).
 # INA301A3 (SBOS713A): CMR 110 dB min at DC; Figure 9 (typical) falls to about 85 dB at 100 kHz and 65 dB at 1 MHz;
 # gain 100 V/V; bandwidth 450 kHz.
 MU0, EPS0, EPS_EFF = 4e-7 * math.pi, 8.854e-12, 2.7
 VIN = 20.0
 T_RISE = (VIN * 0.16 + 3) * 1e-9
-SWITCHED_A = {'A': 1.2, 'B': 0.5, 'C': 0.8 * (1 + 12.0 / VIN)}
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
+from load_cases import CASES  # noqa: E402
+PICKUP_CASE = 'let_through_max'
+_L = CASES[PICKUP_CASE]['loads']
+SWITCHED_A = {'A': _L['+12'], 'B': _L['+5'], 'C': _L['-12'] * (1 + 12.0 / VIN)}
 F_EDGE = 1 / (math.pi * T_RISE)
 # 4-layer draft: height (mm) of the F.Cu loops above a solid GND plane; 0 keeps the free-space model of the 2-layer draft.
 # An ideal plane adds an image of each loop with opposite current 2h below it (dipole term), and terminates the field
@@ -291,6 +297,7 @@ for shunt, (ina, plus, minus) in SENSE.items():
                 'common_mode_through_cmrr_1mhz': round(worst_cm * INA_GAIN * 10 ** (-INA_CMRR_1MHZ_DB / 20), 4)}
     out['sense'][shunt]['geometry_and_pickup'] = geo
 out['pickup_assumptions'] = {'vin_v': VIN, 'sw_rise_ns': round(T_RISE * 1e9, 2), 'edge_frequency_mhz': round(F_EDGE / 1e6, 1),
+                             'switched_current_case': PICKUP_CASE, 'switched_current_source': CASES[PICKUP_CASE]['source'],
                              'switched_current_a': {k: round(v, 3) for k, v in SWITCHED_A.items()},
                              'ina301a3': 'gain 100 V/V, BW 450 kHz, CMRR 65 dB at 1 MHz (SBOS713A Figure 9, typical)',
                              'model': 'magnetic dipole between pad-centre loops; two-wire capacitance to the nearest SW track; 1 nH/mm trace inductance'

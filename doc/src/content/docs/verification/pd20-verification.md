@@ -10,8 +10,11 @@ energizing or ordering. [Current state](../project/current-state.md#pd20-board-p
 ## NVM is blocked before provisioning
 
 `boards/board-p/nvm/stusb4500-20v-intent.json` records intended two sink PDOs, PDO2 20 V / 5 A and
-POWER_ONLY_ABOVE_5V. There is no `.bin`. The third-party map does not locate TDISPAR0V; default 9 is too short
-for the 2 kΩ discharge feed and intent is at least 13. Lower-current 20 V source behavior is UNKNOWN.
+POWER_ONLY_ABOVE_5V. There is no `.bin`. The ST-authored draft locates TDISPAR0V at 0xCA[7:4];
+default 9 is too short for the 2 kΩ discharge feed. Values 13, 14 and 15 give approximately 0.4 %, 8 % and 16 %
+desk margin; the value and hard-reset interaction remain undecided. DS12499 Rev 8 answers initial matching:
+a 20 V offer below 5 A does not match PDO2. The POWER_ONLY_ABOVE_5V bit-position conflict and transitions
+from an established contract remain unresolved. See the [evidence research](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-evidence-research.md).
 File regeneration verifies the record only. It is not a write, readback or a provisioning procedure.
 
 ## Existing test sheets remain authoritative
@@ -24,13 +27,13 @@ owns full setups, criteria and source assumptions. Preserve those conditions rat
 | T1 | Output ripple at OSC continuous and transient demand; specified probe setup | NOT RUN |
 | T2 | Thermal at 25 °C, 30 min, including D3 and limiter-maximum uncertainty | NOT RUN |
 | T3 | Startup/re-entry, no-load exceptions and loaded limits | NOT RUN |
-| T4 | 20 V image write/full power-cycle/readback only after encoding is resolved | NOT RUN; BLOCKED |
+| T4 | 20 V image write/full power-cycle/readback only after configuration decisions and mapping evidence are resolved and reviewed | NOT RUN; BLOCKED |
 | T5 | Discharge/order at zero and asymmetric load; resistor pulse endurance | NOT RUN |
 | T6 | Reverse current, unpowered and 60 °C conditions | NOT RUN |
 | T7 | All-rail fault latch, re-plug recovery and recorded let-through | NOT RUN |
 | T8 | PD hard reset, vSafe0V and clean restart | NOT RUN |
 
-Nominal CAD and topology/simulation PASS rows do not execute these sheets. Independent P r3 review,
+Nominal CAD and topology/simulation PASS rows do not execute these sheets. The [completed P r3 review](https://github.com/Takazudo/zudo-pd/blob/main/boards/board-p/r3-draft/independent-review.md) has unresolved layout findings;
 component evidence, hot-loop EMI, thermal coupling, sequencing and let-through must remain visible until
 revision-specific results close them. Retain the [original review](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-b20-layout-review.md)
 with its [later disposition](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-status.md).

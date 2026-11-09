@@ -11,6 +11,8 @@ const canonical=x=>Array.isArray(x)?x.map(canonical):x&&typeof x==='object'?Obje
 const hash=x=>createHash('sha256').update(JSON.stringify(canonical(x))).digest('hex');
 test('every decoded published claim matches the reviewed legacy model',async()=>{
  const baseline=await json(join(root,'circuit/tests/runtime-semantic-baseline.json'));
+ const current=await json(join(root,'circuit/tests/current-evidence-semantic.json'));
+ for(const [slug,fields] of Object.entries(current.records))Object.assign(baseline.records[slug],fields);
  assert.equal(Object.keys(baseline.records).length,128);
  assert.deepEqual(model.records.map(r=>r.identity.slug).sort(),Object.keys(baseline.records).sort());
  for(const record of model.records)for(const [field,expected]of Object.entries(baseline.records[record.identity.slug]))assert.equal(hash(record[field]),expected,`${record.identity.slug}.${field}`);
@@ -28,13 +30,29 @@ test('all 60 retained legacy routes retain every baseline evidence anchor and us
   assert.ok(page.includes('Generated from the component evidence records'),path);
  }
 });
-test('root and doc resolve the same patched module and runtime behavior',async()=>{
+test('root and doc resolve the same 0.3.0 release with only the reviewed #210 checker bridge',async()=>{
  const fromRoot=createRequire(join(root,'package.json')),fromDoc=createRequire(join(root,'doc/package.json'));
  const a=await realpath(fromRoot.resolve('@takazudo/zudo-circuit-doc/package.json')),b=await realpath(fromDoc.resolve('@takazudo/zudo-circuit-doc/package.json'));
- assert.equal(a,b);assert.match(a,/patch_hash=/u);
- assert.equal((await json(a)).version,'0.1.0');
- const schema=await readFile(join(packageRoot,'lib/config/schema.js'),'utf8');assert.match(schema,/candidates: optional/u);assert.match(schema,/mpnFromValueLcsc/u);
- const reference=await readFile(join(packageRoot,'lib/provider/v1/references.js'),'utf8');assert.match(reference,/document exception names missing record/u);
+ assert.equal(a,b);
+ assert.equal((await json(a)).version,'0.3.0');
+ const patchFile='patches/@takazudo__zudo-circuit-doc@0.3.0.patch';
+ const patch=await readFile(join(root,patchFile),'utf8');const patchHash=createHash('sha256').update(patch).digest('hex');
+ assert.ok(a.includes(`patch_hash=${patchHash.slice(0,20)}`),'installed copy carries exactly the reviewed patch');
+ // The bridge touches one shipped checker branch and nothing else.
+ assert.deepEqual([...patch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['lib/scan/built-references.js']);
+ assert.match(patch,/issues\/210/u);
+ const workspace=await readFile(join(root,'pnpm-workspace.yaml'),'utf8');
+ assert.equal([...workspace.matchAll(/^  '@takazudo\/[^']+':/gmu)].length,1);
+ assert.match(workspace,new RegExp(`patchedDependencies:\\n  '@takazudo/zudo-circuit-doc@0\\.3\\.0': ${patchFile.replaceAll('.','\\.')}`,'u'));
+ const lock=await readFile(join(root,'pnpm-lock.yaml'),'utf8');
+ assert.match(lock,/\n  '@takazudo\/zudo-circuit-doc@0\.3\.0':\n    resolution: \{integrity: sha512-HTiQMLba\+Ozt1gDUhf3aNH49ua9E4oxEjxqTvJLCRqBChmVNBQ7\+Io8XkAZqfSnskBOilnfr7SpSzrWLhhyi1A==\}/u);
+ assert.ok(lock.includes(`patchedDependencies:\n  '@takazudo/zudo-circuit-doc@0.3.0': ${patchHash}\n\n`),'lock records only the reviewed circuit patch');
+ assert.doesNotMatch(lock,/zudo-doc@[^(\s]*\(patch_hash/u);
+ const checker=await readFile(join(packageRoot,'lib/scan/built-references.js'),'utf8');assert.match(checker,/Temporary bridge: https:\/\/github\.com\/Takazudo\/zudo-pd\/issues\/210/u);
+ const schema=await readFile(join(packageRoot,'lib/config/schema.js'),'utf8');assert.match(schema,/candidates: optional/u);assert.match(schema,/mpnFromValueLcsc/u);assert.match(schema,/fit: optional\(oneOf\(\["line", "placement"\]\)\)/u);assert.match(schema,/publicCanonicalFootprints/u);
+ const reference=await readFile(join(packageRoot,'lib/provider/v1/references.js'),'utf8');assert.match(reference,/STALE_SELECTION", `missing record/u);
+ assert.equal(mapped.config.inventoryProvider.fit,'placement');
+ assert.deepEqual(mapped.config.inventoryProvider.specs.map(s=>s.board),['board-a','board-b','board-p','board-p15','board-b20-draft']);
  for(const path of ['doc/pnpm-lock.yaml','doc/pnpm-workspace.yaml'])await assert.rejects(stat(join(root,path)),{code:'ENOENT'});
 });
 test('all existing public files are individually reviewed; preview ownership stays separate',async()=>{

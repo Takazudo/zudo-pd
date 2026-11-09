@@ -242,15 +242,18 @@ function referenceFor(
         availability: t(input.document.availability),
         documentKind: input.document.documentKind,
       },
-    documentUnresolvedReason: input.document === undefined
+    documentUnavailableReason: input.document === undefined
       ? t("No single document has been reviewed as this component's authoritative PDF yet.")
       : null,
+    mounting: "pcb",
     footprint: {
       packageId: t(footprintName),
       footprintName: t(footprintName),
       footprintPath: t(`footprints/kicad/zudo-power.pretty/${footprintName}.kicad_mod`),
-      model: null,
-      modelUnresolvedReason: t("The KiCad footprint names no 3D model."),
+      modelPath: null,
+      offset: null,
+      rotation: null,
+      scale: null,
     },
   };
 }

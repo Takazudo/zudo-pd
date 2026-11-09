@@ -111,7 +111,9 @@ follows a passing step 7 readback. Board B and Board L stay disconnected until s
 8. **Disconnect.** Remove the jig rail, then the clip. Remove the 5 V-only source.
 9. **First PD attach (P15-NVM-6).** Move to a PD test source that also offers 20 V, through a current-limited path,
    with Board B and Board L still disconnected. VBUS_OUT (JOUT1.1/2) must stay off at 5 V, then follow 15 V after the
-   15 V contract.
+   15 V contract. Measure VBUS_OUT during the 5 V phase of attach, before the 15 V request, and fail the unit if it
+   rises. This is the only evidence that POWER_ONLY_ABOVE_5V works: its bit position is third-party and an ST draft
+   note marks that bit reserved (see below).
 10. **Connect the load.** Only after step 9 passes, connect Board L or Board B.
 
 ## 15 V NVM image: desk-built from a third-party field map, checked against the Rev 7 defaults
@@ -123,13 +125,17 @@ follows a passing step 7 readback. Board B and Board L stay disconnected until s
 | --- | --- | --- |
 | SNK_PDO_NUMB | 2 (PDO1 5 V, PDO2 15 V; 20 V is never requested) | 3 → 2 |
 | PDO2 | 15.00 V, I_SNK_PDO2 1011b = 3.00 A (Rev 7 Table 17) | 1.5 A → 3.0 A |
-| POWER_ONLY_ABOVE_5V | 1 (VBUS_EN_SNK only after a PDO2/PDO3 contract) | 0 → 1 |
+| POWER_ONLY_ABOVE_5V | 1 (VBUS_EN_SNK only after a PDO2/PDO3 contract), set as 0xE6 bit 3 from the SparkFun map; position CONFLICTED (2026-11-08) | 0 → 1 |
 | Every other field | the Rev 7 default | no |
 
 - **Base bytes and field positions:** both come from the SparkFun STUSB4500 Arduino library (MIT, commit
   `7f76188b`). That is a **third-party** source; no ST NVM map document is retained here.
 - **Check:** decoding the base bytes with those positions gives every default in Rev 7 Tables 16–18 that the
   script checks. The other bits are not checked.
+- **Conflict (2026-11-08):** an ST draft technical note lists 0xE6 as `VBUS_CTRL` with bits [3:0] reserved, so the
+  POWER_ONLY_ABOVE_5V position used here rests on SparkFun and one non-ST GUI diff only. The image is unchanged.
+  Step 9's VBUS_OUT-off-during-5 V measurement is the acceptance evidence; record and source:
+  [PD20 evidence research](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-evidence-research.md).
 - **ST example not used:** the example image in ST's `NVM_Flasher` (commit `55d1109e`) is a customised image,
   not the factory default.
 - **Acceptance:** the image is accepted only by step 7 above. Until then its status is NOT RUN.

@@ -46,7 +46,8 @@ set -euo pipefail
 #    `public/circuits/*.svg`, never a hand-authored link.
 #
 # 3. The three progress messages printed by `doc-history-server` through the
-#    plugin host: resolved content directory, processing count, and generated
+#    plugin host (`[plugin-host stdout] ` on zfb 2.x, `ZB006 plugin-host:stdout: ` on zfb 5),
+#    resolved content directory, processing count, and generated
 #    history count/timing. zfb labels all plugin stdout as warnings even though
 #    these lines are informational. Match only those complete message shapes;
 #    any other plugin stdout remains unexpected and fails this gate.
@@ -120,10 +121,15 @@ awk -v known_links="$KNOWN_LINKS" -v known_dims="$KNOWN_DIMS" \
       }
     }
 
-    plugin_info = \
-      rest ~ /^\[plugin-host stdout\] doc-history-server: content-dir resolved to \/.*\/src\/content\/docs$/ || \
-      rest ~ /^\[plugin-host stdout\] Processing default: [0-9]+ files in \/.*\/src\/content\/docs$/ || \
-      rest ~ /^\[plugin-host stdout\] Generated [0-9]+ history files in [0-9]+([.][0-9]+)?s$/
+    # Plugin stdout is labelled `[plugin-host stdout] ` on zfb 2.x and
+    # `ZB006 plugin-host:stdout: ` on zfb 5. Plugin stderr is never accepted.
+    msg = ""
+    if (index(rest, "[plugin-host stdout] ") == 1) msg = substr(rest, length("[plugin-host stdout] ") + 1)
+    else if (index(rest, "ZB006 plugin-host:stdout: ") == 1) msg = substr(rest, length("ZB006 plugin-host:stdout: ") + 1)
+    plugin_info = msg != "" && ( \
+      msg ~ /^doc-history-server: content-dir resolved to \/.*\/src\/content\/docs$/ || \
+      msg ~ /^Processing default: [0-9]+ files in \/.*\/src\/content\/docs$/ || \
+      msg ~ /^Generated [0-9]+ history files in [0-9]+([.][0-9]+)?s$/ )
     if (plugin_info) {
       print > known_plugin_info
       next

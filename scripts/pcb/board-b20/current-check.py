@@ -5,24 +5,27 @@ usage: python3 current-check.py <geom.json> <routes.json> <out.json>
 For every trunk route.py laid (routes.json "trunks"), the widest path between its two pads through the routed copper
 of the net (tracks, vias, pads, T-junctions) and the narrowest segment on it. The IPC-2221 chart formula
 I = k x dT^0.44 x A^0.725 (A in mil^2; k 0.048 outer, 0.024 inner) gives the rise of that narrowest segment at the
-rated load and at the limiter maximum, with 0.035 mm outer and 0.0175 mm inner copper. It treats the segment as a
+PD20 contract load cases of load_cases.py (continuous, 20 ms transient held steady, let-through maximum; plus the
+legacy 1.2 / 0.8 / 0.5 A comparison case), with 0.035 mm outer and 0.0175 mm inner copper. It treats the segment as a
 long isolated conductor, which overstates the rise of short necks between large pads; parallel copper is not credited. Each layer change is also rated per via barrel (count of same-net vias within 1.3 mm).
 """
 import heapq
 import json
 import math
+from pathlib import Path
 import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from load_cases import CASES, CONTRACT_CASES, VIN, case_currents, case_record  # noqa: E402
 
 CU_MM = {'F': 0.035, 'B': 0.035, 'In2': 0.0175}   # JLC7628: 1 oz outer, 0.5 oz inner (2 oz outer UNKNOWN)
 K = {'F': 0.048, 'B': 0.048, 'In2': 0.024}
-VIN = 19.0
-# DC current of each path, A: rated load (1.2 / 0.8 / 0.5) and limiter maximum (2.1 / 2.0 / 0.5). VIN branches carry
-# each stage's input power at VIN 19 V from thermal-check.py (maximum RDS corner); the inverter's D3-L6 path carries
-# the inductor current, the rest the rail current.
-RAIL = {'P12': (1.2, 2.1), 'P5': (0.5, 0.5), 'M12': (0.8, 2.0)}
-VIN_BRANCH = {('J5.1', 'C1.1'): (1.54, 3.08), ('C1.1', 'C3.1'): (0.81, 1.44), ('C1.1', 'C7.1'): (0.15, 0.15),
-              ('C1.1', 'CCIN1.1'): (0.57, 1.47)}
-M12_RAW_A = (1.34, 3.35)
+# DC current of each path, A, per load case. All are derived from the load_cases.py stage model at VIN and the
+# maximum-RDS corner: VIN branches carry each stage's input current (J5 also the control allowance), the inverter's
+# M12_RAW trunk the inductor current, every other trunk its rail current.
+CURRENTS = {case: case_currents(case) for case in CASES}
+VIN_BRANCH_STAGE = {('C1.1', 'C3.1'): '+12', ('C1.1', 'C7.1'): '+5', ('C1.1', 'CCIN1.1'): '-12'}
+RAIL_NET = {'P12': '+12', 'P5': '+5', 'M12': '-12'}
 # Via barrel: 0.3 mm drill (route.py VIA_DRILL). Hole-wall copper 0.020 mm, the low end of "~20-25 um" in JLCPCB's blog
 # "PCB plating thickness" (jlcpcb.com/blog/pcb-plating-thickness, read 2026-11-02; not a capabilities-page value). The
 # barrel is rated as an outer conductor of its wall cross-section, a convention for a short, plane-coupled conductor.
@@ -35,16 +38,14 @@ def via_rise(i):
 
 
 # Stage hot-loop copper (route.py stage templates). Every branch of a switching cell carries at most the inductor RMS
-# current, sqrt(IL^2 + dI^2/12): IL is the rail current (buck) or the inverter inductor current, dI the
-# calculate-board-b20-draft.py ripple maximum. A bound, not each branch's own RMS.
+# current, sqrt(IL^2 + dI^2/12) from load_cases.stage(): IL is the rail current (buck) or the inverter inductor
+# current, dI the calculate-board-b20-draft.py ripple maximum. A bound, not each branch's own RMS.
 STAGE_CELLS = {'+12': ('U1', 'C3', 'D1', 'L1'), '+5': ('U2', 'C7', 'D2', 'L3'), '-12': ('U3', 'CCIN1', 'D3', 'L5')}
-IL = {'+12': (1.2, 2.1), '+5': (0.5, 0.5), '-12': (1.335, 3.348)}
-RIPPLE_PP = {'+12': 1.2562, '+5': 0.809, '-12': 1.4754}
 
 
 def cell_paths():
     for stage, (ic, cin, d, ind) in STAGE_CELLS.items():
-        irms = tuple(round(math.sqrt(i * i + RIPPLE_PP[stage] ** 2 / 12), 3) for i in IL[stage])
+        irms = {case: CURRENTS[case]['inductor_rms_a'][stage] for case in CASES}
         for name, a, b in (('SW pin to diode', f'{ic}.8', f'{d}.1'), ('diode to inductor', f'{d}.1', f'{ind}.1'),
                            ('diode return to CIN', f'{d}.2', f'{cin}.2'), ('CIN return to IC pad', f'{cin}.2', f'{ic}.9'),
                            ('CIN to VIN pin', f'{cin}.1', f'{ic}.2')):
@@ -52,11 +53,15 @@ def cell_paths():
 
 
 def current(net, a, b):
-    if net == 'VIN':
-        return VIN_BRANCH[(a, b)]
-    if net == 'M12_RAW':
-        return M12_RAW_A
-    return RAIL[net.split('_')[0]]
+    out = {}
+    for case, c in CURRENTS.items():
+        if net == 'VIN':
+            out[case] = c['vin_total_a'] if (a, b) == ('J5.1', 'C1.1') else c['stage_input_a'][VIN_BRANCH_STAGE[(a, b)]]
+        elif net == 'M12_RAW':
+            out[case] = c['inductor_a']['-12']
+        else:
+            out[case] = c['rail_a'][RAIL_NET[net.split('_')[0]]]
+    return out
 
 
 def rise(i, w_mm, layer):
@@ -150,9 +155,8 @@ def main():
         adj = graphs.setdefault(net, graph(net, geom, routes))
         a, b = t['from'].split('.'), t['to'].split('.')
         res = widest(adj, ('p', *a), ('p', *b))
-        i_rated, i_max = current(net, t['from'], t['to'])
-        row = {'net': net, 'from': t['from'], 'to': t['to'], 'trunk_width_mm': t['width_mm'],
-               'current_a': {'rated': i_rated, 'limiter_max': i_max}}
+        i = current(net, t['from'], t['to'])
+        row = {'net': net, 'from': t['from'], 'to': t['to'], 'trunk_width_mm': t['width_mm'], 'current_a': i}
         if res is None:
             row['status'] = 'NOT CONNECTED'
         else:
@@ -164,26 +168,32 @@ def main():
             if counts:
                 row['via_transitions'] = [{'at': list(c), 'vias': n} for c, n in zip(via_at, counts)]
                 worst = min(counts)
-                row['via_rise_k'] = {'rated': round(via_rise(i_rated / worst), 1), 'limiter_max': round(via_rise(i_max / worst), 1)}
-            row['rise_k'] = {'rated': round(rise(i_rated, res['narrowest_mm'], lay), 1),
-                             'limiter_max': round(rise(i_max, res['narrowest_mm'], lay), 1)}
+                row['via_rise_k'] = {k: round(via_rise(v / worst), 1) for k, v in i.items()}
+            row['rise_k'] = {k: round(rise(v, res['narrowest_mm'], lay), 1) for k, v in i.items()}
         rows.append(row)
     cells = []
-    for stage, name, a, b, (i_rated, i_max) in cell_paths():
+    for stage, name, a, b, i in cell_paths():
         net = pads[tuple(a.split('.'))]['net']
         adj = graphs.setdefault(net, graph(net, geom, routes))
         res = widest(adj, ('p', *a.split('.')), ('p', *b.split('.')))
-        row = {'stage': stage, 'branch': name, 'net': net, 'from': a, 'to': b, 'current_bound_a': {'rated': i_rated, 'limiter_max': i_max}}
+        row = {'stage': stage, 'branch': name, 'net': net, 'from': a, 'to': b, 'current_bound_a': i}
         if res is None:
             row['status'] = 'NO TRACK PATH (pads abut or join through a pour)'
         else:
             res.pop('via_at')
             row.update(res)
             lay = 'In2' if 'In2' in res['layers'] else res['layers'][0]
-            row['rise_k'] = {'rated': round(rise(i_rated, res['narrowest_mm'], lay), 1),
-                             'limiter_max': round(rise(i_max, res['narrowest_mm'], lay), 1)}
+            row['rise_k'] = {k: round(rise(v, res['narrowest_mm'], lay), 1) for k, v in i.items()}
         cells.append(row)
-    json.dump({'_comment': __doc__.strip().splitlines()[0], 'copper_mm': CU_MM, 'paths': rows, 'stage_cells': cells},
+    worst = {case: {'paths_max_rise_k': max(r['rise_k'][case] for r in rows if 'rise_k' in r),
+                    'stage_cells_max_rise_k': max(c['rise_k'][case] for c in cells if 'rise_k' in c),
+                    'via_max_rise_k': max(r['via_rise_k'][case] for r in rows if 'via_rise_k' in r)} for case in CASES}
+    json.dump({'_comment': __doc__.strip().splitlines()[0], 'copper_mm': CU_MM, 'vin_v': VIN,
+               'load_cases': {case: {**case_record(case), 'derived_currents_a': CURRENTS[case]} for case in CASES},
+               'contract_cases': list(CONTRACT_CASES), 'worst_rise_k': worst,
+               'model_limit': ('IPC-2221 steady-state rise of the narrowest segment; desk only. No case is a transient '
+                               'or measured temperature.'),
+               'paths': rows, 'stage_cells': cells},
               open(sys.argv[3], 'w'), indent=1)
     for c in cells:
         print(c['stage'], c['branch'], c['net'], c['from'], c['to'], c.get('narrowest_mm'), c.get('narrow_length_mm'), c.get('rise_k', c.get('status')))

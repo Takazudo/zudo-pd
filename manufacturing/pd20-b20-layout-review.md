@@ -9,6 +9,15 @@ Board reviewed: `boards/board-b20-draft/board-b20-draft.kicad_pcb`, working-tree
 Status vocabulary: PASS / FAIL / OPEN / UNKNOWN / NOT RUN. This PCB is an **unvalidated draft**, and nothing
 in this review is measured. All numbers come from a desk analysis of the copper geometry.
 
+**Correction 2026-11-08 (load cases, #230; the review text below is kept as written).** Where this review says
+"rated" it means 1.2 / 0.8 / 0.5 A, the PD15 Board B budget that the B20 scripts then mislabelled. It is a legacy
+comparison case, not the PD20 contract. The contract is continuous 1.7 / 1.6 / 0.3 A, 20 ms transient 2.0 / 1.9 /
+0.4 A and let-through maximum 2.1 / 2.0 / 0.5 A ([PD20 status](pd20-status.md)); the review's "limiter maximum" is
+that let-through maximum. Against the contract, the pre-fix −12 V trip of about 0.93 A sat below the 1.6 A continuous
+load, not 16 % above a 0.8 A load (that blocker is fixed). On the current board, `thermal-check.json` gives D3 TJ
+93–120 °C at the continuous load and 109–147 °C at the let-through maximum (desk node model); the thermal bench rows
+below apply at the continuous load and the let-through maximum, and the −12 V start-into-load row at 1.6 A.
+
 Method: I parsed the board with `scripts/schgen/sexp.py` and extracted every pad (absolute position, size, net),
 all 3241 segments, all 772 vias and the filled polygons of all 5 zones. I rasterized each copper layer at
 20–50 px/mm and built copper connectivity graphs per net. Loop areas are shoelace areas of the polygon that

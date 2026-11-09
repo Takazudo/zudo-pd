@@ -8,6 +8,11 @@ This page owns current status. [Variant architecture](../architecture/index.mdx)
 [release readiness](../architecture/release-readiness.md) owns acceptance gates. A software check, CAD result,
 export receipt, order plan, received unit and bench measurement establish different things.
 
+**Addendum 2026-11-08** (integration branch `claude/project-thread-bgdr5q` from main `6b08236`, tracker
+[#228](https://github.com/Takazudo/zudo-pd/issues/228)): adds the shared P15 source identity record and order handoff
+below, binds the B20 desk reports to the PD20 contract load cases, and lists the owner actions in order. Nothing was
+ordered, programmed, energized or measured.
+
 ## P15 r1 shared input module
 
 | Dimension | Recorded state and next gate |
@@ -16,7 +21,8 @@ export receipt, order plan, received unit and bench measurement establish differ
 | Implementation/artifacts | RESET strapped to GND, J2.4 NC; jig owns I2C pull-ups; board pull-downs and local VDD feed/clamp/decoupling implemented. Desk binary `boards/board-p15/nvm/stusb4500-15v.bin`, SHA-256 `76622e14862e53cf318b24eb662f7dc9f34d48134867cf954b30c195c26e8eeb` |
 | Recorded checks | [2026-11-03 packet](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/p15-order-decision-packet.md): net parity/CAD screens and fixed-package full verifier PASS, 151/151 checksums with original STEP; manifest base `3b9821b`, source matches at `5a21ab9`. LED enclosure interference PASS is a CAD result, not physical fit |
 | Replay limits | Fixed package does not verify later HEAD. Verifier checks the working tree and requires matching historical sources plus the original local-only STEP. Regenerated NVM file is not a physical write/readback |
-| Order/physical state | Plan is **two assembled P15**, reuse two existing Board Ls, then existing Board B. No later executed-order receipt found. No P15 physical programming, acceptance or measurements recorded |
+| Source identity (2026-11-08) | [`boards/board-p15/shared-reference.json`](https://github.com/Takazudo/zudo-pd/blob/main/boards/board-p15/shared-reference.json) records PCB `97acc5f4…`, NVM `76622e14…`, spec, schematic and package BOM/CPL hashes; reviewed commit `6b08236`, LED adoption commit `4a0741f`, frozen package base `3b9821b` as separate fields. `scripts/pcb/board-p15/verify-shared-reference.py --rev <commit>` checks it (in the Python gates). At `6b08236` the frozen source lock is 482/498 unchanged: fabrication files match; the P15 schematic differs only through the `9af3635` passive pin typing. Byte identity only. LED consumer reference: zudo-led-lamp `boards/p15-r1-reference.json` |
+| Order/physical state | Plan is **two assembled P15**, reuse two existing Board Ls, then existing Board B. Order-day checklist: [`manufacturing/p15-order-handoff.md`](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md). No later executed-order receipt found. No P15 physical programming, acceptance or measurements recorded |
 | Remaining gate | All [P15-NVM-1–7](../architecture/board-p15-programming.md) NOT RUN. Current-limited 5 V-only provisioning with both downstream boards disconnected, factory dump/write/readback/full power cycle/configuration check, then NVM-6 on a 20 V-capable test source, still disconnected. Only accepted modules proceed to L or B |
 
 P15 has no hardware voltage window/eFuse after its sink switch. The accepted prototype residual depends on
@@ -46,9 +52,26 @@ accessible packet and programming contract support the summary above, not a reco
 | Implementation/artifacts | Routed r3; four-layer B20 includes merged review fixes, probe row and C43. Current fitted count **270**, [PR 226](https://github.com/Takazudo/zudo-pd/pull/226) (`ffffa40`) and component projection/model-body record. P1 contacts are NC, PDOK, GND, NC; PD15 retains ATT |
 | Recorded checks | [2026-11-04 disposition](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-status.md) records native DRC/ERC, nominal interference screens and conditioned simulations. Its older **269-component export receipt stays historical**. PR 226 separately records a 270-fitted scratch export and independent-verifier PASS at `ffffa40`; neither is a new export/replay by this documentation session. [Independent B20 review](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-b20-layout-review.md) retains original findings; disposition records subsequent fixes |
 | Replay limits | Source-locked reports apply to their revisions; no new export or physical check is claimed by this documentation work |
-| NVM | `boards/board-p/nvm/stusb4500-20v-intent.json` is intent only, **no program-ready binary**. TDISPAR0V encoding unavailable; lower-current 20 V source behavior unresolved |
+| NVM | `boards/board-p/nvm/stusb4500-20v-intent.json` is intent only, **no program-ready binary**. TDISPAR0V is located at 0xCA[7:4]; value and reset interaction remain open. DS12499 Rev 8 answers initial lower-current source matching. POWER_ONLY_ABOVE_5V mapping conflicts with the ST draft; established-contract downgrade behavior remains open |
 | Order/physical state | Development hardware; no order/received PD20 units, programming/readback acceptance or measurements recorded |
-| Remaining gate | Independent P r3 review; component evidence and pulse/SOA gaps; thermal/EMI, sequencing, let-through and [T1–T8](../verification/pd20-verification.md) all NOT RUN |
+| Desk load cases (2026-11-08) | `scripts/pcb/board-b20/load_cases.py` binds the current, thermal, loop and power reports to the PD20 contract: continuous 1.7 / 1.6 / 0.3 A, 20 ms transient 2.0 / 1.9 / 0.4 A, let-through maximum 2.1 / 2.0 / 0.5 A (+12 / −12 / +5). The former "rated" 1.2 / 0.8 / 0.5 A case is kept only as the legacy PD15 comparison. At continuous load the desk model gives 4.29–4.79 W board loss and D3 TJ 99–120 °C (113–140 °C with the transient held steady, which overstates one 20 ms event). Steady-state desk figures, not transient or measured results ([#230](https://github.com/Takazudo/zudo-pd/issues/230)) |
+| Remaining gate | The [completed P r3 review](https://github.com/Takazudo/zudo-pd/blob/main/boards/board-p/r3-draft/independent-review.md) has open U2/Q1 thermal-layout majors and Q3/C30/C34 findings; component evidence and repetitive-pulse gaps; D3 thermal margin at the contract load; thermal/EMI, sequencing, let-through and [T1–T8](../verification/pd20-verification.md) all NOT RUN |
+
+## Owner actions, in order
+
+Each step needs the evidence named; record results here with the unit identity. Software checks do not replace them.
+
+| # | Action | Procedure | Evidence to record |
+| --- | --- | --- | --- |
+| 1 | Order 2 × P15 r1 from the fixed package; check D5/D9 in the JLC placement preview; re-check stock and cost | [Order handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md) | Order date and number, preview screenshots for D5/D9, quoted total |
+| 2 | Incoming inspection, then per-unit NVM provisioning on a current-limited 5 V-only source with L and B disconnected, then no-load PD acceptance on a source also offering 20 V | [P15-NVM-1–7](../architecture/board-p15-programming.md) | Factory dump, power-cycle readback hash `76622e14…`, contract voltage, VBUS_OUT off at 5 V, per unit |
+| 3 | Hand the first accepted P15 to the LED lamp stack | zudo-led-lamp `firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md` | Recorded in zudo-led-lamp |
+| 4 | Received S3 Board B: D1 unpowered inspection, count and condition | [Board B unpowered check](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/board-b-unpowered-check.md) | Usable count, LED2 rotation, copper/silk identity |
+| 5 | PD15 staged qualification with an accepted P15 | [PD15 staged bring-up](../verification/renewal-bring-up.md) | Startup, low-line, load, ripple, thermal, surge, installed mechanics |
+| 6 | PD20: select TDISPAR0V with reset timing reviewed, resolve POWER_ONLY_ABOVE_5V mapping and established-contract transitions before any binary; address layout findings, then T1–T8 | [PD20 verification](../verification/pd20-verification.md) | Program-ready image review, then each T-gate result |
+
+The next cloud action is the integration PR review on [#228](https://github.com/Takazudo/zudo-pd/issues/228). Existing
+Board B units are not yet inspected or cleared to mate.
 
 ## Historical identity boundaries
 

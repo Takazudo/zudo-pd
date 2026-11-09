@@ -39,8 +39,8 @@ Headroom calculations retain source/path voltage, temperature, ripple and cerami
 
 | Gate | Required evidence |
 | --- | --- |
-| Input design | Independent P r3 layout/electrical review, exact component evidence, inrush/SOA and transient bounds |
-| Configuration | Resolved TDISPAR0V encoding and lower-current 20 V source behavior; reviewed program-ready binary before any T4 execution |
+| Input design | Disposition and independent verification of the completed P r3 review findings, exact component evidence, inrush/SOA and transient bounds |
+| Configuration | TDISPAR0V value/reset timing decision, resolved POWER_ONLY_ABOVE_5V mapping conflict and established-contract downgrade behavior; reviewed program-ready binary before any T4 execution. Position 0xCA[7:4] and initial lower-current source matching are already documented |
 | B20 review | Disposition of original review, retained SMC hot-loop/EMI and limiter-maximum D3/U3 thermal limits; component/pulse/DC-bias gaps |
 | OSC behavior | Sequencing, re-entry, asymmetric discharge, reverse leakage, let-through and fault-latch acceptance |
 | Physical evidence | All [T1–T8](../verification/pd20-verification.md), actual 5 A e-marked source/cable, assembled thermal and mechanical checks |

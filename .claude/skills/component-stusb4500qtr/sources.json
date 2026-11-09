@@ -144,6 +144,42 @@
       "printed_page_label": "source",
       "locator": "nets rows VBUS_IN, CC1, CC2, CC1DB, CC2DB, VBUS_VS_DISCH, VBEN, Net-(Q1-G), VBUS_OUT, Net-(U1-DISCH), VREG_2V7, SCL-pin1, SDA-pin2, ATT, PDOK and GND",
       "evidence_extract": "Committed scripts/schgen/baselines/board-a.json, derived from the board-a net-connectivity doc table (fixed circuit after the locked #90 fix list). U1.24 sits on VBUS_IN with C1/C2, R14.1, R11.2, Q1.2, J3.4 and D5.1. U1.18 reaches VBUS_IN only through R14 (TP6 on the node). U1.9 reaches VBUS_OUT only through R13. U1.16 (VBEN) drives Q1.1 through R12 with R11 pull-up to VBUS_IN and C35 to GND. R19/R20 bridge CC1DB/CC2DB to CC1/CC2; R17.1/R18.1 land on CC1/CC2 with R17.2/R18.2 on GND (DNP placements). U1.11 (ATT) lands on J3.6 and J4.3; U1.20 (PDOK) on J3.7 and J4.4. U1.23 (VREG_2V7) bridges to C30.2, R15.2, R16.2 and J3.3. U1.6, U1.10, U1.12, U1.13, U1.22 and U1.25 are on GND."
+    },
+    {
+      "source_id": "src-stusb-tn-nvm",
+      "record_id": "rec-stusb4500qtr",
+      "document_title": "STUSB4500 NVM registers: description and generic access (technical note)",
+      "document_number": "TNxxx (unnumbered draft)",
+      "revision": "none stated",
+      "document_date": "2019-05-10 (PDF creation date)",
+      "authoritative_url": "https://community.st.com/topic/trackAttachment?file_uuid=42542a85-96dd-517f-8a98-5fdc9af66b5a&redirect=1",
+      "alternate_authoritative_url": "https://community.st.com/others-hardware-and-software-57/stusb4500-clarification-on-vbus-discharge-default-configuration-and-nvm-address-details-157984",
+      "retrieval_date": "2026-11-08",
+      "authority_class": "MANUFACTURER_MIRROR",
+      "sha256": "a1f35ffea672cef0a32bbd818dd7f5795cfe4bd641960bbf70a5b2374a3927e4",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 21,
+      "printed_page_label": "22",
+      "locator": "Section 1.2 bank map and default values (page 4); Section 1.3 full list (pages 5-6); 0xCA DISCHARGE_TIME_CTRL (page 22); 0xE6 VBUS_CTRL (page 28)",
+      "evidence_extract": "ST-template technical note attached by an ST technical moderator to ST Community thread 157984 on 2025-10-13. NVM is 5 banks of 8 bytes at 0xC0-0xE7; its default table equals the project base bytes. 0xCA bits [7:4] DISCHARGE_TIME_TO_0V and [3:0] VBUS_DISCH_TIME_TO_PDO, default 0x9C. 0xE6 VBUS_CTRL: [7:5] reserved 0b010, [4] REQ_SRC_CURRENT, [3:0] reserved 0x0. Unnumbered draft distributed through a forum, so it is not released manufacturer-primary evidence."
+    },
+    {
+      "source_id": "src-stusb-ds12499-primary-20261109",
+      "record_id": "rec-stusb4500qtr",
+      "document_title": "STUSB4500 standalone USB PD sink controller with short-to-VBUS protections",
+      "document_number": "DS12499",
+      "revision": "Rev 8",
+      "document_date": "2022-11",
+      "authoritative_url": "https://www.st.com/resource/en/datasheet/stusb4500.pdf",
+      "alternate_authoritative_url": "https://www.st.com/en/interfaces-and-transceivers/stusb4500.html",
+      "retrieval_date": "2026-11-09",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "82d6080e6d3e994f0969f4f018039d1f0871db9f6793c80c09e63e80325029e8",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 12,
+      "printed_page_label": "13; 20; 29",
+      "locator": "Section 3.4.2 VBUS discharge, page 13; start-up configuration page 20; electrical timing table page 29",
+      "evidence_extract": "Direct canonical st.com download succeeded on 2026-11-09: application/pdf, valid PDF signature, 2007449 bytes, byte-identical to retained Rev 8 mirror. Section 3.4.2 applies TDISUSB0V to hard reset, detachment and error recovery; page 20 allows TDISPAR0V 1-15; page 29 gives 70/84/100 ms times that value. This closes the dated direct-access failure only. Old mirror records and dependent verdicts are not bulk-promoted; NVM bit-position mapping, selected discharge value and established-contract transition behavior remain unresolved."
     }
   ]
 }

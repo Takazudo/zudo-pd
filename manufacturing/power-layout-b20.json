@@ -6,12 +6,12 @@
   "status_scope": "PASS means only that the listed geometry gates hold on the current saved PCB: routing is complete, every hot-loop branch and high-current path is routed, and the pours are filled. It is not a current-capacity, loop-inductance, EMI or thermal pass. DRAFT desk screen of an unvalidated draft board. Nothing is measured; values come from routed geometry and datasheet-maximum desk models and do not establish ratings, temperatures or qualification.",
   "pcb_sha256": "43581fb334a4b5b543f010947ddfd25eda36c53db4c328190bf1086f1d32c28a",
   "source_generator": "scripts/pcb/board-b20/power-report.py",
-  "source_generator_sha256": "89c5fe8a3206dbe24789a6453a8bb761c3c7838b7cdd4c8404ca0be8a0067557",
+  "source_generator_sha256": "f0077e40c914726d4b337423918387e6fad79f198eb27b9a081b50f773118752",
   "source_reports_sha256": {
     "boards/board-b20-draft/routing-report.json": "43b1a90b38647ce77cebc871d412d5b044a04a0342cc7d3f9585bab467c37690",
-    "boards/board-b20-draft/loop-check.json": "5e4567460a282bc5108f671afcb8e72ded82db746a599a58b3881d79194bc87f",
-    "boards/board-b20-draft/current-check.json": "874769101bcf634029b292cce6d61763c524c84f97f8a5854d164e96f322568c",
-    "boards/board-b20-draft/thermal-check.json": "ecf3bea270461a5115ff84659227f36214703867314516e1e20557109000ed23"
+    "boards/board-b20-draft/loop-check.json": "6892fc3e0d468c25ec0ef7fdd25de5d6a344f041eb18fd77e89fbdddaafde8a8",
+    "boards/board-b20-draft/current-check.json": "1a7e9107320f5bf3472f99a07aba39b161f39e6c8fc7f725483d28f1d6df3b9f",
+    "boards/board-b20-draft/thermal-check.json": "2b57f4555dfb15c0318d739fe9387c100aefc82fbb6b36cba9edadb4019df3b6"
   },
   "checks": {
     "routing_complete": true,
@@ -60,8 +60,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.9,
-        "limiter_max": 9.1
+        "continuous": 5.4,
+        "transient_20ms": 8.1,
+        "let_through_max": 9.3,
+        "legacy_pd15_budget": 1.9
       }
     },
     {
@@ -73,8 +75,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.9,
-        "limiter_max": 3.2
+        "continuous": 1.9,
+        "transient_20ms": 2.8,
+        "let_through_max": 3.2,
+        "legacy_pd15_budget": 0.9
       }
     },
     {
@@ -86,8 +90,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.0,
-        "limiter_max": 0.0
+        "continuous": 0.0,
+        "transient_20ms": 0.0,
+        "let_through_max": 0.0,
+        "legacy_pd15_budget": 0.0
       }
     },
     {
@@ -99,8 +105,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.2,
-        "limiter_max": 1.7
+        "continuous": 1.0,
+        "transient_20ms": 1.5,
+        "let_through_max": 1.8,
+        "legacy_pd15_budget": 0.2
       }
     },
     {
@@ -112,8 +120,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.1,
-        "limiter_max": 7.4
+        "continuous": 4.6,
+        "transient_20ms": 6.7,
+        "let_through_max": 7.4,
+        "legacy_pd15_budget": 2.1
       }
     },
     {
@@ -125,8 +135,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.7,
-        "limiter_max": 0.7
+        "continuous": 0.2,
+        "transient_20ms": 0.4,
+        "let_through_max": 0.7,
+        "legacy_pd15_budget": 0.7
       }
     },
     {
@@ -139,8 +151,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.4,
-        "limiter_max": 11.0
+        "continuous": 6.7,
+        "transient_20ms": 9.9,
+        "let_through_max": 11.2,
+        "legacy_pd15_budget": 1.4
       }
     },
     {
@@ -152,8 +166,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.1,
-        "limiter_max": 7.4
+        "continuous": 4.6,
+        "transient_20ms": 6.7,
+        "let_through_max": 7.4,
+        "legacy_pd15_budget": 2.1
       }
     },
     {
@@ -165,8 +181,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.7,
-        "limiter_max": 0.7
+        "continuous": 0.2,
+        "transient_20ms": 0.4,
+        "let_through_max": 0.7,
+        "legacy_pd15_budget": 0.7
       }
     },
     {
@@ -179,8 +197,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.8,
-        "limiter_max": 6.7
+        "continuous": 4.0,
+        "transient_20ms": 5.9,
+        "let_through_max": 6.7,
+        "legacy_pd15_budget": 0.8
       }
     },
     {
@@ -192,8 +212,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.1,
-        "limiter_max": 7.4
+        "continuous": 4.6,
+        "transient_20ms": 6.7,
+        "let_through_max": 7.4,
+        "legacy_pd15_budget": 2.1
       }
     },
     {
@@ -205,8 +227,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.7,
-        "limiter_max": 0.7
+        "continuous": 0.2,
+        "transient_20ms": 0.4,
+        "let_through_max": 0.7,
+        "legacy_pd15_budget": 0.7
       }
     },
     {
@@ -218,8 +242,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.8,
-        "limiter_max": 6.7
+        "continuous": 4.0,
+        "transient_20ms": 5.9,
+        "let_through_max": 6.7,
+        "legacy_pd15_budget": 0.8
       }
     },
     {
@@ -231,8 +257,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.1,
-        "limiter_max": 7.4
+        "continuous": 4.6,
+        "transient_20ms": 6.7,
+        "let_through_max": 7.4,
+        "legacy_pd15_budget": 2.1
       }
     },
     {
@@ -244,8 +272,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.7,
-        "limiter_max": 0.7
+        "continuous": 0.2,
+        "transient_20ms": 0.4,
+        "let_through_max": 0.7,
+        "legacy_pd15_budget": 0.7
       }
     },
     {
@@ -258,8 +288,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.8,
-        "limiter_max": 6.7
+        "continuous": 4.0,
+        "transient_20ms": 5.9,
+        "let_through_max": 6.7,
+        "legacy_pd15_budget": 0.8
       }
     },
     {
@@ -272,8 +304,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.1,
-        "limiter_max": 7.4
+        "continuous": 4.6,
+        "transient_20ms": 6.7,
+        "let_through_max": 7.4,
+        "legacy_pd15_budget": 2.1
       }
     },
     {
@@ -285,8 +319,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.1,
-        "limiter_max": 7.4
+        "continuous": 4.6,
+        "transient_20ms": 6.7,
+        "let_through_max": 7.4,
+        "legacy_pd15_budget": 2.1
       }
     },
     {
@@ -298,8 +334,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.1,
-        "limiter_max": 7.4
+        "continuous": 4.6,
+        "transient_20ms": 6.7,
+        "let_through_max": 7.4,
+        "legacy_pd15_budget": 2.1
       }
     },
     {
@@ -312,8 +350,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.7,
-        "limiter_max": 0.7
+        "continuous": 0.2,
+        "transient_20ms": 0.4,
+        "let_through_max": 0.7,
+        "legacy_pd15_budget": 0.7
       }
     },
     {
@@ -325,8 +365,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.7,
-        "limiter_max": 0.7
+        "continuous": 0.2,
+        "transient_20ms": 0.4,
+        "let_through_max": 0.7,
+        "legacy_pd15_budget": 0.7
       }
     },
     {
@@ -339,8 +381,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.7,
-        "limiter_max": 0.7
+        "continuous": 0.2,
+        "transient_20ms": 0.4,
+        "let_through_max": 0.7,
+        "legacy_pd15_budget": 0.7
       }
     },
     {
@@ -353,8 +397,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.8,
-        "limiter_max": 6.7
+        "continuous": 4.0,
+        "transient_20ms": 5.9,
+        "let_through_max": 6.7,
+        "legacy_pd15_budget": 0.8
       }
     },
     {
@@ -367,8 +413,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.8,
-        "limiter_max": 6.7
+        "continuous": 4.0,
+        "transient_20ms": 5.9,
+        "let_through_max": 6.7,
+        "legacy_pd15_budget": 0.8
       }
     },
     {
@@ -381,8 +429,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.8,
-        "limiter_max": 6.7
+        "continuous": 4.0,
+        "transient_20ms": 5.9,
+        "let_through_max": 6.7,
+        "legacy_pd15_budget": 0.8
       }
     },
     {
@@ -394,8 +444,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.2,
-        "limiter_max": 3.9
+        "continuous": 2.5,
+        "transient_20ms": 3.5,
+        "let_through_max": 3.9,
+        "legacy_pd15_budget": 1.2
       }
     },
     {
@@ -407,8 +459,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.2,
-        "limiter_max": 3.9
+        "continuous": 2.5,
+        "transient_20ms": 3.5,
+        "let_through_max": 3.9,
+        "legacy_pd15_budget": 1.2
       }
     },
     {
@@ -420,8 +474,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.2,
-        "limiter_max": 3.9
+        "continuous": 2.5,
+        "transient_20ms": 3.5,
+        "let_through_max": 3.9,
+        "legacy_pd15_budget": 1.2
       }
     },
     {
@@ -433,8 +489,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.2,
-        "limiter_max": 3.9
+        "continuous": 2.5,
+        "transient_20ms": 3.5,
+        "let_through_max": 3.9,
+        "legacy_pd15_budget": 1.2
       }
     },
     {
@@ -446,8 +504,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.7,
-        "limiter_max": 5.7
+        "continuous": 3.6,
+        "transient_20ms": 5.1,
+        "let_through_max": 5.7,
+        "legacy_pd15_budget": 1.7
       }
     },
     {
@@ -459,8 +519,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.5,
-        "limiter_max": 0.5
+        "continuous": 0.2,
+        "transient_20ms": 0.3,
+        "let_through_max": 0.5,
+        "legacy_pd15_budget": 0.5
       }
     },
     {
@@ -472,8 +534,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.5,
-        "limiter_max": 0.5
+        "continuous": 0.2,
+        "transient_20ms": 0.3,
+        "let_through_max": 0.5,
+        "legacy_pd15_budget": 0.5
       }
     },
     {
@@ -485,8 +549,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.5,
-        "limiter_max": 0.5
+        "continuous": 0.2,
+        "transient_20ms": 0.3,
+        "let_through_max": 0.5,
+        "legacy_pd15_budget": 0.5
       }
     },
     {
@@ -498,8 +564,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.5,
-        "limiter_max": 0.5
+        "continuous": 0.2,
+        "transient_20ms": 0.3,
+        "let_through_max": 0.5,
+        "legacy_pd15_budget": 0.5
       }
     },
     {
@@ -511,8 +579,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 0.5,
-        "limiter_max": 0.5
+        "continuous": 0.2,
+        "transient_20ms": 0.3,
+        "let_through_max": 0.5,
+        "legacy_pd15_budget": 0.5
       }
     },
     {
@@ -524,8 +594,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.5,
-        "limiter_max": 11.2
+        "continuous": 6.9,
+        "transient_20ms": 10.1,
+        "let_through_max": 11.4,
+        "legacy_pd15_budget": 1.5
       }
     },
     {
@@ -537,8 +609,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.5,
-        "limiter_max": 11.2
+        "continuous": 6.9,
+        "transient_20ms": 10.1,
+        "let_through_max": 11.4,
+        "legacy_pd15_budget": 1.5
       }
     },
     {
@@ -550,8 +624,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.5,
-        "limiter_max": 11.2
+        "continuous": 6.9,
+        "transient_20ms": 10.1,
+        "let_through_max": 11.4,
+        "legacy_pd15_budget": 1.5
       }
     },
     {
@@ -563,8 +639,10 @@
         "F"
       ],
       "rise_k": {
-        "rated": 1.5,
-        "limiter_max": 11.2
+        "continuous": 6.9,
+        "transient_20ms": 10.1,
+        "let_through_max": 11.4,
+        "legacy_pd15_budget": 1.5
       }
     },
     {
@@ -576,18 +654,20 @@
         "F"
       ],
       "rise_k": {
-        "rated": 2.2,
-        "limiter_max": 16.2
+        "continuous": 10.0,
+        "transient_20ms": 14.6,
+        "let_through_max": 16.4,
+        "legacy_pd15_budget": 2.2
       }
     }
   ],
-  "hottest_path_limiter_max": {
+  "hottest_path_let_through_max": {
     "net": "VIN",
     "from": "CCIN1.1",
     "to": "U3.2",
-    "rise_k": 16.2
+    "rise_k": 16.4
   },
-  "path_rise_basis": "Desk trace-rise estimate from routed width, length and copper thickness at the rated and limiter-maximum currents (current-check.py). Not a measured temperature.",
+  "path_rise_basis": "Desk steady-state trace-rise estimate from routed width, length and copper thickness at each load case of load_cases.py (current-check.py). The 20 ms transient case is held steady, so it overstates one event. Not a transient or measured temperature.",
   "negative_filled_zone_areas": [
     {
       "regulator": "U3",

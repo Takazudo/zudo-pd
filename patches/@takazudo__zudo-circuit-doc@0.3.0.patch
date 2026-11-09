@@ -1,0 +1,21 @@
+diff --git a/lib/scan/built-references.js b/lib/scan/built-references.js
+index 7d37e594e7c3ae181d21bcbcf3c6ad4df386724f..60201b5e8bc010e3a71747b802bd8599a1b8ee70 100644
+--- a/lib/scan/built-references.js
++++ b/lib/scan/built-references.js
+@@ -327,8 +327,15 @@ export function checkRecordPage(slug, html, referencedFootprints, referencedMode
+     }
+     referencedFootprints.add(basename(footprintPath));
+     if (documentUnavailable) {
++        // Temporary bridge: https://github.com/Takazudo/zudo-pd/issues/210. A record whose
++        // document is unavailable may still link its own declared model asset (the
++        // model card's "Open model file"); every other destination remains a failure.
++        const declaredModels = hasModel
++            ? (section.match(/<[^>]+\bdata-model-url=(?:"[^"]+"|'[^']+'|[^\s>]+)[^>]*>/gu) ?? []).map((tag) => decodeHtml(readAttribute(tag, "data-model-url", slug)))
++            : [];
++        const allowedLinks = new Set([footprintPath, ...declaredModels.filter((path) => MODEL_SRC_PATTERN.test(path))]);
+         const links = [...section.matchAll(/<a\b[^>]*>/gu)].map((match) => decodeHtml(readAttribute(match[0], "href", slug)));
+-        if (links.some((href) => href !== footprintPath)) {
++        if (links.some((href) => !allowedLinks.has(href))) {
+             fail("PUBLICATION_POLICY", `${slug} must not link a document when the document is unavailable`, { slug });
+         }
+     }
