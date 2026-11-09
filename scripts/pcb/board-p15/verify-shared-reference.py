@@ -18,6 +18,15 @@ ROOT = Path(__file__).resolve().parents[3]
 RECORD = 'boards/board-p15/shared-reference.json'
 STATUS_KEYS = ('source_verification', 'ordered', 'received', 'programmed', 'measured')
 PHYSICAL_PASS_WORDS = ('PASS', 'ACCEPTED', 'QUALIFIED', 'VALIDATED', 'RELEASED')
+REQUIRED_ARTIFACTS = {
+    'pcb': 'boards/board-p15/board-p15-draft.kicad_pcb',
+    'schematic-spec': 'scripts/schgen/board_p15_spec.py',
+    'schematic-generated': 'boards/board-p15/board-p15.kicad_sch',
+    'nvm-image': 'boards/board-p15/nvm/stusb4500-15v.bin',
+    'nvm-decode': 'boards/board-p15/nvm/stusb4500-15v.json',
+    'population-bom': 'manufacturing/releases/corner-support-review/board-p15/bom.csv',
+    'population-cpl': 'manufacturing/releases/corner-support-review/board-p15/cpl.csv',
+}
 
 
 class Source:
@@ -92,6 +101,10 @@ def verify(src, record):
     for art in record['artifacts']:
         path, want = art['path'], art['sha256']
         row = {'role': art['role'], 'path': path, 'expected': want}
+        if art['role'] in seen_roles:
+            errors.append(f'record: duplicate {art["role"]} artifact')
+        if REQUIRED_ARTIFACTS.get(art['role']) != path:
+            errors.append(f'record: unexpected role/path assignment {art["role"]}: {path}')
         seen_roles.add(art['role'])
         if any(path.startswith(p) for p in forbidden):
             errors.append(f'{path}: forbidden board path for P15 (wrong board)')
@@ -110,7 +123,7 @@ def verify(src, record):
                 if row['result'] == 'MISMATCH':
                     errors.append(f'{path}: sha256 {row["actual"]} != recorded {want}')
         report['artifacts'].append(row)
-    for role in ('pcb', 'nvm-image'):
+    for role in REQUIRED_ARTIFACTS:
         if role not in seen_roles:
             errors.append(f'record: no {role} artifact')
 

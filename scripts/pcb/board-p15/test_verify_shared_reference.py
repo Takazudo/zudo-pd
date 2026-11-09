@@ -53,6 +53,35 @@ class SharedReferenceTest(unittest.TestCase):
         self.assertFailsWith(errors, f'{PCB}: sha256')
         self.assertFailsWith(errors, 'no longer matches the frozen source lock')
 
+    def test_each_artifact_is_required(self):
+        for artifact in load_record()['artifacts']:
+            with self.subTest(role=artifact['role']):
+                rec = load_record()
+                rec['artifacts'] = [a for a in rec['artifacts'] if a['role'] != artifact['role']]
+                errors, _ = vsr.verify(OverlaySource(), rec)
+                self.assertFailsWith(errors, f'no {artifact["role"]} artifact')
+
+    def test_duplicate_role_rejected(self):
+        rec = load_record()
+        rec['artifacts'].append(copy.deepcopy(rec['artifacts'][0]))
+        errors, _ = vsr.verify(OverlaySource(), rec)
+        self.assertFailsWith(errors, 'duplicate pcb artifact')
+
+    def test_swapped_roles_rejected_with_matching_hashes(self):
+        rec = load_record()
+        bom, cpl = rec['artifacts'][-2:]
+        bom['role'], cpl['role'] = cpl['role'], bom['role']
+        errors, _ = vsr.verify(OverlaySource(), rec)
+        self.assertFailsWith(errors, 'unexpected role/path assignment')
+
+    def test_changed_population_files_rejected(self):
+        for role in ('population-bom', 'population-cpl'):
+            artifact = next(a for a in load_record()['artifacts'] if a['role'] == role)
+            path = artifact['path']
+            with self.subTest(role=role):
+                errors, _ = vsr.verify(OverlaySource({path: (ROOT / path).read_bytes() + b'\n'}), load_record())
+                self.assertFailsWith(errors, f'{path}: sha256')
+
     def test_changed_nvm_bytes_rejected(self):
         path = 'boards/board-p15/nvm/stusb4500-15v.bin'
         data = bytearray((ROOT / path).read_bytes())
