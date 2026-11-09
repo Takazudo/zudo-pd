@@ -807,12 +807,14 @@
       "record_id": "rec-c14663",
       "domain": "effective-capacitance-under-installed-bias",
       "status": "OPEN",
-      "reason": "fact-c14663-simulation-caveat: simulation is not specification",
+      "reason": "Exact manufacturer typical DC-bias simulation acquired 2026-11-09; approximate C43 operating-point readings do not establish an installed minimum across tolerance, temperature and aging.",
       "fact_ids": [
-        "fact-c14663-simulation-caveat"
+        "fact-c14663-simulation-caveat",
+        "fact-c14663-b20-c43-dc-bias-curve"
       ],
       "blocking_fact_ids": [
-        "fact-c14663-simulation-caveat"
+        "fact-c14663-simulation-caveat",
+        "fact-c14663-b20-c43-dc-bias-curve"
       ]
     },
     {

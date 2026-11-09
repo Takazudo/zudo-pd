@@ -120,6 +120,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 - [`fact-grm32er71h106ka12l-dc-bias-loss`](#fact-grm32er71h106ka12l-dc-bias-loss)
 - [`fact-grm32er71h106ka12l-esr`](#fact-grm32er71h106ka12l-esr)
 - [`fact-grm32er71h106ka12l-effective-bank-assumption`](#fact-grm32er71h106ka12l-effective-bank-assumption)
+- [`fact-grm32er71h106ka12l-dc-bias-20v`](#fact-grm32er71h106ka12l-dc-bias-20v)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
@@ -131,6 +132,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 - [`fact-grm32er71h106ka12l-dc-bias-loss`](#fact-grm32er71h106ka12l-dc-bias-loss)
 - [`fact-grm32er71h106ka12l-esr`](#fact-grm32er71h106ka12l-esr)
 - [`fact-grm32er71h106ka12l-effective-bank-assumption`](#fact-grm32er71h106ka12l-effective-bank-assumption)
+- [`fact-grm32er71h106ka12l-dc-bias-20v`](#fact-grm32er71h106ka12l-dc-bias-20v)
 
 ## Facts
 
@@ -226,6 +228,20 @@ A representative figure read from a characteristic curve. Typical values are not
   **Verdict:** NEEDS BENCH · **Provenance:** UNVERIFIED
 
   **Evidence:** [`src-grm32er71h106ka12l-datasheet`](#src-grm32er71h106ka12l-datasheet) — Document section: Page 2 frequency characteristics
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-grm32er71h106ka12l-dc-bias-20v" />
+
+  **Fact:** `fact-grm32er71h106ka12l-dc-bias-20v`
+
+  **Value:** Approximately 30% capacitance loss at 20 V (about 7 uF on the nominal 10 uF basis) · **Unit:** `NONE`
+
+  **Conditions:** Visual read of exact-part historical manufacturer mirror page 2, re-fetched 2026-11-09 with identical SHA-256; charts may share characteristics with another part number. Typical only, not current primary approval or a guaranteed installed minimum; do not reuse the 15 V fact at 20 V.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** UNVERIFIED
+
+  **Evidence:** [`src-grm32er71h106ka12l-datasheet`](#src-grm32er71h106ka12l-datasheet) — Figure: 2012-11-10 product data, page 2 (physical index 1), left-middle DC bias characteristics graph and typical-data disclaimer
 </EvidenceFact>
 
 ### PROJECT\_STATE

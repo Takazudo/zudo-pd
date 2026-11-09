@@ -125,15 +125,17 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c14663-bias` · **Status:** OPEN
 
-**Reason:** fact-c14663-simulation-caveat: simulation is not specification
+**Reason:** Exact manufacturer typical DC-bias simulation acquired 2026-11-09; approximate C43 operating-point readings do not establish an installed minimum across tolerance, temperature and aging.
 
 **Facts in this domain:**
 
 - [`fact-c14663-simulation-caveat`](#fact-c14663-simulation-caveat)
+- [`fact-c14663-b20-c43-dc-bias-curve`](#fact-c14663-b20-c43-dc-bias-curve)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
 - [`fact-c14663-simulation-caveat`](#fact-c14663-simulation-caveat)
+- [`fact-c14663-b20-c43-dc-bias-curve`](#fact-c14663-b20-c43-dc-bias-curve)
 
 ### aging-at-installed-condition
 
@@ -251,6 +253,20 @@ A representative figure read from a characteristic curve. Typical values are not
   **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
 
   **Evidence:** [Section evidence, src-c14663-yageo: page 4, simulation disclaimer paragraphs](#src-c14663-yageo)
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c14663-b20-c43-dc-bias-curve" />
+
+  **Fact:** `fact-c14663-b20-c43-dc-bias-curve`
+
+  **Value:** Approximately 56 nF at 33 V and 50 nF at 37.6 V (nominal 100 nF basis) · **Unit:** `NONE`
+
+  **Conditions:** Approximate visual reading for the B20 C43 bias range; manufacturer typical simulation, not a guaranteed minimum; no combined temperature, tolerance, aging or installed-loop qualification
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c14663-yageo-simulation-20261109`](#src-c14663-yageo-simulation-20261109) — Figure: Page 2 (physical index 1), lower-right DC voltage bias graph; disclaimer page 4
 </EvidenceFact>
 
 ### PROJECT\_STATE
@@ -425,6 +441,26 @@ Every document cited above, with its identification, when it was retrieved, and 
 **Availability:** AVAILABLE
 
 **Document URL:** [https://www.lcsc.com/product-detail/C14663.html](https://www.lcsc.com/product-detail/C14663.html)
+
+### Yageo CC0603KRX7R9BB104 specification sheet
+
+<EvidenceAnchor id="src-c14663-yageo-simulation-20261109" />
+
+**Source ID:** `src-c14663-yageo-simulation-20261109` · **Authority:** MANUFACTURER\_PRIMARY
+
+| Field           | Recorded value       |
+| --------------- | -------------------- |
+| Document number | CC0603KRX7R9BB104    |
+| Revision        | generated 2026-11-08 |
+| Document date   | 2026-11-08           |
+| Retrieved       | 2026-11-09           |
+| Printed page    | 2; disclaimer 4      |
+
+**Locator:** Figure: Page 2 lower-right Capacitance Change vs. DC Voltage Bias graph; page 4 simulation disclaimer
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://yageogroup.com/download/specsheet/CC0603KRX7R9BB104](https://yageogroup.com/download/specsheet/CC0603KRX7R9BB104)
 
 ## Legend
 

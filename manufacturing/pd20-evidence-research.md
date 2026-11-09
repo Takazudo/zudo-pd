@@ -112,3 +112,64 @@ C35 (100 nF, P5_SUP/GND) sits at (102.5, 14.55) mm and U6 OPA2187 at (72.0, 60.0
 and 57.2 mm from pin 4 (GND). `scripts/pcb/board-b20/` belongs to the PD20 load-case work, so no layout change is made
 here. The fix is a placement constraint that keeps the decoupling capacitor next to its IC, then a full re-route and
 native DRC.
+
+## 2026-11-09 disposition: exact capacitor curves and ST primary access
+
+The findings above remain the dated 2026-11-08 record. This follow-up inspected source bytes against adopted
+revision `c32d4e636dc6f9a5e469ea95b5f3d7b57a85c199`; no circuit, NVM image, physical result or frozen package changed.
+
+| Exact identity / source | Acquisition and inspected locator | Bounded finding |
+|---|---|---|
+| Yageo CC0603KRX7R9BB104 / C14663, C0603, B20 C43 | [Manufacturer specsheet](https://yageogroup.com/download/specsheet/CC0603KRX7R9BB104), generated 2026-11-08, retrieved 2026-11-09; valid PDF, 285417 bytes, SHA-256 `839100c3a478a2fb03e06f444e895bca6d40706c9f5682c080ed751cebdb8050`. Page 2 (physical index 1), lower-right DC voltage bias figure; page 4 disclaimer | Approximate visual read: −44% at 33 V (~56 nF) and −50% at 37.6 V (~50 nF), using nominal 100 nF. **Typical manufacturer simulation, not a guaranteed installed minimum.** Temperature, tolerance, aging and local-loop performance remain unqualified. Owner source `src-c14663-yageo-simulation-20261109`, fact `fact-c14663-b20-c43-dc-bias-curve`; older generated-sheet hash preserved |
+| Murata GRM32ER71H106KA12L / C77102, C1210, B20 VIN bank | Existing [exact-part mirror](https://datasheets.b-cdn.net/files/GRM32ER71H106KA12L-Murata-datasheet-12553172.pdf), 2012-11-10; re-fetched valid PDF, 97579 bytes, SHA-256 `59b89eed344603cf4778bebb61ba60f887e3a33a8fd5f433c4651b25353f9100`, identical to `src-grm32er71h106ka12l-datasheet`. Page 1 explicitly lists L/K/B packaging; page 2 (index 1), left-middle DC-bias figure | Approximately −30% at 20 V (~7 µF nominal basis), **typical mirror evidence only**. The older 15 V fact is not a 20 V value. The sheet warns that figures can share another part's characteristics and calls specifications typical. Added `fact-grm32er71h106ka12l-dc-bias-20v`; primary approval and installed minimum stay open |
+| STUSB4500QTR / C2678061 | [Canonical ST DS12499](https://www.st.com/resource/en/datasheet/stusb4500.pdf) now downloads directly: Rev 8, 2007449 bytes, SHA-256 `82d6080e6d3e994f0969f4f018039d1f0871db9f6793c80c09e63e80325029e8`, equal to the existing mirror. Section 3.4.2 page 13 (index 12), configuration page 20 (index 19), timing page 29 (index 28) | The dated primary-access failure is no longer current. Separate receipt `src-stusb-ds12499-primary-20261109` preserves old attempts/mirrors and does not bulk-promote their dependent facts. Initial matching was already answered; established-contract downgrade behavior remains open |
+
+Thus the earlier “no retained curves” summary is superseded: the exact Yageo curve is now acquired and the Murata
+owner already carried an exact-part historical mirror curve. Neither supplies a guaranteed installed-capacitance
+bound. The nominal +10% inrush/SOA upper-bound screen remains unchanged. C43 and U6's C35/CU6D are separate
+placements and separate implementation tasks despite sharing C14663.
+
+The direct Murata URL `https://search.murata.co.jp/Ceramy/image/img/PDF/ENG/GRM32ER71H106KA12-01.pdf` returned HTTP 404
+on 2026-11-09; it supplied no PDF. No unrelated-family curve was substituted.
+
+### Official GUI acquired; paired mapping exports NOT RUN
+
+The official [usb-c/STUSB4500 tooling repository](https://github.com/usb-c/STUSB4500) at
+`55d1109e7ef0cffc2ffef2494095d23306594601` provides
+[`GUI/App/STSW-STUSB002 v1.0.8.zip`](https://github.com/usb-c/STUSB4500/blob/55d1109e7ef0cffc2ffef2494095d23306594601/GUI/App/STSW-STUSB002%20v1.0.8.zip).
+Downloaded ZIP SHA-256: `e391ce62bda04bd023780efc8c30ede9917b690ca2a827c004788720d8ee6bf0`.
+Its `STUSB4500_GUI_1.08.exe` is 236032 bytes, SHA-256
+`a15e40a163123c5f15585fd8de2a8696b14b01a786583926ac3380f296fe5fce`.
+The same revision's `GUI/readme.md` (3999 bytes, SHA-256
+`96413300ed14cef06c4490963973270dedd88aa77e5aa579d3b0227ff4a2be9c`) specifies Windows.
+Wine and a virtual-display launcher were not installed in this Cloud run. The executable was not run and no exports
+were produced. Acquisition alone does not resolve POWER_ONLY_ABOVE_5V.
+
+The smallest software evidence step is a reviewed pair of offline exports from this pinned official GUI: keep every
+setting identical except POWER_ONLY_ABOVE_5V, retain settings/screenshots and hashes, and compare all 40 bytes.
+This would be official-tool evidence, not physical readback. The existing bit-position conflict remains open;
+the frozen P15 image and the blocked PD20 intent are unchanged.
+
+### TDISPAR0V recommendation remains an owner decision
+
+Recommend **15 for owner review** when prioritizing discharge margin: the existing conditioned 0.906 s requirement
+gets a 1.05 s minimum (~16% margin), versus 0.98 s (~8%) for 14. The tradeoff is 1.50 s maximum versus 1.40 s.
+13's ~0.4% margin is too small to recommend. No value has been selected or applied.
+
+DS12499 section 3.4.2 explicitly applies this discharge window during hard reset as well as disconnect/error recovery.
+A longer window can therefore extend discharge/recovery interaction with source VBUS reapplication; the retained
+sources do not establish that interaction or its compliance. Review source timing and measure T8 before treating the
+choice as qualified. Do not infer that 15 is unconditionally safer, or produce a program-ready image before the
+configuration decision and mapping evidence are resolved and reviewed.
+
+### Repetitive resistor endurance remains UNSOURCED
+
+The exact UNI-ROYAL SMD-SP-001 V.7 [manufacturer PDF](https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf)
+was re-fetched on 2026-11-09: valid PDF, 815755 bytes, SHA-256
+`9e71ced0af443ae5e320db644fade5b94d8a9d81bf74a421e5f98cd61e3efa74`, identical to the existing lock.
+It covers 1206W4F1000T5E/C17901 (RX12), 1206W4F1500T5E/C17917 (R76) and 1206W4F330JT5E/C18005 (RX5).
+Page 6 (physical index 5) distinguishes the 5 s short-time-overload test from load life: 1000 h at RCWV,
+1.5 h ON/0.5 h OFF at 70±2°C. Rated-voltage cycling does not establish repetitive endurance for the installed
+higher-voltage discharge pulse. No exact standard-series repetitive-pulse curve was found; AS/PS anti-surge
+series evidence is for different orderables. Preserve the single-event screen, the repetitive-pulse gap and T5.
+No supplier contact, substitution, programming or physical test occurred.
