@@ -340,13 +340,13 @@ A value this project recorded about how the part is used here — a chosen opera
 
   **Fact:** `fact-c461081-board-p-role`
 
-  **Value:** Proposed Board P Q1: VBEN-driven output load switch, source VBUS\_P, drain VBUS\_OUT, gate Q1\_G (replaces AO3401A C347476 in the draft spec only) · **Unit:** `NONE`
+  **Value:** Board P r3 Q1 DMP3036SFG-7: VBEN-driven P-channel output load switch, source VBUS\_P, drain VBUS\_OUT, gate Q1\_G; adopted in board\_p\_spec.py and the routed r3 PCB, replacing the historical AO3401A · **Unit:** `NONE`
 
-  **Conditions:** Ratings are on 1 in2 2 oz copper that the routed Board P does not have; at 5 A with 29 mOhm the loss is 0.725 W, about 40 C rise at 55 C/W and about 99 C at 137 C/W (calc). The existing 100k/150k divider gives -2.0 V asserted VGS at 5 V VBUS, inside the -1.0 to -2.5 V threshold range, so 5 V enhancement is not guaranteed. Thermal and switching behaviour unmeasured.
+  **Conditions:** Project-state refresh 2026-11-09: R11 source-to-gate is 150k and R12 gate-to-VBEN is 4.7k; D8 and D13 BZT52C11-7-F clamps are parallel, cathodes on VBUS\_P and anodes on Q1\_G. This supersedes the old 100k/150k and -2.0 V at 5 V description. C36/Q5 provide the separately conditioned soft-start path. Datasheet current ratings require their stated 1 in2 2 oz copper, not arbitrary r3 copper. At 5 A and 29 mOhm, 0.725 W is a desk estimate under the -5 V/25 C RDS(on) condition, not a measured loss or thermal rating. R3 layout corrections and native acceptance are tracked separately; thermal and SOA/linear-mode behavior remain conditional and physically unmeasured.
 
   **Verdict:** NEEDS BENCH · **Provenance:** PROJECT-CHOICE
 
-  **Evidence:** [`src-c461081-primary`](#src-c461081-primary) — board\_p\_spec.py COMPONENTS Q1 row and NETS rows Q1\_G, VBUS\_P, VBUS\_OUT
+  **Evidence:** [`src-c461081-primary`](#src-c461081-primary) — board\_p\_spec.py COMPONENTS rows Q1/R11/R12/D8/D13/C36/Q5 and NETS rows Q1\_G, VBUS\_P, VBUS\_OUT, VBEN; boards/board-p/r3-draft/independent-review.md R2/R6/R7
 </EvidenceFact>
 
 <EvidenceFact>
