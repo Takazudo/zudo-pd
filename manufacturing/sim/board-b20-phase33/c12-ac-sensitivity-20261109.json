@@ -1,0 +1,1071 @@
+{
+  "schema_version": 1,
+  "scope": "C12 initial-tolerance averaged inverter inner-loop sensitivity",
+  "data_integrity_status": "COMPLETE",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "reviewed_endpoint_cases": 16,
+  "separate_calibration_cases": 12,
+  "recipe_sha256": "5b93127fc338749166fe2193c0ab11028c18b6ee51263359ef9620a89d912820",
+  "calibration_sha256": "14fc6bee9ad577ac291d1079b883d4080b419ce438397ca1e1a7cbf1bac5c89b",
+  "template_sha256": "6beb19f8c58b613355c97d7bcf7c3b8823748af41f8d16a0807cee7a87ab6d45",
+  "original_model_sha256": "de1769384346d63575929e1d3f0063bd8b92c1a89a86ba33165b3d20f55dd790",
+  "model_conversion": "none",
+  "vendor_package": {
+    "url": "https://www.ti.com/lit/zip/slvmcu2",
+    "sha256": "e74a8842728963360a0342e940ac96ee93b8ec8d21b65005a2b8152202550597",
+    "recovery_receipt": "tmp/phase33-model-recovery/recovery-manifest.json"
+  },
+  "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+  "platform": "linux/amd64",
+  "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+  "solver_version_output_sha256": "589ca68a1c789304d6122989773346c250120584c6c3127fe1f70928c2e2e3f9",
+  "datasets": {
+    "approximate_load_calibration": {
+      "raw_directory": "tmp/c12-ac-review/run",
+      "receipt_sha256": "55eca234f0f8bcdda921bdb1326cbc40bd223ef53232e1dbc4fffad1bb34e4e0",
+      "source_base_revision": "6f12e0278984c613a7cb3722da174157f5106b58",
+      "source_worktree_modified": true,
+      "input_sha256": {
+        "manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir": "6beb19f8c58b613355c97d7bcf7c3b8823748af41f8d16a0807cee7a87ab6d45",
+        "tmp/phase33-model-recovery/slvmcu2/TPS54560_PSPICE_AVG/TPS54560_AVG.LIB": "de1769384346d63575929e1d3f0063bd8b92c1a89a86ba33165b3d20f55dd790",
+        "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af",
+        "scripts/pcb/board-b20/load_cases.py": "c8496508919dc09b8a05283f17d0589f18eee843bc0a8ae1eab8578ba22d6e52",
+        "tmp/c12-ac-review/run.py": "908828b0aef79ba1cd9bd7ee5d58ccaef8ffb368ca6415d6dcaf069f9b397553"
+      },
+      "cases": {
+        "m12_19_continuous_44p65n": {
+          "vin_v": 19,
+          "target_current_a": 1.6,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 7.58125,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3019.6564459720507,
+              "phase_margin_deg": 91.16203342399865
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9434.32214788182,
+              "phase_margin_deg": 204.0193442388715
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15081.809363734275,
+              "phase_margin_deg": 73.33059979091762
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60145.64441733208,
+              "gain_margin_db": 17.597727456990082
+            }
+          ],
+          "dc_current_from_log_a": 1.6210556570486399,
+          "dc_log_rounding_bound_a": 6.661170651277825e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "bcccc3c934ba4b2a6e7bad034bb51616f1b8aa60c63180b0d4a7d4ec85a97d96",
+          "log_sha256": "2b59e30d3eec9e31c86ce8b6ce4d5c44d7603b9f21037f7d75a4f5c042f1353b",
+          "waveform_sha256": "f1585d59341c23f0b29a548a24eedb09dac8c774272a41b8e94171ecc2750839"
+        },
+        "m12_19_continuous_49p35n": {
+          "vin_v": 19,
+          "target_current_a": 1.6,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 7.58125,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3016.020967712636,
+              "phase_margin_deg": 91.93091460982578
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9434.119690775744,
+              "phase_margin_deg": 204.27026073325413
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15083.130865555206,
+              "phase_margin_deg": 73.4791969359078
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60171.102963769554,
+              "gain_margin_db": 17.600131265890194
+            }
+          ],
+          "dc_current_from_log_a": 1.6210556570486399,
+          "dc_log_rounding_bound_a": 6.661170651277825e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "91753553de77bc541eaf23aa34d67d21e6e4c2b56e5460deca1afdfd87ac4430",
+          "log_sha256": "7a37f7aa8849ec3b37e6d61278db4851aaf06ff5dcd7503aa6f954b56150d222",
+          "waveform_sha256": "bacf1526a501cfa7633404971203bd13fd48a19e046b64d971cb43310bbcf486"
+        },
+        "m12_19_transient_20ms_44p65n": {
+          "vin_v": 19,
+          "target_current_a": 1.9,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.3842105263157904,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3007.4321424579357,
+              "phase_margin_deg": 92.24502442100639
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9440.386267459924,
+              "phase_margin_deg": 201.97496273651103
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15080.195593919863,
+              "phase_margin_deg": 72.1962233642725
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 56842.174145191304,
+              "gain_margin_db": 16.625687206026676
+            }
+          ],
+          "dc_current_from_log_a": 1.9217987328936519,
+          "dc_log_rounding_bound_a": 7.910140148392416e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "426d4348cceeef7b4940aecc592ad2ef1d5325c7464fc4def44f3a6103f18337",
+          "log_sha256": "203ff0f7a71182e297f44388c9f24fd187686662d62b51b785c1148759fb6451",
+          "waveform_sha256": "277e9f561e2f7bcae9c45a039843ddea050ff73b218cb29fe759abb1fa88121c"
+        },
+        "m12_19_transient_20ms_49p35n": {
+          "vin_v": 19,
+          "target_current_a": 1.9,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.3842105263157904,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3003.7461936336845,
+              "phase_margin_deg": 93.01828795117832
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9440.18062688691,
+              "phase_margin_deg": 202.22575550177214
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15081.52613508786,
+              "phase_margin_deg": 72.34456744998461
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 56868.05434011663,
+              "gain_margin_db": 16.62810581104838
+            }
+          ],
+          "dc_current_from_log_a": 1.9217987328936519,
+          "dc_log_rounding_bound_a": 7.910140148392416e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "8d3f29e6ec13f945e8f209f6eabeb46c2e774bad88c60868e13b82ab833aca79",
+          "log_sha256": "67c3f00709ffe1d0fdaf76318330d0e46f61fe285193790f5f981ee4ef27ce0e",
+          "waveform_sha256": "caf7fef9be71f1d835697ce26afdf1fa7f6d5311484ac33ab1255591acf30880"
+        },
+        "m12_19_let_through_max_44p65n": {
+          "vin_v": 19,
+          "target_current_a": 2.0,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.065,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3003.4471863911917,
+              "phase_margin_deg": 92.60534132460546
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9442.158116268929,
+              "phase_margin_deg": 201.29430992233614
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15081.067087549642,
+              "phase_margin_deg": 71.80684381281284
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 55843.83114424101,
+              "gain_margin_db": 16.32138953158796
+            }
+          ],
+          "dc_current_from_log_a": 2.021822918384171,
+          "dc_log_rounding_bound_a": 8.326463314097281e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "c6160572cd700629cae712fab967fbc636858c69a44b5e08a38bc64ea2b219c6",
+          "log_sha256": "d6d4e31f059b9d50f21189f173538ec813fda4483ba2ad0284bcfbf111f95cd2",
+          "waveform_sha256": "7c6872092b0c9adc28fb17087a777cfee2f9aa9cde481dd24156c643400950e3"
+        },
+        "m12_19_let_through_max_49p35n": {
+          "vin_v": 19,
+          "target_current_a": 2.0,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.065,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 2999.743849534641,
+              "phase_margin_deg": 93.38005393631393
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9441.951411700122,
+              "phase_margin_deg": 201.54506849051938
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15082.40101700654,
+              "phase_margin_deg": 71.95508641190513
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 55869.66019797072,
+              "gain_margin_db": 16.323785875124784
+            }
+          ],
+          "dc_current_from_log_a": 2.021822918384171,
+          "dc_log_rounding_bound_a": 8.326463314097281e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "8a651e1e792b9225fedbdef3f06cae7e652211133cf3fdb2cdb15e10d67ccdb8",
+          "log_sha256": "89c004c4d56eb8b961e8c398de8d617112fd26c8b68b822233d449450911eda7",
+          "waveform_sha256": "89ec9affa3c1cf0ed11a12fa461491770e03c1d1271683ed7392ba2f93a549ac"
+        },
+        "m12_21_continuous_44p65n": {
+          "vin_v": 21,
+          "target_current_a": 1.6,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 7.58125,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3116.8202468653312,
+              "phase_margin_deg": 91.5423843611233
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9374.389371286969,
+              "phase_margin_deg": 205.2327876019897
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15309.485291943965,
+              "phase_margin_deg": 73.75742320677534
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 63543.79650865683,
+              "gain_margin_db": 18.03901599842539
+            }
+          ],
+          "dc_current_from_log_a": 1.6210569760923332,
+          "dc_log_rounding_bound_a": 6.661170651277825e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "f0555af7bb56b38020d8dbfbd7e43e91583a0c87b98a63c0be8aebc8720afa24",
+          "log_sha256": "6834b3a9f0204694d2ac646afe6caa560fdb5d2096178001f56bbd0bca1ab8d2",
+          "waveform_sha256": "bfe01dae58d686fd48e9d30a2741d36adaf57ac9c30210054b9cf274a63f31f3"
+        },
+        "m12_21_continuous_49p35n": {
+          "vin_v": 21,
+          "target_current_a": 1.6,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 7.58125,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3113.42958342516,
+              "phase_margin_deg": 92.28721982102829
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9374.191799692135,
+              "phase_margin_deg": 205.4852847937039
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15311.009053510224,
+              "phase_margin_deg": 73.9042005472737
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 63568.1679830176,
+              "gain_margin_db": 18.041225001363674
+            }
+          ],
+          "dc_current_from_log_a": 1.6210569760923332,
+          "dc_log_rounding_bound_a": 6.661170651277825e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "8fd58f47a5ace0f158947be30a5a3e4899ab3800495c125192444e05cbf09932",
+          "log_sha256": "aab026d3911b35d41751cd5b44551f3da151679de6d769bde45cd8230dc1a880",
+          "waveform_sha256": "f6c33d606a7f4345c372fb7831c07c5b5f8fe909262265fcd5050152dbdf1567"
+        },
+        "m12_21_transient_20ms_44p65n": {
+          "vin_v": 21,
+          "target_current_a": 1.9,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.3842105263157904,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3106.6243499646635,
+              "phase_margin_deg": 92.61668081357743
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9379.030053019695,
+              "phase_margin_deg": 203.33532598051357
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15306.189851618097,
+              "phase_margin_deg": 72.77110769001281
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60230.357390946876,
+              "gain_margin_db": 17.11974182371442
+            }
+          ],
+          "dc_current_from_log_a": 1.9217987172300082,
+          "dc_log_rounding_bound_a": 7.910140148392416e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "38880a0b39bb688a7e69b09f2a786bdb3efd2da63e1ad48539f4d118d103196b",
+          "log_sha256": "eb1f1b5b1beba902ad3b89d020052b54a8c5a3582c194be88ff185890543415d",
+          "waveform_sha256": "1507a36a5a71da9f8594fc44a250ade32783d06ef3bdcdd492980d1e61ac97dc"
+        },
+        "m12_21_transient_20ms_49p35n": {
+          "vin_v": 21,
+          "target_current_a": 1.9,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.3842105263157904,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3103.192449326423,
+              "phase_margin_deg": 93.36492982343822
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9378.8295066445,
+              "phase_margin_deg": 203.5877320712828
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15307.721298674891,
+              "phase_margin_deg": 72.91767362044956
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60255.7500884084,
+              "gain_margin_db": 17.122029337713236
+            }
+          ],
+          "dc_current_from_log_a": 1.9217987172300082,
+          "dc_log_rounding_bound_a": 7.910140148392416e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "612cd5291fbd65d46cfd78edde1468d7c9ac9022cf12db0d712b7f053943d5fe",
+          "log_sha256": "b375d1ee042c256e01c6b437ecfbb1af2547650b27905acb4e717a9d29993c53",
+          "waveform_sha256": "1604da998dedff2e9df6c886c6dc9268e9c044c4cb3b423cf9ed80ce785060c3"
+        },
+        "m12_21_let_through_max_44p65n": {
+          "vin_v": 21,
+          "target_current_a": 2.0,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.065,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3103.1200091282662,
+              "phase_margin_deg": 92.97357526937431
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9380.447275714645,
+              "phase_margin_deg": 202.70664360512023
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15305.958021865243,
+              "phase_margin_deg": 72.43838261815503
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 59223.910861281714,
+              "gain_margin_db": 16.831372611366703
+            }
+          ],
+          "dc_current_from_log_a": 2.021824550700742,
+          "dc_log_rounding_bound_a": 8.326463314097281e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "70c9cbd85a054216a6e4271b502cafe39373083a94a256b3a8f0bb0307b048dc",
+          "log_sha256": "7d3b49c23df4832735490b4283a9025e0682782ebef9242f08899d28ffe2fe8d",
+          "waveform_sha256": "4042a9bb269e5060719dc502f02f6555263472aabf432b142b36a264aae24d69"
+        },
+        "m12_21_let_through_max_49p35n": {
+          "vin_v": 21,
+          "target_current_a": 2.0,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.065,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3099.6736128580847,
+              "phase_margin_deg": 93.72299172830209
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9380.245730120312,
+              "phase_margin_deg": 202.95902307305943
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15307.492339672579,
+              "phase_margin_deg": 72.58486842833719
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 59249.246545101065,
+              "gain_margin_db": 16.833642497881918
+            }
+          ],
+          "dc_current_from_log_a": 2.021824550700742,
+          "dc_log_rounding_bound_a": 8.326463314097281e-07,
+          "dc_target_tolerance_a": null,
+          "deck_sha256": "6519c75d34282c05c1fb084026a8cadd555056f76e0902f2e60dcc36ae227ba5",
+          "log_sha256": "00df0ea1b31f5806609b5dfa43bc5898f4e61e53b64382161d10fe6c6be7a4ea",
+          "waveform_sha256": "2bc27d341317e31aa3b4608d1cb5bcf7ae7fc92b62957737f66f95f4ea43bf80"
+        }
+      }
+    },
+    "contract_targets": {
+      "raw_directory": "tmp/c12-ac-review/run-current-targets",
+      "receipt_sha256": "d1ba64102ce3d74cefe584872c2feb70c67470fe398fe825b8ba27d4b6af2f63",
+      "source_base_revision": "6f12e0278984c613a7cb3722da174157f5106b58",
+      "source_worktree_modified": true,
+      "input_sha256": {
+        "manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir": "6beb19f8c58b613355c97d7bcf7c3b8823748af41f8d16a0807cee7a87ab6d45",
+        "tmp/phase33-model-recovery/slvmcu2/TPS54560_PSPICE_AVG/TPS54560_AVG.LIB": "de1769384346d63575929e1d3f0063bd8b92c1a89a86ba33165b3d20f55dd790",
+        "tmp/c12-ac-review/target-resistances.json": "d8e449819bed52e234c06dc31062b1a38ec1697f75c93f43b7e3a088cbb27cc3",
+        "tmp/c12-ac-review/run/receipt.json": "55eca234f0f8bcdda921bdb1326cbc40bd223ef53232e1dbc4fffad1bb34e4e0",
+        "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af",
+        "scripts/pcb/board-b20/load_cases.py": "c8496508919dc09b8a05283f17d0589f18eee843bc0a8ae1eab8578ba22d6e52",
+        "tmp/c12-ac-review/run-current-targets.py": "81db356253c4565cc54557a9a69a7afcb485f36497d1c0b2ddccce5afb02ef97"
+      },
+      "cases": {
+        "m12_19_continuous_44p65n": {
+          "vin_v": 19,
+          "target_current_a": 1.6,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 7.6819125,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3020.5633167467245,
+              "phase_margin_deg": 91.08647665925612
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9433.8335345171,
+              "phase_margin_deg": 204.16140409182873
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15082.264971303584,
+              "phase_margin_deg": 73.40636291031188
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60392.06930315433,
+              "gain_margin_db": 17.668902839085487
+            }
+          ],
+          "dc_current_from_log_a": 1.5999999999999999,
+          "dc_log_rounding_bound_a": 6.573883782196166e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "28c0d3ca16ca58d69a03240dc25e43501a201067525ea4001f787b9a63a62eda",
+          "log_sha256": "2e6823c383c204de16538669ab1f93984572d7209407448427bdd1758e4ef20b",
+          "waveform_sha256": "adba2f5c9f50144af653d1a2cb97bae84944bf276db3461feba95c948aff7508"
+        },
+        "m12_19_continuous_49p35n": {
+          "vin_v": 19,
+          "target_current_a": 1.6,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 7.6819125,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3016.9473717907367,
+              "phase_margin_deg": 91.85489499750153
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9433.631300520694,
+              "phase_margin_deg": 204.41233105503827
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15083.585917016933,
+              "phase_margin_deg": 73.5549734858738
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60416.9155052571,
+              "gain_margin_db": 17.671240379335174
+            }
+          ],
+          "dc_current_from_log_a": 1.5999999999999999,
+          "dc_log_rounding_bound_a": 6.573883782196166e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "b6ab0484b4b0f2ff70b617aa52c9e1462742a557052f83c2f47614f11a808dc7",
+          "log_sha256": "f9ef9920b5bb11d40c0dcc0c0a52c1501ab8e0ff673367c67290de881c899344",
+          "waveform_sha256": "fdc214f8b363dd07df5ad2ce7cccf6b10e55ab533d2b2e64627e56e801a06602"
+        },
+        "m12_19_transient_20ms_44p65n": {
+          "vin_v": 19,
+          "target_current_a": 1.9,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.458236842105264,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3008.605736745116,
+              "phase_margin_deg": 92.16690593334177
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9439.833383602181,
+              "phase_margin_deg": 202.12029026916727
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15080.743424755621,
+              "phase_margin_deg": 72.27307494057125
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 57055.799570330266,
+              "gain_margin_db": 16.69163406808702
+            }
+          ],
+          "dc_current_from_log_a": 1.8999999999999997,
+          "dc_log_rounding_bound_a": 7.819471666130156e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "455ee576a5e80d7cb3df57b8fff9c776a48aea7a016b5a195ed82c27819e05a1",
+          "log_sha256": "244cb66600af47a650b2c330e223eddab7bed609819c0d642c3a6b225c3592ca",
+          "waveform_sha256": "723cc40852421b37cc8cc0dc4ac12d899ae0ccfb0720aa8d40fd9675cd12d3ef"
+        },
+        "m12_19_transient_20ms_49p35n": {
+          "vin_v": 19,
+          "target_current_a": 1.9,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.458236842105264,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3004.924056164739,
+              "phase_margin_deg": 92.93978106610962
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9439.627980989555,
+              "phase_margin_deg": 202.37109508584058
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15082.073334782513,
+              "phase_margin_deg": 72.42143207896169
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 57081.69114554076,
+              "gain_margin_db": 16.69405893603168
+            }
+          ],
+          "dc_current_from_log_a": 1.8999999999999997,
+          "dc_log_rounding_bound_a": 7.819471666130156e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "94f3342f10d7c400574591059d532fcfeaf1db7c7f90f5ae32d92b0ca6d9be3a",
+          "log_sha256": "44a14b29d56dd2ed8b8bed0fa3bb1470a9b0aa110b07d9535869cd8b7d946ccd",
+          "waveform_sha256": "9b593d19d070796080bfe4e48c1912453d55837f33a50f68c8632d4dfb333e1a"
+        },
+        "m12_19_let_through_max_44p65n": {
+          "vin_v": 19,
+          "target_current_a": 2.0,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.13192,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3004.0382896700985,
+              "phase_margin_deg": 92.52638300358649
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9441.923122704096,
+              "phase_margin_deg": 201.4451796818366
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15080.220921418857,
+              "phase_margin_deg": 71.89858202649452
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 56066.14418592791,
+              "gain_margin_db": 16.388440412789162
+            }
+          ],
+          "dc_current_from_log_a": 1.999999983691894,
+          "dc_log_rounding_bound_a": 8.235593419353156e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "e430739b76cff50a9bb94d8e525996fff7d4e838b4d9fed1f8a8e4ce978593c6",
+          "log_sha256": "63dce4b3573f1b5df3153b8a2133a8e5ade2f74ab360e849b9442c01189cfbd0",
+          "waveform_sha256": "5083931f5f98c825a3270abd90c926b8ab35fb744d6442307d1b03366cc38978"
+        },
+        "m12_19_let_through_max_49p35n": {
+          "vin_v": 19,
+          "target_current_a": 2.0,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.13192,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3000.3382960425092,
+              "phase_margin_deg": 93.30084630624812
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9441.716643459966,
+              "phase_margin_deg": 201.6959415567899
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15081.55401914512,
+              "phase_margin_deg": 72.04685475191182
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 56091.98445355206,
+              "gain_margin_db": 16.390840385003568
+            }
+          ],
+          "dc_current_from_log_a": 1.999999983691894,
+          "dc_log_rounding_bound_a": 8.235593419353156e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "9dd860718a2f05846e27d64d0e02b536c0f946ebf828bd986574c5a362a9ab02",
+          "log_sha256": "d657bde011b5a9e40b9750039a3afcefb11ea047fdee56a09792733707ace716",
+          "waveform_sha256": "7a548c3a039a11eac04f70a68eeefd218aba40440a3d46a29e70c4d9a5b584cc"
+        },
+        "m12_21_continuous_44p65n": {
+          "vin_v": 21,
+          "target_current_a": 1.6,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 7.68191875,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3117.4940111385263,
+              "phase_margin_deg": 91.46706409402752
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9374.055064878248,
+              "phase_margin_deg": 205.3660547345338
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15309.809978555977,
+              "phase_margin_deg": 73.82597774085224
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 63794.373133757545,
+              "gain_margin_db": 18.106691071844747
+            }
+          ],
+          "dc_current_from_log_a": 1.5999999999999999,
+          "dc_log_rounding_bound_a": 6.573878433692104e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "420278a49564a218a5c3562ab31d67c4a3dd90c509295f93acc5c716f4f4f202",
+          "log_sha256": "082518bece041097c3bd015df195d8f7110d6a3a059c5f836b7679cb1f4a8163",
+          "waveform_sha256": "54eea22647f9fc2b2548c8cd68849f9386df1493aa1d54085ebaf15ac440bc8d"
+        },
+        "m12_21_continuous_49p35n": {
+          "vin_v": 21,
+          "target_current_a": 1.6,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 7.68191875,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3114.1060715419844,
+              "phase_margin_deg": 92.21167069966133
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9373.857698954547,
+              "phase_margin_deg": 205.61855861050861
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15311.33324811785,
+              "phase_margin_deg": 73.9727687802
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 63818.765436339774,
+              "gain_margin_db": 18.10890440701653
+            }
+          ],
+          "dc_current_from_log_a": 1.5999999999999999,
+          "dc_log_rounding_bound_a": 6.573878433692104e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "09582b30114ac3babd72ac227913839c0420dbe2a6d37fdb565f71393b1f5762",
+          "log_sha256": "8c3ce725b391474a1f3ae1c351e5c639bda734193bde2c892dd79b154129dc77",
+          "waveform_sha256": "7da230e8f64e9067e0f2ef25451cad6cd62d9eb0827d52c9db1907b0a45bf202"
+        },
+        "m12_21_transient_20ms_44p65n": {
+          "vin_v": 21,
+          "target_current_a": 1.9,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.458236842105264,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3107.4617501857024,
+              "phase_margin_deg": 92.53900650102338
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9378.66810945532,
+              "phase_margin_deg": 203.47242346247793
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15306.491828942633,
+              "phase_margin_deg": 72.84222334565169
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60451.382497326806,
+              "gain_margin_db": 17.183162144658468
+            }
+          ],
+          "dc_current_from_log_a": 1.8999999999999997,
+          "dc_log_rounding_bound_a": 7.819471666130156e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "631f2ab0b5682bd4a76e67ced95318b37ee852db7e2c6794839a6cdd5364d5f4",
+          "log_sha256": "a3ee7b76b36995ca5a853613a6ac7aca5f368fad074e6579ee23828402376075",
+          "waveform_sha256": "fec7714c5df3b1de85dee8a6bb6da7a576a54ff0b047491a0f481e467b047e97"
+        },
+        "m12_21_transient_20ms_49p35n": {
+          "vin_v": 21,
+          "target_current_a": 1.9,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.458236842105264,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3104.0330841749446,
+              "phase_margin_deg": 93.28698467181387
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9378.46778293425,
+              "phase_margin_deg": 203.72483680190948
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15308.02269775632,
+              "phase_margin_deg": 72.98880399637082
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 60476.157990020714,
+              "gain_margin_db": 17.185380627714085
+            }
+          ],
+          "dc_current_from_log_a": 1.8999999999999997,
+          "dc_log_rounding_bound_a": 7.819471666130156e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "84fcc3c025ae6d2511f287a70112eaa8069000e839f243227c09e8308cdb70a5",
+          "log_sha256": "08d80e0228cbd7091b920da2e87a74c20cf65e9c10c1f87ef957637fbb2e4cfe",
+          "waveform_sha256": "fdc5b02a24a131fe72bbaa12bb2ded52d1b2878914604b24e22188b7b8970a05"
+        },
+        "m12_21_let_through_max_44p65n": {
+          "vin_v": 21,
+          "target_current_a": 2.0,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 6.131925000000001,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3103.8476961414476,
+              "phase_margin_deg": 92.89565758358411
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9380.166503684313,
+              "phase_margin_deg": 202.84372126219833
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15305.87280535906,
+              "phase_margin_deg": 72.51171024141509
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 59439.12693249103,
+              "gain_margin_db": 16.8935135638333
+            }
+          ],
+          "dc_current_from_log_a": 2.0,
+          "dc_log_rounding_bound_a": 8.235586704012199e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "4e81efe44726542a1ae2a720cf28e1baeeee14ffc807bcfd61c5fa9541e5327d",
+          "log_sha256": "0cff4908640993e04f1c5580b3348dc6a11063412a31a7106dc01ff10969c704",
+          "waveform_sha256": "0baf5892ba7c89b229250cdf1660ea66f29c5d80fc2569c358bed49dd81a0476"
+        },
+        "m12_21_let_through_max_49p35n": {
+          "vin_v": 21,
+          "target_current_a": 2.0,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 6.131925000000001,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3100.404430464101,
+              "phase_margin_deg": 93.64482751908425
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9379.96517504916,
+              "phase_margin_deg": 203.09610575072543
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15307.40647029313,
+              "phase_margin_deg": 72.6582150142939
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 59464.47474642912,
+              "gain_margin_db": 16.89578741428191
+            }
+          ],
+          "dc_current_from_log_a": 2.0,
+          "dc_log_rounding_bound_a": 8.235586704012199e-07,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "641a2d89d3c004c283c39a30465f4eccd346e0c942e259245d65c6b17c470403",
+          "log_sha256": "9f54234a814ad1dc3c4be31347c19f50cf71f62a0bd4cdcf1a825ad99b5d623c",
+          "waveform_sha256": "a9308d1174b5c7a0e1fcc5af5bc5fd0053fb7a42851d807cb9440fe8d1563593"
+        }
+      }
+    },
+    "light_targets": {
+      "raw_directory": "tmp/c12-ac-review/run-light-targets",
+      "receipt_sha256": "e904167f087f8865fbc707c7d8f95e816024aba63a635c2cfac35ef67fca30ff",
+      "source_base_revision": "6f12e0278984c613a7cb3722da174157f5106b58",
+      "source_worktree_modified": true,
+      "input_sha256": {
+        "manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir": "6beb19f8c58b613355c97d7bcf7c3b8823748af41f8d16a0807cee7a87ab6d45",
+        "tmp/phase33-model-recovery/slvmcu2/TPS54560_PSPICE_AVG/TPS54560_AVG.LIB": "de1769384346d63575929e1d3f0063bd8b92c1a89a86ba33165b3d20f55dd790",
+        "tmp/c12-ac-review/light-target-resistances.json": "2f2029093022030c5ae3e9690e80a45a70416a8067da1240be9b3cd9717c08d2",
+        "tmp/c12-ac-review/run/receipt.json": "55eca234f0f8bcdda921bdb1326cbc40bd223ef53232e1dbc4fffad1bb34e4e0",
+        "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af",
+        "scripts/pcb/board-b20/load_cases.py": "c8496508919dc09b8a05283f17d0589f18eee843bc0a8ae1eab8578ba22d6e52",
+        "tmp/c12-ac-review/run-light-targets.py": "6b90f721da570e13153bb6bd89df42645db25676d0015507c7f01ae3da6b1d3a"
+      },
+      "cases": {
+        "m12_19_light_50ma_44p65n": {
+          "vin_v": 19,
+          "target_current_a": 0.05,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 247.92919999999998,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3064.898427919747,
+              "phase_margin_deg": 85.48783576010138
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9399.776379053403,
+              "phase_margin_deg": 214.87216608800793
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15128.093670196322,
+              "phase_margin_deg": 79.01602907106482
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 101842.57388527095,
+              "gain_margin_db": 26.947096797423452
+            }
+          ],
+          "dc_current_from_log_a": 0.05000028226203287,
+          "dc_log_rounding_bound_a": 2.0169064394189957e-08,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "4e6fad1e08dcc64ca4e60d9e37715f99331ec4f63b1d0d9f7d5b12a72b23de2f",
+          "log_sha256": "76d32e2df751801b2627ecada54aef8d52585932e20dfc86c25a90d024e98761",
+          "waveform_sha256": "9de9172862a7f35a9a5390e59122a1fffc23271ad46ea7a96572dc54e8072041"
+        },
+        "m12_19_light_50ma_49p35n": {
+          "vin_v": 19,
+          "target_current_a": 0.05,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 247.92919999999998,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 3061.5200508020566,
+              "phase_margin_deg": 86.2390570791794
+            },
+            {
+              "direction": "ascending",
+              "frequency_hz": 9399.589233020146,
+              "phase_margin_deg": 215.1238220155693
+            },
+            {
+              "direction": "descending",
+              "frequency_hz": 15129.383182810787,
+              "phase_margin_deg": 79.16548064023809
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 101867.37210585545,
+              "gain_margin_db": 26.94960804604488
+            }
+          ],
+          "dc_current_from_log_a": 0.05000028226203287,
+          "dc_log_rounding_bound_a": 2.0169064394189957e-08,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "46407d61cb55648ee201c9290f4cc8842fc39ef210095d9778bb5023acf64c30",
+          "log_sha256": "5294dd2511b1519075a259e551fdca62236ccbcee5dc230ab9d6667d8e5ef798",
+          "waveform_sha256": "b16cdc33a050fdcc37471abf006850235edc27de4e29402d9086dd51b09e9667"
+        },
+        "m12_21_light_50ma_44p65n": {
+          "vin_v": 21,
+          "target_current_a": 0.05,
+          "capacitance_nf": 44.65,
+          "load_resistance_ohm": 247.92919999999998,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 627.702793114242,
+              "phase_margin_deg": 57.04143254756352
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 448607.3600759258,
+              "gain_margin_db": 61.99880727539853
+            }
+          ],
+          "dc_current_from_log_a": 0.05000044355404688,
+          "dc_log_rounding_bound_a": 2.0169064394189957e-08,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "03f6bc415d02ceae2fd02c06cfb4fad42d9c6d6e3b18e2cc632b414bbd93864a",
+          "log_sha256": "c9394328e8ac3a52cc3b1daa63a032fd2bfd875b69f27129c9fb9e0504db146e",
+          "waveform_sha256": "2e1c8db1db2ba72406bda0b9bf728e4303099d05f795d53c4867d84c75f9ce68"
+        },
+        "m12_21_light_50ma_49p35n": {
+          "vin_v": 21,
+          "target_current_a": 0.05,
+          "capacitance_nf": 49.35,
+          "load_resistance_ohm": 247.92919999999998,
+          "samples": 201,
+          "unity_crossings": [
+            {
+              "direction": "descending",
+              "frequency_hz": 613.3759216620155,
+              "phase_margin_deg": 59.09815017730088
+            }
+          ],
+          "minus180_phase_crossings": [
+            {
+              "frequency_hz": 448613.080173185,
+              "gain_margin_db": 61.99881672096544
+            }
+          ],
+          "dc_current_from_log_a": 0.05000044355404688,
+          "dc_log_rounding_bound_a": 2.0169064394189957e-08,
+          "dc_target_tolerance_a": 1e-05,
+          "deck_sha256": "06013cee383c91492a217845b7f619c1050578350ddcee4515c5cd9f44d6625f",
+          "log_sha256": "ebd512ddc6f24751697d757e2d53c9c8b2fb232dea6124864c7424ff6fe4ab34",
+          "waveform_sha256": "988b4836b38ab8d8adb341b345baefc548607ea2e28ae53cfe34780724beb38d"
+        }
+      }
+    }
+  },
+  "limits": [
+    "No global stability or phase-margin acceptance criterion is adopted.",
+    "Only C12 initial +/-5% endpoints; RCCP is nominal 8.2k. Temperature and other tolerances are not swept.",
+    "Existing PA effective capacitance, ESR and inductance remain; no guaranteed installed MLCC minimum.",
+    "Outer servo, tracking/disconnection, full stack, switching ripple and fault-current behavior are omitted.",
+    "Transient and let-through labels are steady AC loads, not 20 ms or maximum-delivered-current qualification.",
+    "The 50 mA averaged-model points do not qualify no-load operation or CCM/DCM mode transitions.",
+    "DC current tolerance 1e-5 A is a numerical load-target check, not an excess-current allowance.",
+    "First approximate-load data remain separate and are not relabelled exact contract-current cases."
+  ]
+}

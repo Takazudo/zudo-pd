@@ -11,7 +11,7 @@ HERE = Path(__file__).resolve().parent
 
 
 class RunnerTests(unittest.TestCase):
-    def run_case(self, mode, cases=('nom',)):
+    def run_case(self, mode, cases=('nom',), extra_args=()):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             for name in ('run_ladder.sh', 'run_ladder.py', 'analysis_inputs.py'):
@@ -50,12 +50,19 @@ if mode=='aborted': print('Simulation ABORTED')
 ''')
             docker.chmod(0o755)
             env = dict(os.environ, PATH=str(binary) + os.pathsep + os.environ['PATH'], FAKE_MODE=mode)
-            result = subprocess.run(['bash', str(root / 'run_ladder.sh'), 'tracking', *cases], env=env, capture_output=True, text=True)
+            result = subprocess.run(['bash', str(root / 'run_ladder.sh'), 'tracking', *cases, *extra_args], env=env, capture_output=True, text=True)
             receipts = list(root.glob('ladder-*/receipt.json'))
             self.assertEqual(len(receipts), 1, result.stderr)
             receipt = json.loads(receipts[0].read_text())
             self.assertEqual(original, {p.name: p.read_bytes() for p in source.iterdir()})
             return result, receipt, sorted(p.name for p in (receipts[0].parent / 'accepted').iterdir())
+
+    def test_original_only_does_not_change_solver_parameters_after_failure(self):
+        result, receipt, files = self.run_case('fail', extra_args=('--original-only',))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(receipt['variant_policy'], 'original-only')
+        self.assertEqual(len(receipt['cases']['nom']['attempts']), 1)
+        self.assertEqual(files, [])
 
     def test_complete_preserves_provenance(self):
         result, receipt, files = self.run_case('ok')

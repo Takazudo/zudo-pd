@@ -33,6 +33,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory')
     parser.add_argument('cases', nargs='+', choices=START_CASES + REENTRY_CASES)
+    parser.add_argument('--original-only', action='store_true', help='run the supplied deck without fallback solver changes (for bounded convergence comparisons)')
     args = parser.parse_args()
     base = Path(__file__).resolve().parent
     source = (base / args.directory).resolve()
@@ -57,6 +58,7 @@ def main():
                'platform': os.environ.get('DOCKER_DEFAULT_PLATFORM', 'linux/amd64'),
                'source_revision': git.stdout.strip() if git.returncode == 0 else None,
                'requested_cases': args.cases,
+               'variant_policy': 'original-only' if args.original_only else 'fallback-ladder',
                'source_dirty': bool(subprocess.run(['git', 'status', '--porcelain'], cwd=source, capture_output=True, text=True).stdout),
                'runner_sha256': {name: digest(base / name) for name in ('run_ladder.sh', 'run_ladder.py', 'analysis_inputs.py')},
                'input_sha256': {str(p.relative_to(inputs)): digest(p) for p in inputs.rglob('*') if p.is_file()},
@@ -89,7 +91,7 @@ def main():
             attempts = []
             receipt['cases'][name] = {'status': 'FAILED', 'attempts': attempts}
             original = (inputs / (name + '.cir')).read_text()
-            for index, (label, replacement) in enumerate(VARIANTS):
+            for index, (label, replacement) in enumerate(VARIANTS[:1] if args.original_only else VARIANTS):
                 root = run / name / str(index)
                 work = root / 'tracking'
                 work.mkdir(parents=True)

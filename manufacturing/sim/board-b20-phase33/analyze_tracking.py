@@ -1,5 +1,5 @@
 import json
-from analysis_inputs import START_CASES, load, run, selected_files, window
+from analysis_inputs import START_CASES, load, run, selected_files, window, adjacent_slope_screen
 
 T0=40e-3; TD=235e-3; TP=100e-3   # phase 10: RAMP reset releases about 75 ms after enable
 def main():
@@ -50,6 +50,11 @@ def main():
         res['absm12_max_while_p12_lt_5v2']=round(max((-x[3] for x in on if x[1]<5.2),default=0),4)
         res['p5_max_while_min_analog_lt_1v5']=round(max((x[2] for x in on if min(x[1],-x[3])<1.5),default=0),4)
         res['p5_max_while_min_analog_lt_8v']=round(max((x[2] for x in on if min(x[1],-x[3])<8.0),default=0),4)
+        res['adjacent_slope_screen'] = {
+            rail: adjacent_slope_screen(on, idx, sign, limit, no_load=not name.endswith('R'), exception=exception)
+            for rail, idx, sign, limit, exception in (
+                ('+12', 1, 1, 1.23, None), ('+5', 2, 1, .51, (.45, .95, .114)),
+                ('-12', 3, -1, 1.22, (.75, 1.47, .265)))}
         out[name]=res
     print(json.dumps(out,indent=1))
 

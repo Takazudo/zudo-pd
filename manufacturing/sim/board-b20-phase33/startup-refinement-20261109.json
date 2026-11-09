@@ -1,0 +1,281 @@
+{
+  "scope": "nom and adv only; maximum step 5 us to 2 us; original solver settings",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "preparation": {
+    "scope": [
+      "nom",
+      "adv"
+    ],
+    "baseline_revision": "fda0667df503aa7cdc8ec0d45920dd4c731dc56c",
+    "changes": [
+      "maximum transient step 5us to 2us",
+      "output-only supplemental capacitor ESR node voltages"
+    ],
+    "cases": {
+      "nom": {
+        "original": {
+          "cir": "bb97282d84d3aecdccf56774d62c7b37475f626d736d4e8aa1e9bca8532208a2",
+          "dat": "eb7362942650f30d19df2d53202dcbebc77359696c689f225c41409159568d61",
+          "log": "56ca2ba7a732733e3c47943a1c43e5ec5b6ee6fe0e36eed4065bc803ebb52d45"
+        },
+        "derived_deck_sha256": "b6ea0228c7b91324a43ac730a1867652b20cd3817dbad974e3100e8c5013b229"
+      },
+      "adv": {
+        "original": {
+          "cir": "a14cb19781da804bc4fe055936c87c6e2603724aa6b6b2f5b6c7e94e37ab0bb4",
+          "dat": "dc580003b948095fef780f85b2499a9d32bbd994d66bf025dcc2e261b5e302b9",
+          "log": "4adf9625786480e620e257a39a4de968c49e9d77aba02e5a733599d2c858c69e"
+        },
+        "derived_deck_sha256": "5a90586ca3c08c6757640a00327b509b67d58885aca5c5ca12dc140bce6be4a0"
+      }
+    },
+    "physical_acceptance": "NOT ESTABLISHED",
+    "inputs": {
+      "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+      "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "tracking/.spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+      "tracking/adv.cir": "5a90586ca3c08c6757640a00327b509b67d58885aca5c5ca12dc140bce6be4a0",
+      "tracking/nom.cir": "b6ea0228c7b91324a43ac730a1867652b20cd3817dbad974e3100e8c5013b229"
+    }
+  },
+  "preparation_receipt_sha256": "b35f17a89c5c63cbcde2bad3e39b94563d048ffcde658d53c7e378cf4c11e301",
+  "analysis_sha256": "d22c0a3a2243802fc9f8e36943f8a3a91dda06efa33f9b95539fd881aa1885ac",
+  "current_interpretation": {
+    "+12": "v(cl12)/0.05 ohm",
+    "+5": "v(cl5)/0.05 ohm",
+    "-12": "(v(cln)-v(m12_out))/0.05 ohm"
+  },
+  "limits": [
+    "Saved adjacent samples are not a continuous-time bound.",
+    "Small solver-scale excess requires convergence/model disposition, not a physical violation claim.",
+    "No source-current substitution, excess-current budget, or waiver is adopted."
+  ],
+  "cases": {
+    "nom": {
+      "runner_source_revision": "6f12e0278984c613a7cb3722da174157f5106b58",
+      "runner_source_dirty": true,
+      "runner_sha256": {
+        "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+        "run_ladder.py": "db92ccc0c04f6e939f508c27eb7602e829cdeb80dbc966f045c6959d03d0b52c",
+        "analysis_inputs.py": "e68f8421c964fb786c01c32d4a1ef888ef9d4caeca55ef4bd423666d523bce7f"
+      },
+      "solver_image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+      "solver_platform": "linux/amd64",
+      "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+      "input_sha256": {
+        "nom.cir": "b6ea0228c7b91324a43ac730a1867652b20cd3817dbad974e3100e8c5013b229",
+        ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+        "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+        "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+      },
+      "runner_receipt_sha256": "4c5f31c511d3ed1f4abcdd681f883ac5009cc0a1576e83d1fe3903f41e2cc7bc",
+      "deck_sha256": "b6ea0228c7b91324a43ac730a1867652b20cd3817dbad974e3100e8c5013b229",
+      "main_waveform_sha256": "2c704109df06d060267b0bcdeeb9312dcc7260cd107cee309bebf10cdcc1114d",
+      "supplemental_waveform_sha256": "93166b6e4b8ba8a91af50f87547d74e8eeb905f17c318aadd2daafcd1e889203",
+      "supplemental_path": "tmp/startup-refinement/ladder-39u_wxdt/nom/0/tracking/nom-osc-cap.txt",
+      "samples": 126985,
+      "rails": {
+        "+12": {
+          "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+          "normal_limit_v_per_ms": 1.23,
+          "no_external_resistive_load_case": true,
+          "exception": null,
+          "maximum": {
+            "slope_v_per_ms": 0.3539809938957818,
+            "start_ms": 138.4629044913401,
+            "end_ms": 138.46490449134012,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 0.3772978727378311,
+            "voltage_end_v": 0.3780058347256234
+          },
+          "normal_limit_exceeding_segments": 0,
+          "recorded_bound_exceeding_segments": 0,
+          "worst_recorded_bound_exceedance": null,
+          "voltage_boundary_straddling_segments": 0,
+          "largest_negative_step_v": -4.418725779720134e-08,
+          "negative_step_count": 35303,
+          "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+          "maximum_osc_capacitor_charging_current_a": 0.06371355774315468
+        },
+        "+5": {
+          "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+          "normal_limit_v_per_ms": 0.51,
+          "no_external_resistive_load_case": true,
+          "exception": {
+            "voltage_ceiling_v": 0.45,
+            "slope_ceiling_v_per_ms": 0.95,
+            "capacitive_current_ceiling_a": 0.114,
+            "capacitive_current_evidence": "Separate ESR-node voltages from the same solver run; resistor branch current, not source current",
+            "maximum_current_in_voltage_region_a": 0.114510040903672,
+            "current_ceiling_exceeded_in_saved_samples": true
+          },
+          "maximum": {
+            "slope_v_per_ms": 0.9548508602735011,
+            "start_ms": 139.98643474989538,
+            "end_ms": 139.9884347498954,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 0.2261360547762193,
+            "voltage_end_v": 0.2280457564967682
+          },
+          "normal_limit_exceeding_segments": 219,
+          "recorded_bound_exceeding_segments": 17,
+          "worst_recorded_bound_exceedance": {
+            "slope_v_per_ms": 0.9548508602735011,
+            "start_ms": 139.98643474989538,
+            "end_ms": 139.9884347498954,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 0.2261360547762193,
+            "voltage_end_v": 0.2280457564967682
+          },
+          "voltage_boundary_straddling_segments": 0,
+          "largest_negative_step_v": -3.686212590031657e-08,
+          "negative_step_count": 34674,
+          "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+          "maximum_osc_capacitor_charging_current_a": 0.114510040903672
+        },
+        "-12": {
+          "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+          "normal_limit_v_per_ms": 1.22,
+          "no_external_resistive_load_case": true,
+          "exception": {
+            "voltage_ceiling_v": 0.75,
+            "slope_ceiling_v_per_ms": 1.47,
+            "capacitive_current_ceiling_a": 0.265,
+            "capacitive_current_evidence": "Separate ESR-node voltages from the same solver run; resistor branch current, not source current",
+            "maximum_current_in_voltage_region_a": 0.15169311333672164,
+            "current_ceiling_exceeded_in_saved_samples": false
+          },
+          "maximum": {
+            "slope_v_per_ms": 0.8430471618176456,
+            "start_ms": 138.6609044913403,
+            "end_ms": 138.6629044913403,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 0.4736422710157369,
+            "voltage_end_v": 0.4753283653393739
+          },
+          "normal_limit_exceeding_segments": 0,
+          "recorded_bound_exceeding_segments": 0,
+          "worst_recorded_bound_exceedance": null,
+          "voltage_boundary_straddling_segments": 0,
+          "largest_negative_step_v": -2.2994990800384585e-08,
+          "negative_step_count": 61866,
+          "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+          "maximum_osc_capacitor_charging_current_a": 0.15169311333672164
+        }
+      }
+    },
+    "adv": {
+      "runner_source_revision": "6f12e0278984c613a7cb3722da174157f5106b58",
+      "runner_source_dirty": true,
+      "runner_sha256": {
+        "run_ladder.sh": "d77ef6390eca5aced894070592fa8675c5eb14b961c9755eb1f56fca60e322c9",
+        "run_ladder.py": "db92ccc0c04f6e939f508c27eb7602e829cdeb80dbc966f045c6959d03d0b52c",
+        "analysis_inputs.py": "e68f8421c964fb786c01c32d4a1ef888ef9d4caeca55ef4bd423666d523bce7f"
+      },
+      "solver_image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+      "solver_platform": "linux/amd64",
+      "solver_version_output": "******\n** ngspice-44.2 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2024, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Sun Jan 12 08:19:15 UTC 2025\n******\n",
+      "input_sha256": {
+        "adv.cir": "5a90586ca3c08c6757640a00327b509b67d58885aca5c5ca12dc140bce6be4a0",
+        ".spiceinit": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+        "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8",
+        "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f"
+      },
+      "runner_receipt_sha256": "f5af4c4f3e26f4e01bce8d80c51f6ed3dabbe60272ceb84df9beedcadf0aeb27",
+      "deck_sha256": "5a90586ca3c08c6757640a00327b509b67d58885aca5c5ca12dc140bce6be4a0",
+      "main_waveform_sha256": "b7ad2e0055004d16c0d890448a2293e1cb59799aa15ecfdbbafe04c4015809e5",
+      "supplemental_waveform_sha256": "8587f2eb8a40b83cbda01bf8352501621aa4a00bb9a558afa8c366733b48a4a8",
+      "supplemental_path": "tmp/startup-refinement/ladder-uj_o9mc0/adv/0/tracking/adv-osc-cap.txt",
+      "samples": 128240,
+      "rails": {
+        "+12": {
+          "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+          "normal_limit_v_per_ms": 1.23,
+          "no_external_resistive_load_case": true,
+          "exception": null,
+          "maximum": {
+            "slope_v_per_ms": 0.3209323494611903,
+            "start_ms": 154.7094885794647,
+            "end_ms": 154.7114885794647,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 5.179131440291521,
+            "voltage_end_v": 5.179773304990444
+          },
+          "normal_limit_exceeding_segments": 0,
+          "recorded_bound_exceeding_segments": 0,
+          "worst_recorded_bound_exceedance": null,
+          "voltage_boundary_straddling_segments": 0,
+          "largest_negative_step_v": -4.409971898766685e-08,
+          "negative_step_count": 41213,
+          "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+          "maximum_osc_capacitor_charging_current_a": 0.05776781512055962
+        },
+        "+5": {
+          "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+          "normal_limit_v_per_ms": 0.51,
+          "no_external_resistive_load_case": true,
+          "exception": {
+            "voltage_ceiling_v": 0.45,
+            "slope_ceiling_v_per_ms": 0.95,
+            "capacitive_current_ceiling_a": 0.114,
+            "capacitive_current_evidence": "Separate ESR-node voltages from the same solver run; resistor branch current, not source current",
+            "maximum_current_in_voltage_region_a": 0.10293063316167805,
+            "current_ceiling_exceeded_in_saved_samples": false
+          },
+          "maximum": {
+            "slope_v_per_ms": 0.8582305049836418,
+            "start_ms": 139.3133554860524,
+            "end_ms": 139.3153554860524,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 0.2200895956665356,
+            "voltage_end_v": 0.2218060566765046
+          },
+          "normal_limit_exceeding_segments": 205,
+          "recorded_bound_exceeding_segments": 0,
+          "worst_recorded_bound_exceedance": null,
+          "voltage_boundary_straddling_segments": 0,
+          "largest_negative_step_v": -3.675490868604303e-08,
+          "negative_step_count": 40503,
+          "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+          "maximum_osc_capacitor_charging_current_a": 0.10293063316167805
+        },
+        "-12": {
+          "method": "absolute voltage difference / elapsed time on every adjacent saved sample; not a continuous-time bound",
+          "normal_limit_v_per_ms": 1.22,
+          "no_external_resistive_load_case": true,
+          "exception": {
+            "voltage_ceiling_v": 0.75,
+            "slope_ceiling_v_per_ms": 1.47,
+            "capacitive_current_ceiling_a": 0.265,
+            "capacitive_current_evidence": "Separate ESR-node voltages from the same solver run; resistor branch current, not source current",
+            "maximum_current_in_voltage_region_a": 0.26525933220897024,
+            "current_ceiling_exceeded_in_saved_samples": true
+          },
+          "maximum": {
+            "slope_v_per_ms": 1.4747780001127768,
+            "start_ms": 138.255552951071,
+            "end_ms": 138.257552951071,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 0.4730308353767111,
+            "voltage_end_v": 0.4759803913769396
+          },
+          "normal_limit_exceeding_segments": 239,
+          "recorded_bound_exceeding_segments": 59,
+          "worst_recorded_bound_exceedance": {
+            "slope_v_per_ms": 1.4747780001127768,
+            "start_ms": 138.255552951071,
+            "end_ms": 138.257552951071,
+            "interval_us": 2.000000000002,
+            "voltage_start_v": 0.4730308353767111,
+            "voltage_end_v": 0.4759803913769396
+          },
+          "voltage_boundary_straddling_segments": 0,
+          "largest_negative_step_v": -2.288648026649298e-08,
+          "negative_step_count": 63728,
+          "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+          "maximum_osc_capacitor_charging_current_a": 0.26525933220897024
+        }
+      }
+    }
+  }
+}
