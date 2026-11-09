@@ -22,7 +22,7 @@ The two-P15 local packet is ready; supplier placement preview and current
 quotation are pending. PD20 remains on a pre-order hold: fresh adjacent-sample
 analysis finds modeled no-load slope/current excursions beyond the adopted
 exceptions. Native layout corrections and all 14 actual tracking/re-entry cases
-are complete. Final pair assembly passed with source-bound native checks; the
+are complete. Final pair assembly passed with source-bound native checks;
 a fresh DEVELOPMENT REVIEW export and independent manufacturing verification passed at `3f24a3a` after correcting the first export's strict B20 refill-geometry rejection. No source merge or software check constitutes hardware qualification.
 
 ## P15 r1 shared input module
