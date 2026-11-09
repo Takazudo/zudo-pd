@@ -1,3 +1,29 @@
+diff --git a/lib/browser-smoke/cdp.js b/lib/browser-smoke/cdp.js
+index d388db75efb998877a7b9f18252db66f70d3b63e..26b1a5a741a0297683c1eb77bfe88e753809b7a5 100644
+--- a/lib/browser-smoke/cdp.js
++++ b/lib/browser-smoke/cdp.js
+@@ -96,6 +96,7 @@ export async function navigate(cdp, origin, path) {
+     await cdp.send("Page.navigate", { url: target.href });
+     await waitFor(cdp, `location.pathname === ${JSON.stringify(target.pathname)} && location.search === ${JSON.stringify(target.search)}`);
+     await waitFor(cdp, `document.readyState === 'complete'`);
++    assertEqual(await evaluate(cdp, `document.visibilityState`), "visible", "interaction test page is active");
+ }
+ /** Forces the document's own theme attribute; distinct from `setViewportAndMedia`'s system-appearance emulation. */
+ export async function setDocumentTheme(cdp, theme) {
+diff --git a/lib/browser-smoke/chrome.js b/lib/browser-smoke/chrome.js
+index b3d9b9db59fb3ee9d53dad0d973c97c70a9babfa..e030c9c716e85a2d474e6e77694b50652e9d1985 100644
+--- a/lib/browser-smoke/chrome.js
++++ b/lib/browser-smoke/chrome.js
+@@ -78,6 +78,9 @@ export async function launchChrome(bin) {
+         await cdp.send("Page.enable");
+         // Background rAF/timer throttling in headless made the idle assertion flaky; this matches the legacy zudo-pd harness (#108).
+         await cdp.send("Page.bringToFront");
++        // Temporary Mac lifecycle bridge: https://github.com/Takazudo/zudo-pd/issues/210
++        // bringToFront alone can leave a headless document hidden, deferring dialog close events.
++        await cdp.send("Emulation.setFocusEmulationEnabled", { enabled: true });
+         await cdp.send("Runtime.enable");
+         await cdp.send("Network.enable");
+     }
 diff --git a/lib/scan/built-references.js b/lib/scan/built-references.js
 index 7d37e594e7c3ae181d21bcbcf3c6ad4df386724f..60201b5e8bc010e3a71747b802bd8599a1b8ee70 100644
 --- a/lib/scan/built-references.js

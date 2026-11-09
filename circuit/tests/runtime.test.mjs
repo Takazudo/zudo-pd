@@ -30,7 +30,7 @@ test('all 60 retained legacy routes retain every baseline evidence anchor and us
   assert.ok(page.includes('Generated from the component evidence records'),path);
  }
 });
-test('root and doc resolve the same 0.3.0 release with only the reviewed #210 checker bridge',async()=>{
+test('root and doc resolve the same 0.3.0 release with only the reviewed #210 checker and Mac lifecycle bridges',async()=>{
  const fromRoot=createRequire(join(root,'package.json')),fromDoc=createRequire(join(root,'doc/package.json'));
  const a=await realpath(fromRoot.resolve('@takazudo/zudo-circuit-doc/package.json')),b=await realpath(fromDoc.resolve('@takazudo/zudo-circuit-doc/package.json'));
  assert.equal(a,b);
@@ -38,8 +38,8 @@ test('root and doc resolve the same 0.3.0 release with only the reviewed #210 ch
  const patchFile='patches/@takazudo__zudo-circuit-doc@0.3.0.patch';
  const patch=await readFile(join(root,patchFile),'utf8');const patchHash=createHash('sha256').update(patch).digest('hex');
  assert.ok(a.includes(`patch_hash=${patchHash.slice(0,20)}`),'installed copy carries exactly the reviewed patch');
- // The bridge touches one shipped checker branch and nothing else.
- assert.deepEqual([...patch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['lib/scan/built-references.js']);
+ // Only the reviewed checker branch and active-page browser lifecycle paths are patched.
+ assert.deepEqual([...patch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['lib/browser-smoke/cdp.js','lib/browser-smoke/chrome.js','lib/scan/built-references.js']);
  assert.match(patch,/issues\/210/u);
  const workspace=await readFile(join(root,'pnpm-workspace.yaml'),'utf8');
  assert.equal([...workspace.matchAll(/^  '@takazudo\/[^']+':/gmu)].length,1);

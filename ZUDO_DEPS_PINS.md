@@ -7,7 +7,7 @@
 | root/doc manifests and root lock | @takazudo/zudo-circuit-doc registry | 0.3.0 (^0.3.0), tag v0.3.0 = ff278409c693be0efe43f043f0e40d2c56af1e47 | 2026-11-08 | releases | update both consumers together; root lock records the registry integrity | Evidence/publication parity |
 | root/doc manifests and root lock | @takazudo/zfb, runtime, md-wasm, adapter-cloudflare registry | 5.2.2 | 2026-11-08 | releases | align family together, frozen root install, guarded integration build | Cloudflare host and island support |
 | root/doc manifests and root lock | @takazudo/zudo-doc, history-server registry | 9.1.4 | 2026-11-08 | releases | align together; verify sumi/history | Host chrome |
-| patches/@takazudo__zudo-circuit-doc@0.3.0.patch | Project #210; upstream report pending | Reviewed project bridge over the 0.3.0 tarball | 2026-11-08 | project bridge | Remove when a released checker accepts a document-unavailable record's own model link | One `scan/built-references.js` branch |
+| patches/@takazudo__zudo-circuit-doc@0.3.0.patch | Project #210; upstream report pending | Reviewed project bridge over the 0.3.0 tarball | 2026-11-09 | project bridge | Remove when released checker/model-link and Mac active-page lifecycle regressions pass | Checker branch plus browser launcher/navigation active-page setup |
 
 Registry versions are exact pins except the requested runtime caret. Node is `>=24 <25`;
 Python stays 3.12; pnpm stays 11.5.2. Registry-only dependencies have no vendored file copy;
@@ -32,3 +32,9 @@ of a document-unavailable record other than the footprint SVG. Its own model car
 released checker. The bridge also allows that section's own declared `data-model-url` WRL;
 every other destination, including another WRL or any document URL, still fails. See
 `patches/README.md` and https://github.com/Takazudo/zudo-pd/issues/210.
+
+The November 9 Mac follow-up retains the checker hunk unchanged and adds only
+active-page emulation plus a visible-document precondition to the installed
+0.3.0 browser checker. The unmodified official CLI failed backdrop cleanup; an
+installed-code diagnostic established the focused correction. No dependency
+version changes. #210 remains open for both narrow bridges; see patches/README.md.
