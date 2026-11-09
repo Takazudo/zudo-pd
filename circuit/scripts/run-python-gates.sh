@@ -68,6 +68,9 @@ python3 scripts/pcb/board-p/nvm-intent-20v.py --check
 step "B20 desk load cases bound to the PD20 contract; reports fresh"
 python3 -m unittest discover -s scripts/pcb/board-b20 -p 'test_*.py'
 
+step "B20 phase33 analysis input and threshold regressions (synthetic; not simulation qualification)"
+python3 -m unittest discover -s manufacturing/sim/board-b20-phase33 -p 'test_*.py'
+
 step "Courtyards enclose every pad"
 python3 footprints/scripts/gen_courtyards.py --check
 step "Courtyard geometry and library synchronization regressions"
