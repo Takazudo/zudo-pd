@@ -16,17 +16,24 @@ Package: `manufacturing/releases/corner-support-review/` (manifest `git_base` `3
 | `board-p15/cpl.csv` | `a9116d1b9f1d7f092531173a7c8f4d49f4a4c282b9a88f449a89b0da3e030ce6` |
 | `board-p15/excluded.csv` (not uploaded; DNP D6/D7/R17/R18 and bare pads J2/J3) | `16d6146bd3ca6f3fbca8adbc4ddcddb176659dcd5d016a27a699b41467e9f616` |
 
-Before uploading, run from the repository root:
+For source identity, run from the repository root:
 
 ```sh
-(cd manufacturing/releases/corner-support-review && sha256sum -c SHA256SUMS)
 python3 scripts/pcb/board-p15/verify-shared-reference.py --rev HEAD   # or the exact commit you order from
 ```
 
-The first must report 151/151 OK. The second confirms that the P15 PCB, spec, NVM image and population files at that
+This confirms that the P15 PCB, spec, NVM image and population files at that
 revision are the ones recorded in [`boards/board-p15/shared-reference.json`](../boards/board-p15/shared-reference.json).
 It is a byte-identity check only. Its frozen-lock line reports later repository changes as information; the
 fabrication paths (PCB, spec, NVM) must match.
+
+Separately compare the four exact files in the table against their hashes. This upload-file check does not need
+an assembly STEP and does not claim full package replay. Full historical replay additionally requires a working
+tree matching the frozen source locks and the original local-only `populated-stack.step` (158,591,651 bytes,
+SHA-256 `b2d5d8da200c4f4e989e33d4190912054475fb17d601f2f76c0b347ab3508167`). Only with those inputs may
+`sha256sum -c SHA256SUMS` and the read-only full verifier reproduce the historical 151/151 result.
+If the original STEP is absent, report full historical replay **NOT RUN**. Do not regenerate a replacement or
+refresh the frozen locks. Independent source and upload-file checks remain useful.
 
 ## Order two assembled P15 and reuse the existing boards
 
@@ -74,3 +81,12 @@ five days old at this writing and must be read again at the order step.
 
 Record each result with the unit identity in the current-state page. P15's missing hardware voltage window or eFuse
 (R2.3, R2.4, R2.6 FAIL; R2.5 UNKNOWN) stays an accepted prototype residual, not a pass.
+
+## Cloud read-only refresh — 2026-11-09
+
+The new `manufacturing/readiness/jlc-snapshot-2026-11-09-p15.json` records 52 exact-code catalog
+lookups at 09:32Z. The two-P15 scenario has no catalog stock-below-purchase flags. No parts were
+substituted and no cart, quote, upload or order was made. The older snapshot and frozen package are
+unchanged. Catalog stock remains an order-day check; the retained assembly fee model is historical,
+so this refresh is not a current supplier quotation. All four upload/handoff file hashes above and
+the seven shared-reference artifacts matched in the Cloud worktree. Full historical replay remains NOT RUN.

@@ -28,7 +28,7 @@ at `6cb02c8`, and `scripts/pcb/board-p-r3-draft/run.sh` reads its outline, conne
 | Step | Result | Basis |
 |---|---|---|
 | Spec → PCB identity | **PASS** | The builder writes the LCSC field of all 44 fitted parts, marks bare copper exclude-from-BOM/CPL and names the 14 no-connect pin nets `unconnected-(ref-pin-Pad)` |
-| Layout | **Routed, unreviewed** | Committed placement kept (a re-run search did not route VREG_2V7); router seed 12 closes every signal connection; 0 detached GND clusters. Pin-corridor keep-outs forbid vias only, and the builder checks that only U1 and the protected owners touch a corridor |
+| Layout | **Routed; reviewed with open findings** | Committed placement kept (a re-run search did not route VREG_2V7); router seed 12 closes every signal connection; 0 detached GND clusters. Pin-corridor keep-outs forbid vias only, and the builder checks that only U1 and the protected owners touch a corridor |
 | DRC with schematic parity | **PASS (DRC)** | KiCad 10.0.6: 0 errors, 0 unconnected, parity only `extra_footprint` MH1–MH3. Warnings: 69 silk overlap, 34 silk over copper, 14 text height, 2 silk edge, 3 library-footprint notes, 3 dangling fan-out items |
 | STEP datum screen | **PASS (screen)** | 44 model pairs; the three r3-only boxes (HTSSOP-20 PWP, SOT-23-6 DBV, WSON-6 DRV) joined the reviewed manifest as PENDING INDEPENDENT REVIEW |
 | Independent review (2026-11-08) | **DRC reproduced; 2 majors, 2 minors OPEN** | [`independent-review.md`](../boards/board-p/r3-draft/independent-review.md): one via under the U2 PowerPAD; Q1 on about 57 mm² of 1 oz copper with no drain-pad vias (rated on 1 in² of 2 oz); Q3 pad vias; C30/C34 4–5 mm from U1. No layout change made |
