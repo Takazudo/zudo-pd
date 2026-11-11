@@ -999,7 +999,7 @@ phase 12 behavioural elements (PA): the BSS138 switches, the body diodes and the
 | OV/UV windows (§6) | **PASS** | All three rails fit, using actual E192 resistor values |
 | VIN undervoltage (§6) | **PASS** | Trips at 16.86–17.04 V, below 19 V (PA). The U5B input is 1.86 V at the Board P overshoot bound |
 | Contract detect before enable (§6) | **PASS (topology), polarity G-U** | RDY needs PDOK valid for 0.21–0.73 s; POR ends at 36 ms at most. PDOK low = PDO2 explicit contract (POWER_OK_CFG 10b, DS12499 Rev 7 Table 4, mirror authority) |
-| Servo settled before enable (review finding 2) | **PASS** | Loop time constants 5.03 / 5.56 / 5.12 ms against RDY ≥ 0.21 s |
+| Servo settled before enable (review finding 2) | **PASS (nominal RC, superseded 2026-11-11: FAIL at the tolerance corner; see readiness D11)** | Loop time constants 5.03 / 5.56 / 5.12 ms against RDY ≥ 0.21 s |
 | P5_SUP independence (review finding 7) | **PASS (topology), single-fault OPEN** | U14 is separate from the +5 V output chain. A U14 failure still removes all supervision; that single fault is OPEN |
 | U4 40 V margin | **PASS** | The inverter IC sees VIN + \|Vout\| ≤ 37.6 V against 60 V operating and 65 V absolute (G) |
 | Converter current | **PASS** | Switch peaks 2.73 / 0.90 / 4.01 A against a 6.3 A minimum current limit (G) |

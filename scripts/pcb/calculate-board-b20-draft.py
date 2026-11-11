@@ -132,7 +132,12 @@ PREBIAS_M12_PRE_MIN_V = 12.0                       # PA: M12_PRE magnitude after
 SERVO_CI = {'+12': 1.5e-9, '+5': 1.5e-9, '-12': 270e-12}   # PROPOSED C0G integrators
 SERVO_RI = 100e3
 RDY_NET = {'R': 200e3, 'C': 10e-6}            # two C25803 100k + C13585 10 uF
-POR_NET = {'R': 100e3, 'C': 1e-6}
+POR_NET = {'R': 100e3, 'C': 1e-6}             # C25803 100k + CP1 C15849 1 uF
+# Worst-case corners for the RDY / POR timing (2026-11-11, #235): fact-c25803-tolerance 1 %, fact-c13585-tolerance and
+# fact-c15849-tolerance 10 %; DC-bias reduction at the 1.5 V threshold is TYPICAL manufacturer data
+# (src-c13585-dcbias-20261111 -1.1 %, src-c15849-dcbias-20261111 -3.2 %), applied only to the short corner.
+RDY_CORNER = {'R_TOL': 0.01, 'C_TOL': 0.10, 'DC_BIAS_TYP_AT_VTH': -0.011}
+POR_CORNER = {'R_TOL': 0.01, 'C_TOL': 0.10, 'DC_BIAS_TYP_AT_VTH': -0.032}
 HOLD_NET = {'R': 300e3, 'C': 1e-6, 'R_TOL': 0.01, 'C_EFF': (0.6, 1.1)}   # phase 12: RHO1+RHO2 2x C22807 150k, CHO C15849; effective C range is PA (DC bias + tolerance)
 SUP_FB = (52.3e3, 10e3)                       # AP63201 feedback, PROPOSED top / C95204 bottom
 FB_DIV = {'+12': (145e3, 10e3), '+5': (54.9e3, 10e3), '-12': (145e3, 10e3)}   # PROPOSED top 0.1 %, C95204 bottom
@@ -570,8 +575,16 @@ def timing():
     sup_hi = AP_VFB[1] * (1 + SUP_FB[0] * (1 + R01_TOL) / (SUP_FB[1] * (1 - R01_TOL)))
     por = POR_NET['R'] * POR_NET['C']
     rdy = RDY_NET['R'] * RDY_NET['C']
-    t_por = [por * math.log(sup_lo / (sup_lo - v)) for v in (BSS_VGSTH_MIN_PA, BSS_VGSTH_MAX)]
-    t_rdy = [rdy * math.log(sup_lo / (sup_lo - v)) for v in (BSS_VGSTH_MIN_PA, BSS_VGSTH_MAX)]
+    t_por_nom = [por * math.log(sup_lo / (sup_lo - v)) for v in (BSS_VGSTH_MIN_PA, BSS_VGSTH_MAX)]
+    t_rdy_nom = [rdy * math.log(sup_lo / (sup_lo - v)) for v in (BSS_VGSTH_MIN_PA, BSS_VGSTH_MAX)]
+
+    def short(c):
+        return (1 - c['R_TOL']) * (1 - c['C_TOL']) * (1 + c['DC_BIAS_TYP_AT_VTH'])
+
+    def long_(c):
+        return (1 + c['R_TOL']) * (1 + c['C_TOL'])
+    t_por = [t_por_nom[0] * short(POR_CORNER), t_por_nom[1] * long_(POR_CORNER)]
+    t_rdy = [t_rdy_nom[0] * short(RDY_CORNER), t_rdy_nom[1] * long_(RDY_CORNER)]
     servo = {}
     beta = {'+12': 4.02 / (11.5 + 4.02 + 4.02), '+5': 178.02 / (184 + 178.02), '-12': 7.11 / (34.5 + 7.11)}
     for rail in ('+12', '+5', '-12'):
@@ -585,7 +598,15 @@ def timing():
             h['R'] * (1 + h['R_TOL']) * h['C'] * h['C_EFF'][1] * math.log(sup_lo / (sup_lo - BSS_VGSTH_MAX))]
     rr = RAMP_RELEASE['R'] * RAMP_RELEASE['C']
     reset_engaged_max = rr * math.log(sup_lo / (sup_lo - BSS_VGSTH_MAX))
+    nominal = {'por_s': [round(x, 5) for x in t_por_nom], 'rdy_s': [round(x, 5) for x in t_rdy_nom],
+               'min_off_hold_status': status(hold[0] >= reset_engaged_max and hold[1] < t_rdy_nom[0]),
+               'por_rdy_overlap_status': status(t_rdy_nom[0] > t_por_nom[1]),
+               'servo_settled_before_enable_status': status(t_rdy_nom[0] > 5 * settle),
+               'note': 'historical nominal-RC result (no R/C tolerance); superseded 2026-11-11 by the corner rows'}
     return {'p5_sup_v': [round(sup_lo, 4), round(sup_hi, 4)],
+            'corner_basis': ('por_s / rdy_s are [short, long] corners: short = R -1 %, C -10 %, TYPICAL DC bias at the '
+                             '1.5 V threshold; long = R +1 %, C +10 %. The servo 5x settle margin is a PROJECT screen.'),
+            'nominal': nominal,
             'min_off_hold_s': [round(x, 5) for x in hold], 'ramp_reset_engaged_by_s': round(reset_engaged_max, 5),
             'min_off_hold_status': status(hold[0] >= reset_engaged_max and hold[1] < t_rdy[0]),
             'p5_sup_status': status(sup_lo >= OPA_SUPPLY[0] and sup_hi <= INA_VS_MAX),
@@ -834,7 +855,12 @@ def main():
     line('P5_SUP', tm['p5_sup_status'], f"{tm['p5_sup_v']} V")
     line('POR vs RDY', tm['por_rdy_overlap_status'], f"POR {tm['por_s']} s, RDY {tm['rdy_s']} s")
     line('Minimum-off interlock', tm['min_off_hold_status'], f"hold {tm['min_off_hold_s']} s after a disable; RAMP reset engaged by {tm['ramp_reset_engaged_by_s']} s; before RDY {tm['rdy_s'][0]} s")
-    line('servo settle before enable', tm['servo_settled_before_enable_status'], ', '.join(f"{r} tau {v['loop_tau_s'] * 1e3:.2f} ms" for r, v in tm['servo'].items()))
+    five_settle = 5 * max(v['settle_to_0p1pct_s'] for v in tm['servo'].values())
+    line('servo settle before enable', tm['servo_settled_before_enable_status'],
+         f"RDY short corner {tm['rdy_s'][0]} s vs 5 x settle {five_settle:.5f} s (PROJECT screen); "
+         + ', '.join(f"{r} tau {v['loop_tau_s'] * 1e3:.2f} ms" for r, v in tm['servo'].items()))
+    line('servo settle before enable (nominal RC, historical)', tm['nominal']['servo_settled_before_enable_status'],
+         f"RDY {tm['nominal']['rdy_s'][0]} s; superseded by the corner row")
     d = res['discharge']
     line('discharge time', d['time_status'], f"{d['times_at_ceiling_zero_load_s']}, hold-up {d['holdup_window_s']} s")
     line('discharge order', d['order_status_equal_ceiling_c'], f"+5 at 0.8 V {d['p5_to_0v8_s']} s, +12 absent {d['p12_absent_s']} s, -12 absent {d['m12_absent_s']} s, |-12| {d['m12_when_p12_absent_v']} V; C+/C- window {d['analog_c_ratio_window']}")
