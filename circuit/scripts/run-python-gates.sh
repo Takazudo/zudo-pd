@@ -64,6 +64,8 @@ python3 scripts/pcb/board-p15/verify-shared-reference.py --worktree
 python3 -m unittest discover -s scripts/pcb/board-p15 -p 'test_*.py'
 step "Board P r3 20 V NVM intent rebuild check"
 python3 scripts/pcb/board-p/nvm-intent-20v.py --check
+step "Board P r3 Q1 closure screen: cited inputs, reproduction and tamper controls (typical data; not acceptance)"
+python3 -m unittest discover -s scripts/pcb/board-p -p 'test_*.py'
 
 step "B20 desk load cases bound to the PD20 contract; reports fresh"
 python3 -m unittest discover -s scripts/pcb/board-b20 -p 'test_*.py'

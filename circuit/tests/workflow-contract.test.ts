@@ -37,6 +37,8 @@ const COMPONENT_GATE_INPUTS: ReadonlyArray<{ readonly pattern: string; readonly 
     pattern: "scripts/pcb/**",
     samples: [
       "scripts/pcb/board-p/nvm-intent-20v.py",
+      "scripts/pcb/board-p/q1-closure.py",
+      "scripts/pcb/board-p/q1-closure-inputs.json",
       "scripts/pcb/board-b20/report_provenance.py",
       "scripts/pcb/board-b20/test_load_cases.py",
       "scripts/pcb/board-p-r3-draft/build-draft.py",
@@ -69,6 +71,7 @@ const COMPONENT_GATE_INPUTS: ReadonlyArray<{ readonly pattern: string; readonly 
 const COMPONENT_GATE_FIXTURES: ReadonlyArray<readonly [string, readonly string[]]> = [
   ["analyzer-only", ["manufacturing/sim/board-b20-phase33/analyze_refinement.py"]],
   ["NVM-only", ["scripts/pcb/board-p/nvm-intent-20v.py"]],
+  ["Q1 closure inputs-only", ["scripts/pcb/board-p/q1-closure-inputs.json"]],
   ["shared-helper-only", ["scripts/pcb/board-b20/report_provenance.py"]],
   ["exporter-only", ["scripts/pcb/export-jlcpcb.py"]],
   ["P r3 source-binding-only", ["scripts/pcb/board-p-r3-draft/build-draft.py"]],
