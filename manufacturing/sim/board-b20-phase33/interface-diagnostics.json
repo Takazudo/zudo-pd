@@ -1,0 +1,453 @@
+{
+  "scope": "PD20 D1-D3 diagnostics; arithmetic and source binding only. electrical_acceptance: NOT ESTABLISHED",
+  "sources": {
+    "schematic": "boards/board-b20-draft/board-b20-draft.kicad_sch",
+    "deck": "manufacturing/sim/board-b20-phase33/tracking/nom.cir",
+    "calculator": "scripts/pcb/calculate-board-b20-draft.py",
+    "contract": "Takazudo/zudo-osc-hole-field@433c88b design/architecture-278/integration/power-contract/pd-interface-20v.md (sha256 8702890d4d13c4ba3fbd129dca98ccabf12b006aee7e99230e81ed4dad09556a)"
+  },
+  "model_scope": [
+    {
+      "subsystem": "Converters U1/U2/U3, LC post-filters and servo injection U4/U5",
+      "refs": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5",
+        "L1",
+        "L2"
+      ],
+      "deck": [
+        "VP12",
+        "VP5",
+        "VM12",
+        "RP12S",
+        "CP12"
+      ],
+      "modeled_as": "stiff sources behind 20 mOhm and 57 uF",
+      "omitted": "switching, current limit, servo dynamics and pre-node droop under load steps",
+      "status": "MODELED"
+    },
+    {
+      "subsystem": "Shunts RSH1/RSH2/RSH3",
+      "refs": [
+        "RSH1",
+        "RSH2",
+        "RSH3"
+      ],
+      "deck": [
+        "RSH12",
+        "RSH5",
+        "RSHN"
+      ],
+      "modeled_as": "drawn resistances",
+      "omitted": "none at DC",
+      "status": "MODELED"
+    },
+    {
+      "subsystem": "Tracking amplifiers, pre-bias and back-to-back pairs",
+      "refs": [
+        "U13",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6",
+        "DZ1",
+        "Q59"
+      ],
+      "deck": [
+        "XU13A",
+        "XU13B",
+        "XU9B",
+        "XQ1",
+        "XQ2",
+        "XQ5",
+        "DZ1",
+        "DP12"
+      ],
+      "modeled_as": "vendor OPAx187 and CSD18543Q3A models; pre-bias diodes as DBODY",
+      "omitted": "BSS138 pre-bias device physics; model accuracy is not established",
+      "status": "MODELED"
+    },
+    {
+      "subsystem": "Common RAMP reference and start-order clamps",
+      "refs": [
+        "CRMP2",
+        "RCP1",
+        "Q12",
+        "U15",
+        "U16"
+      ],
+      "deck": [
+        "RRMP",
+        "CRMP",
+        "BRST",
+        "XU15A",
+        "XU16B"
+      ],
+      "modeled_as": "drawn values; RAMP reset as a behavioural switch",
+      "omitted": "Q12 BSS138 device behaviour",
+      "status": "MODELED"
+    },
+    {
+      "subsystem": "Disable gate pulldowns Q10/Q11 and -12 level shifter Q24/Q25",
+      "refs": [
+        "Q10",
+        "Q11",
+        "Q24",
+        "Q25"
+      ],
+      "deck": [
+        "B10",
+        "B11",
+        "B25"
+      ],
+      "modeled_as": "behavioural 3.5 ohm switches (35 ohm in re-entry decks)",
+      "omitted": "BSS138/DMP3036 switching delay and the CSD18543Q3A gate-charge removal time",
+      "status": "MODELED"
+    },
+    {
+      "subsystem": "Enable/minimum-off latch",
+      "refs": [
+        "Q33",
+        "Q34",
+        "Q65",
+        "Q66",
+        "RHO1"
+      ],
+      "deck": [
+        "BLAT",
+        "CHO",
+        "BENN"
+      ],
+      "modeled_as": "behavioural latch with the shortest drawn hold",
+      "omitted": "transistor-level latch timing",
+      "status": "MODELED"
+    },
+    {
+      "subsystem": "Active discharge with hold-up",
+      "refs": [
+        "Q51",
+        "Q52",
+        "Q54",
+        "Q55",
+        "Q56",
+        "Q57",
+        "RX12",
+        "RX5"
+      ],
+      "deck": [],
+      "modeled_as": "OMITTED",
+      "omitted": "all discharge switching, its ordering against the gate pulldowns, and RX12/RX5/RXN decay",
+      "status": "OMITTED"
+    },
+    {
+      "subsystem": "Current limiters and fault latch",
+      "refs": [
+        "U11",
+        "U12",
+        "U9",
+        "Q30",
+        "Q31",
+        "Q41"
+      ],
+      "deck": [],
+      "modeled_as": "OMITTED",
+      "omitted": "detection, latch and switch-off timing; any delivered-current overshoot",
+      "status": "OMITTED"
+    },
+    {
+      "subsystem": "Terminal OV/UV windows",
+      "refs": [
+        "U6",
+        "U7",
+        "U8"
+      ],
+      "deck": [],
+      "modeled_as": "OMITTED",
+      "omitted": "window trips during start, discharge and re-entry",
+      "status": "OMITTED"
+    },
+    {
+      "subsystem": "OSC load",
+      "refs": [
+        "J6",
+        "J7"
+      ],
+      "deck": [
+        "CL12",
+        "RCL12",
+        "CL5",
+        "CLN"
+      ],
+      "modeled_as": "contract-maximum capacitance with 50 mOhm ESR; fixed resistors in loaded cases",
+      "omitted": "actual OSC load current versus rail voltage, asymmetric or nonlinear loads",
+      "status": "MODELED"
+    }
+  ],
+  "d1_startup": {
+    "rails": {
+      "+5": {
+        "ideal_tracking_max_slope_v_per_ms": 0.3137,
+        "recorded_peak_over_ideal": 3.044,
+        "step_change_5us_to_2us_pct": 0.01034,
+        "capacitive_current_at_peak_a": 0.114582,
+        "recorded_esr_branch_current_a": 0.114510041,
+        "exception_current_equivalent_slope_v_per_ms": 0.95,
+        "exceeds_recorded_ceilings": true
+      },
+      "-12": {
+        "ideal_tracking_max_slope_v_per_ms": 0.7611,
+        "recorded_peak_over_ideal": 1.938,
+        "step_change_5us_to_2us_pct": 0.0104,
+        "capacitive_current_at_peak_a": 0.26546,
+        "recorded_esr_branch_current_a": 0.265259332,
+        "exception_current_equivalent_slope_v_per_ms": 1.4722,
+        "exceeds_recorded_ceilings": true
+      }
+    },
+    "hypotheses": [
+      {
+        "id": "D1-H1",
+        "claim": "The common RAMP reference itself is too steep",
+        "conclusion": "REFUTED",
+        "evidence": "Ideal k x RAMP tracking slope at the -10 % RAMP capacitance is at most 0.3137 V/ms (+5) and 0.7611 V/ms (-12); the recorded peaks are 1.938-3.044x higher and lie inside the low-voltage exception regions only."
+      },
+      {
+        "id": "D1-H2",
+        "claim": "The excess is a maximum-step artefact",
+        "conclusion": "REFUTED for maximum step; UNRESOLVED for other solver settings and macromodel accuracy",
+        "evidence": "5 us to 2 us changes each peak by about +0.01 %; reltol/abstol/method and vendor-model fidelity were not varied for these cases."
+      },
+      {
+        "id": "D1-H3",
+        "claim": "Slope and current exceedances are one constraint, not two",
+        "conclusion": "SUPPORTED",
+        "evidence": "The recorded ESR-branch currents equal C x dV/dt at the peak within ESR effects, and each current ceiling corresponds to the slope ceiling at contract capacitance (114 mA / 120 uF = 0.95 V/ms; 265 mA / 180 uF = 1.472 V/ms). A correction must reduce the slope; a current-only argument cannot pass."
+      },
+      {
+        "id": "D1-H4",
+        "claim": "No-load excursions come from the pair passing its pre-bias target near conduction onset with no load to pull the output back",
+        "conclusion": "UNRESOLVED",
+        "evidence": "Consistent with no-load-only occurrence and the low-voltage location, and with the phase-10 prose. Distinguishing it needs one paired run changing only the pre-bias target (RT12O/RT5O/RT12NO) or integrator CT on nom/adv, after design review. Not run."
+      },
+      {
+        "id": "D1-H5",
+        "claim": "Startup is strictly monotonic",
+        "conclusion": "UNRESOLVED",
+        "evidence": "Small negative adjacent-sample increments remain; no numerical tolerance is adopted."
+      }
+    ]
+  },
+  "d2_discharge": {
+    "assumptions": [
+      "Ideal simultaneous disconnect at t = 0 (disconnect-before-discharge, AGND connected).",
+      "Discharge switch on-resistance omitted (it only lengthens decay).",
+      "Loads are fixed resistors at the 20 ms transient minimum; the OSC load-versus-voltage characteristic is UNSOURCED.",
+      "'Absent' is not defined numerically by the contract; the cases use the rail discharge level (0.5 V) as a labelled assumption, and the undefined case stays OPEN."
+    ],
+    "cases": {
+      "zero_load": {
+        "loads_ohm": {},
+        "absent_threshold_v": 0.5,
+        "time_to_discharge_level_s": {
+          "+5": 0.00856,
+          "+12": 0.05792,
+          "-12": 0.08171
+        },
+        "all_within_100ms": true,
+        "first_rvee_violation": null,
+        "first_direct_hazard": null,
+        "first_sufficient_screen_violation": null
+      },
+      "assumed_p12_loaded_only": {
+        "loads_ohm": {
+          "+12": 6.0
+        },
+        "absent_threshold_v": 0.5,
+        "time_to_discharge_level_s": {
+          "+12": 0.00328,
+          "+5": 0.00856,
+          "-12": 0.08171
+        },
+        "all_within_100ms": true,
+        "first_rvee_violation": {
+          "t_s": 0.00328,
+          "+12": 0.499,
+          "-12": 10.955,
+          "+5": 2.2714
+        },
+        "first_direct_hazard": {
+          "t_s": 0.00328,
+          "+12": 0.499,
+          "-12": 10.955,
+          "+5": 2.2714
+        },
+        "first_sufficient_screen_violation": {
+          "t_s": 0.00216,
+          "+12": 1.498,
+          "-12": 11.4189,
+          "+5": 3.0138
+        }
+      },
+      "assumed_m12_loaded_only": {
+        "loads_ohm": {
+          "-12": 6.3158
+        },
+        "absent_threshold_v": 0.5,
+        "time_to_discharge_level_s": {
+          "-12": 0.00331,
+          "+5": 0.00856,
+          "+12": 0.05792
+        },
+        "all_within_100ms": true,
+        "first_rvee_violation": {
+          "t_s": 0.00351,
+          "+12": 10.269,
+          "-12": 0.4955,
+          "+5": 2.1432
+        },
+        "first_direct_hazard": {
+          "t_s": 0.00351,
+          "+12": 10.269,
+          "-12": 0.4955,
+          "+5": 2.1432
+        },
+        "first_sufficient_screen_violation": {
+          "t_s": 0.00231,
+          "+12": 10.9769,
+          "-12": 1.4885,
+          "+5": 2.9018
+        }
+      },
+      "zero_load_absent_undefined": {
+        "loads_ohm": {},
+        "absent_threshold_v": null,
+        "time_to_discharge_level_s": {
+          "+5": 0.00856,
+          "+12": 0.05792,
+          "-12": 0.08171
+        },
+        "all_within_100ms": true,
+        "first_rvee_violation": "OPEN",
+        "first_direct_hazard": "OPEN",
+        "first_sufficient_screen_violation": null
+      }
+    },
+    "disconnect_overlap_current_bound_a": {
+      "+12": 0.1248,
+      "-12": 0.0825,
+      "+5": 0.1576
+    },
+    "disconnect_order": {
+      "status": "OPEN",
+      "reason": "Q10/Q11/Q25 gate-charge removal and Q56 -> Q51/Q52/Q55 turn-on are driven by the same latch edge with no designed delay; their relative timing needs device switching data and the CSD18543Q3A gate charge path, which the decks omit. The overlap current is limited by RX12/RX5/RXN (above); that is a consequence, not compliance."
+    },
+    "hypotheses": [
+      {
+        "id": "D2-H1",
+        "claim": "At zero load the discharge resistors alone meet level, time and order rows",
+        "conclusion": "SUPPORTED (calculated, ideal switches)",
+        "evidence": "All rails reach their discharge level inside 100 ms; no R-VEE, direct-hazard or screen event."
+      },
+      {
+        "id": "D2-H2",
+        "claim": "Independent asymmetric loads can reorder decay into a forbidden state",
+        "conclusion": "SUPPORTED under the stated resistive-load and absent-threshold assumptions; UNRESOLVED for the installed system",
+        "evidence": "A loaded rail collapses in about 3 ms while the other still exceeds 10 V, giving R-VEE and direct-hazard events. Passive per-rail discharge does not couple the rails."
+      },
+      {
+        "id": "D2-H3",
+        "claim": "Outputs are disconnected before active discharge begins",
+        "conclusion": "UNRESOLVED",
+        "evidence": "Same-edge drive with no designed delay; switching data and an installed timing bound are missing."
+      }
+    ]
+  },
+  "d3_maximum_current": {
+    "rails": {
+      "+12": {
+        "trip_max_a": 2.08485,
+        "contract_max_a": 2.1,
+        "margin_a": 0.01515,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.01515,
+        "bound_without_timing": {
+          "status": "OPEN",
+          "bound_a": null,
+          "reason": "trip threshold is not a delivered-current maximum; response time or di/dt bound missing"
+        }
+      },
+      "-12": {
+        "trip_max_a": 1.99544,
+        "contract_max_a": 2.0,
+        "margin_a": 0.00456,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.00456,
+        "bound_without_timing": {
+          "status": "OPEN",
+          "bound_a": null,
+          "reason": "trip threshold is not a delivered-current maximum; response time or di/dt bound missing"
+        }
+      },
+      "+5": {
+        "trip_max_a": 0.46084,
+        "contract_max_a": 0.5,
+        "margin_a": 0.03916,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.03916,
+        "bound_without_timing": {
+          "status": "OPEN",
+          "bound_a": null,
+          "reason": "trip threshold is not a delivered-current maximum; response time or di/dt bound missing"
+        }
+      }
+    },
+    "response_chain": [
+      {
+        "stage": "INA301A3 comparator",
+        "value": "tp <= 1 us",
+        "class": "G (datasheet)"
+      },
+      {
+        "stage": "-12 V U9A OPA2187 comparator",
+        "value": "slew-limited, about 70 us",
+        "class": "T (typical, not a bound)"
+      },
+      {
+        "stage": "FAULT_N -> Q30/Q31 latch -> EN_N -> Q10/Q11/Q25 gate pulldown",
+        "value": null,
+        "class": "UNSOURCED"
+      },
+      {
+        "stage": "CSD18543Q3A pair turn-off (gate charge through BSS138)",
+        "value": null,
+        "class": "UNSOURCED"
+      },
+      {
+        "stage": "Load-side di/dt (OSC wiring/impedance, fault type)",
+        "value": null,
+        "class": "UNSOURCED"
+      }
+    ],
+    "hypotheses": [
+      {
+        "id": "D3-H1",
+        "claim": "Trip thresholds inside the window establish the 2.1/2.0/0.5 A maximum",
+        "conclusion": "REFUTED",
+        "evidence": "The limiter trips and opens; it does not regulate. Delivered current grows until switch-off, so trip_max is a lower bound on the delivered peak, not an upper bound."
+      },
+      {
+        "id": "D3-H2",
+        "claim": "Delivered current including overshoot stays within the contract maximum",
+        "conclusion": "UNRESOLVED",
+        "evidence": "Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound; with margins of tens of mA, even 1 us response allows only tens of mA/us growth."
+      }
+    ]
+  },
+  "next_inputs": [
+    "D1: design review of one paired nom/adv run varying only the pre-bias target or integrator CT (distinguishes D1-H4); requires the hard-circuit review role before admission.",
+    "D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a numeric definition of 'absent', and device switching data for the disconnect/discharge edge.",
+    "D3: a guaranteed detection-to-switch-off time and a load-side di/dt bound, or an explicitly agreed regulating current-limit change; no excess-current budget is adopted."
+  ]
+}
