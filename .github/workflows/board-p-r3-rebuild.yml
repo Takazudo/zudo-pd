@@ -92,16 +92,25 @@ jobs:
           E="$RUNNER_TEMP/evidence"; mkdir -p "$E"
           git status --porcelain --untracked-files=all -- . ':!tmp' | tee "$E/changed.txt"
           # Changed files are offered for adoption only when every check above passed.
+          # Deleted tracked files are listed, not copied.
+          git diff --name-only --diff-filter=D | tee "$E/deleted.txt"
+          copy_changed() {
+            mkdir -p "$1"
+            { git diff --name-only --diff-filter=d -z; git ls-files --others --exclude-standard -z; } | xargs -0 -r -I{} cp --parents {} "$1/"
+          }
           if [[ "$REBUILD_OUTCOME" == success ]]; then
-            echo PASS > "$E/status.txt"; mkdir -p "$E/files"
-            { git diff --name-only -z; git ls-files --others --exclude-standard -z; } | xargs -0 -r -I{} cp --parents {} "$E/files/"
+            copy_changed "$E/files"
           else
-            echo "FAILED: rebuild step outcome $REBUILD_OUTCOME; no files offered" > "$E/status.txt"
             # A failed round is preserved for review, outside the adoptable files.
-            mkdir -p "$E/failed-round"
-            { git diff --name-only -z; git ls-files --others --exclude-standard -z; } | xargs -0 -r -I{} cp --parents {} "$E/failed-round/"
+            copy_changed "$E/failed-round"
           fi
           (cd "$E" && find . -type f ! -name hashes.txt -print0 | sort -z | xargs -0 sha256sum > hashes.txt)
+          # PASS is written last, only after the copy and hashing succeeded.
+          if [[ "$REBUILD_OUTCOME" == success ]]; then
+            echo PASS > "$E/status.txt"
+          else
+            echo "FAILED: rebuild step outcome $REBUILD_OUTCOME; no files offered" > "$E/status.txt"
+          fi
           cat "$E/hashes.txt"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
