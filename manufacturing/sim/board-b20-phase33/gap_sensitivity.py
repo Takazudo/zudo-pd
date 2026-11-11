@@ -21,6 +21,7 @@ import sys
 from analysis_inputs import adjacent_slope_screen, load
 from analyze_refinement import supplemental
 from extract_reference import CASES, attempt_dir, bin_mean, derive_decks, single_run
+from servo_criteria import SERVO_VECTORS
 
 SUPPORTED, REFUTED = 'SUPPORTED', 'REFUTED'
 BIN_S = 2e-6
@@ -180,7 +181,17 @@ def case_record(run, name):
     times = [r[0] for r in rows]
     side = supplemental(work / f'{name}-osc-cap.txt', rows)
     gap = (work / f'{name}-gap.txt')
-    return {'rows': rows, 'times': times, 'side': side, 'gap': columns(gap, len(GAP_VECTORS)) if gap.exists() else None}
+    record = {'rows': rows, 'times': times, 'side': side, 'gap': columns(gap, len(GAP_VECTORS)) if gap.exists() else None}
+    servo = work / f'{name}-servo.txt'
+    if record['gap'] is None and servo.exists():
+        # Baseline decks save no internal gate: rebuild it from the main gate column and the deck's constant offset.
+        st, ss = columns(servo, len(SERVO_VECTORS))
+        gates = {'p12_g': 8, 'p5_g': 9, 'm12_g': 10}
+        offsets = {'nom': {'+5': 0.0, '-12': 0.0}, 'adv': {'+5': -0.5, '-12': 0.5}}[name]
+        cols = {'p5_gi': [r[gates['p5_g']] - offsets['+5'] for r in rows], 'p5_cs': ss[SERVO_VECTORS.index('p5_cs')],
+                'm12_gi': [r[gates['m12_g']] - offsets['-12'] for r in rows], 'm12_cs': ss[SERVO_VECTORS.index('m12_cs')]}
+        record['gap'] = (st, [cols.get(v, [0.0] * len(st)) for v in GAP_VECTORS])
+    return record
 
 
 def screens(record):
@@ -222,6 +233,9 @@ def rail_metrics(record, rail, offset_v=None):
         'enable_edge_extremes_v': extremes(times, out, *ENABLE_WINDOW_S),
         'conduction_onset_ms': None,
     }
+    enable_currents = [v for _, v in bins(times, cur, *ENABLE_WINDOW_S)]
+    metrics['enable_peak_current_a'] = max(abs(v) for v in enable_currents)
+    metrics['enable_conduction'] = metrics['enable_peak_current_a'] >= CONDUCTION_A
     t_on = onset(times, cur, REST_WINDOW_S[0], SCREEN_WINDOW_S[1])
     metrics['conduction_onset_ms'] = None if t_on is None else round(t_on * 1e3, 6)
     if record['gap'] is not None:
@@ -236,6 +250,9 @@ def rail_metrics(record, rail, offset_v=None):
             metrics['onset_vgs_v'] = at_on
             metrics['realized_gap_v'] = at_on - rest
         metrics['disabled_vgs_max_v'] = extremes(gt, vgs, *DISABLED_WINDOW_S)[1]
+        metrics['enable_vgs_max_v'] = extremes(gt, vgs, *ENABLE_WINDOW_S)[1]
+        if 'onset_vgs_v' in metrics:
+            metrics['enable_min_distance_to_conduction_v'] = metrics['onset_vgs_v'] - metrics['enable_vgs_max_v']
         if gt[-1] >= END_S - 1e-9:
             metrics['after_disable_vgs_max_v'] = extremes(gt, vgs, DISABLE_SETTLE_S, END_S - BIN_S)[1]
             metrics['after_disable_extremes_v'] = extremes(times, out, DISABLE_AT_S, END_S - BIN_S)
@@ -258,6 +275,7 @@ def judge(rail, variant_screens, baseline_screens, v, b):
         'no non-monotonic step beyond baseline': v['largest_drop_v'] >= b['largest_drop_v'] - VNTOL_V,
         'disabled state unchanged': within(v['disabled_extremes_v'], b['disabled_extremes_v']),
         'enable edge no excursion beyond baseline': within(v['enable_edge_extremes_v'], b['enable_edge_extremes_v']),
+        'no conduction during the enable transient': not v['enable_conduction'],
     }
     if 'after_disable_vgs_max_v' in v:
         disabled_vgs = v['disabled_vgs_max_v']
@@ -295,6 +313,9 @@ def analyze(work):
                 rules = judge(rail, vs, base_screens[name], v, b)
                 rows[label] = {'kind': kind, 'shift_v': shift, 'target_gap_v': round(BASELINE_GAP_V[rail] - shift, 4),
                                **summary(v, vs[rail]), 'rules': rules, 'passes': all(rules.values()),
+                               'edge_excursion_vs_baseline_v': {
+                                   w: {'below': b[k][0] - v[k][0], 'above': v[k][1] - b[k][1]}
+                                   for w, k in (('disabled', 'disabled_extremes_v'), ('enable', 'enable_edge_extremes_v'))},
                                'other_rails': {r: vs[r]['disposition'] for r in OTHER_RAILS if r != rail}}
             except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
                 rows[label] = {'kind': kind, 'shift_v': shift, 'status': 'FAILED', 'reason': f'{type(error).__name__}: {error}',
@@ -311,7 +332,9 @@ def summary(m, screen):
     ex = screen['exception']
     worst = ex['maximum_slope_in_voltage_region_v_per_ms'] if ex else screen['maximum']['slope_v_per_ms']
     out = {k: m.get(k) for k in ('floor_v', 'overshoot_v', 'largest_drop_v', 'conduction_onset_ms', 'rest_vgs_v',
-                                 'onset_vgs_v', 'realized_gap_v')}
+                                 'onset_vgs_v', 'realized_gap_v', 'enable_vgs_max_v', 'enable_min_distance_to_conduction_v',
+                                 'enable_peak_current_a', 'enable_conduction', 'disabled_extremes_v', 'enable_edge_extremes_v',
+                                 'pre_disable_extremes_v', 'after_disable_extremes_v', 'after_disable_vgs_max_v')}
     out.update({'peak_slope_in_exception_region_v_per_ms': worst, 'peak_slope_v_per_ms': screen['maximum']['slope_v_per_ms'],
                 'disposition': screen['disposition'],
                 'capacitor_current_in_region_a': ex['maximum_current_in_voltage_region_a'] if ex else None})

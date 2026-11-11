@@ -61,6 +61,7 @@ reported next to the target.
 | Disabled state | Output extremes over 2–40 ms, in 2 us bin means. |
 | Enable edge | Output extremes over 40–110 ms, in 2 us bin means. |
 | Disable edge | Internal Vgs over 245 ms to the end, and output extremes from 240 ms to the end against 238–240 ms. |
+| Enable transient | Over 40–110 ms: the maximum internal Vgs and its minimum distance to that case's conduction-onset Vgs, and the peak 2 us bin |supply current|. |
 | Resolution | Comparisons with the baseline resolve to the decks' own vntol, 1e-5 V. A smaller difference is not resolved. |
 
 ## Pass rules (all must hold on the varied rail)
@@ -73,9 +74,11 @@ reported next to the target.
 4. No non-monotonic step beyond baseline.
 5. Disabled state unchanged: the disabled-window output extremes stay within the baseline's.
 6. Enable edge: the enable-window output extremes stay within the baseline's, for either polarity.
-7. Disable edge, gate held off: after 245 ms the internal Vgs stays at or below that case's own
+7. No conduction during the enable transient: no 2 us bin over 40–110 ms reaches |supply current| ≥ 5 mA. A
+   conduction event fails the case even if the slope rule passes (manager, 2026-11-11).
+8. Disable edge, gate held off: after 245 ms the internal Vgs stays at or below that case's own
    disabled-state maximum.
-8. Disable edge, no excursion of either polarity: after 240 ms the output does not exceed its pre-edge
+9. Disable edge, no excursion of either polarity: after 240 ms the output does not exceed its pre-edge
    extreme, and does not pass the baseline disabled level in the reverse direction.
 
 Two parts of the manager's list are reported rather than used as rules:
@@ -88,7 +91,10 @@ Two parts of the manager's list are reported rather than used as rules:
 ## Outputs
 
 For each rail, against the gap (baseline, the three targets, worst): peak slope, capacitor current, floor,
-overshoot and monotonicity, plus every rule. Also the largest passing target gap, with its slope and current
+overshoot and monotonicity, plus every rule. Also reported:
+- the enable-transient minimum Vgs distance to conduction and the peak current;
+- each case's output excursion of either polarity at the disabled state and the enable edge, against baseline;
+- the disable-edge extremes. Also the largest passing target gap, with its slope and current
 margins. +12 V is not varied; its baseline screen and its own gap are reported from the same run.
 
 ## Predictions (stated before the run)
