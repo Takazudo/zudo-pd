@@ -93,7 +93,9 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertEqual(round(peaks['-12']['2us_current_a'], 9), 0.265259332)
         h1 = next(h for h in report['hypotheses'] if h['id'] == 'D1-H1')
         self.assertIn('designed common RAMP', h1['conclusion'])
-        self.assertEqual(next(h for h in report['hypotheses'] if h['id'] == 'D1-H6')['conclusion'], diag.UNRESOLVED)
+        h6 = next(h for h in report['hypotheses'] if h['id'] == 'D1-H6')['conclusion']
+        self.assertEqual(h6, f'{diag.REFUTED} for a reference-side edge; {diag.REFUTED} for clamp-diode release')
+        self.assertIn(diag.SUPPORTED, next(h for h in report['hypotheses'] if h['id'] == 'D1-H7')['conclusion'])
 
     def test_discharge_resistors_are_bound_to_the_schematic(self):
         values = diag.schematic_values()
@@ -189,6 +191,10 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertIn('0.95 V/ms equals the +5 slope ceiling', record)
         self.assertIn(f"{rails['-12']['exception_current_equivalent_slope_v_per_ms']} V/ms makes the 1.47 V/ms −12 slope "
                       'ceiling slightly tighter', record)
+        ref = json.loads(diag.D1_REFERENCE.read_text())['analysis']['rails']
+        self.assertIn(f"{ref['+5']['scaled_common_ramp_peak_near_segment_v_per_ms']:.4f} V/ms (+5) and "
+                      f"{ref['-12']['scaled_common_ramp_peak_near_segment_v_per_ms']:.4f} V/ms (−12)", record)
+        self.assertIn(f"{ref['-12']['scaled_reference_peak_near_segment_v_per_ms']:.4f} V/ms (−12, ideal", record)
         margins = diag.maximum_current(self.calc)['rails']
         self.assertIn(' / '.join(f"{margins[r]['margin_a'] * 1e3:.2f}" for r in ('+12', '-12', '+5')) + ' mA', record)
         self.assertIn(f"{margins['-12']['margin_a'] * 1e3:.2f} mA/µs", record)

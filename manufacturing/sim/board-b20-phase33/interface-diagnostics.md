@@ -45,8 +45,9 @@ Phase33 therefore cannot answer D2 or D3; it only informs D1.
 
 | Hypothesis | Conclusion | Evidence |
 | --- | --- | --- |
-| Designed common RAMP slope too steep | **Refuted** for the designed common RAMP (calculated); recorded `v(ramp)` not inspected | Ideal tracking slope ≤ 0.3137 V/ms (+5) and 0.7611 V/ms (−12) at −10 % RAMP C; recorded peaks are 3.04× and 1.94× the ideal, only inside the exception voltage regions |
-| Start-order clamp release (U15/U16 on RAMP_P5/RAMP_M12 behind RCP1 1 kΩ) gives a fast reference edge | **Unresolved** | Not tested; the per-rail reference nodes were not extracted from the recorded runs |
+| Designed common RAMP slope too steep | **Refuted** for the designed common RAMP (calculated) and for the recorded `v(ramp)` | Ideal tracking slope ≤ 0.3137 V/ms (+5) and 0.7611 V/ms (−12) at −10 % RAMP C; recorded peaks are 3.04× and 1.94× the ideal, only inside the exception voltage regions. Extracted `v(ramp)` between 2 µs bin averages peaks at 0.1192 V/ms (+5) and 0.3529 V/ms (−12), run 43087070975 ([D1 reference record](d1-reference-20261111.md)) |
+| Start-order clamp release (U15/U16 on RAMP_P5/RAMP_M12 behind RCP1 1 kΩ) gives a fast reference edge | **Refuted** for a reference-side edge and for clamp-diode release | Scaled per-rail reference peaks between 2 µs bin averages are 0.1192 V/ms (+5, ideal 0.3137) and 0.3557 V/ms (−12, ideal 0.7611); the clamp diodes stay reverse-biased (−4.850 to −4.843 V; −4.893 to −4.041 V). The excursions lie downstream of the reference |
+| Adjacent-sample reference rule fired on a solver-timestep artefact | **Supported** for −12 (not applicable to +5) | The −12 adjacent-sample peak of 3730.2 V/ms is 0.977 mV over 2.11 ns in a 21-sample cluster (minimum step 0.235 ns) where `ramp_m12` rings 1.398 mV peak to peak with 18 sign reversals as the XU16A clamp output reaches 4.962 V. The analysis now uses 2 µs bin averages; the in-job adjacent-sample result is retained as superseded |
 | Maximum-step artefact | **Refuted** for step; other solver settings and macromodel fidelity unresolved | 5 → 2 µs changes the peak by +0.01034 % (+5) and +0.01040 % (−12) |
 | Slope and current are one constraint | **Supported** for the modeled pure C + ESR load | Recorded ESR-branch currents equal C·dV/dt (114.58 vs 114.51 mA; 265.46 vs 265.26 mA); 114 mA/120 µF = 0.95 V/ms equals the +5 slope ceiling, and 265 mA/180 µF = 1.4722 V/ms makes the 1.47 V/ms −12 slope ceiling slightly tighter. A fix must lower slope; a resistive or nonlinear load part would separate the two |
 | No-load overshoot of the pre-bias target near conduction | **Unresolved** | Consistent with no-load-only, low-voltage location. Distinguish with one paired nom/adv run changing only the pre-bias target (RT12O/RT5O/RT12NO) or CT, after design review. Not run |
@@ -104,9 +105,10 @@ load-side di/dt are UNSOURCED. With 1 µs total response the −12 V margin allo
 
 ## Next inputs (no correction adopted)
 
-1. D1: extract the per-rail reference nodes (RAMP_P5/RAMP_M12) and `v(ramp)` against the
-   excursion times, then a design review of one paired nom/adv run varying only the
-   pre-bias target or integrator CT. Requires the hard-decision role before admission.
+1. D1: the reference side is refuted. Separating the downstream hypotheses (pre-bias
+   overshoot, clamp or servo amplifier saturation and recovery, pass-device or
+   output-capacitor interaction) and naming the cheapest discriminating run is a proposal
+   only; nothing is run before admission.
 2. D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a
    numeric definition of "absent", and switching data for the disconnect/discharge edge.
    Without them, only a design that couples the rails (or an agreed contract reading)
