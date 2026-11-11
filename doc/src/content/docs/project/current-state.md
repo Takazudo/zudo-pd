@@ -25,6 +25,24 @@ exceptions. Native layout corrections and all 14 actual tracking/re-entry cases
 are complete. Final pair assembly passed with source-bound native checks;
 a fresh DEVELOPMENT REVIEW export and independent manufacturing verification passed at `3f24a3a` after correcting the first export's strict B20 refill-geometry rejection. No source merge or software check constitutes hardware qualification.
 
+**Cloud update 2026-11-11 UTC (2026-11-12 JST):** four campaign PRs under [#228](https://github.com/Takazudo/zudo-pd/issues/228)
+are merged; main after them is `db49cfea495e86ceddb280c675fb1f7dafa1b791`. All are digital tooling, record or
+documentation changes; none orders, programs, energizes or measures hardware.
+
+| PR (merge) | What it changed | What it does not establish |
+| --- | --- | --- |
+| [#244](https://github.com/Takazudo/zudo-pd/pull/244) (`caca8f4`), [#241](https://github.com/Takazudo/zudo-pd/issues/241) | Component-spec CI path filters now include the PD20 and P15 gate inputs (Board P 20 V NVM intent, B20 tests/reports, phase33 regressions, fixed P15 package checks), with an event-aware workflow contract test | Any new circuit result |
+| [#245](https://github.com/Takazudo/zudo-pd/pull/245) (`a7f6435`), [#242](https://github.com/Takazudo/zudo-pd/issues/242) | The phase33 refinement analyzer also audits the per-attempt model library and `.spiceinit` copies the solver actually executed; receipt schema and numerical limits unchanged | Electrical acceptance of the recorded cases |
+| [#246](https://github.com/Takazudo/zudo-pd/pull/246) (`9b68162`), [#202](https://github.com/Takazudo/zudo-pd/issues/202) | Obsolete `l-bump-version-*` skills removed (retired paths asserted absent); stale P r3 layout wording replaced by the PR #240 R1–R4/artwork dispositions | Closure of R5/R7, process or D1–D9 holds |
+| [#247](https://github.com/Takazudo/zudo-pd/pull/247) (`db49cfe`), [#243](https://github.com/Takazudo/zudo-pd/issues/243) | Source-bound [D1–D3 interface diagnostics](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/interface-diagnostics.md): arithmetic hypotheses bound to the generated B20 schematic and phase33 deck, with the missing inputs named | Simulation, physical qualification or any contract/exception/component change; electrical acceptance stays NOT ESTABLISHED |
+
+Unchanged: PD20 D1–D9 interface/evidence holds, NVM and manufacturing-process holds, every physical gate
+(P15-NVM, PD15 bring-up, T1–T8), and the open records [#97](https://github.com/Takazudo/zudo-pd/issues/97) (no-auto,
+needs-human-verify), [#164](https://github.com/Takazudo/zudo-pd/issues/164), [#185](https://github.com/Takazudo/zudo-pd/issues/185),
+[#210](https://github.com/Takazudo/zudo-pd/issues/210), [#218](https://github.com/Takazudo/zudo-pd/issues/218),
+[#228](https://github.com/Takazudo/zudo-pd/issues/228), [#231](https://github.com/Takazudo/zudo-pd/issues/231) and
+[#235](https://github.com/Takazudo/zudo-pd/issues/235).
+
 ## P15 r1 shared input module
 
 | Dimension | Recorded state and next gate |
