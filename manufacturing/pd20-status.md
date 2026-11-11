@@ -9,8 +9,9 @@ bench row below is a test sheet that has **not been executed**; each one needs o
 `dec-p-20v-c36-x7r-1206` replaces C36 CL10A105KB8NNNC C15849 (0603 X5R) with CL31B105KBHNNNE C1848 (1206 X7R
 1 µF 50 V), superseding only the C36 part of `dec-p-20v-q1-soft-start`. The Q1 closure screen at all eight corners gives
 3.88–5.34 V/ms, at most 1.336 A against the 4.185 A U2 I(OL) minimum and a minimum Q1 SOA ratio of 1.67, on typical
-25 °C data only. Readiness D10 is **correction adopted, verification open**: the Board P PCB is not yet rebuilt for the
-1206 land (native re-place/route, DRC with parity and a fresh export remain), and bench T3 is NOT RUN.
+25 °C data only. Readiness D10 is **correction adopted, verification open**: the Board P PCB is rebuilt natively for the 1206
+land (Actions run 43107657333; only C36 moved, y 32.5 → 32.75 mm; DRC with parity 0 errors / 0 unconnected). The pair assembly
+preview and development export are NOT RUN (selected Mac required), and bench T3 is NOT RUN.
 
 ## 2026-11-10 JST execution disposition
 
