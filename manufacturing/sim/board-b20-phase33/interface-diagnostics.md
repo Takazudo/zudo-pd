@@ -58,6 +58,30 @@ The failed conditions are preserved: +5 V 0.954850860 V/ms / 114.510041 mA and �
 magnitude 1.474778000 V/ms / 265.259332 mA exceed the 0.95 / 114 mA and 1.47 / 265 mA
 exception ceilings in the model.
 
+## D1 correction candidates (owner decisions; nothing adopted)
+
+The CSD18543Q3A pair on each rail is both the servo pass device and the output disconnect, so a
+passive bleeder cannot keep it conducting at the floor (+0.0513 V on +5, −0.0969 V on −12)
+without defeating disconnection. **C2 minimum-load bleeder: rejected by owner decision.**
+
+| Placement | R for ≥ 5 mA at the floor | Result |
+| --- | ---: | --- |
+| +5 output to GND | ≤ 10.3 Ω | Infeasible: 0.49 A at 5 V, above trip_min 0.43694 A |
+| +5 common source to GND | ≤ 1.0 Ω | Infeasible |
+| +5 common source or output to −12 V | ≤ 2428.4 Ω | Defeats disconnection: with the gate at GND only the 11 V Zener limits Vgs; a disabled output is pulled toward −12 V |
+| −12 output to GND | ≤ 19.4 Ω | Infeasible: 0.62 A at 12 V leaves 1.32 A before trip_min against the 1.9 A transient minimum |
+| −12 common source to GND | ≤ 2424.0 Ω | Does not test C2: current flows through XQ5 only; XQ6, the threshold-limited blocker, is untouched |
+| −12 output to +5 V | ≤ 996.0 Ω | Defeats disconnection: a disabled output is pulled toward +5 V |
+
+An EN-gated opposite-rail sink is also **rejected**: it needs the disconnect and AGND-return
+rules reinterpreted. **C1, gate pre-bias while enabled, is under evaluation** and is blocked
+on a guaranteed VGS(th) minimum at the operating temperature and test current.
+
+Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
+therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and
+consumes the transient-minimum margin (41.59 / 42.16 / 36.94 mA) and the startup-into-full-load
+margin (8.94 / 13.29 / 29.09 mA).
+
 ## D2 discharge and shutdown
 
 Ideal simultaneous disconnect (zero skew; the contract allows up to 1 ms and the installed
@@ -107,9 +131,9 @@ load-side di/dt are UNSOURCED. With 1 µs total response the −12 V margin allo
 ## Next inputs (no correction adopted)
 
 1. D1: the reference side is refuted and the dead zone is set by the pass-pair conduction
-   threshold on both failed rails. A minimum-load bleeder (C2) is the candidate under
-   evaluation, with gate pre-bias (C1) as fallback; nothing is adopted before a
-   pre-registered paired variant run and an owner decision.
+   threshold on both failed rails. A minimum-load bleeder (C2) is rejected by owner decision;
+   gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed
+   CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.
 2. D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a
    numeric definition of "absent", and switching data for the disconnect/discharge edge.
    Without them, only a design that couples the rails (or an agreed contract reading)

@@ -269,6 +269,68 @@ def servo_hypothesis(record=D1_SERVO):
     }
 
 
+# ---------------------------------------------------------------- D1 correction candidates
+# Common-source floor voltages sampled at 120 ms from run 43099431981 (nom-servo.txt v(p5_cs), adv-servo.txt v(m12_cs));
+# the servo record keeps the output floors.
+COMMON_SOURCE_FLOOR_V = {'+5': 0.0052, '-12': -12.1198}
+CONDUCTION_CRITERION_A = 5e-3
+OWNER_REJECTED = 'REJECTED (owner decision 2026-11-11)'
+
+
+def bleeder_ohms(volts):
+    return round(abs(volts) / CONDUCTION_CRITERION_A, 1)
+
+
+def correction_candidates(calc, record=D1_SERVO):
+    servo = json.loads(Path(record).read_text())['servo']
+    floor = {r: servo[r]['output_at_driver_exit_v'] for r in servo}
+    lim, start = calc.limiter(), calc.limiter_startup()
+    rails = ('+12', '-12', '+5')
+    low_side = {r: {'transient_minimum_margin_a': round(lim[r]['trip_min_a'] - calc.I_TRANSIENT_MIN[r], 5),
+                    'startup_into_full_load_margin_a': round(lim[r]['trip_min_a'] - start[r]['startup_floor_a'], 5),
+                    'maximum_delivered_margin_a': round(calc.I_MAX[r] - lim[r]['trip_max_a'], 5)} for r in rails}
+    r_p5, r_m12 = bleeder_ohms(floor['+5']), bleeder_ohms(floor['-12'])
+    return {
+        'scope': 'Correction candidates for the D1 dead zone (D1-S); proposals and owner decisions only, nothing adopted',
+        'C2 minimum-load bleeder': {
+            'status': OWNER_REJECTED,
+            'reason': 'The CSD18543Q3A pair is both the servo pass device and the output disconnect, so no passive bleeder '
+                      'can keep it conducting at the floor without defeating disconnection or the AGND-returned discharge.',
+            'placements': [
+                {'placement': '+5 output to GND', 'r_max_ohm_for_5ma': r_p5,
+                 'result': f"infeasible: at 5 V it draws {5.0 / r_p5:.2f} A, above trip_min {lim['+5']['trip_min_a']} A"},
+                {'placement': '+5 common source to GND', 'r_max_ohm_for_5ma': bleeder_ohms(COMMON_SOURCE_FLOOR_V['+5']),
+                 'result': 'infeasible'},
+                {'placement': '+5 common source or output to -12 V', 'r_max_ohm_for_5ma': bleeder_ohms(12.142),
+                 'result': 'defeats disconnection: with the gate held at GND (disable pulldown, or U13B at its 0 V rail) '
+                           'only the 11 V gate Zener limits Vgs, so the pair conducts; at the output a disabled +5 output is '
+                           'pulled toward -12 V through a non-AGND return'},
+                {'placement': '-12 output to GND', 'r_max_ohm_for_5ma': r_m12,
+                 'result': f"infeasible: at 12 V it draws {12.0 / r_m12:.2f} A, leaving "
+                           f"{lim['-12']['trip_min_a'] - 12.0 / r_m12:.2f} A before trip_min against the "
+                           f"{calc.I_TRANSIENT_MIN['-12']} A transient minimum"},
+                {'placement': '-12 common source to GND', 'r_max_ohm_for_5ma': bleeder_ohms(COMMON_SOURCE_FLOOR_V['-12']),
+                 'result': 'does not test C2: the current flows through XQ5 only (body diode or channel) and leaves XQ6, the '
+                           'threshold-limited output blocker, untouched; the 5 mA criterion would be met spuriously'},
+                {'placement': '-12 output to +5 V', 'r_max_ohm_for_5ma': bleeder_ohms(4.98),
+                 'result': 'defeats disconnection: a disabled -12 output is pulled toward +5 V through a non-AGND return'},
+            ],
+        },
+        'EN-gated opposite-rail current sink': {
+            'status': OWNER_REJECTED,
+            'reason': 'Needs the disconnect and AGND-return rules reinterpreted and adds an enable-edge reverse-excursion risk.'},
+        'C1 gate pre-bias while enabled': {
+            'status': 'UNDER EVALUATION (not adopted)',
+            'blocking_input': 'A guaranteed CSD18543Q3A VGS(th) minimum at the operating temperature and test current.'},
+        'C3 slower gate path': {'status': 'FALLBACK only if C1 fails'},
+        'bias_current_low_side_margins': {
+            'rule': 'The limiter shunts sit upstream of each pair, so bias or bleeder current is sensed: delivered current '
+                    'at trip becomes trip_max - I_bias (the maximum-delivered margin grows), while the transient-minimum '
+                    'and startup-into-full-load margins shrink by I_bias.',
+            'rails': low_side},
+    }
+
+
 # ---------------------------------------------------------------- D2 discharge and shutdown
 def rc_voltage(v0, r_discharge, c, t, r_load=None):
     """Closed-form decay of one disconnected rail through its discharge resistor and an optional resistive load."""
@@ -452,8 +514,9 @@ def d1_next_input(record=D1_SERVO):
     rows = json.loads(Path(record).read_text())['servo']
     if all(row['verdicts']['dead zone set by'].startswith('CONDUCTION THRESHOLD') for row in rows.values()):
         return ('D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both '
-                'failed rails (D1-S). A minimum-load bleeder (C2) is the candidate under evaluation, with gate pre-bias (C1) '
-                'as fallback; nothing is adopted before a pre-registered paired variant run and an owner decision.')
+                'failed rails (D1-S). A minimum-load bleeder (C2) is rejected by owner decision because the pass pair is also '
+                'the output disconnect; gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed '
+                'CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.')
     return ('D1: the reference side is refuted but the servo record does not place both dead zones at the conduction '
             'threshold; resolve D1-S before choosing a correction candidate.')
 
@@ -468,6 +531,7 @@ def findings():
                                 'pd-interface-20v.md (sha256 8702890d4d13c4ba3fbd129dca98ccabf12b006aee7e99230e81ed4dad09556a)'},
         'model_scope': scope_matrix(),
         'd1_startup': startup(calc),
+        'd1_correction_candidates': correction_candidates(calc),
         'd2_discharge': discharge(calc),
         'd3_maximum_current': maximum_current(calc),
         'next_inputs': [

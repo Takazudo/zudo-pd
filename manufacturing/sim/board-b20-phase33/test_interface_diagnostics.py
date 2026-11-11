@@ -248,5 +248,22 @@ class ServoCitationTests(unittest.TestCase):
         self.assertIn('[D1 servo record](d1-servo-20261111.md)', md)
         self.assertIn('pass-pair conduction', md)
 
+
+class CorrectionCandidateTests(unittest.TestCase):
+    def test_record_follows_calculator_and_servo_record(self):
+        calc = diag.calculator()
+        c = diag.correction_candidates(calc)
+        self.assertTrue(c['C2 minimum-load bleeder']['status'].startswith('REJECTED'))
+        self.assertTrue(c['EN-gated opposite-rail current sink']['status'].startswith('REJECTED'))
+        self.assertFalse(c['C1 gate pre-bias while enabled']['status'].startswith('ADOPTED'))
+        lim = calc.limiter()
+        margins = c['bias_current_low_side_margins']['rails']
+        self.assertAlmostEqual(margins['-12']['transient_minimum_margin_a'], lim['-12']['trip_min_a'] - calc.I_TRANSIENT_MIN['-12'], 5)
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        for row in c['C2 minimum-load bleeder']['placements']:
+            self.assertIn(f"{row['r_max_ohm_for_5ma']:.1f} Ω", md)
+        for r in ('+12', '-12', '+5'):
+            self.assertIn(f"{margins[r]['startup_into_full_load_margin_a'] * 1e3:.2f}", md)
+
 if __name__ == '__main__':
     unittest.main()
