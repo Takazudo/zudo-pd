@@ -80,7 +80,7 @@ Each step needs the evidence named; record results here with the unit identity. 
 | 3 | Hand the first accepted P15 to the LED lamp stack | zudo-led-lamp `firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md` | Recorded in zudo-led-lamp |
 | 4 | Received S3 Board B: D1 unpowered inspection, count and condition | [Board B unpowered check](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/board-b-unpowered-check.md) | Usable count, LED2 rotation, copper/silk identity |
 | 5 | PD15 staged qualification with an accepted P15 | [PD15 staged bring-up](../verification/renewal-bring-up.md) | Startup, low-line, load, ripple, thermal, surge, installed mechanics |
-| 6 | PD20: select TDISPAR0V with reset timing reviewed, resolve POWER_ONLY_ABOVE_5V mapping and established-contract transitions before any binary; address layout findings, then T1–T8 | [PD20 verification](../verification/pd20-verification.md) | Program-ready image review, then each T-gate result |
+| 6 | PD20: select TDISPAR0V with reset timing reviewed, resolve POWER_ONLY_ABOVE_5V mapping and established-contract transitions before any binary; close the D1–D9 interface/evidence holds in the [prototype-order ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md) (R1–R4 layout corrections are dispositioned; R5/R7 stay with T7/T3), then T1–T8 | [PD20 verification](../verification/pd20-verification.md) | Program-ready image review, then each T-gate result |
 
 Continue the local Mac execution through the linked ledger and
 [#228](https://github.com/Takazudo/zudo-pd/issues/228); the original integration PR

@@ -4,6 +4,7 @@ import { readFile, writeFile, mkdir, mkdtemp, rm, symlink, cp } from 'node:fs/pr
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { root, packageRoot, internal, json, scratch, dispose, cli, mutate, corpus } from './compatibility-helpers.mjs';
 import { bundleForSsr } from './ssr-helper.mjs';
@@ -18,6 +19,10 @@ const currentEvidence = await json(join(root, 'circuit/tests/current-evidence-ba
 baseline.corpus = currentEvidence.corpus;
 baseline.ids = currentEvidence.ids;
 Object.assign(baseline.files, currentEvidence.files);
+for (const path of currentEvidence.retiredFiles.paths) {
+  assert.ok(path in baseline.files, `retired ${path} is not a historical baseline file`);
+  delete baseline.files[path];
+}
 const {mapped, index, model} = await corpus(root);
 const {PublicationPolicy} = await internal('core/publication.js');
 const {fitLabel, fitRollupLabel, hasMixedFit, placementSummary, buildRecordIndex} = await internal('core/render/shared.js');
@@ -51,6 +56,7 @@ test('installed runtime preserves closed evidence identities, counts and canonic
   assert.deepEqual(model.corpus, baseline.corpus);
   for (const [label, entries, key] of [['records',index.records,'record'],['sources',index.records.flatMap(r=>r.sources),'source_id'],['facts',index.records.flatMap(r=>r.facts),'fact_id'],['coverage',index.records.flatMap(r=>r.coverage),'coverage_id'],['pins',index.records.flatMap(r=>r.pinMaps),'pin_map_id'],['integration',index.integrationRules,'rule_id']]) assert.deepEqual(entries.map(e=>label==='records'?e.record.record_id:e[key]).sort(), baseline.ids[label]);
   for (const [path, hash] of Object.entries(baseline.files)) assert.equal(createHash('sha256').update(await readFile(join(root,path))).digest('hex'),hash,path);
+  for (const path of currentEvidence.retiredFiles.paths) assert.equal(existsSync(join(root,path)),false,`retired ${path} reappeared`);
   assert.equal(model.packagePreviews.length,47);
   const inv=await json(join(root,inventoryPath));
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,431);

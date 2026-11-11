@@ -33,7 +33,9 @@ owns full setups, criteria and source assumptions. Preserve those conditions rat
 | T7 | All-rail fault latch, re-plug recovery and recorded let-through | NOT RUN |
 | T8 | PD hard reset, vSafe0V and clean restart | NOT RUN |
 
-Nominal CAD and topology/simulation PASS rows do not execute these sheets. The [completed P r3 review](https://github.com/Takazudo/zudo-pd/blob/main/boards/board-p/r3-draft/independent-review.md) has unresolved layout findings;
-component evidence, hot-loop EMI, thermal coupling, sequencing and let-through must remain visible until
-revision-specific results close them. Retain the [original review](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-b20-layout-review.md)
+Nominal CAD and topology/simulation PASS rows do not execute these sheets. The [original P r3 review](https://github.com/Takazudo/zudo-pd/blob/main/boards/board-p/r3-draft/independent-review.md)
+is preserved; its R1–R4 geometry findings and the final artwork have bounded dispositions from
+[PR #240](https://github.com/Takazudo/zudo-pd/pull/240), while R5 (T7) and R7 (T3) remain open.
+Component evidence, hot-loop EMI, thermal coupling, via/stencil process, sequencing and let-through must
+remain visible until revision-specific results close them. Retain the [original review](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-b20-layout-review.md)
 with its [later disposition](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-status.md).
