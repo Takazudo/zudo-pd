@@ -202,3 +202,7 @@ evidence; `symbols/` and `footprints/kicad/` assets; `circuit/` package config,
 project checks and publication contracts; `doc/` authored/generated documentation;
 `3dp-files/` the current adhesive-leg prototype. `doc/CLAUDE.md` and
 `footprints/CLAUDE.md` provide local rules.
+
+## Development orchestration
+
+For multi-session work or expensive checks, also read [circuit/ORCHESTRATION.md](circuit/ORCHESTRATION.md), [the current task/environment/model mapping](circuit/orchestration/current-plan.md) and [the bounded task template](circuit/templates/orchestration-task.md). These govern cloud-first coordination, shared resources, recovery and the scoped DNS-incident deferral; they do not replace the hardware/evidence rules above or authorize new physical actions.
