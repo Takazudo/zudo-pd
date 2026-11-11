@@ -46,11 +46,15 @@ def main():
     old, new = footprint_fields(before), footprint_fields(after)
     changes = {}
     for ref in sorted(refs):
+        if ref not in old or ref not in new:
+            raise SystemExit(f'Expected reference {ref} is missing from a board')
         changes[ref] = {}
         for name in ('Value', 'LCSC'):
             was, now = old[ref][name][2], new[ref][name][2]
             changes[ref][name] = [atom(was), atom(now)]
             new[ref][name][2] = was
+        if all(a == b for a, b in changes[ref].values()):
+            raise SystemExit(f'Expected reference {ref} has no Value/LCSC change')
     if strip(before) != strip(after):
         raise SystemExit('Finalized PCB differs outside the expected Value/LCSC fields')
     if fills(before, []) != fills(after, []):

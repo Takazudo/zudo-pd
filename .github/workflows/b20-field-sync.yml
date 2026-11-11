@@ -46,9 +46,15 @@ jobs:
       - name: Validate the requested reference list
         run: |
           [[ "$REFS" =~ ^[A-Z][A-Z0-9]*(,[A-Z][A-Z0-9]*)*$ ]] || { echo "invalid refs: $REFS" >&2; exit 1; }
+      - name: Preflight - projection and schematic match the spec
+        run: |
+          python3 scripts/schgen/gen_b20_components.py --check
+          python3 scripts/schgen/gen_schematic.py scripts/schgen/board_b20_spec.py
+          git diff --exit-code -- boards/board-b20-draft/board-b20-draft.kicad_sch
       - name: Pull the pinned KiCad image by digest
         run: docker pull "$IMAGE"
       - name: Sync fields, finalize, verify and re-derive reports
+        id: sync
         run: |
           set -euo pipefail
           T="$RUNNER_TEMP/b20"; E="$RUNNER_TEMP/evidence"; mkdir -p "$T" "$E"
@@ -71,10 +77,18 @@ jobs:
             "$OUT/routing-report.json" "$T/final-routes.json"
       - name: Collect changed files
         if: always()
+        env:
+          SYNC_OUTCOME: ${{ steps.sync.outcome }}
         run: |
-          E="$RUNNER_TEMP/evidence"; mkdir -p "$E/files"
+          E="$RUNNER_TEMP/evidence"; mkdir -p "$E"
           git status --porcelain --untracked-files=no | tee "$E/changed.txt"
-          git diff --name-only -z | xargs -0 -r -I{} cp --parents {} "$E/files/"
+          # Changed files are offered for adoption only when every check above passed.
+          if [[ "$SYNC_OUTCOME" == success ]]; then
+            echo PASS > "$E/status.txt"; mkdir -p "$E/files"
+            git diff --name-only -z | xargs -0 -r -I{} cp --parents {} "$E/files/"
+          else
+            echo "FAILED: sync step outcome $SYNC_OUTCOME; no files offered" > "$E/status.txt"
+          fi
           (cd "$E" && find . -type f ! -name hashes.txt -print0 | sort -z | xargs -0 sha256sum > hashes.txt)
           cat "$E/hashes.txt"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

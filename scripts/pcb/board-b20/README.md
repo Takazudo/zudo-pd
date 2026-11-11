@@ -43,5 +43,9 @@ the change, with the expected reference designators as input. At the pinned imag
 4. The hash-bound desk reports are re-derived from the saved native copper: report-input receipt,
    loop, current, thermal and the power reports. Routing-report counts must be unchanged.
 
-The job uploads the changed files for review and pushes nothing. It is not a reroute, re-placement or
+It first checks that the components projection and the schematic match the spec. Changed files are
+offered only when every step passes (`status.txt` says PASS). The pair assembly preview
+(`assembly-preview/verification.json`) and the STEP datum proof (`footprints/kicad/step-datum-verification.json`)
+also bind the PCB hash. This job does not refresh them, so a development export of the pair stays blocked
+until they are re-run on a native host. The job uploads the changed files for review and pushes nothing. It is not a reroute, re-placement or
 footprint change. It establishes no electrical, supplier or order acceptance.
