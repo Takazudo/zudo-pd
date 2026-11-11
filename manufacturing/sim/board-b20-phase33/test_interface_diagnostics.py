@@ -1,8 +1,11 @@
 """Regression tests for the PD20 interface diagnostics; arithmetic only, not circuit qualification."""
+import copy
 import json
 import math
 from pathlib import Path
+import tempfile
 import unittest
+from unittest import mock
 
 import interface_diagnostics as diag
 
@@ -131,6 +134,64 @@ class DiagnosticsTests(unittest.TestCase):
             with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'now appear in the deck'):
                 diag.scope_matrix(refs, deck | {name})
         diag.scope_matrix(refs, deck | {'XU60'})
+
+    @staticmethod
+    def hypothesis(report, ident):
+        return next(h for h in report['hypotheses'] if h['id'] == ident)
+
+    def test_hypothesis_prose_is_bound_to_computed_fields(self):
+        report = diag.startup(self.calc)
+        h2 = self.hypothesis(report, 'D1-H2')['evidence']
+        for rail in ('+5', '-12'):
+            self.assertIn(f"{report['rails'][rail]['step_change_5us_to_2us_pct']:+.5f} %", h2)
+        h3 = self.hypothesis(report, 'D1-H3')['evidence']
+        self.assertIn('= 0.95 V/ms against 0.95 V/ms (equal)', h3)
+        self.assertIn('= 1.4722 V/ms against 1.47 V/ms (slope ceiling tighter)', h3)
+        current = diag.maximum_current(self.calc)
+        d3 = self.hypothesis(current, 'D3-H2')['evidence']
+        self.assertIn('15.15 / 4.56 / 39.16 mA (+12 / -12 / +5)', d3)
+        self.assertIn('at most 4.56 mA/us of growth on -12', d3)
+
+    def test_drifted_inputs_change_prose_and_fail_the_check(self):
+        retained = json.loads(RETAINED.read_text())
+        real = diag.recorded_peaks()
+        drifted = copy.deepcopy(real)
+        drifted['+5']['5us_v_per_ms'] *= 0.999
+        with mock.patch.object(diag, 'recorded_peaks', return_value=drifted):
+            h2 = self.hypothesis(diag.startup(self.calc), 'D1-H2')['evidence']
+            self.assertNotEqual(h2, self.hypothesis(retained['d1_startup'], 'D1-H2')['evidence'])
+            self.assertNotEqual(diag.findings(), retained)
+            self.assertEqual(diag.main(['--check', str(RETAINED)]), 1)
+        drifted = copy.deepcopy(real)
+        drifted['-12']['exception']['current_a'] = 0.2640
+        with mock.patch.object(diag, 'recorded_peaks', return_value=drifted):
+            h3 = self.hypothesis(diag.startup(self.calc), 'D1-H3')['evidence']
+            self.assertIn('264 mA / 180 uF = 1.4667 V/ms against 1.47 V/ms (current ceiling tighter)', h3)
+        calc = diag.calculator()
+        calc.I_MAX = {**calc.I_MAX, '-12': calc.I_MAX['-12'] + 0.02}
+        d3 = self.hypothesis(diag.maximum_current(calc), 'D3-H2')['evidence']
+        self.assertNotEqual(d3, self.hypothesis(retained['d3_maximum_current'], 'D3-H2')['evidence'])
+        self.assertIn('on +12', d3)
+
+    def test_hand_edited_prose_fails_the_check(self):
+        retained = json.loads(RETAINED.read_text())
+        self.hypothesis(retained['d1_startup'], 'D1-H2')['evidence'] = 'about +0.01 %'
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'tampered.json'
+            path.write_text(json.dumps(retained, indent=2) + '\n')
+            self.assertEqual(diag.main(['--check', str(path)]), 1)
+
+    def test_record_mirrors_computed_values(self):
+        record = (HERE / 'interface-diagnostics.md').read_text()
+        rails = diag.startup(self.calc)['rails']
+        self.assertIn(f"changes the peak by {rails['+5']['step_change_5us_to_2us_pct']:+.5f} % (+5)", record)
+        self.assertIn(f"{rails['-12']['step_change_5us_to_2us_pct']:+.5f} % (−12)", record)
+        self.assertIn('0.95 V/ms equals the +5 slope ceiling', record)
+        self.assertIn(f"{rails['-12']['exception_current_equivalent_slope_v_per_ms']} V/ms makes the 1.47 V/ms −12 slope "
+                      'ceiling slightly tighter', record)
+        margins = diag.maximum_current(self.calc)['rails']
+        self.assertIn(' / '.join(f"{margins[r]['margin_a'] * 1e3:.2f}" for r in ('+12', '-12', '+5')) + ' mA', record)
+        self.assertIn(f"{margins['-12']['margin_a'] * 1e3:.2f} mA/µs", record)
 
     def test_retained_findings_are_fresh(self):
         self.assertEqual(json.loads(RETAINED.read_text()), diag.findings())
