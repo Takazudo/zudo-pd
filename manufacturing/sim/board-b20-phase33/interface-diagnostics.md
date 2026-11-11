@@ -81,6 +81,13 @@ of the model onset. In the [gap sensitivity](d1-gap-attempt2-20261111.md) no eva
 passed and no +5 V gap was evaluated. Its microvolt rule 6 results are not the reason for rejection. C3, a slower gate path, remains an
 unevaluated fallback.
 
+T1, an integrator leak switched in while RAMP is held in reset, is **rejected by construction**
+(owner decision; not evaluated in transient). At the summing node the DC balance sets the driver
+by offset currents, not by conduction. On +5 V, DRV = 1.214 V − 43.1 × out, so the loop stays wound
+to its rail. On −12 V, DRV = 23.5 × out + 1.214 V, which gives a threshold-dependent −0.47 V
+pedestal ([analysis](d1-t1-leak-rejected-20261111.md)). T2, a peak-hold anti-windup clamp, is
+admitted for evaluation.
+
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
 therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and
 consumes the transient-minimum margin (41.59 / 42.16 / 36.94 mA) and the startup-into-full-load

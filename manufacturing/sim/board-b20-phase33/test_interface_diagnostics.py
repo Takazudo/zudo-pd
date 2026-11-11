@@ -271,6 +271,9 @@ class CorrectionCandidateTests(unittest.TestCase):
         self.assertTrue(c['C2 minimum-load bleeder']['status'].startswith('REJECTED'))
         self.assertTrue(c['EN-gated opposite-rail current sink']['status'].startswith('REJECTED'))
         self.assertTrue(c['C1 gate pre-bias while enabled']['status'].startswith('REJECTED'))
+        self.assertTrue(c['T1 reset-window integrator leak']['status'].startswith('REJECTED'))
+        self.assertTrue((HERE / c['T1 reset-window integrator leak']['evidence']).exists())
+        self.assertFalse(c['T2 peak-hold anti-windup clamp']['status'].startswith('ADOPTED'))
         lim = calc.limiter()
         margins = c['bias_current_low_side_margins']['rails']
         self.assertAlmostEqual(margins['-12']['transient_minimum_margin_a'], lim['-12']['trip_min_a'] - calc.I_TRANSIENT_MIN['-12'], 5)
