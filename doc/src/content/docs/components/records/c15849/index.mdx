@@ -101,15 +101,17 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c15849-bias-curve` · **Status:** OPEN
 
-**Reason:** Reference-sheet/specsheet DC-bias, temperature, and aging curves are design-reference only; the installed DC bias/ripple/temperature/layout point is not independently measured.
+**Reason:** Exact manufacturer typical DC-bias data acquired 2026-11-11 (about 0.15-0.17 uF at 18-20 V on a 1 uF part); it contradicts the 0.4 uF lower end assumed for C36 at the start of the 20 V closure, and typical data does not establish an installed minimum across tolerance, temperature and aging.
 
 **Facts in this domain:**
 
 - [`fact-c15849-curve-caveat`](#fact-c15849-curve-caveat)
+- [`fact-c15849-dc-bias-curve`](#fact-c15849-dc-bias-curve)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
 - [`fact-c15849-curve-caveat`](#fact-c15849-curve-caveat)
+- [`fact-c15849-dc-bias-curve`](#fact-c15849-dc-bias-curve)
 
 ## Facts
 
@@ -195,6 +197,20 @@ A representative figure read from a characteristic curve. Typical values are not
   **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
 
   **Evidence:** [`src-c15849-page`](#src-c15849-page) — Sections 2-1-3/2-5/2-6/2-7 (self-heating, ripple, DC/AC voltage examples), per the standard Samsung reference-sheet manual
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c15849-dc-bias-curve" />
+
+  **Fact:** `fact-c15849-dc-bias-curve`
+
+  **Value:** Approximately 0.87 uF at 2.7 V, 0.66 uF at 5 V, 0.40 uF at 8.7 V, 0.29 uF at 12 V, 0.22 uF at 15 V, 0.17 uF at 18 V and 0.15 uF at 20 V (nominal 1 uF basis) · **Unit:** `NONE`
+
+  **Conditions:** Manufacturer typical characteristic data at 25 C, 1 kHz, for design reference only; linear interpolation of the published series; not a guaranteed minimum; +/-10% tolerance, X5R temperature, aging and installed ripple are not combined. Board P C36 (Miller) sees about 17-20 V at the start of a 20-21 V closure, so its typical incremental capacitance there is below the 0.4 uF lower end assumed by dec-p-20v-q1-soft-start
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c15849-dcbias-20261111`](#src-c15849-dcbias-20261111) — Figure: Characteristic Data section, DC Bias chart, partsName CL10A105KB8NNN
 </EvidenceFact>
 
 ### PROJECT\_STATE
@@ -339,6 +355,26 @@ Every document cited above, with its identification, when it was retrieved, and 
 **Availability:** AVAILABLE
 
 **Document URL:** [https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md](https://github.com/Takazudo/zudo-pd/blob/main/doc/src/content/docs/overview/board-a-usb-pd-core.md)
+
+### Samsung Electro-Mechanics MLCC product detail CL10A105KB8NNN: characteristic data (DC bias)
+
+<EvidenceAnchor id="src-c15849-dcbias-20261111" />
+
+**Source ID:** `src-c15849-dcbias-20261111` · **Authority:** MANUFACTURER\_PRIMARY
+
+| Field           | Recorded value                          |
+| --------------- | --------------------------------------- |
+| Document number | CL10A105KB8NNN                          |
+| Revision        | live product page, retrieved 2026-11-11 |
+| Document date   | 2026-11-11                              |
+| Retrieved       | 2026-11-11                              |
+| Printed page    | source                                  |
+
+**Locator:** Product detail page, Characteristic Data section, DC Bias chart (graphType DCBias, partsName CL10A105KB8NNN); warning box above the Created timestamp
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://product.samsungsem.com/mlcc/CL10A105KB8NNN.do](https://product.samsungsem.com/mlcc/CL10A105KB8NNN.do)
 
 ## Legend
 
