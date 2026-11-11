@@ -71,8 +71,11 @@ jobs:
           for label in g20 g16 g12 worst; do
             cases=$(python3 "$PHASE33/gap_sensitivity.py" pending "$RUNNER_TEMP/work" "$label")
             if [ -z "$cases" ]; then echo "$label: no rail left to run"; continue; fi
-            python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/gaps/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/gap-runner-$label.txt" \
-              || echo "::warning::$label recorded an aborted case; not retried in this dispatch"
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/gaps/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/gap-runner-$label.txt"; then
+              # Only a solver abort is tolerated; any other runner failure fails the step.
+              python3 "$PHASE33/gap_sensitivity.py" check-run "$RUNNER_TEMP/work" "$label"
+              echo "::warning::$label recorded an ABORTED case; its rail stops and is not retried in this dispatch"
+            fi
           done
           python3 "$PHASE33/gap_sensitivity.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/gap-sensitivity.json"
       - name: Collect evidence without vendor model bytes

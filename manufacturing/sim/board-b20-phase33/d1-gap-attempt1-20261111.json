@@ -64,6 +64,7 @@
           "status": "ABORTED",
           "returncode": 1,
           "runner_reason": "solver failed, timed out, or aborted",
+          "runner_status": "FAILED",
           "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00306796, timestep = 2.5e-18: trouble with node \"xu13a.n2992151\" | run simulation(s) aborted",
           "passes": null
         },
@@ -207,7 +208,7 @@
           "rule6_detail": {
             "below_baseline_minimum_v": 1.2232393483538329e-05,
             "above_baseline_maximum_v": -4.2919992646701585e-06,
-            "largest_difference_v": 1.2232393483538329e-05,
+            "largest_excursion_beyond_baseline_v": 1.2232393483538329e-05,
             "resolution_v": 1e-05,
             "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
             "contract_reference_value_v": null
@@ -219,7 +220,8 @@
             ],
             "same_time_grid": false,
             "max_output_difference_v": null,
-            "identical": false
+            "identical": false,
+            "identity_expected": false
           }
         },
         "g16": {
@@ -227,24 +229,24 @@
           "shift_v": 1.2668,
           "target_gap_v": 1.6,
           "status": "NOT RUN",
-          "passes": null,
-          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched"
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched",
+          "passes": null
         },
         "g12": {
           "kind": "enabled-gated",
           "shift_v": 1.6668,
           "target_gap_v": 1.2,
           "status": "NOT RUN",
-          "passes": null,
-          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched"
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched",
+          "passes": null
         },
         "worst": {
           "kind": "constant",
           "shift_v": -0.3,
           "target_gap_v": 3.1668,
           "status": "NOT RUN",
-          "passes": null,
-          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched"
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched",
+          "passes": null
         }
       },
       "largest_passing_target_gap_v": null,

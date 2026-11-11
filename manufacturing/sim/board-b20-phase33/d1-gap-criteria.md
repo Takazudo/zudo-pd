@@ -143,13 +143,15 @@ g20, g16 and g12 keep the existing offset source at the same nodes and give it a
 - nom: `VO2 p5_g p5_gi PWL(0 0 40m 0 40.05m <0−shift> 240m <0−shift> 240.05m 0)`
 - adv: `VO3 m12_g m12_gi PWL(0 0.5 40m 0.5 40.05m <0.5−shift> 240m <0.5−shift> 240.05m 0.5)`
 
-Shifts and targets are unchanged. The worst case is unchanged. Before 40 ms each deck is expected to solve
+Shifts and targets are unchanged. The worst case is unchanged. These cases are labelled `scheduled-enable`;
+attempt 1's were `enabled-gated`. Before 40 ms each deck is expected to solve
 exactly as the baseline:
 - It adds no element.
 - The value there is the baseline value.
 - Its corners fall on the existing VENN and VDIS breakpoints.
 
 That expectation is checked, not assumed: the pre-enable main waveform is compared with baseline and reported.
+The worst case changes the deck before 40 ms by design, so identity is not expected there.
 
 **What it does not track.** The edges follow the deck's scheduled EN (VENN 40–40.05 ms) and disable
 (VDIS 240–240.05 ms) edges, not v(enn). The enable latch and its delay network sit between those edges and
@@ -163,8 +165,12 @@ v(enn), so the gate pulldown (B11/B25) and the shift do not change at the same i
   until the latch has acted.
 
 ### Change 2: a case that aborts is recorded and the dispatch continues
-- **ABORTED.** A case whose solver run does not complete is recorded with the solver's own abort lines. It is
-  never a pass or a fail of rules 1–9, and is not retried in the same dispatch.
+- **ABORTED.** A case whose solver run aborts is recorded with the solver's own abort lines. It is never a pass
+  or a fail of rules 1–9, and is not retried in the same dispatch. ABORTED needs ngspice's own abort statement in
+  the log, a clean container cleanup, no timeout and a finished runner.
+- **RUN FAILED.** Any other runner failure (timeout, cleanup failure, interruption, unreadable waveform) is not a
+  solver abort. It fails the workflow step, and the analysis records it as RUN FAILED.
+- **NOT EVALUATED.** A completed case whose evaluation raises an error does not pass.
 - **The rail stops.** No later case on that rail runs. Those cases are recorded as NOT RUN, with the reason.
   The other rail and the analysis continue.
 - **No rescue.** Solver options, tolerances and models stay as executed. If the +5 V deck aborts again with the
@@ -172,7 +178,8 @@ v(enn), so the gate pulldown (B11/B25) and the shift do not change at the same i
 
 ### Reported beside rule 6 (not a rule)
 For each case, next to the rule 6 verdict, the analysis reports:
-- the absolute difference of the enable-window minimum and maximum from baseline;
+- the signed difference of the enable-window minimum and maximum from baseline, and the largest excursion
+  beyond baseline (zero when the variant stays inside);
 - the 1e-5 V resolution;
 - the nearest recorded contract quantity.
 
