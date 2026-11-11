@@ -48,15 +48,18 @@ class DeckTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(sha(deck['refined'].encode()), expected[f'tracking/{name}.cir'])
 
-    def test_executed_deck_differs_by_one_output_only_line(self):
+    def test_executed_deck_differs_by_two_output_only_lines(self):
         for name, deck in ex.derive_decks().items():
             with self.subTest(name=name):
                 diff = [l for l in difflib.ndiff(deck['refined'].splitlines(), deck['executed'].splitlines())
                         if l[:1] in '+-']
-                self.assertEqual(diff, ['+ ' + deck['added_line']])
-                self.assertTrue(deck['added_line'].startswith(f'wrdata {name}-ref.txt '))
+                self.assertEqual(diff, ['+ ' + line for line in deck['added_lines']])
+                self.assertTrue(deck['added_lines'][0].startswith(f'wrdata {name}-ref.txt '))
+                self.assertEqual(deck['added_lines'][1], f'wrdata {name}-servo.txt v(p5_drv) v(trk5) v(p5_cs) '
+                                                         'v(m12_drv) v(trk12n_fb) v(m12_cs) v(ctz)')
                 lines = deck['executed'].splitlines()
-                self.assertLess(lines.index('run'), lines.index(deck['added_line']))
+                self.assertLess(lines.index('run'), lines.index(deck['added_lines'][0]))
+                self.assertTrue(all(line.startswith('wrdata ') for line in deck['added_lines']))
 
     def test_spiceinit_and_gains_come_from_repository_sources(self):
         _, refinement = ex.records()

@@ -41,6 +41,7 @@ from prepare_refinement import transform
 import time
 
 from run_ladder import IMAGE, VARIANTS, verify_executed_inputs
+import servo_criteria
 
 HERE = Path(__file__).resolve().parent
 EXECUTION = HERE / 'execution-20261110.json'
@@ -83,6 +84,10 @@ def reference_line(name):
     return f"wrdata {name}-ref.txt " + ' '.join(f'v({v})' for v in REFERENCE_VECTORS)
 
 
+def servo_line(name):
+    return f"wrdata {name}-servo.txt " + ' '.join(f'v({v})' for v in servo_criteria.SERVO_VECTORS)
+
+
 def convert_param(data):
     """Documented syntax-only conversion: exactly five '.PARAM name value' lines become 'name=value'."""
     pattern = re.compile(rb'^(\.PARAM[ \t]+[A-Za-z_][A-Za-z0-9_]*)[ \t]+([^ \t\r\n=]+)([ \t]*\r?)$', re.M | re.I)
@@ -109,8 +114,9 @@ def derive_decks():
             raise ValueError(f'{name}: refined deck does not reproduce the recorded hash')
         if refined.count('.endc') != 1:
             raise ValueError(f'{name}: expected one control block')
-        line = reference_line(name)
-        decks[name] = {'refined': refined, 'executed': refined.replace('.endc', line + '\n.endc'), 'added_line': line}
+        lines = [reference_line(name), servo_line(name)]
+        decks[name] = {'refined': refined, 'executed': refined.replace('.endc', '\n'.join(lines) + '\n.endc'),
+                       'added_lines': lines}
     return decks
 
 
@@ -185,7 +191,7 @@ def prepare(work, archive_dir=None):
         (work / 'tracking' / f'{name}.cir').write_text(deck['executed'])
         manifest['cases'][name] = {'refined_deck_sha256': sha(deck['refined'].encode()),
                                    'executed_deck_sha256': sha(deck['executed'].encode()),
-                                   'added_output_only_line': deck['added_line']}
+                                   'added_output_only_lines': deck['added_lines']}
     return manifest
 
 
@@ -238,17 +244,17 @@ def identity(run, manifest):
     return result
 
 
-def load_reference(path, rows):
+def load_reference(path, rows, vectors=REFERENCE_VECTORS):
     data = []
     for number, line in enumerate(Path(path).read_text().splitlines(), 1):
         if not line.strip():
             continue
         values = [float(x) for x in line.split()]
-        if len(values) != 2 * len(REFERENCE_VECTORS):
-            raise ValueError(f'{path}:{number}: expected {2 * len(REFERENCE_VECTORS)} columns')
+        if len(values) != 2 * len(vectors):
+            raise ValueError(f'{path}:{number}: expected {2 * len(vectors)} columns')
         if any(abs(x - values[0]) > 1e-10 for x in values[::2]):
             raise ValueError(f'{path}:{number}: wrdata time columns disagree')
-        data.append(dict(zip(('t',) + REFERENCE_VECTORS, (values[0], *values[1::2]))))
+        data.append(dict(zip(('t',) + tuple(vectors), (values[0], *values[1::2]))))
     if len(data) != len(rows) or any(abs(a['t'] - b[0]) > 1e-12 for a, b in zip(data, rows)):
         raise ValueError(f'{path}: reference and main waveform time coordinates differ')
     return data
@@ -332,6 +338,41 @@ def classify(peak, ideal, ceiling, competing=None):
     return UNRESOLVED
 
 
+def bin_mean(times, values):
+    """Callable (t0, t1) -> mean of the piecewise-linear waveform over [t0, t1]."""
+    cumulative = [0.0]
+    for i in range(len(times) - 1):
+        cumulative.append(cumulative[-1] + (times[i + 1] - times[i]) * (values[i] + values[i + 1]) / 2)
+
+    def mean(t0, t1):
+        if not times[0] <= t0 < t1 <= times[-1]:
+            raise ValueError(f'bin {t0}..{t1} lies outside the waveform record')
+        return (integral_at(times, values, cumulative, t1) - integral_at(times, values, cumulative, t0)) / (t1 - t0)
+    return mean
+
+
+def servo_analysis(work, name, rail, rows, ref_name, gain, sign, start, end):
+    """Pre-registered servo/dead-zone criteria (servo_criteria.py, d1-servo-criteria.md) on 2 us bin means."""
+    path = work / f'{name}-servo.txt'
+    if not path.exists():
+        return {'status': NOT_RUN, 'reason': 'servo vectors were not saved by this run'}
+    spec = servo_criteria.SERVO[rail]
+    deck = (work / f'{name}.cir').read_text()
+    topo = servo_criteria.topology(deck, rail)
+    servo = load_reference(path, rows, servo_criteria.SERVO_VECTORS)
+    ref = load_reference(work / f'{name}-ref.txt', rows)
+    times = [r[0] for r in rows]
+    series = {'out': bin_mean(times, [r[FAILED[rail][1]] for r in rows]),
+              'ref': bin_mean(times, [x[ref_name] for x in ref]),
+              'current': bin_mean(times, [r[spec['current_column']] for r in rows]),
+              'gate': bin_mean(times, [r[spec['gate_column']] for r in rows]),
+              'driver': bin_mean(times, [x[spec['driver']] for x in servo]),
+              'source': bin_mean(times, [x[spec['source']] for x in servo])}
+    result = servo_criteria.evaluate(series, start, end, gain, sign, topo['supplies_v'], topo['gate_offset_v'])
+    result['topology'] = {'driver': spec['driver'], 'amplifier': spec['amplifier'], **topo}
+    return result
+
+
 def analyze(run):
     _, refinement = records()
     calc_spec = importlib.util.spec_from_file_location('interface_diagnostics', HERE / 'interface_diagnostics.py')
@@ -399,6 +440,7 @@ def analyze(run):
                     timestep_artefact(reference[adjacent_peak_at], reference_peak, ceiling, ring),
                 'D1-H4 pre-bias overshoot': UNRESOLVED + ' (needs the paired variant run)'},
         }
+        result['rails'][rail]['servo'] = servo_analysis(work, name, rail, rows, ref_name, gain, sign, start, end)
     return result
 
 
@@ -572,7 +614,7 @@ def render_markdown(record):
     return '\n'.join(lines)
 
 
-EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt')
+EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt')
 VENDOR_SUFFIXES = ('.lib', '.zip', '.olb')
 
 
