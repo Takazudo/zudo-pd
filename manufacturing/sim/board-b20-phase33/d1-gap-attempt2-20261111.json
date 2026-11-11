@@ -5,12 +5,12 @@
   "criteria": "d1-gap-criteria.md (Amendment 1)",
   "source_revision": "0feee3c58d54067ca5d604102785e8020b7ad17d",
   "workflow_run": 43109786353,
-  "workflow_conclusion": "success",
+  "workflow_outcome": "success",
   "artifact_id": 13896581122,
   "artifact_zip_sha256": "bda29270cd93c0b837d839eec966308e381c402439e9c5037a5d56833d636370",
   "identity": "REPRODUCED",
   "gap_manifest_sha256": "f32f3615d75d5169c7b60973aa4c8f057c63f1b394315d23aa40c0f2d5d37459",
-  "gap_evidence_sha256": {
+  "evidence_sha256": {
     "gaps/g12/ladder-dns_uvbs/adv/adv.cir": "7a8610bd20c58917d609f23b85454caff37dc39bfe535296116ba1dfcac18105",
     "gaps/g12/ladder-dns_uvbs/adv/adv.dat": "608d9a12240e52447ec5609268260200ab8152da763d587fafb9e1e32feced80",
     "gaps/g12/ladder-dns_uvbs/adv/adv.log": "30a86c6734cc43ae5491b1b69e662a8b7cbd04fbb40770fe5d3f4aba44c4b447",
@@ -76,7 +76,18 @@
           "runner_reason": "solver failed, timed out, or aborted",
           "runner_status": "FAILED",
           "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.101275, timestep = 2.5e-18: trouble with node \"xq1.10\" | run simulation(s) aborted",
-          "passes": null
+          "passes": null,
+          "pre_enable_vs_baseline": {
+            "rows_before_40ms": [
+              20733,
+              20733
+            ],
+            "same_time_grid": true,
+            "max_output_difference_v": 0.0,
+            "identical": true,
+            "identity_expected": true,
+            "computed": "offline from the saved partial waveform"
+          }
         },
         "g16": {
           "kind": "scheduled-enable",
@@ -329,7 +340,18 @@
           "runner_reason": "solver failed, timed out, or aborted",
           "runner_status": "FAILED",
           "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.247685, timestep = 2.5e-18: trouble with node \"xq5.10\" | run simulation(s) aborted",
-          "passes": null
+          "passes": null,
+          "pre_enable_vs_baseline": {
+            "rows_before_40ms": [
+              21064,
+              21064
+            ],
+            "same_time_grid": true,
+            "max_output_difference_v": 0.0,
+            "identical": true,
+            "identity_expected": true,
+            "computed": "offline from the saved partial waveform"
+          }
         },
         "worst": {
           "kind": "constant",

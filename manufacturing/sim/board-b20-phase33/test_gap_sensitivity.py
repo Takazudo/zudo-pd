@@ -173,9 +173,17 @@ class Attempt2RecordTests(unittest.TestCase):
             self.assertFalse(row['passes'])
             self.assertTrue(row['pre_enable_vs_baseline']['identical'])
             self.assertEqual([k for k, v in row['rules'].items() if not v], ['enable edge no excursion beyond baseline'])
-            self.assertIn(f"{row['rule6_detail']['largest_excursion_beyond_baseline_v'] * 1e6:.1f}", micro)
+            self.assertEqual(f"{row['rule6_detail']['largest_excursion_beyond_baseline_v'] * 1e6:.1f}", micro)
             self.assertIn(f"{micro} µV", text)
             self.assertIn(f"{row['peak_slope_in_exception_region_v_per_ms']:.4f} V/ms", text)
+        for label in ('g20', 'g16'):
+            self.assertIn(f"{minus['rows'][label]['enable_min_distance_to_conduction_v'] * 1e3:.1f}", text)
+        for rows, label in ((plus, 'g20'), (minus, 'g12')):
+            self.assertTrue(rows['rows'][label]['pre_enable_vs_baseline']['identical'])
+        diag = json.loads((HERE / 'interface-diagnostics.json').read_text())
+        reason = diag['d1_correction_candidates']['C1 gate pre-bias while enabled']['reason']
+        self.assertIn(f"{minus['rows']['g20']['enable_min_distance_to_conduction_v'] * 1e3:.1f}", reason)
+        self.assertIn(f"{minus['rows']['baseline']['enable_min_distance_to_conduction_v'] * 1e3:.1f}", reason)
 
 
 class CriteriaDocumentTests(unittest.TestCase):

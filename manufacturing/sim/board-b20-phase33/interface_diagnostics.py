@@ -322,9 +322,9 @@ def correction_candidates(calc, record=D1_SERVO):
         'C1 gate pre-bias while enabled': {
             'status': OWNER_REJECTED,
             'reason': 'A fixed floor cannot fit the threshold window: one that leaves a 2.0 V gap on a 2.7 V part leaves '
-                      'about 0.8 V on a 1.5 V part (guaranteed VGS(th) 1.5-2.7 V at 25 C), while the enable transient '
-                      'already brings Vgs within about 8 mV of the model onset. The sensitivity found no passing gap '
-                      '(d1-gap-attempt2-20261111.md); its microvolt rule 6 results are not the reason for rejection.'},
+                      'about 0.8 V on a 1.5 V part (guaranteed VGS(th) 1.5-2.7 V at 25 C). On -12 V the enable transient '
+                      'already brings Vgs within 8.1-9.7 mV of the model onset. No evaluated -12 V gap passed and no +5 V '
+                      'gap was evaluated (d1-gap-attempt2-20261111.md); the microvolt rule 6 results are not the reason.'},
         'C3 slower gate path': {'status': 'FALLBACK (not evaluated)'},
         'bias_current_low_side_margins': {
             'rule': 'The limiter shunts sit upstream of each pair, so bias or bleeder current is sensed: delivered current '

@@ -76,9 +76,9 @@ without defeating disconnection. **C2 minimum-load bleeder: rejected by owner de
 An EN-gated opposite-rail sink is also **rejected**: it needs the disconnect and AGND-return
 rules reinterpreted. **C1, a fixed gate pre-bias while enabled, is rejected** by owner decision.
 No fixed floor fits the threshold window: a floor that leaves 2.0 V on a 2.7 V part leaves
-about 0.8 V on a 1.5 V part, and the enable transient already brings Vgs within about 8 mV of
-the model onset. The [gap sensitivity](d1-gap-attempt2-20261111.md) found no passing gap; its
-microvolt rule 6 results are not the reason for rejection. C3, a slower gate path, remains an
+about 0.8 V on a 1.5 V part. On −12 V the enable transient already brings Vgs within 8.1–9.7 mV
+of the model onset. In the [gap sensitivity](d1-gap-attempt2-20261111.md) no evaluated −12 V gap
+passed and no +5 V gap was evaluated. Its microvolt rule 6 results are not the reason for rejection. C3, a slower gate path, remains an
 unevaluated fallback.
 
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
