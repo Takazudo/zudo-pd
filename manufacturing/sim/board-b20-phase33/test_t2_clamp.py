@@ -4,6 +4,7 @@ from pathlib import Path
 import re
 import tempfile
 import unittest
+from unittest import mock
 
 import extract_reference as ex
 import gap_sensitivity as gap
@@ -155,11 +156,35 @@ class MeasurementTests(unittest.TestCase):
         self.assertTrue(rules['13 clamp engaged while idle'])
 
 
+class RecordTests(unittest.TestCase):
+    def test_t2_supply_current_is_removed_from_tuple_rows(self):
+        rows = [tuple([k * 1e-3] + [float(j) for j in range(1, 12)]) for k in range(3)]  # load() returns tuples
+        series = {c: [0.0] * 3 for c in t2.T2_COLUMNS}
+        series['i_VT2N'] = [0.5, 0.25, 0.0]
+        with mock.patch.object(gap, 'case_record', return_value={'rows': rows, 'times': [r[0] for r in rows], 'gap': None}), \
+                mock.patch.object(t2, 't2_record', return_value=([r[0] for r in rows], series)):
+            record = t2.case_record(Path('run'), 'adv', t2=True)
+        self.assertEqual([r[7] for r in record['rows']], [6.5, 6.75, 7.0])
+        self.assertEqual([r[3] for r in record['rows']], [3.0, 3.0, 3.0])
+        self.assertEqual(len(record['rows'][0]), 12)
+
+    def test_reenable_is_the_fall_after_the_disable(self):
+        times = [k * 5e-6 for k in range(int(0.32 / 5e-6))]
+        def enn(t):  # enabled, disabled 151-169 ms, enabled again; the latch lags the 150 ms request by about 1 ms
+            return 5.0 if 0.151 <= t < 0.169 else 0.0
+        rows = [(t,) + (0.0,) * 10 + (enn(t),) for t in times]
+        self.assertAlmostEqual(t2.reenable_time({'rows': rows}, t2.DISABLE_REQUEST_S), 0.169, delta=1e-5)
+        self.assertIsNone(t2.reenable_time({'rows': [r for r in rows if r[0] < 0.16]}, t2.DISABLE_REQUEST_S))
+
+    def test_corner_reference_follows_the_recorded_quantities(self):
+        self.assertEqual(t2.CONTRACT_REFERENCE_V, {'+5': 0.8, '-12': None})
+
+
 class WorkflowTests(unittest.TestCase):
     def test_workflow_runs_the_labels_in_order_and_opt_in(self):
         text = (HERE.parents[2] / '.github/workflows/phase33-d1-reference.yml').read_text()
         self.assertIn('for label in ' + ' '.join(t2.LABEL_ORDER) + '; do', text)
-        self.assertIn("if: inputs.t2_evaluation && steps.identity.outcome == 'success'", text)
+        self.assertIn("if: ${{ !cancelled() && inputs.t2_evaluation && steps.identity.outcome == 'success' }}", text)
         self.assertIn('t2_clamp.py" check-run', text)
         self.assertIn('--original-only', text)
 
@@ -172,6 +197,7 @@ class StatusTests(unittest.TestCase):
             self.assertEqual(t2.pending(work, 'ctrl'), ['adv'])
             self.assertEqual(t2.pending(work, 'base'), list(t2.LOADED))
             self.assertEqual(t2.control(work)['verdict'], 'NOT EVALUATED')
+            self.assertTrue((Path(work) / 't2' / 'control-gate.json').exists())  # computed once and kept
 
 
 if __name__ == '__main__':

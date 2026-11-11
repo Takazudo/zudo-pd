@@ -86,7 +86,8 @@ jobs:
           done
           python3 "$PHASE33/gap_sensitivity.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/gap-sensitivity.json"
       - name: T2 evaluation (only when requested and reproduced)
-        if: inputs.t2_evaluation && steps.identity.outcome == 'success'
+        # Independent of the gap step: a gap failure must not silently skip T2.
+        if: ${{ !cancelled() && inputs.t2_evaluation && steps.identity.outcome == 'success' }}
         run: |
           python3 "$PHASE33/t2_clamp.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/t2-manifest.json"
           # T2 labels run only after the inert control reproduces the D1 failure; aborts are recorded, never retried.

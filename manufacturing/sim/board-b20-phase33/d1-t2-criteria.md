@@ -88,12 +88,23 @@ All cases run after the existing nom/adv identity control reproduces. Labels run
 - **Supply current.** In every T2 deck the −12 V supply current used by the rules is i(VM12) − i(VT2N). That is
   the supply current without the candidate's own op-amp supply.
 
+## Enable-edge corner verdict (e12lo, e12hi, e5lo, e5hi)
+
+Each corner is measured on its own rail: the peak internal Vgs over 40–110 ms, the onset Vgs, the minimum distance
+between them, the peak 2 µs supply-current bin and the enable-window output extremes.
+
+The corner **CONFIRMS** the recorded negative (`interface_diagnostics.enable_edge`) if no 2 µs bin reaches 5 mA (rule 7)
+and, on +5 V only, the enable-window output stays below the recorded 0.8 V quantity. No −12 V enable-edge bound is
+recorded, so on −12 V the extremes are reported without a voltage criterion. Anything else **CONTRADICTS** it, and
+the result goes to the owner.
+
 ## Execution rules
 
 - **Status.** ABORTED, RUN FAILED and NOT EVALUATED are defined exactly as in
   [d1-gap-criteria.md Amendment 1](d1-gap-criteria.md). ABORTED means not evaluated. Nothing is retried in the same
   dispatch, and no solver option, tolerance or model changes.
-- **Control gate.** The T2 labels run only if ctrl is COMPLETE and REPRODUCED.
+- **Control gate.** The T2 labels run only if ctrl is COMPLETE and REPRODUCED. The verdict is computed once, after
+  ctrl, and kept in `t2/control-gate.json`.
 - **REPRODUCED** means the inert control fails rule 1 on −12 V the same way as the record: the screen fails, the
   peak slope in the exception region exceeds 1.47 V/ms, and the capacitor current there exceeds 0.265 A. Its
   differences from the recorded values are reported.
@@ -142,7 +153,11 @@ reltol (1e-3) and vntol (1e-5 V) are the resolution.
 - all four no-load cases COMPLETE and passing rules 1–14;
 - all three loaded cases COMPLETE and passing L1–L4.
 
-Any evaluated failure is a FAIL. Anything else is NOT EVALUATED.
+Any evaluated failure is a FAIL. Anything else is NOT EVALUATED, including a completed case whose evaluation raises
+an error, and a loaded case whose own baseline did not reproduce.
+
+**Re-enable instant.** It is the first fall of EN_N below 2.5 V that follows its rise above 2.5 V after the 150 ms
+disable request.
 
 **Low-side margins.** These are unchanged by construction when rule 10 holds. The candidate's own currents return
 to M12_PRE upstream of the shunt; only the idle channel current is sensed. Rule 10 bounds that current below

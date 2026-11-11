@@ -16,7 +16,7 @@ usage (after extract_reference.py prepare / run / identity):
   t2_clamp.py analyze WORK --output PATH
 """
 import argparse
-import hashlib
+import functools
 import json
 from pathlib import Path
 import shutil
@@ -98,8 +98,7 @@ NO_LOAD_T2 = {('t2', 'nom'): ('run', 'nom'), ('t2', 'adv'): ('run', 'adv'),
 CORNER_CASES = {'e12lo': ('-12', 'lo'), 'e12hi': ('-12', 'hi'), 'e5lo': ('+5', 'lo'), 'e5hi': ('+5', 'hi')}
 
 
-def sha(data):
-    return hashlib.sha256(data).hexdigest()
+sha = gap.sha
 
 
 def replace_once(text, old, new, what):
@@ -148,8 +147,13 @@ def loaded_deck(name):
     return text
 
 
+@functools.lru_cache(maxsize=None)
+def execution_cases():
+    return json.loads(EXECUTION.read_text())['cases']
+
+
 def executed_attempt(name):
-    case = json.loads(EXECUTION.read_text())['cases'][name]['receipt']['cases'][name]
+    case = execution_cases()[name]['receipt']['cases'][name]
     attempt = case['attempts'][case['selected_variant']]
     if attempt['variant'] != LOADED_VARIANT[name] or attempt['status'] != 'COMPLETE':
         raise ValueError(f'{name}: accepted attempt is not {LOADED_VARIANT[name]}')
@@ -191,13 +195,20 @@ def status(work, label, name):
     return gap.case_status(Path(work) / 't2' / label, name)
 
 
+def control_gate(work):
+    """The control verdict, computed once after the ctrl label ran and kept beside the runs."""
+    path = Path(work) / 't2' / 'control-gate.json'
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(control(work), indent=2, default=str) + '\n')
+    return json.loads(path.read_text())
+
+
 def pending(work, label):
     """Cases to run for LABEL. T2 runs only after the inert control is COMPLETE and reproduces the D1 failure."""
     names = list(derive_case_names()[label])
-    if label in T2_LABELS:
-        ctrl = control(work)
-        if ctrl['verdict'] != 'REPRODUCED':
-            return []
+    if label in T2_LABELS and control_gate(work)['verdict'] != 'REPRODUCED':
+        return []
     return names
 
 
@@ -255,8 +266,8 @@ def case_record(run, name, t2=False, loaded=False):
         times, s = t2_record(run, name)
         if len(times) != len(record['rows']) or any(abs(a - b[0]) > 1e-12 for a, b in zip(times, record['rows'])):
             raise ValueError(f'{name}: T2 output and main waveform time grids differ')
-        for row, extra in zip(record['rows'], s['i_VT2N']):
-            row[7] -= extra
+        # load() returns tuples; the rows are rebuilt with the candidate's own supply current removed.
+        record['rows'] = [(*row[:7], row[7] - extra, *row[8:]) for row, extra in zip(record['rows'], s['i_VT2N'])]
         record['t2'] = (times, s)
     return record
 
@@ -389,7 +400,8 @@ def no_load_case(work, base_run, label, name):
                     'passes': all(rules.values()), 'rule6_detail': gap.rule6_detail('-12', v, b),
                     'other_rails': {r: vs[r]['disposition'] for r in ('+12', '+5')}})
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
-        row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': False})
+        # A completed case whose evaluation fails is neither a pass nor an electrical fail (verdict NOT EVALUATED).
+        row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': None})
     return row
 
 
@@ -418,8 +430,14 @@ def tracking_difference(base, record, start, stop):
 
 
 def reenable_time(record, after):
+    """The first EN_N fall below 2.5 V that follows its rise above 2.5 V after the disable request."""
+    disabled = False
     for row in record['rows']:
-        if row[0] > after and row[11] < 2.5:
+        if row[0] <= after:
+            continue
+        if not disabled:
+            disabled = row[11] > 2.5
+        elif row[11] < 2.5:
             return row[0]
     return None
 
@@ -430,6 +448,7 @@ DISABLE_REQUEST_S = 150e-3
 
 
 def loaded_case(work, name, base_ok):
+    """base_ok is this case's own loaded-baseline identity."""
     state = status(work, 't2load', name)
     row = {'status': state['status']}
     if state['status'] != 'COMPLETE':
@@ -456,21 +475,21 @@ def loaded_case(work, name, base_ok):
                            'peak_current_a': {'baseline': pb, 't2': pv}}
         times, s = record['t2']
         hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
+        clamp = [(g - c) / R_C_OHM for g, c in zip(s['t2g'], s['t2c'])]
         if name != 'nomR':
             t_re = reenable_time(record, DISABLE_REQUEST_S)
             if t_re is None:
                 raise ValueError(f'{name}: no re-enable found')
             before = gap.extremes(times, hold, t_re - 1e-3, t_re)[1]
             rules['L4 hold reset at re-enable'] = before <= HOLD_RESET_MAX_V
-            clamp = [(g - c) / R_C_OHM for g, c in zip(s['t2g'], s['t2c'])]
             detail['re-enable'].update({'reenable_ms': round(t_re * 1e3, 3), 'hold_before_reenable_max_v': before,
                                         'clamp_current_after_reenable_max_a':
                                             gap.extremes(times, clamp, t_re, min(t_re + 80e-3, times[-1] - 1e-4))[1]})
-        clamp = [(g - c) / R_C_OHM for g, c in zip(s['t2g'], s['t2c'])]
         detail['clamp_current_startup_max_a'] = gap.extremes(times, clamp, 40e-3, 140e-3)[1]
         row.update({'rules': rules, 'passes': all(rules.values()), 'detail': detail})
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
-        row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': False})
+        # A completed case whose evaluation fails is neither a pass nor an electrical fail (verdict NOT EVALUATED).
+        row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': None})
     return row
 
 
@@ -489,7 +508,8 @@ def loaded_identity(work):
 
 
 # ---------------------------------------------------------------- enable-edge corners
-CONTRACT_REFERENCE_V = {'+5': 0.8, '-12': 1.5}
+# +5 V: the recorded 0.8 V hazard-conjunction quantity; -12 V has no recorded enable-edge bound (gap_sensitivity).
+CONTRACT_REFERENCE_V = {rail: ref['value_v'] for rail, ref in gap.RULE6_CONTRACT_REFERENCE.items()}
 
 
 def corner_case(work, label):
@@ -502,9 +522,11 @@ def corner_case(work, label):
     try:
         m = gap.rail_metrics(gap.case_record(state['run'], 'nom'), rail)
         reach = max(abs(x) for x in m['enable_edge_extremes_v'])
+        limit = CONTRACT_REFERENCE_V[rail]
         row.update({k: m.get(k) for k in ('enable_vgs_max_v', 'onset_vgs_v', 'enable_min_distance_to_conduction_v',
                                             'enable_peak_current_a', 'enable_edge_extremes_v', 'floor_v')})
-        row['verdict'] = ('CONFIRMS the recorded negative' if not m['enable_conduction'] and reach < CONTRACT_REFERENCE_V[rail]
+        row['contract_reference_v'] = limit
+        row['verdict'] = ('CONFIRMS the recorded negative' if not m['enable_conduction'] and (limit is None or reach < limit)
                           else 'CONTRADICTS the recorded negative')
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
         row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}'})
@@ -524,8 +546,7 @@ def analyze(work):
                         'reason': 'inert control did not reproduce the recorded D1 failure; the realization is the finding'}
         return result
     no_load_rows = {f'{label}/{name}': no_load_case(work, base_run, label, name) for label, name in NO_LOAD_T2}
-    base_ok = all(x['reproduced'] for x in identity.values())
-    loaded_rows = {name: loaded_case(work, name, base_ok) for name in LOADED}
+    loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced']) for name in LOADED}
     rows = list(no_load_rows.values()) + list(loaded_rows.values())
     if all(r.get('passes') is True for r in rows):
         verdict = 'PASS'
