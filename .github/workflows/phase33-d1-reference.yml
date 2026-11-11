@@ -1,0 +1,69 @@
+# Single-purpose PD20 phase33 D1 reference extraction (#235, admitted wave 2 task W2-D).
+# Re-runs only the 2 us refined nom/adv decks at the pinned solver identity with one appended
+# output-only wrdata line (RAMP and per-rail reference/clamp nodes). Every downloaded and derived
+# input is hash-checked and fails closed; one bounded download attempt per TI archive.
+# The run is adopted only if primary and supplemental waveforms are byte-identical to the
+# retained 2026-11-09 refinement. Vendor model bytes are never uploaded; only their hashes.
+# Not a generic compute dispatcher: no inputs, no secrets, no write permission, no deploy.
+
+name: Phase33 D1 reference extraction
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phase33-d1-reference
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        # Explicit bash enables pipefail, so the tee below cannot hide a runner failure.
+        shell: bash
+    env:
+      PHASE33: manufacturing/sim/board-b20-phase33
+      IMAGE: kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec
+      DOCKER_DEFAULT_PLATFORM: linux/amd64
+    steps:
+      # Same pins as component-spec-skills.yml (checkout v5.0.1, setup-python v5.6.0).
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: Prepare hash-verified inputs (one bounded TI download each)
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python3 "$PHASE33/extract_reference.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/manifest.json"
+      - name: Pull the solver image by digest
+        run: docker pull "$IMAGE"
+      - name: Run nom adv once with the pinned runner (original-only)
+        run: |
+          python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/tracking" nom adv --original-only 2>&1 | tee "$RUNNER_TEMP/out/runner-output.txt"
+      - name: Identity control against the retained refinement
+        id: identity
+        run: |
+          python3 "$PHASE33/extract_reference.py" identity "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/manifest.json" --output "$RUNNER_TEMP/out/identity.json"
+      - name: Reference analysis (only when reproduced)
+        if: steps.identity.outcome == 'success'
+        run: |
+          python3 "$PHASE33/extract_reference.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/analysis.json"
+      - name: Collect evidence without vendor model bytes
+        if: always()
+        run: |
+          python3 "$PHASE33/extract_reference.py" collect "$RUNNER_TEMP/work" --evidence "$RUNNER_TEMP/evidence" "$RUNNER_TEMP"/out/*
+          cat "$RUNNER_TEMP/evidence/hashes.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: phase33-d1-reference
+          path: ${{ runner.temp }}/evidence
+          retention-days: 30
+          if-no-files-found: error
