@@ -29,6 +29,55 @@ const REQUIRED_PATHS = [
   "footprints/**",
 ] as const;
 const REQUIRED_PYTHON = "3.12";
+// Inputs the component gate (circuit/scripts/run-python-gates.sh) consumes beyond REQUIRED_PATHS.
+// Traced with a Python open() audit hook over every gate; each family lists representative files.
+// These belong only to component-spec-skills.yml, not to every documentation workflow.
+const COMPONENT_GATE_INPUTS: ReadonlyArray<{ readonly pattern: string; readonly samples: readonly string[] }> = [
+  {
+    pattern: "scripts/pcb/**",
+    samples: [
+      "scripts/pcb/board-p/nvm-intent-20v.py",
+      "scripts/pcb/board-b20/report_provenance.py",
+      "scripts/pcb/board-b20/test_load_cases.py",
+      "scripts/pcb/board-p-r3-draft/build-draft.py",
+      "scripts/pcb/export-jlcpcb.py",
+      "scripts/pcb/calculate-board-b20-draft.py",
+      "scripts/pcb/pcb_common.py",
+      "scripts/pcb/board-p15/nvm-image.py",
+    ],
+  },
+  { pattern: "manufacturing/README.md", samples: ["manufacturing/README.md"] },
+  { pattern: "manufacturing/package-notes-p15.md", samples: ["manufacturing/package-notes-p15.md"] },
+  { pattern: "manufacturing/pd20-status.md", samples: ["manufacturing/pd20-status.md"] },
+  { pattern: "manufacturing/power-budget.json", samples: ["manufacturing/power-budget.json"] },
+  { pattern: "manufacturing/power-budget.md", samples: ["manufacturing/power-budget.md"] },
+  { pattern: "manufacturing/power-budget-p15.json", samples: ["manufacturing/power-budget-p15.json"] },
+  { pattern: "manufacturing/power-budget-b20.json", samples: ["manufacturing/power-budget-b20.json"] },
+  { pattern: "manufacturing/power-layout.json", samples: ["manufacturing/power-layout.json"] },
+  { pattern: "manufacturing/power-layout-b20.json", samples: ["manufacturing/power-layout-b20.json"] },
+  {
+    pattern: "manufacturing/releases/corner-support-review/**",
+    samples: ["manufacturing/releases/corner-support-review/manifest.json", "manufacturing/releases/corner-support-review/board-p15/bom.csv"],
+  },
+  {
+    pattern: "manufacturing/sim/board-b20-phase33/**",
+    samples: ["manufacturing/sim/board-b20-phase33/analyze_refinement.py", "manufacturing/sim/board-b20-phase33/test_run_ladder.py"],
+  },
+  { pattern: "manufacturing/sim/board-b20-phase7/ac/**", samples: ["manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir"] },
+];
+// Changed-file sets that must schedule the component gate on both pull_request and main push.
+const COMPONENT_GATE_FIXTURES: ReadonlyArray<readonly [string, readonly string[]]> = [
+  ["analyzer-only", ["manufacturing/sim/board-b20-phase33/analyze_refinement.py"]],
+  ["NVM-only", ["scripts/pcb/board-p/nvm-intent-20v.py"]],
+  ["shared-helper-only", ["scripts/pcb/board-b20/report_provenance.py"]],
+  ["exporter-only", ["scripts/pcb/export-jlcpcb.py"]],
+  ["P r3 source-binding-only", ["scripts/pcb/board-p-r3-draft/build-draft.py"]],
+  ["retained-report-only", ["manufacturing/power-budget-b20.json"]],
+  ["status-report-only", ["manufacturing/pd20-status.md"]],
+  ["C12 template-only", ["manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir"]],
+];
+// Not consumed by any gate; selecting them would mean an indiscriminate manufacturing/** filter.
+const COMPONENT_GATE_UNRELATED = ["manufacturing/sim/board-b20-phase9/README.md", "manufacturing/heat-spreader-concept.md"] as const;
 const DRIFT_PATHS = [
   "doc/src/content/docs/components",
   "circuit/generated/preflight.json",
@@ -80,6 +129,59 @@ describe("root workspace workflow contract", () => {
       }
     });
   }
+
+  it("component gate selects every traced PD20/P15 gate input on both events", async () => {
+    const events = extractEventPaths(await workflowSource("component-spec-skills.yml"));
+    assert.deepEqual(Object.keys(events).sort(), ["pull_request", "push"]);
+    assert.deepEqual(events.push?.branches, ["main"], "push must stay main-only");
+    assert.deepEqual(events.pull_request?.branches, [], "pull_request must not gain a branch filter");
+    for (const [event, block] of Object.entries(events)) {
+      assert.deepEqual(componentCoverageFailures(block.paths), [], `${event} block is missing gate inputs`);
+      for (const [name, files] of COMPONENT_GATE_FIXTURES) {
+        assert.ok(selectsAny(block.paths, files), `${event}: ${name} change does not schedule the component gate`);
+      }
+      for (const file of COMPONENT_GATE_UNRELATED) {
+        assert.ok(!selectsAny(block.paths, [file]), `${event}: ${file} should not schedule the component gate`);
+      }
+    }
+  });
+
+  it("component coverage check fails when any input family is dropped from either event", async () => {
+    const events = extractEventPaths(await workflowSource("component-spec-skills.yml"));
+    for (const [event, block] of Object.entries(events)) {
+      for (const family of COMPONENT_GATE_INPUTS) {
+        const reduced = block.paths.filter((path) => path !== family.pattern);
+        assert.equal(reduced.length, block.paths.length - 1, `${event} lacks ${family.pattern}`);
+        const failures = componentCoverageFailures(reduced);
+        assert.ok(failures.length > 0, `${event}: dropping ${family.pattern} went unnoticed`);
+        assert.ok(failures.every((sample) => family.samples.includes(sample)), `${event}: unexpected ${failures.join(", ")}`);
+      }
+    }
+  });
+
+  it("every Python gate target is a selected path and every input family names real files", async () => {
+    const gates = await readFile(join(REPO_ROOT, "circuit", "scripts", "run-python-gates.sh"), "utf8");
+    const targets = new Set<string>();
+    for (const match of gates.matchAll(/^(?:python3|bash)\s+(?:-m unittest discover -s\s+)?([\w./-]+)/gmu)) {
+      const target = match[1] ?? "";
+      if (target && !target.startsWith("-")) targets.add(target.endsWith(".py") || target.endsWith(".sh") ? target : `${target}/test_fixture.py`);
+    }
+    assert.ok(targets.has("manufacturing/sim/board-b20-phase33/test_fixture.py"), "phase33 gate target was not parsed");
+    assert.ok(targets.has("scripts/pcb/board-p/nvm-intent-20v.py"), "20 V NVM gate target was not parsed");
+    const events = extractEventPaths(await workflowSource("component-spec-skills.yml"));
+    for (const [event, block] of Object.entries(events)) {
+      for (const target of targets) {
+        assert.ok(selectsAny(block.paths, [target]), `${event}: gate target ${target} is not a selected path`);
+      }
+    }
+    const tracked = execFileSync("git", ["ls-files"], { cwd: REPO_ROOT, encoding: "utf8" }).split("\n");
+    for (const family of COMPONENT_GATE_INPUTS) {
+      for (const sample of family.samples) {
+        assert.ok(tracked.includes(sample), `sample ${sample} is not a tracked file`);
+        assert.ok(globMatches(family.pattern, sample), `${family.pattern} does not match its sample ${sample}`);
+      }
+    }
+  });
 
   it("production and pull-request jobs retain strict gates, complete history and browser coverage", async () => {
     const main = await workflowSource("main-deploy.yml");
@@ -218,6 +320,53 @@ function extractWorkflowPathBlocks(source: string): string[][] {
   }
   assert.ok(blocks.length > 0, "workflow has no parsed path filters");
   return blocks;
+}
+
+type EventFilter = { branches: string[]; paths: string[] };
+
+function extractEventPaths(source: string): Record<string, EventFilter> {
+  const lines = source.split(/\r?\n/u);
+  const start = lines.findIndex((line) => /^on:\s*$/u.test(line));
+  assert.ok(start >= 0, "workflow has no on: block");
+  const events: Record<string, EventFilter> = {};
+  let event: string | undefined;
+  let list: keyof EventFilter | undefined;
+  for (const line of lines.slice(start + 1)) {
+    if (/^\S/u.test(line)) break;
+    const eventMatch = /^ {2}([\w-]+):\s*$/u.exec(line);
+    if (eventMatch?.[1] !== undefined) {
+      event = eventMatch[1];
+      events[event] = { branches: [], paths: [] };
+      list = undefined;
+      continue;
+    }
+    const listMatch = /^ {4}(branches|paths):\s*$/u.exec(line);
+    if (listMatch?.[1] !== undefined) {
+      list = listMatch[1] as keyof EventFilter;
+      continue;
+    }
+    if (/^ {4}\S/u.test(line) && !/^ {4}#/u.test(line)) list = undefined;
+    const item = /^ {6}-\s+["']?([^"'#]+?)["']?\s*$/u.exec(line);
+    if (event !== undefined && list !== undefined && item?.[1] !== undefined) events[event]![list].push(item[1].trim());
+  }
+  return events;
+}
+
+// GitHub path-filter globbing: `**` crosses directories, `*` stays within one segment.
+function globMatches(pattern: string, file: string): boolean {
+  const source = pattern
+    .split("**")
+    .map((part) => part.split("*").map((text) => text.replace(/[.+?^${}()|[\]\\]/gu, "\\$&")).join("[^/]*"))
+    .join(".*");
+  return new RegExp(`^${source}$`, "u").test(file);
+}
+
+function selectsAny(patterns: readonly string[], files: readonly string[]): boolean {
+  return files.some((file) => patterns.some((pattern) => globMatches(pattern, file)));
+}
+
+function componentCoverageFailures(patterns: readonly string[]): string[] {
+  return COMPONENT_GATE_INPUTS.flatMap((family) => family.samples).filter((sample) => !selectsAny(patterns, [sample]));
 }
 
 async function runDriftFixture(mutate?: (root: string) => Promise<void>): Promise<{

@@ -29,7 +29,23 @@ on:
       - 'lefthook.yml'
       - 'scripts/mdx-format.sh'
       - 'scripts/schgen/**'
-      - 'scripts/pcb/board-p15/**'
+      # Inputs consumed by circuit/scripts/run-python-gates.sh beyond the shared
+      # documentation paths: Board P 20 V NVM intent, B20 tests and retained
+      # reports, phase33 analysis, export freshness bindings and the fixed P15
+      # package checks (traced; contract in circuit/tests/workflow-contract.test.ts).
+      - 'scripts/pcb/**'
+      - 'manufacturing/README.md'
+      - 'manufacturing/package-notes-p15.md'
+      - 'manufacturing/pd20-status.md'
+      - 'manufacturing/power-budget.json'
+      - 'manufacturing/power-budget.md'
+      - 'manufacturing/power-budget-p15.json'
+      - 'manufacturing/power-budget-b20.json'
+      - 'manufacturing/power-layout.json'
+      - 'manufacturing/power-layout-b20.json'
+      - 'manufacturing/releases/corner-support-review/**'
+      - 'manufacturing/sim/board-b20-phase33/**'
+      - 'manufacturing/sim/board-b20-phase7/ac/**'
       - 'boards/**'
       - 'symbols/**'
       - 'footprints/**'
@@ -56,7 +72,23 @@ on:
       - 'lefthook.yml'
       - 'scripts/mdx-format.sh'
       - 'scripts/schgen/**'
-      - 'scripts/pcb/board-p15/**'
+      # Inputs consumed by circuit/scripts/run-python-gates.sh beyond the shared
+      # documentation paths: Board P 20 V NVM intent, B20 tests and retained
+      # reports, phase33 analysis, export freshness bindings and the fixed P15
+      # package checks (traced; contract in circuit/tests/workflow-contract.test.ts).
+      - 'scripts/pcb/**'
+      - 'manufacturing/README.md'
+      - 'manufacturing/package-notes-p15.md'
+      - 'manufacturing/pd20-status.md'
+      - 'manufacturing/power-budget.json'
+      - 'manufacturing/power-budget.md'
+      - 'manufacturing/power-budget-p15.json'
+      - 'manufacturing/power-budget-b20.json'
+      - 'manufacturing/power-layout.json'
+      - 'manufacturing/power-layout-b20.json'
+      - 'manufacturing/releases/corner-support-review/**'
+      - 'manufacturing/sim/board-b20-phase33/**'
+      - 'manufacturing/sim/board-b20-phase7/ac/**'
       - 'boards/**'
       - 'symbols/**'
       - 'footprints/**'
