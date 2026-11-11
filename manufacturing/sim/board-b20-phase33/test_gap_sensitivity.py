@@ -153,6 +153,31 @@ class StatusTests(unittest.TestCase):
                 self.assertEqual(rows[label]['status'], 'NOT RUN')
 
 
+class Attempt2RecordTests(unittest.TestCase):
+    def test_attempt2_record_matches_its_prose(self):
+        record = json.loads((HERE / 'd1-gap-attempt2-20261111.json').read_text())
+        text = (HERE / 'd1-gap-attempt2-20261111.md').read_text()
+        self.assertEqual(record['workflow_run'], 43109786353)
+        self.assertEqual(record['identity'], 'REPRODUCED')
+        self.assertEqual(record['electrical_acceptance'], 'NOT ESTABLISHED')
+        plus, minus = record['rails']['+5'], record['rails']['-12']
+        self.assertIsNone(plus['largest_passing_target_gap_v'])
+        self.assertIsNone(minus['largest_passing_target_gap_v'])
+        self.assertEqual(plus['rows']['g20']['status'], 'ABORTED')
+        self.assertEqual(minus['rows']['g12']['status'], 'ABORTED')
+        for label in ('g16', 'g12', 'worst'):
+            self.assertEqual(plus['rows'][label]['status'], 'NOT RUN')
+        self.assertEqual(minus['rows']['worst']['status'], 'NOT RUN')
+        for label, micro in (('g20', '12.2'), ('g16', '55.6')):
+            row = minus['rows'][label]
+            self.assertFalse(row['passes'])
+            self.assertTrue(row['pre_enable_vs_baseline']['identical'])
+            self.assertEqual([k for k, v in row['rules'].items() if not v], ['enable edge no excursion beyond baseline'])
+            self.assertIn(f"{row['rule6_detail']['largest_excursion_beyond_baseline_v'] * 1e6:.1f}", micro)
+            self.assertIn(f"{micro} µV", text)
+            self.assertIn(f"{row['peak_slope_in_exception_region_v_per_ms']:.4f} V/ms", text)
+
+
 class CriteriaDocumentTests(unittest.TestCase):
     def test_document_mirrors_the_constants(self):
         text = CRITERIA.read_text()

@@ -1,0 +1,347 @@
+{
+  "record": "C1 gap sensitivity attempt 2 (Amendment 1: scheduled PWL offset; ABORTED cases stop their rail)",
+  "scope": "model sensitivity only; no claim about any real part",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "criteria": "d1-gap-criteria.md (Amendment 1)",
+  "source_revision": "0feee3c58d54067ca5d604102785e8020b7ad17d",
+  "workflow_run": 43109786353,
+  "workflow_conclusion": "success",
+  "artifact_id": 13896581122,
+  "artifact_zip_sha256": "bda29270cd93c0b837d839eec966308e381c402439e9c5037a5d56833d636370",
+  "identity": "REPRODUCED",
+  "gap_manifest_sha256": "f32f3615d75d5169c7b60973aa4c8f057c63f1b394315d23aa40c0f2d5d37459",
+  "gap_evidence_sha256": {
+    "gaps/g12/ladder-dns_uvbs/adv/adv.cir": "7a8610bd20c58917d609f23b85454caff37dc39bfe535296116ba1dfcac18105",
+    "gaps/g12/ladder-dns_uvbs/adv/adv.dat": "608d9a12240e52447ec5609268260200ab8152da763d587fafb9e1e32feced80",
+    "gaps/g12/ladder-dns_uvbs/adv/adv.log": "30a86c6734cc43ae5491b1b69e662a8b7cbd04fbb40770fe5d3f4aba44c4b447",
+    "gaps/g16/ladder-8dnhooq5/adv/adv.cir": "d5f38ad1dbda7d6b2e41e65e1a5fd386429d4b595d89b3f089d6f9b3042d02b5",
+    "gaps/g16/ladder-8dnhooq5/adv/adv.dat": "f2960dfd41b8447a15488150490b8469213d837ae6d3e8930807562c01617c7d",
+    "gaps/g16/ladder-8dnhooq5/adv/adv.log": "e8d2fc696b7474bf8f45511d5df5f741f0cfa77e94a845672f3abb33fadfdf98",
+    "gaps/g20/ladder-xll5n9ve/adv/adv.cir": "3339a73ef0547c1735cc2bb9b3af589556fc34122ad3ab0a324d3b9f7b5ade4d",
+    "gaps/g20/ladder-xll5n9ve/adv/adv.dat": "2f60b7578191eaf889827c44db56f443f4c5518a6de1970c8a5f43c1e107a8f4",
+    "gaps/g20/ladder-xll5n9ve/adv/adv.log": "49a842100d734d4fd73a6242c6f46b1b89220704be10419e887c657a085a028b",
+    "gaps/g20/ladder-xll5n9ve/nom/nom.cir": "fb361383f728254a4d1dd02a21295b9073f211431d95d9466694faa65de28556",
+    "gaps/g20/ladder-xll5n9ve/nom/nom.dat": "269c1faa3d1d327cd9318b276c85fcd55fc1cbe4f51d9c551aebabfccdb4b9ba",
+    "gaps/g20/ladder-xll5n9ve/nom/nom.log": "cdebbb2b33f7267839c51be75b5ced46ede27e958a96f6b87fdc13cab399910a"
+  },
+  "rails": {
+    "+5": {
+      "case": "nom",
+      "rows": {
+        "baseline": {
+          "target_gap_v": 2.4434,
+          "floor_v": 0.05149906324472277,
+          "overshoot_v": 2.8295421561352896e-07,
+          "largest_drop_v": -3.686211492298641e-08,
+          "conduction_onset_ms": 139.618,
+          "rest_vgs_v": -4.575251688204714e-05,
+          "onset_vgs_v": 2.4428142880668906,
+          "realized_gap_v": 2.442860040583773,
+          "enable_vgs_max_v": 2.309704206909909,
+          "enable_min_distance_to_conduction_v": 0.13311008115698142,
+          "enable_peak_current_a": 0.0012561884060072466,
+          "enable_conduction": false,
+          "disabled_extremes_v": [
+            8.83050967546141e-05,
+            0.0038821680026106787
+          ],
+          "enable_edge_extremes_v": [
+            0.003882366725538982,
+            0.051869670562553094
+          ],
+          "pre_disable_extremes_v": [
+            5.0940112157287345,
+            5.09401121575649
+          ],
+          "after_disable_extremes_v": [
+            5.0940112157287345,
+            5.09401121575649
+          ],
+          "after_disable_vgs_max_v": 10.760017096478677,
+          "peak_slope_in_exception_region_v_per_ms": 0.9548508602735011,
+          "peak_slope_v_per_ms": 0.9548508602735011,
+          "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+          "capacitor_current_in_region_a": 0.114510040903672,
+          "margins": {
+            "slope_v_per_ms": -0.004851,
+            "current_a": -0.00051
+          }
+        },
+        "g20": {
+          "kind": "scheduled-enable",
+          "shift_v": 0.4434,
+          "target_gap_v": 2.0,
+          "status": "ABORTED",
+          "returncode": 1,
+          "runner_reason": "solver failed, timed out, or aborted",
+          "runner_status": "FAILED",
+          "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.101275, timestep = 2.5e-18: trouble with node \"xq1.10\" | run simulation(s) aborted",
+          "passes": null
+        },
+        "g16": {
+          "kind": "scheduled-enable",
+          "shift_v": 0.8434,
+          "target_gap_v": 1.6,
+          "status": "NOT RUN",
+          "reason": "rail stopped after ABORTED g20; not retried in this dispatch",
+          "passes": null
+        },
+        "g12": {
+          "kind": "scheduled-enable",
+          "shift_v": 1.2434,
+          "target_gap_v": 1.2,
+          "status": "NOT RUN",
+          "reason": "rail stopped after ABORTED g20; not retried in this dispatch",
+          "passes": null
+        },
+        "worst": {
+          "kind": "constant",
+          "shift_v": -0.3,
+          "target_gap_v": 2.7434,
+          "status": "NOT RUN",
+          "reason": "rail stopped after ABORTED g20; not retried in this dispatch",
+          "passes": null
+        }
+      },
+      "largest_passing_target_gap_v": null,
+      "margin_at_largest_passing_gap": null
+    },
+    "-12": {
+      "case": "adv",
+      "rows": {
+        "baseline": {
+          "target_gap_v": 2.8668,
+          "floor_v": -0.09696657017068842,
+          "overshoot_v": 2.166333779030083e-05,
+          "largest_drop_v": -2.275957200481571e-08,
+          "conduction_onset_ms": 137.652,
+          "rest_vgs_v": -0.5144976424669686,
+          "onset_vgs_v": 2.3526964744857084,
+          "realized_gap_v": 2.867194116952677,
+          "enable_vgs_max_v": 2.3429832553242202,
+          "enable_min_distance_to_conduction_v": 0.009713219161488151,
+          "enable_peak_current_a": 0.004652913249186415,
+          "enable_conduction": false,
+          "disabled_extremes_v": [
+            -0.007692800862221826,
+            -0.007674581677024869
+          ],
+          "enable_edge_extremes_v": [
+            -0.09715653351371077,
+            -0.007663958045709947
+          ],
+          "pre_disable_extremes_v": [
+            -12.141958799215605,
+            -12.141958798938049
+          ],
+          "after_disable_extremes_v": [
+            -12.141958799049071,
+            -12.141958798271915
+          ],
+          "after_disable_vgs_max_v": 10.285321805848218,
+          "peak_slope_in_exception_region_v_per_ms": 1.4747780001127768,
+          "peak_slope_v_per_ms": 1.4747780001127768,
+          "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+          "capacitor_current_in_region_a": 0.26525933220897024,
+          "margins": {
+            "slope_v_per_ms": -0.004778,
+            "current_a": -0.000259
+          }
+        },
+        "g20": {
+          "kind": "scheduled-enable",
+          "shift_v": 0.8668,
+          "target_gap_v": 2.0,
+          "status": "COMPLETE",
+          "floor_v": -0.09692840626358391,
+          "overshoot_v": 2.1922380577521494e-05,
+          "largest_drop_v": -3.3612002070526614e-08,
+          "conduction_onset_ms": 135.934,
+          "rest_vgs_v": 0.35230206510198336,
+          "onset_vgs_v": 2.3507865974219193,
+          "realized_gap_v": 1.998484532319936,
+          "enable_vgs_max_v": 2.3426679859964326,
+          "enable_min_distance_to_conduction_v": 0.008118611425486755,
+          "enable_peak_current_a": 0.004630528845448301,
+          "enable_conduction": false,
+          "disabled_extremes_v": [
+            -0.007692800862221826,
+            -0.007674581677024869
+          ],
+          "enable_edge_extremes_v": [
+            -0.09716876549834168,
+            -0.007668250547231274
+          ],
+          "pre_disable_extremes_v": [
+            -12.14195889014287,
+            -12.141958889865315
+          ],
+          "after_disable_extremes_v": [
+            -12.141968819700047,
+            -12.134671248819139
+          ],
+          "after_disable_vgs_max_v": -0.5146019754204549,
+          "peak_slope_in_exception_region_v_per_ms": 0.6402789913076115,
+          "peak_slope_v_per_ms": 0.6402789913076115,
+          "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+          "capacitor_current_in_region_a": 0.1152243268089459,
+          "margins": {
+            "slope_v_per_ms": 0.829721,
+            "current_a": 0.149776
+          },
+          "rules": {
+            "failed-rail slope, current and voltage-region ceilings": true,
+            "other rails no worse than baseline": true,
+            "no new overshoot beyond baseline": true,
+            "no non-monotonic step beyond baseline": true,
+            "disabled state unchanged": true,
+            "enable edge no excursion beyond baseline": false,
+            "no conduction during the enable transient": true,
+            "disable edge: gate held off": true,
+            "disable edge: no excursion of either polarity": true
+          },
+          "passes": false,
+          "edge_excursion_vs_baseline_v": {
+            "disabled": {
+              "below": 0.0,
+              "above": 0.0
+            },
+            "enable": {
+              "below": 1.2231984630906023e-05,
+              "above": -4.2925015213265624e-06
+            }
+          },
+          "other_rails": {
+            "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+            "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+          },
+          "rule6_detail": {
+            "below_baseline_minimum_v": 1.2231984630906023e-05,
+            "above_baseline_maximum_v": -4.2925015213265624e-06,
+            "largest_excursion_beyond_baseline_v": 1.2231984630906023e-05,
+            "resolution_v": 1e-05,
+            "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+            "contract_reference_value_v": null
+          },
+          "pre_enable_vs_baseline": {
+            "rows_before_40ms": [
+              21064,
+              21064
+            ],
+            "same_time_grid": true,
+            "max_output_difference_v": 0.0,
+            "identical": true,
+            "identity_expected": true
+          }
+        },
+        "g16": {
+          "kind": "scheduled-enable",
+          "shift_v": 1.2668,
+          "target_gap_v": 1.6,
+          "status": "COMPLETE",
+          "floor_v": -0.09694886476895254,
+          "overshoot_v": 2.204839089081645e-05,
+          "largest_drop_v": -3.419486915845482e-08,
+          "conduction_onset_ms": 134.252,
+          "rest_vgs_v": 0.7522935500865517,
+          "onset_vgs_v": 2.351108017111394,
+          "realized_gap_v": 1.5988144670248423,
+          "enable_vgs_max_v": 2.342681407594467,
+          "enable_min_distance_to_conduction_v": 0.008426609516927197,
+          "enable_peak_current_a": 0.004627131755601467,
+          "enable_conduction": false,
+          "disabled_extremes_v": [
+            -0.007692800862221826,
+            -0.007674581677024869
+          ],
+          "enable_edge_extremes_v": [
+            -0.09721216838650448,
+            -0.007670357501544982
+          ],
+          "pre_disable_extremes_v": [
+            -12.14195892583654,
+            -12.141958925614496
+          ],
+          "after_disable_extremes_v": [
+            -12.141968819589025,
+            -12.134671237605886
+          ],
+          "after_disable_vgs_max_v": -0.5146015759622107,
+          "peak_slope_in_exception_region_v_per_ms": 0.7667656217156363,
+          "peak_slope_v_per_ms": 0.7667656217156363,
+          "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+          "capacitor_current_in_region_a": 0.13796753914102622,
+          "margins": {
+            "slope_v_per_ms": 0.703234,
+            "current_a": 0.127032
+          },
+          "rules": {
+            "failed-rail slope, current and voltage-region ceilings": true,
+            "other rails no worse than baseline": true,
+            "no new overshoot beyond baseline": true,
+            "no non-monotonic step beyond baseline": true,
+            "disabled state unchanged": true,
+            "enable edge no excursion beyond baseline": false,
+            "no conduction during the enable transient": true,
+            "disable edge: gate held off": true,
+            "disable edge: no excursion of either polarity": true
+          },
+          "passes": false,
+          "edge_excursion_vs_baseline_v": {
+            "disabled": {
+              "below": 0.0,
+              "above": 0.0
+            },
+            "enable": {
+              "below": 5.5634872793711154e-05,
+              "above": -6.3994558350344635e-06
+            }
+          },
+          "other_rails": {
+            "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+            "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+          },
+          "rule6_detail": {
+            "below_baseline_minimum_v": 5.5634872793711154e-05,
+            "above_baseline_maximum_v": -6.3994558350344635e-06,
+            "largest_excursion_beyond_baseline_v": 5.5634872793711154e-05,
+            "resolution_v": 1e-05,
+            "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+            "contract_reference_value_v": null
+          },
+          "pre_enable_vs_baseline": {
+            "rows_before_40ms": [
+              21064,
+              21064
+            ],
+            "same_time_grid": true,
+            "max_output_difference_v": 0.0,
+            "identical": true,
+            "identity_expected": true
+          }
+        },
+        "g12": {
+          "kind": "scheduled-enable",
+          "shift_v": 1.6668,
+          "target_gap_v": 1.2,
+          "status": "ABORTED",
+          "returncode": 1,
+          "runner_reason": "solver failed, timed out, or aborted",
+          "runner_status": "FAILED",
+          "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.247685, timestep = 2.5e-18: trouble with node \"xq5.10\" | run simulation(s) aborted",
+          "passes": null
+        },
+        "worst": {
+          "kind": "constant",
+          "shift_v": -0.3,
+          "target_gap_v": 3.1668,
+          "status": "NOT RUN",
+          "reason": "rail stopped after ABORTED g12; not retried in this dispatch",
+          "passes": null
+        }
+      },
+      "largest_passing_target_gap_v": null,
+      "margin_at_largest_passing_gap": null
+    }
+  }
+}
