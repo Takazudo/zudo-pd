@@ -13,7 +13,7 @@ test('every decoded published claim matches the reviewed legacy model',async()=>
  const baseline=await json(join(root,'circuit/tests/runtime-semantic-baseline.json'));
  const current=await json(join(root,'circuit/tests/current-evidence-semantic.json'));
  for(const [slug,fields] of Object.entries(current.records))Object.assign(baseline.records[slug],fields);
- assert.equal(Object.keys(baseline.records).length,128);
+ assert.equal(Object.keys(baseline.records).length,129);
  assert.deepEqual(model.records.map(r=>r.identity.slug).sort(),Object.keys(baseline.records).sort());
  for(const record of model.records)for(const [field,expected]of Object.entries(baseline.records[record.identity.slug]))assert.equal(hash(record[field]),expected,`${record.identity.slug}.${field}`);
  assert.equal(hash(model.integration),baseline.integration,'all 11 rules, conditions, calculations, evidence stages and refusals');

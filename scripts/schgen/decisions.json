@@ -37,7 +37,8 @@
     "p15-i2c-pulldowns",
     "p15-vdd-local-clamp",
     "p15-vdd-decoupling",
-    "b-stock-gap-substitutions"
+    "b-stock-gap-substitutions",
+    "p-20v-c36-x7r-1206"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -594,6 +595,31 @@
         "fact-stusb-vbus-vs-disch",
         "fact-stusb-discharge-registers",
         "fact-c461081-vgsth-max",
+        "fact-c461081-vds"
+      ]
+    },
+    {
+      "key": "p-20v-c36-x7r-1206",
+      "id": "dec-p-20v-c36-x7r-1206",
+      "title": "Board P r3 C36: CL31B105KBHNNNE C1848 (1206 X7R 1 uF 50 V) replaces CL10A105KB8NNNC C15849 (readiness D10)",
+      "status": "LOCKED",
+      "applies_to": [
+        "board_p_spec",
+        "doc"
+      ],
+      "decision": "Owner decision 2026-11-12 JST by the campaign manager (coordinator) under Takazudo's delegation of the owner design decisions, relayed 2026-11-11 20:38Z. It supersedes only the C36 part of dec-p-20v-q1-soft-start, which stays as history; the C36 topology (VBUS_OUT to Q1_MX), Q5, R12, R27 and the adopted 0.4-1.1 uF / 3.1-10 V/ms / 2.5 A ranges are unchanged. C36 becomes Samsung CL31B105KBHNNNE, LCSC C1848 (1206 X7R, 1 uF +/-10 %, 50 V), option A of the 2026-11-11 Q1 closure screen. Before adoption the screen ran at all 8 corners (VBUS_P 20/21 V, plateau 1.5/3.5 V, C nominal and -10 %) against the 186 uF and 250 uF banks; the stop limits were a Q1 SOA ratio below 1.2x at any corner or a peak inrush not below the TPS26630 I(OL) 4.185 A minimum. The public LCSC catalogue page lists C1848 as a JLCPCB Basic part with assembly supported; no supplier contact, quotation or order was made. The part changes the C36 footprint from 0603 to 1206, so the Board P r3 layout must be rebuilt with the pinned toolchain before the schematic and PCB agree.",
+      "rationale": "With the fitted 0603 X5R part, the Samsung typical 25 C DC-bias curve leaves 0.136-0.183 uF at the closure bias, so the screen gave 19.2-30.5 V/ms, up to 7.62 A into 250 uF (above I(OL) min) and Q1 SOA ratios of 0.54-0.86 (contradiction D10). On the same typical data the 1206 X7R part keeps 0.776-0.904 uF and gives 3.88-5.34 V/ms (inside the adopted range), at most 1.336 A (below 4.185 A) and a minimum peak-rectangular SOA ratio of 1.67 (energy-equivalent 3.76-5.77). This rests on typical 25 C small-signal data: no guaranteed C(V) minimum over tolerance, temperature and aging exists in the bundle, the Q1 SOA is a graph read at VGS 10 V and 25 C, and linear-mode operation is UNSOURCED. Bench T3 (slew, inrush, Q1 temperature) is NOT RUN. D10 therefore moves to correction adopted, verification open; it is not closed.",
+      "evidence": [
+        "fact-c1848-identity",
+        "fact-c1848-capacitance",
+        "fact-c1848-tolerance",
+        "fact-c1848-voltage",
+        "fact-c1848-dielectric",
+        "fact-c1848-package",
+        "fact-c1848-dc-bias-curve",
+        "fact-c1848-curve-caveat",
+        "fact-c15849-dc-bias-curve",
+        "fact-c1849461-iol-4k02",
         "fact-c461081-vds"
       ]
     },

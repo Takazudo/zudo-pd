@@ -311,8 +311,15 @@ before, after = placement_identity(baseline_board), placement_identity(board)
 if before.keys() != after.keys():
     raise ValueError('Footprint population changed during bounded layout correction')
 changed = {ref: {'before': before[ref], 'after': after[ref]} for ref in before if before[ref] != after[ref]}
-if set(changed) != {'C30', 'C34'} or any(before[ref]['footprint'] != after[ref]['footprint'] for ref in before):
+# D10 (dec-p-20v-c36-x7r-1206): C36 becomes a 1206 X7R part and moves by the minimum 0.25 mm grid step that
+# restores the 0.10 mm placement gap to R13; every other footprint identity must still match the baseline.
+FOOTPRINT_CHANGES = {'C36': ('zudo-pd:C0603', 'zudo-pd:C1206')}
+if set(changed) != {'C30', 'C34', 'C36'}:
     raise ValueError(f'Unexpected footprint identity/placement changes: {changed}')
+for ref in before:
+    pair = (before[ref]['footprint'], after[ref]['footprint'])
+    if pair != FOOTPRINT_CHANGES.get(ref, (before[ref]['footprint'],) * 2):
+        raise ValueError(f'Unexpected footprint identity change: {ref} {pair}')
 
 def outline_identity(value):
     return sorted((int(item.GetShape()), xy(item.GetStart()), xy(item.GetEnd()), xy(item.GetCenter()), item.GetWidth())
@@ -323,7 +330,7 @@ if outline_identity(baseline_board) != outline_identity(board) or board.GetCoppe
 preserved_geometry = {'baseline_revision': baseline_revision,
                       'baseline_pcb_sha256': hashlib.sha256(baseline_bytes).hexdigest(),
                       'only_changed_footprint_placements': changed,
-                      'all_footprint_ids_unchanged': True, 'outline_unchanged': True,
+                      'footprint_id_changes': {ref: list(pair) for ref, pair in FOOTPRINT_CHANGES.items()}, 'outline_unchanged': True,
                       'copper_layers': board.GetCopperLayerCount()}
 
 source_paths = [OWNER/'fabrication-legend-constraints.json', OWNER/'pours.json', OWNER/'search-two-sided.json', OWNER/'floorplan.json', OWNER/'routes.json',
