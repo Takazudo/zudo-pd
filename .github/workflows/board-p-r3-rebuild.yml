@@ -52,32 +52,43 @@ jobs:
         run: docker pull "$IMAGE"
       - name: Rebuild, twin rebuild, DRC, receipt and correction proof
         id: rebuild
+        # run.sh mixes root containers (--user 0) with host overwrites of the files they create, so the whole
+        # native step runs as root and the Collect step returns ownership to the runner user.
         run: |
           set -euo pipefail
           E="$RUNNER_TEMP/evidence"; T="$RUNNER_TEMP/work"; mkdir -p "$E" "$T"
           git worktree add --detach "$T/twin" HEAD
-          bash "$D/run.sh" 2>&1 | tee "$E/run.log"
-          (cd "$T/twin" && bash "$D/run.sh") > "$E/twin-run.log" 2>&1
+          git show "$BASELINE_REV:boards/board-p/board-p.kicad_pcb" > "$T/baseline.kicad_pcb"
+          cat > "$T/native.sh" <<'NATIVE'
+          set -euo pipefail
+          E="$RUNNER_TEMP/evidence"; T="$RUNNER_TEMP/work"
+          git config --global --add safe.directory '*'
+          bash "$D/run.sh" > "$E/run.log" 2>&1 || { tail -50 "$E/run.log"; exit 1; }
+          (cd "$T/twin" && bash "$D/run.sh") > "$E/twin-run.log" 2>&1 || { tail -50 "$E/twin-run.log"; exit 1; }
           python3 "$D/verify-replay.py" boards/board-p/board-p.kicad_pcb "$T/twin/boards/board-p/board-p.kicad_pcb" "$E/twin-replay.json"
           for f in routes.json routing-report.json placement-report.json probe-silk-check.json; do
             cmp "$OUT/$f" "$T/twin/$OUT/$f" || { echo "twin differs: $f" >&2; exit 1; }
           done
-          docker run --rm --cpus 1 --user 0 -v "$PWD":/w -w /w "$IMAGE" kicad-cli pcb drc --schematic-parity \
-            --format json --severity-all --output /w/$OUT/native-drc.json /w/boards/board-p/board-p.kicad_pcb | tee "$E/drc.log"
+          # One array is both executed and recorded in the receipt.
+          DRC=(kicad-cli pcb drc --schematic-parity --format json --severity-all --output "$OUT/native-drc.json" boards/board-p/board-p.kicad_pcb)
+          docker run --rm --cpus 1 --user 0 -e PYTHONHASHSEED -v "$PWD":/w -w /w "$IMAGE" "${DRC[@]}" 2>&1 | tee "$OUT/native-drc.log"
           python3 scripts/pcb/write-board-p-drc-receipt.py "$OUT/native-drc.json" "$OUT/native-drc-receipt.json" \
-            --command '["kicad-cli","pcb","drc","--schematic-parity","--format","json","--severity-all","--output","boards/board-p/r3-draft/native-drc.json","boards/board-p/board-p.kicad_pcb"]' \
+            --command "$(python3 -c 'import json,sys; print(json.dumps(sys.argv[1:]))' "${DRC[@]}")" \
             --execution-revision "$GITHUB_SHA" \
             --toolchain "{\"image\":\"$IMAGE\",\"platform\":\"linux/amd64 GitHub Actions ubuntu-24.04\",\"run_id\":\"$GITHUB_RUN_ID\",\"run_attempt\":\"$GITHUB_RUN_ATTEMPT\"}"
-          git show "$BASELINE_REV:boards/board-p/board-p.kicad_pcb" > "$T/baseline.kicad_pcb"
-          docker run --rm --cpus 1 --user 0 -v "$PWD":/w -v "$T":/t -w /w "$IMAGE" python3 /w/$D/verify-corrections.py \
+          docker run --rm --cpus 1 --user 0 -e PYTHONHASHSEED -v "$PWD":/w -v "$T":/t -w /w "$IMAGE" python3 /w/$D/verify-corrections.py \
             /w/$OUT/layout-correction-check.json --baseline-pcb /t/baseline.kicad_pcb --execution-revision "$GITHUB_SHA" | tee "$E/verify-corrections.log"
           python3 "$D/annotate-fit.py" "$OUT"
           python3 -c 'import importlib.util as u; s=u.spec_from_file_location("e","scripts/pcb/export-jlcpcb.py"); m=u.module_from_spec(s); s.loader.exec_module(m); m.verify_p_r3_report_freshness(); print("P r3 correction proof fresh")'
+          NATIVE
+          sudo --preserve-env=PYTHONHASHSEED,IMAGE,D,OUT,DOCKER_DEFAULT_PLATFORM,RUNNER_TEMP,GITHUB_SHA,GITHUB_RUN_ID,GITHUB_RUN_ATTEMPT \
+            env "PATH=$PATH" bash "$T/native.sh"
       - name: Collect changed files
         if: always()
         env:
           REBUILD_OUTCOME: ${{ steps.rebuild.outcome }}
         run: |
+          sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE" "$RUNNER_TEMP"
           E="$RUNNER_TEMP/evidence"; mkdir -p "$E"
           git status --porcelain --untracked-files=all -- . ':!tmp' | tee "$E/changed.txt"
           # Changed files are offered for adoption only when every check above passed.
@@ -88,7 +99,7 @@ jobs:
             echo "FAILED: rebuild step outcome $REBUILD_OUTCOME; no files offered" > "$E/status.txt"
             # A failed round is preserved for review, outside the adoptable files.
             mkdir -p "$E/failed-round"
-            git diff --name-only -z | xargs -0 -r -I{} cp --parents {} "$E/failed-round/"
+            { git diff --name-only -z; git ls-files --others --exclude-standard -z; } | xargs -0 -r -I{} cp --parents {} "$E/failed-round/"
           fi
           (cd "$E" && find . -type f ! -name hashes.txt -print0 | sort -z | xargs -0 sha256sum > hashes.txt)
           cat "$E/hashes.txt"

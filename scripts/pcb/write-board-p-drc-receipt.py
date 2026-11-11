@@ -5,8 +5,9 @@ usage: write-board-p-drc-receipt.py REPORT.json RECEIPT.json --command JSON --ex
 
 The receipt has the fields native_receipt.py reads (pcb/schematic/project SHA-256, report file and hash,
 the exact command). It refuses a report that is not from KiCad 10.0.6, lacks schematic parity or all
-severities, or has DRC errors or unconnected items. Warnings stay in the report for review; this script
-does not disposition them.
+severities, has DRC errors or unconnected items, or has any schematic-parity item other than the board-only
+mounting holes MH1-MH3 (extra_footprint). Warnings stay in the report for review; this script does not
+disposition them.
 """
 import argparse
 import collections
@@ -16,6 +17,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 BOARD = ROOT / 'boards/board-p'
+# Board-only mounting holes have no schematic symbol; every other parity finding is a refusal.
+EXPECTED_PARITY = {('extra_footprint', 'Footprint MH1'), ('extra_footprint', 'Footprint MH2'), ('extra_footprint', 'Footprint MH3')}
 
 
 def sha(path):
@@ -37,6 +40,11 @@ def build(report_path, command, revision, toolchain):
         raise SystemExit(f"DRC report is from KiCad {report.get('kicad_version')}, not 10.0.6")
     if '--schematic-parity' not in command or '--severity-all' not in command:
         raise SystemExit('DRC command lacks --schematic-parity or --severity-all')
+    if sorted(report.get('included_severities', [])) != ['error', 'exclusion', 'warning'] or report.get('source') != 'board-p.kicad_pcb':
+        raise SystemExit('DRC report does not cover all severities of board-p.kicad_pcb')
+    parity = [(item['type'], ' / '.join(i['description'] for i in item['items'])) for item in report.get('schematic_parity', [])]
+    if sorted(parity) != sorted(EXPECTED_PARITY):
+        raise SystemExit(f'Unexpected schematic-parity items: {sorted(set(parity) ^ EXPECTED_PARITY)}')
     counts = summary(report)
     if counts['violations_by_severity'].get('error') or counts['unconnected_items']:
         raise SystemExit(f'DRC has errors or unconnected items: {json.dumps(counts)}')
