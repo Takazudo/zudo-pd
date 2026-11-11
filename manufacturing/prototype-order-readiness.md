@@ -77,6 +77,15 @@ inferred from that source reference, and no LED repository files were changed.
 | D8 Thermal, land/paste and fabrication | Added P copper cannot establish installed thermal resistance. The shared Q1/Q3 lands/paste differ from manufacturer recommendations, without proving a deterministic open. Thermal via solder/stencil/process acceptance remains unresolved | Retain adopted exact components and 5 A contract. Review quantified land/paste adaptations and supplier via/stencil process before assembly; do not silently adopt filled-via costs or package changes. Preserve R5/R7, SMC B560C and EMI/thermal residuals |
 | D9 Stack and enclosure assumptions | Nominal 11.1 mm plane spacing passes the CAD screen, but the separate 11.0 mm comparison intersects by 1.36449 mm³; 11.08 mm passes nominally. HC11 component-side-toward-flat-floor mounting has a known height conflict: P back plane extends at least 1.7 mm and terminal maximum 3.2 mm beyond the 11 mm floor | Resolve actual header seating/tolerance and intended enclosure/support orientation before treating the assembled stack as mechanically ready. A 16 mm support is only a candidate, not an adopted substitution. The diameter-6 mm collar screen is a PROJECT assumption, not supplier support geometry. Keep these stack/enclosure limits separate from the settled two-module P15 prototype purchase |
 
+D1–D3 diagnostics (2026-11-11, [#243](https://github.com/Takazudo/zudo-pd/issues/243)): the
+[source-bound record](sim/board-b20-phase33/interface-diagnostics.md) refutes the designed
+common-RAMP slope and maximum-step explanations for D1 (a start-order clamp-release edge stays
+unresolved), shows slope and current exceedances are one constraint for the modeled C + ESR load,
+finds zero-load D2 decay compliant only if "absent" is at most about 1.44 V with ideal simultaneous
+disconnect, supports asymmetric-load decay reordering under stated assumptions, and refutes using
+a trip threshold as the D3 delivered maximum. The holds above are unchanged; it names the exact
+missing inputs.
+
 ## Capability and access register
 
 | Capability | Actual state | Next action / boundary |
