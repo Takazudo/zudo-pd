@@ -230,3 +230,68 @@ Fresh arithmetic gives +12 V trip 2.04159–2.08485 A (previously 2.04175–2.08
 series-inductance screen at an assumed 2 µs switch-off becomes 1.624 mH / 5.351 mH (+12/−12 V), and stays OPEN:
 the delay is not a guaranteed fault bound. No excess-current charge/time budget is adopted. These trip calculations
 remain distinct from the required maximum delivered current and from physical acceptance.
+
+## 2026-11-11 Board P r3 capacitor DC-bias evidence and the C36 contradiction
+
+Base `main` `db49cfe`. This bounded pass retrieved exact-part manufacturer characteristic data for the two Samsung
+MLCC lines fitted on Board P r3 at 20 V. No circuit, layout, NVM image, frozen package or physical result changed.
+
+| Exact identity / source | Acquisition and locator | Bounded finding |
+|---|---|---|
+| Samsung CL31A106KBHNNNE / C13585, C1206, Board P C1 (VBUS_IN) | [Manufacturer product page](https://product.samsungsem.com/mlcc/CL31A106KBHNNN.do), retrieved 2026-11-11; Characteristic Data, DC Bias chart (25 °C, 1 kHz). Source `src-c13585-dcbias-20261111`, fact `fact-c13585-dc-bias-curve` | About −27% at 5 V, −75% at 15 V, −82% at 20 V and −84% at 21 V: roughly 1.8 µF at 20 V from a 10 µF part. **Typical design-reference data**, not a guaranteed minimum |
+| Samsung CL10A105KB8NNNC / C15849, C0603, Board P C30/C34/C36/C37/C38 | [Manufacturer product page](https://product.samsungsem.com/mlcc/CL10A105KB8NNN.do), retrieved 2026-11-11; same chart. Source `src-c15849-dcbias-20261111`, fact `fact-c15849-dc-bias-curve` | About −13% at 2.7 V, −34% at 5 V, −60% at 8.7 V, −71% at 12 V, −83% at 18 V and −85% at 20 V: 0.15–0.17 µF at 18–20 V from a 1 µF part. **Typical design-reference data** |
+
+The page HTML carries a render timestamp, so its bytes change on every fetch. Each source's `sha256` locks the bytes
+retrieved here, and its extract also gives a reproducible hash of the canonical DC-bias series (the page's literal
+x/y strings, serialized compactly with `partsName`, `graphType`, `degC` and `dsDcFre`). Two fetches minutes apart gave
+identical series. Both pages say: "This page includes the typical data for design reference only."
+
+### Contradiction: C36 typical capacitance is below the adopted 0.4–1.1 µF range during the 20 V closure
+
+`dec-p-20v-q1-soft-start` (`scripts/schgen/decisions.json`) and `board_p_spec.py` set the Q1 drain slew to the R12
+gate current divided by C36, taking C36 as **0.4–1.1 µF (PA, "the DC-bias curve is not in the bundle")**. That gives
+3.1–10 V/ms and at most 2.5 A into 250 µF, below the eFuse I(OL) 4.185 A minimum (the decision text names TPS26630; Board P r3 fits U2 TPS16630 with R26 4.02 kΩ, I(OL) 4.185–4.815 A). The Q1 SOA screen above uses the
+same 10 V/ms ceiling.
+
+C36 sits between VBUS_OUT and Q1_MX. Q1_MX is held near the gate plateau, about VBUS_P − V_plateau + V_f(Q5). At the start
+of a closure VBUS_OUT is 0 V, so C36 carries about 17–20 V. The manufacturer typical curve gives 0.15–0.18 µF there,
+below the 0.4 µF floor. The bias falls toward a few volts as VBUS_OUT rises, so the capacitance recovers late in the ramp.
+
+CALCULATED screen (typical 25 °C curve, linear interpolation; PA: V_plateau 1.5/3.5 V, V_f 0.7 V, gate current
+(VBUS_P − V_plateau)/4.7 kΩ, Q1 transconductance, Crss and load ignored; |bias| used because the curve is published for
+positive bias only):
+
+| VBUS_P | V_plateau | C36 initial tolerance | C36 at VBUS_OUT = 0 | Peak slew | Peak inrush, 186 µF / 250 µF | Peak Q1 power, 186 µF / 250 µF | Ramp time |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 20 V | 3.5 V | nominal | 0.183 µF | 19.2 V/ms | 3.57 / 4.79 A | 71 / 96 W | 2.25 ms |
+| 20 V | 1.5 V | nominal | 0.161 µF | 24.5 V/ms | 4.56 / 6.13 A | 91 / 123 W | 2.09 ms |
+| 21 V | 1.5 V | nominal | 0.151 µF | 27.4 V/ms | 5.10 / 6.86 A | 107 / 144 W | 2.02 ms |
+| 21 V | 1.5 V | −10% | 0.136 µF | 30.5 V/ms | 5.67 / 7.62 A | 119 / 160 W | 1.82 ms |
+
+Consequences, stated as contradictions and not as a design decision:
+- The adopted 3.1–10 V/ms slew and the "at most 2.5 A" inrush do not hold with the manufacturer typical curve.
+  Peak typical slew is about 19–31 V/ms early in the ramp.
+- The claim that the closure stays below the U2 I(OL) 4.185 A minimum does not hold in most rows. Whether U2
+  then current-limits, and what that does to the closure, is not analysed here.
+- The Q1 SOA desk screen (about 2× margin from a 10 V/ms ceiling) no longer follows. Total Q1 energy is still ½CV²,
+  about 41 mJ, but the peak power rises to about 71–160 W at the start of the ramp. A re-screen against DS37038
+  Fig. 12 with this waveform is needed. Bench T3 still owns the measurement.
+- Temperature, aging and the guaranteed tolerance are not included, so the installed value can be lower still.
+
+The adopted design, the decision record and the C36 part are unchanged. The choice of a correction (for example a
+different dielectric, voltage rating or capacitance, or a re-derived gate current) belongs to the design owner.
+
+### Remaining primary-source items in this pass
+
+- **STUSB4500 DS12499 Rev 8 recheck: already closed.** The 2026-11-09 direct st.com download
+  (`src-stusb-ds12499-primary-20261109`) is byte-identical to the retained Rev 8 mirror. It was not repeated.
+- **Murata GRM32ER71H106KA12L primary DC-bias: NOT RUN.** On 2026-11-11
+  `https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM32ER71H106KA12-01.pdf` returned HTTP 404 (843-byte
+  HTML). `https://www.murata.com/en-global/products/productdetail?partno=GRM32ER71H106KA12%23` redirects to
+  `https://pim.murata.com/en-global/pim/details/?partNum=GRM32ER71H106KA12%23`, a script-rendered page with no
+  characteristic data in its HTML. A minimal request to the public characteristic-data endpoint behind that page
+  returned an empty CSV; probing it further was stopped. The B20 VIN bank keeps the retained exact-part mirror curve
+  (about −30% at 20 V, typical). Note that the Murata mirror and the Samsung C13585 curve differ greatly at 20 V
+  (−30% versus −82%), so the Samsung result must not be carried over to the Murata part, nor the reverse.
+- **Repetitive discharge-resistor pulse and installed thermal evidence: not attempted.** No authentic manufacturer
+  source was identified in this pass; both stay as recorded above.
