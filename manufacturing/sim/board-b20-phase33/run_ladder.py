@@ -56,6 +56,8 @@ def verify_executed_inputs(attempt_root, input_sha256):
     for relative in sorted(expected):
         if executed[relative] != expected[relative]:
             raise ValueError(f'{attempt_root}: executed input {relative} differs from runner input snapshot')
+    if attempt_root.is_symlink() or (attempt_root / 'tracking').is_symlink():
+        raise ValueError(f'{attempt_root}: executed attempt or tracking directory is a symlink, not a retained copy')
     settings = attempt_root / 'tracking' / '.spiceinit'
     if settings.is_symlink() or not settings.is_file():
         raise ValueError(f'{attempt_root}: executed settings missing: tracking/.spiceinit')

@@ -116,6 +116,13 @@ class ExecutedInputTests(unittest.TestCase):
         target.symlink_to(outside)
         self.assert_rejected('executed input lib/opa.lib is a symlink')
 
+    def test_symlinked_tracking_directory_fails(self):
+        attempt = self.attempt()
+        moved = self.root / 'moved-tracking'
+        shutil.move(str(attempt / 'tracking'), moved)
+        (attempt / 'tracking').symlink_to(moved, target_is_directory=True)
+        self.assert_rejected('tracking directory is a symlink')
+
     def test_snapshot_and_preparation_checks_are_preserved(self):
         snapshot = self.attempt().parent.parent / 'inputs' / '.spiceinit'
         snapshot.write_text('changed snapshot\n')
