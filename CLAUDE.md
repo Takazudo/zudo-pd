@@ -194,8 +194,9 @@ with net tables (`Net | Connected pins (Ref.Pin) | Value/Note`) and Mermaid bloc
 diagrams. Read generated specs or exported netlists, not symbol positions.
 
 `VERSION` uses X.Y.Z: X is product release, Y is the lifetime PCBA order count, Z is
-a local checkpoint. Preparing an export is not a new order. Use the existing
-`.claude/skills/l-bump-version-*` workflows only when that versioning action is requested.
+a local checkpoint. Preparing an export is not a new order. Change `VERSION` (via
+`.claude/scripts/bump-version.sh <x|y|z>`) only when that versioning action is explicitly requested;
+the former `l-bump-version-*` skills were retired in #202.
 
 Repository map: `boards/` projects; `scripts/schgen/` specs and checks; `.claude/skills/`
 evidence; `symbols/` and `footprints/kicad/` assets; `circuit/` package config,
