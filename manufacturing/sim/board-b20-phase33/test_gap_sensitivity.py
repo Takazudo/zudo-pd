@@ -19,15 +19,16 @@ class DeckTests(unittest.TestCase):
         for rail in gap.RAILS:
             for g in gap.TARGET_GAPS_V:
                 kind, shift = labels[f'g{int(round(g * 10)):02d}'][rail]
-                self.assertEqual(kind, 'enabled-gated')
+                self.assertEqual(kind, gap.SCHEDULED)
                 self.assertAlmostEqual(gap.BASELINE_GAP_V[rail] - shift, g, places=6)
             self.assertEqual(labels['worst'][rail], ('constant', -gap.WORST_EXTRA_V))
 
-    def test_offset_lines_keep_nodes_and_gate_on_enable(self):
-        self.assertEqual(gap.offset_line('+5', 'enabled-gated', 0.4434),
-                         'BVO2 p5_g p5_gi V=0-0.4434*0.5*(1+tanh((2.5-v(enn))*4))')
-        self.assertEqual(gap.offset_line('-12', 'enabled-gated', 1.6668),
-                         'BVO3 m12_g m12_gi V=0.5-1.6668*0.5*(1+tanh((2.5-v(enn))*4))')
+    def test_offset_lines_keep_the_source_and_schedule_the_shift(self):
+        # Amendment 1: same element and nodes, baseline value outside the scheduled EN..disable interval.
+        self.assertEqual(gap.offset_line('+5', gap.SCHEDULED, 0.4434),
+                         'VO2 p5_g p5_gi PWL(0 0 40m 0 40.05m -0.4434 240m -0.4434 240.05m 0)')
+        self.assertEqual(gap.offset_line('-12', gap.SCHEDULED, 1.6668),
+                         'VO3 m12_g m12_gi PWL(0 0.5 40m 0.5 40.05m -1.1668 240m -1.1668 240.05m 0.5)')
         self.assertEqual(gap.offset_line('+5', 'constant', -0.3), 'VO2 p5_g p5_gi 0.3')
         self.assertEqual(gap.offset_line('-12', 'constant', -0.3), 'VO3 m12_g m12_gi 0.8')
 
@@ -36,11 +37,13 @@ class DeckTests(unittest.TestCase):
         for rail, spec in gap.RAILS.items():
             name = spec['case']
             base = decks[name]['executed']
-            text = gap.variant(base, name, rail, 'enabled-gated', 0.4)
+            text = gap.variant(base, name, rail, gap.SCHEDULED, 0.4)
             removed = set(base.splitlines()) - set(text.splitlines())
             added = set(text.splitlines()) - set(base.splitlines())
             self.assertEqual(removed, {spec['line'], gap.DISABLE_LINE[0]})
-            self.assertEqual(added, {gap.offset_line(rail, 'enabled-gated', 0.4), gap.DISABLE_LINE[1], gap.gap_line(name)})
+            self.assertEqual(added, {gap.offset_line(rail, gap.SCHEDULED, 0.4), gap.DISABLE_LINE[1], gap.gap_line(name)})
+            self.assertEqual(len(text.splitlines()), len(base.splitlines()) + 1)  # only the output line is new
+            self.assertNotIn('\nB' + spec['offset'], text)
         with self.assertRaisesRegex(ValueError, 'expected exactly one'):
             gap.variant(decks['nom']['executed'], 'nom', '-12', 'constant', -0.3)
 
@@ -60,6 +63,20 @@ class MeasurementTests(unittest.TestCase):
         self.assertAlmostEqual(lo, 0.02, places=4)
         self.assertAlmostEqual(hi, 0.4, places=4)
 
+    def test_rule6_detail_reports_sizes_and_reference_without_judging(self):
+        b = {'enable_edge_extremes_v': (-0.0971565, -0.0076640)}
+        v = {'enable_edge_extremes_v': (-0.0971687, -0.0076683)}
+        d = gap.rule6_detail('-12', v, b)
+        self.assertAlmostEqual(d['below_baseline_minimum_v'], 1.22e-5, places=9)
+        self.assertAlmostEqual(d['largest_excursion_beyond_baseline_v'], 1.22e-5, places=9)
+        inside = gap.rule6_detail('-12', {'enable_edge_extremes_v': (-0.0971, -0.0077)}, b)
+        self.assertEqual(inside['largest_excursion_beyond_baseline_v'], 0.0)
+        self.assertEqual(d['resolution_v'], gap.VNTOL_V)
+        self.assertIsNone(d['contract_reference_value_v'])
+        p = gap.rule6_detail('+5', {'enable_edge_extremes_v': (0.0039, 0.0519)}, {'enable_edge_extremes_v': (0.0039, 0.0518)})
+        self.assertEqual(p['contract_reference_value_v'], 0.8)
+        self.assertAlmostEqual(p['distance_to_contract_reference_v'], 0.7481, places=9)
+
     def test_within_resolves_to_vntol(self):
         self.assertTrue(gap.within((0.0, 1.0), (0.0, 1.0 - gap.VNTOL_V / 2)))
         self.assertFalse(gap.within((0.0, 1.0), (0.0, 1.0 - 2 * gap.VNTOL_V)))
@@ -73,6 +90,69 @@ class MeasurementTests(unittest.TestCase):
         self.assertFalse(gap.screen_passes({**ok, 'exception': {'current_ceiling_exceeded_in_saved_samples': True}}))
 
 
+class StatusTests(unittest.TestCase):
+    ABORT_LOG = 'doAnalyses: TRAN:  Timestep too small; time = 0.003\nrun simulation(s) aborted\n'
+
+    def write(self, root, statuses, log=ABORT_LOG, runner='FAILED', **attempt):
+        run = root / 'ladder-x'
+        cases = {}
+        for name, status in statuses.items():
+            (run / name / '0' / 'tracking').mkdir(parents=True)
+            (run / name / '0' / 'tracking' / f'{name}.log').write_text(log if status != 'COMPLETE' else 'ok')
+            last = {'returncode': 0 if status == 'COMPLETE' else 1, 'cleanup_returncode': 0, 'status': status,
+                    'reason': None if status == 'COMPLETE' else 'solver failed, timed out, or aborted', **attempt}
+            cases[name] = {'status': status, 'attempts': [last]}
+        (run / 'receipt.json').write_text(json.dumps({'status': runner, 'cases': cases}))
+
+    def test_only_a_solver_abort_is_aborted(self):
+        cases = ((dict(), 'ABORTED'), (dict(log='Error: model\n'), 'RUN FAILED'),
+                 (dict(returncode=124), 'RUN FAILED'), (dict(cleanup_returncode=1), 'RUN FAILED'),
+                 (dict(runner='INTERRUPTED'), 'RUN FAILED'), (dict(reason='bad waveform'), 'RUN FAILED'))
+        for kwargs, expected in cases:
+            with tempfile.TemporaryDirectory() as tmp:
+                self.write(Path(tmp), {'nom': 'FAILED'}, **kwargs)
+                self.assertEqual(gap.case_status(Path(tmp), 'nom')['status'], expected, kwargs)
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            self.write(work / 'gaps' / 'g20', {'nom': 'FAILED', 'adv': 'COMPLETE'})
+            self.assertEqual(gap.check_run(work, 'g20'), {})
+            self.write(work / 'gaps' / 'g16', {'adv': 'FAILED'}, returncode=124)
+            self.assertEqual(gap.check_run(work, 'g16'), {'adv': 'RUN FAILED'})
+            self.assertEqual(gap.check_run(work, 'g12'), {'adv': 'NOT RUN'})
+
+    def test_aborted_case_is_recorded_and_stops_only_its_rail(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            self.assertEqual(gap.pending(work, 'g20'), ['nom', 'adv'])
+            self.write(work / 'gaps' / 'g20', {'nom': 'FAILED', 'adv': 'COMPLETE'})
+            status = gap.case_status(work / 'gaps' / 'g20', 'nom')
+            self.assertEqual(status['status'], 'ABORTED')
+            self.assertIn('Timestep too small', status['solver_message'])
+            self.assertIn('aborted', status['solver_message'])
+            self.assertEqual(gap.case_status(work / 'gaps' / 'g20', 'adv')['status'], 'COMPLETE')
+            self.assertEqual(gap.case_status(work / 'gaps' / 'g16', 'adv')['status'], 'NOT RUN')
+            for label in ('g16', 'g12', 'worst'):
+                self.assertEqual(gap.pending(work, label), ['adv'])
+            self.write(work / 'gaps' / 'g16', {'adv': 'FAILED'})
+            self.assertEqual(gap.pending(work, 'g12'), [])
+
+    def test_attempt1_record_preserves_the_abort_and_the_rule6_failure(self):
+        record = json.loads((HERE / 'd1-gap-attempt1-20261111.json').read_text())
+        self.assertEqual(record['workflow_run'], 43105372453)
+        self.assertEqual(record['identity'], 'REPRODUCED')
+        self.assertEqual(record['electrical_acceptance'], 'NOT ESTABLISHED')
+        plus, minus = record['rails']['+5']['rows'], record['rails']['-12']['rows']
+        self.assertEqual(plus['g20']['status'], 'ABORTED')
+        self.assertIn('xu13a', plus['g20']['solver_message'])
+        self.assertFalse(minus['g20']['passes'])
+        self.assertFalse(minus['g20']['rules']['enable edge no excursion beyond baseline'])
+        self.assertGreater(minus['g20']['rule6_detail']['largest_excursion_beyond_baseline_v'], gap.VNTOL_V)
+        self.assertTrue(all(v for k, v in minus['g20']['rules'].items() if k != 'enable edge no excursion beyond baseline'))
+        for rows in (plus, minus):
+            for label in ('g16', 'g12', 'worst'):
+                self.assertEqual(rows[label]['status'], 'NOT RUN')
+
+
 class CriteriaDocumentTests(unittest.TestCase):
     def test_document_mirrors_the_constants(self):
         text = CRITERIA.read_text()
@@ -82,13 +162,20 @@ class CriteriaDocumentTests(unittest.TestCase):
         for label, rails in gap.labels().items():
             self.assertIn(f'| {label} |', text)
             for rail, (kind, shift) in rails.items():
-                if kind == 'enabled-gated':
+                if kind == gap.SCHEDULED:
                     self.assertIn(f'shift +{shift:.4f} V', text)
         self.assertIn(gap.DISABLE_LINE[1], text)
         self.assertIn(gap.GATE_ON, text)
         self.assertIn('1e-5 V', text)
         self.assertIn('110–115 ms', text)
         self.assertIn('40–234.5 ms', text)
+        amendment = text.split('## Amendment 1')[1]
+        for edge in gap.SHIFT_EDGES:
+            self.assertIn(edge, amendment)
+        self.assertIn('ABORTED', amendment)
+        self.assertIn('does not track', amendment)
+        self.assertIn('d1-gap-attempt1-20261111.json', amendment)
+        self.assertIn('12.2 µV', amendment)
         self.assertEqual(gap.gap_line('{case}'), re.search(r'`(wrdata \{case\}-gap\.txt [^`]+)`', text).group(1))
 
 

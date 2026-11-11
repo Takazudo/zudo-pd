@@ -3,12 +3,14 @@
 Eight variant decks derive from the executed baseline decks of the servo extraction. Each moves only the
 enabled-state gate resting level of one failed rail (+5 on nom, -12 on adv) at the existing gate-offset
 position, adds a disable at 240 ms and one output-only line that saves the internal gate and source nodes.
+Amendment 1 (attempt 2): the enabled-state shift is a scheduled PWL value of the existing offset source, so the
+deck is exactly baseline before 40 ms; a case that aborts is recorded as ABORTED and stops its rail.
 The baseline pair still runs unmodified in the same dispatch and must reproduce first. No claim is made about
 any real part, and nothing here is a design change, a tolerance or electrical acceptance.
 
 usage (after extract_reference.py prepare / run / identity):
   gap_sensitivity.py prepare WORK --manifest PATH
-  (run_ladder.py WORK/gaps/LABEL/tracking nom adv --original-only, for every LABEL)
+  for every LABEL in order: run_ladder.py WORK/gaps/LABEL/tracking $(gap_sensitivity.py pending WORK LABEL) --original-only
   gap_sensitivity.py analyze WORK --output PATH
 """
 import argparse
@@ -35,7 +37,23 @@ DISABLE_AT_S = 240e-3
 DISABLE_SETTLE_S = 245e-3
 PRE_DISABLE_S = 238e-3
 END_S = 250e-3
-GATE_ON = '0.5*(1+tanh((2.5-v(enn))*4))'  # the decks' own enable shape (B10/B11/B25 use its complement)
+GATE_ON = '0.5*(1+tanh((2.5-v(enn))*4))'  # attempt 1 only: the decks' own enable shape (B10/B11/B25 use its complement)
+# Amendment 1: the shift follows the decks' scheduled EN (VENN 40-40.05 ms) and disable (VDIS 240-240.05 ms) edges.
+SHIFT_EDGES = ('40m', '40.05m', '240m', '240.05m')
+SCHEDULED = 'scheduled-enable'  # attempt 1 called these 'enabled-gated' (v(enn)-gated behavioural source)
+LABEL_ORDER = ('g20', 'g16', 'g12', 'worst')
+SOLVER_MARKERS = ('Timestep too small', 'trouble with node', 'doAnalyses', 'simulation(s) aborted')
+SOLVER_ABORT = ('simulation(s) aborted', 'Timestep too small')  # ngspice's own abort statements
+TIMEOUT_RETURNCODE = 124  # run_ladder.py records a 3000 s solver timeout with this code
+# Rule 6 has no contract tolerance of its own; this is the nearest recorded quantity, given only for the manager's
+# judgement of significance (execution-20261110.md, canonical OSC interface 433c88b). It is never a pass rule.
+RULE6_CONTRACT_REFERENCE = {
+    '+5': {'quantity': '+5 V above 0.8 V while an analog rail is below 1.5 V and the other at least 8 V '
+                       '(hazard conjunction; 1.5 V is the sufficient analysis threshold)', 'value_v': 0.8},
+    '-12': {'quantity': 'none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the '
+                        'interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit',
+            'value_v': None},
+}
 
 # Failed rail -> deck, offset element, its baseline line and value, internal gate/source columns in -gap.txt,
 # main waveform output column and current column (after time), sign of the output, normal and exception limits.
@@ -63,7 +81,7 @@ def sha(data):
 
 def labels():
     """label -> {rail: (kind, shift_v)}; a positive shift raises the enabled gate, the worst case raises the threshold."""
-    out = {f'g{int(round(g * 10)):02d}': {r: ('enabled-gated', round(BASELINE_GAP_V[r] - g, 4)) for r in RAILS}
+    out = {f'g{int(round(g * 10)):02d}': {r: (SCHEDULED, round(BASELINE_GAP_V[r] - g, 4)) for r in RAILS}
            for g in TARGET_GAPS_V}
     out['worst'] = {r: ('constant', -WORST_EXTRA_V) for r in RAILS}
     return out
@@ -72,9 +90,11 @@ def labels():
 def offset_line(rail, kind, shift):
     spec = RAILS[rail]
     head = f"{spec['offset']} {spec['node_g']} {spec['gate']}"
+    base, on = spec['base_v'], round(spec['base_v'] - shift, 4)
     if kind == 'constant':
-        return f"{head} {spec['base_v'] - shift:g}"
-    return f"B{head} V={spec['base_v']:g}-{shift:g}*{GATE_ON}"
+        return f"{head} {on:g}"
+    a, b, c, d = SHIFT_EDGES
+    return f"{head} PWL(0 {base:g} {a} {base:g} {b} {on:g} {c} {on:g} {d} {base:g})"
 
 
 def gap_line(name):
@@ -121,6 +141,66 @@ def prepare(work):
             manifest['labels'][label][name] = {k: v for k, v in case.items() if k != 'deck'}
             manifest['labels'][label][name]['variant_deck_sha256'] = sha(case['deck'].encode())
     return manifest
+
+
+# ---------------------------------------------------------------- execution status (amendment 1)
+def solver_message(log):
+    """The solver's own abort lines, for an ABORTED record."""
+    if not Path(log).exists():
+        return 'no solver log'
+    text = Path(log).read_text(errors='replace').replace('Reference value', '\nReference value')
+    lines = [x.strip() for x in text.splitlines() if any(m in x for m in SOLVER_MARKERS)]
+    return ' | '.join(lines)[:600] or 'no solver abort line found'
+
+
+def case_status(label_root, name):
+    """COMPLETE, ABORTED (a solver abort, with its message), RUN FAILED (anything else) or NOT RUN for one case.
+
+    ABORTED needs the solver's own abort statement in the log, a non-timeout nonzero return or an aborted log,
+    a clean container cleanup and a finished (not interrupted) runner; everything else fails closed as RUN FAILED.
+    """
+    runs = sorted(Path(label_root).glob('ladder-*'))
+    if not runs:
+        return {'status': 'NOT RUN'}
+    if len(runs) != 1:
+        raise ValueError(f'{label_root}: expected at most one runner directory, found {len(runs)}')
+    receipt = json.loads((runs[0] / 'receipt.json').read_text())
+    case = receipt.get('cases', {}).get(name)
+    if case is None:
+        return {'status': 'NOT RUN'}
+    if case.get('status') == 'COMPLETE':
+        return {'status': 'COMPLETE', 'run': runs[0]}
+    last = (case.get('attempts') or [{}])[-1]
+    log = attempt_dir(runs[0], name) / f'{name}.log'
+    text = log.read_text(errors='replace') if log.exists() else ''
+    out = {'run': runs[0], 'returncode': last.get('returncode'), 'runner_reason': last.get('reason'),
+           'runner_status': receipt.get('status'), 'solver_message': solver_message(log)}
+    solver_abort = (receipt.get('status') == 'FAILED' and last.get('status') == 'FAILED'
+                    and last.get('cleanup_returncode') == 0 and last.get('returncode') != TIMEOUT_RETURNCODE
+                    and last.get('reason') == 'solver failed, timed out, or aborted'
+                    and any(m in text for m in SOLVER_ABORT))
+    return {'status': 'ABORTED' if solver_abort else 'RUN FAILED', **out}
+
+
+def check_run(work, label):
+    """Workflow gate after a nonzero run_ladder: tolerate only solver aborts of the scheduled cases."""
+    bad = {}
+    for name in pending(work, label):
+        status = case_status(Path(work) / 'gaps' / label, name)['status']
+        if status not in ('COMPLETE', 'ABORTED'):
+            bad[name] = status
+    return bad
+
+
+def pending(work, label):
+    """Cases to run for LABEL: a rail stops after its first ABORTED case and is not retried in the dispatch."""
+    out = []
+    for rail, spec in RAILS.items():
+        name = spec['case']
+        earlier = LABEL_ORDER[:LABEL_ORDER.index(label)]
+        if all(case_status(Path(work) / 'gaps' / prior, name)['status'] != 'ABORTED' for prior in earlier):
+            out.append(name)
+    return out
 
 
 # ---------------------------------------------------------------- measurement helpers
@@ -264,6 +344,31 @@ def within(variant_extremes, baseline_extremes):
     return variant_extremes[0] >= baseline_extremes[0] - VNTOL_V and variant_extremes[1] <= baseline_extremes[1] + VNTOL_V
 
 
+def rule6_detail(rail, v, b):
+    """Absolute enable-edge differences from baseline beside the rule 6 verdict; reported, never a rule."""
+    below = b['enable_edge_extremes_v'][0] - v['enable_edge_extremes_v'][0]
+    above = v['enable_edge_extremes_v'][1] - b['enable_edge_extremes_v'][1]
+    ref = RULE6_CONTRACT_REFERENCE[rail]
+    out = {'below_baseline_minimum_v': below, 'above_baseline_maximum_v': above,
+           'largest_excursion_beyond_baseline_v': max(0.0, below, above), 'resolution_v': VNTOL_V,
+           'contract_reference': ref['quantity'], 'contract_reference_value_v': ref['value_v']}
+    if ref['value_v'] is not None:
+        out['variant_enable_edge_maximum_v'] = v['enable_edge_extremes_v'][1]
+        out['distance_to_contract_reference_v'] = ref['value_v'] - v['enable_edge_extremes_v'][1]
+    return out
+
+
+def pre_enable_difference(base_record, record, kind):
+    """Main-waveform difference before enable; amendment 1 makes the deck exactly baseline there."""
+    a = [r for r in base_record['rows'] if r[0] < ENABLE_WINDOW_S[0]]
+    b = [r for r in record['rows'] if r[0] < ENABLE_WINDOW_S[0]]
+    same_grid = len(a) == len(b) and all(x[0] == y[0] for x, y in zip(a, b))
+    diff = max((abs(x[k] - y[k]) for x, y in zip(a, b) for k in (1, 2, 3)), default=None) if same_grid else None
+    return {'rows_before_40ms': [len(a), len(b)], 'same_time_grid': same_grid, 'max_output_difference_v': diff,
+            'identical': same_grid and diff == 0.0,
+            'identity_expected': kind == SCHEDULED}  # the constant worst case changes the deck before 40 ms by design
+
+
 def judge(rail, variant_screens, baseline_screens, v, b):
     """Pre-registered pass rules (d1-gap-criteria.md); every rule must hold."""
     spec = RAILS[rail]
@@ -304,22 +409,38 @@ def analyze(work):
         b = rail_metrics(baseline[name], rail)
         b['screen'] = base_screens[name][rail]
         rows = {'baseline': {'target_gap_v': BASELINE_GAP_V[rail], **summary(b, base_screens[name][rail])}}
-        for label, cases in labels().items():
-            kind, shift = cases[rail]
+        for label in LABEL_ORDER:
+            kind, shift = labels()[label][rail]
             try:
-                record = case_record(single_run(work / 'gaps' / label), name)
+                status = case_status(work / 'gaps' / label, name)
+            except (ValueError, OSError) as error:
+                status = {'status': 'RUN FAILED', 'reason': f'{type(error).__name__}: {error}'}
+            if status['status'] != 'COMPLETE':
+                # Never a pass or a fail of the electrical rules (amendment 1); RUN FAILED is not a solver abort.
+                aborted = [x for x in rows if rows[x].get('status') == 'ABORTED']
+                if status['status'] == 'NOT RUN':
+                    status['reason'] = (f'rail stopped after ABORTED {aborted[0]}; not retried in this dispatch' if aborted
+                                        else 'no runner record for this case')
+                rows[label] = {'kind': kind, 'shift_v': shift, 'target_gap_v': round(BASELINE_GAP_V[rail] - shift, 4),
+                               **{k: x for k, x in status.items() if k != 'run'}, 'passes': None}
+                continue
+            try:
+                record = case_record(status['run'], name)
                 vs = screens(record)
                 v = rail_metrics(record, rail)
                 rules = judge(rail, vs, base_screens[name], v, b)
                 rows[label] = {'kind': kind, 'shift_v': shift, 'target_gap_v': round(BASELINE_GAP_V[rail] - shift, 4),
-                               **summary(v, vs[rail]), 'rules': rules, 'passes': all(rules.values()),
+                               'status': 'COMPLETE', **summary(v, vs[rail]), 'rules': rules, 'passes': all(rules.values()),
                                'edge_excursion_vs_baseline_v': {
                                    w: {'below': b[k][0] - v[k][0], 'above': v[k][1] - b[k][1]}
                                    for w, k in (('disabled', 'disabled_extremes_v'), ('enable', 'enable_edge_extremes_v'))},
-                               'other_rails': {r: vs[r]['disposition'] for r in OTHER_RAILS if r != rail}}
+                               'other_rails': {r: vs[r]['disposition'] for r in OTHER_RAILS if r != rail},
+                               'rule6_detail': rule6_detail(rail, v, b),
+                               'pre_enable_vs_baseline': pre_enable_difference(baseline[name], record, kind)}
             except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
-                rows[label] = {'kind': kind, 'shift_v': shift, 'status': 'FAILED', 'reason': f'{type(error).__name__}: {error}',
-                               'passes': False}
+                # A completed case whose evaluation fails is not a pass (fails closed).
+                rows[label] = {'kind': kind, 'shift_v': shift, 'status': 'NOT EVALUATED',
+                               'reason': f'{type(error).__name__}: {error}', 'passes': False}
         passing = [(r['target_gap_v'], r) for k, r in rows.items() if k != 'baseline' and r.get('passes')]
         best = max(passing, key=lambda x: x[0], default=None)
         result['rails'][rail] = {'case': name, 'rows': rows,
@@ -349,7 +470,17 @@ def main(argv=None):
     sub = parser.add_subparsers(dest='command', required=True)
     p = sub.add_parser('prepare'); p.add_argument('work', type=Path); p.add_argument('--manifest', type=Path, required=True)
     a = sub.add_parser('analyze'); a.add_argument('work', type=Path); a.add_argument('--output', type=Path, required=True)
+    n = sub.add_parser('pending'); n.add_argument('work', type=Path); n.add_argument('label', choices=LABEL_ORDER)
+    c = sub.add_parser('check-run'); c.add_argument('work', type=Path); c.add_argument('label', choices=LABEL_ORDER)
     args = parser.parse_args(argv)
+    if args.command == 'pending':
+        print(' '.join(pending(args.work, args.label)))
+        return 0
+    if args.command == 'check-run':
+        bad = check_run(args.work, args.label)
+        for name, status in bad.items():
+            print(f'{args.label} {name}: {status}; not a solver abort, failing the step', file=sys.stderr)
+        return 1 if bad else 0
     if args.command == 'prepare':
         args.manifest.write_text(json.dumps(prepare(args.work), indent=2) + '\n')
         return 0
