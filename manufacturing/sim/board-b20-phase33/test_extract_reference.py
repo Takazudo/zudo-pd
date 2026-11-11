@@ -392,12 +392,17 @@ class WorkflowTests(unittest.TestCase):
     def test_workflow_is_single_purpose_and_pinned(self):
         text = WORKFLOW.read_text()
         on = text.split('\non:', 1)[1].split('\npermissions:', 1)[0]
-        self.assertEqual([l.strip() for l in on.splitlines() if l.strip()], ['workflow_dispatch:'])
+        self.assertEqual([l.strip() for l in on.splitlines() if l.strip()],
+                         ['workflow_dispatch:', 'inputs:', 'gap_sensitivity:',
+                          'description: Also run the eight pre-registered C1 gap-sensitivity variant cases (d1-gap-criteria.md)',
+                          'type: boolean', 'default: false'])
         self.assertRegex(text, r'\npermissions:\n  contents: read\n')
         self.assertIn('timeout-minutes: 45', text)
         self.assertRegex(text, r'\nconcurrency:\n  group: phase33-d1-reference\n')
         self.assertNotIn('secrets.', text)
-        self.assertNotIn('inputs:', text)
+        self.assertEqual(re.findall(r'inputs\.\w+', text), ['inputs.gap_sensitivity'])
+        self.assertIn("if: inputs.gap_sensitivity && steps.identity.outcome == 'success'", text)
+        self.assertNotIn('${{ inputs', text)
         uses = re.findall(r'uses: (\S+)', text)
         self.assertTrue(uses)
         for use in uses:

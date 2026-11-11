@@ -750,7 +750,7 @@ def render_servo_markdown(record):
     return '\n'.join(lines)
 
 
-EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt')
+EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt', '-gap.txt')
 VENDOR_SUFFIXES = ('.lib', '.zip', '.olb')
 
 
@@ -758,15 +758,17 @@ def collect(work, evidence, extra_dir=None):
     """Copy decks, logs, waveforms, receipts and reports; never vendor model bytes. Returns the hash list."""
     evidence = Path(evidence)
     evidence.mkdir(parents=True)
-    runs = sorted(Path(work).glob('ladder-*'))
+    work = Path(work)
+    runs = sorted(work.glob('ladder-*')) + sorted(work.glob('gaps/*/ladder-*'))
     sources = []
     for run in runs:
-        sources.append((run / 'receipt.json', f'{run.name}/receipt.json'))
+        prefix = run.relative_to(work).as_posix()
+        sources.append((run / 'receipt.json', f'{prefix}/receipt.json'))
         for name in CASES:
             for suffix in EVIDENCE_SUFFIXES:
                 path = attempt_dir(run, name) / f'{name}{suffix}'
                 if path.is_file():
-                    sources.append((path, f'{run.name}/{name}/{name}{suffix}'))
+                    sources.append((path, f'{prefix}/{name}/{name}{suffix}'))
     if extra_dir and Path(extra_dir).is_dir():
         sources += [(p, p.name) for p in sorted(Path(extra_dir).iterdir()) if p.is_file()]
     hashes = {}
