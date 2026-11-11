@@ -26,7 +26,8 @@ the independent review of bad5ddf):
   dividers) with REF5025 and inject a bounded current into the converter FB node.
   Only the switch-pair drop is outside the loop. The integrators are sized for a loop
   time constant of about 5 ms (review finding 2), so the rails settle within about
-  30 ms of P5_SUP, well before the earliest enable (RDY >= 0.2 s).
+  30 ms of P5_SUP, before the earliest enable (RDY >= 0.184 s at
+  the tolerance corner); the 5x settle project screen fails there (readiness D11).
 - Common tracking start (review finding 5 and the contract start-skew rule): RAMP rises
   from 0 toward 2.083 V (REF25 through 20k, 100k load, 1 uF, tau 16.7 ms), reset by a
   BSS138 while EN_N is high. U13 (on VIN) closes +12 = 7.98 x RAMP and +5 = 3.32 x RAMP
@@ -42,7 +43,7 @@ the independent review of bad5ddf):
 - Windows: U6/U7/U8 OPA2187 OV/UV comparators on each terminal (UV gated by ARM),
   U5B VIN undervoltage (16.95 V against REF/2). All pull the FAULT_N bus through BSS138s.
 - Latch: Q30/Q31 fault latch on FAULT_N, held reset during power-on by Q32 (POR 10-36 ms).
-  Enable latch Q33/Q34 is set by RDY (PDOK valid for 0.21-0.71 s) and reset by the fault
+  Enable latch Q33/Q34 is set by RDY (PDOK valid for 0.184-0.807 s at tolerance corners) and reset by the fault
   latch. Re-plug (loss of P5_SUP) is the only reset. Phase 12: a minimum-off interlock
   (Q65/Q66, RHO1/RHO2 300k, CHO 1 uF) blocks the set path for 19-118 ms after any disable or
   P5_SUP return, so a re-enable never lands inside the RAMP reset window.
@@ -528,7 +529,7 @@ two('CP1', 'C1U', 'POR_N', 'GND')
 nfet('Q35', 'POR_N', 'GND', 'POR_H')
 two('RP2', 'R100K', 'P5_SUP', 'POR_H')
 nfet('Q32', 'POR_H', 'GND', 'FLT_L')
-# PDOK (Board P open drain, low = contract valid, UNSOURCED polarity) -> RDY after 0.21-0.71 s
+# PDOK (Board P open drain, low = contract valid, UNSOURCED polarity) -> RDY after 0.184-0.807 s (tolerance corners)
 two('RPD', 'R10K0805', 'P5_SUP', 'PDOK')
 nfet('Q36', 'PDOK', 'GND', 'RDY')
 two('RRDY1', 'R100K', 'P5_SUP', 'RDY_X')
@@ -541,7 +542,7 @@ nfet('Q38', 'FAULT_N', 'EN_HS', 'EN_SET')
 # phase 12 minimum-off interlock: EN_HO is held at GND by Q65 while enabled (EN_E high) and charges from
 # P5_SUP through 300k into 1 uF after any disable or P5_SUP return; Q66 completes the set path only once
 # EN_HO passes its VGS(th), so a re-enable comes at least 19 ms after the disable (0.5 V PA min VGS(th),
-# -40 % effective C, PA) and at most 118 ms (1.5 V max, +10 %), before the earliest RDY (0.21 s).
+# -40 % effective C, PA) and at most 118 ms (1.5 V max, +10 %), before the earliest RDY (0.184 s, tolerance corner).
 two('RHO1', 'R150K', 'P5_SUP', 'EN_HOX')
 two('RHO2', 'R150K', 'EN_HOX', 'EN_HO')
 two('CHO', 'C1U', 'EN_HO', 'GND')

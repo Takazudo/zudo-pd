@@ -16,9 +16,9 @@ TIMING = calculator.timing()
 
 class TimingCornerTests(unittest.TestCase):
     def test_corner_values(self):
-        self.assertAlmostEqual(TIMING['rdy_s'][0], 0.18864, places=5)
+        self.assertAlmostEqual(TIMING['rdy_s'][0], 0.18405, places=5)
         self.assertAlmostEqual(TIMING['rdy_s'][1], 0.80691, places=5)
-        self.assertAlmostEqual(TIMING['por_s'][0], 0.00923, places=5)
+        self.assertAlmostEqual(TIMING['por_s'][0], 0.00901, places=5)
         self.assertAlmostEqual(TIMING['por_s'][1], 0.04035, places=5)
 
     def test_corner_statuses(self):
@@ -40,7 +40,10 @@ class TimingCornerTests(unittest.TestCase):
         self.assertEqual(calculator.RDY_CORNER, {'R_TOL': 0.01, 'C_TOL': 0.10, 'DC_BIAS_TYP_AT_VTH': -0.011})
         self.assertEqual(calculator.POR_CORNER, {'R_TOL': 0.01, 'C_TOL': 0.10, 'DC_BIAS_TYP_AT_VTH': -0.032})
         self.assertEqual(calculator.RDY_NET, {'R': 200e3, 'C': 10e-6})
+        self.assertEqual(calculator.POR_NET, {'R': 100e3, 'C': 1e-6})
         self.assertIn('PROJECT screen', TIMING['corner_basis'])
+        self.assertIn('high P5_SUP', TIMING['corner_basis'])
+        self.assertIn('TCC', TIMING['corner_basis'])
 
 
 if __name__ == '__main__':

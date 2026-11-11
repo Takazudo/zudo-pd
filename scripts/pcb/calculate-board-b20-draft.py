@@ -133,9 +133,12 @@ SERVO_CI = {'+12': 1.5e-9, '+5': 1.5e-9, '-12': 270e-12}   # PROPOSED C0G integr
 SERVO_RI = 100e3
 RDY_NET = {'R': 200e3, 'C': 10e-6}            # two C25803 100k + C13585 10 uF
 POR_NET = {'R': 100e3, 'C': 1e-6}             # C25803 100k + CP1 C15849 1 uF
-# Worst-case corners for the RDY / POR timing (2026-11-11, #235): fact-c25803-tolerance 1 %, fact-c13585-tolerance and
-# fact-c15849-tolerance 10 %; DC-bias reduction at the 1.5 V threshold is TYPICAL manufacturer data
-# (src-c13585-dcbias-20261111 -1.1 %, src-c15849-dcbias-20261111 -3.2 %), applied only to the short corner.
+# 25 C tolerance corners for the RDY / POR timing (2026-11-11, #235): fact-c25803-tolerance 1 %, fact-c13585-tolerance
+# and fact-c15849-tolerance 10 %. DC bias is the TYPICAL curve (src-c13585-dcbias-20261111 / src-c15849-dcbias-20261111,
+# linear interpolation of the hashed series at the 1.5 V maximum threshold: -1.149 % / -3.169 %) applied to the short
+# corner as a conservative bound; that corner actually crosses at the 0.5 V PA minimum, where the curve shows no
+# reduction. X5R +/-15 % TCC (fact-c13585-dielectric, fact-c15849-dielectric) and 100 ppm/C TCR (fact-c25803-tcr) are
+# NOT applied; with -15 % the short RDY corner only falls further below the servo screen.
 RDY_CORNER = {'R_TOL': 0.01, 'C_TOL': 0.10, 'DC_BIAS_TYP_AT_VTH': -0.011}
 POR_CORNER = {'R_TOL': 0.01, 'C_TOL': 0.10, 'DC_BIAS_TYP_AT_VTH': -0.032}
 HOLD_NET = {'R': 300e3, 'C': 1e-6, 'R_TOL': 0.01, 'C_EFF': (0.6, 1.1)}   # phase 12: RHO1+RHO2 2x C22807 150k, CHO C15849; effective C range is PA (DC bias + tolerance)
@@ -583,8 +586,10 @@ def timing():
 
     def long_(c):
         return (1 + c['R_TOL']) * (1 + c['C_TOL'])
-    t_por = [t_por_nom[0] * short(POR_CORNER), t_por_nom[1] * long_(POR_CORNER)]
-    t_rdy = [t_rdy_nom[0] * short(RDY_CORNER), t_rdy_nom[1] * long_(RDY_CORNER)]
+    # The short corner takes the high supply (earlier crossing); t_*_nom keeps the recorded low-supply history.
+    early = math.log(sup_hi / (sup_hi - BSS_VGSTH_MIN_PA))
+    t_por = [por * early * short(POR_CORNER), t_por_nom[1] * long_(POR_CORNER)]
+    t_rdy = [rdy * early * short(RDY_CORNER), t_rdy_nom[1] * long_(RDY_CORNER)]
     servo = {}
     beta = {'+12': 4.02 / (11.5 + 4.02 + 4.02), '+5': 178.02 / (184 + 178.02), '-12': 7.11 / (34.5 + 7.11)}
     for rail in ('+12', '+5', '-12'):
@@ -604,8 +609,10 @@ def timing():
                'servo_settled_before_enable_status': status(t_rdy_nom[0] > 5 * settle),
                'note': 'historical nominal-RC result (no R/C tolerance); superseded 2026-11-11 by the corner rows'}
     return {'p5_sup_v': [round(sup_lo, 4), round(sup_hi, 4)],
-            'corner_basis': ('por_s / rdy_s are [short, long] corners: short = R -1 %, C -10 %, TYPICAL DC bias at the '
-                             '1.5 V threshold; long = R +1 %, C +10 %. The servo 5x settle margin is a PROJECT screen.'),
+            'corner_basis': ('por_s / rdy_s are 25 C tolerance [short, long] corners: short = high P5_SUP, 0.5 V PA '
+                             'threshold, R -1 %, C -10 %, TYPICAL DC bias at the 1.5 V maximum threshold as a conservative '
+                             'bound; long = low P5_SUP, R +1 %, C +10 %. X5R TCC and resistor TCR are not applied. '
+                             'The servo 5x settle margin is a PROJECT screen.'),
             'nominal': nominal,
             'min_off_hold_s': [round(x, 5) for x in hold], 'ramp_reset_engaged_by_s': round(reset_engaged_max, 5),
             'min_off_hold_status': status(hold[0] >= reset_engaged_max and hold[1] < t_rdy[0]),
