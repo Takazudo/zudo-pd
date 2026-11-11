@@ -1,0 +1,254 @@
+{
+  "record": "C1 gap sensitivity attempt 1 (original registration: behavioural enable-gated offset source)",
+  "scope": "model sensitivity only; no claim about any real part",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "criteria": "d1-gap-criteria.md (original registration; Amendment 1 records this attempt)",
+  "workflow_run": 43105372453,
+  "artifact_id": 13893922143,
+  "artifact_zip_sha256": "8342d6190d5d15d113bdbc637c8b7e900c14ebc3851b03aa08c6c59afe9bb423",
+  "identity": "REPRODUCED",
+  "evidence_sha256": {
+    "gaps/g20/nom.cir": "7f1975c2b1eefab092bc3abde591201993ae04d8f346c99f2569278d1e1b26e6",
+    "gaps/g20/nom.log": "e9c410b11d9fab8d725a17c8ec9fc7c34fec0eab36a0152f34da7e39285203d0",
+    "gaps/g20/adv.cir": "4fd9f4d20c31fd2a997c641041dd01ef04c8adf290240ffc3c4cd590e4004de5"
+  },
+  "workflow_outcome": "run_ladder exited 1 after g20 nom; pipefail stopped the step, so g16, g12, worst and analyze did not run. The rows below are the amended analysis run offline on the downloaded artifact; the evaluated g20 -12 rules and values are the original pre-registered ones.",
+  "pre_abort_tracking_vs_baseline": "g20 nom outputs within 1.5e-9 V and gates within 2.6e-8 V of baseline nom.dat up to 3.068 ms",
+  "rails": {
+    "+5": {
+      "case": "nom",
+      "rows": {
+        "baseline": {
+          "target_gap_v": 2.4434,
+          "floor_v": 0.05149906324472277,
+          "overshoot_v": 2.8295421561352896e-07,
+          "largest_drop_v": -3.686211492298641e-08,
+          "conduction_onset_ms": 139.618,
+          "rest_vgs_v": -4.575251688204714e-05,
+          "onset_vgs_v": 2.4428142880668906,
+          "realized_gap_v": 2.442860040583773,
+          "enable_vgs_max_v": 2.309704206909909,
+          "enable_min_distance_to_conduction_v": 0.13311008115698142,
+          "enable_peak_current_a": 0.0012561884060072466,
+          "enable_conduction": false,
+          "disabled_extremes_v": [
+            8.83050967546141e-05,
+            0.0038821680026106787
+          ],
+          "enable_edge_extremes_v": [
+            0.003882366725538982,
+            0.051869670562553094
+          ],
+          "pre_disable_extremes_v": [
+            5.0940112157287345,
+            5.09401121575649
+          ],
+          "after_disable_extremes_v": [
+            5.0940112157287345,
+            5.09401121575649
+          ],
+          "after_disable_vgs_max_v": 10.760017096478677,
+          "peak_slope_in_exception_region_v_per_ms": 0.9548508602735011,
+          "peak_slope_v_per_ms": 0.9548508602735011,
+          "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+          "capacitor_current_in_region_a": 0.114510040903672,
+          "margins": {
+            "slope_v_per_ms": -0.004851,
+            "current_a": -0.00051
+          }
+        },
+        "g20": {
+          "kind": "enabled-gated",
+          "shift_v": 0.4434,
+          "target_gap_v": 2.0,
+          "status": "ABORTED",
+          "returncode": 1,
+          "runner_reason": "solver failed, timed out, or aborted",
+          "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00306796, timestep = 2.5e-18: trouble with node \"xu13a.n2992151\" | run simulation(s) aborted",
+          "passes": null
+        },
+        "g16": {
+          "kind": "enabled-gated",
+          "shift_v": 0.8434,
+          "target_gap_v": 1.6,
+          "status": "NOT RUN",
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched",
+          "passes": null
+        },
+        "g12": {
+          "kind": "enabled-gated",
+          "shift_v": 1.2434,
+          "target_gap_v": 1.2,
+          "status": "NOT RUN",
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched",
+          "passes": null
+        },
+        "worst": {
+          "kind": "constant",
+          "shift_v": -0.3,
+          "target_gap_v": 2.7434,
+          "status": "NOT RUN",
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched",
+          "passes": null
+        }
+      },
+      "largest_passing_target_gap_v": null,
+      "margin_at_largest_passing_gap": null
+    },
+    "-12": {
+      "case": "adv",
+      "rows": {
+        "baseline": {
+          "target_gap_v": 2.8668,
+          "floor_v": -0.09696657017068842,
+          "overshoot_v": 2.166333779030083e-05,
+          "largest_drop_v": -2.275957200481571e-08,
+          "conduction_onset_ms": 137.652,
+          "rest_vgs_v": -0.5144976424669686,
+          "onset_vgs_v": 2.3526964744857084,
+          "realized_gap_v": 2.867194116952677,
+          "enable_vgs_max_v": 2.3429832553242202,
+          "enable_min_distance_to_conduction_v": 0.009713219161488151,
+          "enable_peak_current_a": 0.004652913249186415,
+          "enable_conduction": false,
+          "disabled_extremes_v": [
+            -0.007692800862221826,
+            -0.007674581677024869
+          ],
+          "enable_edge_extremes_v": [
+            -0.09715653351371077,
+            -0.007663958045709947
+          ],
+          "pre_disable_extremes_v": [
+            -12.141958799215605,
+            -12.141958798938049
+          ],
+          "after_disable_extremes_v": [
+            -12.141958799049071,
+            -12.141958798271915
+          ],
+          "after_disable_vgs_max_v": 10.285321805848218,
+          "peak_slope_in_exception_region_v_per_ms": 1.4747780001127768,
+          "peak_slope_v_per_ms": 1.4747780001127768,
+          "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+          "capacitor_current_in_region_a": 0.26525933220897024,
+          "margins": {
+            "slope_v_per_ms": -0.004778,
+            "current_a": -0.000259
+          }
+        },
+        "g20": {
+          "kind": "enabled-gated",
+          "shift_v": 0.8668,
+          "target_gap_v": 2.0,
+          "status": "COMPLETE",
+          "floor_v": -0.09692840654681603,
+          "overshoot_v": 2.1922380577521494e-05,
+          "largest_drop_v": -3.363975764614224e-08,
+          "conduction_onset_ms": 135.934,
+          "rest_vgs_v": 0.3523020051074032,
+          "onset_vgs_v": 2.350786447680589,
+          "realized_gap_v": 1.9984844425731856,
+          "enable_vgs_max_v": 2.342667987400691,
+          "enable_min_distance_to_conduction_v": 0.008118460279897821,
+          "enable_peak_current_a": 0.0046305289511038026,
+          "enable_conduction": false,
+          "disabled_extremes_v": [
+            -0.007692800351987813,
+            -0.007674581168290105
+          ],
+          "enable_edge_extremes_v": [
+            -0.09716876590719431,
+            -0.0076682500449746175
+          ],
+          "pre_disable_extremes_v": [
+            -12.141958890198381,
+            -12.141958889865315
+          ],
+          "after_disable_extremes_v": [
+            -12.141968857669674,
+            -12.13467821069466
+          ],
+          "after_disable_vgs_max_v": -0.5146016838203775,
+          "peak_slope_in_exception_region_v_per_ms": 0.6402799030372478,
+          "peak_slope_v_per_ms": 0.6402799030372478,
+          "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+          "capacitor_current_in_region_a": 0.115224515715171,
+          "margins": {
+            "slope_v_per_ms": 0.82972,
+            "current_a": 0.149775
+          },
+          "rules": {
+            "failed-rail slope, current and voltage-region ceilings": true,
+            "other rails no worse than baseline": true,
+            "no new overshoot beyond baseline": true,
+            "no non-monotonic step beyond baseline": true,
+            "disabled state unchanged": true,
+            "enable edge no excursion beyond baseline": false,
+            "no conduction during the enable transient": true,
+            "disable edge: gate held off": true,
+            "disable edge: no excursion of either polarity": true
+          },
+          "passes": false,
+          "edge_excursion_vs_baseline_v": {
+            "disabled": {
+              "below": -5.102340130264116e-10,
+              "above": 5.087347643845108e-10
+            },
+            "enable": {
+              "below": 1.2232393483538329e-05,
+              "above": -4.2919992646701585e-06
+            }
+          },
+          "other_rails": {
+            "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+            "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+          },
+          "rule6_detail": {
+            "below_baseline_minimum_v": 1.2232393483538329e-05,
+            "above_baseline_maximum_v": -4.2919992646701585e-06,
+            "largest_difference_v": 1.2232393483538329e-05,
+            "resolution_v": 1e-05,
+            "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+            "contract_reference_value_v": null
+          },
+          "pre_enable_vs_baseline": {
+            "rows_before_40ms": [
+              21064,
+              21043
+            ],
+            "same_time_grid": false,
+            "max_output_difference_v": null,
+            "identical": false
+          }
+        },
+        "g16": {
+          "kind": "enabled-gated",
+          "shift_v": 1.2668,
+          "target_gap_v": 1.6,
+          "status": "NOT RUN",
+          "passes": null,
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched"
+        },
+        "g12": {
+          "kind": "enabled-gated",
+          "shift_v": 1.6668,
+          "target_gap_v": 1.2,
+          "status": "NOT RUN",
+          "passes": null,
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched"
+        },
+        "worst": {
+          "kind": "constant",
+          "shift_v": -0.3,
+          "target_gap_v": 3.1668,
+          "status": "NOT RUN",
+          "passes": null,
+          "reason": "attempt 1 workflow step stopped after the g20 nom abort (pre-amendment); never dispatched"
+        }
+      },
+      "largest_passing_target_gap_v": null,
+      "margin_at_largest_passing_gap": null
+    }
+  }
+}
