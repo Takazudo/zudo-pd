@@ -37,7 +37,8 @@
     "p15-i2c-pulldowns",
     "p15-vdd-local-clamp",
     "p15-vdd-decoupling",
-    "b-stock-gap-substitutions"
+    "b-stock-gap-substitutions",
+    "b20-rdy-timing"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -858,6 +859,29 @@
         "fact-c696190-ripple-freq-multiplier",
         "fact-c696190-c11-ripple-margin",
         "fact-c696190-candidate-scope"
+      ]
+    },
+    {
+      "key": "b20-rdy-timing",
+      "id": "dec-b20-rdy-timing",
+      "title": "B20 RDY timing resistors: RRDY1/RRDY2 2 x 150k C22807 replace 2 x 100k C25803 (readiness D11)",
+      "status": "LOCKED",
+      "applies_to": [
+        "#235",
+        "doc"
+      ],
+      "decision": "Owner decision 2026-11-12 JST by the campaign manager (coordinator) under Takazudo's delegation of the owner design decisions, relayed 2026-11-11 20:38Z. It supersedes the 200 kOhm RDY network (two 0603WAF1003T5E C25803 100k in series into CRDY C13585 10 uF) used since phase 9. Raise the RDY timing resistance and keep CRDY, the 0.5 V / 1.5 V Q37 thresholds and the 5x servo-settle PROJECT screen unchanged. Selection rule: the smallest standard value, preferring the project inventory with the same package and tolerance, for which the earliest-RDY short corner exceeds the 5x settle screen by at least 5 %. The short corner applies high P5_SUP, the 0.5 V PA threshold, R -1 %, C -10 %, X5R TCC -15 % and TYPICAL DC bias. Two inventory 0603 1 % parts give 250k (1.019x, fails) or 300k; 300k (2 x 0603WAF1503T5E C22807, already fitted as RHO1/RHO2) gives 0.23466 s against 0.1919 s (1.2228x). The smallest non-inventory alternative, 100k + 158k E96 (1.052x), would add a new orderable line. Value-only change on the existing R0603 footprints.",
+      "rationale": "The 2026-11-11 tolerance-corner run failed the 5x settle screen at 0.18405 s, and adding the sourced -15 % TCC term puts it at 0.15644 s. At 300k the long corner (low P5_SUP, 1.5 V maximum threshold, R +1 %, C +10 %, TCC +15 %) is 1.39191 s. No upper bound is violated. The canonical interface (OSC 433c88b pd-interface-20v.md, SHA-256 8702890d...56a) sets no maximum detect-to-enable delay and no slowest-ramp bound (section 5: 'No upper bound in the contract'). POR ends by 0.0464 s and the min-off hold by 0.12104 s, both before the earliest RDY. RDY reset goes through Q36 directly, not through RRDY. No phase33 deck or generator models the RDY RC. Q36 drain and Q37 gate leakage at the RDY node are not in the bundle (UNSOURCED); a higher R makes the node more leakage-sensitive. The 5x factor remains a PROJECT screen, the DC-bias data is typical, and nothing is measured.",
+      "evidence": [
+        "fact-c22807-identity",
+        "fact-c22807-resistance",
+        "fact-c22807-tolerance",
+        "fact-c22807-tcr",
+        "fact-c25803-tolerance",
+        "fact-c13585-tolerance",
+        "fact-c13585-dielectric",
+        "fact-c13585-dc-bias-curve",
+        "fact-c40912-vgsth-max"
       ]
     }
   ]

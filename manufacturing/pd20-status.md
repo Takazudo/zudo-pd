@@ -28,6 +28,10 @@ The [dated full-suite receipt](sim/board-b20-phase33/execution-20261110.md) sepa
 the passing effective-reenable screens from off-interval sufficient-screen excursions
 and unqualified installed shutdown behavior; historical PASS rows are not blanket acceptance.
 
+**2026-11-12 owner decisions** (the campaign manager, under Takazudo's delegation): readiness D11 raises the B20
+RDY resistors to 2 × 150k C22807. The calculated servo-settle project screen now passes at 1.22 × with X5R TCC included.
+Readiness D10 (Board P r3 C36) is tracked separately. Nothing here is measured.
+
 Loaded asymmetric discharge, shutdown/re-entry and maximum delivered current
 including overshoot remain **pre-order** interface gates. The contract requires
 output disconnection before discharge. A tracked ramp-down before disconnection
