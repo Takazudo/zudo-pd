@@ -101,7 +101,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c15849-bias-curve` · **Status:** OPEN
 
-**Reason:** Exact manufacturer typical DC-bias data acquired 2026-11-11 (about 0.15-0.17 uF at 18-20 V on a 1 uF part); it contradicts the 0.4 uF lower end assumed for C36 at the start of the 20 V closure, and typical data does not establish an installed minimum across tolerance, temperature and aging.
+**Reason:** Exact manufacturer typical DC-bias data acquired 2026-11-11 (about 0.15-0.18 uF at 17-20 V on a 1 uF part); a separate calculated screen finds C36 below the 0.4 uF lower end assumed by dec-p-20v-q1-soft-start at the start of the 20 V closure, and typical data does not establish an installed minimum across tolerance, temperature and aging.
 
 **Facts in this domain:**
 
@@ -206,7 +206,7 @@ A representative figure read from a characteristic curve. Typical values are not
 
   **Value:** Approximately 0.87 uF at 2.7 V, 0.66 uF at 5 V, 0.40 uF at 8.7 V, 0.29 uF at 12 V, 0.22 uF at 15 V, 0.17 uF at 18 V and 0.15 uF at 20 V (nominal 1 uF basis) · **Unit:** `NONE`
 
-  **Conditions:** Manufacturer typical characteristic data at 25 C, 1 kHz, for design reference only; linear interpolation of the published series; not a guaranteed minimum; +/-10% tolerance, X5R temperature, aging and installed ripple are not combined. Board P C36 (Miller) sees about 17-20 V at the start of a 20-21 V closure, so its typical incremental capacitance there is below the 0.4 uF lower end assumed by dec-p-20v-q1-soft-start
+  **Conditions:** Manufacturer typical characteristic data at 25 C, 1 kHz, small-signal level 1.0 as published on the page, for design reference only; linear interpolation of the published series; not a guaranteed minimum; +/-10% tolerance, X5R temperature, aging and installed ripple are not combined. Board P placements C30, C34, C36, C37 and C38; the C36 application screen is a separate calculation in manufacturing/pd20-evidence-research.md
 
   **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
 
