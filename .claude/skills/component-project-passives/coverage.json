@@ -281,12 +281,14 @@
       "record_id": "rec-c13585",
       "domain": "effective-capacitance-under-installed-bias",
       "status": "OPEN",
-      "reason": "Reference-sheet/specsheet DC-bias, temperature, and aging curves are design-reference only; the installed DC bias/ripple/temperature/layout point is not independently measured.",
+      "reason": "Exact manufacturer typical DC-bias data acquired 2026-11-11 (about 1.8 uF at 20 V on a 10 uF part); typical design-reference data does not establish an installed minimum across tolerance, temperature and aging.",
       "fact_ids": [
-        "fact-c13585-curve-caveat"
+        "fact-c13585-curve-caveat",
+        "fact-c13585-dc-bias-curve"
       ],
       "blocking_fact_ids": [
-        "fact-c13585-curve-caveat"
+        "fact-c13585-curve-caveat",
+        "fact-c13585-dc-bias-curve"
       ]
     },
     {
@@ -309,12 +311,14 @@
       "record_id": "rec-c15849",
       "domain": "effective-capacitance-under-installed-bias",
       "status": "OPEN",
-      "reason": "Reference-sheet/specsheet DC-bias, temperature, and aging curves are design-reference only; the installed DC bias/ripple/temperature/layout point is not independently measured.",
+      "reason": "Exact manufacturer typical DC-bias data acquired 2026-11-11 (about 0.15-0.18 uF at 17-20 V on a 1 uF part); a separate calculated screen finds C36 below the 0.4 uF lower end assumed by dec-p-20v-q1-soft-start at the start of the 20 V closure, and typical data does not establish an installed minimum across tolerance, temperature and aging.",
       "fact_ids": [
-        "fact-c15849-curve-caveat"
+        "fact-c15849-curve-caveat",
+        "fact-c15849-dc-bias-curve"
       ],
       "blocking_fact_ids": [
-        "fact-c15849-curve-caveat"
+        "fact-c15849-curve-caveat",
+        "fact-c15849-dc-bias-curve"
       ]
     },
     {

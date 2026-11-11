@@ -1130,6 +1130,42 @@
       "printed_page_label": "2; disclaimer 4",
       "locator": "Figure: Page 2 lower-right Capacitance Change vs. DC Voltage Bias graph; page 4 simulation disclaimer",
       "evidence_extract": "Exact CC0603KRX7R9BB104 manufacturer-generated PDF, 285417 bytes, validated PDF signature. Visual graph read: approximately -44% at 33 V and -50% at 37.6 V, equivalent to about 56 nF and 50 nF on the nominal 100 nF basis. Page 4 calls the response typical simulation, not specification or maximum capability; manufacturing variation and installed conditions are not bounded. Separate retrieval preserves the older generated-sheet hash."
+    },
+    {
+      "source_id": "src-c13585-dcbias-20261111",
+      "record_id": "rec-c13585",
+      "document_title": "Samsung Electro-Mechanics MLCC product detail CL31A106KBHNNN: characteristic data (DC bias)",
+      "document_number": "CL31A106KBHNNN",
+      "revision": "live product page, retrieved 2026-11-11",
+      "document_date": "2026-11-11",
+      "authoritative_url": "https://product.samsungsem.com/mlcc/CL31A106KBHNNN.do",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-11-11",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "fd17d974c15ce030060aa7a3bc87e8a8cc9b98d8fbc50b8f4d532ce6f80bb264",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "source",
+      "locator": "Product detail page, Characteristic Data section, DC Bias chart (graphType DCBias, partsName CL31A106KBHNNN); warning box above the Created timestamp",
+      "evidence_extract": "Samsung Electro-Mechanics product page with embedded part-specific characteristic data (Chart.js series, graphType DCBias, 25 C, 1 kHz, DeltaC %, 0-50 V, 141 points). The page states: 'This page includes the typical data for design reference only.' sha256 locks the exact HTML bytes retrieved 2026-11-11; the page embeds a render timestamp ('Created') and cache-busting query strings, so a later fetch differs in bytes. Reproducible audit: json.dumps({'partsName': <page partsName>, 'graphType': 'DCBias', 'degC': 25.0, 'dsDcFre': 1000, 'points': [[x, y], ...] as the page's literal x/y strings in page order}, separators=(',',':')) with this key order and no key sorting hashes to e0737e725ba5b1bcb4f0206594c81de22bb01f0a7f8033130de74f5ebedeaab4 (171925-byte page). Linear interpolation of the series: -27.2% at 5 V, -74.5% at 15 V, -82.5% at 20 V, -83.6% at 21 V, -85.1% at 22.5 V. Typical data only; no tolerance, temperature, aging or lot bound. The page's base part number differs from the fitted orderable code only by the trailing packaging character."
+    },
+    {
+      "source_id": "src-c15849-dcbias-20261111",
+      "record_id": "rec-c15849",
+      "document_title": "Samsung Electro-Mechanics MLCC product detail CL10A105KB8NNN: characteristic data (DC bias)",
+      "document_number": "CL10A105KB8NNN",
+      "revision": "live product page, retrieved 2026-11-11",
+      "document_date": "2026-11-11",
+      "authoritative_url": "https://product.samsungsem.com/mlcc/CL10A105KB8NNN.do",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-11-11",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "237538e4e92e8b68303f04ef53d2e9267192e7f6b0c4d3582d3826b3e6a54731",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "source",
+      "locator": "Product detail page, Characteristic Data section, DC Bias chart (graphType DCBias, partsName CL10A105KB8NNN); warning box above the Created timestamp",
+      "evidence_extract": "Samsung Electro-Mechanics product page with embedded part-specific characteristic data (Chart.js series, graphType DCBias, 25 C, 1 kHz, DeltaC %, 0-50 V, 141 points). The page states: 'This page includes the typical data for design reference only.' sha256 locks the exact HTML bytes retrieved 2026-11-11; the page embeds a render timestamp ('Created') and cache-busting query strings, so a later fetch differs in bytes. Reproducible audit: json.dumps({'partsName': <page partsName>, 'graphType': 'DCBias', 'degC': 25.0, 'dsDcFre': 1000, 'points': [[x, y], ...] as the page's literal x/y strings in page order}, separators=(',',':')) with this key order and no key sorting hashes to 329b040aac94fd3e353874f2ec1d8f50368ab8cd50bc7f2f8a42717ed0da0985 (176865-byte page). Linear interpolation of the series: -1.6% at 1.2 V, -12.6% at 2.7 V, -34.4% at 5 V, -59.9% at 8.7 V, -71.0% at 12 V, -78.2% at 15 V, -82.7% at 18 V, -84.7% at 20 V, -85.6% at 21 V. Typical data only; no tolerance, temperature, aging or lot bound. The page's base part number differs from the fitted orderable code only by the trailing packaging character."
     }
   ]
 }

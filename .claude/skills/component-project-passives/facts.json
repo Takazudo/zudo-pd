@@ -3468,6 +3468,34 @@
       "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-c13585-dc-bias-curve",
+      "record_id": "rec-c13585",
+      "source_id": "src-c13585-dcbias-20261111",
+      "class": "TYPICAL_CURVE",
+      "value": "Approximately 7.3 uF at 5 V, 2.5 uF at 15 V, 1.8 uF at 20 V and 1.6 uF at 21 V (-27%, -75%, -82%, -84% on the nominal 10 uF basis)",
+      "unit": "NONE",
+      "conditions": "Manufacturer typical characteristic data at 25 C, 1 kHz, small-signal level 1.0 as published on the page, for design reference only; linear interpolation of the published series; not a guaranteed minimum; +/-10% tolerance, X5R temperature, aging and installed ripple are not combined. Board P C1 on VBUS_IN sits near 20-21 V on a 20 V contract",
+      "locator": "Figure: Characteristic Data section, DC Bias chart, partsName CL31A106KBHNNN",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c15849-dc-bias-curve",
+      "record_id": "rec-c15849",
+      "source_id": "src-c15849-dcbias-20261111",
+      "class": "TYPICAL_CURVE",
+      "value": "Approximately 0.87 uF at 2.7 V, 0.66 uF at 5 V, 0.40 uF at 8.7 V, 0.29 uF at 12 V, 0.22 uF at 15 V, 0.17 uF at 18 V and 0.15 uF at 20 V (nominal 1 uF basis)",
+      "unit": "NONE",
+      "conditions": "Manufacturer typical characteristic data at 25 C, 1 kHz, small-signal level 1.0 as published on the page, for design reference only; linear interpolation of the published series; not a guaranteed minimum; +/-10% tolerance, X5R temperature, aging and installed ripple are not combined. Board P placements C30, C34, C36, C37 and C38; the C36 application screen is a separate calculation in manufacturing/pd20-evidence-research.md",
+      "locator": "Figure: Characteristic Data section, DC Bias chart, partsName CL10A105KB8NNN",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }

@@ -139,9 +139,9 @@
     ]
   },
   "sources": {
-    "available": 299,
-    "selected": 299,
-    "linkable": 281,
+    "available": 301,
+    "selected": 301,
+    "linkable": 283,
     "ids": [
       "src-ao3401a-board-a-baseline",
       "src-ao3401a-usb-pd-input-sch",
@@ -165,6 +165,7 @@
       "src-c122538-primary",
       "src-c13585-boardadoc",
       "src-c13585-catalog",
+      "src-c13585-dcbias-20261111",
       "src-c13585-page",
       "src-c136280-identity",
       "src-c136280-panasonic",
@@ -178,6 +179,7 @@
       "src-c14663-yageo-simulation-20261109",
       "src-c15849-boardadoc",
       "src-c15849-catalog",
+      "src-c15849-dcbias-20261111",
       "src-c15849-page",
       "src-c162204-identity",
       "src-c162204-primary",
@@ -574,151 +576,151 @@
     {
       "key": "source.sourceId",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.documentTitle",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.documentNumber",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.revision",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.documentDate",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.retrievalDate",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.authorityClass",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.availability",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.locator",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.printedPageLabel",
       "decision": "PUBLISH",
-      "emitted": 299,
+      "emitted": 301,
       "withheld": 0
     },
     {
       "key": "source.physicalPdfPageIndex",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 299
+      "withheld": 301
     },
     {
       "key": "source.authoritativeUrl",
       "decision": "PUBLISH",
-      "emitted": 281,
+      "emitted": 283,
       "withheld": 0
     },
     {
       "key": "source.alternateAuthoritativeUrl",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 299
+      "withheld": 301
     },
     {
       "key": "source.sha256",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 299
+      "withheld": 301
     },
     {
       "key": "source.evidenceExtract",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 299
+      "withheld": 301
     },
     {
       "key": "fact.factId",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.class",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.value",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.unit",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.conditions",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.locator",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.provenance",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.verdict",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.dependsOn",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
       "key": "fact.expression",
       "decision": "PUBLISH",
-      "emitted": 1217,
+      "emitted": 1219,
       "withheld": 0
     },
     {
@@ -1174,6 +1176,12 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
+      "sourceId": "src-c13585-dcbias-20261111",
+      "url": "https://product.samsungsem.com/mlcc/CL31A106KBHNNN.do",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
       "sourceId": "src-c13585-page",
       "url": "https://product.samsungsem.com/part/download.do?masterKey=CL31A106KBHNNN&type=specsheet",
       "decision": "ALLOW",
@@ -1248,6 +1256,12 @@
     {
       "sourceId": "src-c15849-catalog",
       "url": "https://www.samsungsem.com/resources/file/jp/support/product_catalog/MLCC_2512.pdf",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
+      "sourceId": "src-c15849-dcbias-20261111",
+      "url": "https://product.samsungsem.com/mlcc/CL10A105KB8NNN.do",
       "decision": "ALLOW",
       "reason": "ABSOLUTE_HTTP_URL"
     },
@@ -2839,11 +2853,11 @@
   "counts": {
     "generatedPages": 132,
     "publishedCoverageDomains": 323,
-    "publishedFacts": 1217,
+    "publishedFacts": 1219,
     "publishedIntegrationRules": 11,
     "publishedInteractions": 41,
     "publishedPinMaps": 128,
     "publishedRecords": 128,
-    "publishedSources": 299
+    "publishedSources": 301
   }
 }
