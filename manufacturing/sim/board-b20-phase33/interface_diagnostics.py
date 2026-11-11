@@ -31,6 +31,7 @@ SCREEN_ANALOG_MIN = 1.5           # definition 1 sufficient screen: +5 <= 0.8 V 
 REFINEMENT = HERE / 'startup-refinement-20261109.json'
 EXECUTION = HERE / 'execution-20261110.json'
 D1_REFERENCE = HERE / 'd1-reference-20261111.json'
+D1_SERVO = HERE / 'd1-servo-20261111.json'
 FAILED_PEAKS = {'+5': 'nom', '-12': 'adv'}  # rail -> case holding the recorded failed condition
 # Annotated schematic reference of each discharge resistor (builder name RXN is renumbered)
 DISCHARGE_REFS = {'+12': 'RX12', '+5': 'RX5', '-12': 'R76'}
@@ -241,9 +242,30 @@ def startup(calc, reference=D1_REFERENCE):
              'evidence': 'Consistent with no-load-only occurrence and the low-voltage location, and with the phase-10 prose. '
                          'Distinguishing it needs one paired run changing only the pre-bias target (RT12O/RT5O/RT12NO) or '
                          'integrator CT on nom/adv, after design review. Not run.'},
+            servo_hypothesis(),
             {'id': 'D1-H5', 'claim': 'Startup is strictly monotonic', 'conclusion': UNRESOLVED,
              'evidence': 'Small negative adjacent-sample increments remain; no numerical tolerance is adopted.'},
         ],
+    }
+
+
+def servo_hypothesis(record=D1_SERVO):
+    servo = json.loads(Path(record).read_text())
+    rows = servo['servo']
+    dead = {r: rows[r]['verdicts']['dead zone set by'] for r in rows}
+    windup = {r: rows[r]['verdicts']['servo wound up at a supply before conduction'] for r in rows}
+    joint = lambda found: found['+5'] if found['+5'] == found['-12'] else '; '.join(f'{r}: {v}' for r, v in found.items())
+    return {
+        'id': 'D1-S', 'claim': 'The servo driver is wound up at a supply during the dead zone and its recovery sets the peak',
+        'conclusion': (f"windup {joint(windup)}; peak coincides with recovery "
+                       f"{joint({r: rows[r]['verdicts']['peak slope coincides with driver recovery'] for r in rows})}; "
+                       f"dead zone set by {joint({r: v.split(' (')[0] for r, v in dead.items()})}"),
+        'evidence': 'Pre-registered servo criteria on 2 us bin means: '
+                    + '; '.join(f"{r}: driver left its supply {rows[r]['exit_to_conduction_us'] / 1e3:.3f} ms before the "
+                                f"pass pair conducted, Vgs {rows[r]['vgs_v']['climb_start']:.3f} to "
+                                f"{rows[r]['vgs_v']['conduction_onset']:.3f} V, conduction {rows[r]['conduction_onset_to_segment_us']:.0f} us "
+                                'before the failed segment' for r in rows)
+                    + f"; run {servo['run']['run_id']} ({servo['identity']['status']}, {Path(record).name}).",
     }
 
 
@@ -426,6 +448,16 @@ def reference_side_refuted(reference=D1_REFERENCE):
     return all(row['hypotheses']['D1-H6 reference-side edge'] == REFUTED for row in rails)
 
 
+def d1_next_input(record=D1_SERVO):
+    rows = json.loads(Path(record).read_text())['servo']
+    if all(row['verdicts']['dead zone set by'].startswith('CONDUCTION THRESHOLD') for row in rows.values()):
+        return ('D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both '
+                'failed rails (D1-S). A minimum-load bleeder (C2) is the candidate under evaluation, with gate pre-bias (C1) '
+                'as fallback; nothing is adopted before a pre-registered paired variant run and an owner decision.')
+    return ('D1: the reference side is refuted but the servo record does not place both dead zones at the conduction '
+            'threshold; resolve D1-S before choosing a correction candidate.')
+
+
 def findings():
     calc = calculator()
     return {
@@ -439,10 +471,7 @@ def findings():
         'd2_discharge': discharge(calc),
         'd3_maximum_current': maximum_current(calc),
         'next_inputs': [
-            ('D1: the reference side is refuted; separate downstream hypotheses (pre-bias overshoot D1-H4, clamp or servo '
-             'amplifier saturation and recovery, pass-device or output-capacitor interaction) and the cheapest discriminating '
-             'run are a proposal only; nothing is run before admission.'
-             if reference_side_refuted() else
+            (d1_next_input() if reference_side_refuted() else
              'D1: the reference side is not refuted on every rail; resolve it before downstream hypotheses.'),
             'D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a numeric definition of '
             "'absent', and device switching data for the disconnect/discharge edge.",

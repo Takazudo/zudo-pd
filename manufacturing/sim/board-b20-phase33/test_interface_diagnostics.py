@@ -231,5 +231,22 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertEqual(diag.main(['--check', str(RETAINED)]), 0)
 
 
+
+class ServoCitationTests(unittest.TestCase):
+    def test_d1_servo_row_follows_the_servo_record(self):
+        record = json.loads(diag.D1_SERVO.read_text())
+        row = diag.servo_hypothesis()
+        self.assertIn(record['servo']['+5']['verdicts']['servo wound up at a supply before conduction'], row['conclusion'])
+        self.assertIn('43099431981', row['evidence'])
+        record['servo']['-12']['verdicts']['dead zone set by'] = diag.UNRESOLVED
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'servo.json'
+            path.write_text(json.dumps(record))
+            self.assertIn('-12: UNRESOLVED', diag.servo_hypothesis(path)['conclusion'])
+            self.assertIn('resolve D1-S', diag.d1_next_input(path))
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        self.assertIn('[D1 servo record](d1-servo-20261111.md)', md)
+        self.assertIn('pass-pair conduction', md)
+
 if __name__ == '__main__':
     unittest.main()

@@ -247,6 +247,12 @@
         "evidence": "Consistent with no-load-only occurrence and the low-voltage location, and with the phase-10 prose. Distinguishing it needs one paired run changing only the pre-bias target (RT12O/RT5O/RT12NO) or integrator CT on nom/adv, after design review. Not run."
       },
       {
+        "id": "D1-S",
+        "claim": "The servo driver is wound up at a supply during the dead zone and its recovery sets the peak",
+        "conclusion": "windup SUPPORTED; peak coincides with recovery NO; dead zone set by CONDUCTION THRESHOLD AFTER WINDUP",
+        "evidence": "Pre-registered servo criteria on 2 us bin means: +5: driver left its supply 11.942 ms before the pass pair conducted, Vgs -0.000 to 2.443 V, conduction 368 us before the failed segment; -12: driver left its supply 10.858 ms before the pass pair conducted, Vgs -0.515 to 2.352 V, conduction 604 us before the failed segment; run 43099431981 (REPRODUCED, d1-servo-20261111.json)."
+      },
+      {
         "id": "D1-H5",
         "claim": "Startup is strictly monotonic",
         "conclusion": "UNRESOLVED",
@@ -484,7 +490,7 @@
     ]
   },
   "next_inputs": [
-    "D1: the reference side is refuted; separate downstream hypotheses (pre-bias overshoot D1-H4, clamp or servo amplifier saturation and recovery, pass-device or output-capacitor interaction) and the cheapest discriminating run are a proposal only; nothing is run before admission.",
+    "D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both failed rails (D1-S). A minimum-load bleeder (C2) is the candidate under evaluation, with gate pre-bias (C1) as fallback; nothing is adopted before a pre-registered paired variant run and an owner decision.",
     "D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a numeric definition of 'absent', and device switching data for the disconnect/discharge edge.",
     "D3: a guaranteed detection-to-switch-off time and a load-side di/dt bound, or an explicitly agreed regulating current-limit change; no excess-current budget is adopted."
   ]

@@ -301,6 +301,37 @@ class AnalysisTests(unittest.TestCase):
         self.assertTrue(all(abs(slope - 1.0) < 1e-9 for _, slope in out))
 
 
+class ServoRecordTests(unittest.TestCase):
+    RECORD = json.loads(ex.SERVO_RECORD.read_text())
+
+    def test_prose_is_generated_from_the_record(self):
+        self.assertEqual(ex.SERVO_RECORD_MD.read_text(), ex.render_servo_markdown(self.RECORD))
+        altered = json.loads(json.dumps(self.RECORD))
+        altered['servo']['-12']['verdicts']['dead zone set by'] = ex.UNRESOLVED
+        altered['predictions_met']['-12']['dead zone set by'] = False
+        text = ex.render_servo_markdown(altered)
+        self.assertIn('UNRESOLVED (not as predicted)', text)
+        self.assertNotIn('set by the conduction threshold', text)
+
+    def test_record_keeps_acceptance_open_and_failures_recorded(self):
+        record = self.RECORD
+        self.assertEqual(record['electrical_acceptance'], 'NOT ESTABLISHED')
+        self.assertEqual(record['identity']['status'], 'REPRODUCED')
+        self.assertEqual(record['run']['run_id'], 43099431981)
+        self.assertEqual(record['in_job_analysis_sha256'], record['run']['artifact_files_sha256']['analysis.json'])
+        _, refinement = ex.records()
+        for rail, (name, *_rest) in ex.FAILED.items():
+            recorded = refinement['cases'][name]['rails'][rail]['worst_recorded_bound_exceedance']['slope_v_per_ms']
+            self.assertEqual(record['recorded_failures_preserved'][rail], recorded)
+
+    def test_predictions_met_follow_the_verdicts(self):
+        for rail, row in self.RECORD['servo'].items():
+            for question, verdict in row['verdicts'].items():
+                self.assertEqual(self.RECORD['predictions_met'][rail][question], ex.prediction_met(question, verdict))
+        self.assertTrue(ex.prediction_met('windup released when the reference passes the pre-bias floor', ex.UNRESOLVED))
+        self.assertFalse(ex.prediction_met('windup released when the reference passes the pre-bias floor', ex.SUPPORTED))
+
+
 class RecordTests(unittest.TestCase):
     RECORD = json.loads(ex.RECORD.read_text())
 

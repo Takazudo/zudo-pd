@@ -51,6 +51,7 @@ Phase33 therefore cannot answer D2 or D3; it only informs D1.
 | Maximum-step artefact | **Refuted** for step; other solver settings and macromodel fidelity unresolved | 5 → 2 µs changes the peak by +0.01034 % (+5) and +0.01040 % (−12) |
 | Slope and current are one constraint | **Supported** for the modeled pure C + ESR load | Recorded ESR-branch currents equal C·dV/dt (114.58 vs 114.51 mA; 265.46 vs 265.26 mA); 114 mA/120 µF = 0.95 V/ms equals the +5 slope ceiling, and 265 mA/180 µF = 1.4722 V/ms makes the 1.47 V/ms −12 slope ceiling slightly tighter. A fix must lower slope; a resistive or nonlinear load part would separate the two |
 | No-load overshoot of the pre-bias target near conduction | **Unresolved** | Consistent with no-load-only, low-voltage location. Distinguish with one paired nom/adv run changing only the pre-bias target (RT12O/RT5O/RT12NO) or CT, after design review. Not run |
+| Servo wound up during the dead zone and its recovery sets the peak | Windup **supported**; peak coincides with recovery **no**; dead zone set by the **conduction threshold after windup** (both rails) | The driver left its supply 11.942 ms (+5) and 10.858 ms (−12) before the pass pair conducted; Vgs climbed −0.000 → 2.443 V and −0.515 → 2.352 V; conduction began 368 µs and 604 µs before the failed segment, run 43099431981 ([D1 servo record](d1-servo-20261111.md)) |
 | Strict monotonicity | **Unresolved** | Small negative adjacent increments remain; no tolerance adopted |
 
 The failed conditions are preserved: +5 V 0.954850860 V/ms / 114.510041 mA and −12 V
@@ -105,10 +106,10 @@ load-side di/dt are UNSOURCED. With 1 µs total response the −12 V margin allo
 
 ## Next inputs (no correction adopted)
 
-1. D1: the reference side is refuted. Separating the downstream hypotheses (pre-bias
-   overshoot, clamp or servo amplifier saturation and recovery, pass-device or
-   output-capacitor interaction) and naming the cheapest discriminating run is a proposal
-   only; nothing is run before admission.
+1. D1: the reference side is refuted and the dead zone is set by the pass-pair conduction
+   threshold on both failed rails. A minimum-load bleeder (C2) is the candidate under
+   evaluation, with gate pre-bias (C1) as fallback; nothing is adopted before a
+   pre-registered paired variant run and an owner decision.
 2. D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a
    numeric definition of "absent", and switching data for the disconnect/discharge edge.
    Without them, only a design that couples the rails (or an agreed contract reading)

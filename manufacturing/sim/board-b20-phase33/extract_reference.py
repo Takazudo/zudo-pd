@@ -16,7 +16,7 @@ usage:
   extract_reference.py identity WORK --manifest PATH --output PATH
   extract_reference.py analyze WORK --output PATH
   extract_reference.py collect WORK --evidence DIR [--extra-dir DIR]
-  extract_reference.py record ARTIFACT_DIR --run-id N --artifact-id N --artifact-zip ZIP
+  extract_reference.py record ARTIFACT_DIR --run-id N --artifact-id N --artifact-zip ZIP [--servo]
   extract_reference.py check-record
 
 The work directory is not a Git checkout, so the runner receipt's source_revision is None and
@@ -515,7 +515,8 @@ def verified_artifact(evidence):
     return listed, runs[0]
 
 
-def build_record(evidence, run_id, artifact_id, artifact_zip):
+def verified_reproduction(evidence):
+    """Hash-checked artifact whose identity control reproduced; waveforms re-checked locally."""
     evidence = Path(evidence)
     listed, run = verified_artifact(evidence)
     _, refinement = records()
@@ -530,8 +531,10 @@ def build_record(evidence, run_id, artifact_id, artifact_zip):
                 or sha((work / f'{name}-osc-cap.txt').read_bytes()) != retained['supplemental_waveform_sha256']):
             raise ValueError(f'{name}: waveforms differ from the retained refinement')
     manifest = json.loads((evidence / 'manifest.json').read_text())
-    in_job = json.loads((evidence / 'analysis.json').read_text())
-    analysis = analyze(run)
+    return listed, run, refinement, identity_result, manifest
+
+
+def failures_preserved(analysis, refinement):
     for rail, (name, *_rest) in FAILED.items():
         recorded = refinement['cases'][name]['rails'][rail]
         slope = recorded['worst_recorded_bound_exceedance']['slope_v_per_ms']
@@ -539,11 +542,12 @@ def build_record(evidence, run_id, artifact_id, artifact_zip):
             raise ValueError(f'{rail}: output slope no longer equals the recorded failure')
         if not slope > recorded['exception']['slope_ceiling_v_per_ms']:
             raise ValueError(f'{rail}: the recorded slope is no longer a failure; the record wording would be false')
+    return {rail: refinement['cases'][name]['rails'][rail]['worst_recorded_bound_exceedance']['slope_v_per_ms']
+            for rail, (name, *_rest) in FAILED.items()}
+
+
+def run_header(listed, identity_result, manifest, run_id, artifact_id, artifact_zip):
     return {
-        'scope': 'D1 reference extraction adoption (#235); diagnostic only',
-        'electrical_acceptance': 'NOT ESTABLISHED',
-        'recorded_failures_preserved': {rail: refinement['cases'][name]['rails'][rail]['worst_recorded_bound_exceedance']['slope_v_per_ms']
-                                        for rail, (name, *_rest) in FAILED.items()},
         'run': {'workflow': '.github/workflows/phase33-d1-reference.yml', 'run_id': run_id,
                 'source_revision': manifest['source_revision'], 'artifact_id': artifact_id,
                 'artifact_zip_sha256': sha(Path(artifact_zip).read_bytes()), 'artifact_files_sha256': listed},
@@ -552,6 +556,18 @@ def build_record(evidence, run_id, artifact_id, artifact_zip):
         'identity': {'status': identity_result['status'], 'source_revision': identity_result['source_revision'],
                      'solver_identity_matches': identity_result['solver_identity_matches'],
                      'cases': {name: case['matches'] for name, case in identity_result['cases'].items()}},
+    }
+
+
+def build_record(evidence, run_id, artifact_id, artifact_zip):
+    listed, run, refinement, identity_result, manifest = verified_reproduction(evidence)
+    in_job = json.loads((Path(evidence) / 'analysis.json').read_text())
+    analysis = analyze(run)
+    return {
+        'scope': 'D1 reference extraction adoption (#235); diagnostic only',
+        'electrical_acceptance': 'NOT ESTABLISHED',
+        'recorded_failures_preserved': failures_preserved(analysis, refinement),
+        **run_header(listed, identity_result, manifest, run_id, artifact_id, artifact_zip),
         'superseded_in_job_analysis': {
             'sha256': listed['analysis.json'],
             'rule': 'adjacent-sample slopes',
@@ -634,6 +650,106 @@ def render_markdown(record):
     return '\n'.join(lines)
 
 
+SERVO_RECORD = HERE / 'd1-servo-20261111.json'
+SERVO_RECORD_MD = HERE / 'd1-servo-20261111.md'
+SERVO_CRITERIA = 'd1-servo-criteria.md'
+# Predictions stated in d1-servo-criteria.md before the run; the record compares each verdict with them.
+SERVO_PREDICTIONS = {
+    'servo wound up at a supply before conduction': (SUPPORTED,),
+    'windup released when the reference passes the pre-bias floor': (REFUTED, UNRESOLVED),
+    'peak slope coincides with driver recovery': ('NO',),
+    'dead zone set by': ('CONDUCTION THRESHOLD AFTER WINDUP',),
+}
+
+
+def prediction_met(question, verdict):
+    return any(verdict.startswith(p) for p in SERVO_PREDICTIONS[question])
+
+
+def build_servo_record(evidence, run_id, artifact_id, artifact_zip):
+    """Adopt the servo-node run: the in-job servo evaluation must equal a local re-evaluation of the same files."""
+    listed, run, refinement, identity_result, manifest = verified_reproduction(evidence)
+    in_job = json.loads((Path(evidence) / 'analysis.json').read_text())
+    analysis = analyze(run)
+    servo = {rail: row['servo'] for rail, row in analysis['rails'].items()}
+    if json.dumps({rail: row['servo'] for rail, row in in_job['rails'].items()}, sort_keys=True) != json.dumps(servo, sort_keys=True):
+        raise ValueError('the in-job servo evaluation differs from the local re-evaluation; nothing is adopted')
+    if any(row['status'] != 'EVALUATED' for row in servo.values()):
+        raise ValueError('a rail was not evaluated; the run is reported, not adopted')
+    return {
+        'scope': 'D1 servo-node extraction adoption (#235); diagnostic only',
+        'electrical_acceptance': 'NOT ESTABLISHED',
+        'criteria': {'document': SERVO_CRITERIA, 'implementation': 'servo_criteria.py',
+                     'predictions': {q: list(v) for q, v in SERVO_PREDICTIONS.items()}},
+        'recorded_failures_preserved': failures_preserved(analysis, refinement),
+        **run_header(listed, identity_result, manifest, run_id, artifact_id, artifact_zip),
+        'in_job_analysis_sha256': listed['analysis.json'],
+        'servo': servo,
+        'predictions_met': {rail: {q: prediction_met(q, v) for q, v in row['verdicts'].items()}
+                            for rail, row in servo.items()},
+    }
+
+
+def render_servo_markdown(record):
+    s, run = record['servo'], record['run']
+    rails = ('+5', '-12')
+    head = lambda r: f"{r.replace('-', '−')} V ({s[r]['topology']['amplifier']} `{s[r]['topology']['driver']}`)"
+    ms = lambda x: '—' if x is None else f'{x:.3f} ms'
+    us = lambda x: '—' if x is None else f'{x / 1e3:.3f} ms' if abs(x) >= 1000 else f'{x:.0f} µs'
+    lines = [
+        '# D1 servo-node extraction — 2026-11-11',
+        '',
+        f"**Diagnostic only. electrical_acceptance: {record['electrical_acceptance']}.** The recorded 2 us failures stay "
+        'failures: ' + ', '.join(f"{rail.replace('-', '−')} V {v:.9f} V/ms" for rail, v in record['recorded_failures_preserved'].items()) + '.',
+        '',
+        f"Run `{run['run_id']}` of `{run['workflow']}` at `{run['source_revision']}`; artifact `{run['artifact_id']}` "
+        f"(zip sha256 `{run['artifact_zip_sha256']}`). Identity control: **{record['identity']['status']}** "
+        '(primary and supplemental waveforms byte-identical to the 2026-11-09 refinement). '
+        'Each executed deck differs from the refined deck only by output-only lines:',
+        '',
+    ]
+    for name, case in record['inputs']['cases'].items():
+        lines += [f'- {name}: `{line}`' for line in case.get('added_output_only_lines', [case.get('added_output_only_line')])]
+    lines += [
+        '',
+        f"Verdicts follow the rules pre-registered in [{SERVO_CRITERIA}]({SERVO_CRITERIA}) on 2 us bin means; the in-job "
+        'evaluation equals a local re-evaluation of the same files.',
+        '',
+        f'| Question | {head("+5")} | {head("-12")} | Predicted |',
+        '| --- | --- | --- | --- |',
+    ]
+    for q, predicted in SERVO_PREDICTIONS.items():
+        cells = [f"{s[r]['verdicts'][q]}{'' if record['predictions_met'][r][q] else ' (not as predicted)'}" for r in rails]
+        lines.append(f"| {q[0].upper() + q[1:]} | {cells[0]} | {cells[1]} | {' or '.join(predicted)} |")
+    rows = (
+        ('Driver parked before conduction (inside the 20 ms window)', lambda r: us(s[r]['driver_parked_in_window_before_conduction_us'])),
+        ('Last exit from the supply', lambda r: ms(s[r]['driver_last_supply_exit_ms'])),
+        ('Exit to conduction onset', lambda r: us(s[r]['exit_to_conduction_us'])),
+        ('Exit to failed segment', lambda r: us(s[r]['exit_to_segment_us'])),
+        ('Servo error last rises through zero', lambda r: ms(s[r]['servo_error_last_rise_through_zero_before_conduction_ms'])),
+        ('Conduction onset (≥ 5 mA)', lambda r: ms(s[r]['conduction_onset_ms'])),
+        ('Conduction onset to failed segment', lambda r: us(s[r]['conduction_onset_to_segment_us'])),
+        ('Ideal-lag start (> 50 mV)', lambda r: ms(s[r]['ideal_lag_start_ms'])),
+        ('Output at driver exit', lambda r: f"{s[r]['output_at_driver_exit_v']:+.4f} V".replace('-', '−')),
+        ('Vgs at climb start / onset / segment', lambda r: ' / '.join(f"{s[r]['vgs_v'][k]:.3f}".replace('-', '−') for k in ('climb_start', 'conduction_onset', 'segment')) + ' V'),
+        ('Maximum lag / lag at segment', lambda r: f"{s[r]['maximum_lag_v']:.3f} / {s[r]['lag_at_segment_v']:.3f} V"),
+    )
+    lines += ['', '| Quantity | +5 V | −12 V |', '| --- | ---: | ---: |']
+    lines += [f'| {label} | {f("+5")} | {f("-12")} |' for label, f in rows]
+    threshold = all(s[r]['verdicts']['dead zone set by'].startswith('CONDUCTION THRESHOLD') for r in rails)
+    lines += [
+        '',
+        ('On both rails the driver leaves its supply long before the excursion and the pass pair conducts only after '
+         'Vgs has climbed through its threshold; the output waits on its pre-bias floor meanwhile and then catches up. '
+         'The dead zone is set by the conduction threshold, not by the windup or by the floor value.'
+         if threshold else 'The dead-zone class differs between rails or is unresolved; see the table.'),
+        '',
+        'No correction, contract change or tolerance is adopted. `d1-servo-20261111.json` holds every hash and value.',
+        '',
+    ]
+    return '\n'.join(lines)
+
+
 EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt')
 VENDOR_SUFFIXES = ('.lib', '.zip', '.olb')
 
@@ -677,18 +793,22 @@ def main(argv=None):
     c.add_argument('--extra-dir', type=Path)
     r = sub.add_parser('record'); r.add_argument('evidence', type=Path); r.add_argument('--run-id', type=int, required=True)
     r.add_argument('--artifact-id', type=int, required=True); r.add_argument('--artifact-zip', type=Path, required=True)
+    r.add_argument('--servo', action='store_true', help='adopt a servo-node run as the D1 servo record')
     k = sub.add_parser('check-record')
     args = parser.parse_args(argv)
     if args.command == 'record':
-        record = build_record(args.evidence, args.run_id, args.artifact_id, args.artifact_zip)
-        RECORD.write_text(json.dumps(record, indent=2) + '\n')
-        RECORD_MD.write_text(render_markdown(record))
+        build, path, md, render = ((build_servo_record, SERVO_RECORD, SERVO_RECORD_MD, render_servo_markdown) if args.servo
+                                   else (build_record, RECORD, RECORD_MD, render_markdown))
+        record = build(args.evidence, args.run_id, args.artifact_id, args.artifact_zip)
+        path.write_text(json.dumps(record, indent=2) + '\n')
+        md.write_text(render(record))
         return 0
     if args.command == 'check-record':
-        if RECORD_MD.read_text() != render_markdown(json.loads(RECORD.read_text())):
-            print(f'FAIL: {RECORD_MD.name} does not match {RECORD.name}', file=sys.stderr)
-            return 1
-        print('PASS: D1 reference record and prose agree (not electrical acceptance)')
+        for path, md, render in ((RECORD, RECORD_MD, render_markdown), (SERVO_RECORD, SERVO_RECORD_MD, render_servo_markdown)):
+            if md.read_text() != render(json.loads(path.read_text())):
+                print(f'FAIL: {md.name} does not match {path.name}', file=sys.stderr)
+                return 1
+        print('PASS: D1 reference and servo records agree with their prose (not electrical acceptance)')
         return 0
     if args.command == 'prepare':
         try:
