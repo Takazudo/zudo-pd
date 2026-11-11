@@ -334,6 +334,40 @@ def correction_candidates(calc, record=D1_SERVO):
     }
 
 
+# ---------------------------------------------------------------- D1 enable-edge conduction (recorded negative)
+# Baseline waveforms of run 43109786353 (identity REPRODUCED): enable window 40-110 ms, 2 us bins; internal Vgs is the
+# gate pin minus the deck's gate offset minus the common source. The adv deck's constant offsets emulate a threshold
+# shift seen from the gate drive (+5: VO2 -0.5 V, i.e. a part 0.5 V lower; -12: VO3 +0.5 V, a part 0.5 V higher).
+ENABLE_EDGE = {
+    '+5': {'model': {'peak_vgs_v': 2.3097, 'onset_vgs_v': 2.4428, 'peak_current_ma': 1.26, 'output_max_mv': 51.9},
+           'threshold_minus_0p5_v': {'peak_vgs_v': 2.3146, 'onset_vgs_v': 2.4430, 'peak_current_ma': 1.32,
+                                     'output_max_mv': 51.7}},
+    '-12': {'model': {'peak_vgs_v': 2.3426, 'onset_vgs_v': 2.3504, 'peak_current_ma': 4.63, 'output_min_mv': -97.0},
+            'threshold_plus_0p5_v': {'peak_vgs_v': 2.3430, 'onset_vgs_v': 2.3527, 'peak_current_ma': 4.65,
+                                     'output_min_mv': -97.2}},
+}
+
+
+def enable_edge():
+    rails = {}
+    for rail, cases in ENABLE_EDGE.items():
+        rails[rail] = {k: {**v, 'distance_to_onset_mv': round((v['onset_vgs_v'] - v['peak_vgs_v']) * 1e3, 1)}
+                       for k, v in cases.items()}
+    return {
+        'status': 'RECORDED NEGATIVE (owner decision 2026-11-11; no order hold)',
+        'question': 'Would a fitted part at typical 2.0 V or minimum 1.5 V VGS(th) conduct at the enable edge and '
+                    'produce an output excursion?',
+        'finding': 'Inference from a single-threshold model: the enable transient is the designed pre-bias; the loop '
+                   'stops at the pair\'s own conduction edge, so the distance to onset moves by at most a few mV under '
+                   'a 0.5 V emulated threshold shift and the enable-window output stays at its floor (+5 at most '
+                   '51.9 mV against the 0.8 V hold screen; -12 and +12 below the 1.5 V analog threshold).',
+        'rails': rails,
+        'open_check': 'Constant-offset threshold corners on the unchanged decks, mapped from the model 250 uA point '
+                      '(2.163 V on the +5 ramp): +5 VO2 -0.66 V and +0.54 V; -12 VO3 -0.66 V and +0.54 V. Untested '
+                      'today: -12 below the model threshold and +5 beyond -0.5 V. Rides on the next dispatch.',
+    }
+
+
 # ---------------------------------------------------------------- D2 discharge and shutdown
 def rc_voltage(v0, r_discharge, c, t, r_load=None):
     """Closed-form decay of one disconnected rail through its discharge resistor and an optional resistive load."""
@@ -535,6 +569,7 @@ def findings():
         'model_scope': scope_matrix(),
         'd1_startup': startup(calc),
         'd1_correction_candidates': correction_candidates(calc),
+        'd1_enable_edge': enable_edge(),
         'd2_discharge': discharge(calc),
         'd3_maximum_current': maximum_current(calc),
         'next_inputs': [

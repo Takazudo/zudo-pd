@@ -249,6 +249,21 @@ class ServoCitationTests(unittest.TestCase):
         self.assertIn('pass-pair conduction', md)
 
 
+class EnableEdgeTests(unittest.TestCase):
+    def test_recorded_negative_matches_its_prose(self):
+        e = diag.enable_edge()
+        self.assertTrue(e['status'].startswith('RECORDED NEGATIVE'))
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        for cases in e['rails'].values():
+            for v in cases.values():
+                self.assertIn(f"{v['distance_to_onset_mv']:.1f} mV", md)
+                self.assertIn(f"{v['peak_vgs_v']:.4f} V", md)
+                self.assertLess(v['distance_to_onset_mv'], 150)
+        self.assertLess(abs(e['rails']['+5']['model']['distance_to_onset_mv']
+                            - e['rails']['+5']['threshold_minus_0p5_v']['distance_to_onset_mv']), 10)
+        self.assertIn('-0.66 V', e['open_check'])
+
+
 class CorrectionCandidateTests(unittest.TestCase):
     def test_record_follows_calculator_and_servo_record(self):
         calc = diag.calculator()
