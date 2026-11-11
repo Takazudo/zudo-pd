@@ -1,6 +1,7 @@
 # Single-purpose PD20 phase33 D1 reference extraction (#235, admitted wave 2 task W2-D).
-# Re-runs only the 2 us refined nom/adv decks at the pinned solver identity with one appended
-# output-only wrdata line (RAMP and per-rail reference/clamp nodes). Every downloaded and derived
+# Re-runs only the 2 us refined nom/adv decks at the pinned solver identity with two appended
+# output-only wrdata lines (RAMP and per-rail reference/clamp nodes; servo driver, feedback, FET
+# source and integrator nodes for the pre-registered d1-servo-criteria.md). Every downloaded and derived
 # input is hash-checked and fails closed; one bounded download attempt per TI archive.
 # The run is adopted only if primary and supplemental waveforms are byte-identical to the
 # retained 2026-11-09 refinement. Vendor model bytes are never uploaded; only their hashes.
