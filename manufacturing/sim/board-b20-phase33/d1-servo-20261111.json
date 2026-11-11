@@ -1,0 +1,208 @@
+{
+  "scope": "D1 servo-node extraction adoption (#235); diagnostic only",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "criteria": {
+    "document": "d1-servo-criteria.md",
+    "implementation": "servo_criteria.py",
+    "predictions": {
+      "servo wound up at a supply before conduction": [
+        "SUPPORTED"
+      ],
+      "windup released when the reference passes the pre-bias floor": [
+        "REFUTED",
+        "UNRESOLVED"
+      ],
+      "peak slope coincides with driver recovery": [
+        "NO"
+      ],
+      "dead zone set by": [
+        "CONDUCTION THRESHOLD AFTER WINDUP"
+      ]
+    }
+  },
+  "recorded_failures_preserved": {
+    "+5": 0.9548508602735011,
+    "-12": 1.4747780001127768
+  },
+  "run": {
+    "workflow": ".github/workflows/phase33-d1-reference.yml",
+    "run_id": 43099431981,
+    "source_revision": "217d9729720ea68ec2f95d7c732a710fea7a2a4f",
+    "artifact_id": 13892400275,
+    "artifact_zip_sha256": "fc401498af893fb9d0d5e7a94c3d3a6e0ca7826803fa3572e78f899283d1ff6a",
+    "artifact_files_sha256": {
+      "analysis.json": "dc3b72c875f35f3b3992bebc20fa8738593eaf5c2fbccebfc512fe02204d41eb",
+      "identity.json": "ff023073bcc3d5015efd6c11e00a176cdef4f58a5c1c6577e7c4085c4ebc5fd9",
+      "ladder-ekqwm9y1/adv/adv-osc-cap.txt": "8587f2eb8a40b83cbda01bf8352501621aa4a00bb9a558afa8c366733b48a4a8",
+      "ladder-ekqwm9y1/adv/adv-ref.txt": "a5fdc8be9a9801c6030cd0ebdfc302651a825dcb3f00b5e988824177cf781ea2",
+      "ladder-ekqwm9y1/adv/adv-servo.txt": "d33e58845a9103b8130e6fef7aa4658db121c9a3a8ae2294db3c82ab41bd83c1",
+      "ladder-ekqwm9y1/adv/adv.cir": "c2d8e4e5b28eebe4c729278ec346f9907dfa1aef46b44a9ecf5dbeb09bc6cace",
+      "ladder-ekqwm9y1/adv/adv.dat": "b7ad2e0055004d16c0d890448a2293e1cb59799aa15ecfdbbafe04c4015809e5",
+      "ladder-ekqwm9y1/adv/adv.log": "fde81b9fd413de7a270cafd67727cd331248dfa381646300bdcf92f74d8a1941",
+      "ladder-ekqwm9y1/nom/nom-osc-cap.txt": "93166b6e4b8ba8a91af50f87547d74e8eeb905f17c318aadd2daafcd1e889203",
+      "ladder-ekqwm9y1/nom/nom-ref.txt": "69cba2939455779463382876906aee7b5398b42a227ca5171045188bf30894b3",
+      "ladder-ekqwm9y1/nom/nom-servo.txt": "f0d4df0db87228f12986dbea8b66576df4136ed4e16e3587427bc664a0d21572",
+      "ladder-ekqwm9y1/nom/nom.cir": "beff156925b121d039ca29d317272b1d723b307f4268de7432522de514c43aab",
+      "ladder-ekqwm9y1/nom/nom.dat": "2c704109df06d060267b0bcdeeb9312dcc7260cd107cee309bebf10cdcc1114d",
+      "ladder-ekqwm9y1/nom/nom.log": "b6772c66d67dae10d185961ee4b021c613457cdc20b5c4479d68a502d35a2500",
+      "ladder-ekqwm9y1/receipt.json": "d2170a37bca6eff9f6be4a80568951085605162f710c208734470f6df905f6b8",
+      "manifest.json": "cef8651ef23d220df4fdd745d1564b3375d369dab2b9ef37799e7c4953fecee9",
+      "runner-output.txt": "9d5a508134b740ed011ab7106d4fc0d090653ecd4f077424700d6fea4b303b96"
+    }
+  },
+  "inputs": {
+    "vendor_sha256": {
+      "sbomab6.zip": "50c3c188a17bca04f2760feac9c5e6350561eb12a1e25d5a2c19b08dcc2b3930",
+      "sbomab6/OPAx187.LIB": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "slpm286.zip": "fbf5e0b576e11f2e0a1a65b0b2c589f86a182ae9ef5c412a0b0b98cd8c569715",
+      "slpm286/CSD18543Q3A.LIB": "fa4ef72177bc7691b956ef047985e6fc0a490ae1e12d41295c787e6e51dba170",
+      "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8"
+    },
+    "spiceinit_sha256": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+    "cases": {
+      "nom": {
+        "refined_deck_sha256": "b6ea0228c7b91324a43ac730a1867652b20cd3817dbad974e3100e8c5013b229",
+        "executed_deck_sha256": "beff156925b121d039ca29d317272b1d723b307f4268de7432522de514c43aab",
+        "added_output_only_lines": [
+          "wrdata nom-ref.txt v(ramp) v(ramp_p12) v(ramp_p5) v(ramp_m12) v(clp12) v(clp5) v(clpm12)",
+          "wrdata nom-servo.txt v(p5_drv) v(trk5) v(p5_cs) v(m12_drv) v(trk12n_fb) v(m12_cs) v(ctz)"
+        ]
+      },
+      "adv": {
+        "refined_deck_sha256": "5a90586ca3c08c6757640a00327b509b67d58885aca5c5ca12dc140bce6be4a0",
+        "executed_deck_sha256": "c2d8e4e5b28eebe4c729278ec346f9907dfa1aef46b44a9ecf5dbeb09bc6cace",
+        "added_output_only_lines": [
+          "wrdata adv-ref.txt v(ramp) v(ramp_p12) v(ramp_p5) v(ramp_m12) v(clp12) v(clp5) v(clpm12)",
+          "wrdata adv-servo.txt v(p5_drv) v(trk5) v(p5_cs) v(m12_drv) v(trk12n_fb) v(m12_cs) v(ctz)"
+        ]
+      }
+    }
+  },
+  "identity": {
+    "status": "REPRODUCED",
+    "source_revision": "217d9729720ea68ec2f95d7c732a710fea7a2a4f",
+    "solver_identity_matches": true,
+    "cases": {
+      "nom": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      },
+      "adv": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      }
+    }
+  },
+  "in_job_analysis_sha256": "dc3b72c875f35f3b3992bebc20fa8738593eaf5c2fbccebfc512fe02204d41eb",
+  "servo": {
+    "+5": {
+      "status": "EVALUATED",
+      "conduction_onset_ms": 139.618435,
+      "conduction_onset_to_segment_us": 368.0,
+      "ideal_lag_start_ms": 138.248435,
+      "driver_parked_in_window_before_conduction_us": 7690.0,
+      "driver_last_supply_exit_ms": 127.676435,
+      "exit_to_conduction_us": 11942.0,
+      "exit_to_segment_us": 12310.0,
+      "servo_error_last_rise_through_zero_before_conduction_ms": 129.110435,
+      "parked_direction_matches_error_share": 0.6863459037711314,
+      "output_flat_at_floor_before_exit": true,
+      "output_at_driver_exit_v": 0.05125927006656332,
+      "ideal_lag_at_driver_exit_v": -0.008408980524480782,
+      "maximum_lag_v": 0.30919993850024696,
+      "lag_at_segment_v": 0.1780322879643473,
+      "driver_v": {
+        "climb_start": 0.10002385339425979,
+        "conduction_onset": 2.8178954726675993,
+        "segment": 3.3120524501920228
+      },
+      "vgs_v": {
+        "climb_start": -0.00019759997978133215,
+        "conduction_onset": 2.4433694765766387,
+        "segment": 2.7541895770342513
+      },
+      "verdicts": {
+        "servo wound up at a supply before conduction": "SUPPORTED",
+        "windup released when the reference passes the pre-bias floor": "REFUTED",
+        "peak slope coincides with driver recovery": "NO",
+        "dead zone set by": "CONDUCTION THRESHOLD AFTER WINDUP (driver left the supply 11.942 ms before conduction; Vgs climbed 2.444 V)"
+      },
+      "topology": {
+        "driver": "p5_drv",
+        "amplifier": "XU13B",
+        "supplies_v": [
+          0.0,
+          20.0
+        ],
+        "gate_offset_v": 0.0,
+        "plus_input": "ramp_p5",
+        "minus_input": "trk5",
+        "lower_supply_band_reachable_after_settling": true
+      }
+    },
+    "-12": {
+      "status": "EVALUATED",
+      "conduction_onset_ms": 137.651553,
+      "conduction_onset_to_segment_us": 604.0,
+      "ideal_lag_start_ms": 129.137553,
+      "driver_parked_in_window_before_conduction_us": 8538.0,
+      "driver_last_supply_exit_ms": 126.793553,
+      "exit_to_conduction_us": 10858.0,
+      "exit_to_segment_us": 11462.0,
+      "servo_error_last_rise_through_zero_before_conduction_ms": 130.449553,
+      "parked_direction_matches_error_share": 0.7341297727805106,
+      "output_flat_at_floor_before_exit": true,
+      "output_at_driver_exit_v": -0.09688018853198252,
+      "ideal_lag_at_driver_exit_v": -0.014829880074611362,
+      "maximum_lag_v": 0.3963761054201327,
+      "lag_at_segment_v": 0.1146163361084292,
+      "driver_v": {
+        "climb_start": -12.041896859426195,
+        "conduction_onset": -8.903092301384397,
+        "segment": -8.452954323048695
+      },
+      "vgs_v": {
+        "climb_start": -0.5148540185706949,
+        "conduction_onset": 2.3522726048778946,
+        "segment": 2.764887549089334
+      },
+      "verdicts": {
+        "servo wound up at a supply before conduction": "SUPPORTED",
+        "windup released when the reference passes the pre-bias floor": "REFUTED",
+        "peak slope coincides with driver recovery": "NO",
+        "dead zone set by": "CONDUCTION THRESHOLD AFTER WINDUP (driver left the supply 10.858 ms before conduction; Vgs climbed 2.867 V)"
+      },
+      "topology": {
+        "driver": "m12_drv",
+        "amplifier": "XU9B",
+        "supplies_v": [
+          -12.142,
+          4.98
+        ],
+        "gate_offset_v": 0.5,
+        "plus_input": "trk12n",
+        "minus_input": "trk12n_fb",
+        "lower_supply_band_reachable_after_settling": true
+      }
+    }
+  },
+  "predictions_met": {
+    "+5": {
+      "servo wound up at a supply before conduction": true,
+      "windup released when the reference passes the pre-bias floor": true,
+      "peak slope coincides with driver recovery": true,
+      "dead zone set by": true
+    },
+    "-12": {
+      "servo wound up at a supply before conduction": true,
+      "windup released when the reference passes the pre-bias floor": true,
+      "peak slope coincides with driver recovery": true,
+      "dead zone set by": true
+    }
+  }
+}

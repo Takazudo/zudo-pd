@@ -247,12 +247,88 @@
         "evidence": "Consistent with no-load-only occurrence and the low-voltage location, and with the phase-10 prose. Distinguishing it needs one paired run changing only the pre-bias target (RT12O/RT5O/RT12NO) or integrator CT on nom/adv, after design review. Not run."
       },
       {
+        "id": "D1-S",
+        "claim": "The servo driver is wound up at a supply during the dead zone and its recovery sets the peak",
+        "conclusion": "windup SUPPORTED; peak coincides with recovery NO; dead zone set by CONDUCTION THRESHOLD AFTER WINDUP",
+        "evidence": "Pre-registered servo criteria on 2 us bin means: +5: driver left its supply 11.942 ms before the pass pair conducted, Vgs -0.000 to 2.443 V, conduction 368 us before the failed segment; -12: driver left its supply 10.858 ms before the pass pair conducted, Vgs -0.515 to 2.352 V, conduction 604 us before the failed segment; run 43099431981 (REPRODUCED, d1-servo-20261111.json)."
+      },
+      {
         "id": "D1-H5",
         "claim": "Startup is strictly monotonic",
         "conclusion": "UNRESOLVED",
         "evidence": "Small negative adjacent-sample increments remain; no numerical tolerance is adopted."
       }
     ]
+  },
+  "d1_correction_candidates": {
+    "scope": "Correction candidates for the D1 dead zone (D1-S); proposals and owner decisions only, nothing adopted",
+    "C2 minimum-load bleeder": {
+      "status": "REJECTED (owner decision 2026-11-11)",
+      "reason": "The CSD18543Q3A pair is both the servo pass device and the output disconnect, so no passive bleeder can keep it conducting at the floor without defeating disconnection or the AGND-returned discharge.",
+      "placements": [
+        {
+          "placement": "+5 output to GND",
+          "r_max_ohm_for_5ma": 10.3,
+          "result": "infeasible: at 5 V it draws 0.49 A, above trip_min 0.43694 A"
+        },
+        {
+          "placement": "+5 common source to GND",
+          "r_max_ohm_for_5ma": 1.0,
+          "result": "infeasible"
+        },
+        {
+          "placement": "+5 common source or output to -12 V",
+          "r_max_ohm_for_5ma": 2428.4,
+          "result": "defeats disconnection: with the gate held at GND (disable pulldown, or U13B at its 0 V rail) only the 11 V gate Zener limits Vgs, so the pair conducts; at the output a disabled +5 output is pulled toward -12 V through a non-AGND return"
+        },
+        {
+          "placement": "-12 output to GND",
+          "r_max_ohm_for_5ma": 19.4,
+          "result": "infeasible: at 12 V it draws 0.62 A, leaving 1.32 A before trip_min against the 1.9 A transient minimum"
+        },
+        {
+          "placement": "-12 common source to GND",
+          "r_max_ohm_for_5ma": 2424.0,
+          "result": "does not test C2: the current flows through XQ5 only (body diode or channel) and leaves XQ6, the threshold-limited output blocker, untouched; the 5 mA criterion would be met spuriously"
+        },
+        {
+          "placement": "-12 output to +5 V",
+          "r_max_ohm_for_5ma": 996.0,
+          "result": "defeats disconnection: a disabled -12 output is pulled toward +5 V through a non-AGND return"
+        }
+      ]
+    },
+    "EN-gated opposite-rail current sink": {
+      "status": "REJECTED (owner decision 2026-11-11)",
+      "reason": "Needs the disconnect and AGND-return rules reinterpreted and adds an enable-edge reverse-excursion risk."
+    },
+    "C1 gate pre-bias while enabled": {
+      "status": "UNDER EVALUATION (not adopted)",
+      "blocking_input": "A guaranteed CSD18543Q3A VGS(th) minimum at the operating temperature and test current."
+    },
+    "C3 slower gate path": {
+      "status": "FALLBACK only if C1 fails"
+    },
+    "bias_current_low_side_margins": {
+      "rule": "The limiter shunts sit upstream of each pair, so bias or bleeder current is sensed: delivered current at trip becomes trip_max - I_bias (the maximum-delivered margin grows), while the transient-minimum and startup-into-full-load margins shrink by I_bias.",
+      "rails": {
+        "+12": {
+          "transient_minimum_margin_a": 0.04159,
+          "startup_into_full_load_margin_a": 0.00894,
+          "maximum_delivered_margin_a": 0.01515
+        },
+        "-12": {
+          "transient_minimum_margin_a": 0.04216,
+          "startup_into_full_load_margin_a": 0.01329,
+          "maximum_delivered_margin_a": 0.00456
+        },
+        "+5": {
+          "transient_minimum_margin_a": 0.03694,
+          "startup_into_full_load_margin_a": 0.02909,
+          "maximum_delivered_margin_a": 0.03916
+        }
+      }
+    }
   },
   "d2_discharge": {
     "assumptions": [
@@ -484,7 +560,7 @@
     ]
   },
   "next_inputs": [
-    "D1: the reference side is refuted; separate downstream hypotheses (pre-bias overshoot D1-H4, clamp or servo amplifier saturation and recovery, pass-device or output-capacitor interaction) and the cheapest discriminating run are a proposal only; nothing is run before admission.",
+    "D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both failed rails (D1-S). A minimum-load bleeder (C2) is rejected by owner decision because the pass pair is also the output disconnect; gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.",
     "D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a numeric definition of 'absent', and device switching data for the disconnect/discharge edge.",
     "D3: a guaranteed detection-to-switch-off time and a load-side di/dt bound, or an explicitly agreed regulating current-limit change; no excess-current budget is adopted."
   ]

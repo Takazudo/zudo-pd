@@ -231,5 +231,39 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertEqual(diag.main(['--check', str(RETAINED)]), 0)
 
 
+
+class ServoCitationTests(unittest.TestCase):
+    def test_d1_servo_row_follows_the_servo_record(self):
+        record = json.loads(diag.D1_SERVO.read_text())
+        row = diag.servo_hypothesis()
+        self.assertIn(record['servo']['+5']['verdicts']['servo wound up at a supply before conduction'], row['conclusion'])
+        self.assertIn('43099431981', row['evidence'])
+        record['servo']['-12']['verdicts']['dead zone set by'] = diag.UNRESOLVED
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'servo.json'
+            path.write_text(json.dumps(record))
+            self.assertIn('-12: UNRESOLVED', diag.servo_hypothesis(path)['conclusion'])
+            self.assertIn('resolve D1-S', diag.d1_next_input(path))
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        self.assertIn('[D1 servo record](d1-servo-20261111.md)', md)
+        self.assertIn('pass-pair conduction', md)
+
+
+class CorrectionCandidateTests(unittest.TestCase):
+    def test_record_follows_calculator_and_servo_record(self):
+        calc = diag.calculator()
+        c = diag.correction_candidates(calc)
+        self.assertTrue(c['C2 minimum-load bleeder']['status'].startswith('REJECTED'))
+        self.assertTrue(c['EN-gated opposite-rail current sink']['status'].startswith('REJECTED'))
+        self.assertFalse(c['C1 gate pre-bias while enabled']['status'].startswith('ADOPTED'))
+        lim = calc.limiter()
+        margins = c['bias_current_low_side_margins']['rails']
+        self.assertAlmostEqual(margins['-12']['transient_minimum_margin_a'], lim['-12']['trip_min_a'] - calc.I_TRANSIENT_MIN['-12'], 5)
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        for row in c['C2 minimum-load bleeder']['placements']:
+            self.assertIn(f"{row['r_max_ohm_for_5ma']:.1f} Ω", md)
+        for r in ('+12', '-12', '+5'):
+            self.assertIn(f"{margins[r]['startup_into_full_load_margin_a'] * 1e3:.2f}", md)
+
 if __name__ == '__main__':
     unittest.main()
