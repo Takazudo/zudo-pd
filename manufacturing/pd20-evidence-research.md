@@ -269,7 +269,7 @@ value, so the peak slew below is probably pessimistic by an unknown amount):
 | 20 V | 3.5 V | nominal | 0.183 µF | 19.2 V/ms | 3.57 / 4.79 A | 71 / 96 W | 3.21 ms | 6.2 V/ms |
 | 20 V | 1.5 V | nominal | 0.161 µF | 24.5 V/ms | 4.56 / 6.13 A | 91 / 123 W | 2.47 ms | 8.1 V/ms |
 | 21 V | 1.5 V | nominal | 0.151 µF | 27.4 V/ms | 5.10 / 6.86 A | 107 / 144 W | 2.38 ms | 8.8 V/ms |
-| 21 V | 1.5 V | −10% | 0.136 µF | 30.5 V/ms | 5.67 / 7.62 A | 119 / 160 W | 2.14 ms | 9.8 V/ms |
+| 21 V | 1.5 V | −10% | 0.136 µF | 30.5 V/ms | 5.67 / 7.62 A | 119 / 160 W | 2.15 ms | 9.8 V/ms |
 
 Consequences, stated as contradictions and not as a design decision:
 - The adopted 3.1–10 V/ms slew and the "at most 2.5 A" inrush do not hold with the manufacturer typical curve.
@@ -284,6 +284,16 @@ Consequences, stated as contradictions and not as a design decision:
 
 The adopted design, the decision record and the C36 part are unchanged. The choice of a correction (for example a
 different dielectric, voltage rating or capacitance, or a re-derived gate current) belongs to the design owner.
+
+### Executable screen (W2-E)
+
+`scripts/pcb/board-p/q1-closure.py` with cited inputs in `q1-closure-inputs.json` reproduces the table above and runs
+in the component gate (`test_q1_closure.py`). It binds the C36 curve to the owner source's canonical-series hash, cites
+U2 `fact-c1849461-iol-4k02` and digitized DS37038 Fig. 12 points at VDS 20 V (pixel read, about ±5 %; VGS 10 V, TA
+25 °C, single pulse), and always reports `SCREEN ONLY - NOT AN ACCEPTANCE`. Its SOA comparison takes the peak power as a
+rectangular pulse over the whole ramp (conservative). The fitted C36 gives a ratio of 0.54–0.86, so the screen does not
+clear. PROPOSED options A (1206 X7R 1 µF 50 V) and B (100 V) give 3.9–5.5 V/ms peak, 0.72–1.38 A and ratios of 1.66–2.64,
+from typical data. Linear-mode SOA at the plateau VGS, temperature and guaranteed C(V) stay OPEN.
 
 ### Remaining primary-source items in this pass
 
