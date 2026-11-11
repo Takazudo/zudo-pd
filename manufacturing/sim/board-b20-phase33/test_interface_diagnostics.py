@@ -83,8 +83,37 @@ class DiagnosticsTests(unittest.TestCase):
                 self.assertTrue(row['exceeds_recorded_ceilings'])
                 self.assertLess(abs(row['capacitive_current_at_peak_a'] - row['recorded_esr_branch_current_a']), 0.001)
                 self.assertGreater(row['recorded_peak_over_ideal'], 1.5)
-        self.assertEqual(diag.RECORDED_PEAKS['+5']['2us_v_per_ms'], 0.954850860)
-        self.assertEqual(diag.RECORDED_PEAKS['-12']['2us_current_a'], 0.265259332)
+        peaks = diag.recorded_peaks()
+        self.assertEqual(round(peaks['+5']['2us_v_per_ms'], 9), 0.954850860)
+        self.assertEqual(round(peaks['+5']['2us_current_a'], 9), 0.114510041)
+        self.assertEqual(round(peaks['-12']['2us_v_per_ms'], 9), 1.474778000)
+        self.assertEqual(round(peaks['-12']['2us_current_a'], 9), 0.265259332)
+        h1 = next(h for h in report['hypotheses'] if h['id'] == 'D1-H1')
+        self.assertIn('designed common RAMP', h1['conclusion'])
+        self.assertEqual(next(h for h in report['hypotheses'] if h['id'] == 'D1-H6')['conclusion'], diag.UNRESOLVED)
+
+    def test_discharge_resistors_are_bound_to_the_schematic(self):
+        values = diag.schematic_values()
+        self.assertEqual(diag.discharge_resistors(self.calc, values), {'+12': 100.0, '+5': 33.0, '-12': 150.0})
+        with self.assertRaisesRegex(ValueError, 'R76 is 120.0 ohm'):
+            diag.discharge_resistors(self.calc, {**values, 'R76': '120 1% 1206'})
+        with self.assertRaisesRegex(ValueError, 'RX5 not found'):
+            diag.discharge_resistors(self.calc, {k: v for k, v in values.items() if k != 'RX5'})
+
+    def test_rvee_boundaries_are_inclusive_limits(self):
+        self.assertFalse(diag.rvee_violation(0.5, -0.4, 0.5))
+        self.assertTrue(diag.rvee_violation(0.5001, -0.4, 0.5))
+        self.assertFalse(diag.rvee_violation(0.4, -6.0, 0.5))
+        self.assertTrue(diag.rvee_violation(0.4, -6.0001, 0.5))
+
+    def test_zero_load_support_depends_on_the_absent_threshold(self):
+        report = diag.discharge(self.calc)
+        self.assertEqual(report['zero_load_rvee_absent_threshold_limit_v'], 1.45)
+        self.assertIsNone(report['cases']['zero_load']['first_rvee_violation'])
+        self.assertIsNotNone(report['cases']['zero_load_absent_1_5v']['first_rvee_violation'])
+        h1 = next(h for h in report['hypotheses'] if h['id'] == 'D2-H1')
+        self.assertIn('absent <= 1.44 V', h1['conclusion'])
+        self.assertIn('Q54 -> R61 470k / R62 1M divider -> Q55', report['disconnect_order']['reason'])
 
     def test_scope_matrix_is_bound_to_schematic_and_deck(self):
         rows = diag.scope_matrix()
@@ -98,6 +127,10 @@ class DiagnosticsTests(unittest.TestCase):
             diag.scope_matrix(refs, deck - {'XU13A'})
         with self.assertRaisesRegex(ValueError, 'now appear in the deck'):
             diag.scope_matrix(refs, deck | {'RX12'})
+        for name in ('XQ51', 'XU11', 'XU6A'):
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'now appear in the deck'):
+                diag.scope_matrix(refs, deck | {name})
+        diag.scope_matrix(refs, deck | {'XU60'})
 
     def test_retained_findings_are_fresh(self):
         self.assertEqual(json.loads(RETAINED.read_text()), diag.findings())

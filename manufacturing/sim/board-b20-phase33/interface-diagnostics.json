@@ -195,7 +195,7 @@
         "recorded_peak_over_ideal": 3.044,
         "step_change_5us_to_2us_pct": 0.01034,
         "capacitive_current_at_peak_a": 0.114582,
-        "recorded_esr_branch_current_a": 0.114510041,
+        "recorded_esr_branch_current_a": 0.114510040903672,
         "exception_current_equivalent_slope_v_per_ms": 0.95,
         "exceeds_recorded_ceilings": true
       },
@@ -204,7 +204,7 @@
         "recorded_peak_over_ideal": 1.938,
         "step_change_5us_to_2us_pct": 0.0104,
         "capacitive_current_at_peak_a": 0.26546,
-        "recorded_esr_branch_current_a": 0.265259332,
+        "recorded_esr_branch_current_a": 0.26525933220897024,
         "exception_current_equivalent_slope_v_per_ms": 1.4722,
         "exceeds_recorded_ceilings": true
       }
@@ -212,9 +212,15 @@
     "hypotheses": [
       {
         "id": "D1-H1",
-        "claim": "The common RAMP reference itself is too steep",
-        "conclusion": "REFUTED",
-        "evidence": "Ideal k x RAMP tracking slope at the -10 % RAMP capacitance is at most 0.3137 V/ms (+5) and 0.7611 V/ms (-12); the recorded peaks are 1.938-3.044x higher and lie inside the low-voltage exception regions only."
+        "claim": "The designed common RAMP slope itself is too steep",
+        "conclusion": "REFUTED for the designed common RAMP (calculated); the recorded v(ramp) was not inspected",
+        "evidence": "Ideal k x RAMP tracking slope at the -10 % RAMP capacitance is at most 0.3137 V/ms (+5) and 0.7611 V/ms (-12); the recorded peaks are 1.938x-3.044x the ideal and lie inside the low-voltage exception regions only."
+      },
+      {
+        "id": "D1-H6",
+        "claim": "A start-order clamp release (U15/U16 on RAMP_P5/RAMP_M12 behind RCP1 1k) presents a fast reference-side edge to the +5/-12 trackers",
+        "conclusion": "UNRESOLVED",
+        "evidence": "Not tested: the per-rail references were not extracted from the recorded runs. The deck saves v(ramp); the per-rail reference nodes and their timing against the excursions are the next check."
       },
       {
         "id": "D1-H2",
@@ -226,7 +232,7 @@
         "id": "D1-H3",
         "claim": "Slope and current exceedances are one constraint, not two",
         "conclusion": "SUPPORTED",
-        "evidence": "The recorded ESR-branch currents equal C x dV/dt at the peak within ESR effects, and each current ceiling corresponds to the slope ceiling at contract capacitance (114 mA / 120 uF = 0.95 V/ms; 265 mA / 180 uF = 1.472 V/ms). A correction must reduce the slope; a current-only argument cannot pass."
+        "evidence": "The recorded ESR-branch currents equal C x dV/dt at the peak within ESR effects, and each current ceiling corresponds to the slope ceiling at contract capacitance (114 mA / 120 uF = 0.95 V/ms; 265 mA / 180 uF = 1.4722 V/ms, so the 1.47 V/ms slope ceiling is the slightly tighter one). For the modeled pure C + ESR load a correction must reduce the slope; a current-only argument cannot pass. A load with a resistive or nonlinear part would separate the two."
       },
       {
         "id": "D1-H4",
@@ -246,9 +252,17 @@
     "assumptions": [
       "Ideal simultaneous disconnect at t = 0 (disconnect-before-discharge, AGND connected).",
       "Discharge switch on-resistance omitted (it only lengthens decay).",
+      "Disconnect skew between the rails is taken as zero; the contract allows up to 1 ms and the installed skew is unbounded (see disconnect_order).",
       "Loads are fixed resistors at the 20 ms transient minimum; the OSC load-versus-voltage characteristic is UNSOURCED.",
-      "'Absent' is not defined numerically by the contract; the cases use the rail discharge level (0.5 V) as a labelled assumption, and the undefined case stays OPEN."
+      "'Absent' is not defined numerically by the contract; the cases use the rail discharge level (0.5 V) as a labelled assumption, add the contract's informal 'about 1.5 V', and the undefined case stays OPEN.",
+      "OSC +/-12 V loads are largely rail-to-rail, which couples the rails; one-rail-to-AGND loads are an illustrative assumption, not the OSC load."
     ],
+    "discharge_resistors_ohm": {
+      "RX12 (+12)": 100.0,
+      "RX5 (+5)": 33.0,
+      "R76 (-12)": 150.0
+    },
+    "zero_load_rvee_absent_threshold_limit_v": 1.45,
     "cases": {
       "zero_load": {
         "loads_ohm": {},
@@ -260,6 +274,24 @@
         },
         "all_within_100ms": true,
         "first_rvee_violation": null,
+        "first_direct_hazard": null,
+        "first_sufficient_screen_violation": null
+      },
+      "zero_load_absent_1_5v": {
+        "loads_ohm": {},
+        "absent_threshold_v": 1.5,
+        "time_to_discharge_level_s": {
+          "+5": 0.00856,
+          "+12": 0.05792,
+          "-12": 0.08171
+        },
+        "all_within_100ms": true,
+        "first_rvee_violation": {
+          "t_s": 0.05697,
+          "+12": 0.5268,
+          "-12": 1.4997,
+          "+5": 0.0
+        },
         "first_direct_hazard": null,
         "first_sufficient_screen_violation": null
       },
@@ -339,19 +371,19 @@
     },
     "disconnect_overlap_current_bound_a": {
       "+12": 0.1248,
-      "-12": 0.0825,
-      "+5": 0.1576
+      "+5": 0.1576,
+      "-12": 0.0825
     },
     "disconnect_order": {
       "status": "OPEN",
-      "reason": "Q10/Q11/Q25 gate-charge removal and Q56 -> Q51/Q52/Q55 turn-on are driven by the same latch edge with no designed delay; their relative timing needs device switching data and the CSD18543Q3A gate charge path, which the decks omit. The overlap current is limited by RX12/RX5/RXN (above); that is a consequence, not compliance."
+      "reason": "Disconnect and discharge start from the same EN_E state with no designed ordering, through unequal paths: +12/+5 disconnect EN_E -> Q33 -> EN_N (REN 10k pull-up) -> Q10/Q11; -12 disconnect Q24 -> RG3A 56k -> Q25; discharge from the CDH hold-up: Q56 -> DIS_P (R60 100k pulldown) -> Q51/Q52, and Q54 -> R61 470k / R62 1M divider -> Q55. Relative timing needs device switching data and the CSD18543Q3A gate-charge path, which the decks omit. Overlap current is limited by the discharge resistors (above); that is a consequence, not compliance."
     },
     "hypotheses": [
       {
         "id": "D2-H1",
-        "claim": "At zero load the discharge resistors alone meet level, time and order rows",
-        "conclusion": "SUPPORTED (calculated, ideal switches)",
-        "evidence": "All rails reach their discharge level inside 100 ms; no R-VEE, direct-hazard or screen event."
+        "claim": "At zero load the discharge resistors alone meet the level, time and voltage-form rows",
+        "conclusion": "SUPPORTED only for absent <= 1.44 V with ideal simultaneous disconnect (calculated); disconnect order is D2-H3",
+        "evidence": "All rails reach their discharge level inside 100 ms. With absent = 0.5 V there is no R-VEE, direct-hazard or screen event; R-VEE first fails at an absent threshold of 1.45 V, and at 1.5 V it fails (zero_load_absent_1_5v)."
       },
       {
         "id": "D2-H2",
@@ -363,7 +395,7 @@
         "id": "D2-H3",
         "claim": "Outputs are disconnected before active discharge begins",
         "conclusion": "UNRESOLVED",
-        "evidence": "Same-edge drive with no designed delay; switching data and an installed timing bound are missing."
+        "evidence": "Same EN_E state, no designed ordering, unequal drive paths; switching data and an installed timing bound are missing."
       }
     ]
   },
@@ -435,7 +467,7 @@
         "id": "D3-H1",
         "claim": "Trip thresholds inside the window establish the 2.1/2.0/0.5 A maximum",
         "conclusion": "REFUTED",
-        "evidence": "The limiter trips and opens; it does not regulate. Delivered current grows until switch-off, so trip_max is a lower bound on the delivered peak, not an upper bound."
+        "evidence": "The limiter trips and opens; it does not regulate. Delivered current grows until switch-off, so the worst-case delivered peak is at least trip_max; trip_max is not an upper bound."
       },
       {
         "id": "D3-H2",
