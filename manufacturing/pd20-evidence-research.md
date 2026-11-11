@@ -269,7 +269,7 @@ value, so the peak slew below is probably pessimistic by an unknown amount):
 | 20 V | 3.5 V | nominal | 0.183 µF | 19.2 V/ms | 3.57 / 4.79 A | 71 / 96 W | 3.21 ms | 6.2 V/ms |
 | 20 V | 1.5 V | nominal | 0.161 µF | 24.5 V/ms | 4.56 / 6.13 A | 91 / 123 W | 2.47 ms | 8.1 V/ms |
 | 21 V | 1.5 V | nominal | 0.151 µF | 27.4 V/ms | 5.10 / 6.86 A | 107 / 144 W | 2.38 ms | 8.8 V/ms |
-| 21 V | 1.5 V | −10% | 0.136 µF | 30.5 V/ms | 5.67 / 7.62 A | 119 / 160 W | 2.14 ms | 9.8 V/ms |
+| 21 V | 1.5 V | −10% | 0.136 µF | 30.5 V/ms | 5.67 / 7.62 A | 119 / 160 W | 2.15 ms | 9.8 V/ms |
 
 Consequences, stated as contradictions and not as a design decision:
 - The adopted 3.1–10 V/ms slew and the "at most 2.5 A" inrush do not hold with the manufacturer typical curve.

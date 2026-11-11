@@ -11,6 +11,14 @@ q1 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(q1)
 
 INPUTS = json.loads((HERE / 'q1-closure-inputs.json').read_text())
+# Pinned here so an edit to the inputs cannot silently re-hash a curve or the SOA read: the PROPOSED page bytes
+# are not reproducible (render timestamp), and the SOA points are a 2026-11-11 graph read of DS37038 Fig. 12.
+PINNED_CURVES = {
+    'current': '329b040aac94fd3e353874f2ec1d8f50368ab8cd50bc7f2f8a42717ed0da0985',
+    'option-a': 'e4fc1166bb2a3297d070cdc5b1791fc5a51b5091b3756cbf876066de25bad42c',
+    'option-b': '57951ee5f48a8acb80ccf57cba70db066308977f45172faab1a795fc53f01aca',
+}
+PINNED_SOA_POINTS = [(1e-4, 17.9), (1e-3, 8.29), (1e-2, 1.17), (1e-1, 0.184), (1.0, 0.083), (10.0, 0.055)]
 RESULT = q1.evaluate(INPUTS)
 
 
@@ -41,7 +49,7 @@ class ReproducesRecordedScreen(unittest.TestCase):
                 self.assertAlmostEqual(k['banks']['250uF']['q1_peak_power_w'], p250, delta=0.6)
                 self.assertAlmostEqual(k['ramp_to_vbus_ms'], ramp, delta=0.02)
                 self.assertAlmostEqual(k['average_slew_v_per_ms'], avg, delta=0.06)
-                self.assertEqual(k['peak_slew_vs_adopted'], 'EXCEEDS')
+                self.assertEqual(k['peak_slew_vs_adopted'], 'TYPICAL_EXCEEDS')
 
     def test_energy_is_half_cv_squared(self):
         k = case('current', 21.0, 1.5, 1.0)
@@ -51,7 +59,38 @@ class ReproducesRecordedScreen(unittest.TestCase):
     def test_most_fitted_cases_exceed_u2_iol_min(self):
         cap = next(c for c in RESULT['capacitors'] if c['id'] == 'current')
         flags = [b['inrush_vs_u2_iol_min'] for k in cap['cases'] for b in k['banks'].values()]
-        self.assertGreater(flags.count('EXCEEDS'), len(flags) // 2)
+        self.assertGreater(flags.count('TYPICAL_EXCEEDS'), len(flags) // 2)
+
+    def ratios(self, cap_id):
+        cap = next(c for c in RESULT['capacitors'] if c['id'] == cap_id)
+        return [b['soa_ratio_peak_rectangular'] for k in cap['cases'] for b in k['banks'].values()]
+
+    def test_soa_screen_ranges_match_the_record(self):
+        fitted = self.ratios('current')
+        self.assertAlmostEqual(min(fitted), 0.54, delta=0.005)
+        self.assertAlmostEqual(max(fitted), 0.86, delta=0.005)
+        options = self.ratios('option-a') + self.ratios('option-b')
+        self.assertAlmostEqual(min(options), 1.66, delta=0.005)
+        self.assertAlmostEqual(max(options), 2.64, delta=0.005)
+
+    def test_option_rows(self):
+        for cap_id, pk, i250, ramp in (('option-a', 4.49, 1.122, 4.962), ('option-b', 4.64, 1.159, 4.805)):
+            k = case(cap_id, 20.0, 1.5, 1.0)
+            with self.subTest(cap_id=cap_id):
+                self.assertAlmostEqual(k['peak_slew_v_per_ms'], pk, delta=0.02)
+                self.assertAlmostEqual(k['banks']['250uF']['peak_inrush_a'], i250, delta=0.005)
+                self.assertAlmostEqual(k['ramp_to_vbus_ms'], ramp, delta=0.01)
+
+
+class PinnedInputs(unittest.TestCase):
+    def test_curve_hashes_are_pinned(self):
+        self.assertEqual({c['id']: c['canonical_sha256'] for c in INPUTS['capacitors']}, PINNED_CURVES)
+        for cap in INPUTS['capacitors']:
+            self.assertEqual(q1.canonical_sha256(cap['series']), PINNED_CURVES[cap['id']])
+
+    def test_soa_points_are_pinned(self):
+        self.assertEqual([(p['pw_s'], p['id_a']) for p in INPUTS['q1_soa']['points']], PINNED_SOA_POINTS)
+        self.assertEqual(INPUTS['q1_soa']['vds_v'], 20.0)
 
 
 class NeverAnAcceptance(unittest.TestCase):
@@ -59,7 +98,7 @@ class NeverAnAcceptance(unittest.TestCase):
         self.assertEqual(RESULT['verdict'], 'SCREEN ONLY - NOT AN ACCEPTANCE')
         self.assertEqual(RESULT['data_class'], 'TYPICAL')
         text = json.dumps(RESULT)
-        for word in ('"PASS', 'ACCEPTED', '"QUALIFIED'):
+        for word in ('"PASS', 'ACCEPTED', '"QUALIFIED', '"WITHIN', '"BELOW', '"EXCEEDS'):
             self.assertNotIn(word, text)
         for cap in RESULT['capacitors']:
             for k in cap['cases']:
@@ -109,6 +148,30 @@ class TamperControls(unittest.TestCase):
         bad = copy.deepcopy(INPUTS)
         bad['u2_iol_min_a']['fact_id'] = 'fact-c1849461-iol-removed'
         with self.assertRaisesRegex(q1.InputError, 'missing from'):
+            q1.evaluate(bad)
+
+    def test_value_drift_from_facts_is_refused(self):
+        for path, value, msg in ((('circuit', 'r12_ohm', 'value'), 1000, 'resistance fact'),
+                                 (('u2_iol_min_a', 'value'), 40.0, 'I\\(OL\\) minimum'),
+                                 (('circuit', 'c_nominal_tolerance', 'values'), [1.0, 0.95], 'tolerance fact')):
+            bad = copy.deepcopy(INPUTS)
+            node = bad
+            for key in path[:-1]:
+                node = node[key]
+            node[path[-1]] = value
+            with self.subTest(path=path), self.assertRaisesRegex(q1.InputError, msg):
+                q1.evaluate(bad)
+
+    def test_adopted_value_not_in_decision_is_refused(self):
+        bad = copy.deepcopy(INPUTS)
+        bad['adopted']['rationale_phrases'][0] = '0.1-1.1 uF'
+        with self.assertRaisesRegex(q1.InputError, 'rationale'):
+            q1.evaluate(bad)
+
+    def test_missing_soa_input_is_unsourced(self):
+        bad = copy.deepcopy(INPUTS)
+        bad.pop('q1_soa')
+        with self.assertRaisesRegex(q1.InputError, 'UNSOURCED'):
             q1.evaluate(bad)
 
     def test_unknown_status_is_refused(self):

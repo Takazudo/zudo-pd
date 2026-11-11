@@ -15,7 +15,12 @@
    10.0
   ],
   "max_inrush_a": 2.5,
-  "note": "Adopted values as recorded in the decision rationale; unchanged by this calculation."
+  "note": "Adopted values as recorded in the decision rationale; unchanged by this calculation.",
+  "rationale_phrases": [
+   "0.4-1.1 uF",
+   "3.1-10 V/ms",
+   "at most 2.5 A"
+  ]
  },
  "circuit": {
   "r12_ohm": {
@@ -23,7 +28,8 @@
    "tolerance": 0.01,
    "class": "GUARANTEED_ELECTRICAL",
    "owner": "component-project-passives",
-   "fact_id": "fact-c23162-tolerance"
+   "fact_id": "fact-c23162-resistance",
+   "tolerance_fact_id": "fact-c23162-tolerance"
   },
   "vbus_p_v": {
    "values": [
@@ -59,7 +65,9 @@
     1.0,
     0.9
    ],
-   "note": "nominal and -10 % initial tolerance corner (fact-c15849-tolerance)"
+   "note": "nominal and -10 % initial tolerance corner (fact-c15849-tolerance)",
+   "owner": "component-project-passives",
+   "fact_id": "fact-c15849-tolerance"
   }
  },
  "u2_iol_min_a": {

@@ -7,7 +7,10 @@ VBUS_P - V_plateau + V_f(Q5), so its DC bias starts near VBUS_P and falls as VBU
 
 Every input is cited in q1-closure-inputs.json. Capacitance curves are manufacturer typical
 small-signal data, so the result is CALCULATED and SCREEN-only: no case ever returns an
-acceptance verdict. Missing guaranteed curve, temperature or linear-mode SOA data stays OPEN.
+acceptance verdict. Missing guaranteed curve, temperature or linear-mode SOA data stays OPEN:
+those labels are fixed (fail-closed), and a missing or inconsistent cited input is refused with InputError
+rather than evaluated. Comparisons against the adopted ranges carry a TYPICAL_ prefix because both sides
+rest on typical or PA values.
 
 Usage: q1-closure.py [--json] [--inputs PATH]
 """
@@ -50,13 +53,41 @@ def _bundle_items(owner: str, kind: str) -> dict:
     return {item[id_key]: item for item in data[key]}
 
 
+def _fact(owner: str, fact_id: str) -> dict:
+    fact = _bundle_items(owner, 'facts').get(fact_id)
+    if fact is None:
+        raise InputError(f"fact {fact_id} missing from {owner}")
+    return fact
+
+
+def _first_number(value) -> float:
+    return float(value) if isinstance(value, (int, float)) else float(str(value).split('/')[0].split()[0])
+
+
 def verify_inputs(inp: dict, root: Path = ROOT) -> None:
-    decisions = json.loads((root / inp['adopted']['decision_file']).read_text())
-    if inp['adopted']['decision_id'] not in json.dumps(decisions):
-        raise InputError(f"adopted decision {inp['adopted']['decision_id']} not found")
-    for ref in (inp['circuit']['r12_ohm'], inp['u2_iol_min_a']):
-        if ref['fact_id'] not in _bundle_items(ref['owner'], 'facts'):
-            raise InputError(f"fact {ref['fact_id']} missing from {ref['owner']}")
+    for key in ('adopted', 'circuit', 'u2_iol_min_a', 'q1_soa', 'capacitors'):
+        if key not in inp:
+            raise InputError(f"cited input '{key}' is missing; nothing is evaluated (UNSOURCED)")
+    adopted = inp['adopted']
+    decisions = json.loads((root / adopted['decision_file']).read_text())['decisions']
+    decision = next((d for d in decisions if d['id'] == adopted['decision_id']), None)
+    if decision is None:
+        raise InputError(f"adopted decision {adopted['decision_id']} not found")
+    for phrase in adopted['rationale_phrases']:
+        if phrase not in decision['rationale']:
+            raise InputError(f"adopted value '{phrase}' not in the {adopted['decision_id']} rationale")
+    r12 = inp['circuit']['r12_ohm']
+    if _first_number(_fact(r12['owner'], r12['fact_id'])['value']) != r12['value']:
+        raise InputError('R12 value does not match its resistance fact')
+    if _first_number(_fact(r12['owner'], r12['tolerance_fact_id'])['value']) / 100 != r12['tolerance']:
+        raise InputError('R12 tolerance does not match its fact')
+    tol = inp['circuit']['c_nominal_tolerance']
+    cap_tol = _first_number(_fact(tol['owner'], tol['fact_id'])['value']) / 100
+    if sorted(tol['values']) != sorted([1.0, round(1 - cap_tol, 6)]):
+        raise InputError('capacitor tolerance corners do not match the cited tolerance fact')
+    iol = inp['u2_iol_min_a']
+    if _first_number(_fact(iol['owner'], iol['fact_id'])['value']) != iol['value']:
+        raise InputError('U2 I(OL) minimum does not match its fact')
     soa = inp['q1_soa']
     src = _bundle_items(soa['owner'], 'sources').get(soa['source_id'])
     if src is None or src['availability'] != 'AVAILABLE' or src['sha256'] != soa['sha256']:
@@ -122,8 +153,8 @@ def closure(cap: dict, inp: dict, vbus: float, vpl: float, ctol: float) -> dict:
         c_eff = cnom * (1 + delta(v_mx - vout) / 100)
         slew = i_gate / c_eff
         if k == 0:
-            c0 = cnom * (1 + delta(v_mx) / 100)
-            peak_slew = i_gate / c0
+            peak_slew = i_gate / (cnom * (1 + delta(v_mx) / 100))
+        peak_slew = max(peak_slew, slew)
         if t_floor is None and c_eff >= floor:
             t_floor = (t, vout)
         dt = dv / slew
@@ -143,8 +174,8 @@ def closure(cap: dict, inp: dict, vbus: float, vpl: float, ctol: float) -> dict:
         allowed = soa_allowed_w(inp['q1_soa'], ramp)
         banks[f'{b:g}uF'] = {
             'peak_inrush_a': round(i_pk, 3),
-            'inrush_vs_u2_iol_min': 'EXCEEDS' if i_pk > iol else 'BELOW',
-            'inrush_vs_adopted_max': 'EXCEEDS' if i_pk > adopted['max_inrush_a'] else 'WITHIN',
+            'inrush_vs_u2_iol_min': 'TYPICAL_EXCEEDS' if i_pk > iol else 'TYPICAL_BELOW',
+            'inrush_vs_adopted_max': 'TYPICAL_EXCEEDS' if i_pk > adopted['max_inrush_a'] else 'TYPICAL_WITHIN',
             'q1_energy_mj': round(energy[b] * 1e3, 2),
             'q1_peak_power_w': round(peak_p[b], 1),
             'soa_allowed_w_at_ramp': round(allowed, 1),
@@ -161,8 +192,8 @@ def closure(cap: dict, inp: dict, vbus: float, vpl: float, ctol: float) -> dict:
         'average_slew_v_per_ms': round(vbus / ramp / 1e3, 2),
         'ramp_to_vbus_ms': round(ramp * 1e3, 3),
         'c36_reaches_adopted_floor': None if t_floor is None else {'t_ms': round(t_floor[0] * 1e3, 3), 'vout_v': round(t_floor[1], 2)},
-        'peak_slew_vs_adopted': 'EXCEEDS' if peak_slew / 1e3 > adopted['slew_v_per_ms'][1] else
-                                ('BELOW' if peak_slew / 1e3 < adopted['slew_v_per_ms'][0] else 'WITHIN'),
+        'peak_slew_vs_adopted': 'TYPICAL_EXCEEDS' if peak_slew / 1e3 > adopted['slew_v_per_ms'][1] else
+                                ('TYPICAL_BELOW' if peak_slew / 1e3 < adopted['slew_v_per_ms'][0] else 'TYPICAL_WITHIN'),
         'banks': banks,
         'profile': profile,
     }
@@ -200,7 +231,7 @@ def main() -> int:
                   f"avg {k['average_slew_v_per_ms']} V/ms, ramp {k['ramp_to_vbus_ms']} ms; "
                   + '; '.join(f"{n}: {v['peak_inrush_a']} A {v['inrush_vs_u2_iol_min']} I(OL) min, "
                              f"{v['q1_peak_power_w']} W peak, {v['q1_energy_mj']} mJ, SOA x{v['soa_ratio_peak_rectangular']}"
-                             for n, v in b.items()))
+                             for n, v in b.items()) + ' (typical data; SOA OPEN; not an acceptance)')
     print('\nOPEN: ' + '\n      '.join(res['open_items']))
     return 0
 
