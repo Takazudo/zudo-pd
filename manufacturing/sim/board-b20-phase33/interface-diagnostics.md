@@ -85,8 +85,16 @@ T1, an integrator leak switched in while RAMP is held in reset, is **rejected by
 (owner decision; not evaluated in transient). At the summing node the DC balance sets the driver
 by offset currents, not by conduction. On +5 V, DRV = 1.214 V − 43.1 × out, so the loop stays wound
 to its rail. On −12 V, DRV = 23.5 × out + 1.214 V, which gives a threshold-dependent −0.47 V
-pedestal ([analysis](d1-t1-leak-rejected-20261111.md)). T2, a peak-hold anti-windup clamp, is
-admitted for evaluation.
+pedestal ([analysis](d1-t1-leak-rejected-20261111.md)).
+
+T2, a peak-hold anti-windup clamp, is **rejected by construction on +5 V** (owner decision; not
+evaluated in transient). RG2P carries Vgs / 100 kΩ, and with the pair off that current leaves P5_CS
+only through Q4's body diode into P5_OUT. A gate held near the edge therefore injects 8–20 µA against
+the 1.6 µA divider drain, which is an output pedestal. This sets a constraint on any future +5 V or
++12 V gate-hold scheme: it must idle at Vgs of about 0.16 V or less at no load, unless the gate
+pull-down return is changed ([paper check](d1-t2-paper-check-20261111.md)). On −12 V, T2 is under
+evaluation against pre-registered rules ([criteria](d1-t2-criteria.md)). A −12 V only result does not
+close D1.
 
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
 therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and

@@ -750,7 +750,8 @@ def render_servo_markdown(record):
     return '\n'.join(lines)
 
 
-EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt', '-gap.txt')
+EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt', '-gap.txt', '-t2.txt')
+EVIDENCE_CASES = CASES + ('nomR', 'reR6', 'reR20')  # the loaded decks of the T2 evaluation (d1-t2-criteria.md)
 VENDOR_SUFFIXES = ('.lib', '.zip', '.olb')
 
 
@@ -759,12 +760,12 @@ def collect(work, evidence, extra_dir=None):
     evidence = Path(evidence)
     evidence.mkdir(parents=True)
     work = Path(work)
-    runs = sorted(work.glob('ladder-*')) + sorted(work.glob('gaps/*/ladder-*'))
+    runs = sorted(work.glob('ladder-*')) + sorted(work.glob('gaps/*/ladder-*')) + sorted(work.glob('t2/*/ladder-*'))
     sources = []
     for run in runs:
         prefix = run.relative_to(work).as_posix()
         sources.append((run / 'receipt.json', f'{prefix}/receipt.json'))
-        for name in CASES:
+        for name in EVIDENCE_CASES:
             for suffix in EVIDENCE_SUFFIXES:
                 path = attempt_dir(run, name) / f'{name}{suffix}'
                 if path.is_file():
