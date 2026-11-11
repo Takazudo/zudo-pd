@@ -81,7 +81,7 @@ flowchart LR
   M12_PRE. Every trip pulls FAULT_N. The limiter trips; it does not regulate current.
 - **Reverse blocking.** Back-to-back CSD18543Q3A common-source pairs sit on every rail, with a
   BZT52C11 gate-source clamp on each pair.
-- **Latch and enable.** The fault latch Q30/Q31 is held reset for 10.7–36 ms after P5_SUP rises (POR).
+- **Latch and enable.** The fault latch Q30/Q31 is held reset after P5_SUP rises (POR: 10.7–36 ms nominal; 7.66–46.4 ms at tolerance and temperature corners).
   The enable latch is set by RDY (PDOK valid for 0.235–1.392 s at tolerance and temperature corners; RRDY 2 × 150k since D11, 200k nominal 0.21–0.73 s historical) and reset by the fault latch. Only a
   re-plug clears a fault.
 - **Shutdown and discharge.** EN_N high pulls all three gates off (the −12 V gate through the Q24/Q25
