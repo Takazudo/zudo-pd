@@ -395,12 +395,14 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual([l.strip() for l in on.splitlines() if l.strip()],
                          ['workflow_dispatch:', 'inputs:', 'gap_sensitivity:',
                           'description: Also run the eight pre-registered C1 gap-sensitivity variant cases (d1-gap-criteria.md)',
-                          'type: boolean', 'default: false'])
+                          'type: boolean', 'default: false', 't2_evaluation:',
+                          'description: Also run the pre-registered T2 -12 V clamp evaluation and enable-edge corners '
+                          '(d1-t2-criteria.md)', 'type: boolean', 'default: false'])
         self.assertRegex(text, r'\npermissions:\n  contents: read\n')
-        self.assertIn('timeout-minutes: 45', text)
+        self.assertIn('timeout-minutes: 120', text)
         self.assertRegex(text, r'\nconcurrency:\n  group: phase33-d1-reference\n')
         self.assertNotIn('secrets.', text)
-        self.assertEqual(re.findall(r'inputs\.\w+', text), ['inputs.gap_sensitivity'])
+        self.assertEqual(re.findall(r'inputs\.\w+', text), ['inputs.gap_sensitivity', 'inputs.t2_evaluation'])
         self.assertIn("if: inputs.gap_sensitivity && steps.identity.outcome == 'success'", text)
         self.assertNotIn('${{ inputs', text)
         uses = re.findall(r'uses: (\S+)', text)

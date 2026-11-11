@@ -7,7 +7,9 @@
 # retained 2026-11-09 refinement. Vendor model bytes are never uploaded; only their hashes.
 # Opt-in gap_sensitivity (d1-gap-criteria.md) adds the eight pre-registered C1 gate-to-threshold variant
 # cases, run only after the unmodified baseline pair reproduces; a model sensitivity, never a design change.
-# Not a generic compute dispatcher: one boolean input, no secrets, no write permission, no deploy.
+# Opt-in t2_evaluation (d1-t2-criteria.md) runs the enable-edge threshold corners, the inert control and the T2
+# -12 V candidate decks the same way: a model evaluation of a candidate, never adoption.
+# Not a generic compute dispatcher: two opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -16,6 +18,10 @@ on:
     inputs:
       gap_sensitivity:
         description: Also run the eight pre-registered C1 gap-sensitivity variant cases (d1-gap-criteria.md)
+        type: boolean
+        default: false
+      t2_evaluation:
+        description: Also run the pre-registered T2 -12 V clamp evaluation and enable-edge corners (d1-t2-criteria.md)
         type: boolean
         default: false
 
@@ -29,7 +35,8 @@ concurrency:
 jobs:
   extract:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    # 45 min covered the reference pair and the gap variants; the T2 evaluation adds 15 decks (about 2 min each).
+    timeout-minutes: 120
     defaults:
       run:
         # Explicit bash enables pipefail, so the tee below cannot hide a runner failure.
@@ -78,6 +85,21 @@ jobs:
             fi
           done
           python3 "$PHASE33/gap_sensitivity.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/gap-sensitivity.json"
+      - name: T2 evaluation (only when requested and reproduced)
+        # Independent of the gap step: a gap failure must not silently skip T2.
+        if: ${{ !cancelled() && inputs.t2_evaluation && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/t2_clamp.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/t2-manifest.json"
+          # T2 labels run only after the inert control reproduces the D1 failure; aborts are recorded, never retried.
+          for label in base e12lo e12hi e5lo e5hi ctrl t2 t2lo t2hi t2load; do
+            cases=$(python3 "$PHASE33/t2_clamp.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: not run (control gate)"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/t2/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/t2-runner-$label.txt"; then
+              python3 "$PHASE33/t2_clamp.py" check-run "$RUNNER_TEMP/work" "$label"
+              echo "::warning::$label recorded an ABORTED case; it is not retried in this dispatch"
+            fi
+          done
+          python3 "$PHASE33/t2_clamp.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2-evaluation.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |
