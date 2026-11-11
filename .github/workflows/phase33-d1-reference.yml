@@ -58,7 +58,7 @@ jobs:
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |
-          python3 "$PHASE33/extract_reference.py" collect "$RUNNER_TEMP/work" --evidence "$RUNNER_TEMP/evidence" "$RUNNER_TEMP"/out/*
+          python3 "$PHASE33/extract_reference.py" collect "$RUNNER_TEMP/work" --evidence "$RUNNER_TEMP/evidence" --extra-dir "$RUNNER_TEMP/out"
           cat "$RUNNER_TEMP/evidence/hashes.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()

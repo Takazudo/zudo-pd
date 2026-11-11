@@ -73,7 +73,7 @@ class ExternalInputTests(unittest.TestCase):
                 ex.fetch('https://example.invalid/a.zip', '0' * 64)
             self.assertEqual(opened.call_count, 1)
         response = mock.MagicMock()
-        response.__enter__.return_value.read.return_value = b'revised'
+        response.__enter__.return_value.read.side_effect = [b'revised', b'']
         with mock.patch.object(ex.urllib.request, 'urlopen', return_value=response):
             with self.assertRaisesRegex(ex.NotRun, 'differs from recorded'):
                 ex.fetch('https://example.invalid/a.zip', '0' * 64)
@@ -101,21 +101,25 @@ class ExternalInputTests(unittest.TestCase):
 class RunTests(unittest.TestCase):
     def make_run(self, root, refinement):
         run = root / 'ladder-test'
+        solver = '** ngspice-44.2 : Circuit level simulation program'
+        inputs = {'lib/opax187.lib': sha(b'vendor'), '.spiceinit': sha(b'init')}
         receipt = {'status': 'COMPLETE', 'image': ex.IMAGE, 'platform': 'linux/amd64', 'variant_policy': 'original-only',
-                   'solver_version_output': '** ngspice-44.2 : Circuit level simulation program'}
+                   'solver_version_output': solver, 'input_sha256': inputs}
+        refinement['preparation'] = {'inputs': {'lib/opax187.lib': sha(b'vendor'), 'tracking/.spiceinit': sha(b'init')}}
         run.mkdir(parents=True)
         (run / 'receipt.json').write_text(json.dumps(receipt))
-        manifest = {'cases': {}}
+        manifest = {'source_revision': 'abc', 'cases': {}}
         for name in ex.CASES:
             work = ex.attempt_dir(run, name)
             work.mkdir(parents=True)
-            (root / 'lib').mkdir(exist_ok=True)
             (run / name / '0' / 'lib').mkdir(exist_ok=True)
             (run / name / '0' / 'lib' / 'opax187.lib').write_bytes(b'vendor')
+            (work / '.spiceinit').write_bytes(b'init')
             for suffix in ex.EVIDENCE_SUFFIXES:
                 (work / f'{name}{suffix}').write_text(f'{name}{suffix}')
             refinement['cases'][name] = {'main_waveform_sha256': sha(f'{name}.dat'.encode()),
-                                         'supplemental_waveform_sha256': sha(f'{name}-osc-cap.txt'.encode())}
+                                         'supplemental_waveform_sha256': sha(f'{name}-osc-cap.txt'.encode()),
+                                         'solver_version_output': solver}
             manifest['cases'][name] = {'executed_deck_sha256': sha(f'{name}.cir'.encode())}
         return run, manifest
 
@@ -125,13 +129,17 @@ class RunTests(unittest.TestCase):
             run, manifest = self.make_run(Path(tmp), refinement)
             with mock.patch.object(ex, 'records', return_value=({}, refinement)):
                 self.assertEqual(ex.identity(run, manifest)['status'], 'REPRODUCED')
+                (run / 'nom' / '0' / 'lib' / 'opax187.lib').write_bytes(b'other')
+                result = ex.identity(run, manifest)
+                self.assertFalse(result['cases']['nom']['matches']['executed_models_and_settings'])
+                (run / 'nom' / '0' / 'lib' / 'opax187.lib').write_bytes(b'vendor')
                 (ex.attempt_dir(run, 'adv') / 'adv.dat').write_text('drifted')
                 result = ex.identity(run, manifest)
                 self.assertEqual(result['status'], 'NOT REPRODUCED')
                 self.assertFalse(result['cases']['adv']['matches']['main_waveform'])
                 (ex.attempt_dir(run, 'adv') / 'adv.dat').write_text('adv.dat')
                 receipt = json.loads((run / 'receipt.json').read_text())
-                receipt['solver_version_output'] = 'ngspice-45'
+                receipt['solver_version_output'] = '** ngspice-44.2 : other build'
                 (run / 'receipt.json').write_text(json.dumps(receipt))
                 self.assertEqual(ex.identity(run, manifest)['status'], 'NOT REPRODUCED')
 
@@ -139,14 +147,19 @@ class RunTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
             run, _ = self.make_run(tmp, {'cases': {}})
-            hashes = ex.collect(tmp, tmp / 'evidence')
+            (tmp / 'out').mkdir()
+            (tmp / 'out' / 'manifest.json').write_text('{}')
+            self.assertEqual(ex.main(['collect', str(tmp), '--evidence', str(tmp / 'evidence'), '--extra-dir', str(tmp / 'out')]), 0)
+            hashes = json.loads((tmp / 'evidence' / 'hashes.json').read_text())
+            self.assertIn('manifest.json', hashes)
             self.assertIn('ladder-test/receipt.json', hashes)
             self.assertIn('ladder-test/adv/adv-ref.txt', hashes)
             collected = [p for p in (tmp / 'evidence').rglob('*') if p.is_file()]
             self.assertFalse(any(p.suffix.lower() in ex.VENDOR_SUFFIXES or 'lib' in p.parts for p in collected))
             self.assertEqual(len(collected), len(hashes) + 1)
+            (tmp / 'out' / 'model.lib').write_bytes(b'vendor')
             with self.assertRaisesRegex(ValueError, 'vendor model bytes'):
-                ex.collect(tmp, tmp / 'again', [run / 'nom' / '0' / 'lib' / 'opax187.lib'])
+                ex.collect(tmp, tmp / 'again', tmp / 'out')
 
     def test_single_run_directory_is_required(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -159,9 +172,68 @@ class ClassificationTests(unittest.TestCase):
         self.assertEqual(ex.classify(0.95, 0.3137, 0.95), ex.SUPPORTED)
         self.assertEqual(ex.classify(0.3137 * 1.05, 0.3137, 0.95), ex.REFUTED)
         self.assertEqual(ex.classify(0.5, 0.3137, 0.95), ex.UNRESOLVED)
+        self.assertEqual(ex.classify(-2.0, 0.3137, 0.95), ex.REFUTED)  # an opposite-direction edge never supports
+        self.assertEqual(ex.classify(1.0, 0.3137, 0.95, competing=0.98), ex.UNRESOLVED)  # reference only follows RAMP
+        self.assertEqual(ex.classify(1.2, 0.3137, 0.95, competing=0.3), ex.SUPPORTED)
 
-    def test_slopes_scale_by_gain_in_v_per_ms(self):
-        self.assertEqual(ex.slopes([0.0, 1e-3], [0.0, -0.5], 2.0), [1.0])
+    def test_slopes_are_signed_and_scaled_in_v_per_ms(self):
+        self.assertEqual(ex.slopes([0.0, 1e-3], [0.0, -0.5], 2.0), [-1.0])
+
+
+class AnalysisTests(unittest.TestCase):
+    STEP = 50e-6
+    DECK = ('* synthetic\nRT5A p5_out trk5 23.2k\nRT5B trk5 0 10k\nRT12NA ramp_m12 trk12n 93.1k\n'
+            'RT12NB trk12n m12_out 750k\n.tran 2u 2m 0 50u\n.end\n')
+
+    def write_case(self, run, name, main, ref):
+        work = ex.attempt_dir(run, name)
+        work.mkdir(parents=True)
+        (work / f'{name}.cir').write_text(self.DECK)
+        times = [i * self.STEP for i in range(41)]
+        with (work / f'{name}.dat').open('w') as out:
+            for t in times:
+                values = main(t)
+                out.write(' '.join(f'{t:.12e} {v:.12e}' for v in values) + '\n')
+        with (work / f'{name}-ref.txt').open('w') as out:
+            for t in times:
+                out.write(' '.join(f'{t:.12e} {v:.12e}' for v in ref(t)) + '\n')
+        return times
+
+    def test_direction_gain_and_attribution_on_synthetic_waveforms(self):
+        edge = (1.0e-3, 1.05e-3)
+
+        def ramp(t, rate):  # rate in V/ms
+            return rate * t * 1e3
+
+        def step(t, base, extra):  # base slope plus an extra slope during the edge, both in V/ms
+            return (base * t + extra * (min(max(t, edge[0]), edge[1]) - edge[0])) * 1e3
+
+        nom_ref = lambda t: [ramp(t, 0.09), 0, step(t, 0.09, 0.30), 0, 0, 0, 0]  # rising RAMP_P5 edge, slow RAMP
+        nom_main = lambda t: [0, step(t, 0.30, 0.65485), 0] + [0] * 8  # +5 output rises at the edge
+        adv_ref = lambda t: [ramp(t, 0.09), 0, 0, ramp(t, 0.09), 0, 0, 0]  # smooth RAMP_M12
+        adv_main = lambda t: [0, 0, -step(t, 0.7, 0.7748)] + [0] * 8  # -12 output falls at the edge
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp) / 'ladder-x'
+            times = self.write_case(run, 'nom', nom_main, nom_ref)
+            self.write_case(run, 'adv', adv_main, adv_ref)
+            slope_p5 = ex.slopes(times, [nom_main(t)[1] for t in times], 1)[20]
+            slope_m12 = ex.slopes(times, [adv_main(t)[2] for t in times], -1)[20]
+            refinement = {'cases': {
+                'nom': {'rails': {'+5': {'worst_recorded_bound_exceedance': {'start_ms': 1.0, 'end_ms': 1.05, 'slope_v_per_ms': slope_p5},
+                                         'exception': {'slope_ceiling_v_per_ms': 0.95}}}},
+                'adv': {'rails': {'-12': {'worst_recorded_bound_exceedance': {'start_ms': 1.0, 'end_ms': 1.05, 'slope_v_per_ms': slope_m12},
+                                          'exception': {'slope_ceiling_v_per_ms': 1.47}}}}}}
+            with mock.patch.object(ex, 'records', return_value=({}, refinement)):
+                result = ex.analyze(run)
+        p5, m12 = result['rails']['+5'], result['rails']['-12']
+        self.assertAlmostEqual(p5['tracking_gain_from_deck'], 3.32)
+        self.assertAlmostEqual(p5['scaled_reference_peak_near_segment_v_per_ms'], 3.32 * 0.39, places=6)
+        self.assertEqual(p5['hypotheses']['D1-H6 clamp-release reference edge'], ex.SUPPORTED)
+        self.assertEqual(p5['hypotheses']['D1-H1 recorded common RAMP too steep'], ex.REFUTED)
+        self.assertEqual(m12['hypotheses']['D1-H6 clamp-release reference edge'], ex.REFUTED)
+        self.assertEqual(m12['hypotheses']['D1-H1 recorded common RAMP too steep'], ex.REFUTED)
+        self.assertGreater(m12['output_slope_at_segment_v_per_ms'], 1.47)
+        self.assertTrue(all('UNRESOLVED' in r['hypotheses']['D1-H4 pre-bias overshoot'] for r in result['rails'].values()))
 
 
 class WorkflowTests(unittest.TestCase):

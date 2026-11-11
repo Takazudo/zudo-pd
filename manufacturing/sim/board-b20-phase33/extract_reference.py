@@ -15,7 +15,10 @@ usage:
   (run_ladder.py WORK/tracking nom adv --original-only)
   extract_reference.py identity WORK --manifest PATH --output PATH
   extract_reference.py analyze WORK --output PATH
-  extract_reference.py collect WORK --evidence DIR
+  extract_reference.py collect WORK --evidence DIR [--extra-dir DIR]
+
+The work directory is not a Git checkout, so the runner receipt's source_revision is None and
+its source_dirty means "not a repository"; the source is bound by GITHUB_SHA in the manifest.
 """
 import argparse
 import hashlib
@@ -32,7 +35,9 @@ import zipfile
 from analysis_inputs import load
 from c12_compensation import INIT
 from prepare_refinement import transform
-from run_ladder import IMAGE, VARIANTS
+import time
+
+from run_ladder import IMAGE, VARIANTS, verify_executed_inputs
 
 HERE = Path(__file__).resolve().parent
 EXECUTION = HERE / 'execution-20261110.json'
@@ -44,8 +49,10 @@ REFERENCE_VECTORS = ('ramp', 'ramp_p12', 'ramp_p5', 'ramp_m12', 'clp12', 'clp5',
 ARCHIVES = {'sbomab6': {'OPAx187.LIB': 'lib/opax187.lib'},
             'slpm286': {'CSD18543Q3A.LIB': 'lib/csd18543q3a_ngspice.lib'}}
 DOWNLOAD_TIMEOUT_S = 120
-# Excursion rail -> (case, main waveform column after time, reference column, failed ceiling key)
-FAILED = {'+5': ('nom', 2, 'ramp_p5', 'clp5'), '-12': ('adv', 3, 'ramp_m12', 'clpm12')}
+DOWNLOAD_MAX_BYTES = 64 * 1024 * 1024
+# Excursion rail -> (case, main waveform column after time, reference node, clamp output node,
+# sign of the output excursion relative to a rising reference: +5 tracks, -12 inverts)
+FAILED = {'+5': ('nom', 2, 'ramp_p5', 'clp5', 1), '-12': ('adv', 3, 'ramp_m12', 'clpm12', -1)}
 NEIGHBOURHOOD_S = 100e-6
 # Reporting band for classification only; it is not a tolerance on any contract value.
 IDEAL_BAND = 1.05
@@ -103,10 +110,17 @@ def derive_decks():
 
 def fetch(url, digest):
     """One bounded attempt; any failure or hash difference is NOT RUN, never retried here."""
+    deadline = time.monotonic() + DOWNLOAD_TIMEOUT_S
     try:
         request = urllib.request.Request(url, headers={'User-Agent': 'phase33-reference-extraction'})
+        chunks, size = [], 0
         with urllib.request.urlopen(request, timeout=DOWNLOAD_TIMEOUT_S) as response:
-            data = response.read()
+            while chunk := response.read(1 << 20):
+                size += len(chunk)
+                if size > DOWNLOAD_MAX_BYTES or time.monotonic() > deadline:
+                    raise TimeoutError(f'exceeded {DOWNLOAD_MAX_BYTES} bytes or {DOWNLOAD_TIMEOUT_S} s')
+                chunks.append(chunk)
+        data = b''.join(chunks)
     except Exception as error:  # noqa: BLE001 - every transport failure is recorded verbatim
         raise NotRun(f'{url}: {type(error).__name__}: {error}') from error
     if sha(data) != digest:
@@ -185,8 +199,13 @@ def identity(run, manifest):
     _, refinement = records()
     receipt = json.loads((Path(run) / 'receipt.json').read_text())
     result = {'cases': {}}
+    prepared = {k: v for k, v in refinement['preparation']['inputs'].items() if k.startswith('lib/')}
+    solver = {refinement['cases'][name]['solver_version_output'] for name in CASES}
     ok = (receipt.get('status') == 'COMPLETE' and receipt.get('image') == IMAGE and receipt.get('platform') == 'linux/amd64'
-          and receipt.get('variant_policy') == 'original-only' and 'ngspice-44.2' in receipt.get('solver_version_output', ''))
+          and receipt.get('variant_policy') == 'original-only' and len(solver) == 1
+          and receipt.get('solver_version_output') in solver)
+    result['solver_identity_matches'] = ok
+    result['source_revision'] = manifest.get('source_revision')
     for name in CASES:
         work = attempt_dir(run, name)
         retained = refinement['cases'][name]
@@ -197,6 +216,14 @@ def identity(run, manifest):
                   'main_waveform': retained['main_waveform_sha256'],
                   'supplemental_waveform': retained['supplemental_waveform_sha256']}
         matches = {k: observed[k] == wanted[k] for k in observed}
+        try:
+            executed = verify_executed_inputs(Path(run) / name / '0', receipt['input_sha256'])
+            matches['executed_models_and_settings'] = (
+                {k: v for k, v in executed.items() if k.startswith('lib/')} == prepared
+                and executed['tracking/.spiceinit'] == refinement['preparation']['inputs']['tracking/.spiceinit'])
+        except (ValueError, KeyError, OSError) as error:
+            matches['executed_models_and_settings'] = False
+            observed['executed_inputs_error'] = str(error)
         ok = ok and all(matches.values())
         result['cases'][name] = {'observed_sha256': observed, 'expected_sha256': wanted, 'matches': matches}
     result['status'] = 'REPRODUCED' if ok else 'NOT REPRODUCED'
@@ -232,14 +259,21 @@ def deck_gain(deck, rail):
 
 
 def slopes(times, values, gain):
-    return [gain * abs(values[i + 1] - values[i]) / (times[i + 1] - times[i]) / 1e3 for i in range(len(times) - 1)]
+    """Signed adjacent-sample slopes in V/ms, multiplied by gain (use the sign to select the excursion direction)."""
+    return [gain * (values[i + 1] - values[i]) / (times[i + 1] - times[i]) / 1e3 for i in range(len(times) - 1)]
 
 
-def classify(peak, ideal, ceiling):
-    if peak >= ceiling:
-        return SUPPORTED
+def classify(peak, ideal, ceiling, competing=None):
+    """Pre-registered rule on signed slopes in the excursion direction.
+
+    SUPPORTED needs the scaled slope to reach the failed ceiling and, when a competing source
+    is named (the common RAMP for the per-rail reference), to exceed that source's peak by the
+    same band, so a reference that only follows a steep common RAMP is not attributed to the clamp.
+    """
     if peak <= ideal * IDEAL_BAND:
         return REFUTED
+    if peak >= ceiling and (competing is None or peak > competing * IDEAL_BAND):
+        return SUPPORTED
     return UNRESOLVED
 
 
@@ -250,11 +284,14 @@ def analyze(run):
     calc_spec.loader.exec_module(diag)
     ideal = diag.startup(diag.calculator())['rails']
     result = {'scope': 'D1 reference extraction; diagnostic only', 'electrical_acceptance': 'NOT ESTABLISHED',
-              'classification_rule': f'SUPPORTED if the gain-scaled slope within +/-{NEIGHBOURHOOD_S * 1e6:g} us of the '
-                                     f'recorded excursion reaches the failed exception ceiling; REFUTED if it stays at or '
-                                     f'below {IDEAL_BAND} x the ideal tracking slope; otherwise UNRESOLVED',
+              'classification_rule': f'Signed slopes in the excursion direction within +/-{NEIGHBOURHOOD_S * 1e6:g} us of the '
+                                     f'recorded excursion, scaled by the deck tracking gain. REFUTED if the peak stays at or '
+                                     f'below {IDEAL_BAND} x the ideal tracking slope. SUPPORTED if it reaches the failed exception '
+                                     f'ceiling and, for the per-rail reference, also exceeds {IDEAL_BAND} x the scaled common-RAMP '
+                                     f'peak. Otherwise UNRESOLVED. SUPPORTED means consistent with the hypothesis in this model, '
+                                     f'not proof of cause.',
               'rails': {}}
-    for rail, (name, column, ref_name, clamp) in FAILED.items():
+    for rail, (name, column, ref_name, clamp, sign) in FAILED.items():
         work = attempt_dir(run, name)
         rows = load(work / f'{name}.dat')
         ref = load_reference(work / f'{name}-ref.txt', rows)
@@ -266,24 +303,29 @@ def analyze(run):
         index = min(range(len(rows) - 1), key=lambda i: abs(rows[i][0] - start) + abs(rows[i + 1][0] - end))
         near = [i for i in range(len(rows) - 1) if start - NEIGHBOURHOOD_S <= rows[i][0] <= end + NEIGHBOURHOOD_S]
         times = [r[0] for r in rows]
-        out = slopes(times, [r[column] for r in rows], 1.0)
+        out = slopes(times, [r[column] for r in rows], sign)
+        if abs(out[index] - worst['slope_v_per_ms']) > 1e-9 * worst['slope_v_per_ms']:
+            raise ValueError(f'{rail}: selected segment slope {out[index]} differs from recorded {worst["slope_v_per_ms"]}')
         reference = slopes(times, [x[ref_name] for x in ref], gain)
         common = slopes(times, [x['ramp'] for x in ref], gain)
-        diode = [ref[i][ref_name] - ref[i][clamp] for i in (near[0], index, near[-1] + 1)]
+        diode = [ref[i][ref_name] - ref[i][clamp] for i in near + [near[-1] + 1]]
         reference_peak = max(reference[i] for i in near)
         common_peak = max(common[i] for i in near)
+        peak_at = max(near, key=lambda i: reference[i])
         result['rails'][rail] = {
             'case': name, 'tracking_gain_from_deck': round(gain, 6),
             'excursion_segment_ms': [round(rows[index][0] * 1e3, 9), round(rows[index + 1][0] * 1e3, 9)],
             'output_slope_at_segment_v_per_ms': out[index], 'recorded_slope_v_per_ms': worst['slope_v_per_ms'],
             'scaled_reference_slope_at_segment_v_per_ms': reference[index],
             'scaled_reference_peak_near_segment_v_per_ms': reference_peak,
+            'scaled_reference_peak_offset_from_segment_us': round((rows[peak_at][0] - rows[index][0]) * 1e6, 3),
             'scaled_common_ramp_slope_at_segment_v_per_ms': common[index],
             'scaled_common_ramp_peak_near_segment_v_per_ms': common_peak,
             'ideal_tracking_max_slope_v_per_ms': ideal[rail]['ideal_tracking_max_slope_v_per_ms'],
             'exception_slope_ceiling_v_per_ms': ceiling,
-            'clamp_diode_voltage_v': {'window_start': diode[0], 'segment': diode[1], 'window_end': diode[2]},
-            'hypotheses': {'D1-H6 clamp-release reference edge': classify(reference_peak, ideal[rail]['ideal_tracking_max_slope_v_per_ms'], ceiling),
+            'clamp_diode_voltage_v': {'window_start': diode[0], 'segment': diode[near.index(index)],
+                                      'window_end': diode[-1], 'window_min': min(diode), 'window_max': max(diode)},
+            'hypotheses': {'D1-H6 clamp-release reference edge': classify(reference_peak, ideal[rail]['ideal_tracking_max_slope_v_per_ms'], ceiling, common_peak),
                            'D1-H1 recorded common RAMP too steep': classify(common_peak, ideal[rail]['ideal_tracking_max_slope_v_per_ms'], ceiling),
                            'D1-H4 pre-bias overshoot': UNRESOLVED + ' (needs the paired variant run)'},
         }
@@ -294,7 +336,7 @@ EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt')
 VENDOR_SUFFIXES = ('.lib', '.zip', '.olb')
 
 
-def collect(work, evidence, extra=()):
+def collect(work, evidence, extra_dir=None):
     """Copy decks, logs, waveforms, receipts and reports; never vendor model bytes. Returns the hash list."""
     evidence = Path(evidence)
     evidence.mkdir(parents=True)
@@ -307,7 +349,8 @@ def collect(work, evidence, extra=()):
                 path = attempt_dir(run, name) / f'{name}{suffix}'
                 if path.is_file():
                     sources.append((path, f'{run.name}/{name}/{name}{suffix}'))
-    sources += [(Path(p), Path(p).name) for p in extra if Path(p).is_file()]
+    if extra_dir and Path(extra_dir).is_dir():
+        sources += [(p, p.name) for p in sorted(Path(extra_dir).iterdir()) if p.is_file()]
     hashes = {}
     for source, relative in sources:
         if source.suffix.lower() in VENDOR_SUFFIXES or 'lib' in Path(relative).parts:
@@ -329,7 +372,7 @@ def main(argv=None):
     i.add_argument('--output', type=Path, required=True)
     a = sub.add_parser('analyze'); a.add_argument('work', type=Path); a.add_argument('--output', type=Path, required=True)
     c = sub.add_parser('collect'); c.add_argument('work', type=Path); c.add_argument('--evidence', type=Path, required=True)
-    c.add_argument('extra', type=Path, nargs='*')
+    c.add_argument('--extra-dir', type=Path)
     args = parser.parse_args(argv)
     if args.command == 'prepare':
         try:
@@ -337,6 +380,10 @@ def main(argv=None):
         except NotRun as error:
             args.manifest.write_text(json.dumps({'status': NOT_RUN, 'reason': str(error)}, indent=2) + '\n')
             print(f'NOT RUN: {error}', file=sys.stderr)
+            return 2
+        except ValueError as error:
+            args.manifest.write_text(json.dumps({'status': 'FAILED', 'reason': str(error)}, indent=2) + '\n')
+            print(f'FAILED: {error}', file=sys.stderr)
             return 2
         manifest['status'] = 'PREPARED'
         args.manifest.write_text(json.dumps(manifest, indent=2) + '\n')
@@ -347,7 +394,7 @@ def main(argv=None):
         print(result['status'])
         return 0 if result['status'] == 'REPRODUCED' else 3
     if args.command == 'collect':
-        collect(args.work, args.evidence, args.extra)
+        collect(args.work, args.evidence, args.extra_dir)
         return 0
     result = analyze(single_run(args.work))
     args.output.write_text(json.dumps(result, indent=2) + '\n')
