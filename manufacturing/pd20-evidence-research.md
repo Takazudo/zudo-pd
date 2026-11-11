@@ -302,7 +302,7 @@ with its owner record (`rec-c1848`: Samsung reference sheet, product-page DC-bia
 `q1-closure-inputs.json` option A is FITTED and the 0603 part is SUPERSEDED. The fitted part screens at C36
 0.776–0.904 µF at the start of closure, 3.88–5.34 V/ms, at most 1.336 A and a minimum peak-rectangular SOA ratio of 1.67
 (energy-equivalent 3.76–5.77). The earlier sentence that the C36 part is unchanged is history. The same typical-data and
-OPEN limits apply; the Board P PCB rebuild for the 1206 land and bench T3 are still outstanding.
+OPEN limits apply; the Board P PCB is rebuilt natively for the 1206 land (Actions run 43107657333), while the pair assembly preview, the development export and bench T3 are still outstanding.
 
 ### Remaining primary-source items in this pass
 
