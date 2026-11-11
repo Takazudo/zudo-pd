@@ -340,14 +340,17 @@ function extractEventPaths(source: string): Record<string, EventFilter> {
       list = undefined;
       continue;
     }
+    assert.ok(!/^ {4}(?:paths|branches)-ignore:/u.test(line), `unsupported ignore filter: ${line.trim()}`);
     const listMatch = /^ {4}(branches|paths):\s*$/u.exec(line);
     if (listMatch?.[1] !== undefined) {
       list = listMatch[1] as keyof EventFilter;
       continue;
     }
     if (/^ {4}\S/u.test(line) && !/^ {4}#/u.test(line)) list = undefined;
-    const item = /^ {6}-\s+["']?([^"'#]+?)["']?\s*$/u.exec(line);
-    if (event !== undefined && list !== undefined && item?.[1] !== undefined) events[event]![list].push(item[1].trim());
+    if (event === undefined || list === undefined || !/^ {6}-/u.test(line)) continue;
+    const item = /^ {6}-\s+["']?([^"'#!]+?)["']?\s*$/u.exec(line);
+    assert.ok(item?.[1] !== undefined, `unparsed or negated filter entry: ${line.trim()}`);
+    events[event]![list].push(item[1].trim());
   }
   return events;
 }
