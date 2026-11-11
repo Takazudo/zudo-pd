@@ -255,7 +255,7 @@ class CorrectionCandidateTests(unittest.TestCase):
         c = diag.correction_candidates(calc)
         self.assertTrue(c['C2 minimum-load bleeder']['status'].startswith('REJECTED'))
         self.assertTrue(c['EN-gated opposite-rail current sink']['status'].startswith('REJECTED'))
-        self.assertFalse(c['C1 gate pre-bias while enabled']['status'].startswith('ADOPTED'))
+        self.assertTrue(c['C1 gate pre-bias while enabled']['status'].startswith('REJECTED'))
         lim = calc.limiter()
         margins = c['bias_current_low_side_margins']['rails']
         self.assertAlmostEqual(margins['-12']['transient_minimum_margin_a'], lim['-12']['trip_min_a'] - calc.I_TRANSIENT_MIN['-12'], 5)
