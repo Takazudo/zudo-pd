@@ -16,7 +16,7 @@ usage:
   extract_reference.py identity WORK --manifest PATH --output PATH
   extract_reference.py analyze WORK --output PATH
   extract_reference.py collect WORK --evidence DIR [--extra-dir DIR]
-  extract_reference.py record ARTIFACT_DIR --run-id N --artifact-id N --artifact-sha256 HEX
+  extract_reference.py record ARTIFACT_DIR --run-id N --artifact-id N --artifact-zip ZIP
   extract_reference.py check-record
 
 The work directory is not a Git checkout, so the runner receipt's source_revision is None and
@@ -272,8 +272,7 @@ def slopes(times, values, gain):
 
 
 def integral_at(times, values, cumulative, t):
-    """Exact integral of the piecewise-linear waveform from times[0] to t (clamped to the record)."""
-    t = min(max(t, times[0]), times[-1])
+    """Exact integral of the piecewise-linear waveform from times[0] to t, for t inside the record."""
     k = min(max(bisect.bisect_right(times, t), 1), len(times) - 1) - 1
     v = values[k] + (values[k + 1] - values[k]) * (t - times[k]) / (times[k + 1] - times[k])
     return cumulative[k] + (t - times[k]) * (values[k] + v) / 2
@@ -290,17 +289,33 @@ def grid_slopes(times, values, gain, start, end):
         cumulative.append(cumulative[-1] + (times[i + 1] - times[i]) * (values[i] + values[i + 1]) / 2)
     first = -int(round(NEIGHBOURHOOD_S / GRID_S)) - 1
     last = int(round((end - start + NEIGHBOURHOOD_S) / GRID_S)) + 1
-    edges = [start + k * GRID_S for k in range(first, last + 1)]
+    edges = [t for t in (start + k * GRID_S for k in range(first, last + 1)) if times[0] <= t <= times[-1]]
     area = [integral_at(times, values, cumulative, t) for t in edges]
     means = [(area[i + 1] - area[i]) / GRID_S for i in range(len(edges) - 1)]
     return [(edges[i + 1], gain * (means[i + 1] - means[i]) / GRID_S / 1e3) for i in range(len(means) - 1)]
 
 
-def timestep_artefact(adjacent_peak, grid_peak, ceiling):
-    """D1-H7: the adjacent-sample rule fires only because of a sub-grid solver-timestep ring."""
+def cluster(times, values, peak):
+    """Sub-grid solver-timestep cluster (steps shorter than GRID_S/100) containing adjacent interval peak, or None."""
+    short = lambda i: times[i + 1] - times[i] < GRID_S / 100
+    if not short(peak):
+        return None
+    first = last = peak
+    while first > 0 and short(first - 1):
+        first -= 1
+    while last + 1 < len(times) - 1 and short(last + 1):
+        last += 1
+    flips = sum(1 for i in range(first, last) if (values[i + 1] - values[i]) * (values[i + 2] - values[i + 1]) < 0)
+    return first, last, flips
+
+
+def timestep_artefact(adjacent_peak, grid_peak, ceiling, ring):
+    """D1-H7: the adjacent-sample rule fires only on a sub-grid ring (short steps with alternating increments)."""
     if adjacent_peak < ceiling:
         return 'NOT APPLICABLE (the adjacent-sample rule did not fire)'
-    return SUPPORTED if grid_peak < ceiling else REFUTED
+    if grid_peak >= ceiling:
+        return REFUTED
+    return SUPPORTED if ring is not None and ring[2] >= 2 else UNRESOLVED
 
 
 def classify(peak, ideal, ceiling, competing=None):
@@ -322,7 +337,7 @@ def analyze(run):
     calc_spec = importlib.util.spec_from_file_location('interface_diagnostics', HERE / 'interface_diagnostics.py')
     diag = importlib.util.module_from_spec(calc_spec)
     calc_spec.loader.exec_module(diag)
-    ideal = diag.startup(diag.calculator())['rails']
+    ideal = diag.ideal_tracking_slopes(diag.calculator())
     result = {'scope': 'D1 reference extraction; diagnostic only', 'electrical_acceptance': 'NOT ESTABLISHED',
               'classification_rule': f'Signed slopes in the excursion direction within +/-{NEIGHBOURHOOD_S * 1e6:g} us of the '
                                      f'recorded excursion, taken between adjacent {GRID_S * 1e6:g} us bin averages and scaled by the deck '
@@ -354,9 +369,10 @@ def analyze(run):
         common_grid = grid_slopes(times, [x['ramp'] for x in ref], gain, start, end)
         diode = [ref[i][ref_name] - ref[i][clamp] for i in near + [near[-1] + 1]]
         adjacent_peak_at = max(near, key=lambda i: reference[i])
+        ring = cluster(times, reference_values, adjacent_peak_at)
         reference_peak_at, reference_peak = max(reference_grid, key=lambda x: x[1])
         common_peak = max(slope for _, slope in common_grid)
-        ideal_slope = ideal[rail]['ideal_tracking_max_slope_v_per_ms']
+        ideal_slope = ideal[rail]
         result['rails'][rail] = {
             'case': name, 'tracking_gain_from_deck': round(gain, 6),
             'excursion_segment_ms': [round(rows[index][0] * 1e3, 9), round(rows[index + 1][0] * 1e3, 9)],
@@ -369,6 +385,7 @@ def analyze(run):
             'adjacent_sample_scaled_reference_peak_v_per_ms': reference[adjacent_peak_at],
             'adjacent_sample_peak_offset_from_segment_us': round((rows[adjacent_peak_at][0] - rows[index][0]) * 1e6, 3),
             'adjacent_sample_peak_dt_s': times[adjacent_peak_at + 1] - times[adjacent_peak_at],
+            'adjacent_sample_peak_cluster_sign_reversals': None if ring is None else ring[2],
             'minimum_timestep_in_window_s': min(times[i + 1] - times[i] for i in near),
             'ideal_tracking_max_slope_v_per_ms': ideal_slope,
             'exception_slope_ceiling_v_per_ms': ceiling,
@@ -379,7 +396,7 @@ def analyze(run):
                 'D1-H6 clamp-diode release': REFUTED if max(diode) < 0 else UNRESOLVED,
                 'D1-H1 recorded common RAMP too steep': classify(common_peak, ideal_slope, ceiling),
                 'D1-H7 adjacent-sample trigger is a solver-timestep artefact':
-                    timestep_artefact(reference[adjacent_peak_at], reference_peak, ceiling),
+                    timestep_artefact(reference[adjacent_peak_at], reference_peak, ceiling, ring),
                 'D1-H4 pre-bias overshoot': UNRESOLVED + ' (needs the paired variant run)'},
         }
     return result
@@ -397,13 +414,11 @@ def timestep_ring(run, rail='-12'):
     values = [x[ref_name] for x in ref]
     adjacent = slopes(times, values, gain)
     peak = max((i for i in range(len(adjacent)) if low <= times[i] <= high), key=lambda i: adjacent[i])
-    first = last = peak
-    while first > 0 and times[first] - times[first - 1] < GRID_S / 100:
-        first -= 1
-    while last + 1 < len(times) - 1 and times[last + 2] - times[last + 1] < GRID_S / 100:
-        last += 1
+    found = cluster(times, values, peak)
+    if found is None:
+        raise ValueError(f'{rail}: the adjacent-sample peak is not inside a sub-grid timestep cluster')
+    first, last, flips = found
     span = range(first, last + 2)
-    flips = sum(1 for i in range(first, last) if (values[i + 1] - values[i]) * (values[i + 2] - values[i + 1]) < 0)
     return {'rail': rail, 'node': ref_name, 'peak_time_ms': round(times[peak] * 1e3, 9),
             'adjacent_scaled_peak_v_per_ms': adjacent[peak], 'adjacent_peak_dv_v': values[peak + 1] - values[peak],
             'adjacent_peak_dt_s': times[peak + 1] - times[peak],
@@ -416,9 +431,9 @@ def timestep_ring(run, rail='-12'):
 
 RECORD = HERE / 'd1-reference-20261111.json'
 RECORD_MD = HERE / 'd1-reference-20261111.md'
-MISREADING = ('Before adoption, the -12 V in-job result was first reported as a 0.85 V reference-side step. That was a '
+MISREADING = ('Before adoption, the −12 V in-job result was first reported as a 0.85 V reference-side step. That was a '
               'misreading: the 0.85 V is the gradual rise of the XU16A clamp output (clpm12) across the window, and the '
-              'reference jump is the sub-millivolt timestep ring described under timestep_artefact. The report was '
+              'reference jump is the millivolt-scale timestep ring described under timestep_artefact. The report was '
               'corrected and nothing was adopted from it.')
 
 
@@ -438,20 +453,30 @@ def verified_artifact(evidence):
     return listed, runs[0]
 
 
-def build_record(evidence, run_id, artifact_id, artifact_sha256):
+def build_record(evidence, run_id, artifact_id, artifact_zip):
     evidence = Path(evidence)
     listed, run = verified_artifact(evidence)
+    _, refinement = records()
     identity_result = json.loads((evidence / 'identity.json').read_text())
-    if identity_result['status'] != 'REPRODUCED':
+    if identity_result['status'] != 'REPRODUCED' or not all(
+            all(case['matches'].values()) for case in identity_result['cases'].values()):
         raise ValueError('identity control did not reproduce; nothing is adopted')
+    for name in CASES:  # re-check the waveform identity locally instead of trusting identity.json alone
+        work = attempt_dir(run, name)
+        retained = refinement['cases'][name]
+        if (sha((work / f'{name}.dat').read_bytes()) != retained['main_waveform_sha256']
+                or sha((work / f'{name}-osc-cap.txt').read_bytes()) != retained['supplemental_waveform_sha256']):
+            raise ValueError(f'{name}: waveforms differ from the retained refinement')
     manifest = json.loads((evidence / 'manifest.json').read_text())
     in_job = json.loads((evidence / 'analysis.json').read_text())
     analysis = analyze(run)
-    _, refinement = records()
     for rail, (name, *_rest) in FAILED.items():
-        recorded = refinement['cases'][name]['rails'][rail]['worst_recorded_bound_exceedance']['slope_v_per_ms']
-        if analysis['rails'][rail]['output_slope_at_segment_v_per_ms'] != recorded:
+        recorded = refinement['cases'][name]['rails'][rail]
+        slope = recorded['worst_recorded_bound_exceedance']['slope_v_per_ms']
+        if analysis['rails'][rail]['output_slope_at_segment_v_per_ms'] != slope:
             raise ValueError(f'{rail}: output slope no longer equals the recorded failure')
+        if not slope > recorded['exception']['slope_ceiling_v_per_ms']:
+            raise ValueError(f'{rail}: the recorded slope is no longer a failure; the record wording would be false')
     return {
         'scope': 'D1 reference extraction adoption (#235); diagnostic only',
         'electrical_acceptance': 'NOT ESTABLISHED',
@@ -459,7 +484,7 @@ def build_record(evidence, run_id, artifact_id, artifact_sha256):
                                         for rail, (name, *_rest) in FAILED.items()},
         'run': {'workflow': '.github/workflows/phase33-d1-reference.yml', 'run_id': run_id,
                 'source_revision': manifest['source_revision'], 'artifact_id': artifact_id,
-                'artifact_zip_sha256': artifact_sha256, 'artifact_files_sha256': listed},
+                'artifact_zip_sha256': sha(Path(artifact_zip).read_bytes()), 'artifact_files_sha256': listed},
         'inputs': {'vendor_sha256': manifest['vendor_sha256'], 'spiceinit_sha256': manifest['spiceinit_sha256'],
                    'cases': manifest['cases']},
         'identity': {'status': identity_result['status'], 'source_revision': identity_result['source_revision'],
@@ -469,8 +494,8 @@ def build_record(evidence, run_id, artifact_id, artifact_sha256):
             'sha256': listed['analysis.json'],
             'rule': 'adjacent-sample slopes',
             'hypotheses': {rail: row['hypotheses'] for rail, row in in_job['rails'].items()},
-            'reason': 'Adjacent-sample differentiation let a nanosecond solver-timestep ring fire the -12 V reference '
-                      'rule; the committed analysis uses 2 us bin averages instead.',
+            'reason': 'Adjacent-sample differentiation is replaced by 2 us bin averages so a sub-grid solver-timestep '
+                      'ring cannot fire the reference rule (see D1-H7).',
             'corrected_attempt': MISREADING},
         'analysis': analysis,
         'timestep_artefact': timestep_ring(run),
@@ -487,8 +512,8 @@ def render_markdown(record):
     lines = [
         '# D1 reference extraction — 2026-11-11',
         '',
-        '**Diagnostic only. electrical_acceptance: NOT ESTABLISHED.** The recorded 2 us failures stay failures: '
-        + ', '.join(f'{rail} V {v:.9f} V/ms' for rail, v in record['recorded_failures_preserved'].items()) + '.',
+        f"**Diagnostic only. electrical_acceptance: {record['electrical_acceptance']}.** The recorded 2 us failures stay "
+        'failures: ' + ', '.join(f"{rail.replace('-', '−')} V {v:.9f} V/ms" for rail, v in record['recorded_failures_preserved'].items()) + '.',
         '',
         f"Run `{run['run_id']}` of `{run['workflow']}` at `{run['source_revision']}`; artifact `{run['artifact_id']}` "
         f"(zip sha256 `{run['artifact_zip_sha256']}`). Identity control: **{record['identity']['status']}** "
@@ -535,8 +560,10 @@ def render_markdown(record):
            if all(hyp(r, 'D1-H6 reference-side') == REFUTED for r in a) else
            'The reference side is not refuted on every rail; see the hypothesis table.'),
         '',
-        '**Corrected attempt.** The in-job analysis used adjacent-sample slopes and classified the −12 V '
-        'reference edge as SUPPORTED. ' + record['superseded_in_job_analysis']['corrected_attempt'],
+        '**Corrected attempt.** The in-job analysis used adjacent-sample slopes and classified the reference edge as '
+        + ', '.join(f"{v.get('D1-H6 clamp-release reference edge')} ({rail.replace('-', '−')} V)"
+                    for rail, v in record['superseded_in_job_analysis']['hypotheses'].items())
+        + '. ' + record['superseded_in_job_analysis']['corrected_attempt'],
         '',
         'No pre-bias variant, correction candidate, contract change or tolerance is adopted. '
         '`d1-reference-20261111.json` holds every hash and value.',
@@ -587,11 +614,11 @@ def main(argv=None):
     c = sub.add_parser('collect'); c.add_argument('work', type=Path); c.add_argument('--evidence', type=Path, required=True)
     c.add_argument('--extra-dir', type=Path)
     r = sub.add_parser('record'); r.add_argument('evidence', type=Path); r.add_argument('--run-id', type=int, required=True)
-    r.add_argument('--artifact-id', type=int, required=True); r.add_argument('--artifact-sha256', required=True)
+    r.add_argument('--artifact-id', type=int, required=True); r.add_argument('--artifact-zip', type=Path, required=True)
     k = sub.add_parser('check-record')
     args = parser.parse_args(argv)
     if args.command == 'record':
-        record = build_record(args.evidence, args.run_id, args.artifact_id, args.artifact_sha256)
+        record = build_record(args.evidence, args.run_id, args.artifact_id, args.artifact_zip)
         RECORD.write_text(json.dumps(record, indent=2) + '\n')
         RECORD_MD.write_text(render_markdown(record))
         return 0

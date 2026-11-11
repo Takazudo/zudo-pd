@@ -86,8 +86,8 @@
         "D1-H4 pre-bias overshoot": "UNRESOLVED (needs the paired variant run)"
       }
     },
-    "reason": "Adjacent-sample differentiation let a nanosecond solver-timestep ring fire the -12 V reference rule; the committed analysis uses 2 us bin averages instead.",
-    "corrected_attempt": "Before adoption, the -12 V in-job result was first reported as a 0.85 V reference-side step. That was a misreading: the 0.85 V is the gradual rise of the XU16A clamp output (clpm12) across the window, and the reference jump is the sub-millivolt timestep ring described under timestep_artefact. The report was corrected and nothing was adopted from it."
+    "reason": "Adjacent-sample differentiation is replaced by 2 us bin averages so a sub-grid solver-timestep ring cannot fire the reference rule (see D1-H7).",
+    "corrected_attempt": "Before adoption, the \u221212 V in-job result was first reported as a 0.85 V reference-side step. That was a misreading: the 0.85 V is the gradual rise of the XU16A clamp output (clpm12) across the window, and the reference jump is the millivolt-scale timestep ring described under timestep_artefact. The report was corrected and nothing was adopted from it."
   },
   "analysis": {
     "scope": "D1 reference extraction; diagnostic only",
@@ -111,6 +111,7 @@
         "adjacent_sample_scaled_reference_peak_v_per_ms": 0.11919452442552783,
         "adjacent_sample_peak_offset_from_segment_us": -96.0,
         "adjacent_sample_peak_dt_s": 2.000000000002e-06,
+        "adjacent_sample_peak_cluster_sign_reversals": null,
         "minimum_timestep_in_window_s": 1.9999999999742446e-06,
         "ideal_tracking_max_slope_v_per_ms": 0.3137,
         "exception_slope_ceiling_v_per_ms": 0.95,
@@ -146,6 +147,7 @@
         "adjacent_sample_scaled_reference_peak_v_per_ms": 3730.2284011757242,
         "adjacent_sample_peak_offset_from_segment_us": -44.264,
         "adjacent_sample_peak_dt_s": 2.1100186875511184e-09,
+        "adjacent_sample_peak_cluster_sign_reversals": 18,
         "minimum_timestep_in_window_s": 1.0856290866279039e-10,
         "ideal_tracking_max_slope_v_per_ms": 0.7611,
         "exception_slope_ceiling_v_per_ms": 1.47,

@@ -145,6 +145,12 @@ def scope_matrix(refs=None, deck=None):
 
 
 # ---------------------------------------------------------------- D1 startup
+def ideal_tracking_slopes(calc):
+    """Ideal k x RAMP tracking slope per rail at the RAMP capacitance tolerance corners (calculated only)."""
+    ramps = calc.ramps()
+    return {r: max(case[r]['slope0_v_per_ms'] for case in ramps['cases_c_tolerance']) for r in ('+12', '+5', '-12')}
+
+
 def startup(calc, reference=D1_REFERENCE):
     extracted = json.loads(Path(reference).read_text())
     ref = extracted['analysis']['rails']
@@ -155,8 +161,7 @@ def startup(calc, reference=D1_REFERENCE):
 
     ring = extracted['timestep_artefact']
     source = f"run {extracted['run']['run_id']} ({extracted['identity']['status']}, {D1_REFERENCE.name})"
-    ramps = calc.ramps()
-    ideal = {r: max(case[r]['slope0_v_per_ms'] for case in ramps['cases_c_tolerance']) for r in ('+12', '+5', '-12')}
+    ideal = ideal_tracking_slopes(calc)
     rows = {}
     peaks = recorded_peaks()
 
@@ -198,7 +203,8 @@ def startup(calc, reference=D1_REFERENCE):
              'evidence': 'Scaled per-rail reference peaks between 2 us bin averages are '
                          + ' and '.join(f"{ref[r]['scaled_reference_peak_near_segment_v_per_ms']:.4f} V/ms ({r}, ideal "
                                         f"{ref[r]['ideal_tracking_max_slope_v_per_ms']})" for r in ref)
-                         + '; the clamp diodes stay reverse-biased across each window ('
+                         + ('; the clamp diodes stay reverse-biased across each window (' if verdict('D1-H6 clamp-diode') == REFUTED
+                            else '; clamp-diode voltage across each window (')
                          + '; '.join(f"{r}: {ref[r]['clamp_diode_voltage_v']['window_min']:.3f} to "
                                      f"{ref[r]['clamp_diode_voltage_v']['window_max']:.3f} V" for r in ref)
                          + ('). The excursions lie downstream of the reference' if verdict('D1-H6 reference-side') == REFUTED
@@ -210,8 +216,9 @@ def startup(calc, reference=D1_REFERENCE):
                          f"inside a {ring['cluster_samples']}-sample cluster (minimum step {ring['cluster_min_dt_s'] * 1e9:.3f} ns) "
                          f"where {ring['node']} rings {ring['node_peak_to_peak_in_cluster_v'] * 1e3:.3f} mV peak to peak with "
                          f"{ring['node_sign_reversals_in_cluster']} sign reversals as the XU16A clamp output reaches "
-                         f"{ring['clamp_output_at_cluster_start_v']:.3f} V. The 2 us bin-average analysis no longer lets such a "
-                         'step fire the rule; the in-job adjacent-sample classification is retained as superseded.'},
+                         f"{ring['clamp_output_at_cluster_start_v']:.3f} V."
+                         + (' The 2 us bin-average analysis no longer lets such a step fire the rule; the in-job '
+                            'adjacent-sample classification is retained as superseded.' if SUPPORTED in verdict('D1-H7') else '')},
             {'id': 'D1-H2', 'claim': 'The excess is a maximum-step artefact',
              'conclusion': REFUTED + ' for maximum step; UNRESOLVED for other solver settings and macromodel accuracy',
              'evidence': f"5 us to 2 us changes the peak by {rows['+5']['step_change_5us_to_2us_pct']:+.5f} % (+5) and "
@@ -414,6 +421,11 @@ def maximum_current(calc):
     }
 
 
+def reference_side_refuted(reference=D1_REFERENCE):
+    rails = json.loads(Path(reference).read_text())['analysis']['rails'].values()
+    return all(row['hypotheses']['D1-H6 reference-side edge'] == REFUTED for row in rails)
+
+
 def findings():
     calc = calculator()
     return {
@@ -427,9 +439,11 @@ def findings():
         'd2_discharge': discharge(calc),
         'd3_maximum_current': maximum_current(calc),
         'next_inputs': [
-            'D1: the reference side is refuted; separate downstream hypotheses (pre-bias overshoot D1-H4, clamp or servo '
-            'amplifier saturation and recovery, pass-device or output-capacitor interaction) and the cheapest discriminating '
-            'run are a proposal only; nothing is run before admission.',
+            ('D1: the reference side is refuted; separate downstream hypotheses (pre-bias overshoot D1-H4, clamp or servo '
+             'amplifier saturation and recovery, pass-device or output-capacitor interaction) and the cheapest discriminating '
+             'run are a proposal only; nothing is run before admission.'
+             if reference_side_refuted() else
+             'D1: the reference side is not refuted on every rail; resolve it before downstream hypotheses.'),
             'D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a numeric definition of '
             "'absent', and device switching data for the disconnect/discharge edge.",
             'D3: a guaranteed detection-to-switch-off time and a load-side di/dt bound, or an explicitly agreed regulating '

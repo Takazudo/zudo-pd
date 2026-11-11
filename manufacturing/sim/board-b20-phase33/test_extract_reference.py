@@ -274,6 +274,23 @@ class AnalysisTests(unittest.TestCase):
         self.assertGreaterEqual(ring_record['node_sign_reversals_in_cluster'], 10)
         self.assertAlmostEqual(ring_record['node_peak_to_peak_in_cluster_v'], 2e-3, delta=1e-5)
 
+    def test_bins_outside_the_record_are_dropped(self):
+        times = [i * 1e-6 for i in range(400)]
+        values = [1.0 + 0.1 * t * 1e3 for t in times]  # 0.1 V/ms riding on 1 V, excursion near both record ends
+        for start in (50e-6, 330e-6):
+            out = ex.grid_slopes(times, values, 1.0, start, start + 2e-6)
+            self.assertTrue(out)
+            self.assertTrue(all(abs(slope - 0.1) < 1e-9 for _, slope in out), start)
+
+    def test_a_long_step_is_not_called_a_timestep_artefact(self):
+        times = [0.0, 1e-6, 3e-6, 4e-6]  # the peak interval is 2 us, not a sub-grid cluster
+        self.assertIsNone(ex.cluster(times, [0, 0, 1, 1], 1))
+        self.assertEqual(ex.timestep_artefact(5.0, 0.5, 1.47, None), ex.UNRESOLVED)
+        self.assertEqual(ex.timestep_artefact(5.0, 0.5, 1.47, (0, 3, 1)), ex.UNRESOLVED)  # no alternating ring
+        self.assertEqual(ex.timestep_artefact(5.0, 0.5, 1.47, (0, 3, 2)), ex.SUPPORTED)
+        self.assertEqual(ex.timestep_artefact(5.0, 2.0, 1.47, (0, 3, 9)), ex.REFUTED)
+        self.assertTrue(ex.timestep_artefact(1.0, 0.5, 1.47, None).startswith('NOT APPLICABLE'))
+
     def test_bin_slopes_are_exact_for_a_linear_waveform(self):
         times = [i * 1e-6 for i in range(400)]
         values = [0.5 * t * 1e3 for t in times]  # 0.5 V/ms
@@ -287,6 +304,12 @@ class RecordTests(unittest.TestCase):
     def test_prose_is_generated_from_the_record(self):
         self.assertEqual(ex.RECORD_MD.read_text(), ex.render_markdown(self.RECORD))
         self.assertEqual(ex.main(['check-record']), 0)
+        altered = json.loads(json.dumps(self.RECORD))
+        altered['superseded_in_job_analysis']['hypotheses']['-12']['D1-H6 clamp-release reference edge'] = ex.REFUTED
+        altered['analysis']['rails']['-12']['hypotheses']['D1-H6 reference-side edge'] = ex.UNRESOLVED
+        text = ex.render_markdown(altered)
+        self.assertIn('REFUTED (+5 V), REFUTED (−12 V)', text)
+        self.assertNotIn('lie downstream of the reference', text)
 
     def test_record_keeps_acceptance_open_and_failures_recorded(self):
         record = self.RECORD
@@ -313,8 +336,10 @@ class RecordTests(unittest.TestCase):
                 self.assertEqual(h['D1-H1 recorded common RAMP too steep'], ex.classify(common, ideal, ceiling))
                 self.assertEqual(h['D1-H6 clamp-diode release'],
                                  ex.REFUTED if row['clamp_diode_voltage_v']['window_max'] < 0 else ex.UNRESOLVED)
+                reversals = row['adjacent_sample_peak_cluster_sign_reversals']
                 self.assertEqual(h['D1-H7 adjacent-sample trigger is a solver-timestep artefact'],
-                                 ex.timestep_artefact(row['adjacent_sample_scaled_reference_peak_v_per_ms'], peak, ceiling))
+                                 ex.timestep_artefact(row['adjacent_sample_scaled_reference_peak_v_per_ms'], peak, ceiling,
+                                                      None if reversals is None else (0, 0, reversals)))
 
     def test_tampered_artifact_is_refused(self):
         with tempfile.TemporaryDirectory() as tmp:

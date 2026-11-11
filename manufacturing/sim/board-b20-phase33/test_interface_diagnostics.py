@@ -199,6 +199,33 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertIn(' / '.join(f"{margins[r]['margin_a'] * 1e3:.2f}" for r in ('+12', '-12', '+5')) + ' mA', record)
         self.assertIn(f"{margins['-12']['margin_a'] * 1e3:.2f} mA/µs", record)
 
+    def test_d1_prose_follows_the_record_verdicts(self):
+        record = json.loads(diag.D1_REFERENCE.read_text())
+        rails = record['analysis']['rails']
+        rails['-12']['hypotheses']['D1-H6 clamp-diode release'] = diag.UNRESOLVED
+        rails['-12']['hypotheses']['D1-H6 reference-side edge'] = diag.UNRESOLVED
+        rails['-12']['hypotheses']['D1-H7 adjacent-sample trigger is a solver-timestep artefact'] = diag.REFUTED
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'record.json'
+            path.write_text(json.dumps(record))
+            report = diag.startup(self.calc, reference=path)
+            self.assertFalse(diag.reference_side_refuted(path))
+        h6 = self.hypothesis(report, 'D1-H6')
+        self.assertIn('-12: UNRESOLVED', h6['conclusion'])
+        self.assertNotIn('reverse-biased', h6['evidence'])
+        self.assertNotIn('downstream', h6['evidence'])
+        self.assertNotIn('no longer lets', self.hypothesis(report, 'D1-H7')['evidence'])
+
+    def test_md_d1_rows_match_the_retained_conclusions(self):
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        d1 = {h['id']: h['conclusion'] for h in json.loads(RETAINED.read_text())['d1_startup']['hypotheses']}
+        self.assertEqual(d1['D1-H6'], f'{diag.REFUTED} for a reference-side edge; {diag.REFUTED} for clamp-diode release')
+        self.assertIn('**Refuted** for a reference-side edge and for clamp-diode release', md)
+        self.assertEqual(d1['D1-H7'], '+5: NOT APPLICABLE (the adjacent-sample rule did not fire); -12: SUPPORTED')
+        self.assertIn('**Supported** for −12 (not applicable to +5)', md)
+        self.assertTrue(d1['D1-H1'].endswith(f'{diag.REFUTED} for the recorded v(ramp)'))
+        self.assertIn('and for the recorded `v(ramp)`', md)
+
     def test_retained_findings_are_fresh(self):
         self.assertEqual(json.loads(RETAINED.read_text()), diag.findings())
         self.assertEqual(diag.main(['--check', str(RETAINED)]), 0)
