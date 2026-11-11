@@ -148,7 +148,16 @@ def startup(calc):
     ramps = calc.ramps()
     ideal = {r: max(case[r]['slope0_v_per_ms'] for case in ramps['cases_c_tolerance']) for r in ('+12', '+5', '-12')}
     rows = {}
-    for rail, peak in recorded_peaks().items():
+    peaks = recorded_peaks()
+
+    def binding(rail):
+        current_slope = rows[rail]['exception_current_equivalent_slope_v_per_ms']
+        slope = peaks[rail]['exception']['slope_v_per_ms']
+        if math.isclose(current_slope, slope):
+            return 'equal'
+        return 'slope ceiling tighter' if slope < current_slope else 'current ceiling tighter'
+
+    for rail, peak in peaks.items():
         c = calc.C_LOAD_MAX[rail]
         ex = peak['exception']
         rows[rail] = {
@@ -176,15 +185,20 @@ def startup(calc):
                          'v(ramp); the per-rail reference nodes and their timing against the excursions are the next check.'},
             {'id': 'D1-H2', 'claim': 'The excess is a maximum-step artefact',
              'conclusion': REFUTED + ' for maximum step; UNRESOLVED for other solver settings and macromodel accuracy',
-             'evidence': '5 us to 2 us changes each peak by about +0.01 %; reltol/abstol/method and vendor-model fidelity '
-                         'were not varied for these cases.'},
+             'evidence': f"5 us to 2 us changes the peak by {rows['+5']['step_change_5us_to_2us_pct']:+.5f} % (+5) and "
+                         f"{rows['-12']['step_change_5us_to_2us_pct']:+.5f} % (-12); reltol/abstol/method and vendor-model "
+                         'fidelity were not varied for these cases.'},
             {'id': 'D1-H3', 'claim': 'Slope and current exceedances are one constraint, not two',
              'conclusion': SUPPORTED,
-             'evidence': 'The recorded ESR-branch currents equal C x dV/dt at the peak within ESR effects, and each current '
-                         'ceiling corresponds to the slope ceiling at contract capacitance (114 mA / 120 uF = 0.95 V/ms; '
-                         '265 mA / 180 uF = 1.4722 V/ms, so the 1.47 V/ms slope ceiling is the slightly tighter one). '
-                         'For the modeled pure C + ESR load a correction must reduce the slope; a current-only argument '
-                         'cannot pass. A load with a resistive or nonlinear part would separate the two.'},
+             'evidence': 'The recorded ESR-branch currents equal C x dV/dt at the peak within ESR effects ('
+                         + '; '.join(f"{r}: {rows[r]['capacitive_current_at_peak_a'] * 1e3:.2f} vs "
+                                     f"{rows[r]['recorded_esr_branch_current_a'] * 1e3:.2f} mA" for r in rows)
+                         + '), and each current ceiling corresponds to the slope ceiling at contract capacitance ('
+                         + '; '.join(f"{peaks[r]['exception']['current_a'] * 1e3:g} mA / {calc.C_LOAD_MAX[r] * 1e6:g} uF = "
+                                     f"{rows[r]['exception_current_equivalent_slope_v_per_ms']:g} V/ms against "
+                                     f"{peaks[r]['exception']['slope_v_per_ms']:g} V/ms ({binding(r)})" for r in rows)
+                         + '). For the modeled pure C + ESR load a correction must reduce the slope; a current-only '
+                         'argument cannot pass. A load with a resistive or nonlinear part would separate the two.'},
             {'id': 'D1-H4', 'claim': 'No-load excursions come from the pair passing its pre-bias target near conduction onset '
                                      'with no load to pull the output back',
              'conclusion': UNRESOLVED,
@@ -346,6 +360,7 @@ def maximum_current(calc):
                       'margin_a': round(margin, 5),
                       'allowed_di_dt_a_per_us_at_1us_response': round(margin, 5),
                       'bound_without_timing': delivered_current_bound(lim[rail]['trip_max_a'])}
+    tightest = min(((r, row['allowed_di_dt_a_per_us_at_1us_response']) for r, row in rows.items()), key=lambda x: x[1])
     return {
         'rails': rows,
         'response_chain': [
@@ -362,8 +377,10 @@ def maximum_current(calc):
                          'so the worst-case delivered peak is at least trip_max; trip_max is not an upper bound.'},
             {'id': 'D3-H2', 'claim': 'Delivered current including overshoot stays within the contract maximum',
              'conclusion': UNRESOLVED,
-             'evidence': 'Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound; with margins of '
-                         'tens of mA, even 1 us response allows only tens of mA/us growth.'},
+             'evidence': 'Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound. Margins are '
+                         + ' / '.join(f"{rows[r]['margin_a'] * 1e3:.2f}" for r in rows) + ' mA ('
+                         + ' / '.join(rows) + f"), so even a 1 us total response allows at most {tightest[1] * 1e3:.2f} "
+                         f"mA/us of growth on {tightest[0]}."},
         ],
     }
 
