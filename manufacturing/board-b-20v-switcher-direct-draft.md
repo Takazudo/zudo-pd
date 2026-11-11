@@ -57,7 +57,8 @@ flowchart LR
 - **Servo.** OPA2187 integrators compare a 0.1 % divider of each `*_SH` node (after the shunt) with
   REF5025. They inject a bounded current into the converter FB node. Only the switch-pair drop is
   outside the loop. The loop time constant is about 5 ms (5.03 / 5.56 / 5.12 ms), so the rails settle
-  long before the earliest enable (RDY ≥ 0.21 s).
+  before the earliest enable (RDY ≥ 0.184 s at the 25 °C tolerance corner; nominal 0.21 s is historical).
+  The 5 × settle project screen fails at that corner; see readiness D11.
 - **Common tracking start.** RAMP rises from REF25 through 20 kΩ into 1.47 µF (CRMP 1 µF + CRMP2 470 nF,
   phase 9). A BSS138 holds it at 0 V
   while EN_N is high and for 56–108 ms after enable (RRMD 100 kΩ / CRMD 470 nF, phase 10; 12–23 ms with
@@ -80,7 +81,7 @@ flowchart LR
 - **Reverse blocking.** Back-to-back CSD18543Q3A common-source pairs sit on every rail, with a
   BZT52C11 gate-source clamp on each pair.
 - **Latch and enable.** The fault latch Q30/Q31 is held reset for 10.7–36 ms after P5_SUP rises (POR).
-  The enable latch is set by RDY (PDOK valid for 0.21–0.73 s) and reset by the fault latch. Only a
+  The enable latch is set by RDY (PDOK valid for 0.184–0.807 s at tolerance corners; nominal 0.21–0.73 s historical) and reset by the fault latch. Only a
   re-plug clears a fault.
 - **Shutdown and discharge.** EN_N high pulls all three gates off (the −12 V gate through the Q24/Q25
   level shifter) and resets RAMP. CDH (10 µF) is charged from EN_E only while enabled. When EN_E falls,
@@ -998,8 +999,8 @@ phase 12 behavioural elements (PA): the BSS138 switches, the body diodes and the
 | +5 V ≤ 0.8 V before both analog rails are "up" | **OPEN (definition)** | As drawn, +5 V ≤ 0.69 V (SIM) while either analog rail is below 1.45 V, and reaches 3.39 V by the time both reach 8 V. Which level means "up" is a question for OSC (§5c) |
 | OV/UV windows (§6) | **PASS** | All three rails fit, using actual E192 resistor values |
 | VIN undervoltage (§6) | **PASS** | Trips at 16.86–17.04 V, below 19 V (PA). The U5B input is 1.86 V at the Board P overshoot bound |
-| Contract detect before enable (§6) | **PASS (topology), polarity G-U** | RDY needs PDOK valid for 0.21–0.73 s; POR ends at 36 ms at most. PDOK low = PDO2 explicit contract (POWER_OK_CFG 10b, DS12499 Rev 7 Table 4, mirror authority) |
-| Servo settled before enable (review finding 2) | **PASS** | Loop time constants 5.03 / 5.56 / 5.12 ms against RDY ≥ 0.21 s |
+| Contract detect before enable (§6) | **PASS (topology), polarity G-U** | RDY needs PDOK valid for 0.184–0.807 s (tolerance corners, readiness D11; nominal 0.21–0.73 s historical); POR ends at 40.4 ms at most. PDOK low = PDO2 explicit contract (POWER_OK_CFG 10b, DS12499 Rev 7 Table 4, mirror authority) |
+| Servo settled before enable (review finding 2) | **FAIL (tolerance corner, 2026-11-11, project screen; see readiness D11)**; historical nominal-RC PASS | Loop time constants 5.03 / 5.56 / 5.12 ms; 5 × settle 0.1919 s against earliest RDY 0.18405 s (nominal 0.21 s historical) |
 | P5_SUP independence (review finding 7) | **PASS (topology), single-fault OPEN** | U14 is separate from the +5 V output chain. A U14 failure still removes all supervision; that single fault is OPEN |
 | U4 40 V margin | **PASS** | The inverter IC sees VIN + \|Vout\| ≤ 37.6 V against 60 V operating and 65 V absolute (G) |
 | Converter current | **PASS** | Switch peaks 2.73 / 0.90 / 4.01 A against a 6.3 A minimum current limit (G) |
@@ -1255,7 +1256,7 @@ from conduction, so each pair started late and caught up in a step.
 moves to 56.4–108.1 ms after enable. The gates can then climb at least 6.70 V before the earliest
 release (`calculate-board-b20-draft.py`). CSD18543Q3A VGS(th) is not in its bundle, so the climb is
 stated rather than compared with a threshold (UNSOURCED). There is no slowest-ramp limit in the
-contract. Band entry now comes about 140 ms after enable instead of 53 ms. RDY (≥ 0.21 s) gates enable
+contract. Band entry now comes about 140 ms after enable instead of 53 ms. RDY (≥ 0.184 s at the tolerance corner; nominal 0.21 s historical) gates enable
 and is unaffected. The common ramp now takes about 53 ms from first rise to band entry, beyond the 20–50 ms
 PWR-C1 candidate. Part of the lower slope comes from the generic Q12 switch model releasing gradually
 as its gate falls slowly (PA). After a disable, RAMP is reset 5.0–16.8 ms later instead of 1.1–3.6 ms. A
@@ -1346,7 +1347,7 @@ GND (it was held there while enabled), so the hold runs again when P5_SUP return
 end uses VGS(th) 0.5 V (PA minimum; the bundle has only the 1.5 V maximum), CHO at 0.6 µF effective (−40 %,
 DC bias and tolerance PA) and P5_SUP high. The long end uses 1.5 V, 1.1 µF and P5_SUP low. The RAMP reset
 is engaged by 17.1 ms at the latest, so every re-enable lands after it. 121 ms is below the earliest RDY
-(214 ms), so the first start is not delayed. Cost: +2 × C22807, +1 × C15849, +2 × C40912. That is
+(184 ms at the tolerance corner, readiness D11; nominal 214 ms historical), so the first start is not delayed. Cost: +2 × C22807, +1 × C15849, +2 × C40912. That is
 USD 0.11 per board at the 2026-10-31 catalog tiers, and adds no new BOM line.
 
 **Simulation** (`manufacturing/sim/board-b20-phase12/`, 14 runs, all completed). The decks use the shortest
@@ -1389,7 +1390,7 @@ needs a fix. OSC has since accepted ≤ 0.95 V/ms (phase 32 status in §5d); own
 | Finding | Severity | Phase-7 state |
 |---|---|---|
 | 1. INA301 LIMIT ~80 µA source current omitted | HIGH | **Fixed.** LIMIT dividers recomputed with ILIMIT 79.2–80.8 µA (G): windows above |
-| 2. Servo time constants 3.5–19.6 s vs enable at 26–53 ms | HIGH | **Fixed.** Servo senses at `*_SH`, tau about 5 ms; RDY now 0.21–0.73 s |
+| 2. Servo time constants 3.5–19.6 s vs enable at 26–53 ms | HIGH | **Fixed.** Servo senses at `*_SH`, tau about 5 ms; RDY now 0.21–0.73 s (nominal; tolerance corners and the reopened 5 × settle screen are readiness D11) |
 | 3. No inrush limit from Board P C3 when Q1 closes | HIGH | **Fixed on paper (Board P draft).** Miller soft start C36/Q5/R27: 3.1–10 V/ms, ≤ 2.5 A. Q1 SOA OPEN |
 | 4. +2.9 V margin to 28 V rests on typical figures | HIGH | **OPEN.** L7 stays BLOCKING; only the TVS2200 clamp bounds the node (`manufacturing/input-protection-20v.md`) |
 | 5. Rail lead 0.51–0.90 V vs ≤ 0.5 V | MEDIUM | **Fixed (SIM).** Common tracking start: +12 leads \|−12\| by at most 0.24 V |
@@ -1397,5 +1398,5 @@ needs a fix. OSC has since accepted ≤ 0.95 V/ms (phase 32 status in §5d); own
 | 7. +5 V buck powering its own supervision | MEDIUM | **Fixed (topology).** U14 P5_SUP. A U14 single fault is OPEN |
 | 8. Discharge hold-up | MEDIUM | **Fixed.** CDH charged only while enabled; 0.48–1.33 s window |
 | 9. STUSB4500 VBUS sense behind the eFuse | MEDIUM | **OPEN.** Needs DS12499 behaviour with VBUS_P lagging VBUS_IN, or a bench check |
-| 10. Timing and margin claims | LOW | **Partly fixed.** RDY is 0.21–0.73 s and POR ends by 36 ms, so they no longer overlap. R14 + R28 = 940 Ω gives 26.7 mA at 25.1 V. Q55 VGS is 11.2 V. The OVP `node_rows` use the fitted 22.57 V. **OPEN:** the 20 mV UVLO margin to vSafe5V (unchanged, trade-off against the OVP divider), the VBEN 3.15 mA sink rating, and the C3 polarity confirmation |
+| 10. Timing and margin claims | LOW | **Partly fixed.** RDY is 0.21–0.73 s and POR ends by 36 ms (nominal; at tolerance corners 0.184–0.807 s and 40.4 ms, readiness D11), so they no longer overlap. R14 + R28 = 940 Ω gives 26.7 mA at 25.1 V. Q55 VGS is 11.2 V. The OVP `node_rows` use the fitted 22.57 V. **OPEN:** the 20 mV UVLO margin to vSafe5V (unchanged, trade-off against the OVP divider), the VBEN 3.15 mA sink rating, and the C3 polarity confirmation |
 | 11. Shared compensation; OPA2187 input diodes load REF25 | LOW | **Fixed.** Per-stage compensation, verified in §5. The REF5025 load budget is 3.0 mA, including the comparator input-diode current |
