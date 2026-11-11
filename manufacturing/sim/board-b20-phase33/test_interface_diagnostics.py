@@ -162,6 +162,11 @@ class DiagnosticsTests(unittest.TestCase):
             self.assertNotEqual(h2, self.hypothesis(retained['d1_startup'], 'D1-H2')['evidence'])
             self.assertNotEqual(diag.findings(), retained)
             self.assertEqual(diag.main(['--check', str(RETAINED)]), 1)
+        drifted = copy.deepcopy(real)
+        drifted['-12']['exception']['current_a'] = 0.2640
+        with mock.patch.object(diag, 'recorded_peaks', return_value=drifted):
+            h3 = self.hypothesis(diag.startup(self.calc), 'D1-H3')['evidence']
+            self.assertIn('264 mA / 180 uF = 1.4667 V/ms against 1.47 V/ms (current ceiling tighter)', h3)
         calc = diag.calculator()
         calc.I_MAX = {**calc.I_MAX, '-12': calc.I_MAX['-12'] + 0.02}
         d3 = self.hypothesis(diag.maximum_current(calc), 'D3-H2')['evidence']
@@ -181,6 +186,9 @@ class DiagnosticsTests(unittest.TestCase):
         rails = diag.startup(self.calc)['rails']
         self.assertIn(f"changes the peak by {rails['+5']['step_change_5us_to_2us_pct']:+.5f} % (+5)", record)
         self.assertIn(f"{rails['-12']['step_change_5us_to_2us_pct']:+.5f} % (−12)", record)
+        self.assertIn('0.95 V/ms equals the +5 slope ceiling', record)
+        self.assertIn(f"{rails['-12']['exception_current_equivalent_slope_v_per_ms']} V/ms makes the 1.47 V/ms −12 slope "
+                      'ceiling slightly tighter', record)
         margins = diag.maximum_current(self.calc)['rails']
         self.assertIn(' / '.join(f"{margins[r]['margin_a'] * 1e3:.2f}" for r in ('+12', '-12', '+5')) + ' mA', record)
         self.assertIn(f"{margins['-12']['margin_a'] * 1e3:.2f} mA/µs", record)

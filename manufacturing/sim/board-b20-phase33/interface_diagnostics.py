@@ -151,7 +151,7 @@ def startup(calc):
     peaks = recorded_peaks()
 
     def binding(rail):
-        current_slope = rows[rail]['exception_current_equivalent_slope_v_per_ms']
+        current_slope = peaks[rail]['exception']['current_a'] / calc.C_LOAD_MAX[rail] / 1e3
         slope = peaks[rail]['exception']['slope_v_per_ms']
         if math.isclose(current_slope, slope):
             return 'equal'
