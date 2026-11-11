@@ -1,0 +1,187 @@
+{
+  "scope": "D1 reference extraction adoption (#235); diagnostic only",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "recorded_failures_preserved": {
+    "+5": 0.9548508602735011,
+    "-12": 1.4747780001127768
+  },
+  "run": {
+    "workflow": ".github/workflows/phase33-d1-reference.yml",
+    "run_id": 43087070975,
+    "source_revision": "bdfc02a8bb0bccb53f899635dce01488553571ca",
+    "artifact_id": 13887047549,
+    "artifact_zip_sha256": "f80073b2400c788cbde533e45637639e31a6c5a456d52f0e5fb004d6ae00ed66",
+    "artifact_files_sha256": {
+      "analysis.json": "70b178946adcb0624d9910f6e0afb3f8ab07c54a6ab43de290df6f4544830b59",
+      "identity.json": "fb5167b8eea14472bedd2e5e3c1d4170283fa1168ad3b025124af2bef5db7a49",
+      "ladder-pd3wnkls/adv/adv-osc-cap.txt": "8587f2eb8a40b83cbda01bf8352501621aa4a00bb9a558afa8c366733b48a4a8",
+      "ladder-pd3wnkls/adv/adv-ref.txt": "a5fdc8be9a9801c6030cd0ebdfc302651a825dcb3f00b5e988824177cf781ea2",
+      "ladder-pd3wnkls/adv/adv.cir": "2c3a5d08731ff20d2057d7fae7a8ac2b893cd59fdad1297dcd130b98542b4b9f",
+      "ladder-pd3wnkls/adv/adv.dat": "b7ad2e0055004d16c0d890448a2293e1cb59799aa15ecfdbbafe04c4015809e5",
+      "ladder-pd3wnkls/adv/adv.log": "64e9bac35ba8d577b988c5478883cd51e7b39bc0b225a30b040f9899b1208c1d",
+      "ladder-pd3wnkls/nom/nom-osc-cap.txt": "93166b6e4b8ba8a91af50f87547d74e8eeb905f17c318aadd2daafcd1e889203",
+      "ladder-pd3wnkls/nom/nom-ref.txt": "69cba2939455779463382876906aee7b5398b42a227ca5171045188bf30894b3",
+      "ladder-pd3wnkls/nom/nom.cir": "b9d464bc88329d290990e71f8b1aad722be0e209ec3fca891a116bbd89908897",
+      "ladder-pd3wnkls/nom/nom.dat": "2c704109df06d060267b0bcdeeb9312dcc7260cd107cee309bebf10cdcc1114d",
+      "ladder-pd3wnkls/nom/nom.log": "d4b0232808c26a733df16115f0e6612752f41a5ef8487dacad31eb163ad8f631",
+      "ladder-pd3wnkls/receipt.json": "7c6bac04336f197bebd69686e56654afba84d78a2f6fbda00d4f29e292946f61",
+      "manifest.json": "7457821edb41a6d847aa807a92b2c4a3b08c5569a44e01cccd43e1da182cdc0d",
+      "runner-output.txt": "d5b8d9d7b79908daacffa683d0c9258d8e2bc6ef713f52059c6dc193b4b742e8"
+    }
+  },
+  "inputs": {
+    "vendor_sha256": {
+      "sbomab6.zip": "50c3c188a17bca04f2760feac9c5e6350561eb12a1e25d5a2c19b08dcc2b3930",
+      "sbomab6/OPAx187.LIB": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "slpm286.zip": "fbf5e0b576e11f2e0a1a65b0b2c589f86a182ae9ef5c412a0b0b98cd8c569715",
+      "slpm286/CSD18543Q3A.LIB": "fa4ef72177bc7691b956ef047985e6fc0a490ae1e12d41295c787e6e51dba170",
+      "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8"
+    },
+    "spiceinit_sha256": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+    "cases": {
+      "nom": {
+        "refined_deck_sha256": "b6ea0228c7b91324a43ac730a1867652b20cd3817dbad974e3100e8c5013b229",
+        "executed_deck_sha256": "b9d464bc88329d290990e71f8b1aad722be0e209ec3fca891a116bbd89908897",
+        "added_output_only_line": "wrdata nom-ref.txt v(ramp) v(ramp_p12) v(ramp_p5) v(ramp_m12) v(clp12) v(clp5) v(clpm12)"
+      },
+      "adv": {
+        "refined_deck_sha256": "5a90586ca3c08c6757640a00327b509b67d58885aca5c5ca12dc140bce6be4a0",
+        "executed_deck_sha256": "2c3a5d08731ff20d2057d7fae7a8ac2b893cd59fdad1297dcd130b98542b4b9f",
+        "added_output_only_line": "wrdata adv-ref.txt v(ramp) v(ramp_p12) v(ramp_p5) v(ramp_m12) v(clp12) v(clp5) v(clpm12)"
+      }
+    }
+  },
+  "identity": {
+    "status": "REPRODUCED",
+    "source_revision": "bdfc02a8bb0bccb53f899635dce01488553571ca",
+    "solver_identity_matches": true,
+    "cases": {
+      "nom": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      },
+      "adv": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      }
+    }
+  },
+  "superseded_in_job_analysis": {
+    "sha256": "70b178946adcb0624d9910f6e0afb3f8ab07c54a6ab43de290df6f4544830b59",
+    "rule": "adjacent-sample slopes",
+    "hypotheses": {
+      "+5": {
+        "D1-H6 clamp-release reference edge": "REFUTED",
+        "D1-H1 recorded common RAMP too steep": "REFUTED",
+        "D1-H4 pre-bias overshoot": "UNRESOLVED (needs the paired variant run)"
+      },
+      "-12": {
+        "D1-H6 clamp-release reference edge": "SUPPORTED",
+        "D1-H1 recorded common RAMP too steep": "REFUTED",
+        "D1-H4 pre-bias overshoot": "UNRESOLVED (needs the paired variant run)"
+      }
+    },
+    "reason": "Adjacent-sample differentiation is replaced by 2 us bin averages so a sub-grid solver-timestep ring cannot fire the reference rule (see D1-H7).",
+    "corrected_attempt": "Before adoption, the \u221212 V in-job result was first reported as a 0.85 V reference-side step. That was a misreading: the 0.85 V is the gradual rise of the XU16A clamp output (clpm12) across the window, and the reference jump is the millivolt-scale timestep ring described under timestep_artefact. The report was corrected and nothing was adopted from it."
+  },
+  "analysis": {
+    "scope": "D1 reference extraction; diagnostic only",
+    "electrical_acceptance": "NOT ESTABLISHED",
+    "classification_rule": "Signed slopes in the excursion direction within +/-100 us of the recorded excursion, taken between adjacent 2 us bin averages and scaled by the deck tracking gain. REFUTED if the peak stays at or below 1.05 x the ideal tracking slope. SUPPORTED if it reaches the failed exception ceiling and, for the per-rail reference, also exceeds 1.05 x the scaled common-RAMP peak. Otherwise UNRESOLVED. Clamp-diode release is REFUTED when the diode stays reverse-biased across the window. SUPPORTED means consistent with the hypothesis in this model, not proof of cause.",
+    "rails": {
+      "+5": {
+        "case": "nom",
+        "tracking_gain_from_deck": 3.32,
+        "excursion_segment_ms": [
+          139.98643475,
+          139.98843475
+        ],
+        "output_slope_at_segment_v_per_ms": 0.9548508602735011,
+        "recorded_slope_v_per_ms": 0.9548508602735011,
+        "scaled_reference_slope_at_segment_v_per_ms": 0.11867371124955071,
+        "scaled_reference_peak_near_segment_v_per_ms": 0.11915873451322807,
+        "scaled_reference_peak_offset_from_segment_us": -100.0,
+        "scaled_common_ramp_slope_at_segment_v_per_ms": 0.11861099695053352,
+        "scaled_common_ramp_peak_near_segment_v_per_ms": 0.11915892863026356,
+        "adjacent_sample_scaled_reference_peak_v_per_ms": 0.11919452442552783,
+        "adjacent_sample_peak_offset_from_segment_us": -96.0,
+        "adjacent_sample_peak_dt_s": 2.000000000002e-06,
+        "adjacent_sample_peak_cluster_sign_reversals": null,
+        "minimum_timestep_in_window_s": 1.9999999999742446e-06,
+        "ideal_tracking_max_slope_v_per_ms": 0.3137,
+        "exception_slope_ceiling_v_per_ms": 0.95,
+        "clamp_diode_voltage_v": {
+          "window_start": -4.850038692317569,
+          "segment": -4.846457133171371,
+          "window_end": -4.842750862130611,
+          "window_min": -4.850038692317569,
+          "window_max": -4.842750862130611
+        },
+        "hypotheses": {
+          "D1-H6 reference-side edge": "REFUTED",
+          "D1-H6 clamp-diode release": "REFUTED",
+          "D1-H1 recorded common RAMP too steep": "REFUTED",
+          "D1-H7 adjacent-sample trigger is a solver-timestep artefact": "NOT APPLICABLE (the adjacent-sample rule did not fire)",
+          "D1-H4 pre-bias overshoot": "UNRESOLVED (needs the paired variant run)"
+        }
+      },
+      "-12": {
+        "case": "adv",
+        "tracking_gain_from_deck": 8.055854,
+        "excursion_segment_ms": [
+          138.255552951,
+          138.257552951
+        ],
+        "output_slope_at_segment_v_per_ms": 1.4747780001127768,
+        "recorded_slope_v_per_ms": 1.4747780001127768,
+        "scaled_reference_slope_at_segment_v_per_ms": 0.36285505778746535,
+        "scaled_reference_peak_near_segment_v_per_ms": 0.35569374661830166,
+        "scaled_reference_peak_offset_from_segment_us": -44.0,
+        "scaled_common_ramp_slope_at_segment_v_per_ms": 0.3390178206199589,
+        "scaled_common_ramp_peak_near_segment_v_per_ms": 0.3529032056534325,
+        "adjacent_sample_scaled_reference_peak_v_per_ms": 3730.2284011757242,
+        "adjacent_sample_peak_offset_from_segment_us": -44.264,
+        "adjacent_sample_peak_dt_s": 2.1100186875511184e-09,
+        "adjacent_sample_peak_cluster_sign_reversals": 18,
+        "minimum_timestep_in_window_s": 1.0856290866279039e-10,
+        "ideal_tracking_max_slope_v_per_ms": 0.7611,
+        "exception_slope_ceiling_v_per_ms": 1.47,
+        "clamp_diode_voltage_v": {
+          "window_start": -4.041145575879792,
+          "segment": -4.891251915764922,
+          "window_end": -4.8874046586765045,
+          "window_min": -4.893379330911982,
+          "window_max": -4.041145575879792
+        },
+        "hypotheses": {
+          "D1-H6 reference-side edge": "REFUTED",
+          "D1-H6 clamp-diode release": "REFUTED",
+          "D1-H1 recorded common RAMP too steep": "REFUTED",
+          "D1-H7 adjacent-sample trigger is a solver-timestep artefact": "SUPPORTED",
+          "D1-H4 pre-bias overshoot": "UNRESOLVED (needs the paired variant run)"
+        }
+      }
+    }
+  },
+  "timestep_artefact": {
+    "rail": "-12",
+    "node": "ramp_m12",
+    "peak_time_ms": 138.211289333,
+    "adjacent_scaled_peak_v_per_ms": 3730.2284011757242,
+    "adjacent_peak_dv_v": 0.0009770350496637326,
+    "adjacent_peak_dt_s": 2.1100186875511184e-09,
+    "cluster_start_ms": 138.211270429,
+    "cluster_end_ms": 138.211332055,
+    "cluster_samples": 21,
+    "cluster_min_dt_s": 2.351712158343844e-10,
+    "node_peak_to_peak_in_cluster_v": 0.001398472077645721,
+    "node_sign_reversals_in_cluster": 18,
+    "clamp_output_at_cluster_start_v": 4.962334498798529,
+    "clamp_output_at_cluster_end_v": 4.963621876142556
+  }
+}

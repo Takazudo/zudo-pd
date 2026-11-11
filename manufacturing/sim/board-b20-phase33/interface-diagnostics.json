@@ -213,14 +213,20 @@
       {
         "id": "D1-H1",
         "claim": "The designed common RAMP slope itself is too steep",
-        "conclusion": "REFUTED for the designed common RAMP (calculated); the recorded v(ramp) was not inspected",
-        "evidence": "Ideal k x RAMP tracking slope at the -10 % RAMP capacitance is at most 0.3137 V/ms (+5) and 0.7611 V/ms (-12); the recorded peaks are 1.938x-3.044x the ideal and lie inside the low-voltage exception regions only."
+        "conclusion": "REFUTED for the designed common RAMP (calculated); REFUTED for the recorded v(ramp)",
+        "evidence": "Ideal k x RAMP tracking slope at the -10 % RAMP capacitance is at most 0.3137 V/ms (+5) and 0.7611 V/ms (-12); the recorded peaks are 1.938x-3.044x the ideal and lie inside the low-voltage exception regions only. The extracted v(ramp), scaled by the tracking gain between 2 us bin averages within +/-100 us of each excursion, peaks at 0.1192 V/ms (+5) and 0.3529 V/ms (-12) in run 43087070975 (REPRODUCED, d1-reference-20261111.json)."
       },
       {
         "id": "D1-H6",
         "claim": "A start-order clamp release (U15/U16 on RAMP_P5/RAMP_M12 behind RCP1 1k) presents a fast reference-side edge to the +5/-12 trackers",
-        "conclusion": "UNRESOLVED",
-        "evidence": "Not tested: the per-rail references were not extracted from the recorded runs. The deck saves v(ramp); the per-rail reference nodes and their timing against the excursions are the next check."
+        "conclusion": "REFUTED for a reference-side edge; REFUTED for clamp-diode release",
+        "evidence": "Scaled per-rail reference peaks between 2 us bin averages are 0.1192 V/ms (+5, ideal 0.3137) and 0.3557 V/ms (-12, ideal 0.7611); the clamp diodes stay reverse-biased across each window (+5: -4.850 to -4.843 V; -12: -4.893 to -4.041 V). The excursions lie downstream of the reference; run 43087070975 (REPRODUCED, d1-reference-20261111.json)."
+      },
+      {
+        "id": "D1-H7",
+        "claim": "The adjacent-sample reference rule fired on a solver-timestep artefact, not a circuit edge",
+        "conclusion": "+5: NOT APPLICABLE (the adjacent-sample rule did not fire); -12: SUPPORTED",
+        "evidence": "The -12 adjacent-sample peak of 3730.2 V/ms is 0.977 mV over 2.11 ns, inside a 21-sample cluster (minimum step 0.235 ns) where ramp_m12 rings 1.398 mV peak to peak with 18 sign reversals as the XU16A clamp output reaches 4.962 V. The 2 us bin-average analysis no longer lets such a step fire the rule; the in-job adjacent-sample classification is retained as superseded."
       },
       {
         "id": "D1-H2",
@@ -478,7 +484,7 @@
     ]
   },
   "next_inputs": [
-    "D1: design review of one paired nom/adv run varying only the pre-bias target or integrator CT (distinguishes D1-H4); requires the hard-circuit review role before admission.",
+    "D1: the reference side is refuted; separate downstream hypotheses (pre-bias overshoot D1-H4, clamp or servo amplifier saturation and recovery, pass-device or output-capacitor interaction) and the cheapest discriminating run are a proposal only; nothing is run before admission.",
     "D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a numeric definition of 'absent', and device switching data for the disconnect/discharge edge.",
     "D3: a guaranteed detection-to-switch-off time and a load-side di/dt bound, or an explicitly agreed regulating current-limit change; no excess-current budget is adopted."
   ]

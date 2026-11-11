@@ -185,11 +185,11 @@ class AnalysisTests(unittest.TestCase):
     DECK = ('* synthetic\nRT5A p5_out trk5 23.2k\nRT5B trk5 0 10k\nRT12NA ramp_m12 trk12n 93.1k\n'
             'RT12NB trk12n m12_out 750k\n.tran 2u 2m 0 50u\n.end\n')
 
-    def write_case(self, run, name, main, ref):
-        work = ex.attempt_dir(run, name)
+    def write_case(self, run, name, main, ref, extra=()):
+        work = Path(run) / name / '0' / 'tracking'
         work.mkdir(parents=True)
         (work / f'{name}.cir').write_text(self.DECK)
-        times = [i * self.STEP for i in range(41)]
+        times = sorted({i * self.STEP for i in range(41)} | set(extra))
         with (work / f'{name}.dat').open('w') as out:
             for t in times:
                 values = main(t)
@@ -228,12 +228,130 @@ class AnalysisTests(unittest.TestCase):
         p5, m12 = result['rails']['+5'], result['rails']['-12']
         self.assertAlmostEqual(p5['tracking_gain_from_deck'], 3.32)
         self.assertAlmostEqual(p5['scaled_reference_peak_near_segment_v_per_ms'], 3.32 * 0.39, places=6)
-        self.assertEqual(p5['hypotheses']['D1-H6 clamp-release reference edge'], ex.SUPPORTED)
+        self.assertEqual(p5['hypotheses']['D1-H6 reference-side edge'], ex.SUPPORTED)
         self.assertEqual(p5['hypotheses']['D1-H1 recorded common RAMP too steep'], ex.REFUTED)
-        self.assertEqual(m12['hypotheses']['D1-H6 clamp-release reference edge'], ex.REFUTED)
+        self.assertEqual(m12['hypotheses']['D1-H6 reference-side edge'], ex.REFUTED)
+        self.assertEqual(p5['hypotheses']['D1-H6 clamp-diode release'], ex.UNRESOLVED)  # diode at 0 V is not reverse-biased
         self.assertEqual(m12['hypotheses']['D1-H1 recorded common RAMP too steep'], ex.REFUTED)
         self.assertGreater(m12['output_slope_at_segment_v_per_ms'], 1.47)
         self.assertTrue(all('UNRESOLVED' in r['hypotheses']['D1-H4 pre-bias overshoot'] for r in result['rails'].values()))
+
+
+    def test_nanosecond_timestep_ring_cannot_fire_the_rule(self):
+        # Regression for run 43087070975: a +/-1 mV alternating ring over 2 ns steps on RAMP_M12,
+        # straddling a bin edge, made the adjacent-sample rule report a 3730 V/ms reference edge.
+        ring_at = 0.96e-3
+        ring = {ring_at + k * 2e-9: (0.0 if abs(k) == 7 else 1e-3 if k % 2 else -1e-3) for k in range(-7, 8) if k}
+        base = lambda t: 0.09 * t * 1e3
+        adv_ref = lambda t: [base(t), 0, 0, base(t) + ring.get(t, 0.0), 0, 0, 5.0]  # clamp output far above: reverse-biased
+        adv_main = lambda t: [0, 0, -(0.7 * t + 0.7748 * (min(max(t, 1.0e-3), 1.05e-3) - 1.0e-3)) * 1e3] + [0] * 8
+        nom_ref = lambda t: [base(t), 0, base(t), 0, 0, 5.0, 0]
+        nom_main = lambda t: [0, (0.30 * t + 0.65485 * (min(max(t, 1.0e-3), 1.05e-3) - 1.0e-3)) * 1e3, 0] + [0] * 8
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Path(tmp) / 'ladder-x'
+            times = self.write_case(run, 'nom', nom_main, nom_ref)
+            adv_times = self.write_case(run, 'adv', adv_main, adv_ref, extra=ring)
+            refinement = {'cases': {
+                'nom': {'rails': {'+5': {'worst_recorded_bound_exceedance': {
+                    'start_ms': 1.0, 'end_ms': 1.05, 'slope_v_per_ms': ex.slopes(times, [nom_main(t)[1] for t in times], 1)[20]},
+                    'exception': {'slope_ceiling_v_per_ms': 0.95}}}},
+                'adv': {'rails': {'-12': {'worst_recorded_bound_exceedance': {
+                    'start_ms': 1.0, 'end_ms': 1.05,
+                    'slope_v_per_ms': ex.slopes(adv_times, [adv_main(t)[2] for t in adv_times], -1)[adv_times.index(1.0e-3)]},
+                    'exception': {'slope_ceiling_v_per_ms': 1.47}}}}}}
+            with mock.patch.object(ex, 'records', return_value=({}, refinement)):
+                result = ex.analyze(run)
+                ring_record = ex.timestep_ring(run)
+        m12 = result['rails']['-12']
+        self.assertGreater(m12['adjacent_sample_scaled_reference_peak_v_per_ms'], 1000)  # the old rule would fire
+        self.assertAlmostEqual(m12['scaled_reference_peak_near_segment_v_per_ms'], 8.055854 * 0.09, delta=0.05)
+        self.assertEqual(m12['hypotheses']['D1-H6 reference-side edge'], ex.REFUTED)
+        self.assertEqual(m12['hypotheses']['D1-H6 clamp-diode release'], ex.REFUTED)
+        self.assertEqual(m12['hypotheses']['D1-H7 adjacent-sample trigger is a solver-timestep artefact'], ex.SUPPORTED)
+        self.assertTrue(result['rails']['+5']['hypotheses']['D1-H7 adjacent-sample trigger is a solver-timestep artefact']
+                        .startswith('NOT APPLICABLE'))
+        self.assertEqual(ring_record['cluster_samples'], 14)
+        self.assertGreaterEqual(ring_record['node_sign_reversals_in_cluster'], 10)
+        self.assertAlmostEqual(ring_record['node_peak_to_peak_in_cluster_v'], 2e-3, delta=1e-5)
+
+    def test_bins_outside_the_record_are_dropped(self):
+        times = [i * 1e-6 for i in range(400)]
+        values = [1.0 + 0.1 * t * 1e3 for t in times]  # 0.1 V/ms riding on 1 V, excursion near both record ends
+        for start in (50e-6, 330e-6):
+            out = ex.grid_slopes(times, values, 1.0, start, start + 2e-6)
+            self.assertTrue(out)
+            self.assertTrue(all(abs(slope - 0.1) < 1e-9 for _, slope in out), start)
+
+    def test_a_long_step_is_not_called_a_timestep_artefact(self):
+        times = [0.0, 1e-6, 3e-6, 4e-6]  # the peak interval is 2 us, not a sub-grid cluster
+        self.assertIsNone(ex.cluster(times, [0, 0, 1, 1], 1))
+        self.assertEqual(ex.timestep_artefact(5.0, 0.5, 1.47, None), ex.UNRESOLVED)
+        self.assertEqual(ex.timestep_artefact(5.0, 0.5, 1.47, (0, 3, 1)), ex.UNRESOLVED)  # no alternating ring
+        self.assertEqual(ex.timestep_artefact(5.0, 0.5, 1.47, (0, 3, 2)), ex.SUPPORTED)
+        self.assertEqual(ex.timestep_artefact(5.0, 2.0, 1.47, (0, 3, 9)), ex.REFUTED)
+        self.assertTrue(ex.timestep_artefact(1.0, 0.5, 1.47, None).startswith('NOT APPLICABLE'))
+
+    def test_bin_slopes_are_exact_for_a_linear_waveform(self):
+        times = [i * 1e-6 for i in range(400)]
+        values = [0.5 * t * 1e3 for t in times]  # 0.5 V/ms
+        out = ex.grid_slopes(times, values, 2.0, 200e-6, 202e-6)
+        self.assertTrue(all(abs(slope - 1.0) < 1e-9 for _, slope in out))
+
+
+class RecordTests(unittest.TestCase):
+    RECORD = json.loads(ex.RECORD.read_text())
+
+    def test_prose_is_generated_from_the_record(self):
+        self.assertEqual(ex.RECORD_MD.read_text(), ex.render_markdown(self.RECORD))
+        self.assertEqual(ex.main(['check-record']), 0)
+        altered = json.loads(json.dumps(self.RECORD))
+        altered['superseded_in_job_analysis']['hypotheses']['-12']['D1-H6 clamp-release reference edge'] = ex.REFUTED
+        altered['analysis']['rails']['-12']['hypotheses']['D1-H6 reference-side edge'] = ex.UNRESOLVED
+        text = ex.render_markdown(altered)
+        self.assertIn('REFUTED (+5 V), REFUTED (−12 V)', text)
+        self.assertNotIn('lie downstream of the reference', text)
+
+    def test_record_keeps_acceptance_open_and_failures_recorded(self):
+        record = self.RECORD
+        self.assertEqual(record['electrical_acceptance'], 'NOT ESTABLISHED')
+        self.assertEqual(record['identity']['status'], 'REPRODUCED')
+        self.assertEqual(record['run']['run_id'], 43087070975)
+        _, refinement = ex.records()
+        for rail, (name, *_rest) in ex.FAILED.items():
+            recorded = refinement['cases'][name]['rails'][rail]['worst_recorded_bound_exceedance']['slope_v_per_ms']
+            self.assertEqual(record['recorded_failures_preserved'][rail], recorded)
+            self.assertEqual(record['analysis']['rails'][rail]['output_slope_at_segment_v_per_ms'], recorded)
+            self.assertGreater(recorded, refinement['cases'][name]['rails'][rail]['exception']['slope_ceiling_v_per_ms'])
+        self.assertEqual(record['superseded_in_job_analysis']['sha256'], record['run']['artifact_files_sha256']['analysis.json'])
+        self.assertEqual(record['superseded_in_job_analysis']['hypotheses']['-12']['D1-H6 clamp-release reference edge'],
+                         ex.SUPPORTED)
+
+    def test_recorded_conclusions_follow_the_rule_from_recorded_numbers(self):
+        for rail, row in self.RECORD['analysis']['rails'].items():
+            with self.subTest(rail=rail):
+                ideal, ceiling = row['ideal_tracking_max_slope_v_per_ms'], row['exception_slope_ceiling_v_per_ms']
+                peak, common = row['scaled_reference_peak_near_segment_v_per_ms'], row['scaled_common_ramp_peak_near_segment_v_per_ms']
+                h = row['hypotheses']
+                self.assertEqual(h['D1-H6 reference-side edge'], ex.classify(peak, ideal, ceiling, common))
+                self.assertEqual(h['D1-H1 recorded common RAMP too steep'], ex.classify(common, ideal, ceiling))
+                self.assertEqual(h['D1-H6 clamp-diode release'],
+                                 ex.REFUTED if row['clamp_diode_voltage_v']['window_max'] < 0 else ex.UNRESOLVED)
+                reversals = row['adjacent_sample_peak_cluster_sign_reversals']
+                self.assertEqual(h['D1-H7 adjacent-sample trigger is a solver-timestep artefact'],
+                                 ex.timestep_artefact(row['adjacent_sample_scaled_reference_peak_v_per_ms'], peak, ceiling,
+                                                      None if reversals is None else (0, 0, reversals)))
+
+    def test_tampered_artifact_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            evidence = Path(tmp)
+            (evidence / 'ladder-x').mkdir()
+            (evidence / 'ladder-x' / 'a.txt').write_text('a')
+            (evidence / 'hashes.json').write_text(json.dumps({'ladder-x/a.txt': sha(b'b')}))
+            with self.assertRaisesRegex(ValueError, 'hash differs'):
+                ex.verified_artifact(evidence)
+            (evidence / 'extra.txt').write_text('x')
+            with self.assertRaisesRegex(ValueError, 'differ from hashes.json'):
+                ex.verified_artifact(evidence)
 
 
 class WorkflowTests(unittest.TestCase):

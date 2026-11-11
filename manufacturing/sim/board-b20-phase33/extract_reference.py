@@ -16,11 +16,14 @@ usage:
   extract_reference.py identity WORK --manifest PATH --output PATH
   extract_reference.py analyze WORK --output PATH
   extract_reference.py collect WORK --evidence DIR [--extra-dir DIR]
+  extract_reference.py record ARTIFACT_DIR --run-id N --artifact-id N --artifact-zip ZIP
+  extract_reference.py check-record
 
 The work directory is not a Git checkout, so the runner receipt's source_revision is None and
 its source_dirty means "not a repository"; the source is bound by GITHUB_SHA in the manifest.
 """
 import argparse
+import bisect
 import hashlib
 import importlib.util
 import io
@@ -54,6 +57,9 @@ DOWNLOAD_MAX_BYTES = 64 * 1024 * 1024
 # sign of the output excursion relative to a rising reference: +5 tracks, -12 inverts)
 FAILED = {'+5': ('nom', 2, 'ramp_p5', 'clp5', 1), '-12': ('adv', 3, 'ramp_m12', 'clpm12', -1)}
 NEIGHBOURHOOD_S = 100e-6
+# Reference slopes are compared between bin averages at the refined maximum step, so a sub-microsecond
+# solver-timestep ring (adjacent-sample dV over a nanosecond dt) cannot fire the rule; see D1-H7.
+GRID_S = 2e-6
 # Reporting band for classification only; it is not a tolerance on any contract value.
 IDEAL_BAND = 1.05
 SUPPORTED, REFUTED, UNRESOLVED, NOT_RUN = 'SUPPORTED', 'REFUTED', 'UNRESOLVED', 'NOT RUN'
@@ -191,7 +197,9 @@ def single_run(work):
 
 
 def attempt_dir(run, name):
-    return Path(run) / name / '0' / 'tracking'
+    """Runner layout name/0/tracking; the uploaded evidence flattens it to name/ (collect)."""
+    nested = Path(run) / name / '0' / 'tracking'
+    return nested if nested.exists() or not (Path(run) / name / f'{name}.cir').exists() else Path(run) / name
 
 
 def identity(run, manifest):
@@ -263,6 +271,53 @@ def slopes(times, values, gain):
     return [gain * (values[i + 1] - values[i]) / (times[i + 1] - times[i]) / 1e3 for i in range(len(times) - 1)]
 
 
+def integral_at(times, values, cumulative, t):
+    """Exact integral of the piecewise-linear waveform from times[0] to t, for t inside the record."""
+    k = min(max(bisect.bisect_right(times, t), 1), len(times) - 1) - 1
+    v = values[k] + (values[k + 1] - values[k]) * (t - times[k]) / (times[k + 1] - times[k])
+    return cumulative[k] + (t - times[k]) * (values[k] + v) / 2
+
+
+def grid_slopes(times, values, gain, start, end):
+    """Signed slopes in V/ms between adjacent GRID_S bin averages, bins anchored at start over the +/-NEIGHBOURHOOD_S window.
+
+    Bin averaging (not point resampling) bounds a nanosecond ring's effect by its area, so a grid point
+    that happens to land inside a solver-timestep ring cannot fire the rule.
+    """
+    cumulative = [0.0]
+    for i in range(len(times) - 1):
+        cumulative.append(cumulative[-1] + (times[i + 1] - times[i]) * (values[i] + values[i + 1]) / 2)
+    first = -int(round(NEIGHBOURHOOD_S / GRID_S)) - 1
+    last = int(round((end - start + NEIGHBOURHOOD_S) / GRID_S)) + 1
+    edges = [t for t in (start + k * GRID_S for k in range(first, last + 1)) if times[0] <= t <= times[-1]]
+    area = [integral_at(times, values, cumulative, t) for t in edges]
+    means = [(area[i + 1] - area[i]) / GRID_S for i in range(len(edges) - 1)]
+    return [(edges[i + 1], gain * (means[i + 1] - means[i]) / GRID_S / 1e3) for i in range(len(means) - 1)]
+
+
+def cluster(times, values, peak):
+    """Sub-grid solver-timestep cluster (steps shorter than GRID_S/100) containing adjacent interval peak, or None."""
+    short = lambda i: times[i + 1] - times[i] < GRID_S / 100
+    if not short(peak):
+        return None
+    first = last = peak
+    while first > 0 and short(first - 1):
+        first -= 1
+    while last + 1 < len(times) - 1 and short(last + 1):
+        last += 1
+    flips = sum(1 for i in range(first, last) if (values[i + 1] - values[i]) * (values[i + 2] - values[i + 1]) < 0)
+    return first, last, flips
+
+
+def timestep_artefact(adjacent_peak, grid_peak, ceiling, ring):
+    """D1-H7: the adjacent-sample rule fires only on a sub-grid ring (short steps with alternating increments)."""
+    if adjacent_peak < ceiling:
+        return 'NOT APPLICABLE (the adjacent-sample rule did not fire)'
+    if grid_peak >= ceiling:
+        return REFUTED
+    return SUPPORTED if ring is not None and ring[2] >= 2 else UNRESOLVED
+
+
 def classify(peak, ideal, ceiling, competing=None):
     """Pre-registered rule on signed slopes in the excursion direction.
 
@@ -282,14 +337,15 @@ def analyze(run):
     calc_spec = importlib.util.spec_from_file_location('interface_diagnostics', HERE / 'interface_diagnostics.py')
     diag = importlib.util.module_from_spec(calc_spec)
     calc_spec.loader.exec_module(diag)
-    ideal = diag.startup(diag.calculator())['rails']
+    ideal = diag.ideal_tracking_slopes(diag.calculator())
     result = {'scope': 'D1 reference extraction; diagnostic only', 'electrical_acceptance': 'NOT ESTABLISHED',
               'classification_rule': f'Signed slopes in the excursion direction within +/-{NEIGHBOURHOOD_S * 1e6:g} us of the '
-                                     f'recorded excursion, scaled by the deck tracking gain. REFUTED if the peak stays at or '
-                                     f'below {IDEAL_BAND} x the ideal tracking slope. SUPPORTED if it reaches the failed exception '
-                                     f'ceiling and, for the per-rail reference, also exceeds {IDEAL_BAND} x the scaled common-RAMP '
-                                     f'peak. Otherwise UNRESOLVED. SUPPORTED means consistent with the hypothesis in this model, '
-                                     f'not proof of cause.',
+                                     f'recorded excursion, taken between adjacent {GRID_S * 1e6:g} us bin averages and scaled by the deck '
+                                     f'tracking gain. REFUTED if the peak stays at or below {IDEAL_BAND} x the ideal tracking slope. '
+                                     f'SUPPORTED if it reaches the failed exception ceiling and, for the per-rail reference, also '
+                                     f'exceeds {IDEAL_BAND} x the scaled common-RAMP peak. Otherwise UNRESOLVED. Clamp-diode release '
+                                     f'is REFUTED when the diode stays reverse-biased across the window. SUPPORTED means consistent '
+                                     f'with the hypothesis in this model, not proof of cause.',
               'rails': {}}
     for rail, (name, column, ref_name, clamp, sign) in FAILED.items():
         work = attempt_dir(run, name)
@@ -306,30 +362,214 @@ def analyze(run):
         out = slopes(times, [r[column] for r in rows], sign)
         if abs(out[index] - worst['slope_v_per_ms']) > 1e-9 * worst['slope_v_per_ms']:
             raise ValueError(f'{rail}: selected segment slope {out[index]} differs from recorded {worst["slope_v_per_ms"]}')
-        reference = slopes(times, [x[ref_name] for x in ref], gain)
+        reference_values = [x[ref_name] for x in ref]
+        reference = slopes(times, reference_values, gain)
         common = slopes(times, [x['ramp'] for x in ref], gain)
+        reference_grid = grid_slopes(times, reference_values, gain, start, end)
+        common_grid = grid_slopes(times, [x['ramp'] for x in ref], gain, start, end)
         diode = [ref[i][ref_name] - ref[i][clamp] for i in near + [near[-1] + 1]]
-        reference_peak = max(reference[i] for i in near)
-        common_peak = max(common[i] for i in near)
-        peak_at = max(near, key=lambda i: reference[i])
+        adjacent_peak_at = max(near, key=lambda i: reference[i])
+        ring = cluster(times, reference_values, adjacent_peak_at)
+        reference_peak_at, reference_peak = max(reference_grid, key=lambda x: x[1])
+        common_peak = max(slope for _, slope in common_grid)
+        ideal_slope = ideal[rail]
         result['rails'][rail] = {
             'case': name, 'tracking_gain_from_deck': round(gain, 6),
             'excursion_segment_ms': [round(rows[index][0] * 1e3, 9), round(rows[index + 1][0] * 1e3, 9)],
             'output_slope_at_segment_v_per_ms': out[index], 'recorded_slope_v_per_ms': worst['slope_v_per_ms'],
             'scaled_reference_slope_at_segment_v_per_ms': reference[index],
             'scaled_reference_peak_near_segment_v_per_ms': reference_peak,
-            'scaled_reference_peak_offset_from_segment_us': round((rows[peak_at][0] - rows[index][0]) * 1e6, 3),
+            'scaled_reference_peak_offset_from_segment_us': round((reference_peak_at - rows[index][0]) * 1e6, 3),
             'scaled_common_ramp_slope_at_segment_v_per_ms': common[index],
             'scaled_common_ramp_peak_near_segment_v_per_ms': common_peak,
-            'ideal_tracking_max_slope_v_per_ms': ideal[rail]['ideal_tracking_max_slope_v_per_ms'],
+            'adjacent_sample_scaled_reference_peak_v_per_ms': reference[adjacent_peak_at],
+            'adjacent_sample_peak_offset_from_segment_us': round((rows[adjacent_peak_at][0] - rows[index][0]) * 1e6, 3),
+            'adjacent_sample_peak_dt_s': times[adjacent_peak_at + 1] - times[adjacent_peak_at],
+            'adjacent_sample_peak_cluster_sign_reversals': None if ring is None else ring[2],
+            'minimum_timestep_in_window_s': min(times[i + 1] - times[i] for i in near),
+            'ideal_tracking_max_slope_v_per_ms': ideal_slope,
             'exception_slope_ceiling_v_per_ms': ceiling,
             'clamp_diode_voltage_v': {'window_start': diode[0], 'segment': diode[near.index(index)],
                                       'window_end': diode[-1], 'window_min': min(diode), 'window_max': max(diode)},
-            'hypotheses': {'D1-H6 clamp-release reference edge': classify(reference_peak, ideal[rail]['ideal_tracking_max_slope_v_per_ms'], ceiling, common_peak),
-                           'D1-H1 recorded common RAMP too steep': classify(common_peak, ideal[rail]['ideal_tracking_max_slope_v_per_ms'], ceiling),
-                           'D1-H4 pre-bias overshoot': UNRESOLVED + ' (needs the paired variant run)'},
+            'hypotheses': {
+                'D1-H6 reference-side edge': classify(reference_peak, ideal_slope, ceiling, common_peak),
+                'D1-H6 clamp-diode release': REFUTED if max(diode) < 0 else UNRESOLVED,
+                'D1-H1 recorded common RAMP too steep': classify(common_peak, ideal_slope, ceiling),
+                'D1-H7 adjacent-sample trigger is a solver-timestep artefact':
+                    timestep_artefact(reference[adjacent_peak_at], reference_peak, ceiling, ring),
+                'D1-H4 pre-bias overshoot': UNRESOLVED + ' (needs the paired variant run)'},
         }
     return result
+
+
+def timestep_ring(run, rail='-12'):
+    """Describe the sub-grid solver-timestep cluster behind the adjacent-sample reference peak."""
+    name, _, ref_name, clamp, _ = FAILED[rail]
+    work = attempt_dir(run, name)
+    ref = load_reference(work / f'{name}-ref.txt', load(work / f'{name}.dat'))
+    times = [x['t'] for x in ref]
+    worst = records()[1]['cases'][name]['rails'][rail]['worst_recorded_bound_exceedance']
+    low, high = worst['start_ms'] / 1e3 - NEIGHBOURHOOD_S, worst['end_ms'] / 1e3 + NEIGHBOURHOOD_S
+    gain = deck_gain((work / f'{name}.cir').read_text(), rail)
+    values = [x[ref_name] for x in ref]
+    adjacent = slopes(times, values, gain)
+    peak = max((i for i in range(len(adjacent)) if low <= times[i] <= high), key=lambda i: adjacent[i])
+    found = cluster(times, values, peak)
+    if found is None:
+        raise ValueError(f'{rail}: the adjacent-sample peak is not inside a sub-grid timestep cluster')
+    first, last, flips = found
+    span = range(first, last + 2)
+    return {'rail': rail, 'node': ref_name, 'peak_time_ms': round(times[peak] * 1e3, 9),
+            'adjacent_scaled_peak_v_per_ms': adjacent[peak], 'adjacent_peak_dv_v': values[peak + 1] - values[peak],
+            'adjacent_peak_dt_s': times[peak + 1] - times[peak],
+            'cluster_start_ms': round(times[first] * 1e3, 9), 'cluster_end_ms': round(times[last + 1] * 1e3, 9),
+            'cluster_samples': len(span), 'cluster_min_dt_s': min(times[i + 1] - times[i] for i in range(first, last + 1)),
+            'node_peak_to_peak_in_cluster_v': max(values[i] for i in span) - min(values[i] for i in span),
+            'node_sign_reversals_in_cluster': flips,
+            'clamp_output_at_cluster_start_v': ref[first][clamp], 'clamp_output_at_cluster_end_v': ref[last + 1][clamp]}
+
+
+RECORD = HERE / 'd1-reference-20261111.json'
+RECORD_MD = HERE / 'd1-reference-20261111.md'
+MISREADING = ('Before adoption, the −12 V in-job result was first reported as a 0.85 V reference-side step. That was a '
+              'misreading: the 0.85 V is the gradual rise of the XU16A clamp output (clpm12) across the window, and the '
+              'reference jump is the millivolt-scale timestep ring described under timestep_artefact. The report was '
+              'corrected and nothing was adopted from it.')
+
+
+def verified_artifact(evidence):
+    """Check every file listed in the artifact's hashes.json; refuse anything unlisted or changed."""
+    evidence = Path(evidence)
+    listed = json.loads((evidence / 'hashes.json').read_text())
+    present = {str(p.relative_to(evidence)) for p in evidence.rglob('*') if p.is_file()} - {'hashes.json'}
+    if present != set(listed):
+        raise ValueError(f'artifact files differ from hashes.json: {sorted(present ^ set(listed))}')
+    for name, digest in listed.items():
+        if sha((evidence / name).read_bytes()) != digest:
+            raise ValueError(f'{name}: hash differs from hashes.json')
+    runs = sorted(p for p in evidence.glob('ladder-*') if p.is_dir())
+    if len(runs) != 1:
+        raise ValueError(f'{evidence}: expected exactly one runner directory, found {len(runs)}')
+    return listed, runs[0]
+
+
+def build_record(evidence, run_id, artifact_id, artifact_zip):
+    evidence = Path(evidence)
+    listed, run = verified_artifact(evidence)
+    _, refinement = records()
+    identity_result = json.loads((evidence / 'identity.json').read_text())
+    if identity_result['status'] != 'REPRODUCED' or not all(
+            all(case['matches'].values()) for case in identity_result['cases'].values()):
+        raise ValueError('identity control did not reproduce; nothing is adopted')
+    for name in CASES:  # re-check the waveform identity locally instead of trusting identity.json alone
+        work = attempt_dir(run, name)
+        retained = refinement['cases'][name]
+        if (sha((work / f'{name}.dat').read_bytes()) != retained['main_waveform_sha256']
+                or sha((work / f'{name}-osc-cap.txt').read_bytes()) != retained['supplemental_waveform_sha256']):
+            raise ValueError(f'{name}: waveforms differ from the retained refinement')
+    manifest = json.loads((evidence / 'manifest.json').read_text())
+    in_job = json.loads((evidence / 'analysis.json').read_text())
+    analysis = analyze(run)
+    for rail, (name, *_rest) in FAILED.items():
+        recorded = refinement['cases'][name]['rails'][rail]
+        slope = recorded['worst_recorded_bound_exceedance']['slope_v_per_ms']
+        if analysis['rails'][rail]['output_slope_at_segment_v_per_ms'] != slope:
+            raise ValueError(f'{rail}: output slope no longer equals the recorded failure')
+        if not slope > recorded['exception']['slope_ceiling_v_per_ms']:
+            raise ValueError(f'{rail}: the recorded slope is no longer a failure; the record wording would be false')
+    return {
+        'scope': 'D1 reference extraction adoption (#235); diagnostic only',
+        'electrical_acceptance': 'NOT ESTABLISHED',
+        'recorded_failures_preserved': {rail: refinement['cases'][name]['rails'][rail]['worst_recorded_bound_exceedance']['slope_v_per_ms']
+                                        for rail, (name, *_rest) in FAILED.items()},
+        'run': {'workflow': '.github/workflows/phase33-d1-reference.yml', 'run_id': run_id,
+                'source_revision': manifest['source_revision'], 'artifact_id': artifact_id,
+                'artifact_zip_sha256': sha(Path(artifact_zip).read_bytes()), 'artifact_files_sha256': listed},
+        'inputs': {'vendor_sha256': manifest['vendor_sha256'], 'spiceinit_sha256': manifest['spiceinit_sha256'],
+                   'cases': manifest['cases']},
+        'identity': {'status': identity_result['status'], 'source_revision': identity_result['source_revision'],
+                     'solver_identity_matches': identity_result['solver_identity_matches'],
+                     'cases': {name: case['matches'] for name, case in identity_result['cases'].items()}},
+        'superseded_in_job_analysis': {
+            'sha256': listed['analysis.json'],
+            'rule': 'adjacent-sample slopes',
+            'hypotheses': {rail: row['hypotheses'] for rail, row in in_job['rails'].items()},
+            'reason': 'Adjacent-sample differentiation is replaced by 2 us bin averages so a sub-grid solver-timestep '
+                      'ring cannot fire the reference rule (see D1-H7).',
+            'corrected_attempt': MISREADING},
+        'analysis': analysis,
+        'timestep_artefact': timestep_ring(run),
+    }
+
+
+def _fmt(x, digits=4):
+    return f'{x:.{digits}f}'
+
+
+def render_markdown(record):
+    a, ring, run = record['analysis']['rails'], record['timestep_artefact'], record['run']
+    hyp = lambda rail, key: next(v for k, v in a[rail]['hypotheses'].items() if k.startswith(key))
+    lines = [
+        '# D1 reference extraction — 2026-11-11',
+        '',
+        f"**Diagnostic only. electrical_acceptance: {record['electrical_acceptance']}.** The recorded 2 us failures stay "
+        'failures: ' + ', '.join(f"{rail.replace('-', '−')} V {v:.9f} V/ms" for rail, v in record['recorded_failures_preserved'].items()) + '.',
+        '',
+        f"Run `{run['run_id']}` of `{run['workflow']}` at `{run['source_revision']}`; artifact `{run['artifact_id']}` "
+        f"(zip sha256 `{run['artifact_zip_sha256']}`). Identity control: **{record['identity']['status']}** "
+        '(executed decks, primary and supplemental waveforms byte-identical to the 2026-11-09 refinement). '
+        'Each executed deck differs from the refined deck by one output-only line:',
+        '',
+    ]
+    lines += [f"- {name}: `{case['added_output_only_line']}`" for name, case in record['inputs']['cases'].items()]
+    lines += [
+        '',
+        f"Reference slopes are taken between adjacent {GRID_S * 1e6:g} us bin averages (the refined maximum step) within "
+        f"±{NEIGHBOURHOOD_S * 1e6:g} us of each excursion and scaled by the deck tracking gain.",
+        '',
+        '| Hypothesis | +5 V (nom) | −12 V (adv) |',
+        '| --- | --- | --- |',
+    ]
+    for key, label in (('D1-H6 reference-side', 'Reference-side edge (D1-H6)'),
+                       ('D1-H6 clamp-diode', 'Clamp-diode release (D1-H6)'),
+                       ('D1-H1', 'Recorded common RAMP too steep (D1-H1)'),
+                       ('D1-H7', 'Adjacent-sample trigger is a solver-timestep artefact (D1-H7)'),
+                       ('D1-H4', 'Pre-bias overshoot (D1-H4)')):
+        lines.append(f"| {label} | {hyp('+5', key)} | {hyp('-12', key)} |")
+    lines += ['', '| Quantity | +5 V | −12 V |', '| --- | ---: | ---: |']
+    for key, label, digits in (('output_slope_at_segment_v_per_ms', 'Output slope at the failed segment (V/ms)', 9),
+                               ('scaled_reference_peak_near_segment_v_per_ms', 'Scaled reference peak, 2 us bins (V/ms)', 4),
+                               ('scaled_common_ramp_peak_near_segment_v_per_ms', 'Scaled common RAMP peak, 2 us bins (V/ms)', 4),
+                               ('ideal_tracking_max_slope_v_per_ms', 'Ideal tracking slope (V/ms)', 4),
+                               ('exception_slope_ceiling_v_per_ms', 'Exception ceiling (V/ms)', 2),
+                               ('adjacent_sample_scaled_reference_peak_v_per_ms', 'Adjacent-sample scaled reference peak (V/ms)', 4)):
+        lines.append(f"| {label} | {_fmt(a['+5'][key], digits)} | {_fmt(a['-12'][key], digits)} |")
+    lines.append('| Clamp-diode voltage across window (V) | '
+                 + ' | '.join(f"{_fmt(a[r]['clamp_diode_voltage_v']['window_min'], 3)} to "
+                              f"{_fmt(a[r]['clamp_diode_voltage_v']['window_max'], 3)}" for r in ('+5', '-12')) + ' |')
+    lines += [
+        '',
+        f"The −12 V adjacent-sample peak is {ring['adjacent_peak_dv_v'] * 1e3:.3f} mV over "
+        f"{ring['adjacent_peak_dt_s'] * 1e9:.2f} ns at {ring['peak_time_ms']:.6f} ms, inside a cluster of "
+        f"{ring['cluster_samples']} samples ({ring['cluster_start_ms']:.6f}–{ring['cluster_end_ms']:.6f} ms, minimum step "
+        f"{ring['cluster_min_dt_s'] * 1e9:.3f} ns) where {ring['node']} rings {ring['node_peak_to_peak_in_cluster_v'] * 1e3:.3f} mV "
+        f"peak to peak with {ring['node_sign_reversals_in_cluster']} sign reversals, as the XU16A clamp output reaches "
+        f"{ring['clamp_output_at_cluster_start_v']:.3f} V. "
+        + ('On 2 us bins the reference stays within the ideal tracking band on both rails, so the reference side '
+           'does not explain either excursion; the excursions lie downstream of the reference.'
+           if all(hyp(r, 'D1-H6 reference-side') == REFUTED for r in a) else
+           'The reference side is not refuted on every rail; see the hypothesis table.'),
+        '',
+        '**Corrected attempt.** The in-job analysis used adjacent-sample slopes and classified the reference edge as '
+        + ', '.join(f"{v.get('D1-H6 clamp-release reference edge')} ({rail.replace('-', '−')} V)"
+                    for rail, v in record['superseded_in_job_analysis']['hypotheses'].items())
+        + '. ' + record['superseded_in_job_analysis']['corrected_attempt'],
+        '',
+        'No pre-bias variant, correction candidate, contract change or tolerance is adopted. '
+        '`d1-reference-20261111.json` holds every hash and value.',
+        '',
+    ]
+    return '\n'.join(lines)
 
 
 EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt')
@@ -373,7 +613,21 @@ def main(argv=None):
     a = sub.add_parser('analyze'); a.add_argument('work', type=Path); a.add_argument('--output', type=Path, required=True)
     c = sub.add_parser('collect'); c.add_argument('work', type=Path); c.add_argument('--evidence', type=Path, required=True)
     c.add_argument('--extra-dir', type=Path)
+    r = sub.add_parser('record'); r.add_argument('evidence', type=Path); r.add_argument('--run-id', type=int, required=True)
+    r.add_argument('--artifact-id', type=int, required=True); r.add_argument('--artifact-zip', type=Path, required=True)
+    k = sub.add_parser('check-record')
     args = parser.parse_args(argv)
+    if args.command == 'record':
+        record = build_record(args.evidence, args.run_id, args.artifact_id, args.artifact_zip)
+        RECORD.write_text(json.dumps(record, indent=2) + '\n')
+        RECORD_MD.write_text(render_markdown(record))
+        return 0
+    if args.command == 'check-record':
+        if RECORD_MD.read_text() != render_markdown(json.loads(RECORD.read_text())):
+            print(f'FAIL: {RECORD_MD.name} does not match {RECORD.name}', file=sys.stderr)
+            return 1
+        print('PASS: D1 reference record and prose agree (not electrical acceptance)')
+        return 0
     if args.command == 'prepare':
         try:
             manifest = prepare(args.work, args.archives)

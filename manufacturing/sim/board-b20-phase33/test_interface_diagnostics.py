@@ -93,7 +93,9 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertEqual(round(peaks['-12']['2us_current_a'], 9), 0.265259332)
         h1 = next(h for h in report['hypotheses'] if h['id'] == 'D1-H1')
         self.assertIn('designed common RAMP', h1['conclusion'])
-        self.assertEqual(next(h for h in report['hypotheses'] if h['id'] == 'D1-H6')['conclusion'], diag.UNRESOLVED)
+        h6 = next(h for h in report['hypotheses'] if h['id'] == 'D1-H6')['conclusion']
+        self.assertEqual(h6, f'{diag.REFUTED} for a reference-side edge; {diag.REFUTED} for clamp-diode release')
+        self.assertIn(diag.SUPPORTED, next(h for h in report['hypotheses'] if h['id'] == 'D1-H7')['conclusion'])
 
     def test_discharge_resistors_are_bound_to_the_schematic(self):
         values = diag.schematic_values()
@@ -189,9 +191,40 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertIn('0.95 V/ms equals the +5 slope ceiling', record)
         self.assertIn(f"{rails['-12']['exception_current_equivalent_slope_v_per_ms']} V/ms makes the 1.47 V/ms −12 slope "
                       'ceiling slightly tighter', record)
+        ref = json.loads(diag.D1_REFERENCE.read_text())['analysis']['rails']
+        self.assertIn(f"{ref['+5']['scaled_common_ramp_peak_near_segment_v_per_ms']:.4f} V/ms (+5) and "
+                      f"{ref['-12']['scaled_common_ramp_peak_near_segment_v_per_ms']:.4f} V/ms (−12)", record)
+        self.assertIn(f"{ref['-12']['scaled_reference_peak_near_segment_v_per_ms']:.4f} V/ms (−12, ideal", record)
         margins = diag.maximum_current(self.calc)['rails']
         self.assertIn(' / '.join(f"{margins[r]['margin_a'] * 1e3:.2f}" for r in ('+12', '-12', '+5')) + ' mA', record)
         self.assertIn(f"{margins['-12']['margin_a'] * 1e3:.2f} mA/µs", record)
+
+    def test_d1_prose_follows_the_record_verdicts(self):
+        record = json.loads(diag.D1_REFERENCE.read_text())
+        rails = record['analysis']['rails']
+        rails['-12']['hypotheses']['D1-H6 clamp-diode release'] = diag.UNRESOLVED
+        rails['-12']['hypotheses']['D1-H6 reference-side edge'] = diag.UNRESOLVED
+        rails['-12']['hypotheses']['D1-H7 adjacent-sample trigger is a solver-timestep artefact'] = diag.REFUTED
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'record.json'
+            path.write_text(json.dumps(record))
+            report = diag.startup(self.calc, reference=path)
+            self.assertFalse(diag.reference_side_refuted(path))
+        h6 = self.hypothesis(report, 'D1-H6')
+        self.assertIn('-12: UNRESOLVED', h6['conclusion'])
+        self.assertNotIn('reverse-biased', h6['evidence'])
+        self.assertNotIn('downstream', h6['evidence'])
+        self.assertNotIn('no longer lets', self.hypothesis(report, 'D1-H7')['evidence'])
+
+    def test_md_d1_rows_match_the_retained_conclusions(self):
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        d1 = {h['id']: h['conclusion'] for h in json.loads(RETAINED.read_text())['d1_startup']['hypotheses']}
+        self.assertEqual(d1['D1-H6'], f'{diag.REFUTED} for a reference-side edge; {diag.REFUTED} for clamp-diode release')
+        self.assertIn('**Refuted** for a reference-side edge and for clamp-diode release', md)
+        self.assertEqual(d1['D1-H7'], '+5: NOT APPLICABLE (the adjacent-sample rule did not fire); -12: SUPPORTED')
+        self.assertIn('**Supported** for −12 (not applicable to +5)', md)
+        self.assertTrue(d1['D1-H1'].endswith(f'{diag.REFUTED} for the recorded v(ramp)'))
+        self.assertIn('and for the recorded `v(ramp)`', md)
 
     def test_retained_findings_are_fresh(self):
         self.assertEqual(json.loads(RETAINED.read_text()), diag.findings())
