@@ -355,7 +355,7 @@ def servo_analysis(work, name, rail, rows, ref_name, gain, sign, start, end):
     """Pre-registered servo/dead-zone criteria (servo_criteria.py, d1-servo-criteria.md) on 2 us bin means."""
     path = work / f'{name}-servo.txt'
     if not path.exists():
-        return {'status': NOT_RUN, 'reason': 'servo vectors were not saved by this run'}
+        return servo_criteria.unresolved('servo vectors were not saved by this run', status=NOT_RUN)
     try:
         spec = servo_criteria.SERVO[rail]
         deck = (work / f'{name}.cir').read_text()
@@ -373,7 +373,11 @@ def servo_analysis(work, name, rail, rows, ref_name, gain, sign, start, end):
             nodes['trk12n'] = [rm + (o - rm) * ra / (ra + rb) for rm, o in zip(nodes['ramp_m12'], nodes['m12_out'])]
         error = [p - m for p, m in zip(nodes[topo['plus_input']], nodes[topo['minus_input']])]
         driver = nodes[spec['driver']]
-        reached = any(min(abs(v - s) for s in topo['supplies_v']) <= servo_criteria.RAIL_BAND_V for v in driver)
+        driver_mean = bin_mean(times, driver)
+        settled = [servo_criteria.SETTLED_S + k * servo_criteria.BIN_S
+                   for k in range(int((times[-1] - servo_criteria.SETTLED_S) / servo_criteria.BIN_S))]
+        lower = topo['supplies_v'][0]
+        reached = any(abs(driver_mean(a, b) - lower) <= servo_criteria.RAIL_BAND_V for a, b in zip(settled, settled[1:]))
         series = {'out': bin_mean(times, nodes[('p5_out', 'm12_out')[rail == '-12']]),
                   'ref': bin_mean(times, nodes[ref_name]),
                   'current': bin_mean(times, [r[spec['current_column']] for r in rows]),
@@ -382,10 +386,10 @@ def servo_analysis(work, name, rail, rows, ref_name, gain, sign, start, end):
                   'source': bin_mean(times, nodes[spec['source']]),
                   'error': bin_mean(times, error)}
         result = servo_criteria.evaluate(series, start, end, gain, sign, topo['supplies_v'], topo['gate_offset_v'], reached)
-    except (ValueError, KeyError, IndexError) as error_:
+    except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error_:
         return servo_criteria.unresolved(f'servo analysis failed: {error_}', status='FAILED')
     result['topology'] = {'driver': spec['driver'], 'amplifier': spec['amplifier'], **topo,
-                          'driver_band_reached_in_record': reached}
+                          'lower_supply_band_reachable_after_settling': reached}
     return result
 
 

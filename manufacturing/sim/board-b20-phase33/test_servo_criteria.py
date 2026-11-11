@@ -36,25 +36,40 @@ class CriteriaTests(unittest.TestCase):
         result = self.run_p5(lambda t: 0.02 if t < 29.55e-3 else 3.0, lambda t: -0.01 if t < 29.5e-3 else 0.01)
         v = result['verdicts']
         self.assertEqual(v['servo wound up at a supply before conduction'], sc.SUPPORTED)
-        self.assertEqual(v['windup induced by the pre-bias floor'], sc.SUPPORTED)
+        self.assertEqual(v['windup released when the reference passes the pre-bias floor'], sc.SUPPORTED)
         self.assertEqual(v['peak slope coincides with driver recovery'], 'YES')
-        self.assertTrue(v['dead zone set by'].startswith('PRE-BIAS FLOOR'))
+        self.assertEqual(v['dead zone set by'], 'HELD AT SUPPLY UNTIL CONDUCTION')
 
     def test_windup_that_exits_long_before_conduction_is_threshold_after_windup(self):
         # The retained gate data suggest this shape: parked at the low supply, leaving it ms before conduction.
         result = self.run_p5(lambda t: 0.02 if t < 18e-3 else 0.02 + (t - 18e-3) * 300,
-                             lambda t: -0.01 if t < 17.9e-3 else 0.01, vgs_climb=1.0)
+                             lambda t: -0.01 if t < 18.1e-3 else 0.01, vgs_climb=1.0)
         v = result['verdicts']
         self.assertEqual(v['servo wound up at a supply before conduction'], sc.SUPPORTED)
-        self.assertEqual(v['windup induced by the pre-bias floor'], sc.SUPPORTED)
+        self.assertEqual(v['windup released when the reference passes the pre-bias floor'], sc.SUPPORTED)
         self.assertEqual(v['peak slope coincides with driver recovery'], 'NO')
         self.assertTrue(v['dead zone set by'].startswith('CONDUCTION THRESHOLD AFTER WINDUP'))
         self.assertAlmostEqual(result['driver_last_supply_exit_ms'], 18.0 + 0.08 / 300 * 1e3, delta=0.003)  # leaves the 0.1 V band
-        self.assertAlmostEqual(result['servo_error_last_sign_change_before_conduction_ms'], 17.9, places=2)
+        self.assertAlmostEqual(result['servo_error_last_rise_through_zero_before_conduction_ms'], 18.1, places=2)
+        self.assertTrue(result['output_flat_at_floor_before_exit'])
 
-    def test_windup_against_the_error_sign_is_not_floor_induced(self):
-        result = self.run_p5(lambda t: 0.02 if t < 18e-3 else 5.0, lambda t: 0.01)
-        self.assertEqual(result['verdicts']['windup induced by the pre-bias floor'], sc.REFUTED)
+    def test_release_before_the_error_crossing_refutes_the_floor_release(self):
+        result = self.run_p5(lambda t: 0.02 if t < 18e-3 else 5.0, lambda t: -0.01 if t < 25e-3 else 0.01)
+        self.assertEqual(result['verdicts']['windup released when the reference passes the pre-bias floor'], sc.REFUTED)
+
+    def test_late_release_or_moving_output_is_unresolved(self):
+        late = self.run_p5(lambda t: 0.02 if t < 18e-3 else 5.0, lambda t: -0.01 if t < 17e-3 else 0.01)
+        self.assertEqual(late['verdicts']['windup released when the reference passes the pre-bias floor'], sc.UNRESOLVED)
+        s, k = rail_series(1, lambda t: 0.02 if t < 18e-3 else 5.0, lambda t: -0.01 if t < 17.95e-3 else 0.01)
+        s['out'] = at(lambda t: 0.05 + 0.2 * t / 18e-3 if t < ON else 1.0)  # output drifting while parked
+        moving = sc.evaluate(s, SEG, SEG + 2e-6, k, 1, P5_SUPPLIES, 0.0, True)
+        self.assertFalse(moving['output_flat_at_floor_before_exit'])
+        self.assertEqual(moving['verdicts']['windup released when the reference passes the pre-bias floor'], sc.UNRESOLVED)
+
+    def test_held_at_supply_label_does_not_need_the_floor_verdict(self):
+        result = self.run_p5(lambda t: 0.02 if t < 29.55e-3 else 3.0, lambda t: 0.01)
+        self.assertEqual(result['verdicts']['dead zone set by'], 'HELD AT SUPPLY UNTIL CONDUCTION')
+        self.assertEqual(result['verdicts']['windup released when the reference passes the pre-bias floor'], sc.UNRESOLVED)
 
     def test_no_windup_is_refuted_only_when_the_band_is_reachable(self):
         linear = lambda t: 1.0 + (t - 10e-3) * 100
@@ -67,12 +82,12 @@ class CriteriaTests(unittest.TestCase):
 
     def test_negative_rail_sign_offset_and_supplies(self):
         s, k = rail_series(-1, lambda t: -12.13 if t < 20e-3 else -12.13 + (t - 20e-3) * 400,
-                           lambda t: -0.01 if t < 19.9e-3 else 0.01, vgs_climb=1.0, gate_base=0.5 + 2.0)
+                           lambda t: -0.01 if t < 20.1e-3 else 0.01, vgs_climb=1.0, gate_base=0.5 + 2.0)
         result = sc.evaluate(s, SEG, SEG + 2e-6, k, -1, M12_SUPPLIES, 0.5, True)
         v = result['verdicts']
         self.assertGreater(result['maximum_lag_v'], 0.05)  # the output trails the negative target
         self.assertEqual(v['servo wound up at a supply before conduction'], sc.SUPPORTED)
-        self.assertEqual(v['windup induced by the pre-bias floor'], sc.SUPPORTED)
+        self.assertEqual(v['windup released when the reference passes the pre-bias floor'], sc.SUPPORTED)
         self.assertTrue(v['dead zone set by'].startswith('CONDUCTION THRESHOLD AFTER WINDUP'))
         self.assertAlmostEqual(result['vgs_v']['climb_start'], 2.0, places=6)  # gate - VO3 0.5 - source
 
@@ -101,7 +116,8 @@ class CriteriaTests(unittest.TestCase):
         for value in (f'{sc.BIN_S * 1e6:g} us', f'{sc.WINDOW_BEFORE_S * 1e3:g} ms', f'{sc.WINDOW_AFTER_S * 1e3:g} ms',
                       f'{sc.CONDUCTION_A * 1e3:g} mA', f'{sc.LAG_START_V:g} V', f'{sc.RAIL_BAND_V:g} V',
                       f'{sc.MIN_SATURATION_S * 1e6:g} us', f'{sc.RECOVERY_LEAD_S * 1e6:g} us', f'{sc.VGS_RISE_MIN_V:g} V',
-                      f'{sc.FLOOR_SIGN_SHARE * 100:g} %'):
+                      f'{sc.RELEASE_DELAY_S * 1e6:g} us', f'{sc.FLOOR_FLAT_V * 1e3:g} mV', f'{sc.FLOOR_FLAT_S * 1e3:g} ms',
+                      f'{sc.SETTLED_S * 1e3:g} ms'):
             self.assertIn(value, text)
         self.assertIn(' '.join(f'v({v})' for v in sc.SERVO_VECTORS), text)
         for verdict in sc.UNRESOLVED_VERDICTS:

@@ -17,7 +17,10 @@ RAIL_BAND_V = 0.1               # driver saturated: within this of an amplifier 
 MIN_SATURATION_S = 10e-6        # saturated bins inside the dead zone needed to call it saturated
 RECOVERY_LEAD_S = 100e-6        # recovery coincides with the excursion if it lies in [t_on - this, segment start]
 VGS_RISE_MIN_V = 0.2            # threshold-limited dead zone: Vgs climbs at least this up to t_on
-FLOOR_SIGN_SHARE = 0.9          # floor-induced windup: servo input error pushes toward the parked supply in this share of parked bins
+RELEASE_DELAY_S = 200e-6        # floor release: driver exit follows the servo error's sign change within this
+FLOOR_FLAT_V = 0.005            # floor release: output within this of its exit value over the last FLOOR_FLAT_S of parking
+FLOOR_FLAT_S = 1e-3
+SETTLED_S = 2e-3                # supply PWLs reach their final values at 2 ms; reachability is judged after this
 
 # Servo topology from the executed decks: rail -> (case, driver node, amplifier instance, gate column in the
 # main waveform, gate offset source, FET source node, source-current column, integrator node).
@@ -70,7 +73,7 @@ def bins(edges, mean):
 
 UNRESOLVED_VERDICTS = {
     'servo wound up at a supply before conduction': UNRESOLVED,
-    'windup induced by the pre-bias floor': UNRESOLVED,
+    'windup released when the reference passes the pre-bias floor': UNRESOLVED,
     'peak slope coincides with driver recovery': UNRESOLVED,
     'dead zone set by': UNRESOLVED,
 }
@@ -80,12 +83,13 @@ def unresolved(reason, **extra):
     return {'status': UNRESOLVED, 'reason': reason, 'verdicts': dict(UNRESOLVED_VERDICTS), **extra}
 
 
-def evaluate(series, segment_start, segment_end, gain, sign, supplies, gate_offset, band_reached_in_record):
+def evaluate(series, segment_start, segment_end, gain, sign, supplies, gate_offset, lower_band_reachable):
     """Pre-registered verdicts on 2 us bin means (see d1-servo-criteria.md).
 
     series: name -> callable(t0, t1) bin mean, for out, ref, current (supply current), gate, driver, source and
     error (servo input error, + input minus - input: positive drives the driver toward the upper supply).
-    band_reached_in_record: whether the raw driver waveform enters the rail band anywhere in the record.
+    lower_band_reachable: whether the driver's 2 us bin mean enters the band of its lower (pass-pair-off) supply
+    somewhere after the supplies settle, so a REFUTED windup cannot come from an unreachable band.
     """
     first = segment_start - WINDOW_BEFORE_S
     edges = [first + k * BIN_S for k in range(int(round((WINDOW_BEFORE_S + WINDOW_AFTER_S) / BIN_S)) + 1)]
@@ -118,27 +122,39 @@ def evaluate(series, segment_start, segment_end, gain, sign, supplies, gate_offs
     wound = parked_s >= MIN_SATURATION_S
     if wound:
         windup = SUPPORTED
-    elif not parked and band_reached_in_record:
+    elif not parked and lower_band_reachable:
         windup = REFUTED
     else:
         windup = UNRESOLVED
+    crossing = None
+    for i in range(on, 0, -1):
+        if val('error', i - 1) <= 0 < val('error', i):
+            crossing = i
+            break
     if wound:
-        toward_low = [val('error', i) < 0 for i in parked if val('driver', i) < sum(supplies) / 2]
-        toward_high = [val('error', i) > 0 for i in parked if val('driver', i) >= sum(supplies) / 2]
-        agreeing = sum(toward_low) + sum(toward_high)
-        share = agreeing / len(parked)
-        floor = SUPPORTED if share >= FLOOR_SIGN_SHARE else REFUTED if share <= 1 - FLOOR_SIGN_SHARE else UNRESOLVED
+        lower = [val('driver', i) < sum(supplies) / 2 for i in parked]
+        consistent = sum((val('error', i) < 0) == low for i, low in zip(parked, lower)) / len(parked)
+        flat_bins = [i for i in parked if t[parked[-1]] - t[i] <= FLOOR_FLAT_S]
+        flat = max(abs(val('out', i) - val('out', parked[-1])) for i in flat_bins) <= FLOOR_FLAT_V
+        if exit_index is None or crossing is None:
+            floor = UNRESOLVED
+        elif flat and 0 <= t[exit_index] - t[crossing] <= RELEASE_DELAY_S:
+            floor = SUPPORTED
+        elif t[exit_index] < t[crossing]:
+            floor = REFUTED
+        else:
+            floor = UNRESOLVED
         floor_level_v = val('out', parked[-1])
         floor_lag_v = lag[parked[-1]]
     else:
-        floor, share, floor_level_v, floor_lag_v = 'NOT APPLICABLE (no windup)', None, None, None
+        floor, consistent, flat, floor_level_v, floor_lag_v = 'NOT APPLICABLE (no windup)', None, None, None, None
     exit_time = None if exit_index is None else t[exit_index]
     coincides = exit_time is not None and t[on] - RECOVERY_LEAD_S <= exit_time <= segment_start
     climb_from = exit_index if wound and exit_index is not None else lag_start
     linear = climb_from <= on and not any(band[i] for i in range(climb_from, on + 1))
     climb_v = vgs[on] - vgs[climb_from]
     if wound and coincides:
-        dead_zone = 'PRE-BIAS FLOOR (driver held at a supply until conduction)'
+        dead_zone = 'HELD AT SUPPLY UNTIL CONDUCTION'
     elif wound and linear and climb_v >= VGS_RISE_MIN_V and exit_time < t[on] - RECOVERY_LEAD_S:
         dead_zone = (f'CONDUCTION THRESHOLD AFTER WINDUP (driver left the supply {(t[on] - exit_time) * 1e3:.3f} ms '
                      f'before conduction; Vgs climbed {climb_v:.3f} V)')
@@ -146,11 +162,6 @@ def evaluate(series, segment_start, segment_end, gain, sign, supplies, gate_offs
         dead_zone = 'CONDUCTION THRESHOLD (no windup; linear Vgs climb to conduction)'
     else:
         dead_zone = UNRESOLVED
-    crossing = None
-    for i in range(on, 0, -1):
-        if val('error', i - 1) <= 0 < val('error', i) or val('error', i - 1) >= 0 > val('error', i):
-            crossing = t[i]
-            break
     ms = lambda x: None if x is None else round(x * 1e3, 6)
     return {
         'status': 'EVALUATED',
@@ -161,8 +172,9 @@ def evaluate(series, segment_start, segment_end, gain, sign, supplies, gate_offs
         'driver_last_supply_exit_ms': ms(exit_time),
         'exit_to_conduction_us': None if exit_time is None else round((t[on] - exit_time) * 1e6, 3),
         'exit_to_segment_us': None if exit_time is None else round((segment_start - exit_time) * 1e6, 3),
-        'servo_error_last_sign_change_before_conduction_ms': ms(crossing),
-        'windup_error_sign_agreement': share,
+        'servo_error_last_rise_through_zero_before_conduction_ms': None if crossing is None else ms(t[crossing]),
+        'parked_direction_matches_error_share': consistent,
+        'output_flat_at_floor_before_exit': flat,
         'output_at_driver_exit_v': floor_level_v,
         'ideal_lag_at_driver_exit_v': floor_lag_v,
         'maximum_lag_v': max(lag[climb_from:seg + 1]),
@@ -172,7 +184,7 @@ def evaluate(series, segment_start, segment_end, gain, sign, supplies, gate_offs
         'vgs_v': {'climb_start': vgs[climb_from], 'conduction_onset': vgs[on], 'segment': vgs[seg]},
         'verdicts': {
             'servo wound up at a supply before conduction': windup,
-            'windup induced by the pre-bias floor': floor,
+            'windup released when the reference passes the pre-bias floor': floor,
             'peak slope coincides with driver recovery': 'YES' if coincides else 'NO',
             'dead zone set by': dead_zone,
         },
