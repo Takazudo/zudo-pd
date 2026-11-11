@@ -356,20 +356,36 @@ def servo_analysis(work, name, rail, rows, ref_name, gain, sign, start, end):
     path = work / f'{name}-servo.txt'
     if not path.exists():
         return {'status': NOT_RUN, 'reason': 'servo vectors were not saved by this run'}
-    spec = servo_criteria.SERVO[rail]
-    deck = (work / f'{name}.cir').read_text()
-    topo = servo_criteria.topology(deck, rail)
-    servo = load_reference(path, rows, servo_criteria.SERVO_VECTORS)
-    ref = load_reference(work / f'{name}-ref.txt', rows)
-    times = [r[0] for r in rows]
-    series = {'out': bin_mean(times, [r[FAILED[rail][1]] for r in rows]),
-              'ref': bin_mean(times, [x[ref_name] for x in ref]),
-              'current': bin_mean(times, [r[spec['current_column']] for r in rows]),
-              'gate': bin_mean(times, [r[spec['gate_column']] for r in rows]),
-              'driver': bin_mean(times, [x[spec['driver']] for x in servo]),
-              'source': bin_mean(times, [x[spec['source']] for x in servo])}
-    result = servo_criteria.evaluate(series, start, end, gain, sign, topo['supplies_v'], topo['gate_offset_v'])
-    result['topology'] = {'driver': spec['driver'], 'amplifier': spec['amplifier'], **topo}
+    try:
+        spec = servo_criteria.SERVO[rail]
+        deck = (work / f'{name}.cir').read_text()
+        topo = servo_criteria.topology(deck, rail)
+        servo = load_reference(path, rows, servo_criteria.SERVO_VECTORS)
+        ref = load_reference(work / f'{name}-ref.txt', rows)
+        times = [r[0] for r in rows]
+        nodes = {v: [x[v] for x in servo] for v in servo_criteria.SERVO_VECTORS}
+        nodes.update({v: [x[v] for x in ref] for v in REFERENCE_VECTORS})
+        nodes.update({v: [r[i + 1] for r in rows] for i, v in enumerate(servo_criteria.MAIN_VECTORS)})
+        if 'trk12n' in (topo['plus_input'], topo['minus_input']):
+            elements = servo_criteria.deck_elements(deck)
+            ra = float(elements['RT12NA'][3].lower().replace('k', 'e3'))
+            rb = float(elements['RT12NB'][3].lower().replace('k', 'e3'))
+            nodes['trk12n'] = [rm + (o - rm) * ra / (ra + rb) for rm, o in zip(nodes['ramp_m12'], nodes['m12_out'])]
+        error = [p - m for p, m in zip(nodes[topo['plus_input']], nodes[topo['minus_input']])]
+        driver = nodes[spec['driver']]
+        reached = any(min(abs(v - s) for s in topo['supplies_v']) <= servo_criteria.RAIL_BAND_V for v in driver)
+        series = {'out': bin_mean(times, nodes[('p5_out', 'm12_out')[rail == '-12']]),
+                  'ref': bin_mean(times, nodes[ref_name]),
+                  'current': bin_mean(times, [r[spec['current_column']] for r in rows]),
+                  'gate': bin_mean(times, nodes[spec['gate_node']]),
+                  'driver': bin_mean(times, driver),
+                  'source': bin_mean(times, nodes[spec['source']]),
+                  'error': bin_mean(times, error)}
+        result = servo_criteria.evaluate(series, start, end, gain, sign, topo['supplies_v'], topo['gate_offset_v'], reached)
+    except (ValueError, KeyError, IndexError) as error_:
+        return servo_criteria.unresolved(f'servo analysis failed: {error_}', status='FAILED')
+    result['topology'] = {'driver': spec['driver'], 'amplifier': spec['amplifier'], **topo,
+                          'driver_band_reached_in_record': reached}
     return result
 
 
