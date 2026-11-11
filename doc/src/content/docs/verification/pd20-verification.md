@@ -39,3 +39,5 @@ is preserved; its R1–R4 geometry findings and the final artwork have bounded d
 Component evidence, hot-loop EMI, thermal coupling, via/stencil process, sequencing and let-through must
 remain visible until revision-specific results close them. Retain the [original review](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-b20-layout-review.md)
 with its [later disposition](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-status.md).
+The [D1–D3 interface diagnostics](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/interface-diagnostics.md)
+(2026-11-11) are arithmetic and source binding only; they do not execute T3, T5 or T7.

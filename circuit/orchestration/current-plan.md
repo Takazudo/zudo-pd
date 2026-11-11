@@ -1,6 +1,6 @@
 # zudo-pd orchestration mapping
 
-Policy date: 2026-11-12. Inspected main: `28451308655b36ad2b7afbb4487b195c432bbf7e` (PR #240 merged). This is an initial mapping, not a launch receipt or fresh hardware check. Refresh current source/issues before execution. Apply [ORCHESTRATION.md](../ORCHESTRATION.md), [WORKFLOW.md](../WORKFLOW.md) and [CLAUDE.md](../../CLAUDE.md).
+Policy date: 2026-11-12 JST (2026-11-11 UTC), committed in `0803524786d9eaf137fa61f33b15aaf51a354811` on parent main `28451308655b36ad2b7afbb4487b195c432bbf7e` (PR #240 merged). Last re-inspected main: `db49cfea495e86ceddb280c675fb1f7dafa1b791` (PR #247 merged) on 2026-11-11 UTC. This is an initial mapping, not a launch receipt or fresh hardware check. Refresh current source/issues before execution. Apply [ORCHESTRATION.md](../ORCHESTRATION.md), [WORKFLOW.md](../WORKFLOW.md) and [CLAUDE.md](../../CLAUDE.md).
 
 ## Authoritative entry points and boundaries
 

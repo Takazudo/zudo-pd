@@ -47,8 +47,8 @@ Phase33 therefore cannot answer D2 or D3; it only informs D1.
 | --- | --- | --- |
 | Designed common RAMP slope too steep | **Refuted** for the designed common RAMP (calculated); recorded `v(ramp)` not inspected | Ideal tracking slope ≤ 0.3137 V/ms (+5) and 0.7611 V/ms (−12) at −10 % RAMP C; recorded peaks are 3.04× and 1.94× the ideal, only inside the exception voltage regions |
 | Start-order clamp release (U15/U16 on RAMP_P5/RAMP_M12 behind RCP1 1 kΩ) gives a fast reference edge | **Unresolved** | Not tested; the per-rail reference nodes were not extracted from the recorded runs |
-| Maximum-step artefact | **Refuted** for step; other solver settings and macromodel fidelity unresolved | 5 → 2 µs changes each peak by about +0.01 % |
-| Slope and current are one constraint | **Supported** for the modeled pure C + ESR load | Recorded ESR-branch currents equal C·dV/dt (114.58 vs 114.51 mA; 265.46 vs 265.26 mA); 114 mA/120 µF = 0.95 V/ms and 265 mA/180 µF = 1.4722 V/ms, so the 1.47 V/ms slope ceiling is slightly tighter. A fix must lower slope; a resistive or nonlinear load part would separate the two |
+| Maximum-step artefact | **Refuted** for step; other solver settings and macromodel fidelity unresolved | 5 → 2 µs changes the peak by +0.01034 % (+5) and +0.01040 % (−12) |
+| Slope and current are one constraint | **Supported** for the modeled pure C + ESR load | Recorded ESR-branch currents equal C·dV/dt (114.58 vs 114.51 mA; 265.46 vs 265.26 mA); 114 mA/120 µF = 0.95 V/ms equals the +5 slope ceiling, and 265 mA/180 µF = 1.4722 V/ms makes the 1.47 V/ms −12 slope ceiling slightly tighter. A fix must lower slope; a resistive or nonlinear load part would separate the two |
 | No-load overshoot of the pre-bias target near conduction | **Unresolved** | Consistent with no-load-only, low-voltage location. Distinguish with one paired nom/adv run changing only the pre-bias target (RT12O/RT5O/RT12NO) or CT, after design review. Not run |
 | Strict monotonicity | **Unresolved** | Small negative adjacent increments remain; no tolerance adopted |
 
@@ -93,14 +93,14 @@ the contract's informal "about 1.5 V". One-rail-to-AGND loads are illustrative o
 ## D3 maximum delivered current
 
 Trip maxima from the existing calculator are 2.08485 / 1.99544 / 0.46084 A against the
-2.1 / 2.0 / 0.5 A maxima, leaving 15.2 / 4.6 / 39.2 mA. The limiter trips and opens; it does
+2.1 / 2.0 / 0.5 A maxima, leaving 15.15 / 4.56 / 39.16 mA. The limiter trips and opens; it does
 not regulate, so delivered current keeps rising until switch-off. **The worst-case delivered
 peak is at least the trip maximum; the trip threshold is not an upper bound (refuted as a
 compliance argument).**
 Compliance stays **unresolved**: INA301 tp ≤ 1 µs is the only guaranteed stage; U9A is
 slew-limited (about 70 µs typical); latch, gate-pulldown and pair turn-off times and the
 load-side di/dt are UNSOURCED. With 1 µs total response the −12 V margin allows only
-4.6 mA/µs of growth.
+4.56 mA/µs of growth.
 
 ## Next inputs (no correction adopted)
 

@@ -226,13 +226,13 @@
         "id": "D1-H2",
         "claim": "The excess is a maximum-step artefact",
         "conclusion": "REFUTED for maximum step; UNRESOLVED for other solver settings and macromodel accuracy",
-        "evidence": "5 us to 2 us changes each peak by about +0.01 %; reltol/abstol/method and vendor-model fidelity were not varied for these cases."
+        "evidence": "5 us to 2 us changes the peak by +0.01034 % (+5) and +0.01040 % (-12); reltol/abstol/method and vendor-model fidelity were not varied for these cases."
       },
       {
         "id": "D1-H3",
         "claim": "Slope and current exceedances are one constraint, not two",
         "conclusion": "SUPPORTED",
-        "evidence": "The recorded ESR-branch currents equal C x dV/dt at the peak within ESR effects, and each current ceiling corresponds to the slope ceiling at contract capacitance (114 mA / 120 uF = 0.95 V/ms; 265 mA / 180 uF = 1.4722 V/ms, so the 1.47 V/ms slope ceiling is the slightly tighter one). For the modeled pure C + ESR load a correction must reduce the slope; a current-only argument cannot pass. A load with a resistive or nonlinear part would separate the two."
+        "evidence": "The recorded ESR-branch currents equal C x dV/dt at the peak within ESR effects (+5: 114.58 vs 114.51 mA; -12: 265.46 vs 265.26 mA), and each current ceiling corresponds to the slope ceiling at contract capacitance (114 mA / 120 uF = 0.95 V/ms against 0.95 V/ms (equal); 265 mA / 180 uF = 1.4722 V/ms against 1.47 V/ms (slope ceiling tighter)). For the modeled pure C + ESR load a correction must reduce the slope; a current-only argument cannot pass. A load with a resistive or nonlinear part would separate the two."
       },
       {
         "id": "D1-H4",
@@ -473,7 +473,7 @@
         "id": "D3-H2",
         "claim": "Delivered current including overshoot stays within the contract maximum",
         "conclusion": "UNRESOLVED",
-        "evidence": "Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound; with margins of tens of mA, even 1 us response allows only tens of mA/us growth."
+        "evidence": "Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound. Margins are 15.15 / 4.56 / 39.16 mA (+12 / -12 / +5), so even a 1 us total response allows at most 4.56 mA/us of growth on -12."
       }
     ]
   },
