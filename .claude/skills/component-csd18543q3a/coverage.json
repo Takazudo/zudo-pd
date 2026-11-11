@@ -12,7 +12,10 @@
         "fact-c840100-vds",
         "fact-c840100-vgs",
         "fact-c840100-rdson-10v-max",
-        "fact-c840100-rdson-4v5-max"
+        "fact-c840100-rdson-4v5-max",
+        "fact-c840100-vgsth-min",
+        "fact-c840100-vgsth-max",
+        "fact-c840100-vgsth-temperature-curve"
       ],
       "blocking_fact_ids": []
     },
@@ -26,6 +29,22 @@
         "fact-c840100-identity"
       ],
       "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c840100-threshold-over-temperature",
+      "record_id": "rec-c840100",
+      "domain": "threshold-over-temperature",
+      "status": "OPEN",
+      "reason": "SLPS633 guarantees VGS(th) 1.5-2.7 V only at 25 C (ID 250 uA); Figure 6 gives a typical temperature curve only, and the milliamp-level transfer characteristic is not readable. No guaranteed hot or cold threshold bound exists in the bundle.",
+      "fact_ids": [
+        "fact-c840100-vgsth-temperature-curve",
+        "fact-c840100-vgsth-hot-limit-unsourced",
+        "fact-c840100-transfer-5ma-unsourced"
+      ],
+      "blocking_fact_ids": [
+        "fact-c840100-vgsth-hot-limit-unsourced",
+        "fact-c840100-transfer-5ma-unsourced"
+      ]
     },
     {
       "coverage_id": "cov-c840100-assembled-qualification",
