@@ -29,6 +29,44 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def verify_executed_inputs(attempt_root, input_sha256):
+    """Bind the lib/ tree and .spiceinit an attempt actually mounted to the runner's input snapshot.
+
+    The solver reads the per-attempt copies, not inputs/, so a snapshot match alone does not prove
+    what executed. Returns the executed digests; raises ValueError naming the first mismatch.
+    """
+    attempt_root = Path(attempt_root)
+    expected = {k: v for k, v in input_sha256.items() if k.startswith('lib/')}
+    if '.spiceinit' not in input_sha256 or not expected:
+        raise ValueError('runner input snapshot lacks .spiceinit or lib/ entries')
+    library = attempt_root / 'lib'
+    if not library.is_dir() or library.is_symlink():
+        raise ValueError(f'{attempt_root}: executed library directory missing')
+    executed = {}
+    for path in sorted(library.rglob('*')):
+        relative = 'lib/' + path.relative_to(library).as_posix()
+        if path.is_symlink():
+            raise ValueError(f'{attempt_root}: executed input {relative} is a symlink, not a retained copy')
+        if path.is_file():
+            executed[relative] = digest(path)
+    for relative in sorted(expected.keys() - executed.keys()):
+        raise ValueError(f'{attempt_root}: executed input missing: {relative}')
+    for relative in sorted(executed.keys() - expected.keys()):
+        raise ValueError(f'{attempt_root}: unexpected executed input: {relative}')
+    for relative in sorted(expected):
+        if executed[relative] != expected[relative]:
+            raise ValueError(f'{attempt_root}: executed input {relative} differs from runner input snapshot')
+    if attempt_root.is_symlink() or (attempt_root / 'tracking').is_symlink():
+        raise ValueError(f'{attempt_root}: executed attempt or tracking directory is a symlink, not a retained copy')
+    settings = attempt_root / 'tracking' / '.spiceinit'
+    if settings.is_symlink() or not settings.is_file():
+        raise ValueError(f'{attempt_root}: executed settings missing: tracking/.spiceinit')
+    executed['tracking/.spiceinit'] = digest(settings)
+    if executed['tracking/.spiceinit'] != input_sha256['.spiceinit']:
+        raise ValueError(f'{attempt_root}: executed settings tracking/.spiceinit differ from runner input snapshot')
+    return executed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory')

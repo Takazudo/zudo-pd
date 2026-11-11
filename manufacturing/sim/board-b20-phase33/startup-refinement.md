@@ -60,3 +60,14 @@ python3 manufacturing/sim/board-b20-phase33/analyze_refinement.py \
 A failed/incomplete run is not accepted; retain and disposition it rather than
 mixing its outputs with another run. The audit requires exactly one complete
 original-only run per requested case and validates supplemental/main time grids.
+Since 2026-11-11 it also binds the copies the solver actually mounted for the
+selected attempt (`<run>/<case>/0/lib/**` and `<run>/<case>/0/tracking/.spiceinit`)
+to the runner `inputs/` snapshot and the preparation receipt: a missing,
+extra, symlinked or altered executed copy is rejected by name. Failed attempts
+are retained but not analyzed. Receipts written before this check are not
+rewritten; the 2026-11-09 figures above came from an independent review of the
+executed copies, and a fresh committed-tool audit of those runs requires their
+original raw directories, which are not in Git. The committed
+`startup-refinement-20261109.json` was produced by the analyzer before this
+check (its recorded `analysis_sha256` names that revision); later analyses add an
+`executed_input_sha256` field and one limitation line.
