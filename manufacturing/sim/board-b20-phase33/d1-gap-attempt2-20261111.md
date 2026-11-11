@@ -48,3 +48,11 @@ shrinks: 12.2 µV at 2.0 V and 55.6 µV at 1.6 V.
   below the smallest swept gap (1.2 V), and that part conducts at a lower Vgs.
 - **No passing gap to compare.** The model's 5 mA onset is not the datasheet's 250 µA threshold, so this is a
   span comparison only, not a pass claim.
+
+## Owner decision (2026-11-11): C1 as a fixed gate pre-bias is rejected
+- **Deciding fact:** the threshold window, not the rule 6 results. A floor that leaves 2.0 V on a 2.7 V part
+  leaves about 0.8 V on a 1.5 V part. The enable transient already brings Vgs within about 8 mV of onset in
+  these cases.
+- **Rule 6 significance:** the manager judges 12 to 56 µV far below any contract quantity. The rule verdicts
+  above still stand as recorded.
+

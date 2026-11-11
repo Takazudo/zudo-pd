@@ -74,8 +74,12 @@ without defeating disconnection. **C2 minimum-load bleeder: rejected by owner de
 | −12 output to +5 V | ≤ 996.0 Ω | Defeats disconnection: a disabled output is pulled toward +5 V |
 
 An EN-gated opposite-rail sink is also **rejected**: it needs the disconnect and AGND-return
-rules reinterpreted. **C1, gate pre-bias while enabled, is under evaluation** and is blocked
-on a guaranteed VGS(th) minimum at the operating temperature and test current.
+rules reinterpreted. **C1, a fixed gate pre-bias while enabled, is rejected** by owner decision.
+No fixed floor fits the threshold window: a floor that leaves 2.0 V on a 2.7 V part leaves
+about 0.8 V on a 1.5 V part, and the enable transient already brings Vgs within about 8 mV of
+the model onset. The [gap sensitivity](d1-gap-attempt2-20261111.md) found no passing gap; its
+microvolt rule 6 results are not the reason for rejection. C3, a slower gate path, remains an
+unevaluated fallback.
 
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
 therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and
@@ -131,9 +135,9 @@ load-side di/dt are UNSOURCED. With 1 µs total response the −12 V margin allo
 ## Next inputs (no correction adopted)
 
 1. D1: the reference side is refuted and the dead zone is set by the pass-pair conduction
-   threshold on both failed rails. A minimum-load bleeder (C2) is rejected by owner decision;
-   gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed
-   CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.
+   threshold on both failed rails. A minimum-load bleeder (C2) and a fixed gate pre-bias
+   while enabled (C1) are rejected by owner decision. A threshold-independent correction is
+   the next proposal. Nothing is adopted.
 2. D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a
    numeric definition of "absent", and switching data for the disconnect/discharge edge.
    Without them, only a design that couples the rails (or an agreed contract reading)

@@ -320,9 +320,12 @@ def correction_candidates(calc, record=D1_SERVO):
             'status': OWNER_REJECTED,
             'reason': 'Needs the disconnect and AGND-return rules reinterpreted and adds an enable-edge reverse-excursion risk.'},
         'C1 gate pre-bias while enabled': {
-            'status': 'UNDER EVALUATION (not adopted)',
-            'blocking_input': 'A guaranteed CSD18543Q3A VGS(th) minimum at the operating temperature and test current.'},
-        'C3 slower gate path': {'status': 'FALLBACK only if C1 fails'},
+            'status': OWNER_REJECTED,
+            'reason': 'A fixed floor cannot fit the threshold window: one that leaves a 2.0 V gap on a 2.7 V part leaves '
+                      'about 0.8 V on a 1.5 V part (guaranteed VGS(th) 1.5-2.7 V at 25 C), while the enable transient '
+                      'already brings Vgs within about 8 mV of the model onset. The sensitivity found no passing gap '
+                      '(d1-gap-attempt2-20261111.md); its microvolt rule 6 results are not the reason for rejection.'},
+        'C3 slower gate path': {'status': 'FALLBACK (not evaluated)'},
         'bias_current_low_side_margins': {
             'rule': 'The limiter shunts sit upstream of each pair, so bias or bleeder current is sensed: delivered current '
                     'at trip becomes trip_max - I_bias (the maximum-delivered margin grows), while the transient-minimum '
@@ -515,8 +518,8 @@ def d1_next_input(record=D1_SERVO):
     if all(row['verdicts']['dead zone set by'].startswith('CONDUCTION THRESHOLD') for row in rows.values()):
         return ('D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both '
                 'failed rails (D1-S). A minimum-load bleeder (C2) is rejected by owner decision because the pass pair is also '
-                'the output disconnect; gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed '
-                'CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.')
+                'the output disconnect, and a fixed gate pre-bias while enabled (C1) is rejected because no fixed floor fits '
+                'the CSD18543Q3A threshold window. A threshold-independent correction is the next proposal. Nothing is adopted.')
     return ('D1: the reference side is refuted but the servo record does not place both dead zones at the conduction '
             'threshold; resolve D1-S before choosing a correction candidate.')
 
