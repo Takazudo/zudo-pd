@@ -86,6 +86,27 @@ therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / 
 consumes the transient-minimum margin (41.59 / 42.16 / 36.94 mA) and the startup-into-full-load
 margin (8.94 / 13.29 / 29.09 mA).
 
+## D1 enable-edge conduction: a recorded negative, with no order hold
+
+The question was whether a part at typical 2.0 V or minimum 1.5 V VGS(th) would conduct at the
+enable edge and produce an output excursion. Inference from a single-threshold model (baseline
+waveforms of run 43109786353) says it would not: the enable transient is the designed pre-bias.
+The loop drives each gate only until its own pair conducts, then the output sits at its floor.
+The adv deck's constant gate offsets emulate a ±0.5 V threshold shift, and across that shift the
+distance to onset barely moves:
+
+| Rail, threshold vs model | Peak Vgs | 5 mA onset Vgs | Distance | Peak current | Output extreme |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| +5, model | 2.3097 V | 2.4428 V | 133.1 mV | 1.26 mA | 51.9 mV |
+| +5, −0.5 V | 2.3146 V | 2.4430 V | 128.4 mV | 1.32 mA | 51.7 mV |
+| −12, model | 2.3426 V | 2.3504 V | 7.8 mV | 4.63 mA | −97.0 mV |
+| −12, +0.5 V | 2.3430 V | 2.3527 V | 9.7 mV | 4.65 mA | −97.2 mV |
+
++5 V stays far inside its 0.8 V hold screen, and −12 V and +12 V (144 mV) stay below the 1.5 V
+analog threshold. The open check is four constant-offset corners, mapped from the model's 250 µA
+point (2.163 V): VO2 −0.66 / +0.54 V on +5 and VO3 −0.66 / +0.54 V on −12. These cover −12 below
+the model threshold and +5 beyond −0.5 V, which are untested today, and ride on the next dispatch.
+
 ## D2 discharge and shutdown
 
 Ideal simultaneous disconnect (zero skew; the contract allows up to 1 ms and the installed
