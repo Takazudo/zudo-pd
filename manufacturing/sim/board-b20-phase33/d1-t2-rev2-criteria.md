@@ -70,7 +70,7 @@ R_1 1 MΩ, R_2 4.99 MΩ and V_R = REF25.
 | Output limiter R_O | `RT2O t2a t2o` | 100 kΩ ±1 % | New |
 | Limiter diode D_L | `DT2L t2o t2l DT2LX` + `VT2L t2l 0 0` (ammeter) | FJH1100 model as a stand-in | New. t2o ≤ about +VF. Needs no low leakage |
 | Clamp diode DT2C | `DT2C t2c t2o DT2CX` | FJH1100 | Sourced model, replacing DBODY |
-| R_C | `RT2C t2c t2g` | 402 kΩ ±1 % | 499 → 402 kΩ, so R_C + R_O = 502 kΩ keeps k / R |
+| R_C | `RT2C t2c t2g` | 402 kΩ ±1 % | 499 → 402 kΩ, so R_C + R_O = 502 kΩ: k / R within 0.6 % of attempt 1 (crossover and phase unchanged to that order) |
 | Connection | `VT2G t2g trk12n_fb 0` | permanent; inert control: `VT2G t2g 0 0` | **BT2G deleted.** No switch on the summing node |
 | Window | `RT2W t2m t2w` 100 kΩ + `BT2W t2w m12_pre` | closed while v(ennd) < 1.0 (the complement of the reset shape) | New. It forces XT2B high outside the reset window |
 | Capture diode DT2K | `DT2K m12_drv t2k DT2KX` | BAS116LT1G | Sourced model, replacing DBODY |
@@ -138,9 +138,13 @@ The cases run after the existing nom/adv identity control reproduces, in the ord
 | k80n | adv | DT2K IR = 80 nA (the guaranteed 150 °C row), everything else sourced | **Required.** It decides DT2K's leakage requirement |
 | k1u | adv | DT2K IR = 1 µA | **Informational**: it locates the DT2K crossing and cannot pass or fail the candidate |
 | ir1n, ir2n | adv | DT2C IR = 1 nA / 2 nA | **Informational**: they locate the DT2C rule 6(b) crossing |
-| hot | nom, adv | DT2C and D_L IR = 3 pA × 2^((T − 25) / 7) at T = `HOT_T_C`; DT2K IR = 80 nA | **Separate hot verdict** |
+| hot | nom, adv | DT2C and D_L: both FJH1100 rows scaled by 2^((T − 25) / 7) at T = `HOT_T_C` (3 pA up to 5 V, 10 pA from 5 to 15 V, each × the factor); DT2K IR = 80 nA | **Separate hot verdict** |
 
 Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
+
+**Model temperature.** The decks set no TEMP or TNOM, so ngspice runs at 27 °C. Each diode's IS and N are fitted with
+kT/q at 27 °C, so the simulated VF equals each row and each spread value at the simulated temperature. The rows
+themselves are 25 °C; the 2 K offset is inside the VF-spread cases.
 
 ## Execution rules
 
@@ -151,7 +155,7 @@ Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
   label) and the loaded-baseline identity are unchanged. ABORTED means not evaluated and is not retried with pinned
   settings.
 - **Matched-variant ladder (admitted).**
-  - **Who enters.** A case enters only if the control REPRODUCED and the case itself ran pinned (COMPLETE or
+  - **Who enters.** Only candidate cases (not the enable-edge corners, which enter only as baselines). A case enters only if the control REPRODUCED and the case itself ran pinned (COMPLETE or
     ABORTED). Its own pinned run or one in its baseline chain must have ABORTED, and the chain's terminal pinned
     reference (`run` or `base`) must have completed. A case whose terminal reference aborted is reported NOT
     EVALUATED, "no anchor".

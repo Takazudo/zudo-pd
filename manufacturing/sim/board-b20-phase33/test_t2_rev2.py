@@ -33,7 +33,7 @@ class DiodeSlotTests(unittest.TestCase):
             r2.t2_block()
 
     def test_models_reproduce_their_rows(self):
-        vt = r2.VT_25C_V
+        vt = r2.VT_SIM_V
         f = r2.FJH1100['model']
         self.assertAlmostEqual(f['N'] * vt * math.log(1e-6 / f['IS']), 0.530, places=6)
         self.assertAlmostEqual(f['N'] * vt * math.log(10e-6 / f['IS']), 0.605, places=6)
@@ -96,7 +96,7 @@ class BlockTests(unittest.TestCase):
             line = next(x for x in block if x.startswith(f'.model {r2.MODEL_NAME[role]}'))
             params = dict(re.findall(r'(\w+)=(\S+)', line.split(';')[0]))
             n, i = float(params['N']), r2.OPERATING_CURRENT_A[role]
-            self.assertAlmostEqual(n * r2.VT_25C_V * math.log(i / float(params['IS'])), vf, places=4)
+            self.assertAlmostEqual(n * r2.VT_SIM_V * math.log(i / float(params['IS'])), vf, places=4)
             others = set(r2.t2_block()) ^ set(block)
             self.assertEqual({x.split()[1] for x in others}, {r2.MODEL_NAME[role]}, label)
 
@@ -239,8 +239,9 @@ class VariantTests(unittest.TestCase):
                   ('e12hi', 'nom'): 'ABORTED'}
         with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}), \
                 mock.patch.object(r2.t1, 'control_gate', lambda w: {'verdict': 'REPRODUCED'}):
-            # the aborted corners enter themselves; t2lo enters through e12lo; t2hi never ran; reR20 has no anchor
-            self.assertEqual(set(r2.aborted_pinned('w')), {('t2lo', 'nom'), ('e12lo', 'nom'), ('e12hi', 'nom')})
+            # t2lo enters through its aborted corner baseline; corners never enter as cases; t2hi never ran;
+            # reR20 has no anchor
+            self.assertEqual(r2.aborted_pinned('w'), [('t2lo', 'nom')])
             self.assertEqual(r2.unanchored('w'), [('t2load', 'reR20')])
 
     def test_a_step_applies_only_to_a_chain_that_carries_its_option(self):

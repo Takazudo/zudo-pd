@@ -39,15 +39,17 @@ SCOPE = 'T2 rev 2 (a2 output limiter, sourced diodes) on -12 V under the revised
 # ---------------------------------------------------------------- diodes (every value traced to a datasheet row)
 MODEL_PARAMETERS = ('IS', 'N', 'RS', 'CJO', 'VJ', 'M', 'BV', 'IBV')
 LEAK_KNEE_V = 0.05             # leakage reaches its guaranteed maximum within 0.05 V of reverse bias (conservative)
-VT_25C_V = 0.025693            # kT/q at 25 C, the temperature of every retained row
-_N = 0.075 / (VT_25C_V * math.log(10))      # 75 mV per decade between the typical 1 uA and 10 uA VF rows
-_IS = 1e-6 / math.exp(0.530 / (_N * VT_25C_V))
+# kT/q at ngspice's default 27 C (the decks set no TEMP or TNOM): the fit then reproduces each row's VF exactly at
+# the simulated temperature; the rows themselves are 25 C, a 2 K difference the VF-spread cases cover.
+VT_SIM_V = 0.025865
+_N = 0.075 / (VT_SIM_V * math.log(10))      # 75 mV per decade between the typical 1 uA and 10 uA VF rows
+_IS = 1e-6 / math.exp(0.530 / (_N * VT_SIM_V))
 FJH1100 = {
     'mpn': 'FJH1100', 'manufacturer': 'onsemi (Fairchild)',
     'source': ('onsemi FJH1100 Rev. B1, sha256 1301249ba54770d82b6a1ec1b7d9d4d832a4fc442ee4f55b99ab6c8835bf4d8e; '
                'staged evidence /mnt/project-files/d1/fjh1100-evidence/fjh1100-evidence.json (STAGED_OUTSIDE_INVENTORY: '
                'no LCSC ID, so no repo owner bundle until the part is a fitted candidate)'),
-    'model': {'IS': _IS, 'N': _N, 'RS': (0.995 - _N * VT_25C_V * math.log(50e-3 / _IS)) / 50e-3,
+    'model': {'IS': _IS, 'N': _N, 'RS': (0.995 - _N * VT_SIM_V * math.log(50e-3 / _IS)) / 50e-3,
               'CJO': 2.0e-12, 'VJ': 0.7, 'M': 0, 'BV': 30, 'IBV': 5e-6},
     'ir_max_a': 3.0e-12, 'ir_rows': ((5.0, 3.0e-12), (15.0, 10e-12)), 'reverse_rating_v': 15,
     'rows': {'IS': 'fact-fjh1100-vf TYPICAL 530 mV at 1 uA (with N)',
@@ -61,14 +63,14 @@ FJH1100 = {
              'ir_rows': 'fact-fjh1100-ir-5v and fact-fjh1100-ir-15v: 3.0 pA up to 5 V, 10 pA from 5 to 15 V',
              'reverse_rating_v': 'fact-fjh1100-wiv working inverse voltage 15 V, absolute maximum'},
 }
-_KN = 0.100 / (VT_25C_V * math.log(10))     # 100 mV per decade between the 1 mA and 10 mA VF maxima
-_KIS = 1e-3 / math.exp(0.900 / (_KN * VT_25C_V))
+_KN = 0.100 / (VT_SIM_V * math.log(10))     # 100 mV per decade between the 1 mA and 10 mA VF maxima
+_KIS = 1e-3 / math.exp(0.900 / (_KN * VT_SIM_V))
 BAS116L = {
     'mpn': 'BAS116LT1G', 'manufacturer': 'onsemi',
     'source': ('onsemi BAS116LT1/D Rev. 14, sha256 ce1244d979892cbc1b4b1fffc99568f098a5d36c3e4c20a431952b0b066f2db2; '
                'staged evidence /mnt/project-files/d1/dt2k-evidence/dt2k-low-leakage-evidence.json '
                '(STAGED_OUTSIDE_INVENTORY: LCSC ID not established)'),
-    'model': {'IS': _KIS, 'N': _KN, 'RS': (1.100 - _KN * VT_25C_V * math.log(50e-3 / _KIS)) / 50e-3,
+    'model': {'IS': _KIS, 'N': _KN, 'RS': (1.100 - _KN * VT_SIM_V * math.log(50e-3 / _KIS)) / 50e-3,
               'CJO': 2.0e-12, 'VJ': 0.7, 'M': 0, 'BV': 75, 'IBV': 100e-6},
     'ir_max_a': 5.0e-9, 'ir_rows': ((75.0, 5.0e-9),), 'ir_hot_max_a': 80e-9, 'reverse_rating_v': 75,
     'rows': {'IS': 'VF MAX 900 mV at 1 mA (with N); extrapolated to uA (PROJECT inference: no uA row)',
@@ -91,7 +93,7 @@ RATING_MIN_V = {'DT2C': 10.6, 'DT2K': 27.5, 'DL': 12.8}   # d1-t2-a2-dc-checks-2
 
 # ---------------------------------------------------------------- (a2) values
 VALUES = {
-    'R_C': ('402k', 'clamp injection resistor into TRK12N_FB, +/-1 %; R_C + R_O = 502k keeps attempt 1 k / R'),
+    'R_C': ('402k', 'clamp injection resistor into TRK12N_FB, +/-1 %; R_C + R_O = 502k, +0.6 % on attempt 1 499k'),
     'R_O': ('100k', 'output limiter resistor, XT2B output to t2o, +/-1 %'),
     'R_W': ('100k', 'window pull of t2m toward M12_PRE, +/-1 %'),
 }
@@ -159,7 +161,7 @@ def model_line(role, vf=None):
     note = ''
     if vf is not None:
         i = OPERATING_CURRENT_A[role]
-        params['IS'] = i / math.exp(vf / (params['N'] * VT_25C_V))
+        params['IS'] = i / math.exp(vf / (params['N'] * VT_SIM_V))
         note = f', VF {vf:g} V at {i:g} A (spread case)'
     return (f'.model {MODEL_NAME[role]} D(' + ' '.join(f'{p}={params[p]:g}' for p in MODEL_PARAMETERS) + ')'
             + f'  ; {d["mpn"]}{note}')
@@ -229,7 +231,7 @@ def a2_line(name):
 EXTRA = {
     **{label: ({'vf': spread}, ('nom', 'adv')) for label, spread in VF_SPREAD_V.items()},
     **{label: ({'ir': dict([point])}, ('adv',)) for label, point in IR_LADDER_A.items()},
-    'hot': ({'ir': None}, ('nom', 'adv')),     # every role at hot_ir(), filled when the decks are built
+    'hot': ({'ir': None}, ('nom', 'adv')),     # every role at hot_rows(), filled when the decks are built
 }
 LABEL_ORDER = t1.LABEL_ORDER + tuple(EXTRA)
 INFORMATIONAL = ('ir1n', 'ir2n', 'k1u')   # locating only: reported, never part of the candidate verdict
@@ -302,7 +304,7 @@ def a2_metrics(times, s, t2=None, input_window=INPUT_WINDOW_S, running=RUNNING_W
     m['reverse_within_rating'] = {
         role: m[key] <= DIODES[role]['reverse_rating_v']
         for role, key in (('DT2C', 'dt2c_reverse_max_v'), ('DT2K', 'dt2k_reverse_max_v'), ('DL', 'dl_reverse_max_v'))
-        if key in m and DIODES[role] is not None}
+        if key in m}
     return m
 
 
@@ -371,6 +373,7 @@ def analyze(work):
                      row=a2_case)
     out['rules'] = 'rules 1-9 as revised (d1-rules-revision-20261112.md); 10-14 and L1-L4 unchanged'
     if out['t2'].get('verdict') == 'NOT EVALUATED' and 'no_load' not in out['t2']:
+        out['candidate'] = {'verdict': 'NOT EVALUATED', 'reason': out['t2'].get('reason')}
         return out
     base_run = single_run(work)
     for name, row in out['t2']['loaded'].items():
@@ -450,6 +453,9 @@ def vlabel(variant, label):
     return f'v-{variant}-{label}'
 
 
+CANDIDATE_CASES = [case for case in BASELINE if case[0] not in t1.CORNER_CASES]   # corners enter only as baselines
+
+
 def unit(case):
     """A case and its baseline chain down to a pinned reference ('run' or 'base'); they run together."""
     chain = [case]
@@ -464,7 +470,7 @@ def aborted_pinned(work):
     if t1.control_gate(work)['verdict'] != 'REPRODUCED':
         return []
     out = []
-    for case in BASELINE:
+    for case in CANDIDATE_CASES:
         chain = [pinned_status(work, *c)['status'] for c in unit(case)]
         if chain[0] in ('COMPLETE', 'ABORTED') and 'ABORTED' in chain and chain[-1] == 'COMPLETE':
             out.append(case)
@@ -475,7 +481,7 @@ def unanchored(work):
     """Cases left out of the ladder because their terminal pinned reference itself aborted."""
     if t1.control_gate(work)['verdict'] != 'REPRODUCED':
         return []
-    return [case for case in BASELINE if pinned_status(work, *case)['status'] in ('COMPLETE', 'ABORTED')
+    return [case for case in CANDIDATE_CASES if pinned_status(work, *case)['status'] in ('COMPLETE', 'ABORTED')
             and pinned_status(work, *unit(case)[-1])['status'] != 'COMPLETE']
 
 
