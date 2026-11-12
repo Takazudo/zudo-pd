@@ -113,12 +113,12 @@ def add_output(text, line, what):
     return text.replace('.endc', line + '\n.endc')
 
 
-def with_t2(text, name, inert=False):
+def with_t2(text, name, inert=False, block=None):
     """Insert the T2 block before .options, the Q6 drain ammeter and the T2 output line."""
     if text.count('\n.options') != 1:
         raise ValueError(f'{name}: expected one .options line')
     text = replace_once(text, Q6_LINE[0], Q6_LINE[1], name)
-    text = text.replace('\n.options', '\n' + '\n'.join(t2_block(inert)) + '\n.options')
+    text = text.replace('\n.options', '\n' + '\n'.join((block or t2_block)(inert)) + '\n.options')
     return add_output(text, t2_line(name), name)
 
 
@@ -160,25 +160,26 @@ def executed_attempt(name):
     return attempt
 
 
-def derive_cases():
-    """label -> {deck name: deck text}."""
+def derive_cases(block=None):
+    """label -> {deck name: deck text}. block replaces the attempt 1 candidate (a later revision)."""
     executed = {k: v['executed'] for k, v in derive_decks().items()}
     nom, adv = executed['nom'], executed['adv']
     out = {'base': {n: loaded_deck(n) for n in LOADED}}
     for label, (rail, which) in CORNER_CASES.items():
         out[label] = {'nom': no_load(corner(nom, rail, which, label), 'nom')}
-    out['ctrl'] = {'adv': with_t2(no_load(adv, 'adv'), 'adv', inert=True)}
-    out['t2'] = {'nom': with_t2(no_load(nom, 'nom'), 'nom'), 'adv': with_t2(no_load(adv, 'adv'), 'adv')}
+    out['ctrl'] = {'adv': with_t2(no_load(adv, 'adv'), 'adv', inert=True, block=block)}
+    out['t2'] = {'nom': with_t2(no_load(nom, 'nom'), 'nom', block=block),
+                 'adv': with_t2(no_load(adv, 'adv'), 'adv', block=block)}
     for label, which in (('t2lo', 'lo'), ('t2hi', 'hi')):
-        out[label] = {'nom': with_t2(no_load(corner(nom, '-12', which, label), 'nom'), 'nom')}
-    out['t2load'] = {n: with_t2(loaded_deck(n), n) for n in LOADED}
+        out[label] = {'nom': with_t2(no_load(corner(nom, '-12', which, label), 'nom'), 'nom', block=block)}
+    out['t2load'] = {n: with_t2(loaded_deck(n), n, block=block) for n in LOADED}
     return out
 
 
-def prepare(work):
+def prepare(work, block=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
     work = Path(work)
-    manifest = {'scope': SCOPE, 'criteria': 'd1-t2-criteria.md', 'labels': {}}
-    for label, decks in derive_cases().items():
+    manifest = {'scope': scope, 'criteria': criteria, 'labels': {}}
+    for label, decks in derive_cases(block).items():
         root = work / 't2' / label
         (root / 'tracking').mkdir(parents=True)
         shutil.copytree(work / 'lib', root / 'lib')
@@ -376,7 +377,7 @@ def baseline_record(work, base_run, label, name):
     return gap.case_record(state['run'], name)
 
 
-def no_load_case(work, base_run, label, name):
+def no_load_case(work, base_run, label, name, judge=None):
     state = status(work, label, name)
     row = {'status': state['status']}
     if state['status'] != 'COMPLETE':
@@ -393,7 +394,8 @@ def no_load_case(work, base_run, label, name):
         record = case_record(state['run'], name, t2=True)
         bs, vs = gap.screens(base), gap.screens(record)
         b, v = gap.rail_metrics(base, '-12'), gap.rail_metrics(record, '-12')
-        rules = {f'{k + 1} {r}': ok for k, (r, ok) in enumerate(gap.judge('-12', vs, bs, v, b).items())}
+        judged = judge('-12', vs, bs, v, b, record) if judge else gap.judge('-12', vs, bs, v, b)
+        rules = {f'{k + 1} {r}': ok for k, (r, ok) in enumerate(judged.items())}
         m = t2_metrics(record)
         rules.update(t2_rules(m))
         row.update({'baseline': f'{base_label}/{base_name}', **gap.summary(v, vs['-12']), 't2': m, 'rules': rules,
@@ -533,11 +535,11 @@ def corner_case(work, label):
     return row
 
 
-def analyze(work):
+def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
     work = Path(work)
     base_run = single_run(work)
     identity = loaded_identity(work)
-    result = {'scope': SCOPE, 'criteria': 'd1-t2-criteria.md', 'electrical_acceptance': 'NOT ESTABLISHED',
+    result = {'scope': scope, 'criteria': criteria, 'electrical_acceptance': 'NOT ESTABLISHED',
               'd1': 'HELD (a -12 V only result does not close D1)', 'loaded_baseline_identity': identity,
               'corners': {label: corner_case(work, label) for label in CORNER_CASES},
               'control': control(work)}
@@ -545,7 +547,7 @@ def analyze(work):
         result['t2'] = {'verdict': 'NOT EVALUATED',
                         'reason': 'inert control did not reproduce the recorded D1 failure; the realization is the finding'}
         return result
-    no_load_rows = {f'{label}/{name}': no_load_case(work, base_run, label, name) for label, name in NO_LOAD_T2}
+    no_load_rows = {f'{label}/{name}': no_load_case(work, base_run, label, name, judge) for label, name in NO_LOAD_T2}
     loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced']) for name in LOADED}
     rows = list(no_load_rows.values()) + list(loaded_rows.values())
     if all(r.get('passes') is True for r in rows):
