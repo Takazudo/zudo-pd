@@ -43,8 +43,8 @@
   },
   "design_change_on_paper": {
    "add": "RT2S t2c 0 10k",
-   "status": "not pre-registered, not dispatched, not adopted",
-   "expected": "coupled charge into trk12n_fb divided by 51; rule 6 about 2.7 uV plus 4.2 uV loading; L2 about 6 uV (inference, linear)"
+   "status": "withdrawn: fails its own paper check (509 kohm DC path from trk12n_fb to GND while the clamp switch is closed; about 0.9 % on the fb balance)",
+   "replacement": "d1-t2-rev2-paper-check-20261112.md (not admitted)"
   }
  },
  "scope": "T2 peak-hold anti-windup clamp on -12 V plus the enable-edge threshold corners; model only, not adopted",
