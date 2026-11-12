@@ -49,3 +49,34 @@ offered only when every step passes (`status.txt` says PASS). The pair assembly 
 also bind the PCB hash. This job does not refresh them, so a development export of the pair stays blocked
 until they are re-run on a native host. The job uploads the changed files for review and pushes nothing. It is not a reroute, re-placement or
 footprint change. It establishes no electrical, supplier or order acceptance.
+
+## Part insertion in native KiCad (D12 series resistors)
+
+The scripted incremental route for the four D12 series resistors (R77–R80, 0402 C25741, readiness D12,
+[#279](https://github.com/Takazudo/zudo-pd/issues/279)) stopped at its own stop condition. With the repository
+courtyard rule, no rule relaxed and no other net touched, OV12, OV5 and UV12 routed in the planning search. UV5
+did not: U7 has one free 0402 site, and OV5 and UV5 both need it. The right-hand exit of U7 pin 6 is closed by
+the UV5_CMP via at (87.6, 58.1), the F.Cu track at x ≈ 88.35 and CRMP2. The insertion is therefore done
+interactively in the native Mac pass, together with #262.
+
+`verify-insert-parts.py` bounds that edit after the fact:
+
+```sh
+python3 scripts/pcb/board-b20/verify-insert-parts.py BEFORE.kicad_pcb AFTER.kicad_pcb \
+  --refs R77,R78,R79,R80 [--extra-net NET ...] --output insert-verification.json
+```
+
+It requires that every existing footprint is unchanged and that exactly `--refs` are added. Copper on any net
+other than the new parts' pad nets and each named `--extra-net` must be unchanged, as must non-copper content
+such as the outline, legend, setup and zone definitions. Every filled-polygon vertex that changes must lie within
+2 mm of a new courtyard or of a changed copper item. It lists every removed and added copper item for review. An
+`--extra-net` that is allowed but not changed fails, so each widening is named exactly once. Any net moved
+beyond the part nets, such as UV5_CMP, needs an owner decision and must be stated in the PR.
+
+The Mac pass then runs `finalize_refill.py`, which provides DRC with schematic parity under the unchanged rules,
+followed by the verifier and the report re-derivation listed in the field-sync section above.
+
+The *_IN copper from each comparator pin to its resistor is a high-impedance node. D12's input RC assumes a 3 pF
+stray PA. A 0.2 mm F.Cu track over the In1 GND plane (0.2 mm dielectric, εr 4.6) is about 0.09 pF/mm as a
+microstrip (Hammerstad, CALCULATED). Neighbouring F.Cu pour can raise it toward 0.15 pF/mm. Record the routed
+*_IN lengths and the resulting figure in D12. Recompute the threshold error and the input RC if it exceeds 3 pF.
