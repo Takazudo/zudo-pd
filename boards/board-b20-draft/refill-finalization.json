@@ -1,12 +1,12 @@
 {
   "scope": "Owned serialized reload/refill finalization; two fresh pinned Docker CLI processes, no heuristic rerouting.",
-  "input_sha256": "579385accc8ca90d9480499507a28dbbe32928dfba701e45012c67ed1ca9a444",
-  "pcb_sha256": "579385accc8ca90d9480499507a28dbbe32928dfba701e45012c67ed1ca9a444",
+  "input_sha256": "416f2c457e72657dff56fc43ebb043b714911e9aecc4e7d2e750f1096a7512b7",
+  "pcb_sha256": "83e369f60c03b7aa2fd8b65b8445a4925bb8e9847a5b0a3d347fee2094961f90",
   "project_sha256": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
   "byte_identical_second_refill": true,
   "nonfill_geometry_unchanged": true,
   "native_ids_unchanged": true,
-  "native_identity_count": 10404,
+  "native_identity_count": 10504,
   "image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
   "commands": [
     [
@@ -20,9 +20,9 @@
       "--user",
       "0",
       "-v",
-      "/home/runner/work/zudo-pd/zudo-pd:/home/runner/work/zudo-pd/zudo-pd",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234:/Users/takazudo/repos/circuits/zudo-pd-review-234",
       "-w",
-      "/home/runner/work/zudo-pd/zudo-pd",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234",
       "--entrypoint",
       "/bin/bash",
       "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
@@ -38,8 +38,8 @@
       "json",
       "--severity-all",
       "-o",
-      "/home/runner/work/zudo-pd/zudo-pd/tmp/b20-finalize-m17vg3ok/drc-1.json",
-      "/home/runner/work/zudo-pd/zudo-pd/tmp/b20-finalize-m17vg3ok/board-b20-draft.kicad_pcb"
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/b20-finalize-8jt8fptq/drc-1.json",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/b20-finalize-8jt8fptq/board-b20-draft.kicad_pcb"
     ],
     [
       "docker",
@@ -52,9 +52,9 @@
       "--user",
       "0",
       "-v",
-      "/home/runner/work/zudo-pd/zudo-pd:/home/runner/work/zudo-pd/zudo-pd",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234:/Users/takazudo/repos/circuits/zudo-pd-review-234",
       "-w",
-      "/home/runner/work/zudo-pd/zudo-pd",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234",
       "--entrypoint",
       "/bin/bash",
       "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
@@ -70,18 +70,18 @@
       "json",
       "--severity-all",
       "-o",
-      "/home/runner/work/zudo-pd/zudo-pd/tmp/b20-finalize-m17vg3ok/drc-2.json",
-      "/home/runner/work/zudo-pd/zudo-pd/tmp/b20-finalize-m17vg3ok/board-b20-draft.kicad_pcb"
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/b20-finalize-8jt8fptq/drc-2.json",
+      "/Users/takazudo/repos/circuits/zudo-pd-review-234/tmp/b20-finalize-8jt8fptq/board-b20-draft.kicad_pcb"
     ]
   ],
-  "diagnostics": "tmp/b20-finalize-m17vg3ok",
+  "diagnostics": "tmp/b20-finalize-8jt8fptq",
   "source_hashes": {
     "scripts/pcb/board-b20/finalize_refill.py": "49dac87d6540315cded616ff5e5fd3f5c3b6fe74bf3d12440e7c955bc657e0f4",
     "scripts/pcb/board-b20/verify_staged_geometry.py": "b31e443d2c91171010018d389fbe6a652090eeaff73ff9b9122a2351bc936631",
     "scripts/schgen/sexp.py": "ba08b45d7c9bab16242687f0826bd252207ce5973a326202cbfd7063e940c920"
   },
   "native_context_hashes": {
-    "boards/board-b20-draft/board-b20-draft.kicad_sch": "42d658adb959135ab57b3b51503cea359d361489785b968edfb4df5ed2c8d62c",
+    "boards/board-b20-draft/board-b20-draft.kicad_sch": "43fade0e19187125666ffaaa2c94c84c6cfecf6e3108d9d5351c32c733c4d859",
     "boards/board-b20-draft/fp-lib-table": "ce60ef4b91dee74f1fbc4118d3b6406585b6a2ff76aa583c4bb313c1c396a03c",
     "boards/board-b20-draft/sym-lib-table": "cc88b980c549b1279baf32416cc123de820ef0913793fcd9abb88da02430c877"
   },
