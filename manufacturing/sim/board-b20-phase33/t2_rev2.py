@@ -238,12 +238,7 @@ INFORMATIONAL = ('ir1n', 'ir2n', 'k1u')   # locating only: reported, never part 
 REQUIRED = tuple(label for label in EXTRA if label not in INFORMATIONAL + ('hot',))
 
 
-def combine(rows):
-    if all(r.get('passes') is True for r in rows):
-        return 'PASS'
-    if any(r.get('passes') is False for r in rows):
-        return 'FAIL'
-    return 'NOT EVALUATED'
+combine = t1.combine_rows
 
 
 def block_for(label):
@@ -333,6 +328,15 @@ def failure_ir(points):
     return xm - ym / slope
 
 
+def sourced_dt2c_ir(a2):
+    """The DT2C leakage the sourced deck applied: the row covering its measured reverse peak (3 pA up to 5 V)."""
+    peak = a2.get('dt2c_reverse_max_v') if isinstance(a2, dict) else None
+    rows = DIODES['DT2C']['ir_rows']
+    if peak is None:
+        return rows[-1][1]            # unknown bias: the larger row, so the crossing temperature is not overstated
+    return next((a for v, a in rows if peak <= v), rows[-1][1])
+
+
 def a2_case(work, base_run, label, name):
     row = t1.no_load_case(work, base_run, label, name, rules.judge, baseline=t1.NO_LOAD_T2.get((label, name),
                           ('run', name)), r_c_ohm=R_C_OHM, detail=rules.detail)
@@ -374,7 +378,8 @@ def analyze(work):
     for name, row in out['t2']['loaded'].items():
         row['a2'] = loaded_a2(work, name)
     extra = {f'{label}/{n}': a2_case(work, base_run, label, n) for label, (_, names) in EXTRA.items() for n in names}
-    ladder = [(DIODES['DT2C']['ir_max_a'], out['t2']['no_load'].get('t2/adv', {}).get('rule6b_margin_v'))]
+    sourced = out['t2']['no_load'].get('t2/adv', {})
+    ladder = [(sourced_dt2c_ir(sourced.get('a2')), sourced.get('rule6b_margin_v'))]
     ladder += [(ir, extra[f'{label}/adv'].get('rule6b_margin_v'))
                for label, (role, ir) in IR_LADDER_A.items() if role == 'DT2C']
     points = [(x, y) for x, y in ladder if y is not None]
@@ -393,7 +398,8 @@ def analyze(work):
                           'BAS116L: the guaranteed 80 nA TJ 150 C row held flat below 150 C (monotonic, inference)'),
                 'verdict': combine([extra[f'hot/{n}'] for n in EXTRA['hot'][1]])},
         'dt2c_failure_ir': {'points': points, 'crossing_a': crossing,
-                            'crossing_temperature_c': temperature_for(crossing) if crossing and crossing > 0 else None,
+                            'crossing_temperature_c': (temperature_for(crossing, ladder[0][0])
+                                                       if crossing and crossing > 0 else None),
                             'note': (None if crossing is None or crossing > 0 else
                                      'non-positive crossing: the sourced case already sits at or beyond the bound'),
                             'basis': 'linear fit of the rule 6(b) margin over the DT2C-only adv cases'},
@@ -453,7 +459,8 @@ def unit(case):
 
 
 def aborted_pinned(work):
-    return [case for case in BASELINE if pinned_status(work, *case)['status'] == 'ABORTED']
+    """Candidate cases whose own pinned run, or any pinned run in their baseline chain, ABORTED."""
+    return [case for case in BASELINE if any(pinned_status(work, *c)['status'] == 'ABORTED' for c in unit(case))]
 
 
 def resolved(work, case, step):
@@ -517,31 +524,20 @@ def variant_case(work, case, step):
             row['conduction'] = m['enable_conduction']
         elif label == 't2load':
             row['note'] = 'loaded rules L1-L4 against the matched variant baseline'
-            row['rules'] = loaded_rules(t1.plain_record(brun, name), t1.case_record(run, name, t2=True, loaded=True),
-                                        name)
+            row['rules'], row['detail'] = t1.judge_loaded(t1.plain_record(brun, name),
+                                                          t1.case_record(run, name, t2=True, loaded=True), name, R_C_OHM)
         else:
-            base_rec, rec = gap.case_record(brun, name), t1.case_record(run, name, t2=True)
-            bs, vs = gap.screens(base_rec), gap.screens(rec)
-            b, v = gap.rail_metrics(base_rec, '-12'), gap.rail_metrics(rec, '-12')
-            judged = rules.judge('-12', vs, bs, v, b, rec)
-            row['rules'] = {f'{k + 1} {r}': ok for k, (r, ok) in enumerate(judged.items())}
-            row['rules'].update(t1.t2_rules(t1.t2_metrics(rec, r_c_ohm=R_C_OHM)))
-            row['rule_detail'] = rules.detail('-12', v, b, rec)
+            # The pinned judging itself, against the variant baseline; its PASS/FAIL key is renamed, never a verdict.
+            judged = t1.no_load_case(work, None, vlabel(variant, label), name, rules.judge,
+                                     baseline=(vlabel(variant, base[0]), base[1]), r_c_ohm=R_C_OHM,
+                                     detail=rules.detail)
+            if judged.get('status') != 'COMPLETE':
+                return {**row, 'verdict': 'NOT EVALUATED', 'reason': judged.get('reason', judged.get('status'))}
+            judged['all_rules_hold'] = judged.pop('passes')
+            row.update({k: v for k, v in judged.items() if k != 'status'})
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
         return {**row, 'verdict': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}'}
     return row
-
-
-def loaded_rules(base, record, name):
-    out = {}
-    for k, (start, stop) in enumerate(t1.LOADED_WINDOWS[name]):
-        tag = 'startup' if k == 0 else 're-enable'
-        bs, vs = t1.loaded_screens(base, start, stop), t1.loaded_screens(record, start, stop)
-        out[f'L1 {tag}'] = all(gap.screen_passes(vs[r]) or not gap.screen_passes(bs[r]) for r in vs)
-        diff = t1.tracking_difference(base, record, start, stop)
-        out[f'L2 {tag}'] = all(d['within_tolerance'] for d in diff.values())
-        out[f'L3 {tag}'] = t1.peak_current(record, start, stop) <= t1.peak_current(base, start, stop) * (1 + t1.RELTOL)
-    return out
 
 
 def variant_analyze(work):

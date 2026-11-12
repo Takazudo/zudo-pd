@@ -117,11 +117,13 @@ Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
 - **As attempt 1.** Status definitions, the control gate (ctrl COMPLETE and REPRODUCED before any candidate
   label) and the loaded-baseline identity are unchanged. ABORTED means not evaluated and is not retried with pinned
   settings.
-- **Matched-variant ladder (admitted).** Only a pinned ABORTED case and its baseline chain are rerun, together, at
+- **Matched-variant ladder (admitted).** Only a case whose pinned run, or a pinned run in its baseline chain,
+  ABORTED is rerun, together with that chain, at
   abstol 1e-8, then rshunt 1e9. The variant baseline must match its pinned record within the L2 tolerance over the
   whole run. The t2/adv cross-check runs at each step used.
 - Ladder results are **VARIANT-EVALUATED**, never PASS or FAIL. They are reported beside the pinned verdict and
-  never replace it.
+  never replace it. Variant rows use the pinned judging itself (rules 1–14 or L1–L4); only the verdict label
+  differs.
 
 ## Pass rules
 
@@ -149,8 +151,9 @@ The `a2` metrics:
   definition), and every **required** extra case (vflo, vfhi, cvflo, cvfhi, kvflo, kvfhi on nom and adv; k80n on adv)
   COMPLETE and passing. Any evaluated failure is FAIL. Anything else is NOT EVALUATED.
 - **Hot DT2C (separate).** It is PASS or FAIL on its own, at `HOT_T_C`. It does not change the candidate verdict.
-- **DT2C failure IR.** A straight line through the rule 6(b) margins of t2/adv (3 pA), ir1n and ir2n gives the
-  zero crossing. It is also stated as a temperature: T = 25 + 7·log2(IR / 3 pA). The fit is a PROJECT inference.
+- **DT2C failure IR.** A straight line through the rule 6(b) margins of t2/adv, ir1n and ir2n gives the zero
+  crossing. The t2/adv point sits at the row the deck applied at its measured DT2C reverse peak: 3 pA up to 5 V,
+  otherwise 10 pA. It is also stated as a temperature: T = 25 + 7·log2(IR / that sourced IR). The fit is a PROJECT inference.
 - **Standing limitation, whatever the result.** FJH1100 over-temperature IR is UNSOURCED. That blocks adoption
   until it is sourced or bench-measured. The BAS116L inferences (monotonic in temperature; the 75 V rows applied at
   ≤ 1.3 V) are recorded beside the verdict.

@@ -467,36 +467,42 @@ def loaded_case(work, name, base_ok, r_c_ohm=R_C_OHM):
     try:
         base = plain_record(status(work, 'base', name)['run'], name)
         record = case_record(state['run'], name, t2=True, loaded=True)
-        rules, detail = {}, {}
-        for k, (start, stop) in enumerate(LOADED_WINDOWS[name]):
-            tag = 'startup' if k == 0 else 're-enable'
-            bs, vs = loaded_screens(base, start, stop), loaded_screens(record, start, stop)
-            rules[f'L1 {tag}: every rail screen no worse than baseline'] = all(
-                gap.screen_passes(vs[r]) or not gap.screen_passes(bs[r]) for r in vs)
-            diff = tracking_difference(base, record, start, stop)
-            rules[f'L2 {tag}: outputs within reltol of baseline'] = all(d['within_tolerance'] for d in diff.values())
-            pb, pv = peak_current(base, start, stop), peak_current(record, start, stop)
-            rules[f'L3 {tag}: -12 V peak supply current not above baseline'] = pv <= pb * (1 + RELTOL)
-            detail[tag] = {'screens': {r: vs[r]['maximum']['slope_v_per_ms'] for r in vs}, 'differences': diff,
-                           'peak_current_a': {'baseline': pb, 't2': pv}}
-        times, s = record['t2']
-        hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
-        clamp = [(g - c) / r_c_ohm for g, c in zip(s['t2g'], s['t2c'])]
-        if name != 'nomR':
-            t_re = reenable_time(record, DISABLE_REQUEST_S)
-            if t_re is None:
-                raise ValueError(f'{name}: no re-enable found')
-            before = gap.extremes(times, hold, t_re - 1e-3, t_re)[1]
-            rules['L4 hold reset at re-enable'] = before <= HOLD_RESET_MAX_V
-            detail['re-enable'].update({'reenable_ms': round(t_re * 1e3, 3), 'hold_before_reenable_max_v': before,
-                                        'clamp_current_after_reenable_max_a':
-                                            gap.extremes(times, clamp, t_re, min(t_re + 80e-3, times[-1] - 1e-4))[1]})
-        detail['clamp_current_startup_max_a'] = gap.extremes(times, clamp, 40e-3, 140e-3)[1]
+        rules, detail = judge_loaded(base, record, name, r_c_ohm)
         row.update({'rules': rules, 'passes': all(rules.values()), 'detail': detail})
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
         # A completed case whose evaluation fails is neither a pass nor an electrical fail (verdict NOT EVALUATED).
         row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': None})
     return row
+
+
+def judge_loaded(base, record, name, r_c_ohm=R_C_OHM):
+    """Rules L1-L4 of one loaded case against its loaded baseline; returns (rules, detail)."""
+    rules, detail = {}, {}
+    for k, (start, stop) in enumerate(LOADED_WINDOWS[name]):
+        tag = 'startup' if k == 0 else 're-enable'
+        bs, vs = loaded_screens(base, start, stop), loaded_screens(record, start, stop)
+        rules[f'L1 {tag}: every rail screen no worse than baseline'] = all(
+            gap.screen_passes(vs[r]) or not gap.screen_passes(bs[r]) for r in vs)
+        diff = tracking_difference(base, record, start, stop)
+        rules[f'L2 {tag}: outputs within reltol of baseline'] = all(d['within_tolerance'] for d in diff.values())
+        pb, pv = peak_current(base, start, stop), peak_current(record, start, stop)
+        rules[f'L3 {tag}: -12 V peak supply current not above baseline'] = pv <= pb * (1 + RELTOL)
+        detail[tag] = {'screens': {r: vs[r]['maximum']['slope_v_per_ms'] for r in vs}, 'differences': diff,
+                       'peak_current_a': {'baseline': pb, 't2': pv}}
+    times, s = record['t2']
+    hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
+    clamp = [(g - c) / r_c_ohm for g, c in zip(s['t2g'], s['t2c'])]
+    if name != 'nomR':
+        t_re = reenable_time(record, DISABLE_REQUEST_S)
+        if t_re is None:
+            raise ValueError(f'{name}: no re-enable found')
+        before = gap.extremes(times, hold, t_re - 1e-3, t_re)[1]
+        rules['L4 hold reset at re-enable'] = before <= HOLD_RESET_MAX_V
+        detail['re-enable'].update({'reenable_ms': round(t_re * 1e3, 3), 'hold_before_reenable_max_v': before,
+                                    'clamp_current_after_reenable_max_a':
+                                        gap.extremes(times, clamp, t_re, min(t_re + 80e-3, times[-1] - 1e-4))[1]})
+    detail['clamp_current_startup_max_a'] = gap.extremes(times, clamp, 40e-3, 140e-3)[1]
+    return rules, detail
 
 
 def loaded_identity(work):
@@ -539,6 +545,15 @@ def corner_case(work, label):
     return row
 
 
+def combine_rows(rows):
+    """PASS only if every row passes; FAIL if any evaluated row fails; otherwise NOT EVALUATED."""
+    if all(r.get('passes') is True for r in rows):
+        return 'PASS'
+    if any(r.get('passes') is False for r in rows):
+        return 'FAIL'
+    return 'NOT EVALUATED'
+
+
 def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md', r_c_ohm=R_C_OHM, detail=None, row=None):
     """row replaces no_load_case for a later revision: row(work, base_run, label, name)."""
     work = Path(work)
@@ -556,13 +571,7 @@ def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md', r_c_ohm
     no_load_rows = {f'{label}/{name}': row(work, base_run, label, name) for label, name in NO_LOAD_T2}
     loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced'], r_c_ohm) for name in LOADED}
     rows = list(no_load_rows.values()) + list(loaded_rows.values())
-    if all(r.get('passes') is True for r in rows):
-        verdict = 'PASS'
-    elif any(r.get('passes') is False for r in rows):
-        verdict = 'FAIL'
-    else:
-        verdict = 'NOT EVALUATED'
-    result['t2'] = {'verdict': verdict, 'no_load': no_load_rows, 'loaded': loaded_rows}
+    result['t2'] = {'verdict': combine_rows(rows), 'no_load': no_load_rows, 'loaded': loaded_rows}
     return result
 
 

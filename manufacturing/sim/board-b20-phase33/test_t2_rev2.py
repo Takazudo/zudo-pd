@@ -144,6 +144,11 @@ class AnalysisTests(unittest.TestCase):
         self.assertIsNone(r2.failure_ir([(1e-9, 1e-6)]))
         self.assertIsNone(r2.failure_ir([(1e-9, 1e-6), (2e-9, 2e-6)]))
 
+    def test_sourced_point_uses_the_row_the_deck_applied(self):
+        self.assertEqual(r2.sourced_dt2c_ir({'dt2c_reverse_max_v': 0.5}), 3e-12)
+        self.assertEqual(r2.sourced_dt2c_ir({'dt2c_reverse_max_v': 6.0}), 10e-12)
+        self.assertEqual(r2.sourced_dt2c_ir('NOT EVALUATED: x'), 10e-12)
+
     def test_rule6b_margin(self):
         detail = {'enable_edge_tolerance_v': {'minimum': 107e-6, 'maximum': 17e-6},
                   'below_baseline_minimum_v': 20e-6, 'above_baseline_maximum_v': -3e-6}
@@ -224,6 +229,26 @@ class VariantTests(unittest.TestCase):
         states = {('t2', 'nom'): 'ABORTED', ('e12lo', 'nom'): 'COMPLETE'}
         with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}):
             self.assertEqual(r2.aborted_pinned('w'), [('t2', 'nom')])
+
+    def test_a_baseline_abort_brings_its_dependent_case(self):
+        states = {('base', 'reR20'): 'ABORTED'}
+        with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}):
+            self.assertEqual(r2.aborted_pinned('w'), [('t2load', 'reR20')])
+
+    def test_variant_no_load_reuses_the_pinned_judging_without_a_verdict(self):
+        calls = []
+
+        def judged(work, base_run, label, name, judge, baseline, r_c_ohm, detail):
+            calls.append((label, name, baseline, r_c_ohm))
+            return {'status': 'COMPLETE', 'passes': False, 'rules': {'6 x': False}}
+        with mock.patch.object(r2, 'reference_match', lambda *a: {'matches': True}), \
+                mock.patch.object(r2.t1, 'status', lambda w, l, n: {'run': None}), \
+                mock.patch.object(r2.t1, 'no_load_case', judged):
+            row = r2.variant_case('w', ('t2', 'adv'), 1)
+        self.assertEqual(calls, [('v-abstol-t2', 'adv', ('v-abstol-run', 'adv'), r2.R_C_OHM)])
+        self.assertEqual(row['verdict'], r2.VARIANT_VERDICT)
+        self.assertNotIn('passes', row)
+        self.assertIs(row['all_rules_hold'], False)
 
     def test_no_plan_without_aborts(self):
         with mock.patch.object(r2, 'aborted_pinned', lambda w: []):
