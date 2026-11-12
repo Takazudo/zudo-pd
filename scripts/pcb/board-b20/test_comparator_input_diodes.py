@@ -2,7 +2,7 @@
 
 U6/U7/U8 (and U5B) are OPA2187 sections with back-to-back differential input diodes (SBOS807E 7.3). While a rail is
 absent, the diodes conduct from REF25 into the window dividers. These assertions pin the CALCULATED result: abs max
-and the REF25 load hold, the full-range setpoint budget and the disabled back-feed stay OPEN, and the series-resistor
+and the REF25 load hold, setpoints() budgets the full-range load-regulation row, the disabled back-feed stays OPEN, and the series-resistor
 paper options keep their threshold verdicts. They do not prove bench behaviour.
 """
 import importlib.util
@@ -35,11 +35,13 @@ class ComparatorInputDiodeTests(unittest.TestCase):
         self.assertEqual(RESULT['ref25_step_shift_ppm'], {'25c': 27.572, 'full_range': 45.954})
         self.assertEqual(RESULT['setpoint_step_mv_full_range'], {'+12': 0.5584, '+5': 0.2336, '-12': 0.5575})
 
-    def test_setpoint_budget_gap_stays_open(self):
+    def test_setpoint_budget_uses_full_range_row(self):
         ppm = RESULT['setpoint_budget_ppm']
-        self.assertEqual(ppm['budgeted_25c_row_at_pa'], 90.0)
-        self.assertGreater(ppm['full_range_row_at_enabled_load'], ppm['budgeted_25c_row_at_pa'])
-        self.assertEqual(RESULT['setpoint_budget_status'], 'OPEN')
+        self.assertEqual(ppm['budgeted_full_range_row_at_pa'], 150.0)
+        self.assertEqual(ppm['full_range_row_at_enabled_load'], 96.16)
+        self.assertLessEqual(ppm['full_range_row_at_enabled_load'], ppm['budgeted_full_range_row_at_pa'])
+        self.assertEqual(RESULT['setpoint_budget_status'], 'PASS')
+        self.assertAlmostEqual(calculator.REF_ACC, 0.001 + 50e-6 * 3.0, places=12)
 
     def test_disabled_backfeed_stays_open(self):
         self.assertEqual(RESULT['disabled_terminal_v_no_load'],
@@ -62,7 +64,7 @@ class ComparatorInputDiodeTests(unittest.TestCase):
         self.assertEqual({k: o['threshold_status'] for k, o in opts.items()}, {10e3: 'PASS', 100e3: 'PASS', 1e6: 'FAIL'})
         self.assertEqual(opts[100e3]['ref25_delta_max_ma'], 0.0938)
         self.assertEqual(opts[100e3]['ib_threshold_error_pct'], {'+12': 0.03, '+5': 0.03, '-12': 0.0361})
-        self.assertEqual(opts[100e3]['window_margin_pct'], {'+12': 0.2516, '+5': 0.5288, '-12': 0.2102})
+        self.assertEqual(opts[100e3]['window_margin_pct'], {'+12': 0.246, '+5': 0.5231, '-12': 0.2045})
         self.assertEqual(opts[100e3]['disabled_terminal_v']['-12'], [0.302, 0.601])
 
     def test_inputs_are_not_relaxed(self):

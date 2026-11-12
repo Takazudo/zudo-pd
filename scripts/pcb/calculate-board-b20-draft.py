@@ -69,11 +69,12 @@ OPA_IB_MAX = {'25c': 350e-12, 'full_range_lv': 5e-9, 'full_range_hv': 7.5e-9}
 # TI REF5025AIDR SBOS410O (G): the AI suffix is the standard grade (Table 4-2)
 REF_V = 2.5
 REF_LOAD_MA_PA = 3.0          # PA: dividers about 1.9 mA enabled (comparator_input_diodes()) plus OPA2187 input-diode loading of comparators (review finding 11)
-REF_ACC = 0.001 + 30e-6 * REF_LOAD_MA_PA   # initial accuracy + 25 C load regulation 30 ppm/mA
 REF_TC_PPM = 8.0
 # SBOS410O section 6.5 (G): load regulation 30 ppm/mA max at 25 C and 50 ppm/mA max over -40 C to 125 C
 # (-10 mA < IOUT < 10 mA); section 6.3 output current -10 to 10 mA. No load-step transient row is given.
 REF_LOAD_REG_PPM_PER_MA = {'25c': 30.0, 'full_range': 50.0}
+# Initial accuracy + load regulation at the PA load on the -40..125 C row (D12, #279): the +/-20 C span has no own row.
+REF_ACC = 0.001 + REF_LOAD_REG_PPM_PER_MA['full_range'] * 1e-6 * REF_LOAD_MA_PA
 REF_IOUT_MAX_A = 10e-3
 # TI INA301A3 SBOS713A (G)
 INA_GAIN = 100.0
@@ -921,7 +922,7 @@ def comparator_input_diodes(series_r=0.0):
     load_disabled = sum(disabled.values()) + delta
     step = load_disabled - load_enabled
     shift = {k: step * 1e3 * ppm * 1e-6 for k, ppm in REF_LOAD_REG_PPM_PER_MA.items()}
-    budget_ppm = 30e-6 * REF_LOAD_MA_PA
+    budget_ppm = REF_LOAD_REG_PPM_PER_MA['full_range'] * 1e-6 * REF_LOAD_MA_PA
     full_range_enabled = REF_LOAD_REG_PPM_PER_MA['full_range'] * 1e-6 * load_enabled * 1e3
     full_range_pa = REF_LOAD_REG_PPM_PER_MA['full_range'] * 1e-6 * REF_LOAD_MA_PA
     effect = {rail: round(shift['full_range'] * sp[rail]['nominal_v'] * 1e3, 4) for rail in ('+12', '+5', '-12')}
@@ -1008,11 +1009,11 @@ def comparator_input_diodes(series_r=0.0):
         'ref25_step_shift_ppm': {k: round(v * 1e6, 3) for k, v in shift.items()},
         'setpoint_step_mv_full_range': effect,
         'ramp_end_step_mv_full_range': ramp_err,
-        'setpoint_budget_note': (f'setpoints() budgets {budget_ppm * 1e6:.0f} ppm for REF load (25 C row x {REF_LOAD_MA_PA} mA PA); '
+        'setpoint_budget_note': (f'setpoints() budgets {budget_ppm * 1e6:.0f} ppm for REF load (-40..125 C row x {REF_LOAD_MA_PA} mA PA); '
                                  f'the -40..125 C row gives {full_range_enabled * 1e6:.0f} ppm at the enabled load '
                                  f'({load_enabled * 1e3:.3f} mA) and {full_range_pa * 1e6:.0f} ppm at the PA. '
                                  'The +/-20 C span lies inside the full range, but no row bounds load regulation at that span.'),
-        'setpoint_budget_ppm': {'budgeted_25c_row_at_pa': round(budget_ppm * 1e6, 3),
+        'setpoint_budget_ppm': {'budgeted_full_range_row_at_pa': round(budget_ppm * 1e6, 3),
                                 'full_range_row_at_enabled_load': round(full_range_enabled * 1e6, 3),
                                 'full_range_row_at_pa': round(full_range_pa * 1e6, 3)},
         'setpoint_budget_status': 'OPEN' if full_range_enabled > budget_ppm else 'PASS',
