@@ -41,7 +41,7 @@
   },
   "attempt1_contrast": "attempt 1 BT2G used the same tanh in the ON sense in series with 499 kOhm and stayed effectively connected to v(ennd) about 0.3 V; rule 1 passed on t2/adv there",
   "leakage_and_vf": "rule 6(b) margin +15.1 uV in every completed case (25 C rows up to 1 uA DT2K); hot/adv DT2C reverse peak 1.02 V, so the 3 pA row applied and no bias above 5 V overlapped the rule 6(b) window",
-  "aborts": "every abort sits at a known deck-stiffness event inside a vendor macro or deck gate node (d1-deck-stiffness-20261112.md): about 1.04, 2.0-2.14, 3.07, 62.45, 101.27, 157 and 246.9-247.7 ms"
+  "aborts": "22 pinned aborts (4 corners, 7 t2 set, 11 extras) plus 6 on the matched-variant ladder; none names a T2 or clamp element; named devices are the CSD18543Q3A and OPA2187 macros, clustered at 1.0368, 1.9916-1.9937, 2.1392-2.1408, 3.0680 and 246.9-247.65 ms (d1-deck-stiffness-20261112.md). Misfits: (a) t2lo/nom 0.282 ms mid-ramp; (b) t2/adv 247.650 ms and k80n/adv 246.908 ms name deck node p12_g (B10, DZ1, RG1/RG1P, VO1) inside the judged 245-250 ms window; (c) cvfhi/adv 2.400 ms; (d) 9 of 22 print ngspice \"cause unrecorded\" (no node named). v-rshunt-base/nomR aborted at 3.0785 ms, so that ladder step lost its anchor. Source: independent check, /mnt/project-files/d1/t2-rev2-abort-check-and-stiffness-remedies-20261112.md"
  },
  "evaluation": {
   "scope": "T2 rev 2 (a2 output limiter, sourced diodes) on -12 V under the revised rules; model only, not adopted",
