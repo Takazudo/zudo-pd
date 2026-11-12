@@ -161,6 +161,31 @@ class VerifyInsertParts(unittest.TestCase):
         detour = segment(NET_A, (AT[0] - 4, AT[1]), (AT[0] - 4, AT[1] + 40)) + segment(NET_A, (AT[0] - 4, AT[1] + 40), (AT[0] - 3, AT[1]))
         self.refused(text[:at] + detour + text[at:], 'beyond 10.0 mm of the new parts')
 
+    def test_fracture_slits_do_not_count_as_fill_change(self):
+        square = [('0', '0'), ('10', '0'), ('10', '10'), ('0', '10')]
+        hole = [('4', '4'), ('4', '6'), ('6', '6'), ('6', '4')]
+        low = [square[0], square[1], square[2], square[3], ('0', '4'), *hole, ('4', '4'), ('0', '4')]
+        high = [square[0], square[1], square[2], square[3], ('0', '6'), ('4', '6'), ('6', '6'), ('6', '4'), ('4', '4'),
+                ('4', '6'), ('0', '6')]
+        expected = verify.collections.Counter(square + hole)
+        self.assertEqual(verify.ring_corners(low), expected)
+        self.assertEqual(verify.ring_corners(high), expected)
+        moved = [square[0], square[1], square[2], square[3], ('0', '4'), ('4', '4'), ('4', '6.5'), ('6', '6'),
+                 ('6', '4'), ('4', '4'), ('0', '4')]
+        self.assertNotEqual(verify.ring_corners(moved), expected)
+
+    def test_far_slit_only_change_passes(self):
+        text = self.inserted()
+        at = text.index('(filled_polygon')
+        xy = re.compile(r'\(xy ([-0-9.]+) ([-0-9.]+)\)')
+        a = xy.search(text, at)
+        b = xy.search(text, a.end())
+        mx, my = (float(a.group(1)) + float(b.group(1))) / 2, (float(a.group(2)) + float(b.group(2))) / 2
+        spike = f' (xy {mx:.6f} {my:.6f}) (xy {mx + 0.5:.6f} {my + 0.5:.6f}) (xy {mx:.6f} {my:.6f})'
+        self.assertGreater(abs(mx - AT[0]) + abs(my - AT[1]), 10)
+        result = self.check(text[:a.end()] + spike + text[a.end():])
+        self.assertEqual(result['fill_vertices_changed_inside_region'], {})
+
     def test_fill_change_far_away_is_refused(self):
         text = self.inserted()
         at = text.index('(filled_polygon')

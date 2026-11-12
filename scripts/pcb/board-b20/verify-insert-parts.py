@@ -19,8 +19,9 @@ exact copper is only known afterwards. Filled polygons are set aside and:
 - the project's design rules (board.design_settings and net_settings in .kicad_pro, plus any sibling .kicad_dru)
   are identical, so no rule is relaxed outside the PCB file;
 - filled copper may differ only inside the edit region: each new courtyard and each removed or added copper item,
-  grown by FILL_MARGIN_MM. Every filled-polygon vertex of each zone (by uuid and layer) that appears or disappears
-  must lie in that region, so a fill change anywhere else fails.
+  grown by FILL_MARGIN_MM. Every filled-area corner of each zone (by uuid and layer) that appears or disappears
+  must lie in that region, so a fill change anywhere else fails. KiCad's zero-width fracture slits are removed first,
+  because a hole that changes inside the region can move a slit that ends far outside it.
 This is a vertex screen, not a connectivity proof: a far island that loses its connection without any vertex moving,
 or a long new fill edge from a vertex inside the region, is left to DRC (unconnected items, isolated copper).
 The output records every removed and added copper item, so the delta can be reviewed item by item.
@@ -40,6 +41,8 @@ from sexp import atom, parse, tokenize  # noqa: E402
 
 FILL_MARGIN_MM = 2.0
 REACH_MM = 10.0
+# KiCad stores 1 nm units; a slit foot rounded onto an outline edge sits within a few nm of it.
+SLIT_FOOT_MM = 1e-5
 
 
 def child(node, name):
@@ -142,8 +145,40 @@ def courtyard(fp_node):
     return centre, centre, max(math.hypot(px, py) for px, py in corners)
 
 
+def ring_corners(pts):
+    """Corner vertices of one KiCad filled polygon with its fracture slits removed.
+
+    KiCad stores each filled area as one outline joined to its holes by zero-width slits: an edge that the outline
+    also traverses in reverse. A slit's position depends on the holes' order and can land far from an edit. Dropping
+    every reverse-edge pair, zero-length edge and straight-through (collinear) vertex leaves the outline and hole
+    corners, which do not depend on how the area was fractured.
+    """
+    n = len(pts)
+    edges = [(pts[i], pts[(i + 1) % n]) for i in range(n)]
+    present = collections.Counter(edges)
+    keep = [i for i, (a, b) in enumerate(edges) if a != b and not present[(b, a)]]
+    by_start = collections.defaultdict(list)
+    for i in keep:
+        by_start[edges[i][0]].append(i)
+    corners = collections.Counter()
+    for i in keep:
+        u, v = edges[i]
+        following = by_start[v]
+        if not following:
+            corners[v] += 1
+            continue
+        j = min(following, key=lambda k: (k - i - 1) % n)
+        w = edges[j][1]
+        (ux, uy), (vx, vy), (wx, wy) = ((float(x), float(y)) for x, y in (u, v, w))
+        cross = (vx - ux) * (wy - vy) - (vy - uy) * (wx - vx)
+        off_line = abs(cross) > SLIT_FOOT_MM * max(math.hypot(wx - ux, wy - uy), 1e-9)
+        if off_line or (vx - ux) * (wx - vx) + (vy - uy) * (wy - vy) < 0:
+            corners[v] += 1
+    return corners
+
+
 def fills(tree):
-    """Filled-polygon vertices per (zone uuid, layer), as a multiset of exact coordinate strings."""
+    """Filled-area corners per (zone uuid, layer), as a multiset of exact coordinate strings, fracture slits removed."""
     zones = {}
     for item in tree:
         if isinstance(item, list) and item and atom(item[0]) == 'zone':
@@ -151,9 +186,8 @@ def fills(tree):
             for fp in item:
                 if isinstance(fp, list) and fp and atom(fp[0]) == 'filled_polygon':
                     layer = atom(child(fp, 'layer')[1])
-                    for q in child(fp, 'pts')[1:]:
-                        if atom(q[0]) == 'xy':
-                            zones.setdefault((name, layer), collections.Counter())[(atom(q[1]), atom(q[2]))] += 1
+                    pts = [(atom(q[1]), atom(q[2])) for q in child(fp, 'pts')[1:] if atom(q[0]) == 'xy']
+                    zones.setdefault((name, layer), collections.Counter()).update(ring_corners(pts))
     return zones
 
 
