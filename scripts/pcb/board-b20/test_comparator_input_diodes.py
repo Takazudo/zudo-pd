@@ -3,8 +3,9 @@
 U6/U7/U8 (and U5B) are OPA2187 sections with back-to-back differential input diodes (SBOS807E 7.3.7). While a rail is
 absent, the diodes conduct from REF25 into the window dividers. The owner decision fits 100k in series with the four
 U6/U7 divider-side inputs and leaves U8 unresistored. These assertions pin the CALCULATED result for the fitted design,
-keep the pre-fix result as history, and check from the spec that U8's inputs share no node with the +12 / +5 terminal
-networks except REF25 and GND. They do not prove bench behaviour.
+keep the pre-fix result as history, and check from the spec that no resistor path from U8's inputs reaches the +12 / +5
+terminals or M12_PRE without passing through REF25 or GND (FET, diode and op-amp paths are out of scope). They do not prove
+bench behaviour.
 """
 import importlib.util
 import sys
@@ -36,8 +37,8 @@ class FittedSeriesResistorTests(unittest.TestCase):
             self.assertIn('U8.2' if net == 'OVN_DIV' else 'U8.5', b20.NETS[net])
 
     def test_u8_inputs_share_no_node_with_positive_terminals(self):
-        # Walk resistors only (two-pin R parts), stopping at stiff nodes. U8's inputs must not reach P12_OUT or P5_OUT.
-        stiff = {'REF25', 'GND', 'M12_OUT', 'M12_PRE', 'P5_SUP'}
+        # Walk resistors only (two-pin R parts), stopping only at REF25 and GND; M12_OUT is walked through.
+        stiff = {'REF25', 'GND'}
         pins = {}
         for net, members in b20.NETS.items():
             for p in members:
@@ -53,9 +54,8 @@ class FittedSeriesResistorTests(unittest.TestCase):
                 ref, pin = p.rsplit('.', 1)
                 if ref in resistors:
                     todo.append(pins[f'{ref}.{"2" if pin == "1" else "1"}'])
-        self.assertEqual(seen, {'OVN_DIV', 'UVN_DIV'})
-        self.assertNotIn('P12_OUT', seen)
-        self.assertNotIn('P5_OUT', seen)
+        self.assertIn('M12_OUT', seen)
+        self.assertFalse(seen & {'P12_OUT', 'P5_OUT', 'M12_PRE', 'P5_SUP'}, sorted(seen))
 
     def test_fitted_channel_currents_and_ref_load(self):
         got = {k: v['diode_ma'] for k, v in RESULT['channels_at_vf_min'].items()}
