@@ -269,7 +269,7 @@
         {
           "placement": "+5 output to GND",
           "r_max_ohm_for_5ma": 10.3,
-          "result": "infeasible: at 5 V it draws 0.49 A, above trip_min 0.43694 A"
+          "result": "infeasible: at 5 V it draws 0.49 A, above trip_min 0.43691 A"
         },
         {
           "placement": "+5 common source to GND",
@@ -343,19 +343,19 @@
       "rule": "The limiter shunts sit upstream of each pair, so bias or bleeder current is sensed: delivered current at trip becomes trip_max - I_bias (the maximum-delivered margin grows), while the transient-minimum and startup-into-full-load margins shrink by I_bias.",
       "rails": {
         "+12": {
-          "transient_minimum_margin_a": 0.04159,
-          "startup_into_full_load_margin_a": 0.00894,
-          "maximum_delivered_margin_a": 0.01515
+          "transient_minimum_margin_a": 0.04147,
+          "startup_into_full_load_margin_a": 0.0087,
+          "maximum_delivered_margin_a": 0.01503
         },
         "-12": {
-          "transient_minimum_margin_a": 0.04216,
-          "startup_into_full_load_margin_a": 0.01329,
-          "maximum_delivered_margin_a": 0.00456
+          "transient_minimum_margin_a": 0.04204,
+          "startup_into_full_load_margin_a": 0.01305,
+          "maximum_delivered_margin_a": 0.00444
         },
         "+5": {
-          "transient_minimum_margin_a": 0.03694,
-          "startup_into_full_load_margin_a": 0.02909,
-          "maximum_delivered_margin_a": 0.03916
+          "transient_minimum_margin_a": 0.03691,
+          "startup_into_full_load_margin_a": 0.02904,
+          "maximum_delivered_margin_a": 0.03914
         }
       }
     }
@@ -554,10 +554,10 @@
   "d3_maximum_current": {
     "rails": {
       "+12": {
-        "trip_max_a": 2.08485,
+        "trip_max_a": 2.08497,
         "contract_max_a": 2.1,
-        "margin_a": 0.01515,
-        "allowed_di_dt_a_per_us_at_1us_response": 0.01515,
+        "margin_a": 0.01503,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.01503,
         "bound_without_timing": {
           "status": "OPEN",
           "bound_a": null,
@@ -565,10 +565,10 @@
         }
       },
       "-12": {
-        "trip_max_a": 1.99544,
+        "trip_max_a": 1.99556,
         "contract_max_a": 2.0,
-        "margin_a": 0.00456,
-        "allowed_di_dt_a_per_us_at_1us_response": 0.00456,
+        "margin_a": 0.00444,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.00444,
         "bound_without_timing": {
           "status": "OPEN",
           "bound_a": null,
@@ -576,10 +576,10 @@
         }
       },
       "+5": {
-        "trip_max_a": 0.46084,
+        "trip_max_a": 0.46086,
         "contract_max_a": 0.5,
-        "margin_a": 0.03916,
-        "allowed_di_dt_a_per_us_at_1us_response": 0.03916,
+        "margin_a": 0.03914,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.03914,
         "bound_without_timing": {
           "status": "OPEN",
           "bound_a": null,
@@ -625,7 +625,7 @@
         "id": "D3-H2",
         "claim": "Delivered current including overshoot stays within the contract maximum",
         "conclusion": "UNRESOLVED",
-        "evidence": "Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound. Margins are 15.15 / 4.56 / 39.16 mA (+12 / -12 / +5), so even a 1 us total response allows at most 4.56 mA/us of growth on -12."
+        "evidence": "Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound. Margins are 15.03 / 4.44 / 39.14 mA (+12 / -12 / +5), so even a 1 us total response allows at most 4.44 mA/us of growth on -12."
       }
     ]
   },

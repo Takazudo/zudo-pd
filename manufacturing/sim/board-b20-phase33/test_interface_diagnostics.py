@@ -151,8 +151,8 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertIn('= 1.4722 V/ms against 1.47 V/ms (slope ceiling tighter)', h3)
         current = diag.maximum_current(self.calc)
         d3 = self.hypothesis(current, 'D3-H2')['evidence']
-        self.assertIn('15.15 / 4.56 / 39.16 mA (+12 / -12 / +5)', d3)
-        self.assertIn('at most 4.56 mA/us of growth on -12', d3)
+        self.assertIn('15.03 / 4.44 / 39.14 mA (+12 / -12 / +5)', d3)
+        self.assertIn('at most 4.44 mA/us of growth on -12', d3)
 
     def test_drifted_inputs_change_prose_and_fail_the_check(self):
         retained = json.loads(RETAINED.read_text())

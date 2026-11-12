@@ -66,7 +66,7 @@ without defeating disconnection. **C2 minimum-load bleeder: rejected by owner de
 
 | Placement | R for ≥ 5 mA at the floor | Result |
 | --- | ---: | --- |
-| +5 output to GND | ≤ 10.3 Ω | Infeasible: 0.49 A at 5 V, above trip_min 0.43694 A |
+| +5 output to GND | ≤ 10.3 Ω | Infeasible: 0.49 A at 5 V, above trip_min 0.43691 A |
 | +5 common source to GND | ≤ 1.0 Ω | Infeasible |
 | +5 common source or output to −12 V | ≤ 2428.4 Ω | Defeats disconnection: with the gate at GND only the 11 V Zener limits Vgs; a disabled output is pulled toward −12 V |
 | −12 output to GND | ≤ 19.4 Ω | Infeasible: 0.62 A at 12 V leaves 1.32 A before trip_min against the 1.9 A transient minimum |
@@ -109,9 +109,9 @@ uses the same tolerance, and L2 is unchanged. Recorded verdicts stand: T2 −12 
 FAILED, and C1, C2 and T1 stay rejected.
 
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
-therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and
-consumes the transient-minimum margin (41.59 / 42.16 / 36.94 mA) and the startup-into-full-load
-margin (8.94 / 13.29 / 29.09 mA).
+therefore enlarges the maximum-delivered margin (15.03 / 4.44 / 39.14 mA, +12 / −12 / +5) and
+consumes the transient-minimum margin (41.47 / 42.04 / 36.91 mA) and the startup-into-full-load
+margin (8.70 / 13.05 / 29.04 mA).
 
 ## D1 enable-edge conduction: a recorded negative, with no order hold
 
@@ -170,15 +170,15 @@ the contract's informal "about 1.5 V". One-rail-to-AGND loads are illustrative o
 
 ## D3 maximum delivered current
 
-Trip maxima from the existing calculator are 2.08485 / 1.99544 / 0.46084 A against the
-2.1 / 2.0 / 0.5 A maxima, leaving 15.15 / 4.56 / 39.16 mA. The limiter trips and opens; it does
+Trip maxima from the existing calculator are 2.08497 / 1.99556 / 0.46086 A against the
+2.1 / 2.0 / 0.5 A maxima, leaving 15.03 / 4.44 / 39.14 mA. The limiter trips and opens; it does
 not regulate, so delivered current keeps rising until switch-off. **The worst-case delivered
 peak is at least the trip maximum; the trip threshold is not an upper bound (refuted as a
 compliance argument).**
 Compliance stays **unresolved**: INA301 tp ≤ 1 µs is the only guaranteed stage; U9A is
 slew-limited (about 70 µs typical); latch, gate-pulldown and pair turn-off times and the
 load-side di/dt are UNSOURCED. With 1 µs total response the −12 V margin allows only
-4.56 mA/µs of growth.
+4.44 mA/µs of growth.
 
 ## Next inputs (no correction adopted)
 
