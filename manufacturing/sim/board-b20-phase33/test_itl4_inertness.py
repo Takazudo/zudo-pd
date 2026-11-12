@@ -130,6 +130,11 @@ class AbortDetailTests(unittest.TestCase):
                            'cause unrecorded.\n')
             d = gap.abort_detail(log)
             self.assertEqual((d['node'], d['cause']), (None, 'unrecorded (ngspice named no node)'))
+            log.write_text('Timestep too small; time = 0.001, timestep = 2.5e-18: trouble with diode-instance dt2c\n')
+            d = gap.abort_detail(log)
+            self.assertEqual((d['node'], d['cause']), ('diode-instance dt2c', 'instance named'))
+            dat.write_text(' 0.0 1.0 0.0 2.0\n 0.1 3.0 0.1 4.\x00\n')
+            self.assertNotIn('last_sample', gap.abort_detail(log, dat))
             log.write_text('nothing\n')
             self.assertEqual(gap.abort_detail(log)['cause'], 'no abort line found')
 

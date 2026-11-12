@@ -155,15 +155,16 @@ def solver_message(log):
 
 
 ABORT_LINE = re.compile(r'Timestep too small; time = ([0-9.eE+-]+), timestep = ([0-9.eE+-]+): '
-                        r'(?:trouble with node "([^"]+)"|(cause unrecorded))')
+                        r'(?:trouble with node "([^"]+)"|trouble with (\S+-instance \S+)|(cause unrecorded))')
 
 
 def abort_detail(log, dat=None):
     """ngspice's abort line parsed, plus the last saved sample. 'unrecorded' is ngspice's own text: it named no node."""
     text = Path(log).read_text(errors='replace') if Path(log).exists() else ''
     m = ABORT_LINE.search(text)
-    out = ({'time_s': float(m.group(1)), 'timestep_s': float(m.group(2)), 'node': m.group(3),
-            'cause': 'node named' if m.group(3) else 'unrecorded (ngspice named no node)'} if m else
+    out = ({'time_s': float(m.group(1)), 'timestep_s': float(m.group(2)), 'node': m.group(3) or m.group(4),
+            'cause': ('node named' if m.group(3) else 'instance named' if m.group(4)
+                      else 'unrecorded (ngspice named no node)')} if m else
            {'time_s': None, 'timestep_s': None, 'node': None, 'cause': 'no abort line found'})
     if dat is not None and Path(dat).exists():
         last = None
@@ -171,8 +172,11 @@ def abort_detail(log, dat=None):
             for line in f:
                 if line.strip():
                     last = line
-        if last is not None:
-            values = [float(x) for x in last.split()]
+        try:
+            values = [float(x) for x in last.split()] if last is not None else None
+        except ValueError:      # a truncated last line: this logging-only field must never break a status read
+            values = None
+        if values:
             out['last_sample'] = {'time_s': values[0], 'values': values[1::2]}
     return out
 
