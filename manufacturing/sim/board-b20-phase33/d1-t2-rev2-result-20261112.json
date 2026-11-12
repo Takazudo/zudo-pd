@@ -1,0 +1,3375 @@
+{
+ "record": "D1 T2 rev 2 (a2) -12 V evaluation, single admitted dispatch",
+ "source_revision": "3c1eb78417b1f021a1630999068e147b8ef372ce",
+ "workflow_run": 43187732133,
+ "workflow_outcome": "success",
+ "artifact_id": 13933777144,
+ "artifact_digest": "sha256:6f033a6c76936298a617c7a0825f79645b5200d126d4e935b24da5f777c48bd8",
+ "t2r2_manifest_sha256": "990fb8ca980259eb1932cea69c38c2dc8f14a471bd8774d6097fa3b4f4840962",
+ "t2r2_evaluation_sha256": "3f6f83575cbfbd43970381ce74cfc4a9794b29f93330b370fbbdb00d76c6e551",
+ "t2r2_variants_sha256": "f761ab90979a27233c9cff96207ef01471bf7cd654d2b6abc70325374f88e921",
+ "verdicts": {
+  "candidate": "FAIL",
+  "t2": "NOT EVALUATED",
+  "hot": "FAIL",
+  "control": "REPRODUCED"
+ },
+ "post_run_localization": {
+  "note": "Read from the same artifact after the verdict; it does not change any rule outcome.",
+  "cause": "design error in the pre-registered window: BT2W, the complement of the reset tanh 0.5*(1-tanh((v(ennd)-1.0)*8)), is already about 670 kOhm at v(ennd)=1.76 V (gate 5e-6) against the ~830 kOhm t2m node (R_1 || R_2), so XT2B is forced high and t2o pinned from about 85 ms; the clamp never engaged, and the -12 V conduction onset is at 137.65 ms (v(ennd) 0.65 V)",
+  "hot_adv_trace_ms": {
+   "80": {
+    "drv_v": -9.6,
+    "t2m_v": -7.53,
+    "t2a_v": 2.8
+   },
+   "90": {
+    "drv_v": -10.6,
+    "t2m_v": -9.81,
+    "t2a_v": 4.97,
+    "ennd_v": 1.76
+   },
+   "110": {
+    "drv_v": -12.1,
+    "t2m_v": -11.6,
+    "ennd_v": 1.15
+   },
+   "137": {
+    "drv_v": -9.46,
+    "ennd_v": 0.646
+   }
+  },
+  "attempt1_contrast": "attempt 1 BT2G used the same tanh in the ON sense in series with 499 kOhm and stayed effectively connected to v(ennd) about 0.3 V; rule 1 passed on t2/adv there",
+  "leakage_and_vf": "rule 6(b) margin +15.1 uV in every completed case (25 C rows up to 1 uA DT2K); hot/adv DT2C reverse peak 1.02 V, so the 3 pA row applied and no bias above 5 V overlapped the rule 6(b) window",
+  "aborts": "every abort sits at a known deck-stiffness event inside a vendor macro or deck gate node (d1-deck-stiffness-20261112.md): about 1.04, 2.0-2.14, 3.07, 62.45, 101.27, 157 and 246.9-247.7 ms"
+ },
+ "evaluation": {
+  "scope": "T2 rev 2 (a2 output limiter, sourced diodes) on -12 V under the revised rules; model only, not adopted",
+  "criteria": "d1-t2-rev2-criteria.md",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "d1": "HELD (a -12 V only result does not close D1)",
+  "loaded_baseline_identity": {
+   "nomR": {
+    "status": "COMPLETE",
+    "waveform_sha256": "663e6dd5235c9c5ea499d658fcc09c1451a38e548f6014b17c5ecf0fee6fdd4c",
+    "recorded": "663e6dd5235c9c5ea499d658fcc09c1451a38e548f6014b17c5ecf0fee6fdd4c",
+    "reproduced": true
+   },
+   "reR6": {
+    "status": "COMPLETE",
+    "waveform_sha256": "9c60eb0a3ffff414436b1e3c4af60067924176c4f6d7d3342a9f92490e105056",
+    "recorded": "9c60eb0a3ffff414436b1e3c4af60067924176c4f6d7d3342a9f92490e105056",
+    "reproduced": true
+   },
+   "reR20": {
+    "status": "COMPLETE",
+    "waveform_sha256": "37956c98558d9042f229a6f97e3b11438de408df761ec3b7ab5706ac73cac343",
+    "recorded": "37956c98558d9042f229a6f97e3b11438de408df761ec3b7ab5706ac73cac343",
+    "reproduced": true
+   }
+  },
+  "corners": {
+   "e12lo": {
+    "rail": "-12",
+    "vo_v": -0.66,
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00306795, timestep = 2.5e-18: trouble with node \"xq1.xcds.g1_int1\" | run simulation(s) aborted"
+   },
+   "e12hi": {
+    "rail": "-12",
+    "vo_v": 0.54,
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00306796, timestep = 2.5e-18: trouble with node \"xu13b.n2992151\" | run simulation(s) aborted"
+   },
+   "e5lo": {
+    "rail": "+5",
+    "vo_v": -0.66,
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00199365, timestep = 2.5e-18: trouble with node \"xu13a.n2992151\" | run simulation(s) aborted"
+   },
+   "e5hi": {
+    "rail": "+5",
+    "vo_v": 0.54,
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.0624472, timestep = 2.5e-18: trouble with node \"xu13b.n2992151\" | run simulation(s) aborted"
+   }
+  },
+  "control": {
+   "status": "COMPLETE",
+   "rule6_loading_reference": {
+    "below_baseline_minimum_v": 4.169016477525989e-06,
+    "above_baseline_maximum_v": 2.52842682229356e-06,
+    "largest_excursion_beyond_baseline_v": 4.169016477525989e-06,
+    "resolution_v": 1e-05,
+    "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+    "contract_reference_value_v": null
+   },
+   "slope_v_per_ms": 1.4747954020169167,
+   "current_a": 0.26526325958738384,
+   "slope_minus_recorded_v_per_ms": 1.7401904139902058e-05,
+   "current_minus_recorded_a": 3.927378413592919e-06,
+   "verdict": "REPRODUCED"
+  },
+  "t2": {
+   "verdict": "NOT EVALUATED",
+   "no_load": {
+    "t2/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00199188, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+     "passes": null
+    },
+    "t2/adv": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.24765, timestep = 2.5e-18: trouble with node \"p12_g\" | run simulation(s) aborted",
+     "passes": null
+    },
+    "t2lo/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.000282305, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+     "passes": null
+    },
+    "t2hi/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.101275, timestep = 2.5e-18: trouble with node \"xu9b.n2992151\" | run simulation(s) aborted",
+     "passes": null
+    }
+   },
+   "loaded": {
+    "nomR": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00214039, timestep = 6.25e-18: trouble with node \"xq1.xcds.g1_int1\" | run simulation(s) aborted",
+     "passes": null,
+     "a2": null
+    },
+    "reR6": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00214048, timestep = 6.25e-18: trouble with node \"xu13a.n2992151\" | run simulation(s) aborted",
+     "passes": null,
+     "a2": null
+    },
+    "reR20": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.15689, timestep = 6.25e-18: trouble with node \"xq5.10\" | run simulation(s) aborted",
+     "passes": null,
+     "a2": null
+    }
+   }
+  },
+  "rules": "rules 1-9 as revised (d1-rules-revision-20261112.md); 10-14 and L1-L4 unchanged",
+  "candidate": {
+   "verdict": "FAIL",
+   "basis": "sourced 25 C cases (t2 verdict) plus the VF-spread and DT2K 80 nA cases; the hot DT2C case is judged separately; ir1n / ir2n / k1u are informational",
+   "required": {
+    "vflo/nom": null,
+    "vflo/adv": false,
+    "vfhi/nom": null,
+    "vfhi/adv": false,
+    "cvflo/nom": null,
+    "cvflo/adv": false,
+    "cvfhi/nom": null,
+    "cvfhi/adv": null,
+    "kvflo/nom": null,
+    "kvflo/adv": false,
+    "kvfhi/nom": null,
+    "kvfhi/adv": null,
+    "k80n/adv": null
+   }
+  },
+  "extra": {
+   "cases": {
+    "vflo/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00213939, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+     "passes": null
+    },
+    "vflo/adv": {
+     "status": "COMPLETE",
+     "baseline": "run/adv",
+     "floor_v": -0.09696884385660401,
+     "overshoot_v": 2.166644641476978e-05,
+     "largest_drop_v": -2.2815083156046967e-08,
+     "conduction_onset_ms": 137.652,
+     "rest_vgs_v": -0.5144976251212209,
+     "onset_vgs_v": 2.3526881363846655,
+     "realized_gap_v": 2.8671857615058864,
+     "enable_vgs_max_v": 2.3429957924927893,
+     "enable_min_distance_to_conduction_v": 0.00969234389187612,
+     "enable_peak_current_a": 0.0046574207539074475,
+     "enable_conduction": false,
+     "disabled_extremes_v": [
+      -0.007690266021017226,
+      -0.007672050095824775
+     ],
+     "enable_edge_extremes_v": [
+      -0.09715884069712644,
+      -0.007661429532015955
+     ],
+     "pre_disable_extremes_v": [
+      -12.141954686727477,
+      -12.141954686449921
+     ],
+     "after_disable_extremes_v": [
+      -12.141964707989075,
+      -12.134666487405653
+     ],
+     "after_disable_vgs_max_v": -0.5146017749696878,
+     "peak_slope_in_exception_region_v_per_ms": 1.4747457330196685,
+     "peak_slope_v_per_ms": 1.4747457330196685,
+     "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+     "capacitor_current_in_region_a": 0.2652534212121138,
+     "margins": {
+      "slope_v_per_ms": -0.004746,
+      "current_a": -0.000253
+     },
+     "t2": {
+      "idle_channel_current_max_a": -3.606022544365291e-10,
+      "idle_channel_current_mean_a": -3.611729982650581e-10,
+      "idle_output_drain_min_a": 1.0852318149453576e-06,
+      "idle_output_drain_mean_a": 1.0856607044682324e-06,
+      "idle_driver_v": -11.871761420451252,
+      "idle_hold_v": -9.617986911413043,
+      "driver_peak_v": -8.928655299047469,
+      "driver_peak_ms": 71.922,
+      "idle_driver_below_peak_v": 2.9431061214037832,
+      "idle_internal_vgs_v": -0.4116646042455084,
+      "limit_cycle_driver_pp_v": 0.5052769408760458,
+      "engaged_clamp_current_a": -1.4941456198462604e-11,
+      "clamp_engaged": false,
+      "release_ms": null,
+      "release_step_v": null,
+      "hold_while_disabled_max_v": 4.2461307636155885e-07,
+      "hold_after_disable_max_v": 7.492340081675376e-07
+     },
+     "rules": {
+      "1 failed-rail slope, current and voltage-region ceilings": false,
+      "2 other rails no worse than baseline": true,
+      "3 no new overshoot beyond baseline": true,
+      "4 no non-monotonic step beyond baseline": true,
+      "5 disabled state unchanged": true,
+      "6 enable edge no excursion beyond baseline": true,
+      "7 no conduction during the enable transient": true,
+      "8 disable edge: gate held off": true,
+      "9 disable edge: no excursion of either polarity": true,
+      "10 idle channel current at most half the output drain": true,
+      "11 no limit cycle while idle": false,
+      "12 release step bound": false,
+      "13 clamp engaged while idle": false,
+      "14 hold reset while disabled": true
+     },
+     "passes": false,
+     "rule6_detail": {
+      "below_baseline_minimum_v": 2.3071834156646043e-06,
+      "above_baseline_maximum_v": 2.5285136939926303e-06,
+      "largest_excursion_beyond_baseline_v": 2.5285136939926303e-06,
+      "resolution_v": 1e-05,
+      "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+      "contract_reference_value_v": null
+     },
+     "other_rails": {
+      "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+      "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+     },
+     "rule_detail": {
+      "contract_screens": {
+       "+12": {
+        "magnitude_v": 0.1439571604761429,
+        "screen_v": 1.5,
+        "passes": true
+       },
+       "+5": {
+        "maximum_v": 0.05171061230846376,
+        "screen_v": 0.8,
+        "passes": true
+       },
+       "-12": {
+        "magnitude_v": 0.09715884069712644,
+        "screen_v": 1.5,
+        "passes": true
+       }
+      },
+      "enable_edge_tolerance_v": {
+       "minimum": 0.00010715653351371078,
+       "maximum": 1.7663958045709947e-05
+      },
+      "below_baseline_minimum_v": 2.3071834156646043e-06,
+      "above_baseline_maximum_v": 2.5285136939926303e-06,
+      "disable_edge_excursion_v": 1.0021261598325282e-05,
+      "disable_edge_tolerance_v": 0.012151954686727477
+     },
+     "rule6b_margin_v": 1.5135444351717317e-05,
+     "a2": {
+      "limiter_current_disabled_a": 2.400519439023367e-05,
+      "t2o_enable_window_max_v": 0.45421568491781456,
+      "limiter_current_running_a": 4.5160151615484715e-05,
+      "xt2b_input_above_v_minus_min_v": 0.5269145908213808,
+      "xt2b_input_relative_to_v_plus_max_v": -0.601896385488307,
+      "xt2b_inputs_within_retained_vcm": false,
+      "xt2b_inputs_within_absmax": true,
+      "dt2k_reverse_max_v": 2.8998583482366325,
+      "dl_reverse_max_v": 1.434645671914751,
+      "dt2c_reverse_max_v": 0.8244384809879919,
+      "reverse_within_leakage_rows": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      },
+      "reverse_within_rating": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      }
+     }
+    },
+    "vfhi/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00213939, timestep = 2.5e-18: trouble with node \"xq2.10\" | run simulation(s) aborted",
+     "passes": null
+    },
+    "vfhi/adv": {
+     "status": "COMPLETE",
+     "baseline": "run/adv",
+     "floor_v": -0.09696880227243734,
+     "overshoot_v": 2.1666418659194164e-05,
+     "largest_drop_v": -2.275957200481571e-08,
+     "conduction_onset_ms": 137.652,
+     "rest_vgs_v": -0.5144975854651203,
+     "onset_vgs_v": 2.352688469342285,
+     "realized_gap_v": 2.8671860548074055,
+     "enable_vgs_max_v": 2.3429956984085436,
+     "enable_min_distance_to_conduction_v": 0.009692770933741546,
+     "enable_peak_current_a": 0.004657416673512571,
+     "enable_conduction": false,
+     "disabled_extremes_v": [
+      -0.007690266129893146,
+      -0.007672050202022378
+     ],
+     "enable_edge_extremes_v": [
+      -0.09715879877265474,
+      -0.007661429631518609
+     ],
+     "pre_disable_extremes_v": [
+      -12.141954686727477,
+      -12.141954686449921
+     ],
+     "after_disable_extremes_v": [
+      -12.141964708100097,
+      -12.134666487405653
+     ],
+     "after_disable_vgs_max_v": -0.5146018416940916,
+     "peak_slope_in_exception_region_v_per_ms": 1.4747464408019457,
+     "peak_slope_v_per_ms": 1.4747464408019457,
+     "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+     "capacitor_current_in_region_a": 0.26525346728136445,
+     "margins": {
+      "slope_v_per_ms": -0.004746,
+      "current_a": -0.000253
+     },
+     "t2": {
+      "idle_channel_current_max_a": -2.487668003447612e-10,
+      "idle_channel_current_mean_a": -3.611611706388793e-10,
+      "idle_output_drain_min_a": 1.0852313491897332e-06,
+      "idle_output_drain_mean_a": 1.0856602391181928e-06,
+      "idle_driver_v": -11.871759650094535,
+      "idle_hold_v": -9.61798694633855,
+      "driver_peak_v": -8.928655403463944,
+      "driver_peak_ms": 71.922,
+      "idle_driver_below_peak_v": 2.9431042466305914,
+      "idle_internal_vgs_v": -0.4116635982509646,
+      "limit_cycle_driver_pp_v": 0.505285865749098,
+      "engaged_clamp_current_a": -1.5532424246684323e-11,
+      "clamp_engaged": false,
+      "release_ms": null,
+      "release_step_v": null,
+      "hold_while_disabled_max_v": 4.246121005796036e-07,
+      "hold_after_disable_max_v": 7.492340081675376e-07
+     },
+     "rules": {
+      "1 failed-rail slope, current and voltage-region ceilings": false,
+      "2 other rails no worse than baseline": true,
+      "3 no new overshoot beyond baseline": true,
+      "4 no non-monotonic step beyond baseline": true,
+      "5 disabled state unchanged": true,
+      "6 enable edge no excursion beyond baseline": true,
+      "7 no conduction during the enable transient": true,
+      "8 disable edge: gate held off": true,
+      "9 disable edge: no excursion of either polarity": true,
+      "10 idle channel current at most half the output drain": true,
+      "11 no limit cycle while idle": false,
+      "12 release step bound": false,
+      "13 clamp engaged while idle": false,
+      "14 hold reset while disabled": true
+     },
+     "passes": false,
+     "rule6_detail": {
+      "below_baseline_minimum_v": 2.2652589439647874e-06,
+      "above_baseline_maximum_v": 2.5284141913382505e-06,
+      "largest_excursion_beyond_baseline_v": 2.5284141913382505e-06,
+      "resolution_v": 1e-05,
+      "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+      "contract_reference_value_v": null
+     },
+     "other_rails": {
+      "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+      "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+     },
+     "rule_detail": {
+      "contract_screens": {
+       "+12": {
+        "magnitude_v": 0.14395716054943497,
+        "screen_v": 1.5,
+        "passes": true
+       },
+       "+5": {
+        "maximum_v": 0.0517106123199563,
+        "screen_v": 0.8,
+        "passes": true
+       },
+       "-12": {
+        "magnitude_v": 0.09715879877265474,
+        "screen_v": 1.5,
+        "passes": true
+       }
+      },
+      "enable_edge_tolerance_v": {
+       "minimum": 0.00010715653351371078,
+       "maximum": 1.7663958045709947e-05
+      },
+      "below_baseline_minimum_v": 2.2652589439647874e-06,
+      "above_baseline_maximum_v": 2.5284141913382505e-06,
+      "disable_edge_excursion_v": 1.0021372620627744e-05,
+      "disable_edge_tolerance_v": 0.012151954686727477
+     },
+     "rule6b_margin_v": 1.5135543854371697e-05,
+     "a2": {
+      "limiter_current_disabled_a": 1.813551066399258e-05,
+      "t2o_enable_window_max_v": 1.0456279523052925,
+      "limiter_current_running_a": 3.9246147498092404e-05,
+      "xt2b_input_above_v_minus_min_v": 0.5269169144916201,
+      "xt2b_input_relative_to_v_plus_max_v": -0.601896364854289,
+      "xt2b_inputs_within_retained_vcm": false,
+      "xt2b_inputs_within_absmax": true,
+      "dt2k_reverse_max_v": 2.8998583162672187,
+      "dl_reverse_max_v": 1.439180570753313,
+      "dt2c_reverse_max_v": 1.4159367984371127,
+      "reverse_within_leakage_rows": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      },
+      "reverse_within_rating": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      }
+     }
+    },
+    "cvflo/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00199155, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+     "passes": null
+    },
+    "cvflo/adv": {
+     "status": "COMPLETE",
+     "baseline": "run/adv",
+     "floor_v": -0.09696579019018046,
+     "overshoot_v": 2.1666418659194164e-05,
+     "largest_drop_v": -2.275957200481571e-08,
+     "conduction_onset_ms": 137.652,
+     "rest_vgs_v": -0.5144975857732744,
+     "onset_vgs_v": 2.352710380110624,
+     "realized_gap_v": 2.8672079658838983,
+     "enable_vgs_max_v": 2.342989457122844,
+     "enable_min_distance_to_conduction_v": 0.009720922987780156,
+     "enable_peak_current_a": 0.004657144487159254,
+     "enable_conduction": false,
+     "disabled_extremes_v": [
+      -0.0076902661560444415,
+      -0.007672050230482685
+     ],
+     "enable_edge_extremes_v": [
+      -0.0971557732093479,
+      -0.007661429298397492
+     ],
+     "pre_disable_extremes_v": [
+      -12.141954686727477,
+      -12.141954686449921
+     ],
+     "after_disable_extremes_v": [
+      -12.141964707989075,
+      -12.134666487405653
+     ],
+     "after_disable_vgs_max_v": -0.5146017703067511,
+     "peak_slope_in_exception_region_v_per_ms": 1.4747339283999699,
+     "peak_slope_v_per_ms": 1.4747339283999699,
+     "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+     "capacitor_current_in_region_a": 0.26525136746222255,
+     "margins": {
+      "slope_v_per_ms": -0.004734,
+      "current_a": -0.000251
+     },
+     "t2": {
+      "idle_channel_current_max_a": -3.6000086104397917e-10,
+      "idle_channel_current_mean_a": -3.6116126839625716e-10,
+      "idle_output_drain_min_a": 1.0851976625272935e-06,
+      "idle_output_drain_mean_a": 1.0856265332641504e-06,
+      "idle_driver_v": -11.87166366562775,
+      "idle_hold_v": -9.61799032324989,
+      "driver_peak_v": -8.928662371057113,
+      "driver_peak_ms": 71.922,
+      "idle_driver_below_peak_v": 2.943001294570637,
+      "idle_internal_vgs_v": -0.41161073121040026,
+      "limit_cycle_driver_pp_v": 0.5053079372764735,
+      "engaged_clamp_current_a": -5.482601174572856e-11,
+      "clamp_engaged": false,
+      "release_ms": null,
+      "release_step_v": null,
+      "hold_while_disabled_max_v": 4.2461126032291994e-07,
+      "hold_after_disable_max_v": 7.492340081675376e-07
+     },
+     "rules": {
+      "1 failed-rail slope, current and voltage-region ceilings": false,
+      "2 other rails no worse than baseline": true,
+      "3 no new overshoot beyond baseline": true,
+      "4 no non-monotonic step beyond baseline": true,
+      "5 disabled state unchanged": true,
+      "6 enable edge no excursion beyond baseline": true,
+      "7 no conduction during the enable transient": true,
+      "8 disable edge: gate held off": true,
+      "9 disable edge: no excursion of either polarity": true,
+      "10 idle channel current at most half the output drain": true,
+      "11 no limit cycle while idle": false,
+      "12 release step bound": false,
+      "13 clamp engaged while idle": false,
+      "14 hold reset while disabled": true
+     },
+     "passes": false,
+     "rule6_detail": {
+      "below_baseline_minimum_v": -7.603043628706674e-07,
+      "above_baseline_maximum_v": 2.5287473124557466e-06,
+      "largest_excursion_beyond_baseline_v": 2.5287473124557466e-06,
+      "resolution_v": 1e-05,
+      "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+      "contract_reference_value_v": null
+     },
+     "other_rails": {
+      "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+      "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+     },
+     "rule_detail": {
+      "contract_screens": {
+       "+12": {
+        "magnitude_v": 0.1439571604783113,
+        "screen_v": 1.5,
+        "passes": true
+       },
+       "+5": {
+        "maximum_v": 0.05171061233903826,
+        "screen_v": 0.8,
+        "passes": true
+       },
+       "-12": {
+        "magnitude_v": 0.0971557732093479,
+        "screen_v": 1.5,
+        "passes": true
+       }
+      },
+      "enable_edge_tolerance_v": {
+       "minimum": 0.00010715653351371078,
+       "maximum": 1.7663958045709947e-05
+      },
+      "below_baseline_minimum_v": -7.603043628706674e-07,
+      "above_baseline_maximum_v": 2.5287473124557466e-06,
+      "disable_edge_excursion_v": 1.0021261598325282e-05,
+      "disable_edge_tolerance_v": 0.012151954686727477
+     },
+     "rule6b_margin_v": 1.51352107332542e-05,
+     "a2": {
+      "limiter_current_disabled_a": 2.2032830964936222e-05,
+      "t2o_enable_window_max_v": 0.6527369800460725,
+      "limiter_current_running_a": 4.3174939556558975e-05,
+      "xt2b_input_above_v_minus_min_v": 0.5269150948258687,
+      "xt2b_input_relative_to_v_plus_max_v": -0.6018963784889308,
+      "xt2b_inputs_within_retained_vcm": false,
+      "xt2b_inputs_within_absmax": true,
+      "dt2k_reverse_max_v": 2.89985510233784,
+      "dl_reverse_max_v": 1.397137829578025,
+      "dt2c_reverse_max_v": 1.023520042924581,
+      "reverse_within_leakage_rows": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      },
+      "reverse_within_rating": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      }
+     }
+    },
+    "cvfhi/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00214076, timestep = 2.5e-18: trouble with node \"xq2.10\" | run simulation(s) aborted",
+     "passes": null
+    },
+    "cvfhi/adv": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00239981, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+     "passes": null
+    },
+    "kvflo/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00213923, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+     "passes": null
+    },
+    "kvflo/adv": {
+     "status": "COMPLETE",
+     "baseline": "run/adv",
+     "floor_v": -0.09696891399009192,
+     "overshoot_v": 2.1666279881316086e-05,
+     "largest_drop_v": -2.2787327580431338e-08,
+     "conduction_onset_ms": 137.652,
+     "rest_vgs_v": -0.51449760307628,
+     "onset_vgs_v": 2.352686406776889,
+     "realized_gap_v": 2.867184009853169,
+     "enable_vgs_max_v": 2.3429957678703413,
+     "enable_min_distance_to_conduction_v": 0.009690638906547644,
+     "enable_peak_current_a": 0.004657431399038058,
+     "enable_conduction": false,
+     "disabled_extremes_v": [
+      -0.0076902654859058546,
+      -0.0076720495212247285
+     ],
+     "enable_edge_extremes_v": [
+      -0.0971589106760883,
+      -0.0076614289505312246
+     ],
+     "pre_disable_extremes_v": [
+      -12.141954684562542,
+      -12.141954684340497
+     ],
+     "after_disable_extremes_v": [
+      -12.141964705879651,
+      -12.134666485407251
+     ],
+     "after_disable_vgs_max_v": -0.5146015976670708,
+     "peak_slope_in_exception_region_v_per_ms": 1.4747469977177472,
+     "peak_slope_v_per_ms": 1.4747469977177472,
+     "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+     "capacitor_current_in_region_a": 0.26525352128725643,
+     "margins": {
+      "slope_v_per_ms": -0.004747,
+      "current_a": -0.000254
+     },
+     "t2": {
+      "idle_channel_current_max_a": -3.606378298203138e-10,
+      "idle_channel_current_mean_a": -3.611726104545938e-10,
+      "idle_output_drain_min_a": 1.0852325995129337e-06,
+      "idle_output_drain_mean_a": 1.0856614892775469e-06,
+      "idle_driver_v": -11.871762871798827,
+      "idle_hold_v": -9.474018385359926,
+      "driver_peak_v": -8.9286553260814,
+      "driver_peak_ms": 71.922,
+      "idle_driver_below_peak_v": 2.943107545717428,
+      "idle_internal_vgs_v": -0.4116653249610236,
+      "limit_cycle_driver_pp_v": 0.5052909880528826,
+      "engaged_clamp_current_a": -1.513984302139869e-11,
+      "clamp_engaged": false,
+      "release_ms": null,
+      "release_step_v": null,
+      "hold_while_disabled_max_v": 4.246108266427875e-07,
+      "hold_after_disable_max_v": 7.544520563832706e-07
+     },
+     "rules": {
+      "1 failed-rail slope, current and voltage-region ceilings": false,
+      "2 other rails no worse than baseline": true,
+      "3 no new overshoot beyond baseline": true,
+      "4 no non-monotonic step beyond baseline": true,
+      "5 disabled state unchanged": true,
+      "6 enable edge no excursion beyond baseline": true,
+      "7 no conduction during the enable transient": true,
+      "8 disable edge: gate held off": true,
+      "9 disable edge: no excursion of either polarity": true,
+      "10 idle channel current at most half the output drain": true,
+      "11 no limit cycle while idle": false,
+      "12 release step bound": false,
+      "13 clamp engaged while idle": false,
+      "14 hold reset while disabled": true
+     },
+     "passes": false,
+     "rule6_detail": {
+      "below_baseline_minimum_v": 2.377162377525943e-06,
+      "above_baseline_maximum_v": 2.5290951787227886e-06,
+      "largest_excursion_beyond_baseline_v": 2.5290951787227886e-06,
+      "resolution_v": 1e-05,
+      "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+      "contract_reference_value_v": null
+     },
+     "other_rails": {
+      "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+      "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+     },
+     "rule_detail": {
+      "contract_screens": {
+       "+12": {
+        "magnitude_v": 0.14395716051235527,
+        "screen_v": 1.5,
+        "passes": true
+       },
+       "+5": {
+        "maximum_v": 0.051710612292525986,
+        "screen_v": 0.8,
+        "passes": true
+       },
+       "-12": {
+        "magnitude_v": 0.0971589106760883,
+        "screen_v": 1.5,
+        "passes": true
+       }
+      },
+      "enable_edge_tolerance_v": {
+       "minimum": 0.00010715653351371078,
+       "maximum": 1.7663958045709947e-05
+      },
+      "below_baseline_minimum_v": 2.377162377525943e-06,
+      "above_baseline_maximum_v": 2.5290951787227886e-06,
+      "disable_edge_excursion_v": 1.0021317109476513e-05,
+      "disable_edge_tolerance_v": 0.012151954684562542
+     },
+     "rule6b_margin_v": 1.5134862866987159e-05,
+     "a2": {
+      "limiter_current_disabled_a": 2.2032870088965427e-05,
+      "t2o_enable_window_max_v": 0.6527370112676256,
+      "limiter_current_running_a": 4.3174979468465376e-05,
+      "xt2b_input_above_v_minus_min_v": 0.5386193356438707,
+      "xt2b_input_relative_to_v_plus_max_v": -0.6018016112131486,
+      "xt2b_inputs_within_retained_vcm": false,
+      "xt2b_inputs_within_absmax": true,
+      "dt2k_reverse_max_v": 3.0249663112132605,
+      "dl_reverse_max_v": 1.434773221536276,
+      "dt2c_reverse_max_v": 1.0231988937939098,
+      "reverse_within_leakage_rows": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      },
+      "reverse_within_rating": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      }
+     }
+    },
+    "kvfhi/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00213955, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+     "passes": null
+    },
+    "kvfhi/adv": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00103679, timestep = 2.5e-18: trouble with node \"xq1.xcds.g1_int1\" | run simulation(s) aborted",
+     "passes": null
+    },
+    "ir1n/adv": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00103686, timestep = 2.5e-18: trouble with node \"xq1.xcgd.g1_int1\" | run simulation(s) aborted",
+     "passes": null
+    },
+    "ir2n/adv": {
+     "status": "COMPLETE",
+     "baseline": "run/adv",
+     "floor_v": -0.09681599673804177,
+     "overshoot_v": 2.1666418659194164e-05,
+     "largest_drop_v": -2.275957200481571e-08,
+     "conduction_onset_ms": 137.65,
+     "rest_vgs_v": -0.5144976270173104,
+     "onset_vgs_v": 2.35189580033026,
+     "realized_gap_v": 2.8663934273475706,
+     "enable_vgs_max_v": 2.3426795264427653,
+     "enable_min_distance_to_conduction_v": 0.009216273887494797,
+     "enable_peak_current_a": 0.004643659658942102,
+     "enable_conduction": false,
+     "disabled_extremes_v": [
+      -0.00769026627159837,
+      -0.007672050343836022
+     ],
+     "enable_edge_extremes_v": [
+      -0.09700530372004908,
+      -0.007661411372795083
+     ],
+     "pre_disable_extremes_v": [
+      -12.141954686727477,
+      -12.141954686449921
+     ],
+     "after_disable_extremes_v": [
+      -12.141964707989075,
+      -12.134666487516675
+     ],
+     "after_disable_vgs_max_v": -0.514601973977165,
+     "peak_slope_in_exception_region_v_per_ms": 1.4741898467910097,
+     "peak_slope_v_per_ms": 1.4741898467910097,
+     "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+     "capacitor_current_in_region_a": 0.2651544231055236,
+     "margins": {
+      "slope_v_per_ms": -0.00419,
+      "current_a": -0.000154
+     },
+     "t2": {
+      "idle_channel_current_max_a": -3.5950449973688867e-10,
+      "idle_channel_current_mean_a": -3.605683095848145e-10,
+      "idle_output_drain_min_a": 1.083522354587685e-06,
+      "idle_output_drain_mean_a": 1.0839503111751702e-06,
+      "idle_driver_v": -11.866848247769422,
+      "idle_hold_v": -9.618157881259812,
+      "driver_peak_v": -8.929009826843478,
+      "driver_peak_ms": 71.974,
+      "idle_driver_below_peak_v": 2.937838420925944,
+      "idle_internal_vgs_v": -0.4089522814955137,
+      "limit_cycle_driver_pp_v": 0.5064996791059322,
+      "engaged_clamp_current_a": -2.010515999669066e-09,
+      "clamp_engaged": false,
+      "release_ms": null,
+      "release_step_v": null,
+      "hold_while_disabled_max_v": 4.246126426814264e-07,
+      "hold_after_disable_max_v": 7.49206252591922e-07
+     },
+     "rules": {
+      "1 failed-rail slope, current and voltage-region ceilings": false,
+      "2 other rails no worse than baseline": true,
+      "3 no new overshoot beyond baseline": true,
+      "4 no non-monotonic step beyond baseline": true,
+      "5 disabled state unchanged": true,
+      "6 enable edge no excursion beyond baseline": true,
+      "7 no conduction during the enable transient": true,
+      "8 disable edge: gate held off": true,
+      "9 disable edge: no excursion of either polarity": true,
+      "10 idle channel current at most half the output drain": true,
+      "11 no limit cycle while idle": false,
+      "12 release step bound": false,
+      "13 clamp engaged while idle": false,
+      "14 hold reset while disabled": true
+     },
+     "passes": false,
+     "rule6_detail": {
+      "below_baseline_minimum_v": -0.00015122979366169464,
+      "above_baseline_maximum_v": 2.546672914864427e-06,
+      "largest_excursion_beyond_baseline_v": 2.546672914864427e-06,
+      "resolution_v": 1e-05,
+      "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+      "contract_reference_value_v": null
+     },
+     "other_rails": {
+      "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+      "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+     },
+     "rule_detail": {
+      "contract_screens": {
+       "+12": {
+        "magnitude_v": 0.14395716062316072,
+        "screen_v": 1.5,
+        "passes": true
+       },
+       "+5": {
+        "maximum_v": 0.051710612382731606,
+        "screen_v": 0.8,
+        "passes": true
+       },
+       "-12": {
+        "magnitude_v": 0.09700530372004908,
+        "screen_v": 1.5,
+        "passes": true
+       }
+      },
+      "enable_edge_tolerance_v": {
+       "minimum": 0.00010715653351371078,
+       "maximum": 1.7663958045709947e-05
+      },
+      "below_baseline_minimum_v": -0.00015122979366169464,
+      "above_baseline_maximum_v": 2.546672914864427e-06,
+      "disable_edge_excursion_v": 1.0021261598325282e-05,
+      "disable_edge_tolerance_v": 0.012151954686727477
+     },
+     "rule6b_margin_v": 1.511728513084552e-05,
+     "a2": {
+      "limiter_current_disabled_a": 2.2030902232523407e-05,
+      "t2o_enable_window_max_v": 0.6527355101211962,
+      "limiter_current_running_a": 4.317299697417071e-05,
+      "xt2b_input_above_v_minus_min_v": 0.5269014184256999,
+      "xt2b_input_relative_to_v_plus_max_v": -0.6018964840907728,
+      "xt2b_inputs_within_retained_vcm": false,
+      "xt2b_inputs_within_absmax": true,
+      "dt2k_reverse_max_v": 2.8996956226191823,
+      "dl_reverse_max_v": 1.435044634773149,
+      "dt2c_reverse_max_v": 1.0224749608226045,
+      "reverse_within_leakage_rows": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      },
+      "reverse_within_rating": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      }
+     }
+    },
+    "k80n/adv": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.246908, timestep = 2.5e-18: trouble with node \"p12_g\" | run simulation(s) aborted",
+     "passes": null
+    },
+    "k1u/adv": {
+     "status": "COMPLETE",
+     "baseline": "run/adv",
+     "floor_v": -0.09696882965137361,
+     "overshoot_v": 2.1666807237252783e-05,
+     "largest_drop_v": -2.273181642920008e-08,
+     "conduction_onset_ms": 137.652,
+     "rest_vgs_v": -0.5144975736667885,
+     "onset_vgs_v": 2.352689176334042,
+     "realized_gap_v": 2.8671867500008306,
+     "enable_vgs_max_v": 2.342995759370413,
+     "enable_min_distance_to_conduction_v": 0.00969341696362891,
+     "enable_peak_current_a": 0.00465741933761415,
+     "enable_conduction": false,
+     "disabled_extremes_v": [
+      -0.007690266474259473,
+      -0.007672050548208131
+     ],
+     "enable_edge_extremes_v": [
+      -0.09715882630553523,
+      -0.007661429980767234
+     ],
+     "pre_disable_extremes_v": [
+      -12.141954692389614,
+      -12.141954692112058
+     ],
+     "after_disable_extremes_v": [
+      -12.141964713429168,
+      -12.134666492734723
+     ],
+     "after_disable_vgs_max_v": -0.5146019679264495,
+     "peak_slope_in_exception_region_v_per_ms": 1.4747418331028346,
+     "peak_slope_v_per_ms": 1.4747418331028346,
+     "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+     "capacitor_current_in_region_a": 0.2652528646128971,
+     "margins": {
+      "slope_v_per_ms": -0.004742,
+      "current_a": -0.000253
+     },
+     "t2": {
+      "idle_channel_current_max_a": -3.592554720503961e-10,
+      "idle_channel_current_mean_a": -3.6117336133968676e-10,
+      "idle_output_drain_min_a": 1.0852316555476536e-06,
+      "idle_output_drain_mean_a": 1.0856605455337669e-06,
+      "idle_driver_v": -11.871755243457802,
+      "idle_hold_v": -9.862688739388357,
+      "driver_peak_v": -8.928655335851362,
+      "driver_peak_ms": 71.922,
+      "idle_driver_below_peak_v": 2.94309990760644,
+      "idle_internal_vgs_v": -0.41166345112441116,
+      "limit_cycle_driver_pp_v": 0.5052738968148667,
+      "engaged_clamp_current_a": -1.5139843929001937e-11,
+      "clamp_engaged": false,
+      "release_ms": null,
+      "release_step_v": null,
+      "hold_while_disabled_max_v": 3.5771682653731485e-07,
+      "hold_after_disable_max_v": 7.492617637431532e-07
+     },
+     "rules": {
+      "1 failed-rail slope, current and voltage-region ceilings": false,
+      "2 other rails no worse than baseline": true,
+      "3 no new overshoot beyond baseline": true,
+      "4 no non-monotonic step beyond baseline": true,
+      "5 disabled state unchanged": true,
+      "6 enable edge no excursion beyond baseline": true,
+      "7 no conduction during the enable transient": true,
+      "8 disable edge: gate held off": true,
+      "9 disable edge: no excursion of either polarity": true,
+      "10 idle channel current at most half the output drain": true,
+      "11 no limit cycle while idle": false,
+      "12 release step bound": false,
+      "13 clamp engaged while idle": false,
+      "14 hold reset while disabled": true
+     },
+     "passes": false,
+     "rule6_detail": {
+      "below_baseline_minimum_v": 2.292791824454188e-06,
+      "above_baseline_maximum_v": 2.5280649427134386e-06,
+      "largest_excursion_beyond_baseline_v": 2.5280649427134386e-06,
+      "resolution_v": 1e-05,
+      "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+      "contract_reference_value_v": null
+     },
+     "other_rails": {
+      "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+      "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+     },
+     "rule_detail": {
+      "contract_screens": {
+       "+12": {
+        "magnitude_v": 0.14395716047722712,
+        "screen_v": 1.5,
+        "passes": true
+       },
+       "+5": {
+        "maximum_v": 0.05171061230521115,
+        "screen_v": 0.8,
+        "passes": true
+       },
+       "-12": {
+        "magnitude_v": 0.09715882630553523,
+        "screen_v": 1.5,
+        "passes": true
+       }
+      },
+      "enable_edge_tolerance_v": {
+       "minimum": 0.00010715653351371078,
+       "maximum": 1.7663958045709947e-05
+      },
+      "below_baseline_minimum_v": 2.292791824454188e-06,
+      "above_baseline_maximum_v": 2.5280649427134386e-06,
+      "disable_edge_excursion_v": 1.0021039553720357e-05,
+      "disable_edge_tolerance_v": 0.012151954692389614
+     },
+     "rule6b_margin_v": 1.5135893102996509e-05,
+     "a2": {
+      "limiter_current_disabled_a": 2.2032878496971794e-05,
+      "t2o_enable_window_max_v": 0.6527370098694385,
+      "limiter_current_running_a": 4.3174977679567706e-05,
+      "xt2b_input_above_v_minus_min_v": 0.4959141928908384,
+      "xt2b_input_relative_to_v_plus_max_v": -0.6021437004091839,
+      "xt2b_inputs_within_retained_vcm": false,
+      "xt2b_inputs_within_absmax": true,
+      "dt2k_reverse_max_v": 2.290473131257823,
+      "dl_reverse_max_v": 1.436002279567363,
+      "dt2c_reverse_max_v": 1.0230922780860354,
+      "reverse_within_leakage_rows": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      },
+      "reverse_within_rating": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      }
+     }
+    },
+    "hot/nom": {
+     "status": "ABORTED",
+     "returncode": 1,
+     "runner_reason": "solver failed, timed out, or aborted",
+     "runner_status": "FAILED",
+     "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00213941, timestep = 2.5e-18: trouble with node \"xq1.xcds.g1_int1\" | run simulation(s) aborted",
+     "passes": null
+    },
+    "hot/adv": {
+     "status": "COMPLETE",
+     "baseline": "run/adv",
+     "floor_v": -0.09690352241228739,
+     "overshoot_v": 2.1666474170345396e-05,
+     "largest_drop_v": -2.2815083156046967e-08,
+     "conduction_onset_ms": 137.65,
+     "rest_vgs_v": -0.514497660318883,
+     "onset_vgs_v": 2.3512640671401956,
+     "realized_gap_v": 2.8657617274590788,
+     "enable_vgs_max_v": 2.342860692075608,
+     "enable_min_distance_to_conduction_v": 0.00840337506458777,
+     "enable_peak_current_a": 0.004651536894698137,
+     "enable_conduction": false,
+     "disabled_extremes_v": [
+      -0.007690265888221094,
+      -0.007672049962413698
+     ],
+     "enable_edge_extremes_v": [
+      -0.09709322440629689,
+      -0.007661421539358854
+     ],
+     "pre_disable_extremes_v": [
+      -12.141954687282588,
+      -12.141954687005033
+     ],
+     "after_disable_extremes_v": [
+      -12.141964708544187,
+      -12.134666487960764
+     ],
+     "after_disable_vgs_max_v": -0.5146018221541664,
+     "peak_slope_in_exception_region_v_per_ms": 1.4744981664254162,
+     "peak_slope_v_per_ms": 1.4744981664254162,
+     "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+     "capacitor_current_in_region_a": 0.2652096708816676,
+     "margins": {
+      "slope_v_per_ms": -0.004498,
+      "current_a": -0.00021
+     },
+     "t2": {
+      "idle_channel_current_max_a": -3.6026682938941677e-10,
+      "idle_channel_current_mean_a": -3.6091495673840303e-10,
+      "idle_output_drain_min_a": 1.0845012523072953e-06,
+      "idle_output_drain_mean_a": 1.0849297429607472e-06,
+      "idle_driver_v": -11.869667778389712,
+      "idle_hold_v": -9.636496022335926,
+      "driver_peak_v": -8.928806736243585,
+      "driver_peak_ms": 71.944,
+      "idle_driver_below_peak_v": 2.9408610421461265,
+      "idle_internal_vgs_v": -0.4105104195223906,
+      "limit_cycle_driver_pp_v": 0.5058061848685416,
+      "engaged_clamp_current_a": -8.678249252590779e-10,
+      "clamp_engaged": false,
+      "release_ms": null,
+      "release_step_v": null,
+      "hold_while_disabled_max_v": 4.195716311271964e-07,
+      "hold_after_disable_max_v": 7.492340081675376e-07
+     },
+     "rules": {
+      "1 failed-rail slope, current and voltage-region ceilings": false,
+      "2 other rails no worse than baseline": true,
+      "3 no new overshoot beyond baseline": true,
+      "4 no non-monotonic step beyond baseline": true,
+      "5 disabled state unchanged": true,
+      "6 enable edge no excursion beyond baseline": true,
+      "7 no conduction during the enable transient": true,
+      "8 disable edge: gate held off": true,
+      "9 disable edge: no excursion of either polarity": true,
+      "10 idle channel current at most half the output drain": true,
+      "11 no limit cycle while idle": false,
+      "12 release step bound": false,
+      "13 clamp engaged while idle": false,
+      "14 hold reset while disabled": true
+     },
+     "passes": false,
+     "rule6_detail": {
+      "below_baseline_minimum_v": -6.330910741388085e-05,
+      "above_baseline_maximum_v": 2.5365063510930305e-06,
+      "largest_excursion_beyond_baseline_v": 2.5365063510930305e-06,
+      "resolution_v": 1e-05,
+      "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+      "contract_reference_value_v": null
+     },
+     "other_rails": {
+      "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+      "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+     },
+     "rule_detail": {
+      "contract_screens": {
+       "+12": {
+        "magnitude_v": 0.14395716053815927,
+        "screen_v": 1.5,
+        "passes": true
+       },
+       "+5": {
+        "maximum_v": 0.051710612337520376,
+        "screen_v": 0.8,
+        "passes": true
+       },
+       "-12": {
+        "magnitude_v": 0.09709322440629689,
+        "screen_v": 1.5,
+        "passes": true
+       }
+      },
+      "enable_edge_tolerance_v": {
+       "minimum": 0.00010715653351371078,
+       "maximum": 1.7663958045709947e-05
+      },
+      "below_baseline_minimum_v": -6.330910741388085e-05,
+      "above_baseline_maximum_v": 2.5365063510930305e-06,
+      "disable_edge_excursion_v": 1.0021261598325282e-05,
+      "disable_edge_tolerance_v": 0.012151954687282588
+     },
+     "rule6b_margin_v": 1.5127451694616917e-05,
+     "a2": {
+      "limiter_current_disabled_a": 2.2032029797379877e-05,
+      "t2o_enable_window_max_v": 0.6527363689931975,
+      "limiter_current_running_a": 4.317413189124553e-05,
+      "xt2b_input_above_v_minus_min_v": 0.5241550520964502,
+      "xt2b_input_relative_to_v_plus_max_v": -0.6019187022523882,
+      "xt2b_inputs_within_retained_vcm": false,
+      "xt2b_inputs_within_absmax": true,
+      "dt2k_reverse_max_v": 2.5270696011555263,
+      "dl_reverse_max_v": 1.434459365907773,
+      "dt2c_reverse_max_v": 1.0228287154656153,
+      "reverse_within_leakage_rows": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      },
+      "reverse_within_rating": {
+       "DT2C": true,
+       "DT2K": true,
+       "DL": true
+      }
+     }
+    }
+   },
+   "informational": [
+    "ir1n",
+    "ir2n",
+    "k1u"
+   ],
+   "hot": {
+    "temperature_c": 82.1,
+    "ir_rows": {
+     "DT2C": [
+      [
+       5.0,
+       8.563788512968665e-10
+      ],
+      [
+       15.0,
+       2.854596170989555e-09
+      ]
+     ],
+     "DT2K": [
+      [
+       75,
+       8e-08
+      ]
+     ],
+     "DL": [
+      [
+       5.0,
+       8.563788512968665e-10
+      ],
+      [
+       15.0,
+       2.854596170989555e-09
+      ]
+     ]
+    },
+    "basis": "FJH1100: IR doubling every 7 C (PROJECT inference, no hot row); BAS116L: the guaranteed 80 nA TJ 150 C row held flat below 150 C (monotonic, inference)",
+    "verdict": "FAIL"
+   },
+   "dt2c_failure_ir": {
+    "points": [
+     [
+      2e-09,
+      1.511728513084552e-05
+     ]
+    ],
+    "crossing_a": null,
+    "crossing_temperature_c": null,
+    "note": null,
+    "basis": "linear fit of the rule 6(b) margin over the DT2C-only adv cases"
+   },
+   "dt2k_ladder": {
+    "k80n/adv": {
+     "ir_a": 8e-08,
+     "passes": null,
+     "role": "required"
+    },
+    "k1u/adv": {
+     "ir_a": 1e-06,
+     "passes": false,
+     "role": "informational"
+    }
+   },
+   "limitations": [
+    "FJH1100 (DT2C, D_L) over-temperature IR is UNSOURCED; this blocks adoption until sourced or bench-measured",
+    "BAS116L (DT2K): IR assumed monotonic in temperature, so the 150 C row bounds lower temperatures (inference)",
+    "BAS116L (DT2K): the 75 V IR rows applied at <= 1.3 V reverse bias (inference)",
+    "VF below 1 mA is typical (FJH1100) or extrapolated from maxima (BAS116L); each role has a VF-spread pair",
+    "neither diode has an LCSC ID; both are staged outside the inventory, not owner bundles",
+    "HOT_T_C 82.1 C is continuous contract load at the owner-confirmed 40 C ambient; the let-through-held state (99.4 C, DT2C IR 4.75e-09 A) is out of scope for the D1 criterion"
+   ]
+  }
+ },
+ "variants": {
+  "track": "matched-variant (labelled; never PASS or FAIL in the pre-registered sense)",
+  "ladder": [
+   "abstol",
+   "rshunt"
+  ],
+  "cases": {
+   "t2/nom": {
+    "variant": "rshunt",
+    "verdict": "NOT EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": false,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 0.008636325418690305,
+        "worst_excess_over_tolerance_v": 0.004329753334210848,
+        "at_ms": 138.512,
+        "within_tolerance": false
+       },
+       "+5": {
+        "max_abs_difference_v": 0.012525985729540362,
+        "worst_excess_over_tolerance_v": 0.012281216886112846,
+        "at_ms": 139.994,
+        "within_tolerance": false
+       },
+       "-12": {
+        "max_abs_difference_v": 0.012323327048037624,
+        "worst_excess_over_tolerance_v": 0.011860995569969376,
+        "at_ms": 138.63,
+        "within_tolerance": false
+       }
+      }
+     }
+    },
+    "reason": "a variant baseline does not match its pinned record"
+   },
+   "t2/adv": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/adv": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.1163071295404734e-06,
+        "worst_excess_over_tolerance_v": -9.999934564561136e-06,
+        "at_ms": 0.096,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.5448423630366506e-06,
+        "worst_excess_over_tolerance_v": -1.0000017287087324e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 9.802570647532427e-06,
+        "worst_excess_over_tolerance_v": -1.7660349847158496e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/adv",
+    "floor_v": -0.09696882918220377,
+    "overshoot_v": 2.1666418659194164e-05,
+    "largest_drop_v": -2.2815083156046967e-08,
+    "conduction_onset_ms": 137.652,
+    "rest_vgs_v": -0.5144976447148739,
+    "onset_vgs_v": 2.3526944499454507,
+    "realized_gap_v": 2.8671920946603247,
+    "enable_vgs_max_v": 2.342995759688084,
+    "enable_min_distance_to_conduction_v": 0.009698690257366582,
+    "enable_peak_current_a": 0.004657419335771006,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007690266357577296,
+     -0.007672050431629293
+    ],
+    "enable_edge_extremes_v": [
+     -0.09715882621337804,
+     -0.007661429888013738
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954686782988,
+     -12.141954686449921
+    ],
+    "after_disable_extremes_v": [
+     -12.141964707989075,
+     -12.134666489515077
+    ],
+    "after_disable_vgs_max_v": -0.5146020303764947,
+    "peak_slope_in_exception_region_v_per_ms": 1.4747462229903712,
+    "peak_slope_v_per_ms": 1.4747462229903712,
+    "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+    "capacitor_current_in_region_a": 0.2652534717473132,
+    "margins": {
+     "slope_v_per_ms": -0.004746,
+     "current_a": -0.000253
+    },
+    "t2": {
+     "idle_channel_current_max_a": -3.6065815861104784e-10,
+     "idle_channel_current_mean_a": -3.6117317548207237e-10,
+     "idle_output_drain_min_a": 1.0852316514150592e-06,
+     "idle_output_drain_mean_a": 1.0856605403724758e-06,
+     "idle_driver_v": -11.871763371952913,
+     "idle_hold_v": -9.617987017940509,
+     "driver_peak_v": -8.928655337294652,
+     "driver_peak_ms": 71.922,
+     "idle_driver_below_peak_v": 2.9431080346582608,
+     "idle_internal_vgs_v": -0.41166569078952564,
+     "limit_cycle_driver_pp_v": 0.5052725622428262,
+     "engaged_clamp_current_a": -1.5139842996955502e-11,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.246116262418897e-07,
+     "hold_after_disable_max_v": 7.492340081675376e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": false,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 2.290831912180047e-06,
+     "above_baseline_maximum_v": 2.5258692706838295e-06,
+     "largest_excursion_beyond_baseline_v": 2.5258692706838295e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.1439571610976076,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05171061608604097,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09715882621337804,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.00010715653538146586,
+      "maximum": 1.7663955757284422e-05
+     },
+     "below_baseline_minimum_v": 2.290831912180047e-06,
+     "above_baseline_maximum_v": 2.5258692706838295e-06,
+     "disable_edge_excursion_v": 1.002120608717405e-05,
+     "disable_edge_tolerance_v": 0.012151954686782988
+    },
+    "all_rules_hold": false
+   },
+   "t2lo/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-e12lo/nom",
+    "floor_v": -0.09650350911463235,
+    "overshoot_v": 2.2019719381205505e-05,
+    "largest_drop_v": -3.375077994860476e-08,
+    "conduction_onset_ms": 134.63,
+    "rest_vgs_v": 0.6585678894964858,
+    "onset_vgs_v": 2.3508643330176575,
+    "realized_gap_v": 1.6922964435211716,
+    "enable_vgs_max_v": 2.3402067318237427,
+    "enable_min_distance_to_conduction_v": 0.01065760119391479,
+    "enable_peak_current_a": 0.004525278091155832,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007706175145226144,
+     -0.007687956385510763
+    ],
+    "enable_edge_extremes_v": [
+     -0.09675784000050296,
+     -0.007683150272348155
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954836607585,
+     -12.14195483633003
+    ],
+    "after_disable_extremes_v": [
+     -12.141964790256601,
+     -12.134679959073878
+    ],
+    "after_disable_vgs_max_v": 0.6584553081661136,
+    "peak_slope_in_exception_region_v_per_ms": 1.0262014126303516,
+    "peak_slope_v_per_ms": 1.0262014126303516,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.18461419007807178,
+    "margins": {
+     "slope_v_per_ms": 0.443799,
+     "current_a": 0.080386
+    },
+    "t2": {
+     "idle_channel_current_max_a": 4.450988731227446e-10,
+     "idle_channel_current_mean_a": 2.5572188808867837e-11,
+     "idle_output_drain_min_a": 1.0799910239082255e-06,
+     "idle_output_drain_mean_a": 1.0804210631751248e-06,
+     "idle_driver_v": -12.136696153782298,
+     "idle_hold_v": -10.892712121986158,
+     "driver_peak_v": -10.207516470118533,
+     "driver_peak_ms": 60.604,
+     "idle_driver_below_peak_v": 1.9291796836637651,
+     "idle_internal_vgs_v": 0.6585679431474956,
+     "limit_cycle_driver_pp_v": 2.0671240818614933e-05,
+     "engaged_clamp_current_a": -4.884481031501446e-12,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.211267565132994e-08,
+     "hold_after_disable_max_v": 4.056061042585875e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": true,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 7.555733382708096e-07,
+     "above_baseline_maximum_v": 1.8365620439355496e-06,
+     "largest_excursion_beyond_baseline_v": 1.8365620439355496e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426522961578547,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.051869005099751044,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09675784000050296,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.00010675708442716469,
+      "maximum": 1.768498683439209e-05
+     },
+     "below_baseline_minimum_v": 7.555733382708096e-07,
+     "above_baseline_maximum_v": 1.8365620439355496e-06,
+     "disable_edge_excursion_v": 9.95364901612561e-06,
+     "disable_edge_tolerance_v": 0.012151954836607585
+    },
+    "all_rules_hold": false
+   },
+   "t2hi/nom": {
+    "verdict": "NOT EVALUATED",
+    "steps": {
+     "abstol": "applies",
+     "rshunt": "applies"
+    },
+    "reason": "ABORTED at every applicable ladder step"
+   },
+   "t2load/nomR": {
+    "verdict": "NOT EVALUATED",
+    "steps": {
+     "abstol": "applies",
+     "rshunt": "applies"
+    },
+    "reason": "ABORTED at every applicable ladder step"
+   },
+   "t2load/reR6": {
+    "variant": "rshunt",
+    "verdict": "NOT EVALUATED",
+    "reference_match": {
+     "base/reR6": {
+      "matches": false,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 0.010309019679566767,
+        "worst_excess_over_tolerance_v": 0.00469752811254885,
+        "at_ms": 233.532,
+        "within_tolerance": false
+       },
+       "+5": {
+        "max_abs_difference_v": 0.004296382281189448,
+        "worst_excess_over_tolerance_v": 0.0019579641213453777,
+        "at_ms": 233.102,
+        "within_tolerance": false
+       },
+       "-12": {
+        "max_abs_difference_v": 0.010127504279633825,
+        "worst_excess_over_tolerance_v": 0.004528204896093976,
+        "at_ms": 232.982,
+        "within_tolerance": false
+       }
+      }
+     }
+    },
+    "reason": "a variant baseline does not match its pinned record"
+   },
+   "t2load/reR20": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "base/reR20": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.499061374505729e-05,
+        "worst_excess_over_tolerance_v": -9.998852032456047e-06,
+        "at_ms": 0.084,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 7.5420069494125386e-06,
+        "worst_excess_over_tolerance_v": -1.0000006564163285e-05,
+        "at_ms": 0.012,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 2.0454020421833974e-05,
+        "worst_excess_over_tolerance_v": -9.999924009510579e-06,
+        "at_ms": 40.538,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "note": "loaded rules L1-L4 against the matched variant baseline",
+    "rules": {
+     "L1 startup: every rail screen no worse than baseline": true,
+     "L2 startup: outputs within reltol of baseline": true,
+     "L3 startup: -12 V peak supply current not above baseline": true,
+     "L1 re-enable: every rail screen no worse than baseline": true,
+     "L2 re-enable: outputs within reltol of baseline": true,
+     "L3 re-enable: -12 V peak supply current not above baseline": true,
+     "L4 hold reset at re-enable": true
+    },
+    "detail": {
+     "startup": {
+      "screens": {
+       "+12": 0.30513155589946844,
+       "+5": 0.12817387307926756,
+       "-12": 0.30834988784369766
+      },
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 3.7318655112805743e-06,
+        "worst_excess_over_tolerance_v": -1.000233268693545e-05,
+        "at_ms": 43.742,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 1.569949031887674e-06,
+        "worst_excess_over_tolerance_v": -1.0014902897440346e-05,
+        "at_ms": 44.794,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 3.0433225384207674e-06,
+        "worst_excess_over_tolerance_v": -9.999991767483261e-06,
+        "at_ms": 40.54,
+        "within_tolerance": true
+       }
+      },
+      "peak_current_a": {
+       "baseline": 0.665959074124093,
+       "t2": 0.6659647501831082
+      }
+     },
+     "re-enable": {
+      "screens": {
+       "+12": 3.4213919758106504,
+       "+5": 1.059232496949913,
+       "-12": 3.3696098923406184
+      },
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 6.934505053735052e-06,
+        "worst_excess_over_tolerance_v": -1.0002327960740844e-05,
+        "at_ms": 174.388,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 2.2668603105735485e-06,
+        "worst_excess_over_tolerance_v": -1.0015051414975472e-05,
+        "at_ms": 175.45,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 9.880218171609556e-06,
+        "worst_excess_over_tolerance_v": -9.999975235087658e-06,
+        "at_ms": 173.542,
+        "within_tolerance": true
+       }
+      },
+      "peak_current_a": {
+       "baseline": 1.9096251130232609,
+       "t2": 1.9096298108070895
+      },
+      "reenable_ms": 171.179,
+      "hold_before_reenable_max_v": 8.328060463461127e-07,
+      "clamp_current_after_reenable_max_a": 4.412818236127837e-08
+     },
+     "clamp_current_startup_max_a": 8.852875944733058e-08
+    }
+   },
+   "vflo/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/nom",
+    "floor_v": -0.09682043275939584,
+    "overshoot_v": 2.181457792183039e-05,
+    "largest_drop_v": -2.7283730830163222e-08,
+    "conduction_onset_ms": 137.404,
+    "rest_vgs_v": -0.001428419173886418,
+    "onset_vgs_v": 2.350345272070656,
+    "realized_gap_v": 2.3517736912445426,
+    "enable_vgs_max_v": 2.3425957164536517,
+    "enable_min_distance_to_conduction_v": 0.007749555617004411,
+    "enable_peak_current_a": 0.004634751735281252,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007704643905298402,
+     -0.007686404277594831
+    ],
+    "enable_edge_extremes_v": [
+     -0.09703806178659918,
+     -0.007678172272293892
+    ],
+    "pre_disable_extremes_v": [
+     -12.14195476355491,
+     -12.141954763277354
+    ],
+    "after_disable_extremes_v": [
+     -12.141964754285375,
+     -12.134673874718636
+    ],
+    "after_disable_vgs_max_v": -0.0015450040136129142,
+    "peak_slope_in_exception_region_v_per_ms": 0.8430519459716075,
+    "peak_slope_v_per_ms": 0.8430519459716075,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.1516939675524076,
+    "margins": {
+     "slope_v_per_ms": 0.626948,
+     "current_a": 0.113306
+    },
+    "t2": {
+     "idle_channel_current_max_a": 1.618442792976118e-10,
+     "idle_channel_current_mean_a": -1.1475755528262535e-11,
+     "idle_output_drain_min_a": 1.083535523005252e-06,
+     "idle_output_drain_mean_a": 1.083967275044038e-06,
+     "idle_driver_v": -12.13314625788726,
+     "idle_hold_v": -10.186141115145173,
+     "driver_peak_v": -9.478691395105555,
+     "driver_peak_ms": 67.136,
+     "idle_driver_below_peak_v": 2.654454862781705,
+     "idle_internal_vgs_v": -0.0013659530883218527,
+     "limit_cycle_driver_pp_v": 0.11719116033761878,
+     "engaged_clamp_current_a": -4.685948688775481e-12,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.211296025440022e-08,
+     "hold_after_disable_max_v": 4.0561998204639527e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 1.0433685165844864e-06,
+     "above_baseline_maximum_v": 1.8341786151947204e-06,
+     "largest_excursion_beyond_baseline_v": 1.8341786151947204e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426710495182646,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05186965415532162,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09703806178659918,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.0001070370184180826,
+      "maximum": 1.768000645090909e-05
+     },
+     "below_baseline_minimum_v": 1.0433685165844864e-06,
+     "above_baseline_maximum_v": 1.8341786151947204e-06,
+     "disable_edge_excursion_v": 9.99073046514809e-06,
+     "disable_edge_tolerance_v": 0.01215195476355491
+    },
+    "all_rules_hold": false
+   },
+   "vfhi/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/nom",
+    "floor_v": -0.09682039303115655,
+    "overshoot_v": 2.1814550166254776e-05,
+    "largest_drop_v": -2.7228219678931964e-08,
+    "conduction_onset_ms": 137.404,
+    "rest_vgs_v": -0.0014284653549426194,
+    "onset_vgs_v": 2.3503463850484216,
+    "realized_gap_v": 2.3517748504033644,
+    "enable_vgs_max_v": 2.342595622804605,
+    "enable_min_distance_to_conduction_v": 0.007750762243816656,
+    "enable_peak_current_a": 0.004634747589129514,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007704644058660493,
+     -0.00768640443198522
+    ],
+    "enable_edge_extremes_v": [
+     -0.09703802164108641,
+     -0.007678172418173294
+    ],
+    "pre_disable_extremes_v": [
+     -12.14195476355491,
+     -12.141954763277354
+    ],
+    "after_disable_extremes_v": [
+     -12.141964754285375,
+     -12.134673875717837
+    ],
+    "after_disable_vgs_max_v": -0.0015451084855995314,
+    "peak_slope_in_exception_region_v_per_ms": 0.8430506493586793,
+    "peak_slope_v_per_ms": 0.8430506493586793,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.15169374636941235,
+    "margins": {
+     "slope_v_per_ms": 0.626949,
+     "current_a": 0.113306
+    },
+    "t2": {
+     "idle_channel_current_max_a": -1.1385816876980918e-11,
+     "idle_channel_current_mean_a": -1.1560086599488508e-11,
+     "idle_output_drain_min_a": 1.0835350792890277e-06,
+     "idle_output_drain_mean_a": 1.0839668308648995e-06,
+     "idle_driver_v": -12.133152781324371,
+     "idle_hold_v": -10.186141146704928,
+     "driver_peak_v": -9.478691501686965,
+     "driver_peak_ms": 67.136,
+     "idle_driver_below_peak_v": 2.654461279637406,
+     "idle_internal_vgs_v": -0.0013661022007848548,
+     "limit_cycle_driver_pp_v": 0.11708539540302354,
+     "engaged_clamp_current_a": -5.2773519971504386e-12,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.211282472920171e-08,
+     "hold_after_disable_max_v": 4.0561998204639527e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 1.0032230038092838e-06,
+     "above_baseline_maximum_v": 1.8340327357924124e-06,
+     "largest_excursion_beyond_baseline_v": 1.8340327357924124e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426710494900752,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.051869654154345836,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09703802164108641,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.0001070370184180826,
+      "maximum": 1.768000645090909e-05
+     },
+     "below_baseline_minimum_v": 1.0032230038092838e-06,
+     "above_baseline_maximum_v": 1.8340327357924124e-06,
+     "disable_edge_excursion_v": 9.99073046514809e-06,
+     "disable_edge_tolerance_v": 0.01215195476355491
+    },
+    "all_rules_hold": false
+   },
+   "cvflo/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/nom",
+    "floor_v": -0.0968173779769258,
+    "overshoot_v": 2.1814550166254776e-05,
+    "largest_drop_v": -2.7255975254547593e-08,
+    "conduction_onset_ms": 137.404,
+    "rest_vgs_v": -0.0014284718600418565,
+    "onset_vgs_v": 2.3503774691698096,
+    "realized_gap_v": 2.3518059410298515,
+    "enable_vgs_max_v": 2.342589394508948,
+    "enable_min_distance_to_conduction_v": 0.007788074660861621,
+    "enable_peak_current_a": 0.004634477379656228,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007704644038499415,
+     -0.007686404411520904
+    ],
+    "enable_edge_extremes_v": [
+     -0.09703499259022644,
+     -0.0076781721118861805
+    ],
+    "pre_disable_extremes_v": [
+     -12.14195476355491,
+     -12.141954763277354
+    ],
+    "after_disable_extremes_v": [
+     -12.141964754285375,
+     -12.134673875717837
+    ],
+    "after_disable_vgs_max_v": -0.0015450736245965582,
+    "peak_slope_in_exception_region_v_per_ms": 0.8429887843736834,
+    "peak_slope_v_per_ms": 0.8429887843736834,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.1516826116460479,
+    "margins": {
+     "slope_v_per_ms": 0.627011,
+     "current_a": 0.113317
+    },
+    "t2": {
+     "idle_channel_current_max_a": 4.458612027752727e-11,
+     "idle_channel_current_mean_a": -1.1498309697086861e-11,
+     "idle_output_drain_min_a": 1.0835013587849748e-06,
+     "idle_output_drain_mean_a": 1.0839329964620145e-06,
+     "idle_driver_v": -12.130634175861296,
+     "idle_hold_v": -10.186144611316237,
+     "driver_peak_v": -9.47869852262635,
+     "driver_peak_ms": 67.138,
+     "idle_driver_below_peak_v": 2.651935653234945,
+     "idle_internal_vgs_v": -0.0013262084856541926,
+     "limit_cycle_driver_pp_v": 0.15211663386297047,
+     "engaged_clamp_current_a": -4.45997003366074e-11,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.21131364373263e-08,
+     "hold_after_disable_max_v": 4.056477376220109e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": -2.025827856161344e-06,
+     "above_baseline_maximum_v": 1.8343390229061396e-06,
+     "largest_excursion_beyond_baseline_v": 1.8343390229061396e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426710531525103,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05186965440544706,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09703499259022644,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.0001070370184180826,
+      "maximum": 1.768000645090909e-05
+     },
+     "below_baseline_minimum_v": -2.025827856161344e-06,
+     "above_baseline_maximum_v": 1.8343390229061396e-06,
+     "disable_edge_excursion_v": 9.99073046514809e-06,
+     "disable_edge_tolerance_v": 0.01215195476355491
+    },
+    "all_rules_hold": false
+   },
+   "cvfhi/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/nom",
+    "floor_v": -0.09682042477532792,
+    "overshoot_v": 2.1814550166254776e-05,
+    "largest_drop_v": -2.7255975254547593e-08,
+    "conduction_onset_ms": 137.404,
+    "rest_vgs_v": -0.001428452309421012,
+    "onset_vgs_v": 2.3503461269909574,
+    "realized_gap_v": 2.351774579300378,
+    "enable_vgs_max_v": 2.3425956969466863,
+    "enable_min_distance_to_conduction_v": 0.007750430044271006,
+    "enable_peak_current_a": 0.004634750872906844,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007704644414424495,
+     -0.007686404786573541
+    ],
+    "enable_edge_extremes_v": [
+     -0.09703805435699538,
+     -0.007678172779239723
+    ],
+    "pre_disable_extremes_v": [
+     -12.14195476355491,
+     -12.141954763277354
+    ],
+    "after_disable_extremes_v": [
+     -12.141964754174353,
+     -12.134673875717837
+    ],
+    "after_disable_vgs_max_v": -0.001545157335412615,
+    "peak_slope_in_exception_region_v_per_ms": 0.8430535516780919,
+    "peak_slope_v_per_ms": 0.8430535516780919,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.15169421732046606,
+    "margins": {
+     "slope_v_per_ms": 0.626946,
+     "current_a": 0.113306
+    },
+    "t2": {
+     "idle_channel_current_max_a": -1.1162200178906006e-11,
+     "idle_channel_current_mean_a": -1.1555792390651406e-11,
+     "idle_output_drain_min_a": 1.0835354341859065e-06,
+     "idle_output_drain_mean_a": 1.083967415201855e-06,
+     "idle_driver_v": -12.13644123882883,
+     "idle_hold_v": -10.186141173477912,
+     "driver_peak_v": -9.478691417421038,
+     "driver_peak_ms": 67.136,
+     "idle_driver_below_peak_v": 2.6577498214077924,
+     "idle_internal_vgs_v": -0.0014189476077099137,
+     "limit_cycle_driver_pp_v": 0.031069326315190438,
+     "engaged_clamp_current_a": -4.798733090411442e-12,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.211320419988902e-08,
+     "hold_after_disable_max_v": 4.056477376220109e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 1.0359389127773122e-06,
+     "above_baseline_maximum_v": 1.8336716693639205e-06,
+     "largest_excursion_beyond_baseline_v": 1.8336716693639205e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426710520422872,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05186965411195353,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09703805435699538,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.0001070370184180826,
+      "maximum": 1.768000645090909e-05
+     },
+     "below_baseline_minimum_v": 1.0359389127773122e-06,
+     "above_baseline_maximum_v": 1.8336716693639205e-06,
+     "disable_edge_excursion_v": 9.990619442845627e-06,
+     "disable_edge_tolerance_v": 0.01215195476355491
+    },
+    "all_rules_hold": false
+   },
+   "cvfhi/adv": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/adv": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.1163071295404734e-06,
+        "worst_excess_over_tolerance_v": -9.999934564561136e-06,
+        "at_ms": 0.096,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.5448423630366506e-06,
+        "worst_excess_over_tolerance_v": -1.0000017287087324e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 9.802570647532427e-06,
+        "worst_excess_over_tolerance_v": -1.7660349847158496e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/adv",
+    "floor_v": -0.096968835582376,
+    "overshoot_v": 2.1666418659194164e-05,
+    "largest_drop_v": -2.2787327580431338e-08,
+    "conduction_onset_ms": 137.652,
+    "rest_vgs_v": -0.5144975270970772,
+    "onset_vgs_v": 2.3526973428292997,
+    "realized_gap_v": 2.8671948699263767,
+    "enable_vgs_max_v": 2.342995772615894,
+    "enable_min_distance_to_conduction_v": 0.009701570213405564,
+    "enable_peak_current_a": 0.004657419907037131,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.0076902665388254065,
+     -0.007672050610576861
+    ],
+    "enable_edge_extremes_v": [
+     -0.09715883265093686,
+     -0.007661430068560505
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954686782988,
+     -12.141954686449921
+    ],
+    "after_disable_extremes_v": [
+     -12.141964707989075,
+     -12.134666489515077
+    ],
+    "after_disable_vgs_max_v": -0.5146019038110698,
+    "peak_slope_in_exception_region_v_per_ms": 1.4749954446603804,
+    "peak_slope_v_per_ms": 1.4749954446603804,
+    "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+    "capacitor_current_in_region_a": 0.2652531056228713,
+    "margins": {
+     "slope_v_per_ms": -0.004995,
+     "current_a": -0.000253
+    },
+    "t2": {
+     "idle_channel_current_max_a": -2.9460314125243455e-10,
+     "idle_channel_current_mean_a": -3.61199699921941e-10,
+     "idle_output_drain_min_a": 1.0852317230356654e-06,
+     "idle_output_drain_mean_a": 1.0856606120551358e-06,
+     "idle_driver_v": -11.871763635602425,
+     "idle_hold_v": -9.617987013154636,
+     "driver_peak_v": -8.928655322972775,
+     "driver_peak_ms": 71.922,
+     "idle_driver_below_peak_v": 2.9431083126296507,
+     "idle_internal_vgs_v": -0.41166581812908865,
+     "limit_cycle_driver_pp_v": 0.5052807223963107,
+     "engaged_clamp_current_a": -1.5054157437011555e-11,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.246120599227587e-07,
+     "hold_after_disable_max_v": 7.492340081675376e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": false,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 2.297269470999397e-06,
+     "above_baseline_maximum_v": 2.5256887239170564e-06,
+     "largest_excursion_beyond_baseline_v": 2.5256887239170564e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.143957161140542,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.0517106160325898,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09715883265093686,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.00010715653538146586,
+      "maximum": 1.7663955757284422e-05
+     },
+     "below_baseline_minimum_v": 2.297269470999397e-06,
+     "above_baseline_maximum_v": 2.5256887239170564e-06,
+     "disable_edge_excursion_v": 1.002120608717405e-05,
+     "disable_edge_tolerance_v": 0.012151954686782988
+    },
+    "all_rules_hold": false
+   },
+   "kvflo/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/nom",
+    "floor_v": -0.09682053761614412,
+    "overshoot_v": 2.1814439143952313e-05,
+    "largest_drop_v": -2.7200464103316335e-08,
+    "conduction_onset_ms": 137.404,
+    "rest_vgs_v": -0.0014284592280464068,
+    "onset_vgs_v": 2.350343363770749,
+    "realized_gap_v": 2.3517718229987956,
+    "enable_vgs_max_v": 2.34259568462668,
+    "enable_min_distance_to_conduction_v": 0.007747679144069153,
+    "enable_peak_current_a": 0.004634762472677467,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007704644473742212,
+     -0.007686404802267367
+    ],
+    "enable_edge_extremes_v": [
+     -0.09703816008372917,
+     -0.007678172790244375
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954761389975,
+     -12.14195476116793
+    ],
+    "after_disable_extremes_v": [
+     -12.141964751953907,
+     -12.134673873608413
+    ],
+    "after_disable_vgs_max_v": -0.0015449319601386162,
+    "peak_slope_in_exception_region_v_per_ms": 0.8430576238844972,
+    "peak_slope_v_per_ms": 0.8430576238844972,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.15169481557930853,
+    "margins": {
+     "slope_v_per_ms": 0.626942,
+     "current_a": 0.113305
+    },
+    "t2": {
+     "idle_channel_current_max_a": 1.2923689896014288e-10,
+     "idle_channel_current_mean_a": -1.1509160596604772e-11,
+     "idle_output_drain_min_a": 1.0835366962583804e-06,
+     "idle_output_drain_mean_a": 1.0839680913857948e-06,
+     "idle_driver_v": -12.12036393543798,
+     "idle_hold_v": -10.04251425232898,
+     "driver_peak_v": -9.478691431798426,
+     "driver_peak_ms": 67.136,
+     "idle_driver_below_peak_v": 2.6416725036395547,
+     "idle_internal_vgs_v": -0.0010978491348661438,
+     "limit_cycle_driver_pp_v": 0.24262399552747738,
+     "engaged_clamp_current_a": -4.884481827001041e-12,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.211512865881824e-08,
+     "hold_after_disable_max_v": 4.108657858377439e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 1.1416656465756958e-06,
+     "above_baseline_maximum_v": 1.8336606647118697e-06,
+     "largest_excursion_beyond_baseline_v": 1.8336606647118697e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426710500690393,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05186965414155225,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09703816008372917,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.0001070370184180826,
+      "maximum": 1.768000645090909e-05
+     },
+     "below_baseline_minimum_v": 1.1416656465756958e-06,
+     "above_baseline_maximum_v": 1.8336606647118697e-06,
+     "disable_edge_excursion_v": 9.990563931694396e-06,
+     "disable_edge_tolerance_v": 0.012151954761389975
+    },
+    "all_rules_hold": false
+   },
+   "kvfhi/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/nom",
+    "floor_v": -0.0968203911471629,
+    "overshoot_v": 2.181466118855724e-05,
+    "largest_drop_v": -2.7255975254547593e-08,
+    "conduction_onset_ms": 137.404,
+    "rest_vgs_v": -0.0014284242173881454,
+    "onset_vgs_v": 2.350346832301767,
+    "realized_gap_v": 2.351775256519155,
+    "enable_vgs_max_v": 2.34259568305849,
+    "enable_min_distance_to_conduction_v": 0.007751149243277133,
+    "enable_peak_current_a": 0.004634738104366279,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007704644310183539,
+     -0.0076864047231206085
+    ],
+    "enable_edge_extremes_v": [
+     -0.09703802086327977,
+     -0.007678172719012292
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954765775356,
+     -12.1419547654978
+    ],
+    "after_disable_extremes_v": [
+     -12.141964756283777,
+     -12.134673877827261
+    ],
+    "after_disable_vgs_max_v": -0.0015450191681572003,
+    "peak_slope_in_exception_region_v_per_ms": 0.8430526679142112,
+    "peak_slope_v_per_ms": 0.8430526679142112,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.15169404431908506,
+    "margins": {
+     "slope_v_per_ms": 0.626947,
+     "current_a": 0.113306
+    },
+    "t2": {
+     "idle_channel_current_max_a": 3.53460072625288e-10,
+     "idle_channel_current_mean_a": -1.1459192514369857e-11,
+     "idle_output_drain_min_a": 1.0835350582124657e-06,
+     "idle_output_drain_mean_a": 1.0839671032962738e-06,
+     "idle_driver_v": -12.136674665170974,
+     "idle_hold_v": -10.329975570346493,
+     "driver_peak_v": -9.478691432742115,
+     "driver_peak_ms": 67.136,
+     "idle_driver_below_peak_v": 2.657983232428858,
+     "idle_internal_vgs_v": -0.001425028903516076,
+     "limit_cycle_driver_pp_v": 0.006517693303578653,
+     "engaged_clamp_current_a": -4.88448168456054e-12,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.211346169790499e-08,
+     "hold_after_disable_max_v": 4.0040193383066227e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": true,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 1.0024451971707427e-06,
+     "above_baseline_maximum_v": 1.833731896794602e-06,
+     "largest_excursion_beyond_baseline_v": 1.833731896794602e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426710500820497,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.0518696541772225,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09703802086327977,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.0001070370184180826,
+      "maximum": 1.768000645090909e-05
+     },
+     "below_baseline_minimum_v": 1.0024451971707427e-06,
+     "above_baseline_maximum_v": 1.833731896794602e-06,
+     "disable_edge_excursion_v": 9.990508420543165e-06,
+     "disable_edge_tolerance_v": 0.012151954765775356
+    },
+    "all_rules_hold": false
+   },
+   "kvfhi/adv": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/adv": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.1163071295404734e-06,
+        "worst_excess_over_tolerance_v": -9.999934564561136e-06,
+        "at_ms": 0.096,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.5448423630366506e-06,
+        "worst_excess_over_tolerance_v": -1.0000017287087324e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 9.802570647532427e-06,
+        "worst_excess_over_tolerance_v": -1.7660349847158496e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/adv",
+    "floor_v": -0.09696880737080577,
+    "overshoot_v": 2.1666529681496627e-05,
+    "largest_drop_v": -2.2815083156046967e-08,
+    "conduction_onset_ms": 137.652,
+    "rest_vgs_v": -0.5144975821780052,
+    "onset_vgs_v": 2.3526980535125483,
+    "realized_gap_v": 2.8671956356905537,
+    "enable_vgs_max_v": 2.342995754538991,
+    "enable_min_distance_to_conduction_v": 0.009702298973557344,
+    "enable_peak_current_a": 0.00465740741008921,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007690266422117819,
+     -0.007672050537393215
+    ],
+    "enable_edge_extremes_v": [
+     -0.09715880455221125,
+     -0.007661429998792095
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954688892412,
+     -12.141954688670367
+    ],
+    "after_disable_extremes_v": [
+     -12.141964709987477,
+     -12.134666491513478
+    ],
+    "after_disable_vgs_max_v": -0.5146018908769716,
+    "peak_slope_in_exception_region_v_per_ms": 1.474739412033212,
+    "peak_slope_v_per_ms": 1.474739412033212,
+    "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+    "capacitor_current_in_region_a": 0.2652524906493281,
+    "margins": {
+     "slope_v_per_ms": -0.004739,
+     "current_a": -0.000252
+    },
+    "t2": {
+     "idle_channel_current_max_a": -3.5999577884629565e-10,
+     "idle_channel_current_mean_a": -3.611736476654555e-10,
+     "idle_output_drain_min_a": 1.0852314076085367e-06,
+     "idle_output_drain_mean_a": 1.0856602963521584e-06,
+     "idle_driver_v": -11.87176330909143,
+     "idle_hold_v": -9.76216229870863,
+     "driver_peak_v": -8.928655343289856,
+     "driver_peak_ms": 71.922,
+     "idle_driver_below_peak_v": 2.9431079658015733,
+     "idle_internal_vgs_v": -0.4116656835236842,
+     "limit_cycle_driver_pp_v": 0.5052782882572444,
+     "engaged_clamp_current_a": -1.513984312501857e-11,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.246121547904488e-07,
+     "hold_after_disable_max_v": 7.440159599518045e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": false,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 2.2691707453892374e-06,
+     "above_baseline_maximum_v": 2.525758492326856e-06,
+     "largest_excursion_beyond_baseline_v": 2.525758492326856e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14395716109847495,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05171061610414714,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09715880455221125,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.00010715653538146586,
+      "maximum": 1.7663955757284422e-05
+     },
+     "below_baseline_minimum_v": 2.2691707453892374e-06,
+     "above_baseline_maximum_v": 2.525758492326856e-06,
+     "disable_edge_excursion_v": 1.0021095064871588e-05,
+     "disable_edge_tolerance_v": 0.012151954688892411
+    },
+    "all_rules_hold": false
+   },
+   "ir1n/adv": {
+    "verdict": "NOT EVALUATED",
+    "steps": {
+     "abstol": "applies",
+     "rshunt": "not applicable: the pinned deck already carries it"
+    },
+    "reason": "ABORTED at every applicable ladder step"
+   },
+   "k80n/adv": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/adv": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.1163071295404734e-06,
+        "worst_excess_over_tolerance_v": -9.999934564561136e-06,
+        "at_ms": 0.096,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.5448423630366506e-06,
+        "worst_excess_over_tolerance_v": -1.0000017287087324e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 9.802570647532427e-06,
+        "worst_excess_over_tolerance_v": -1.7660349847158496e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/adv",
+    "floor_v": -0.09696882915639664,
+    "overshoot_v": 2.1666474170345396e-05,
+    "largest_drop_v": -2.2787327580431338e-08,
+    "conduction_onset_ms": 137.652,
+    "rest_vgs_v": -0.5144976132151933,
+    "onset_vgs_v": 2.35269781062871,
+    "realized_gap_v": 2.8671954238439032,
+    "enable_vgs_max_v": 2.342995759576845,
+    "enable_min_distance_to_conduction_v": 0.009702051051864835,
+    "enable_peak_current_a": 0.004657419333819442,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007690266396340913,
+     -0.00767205047022689
+    ],
+    "enable_edge_extremes_v": [
+     -0.09715882618909191,
+     -0.0076614299271805415
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954687227077,
+     -12.141954687005033
+    ],
+    "after_disable_extremes_v": [
+     -12.141964708322142,
+     -12.134666486406452
+    ],
+    "after_disable_vgs_max_v": -0.5146017592045209,
+    "peak_slope_in_exception_region_v_per_ms": 1.4747407715642378,
+    "peak_slope_v_per_ms": 1.4747407715642378,
+    "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+    "capacitor_current_in_region_a": 0.26525334227500363,
+    "margins": {
+     "slope_v_per_ms": -0.004741,
+     "current_a": -0.000253
+    },
+    "t2": {
+     "idle_channel_current_max_a": -3.603040988390959e-10,
+     "idle_channel_current_mean_a": -3.611738753706822e-10,
+     "idle_output_drain_min_a": 1.0852316513389586e-06,
+     "idle_output_drain_mean_a": 1.0856605401369807e-06,
+     "idle_driver_v": -11.871763014591616,
+     "idle_hold_v": -9.636443351806687,
+     "driver_peak_v": -8.928655337572208,
+     "driver_peak_ms": 71.922,
+     "idle_driver_below_peak_v": 2.943107677019409,
+     "idle_internal_vgs_v": -0.4116656998444729,
+     "limit_cycle_driver_pp_v": 0.5052726889314538,
+     "engaged_clamp_current_a": -1.5139842844531965e-11,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.1956923232988975e-07,
+     "hold_after_disable_max_v": 7.492340081675376e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": false,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 2.2908076260513832e-06,
+     "above_baseline_maximum_v": 2.5258301038803485e-06,
+     "largest_excursion_beyond_baseline_v": 2.5258301038803485e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.1439571611492156,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05171061609655773,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09715882618909191,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.00010715653538146586,
+      "maximum": 1.7663955757284422e-05
+     },
+     "below_baseline_minimum_v": 2.2908076260513832e-06,
+     "above_baseline_maximum_v": 2.5258301038803485e-06,
+     "disable_edge_excursion_v": 1.0021095064871588e-05,
+     "disable_edge_tolerance_v": 0.012151954687227077
+    },
+    "all_rules_hold": false
+   },
+   "hot/nom": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/nom": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.2604930080549757e-06,
+        "worst_excess_over_tolerance_v": -9.99995981554049e-06,
+        "at_ms": 0.1,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.971758244155412e-06,
+        "worst_excess_over_tolerance_v": -1.000001589389946e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 5.381690752759294e-06,
+        "worst_excess_over_tolerance_v": -1.7674062218294773e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/nom",
+    "floor_v": -0.09675506078501385,
+    "overshoot_v": 2.181457792183039e-05,
+    "largest_drop_v": -2.733924198139448e-08,
+    "conduction_onset_ms": 137.4,
+    "rest_vgs_v": -0.0014284177904597115,
+    "onset_vgs_v": 2.350091424690041,
+    "realized_gap_v": 2.3515198424805006,
+    "enable_vgs_max_v": 2.3424600540851603,
+    "enable_min_distance_to_conduction_v": 0.007631370604880505,
+    "enable_peak_current_a": 0.004628867807062473,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007704644319797362,
+     -0.007686404688941135
+    ],
+    "enable_edge_extremes_v": [
+     -0.09697239752654556,
+     -0.007678166440126461
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954764110022,
+     -12.141954763832466
+    ],
+    "after_disable_extremes_v": [
+     -12.141964754729464,
+     -12.134673876161926
+    ],
+    "after_disable_vgs_max_v": -0.001544825101172496,
+    "peak_slope_in_exception_region_v_per_ms": 0.8417034108322153,
+    "peak_slope_v_per_ms": 0.8417034108322153,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.15145149174321193,
+    "margins": {
+     "slope_v_per_ms": 0.628297,
+     "current_a": 0.113549
+    },
+    "t2": {
+     "idle_channel_current_max_a": 2.317244974460217e-10,
+     "idle_channel_current_mean_a": -1.1451347357729679e-11,
+     "idle_output_drain_min_a": 1.082804402069907e-06,
+     "idle_output_drain_mean_a": 1.0832357775696152e-06,
+     "idle_driver_v": -12.133433570655681,
+     "idle_hold_v": -10.208136774171148,
+     "driver_peak_v": -9.478843584866349,
+     "driver_peak_ms": 67.156,
+     "idle_driver_below_peak_v": 2.6545899857893325,
+     "idle_internal_vgs_v": -0.0013704333154486434,
+     "limit_cycle_driver_pp_v": 0.11237098477801055,
+     "engaged_clamp_current_a": -8.581937262545372e-10,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 3.661055291387885e-08,
+     "hold_after_disable_max_v": 4.055922264707797e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": -6.462089153703998e-05,
+     "above_baseline_maximum_v": 1.8400107826260087e-06,
+     "largest_excursion_beyond_baseline_v": 1.8400107826260087e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.14426711258742866,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05186965873640106,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09697239752654556,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.0001070370184180826,
+      "maximum": 1.768000645090909e-05
+     },
+     "below_baseline_minimum_v": -6.462089153703998e-05,
+     "above_baseline_maximum_v": 1.8400107826260087e-06,
+     "disable_edge_excursion_v": 9.990619442845627e-06,
+     "disable_edge_tolerance_v": 0.012151954764110021
+    },
+    "all_rules_hold": false
+   }
+  },
+  "cross_check": {
+   "abstol": {
+    "variant": "abstol",
+    "verdict": "VARIANT-EVALUATED",
+    "reference_match": {
+     "run/adv": {
+      "matches": true,
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 2.1163071295404734e-06,
+        "worst_excess_over_tolerance_v": -9.999934564561136e-06,
+        "at_ms": 0.096,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 5.5448423630366506e-06,
+        "worst_excess_over_tolerance_v": -1.0000017287087324e-05,
+        "at_ms": 0.0,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 9.802570647532427e-06,
+        "worst_excess_over_tolerance_v": -1.7660349847158496e-05,
+        "at_ms": 0.004,
+        "within_tolerance": true
+       }
+      }
+     }
+    },
+    "baseline": "v-abstol-run/adv",
+    "floor_v": -0.09696882918220377,
+    "overshoot_v": 2.1666418659194164e-05,
+    "largest_drop_v": -2.2815083156046967e-08,
+    "conduction_onset_ms": 137.652,
+    "rest_vgs_v": -0.5144976447148739,
+    "onset_vgs_v": 2.3526944499454507,
+    "realized_gap_v": 2.8671920946603247,
+    "enable_vgs_max_v": 2.342995759688084,
+    "enable_min_distance_to_conduction_v": 0.009698690257366582,
+    "enable_peak_current_a": 0.004657419335771006,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007690266357577296,
+     -0.007672050431629293
+    ],
+    "enable_edge_extremes_v": [
+     -0.09715882621337804,
+     -0.007661429888013738
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954686782988,
+     -12.141954686449921
+    ],
+    "after_disable_extremes_v": [
+     -12.141964707989075,
+     -12.134666489515077
+    ],
+    "after_disable_vgs_max_v": -0.5146020303764947,
+    "peak_slope_in_exception_region_v_per_ms": 1.4747462229903712,
+    "peak_slope_v_per_ms": 1.4747462229903712,
+    "disposition": "EXCEEDS RECORDED SLOPE BOUND (SIM); convergence and design disposition required",
+    "capacitor_current_in_region_a": 0.2652534717473132,
+    "margins": {
+     "slope_v_per_ms": -0.004746,
+     "current_a": -0.000253
+    },
+    "t2": {
+     "idle_channel_current_max_a": -3.6065815861104784e-10,
+     "idle_channel_current_mean_a": -3.6117317548207237e-10,
+     "idle_output_drain_min_a": 1.0852316514150592e-06,
+     "idle_output_drain_mean_a": 1.0856605403724758e-06,
+     "idle_driver_v": -11.871763371952913,
+     "idle_hold_v": -9.617987017940509,
+     "driver_peak_v": -8.928655337294652,
+     "driver_peak_ms": 71.922,
+     "idle_driver_below_peak_v": 2.9431080346582608,
+     "idle_internal_vgs_v": -0.41166569078952564,
+     "limit_cycle_driver_pp_v": 0.5052725622428262,
+     "engaged_clamp_current_a": -1.5139842996955502e-11,
+     "clamp_engaged": false,
+     "release_ms": null,
+     "release_step_v": null,
+     "hold_while_disabled_max_v": 4.246116262418897e-07,
+     "hold_after_disable_max_v": 7.492340081675376e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": false,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": true,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": true,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": false,
+     "12 release step bound": false,
+     "13 clamp engaged while idle": false,
+     "14 hold reset while disabled": true
+    },
+    "rule6_detail": {
+     "below_baseline_minimum_v": 2.290831912180047e-06,
+     "above_baseline_maximum_v": 2.5258692706838295e-06,
+     "largest_excursion_beyond_baseline_v": 2.5258692706838295e-06,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+    },
+    "rule_detail": {
+     "contract_screens": {
+      "+12": {
+       "magnitude_v": 0.1439571610976076,
+       "screen_v": 1.5,
+       "passes": true
+      },
+      "+5": {
+       "maximum_v": 0.05171061608604097,
+       "screen_v": 0.8,
+       "passes": true
+      },
+      "-12": {
+       "magnitude_v": 0.09715882621337804,
+       "screen_v": 1.5,
+       "passes": true
+      }
+     },
+     "enable_edge_tolerance_v": {
+      "minimum": 0.00010715653538146586,
+      "maximum": 1.7663955757284422e-05
+     },
+     "below_baseline_minimum_v": 2.290831912180047e-06,
+     "above_baseline_maximum_v": 2.5258692706838295e-06,
+     "disable_edge_excursion_v": 1.002120608717405e-05,
+     "disable_edge_tolerance_v": 0.012151954686782988
+    },
+    "all_rules_hold": false
+   }
+  }
+ }
+}
