@@ -102,6 +102,12 @@ held. On +5 V, returning RG2P to GND (option B) passes its paper check, and its 
 ([options](d1-p5-gate-hold-options-20261111.md), [B check](d1-p5-option-b-paper-check-20261111.md)).
 RG2P explains at most 4.6 mV of the 52 versus 28 mV floor, which is left as it is.
 
+Rules 6 and 9 are **revised for future pre-registrations** (owner decision 2026-11-12,
+[revision](d1-rules-revision-20261112.md)). Rule 6 now combines the contract screens (+5 V below
+0.8 V, analog rails below 1.5 V) with a baseline excursion of at most reltol·|v| + vntol. Rule 9
+uses the same tolerance, and L2 is unchanged. Recorded verdicts stand: T2 −12 V attempt 1 stays
+FAILED, and C1, C2 and T1 stay rejected.
+
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
 therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and
 consumes the transient-minimum margin (41.59 / 42.16 / 36.94 mA) and the startup-into-full-load
