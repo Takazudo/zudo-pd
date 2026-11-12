@@ -79,8 +79,7 @@ new parts' pad nets and each named `--extra-net` must be unchanged, as must non-
 outline, legend, setup and zone definitions. Each removed or added segment or via must lie, along its whole length, within
 `--reach-mm` (10 mm by default) of a new courtyard or a repinned footprint, so copper on a part net cannot change
 elsewhere. The project's design rules (`board.design_settings` and `net_settings` in `.kicad_pro`, plus any
-`.kicad_dru`) must be identical. Every filled-polygon vertex that changes, per zone uuid and layer, must lie
-within 2 mm of a new courtyard or of a changed copper item. That is a vertex screen, not a connectivity proof;
+`.kicad_dru`) must be identical. Every filled-area corner that changes, per zone uuid and layer, must lie within 2 mm of a new courtyard or of a changed copper item. KiCad's zero-width fracture slits are removed first, because a hole that changes inside the region can move a slit that ends far outside it. That is a vertex screen, not a connectivity proof;
 DRC covers islands and unconnected items. It lists every removed and added copper item for review. An
 `--extra-net` that is allowed but not changed fails, so each widening is named exactly once. Any net moved
 beyond the part nets, such as UV5_CMP, needs an owner decision and must be stated in the PR.
