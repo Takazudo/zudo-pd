@@ -59,11 +59,22 @@ OPA_SWING_HV = 0.125
 OPA_VCM_HEADROOM = 2.0
 OPA_SUPPLY = (4.5, 36.0)
 OPA_SR_V_PER_US = 0.2         # T
+# SBOS807E section 7.3 (p. 21, Figure 39): back-to-back diodes protect the inputs from differential voltage.
+# Their forward voltage and any differential-voltage limit are NOT FOUND in the datasheet, so VF is a PA range.
+# Section 6.1 (G): input pins (V-) - 0.5 V to (V+) + 0.5 V and +/-10 mA; IB rows (G): +/-350 pA at 25 C,
+# +/-5 nA (4.5 V to < 8 V) / +/-7.5 nA (8 V to 36 V) over -40 C to 125 C.
+OPA_DIFF_DIODE_VF_PA = (0.4, 0.7)
+OPA_INPUT_CURRENT_ABS_MAX = 10e-3
+OPA_IB_MAX = {'25c': 350e-12, 'full_range_lv': 5e-9, 'full_range_hv': 7.5e-9}
 # TI REF5025AIDR SBOS410O (G): the AI suffix is the standard grade (Table 4-2)
 REF_V = 2.5
 REF_LOAD_MA_PA = 3.0          # PA: dividers about 1.6 mA plus OPA2187 input-diode loading of comparators (review finding 11)
 REF_ACC = 0.001 + 30e-6 * REF_LOAD_MA_PA   # initial accuracy + 25 C load regulation 30 ppm/mA
 REF_TC_PPM = 8.0
+# SBOS410O section 6.5 (G): load regulation 30 ppm/mA max at 25 C and 50 ppm/mA max over -40 C to 125 C
+# (-10 mA < IOUT < 10 mA); section 6.3 output current -10 to 10 mA. No load-step transient row is given.
+REF_LOAD_REG_PPM_PER_MA = {'25c': 30.0, 'full_range': 50.0}
+REF_IOUT_MAX_A = 10e-3
 # TI INA301A3 SBOS713A (G)
 INA_GAIN = 100.0
 INA_GAIN_ERR = 0.002
@@ -791,6 +802,226 @@ def gate_stress():
     }
 
 
+def _solve_dc(fixed, resistors, diodes):
+    """DC node voltages for linear resistors plus back-to-back diode pairs (VF in series with RS, either polarity).
+
+    fixed: {node: volts}; resistors: [(a, b, ohms)]; diodes: [(a, b, vf, rs)]. Returns (volts, diode currents a->b)."""
+    nodes = sorted({n for a, b, _ in resistors for n in (a, b)} | {n for a, b, _, _ in diodes for n in (a, b)})
+    free = [n for n in nodes if n not in fixed]
+    state = [0] * len(diodes)
+    for _ in range(50):
+        index = {n: i for i, n in enumerate(free)}
+        g = [[0.0] * len(free) for _ in free]
+        rhs = [0.0] * len(free)
+
+        def stamp(a, b, cond, src):   # branch current a->b = cond * (va - vb - src)
+            for n, sign in ((a, 1), (b, -1)):
+                if n in index:
+                    rhs[index[n]] += sign * cond * src
+                    for m, s2 in ((a, 1), (b, -1)):
+                        if m in index:
+                            g[index[n]][index[m]] += sign * s2 * cond
+                        else:
+                            rhs[index[n]] -= sign * s2 * cond * fixed[m]
+        for a, b, r in resistors:
+            stamp(a, b, 1 / r, 0.0)
+        for (a, b, vf, rs), s in zip(diodes, state):
+            if s:
+                stamp(a, b, 1 / rs, s * vf)
+        size = len(free)
+        for col in range(size):
+            piv = max(range(col, size), key=lambda k: abs(g[k][col]))
+            g[col], g[piv], rhs[col], rhs[piv] = g[piv], g[col], rhs[piv], rhs[col]
+            for k in range(col + 1, size):
+                f = g[k][col] / g[col][col]
+                for j in range(col, size):
+                    g[k][j] -= f * g[col][j]
+                rhs[k] -= f * rhs[col]
+        x = [0.0] * size
+        for k in range(size - 1, -1, -1):
+            x[k] = (rhs[k] - sum(g[k][j] * x[j] for j in range(k + 1, size))) / g[k][k]
+        v = dict(fixed, **{n: x[index[n]] for n in free})
+        new = [(1 if v[a] - v[b] > vf else -1 if v[b] - v[a] > vf else 0) for a, b, vf, _ in diodes]
+        if new == state:
+            break
+        state = new
+    currents = [(s * ((v[a] - v[b]) - s * vf) / rs if s else 0.0) for (a, b, vf, rs), s in zip(diodes, state)]
+    return v, currents
+
+
+# Disabled-state terminal networks (board_b20_spec.py, PROPOSED 0.1 % unless noted). Only resistive paths to the
+# terminals are modelled; no external load and the discharge switches off (after the 0.5-1.4 s hold-up).
+TRACK_R = {'+12': (69.8e3, 10e3), '+5': (23.2e3, 10e3)}          # RT12A / RT12B, RT5A / RT5B
+LVLM12_R = 64.9e3 + 10.2e3                                     # RLM1 + RLM2, P12_OUT to GND
+PREBIAS_PULL_R = 100e3                                         # RT12P / RT5P from M12_OFFX (P5_SUP while disabled)
+BODY_DIODE_VF_PA = 0.5                                         # PA: Q59 / Q60 BSS138 body diode in the pre-bias path
+P5_SUP_NOM_V = 4.98                                            # PROPOSED AP63201 supervisory supply
+RCP_R = 1e3                                                    # RCP1 / RCP3, RAMP to RAMP_P12 / RAMP_P5
+M12_TERMINAL_SINKS = (100e3, 750e3)                            # RMA1 to the U15A virtual ground, RT12NB to TRK12N (~0 V)
+VX_DIV = (30.1e3, 10e3)                                        # RVX1 / RVX2 from REF25
+SERIES_R_OPTIONS = (10e3, 100e3, 1e6)                          # paper fix: series resistor at each divider-side input
+
+
+def comparator_input_diodes(series_r=0.0):
+    """OPA2187 OV/UV comparators U6, U7, U8 and U5B: back-to-back input-diode conduction while a rail is absent.
+
+    Returns the per-channel diode current and REF25 load change, the REF5025 shift from its load-regulation rows, the
+    resulting setpoint and RAMP error, and the disabled no-load terminal level the diode current back-feeds."""
+    rows = {}
+    for vf in OPA_DIFF_DIODE_VF_PA:
+        ch = {}
+        # U6 / U7: divider node (top to the terminal at 0 V, bottom to GND) against REF25 directly.
+        for rail, u in (('+12', 'U6'), ('+5', 'U7')):
+            for kind, res, side in (('OV', OV_RES, 'A'), ('UV', UV_RES, 'B')):
+                top, bot = res[rail]
+                rth = top * bot / (top + bot)
+                i = max(0.0, REF_V - vf) / (rth + series_r)
+                ch[f'{u}{side} {kind}{rail}'] = {'diode_a': i, 'ref25_delta_a': i}
+        # U8: REF25 -> Ra -> node -> Rb -> M12_OUT (0 V); the diode clamps the node to GND.
+        for side, (rb, ra), kind in (('A', OV_RES['-12'], 'OV'), ('B', UV_RES['-12'], 'UV')):
+            v_open = REF_V * rb / (ra + rb)
+            v, cur = _solve_dc({'REF': REF_V, 'GND': 0.0, 'OUT': 0.0}, [('REF', 'N', ra), ('N', 'OUT', rb)],
+                               [('N', 'GND', vf, max(series_r, 1e-3))])
+            ch[f'U8{side} {kind}-12'] = {'diode_a': cur[0], 'ref25_delta_a': (REF_V - v['N']) / ra - REF_V / (ra + rb),
+                                         'node_open_v': round(v_open, 4)}
+        # U5B: REF125 against VIN_DIV; with VIN at its 19 V operating minimum the inputs differ by < VF.
+        a, b = VIN_UV_RES
+        diff = VIN_MIN * b / (a + b) - REF_V / 2
+        ch['U5B VINUV'] = {'diode_a': 0.0, 'ref25_delta_a': 0.0,
+                           'note': f'VIN >= {VIN_MIN} V: |VIN_DIV - REF125| = {diff:.4f} V < VF; conducts only below about '
+                                   f'{(REF_V / 2 - vf) * (a + b) / b:.2f} V (UV fault region)'}
+        rows[vf] = ch
+    worst_vf = OPA_DIFF_DIODE_VF_PA[0]
+    worst = rows[worst_vf]
+    delta = sum(c['ref25_delta_a'] for c in worst.values())
+    # REF25 static load (enabled, settled; window dividers at the terminal setpoints) and disabled load (RAMP reset).
+    sp = setpoints()
+    m12 = sp['-12']['nominal_v']
+    lim = {}
+    for rail, d in LIMIT_DIV.items():
+        t, bt = d['top'], d['bot']
+        v_lim = REF_V * bt / (t + bt) + INA_ILIMIT[1] * t * bt / (t + bt)
+        lim[rail] = (REF_V - v_lim) / t
+    common = {'-12 sense RS3A-E': (REF_V + m12) / (SENSE['-12']['ref'] + SENSE['-12']['neg']),
+              'VIN UV reference RVR1/RVR2': REF_V / (2 * 8.2e3),
+              'LIMIT +12 RL1A': lim['+12'], 'LIMIT +5 RL2A': lim['+5'],
+              'VX12 RVX1/RVX2': REF_V / sum(VX_DIV)}
+    ovn_ra, uvn_ra = OV_RES['-12'][1], UV_RES['-12'][1]
+    enabled = dict(common, **{'RRMP (RAMP at its 2.06 V unclamped end)': (REF_V - REF_V * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD'])) / RAMP_NET['R'],
+                              'ROVNA (-12 at setpoint)': (REF_V + m12) / sum(OV_RES['-12']),
+                              'RUVNA (-12 at setpoint)': (REF_V + m12) / sum(UV_RES['-12'])})
+    disabled = dict(common, **{'RRMP (RAMP reset)': REF_V / RAMP_NET['R'],
+                               'ROVNA (-12 absent)': REF_V / sum(OV_RES['-12']),
+                               'RUVNA (-12 absent)': REF_V / sum(UV_RES['-12'])})
+    load_enabled = sum(enabled.values())
+    load_disabled = sum(disabled.values()) + delta
+    step = load_disabled - load_enabled
+    shift = {k: step * 1e3 * ppm * 1e-6 for k, ppm in REF_LOAD_REG_PPM_PER_MA.items()}
+    budget_ppm = 30e-6 * REF_LOAD_MA_PA
+    full_range_enabled = REF_LOAD_REG_PPM_PER_MA['full_range'] * 1e-6 * load_enabled * 1e3
+    full_range_pa = REF_LOAD_REG_PPM_PER_MA['full_range'] * 1e-6 * REF_LOAD_MA_PA
+    effect = {rail: round(shift['full_range'] * sp[rail]['nominal_v'] * 1e3, 4) for rail in ('+12', '+5', '-12')}
+    ramp_err = {rail: round(shift['full_range'] * REF_V * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD']) * k * 1e3, 4)
+                for rail, k in TRACK_K.items()}
+
+    def backfeed(vf, rs, prebias=True, u13_clamp=True):
+        out = {}
+        for rail in ('+12', '+5'):
+            top_t, bot_t = TRACK_R[rail]
+            fixed = {'REF': REF_V, 'GND': 0.0, 'PRE': P5_SUP_NOM_V - BODY_DIODE_VF_PA, 'M12PRE': -PREBIAS_M12_PRE_MIN_V}
+            res = [('OUT', 'TRK', top_t), ('TRK', 'GND', bot_t), ('TRK', 'M12PRE', PREBIAS_R)]
+            if prebias:
+                res.append(('TRK', 'PRE', PREBIAS_PULL_R))
+            if rail == '+12':
+                res.append(('OUT', 'GND', LVLM12_R))
+            dio = [('TRK', 'GND', vf, RCP_R)] if u13_clamp else []
+            for kind, r in (('OV', OV_RES), ('UV', UV_RES)):
+                top, bot = r[rail]
+                res += [('OUT', kind, top), (kind, 'GND', bot)]
+                dio.append(('REF', kind, vf, max(rs, 1e-3)))
+            v, _ = _solve_dc(fixed, res, dio)
+            out[rail] = v['OUT']
+        fixed = {'REF': REF_V, 'GND': 0.0}
+        res = [('REF', 'OVN', OV_RES['-12'][1]), ('OVN', 'OUT', OV_RES['-12'][0]),
+               ('REF', 'UVN', UV_RES['-12'][1]), ('UVN', 'OUT', UV_RES['-12'][0])]
+        res += [('OUT', 'GND', r) for r in M12_TERMINAL_SINKS]
+        dio = [('OVN', 'GND', vf, max(rs, 1e-3)), ('UVN', 'GND', vf, max(rs, 1e-3))] if rs < 1e12 else []
+        v, _ = _solve_dc(fixed, res, dio)
+        out['-12'] = v['OUT']
+        return out
+
+    def span(rs):
+        cases = [backfeed(vf, rs, p, c) for vf in OPA_DIFF_DIODE_VF_PA for p in (True, False) for c in (True, False)]
+        return {rail: [round(min(x[rail] for x in cases), 3), round(max(x[rail] for x in cases), 3)] for rail in ('+12', '+5', '-12')}
+
+    now = span(0.0)
+    no_diodes = span(1e15)
+    limits = {'+12': DISCHARGE_LEVEL['+12'], '+5': min(DISCHARGE_LEVEL['+5'], P5_ORDER_LEVEL), '-12': DISCHARGE_LEVEL['-12']}
+
+    def thresh_err(rs):
+        ib = max(OPA_IB_MAX['full_range_lv'], OPA_IB_MAX['full_range_hv'])
+        e = ib * rs
+        out = {}
+        for rail in ('+12', '+5', '-12'):
+            if rail == '-12':
+                ra, rb = OV_RES['-12'][1], OV_RES['-12'][0]
+                rail_err = e * (ra + rb) / ra
+                out[rail] = rail_err / OV_DIV['-12'][0]
+            else:
+                out[rail] = e / REF_V
+        return out
+    margins = {}
+    for rail, w in windows().items():
+        ov, uv = w['ov_trip_v'], w['uv_trip_v']
+        margins[rail] = min(ov[0] / w['ov_limit'][0] - 1, 1 - ov[1] / w['ov_limit'][1],
+                            uv[0] / w['uv_limit'][0] - 1, 1 - uv[1] / w['uv_limit'][1])
+    options = []
+    for rs in SERIES_R_OPTIONS:
+        err = thresh_err(rs)
+        sub = comparator_input_diodes(rs)['ref25_delta_max_a'] if series_r == 0.0 else None
+        options.append({'series_r_ohm': rs, 'ref25_delta_max_ma': None if sub is None else round(sub * 1e3, 4),
+                        'disabled_terminal_v': span(rs),
+                        'ib_threshold_error_pct': {r: round(x * 100, 4) for r, x in err.items()},
+                        'window_margin_pct': {r: round(m * 100, 4) for r, m in margins.items()},
+                        'threshold_status': status(all(err[r] < margins[r] for r in err))})
+    channels = {k: {'diode_ma': round(c['diode_a'] * 1e3, 4), 'ref25_delta_ma': round(c['ref25_delta_a'] * 1e3, 4),
+                    **({'note': c['note']} if 'note' in c else {})} for k, c in worst.items()}
+    return {
+        'evidence': 'OPA2187 SBOS807E 7.3 back-to-back input diodes (VF and differential limit NOT FOUND; VF PA '
+                    f'{OPA_DIFF_DIODE_VF_PA[0]}-{OPA_DIFF_DIODE_VF_PA[1]} V); REF5025 SBOS410O 6.5 load regulation '
+                    '30 / 50 ppm/mA (G); board_b20_spec.py dividers (PROPOSED 0.1 %)',
+        'state': 'rails absent (disabled, or early in the ramp); window dividers at 0 V terminals; REF25 stiff',
+        'channels_at_vf_min': channels,
+        'ref25_delta_max_a': delta,
+        'ref25_delta_ma_by_vf': {str(vf): round(sum(c['ref25_delta_a'] for c in ch.values()) * 1e3, 4) for vf, ch in rows.items()},
+        'diode_current_max_ma': round(max(c['diode_a'] for c in worst.values()) * 1e3, 4),
+        'abs_max_status': status(max(c['diode_a'] for c in worst.values()) <= OPA_INPUT_CURRENT_ABS_MAX),
+        'ref25_load_ma': {'enabled_settled': round(load_enabled * 1e3, 4), 'disabled_with_diodes': round(load_disabled * 1e3, 4),
+                          'step_on_enable': round(step * 1e3, 4), 'budget_pa': REF_LOAD_MA_PA, 'iout_max': REF_IOUT_MAX_A * 1e3},
+        'ref25_load_status': status(load_disabled * 1e3 <= REF_LOAD_MA_PA and load_disabled <= REF_IOUT_MAX_A),
+        'ref25_step_shift_ppm': {k: round(v * 1e6, 3) for k, v in shift.items()},
+        'setpoint_step_mv_full_range': effect,
+        'ramp_end_step_mv_full_range': ramp_err,
+        'setpoint_budget_note': (f'setpoints() budgets {budget_ppm * 1e6:.0f} ppm for REF load (25 C row x {REF_LOAD_MA_PA} mA PA); '
+                                 f'the -40..125 C row gives {full_range_enabled * 1e6:.0f} ppm at the enabled load '
+                                 f'({load_enabled * 1e3:.3f} mA) and {full_range_pa * 1e6:.0f} ppm at the PA. '
+                                 'The +/-20 C span lies inside the full range, but no row bounds load regulation at that span.'),
+        'setpoint_budget_ppm': {'budgeted_25c_row_at_pa': round(budget_ppm * 1e6, 3),
+                                'full_range_row_at_enabled_load': round(full_range_enabled * 1e6, 3),
+                                'full_range_row_at_pa': round(full_range_pa * 1e6, 3)},
+        'setpoint_budget_status': 'OPEN' if full_range_enabled > budget_ppm else 'PASS',
+        'disabled_terminal_v_no_load': now,
+        'disabled_terminal_v_without_diode_conduction': no_diodes,
+        'absent_levels_v': limits,
+        'disabled_backfeed_status': 'OPEN' if any(now[r][1] > limits[r] for r in now) else 'PASS',
+        'disabled_backfeed_note': 'CALCULATED DC, no external load, discharge switches off after the hold-up; spans VF, '
+                                  'pre-bias on/off and the U13 input-diode clamp of TRK. Whether the contract absent / '
+                                  'discharge levels apply to a disabled, unloaded terminal after the hold-up is unresolved. '
+                                  'No phase deck includes U6-U8 or these dividers.',
+        'series_resistor_options': options,
+    }
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--json', action='store_true', help='print the full result as JSON')
@@ -813,6 +1044,7 @@ def main():
         'servo_authority': servo_authority(),
         'opa_input_range': opa_input_range(),
         'vin_uv': vin_uv(),
+        'comparator_input_diodes': comparator_input_diodes(),
     }
     if args.json:
         print(json.dumps(res, indent=2))
@@ -882,6 +1114,11 @@ def main():
     line('OPA2187 input range (5 V amps)', o['status'], f"worst {o['worst_input_at_setpoint_v']} V <= {o['vcm_max_v']} V")
     u = res['vin_uv']
     line('VIN UV (U5B)', u['status'], f"trip {u['trip_v']} V < {u['trip_max_allowed_v']} V; node {u['node_at_vin_overshoot_v']} V at VIN overshoot <= {u['vcm_max_v']} V")
+    c = res['comparator_input_diodes']
+    line('OV/UV input-diode current vs abs max', c['abs_max_status'], f"max {c['diode_current_max_ma']} mA vs 10 mA")
+    line('REF25 load (disabled, with diodes)', c['ref25_load_status'], f"{c['ref25_load_ma']['disabled_with_diodes']} mA vs {c['ref25_load_ma']['budget_pa']} mA; step on enable {c['ref25_load_ma']['step_on_enable']} mA")
+    line('REF25 setpoint budget (full-range load regulation)', c['setpoint_budget_status'].split()[0], c['setpoint_budget_note'])
+    line('disabled no-load terminal back-feed', c['disabled_backfeed_status'].split()[0], str(c['disabled_terminal_v_no_load']))
     line('converter loop stability', 'SIM', 'TPS54560 average-model AC runs (see the draft page)')
 
 
