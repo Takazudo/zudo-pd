@@ -117,11 +117,19 @@ Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
 - **As attempt 1.** Status definitions, the control gate (ctrl COMPLETE and REPRODUCED before any candidate
   label) and the loaded-baseline identity are unchanged. ABORTED means not evaluated and is not retried with pinned
   settings.
-- **Matched-variant ladder (admitted).** Only a case whose pinned run, or a pinned run in its baseline chain,
-  ABORTED is rerun, together with that chain, at
-  abstol 1e-8, then rshunt 1e9. The variant baseline must match its pinned record within the L2 tolerance over the
-  whole run. The t2/adv cross-check runs at each step used.
-- Ladder results are **VARIANT-EVALUATED**, never PASS or FAIL. They are reported beside the pinned verdict and
+- **Matched-variant ladder (admitted).**
+  - **Who enters.** A case enters only if the control REPRODUCED and the case itself ran pinned (COMPLETE or
+    ABORTED). Its own pinned run or one in its baseline chain must have ABORTED, and the chain's terminal pinned
+    reference (`run` or `base`) must have completed. A case whose terminal reference aborted is reported NOT
+    EVALUATED, "no anchor".
+  - **How it runs.** The case and its chain rerun together at abstol 1e-8, then rshunt 1e9.
+  - **Steps that don't apply.** A step applies only where every deck of the chain carries that option as pinned.
+    The adv decks are already pinned at rshunt 1e9 and reR6 at abstol 1e-8, so those steps do not apply to them,
+    and the report says so instead of "aborted".
+  - **Baseline match.** Every chain member with a completed pinned record must match it within the L2 tolerance over
+    the whole run.
+  - **Cross-check.** The t2/adv cross-check runs at each step that applies to it.
+- **Ladder results are VARIANT-EVALUATED, never PASS or FAIL.** They are reported beside the pinned verdict and
   never replace it. Variant rows use the pinned judging itself (rules 1–14 or L1–L4); only the verdict label
   differs.
 

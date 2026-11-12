@@ -227,13 +227,27 @@ class VariantTests(unittest.TestCase):
 
     def test_only_pinned_aborts_enter_the_ladder(self):
         states = {('t2', 'nom'): 'ABORTED', ('e12lo', 'nom'): 'COMPLETE'}
-        with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}):
+        with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}), \
+                mock.patch.object(r2.t1, 'control_gate', lambda w: {'verdict': 'REPRODUCED'}):
             self.assertEqual(r2.aborted_pinned('w'), [('t2', 'nom')])
+        with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}), \
+                mock.patch.object(r2.t1, 'control_gate', lambda w: {'verdict': 'NOT REPRODUCED'}):
+            self.assertEqual(r2.aborted_pinned('w'), [])
 
     def test_a_baseline_abort_brings_its_dependent_case(self):
-        states = {('base', 'reR20'): 'ABORTED'}
-        with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}):
-            self.assertEqual(r2.aborted_pinned('w'), [('t2load', 'reR20')])
+        states = {('e12lo', 'nom'): 'ABORTED', ('base', 'reR20'): 'ABORTED', ('t2hi', 'nom'): 'NOT RUN',
+                  ('e12hi', 'nom'): 'ABORTED'}
+        with mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': states.get((l, n), 'COMPLETE')}), \
+                mock.patch.object(r2.t1, 'control_gate', lambda w: {'verdict': 'REPRODUCED'}):
+            # the aborted corners enter themselves; t2lo enters through e12lo; t2hi never ran; reR20 has no anchor
+            self.assertEqual(set(r2.aborted_pinned('w')), {('t2lo', 'nom'), ('e12lo', 'nom'), ('e12hi', 'nom')})
+            self.assertEqual(r2.unanchored('w'), [('t2load', 'reR20')])
+
+    def test_a_step_applies_only_to_a_chain_that_carries_its_option(self):
+        decks = {('t2', 'adv'): 'x rshunt=1e9', ('run', 'adv'): 'x rshunt=1e9',
+                 ('t2', 'nom'): 'x rshunt=1e10', ('run', 'nom'): 'x rshunt=1e10'}
+        self.assertFalse(r2.applicable(decks, ('t2', 'adv'), 'rshunt'))
+        self.assertTrue(r2.applicable(decks, ('t2', 'nom'), 'rshunt'))
 
     def test_variant_no_load_reuses_the_pinned_judging_without_a_verdict(self):
         calls = []
@@ -242,6 +256,7 @@ class VariantTests(unittest.TestCase):
             calls.append((label, name, baseline, r_c_ohm))
             return {'status': 'COMPLETE', 'passes': False, 'rules': {'6 x': False}}
         with mock.patch.object(r2, 'reference_match', lambda *a: {'matches': True}), \
+                mock.patch.object(r2, 'pinned_status', lambda w, l, n: {'status': 'COMPLETE'}), \
                 mock.patch.object(r2.t1, 'status', lambda w, l, n: {'run': None}), \
                 mock.patch.object(r2.t1, 'no_load_case', judged):
             row = r2.variant_case('w', ('t2', 'adv'), 1)

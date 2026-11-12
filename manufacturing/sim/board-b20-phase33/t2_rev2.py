@@ -184,8 +184,6 @@ def t2_block(inert=False, ir=None, vf=None):
     v = t1.VALUES
     ir = {**{role: d['ir_rows'] for role, d in DIODES.items()}, **(ir or {})}
     vf = dict([vf]) if vf else {}
-    ir = {role: ((d['reverse_rating_v'], ir[role]),) if isinstance(ir[role], float) else ir[role]
-          for role, d in DIODES.items()}
     return [
         f'* T2 rev 2 (a2) output limiter on -12 V: candidate under evaluation, not a board part ({CRITERIA})'
         + (' [INERT CONTROL: R_C returned to GND]' if inert else ''),
@@ -341,12 +339,12 @@ def a2_case(work, base_run, label, name):
     row = t1.no_load_case(work, base_run, label, name, rules.judge, baseline=t1.NO_LOAD_T2.get((label, name),
                           ('run', name)), r_c_ohm=R_C_OHM, detail=rules.detail)
     if row.get('status') == 'COMPLETE':
+        row['rule6b_margin_v'] = rule6b_margin(row['rule_detail'])
         try:
             run = t1.status(work, label, name)['run']
             times, s = a2_record(run, name)
             _, t2 = t1.t2_record(run, name)
             row['a2'] = a2_metrics(times, s, t2)
-            row['rule6b_margin_v'] = rule6b_margin(row['rule_detail'])
         except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
             # Reported quantities only: an unreadable a2 output never changes the judged verdict.
             row['a2'] = f'NOT EVALUATED: {type(error).__name__}: {error}'
@@ -378,22 +376,23 @@ def analyze(work):
     for name, row in out['t2']['loaded'].items():
         row['a2'] = loaded_a2(work, name)
     extra = {f'{label}/{n}': a2_case(work, base_run, label, n) for label, (_, names) in EXTRA.items() for n in names}
-    sourced = out['t2']['no_load'].get('t2/adv', {})
-    ladder = [(sourced_dt2c_ir(sourced.get('a2')), sourced.get('rule6b_margin_v'))]
+    sourced_row = out['t2']['no_load'].get('t2/adv', {})
+    ladder = [(sourced_dt2c_ir(sourced_row.get('a2')), sourced_row.get('rule6b_margin_v'))]
     ladder += [(ir, extra[f'{label}/adv'].get('rule6b_margin_v'))
                for label, (role, ir) in IR_LADDER_A.items() if role == 'DT2C']
     points = [(x, y) for x, y in ladder if y is not None]
     crossing = failure_ir(points)
-    sourced = out['t2']['verdict']
+    sourced_verdict = out['t2']['verdict']
     required = [extra[f'{label}/{n}'] for label in REQUIRED for n in EXTRA[label][1]]
     out['candidate'] = {
-        'verdict': combine([{'passes': {'PASS': True, 'FAIL': False}.get(sourced)}] + required),
+        'verdict': combine([{'passes': {'PASS': True, 'FAIL': False}.get(sourced_verdict)}] + required),
         'basis': ('sourced 25 C cases (t2 verdict) plus the VF-spread and DT2K 80 nA cases; the hot DT2C case is '
                   'judged separately; ir1n / ir2n / k1u are informational'),
         'required': {f'{label}/{n}': extra[f'{label}/{n}'].get('passes') for label in REQUIRED for n in EXTRA[label][1]}}
     out['extra'] = {
         'cases': extra, 'informational': list(INFORMATIONAL),
-        'hot': {'temperature_c': HOT_T_C, 'ir_a': {role: hot_ir(role) for role in DIODES} if HOT_T_C is not None else None,
+        'hot': {'temperature_c': HOT_T_C,
+                'ir_rows': ({role: hot_rows(role) for role in DIODES} if HOT_T_C is not None else None),
                 'basis': (f'FJH1100: IR doubling every {HOT_DOUBLING_C:g} C (PROJECT inference, no hot row); '
                           'BAS116L: the guaranteed 80 nA TJ 150 C row held flat below 150 C (monotonic, inference)'),
                 'verdict': combine([extra[f'hot/{n}'] for n in EXTRA['hot'][1]])},
@@ -459,8 +458,29 @@ def unit(case):
 
 
 def aborted_pinned(work):
-    """Candidate cases whose own pinned run, or any pinned run in their baseline chain, ABORTED."""
-    return [case for case in BASELINE if any(pinned_status(work, *c)['status'] == 'ABORTED' for c in unit(case))]
+    """Candidate cases that ran pinned, behind a REPRODUCED control, where the case or a run in its baseline chain
+    ABORTED and the chain's terminal pinned reference completed (it anchors the variant)."""
+    if t1.control_gate(work)['verdict'] != 'REPRODUCED':
+        return []
+    out = []
+    for case in BASELINE:
+        chain = [pinned_status(work, *c)['status'] for c in unit(case)]
+        if chain[0] in ('COMPLETE', 'ABORTED') and 'ABORTED' in chain and chain[-1] == 'COMPLETE':
+            out.append(case)
+    return out
+
+
+def unanchored(work):
+    """Cases left out of the ladder because their terminal pinned reference itself aborted."""
+    if t1.control_gate(work)['verdict'] != 'REPRODUCED':
+        return []
+    return [case for case in BASELINE if pinned_status(work, *case)['status'] in ('COMPLETE', 'ABORTED')
+            and pinned_status(work, *unit(case)[-1])['status'] != 'COMPLETE']
+
+
+def applicable(decks, case, variant):
+    """A step applies to a case only if its option is in every deck of the case's chain as pinned."""
+    return all(apply_variant(decks[m], variant) is not None for m in unit(case))
 
 
 def resolved(work, case, step):
@@ -510,9 +530,11 @@ def variant_case(work, case, step):
     variant = VARIANTS[step - 1][0]
     row = {'variant': variant, 'verdict': VARIANT_VERDICT}
     base = BASELINE[case]
-    row['reference_match'] = reference_match(work, variant, *unit(case)[-1])
-    if not row['reference_match']['matches']:
-        return {**row, 'verdict': 'NOT EVALUATED', 'reason': 'variant baseline does not match the pinned record'}
+    # Every chain member with a pinned record must reproduce it; a member that aborted pinned is anchored by the rest.
+    members = [m for m in unit(case)[1:] if pinned_status(work, *m)['status'] == 'COMPLETE']
+    row['reference_match'] = {'/'.join(m): reference_match(work, variant, *m) for m in members}
+    if not members or not all(r['matches'] for r in row['reference_match'].values()):
+        return {**row, 'verdict': 'NOT EVALUATED', 'reason': 'a variant baseline does not match its pinned record'}
     run = t1.status(work, vlabel(variant, label), name)['run']
     brun = t1.status(work, vlabel(variant, base[0]), base[1])['run']
     try:
@@ -544,10 +566,18 @@ def variant_analyze(work):
     work = Path(work)
     out = {'track': 'matched-variant (labelled; never PASS or FAIL in the pre-registered sense)',
            'ladder': [v for v, _ in VARIANTS], 'cases': {}, 'cross_check': {}}
-    for case in aborted_pinned(work):
+    cases = aborted_pinned(work)
+    decks = pinned_decks() if cases else {}
+    for case in cases:
         step = resolved(work, case, len(VARIANTS))
+        steps = {v: ('applies' if applicable(decks, case, v) else 'not applicable: the pinned deck already carries it')
+                 for v, _ in VARIANTS}
         out['cases']['/'.join(case)] = (variant_case(work, case, step) if step else
-                                        {'verdict': 'NOT EVALUATED', 'reason': 'ABORTED through the whole ladder'})
+                                        {'verdict': 'NOT EVALUATED', 'steps': steps,
+                                         'reason': 'ABORTED at every applicable ladder step'})
+    for case in unanchored(work):
+        out['cases']['/'.join(case)] = {'verdict': 'NOT EVALUATED',
+                                        'reason': f'pinned reference {"/".join(unit(case)[-1])} aborted; no anchor'}
     for variant, _ in VARIANTS:
         if all(t1.status(work, vlabel(variant, lbl), n)['status'] == 'COMPLETE' for lbl, n in unit(CROSS_CHECK)):
             out['cross_check'][variant] = variant_case(work, CROSS_CHECK, [v for v, _ in VARIANTS].index(variant) + 1)
@@ -571,13 +601,8 @@ def main(argv=None):
     if args.command == 'pending':
         print(' '.join(pending(args.work, args.label)))
         return 0
-    if args.command == 'check-run' and args.label in t1.LABEL_ORDER:
-        bad = t1.check_run(args.work, args.label)
-        for name, state in bad.items():
-            print(f'{args.label} {name}: {state}; not a solver abort, failing the step', file=sys.stderr)
-        return 1 if bad else 0
     if args.command == 'check-run':
-        names = (pending(args.work, args.label) if args.label in EXTRA else
+        names = (None if args.label in t1.LABEL_ORDER else pending(args.work, args.label) if args.label in EXTRA else
                  sorted(p.stem for p in (args.work / 't2' / args.label / 'tracking').glob('*.cir')))
         bad = t1.check_run(args.work, args.label, names)
         for name, state in bad.items():
