@@ -16,7 +16,7 @@
    "baseline_run_adv_enable_min_v": -0.09715653351823444,
    "baseline_min_ms": 80.43,
    "inert_control_enable_min_v": -0.09716069577897013,
-   "attribution": "active clamp: the inert control differs from the baseline by 4.2 uV, T2 by 135.4 uV; the offset is present from about 80 ms through release"
+   "attribution": "active clamp path: DT2C (DBODY, CJO 20 pF) couples the 2.1 V t2o capture step (k x 0.42 V diode drop, 41-45 ms) through RT2C into trk12n_fb, 5.0-5.5 nA for about 4 ms (about 20 pC), a 1.9 mV DRV offset on CT12N that shifts the enable edge; the inert control returns the same current to GND and differs by 4.2 uV"
   },
   "rule9_t2_adv": {
    "pre_disable_min_v": -12.14195474253188,
@@ -27,7 +27,24 @@
    "inert_control_excess_magnitude_v": 1.0025992e-05,
    "gap_attempt2_g20_excess_magnitude_v": 9.9296e-06,
    "gap_attempt2_g16_excess_magnitude_v": 9.8938e-06,
-   "attribution": "identical in the inert control to 1e-15 V, so not the active clamp; the disable edge of every disabling deck kicks about 10 uV, at the vntol resolution"
+   "attribution": "identical in the inert control to 1e-15 V, so not the active clamp; the disable edge of every disabling deck kicks about 10 uV, at the vntol resolution",
+   "unmodified_identity_runs": "nom/adv have no disable edge (VDIS 0); rule 9 is not testable on them",
+   "finding": "the pass threshold equals the decks' vntol (1e-5 V); every disabling deck kicks 9.89-10.03 uV, so the verdict turns on 26-110 nV"
+  },
+  "L2_loaded": {
+   "reR6_dG_v": -0.0018,
+   "reR6_coupling_current_a": 5.5e-09,
+   "output_difference_peak_v": 0.00032,
+   "at_ms": [
+    64.2,
+    192.8
+   ],
+   "attribution": "the same DT2C coupling at startup and at re-enable; the clamp is not engaged at DC (<= 27 nA)"
+  },
+  "design_change_on_paper": {
+   "add": "RT2S t2c 0 10k",
+   "status": "not pre-registered, not dispatched, not adopted",
+   "expected": "coupled charge into trk12n_fb divided by 51; rule 6 about 2.7 uV plus 4.2 uV loading; L2 about 6 uV (inference, linear)"
   }
  },
  "scope": "T2 peak-hold anti-windup clamp on -12 V plus the enable-edge threshold corners; model only, not adopted",

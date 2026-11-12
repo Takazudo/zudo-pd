@@ -94,9 +94,13 @@ the 1.6 µA divider drain, which is an output pedestal. This sets a constraint o
 +12 V gate-hold scheme: it must idle at Vgs of about 0.16 V or less at no load, unless the gate
 pull-down return is changed ([paper check](d1-t2-paper-check-20261111.md)). On −12 V, T2 **fails attempt 1**
 against its pre-registered rules ([criteria](d1-t2-criteria.md), [record](d1-t2-attempt1-20261112.md)).
-Rule 1 passes on the D1 failure deck (1.064 V/ms, 0.1915 A), but rule 6 fails by 135.4 µV, rule 9 by
-26 nV (identical in the inert control) and loaded L2 by about 0.3 mV. All four threshold corners
-aborted. D1 stays held.
+Rule 1 passes on the D1 failure deck (1.064 V/ms, 0.1915 A). Rule 6 (135.4 µV) and loaded L2
+(about 0.3 mV) fail on the clamp diode's junction capacitance coupling the capture step into the
+summing node. Rule 9 fails by 26 nV on a deck-wide disable kick at the solver's resolution. All four
+threshold corners aborted on deck stiffness ([diagnosis](d1-deck-stiffness-20261112.md)). D1 stays
+held. On +5 V, returning RG2P to GND (option B) passes its paper check, and its pre-registration is held
+([options](d1-p5-gate-hold-options-20261111.md), [B check](d1-p5-option-b-paper-check-20261111.md)).
+RG2P explains at most 4.6 mV of the 52 versus 28 mV floor, which is left as it is.
 
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
 therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and
