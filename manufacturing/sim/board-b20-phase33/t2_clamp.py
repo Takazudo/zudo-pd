@@ -113,13 +113,14 @@ def add_output(text, line, what):
     return text.replace('.endc', line + '\n.endc')
 
 
-def with_t2(text, name, inert=False, block=None):
-    """Insert the T2 block before .options, the Q6 drain ammeter and the T2 output line."""
+def with_t2(text, name, inert=False, block=None, output=None):
+    """Insert the T2 block before .options, the Q6 drain ammeter and the T2 output line (plus output(name), if given)."""
     if text.count('\n.options') != 1:
         raise ValueError(f'{name}: expected one .options line')
     text = replace_once(text, Q6_LINE[0], Q6_LINE[1], name)
     text = text.replace('\n.options', '\n' + '\n'.join((block or t2_block)(inert)) + '\n.options')
-    return add_output(text, t2_line(name), name)
+    text = add_output(text, t2_line(name), name)
+    return add_output(text, output(name), name) if output else text
 
 
 def no_load(text, name):
@@ -160,26 +161,26 @@ def executed_attempt(name):
     return attempt
 
 
-def derive_cases(block=None):
+def derive_cases(block=None, output=None):
     """label -> {deck name: deck text}. block replaces the attempt 1 candidate (a later revision)."""
     executed = {k: v['executed'] for k, v in derive_decks().items()}
     nom, adv = executed['nom'], executed['adv']
     out = {'base': {n: loaded_deck(n) for n in LOADED}}
     for label, (rail, which) in CORNER_CASES.items():
         out[label] = {'nom': no_load(corner(nom, rail, which, label), 'nom')}
-    out['ctrl'] = {'adv': with_t2(no_load(adv, 'adv'), 'adv', inert=True, block=block)}
-    out['t2'] = {'nom': with_t2(no_load(nom, 'nom'), 'nom', block=block),
-                 'adv': with_t2(no_load(adv, 'adv'), 'adv', block=block)}
+    out['ctrl'] = {'adv': with_t2(no_load(adv, 'adv'), 'adv', inert=True, block=block, output=output)}
+    out['t2'] = {'nom': with_t2(no_load(nom, 'nom'), 'nom', block=block, output=output),
+                 'adv': with_t2(no_load(adv, 'adv'), 'adv', block=block, output=output)}
     for label, which in (('t2lo', 'lo'), ('t2hi', 'hi')):
-        out[label] = {'nom': with_t2(no_load(corner(nom, '-12', which, label), 'nom'), 'nom', block=block)}
-    out['t2load'] = {n: with_t2(loaded_deck(n), n, block=block) for n in LOADED}
+        out[label] = {'nom': with_t2(no_load(corner(nom, '-12', which, label), 'nom'), 'nom', block=block, output=output)}
+    out['t2load'] = {n: with_t2(loaded_deck(n), n, block=block, output=output) for n in LOADED}
     return out
 
 
-def prepare(work, block=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
+def prepare(work, block=None, scope=SCOPE, criteria='d1-t2-criteria.md', cases=None):
     work = Path(work)
     manifest = {'scope': scope, 'criteria': criteria, 'labels': {}}
-    for label, decks in derive_cases(block).items():
+    for label, decks in (cases if cases is not None else derive_cases(block)).items():
         root = work / 't2' / label
         (root / 'tracking').mkdir(parents=True)
         shutil.copytree(work / 'lib', root / 'lib')
@@ -283,12 +284,12 @@ def detrended_pp(times, values, start, stop):
     return max(resid) - min(resid)
 
 
-def t2_metrics(record, rest_vgs_window=IDLE_WINDOW_S):
+def t2_metrics(record, rest_vgs_window=IDLE_WINDOW_S, r_c_ohm=R_C_OHM):
     """Idle point, channel current against the output drain, limit cycle, release step, hold reset."""
     times, s = record['t2']
     drain = [(a - o) / DRAIN['RMA1'] + (b - o) / DRAIN['RT12NB'] for a, b, o in
              zip(s['mabs_n'], s['trk12n'], [r[3] for r in record['rows']])]
-    clamp = [(g - c) / R_C_OHM for g, c in zip(s['t2g'], s['t2c'])]
+    clamp = [(g - c) / r_c_ohm for g, c in zip(s['t2g'], s['t2c'])]
     hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
     m = {}
     ch_bins = [v for _, v in gap.bins(times, s['i_VIQ6'], *IDLE_WINDOW_S)]
@@ -377,14 +378,15 @@ def baseline_record(work, base_run, label, name):
     return gap.case_record(state['run'], name)
 
 
-def no_load_case(work, base_run, label, name, judge=None):
+def no_load_case(work, base_run, label, name, judge=None, baseline=None, r_c_ohm=R_C_OHM, detail=None):
+    """baseline overrides NO_LOAD_T2 for a later revision's extra cases; detail adds that revision's rule detail."""
     state = status(work, label, name)
     row = {'status': state['status']}
     if state['status'] != 'COMPLETE':
         row.update({k: v for k, v in state.items() if k not in ('run', 'status')})
         row['passes'] = None
         return row
-    base_label, base_name = NO_LOAD_T2[(label, name)]
+    base_label, base_name = baseline or NO_LOAD_T2[(label, name)]
     if base_label != 'run' and status(work, base_label, base_name)['status'] != 'COMPLETE':
         row.update({'status': 'NOT EVALUATED', 'passes': None,
                     'reason': f'baseline {base_label}/{base_name} is {status(work, base_label, base_name)["status"]}'})
@@ -396,11 +398,13 @@ def no_load_case(work, base_run, label, name, judge=None):
         b, v = gap.rail_metrics(base, '-12'), gap.rail_metrics(record, '-12')
         judged = judge('-12', vs, bs, v, b, record) if judge else gap.judge('-12', vs, bs, v, b)
         rules = {f'{k + 1} {r}': ok for k, (r, ok) in enumerate(judged.items())}
-        m = t2_metrics(record)
+        m = t2_metrics(record, r_c_ohm=r_c_ohm)
         rules.update(t2_rules(m))
         row.update({'baseline': f'{base_label}/{base_name}', **gap.summary(v, vs['-12']), 't2': m, 'rules': rules,
                     'passes': all(rules.values()), 'rule6_detail': gap.rule6_detail('-12', v, b),
                     'other_rails': {r: vs[r]['disposition'] for r in ('+12', '+5')}})
+        if detail:
+            row['rule_detail'] = detail('-12', v, b, record)
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
         # A completed case whose evaluation fails is neither a pass nor an electrical fail (verdict NOT EVALUATED).
         row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': None})
@@ -449,7 +453,7 @@ LOADED_WINDOWS = {'nomR': ((40e-3, 245e-3),), 'reR6': ((40e-3, 150e-3), (150e-3,
 DISABLE_REQUEST_S = 150e-3
 
 
-def loaded_case(work, name, base_ok):
+def loaded_case(work, name, base_ok, r_c_ohm=R_C_OHM):
     """base_ok is this case's own loaded-baseline identity."""
     state = status(work, 't2load', name)
     row = {'status': state['status']}
@@ -477,7 +481,7 @@ def loaded_case(work, name, base_ok):
                            'peak_current_a': {'baseline': pb, 't2': pv}}
         times, s = record['t2']
         hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
-        clamp = [(g - c) / R_C_OHM for g, c in zip(s['t2g'], s['t2c'])]
+        clamp = [(g - c) / r_c_ohm for g, c in zip(s['t2g'], s['t2c'])]
         if name != 'nomR':
             t_re = reenable_time(record, DISABLE_REQUEST_S)
             if t_re is None:
@@ -535,7 +539,7 @@ def corner_case(work, label):
     return row
 
 
-def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
+def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md', r_c_ohm=R_C_OHM, detail=None):
     work = Path(work)
     base_run = single_run(work)
     identity = loaded_identity(work)
@@ -547,8 +551,9 @@ def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
         result['t2'] = {'verdict': 'NOT EVALUATED',
                         'reason': 'inert control did not reproduce the recorded D1 failure; the realization is the finding'}
         return result
-    no_load_rows = {f'{label}/{name}': no_load_case(work, base_run, label, name, judge) for label, name in NO_LOAD_T2}
-    loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced']) for name in LOADED}
+    no_load_rows = {f'{label}/{name}': no_load_case(work, base_run, label, name, judge, r_c_ohm=r_c_ohm, detail=detail)
+                    for label, name in NO_LOAD_T2}
+    loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced'], r_c_ohm) for name in LOADED}
     rows = list(no_load_rows.values()) + list(loaded_rows.values())
     if all(r.get('passes') is True for r in rows):
         verdict = 'PASS'

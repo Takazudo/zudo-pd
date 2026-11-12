@@ -9,7 +9,9 @@
 # cases, run only after the unmodified baseline pair reproduces; a model sensitivity, never a design change.
 # Opt-in t2_evaluation (d1-t2-criteria.md) runs the enable-edge threshold corners, the inert control and the T2
 # -12 V candidate decks the same way: a model evaluation of a candidate, never adoption.
-# Not a generic compute dispatcher: two opt-in boolean inputs, no secrets, no write permission, no deploy.
+# Opt-in t2_rev2_evaluation (d1-t2-rev2-criteria.md) runs the T2 rev 2 (a2) decks, its VF-spread, leakage-ladder
+# and hot cases under the revised rules, then the labelled matched-variant ladder for pinned ABORTED cases only.
+# Not a generic compute dispatcher: three opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -24,6 +26,10 @@ on:
         description: Also run the pre-registered T2 -12 V clamp evaluation and enable-edge corners (d1-t2-criteria.md)
         type: boolean
         default: false
+      t2_rev2_evaluation:
+        description: Also run the pre-registered T2 rev 2 (a2) -12 V evaluation and its variant ladder (d1-t2-rev2-criteria.md)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -35,8 +41,9 @@ concurrency:
 jobs:
   extract:
     runs-on: ubuntu-24.04
-    # 45 min covered the reference pair and the gap variants; the T2 evaluation adds 15 decks (about 2 min each).
-    timeout-minutes: 120
+    # 45 min covered the reference pair and the gap variants; the T2 evaluation adds 15 decks (about 2 min each);
+    # T2 rev 2 adds 31 decks plus at most two variant-ladder steps.
+    timeout-minutes: 300
     defaults:
       run:
         # Explicit bash enables pipefail, so the tee below cannot hide a runner failure.
@@ -100,6 +107,31 @@ jobs:
             fi
           done
           python3 "$PHASE33/t2_clamp.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2-evaluation.json"
+      - name: T2 rev 2 evaluation (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.t2_rev2_evaluation && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/t2_rev2.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/t2r2-manifest.json"
+          # Labels run only after the inert control reproduces the D1 failure; pinned aborts are recorded, not retried.
+          for label in $(python3 "$PHASE33/t2_rev2.py" labels); do
+            cases=$(python3 "$PHASE33/t2_rev2.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: not run (control gate)"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/t2/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/t2r2-runner-$label.txt"; then
+              python3 "$PHASE33/t2_rev2.py" check-run "$RUNNER_TEMP/work" "$label"
+              echo "::warning::$label recorded an ABORTED case; it enters the labelled variant ladder only"
+            fi
+          done
+          python3 "$PHASE33/t2_rev2.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2r2-evaluation.json"
+          # Matched-variant ladder (VARIANT-EVALUATED, never PASS or FAIL): pinned ABORTED cases and the cross-check.
+          for step in 1 2; do
+            python3 "$PHASE33/t2_rev2.py" variant-plan "$RUNNER_TEMP/work" "$step" > "$RUNNER_TEMP/out/t2r2-plan-$step.txt"
+            while read -r label names; do
+              [ -n "$label" ] || continue
+              if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/t2/$label/tracking" $names --original-only 2>&1 | tee "$RUNNER_TEMP/out/t2r2-runner-$label.txt"; then
+                python3 "$PHASE33/t2_rev2.py" check-run "$RUNNER_TEMP/work" "$label"
+              fi
+            done < "$RUNNER_TEMP/out/t2r2-plan-$step.txt"
+          done
+          python3 "$PHASE33/t2_rev2.py" variant-analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2r2-variants.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |

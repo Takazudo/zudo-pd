@@ -1,90 +1,188 @@
-import json
-from pathlib import Path
+import math
 import re
-import tempfile
 import unittest
 from unittest import mock
 
-import gap_sensitivity as gap
 import rules_revision as rules
 import t2_clamp as t1
 import t2_rev2 as r2
 
-# Placeholder values for structural tests only; they are not a part and never reach a prepared deck.
-FAKE = {'owner': 'test-only', 'mpn': 'TEST-ONLY', 'ir_max_a': 1e-10,
-        'model': {'IS': 1e-14, 'N': 1.8, 'RS': 10, 'CJO': 3e-13, 'VJ': 0.7, 'M': 0, 'BV': 50, 'IBV': 1e-9},
-        'rows': {p: 'test' for p in r2.MODEL_PARAMETERS + ('ir_max_a',)}}
+
+def block_text(**kw):
+    return '\n'.join(r2.t2_block(**kw))
 
 
 class DiodeSlotTests(unittest.TestCase):
-    def test_refuses_without_a_sourced_diode(self):
-        self.assertIsNone(r2.DIODE)
-        with self.assertRaisesRegex(ValueError, 'not sourced'):
+    def test_every_slot_is_bound_and_rated(self):
+        self.assertEqual({k: d['mpn'] for k, d in r2.DIODES.items()},
+                         {'DT2C': 'FJH1100', 'DT2K': 'BAS116LT1G', 'DL': 'FJH1100'})
+        r2.require_diodes()
+
+    def test_refuses_an_unsourced_slot(self):
+        with mock.patch.dict(r2.DIODES, {'DT2K': None}), self.assertRaisesRegex(ValueError, 'not sourced'):
+            r2.t2_block()
+
+    def test_refuses_an_under_rated_part(self):
+        # FJH1100's 15 V working rating does not cover DT2K's 27.5 V (owner decision 2026-11-12).
+        with mock.patch.dict(r2.DIODES, {'DT2K': r2.FJH1100}), self.assertRaisesRegex(ValueError, '27.5'):
             r2.t2_block()
 
     def test_refuses_untraced_parameters(self):
-        partial = {**FAKE, 'rows': {'IS': 'x'}}
-        with mock.patch.object(r2, 'DIODE', partial), self.assertRaisesRegex(ValueError, 'untraced'):
+        partial = {**r2.FJH1100, 'rows': {'IS': 'x'}}
+        with mock.patch.dict(r2.DIODES, {'DT2C': partial}), self.assertRaisesRegex(ValueError, 'untraced'):
             r2.t2_block()
 
+    def test_models_reproduce_their_rows(self):
+        vt = r2.VT_25C_V
+        f = r2.FJH1100['model']
+        self.assertAlmostEqual(f['N'] * vt * math.log(1e-6 / f['IS']), 0.530, places=6)
+        self.assertAlmostEqual(f['N'] * vt * math.log(10e-6 / f['IS']), 0.605, places=6)
+        k = r2.BAS116L['model']
+        self.assertAlmostEqual(k['N'] * vt * math.log(1e-3 / k['IS']), 0.900, places=6)
+        self.assertAlmostEqual(k['N'] * vt * math.log(10e-3 / k['IS']), 1.000, places=6)
+        self.assertEqual((f['CJO'], f['M'], k['CJO'], k['M']), (2e-12, 0, 2e-12, 0))
+        self.assertEqual((r2.FJH1100['ir_max_a'], r2.BAS116L['ir_max_a'], r2.BAS116L['ir_hot_max_a']),
+                         (3e-12, 5e-9, 80e-9))
 
-@mock.patch.object(r2, 'DIODE', FAKE)
+
 class BlockTests(unittest.TestCase):
-    def test_rev2_changes_only_the_registered_elements(self):
-        old, new = set(t1.t2_block()), set(r2.t2_block())
-        removed = {x.split()[0] for x in old - new}
-        added = {x.split()[0] for x in new - old}
-        self.assertEqual(removed, {'*', 'DT2K', 'DT2C', 'BT2G'})
-        self.assertEqual(added, {'*', 'DT2K', 'DT2C', 'BT2G', '.model', 'BT2KL', 'BT2CL', 'RT2D', 'CT2D', 'BT2D'})
-
-    def test_diodes_use_the_traced_model(self):
-        block = '\n'.join(r2.t2_block())
-        self.assertEqual(set(re.findall(r'^D\S+ \S+ \S+ (\S+)$', block, re.M)), {'DT2X'})
-        self.assertIn('M=0', r2.model_line())
-        self.assertNotIn('DBODY', block)
-
-    def test_leakage_flows_cathode_to_anode(self):
+    def test_no_switch_on_the_summing_node(self):
         block = r2.t2_block()
-        self.assertIn('BT2CL t2o t2c I=1e-10*tanh(max(v(t2o,t2c),0)/0.05)', block)
-        self.assertIn('BT2KL t2k m12_drv I=1e-10*tanh(max(v(t2k,m12_drv),0)/0.05)', block)
+        on_fb = [x for x in block if 'trk12n_fb' in x.split()[1:3]]
+        self.assertEqual(on_fb, ['VT2G t2g trk12n_fb 0'])
+        self.assertFalse(any(x.startswith(('BT2G', 'BT2D', 'RT2D', 'CT2D')) for x in block))
 
-    def test_connection_is_delayed_and_break_before_make(self):
-        block = '\n'.join(r2.t2_block())
-        self.assertIn('(1-tanh((v(t2d)-0.4)*30))', block)
-        self.assertIn('BT2D t2g 0 I=v(t2g,0)*(1/3.5)*0.5*(1+tanh((v(t2d)-0.6)*30))', block)
-        self.assertLess(r2.CONNECT_BELOW_V, r2.PARK_ABOVE_V)
+    def test_limiter_and_feedback(self):
+        block = r2.t2_block()
+        for line in ('XT2B t2p t2m p5sup t2n t2a OPAx187', 'RT2M2 t2m t2a 4.99meg', 'RT2O t2a t2o 100k',
+                     'DT2L t2o t2l DT2LX', 'VT2L t2l 0 0', 'DT2C t2c t2o DT2CX', 'RT2C t2c t2g 402k'):
+            self.assertIn(line, block)
+        self.assertAlmostEqual(r2.R_C_OHM + 100e3, 502e3)
 
-    def test_inert_control_returns_the_clamp_to_gnd_and_keeps_the_rest(self):
+    def test_window_pulls_the_inverting_input_toward_m12_pre(self):
+        block = r2.t2_block()
+        self.assertIn('RT2W t2m t2w 100k', block)
+        self.assertIn(t1.switch('BT2W', 't2w', 'm12_pre', '0.5*(1-tanh((v(ennd)-1.0)*8))'), block)
+        self.assertFalse(any(x.split()[0].startswith('R') and 't2p' in x.split()[1:3] and 'p5sup' in x for x in block))
+
+    def test_inert_control_returns_r_c_to_gnd_and_keeps_the_rest(self):
         a, b = r2.t2_block(), r2.t2_block(inert=True)
-        diff = {x.split()[0] for x in set(a) ^ set(b)}
-        self.assertEqual(diff, {'*', 'BT2G'})
-        self.assertTrue(any(x.startswith('BT2G t2g 0 ') for x in b))
+        self.assertEqual({x.split()[0] for x in set(a) ^ set(b)}, {'*', 'VT2G'})
+        self.assertIn('VT2G t2g 0 0', b)
 
-    def test_delay_numbers(self):
-        import math
-        tau = 100e3 * 47e-9
-        self.assertAlmostEqual(tau * math.log(5 / 0.4) * 1e3, 11.87, places=2)
+    def test_leakage_flows_cathode_to_anode_at_each_rows_maximum(self):
+        block = r2.t2_block()
+        self.assertIn('BT2CL t2o t2c I=3e-12*tanh(max(v(t2o,t2c),0)/0.05)', block)
+        self.assertIn('BT2KL t2k m12_drv I=5e-09*tanh(max(v(t2k,m12_drv),0)/0.05)', block)
+        self.assertIn('BT2LL t2l t2o I=3e-12*tanh(max(v(t2l,t2o),0)/0.05)', block)
+
+    def test_diodes_use_their_own_models(self):
+        text = block_text()
+        self.assertEqual(dict(re.findall(r'^(D\S+) \S+ \S+ (\S+)$', text, re.M)),
+                         {'DT2K': 'DT2KX', 'DT2L': 'DT2LX', 'DT2C': 'DT2CX'})
+        self.assertNotIn('DBODY', text)
+
+    def test_vf_spread_moves_only_is_of_one_role(self):
+        for label, (role, vf) in r2.VF_SPREAD_V.items():
+            block = r2.t2_block(vf=(role, vf))
+            line = next(x for x in block if x.startswith(f'.model {r2.MODEL_NAME[role]}'))
+            params = dict(re.findall(r'(\w+)=(\S+)', line.split(';')[0]))
+            n, i = float(params['N']), r2.OPERATING_CURRENT_A[role]
+            self.assertAlmostEqual(n * r2.VT_25C_V * math.log(i / float(params['IS'])), vf, places=4)
+            others = set(r2.t2_block()) ^ set(block)
+            self.assertEqual({x.split()[1] for x in others}, {r2.MODEL_NAME[role]}, label)
+
+    def test_ladder_overrides_one_role(self):
+        block = r2.t2_block(ir={'DT2K': 80e-9})
+        self.assertIn('BT2KL t2k m12_drv I=8e-08*tanh(max(v(t2k,m12_drv),0)/0.05)', block)
+        self.assertIn('BT2CL t2o t2c I=3e-12*tanh(max(v(t2o,t2c),0)/0.05)', block)
 
 
-class RulesTests(unittest.TestCase):
-    def test_tolerance_is_the_convergence_tolerance(self):
-        self.assertAlmostEqual(rules.tolerance(-0.09715653), 107.157e-6, places=9)
-        self.assertAlmostEqual(rules.tolerance(-12.14195474), 12.15195e-3, places=7)
+class HotTests(unittest.TestCase):
+    def test_hot_case_waits_for_the_board_temperature(self):
+        self.assertIsNone(r2.HOT_T_C)
+        with self.assertRaisesRegex(ValueError, 'board maximum operating temperature'):
+            r2.block_for('hot')
+        with self.assertRaisesRegex(ValueError, 'board maximum'):
+            r2.derive_cases()
 
-    def test_attempt1_numbers_under_the_revision(self):
-        # Rule 6(b): 135.4 uV beyond a -97.157 mV minimum still fails; 12.2 / 55.6 uV (C1 g20 / g16) pass.
+    def test_scaling(self):
+        self.assertAlmostEqual(r2.temperature_for(1.95e-9), 90.41, places=2)
+        self.assertAlmostEqual(r2.hot_factor(32.0), 2.0)
+        self.assertAlmostEqual(r2.hot_ir('DT2C', 32.0), 6e-12)
+        self.assertEqual(r2.hot_ir('DT2K', 60.0), 80e-9)       # the 150 C row held flat, not the chord
+
+    def test_hot_block(self):
+        with mock.patch.object(r2, 'HOT_T_C', 39.0):
+            block = r2.block_for('hot')()
+        self.assertIn('BT2CL t2o t2c I=1.2e-11*tanh(max(v(t2o,t2c),0)/0.05)', block)
+        self.assertIn('BT2KL t2k m12_drv I=8e-08*tanh(max(v(t2k,m12_drv),0)/0.05)', block)
+
+
+class AnalysisTests(unittest.TestCase):
+    def test_failure_ir_is_the_zero_of_a_straight_line(self):
+        pts = [(3e-12, 80e-6), (1e-9, 40e-6), (2e-9, -0.1e-6)]
+        crossing = r2.failure_ir(pts)
+        self.assertGreater(crossing, 1.9e-9)
+        self.assertLess(crossing, 2.1e-9)
+        self.assertIsNone(r2.failure_ir([(1e-9, 1e-6)]))
+        self.assertIsNone(r2.failure_ir([(1e-9, 1e-6), (2e-9, 2e-6)]))
+
+    def test_rule6b_margin(self):
+        detail = {'enable_edge_tolerance_v': {'minimum': 107e-6, 'maximum': 17e-6},
+                  'below_baseline_minimum_v': 20e-6, 'above_baseline_maximum_v': -3e-6}
+        self.assertAlmostEqual(r2.rule6b_margin(detail), 20e-6)
+
+    def test_rule6b_margin_matches_the_revised_rule(self):
         base = (-0.09715653351, -0.00766395804)
-        self.assertFalse(rules.within_tolerance((-0.09729197807, -0.0076614218), base))
-        self.assertTrue(rules.within_tolerance((-0.0971687655, -0.0076682505), base))
-        self.assertTrue(rules.within_tolerance((-0.0972121684, -0.0076703575), base))
+        for low in (-0.0972, -0.09727, -0.09726):
+            detail = {'enable_edge_tolerance_v': {'minimum': rules.tolerance(base[0]), 'maximum': rules.tolerance(base[1])},
+                      'below_baseline_minimum_v': base[0] - low, 'above_baseline_maximum_v': 0.0}
+            self.assertEqual(r2.rule6b_margin(detail) >= 0, rules.within_tolerance((low, base[1]), base), low)
 
-    def test_contract_screens(self):
-        rows = [(t * 1e-4, 0.2, 0.79, -1.49, 0, 0, 0, 0) for t in range(399, 1112)]
-        record = {'times': [r[0] for r in rows], 'rows': rows}
-        self.assertTrue(all(s['passes'] for s in rules.contract_screens(record).values()))
-        rows = [(t, a, 0.81, c, *rest) for t, a, _, c, *rest in rows]
-        record = {'times': [r[0] for r in rows], 'rows': rows}
-        self.assertFalse(rules.contract_screens(record)['+5']['passes'])
+    def test_a2_metrics_on_a_synthetic_record(self):
+        times = [k * 1e-4 for k in range(2400)]
+        s = {'t2a': [2.76] * 2400, 't2o': [0.5] * 2400, 't2p': [-9.6] * 2400, 't2m': [-12.0] * 2400,
+             't2k': [-9.4] * 2400, 'm12_drv': [-10.1] * 2400, 'p5sup': [4.98] * 2400, 'm12_pre': [-12.1] * 2400,
+             'i_VT2L': [43e-6] * 2400, 'i_VT2G': [0.0] * 2400}
+        t2 = {'t2o': s['t2o'], 't2c': [0.19] * 2400}
+        m = r2.a2_metrics(times, s, t2)
+        self.assertAlmostEqual(m['limiter_current_disabled_a'], 43e-6)
+        self.assertAlmostEqual(m['limiter_current_running_a'], 43e-6)
+        self.assertTrue(m['xt2b_inputs_within_retained_vcm'])
+        self.assertAlmostEqual(m['dt2k_reverse_max_v'], 0.7)
+        self.assertAlmostEqual(m['dt2c_reverse_max_v'], 0.31)
+        self.assertEqual(m['reverse_within_rating'], {'DT2C': True, 'DT2K': True, 'DL': True})
+        s['t2p'] = [3.4] * 2400                       # the original (a2) window placement
+        self.assertFalse(r2.a2_metrics(times, s, t2)['xt2b_inputs_within_retained_vcm'])
+
+    def test_combine(self):
+        self.assertEqual(r2.combine([{'passes': True}, {'passes': True}]), 'PASS')
+        self.assertEqual(r2.combine([{'passes': True}, {'passes': False}]), 'FAIL')
+        self.assertEqual(r2.combine([{'passes': True}, {'passes': None}]), 'NOT EVALUATED')
+
+    def test_informational_cases_never_decide_the_candidate(self):
+        self.assertEqual(set(r2.INFORMATIONAL), {'ir1n', 'ir2n', 'k1u'})
+        self.assertNotIn('hot', r2.REQUIRED)
+        self.assertEqual(set(r2.REQUIRED), {'vflo', 'vfhi', 'kvflo', 'kvfhi', 'k80n'})
+
+
+class CaseTests(unittest.TestCase):
+    @mock.patch.object(r2, 'HOT_T_C', 85.0)
+    def test_cases(self):
+        cases = r2.derive_cases()
+        self.assertEqual(r2.LABEL_ORDER[:len(t1.LABEL_ORDER)], t1.LABEL_ORDER)
+        self.assertEqual({k: sorted(v) for k, v in cases.items() if k in r2.EXTRA},
+                         {k: sorted(names) for k, (_, names) in r2.EXTRA.items()})
+        for label, decks in cases.items():
+            for name, text in decks.items():
+                if label in r2.EXTRA or label in t1.T2_LABELS or label == 'ctrl':
+                    self.assertEqual(text.count(f'wrdata {name}-a2.txt'), 1, (label, name))
+
+    def test_every_extra_case_compares_with_the_pinned_pair(self):
+        for label, (_, names) in r2.EXTRA.items():
+            for n in names:
+                self.assertEqual(r2.unit((label, n)), [(label, n), ('run', n)])
 
 
 class VariantTests(unittest.TestCase):
@@ -112,6 +210,26 @@ class VariantTests(unittest.TestCase):
 
     def test_variant_verdict_is_never_pass_or_fail(self):
         self.assertNotIn(r2.VARIANT_VERDICT, ('PASS', 'FAIL'))
+
+
+class RulesTests(unittest.TestCase):
+    def test_tolerance_is_the_convergence_tolerance(self):
+        self.assertAlmostEqual(rules.tolerance(-0.09715653), 107.157e-6, places=9)
+        self.assertAlmostEqual(rules.tolerance(-12.14195474), 12.15195e-3, places=7)
+
+    def test_attempt1_numbers_under_the_revision(self):
+        base = (-0.09715653351, -0.00766395804)
+        self.assertFalse(rules.within_tolerance((-0.09729197807, -0.0076614218), base))
+        self.assertTrue(rules.within_tolerance((-0.0971687655, -0.0076682505), base))
+        self.assertTrue(rules.within_tolerance((-0.0972121684, -0.0076703575), base))
+
+    def test_contract_screens(self):
+        rows = [(t * 1e-4, 0.2, 0.79, -1.49, 0, 0, 0, 0) for t in range(399, 1112)]
+        record = {'times': [r[0] for r in rows], 'rows': rows}
+        self.assertTrue(all(s['passes'] for s in rules.contract_screens(record).values()))
+        rows = [(t, a, 0.81, c, *rest) for t, a, _, c, *rest in rows]
+        record = {'times': [r[0] for r in rows], 'rows': rows}
+        self.assertFalse(rules.contract_screens(record)['+5']['passes'])
 
 
 if __name__ == '__main__':
