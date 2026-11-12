@@ -402,15 +402,19 @@ class WorkflowTests(unittest.TestCase):
                           '(d1-t2-rev2-criteria.md; only once pre-registered)', 'type: boolean', 'default: false',
                           'itl4_inertness:',
                           'description: Also run the itl4 inertness diagnostic on the recorded T2 rev 2 pinned decks '
-                          '(itl4-inertness-criteria.md)', 'type: boolean', 'default: false'])
+                          '(itl4-inertness-criteria.md)', 'type: boolean', 'default: false', 'osc_bank:',
+                          'description: Also run the OSC-bank baseline diagnostic at the fitted bank and +/-20 % '
+                          '(osc-bank-criteria.md)', 'type: boolean', 'default: false'])
         self.assertRegex(text, r'\npermissions:\n  contents: read\n')
         self.assertIn('timeout-minutes: 300', text)
         self.assertRegex(text, r'\nconcurrency:\n  group: phase33-d1-reference\n')
         self.assertNotIn('secrets.', text)
         self.assertEqual(re.findall(r'inputs\.\w+', text), ['inputs.t2_evaluation', 'inputs.t2_rev2_evaluation', 'inputs.itl4_inertness',
                           'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
+                          'inputs.osc_bank', 'inputs.gap_sensitivity', 'inputs.t2_evaluation',
+                          'inputs.t2_rev2_evaluation', 'inputs.itl4_inertness',
                           'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
-                          'inputs.itl4_inertness'])
+                          'inputs.itl4_inertness', 'inputs.osc_bank'])
         self.assertIn("if: inputs.gap_sensitivity && steps.identity.outcome == 'success'", text)
         self.assertNotIn('${{ inputs', text)
         uses = re.findall(r'uses: (\S+)', text)

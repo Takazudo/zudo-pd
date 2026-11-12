@@ -13,7 +13,9 @@
 # and hot cases under the revised rules, then the labelled matched-variant ladder for pinned ABORTED cases only.
 # Opt-in itl4_inertness (itl4-inertness-criteria.md) rebuilds the recorded T2 rev 2 pinned decks with only itl4 raised and
 # compares every output with the recorded hashes: a solver-setting diagnostic that judges no candidate.
-# Not a generic compute dispatcher: four opt-in boolean inputs, no secrets, no write permission, no deploy.
+# Opt-in osc_bank (osc-bank-criteria.md) runs the unmodified baseline with the OSC bank at its fitted value and +/-20 %
+# and measures slope, current and charge per rail: a diagnostic that judges nothing.
+# Not a generic compute dispatcher: five opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -34,6 +36,10 @@ on:
         default: false
       itl4_inertness:
         description: Also run the itl4 inertness diagnostic on the recorded T2 rev 2 pinned decks (itl4-inertness-criteria.md)
+        type: boolean
+        default: false
+      osc_bank:
+        description: Also run the OSC-bank baseline diagnostic at the fitted bank and +/-20 % (osc-bank-criteria.md)
         type: boolean
         default: false
 
@@ -75,6 +81,11 @@ jobs:
         if: inputs.itl4_inertness && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation)
         run: |
           echo "::error::itl4_inertness is a separate dispatch"
+          exit 1
+      - name: Reject the OSC-bank diagnostic combined with any other opt-in
+        if: inputs.osc_bank && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness)
+        run: |
+          echo "::error::osc_bank is a separate dispatch"
           exit 1
       - name: Prepare hash-verified inputs (one bounded TI download each)
         run: |
@@ -166,6 +177,30 @@ jobs:
             fi
           done
           python3 "$PHASE33/itl4_inertness.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/itl4-inertness.json"
+      - name: OSC-bank baseline diagnostic (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.osc_bank && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/osc_bank.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/bank-manifest.json"
+          labels=$(python3 "$PHASE33/osc_bank.py" labels)
+          [ -n "$labels" ] || { echo "::error::no osc_bank labels"; exit 1; }
+          # Pinned first; an abort is recorded and enters only the labelled matched-variant ladder below.
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/osc_bank.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: nothing pending"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/bank/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/bank-runner-$label.txt"; then
+              python3 "$PHASE33/osc_bank.py" check-run "$RUNNER_TEMP/work" "$label"
+            fi
+          done
+          for step in 1 2; do
+            python3 "$PHASE33/osc_bank.py" variant-plan "$RUNNER_TEMP/work" "$step" > "$RUNNER_TEMP/out/bank-plan-$step.txt"
+            while read -r label names; do
+              [ -n "$label" ] || continue
+              if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/bank/$label/tracking" $names --original-only 2>&1 | tee "$RUNNER_TEMP/out/bank-runner-$label.txt"; then
+                python3 "$PHASE33/osc_bank.py" check-run "$RUNNER_TEMP/work" "$label"
+              fi
+            done < "$RUNNER_TEMP/out/bank-plan-$step.txt"
+          done
+          python3 "$PHASE33/osc_bank.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/osc-bank.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |
