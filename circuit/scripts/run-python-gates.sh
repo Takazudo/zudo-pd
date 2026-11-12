@@ -67,6 +67,11 @@ python3 scripts/pcb/board-p/nvm-intent-20v.py --check
 step "Board P r3 Q1 closure screen: cited inputs, reproduction and tamper controls (typical data; not acceptance)"
 python3 -m unittest discover -s scripts/pcb/board-p -p 'test_*.py'
 
+step "PD15 supply-capability screen reproduces power-budget.json and its committed report is fresh"
+python3 -m unittest discover -s scripts/pcb -p 'test_supply_capability.py'
+step "Board P r3 draft native-evidence coverage and freshness negative controls (host-only)"
+python3 scripts/pcb/board-p-r3-draft/test-correction-contract.py
+
 step "B20 desk load cases bound to the PD20 contract; reports fresh"
 python3 -m unittest discover -s scripts/pcb/board-b20 -p 'test_*.py'
 
