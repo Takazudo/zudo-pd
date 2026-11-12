@@ -54,22 +54,34 @@ footprint change. It establishes no electrical, supplier or order acceptance.
 
 The scripted incremental route for the four D12 series resistors (R77–R80, 0402 C25741, readiness D12,
 [#279](https://github.com/Takazudo/zudo-pd/issues/279)) stopped at its own stop condition. With the repository
-courtyard rule, no rule relaxed and no other net touched, OV12, OV5 and UV12 routed in the planning search. UV5
-did not: U7 has one free 0402 site, and OV5 and UV5 both need it. The right-hand exit of U7 pin 6 is closed by
-the UV5_CMP via at (87.6, 58.1), the F.Cu track at x ≈ 88.35 and CRMP2. The insertion is therefore done
-interactively in the native Mac pass, together with #262.
+courtyard rule, no rule relaxed and no other net touched, the planning search found routes for OV12, OV5 and
+UV12 but none for UV5. The search found one free 0402 site near U7, which OV5 and UV5 would both need, and no
+route out of U7 pin 6 on the right past the UV5_CMP via at (87.6, 58.1), the F.Cu track at x ≈ 88.35 and CRMP2;
+moving that via alone found no valid position either. These are search results, not a proof that no route
+exists. The insertion is therefore done interactively in the native Mac pass, together with #262.
 
 `verify-insert-parts.py` bounds that edit after the fact:
 
 ```sh
 python3 scripts/pcb/board-b20/verify-insert-parts.py BEFORE.kicad_pcb AFTER.kicad_pcb \
-  --refs R77,R78,R79,R80 [--extra-net NET ...] --output insert-verification.json
+  --refs R77,R78,R79,R80 \
+  --repin U6.3=OV12_IN --repin U6.6=UV12_IN --repin U7.3=OV5_IN --repin U7.6=UV5_IN \
+  --project-before BEFORE.kicad_pro --project-after AFTER.kicad_pro \
+  [--extra-net NET ...] [--reach-mm 10] --output insert-verification.json
 ```
 
-It requires that every existing footprint is unchanged and that exactly `--refs` are added. Copper on any net
-other than the new parts' pad nets and each named `--extra-net` must be unchanged, as must non-copper content
-such as the outline, legend, setup and zone definitions. Every filled-polygon vertex that changes must lie within
-2 mm of a new courtyard or of a changed copper item. It lists every removed and added copper item for review. An
+Take BEFORE.kicad_pcb and BEFORE.kicad_pro from the same commit, before the edit. Confirm each `--repin` against
+the regenerated schematic: a series resistor splits its net, so the comparator pin moves from `*_DIV` to `*_IN`.
+
+It requires that every existing footprint is unchanged except the net of each `--repin` pad, which must move
+between two nets on the new parts' pads, and that exactly `--refs` are added. Copper on any net other than the
+new parts' pad nets and each named `--extra-net` must be unchanged, as must non-copper content such as the
+outline, legend, setup and zone definitions. Each removed or added segment or via must lie, at both ends, within
+`--reach-mm` (10 mm by default) of a new courtyard or a repinned footprint, so copper on a part net cannot change
+elsewhere. The project's design rules (`board.design_settings` and `net_settings` in `.kicad_pro`, plus any
+`.kicad_dru`) must be identical. Every filled-polygon vertex that changes, per zone uuid and layer, must lie
+within 2 mm of a new courtyard or of a changed copper item. That is a vertex screen, not a connectivity proof;
+DRC covers islands and unconnected items. It lists every removed and added copper item for review. An
 `--extra-net` that is allowed but not changed fails, so each widening is named exactly once. Any net moved
 beyond the part nets, such as UV5_CMP, needs an owner decision and must be stated in the PR.
 
