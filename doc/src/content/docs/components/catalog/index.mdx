@@ -33,6 +33,7 @@ Four columns describe state. None of them is a grade, and there is deliberately 
   | <EvidenceAnchor id="rec-c192739" />[BZT52C18-7-F](/docs/components/records/c192739/)                                               | `rec-c192739`                       | 18V zener diode, STUSB4500 local clamps (VDD, VBUS\_EN\_SNK, DISCH)                                                                 | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
   | <EvidenceAnchor id="rec-c260890" />[BZT52C20-7-F](/docs/components/records/c260890/)                                               | `rec-c260890`                       | 20V zener diode, STUSB4500 VBUS\_VS\_DISCH local clamp                                                                              | Fitted          | VERIFIED   | AVAILABLE | 2 of 4       |
   | <EvidenceAnchor id="rec-c25803" />[0603WAF1003T5E](/docs/components/records/c25803/)                                               | `rec-c25803`                        | 100 kOhm resistor, U1 VBEN pull-up network; Board P Q6 cascode gate divider                                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
+  | <EvidenceAnchor id="rec-c25741" />[0402WGF1003TCE](/docs/components/records/c25741/)                                               | `rec-c25741`                        | 100 kOhm 0402 resistor, B20 U6/U7 OPA2187 comparator-input series resistors (readiness D12)                                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
   | <EvidenceAnchor id="rec-c23206" />[0603WAF5602T5E](/docs/components/records/c23206/)                                               | `rec-c23206`                        | 56 kOhm resistor, U1 VBEN pull-up network                                                                                           | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
   | <EvidenceAnchor id="rec-c23179" />[0603WAF4700T5E](/docs/components/records/c23179/)                                               | `rec-c23179`                        | 470 Ohm resistor, Board A VBUS\_VS\_DISCH discharge path (pin 18) and DISCH; Board P STUSB4500 VDD feed R30                         | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
   | <EvidenceAnchor id="rec-c23162" />[0603WAF4701T5E](/docs/components/records/c23162/)                                               | `rec-c23162`                        | 4.7 kOhm resistor, Board A U1 SCL/SDA I2C pull-up, Board P Q1 gate resistor R12 and DISCH series resistor R13                       | Fitted          | VERIFIED   | AVAILABLE | 1 of 2       |
@@ -347,7 +348,7 @@ One entry per record, carrying the orderable identity and every board placement.
 | Inventory line | `line-c25803`                                                               |
 | Also known as  | `resistor`                                                                  |
 
-**Placements:** board-a R11; board-p R31, R32; board-p15 R11, R22, R23; board-b20-draft R37, R41, R45, R51, R52, R53, R54, R56, R60, R74, RE2, RF3, RP1, RP2, R77, R78, R79, R80
+**Placements:** board-a R11; board-p R31, R32; board-p15 R11, R22, R23; board-b20-draft R37, R41, R45, R51, R52, R53, R54, R56, R60, R74, RE2, RF3, RP1, RP2
 
 **Fit:** Fitted
 
@@ -358,6 +359,31 @@ One entry per record, carrying the orderable identity and every board placement.
 **Open coverage domains:** 1 open of 2 published
 
 [0603WAF1003T5E record details](/docs/components/records/c25803/) — No owning bundle is identified in the published model.
+
+### 0402WGF1003TCE
+
+| Field          | Recorded value                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| Record ID      | `rec-c25741`                                                                                |
+| Kind           | standalone — audited in its own right                                                       |
+| Manufacturer   | UNI-ROYAL                                                                                   |
+| Function       | 100 kOhm 0402 resistor, B20 U6/U7 OPA2187 comparator-input series resistors (readiness D12) |
+| Orderable ID   | `C25741`                                                                                    |
+| Package        | `R0402`                                                                                     |
+| Inventory line | `line-c25741`                                                                               |
+| Also known as  | `resistor`                                                                                  |
+
+**Placements:** board-b20-draft R77, R78, R79, R80
+
+**Fit:** Fitted
+
+**Identity state:** VERIFIED
+
+**Source state:** AVAILABLE
+
+**Open coverage domains:** 1 open of 2 published
+
+[0402WGF1003TCE record details](/docs/components/records/c25741/) — No owning bundle is identified in the published model.
 
 ### 0603WAF5602T5E
 

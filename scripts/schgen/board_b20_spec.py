@@ -94,6 +94,7 @@ P = {
     'SCREW': ('WJ500V-5.08-2P', 'WJ500V-5.08-2P', 'C8465', 'zudo-pd:WJ500V-5.08-2P_C8465'),
     'EURO16': ('DW254P-2X8-L0', 'DW254P-2X8-L0', 'C4749189', 'zudo-pd:IDC-TH_16P-P2.54_321016RG0ABK00A01'),
     'R100K': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603'),
+    'R100K0402': ('0402WGF1003TCE', '100k', 'C25741', 'zudo-pd:R0402'),  # dec-b20-comparator-input-series-r
     'R150K': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603'),
     'R56K': ('0603WAF5602T5E', '56k', 'C23206', 'zudo-pd:R0603'),
     'R4K7': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603'),
@@ -593,8 +594,8 @@ two('CU3D', 'C100N', 'M12_RAW', 'VIN')
 # divider-side input limits the OPA2187 differential-diode current from REF25 while +12 / +5 are absent. U8 (-12) is
 # left unresistored: its input diodes clamp the REF-referenced -12 dividers. Placed last so earlier annotation is kept.
 for rail in ('12', '5'):
-    two(f'RS{rail}O', 'R100K', f'OV{rail}_DIV', f'OV{rail}_IN')
-    two(f'RS{rail}U', 'R100K', f'UV{rail}_DIV', f'UV{rail}_IN')
+    two(f'RS{rail}O', 'R100K0402', f'OV{rail}_DIV', f'OV{rail}_IN')
+    two(f'RS{rail}U', 'R100K0402', f'UV{rail}_DIV', f'UV{rail}_IN')
 
 
 # VIN arrives from Board P through J5 and GND is the system return; these flags declare the

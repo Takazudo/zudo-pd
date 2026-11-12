@@ -7139,6 +7139,160 @@
 		      )
 		    )
 		  )
+		(symbol "zudo-pd:0402WGF1003TCE"
+				(exclude_from_sim no)
+				(in_bom yes)
+				(on_board yes)
+				(in_pos_files yes)
+				(duplicate_pin_numbers_are_jumpers no)
+				(property "Reference" "R"
+					(at 0 5.08 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Value" "0402WGF1003TCE"
+					(at 0 -5.08 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Footprint" "easyeda2kicad:R0402"
+					(at 0 -7.62 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Datasheet" "https://www.lcsc.com/product-detail/C25741.html"
+					(at 0 -10.16 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Description" "100KΩ (1003) ±1%"
+					(at 0 0 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Manufacturer" "UNI-ROYAL(厚声)"
+					(at 0 -12.7 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "MPN" "0402WGF1003TCE"
+					(at 0 -15.24 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "LCSC Part" "C25741"
+					(at 0 -17.78 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "ki_keywords" "Resistors"
+					(at 0 0 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(symbol "0402WGF1003TCE_0_1"
+					(rectangle
+						(start -2.54 1.02)
+						(end 2.54 -1.02)
+						(stroke
+							(width 0)
+							(type default)
+						)
+						(fill
+							(type background)
+						)
+					)
+					(pin passive line
+						(at -5.08 0 0)
+						(length 2.54)
+						(name "1"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+						(number "1"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+					)
+					(pin passive line
+						(at 5.08 0 180)
+						(length 2.54)
+						(name "2"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+						(number "2"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+					)
+				)
+				(embedded_fonts no)
+			)
 		(symbol "zudo-pd:PWR_FLAG"
 				(power global)
 				(pin_numbers
@@ -23566,7 +23720,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1003T5E")
+		(lib_id "zudo-pd:0402WGF1003TCE")
 		(at 533.4 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -23586,7 +23740,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Footprint" "zudo-pd:R0603"
+		(property "Footprint" "zudo-pd:R0402"
 			(at 533.4 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -23600,7 +23754,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25803"
+		(property "LCSC" "C25741"
 			(at 533.4 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -23623,7 +23777,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1003T5E")
+		(lib_id "zudo-pd:0402WGF1003TCE")
 		(at 584.2 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -23643,7 +23797,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Footprint" "zudo-pd:R0603"
+		(property "Footprint" "zudo-pd:R0402"
 			(at 584.2 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -23657,7 +23811,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25803"
+		(property "LCSC" "C25741"
 			(at 584.2 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -23680,7 +23834,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1003T5E")
+		(lib_id "zudo-pd:0402WGF1003TCE")
 		(at 635 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -23700,7 +23854,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Footprint" "zudo-pd:R0603"
+		(property "Footprint" "zudo-pd:R0402"
 			(at 635 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -23714,7 +23868,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25803"
+		(property "LCSC" "C25741"
 			(at 635 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -23737,7 +23891,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1003T5E")
+		(lib_id "zudo-pd:0402WGF1003TCE")
 		(at 685.8 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -23757,7 +23911,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Footprint" "zudo-pd:R0603"
+		(property "Footprint" "zudo-pd:R0402"
 			(at 685.8 391.16 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -23771,7 +23925,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25803"
+		(property "LCSC" "C25741"
 			(at 685.8 398.78 0)
 			(effects
 				(font (size 1.27 1.27))

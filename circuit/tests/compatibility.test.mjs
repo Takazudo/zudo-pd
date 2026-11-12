@@ -57,7 +57,7 @@ test('installed runtime preserves closed evidence identities, counts and canonic
   for (const [label, entries, key] of [['records',index.records,'record'],['sources',index.records.flatMap(r=>r.sources),'source_id'],['facts',index.records.flatMap(r=>r.facts),'fact_id'],['coverage',index.records.flatMap(r=>r.coverage),'coverage_id'],['pins',index.records.flatMap(r=>r.pinMaps),'pin_map_id'],['integration',index.integrationRules,'rule_id']]) assert.deepEqual(entries.map(e=>label==='records'?e.record.record_id:e[key]).sort(), baseline.ids[label]);
   for (const [path, hash] of Object.entries(baseline.files)) assert.equal(createHash('sha256').update(await readFile(join(root,path))).digest('hex'),hash,path);
   for (const path of currentEvidence.retiredFiles.paths) assert.equal(existsSync(join(root,path)),false,`retired ${path} reappeared`);
-  assert.equal(model.packagePreviews.length,47);
+  assert.equal(model.packagePreviews.length,48);
   const inv=await json(join(root,inventoryPath));
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,435);
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>p.dnp).length,12);
@@ -69,7 +69,7 @@ test('real installed CLI doctor/validate/generate/check/models/footprints pass a
     for (const [command,args] of [['doctor',[]],['validate',[]],['generate',[]],['check',[]],['models',['--check']],['footprints',['check']]]) {
       const run=cli(dir,command,args); assert.equal(run.status,0,`${command}: ${run.stdout}\n${run.stderr}`);
     }
-    const repeat=cli(dir,'generate'); assert.equal(repeat.status,0,repeat.stderr); assert.match(repeat.stdout,/0 written, 132 unchanged/);
+    const repeat=cli(dir,'generate'); assert.equal(repeat.status,0,repeat.stderr); assert.match(repeat.stdout,/0 written, 133 unchanged/);
     for(const path of ['doc/src/content/docs/components/catalog/index.mdx','doc/src/content/docs/components/integration/index.mdx']) {
       const before=await readFile(join(root,path),'utf8'), after=await readFile(join(dir,path),'utf8');
       for(const anchor of before.matchAll(/<EvidenceAnchor id="([^"]+)"/g)) assert.ok(after.includes(`id="${anchor[1]}"`),`${path}: lost ${anchor[1]}`);
@@ -201,11 +201,11 @@ test('candidate ownership, placement exclusion, candidate-only source/fact/pin v
 
 test('document selection and exceptions partition every record without inventing a PDF', async () => {
   assert.deepEqual(await json(join(root,'circuit/publication/document-verification.json')),baseline.documentVerification);
-  assert.equal(mapped.selection.documentSelections.length,127);assert.equal(mapped.selection.documentExceptions.length,1);
+  assert.equal(mapped.selection.documentSelections.length,128);assert.equal(mapped.selection.documentExceptions.length,1);
   const record=model.records.find(r=>r.identity.recordId==='rec-c335982'); assert.equal(record.reference.document,null);
   assert.match(String(record.reference.documentUnavailableReason),/No manufacturer document exists/);
   assert.ok(record.reference.footprint.modelPath);assert.ok(record.sources.some(s=>s.authorityClass==='DISTRIBUTOR_IDENTITY'));
-  assert.equal(model.records.filter(r=>r.reference.document!==null).length,127);
+  assert.equal(model.records.filter(r=>r.reference.document!==null).length,128);
   for(const exceptions of [[],[{recordId:mapped.selection.documentSelections[0].recordId,reason:'overlap'}],[...mapped.selection.documentExceptions,...mapped.selection.documentExceptions],[{recordId:'absent',reason:'missing'}],[{recordId:'rec-c335982',reason:''}]])assert.throws(()=>new PublicationPolicy(mapped.matrix,{...mapped.selection,documentExceptions:exceptions}));
 });
 

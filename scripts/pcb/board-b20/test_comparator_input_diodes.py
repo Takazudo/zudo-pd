@@ -31,7 +31,7 @@ class FittedSeriesResistorTests(unittest.TestCase):
             self.assertIn(f'{u}.6', b20.NETS[minus])
             for net, div in ((plus, f'OV{rail}_DIV'), (minus, f'UV{rail}_DIV')):
                 (res,) = [p.split('.')[0] for p in b20.NETS[net] if not p.startswith(u)]
-                self.assertEqual(b20.COMPONENTS[res][1:3], ('100k', 'C25803'))
+                self.assertEqual(b20.COMPONENTS[res][1:3], ('100k', 'C25741'))
                 self.assertIn(f'{res}.1', b20.NETS[div])
         for net in ('OVN_DIV', 'UVN_DIV'):
             self.assertIn('U8.2' if net == 'OVN_DIV' else 'U8.5', b20.NETS[net])
