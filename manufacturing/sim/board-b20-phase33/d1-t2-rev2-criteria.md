@@ -110,6 +110,9 @@ Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
 
 ## Execution rules
 
+- **Separate dispatch.** The workflow rejects `t2_evaluation` and `t2_rev2_evaluation` together, because they
+  share the t2 work tree and the control gate.
+
 - **As attempt 1.** Status definitions, the control gate (ctrl COMPLETE and REPRODUCED before any candidate
   label) and the loaded-baseline identity are unchanged. ABORTED means not evaluated and is not retried with pinned
   settings.
@@ -133,8 +136,9 @@ Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
 The `a2` metrics:
 - limiter current, disabled (30–40 ms) and running (200–235 ms);
 - t2o maximum in the enable window;
-- XT2B input extremes against the retained VCM row and the abs max;
-- each diode's peak reverse voltage against its stated rating;
+- XT2B input extremes over 20–235 ms (rails settled, before the disable) against the retained VCM row and the
+  abs max;
+- each diode's peak reverse voltage against its stated rating, on the no-load, extra and loaded cases;
 - the rule 6(b) margin.
 
 ### Verdicts

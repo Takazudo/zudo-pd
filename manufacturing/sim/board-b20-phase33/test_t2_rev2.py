@@ -111,6 +111,12 @@ class HotTests(unittest.TestCase):
         self.assertAlmostEqual(r2.hot_factor(32.0), 2.0)
         self.assertAlmostEqual(r2.hot_ir('DT2C', 32.0), 6e-12)
         self.assertEqual(r2.hot_ir('DT2K', 60.0), 80e-9)       # the 150 C row held flat, not the chord
+        with self.assertRaisesRegex(ValueError, 'board maximum'):
+            r2.hot_ir('DT2K')
+
+    def test_a_crossing_below_the_sourced_point_is_negative(self):
+        crossing = r2.failure_ir([(3e-12, -1e-6), (1e-9, -2e-6), (2e-9, -3e-6)])
+        self.assertLess(crossing, 0)
 
     def test_hot_block(self):
         with mock.patch.object(r2, 'HOT_T_C', 39.0):
@@ -153,6 +159,8 @@ class AnalysisTests(unittest.TestCase):
         self.assertAlmostEqual(m['dt2k_reverse_max_v'], 0.7)
         self.assertAlmostEqual(m['dt2c_reverse_max_v'], 0.31)
         self.assertEqual(m['reverse_within_rating'], {'DT2C': True, 'DT2K': True, 'DL': True})
+        s['t2p'][5] = 6.0                             # power-up (0.5 ms) is outside the assessed window
+        self.assertTrue(r2.a2_metrics(times, s, t2)['xt2b_inputs_within_absmax'])
         s['t2p'] = [3.4] * 2400                       # the original (a2) window placement
         self.assertFalse(r2.a2_metrics(times, s, t2)['xt2b_inputs_within_retained_vcm'])
 

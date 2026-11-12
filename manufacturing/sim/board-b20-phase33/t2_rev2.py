@@ -2,7 +2,7 @@
 
 Attempt 1 (t2_clamp.py, d1-t2-criteria.md) is unchanged and stays FAILED. Rev 2 is option (a2) of
 /mnt/project-files/d1/t2-ways-forward-20261112.md, admitted by owner decision for simulation evaluation only, with
-the window switch moved to the inverting input (t2-a2-dc-checks-20261112.md). Against attempt 1 it:
+the window switch moved to the inverting input (d1-t2-a2-dc-checks-20261112.md). Against attempt 1 it:
 - limits t2o to about +VF through R_O and D_L, keeping XT2B's feedback at the op-amp output (t2a);
 - connects DT2C and R_C to TRK12N_FB permanently (no BT2G), so no switch sits on the summing node;
 - forces XT2B's output high outside the RAMP reset window by pulling t2m toward M12_PRE through R_W;
@@ -85,7 +85,7 @@ BAS116L = {
 # spread below because its low-current VF is typical only.
 DIODES = {'DT2C': FJH1100, 'DT2K': BAS116L, 'DL': FJH1100}
 MODEL_NAME = {'DT2C': 'DT2CX', 'DT2K': 'DT2KX', 'DL': 'DT2LX'}
-RATING_MIN_V = {'DT2C': 10.6, 'DT2K': 27.5, 'DL': 12.8}   # t2-a2-dc-checks-20261112.md bounds (DT2K with 1.5x)
+RATING_MIN_V = {'DT2C': 10.6, 'DT2K': 27.5, 'DL': 12.8}   # d1-t2-a2-dc-checks-20261112.md bounds (DT2K with 1.5x)
 
 # ---------------------------------------------------------------- (a2) values
 VALUES = {
@@ -117,10 +117,8 @@ def hot_factor(t_c=None):
 def hot_ir(role, t_c=None):
     """FJH1100: the 7 C doubling. BAS116L: the guaranteed 150 C row, held flat below 150 C (monotonic in T)."""
     d = DIODES[role]
-    if 'ir_hot_max_a' in d:
-        hot_factor(t_c)
-        return d['ir_hot_max_a']
-    return d['ir_max_a'] * hot_factor(t_c)
+    factor = hot_factor(t_c)      # raises when the board temperature is not recorded, for every role
+    return d['ir_hot_max_a'] if 'ir_hot_max_a' in d else d['ir_max_a'] * factor
 
 
 def temperature_for(ir_a, ir25_a=FJH1100['ir_max_a']):
@@ -257,6 +255,7 @@ VCM_LOW_BELOW_V = 0.1          # fact-c2863562-vcm: (V-) - 0.1 V (retained only 
 VCM_HIGH_BELOW_V = 2.0         # fact-c2863562-vcm: (V+) - 2 V
 INPUT_ABSMAX_V = 0.5           # fact-c2863562-supply-absmax: inputs within the rails +/- 0.5 V
 RUNNING_WINDOW_S = (200e-3, 235e-3)
+INPUT_WINDOW_S = (20e-3, 235e-3)   # rails settled (P5_SUP ramps to 2 ms) and before the 240 ms disable
 
 
 def a2_record(run, name):
@@ -270,8 +269,9 @@ def a2_metrics(times, s, t2=None):
          't2o_enable_window_max_v': gap.extremes(times, s['t2o'], *gap.ENABLE_WINDOW_S)[1]}
     if times[-1] >= RUNNING_WINDOW_S[1]:
         m['limiter_current_running_a'] = gap.mean_between(times, s['i_VT2L'], *RUNNING_WINDOW_S)
-    low = min(min(s[x][i] - s['m12_pre'][i] for i in range(len(times))) for x in ('t2p', 't2m'))
-    high = max(max(s[x][i] - s['p5sup'][i] for i in range(len(times))) for x in ('t2p', 't2m'))
+    span = [i for i, t in enumerate(times) if INPUT_WINDOW_S[0] <= t <= INPUT_WINDOW_S[1]]
+    low = min(s[x][i] - s['m12_pre'][i] for x in ('t2p', 't2m') for i in span)
+    high = max(s[x][i] - s['p5sup'][i] for x in ('t2p', 't2m') for i in span)
     m['xt2b_input_above_v_minus_min_v'] = low
     m['xt2b_input_relative_to_v_plus_max_v'] = high
     m['xt2b_inputs_within_retained_vcm'] = low >= -VCM_LOW_BELOW_V and high <= -VCM_HIGH_BELOW_V
@@ -322,6 +322,18 @@ def a2_case(work, base_run, label, name):
     return row
 
 
+def loaded_a2(work, name):
+    state = t1.status(work, 't2load', name)
+    if state['status'] != 'COMPLETE':
+        return None
+    try:
+        times, s = a2_record(state['run'], name)
+        _, t2 = t1.t2_record(state['run'], name)
+        return a2_metrics(times, s, t2)
+    except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
+        return f'NOT EVALUATED: {type(error).__name__}: {error}'
+
+
 def analyze(work):
     work = Path(work)
     out = t1.analyze(work, judge=rules.judge, scope=SCOPE, criteria=CRITERIA, r_c_ohm=R_C_OHM, detail=rules.detail)
@@ -332,6 +344,10 @@ def analyze(work):
     for key in list(out['t2']['no_load']):
         label, name = key.split('/')
         out['t2']['no_load'][key] = a2_case(work, base_run, label, name)
+    for name, row in out['t2']['loaded'].items():
+        row['a2'] = loaded_a2(work, name)
+    # a2_case can turn a row NOT EVALUATED (its a2 output unreadable), so the verdict is recomputed from the rows.
+    out['t2']['verdict'] = combine(list(out['t2']['no_load'].values()) + list(out['t2']['loaded'].values()))
     extra = {f'{label}/{n}': a2_case(work, base_run, label, n) for label, (_, names) in EXTRA.items() for n in names}
     ladder = [(DIODES['DT2C']['ir_max_a'], out['t2']['no_load'].get('t2/adv', {}).get('rule6b_margin_v'))]
     ladder += [(ir, extra[f'{label}/adv'].get('rule6b_margin_v'))
@@ -352,7 +368,9 @@ def analyze(work):
                           'BAS116L: the guaranteed 80 nA TJ 150 C row held flat below 150 C (monotonic, inference)'),
                 'verdict': combine([extra[f'hot/{n}'] for n in EXTRA['hot'][1]])},
         'dt2c_failure_ir': {'points': points, 'crossing_a': crossing,
-                            'crossing_temperature_c': temperature_for(crossing) if crossing else None,
+                            'crossing_temperature_c': temperature_for(crossing) if crossing and crossing > 0 else None,
+                            'note': (None if crossing is None or crossing > 0 else
+                                     'non-positive crossing: the sourced case already sits at or beyond the bound'),
                             'basis': 'linear fit of the rule 6(b) margin over the DT2C-only adv cases'},
         'dt2k_ladder': {f'{label}/adv': {'ir_a': ir, 'passes': extra[f'{label}/adv'].get('passes'),
                                          'role': 'informational' if label in INFORMATIONAL else 'required'}

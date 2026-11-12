@@ -404,7 +404,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn('timeout-minutes: 300', text)
         self.assertRegex(text, r'\nconcurrency:\n  group: phase33-d1-reference\n')
         self.assertNotIn('secrets.', text)
-        self.assertEqual(re.findall(r'inputs\.\w+', text), ['inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation'])
+        self.assertEqual(re.findall(r'inputs\.\w+', text), ['inputs.t2_evaluation', 'inputs.t2_rev2_evaluation', 'inputs.gap_sensitivity',
+                          'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation'])
         self.assertIn("if: inputs.gap_sensitivity && steps.identity.outcome == 'success'", text)
         self.assertNotIn('${{ inputs', text)
         uses = re.findall(r'uses: (\S+)', text)
