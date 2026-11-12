@@ -5,12 +5,37 @@
 # input is hash-checked and fails closed; one bounded download attempt per TI archive.
 # The run is adopted only if primary and supplemental waveforms are byte-identical to the
 # retained 2026-11-09 refinement. Vendor model bytes are never uploaded; only their hashes.
-# Not a generic compute dispatcher: no inputs, no secrets, no write permission, no deploy.
+# Opt-in gap_sensitivity (d1-gap-criteria.md) adds the eight pre-registered C1 gate-to-threshold variant
+# cases, run only after the unmodified baseline pair reproduces; a model sensitivity, never a design change.
+# Opt-in t2_evaluation (d1-t2-criteria.md) runs the enable-edge threshold corners, the inert control and the T2
+# -12 V candidate decks the same way: a model evaluation of a candidate, never adoption.
+# Opt-in t2_rev2_evaluation (d1-t2-rev2-criteria.md) runs the T2 rev 2 (a2) decks, its VF-spread, leakage-ladder
+# and hot cases under the revised rules, then the labelled matched-variant ladder for pinned ABORTED cases only.
+# Opt-in itl4_inertness (itl4-inertness-criteria.md) rebuilds the recorded T2 rev 2 pinned decks with only itl4 raised and
+# compares every output with the recorded hashes: a solver-setting diagnostic that judges no candidate.
+# Not a generic compute dispatcher: four opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
 on:
   workflow_dispatch:
+    inputs:
+      gap_sensitivity:
+        description: Also run the eight pre-registered C1 gap-sensitivity variant cases (d1-gap-criteria.md)
+        type: boolean
+        default: false
+      t2_evaluation:
+        description: Also run the pre-registered T2 -12 V clamp evaluation and enable-edge corners (d1-t2-criteria.md)
+        type: boolean
+        default: false
+      t2_rev2_evaluation:
+        description: Also run the T2 rev 2 (a2) -12 V evaluation and variant ladder (d1-t2-rev2-criteria.md; only once pre-registered)
+        type: boolean
+        default: false
+      itl4_inertness:
+        description: Also run the itl4 inertness diagnostic on the recorded T2 rev 2 pinned decks (itl4-inertness-criteria.md)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -22,7 +47,9 @@ concurrency:
 jobs:
   extract:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    # 45 min covered the reference pair and the gap variants; the T2 evaluation adds 15 decks (about 2 min each);
+    # T2 rev 2 adds 33 decks plus at most two variant-ladder steps.
+    timeout-minutes: 300
     defaults:
       run:
         # Explicit bash enables pipefail, so the tee below cannot hide a runner failure.
@@ -39,6 +66,16 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
+      - name: Reject attempt 1 and rev 2 T2 in one dispatch (they share the t2 work tree and control gate)
+        if: inputs.t2_evaluation && inputs.t2_rev2_evaluation
+        run: |
+          echo "::error::t2_evaluation and t2_rev2_evaluation are separate dispatches"
+          exit 1
+      - name: Reject the itl4 diagnostic combined with any other opt-in (it rebuilds the t2 work tree)
+        if: inputs.itl4_inertness && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation)
+        run: |
+          echo "::error::itl4_inertness is a separate dispatch"
+          exit 1
       - name: Prepare hash-verified inputs (one bounded TI download each)
         run: |
           mkdir -p "$RUNNER_TEMP/out"
@@ -56,6 +93,79 @@ jobs:
         if: steps.identity.outcome == 'success'
         run: |
           python3 "$PHASE33/extract_reference.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/analysis.json"
+      - name: Gap sensitivity variants (only when requested and reproduced)
+        if: inputs.gap_sensitivity && steps.identity.outcome == 'success'
+        run: |
+          python3 "$PHASE33/gap_sensitivity.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/gap-manifest.json"
+          # Amendment 1: a case that aborts is recorded (ABORTED) and its rail stops; the other rail and analyze continue.
+          for label in g20 g16 g12 worst; do
+            cases=$(python3 "$PHASE33/gap_sensitivity.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: no rail left to run"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/gaps/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/gap-runner-$label.txt"; then
+              # Only a solver abort is tolerated; any other runner failure fails the step.
+              python3 "$PHASE33/gap_sensitivity.py" check-run "$RUNNER_TEMP/work" "$label"
+              echo "::warning::$label recorded an ABORTED case; its rail stops and is not retried in this dispatch"
+            fi
+          done
+          python3 "$PHASE33/gap_sensitivity.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/gap-sensitivity.json"
+      - name: T2 evaluation (only when requested and reproduced)
+        # Independent of the gap step: a gap failure must not silently skip T2.
+        if: ${{ !cancelled() && inputs.t2_evaluation && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/t2_clamp.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/t2-manifest.json"
+          # T2 labels run only after the inert control reproduces the D1 failure; aborts are recorded, never retried.
+          for label in base e12lo e12hi e5lo e5hi ctrl t2 t2lo t2hi t2load; do
+            cases=$(python3 "$PHASE33/t2_clamp.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: not run (control gate)"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/t2/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/t2-runner-$label.txt"; then
+              python3 "$PHASE33/t2_clamp.py" check-run "$RUNNER_TEMP/work" "$label"
+              echo "::warning::$label recorded an ABORTED case; it is not retried in this dispatch"
+            fi
+          done
+          python3 "$PHASE33/t2_clamp.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2-evaluation.json"
+      - name: T2 rev 2 evaluation (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.t2_rev2_evaluation && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/t2_rev2.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/t2r2-manifest.json"
+          # Labels run only after the inert control reproduces the D1 failure; pinned aborts are recorded, not retried.
+          labels=$(python3 "$PHASE33/t2_rev2.py" labels)
+          [ -n "$labels" ] || { echo "::error::no T2 rev 2 labels"; exit 1; }
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/t2_rev2.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: not run (control gate)"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/t2/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/t2r2-runner-$label.txt"; then
+              python3 "$PHASE33/t2_rev2.py" check-run "$RUNNER_TEMP/work" "$label"
+              echo "::warning::$label recorded an ABORTED case; it enters the labelled variant ladder only"
+            fi
+          done
+          python3 "$PHASE33/t2_rev2.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2r2-evaluation.json"
+          # Matched-variant ladder (VARIANT-EVALUATED, never PASS or FAIL): pinned ABORTED cases and the cross-check.
+          for step in 1 2; do
+            python3 "$PHASE33/t2_rev2.py" variant-plan "$RUNNER_TEMP/work" "$step" > "$RUNNER_TEMP/out/t2r2-plan-$step.txt"
+            while read -r label names; do
+              [ -n "$label" ] || continue
+              if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/t2/$label/tracking" $names --original-only 2>&1 | tee "$RUNNER_TEMP/out/t2r2-runner-$label.txt"; then
+                python3 "$PHASE33/t2_rev2.py" check-run "$RUNNER_TEMP/work" "$label"
+              fi
+            done < "$RUNNER_TEMP/out/t2r2-plan-$step.txt"
+          done
+          python3 "$PHASE33/t2_rev2.py" variant-analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2r2-variants.json"
+      - name: itl4 inertness diagnostic (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.itl4_inertness && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/t2_rev2.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/t2r2-manifest.json"
+          python3 "$PHASE33/itl4_inertness.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/itl4-manifest.json"
+          labels=$(python3 "$PHASE33/itl4_inertness.py" labels)
+          [ -n "$labels" ] || { echo "::error::no itl4 labels"; exit 1; }
+          # Every deck runs once; an abort is recorded, never retried.
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/itl4_inertness.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: nothing pending"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/itl4/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/itl4-runner-$label.txt"; then
+              python3 "$PHASE33/itl4_inertness.py" check-run "$RUNNER_TEMP/work" "$label"
+            fi
+          done
+          python3 "$PHASE33/itl4_inertness.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/itl4-inertness.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |

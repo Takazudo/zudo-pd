@@ -1,0 +1,121 @@
+# Single-purpose Board P r3 native rebuild (readiness D10, #231).
+# Rebuilds boards/board-p/board-p.kicad_pcb from board_p_spec.py and the committed placement owner with
+# scripts/pcb/board-p-r3-draft/run.sh at the pinned KiCad 10.0.6 image, twice in separate checkouts, and
+# compares the twins. It then runs native DRC with schematic parity, binds the report in a receipt,
+# runs verify-corrections.py and refreshes the fit annotation.
+# The assembly preview and the development export need local-only assembled STEP files and are not run here.
+# Output is an artifact for review; nothing is pushed. No secrets, no write permission, no deploy.
+
+name: Board P r3 rebuild
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: board-p-r3-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+    env:
+      IMAGE: kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec
+      DOCKER_DEFAULT_PLATFORM: linux/amd64
+      PYTHONHASHSEED: '0'
+      D: scripts/pcb/board-p-r3-draft
+      OUT: boards/board-p/r3-draft
+      # verify-corrections.py compares against this independently reviewed PCB (sha256 pinned in the script).
+      BASELINE_REV: 6b08236a30331659756ca6a9af492e59f3fc6061
+    steps:
+      # Same pins as component-spec-skills.yml (checkout v5.0.1, setup-python v5.6.0).
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0   # run.sh reads the as-built outline at 6cb02c8; verify-corrections needs BASELINE_REV
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: Install the host router dependency
+        run: python3 -m pip install --disable-pip-version-check 'numpy==2.2.6'
+      - name: Preflight - schematic matches the spec
+        run: |
+          python3 scripts/schgen/gen_schematic.py board_p_spec
+          git diff --exit-code -- boards/board-p/board-p.kicad_sch
+      - name: Pull the pinned KiCad image by digest
+        run: docker pull "$IMAGE"
+      - name: Rebuild, twin rebuild, DRC, receipt and correction proof
+        id: rebuild
+        # run.sh mixes root containers (--user 0) with host overwrites of the files they create, so the whole
+        # native step runs as root and the Collect step returns ownership to the runner user.
+        run: |
+          set -euo pipefail
+          E="$RUNNER_TEMP/evidence"; T="$RUNNER_TEMP/work"; mkdir -p "$E" "$T"
+          git worktree add --detach "$T/twin" HEAD
+          git show "$BASELINE_REV:boards/board-p/board-p.kicad_pcb" > "$T/baseline.kicad_pcb"
+          cat > "$T/native.sh" <<'NATIVE'
+          set -euo pipefail
+          E="$RUNNER_TEMP/evidence"; T="$RUNNER_TEMP/work"
+          git config --global --add safe.directory '*'
+          bash "$D/run.sh" > "$E/run.log" 2>&1 || { tail -50 "$E/run.log"; exit 1; }
+          (cd "$T/twin" && bash "$D/run.sh") > "$E/twin-run.log" 2>&1 || { tail -50 "$E/twin-run.log"; exit 1; }
+          python3 "$D/verify-replay.py" boards/board-p/board-p.kicad_pcb "$T/twin/boards/board-p/board-p.kicad_pcb" "$E/twin-replay.json"
+          for f in routes.json routing-report.json placement-report.json probe-silk-check.json; do
+            cmp "$OUT/$f" "$T/twin/$OUT/$f" || { echo "twin differs: $f" >&2; exit 1; }
+          done
+          # One array is both executed and recorded in the receipt.
+          DRC=(kicad-cli pcb drc --schematic-parity --format json --severity-all --output "$OUT/native-drc.json" boards/board-p/board-p.kicad_pcb)
+          docker run --rm --cpus 1 --user 0 -e PYTHONHASHSEED -v "$PWD":/w -w /w "$IMAGE" "${DRC[@]}" 2>&1 | tee "$OUT/native-drc.log"
+          python3 scripts/pcb/write-board-p-drc-receipt.py "$OUT/native-drc.json" "$OUT/native-drc-receipt.json" \
+            --command "$(python3 -c 'import json,sys; print(json.dumps(sys.argv[1:]))' "${DRC[@]}")" \
+            --execution-revision "$GITHUB_SHA" \
+            --toolchain "{\"image\":\"$IMAGE\",\"platform\":\"linux/amd64 GitHub Actions ubuntu-24.04\",\"run_id\":\"$GITHUB_RUN_ID\",\"run_attempt\":\"$GITHUB_RUN_ATTEMPT\"}"
+          docker run --rm --cpus 1 --user 0 -e PYTHONHASHSEED -v "$PWD":/w -v "$T":/t -w /w "$IMAGE" python3 /w/$D/verify-corrections.py \
+            /w/$OUT/layout-correction-check.json --baseline-pcb /t/baseline.kicad_pcb --execution-revision "$GITHUB_SHA" | tee "$E/verify-corrections.log"
+          python3 "$D/annotate-fit.py" "$OUT"
+          python3 -c 'import importlib.util as u; s=u.spec_from_file_location("e","scripts/pcb/export-jlcpcb.py"); m=u.module_from_spec(s); s.loader.exec_module(m); m.verify_p_r3_report_freshness(); print("P r3 correction proof fresh")'
+          NATIVE
+          sudo --preserve-env=PYTHONHASHSEED,IMAGE,D,OUT,DOCKER_DEFAULT_PLATFORM,RUNNER_TEMP,GITHUB_SHA,GITHUB_RUN_ID,GITHUB_RUN_ATTEMPT \
+            env "PATH=$PATH" bash "$T/native.sh"
+      - name: Collect changed files
+        if: always()
+        env:
+          REBUILD_OUTCOME: ${{ steps.rebuild.outcome }}
+        run: |
+          sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE" "$RUNNER_TEMP"
+          E="$RUNNER_TEMP/evidence"; mkdir -p "$E"
+          git status --porcelain --untracked-files=all -- . ':!tmp' | tee "$E/changed.txt"
+          # Changed files are offered for adoption only when every check above passed.
+          # Deleted tracked files are listed, not copied.
+          git diff --name-only --diff-filter=D | tee "$E/deleted.txt"
+          copy_changed() {
+            mkdir -p "$1"
+            { git diff --name-only --diff-filter=d -z; git ls-files --others --exclude-standard -z; } | xargs -0 -r -I{} cp --parents {} "$1/"
+          }
+          if [[ "$REBUILD_OUTCOME" == success ]]; then
+            copy_changed "$E/files"
+          else
+            # A failed round is preserved for review, outside the adoptable files.
+            copy_changed "$E/failed-round"
+          fi
+          (cd "$E" && find . -type f ! -name hashes.txt -print0 | sort -z | xargs -0 sha256sum > hashes.txt)
+          # PASS is written last, only after the copy and hashing succeeded.
+          if [[ "$REBUILD_OUTCOME" == success ]]; then
+            echo PASS > "$E/status.txt"
+          else
+            echo "FAILED: rebuild step outcome $REBUILD_OUTCOME; no files offered" > "$E/status.txt"
+          fi
+          cat "$E/hashes.txt"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: board-p-r3-rebuild
+          path: ${{ runner.temp }}/evidence
+          retention-days: 30
+          if-no-files-found: error

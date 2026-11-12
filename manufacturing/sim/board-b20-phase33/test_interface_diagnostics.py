@@ -249,13 +249,31 @@ class ServoCitationTests(unittest.TestCase):
         self.assertIn('pass-pair conduction', md)
 
 
+class EnableEdgeTests(unittest.TestCase):
+    def test_recorded_negative_matches_its_prose(self):
+        e = diag.enable_edge()
+        self.assertTrue(e['status'].startswith('RECORDED NEGATIVE'))
+        md = (HERE / 'interface-diagnostics.md').read_text()
+        for cases in e['rails'].values():
+            for v in cases.values():
+                self.assertIn(f"{v['distance_to_onset_mv']:.1f} mV", md)
+                self.assertIn(f"{v['peak_vgs_v']:.4f} V", md)
+                self.assertLess(v['distance_to_onset_mv'], 150)
+        self.assertLess(abs(e['rails']['+5']['model']['distance_to_onset_mv']
+                            - e['rails']['+5']['threshold_minus_0p5_v']['distance_to_onset_mv']), 10)
+        self.assertIn('-0.66 V', e['open_check'])
+
+
 class CorrectionCandidateTests(unittest.TestCase):
     def test_record_follows_calculator_and_servo_record(self):
         calc = diag.calculator()
         c = diag.correction_candidates(calc)
         self.assertTrue(c['C2 minimum-load bleeder']['status'].startswith('REJECTED'))
         self.assertTrue(c['EN-gated opposite-rail current sink']['status'].startswith('REJECTED'))
-        self.assertFalse(c['C1 gate pre-bias while enabled']['status'].startswith('ADOPTED'))
+        self.assertTrue(c['C1 gate pre-bias while enabled']['status'].startswith('REJECTED'))
+        self.assertTrue(c['T1 reset-window integrator leak']['status'].startswith('REJECTED'))
+        self.assertTrue((HERE / c['T1 reset-window integrator leak']['evidence']).exists())
+        self.assertFalse(c['T2 peak-hold anti-windup clamp']['status'].startswith('ADOPTED'))
         lim = calc.limiter()
         margins = c['bias_current_low_side_margins']['rails']
         self.assertAlmostEqual(margins['-12']['transient_minimum_margin_a'], lim['-12']['trip_min_a'] - calc.I_TRANSIENT_MIN['-12'], 5)

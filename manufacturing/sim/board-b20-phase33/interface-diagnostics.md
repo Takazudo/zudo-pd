@@ -74,13 +74,65 @@ without defeating disconnection. **C2 minimum-load bleeder: rejected by owner de
 | −12 output to +5 V | ≤ 996.0 Ω | Defeats disconnection: a disabled output is pulled toward +5 V |
 
 An EN-gated opposite-rail sink is also **rejected**: it needs the disconnect and AGND-return
-rules reinterpreted. **C1, gate pre-bias while enabled, is under evaluation** and is blocked
-on a guaranteed VGS(th) minimum at the operating temperature and test current.
+rules reinterpreted. **C1, a fixed gate pre-bias while enabled, is rejected** by owner decision.
+No fixed floor fits the threshold window: a floor that leaves 2.0 V on a 2.7 V part leaves
+about 0.8 V on a 1.5 V part. On −12 V the enable transient already brings Vgs within 8.1–9.7 mV
+of the model onset. In the [gap sensitivity](d1-gap-attempt2-20261111.md) no evaluated −12 V gap
+passed and no +5 V gap was evaluated. Its microvolt rule 6 results are not the reason for rejection. C3, a slower gate path, remains an
+unevaluated fallback.
+
+T1, an integrator leak switched in while RAMP is held in reset, is **rejected by construction**
+(owner decision; not evaluated in transient). At the summing node the DC balance sets the driver
+by offset currents, not by conduction. On +5 V, DRV = 1.214 V − 43.1 × out, so the loop stays wound
+to its rail. On −12 V, DRV = 23.5 × out + 1.214 V, which gives a threshold-dependent −0.47 V
+pedestal ([analysis](d1-t1-leak-rejected-20261111.md)).
+
+T2, a peak-hold anti-windup clamp, is **rejected by construction on +5 V** (owner decision; not
+evaluated in transient). RG2P carries Vgs / 100 kΩ, and with the pair off that current leaves P5_CS
+only through Q4's body diode into P5_OUT. A gate held near the edge therefore injects 8–20 µA against
+the 1.6 µA divider drain, which is an output pedestal. This sets a constraint on any future +5 V or
++12 V gate-hold scheme: it must idle at Vgs of about 0.16 V or less at no load, unless the gate
+pull-down return is changed ([paper check](d1-t2-paper-check-20261111.md)). On −12 V, T2 **fails attempt 1**
+against its pre-registered rules ([criteria](d1-t2-criteria.md), [record](d1-t2-attempt1-20261112.md)).
+Rule 1 passes on the D1 failure deck (1.064 V/ms, 0.1915 A). Rule 6 (135.4 µV) and loaded L2
+(about 0.3 mV) fail on the clamp diode's junction capacitance coupling the capture step into the
+summing node. Rule 9 fails by 26 nV on a deck-wide disable kick at the solver's resolution. All four
+threshold corners aborted on deck stiffness ([diagnosis](d1-deck-stiffness-20261112.md)). D1 stays
+held. On +5 V, returning RG2P to GND (option B) passes its paper check, and its pre-registration is held
+([options](d1-p5-gate-hold-options-20261111.md), [B check](d1-p5-option-b-paper-check-20261111.md)).
+RG2P explains at most 4.6 mV of the 52 versus 28 mV floor, which is left as it is.
+
+Rules 6 and 9 are **revised for future pre-registrations** (owner decision 2026-11-12,
+[revision](d1-rules-revision-20261112.md)). Rule 6 now combines the contract screens (+5 V below
+0.8 V, analog rails below 1.5 V) with a baseline excursion of at most reltol·|v| + vntol. Rule 9
+uses the same tolerance, and L2 is unchanged. Recorded verdicts stand: T2 −12 V attempt 1 stays
+FAILED, and C1, C2 and T1 stay rejected.
 
 Bias or bleeder current is sensed, because the limiter shunts sit upstream of each pair. It
 therefore enlarges the maximum-delivered margin (15.15 / 4.56 / 39.16 mA, +12 / −12 / +5) and
 consumes the transient-minimum margin (41.59 / 42.16 / 36.94 mA) and the startup-into-full-load
 margin (8.94 / 13.29 / 29.09 mA).
+
+## D1 enable-edge conduction: a recorded negative, with no order hold
+
+The question was whether a part at typical 2.0 V or minimum 1.5 V VGS(th) would conduct at the
+enable edge and produce an output excursion. Inference from a single-threshold model (baseline
+waveforms of run 43109786353) says it would not: the enable transient is the designed pre-bias.
+The loop drives each gate only until its own pair conducts, then the output sits at its floor.
+The adv deck's constant gate offsets emulate a ±0.5 V threshold shift, and across that shift the
+distance to onset barely moves:
+
+| Rail, threshold vs model | Peak Vgs | 5 mA onset Vgs | Distance | Peak current | Output extreme |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| +5, model | 2.3097 V | 2.4428 V | 133.1 mV | 1.26 mA | 51.9 mV |
+| +5, −0.5 V | 2.3146 V | 2.4430 V | 128.4 mV | 1.32 mA | 51.7 mV |
+| −12, model | 2.3426 V | 2.3504 V | 7.8 mV | 4.63 mA | −97.0 mV |
+| −12, +0.5 V | 2.3430 V | 2.3527 V | 9.7 mV | 4.65 mA | −97.2 mV |
+
++5 V stays far inside its 0.8 V hold screen, and −12 V and +12 V (144 mV) stay below the 1.5 V
+analog threshold. The open check is four constant-offset corners, mapped from the model's 250 µA
+point (2.163 V): VO2 −0.66 / +0.54 V on +5 and VO3 −0.66 / +0.54 V on −12. These cover −12 below
+the model threshold and +5 beyond −0.5 V, which are untested today, and ride on the next dispatch.
 
 ## D2 discharge and shutdown
 
@@ -131,9 +183,9 @@ load-side di/dt are UNSOURCED. With 1 µs total response the −12 V margin allo
 ## Next inputs (no correction adopted)
 
 1. D1: the reference side is refuted and the dead zone is set by the pass-pair conduction
-   threshold on both failed rails. A minimum-load bleeder (C2) is rejected by owner decision;
-   gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed
-   CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.
+   threshold on both failed rails. A minimum-load bleeder (C2) and a fixed gate pre-bias
+   while enabled (C1) are rejected by owner decision. A threshold-independent correction is
+   the next proposal. Nothing is adopted.
 2. D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a
    numeric definition of "absent", and switching data for the disconnect/discharge edge.
    Without them, only a design that couples the rails (or an agreed contract reading)

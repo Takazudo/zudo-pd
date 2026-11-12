@@ -392,12 +392,27 @@ class WorkflowTests(unittest.TestCase):
     def test_workflow_is_single_purpose_and_pinned(self):
         text = WORKFLOW.read_text()
         on = text.split('\non:', 1)[1].split('\npermissions:', 1)[0]
-        self.assertEqual([l.strip() for l in on.splitlines() if l.strip()], ['workflow_dispatch:'])
+        self.assertEqual([l.strip() for l in on.splitlines() if l.strip()],
+                         ['workflow_dispatch:', 'inputs:', 'gap_sensitivity:',
+                          'description: Also run the eight pre-registered C1 gap-sensitivity variant cases (d1-gap-criteria.md)',
+                          'type: boolean', 'default: false', 't2_evaluation:',
+                          'description: Also run the pre-registered T2 -12 V clamp evaluation and enable-edge corners '
+                          '(d1-t2-criteria.md)', 'type: boolean', 'default: false', 't2_rev2_evaluation:',
+                          'description: Also run the T2 rev 2 (a2) -12 V evaluation and variant ladder '
+                          '(d1-t2-rev2-criteria.md; only once pre-registered)', 'type: boolean', 'default: false',
+                          'itl4_inertness:',
+                          'description: Also run the itl4 inertness diagnostic on the recorded T2 rev 2 pinned decks '
+                          '(itl4-inertness-criteria.md)', 'type: boolean', 'default: false'])
         self.assertRegex(text, r'\npermissions:\n  contents: read\n')
-        self.assertIn('timeout-minutes: 45', text)
+        self.assertIn('timeout-minutes: 300', text)
         self.assertRegex(text, r'\nconcurrency:\n  group: phase33-d1-reference\n')
         self.assertNotIn('secrets.', text)
-        self.assertNotIn('inputs:', text)
+        self.assertEqual(re.findall(r'inputs\.\w+', text), ['inputs.t2_evaluation', 'inputs.t2_rev2_evaluation', 'inputs.itl4_inertness',
+                          'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
+                          'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
+                          'inputs.itl4_inertness'])
+        self.assertIn("if: inputs.gap_sensitivity && steps.identity.outcome == 'success'", text)
+        self.assertNotIn('${{ inputs', text)
         uses = re.findall(r'uses: (\S+)', text)
         self.assertTrue(uses)
         for use in uses:
