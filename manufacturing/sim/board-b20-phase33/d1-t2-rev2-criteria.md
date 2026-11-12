@@ -1,9 +1,8 @@
-# D1 T2 rev 2 (a2 output limiter) on −12 V under the revised rules — DRAFT, not yet pre-registered
+# D1 T2 rev 2 (a2 output limiter) on −12 V under the revised rules — pre-registration
 
-**Status: DRAFT.** One number is open: the board maximum operating temperature for the DT2C hot case (`HOT_T_C`).
-The owner is asking Takazudo for it, and also whether the let-through-held state is in scope. This file becomes the
-pre-registration only when that number is filled in, the owner admits it, and it is merged. Nothing has been
-dispatched.
+**Status: PRE-REGISTERED, 2026-11-12.** The hot-case temperature is fixed at `HOT_T_C` = 82.1 °C by owner decision
+(see "Hot-case temperature" below). Admission takes effect when this file is merged; it is fixed before the single
+dispatch and is not edited after it.
 
 **This is a model evaluation of a candidate. Nothing is adopted.** The usual limits hold:
 - electrical_acceptance stays NOT ESTABLISHED, and the recorded failures stay failures (+5 V 0.954850860 V/ms /
@@ -138,7 +137,7 @@ The cases run after the existing nom/adv identity control reproduces, in the ord
 | k80n | adv | DT2K IR = 80 nA (the guaranteed 150 °C row), everything else sourced | **Required.** It decides DT2K's leakage requirement |
 | k1u | adv | DT2K IR = 1 µA | **Informational**: it locates the DT2K crossing and cannot pass or fail the candidate |
 | ir1n, ir2n | adv | DT2C IR = 1 nA / 2 nA | **Informational**: they locate the DT2C rule 6(b) crossing |
-| hot | nom, adv | DT2C and D_L: both FJH1100 rows scaled by 2^((T − 25) / 7) at T = `HOT_T_C` (3 pA up to 5 V, 10 pA from 5 to 15 V, each × the factor); DT2K IR = 80 nA | **Separate hot verdict** |
+| hot | nom, adv | DT2C and D_L: both FJH1100 rows scaled by 2^((T − 25) / 7) at T = `HOT_T_C` = 82.1 °C, factor 285.5 (3 pA up to 5 V, 10 pA from 5 to 15 V, each × the factor); DT2K IR = 80 nA | **Separate hot verdict** |
 
 Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
 
@@ -195,7 +194,7 @@ The `a2` metrics:
 - **Candidate (−12 V).** PASS needs the control REPRODUCED, every sourced case passing (attempt 1's PASS
   definition), and every **required** extra case (vflo, vfhi, cvflo, cvfhi, kvflo, kvfhi on nom and adv; k80n on adv)
   COMPLETE and passing. Any evaluated failure is FAIL. Anything else is NOT EVALUATED.
-- **Hot DT2C (separate).** It is PASS or FAIL on its own, at `HOT_T_C`. It does not change the candidate verdict.
+- **Hot DT2C (separate).** It is PASS or FAIL on its own, at `HOT_T_C` = 82.1 °C. It does not change the candidate verdict.
 - **DT2C failure IR.** A straight line through the rule 6(b) margins of t2/adv, ir1n and ir2n gives the zero
   crossing. The t2/adv point sits at the row the deck applied at its measured DT2C reverse peak: 3 pA up to 5 V,
   otherwise 10 pA. It is also stated as a temperature: T = 25 + 7·log2(IR / that sourced IR). The fit is a PROJECT inference.
@@ -209,12 +208,34 @@ The `a2` metrics:
 | --- | --- |
 | Rule 6(b), sourced cases | About 20 µV coupling + 4.2 µV loading against 107 µV: pass |
 | DT2C failure IR | About 1.95 nA, which is 90.4 °C on the 7 °C doubling |
-| Hot DT2C | PASS if `HOT_T_C` < about 90 °C local to DT2C, FAIL above. **If the owner's temperature is 90.4 °C or more, this is a predicted fail before dispatch, and the owner decides whether to run at all** |
+| Hot DT2C at 82.1 °C | DT2C IR 0.86 nA (3 pA × 285.5) against the predicted 1.95 nA crossing: **pass**, 8.3 K below the 90.4 °C crossing. Not a predicted fail, so it runs |
 | k80n | Floor lowered by about 34 mV (3 % of the 1.16 V below-peak). No rule failure expected; unproven, because rule 1 is exposed to the extra windup |
 | Limiter current | 37–46 µA running; about 23 µA disabled (output about 2.76 V) |
 | Release swing at t2o | Cd × about 1.4 V ≈ 2.8 pC, giving 0.28 mV DRV against rule 12's 50 mV |
 | XT2B inputs | Within the retained VCM row except where DRV exceeds +3.08 V. Within abs max throughout |
 
-## Open before registration
-1. `HOT_T_C`: the board maximum operating temperature (and whether let-through-held is in scope). The repo states
-   no board maximum. The desk thermal model assumes a 40 °C ambient (`boards/board-b20-draft/thermal-check.json`).
+## Hot-case temperature (owner decision, 2026-11-12)
+
+- **Basis.** Continuous contract load at a 40 °C ambient. The 40 °C ambient is owner-confirmed as the general
+  environment; it is also the desk thermal model's ambient (`boards/board-b20-draft/thermal-check.json`, `ambient_c`).
+- **Value.** 82.1 °C, the hottest local figure tabulated: the −12 V stage junction estimate
+  (`continuous_max_rds/stages/-12/tj_std_board_c`). It is used as DT2C's local temperature, which is conservative
+  for a part beside the stage rather than in it.
+- **Margin.** 8.3 K to the predicted 90.4 °C crossing. That crossing is itself a prediction; the ir1n / ir2n ladder
+  measures it.
+- **Owner stance behind the choice.** This is a modular synth power module: users size their own load and add supplies
+  when they need more. The module is not to be over-constrained, and shutdown-like behaviour is to be avoided.
+
+### Let-through-held: out of scope for the D1 criterion (stated limitation)
+- At the let-through-held −12 V stage estimate of 99.4 °C (`let_through_max_max_rds`), DT2C IR is predicted at 4.7 nA
+  (3 pA × 1583), above the 1.95 nA crossing. No case runs there.
+- **What happens there (reasoned, not simulated).** The leakage is a DC current into TRK12N_FB through DT2C and R_C.
+  At the measured 42.6 kΩ sensitivity, 4.7 nA moves the −12 V output by about 0.2 mV. That exceeds rule 6(b)'s 107 µV
+  excursion tolerance at the start-up floor, so the start-up floor criterion degrades. It is not a trip, a latch or
+  an output drop:
+  - the (a2) block connects only to M12_DRV, TRK12N_FB, M12_PRE, P5_SUP, REF25, GND and the enable senses (enn, ennd, read only), all
+    as signal paths. It drives no enable, power-good, fault or protection node;
+  - even a shorted DT2C is bounded by R_C: with t2o pinned at about +0.5 V and fb near 0.19 V, it gives about 0.8 µA,
+    a shift of about 33 mV at the output;
+  - no latch is formed. The hold side (DT2K, C_H) is untouched by DT2C, and the hold resets on every enable (BT2R).
+- The hot case at 82.1 °C measures the direction and size of the leakage effect directly.
