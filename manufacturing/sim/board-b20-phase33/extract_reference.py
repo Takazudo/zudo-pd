@@ -750,7 +750,7 @@ def render_servo_markdown(record):
     return '\n'.join(lines)
 
 
-EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt', '-gap.txt', '-t2.txt')
+EVIDENCE_SUFFIXES = ('.cir', '.dat', '.log', '-osc-cap.txt', '-ref.txt', '-servo.txt', '-gap.txt', '-t2.txt', '-a2.txt')
 EVIDENCE_CASES = CASES + ('nomR', 'reR6', 'reR20')  # the loaded decks of the T2 evaluation (d1-t2-criteria.md)
 VENDOR_SUFFIXES = ('.lib', '.zip', '.olb')
 

@@ -113,13 +113,14 @@ def add_output(text, line, what):
     return text.replace('.endc', line + '\n.endc')
 
 
-def with_t2(text, name, inert=False, block=None):
-    """Insert the T2 block before .options, the Q6 drain ammeter and the T2 output line."""
+def with_t2(text, name, inert=False, block=None, output=None):
+    """Insert the T2 block before .options, the Q6 drain ammeter and the T2 output line (plus output(name), if given)."""
     if text.count('\n.options') != 1:
         raise ValueError(f'{name}: expected one .options line')
     text = replace_once(text, Q6_LINE[0], Q6_LINE[1], name)
     text = text.replace('\n.options', '\n' + '\n'.join((block or t2_block)(inert)) + '\n.options')
-    return add_output(text, t2_line(name), name)
+    text = add_output(text, t2_line(name), name)
+    return add_output(text, output(name), name) if output else text
 
 
 def no_load(text, name):
@@ -160,26 +161,26 @@ def executed_attempt(name):
     return attempt
 
 
-def derive_cases(block=None):
+def derive_cases(block=None, output=None):
     """label -> {deck name: deck text}. block replaces the attempt 1 candidate (a later revision)."""
     executed = {k: v['executed'] for k, v in derive_decks().items()}
     nom, adv = executed['nom'], executed['adv']
     out = {'base': {n: loaded_deck(n) for n in LOADED}}
     for label, (rail, which) in CORNER_CASES.items():
         out[label] = {'nom': no_load(corner(nom, rail, which, label), 'nom')}
-    out['ctrl'] = {'adv': with_t2(no_load(adv, 'adv'), 'adv', inert=True, block=block)}
-    out['t2'] = {'nom': with_t2(no_load(nom, 'nom'), 'nom', block=block),
-                 'adv': with_t2(no_load(adv, 'adv'), 'adv', block=block)}
+    out['ctrl'] = {'adv': with_t2(no_load(adv, 'adv'), 'adv', inert=True, block=block, output=output)}
+    out['t2'] = {'nom': with_t2(no_load(nom, 'nom'), 'nom', block=block, output=output),
+                 'adv': with_t2(no_load(adv, 'adv'), 'adv', block=block, output=output)}
     for label, which in (('t2lo', 'lo'), ('t2hi', 'hi')):
-        out[label] = {'nom': with_t2(no_load(corner(nom, '-12', which, label), 'nom'), 'nom', block=block)}
-    out['t2load'] = {n: with_t2(loaded_deck(n), n, block=block) for n in LOADED}
+        out[label] = {'nom': with_t2(no_load(corner(nom, '-12', which, label), 'nom'), 'nom', block=block, output=output)}
+    out['t2load'] = {n: with_t2(loaded_deck(n), n, block=block, output=output) for n in LOADED}
     return out
 
 
-def prepare(work, block=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
+def prepare(work, block=None, scope=SCOPE, criteria='d1-t2-criteria.md', cases=None):
     work = Path(work)
     manifest = {'scope': scope, 'criteria': criteria, 'labels': {}}
-    for label, decks in derive_cases(block).items():
+    for label, decks in (cases if cases is not None else derive_cases(block)).items():
         root = work / 't2' / label
         (root / 'tracking').mkdir(parents=True)
         shutil.copytree(work / 'lib', root / 'lib')
@@ -220,10 +221,10 @@ def derive_case_names():
     return names
 
 
-def check_run(work, label):
+def check_run(work, label, names=None):
     """Workflow gate after a nonzero run_ladder: tolerate only solver aborts (ABORTED is recorded, not retried)."""
     bad = {}
-    for name in pending(work, label):
+    for name in (pending(work, label) if names is None else names):
         state = status(work, label, name)['status']
         if state not in ('COMPLETE', 'ABORTED'):
             bad[name] = state
@@ -283,12 +284,12 @@ def detrended_pp(times, values, start, stop):
     return max(resid) - min(resid)
 
 
-def t2_metrics(record, rest_vgs_window=IDLE_WINDOW_S):
+def t2_metrics(record, rest_vgs_window=IDLE_WINDOW_S, r_c_ohm=R_C_OHM):
     """Idle point, channel current against the output drain, limit cycle, release step, hold reset."""
     times, s = record['t2']
     drain = [(a - o) / DRAIN['RMA1'] + (b - o) / DRAIN['RT12NB'] for a, b, o in
              zip(s['mabs_n'], s['trk12n'], [r[3] for r in record['rows']])]
-    clamp = [(g - c) / R_C_OHM for g, c in zip(s['t2g'], s['t2c'])]
+    clamp = [(g - c) / r_c_ohm for g, c in zip(s['t2g'], s['t2c'])]
     hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
     m = {}
     ch_bins = [v for _, v in gap.bins(times, s['i_VIQ6'], *IDLE_WINDOW_S)]
@@ -377,14 +378,15 @@ def baseline_record(work, base_run, label, name):
     return gap.case_record(state['run'], name)
 
 
-def no_load_case(work, base_run, label, name, judge=None):
+def no_load_case(work, base_run, label, name, judge=None, baseline=None, r_c_ohm=R_C_OHM, detail=None):
+    """baseline overrides NO_LOAD_T2 for a later revision's extra cases; detail adds that revision's rule detail."""
     state = status(work, label, name)
     row = {'status': state['status']}
     if state['status'] != 'COMPLETE':
         row.update({k: v for k, v in state.items() if k not in ('run', 'status')})
         row['passes'] = None
         return row
-    base_label, base_name = NO_LOAD_T2[(label, name)]
+    base_label, base_name = baseline or NO_LOAD_T2[(label, name)]
     if base_label != 'run' and status(work, base_label, base_name)['status'] != 'COMPLETE':
         row.update({'status': 'NOT EVALUATED', 'passes': None,
                     'reason': f'baseline {base_label}/{base_name} is {status(work, base_label, base_name)["status"]}'})
@@ -396,11 +398,13 @@ def no_load_case(work, base_run, label, name, judge=None):
         b, v = gap.rail_metrics(base, '-12'), gap.rail_metrics(record, '-12')
         judged = judge('-12', vs, bs, v, b, record) if judge else gap.judge('-12', vs, bs, v, b)
         rules = {f'{k + 1} {r}': ok for k, (r, ok) in enumerate(judged.items())}
-        m = t2_metrics(record)
+        m = t2_metrics(record, r_c_ohm=r_c_ohm)
         rules.update(t2_rules(m))
         row.update({'baseline': f'{base_label}/{base_name}', **gap.summary(v, vs['-12']), 't2': m, 'rules': rules,
                     'passes': all(rules.values()), 'rule6_detail': gap.rule6_detail('-12', v, b),
                     'other_rails': {r: vs[r]['disposition'] for r in ('+12', '+5')}})
+        if detail:
+            row['rule_detail'] = detail('-12', v, b, record)
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
         # A completed case whose evaluation fails is neither a pass nor an electrical fail (verdict NOT EVALUATED).
         row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': None})
@@ -449,7 +453,7 @@ LOADED_WINDOWS = {'nomR': ((40e-3, 245e-3),), 'reR6': ((40e-3, 150e-3), (150e-3,
 DISABLE_REQUEST_S = 150e-3
 
 
-def loaded_case(work, name, base_ok):
+def loaded_case(work, name, base_ok, r_c_ohm=R_C_OHM):
     """base_ok is this case's own loaded-baseline identity."""
     state = status(work, 't2load', name)
     row = {'status': state['status']}
@@ -463,36 +467,42 @@ def loaded_case(work, name, base_ok):
     try:
         base = plain_record(status(work, 'base', name)['run'], name)
         record = case_record(state['run'], name, t2=True, loaded=True)
-        rules, detail = {}, {}
-        for k, (start, stop) in enumerate(LOADED_WINDOWS[name]):
-            tag = 'startup' if k == 0 else 're-enable'
-            bs, vs = loaded_screens(base, start, stop), loaded_screens(record, start, stop)
-            rules[f'L1 {tag}: every rail screen no worse than baseline'] = all(
-                gap.screen_passes(vs[r]) or not gap.screen_passes(bs[r]) for r in vs)
-            diff = tracking_difference(base, record, start, stop)
-            rules[f'L2 {tag}: outputs within reltol of baseline'] = all(d['within_tolerance'] for d in diff.values())
-            pb, pv = peak_current(base, start, stop), peak_current(record, start, stop)
-            rules[f'L3 {tag}: -12 V peak supply current not above baseline'] = pv <= pb * (1 + RELTOL)
-            detail[tag] = {'screens': {r: vs[r]['maximum']['slope_v_per_ms'] for r in vs}, 'differences': diff,
-                           'peak_current_a': {'baseline': pb, 't2': pv}}
-        times, s = record['t2']
-        hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
-        clamp = [(g - c) / R_C_OHM for g, c in zip(s['t2g'], s['t2c'])]
-        if name != 'nomR':
-            t_re = reenable_time(record, DISABLE_REQUEST_S)
-            if t_re is None:
-                raise ValueError(f'{name}: no re-enable found')
-            before = gap.extremes(times, hold, t_re - 1e-3, t_re)[1]
-            rules['L4 hold reset at re-enable'] = before <= HOLD_RESET_MAX_V
-            detail['re-enable'].update({'reenable_ms': round(t_re * 1e3, 3), 'hold_before_reenable_max_v': before,
-                                        'clamp_current_after_reenable_max_a':
-                                            gap.extremes(times, clamp, t_re, min(t_re + 80e-3, times[-1] - 1e-4))[1]})
-        detail['clamp_current_startup_max_a'] = gap.extremes(times, clamp, 40e-3, 140e-3)[1]
+        rules, detail = judge_loaded(base, record, name, r_c_ohm)
         row.update({'rules': rules, 'passes': all(rules.values()), 'detail': detail})
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
         # A completed case whose evaluation fails is neither a pass nor an electrical fail (verdict NOT EVALUATED).
         row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': None})
     return row
+
+
+def judge_loaded(base, record, name, r_c_ohm=R_C_OHM):
+    """Rules L1-L4 of one loaded case against its loaded baseline; returns (rules, detail)."""
+    rules, detail = {}, {}
+    for k, (start, stop) in enumerate(LOADED_WINDOWS[name]):
+        tag = 'startup' if k == 0 else 're-enable'
+        bs, vs = loaded_screens(base, start, stop), loaded_screens(record, start, stop)
+        rules[f'L1 {tag}: every rail screen no worse than baseline'] = all(
+            gap.screen_passes(vs[r]) or not gap.screen_passes(bs[r]) for r in vs)
+        diff = tracking_difference(base, record, start, stop)
+        rules[f'L2 {tag}: outputs within reltol of baseline'] = all(d['within_tolerance'] for d in diff.values())
+        pb, pv = peak_current(base, start, stop), peak_current(record, start, stop)
+        rules[f'L3 {tag}: -12 V peak supply current not above baseline'] = pv <= pb * (1 + RELTOL)
+        detail[tag] = {'screens': {r: vs[r]['maximum']['slope_v_per_ms'] for r in vs}, 'differences': diff,
+                       'peak_current_a': {'baseline': pb, 't2': pv}}
+    times, s = record['t2']
+    hold = [h - p for h, p in zip(s['t2h'], s['m12_pre'])]
+    clamp = [(g - c) / r_c_ohm for g, c in zip(s['t2g'], s['t2c'])]
+    if name != 'nomR':
+        t_re = reenable_time(record, DISABLE_REQUEST_S)
+        if t_re is None:
+            raise ValueError(f'{name}: no re-enable found')
+        before = gap.extremes(times, hold, t_re - 1e-3, t_re)[1]
+        rules['L4 hold reset at re-enable'] = before <= HOLD_RESET_MAX_V
+        detail['re-enable'].update({'reenable_ms': round(t_re * 1e3, 3), 'hold_before_reenable_max_v': before,
+                                    'clamp_current_after_reenable_max_a':
+                                        gap.extremes(times, clamp, t_re, min(t_re + 80e-3, times[-1] - 1e-4))[1]})
+    detail['clamp_current_startup_max_a'] = gap.extremes(times, clamp, 40e-3, 140e-3)[1]
+    return rules, detail
 
 
 def loaded_identity(work):
@@ -535,7 +545,17 @@ def corner_case(work, label):
     return row
 
 
-def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
+def combine_rows(rows):
+    """PASS only if every row passes; FAIL if any evaluated row fails; otherwise NOT EVALUATED."""
+    if all(r.get('passes') is True for r in rows):
+        return 'PASS'
+    if any(r.get('passes') is False for r in rows):
+        return 'FAIL'
+    return 'NOT EVALUATED'
+
+
+def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md', r_c_ohm=R_C_OHM, detail=None, row=None):
+    """row replaces no_load_case for a later revision: row(work, base_run, label, name)."""
     work = Path(work)
     base_run = single_run(work)
     identity = loaded_identity(work)
@@ -547,16 +567,11 @@ def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md'):
         result['t2'] = {'verdict': 'NOT EVALUATED',
                         'reason': 'inert control did not reproduce the recorded D1 failure; the realization is the finding'}
         return result
-    no_load_rows = {f'{label}/{name}': no_load_case(work, base_run, label, name, judge) for label, name in NO_LOAD_T2}
-    loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced']) for name in LOADED}
+    row = row or (lambda w, r, label, name: no_load_case(w, r, label, name, judge, r_c_ohm=r_c_ohm, detail=detail))
+    no_load_rows = {f'{label}/{name}': row(work, base_run, label, name) for label, name in NO_LOAD_T2}
+    loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced'], r_c_ohm) for name in LOADED}
     rows = list(no_load_rows.values()) + list(loaded_rows.values())
-    if all(r.get('passes') is True for r in rows):
-        verdict = 'PASS'
-    elif any(r.get('passes') is False for r in rows):
-        verdict = 'FAIL'
-    else:
-        verdict = 'NOT EVALUATED'
-    result['t2'] = {'verdict': verdict, 'no_load': no_load_rows, 'loaded': loaded_rows}
+    result['t2'] = {'verdict': combine_rows(rows), 'no_load': no_load_rows, 'loaded': loaded_rows}
     return result
 
 
