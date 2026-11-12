@@ -121,7 +121,7 @@ IR_LADDER_A = {'ir1n': ('DT2C', 1e-9), 'ir2n': ('DT2C', 2e-9),     # DT2C only: 
 def hot_factor(t_c=None):
     t_c = HOT_T_C if t_c is None else t_c
     if t_c is None:
-        raise ValueError('hot case: the board maximum operating temperature is not recorded (HOT_T_C)')
+        raise ValueError('hot case: the hot-case temperature is not recorded (HOT_T_C)')
     return 2 ** ((t_c - 25.0) / HOT_DOUBLING_C)
 
 

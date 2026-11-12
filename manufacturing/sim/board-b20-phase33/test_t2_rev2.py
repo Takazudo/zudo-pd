@@ -116,9 +116,9 @@ class HotTests(unittest.TestCase):
 
     @mock.patch.object(r2, 'HOT_T_C', None)
     def test_hot_case_waits_for_the_board_temperature(self):
-        with self.assertRaisesRegex(ValueError, 'board maximum operating temperature'):
+        with self.assertRaisesRegex(ValueError, 'hot-case temperature'):
             r2.block_for('hot')
-        with self.assertRaisesRegex(ValueError, 'board maximum'):
+        with self.assertRaisesRegex(ValueError, 'hot-case temperature'):
             r2.derive_cases()
 
     def test_scaling(self):
@@ -126,7 +126,7 @@ class HotTests(unittest.TestCase):
         self.assertAlmostEqual(r2.hot_factor(32.0), 2.0)
         self.assertAlmostEqual(r2.hot_ir('DT2C', 32.0), 6e-12)
         self.assertEqual(r2.hot_ir('DT2K', 60.0), 80e-9)       # the 150 C row held flat, not the chord
-        with mock.patch.object(r2, 'HOT_T_C', None), self.assertRaisesRegex(ValueError, 'board maximum'):
+        with mock.patch.object(r2, 'HOT_T_C', None), self.assertRaisesRegex(ValueError, 'hot-case temperature'):
             r2.hot_ir('DT2K')
 
     def test_a_crossing_below_the_sourced_point_is_negative(self):

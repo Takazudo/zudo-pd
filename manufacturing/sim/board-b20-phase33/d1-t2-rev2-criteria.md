@@ -208,7 +208,7 @@ The `a2` metrics:
 | --- | --- |
 | Rule 6(b), sourced cases | About 20 µV coupling + 4.2 µV loading against 107 µV: pass |
 | DT2C failure IR | About 1.95 nA, which is 90.4 °C on the 7 °C doubling |
-| Hot DT2C at 82.1 °C | DT2C IR 0.86 nA (3 pA × 285.5) against the predicted 1.95 nA crossing: **pass**, 8.3 K below the 90.4 °C crossing. Not a predicted fail, so it runs |
+| Hot DT2C at 82.1 °C | **Conditional.** While DT2C's reverse bias stays at or below 5 V, IR is 0.86 nA (3 pA × 285.5) against the predicted 1.95 nA crossing: **pass**, 8.3 K below the 90.4 °C crossing. The DC checks allow up to 6.6 V in normal operation (fb transients). Wherever the bias exceeds 5 V, the deck applies the 10 pA row, giving 2.86 nA (10 pA × 285.5), which is above the crossing. So the prediction is a pass only if the bias above 5 V does not coincide with the rule 6(b) floor window. The run decides; the reported DT2C reverse peak shows which row applied |
 | k80n | Floor lowered by about 34 mV (3 % of the 1.16 V below-peak). No rule failure expected; unproven, because rule 1 is exposed to the extra windup |
 | Limiter current | 37–46 µA running; about 23 µA disabled (output about 2.76 V) |
 | Release swing at t2o | Cd × about 1.4 V ≈ 2.8 pC, giving 0.28 mV DRV against rule 12's 50 mV |
@@ -228,14 +228,18 @@ The `a2` metrics:
 
 ### Let-through-held: out of scope for the D1 criterion (stated limitation)
 - At the let-through-held −12 V stage estimate of 99.4 °C (`let_through_max_max_rds`), DT2C IR is predicted at 4.7 nA
-  (3 pA × 1583), above the 1.95 nA crossing. No case runs there.
+  (3 pA × 1583) at a reverse bias of 5 V or less, and 15.8 nA (10 pA × 1583) above 5 V. Both are above the 1.95 nA
+  crossing. No case runs there.
 - **What happens there (reasoned, not simulated).** The leakage is a DC current into TRK12N_FB through DT2C and R_C.
-  At the measured 42.6 kΩ sensitivity, 4.7 nA moves the −12 V output by about 0.2 mV. That exceeds rule 6(b)'s 107 µV
+  At the measured 42.6 kΩ sensitivity, 4.7 to 15.8 nA moves the −12 V output by about 0.2 to 0.67 mV. That exceeds rule 6(b)'s 107 µV
   excursion tolerance at the start-up floor, so the start-up floor criterion degrades. It is not a trip, a latch or
   an output drop:
-  - the (a2) block connects only to M12_DRV, TRK12N_FB, M12_PRE, P5_SUP, REF25, GND and the enable senses (enn, ennd, read only), all
-    as signal paths. It drives no enable, power-good, fault or protection node;
-  - even a shorted DT2C is bounded by R_C: with t2o pinned at about +0.5 V and fb near 0.19 V, it gives about 0.8 µA,
-    a shift of about 33 mV at the output;
+  - the (a2) block connects only to M12_DRV, TRK12N_FB, M12_PRE, P5_SUP, REF25, GND and the enable senses (enn, ennd,
+    read only). M12_PRE and P5_SUP are op-amp supplies (P5_SUP also carries the 37–46 µA limiter current), and M12_DRV
+    carries the DT2K capture load. It drives no enable, power-good, fault or protection node;
+  - leakage is bounded by R_C in steady state: even a shorted DT2C, with t2o pinned at about +0.5 V and fb near
+    0.19 V, gives about 0.8 µA, a shift of about 33 mV at the output. A short is a fault, not leakage: during fb
+    transients (fb down to about −5.5 V) or while the clamp is engaged it would pass up to about 16–20 µA, which is
+    a large output error but still drives no protection node;
   - no latch is formed. The hold side (DT2K, C_H) is untouched by DT2C, and the hold resets on every enable (BT2R).
 - The hot case at 82.1 °C measures the direction and size of the leakage effect directly.
