@@ -49,7 +49,7 @@ FJH1100 = {
                'no LCSC ID, so no repo owner bundle until the part is a fitted candidate)'),
     'model': {'IS': _IS, 'N': _N, 'RS': (0.995 - _N * VT_25C_V * math.log(50e-3 / _IS)) / 50e-3,
               'CJO': 2.0e-12, 'VJ': 0.7, 'M': 0, 'BV': 30, 'IBV': 5e-6},
-    'ir_max_a': 3.0e-12, 'reverse_rating_v': 15,
+    'ir_max_a': 3.0e-12, 'ir_rows': ((5.0, 3.0e-12), (15.0, 10e-12)), 'reverse_rating_v': 15,
     'rows': {'IS': 'fact-fjh1100-vf TYPICAL 530 mV at 1 uA (with N)',
              'N': 'fact-fjh1100-vf TYPICAL 530 mV at 1 uA and 605 mV at 10 uA',
              'RS': 'fact-fjh1100-vf TYPICAL 995 mV at 50 mA (no effect below 1 mA)',
@@ -57,7 +57,8 @@ FJH1100 = {
              'VJ': 'no effect with M = 0', 'M': 'worst case: constant at the 0 V maximum',
              'BV': 'fact-fjh1100-bv MIN 30 V at 5 uA (a test row, not a rating; the rating is 15 V working)',
              'IBV': 'fact-fjh1100-bv test current 5 uA',
-             'ir_max_a': 'fact-fjh1100-ir-5v MAX 3.0 pA at VR 5 V, 25 C, applied at every reverse bias (PROJECT inference)',
+             'ir_max_a': 'fact-fjh1100-ir-5v MAX 3.0 pA at VR 5 V, 25 C, applied below 5 V (PROJECT inference)',
+             'ir_rows': 'fact-fjh1100-ir-5v and fact-fjh1100-ir-15v: 3.0 pA up to 5 V, 10 pA from 5 to 15 V',
              'reverse_rating_v': 'fact-fjh1100-wiv working inverse voltage 15 V, absolute maximum'},
 }
 _KN = 0.100 / (VT_25C_V * math.log(10))     # 100 mV per decade between the 1 mA and 10 mA VF maxima
@@ -69,7 +70,7 @@ BAS116L = {
                '(STAGED_OUTSIDE_INVENTORY: LCSC ID not established)'),
     'model': {'IS': _KIS, 'N': _KN, 'RS': (1.100 - _KN * VT_25C_V * math.log(50e-3 / _KIS)) / 50e-3,
               'CJO': 2.0e-12, 'VJ': 0.7, 'M': 0, 'BV': 75, 'IBV': 100e-6},
-    'ir_max_a': 5.0e-9, 'ir_hot_max_a': 80e-9, 'reverse_rating_v': 75,
+    'ir_max_a': 5.0e-9, 'ir_rows': ((75.0, 5.0e-9),), 'ir_hot_max_a': 80e-9, 'reverse_rating_v': 75,
     'rows': {'IS': 'VF MAX 900 mV at 1 mA (with N); extrapolated to uA (PROJECT inference: no uA row)',
              'N': 'VF MAX 900 mV at 1 mA and 1000 mV at 10 mA',
              'RS': 'VF MAX 1100 mV at 50 mA (no effect below 1 mA)',
@@ -77,6 +78,7 @@ BAS116L = {
              'VJ': 'no effect with M = 0', 'M': 'worst case: constant at the 0 V maximum',
              'BV': 'V(BR) MIN 75 V at 100 uA', 'IBV': 'V(BR) test current 100 uA',
              'ir_max_a': 'IR MAX 5.0 nA at VR 75 V, 25 C, applied at <= 1.3 V (PROJECT inference)',
+             'ir_rows': 'IR MAX 5.0 nA at VR 75 V, 25 C',
              'ir_hot_max_a': 'IR MAX 80 nA at VR 75 V, TJ 150 C',
              'reverse_rating_v': 'VR continuous reverse voltage 75 V, maximum ratings'},
 }
@@ -94,9 +96,12 @@ VALUES = {
     'R_W': ('100k', 'window pull of t2m toward M12_PRE, +/-1 %'),
 }
 R_C_OHM = 402e3
-OPERATING_CURRENT_A = {'DL': 45e-6, 'DT2K': 0.5e-6}   # the points each VF spread is stated at
-VF_SPREAD_V = {'vflo': ('DL', 0.46), 'vfhi': ('DL', 1.05),   # typical 0.654 V; -0.2 V (PROJECT, -2 mV/C over
-               'kvflo': ('DT2K', 0.42), 'kvfhi': ('DT2K', 0.72)}   # 100 K); 50 mA max / model 0.57 V -/+ 0.15 V
+OPERATING_CURRENT_A = {'DL': 45e-6, 'DT2K': 0.5e-6, 'DT2C': 1e-6}   # the points each VF spread is stated at
+# D_L: typical 0.654 V at 45 uA; low = typical - 0.2 V (PROJECT, -2 mV/C over 100 K); high = the 50 mA maximum.
+# DT2C: typical 0.530 V at 1 uA (the clamp current); same low and high rules.
+# DT2K: the model's 0.57 V at 0.5 uA (extrapolated from the 1 mA / 10 mA maxima) -/+ 0.15 V (PROJECT inference).
+VF_SPREAD_V = {'vflo': ('DL', 0.46), 'vfhi': ('DL', 1.05), 'cvflo': ('DT2C', 0.33), 'cvfhi': ('DT2C', 1.05),
+               'kvflo': ('DT2K', 0.42), 'kvfhi': ('DT2K', 0.72)}
 # Outside the RAMP reset window: the complement of the deck's own reset shape (t2_clamp.CLAMP_GATE).
 WINDOW_GATE = '0.5*(1-tanh((v(ennd)-1.0)*8))'
 
@@ -116,9 +121,15 @@ def hot_factor(t_c=None):
 
 def hot_ir(role, t_c=None):
     """FJH1100: the 7 C doubling. BAS116L: the guaranteed 150 C row, held flat below 150 C (monotonic in T)."""
+    return hot_rows(role, t_c)[0][1]
+
+
+def hot_rows(role, t_c=None):
     d = DIODES[role]
     factor = hot_factor(t_c)      # raises when the board temperature is not recorded, for every role
-    return d['ir_hot_max_a'] if 'ir_hot_max_a' in d else d['ir_max_a'] * factor
+    if 'ir_hot_max_a' in d:
+        return ((d['reverse_rating_v'], d['ir_hot_max_a']),)
+    return tuple((v, a * factor) for v, a in d['ir_rows'])
 
 
 def temperature_for(ir_a, ir25_a=FJH1100['ir_max_a']):
@@ -136,6 +147,8 @@ def require_diodes():
             raise ValueError(f'rev 2 {role}: untraced parameters {missing}')
         if d['reverse_rating_v'] < RATING_MIN_V[role]:
             raise ValueError(f'rev 2 {role}: {d["mpn"]} rated {d["reverse_rating_v"]} V < {RATING_MIN_V[role]} V')
+        if 'ir_rows' not in d or 'ir_rows' not in d['rows']:
+            raise ValueError(f'rev 2 {role}: untraced parameters [\'ir_rows\']')
     return DIODES
 
 
@@ -152,9 +165,16 @@ def model_line(role, vf=None):
             + f'  ; {d["mpn"]}{note}')
 
 
-def leak(name, cathode, anode, ir):
-    """The guaranteed maximum reverse leakage, flowing cathode to anode whenever the junction is reverse-biased."""
-    return f'{name} {cathode} {anode} I={ir:g}*tanh(max(v({cathode},{anode}),0)/{LEAK_KNEE_V})'
+def leak(name, cathode, anode, rows):
+    """The guaranteed maximum reverse leakage, cathode to anode: each row's maximum from the previous row's voltage
+    up to its own (the first row from 0 V), so a bias above a row's test voltage takes the next row."""
+    if isinstance(rows, (int, float)):
+        rows = ((float('inf'), rows),)
+    vr = f'v({cathode},{anode})'
+    terms = [f'{rows[0][1]:g}*tanh(max({vr},0)/{LEAK_KNEE_V})']
+    for (v_prev, a_prev), (_, a) in zip(rows, rows[1:]):
+        terms.append(f'{a - a_prev:g}*0.5*(1+tanh(({vr}-{v_prev:g})/{LEAK_KNEE_V}))')
+    return f'{name} {cathode} {anode} I=' + '+'.join(terms)
 
 
 def t2_block(inert=False, ir=None, vf=None):
@@ -162,8 +182,10 @@ def t2_block(inert=False, ir=None, vf=None):
     ir overrides a role's leakage ({role: A}); vf is (role, V) for one VF-spread case."""
     require_diodes()
     v = t1.VALUES
-    ir = {**{role: d['ir_max_a'] for role, d in DIODES.items()}, **(ir or {})}
+    ir = {**{role: d['ir_rows'] for role, d in DIODES.items()}, **(ir or {})}
     vf = dict([vf]) if vf else {}
+    ir = {role: ((d['reverse_rating_v'], ir[role]),) if isinstance(ir[role], float) else ir[role]
+          for role, d in DIODES.items()}
     return [
         f'* T2 rev 2 (a2) output limiter on -12 V: candidate under evaluation, not a board part ({CRITERIA})'
         + (' [INERT CONTROL: R_C returned to GND]' if inert else ''),
@@ -187,7 +209,7 @@ def t2_block(inert=False, ir=None, vf=None):
         'VT2G t2g 0 0' if inert else 'VT2G t2g trk12n_fb 0',
         f"RT2W t2m t2w {VALUES['R_W'][0]}",
         t1.switch('BT2W', 't2w', 'm12_pre', WINDOW_GATE),
-        model_line('DT2C'), model_line('DT2K', vf.get('DT2K')), model_line('DL', vf.get('DL')),
+        model_line('DT2C', vf.get('DT2C')), model_line('DT2K', vf.get('DT2K')), model_line('DL', vf.get('DL')),
         leak('BT2CL', 't2o', 't2c', ir['DT2C']),
         leak('BT2KL', 't2k', 'm12_drv', ir['DT2K']),
         leak('BT2LL', 't2l', 't2o', ir['DL']),
@@ -227,7 +249,7 @@ def combine(rows):
 def block_for(label):
     kw = dict(EXTRA[label][0])
     if label == 'hot':
-        kw['ir'] = {role: hot_ir(role) for role in DIODES}
+        kw['ir'] = {role: hot_rows(role) for role in DIODES}
     return lambda inert=False: t2_block(inert, **kw)
 
 
@@ -263,13 +285,13 @@ def a2_record(run, name):
     return times, dict(zip(A2_COLUMNS, series))
 
 
-def a2_metrics(times, s, t2=None):
+def a2_metrics(times, s, t2=None, input_window=INPUT_WINDOW_S, running=RUNNING_WINDOW_S):
     """Limiter current, XT2B input range against the retained OPA2187 rows, and each diode's reverse-voltage peak."""
     m = {'limiter_current_disabled_a': gap.mean_between(times, s['i_VT2L'], *t1.DISABLED_HOLD_WINDOW_S),
          't2o_enable_window_max_v': gap.extremes(times, s['t2o'], *gap.ENABLE_WINDOW_S)[1]}
-    if times[-1] >= RUNNING_WINDOW_S[1]:
-        m['limiter_current_running_a'] = gap.mean_between(times, s['i_VT2L'], *RUNNING_WINDOW_S)
-    span = [i for i, t in enumerate(times) if INPUT_WINDOW_S[0] <= t <= INPUT_WINDOW_S[1]]
+    if running and times[-1] >= running[1]:
+        m['limiter_current_running_a'] = gap.mean_between(times, s['i_VT2L'], *running)
+    span = [i for i, t in enumerate(times) if input_window[0] <= t <= input_window[1]]
     low = min(s[x][i] - s['m12_pre'][i] for x in ('t2p', 't2m') for i in span)
     high = max(s[x][i] - s['p5sup'][i] for x in ('t2p', 't2m') for i in span)
     m['xt2b_input_above_v_minus_min_v'] = low
@@ -280,6 +302,10 @@ def a2_metrics(times, s, t2=None):
     m['dl_reverse_max_v'] = -min(s['t2o'])
     if t2 is not None:
         m['dt2c_reverse_max_v'] = max(o - c for o, c in zip(t2['t2o'], t2['t2c']))
+    m['reverse_within_leakage_rows'] = {
+        role: m[key] <= DIODES[role]['ir_rows'][-1][0]
+        for role, key in (('DT2C', 'dt2c_reverse_max_v'), ('DT2K', 'dt2k_reverse_max_v'), ('DL', 'dl_reverse_max_v'))
+        if key in m}
     m['reverse_within_rating'] = {
         role: m[key] <= DIODES[role]['reverse_rating_v']
         for role, key in (('DT2C', 'dt2c_reverse_max_v'), ('DT2K', 'dt2k_reverse_max_v'), ('DL', 'dl_reverse_max_v'))
@@ -318,7 +344,8 @@ def a2_case(work, base_run, label, name):
             row['a2'] = a2_metrics(times, s, t2)
             row['rule6b_margin_v'] = rule6b_margin(row['rule_detail'])
         except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
-            row.update({'status': 'NOT EVALUATED', 'reason': f'{type(error).__name__}: {error}', 'passes': None})
+            # Reported quantities only: an unreadable a2 output never changes the judged verdict.
+            row['a2'] = f'NOT EVALUATED: {type(error).__name__}: {error}'
     return row
 
 
@@ -329,25 +356,23 @@ def loaded_a2(work, name):
     try:
         times, s = a2_record(state['run'], name)
         _, t2 = t1.t2_record(state['run'], name)
-        return a2_metrics(times, s, t2)
+        startup = t1.LOADED_WINDOWS[name][0]       # the loaded decks disable at 150 ms (reR6, reR20)
+        return a2_metrics(times, s, t2, input_window=(INPUT_WINDOW_S[0], startup[1]),
+                          running=RUNNING_WINDOW_S if name == 'nomR' else None)
     except (ValueError, KeyError, IndexError, OSError, ArithmeticError) as error:
         return f'NOT EVALUATED: {type(error).__name__}: {error}'
 
 
 def analyze(work):
     work = Path(work)
-    out = t1.analyze(work, judge=rules.judge, scope=SCOPE, criteria=CRITERIA, r_c_ohm=R_C_OHM, detail=rules.detail)
+    out = t1.analyze(work, judge=rules.judge, scope=SCOPE, criteria=CRITERIA, r_c_ohm=R_C_OHM, detail=rules.detail,
+                     row=a2_case)
     out['rules'] = 'rules 1-9 as revised (d1-rules-revision-20261112.md); 10-14 and L1-L4 unchanged'
     if out['t2'].get('verdict') == 'NOT EVALUATED' and 'no_load' not in out['t2']:
         return out
     base_run = single_run(work)
-    for key in list(out['t2']['no_load']):
-        label, name = key.split('/')
-        out['t2']['no_load'][key] = a2_case(work, base_run, label, name)
     for name, row in out['t2']['loaded'].items():
         row['a2'] = loaded_a2(work, name)
-    # a2_case can turn a row NOT EVALUATED (its a2 output unreadable), so the verdict is recomputed from the rows.
-    out['t2']['verdict'] = combine(list(out['t2']['no_load'].values()) + list(out['t2']['loaded'].values()))
     extra = {f'{label}/{n}': a2_case(work, base_run, label, n) for label, (_, names) in EXTRA.items() for n in names}
     ladder = [(DIODES['DT2C']['ir_max_a'], out['t2']['no_load'].get('t2/adv', {}).get('rule6b_margin_v'))]
     ladder += [(ir, extra[f'{label}/adv'].get('rule6b_margin_v'))
@@ -363,7 +388,7 @@ def analyze(work):
         'required': {f'{label}/{n}': extra[f'{label}/{n}'].get('passes') for label in REQUIRED for n in EXTRA[label][1]}}
     out['extra'] = {
         'cases': extra, 'informational': list(INFORMATIONAL),
-        'hot': {'temperature_c': HOT_T_C, 'ir_a': {role: hot_ir(role) for role in DIODES},
+        'hot': {'temperature_c': HOT_T_C, 'ir_a': {role: hot_ir(role) for role in DIODES} if HOT_T_C is not None else None,
                 'basis': (f'FJH1100: IR doubling every {HOT_DOUBLING_C:g} C (PROJECT inference, no hot row); '
                           'BAS116L: the guaranteed 80 nA TJ 150 C row held flat below 150 C (monotonic, inference)'),
                 'verdict': combine([extra[f'hot/{n}'] for n in EXTRA['hot'][1]])},
@@ -379,7 +404,7 @@ def analyze(work):
             'FJH1100 (DT2C, D_L) over-temperature IR is UNSOURCED; this blocks adoption until sourced or bench-measured',
             'BAS116L (DT2K): IR assumed monotonic in temperature, so the 150 C row bounds lower temperatures (inference)',
             'BAS116L (DT2K): the 75 V IR rows applied at <= 1.3 V reverse bias (inference)',
-            'VF below 1 mA is typical (FJH1100) or extrapolated from maxima (BAS116L); covered by the VF-spread cases',
+            'VF below 1 mA is typical (FJH1100) or extrapolated from maxima (BAS116L); each role has a VF-spread pair',
             'neither diode has an LCSC ID; both are staged outside the inventory, not owner bundles'],
     }
     return out
@@ -558,8 +583,7 @@ def main(argv=None):
     if args.command == 'check-run':
         names = (pending(args.work, args.label) if args.label in EXTRA else
                  sorted(p.stem for p in (args.work / 't2' / args.label / 'tracking').glob('*.cir')))
-        bad = {n: s for n, s in ((n, t1.status(args.work, args.label, n)['status']) for n in names)
-               if s not in ('COMPLETE', 'ABORTED')}
+        bad = t1.check_run(args.work, args.label, names)
         for name, state in bad.items():
             print(f'{args.label} {name}: {state}; not a solver abort, failing the step', file=sys.stderr)
         return 1 if bad else 0

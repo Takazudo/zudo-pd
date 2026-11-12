@@ -221,10 +221,10 @@ def derive_case_names():
     return names
 
 
-def check_run(work, label):
+def check_run(work, label, names=None):
     """Workflow gate after a nonzero run_ladder: tolerate only solver aborts (ABORTED is recorded, not retried)."""
     bad = {}
-    for name in pending(work, label):
+    for name in (pending(work, label) if names is None else names):
         state = status(work, label, name)['status']
         if state not in ('COMPLETE', 'ABORTED'):
             bad[name] = state
@@ -539,7 +539,8 @@ def corner_case(work, label):
     return row
 
 
-def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md', r_c_ohm=R_C_OHM, detail=None):
+def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md', r_c_ohm=R_C_OHM, detail=None, row=None):
+    """row replaces no_load_case for a later revision: row(work, base_run, label, name)."""
     work = Path(work)
     base_run = single_run(work)
     identity = loaded_identity(work)
@@ -551,8 +552,8 @@ def analyze(work, judge=None, scope=SCOPE, criteria='d1-t2-criteria.md', r_c_ohm
         result['t2'] = {'verdict': 'NOT EVALUATED',
                         'reason': 'inert control did not reproduce the recorded D1 failure; the realization is the finding'}
         return result
-    no_load_rows = {f'{label}/{name}': no_load_case(work, base_run, label, name, judge, r_c_ohm=r_c_ohm, detail=detail)
-                    for label, name in NO_LOAD_T2}
+    row = row or (lambda w, r, label, name: no_load_case(w, r, label, name, judge, r_c_ohm=r_c_ohm, detail=detail))
+    no_load_rows = {f'{label}/{name}': row(work, base_run, label, name) for label, name in NO_LOAD_T2}
     loaded_rows = {name: loaded_case(work, name, identity[name]['reproduced'], r_c_ohm) for name in LOADED}
     rows = list(no_load_rows.values()) + list(loaded_rows.values())
     if all(r.get('passes') is True for r in rows):

@@ -41,7 +41,7 @@ R_1 1 MΩ, R_2 4.99 MΩ and V_R = REF25.
 | Connection | `VT2G t2g trk12n_fb 0` | permanent; inert control: `VT2G t2g 0 0` | **BT2G deleted.** No switch on the summing node |
 | Window | `RT2W t2m t2w` 100 kΩ + `BT2W t2w m12_pre` | closed while v(ennd) < 1.0 (the complement of the reset shape) | New. It forces XT2B high outside the reset window |
 | Capture diode DT2K | `DT2K m12_drv t2k DT2KX` | BAS116LT1G | Sourced model, replacing DBODY |
-| Leakage | `BT2CL t2o t2c`, `BT2KL t2k m12_drv`, `BT2LL t2l t2o` | I = IR·tanh(max(VR, 0) / 0.05 V) | New. Each row's guaranteed maximum, at every reverse bias |
+| Leakage | `BT2CL t2o t2c`, `BT2KL t2k m12_drv`, `BT2LL t2l t2o` | Each row's guaranteed maximum, from 0 V up to the row's test voltage. A bias above it takes the next row. FJH1100 is 3 pA up to 5 V and 10 pA from 5 to 15 V. BAS116L is 5 nA up to 75 V | New |
 
 ### Diodes: every model value traced; inferences named
 | Role | Part | Evidence | Rows used | Inferences |
@@ -100,6 +100,7 @@ The cases run after the existing nom/adv identity control reproduces, in the ord
 | ctrl | adv | inert control (R_C to GND) | Control gate, as attempt 1 |
 | t2, t2lo, t2hi, t2load | as attempt 1 | sourced rows at 25 °C, typical VF | **Required** (sourced cases) |
 | vflo, vfhi | nom, adv | D_L VF at 45 µA = 0.46 V / 1.05 V (typical 0.654). The low value is typical − 0.2 V (PROJECT, −2 mV/°C over 100 K); the high value is the 50 mA maximum | **Required** |
+| cvflo, cvfhi | nom, adv | DT2C VF at 1 µA (the clamp current) = 0.33 V / 1.05 V. Typical is 0.530; the same low and high rules as D_L | **Required** |
 | kvflo, kvfhi | nom, adv | DT2K VF at 0.5 µA = 0.42 V / 0.72 V (the model's 0.57 V ± 0.15 V, PROJECT inference) | **Required** |
 | k80n | adv | DT2K IR = 80 nA (the guaranteed 150 °C row), everything else sourced | **Required.** It decides DT2K's leakage requirement |
 | k1u | adv | DT2K IR = 1 µA | **Informational**: it locates the DT2K crossing and cannot pass or fail the candidate |
@@ -138,13 +139,15 @@ The `a2` metrics:
 - t2o maximum in the enable window;
 - XT2B input extremes over 20–235 ms (rails settled, before the disable) against the retained VCM row and the
   abs max;
-- each diode's peak reverse voltage against its stated rating, on the no-load, extra and loaded cases;
+- each diode's peak reverse voltage against its stated rating and its highest leakage row, on the no-load, extra and
+  loaded cases. The loaded decks use their startup window only for the input range, and nomR alone for the running
+  limiter current;
 - the rule 6(b) margin.
 
 ### Verdicts
 - **Candidate (−12 V).** PASS needs the control REPRODUCED, every sourced case passing (attempt 1's PASS
-  definition), and every **required** extra case (vflo, vfhi, kvflo, kvfhi on nom and adv; k80n on adv) COMPLETE and
-  passing. Any evaluated failure is FAIL. Anything else is NOT EVALUATED.
+  definition), and every **required** extra case (vflo, vfhi, cvflo, cvfhi, kvflo, kvfhi on nom and adv; k80n on adv)
+  COMPLETE and passing. Any evaluated failure is FAIL. Anything else is NOT EVALUATED.
 - **Hot DT2C (separate).** It is PASS or FAIL on its own, at `HOT_T_C`. It does not change the candidate verdict.
 - **DT2C failure IR.** A straight line through the rule 6(b) margins of t2/adv (3 pA), ir1n and ir2n gives the
   zero crossing. It is also stated as a temperature: T = 25 + 7·log2(IR / 3 pA). The fit is a PROJECT inference.

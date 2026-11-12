@@ -42,7 +42,7 @@ jobs:
   extract:
     runs-on: ubuntu-24.04
     # 45 min covered the reference pair and the gap variants; the T2 evaluation adds 15 decks (about 2 min each);
-    # T2 rev 2 adds 31 decks plus at most two variant-ladder steps.
+    # T2 rev 2 adds 33 decks plus at most two variant-ladder steps.
     timeout-minutes: 300
     defaults:
       run:

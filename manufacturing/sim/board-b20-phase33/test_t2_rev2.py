@@ -72,9 +72,17 @@ class BlockTests(unittest.TestCase):
 
     def test_leakage_flows_cathode_to_anode_at_each_rows_maximum(self):
         block = r2.t2_block()
-        self.assertIn('BT2CL t2o t2c I=3e-12*tanh(max(v(t2o,t2c),0)/0.05)', block)
+        self.assertIn('BT2CL t2o t2c I=3e-12*tanh(max(v(t2o,t2c),0)/0.05)+7e-12*0.5*(1+tanh((v(t2o,t2c)-5)/0.05))',
+                      block)
         self.assertIn('BT2KL t2k m12_drv I=5e-09*tanh(max(v(t2k,m12_drv),0)/0.05)', block)
-        self.assertIn('BT2LL t2l t2o I=3e-12*tanh(max(v(t2l,t2o),0)/0.05)', block)
+        self.assertIn('BT2LL t2l t2o I=3e-12*tanh(max(v(t2l,t2o),0)/0.05)+7e-12*0.5*(1+tanh((v(t2l,t2o)-5)/0.05))',
+                      block)
+
+    def test_leakage_takes_the_next_row_above_a_rows_voltage(self):
+        expr = r2.leak('B', 'c', 'a', ((5.0, 3e-12), (15.0, 10e-12))).split('I=', 1)[1]
+        for vr, want in ((0.6, 3e-12), (4.5, 3e-12), (5.5, 10e-12), (12.0, 10e-12)):
+            got = eval(expr.replace('v(c,a)', repr(vr)), {'tanh': math.tanh, 'max': max})
+            self.assertAlmostEqual(got / want, 1.0, places=3, msg=vr)
 
     def test_diodes_use_their_own_models(self):
         text = block_text()
@@ -95,7 +103,8 @@ class BlockTests(unittest.TestCase):
     def test_ladder_overrides_one_role(self):
         block = r2.t2_block(ir={'DT2K': 80e-9})
         self.assertIn('BT2KL t2k m12_drv I=8e-08*tanh(max(v(t2k,m12_drv),0)/0.05)', block)
-        self.assertIn('BT2CL t2o t2c I=3e-12*tanh(max(v(t2o,t2c),0)/0.05)', block)
+        self.assertIn('BT2CL t2o t2c I=3e-12*tanh(max(v(t2o,t2c),0)/0.05)+7e-12*0.5*(1+tanh((v(t2o,t2c)-5)/0.05))',
+                      block)
 
 
 class HotTests(unittest.TestCase):
@@ -121,7 +130,8 @@ class HotTests(unittest.TestCase):
     def test_hot_block(self):
         with mock.patch.object(r2, 'HOT_T_C', 39.0):
             block = r2.block_for('hot')()
-        self.assertIn('BT2CL t2o t2c I=1.2e-11*tanh(max(v(t2o,t2c),0)/0.05)', block)
+        self.assertIn('BT2CL t2o t2c I=1.2e-11*tanh(max(v(t2o,t2c),0)/0.05)+2.8e-11*0.5*(1+tanh((v(t2o,t2c)-5)/0.05))',
+                      block)
         self.assertIn('BT2KL t2k m12_drv I=8e-08*tanh(max(v(t2k,m12_drv),0)/0.05)', block)
 
 
@@ -159,6 +169,9 @@ class AnalysisTests(unittest.TestCase):
         self.assertAlmostEqual(m['dt2k_reverse_max_v'], 0.7)
         self.assertAlmostEqual(m['dt2c_reverse_max_v'], 0.31)
         self.assertEqual(m['reverse_within_rating'], {'DT2C': True, 'DT2K': True, 'DL': True})
+        self.assertEqual(m['reverse_within_leakage_rows'], {'DT2C': True, 'DT2K': True, 'DL': True})
+        loaded = r2.a2_metrics(times, s, t2, input_window=(0.02, 0.15), running=None)
+        self.assertNotIn('limiter_current_running_a', loaded)
         s['t2p'][5] = 6.0                             # power-up (0.5 ms) is outside the assessed window
         self.assertTrue(r2.a2_metrics(times, s, t2)['xt2b_inputs_within_absmax'])
         s['t2p'] = [3.4] * 2400                       # the original (a2) window placement
@@ -172,7 +185,7 @@ class AnalysisTests(unittest.TestCase):
     def test_informational_cases_never_decide_the_candidate(self):
         self.assertEqual(set(r2.INFORMATIONAL), {'ir1n', 'ir2n', 'k1u'})
         self.assertNotIn('hot', r2.REQUIRED)
-        self.assertEqual(set(r2.REQUIRED), {'vflo', 'vfhi', 'kvflo', 'kvfhi', 'k80n'})
+        self.assertEqual(set(r2.REQUIRED), {'vflo', 'vfhi', 'cvflo', 'cvfhi', 'kvflo', 'kvfhi', 'k80n'})
 
 
 class CaseTests(unittest.TestCase):
