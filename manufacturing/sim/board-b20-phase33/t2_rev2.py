@@ -12,7 +12,7 @@ the window switch moved to the inverting input (d1-t2-a2-dc-checks-20261112.md).
 The earlier rev 2 form (option 1, delayed connection) was never pre-registered and is in Git history only.
 
 Nothing here is a design change. Decks refuse to build until every diode slot names sourced rows and the hot-case
-temperature is recorded (HOT_T_C).
+temperature is recorded (HOT_T_C, 82.1 C by owner decision).
 
 usage (after extract_reference.py prepare / run / identity):
   t2_rev2.py prepare WORK --manifest PATH
@@ -109,7 +109,11 @@ WINDOW_GATE = '0.5*(1-tanh((v(ennd)-1.0)*8))'
 
 # ---------------------------------------------------------------- hot leakage (PROJECT inference)
 HOT_DOUBLING_C = 7.0           # FJH1100: IR doubles every 7 C from the 25 C maximum (owner-accepted, conservative)
-HOT_T_C = None                 # the board maximum operating temperature: not stated in the repo; owner to supply
+# Owner decision 2026-11-12: continuous contract load at the owner-confirmed 40 C ambient, taking the hottest
+# local figure, the -12 V stage TJ (thermal-check.json continuous_max_rds/stages/-12/tj_std_board_c).
+HOT_T_C = 82.1
+# Out of scope for the D1 criterion (owner): the let-through-held -12 V stage TJ (let_through_max_max_rds), a limitation.
+LET_THROUGH_T_C = 99.4
 IR_LADDER_A = {'ir1n': ('DT2C', 1e-9), 'ir2n': ('DT2C', 2e-9),     # DT2C only: the rule 6(b) crossing
                'k80n': ('DT2K', 80e-9), 'k1u': ('DT2K', 1e-6)}     # DT2K only: 150 C guaranteed row, and beyond
 
@@ -117,7 +121,7 @@ IR_LADDER_A = {'ir1n': ('DT2C', 1e-9), 'ir2n': ('DT2C', 2e-9),     # DT2C only: 
 def hot_factor(t_c=None):
     t_c = HOT_T_C if t_c is None else t_c
     if t_c is None:
-        raise ValueError('hot case: the board maximum operating temperature is not recorded (HOT_T_C)')
+        raise ValueError('hot case: the hot-case temperature is not recorded (HOT_T_C)')
     return 2 ** ((t_c - 25.0) / HOT_DOUBLING_C)
 
 
@@ -414,7 +418,10 @@ def analyze(work):
             'BAS116L (DT2K): IR assumed monotonic in temperature, so the 150 C row bounds lower temperatures (inference)',
             'BAS116L (DT2K): the 75 V IR rows applied at <= 1.3 V reverse bias (inference)',
             'VF below 1 mA is typical (FJH1100) or extrapolated from maxima (BAS116L); each role has a VF-spread pair',
-            'neither diode has an LCSC ID; both are staged outside the inventory, not owner bundles'],
+            'neither diode has an LCSC ID; both are staged outside the inventory, not owner bundles',
+            (f'HOT_T_C {HOT_T_C:g} C is continuous contract load at the owner-confirmed 40 C ambient; the '
+             f'let-through-held state ({LET_THROUGH_T_C:g} C, '
+             f'DT2C IR {hot_ir("DT2C", LET_THROUGH_T_C):.3g} A) is out of scope for the D1 criterion')],
     }
     return out
 
