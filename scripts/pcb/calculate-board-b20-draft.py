@@ -68,7 +68,7 @@ OPA_INPUT_CURRENT_ABS_MAX = 10e-3
 OPA_IB_MAX = {'25c': 350e-12, 'full_range_lv': 5e-9, 'full_range_hv': 7.5e-9}
 # TI REF5025AIDR SBOS410O (G): the AI suffix is the standard grade (Table 4-2)
 REF_V = 2.5
-REF_LOAD_MA_PA = 3.0          # PA: dividers about 1.6 mA plus OPA2187 input-diode loading of comparators (review finding 11)
+REF_LOAD_MA_PA = 3.0          # PA: dividers about 1.9 mA enabled (comparator_input_diodes()) plus OPA2187 input-diode loading of comparators (review finding 11)
 REF_ACC = 0.001 + 30e-6 * REF_LOAD_MA_PA   # initial accuracy + 25 C load regulation 30 ppm/mA
 REF_TC_PPM = 8.0
 # SBOS410O section 6.5 (G): load regulation 30 ppm/mA max at 25 C and 50 ppm/mA max over -40 C to 125 C
@@ -805,7 +805,7 @@ def gate_stress():
 def _solve_dc(fixed, resistors, diodes):
     """DC node voltages for linear resistors plus back-to-back diode pairs (VF in series with RS, either polarity).
 
-    fixed: {node: volts}; resistors: [(a, b, ohms)]; diodes: [(a, b, vf, rs)]. Returns (volts, diode currents a->b)."""
+    fixed: {node: volts}; resistors: [(a, b, ohms)]; diodes: [(a, b, vf, rs)]. Returns (volts, diode current magnitudes in the conducting direction)."""
     nodes = sorted({n for a, b, _ in resistors for n in (a, b)} | {n for a, b, _, _ in diodes for n in (a, b)})
     free = [n for n in nodes if n not in fixed]
     state = [0] * len(diodes)
@@ -845,6 +845,8 @@ def _solve_dc(fixed, resistors, diodes):
         if new == state:
             break
         state = new
+    else:
+        raise RuntimeError('diode states did not converge')
     currents = [(s * ((v[a] - v[b]) - s * vf) / rs if s else 0.0) for (a, b, vf, rs), s in zip(diodes, state)]
     return v, currents
 
@@ -859,6 +861,8 @@ P5_SUP_NOM_V = 4.98                                            # PROPOSED AP6320
 RCP_R = 1e3                                                    # RCP1 / RCP3, RAMP to RAMP_P12 / RAMP_P5
 M12_TERMINAL_SINKS = (100e3, 750e3)                            # RMA1 to the U15A virtual ground, RT12NB to TRK12N (~0 V)
 VX_DIV = (30.1e3, 10e3)                                        # RVX1 / RVX2 from REF25
+Q55_BODY_VF_PA = (0.3, 0.6)                                    # PA: BSS138 body diode at ~10-20 uA (no sourced row)
+Q55_DRAIN_R = 150.0                                            # RXN: Q55 (source M12_OUT) drain M12_DX to GND
 SERIES_R_OPTIONS = (10e3, 100e3, 1e6)                          # paper fix: series resistor at each divider-side input
 
 
@@ -924,7 +928,7 @@ def comparator_input_diodes(series_r=0.0):
     ramp_err = {rail: round(shift['full_range'] * REF_V * RAMP_NET['LOAD'] / (RAMP_NET['R'] + RAMP_NET['LOAD']) * k * 1e3, 4)
                 for rail, k in TRACK_K.items()}
 
-    def backfeed(vf, rs, prebias=True, u13_clamp=True):
+    def backfeed(vf, rs, prebias=True, u13_clamp=True, q55_vf=Q55_BODY_VF_PA[0]):
         out = {}
         for rail in ('+12', '+5'):
             top_t, bot_t = TRACK_R[rail]
@@ -945,13 +949,15 @@ def comparator_input_diodes(series_r=0.0):
         res = [('REF', 'OVN', OV_RES['-12'][1]), ('OVN', 'OUT', OV_RES['-12'][0]),
                ('REF', 'UVN', UV_RES['-12'][1]), ('UVN', 'OUT', UV_RES['-12'][0])]
         res += [('OUT', 'GND', r) for r in M12_TERMINAL_SINKS]
-        dio = [('OVN', 'GND', vf, max(rs, 1e-3)), ('UVN', 'GND', vf, max(rs, 1e-3))] if rs < 1e12 else []
+        dio = [('OUT', 'GND', q55_vf, Q55_DRAIN_R)]
+        dio += [('OVN', 'GND', vf, max(rs, 1e-3)), ('UVN', 'GND', vf, max(rs, 1e-3))] if rs < 1e12 else []
         v, _ = _solve_dc(fixed, res, dio)
         out['-12'] = v['OUT']
         return out
 
     def span(rs):
-        cases = [backfeed(vf, rs, p, c) for vf in OPA_DIFF_DIODE_VF_PA for p in (True, False) for c in (True, False)]
+        cases = [backfeed(vf, rs, p, c, q) for vf in OPA_DIFF_DIODE_VF_PA for p in (True, False) for c in (True, False)
+                 for q in Q55_BODY_VF_PA]
         return {rail: [round(min(x[rail] for x in cases), 3), round(max(x[rail] for x in cases), 3)] for rail in ('+12', '+5', '-12')}
 
     now = span(0.0)
@@ -1015,7 +1021,8 @@ def comparator_input_diodes(series_r=0.0):
         'absent_levels_v': limits,
         'disabled_backfeed_status': 'OPEN' if any(now[r][1] > limits[r] for r in now) else 'PASS',
         'disabled_backfeed_note': 'CALCULATED DC, no external load, discharge switches off after the hold-up; spans VF, '
-                                  'pre-bias on/off and the U13 input-diode clamp of TRK. Whether the contract absent / '
+                                  'pre-bias on/off, the U13 input-diode clamp of TRK and the Q55 body diode (M12_OUT to RXN, VF PA '
+                                  f'{Q55_BODY_VF_PA[0]}-{Q55_BODY_VF_PA[1]} V, unsourced at uA), which bounds -12 at one drop. Whether the contract absent / '
                                   'discharge levels apply to a disabled, unloaded terminal after the hold-up is unresolved. '
                                   'No phase deck includes U6-U8 or these dividers.',
         'series_resistor_options': options,

@@ -44,13 +44,16 @@ class ComparatorInputDiodeTests(unittest.TestCase):
     def test_disabled_backfeed_stays_open(self):
         self.assertEqual(RESULT['disabled_terminal_v_no_load'],
                          {'+12': [0.915, 1.162], '+5': [1.467, 1.78], '-12': [0.204, 0.357]})
-        self.assertEqual(RESULT['disabled_terminal_v_without_diode_conduction']['-12'], [1.158, 1.158])
+        self.assertEqual(RESULT['disabled_terminal_v_without_diode_conduction']['-12'], [0.303, 0.602])
         levels = RESULT['absent_levels_v']
         for rail in ('+12', '+5'):
             self.assertGreater(RESULT['disabled_terminal_v_no_load'][rail][0], levels[rail], rail)
-        # -12: the diodes clamp the REF-referenced dividers today; without them the terminal rises above the level.
+        # -12: the comparator diodes clamp the REF-referenced dividers today; without them the Q55 body diode bounds
+        # the terminal at one unsourced drop, which reaches the 0.6 V level only at the top of its PA.
         self.assertLess(RESULT['disabled_terminal_v_no_load']['-12'][1], levels['-12'])
-        self.assertGreater(RESULT['disabled_terminal_v_without_diode_conduction']['-12'][0], levels['-12'])
+        self.assertLess(RESULT['disabled_terminal_v_without_diode_conduction']['-12'][0], levels['-12'])
+        self.assertGreater(RESULT['disabled_terminal_v_without_diode_conduction']['-12'][1], levels['-12'])
+        self.assertIn('Q55 body diode', RESULT['disabled_backfeed_note'])
         self.assertEqual(RESULT['disabled_backfeed_status'], 'OPEN')
         self.assertIn('unresolved', RESULT['disabled_backfeed_note'])
 
@@ -60,7 +63,7 @@ class ComparatorInputDiodeTests(unittest.TestCase):
         self.assertEqual(opts[100e3]['ref25_delta_max_ma'], 0.0938)
         self.assertEqual(opts[100e3]['ib_threshold_error_pct'], {'+12': 0.03, '+5': 0.03, '-12': 0.0361})
         self.assertEqual(opts[100e3]['window_margin_pct'], {'+12': 0.2516, '+5': 0.5288, '-12': 0.2102})
-        self.assertEqual(opts[100e3]['disabled_terminal_v']['-12'], [0.937, 0.973])
+        self.assertEqual(opts[100e3]['disabled_terminal_v']['-12'], [0.302, 0.601])
 
     def test_inputs_are_not_relaxed(self):
         self.assertEqual(calculator.OPA_DIFF_DIODE_VF_PA, (0.4, 0.7))
@@ -69,6 +72,7 @@ class ComparatorInputDiodeTests(unittest.TestCase):
         self.assertEqual(calculator.REF_LOAD_REG_PPM_PER_MA, {'25c': 30.0, 'full_range': 50.0})
         self.assertEqual(calculator.REF_IOUT_MAX_A, 10e-3)
         self.assertEqual(calculator.REF_LOAD_MA_PA, 3.0)
+        self.assertEqual(calculator.Q55_BODY_VF_PA, (0.3, 0.6))
 
 
 if __name__ == '__main__':
