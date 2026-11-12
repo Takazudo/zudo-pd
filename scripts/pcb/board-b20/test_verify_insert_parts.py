@@ -44,7 +44,7 @@ class VerifyInsertParts(unittest.TestCase):
         cls.tmp = tempfile.TemporaryDirectory()
         cls.before = Path(cls.tmp.name) / 'before.kicad_pcb'
         cls.before.write_text(cls.text)
-        cls.pro = Path(cls.tmp.name) / 'before.kicad_pro'
+        cls.pro = cls.before.with_suffix('.kicad_pro')
         cls.pro.write_text(PRO.read_text())
 
     @classmethod
@@ -75,10 +75,8 @@ class VerifyInsertParts(unittest.TestCase):
     def check(self, text, refs='RX1', extra=(), repins=None, pro_after=None, **kw):
         after = Path(self.tmp.name) / 'after.kicad_pcb'
         after.write_text(text)
-        pro = Path(self.tmp.name) / 'after.kicad_pro'
-        pro.write_text(pro_after or self.pro.read_text())
-        return verify.verify(str(self.before), str(after), set(refs.split(',')), list(extra), repins,
-                             str(self.pro), str(pro), **kw)
+        after.with_suffix('.kicad_pro').write_text(pro_after or self.pro.read_text())
+        return verify.verify(str(self.before), str(after), set(refs.split(',')), list(extra), repins, **kw)
 
     def refused(self, text, message, **kw):
         with self.assertRaises(SystemExit) as caught:
@@ -134,8 +132,17 @@ class VerifyInsertParts(unittest.TestCase):
 
     def test_repin_outside_part_nets_is_refused(self):
         _net, text = self.split()
-        self.refused(text, 'must move between two different new-part nets', repins={'R75.1': 'GND'})
+        self.refused(text, 'must move between two pads of one new part', repins={'R75.1': 'GND'})
         self.refused(text, 'does not exist', repins={'R75.9': NET_B})
+
+    def test_repin_to_an_existing_net_is_refused(self):
+        start, end = footprint_block(self.text, 'R75')
+        block = self.text[start:end]
+        m = re.compile(r'\(net "([^"]+)"\)').search(block, block.index('(pad "1"'))
+        other = re.compile(r'\(net "([^"]+)"\)').search(block, block.index('(pad "2"')).group(1)
+        moved = self.text[:start] + block[:m.start()] + f'(net "{other}")' + block[m.end():] + self.text[end:]
+        text = self.inserted(m.group(1), moved).replace(f'(net "{NET_B}")', f'(net "{other}")')
+        self.refused(text, 'already exists in BEFORE', repins={'R75.1': other})
 
     def test_far_copper_on_part_net_is_refused(self):
         text = self.inserted()
@@ -147,6 +154,12 @@ class VerifyInsertParts(unittest.TestCase):
         pro = json.loads(self.pro.read_text())
         pro['board']['design_settings']['rules']['min_clearance'] = 0.1
         self.refused(self.inserted(), 'Project design rules changed', pro_after=json.dumps(pro))
+
+    def test_long_segment_between_anchors_is_checked_along_its_length(self):
+        text = self.inserted()
+        at = text.index('\n\t(segment')
+        detour = segment(NET_A, (AT[0] - 4, AT[1]), (AT[0] - 4, AT[1] + 40)) + segment(NET_A, (AT[0] - 4, AT[1] + 40), (AT[0] - 3, AT[1]))
+        self.refused(text[:at] + detour + text[at:], 'beyond 10.0 mm of the new parts')
 
     def test_fill_change_far_away_is_refused(self):
         text = self.inserted()

@@ -1,18 +1,19 @@
 """Prove a B20 PCB edit only added parts and changed copper on their nets (plus explicitly allowed nets).
 
 usage: verify-insert-parts.py BEFORE.kicad_pcb AFTER.kicad_pcb --refs R77,R78 [--repin U7.6=UV5_IN ...]
-       [--extra-net NET ...] [--reach-mm 10] --project-before BEFORE.kicad_pro --project-after AFTER.kicad_pro
-       --output OUT.json
+       [--extra-net NET ...] [--reach-mm 10] --output OUT.json
+
+Each board's project is read from beside it (BEFORE.kicad_pro, AFTER.kicad_pro, and any .kicad_dru).
 
 Pure Python (sexp), no third-party dependency. Built for an insertion done in native KiCad, where the
 exact copper is only known afterwards. Filled polygons are set aside and:
 - every footprint of BEFORE is in AFTER with an identical tree, and AFTER adds exactly --refs. The only exception
   is each --repin pad: a series part splits a net, so that existing pad moves from one new-part net to another
-  (for example U7.6 from UV5_DIV to UV5_IN). Its old and new net must both be on the new parts' pads, and it must
-  change; nothing else in that footprint may;
+  (for example U7.6 from UV5_DIV to UV5_IN). Its old and new net must be on two pads of one new part, the new
+  net must not exist anywhere in BEFORE, and the pad must change; nothing else in that footprint may;
 - the allowed nets are the nets on the new footprints' pads plus each --extra-net; every segment and via on any
   other net is unchanged as a whole tree (identity included);
-- every removed or added segment or via lies, end to end, within --reach-mm of a new courtyard or a repinned
+- every removed or added segment or via lies, along its whole length, within --reach-mm of a new courtyard or a repinned
   footprint, so copper on an allowed net cannot change elsewhere on the board;
 - every other top-level node (setup, layers, outline and legend graphics, zone definitions) is identical;
 - the project's design rules (board.design_settings and net_settings in .kicad_pro, plus any sibling .kicad_dru)
@@ -156,19 +157,38 @@ def fills(tree):
     return zones
 
 
-def rules(project_path):
-    project = json.loads(Path(project_path).read_text())
-    dru = Path(project_path).with_suffix('.kicad_dru')
+def rules(pcb_path):
+    """Design rules from the project beside the board, and the sha256 of each file read."""
+    pro = Path(pcb_path).with_suffix('.kicad_pro')
+    if not pro.exists():
+        raise SystemExit(f'{pro} is missing; the project must sit beside its board to prove no rule changed')
+    dru = pro.with_suffix('.kicad_dru')
+    project = json.loads(pro.read_text())
+    shas = {f.name: hashlib.sha256(f.read_bytes()).hexdigest() for f in (pro, dru) if f.exists()}
     return {'design_settings': project['board']['design_settings'], 'net_settings': project['net_settings'],
-            'kicad_dru': dru.read_text() if dru.exists() else None}
+            'kicad_dru': dru.read_text() if dru.exists() else None}, shas
 
 
-def verify(before_path, after_path, refs, extra_nets, repins=None, project_before=None, project_after=None,
-           reach_mm=REACH_MM):
+def all_nets(tree):
+    found = set()
+
+    def walk(node):
+        if isinstance(node, list) and node:
+            if atom(node[0]) == 'net' and len(node) > 1:
+                found.add(atom(node[1]))
+            for item in node:
+                walk(item)
+    walk(tree)
+    return found
+
+
+def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REACH_MM):
     repins = dict(repins or {})
-    if project_before is None or project_after is None:
-        raise SystemExit('Both project files are required to prove no design rule changed')
-    if rules(project_before) != rules(project_after):
+    if Path(before_path).resolve() == Path(after_path).resolve():
+        raise SystemExit('BEFORE and AFTER are the same file')
+    rules_before, project_before = rules(before_path)
+    rules_after, project_after = rules(after_path)
+    if rules_before != rules_after:
         raise SystemExit('Project design rules changed (design_settings, net_settings or .kicad_dru)')
     raw_before, raw_after = Path(before_path).read_bytes(), Path(after_path).read_bytes()
     before, after = parse(tokenize(raw_before.decode())), parse(tokenize(raw_after.decode()))
@@ -182,6 +202,7 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, project_befor
     if set(new) - set(old) != refs:
         raise SystemExit(f'Footprints added {sorted(set(new) - set(old))} differ from expected {sorted(refs)}')
     part_nets = set().union(*(pad_nets(new[r]) for r in refs)) if refs else set()
+    before_nets = all_nets(before)
     repinned = []
     for spec, net_to in sorted(repins.items()):
         ref, number = spec.split('.', 1)
@@ -189,8 +210,10 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, project_befor
         if pad is None:
             raise SystemExit(f'Repinned pad {spec} does not exist')
         net_from = atom(child(pad, 'net')[1])
-        if net_from not in part_nets or net_to not in part_nets or net_from == net_to:
-            raise SystemExit(f'Repin {spec} {net_from} -> {net_to} must move between two different new-part nets')
+        if net_from == net_to or not any({net_from, net_to} <= pad_nets(new[r]) for r in refs):
+            raise SystemExit(f'Repin {spec} {net_from} -> {net_to} must move between two pads of one new part')
+        if net_to in before_nets:
+            raise SystemExit(f'Repin {spec} target {net_to} already exists in BEFORE; a split must create a new net')
         after_pad = pads(new[ref]).get(number) if ref in new else None
         if after_pad is None or not child(after_pad, 'net') or atom(child(after_pad, 'net')[1]) != net_to:
             raise SystemExit(f'Repinned pad {spec} is not on {net_to} in AFTER')
@@ -234,7 +257,8 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, project_befor
 
     for item in removed + added:
         a, b, _r = reach(item)
-        if not (near(a) and near(b)):
+        steps = max(1, math.ceil(math.dist(a, b) / 0.5))
+        if not all(near([a[0] + (b[0] - a[0]) * k / steps, a[1] + (b[1] - a[1]) * k / steps]) for k in range(steps + 1)):
             raise SystemExit(f'Copper change on {item["net"]} lies beyond {reach_mm} mm of the new parts: {item}')
 
     region = [courtyard(new[r]) for r in refs] + [reach(item) for item in removed + added]
@@ -259,6 +283,7 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, project_befor
             'before_sha256': hashlib.sha256(raw_before).hexdigest(), 'after_sha256': hashlib.sha256(raw_after).hexdigest(),
             'added_parts': sorted(refs), 'part_nets': sorted(part_nets), 'extra_nets': sorted(extra_nets),
             'repinned_pads': repinned, 'reach_mm': reach_mm, 'project_rules_identical': True,
+            'project_before_sha256': project_before, 'project_after_sha256': project_after,
             'removed_copper': removed, 'added_copper': added,
             'existing_footprints_identical': len(old), 'other_net_copper_identical': len(fixed_before),
             'fill_margin_mm': FILL_MARGIN_MM, 'fill_vertices_changed_inside_region': deltas}
@@ -272,13 +297,11 @@ def main():
     parser.add_argument('--repin', action='append', default=[], help='REF.PAD=NEW_NET')
     parser.add_argument('--extra-net', action='append', default=[])
     parser.add_argument('--reach-mm', type=float, default=REACH_MM)
-    parser.add_argument('--project-before', required=True)
-    parser.add_argument('--project-after', required=True)
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
     repins = dict(r.split('=', 1) for r in args.repin)
     result = verify(args.before, args.after, set(filter(None, args.refs.split(','))), args.extra_net, repins,
-                    args.project_before, args.project_after, args.reach_mm)
+                    args.reach_mm)
     Path(args.output).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({k: v for k, v in result.items() if k not in ('removed_copper', 'added_copper')}, indent=2))
 

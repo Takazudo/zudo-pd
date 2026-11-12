@@ -66,17 +66,17 @@ exists. The insertion is therefore done interactively in the native Mac pass, to
 python3 scripts/pcb/board-b20/verify-insert-parts.py BEFORE.kicad_pcb AFTER.kicad_pcb \
   --refs R77,R78,R79,R80 \
   --repin U6.3=OV12_IN --repin U6.6=UV12_IN --repin U7.3=OV5_IN --repin U7.6=UV5_IN \
-  --project-before BEFORE.kicad_pro --project-after AFTER.kicad_pro \
   [--extra-net NET ...] [--reach-mm 10] --output insert-verification.json
 ```
 
-Take BEFORE.kicad_pcb and BEFORE.kicad_pro from the same commit, before the edit. Confirm each `--repin` against
+Put BEFORE.kicad_pcb and BEFORE.kicad_pro side by side, both from the commit before the edit; each board's
+project (and any `.kicad_dru`) is read from beside it and its sha256 is recorded. Confirm each `--repin` against
 the regenerated schematic: a series resistor splits its net, so the comparator pin moves from `*_DIV` to `*_IN`.
 
 It requires that every existing footprint is unchanged except the net of each `--repin` pad, which must move
-between two nets on the new parts' pads, and that exactly `--refs` are added. Copper on any net other than the
+between the two pad nets of one new part to a net that did not exist before, and that exactly `--refs` are added. Copper on any net other than the
 new parts' pad nets and each named `--extra-net` must be unchanged, as must non-copper content such as the
-outline, legend, setup and zone definitions. Each removed or added segment or via must lie, at both ends, within
+outline, legend, setup and zone definitions. Each removed or added segment or via must lie, along its whole length, within
 `--reach-mm` (10 mm by default) of a new courtyard or a repinned footprint, so copper on a part net cannot change
 elsewhere. The project's design rules (`board.design_settings` and `net_settings` in `.kicad_pro`, plus any
 `.kicad_dru`) must be identical. Every filled-polygon vertex that changes, per zone uuid and layer, must lie
