@@ -265,6 +265,13 @@ class VariantTests(unittest.TestCase):
         self.assertNotIn('passes', row)
         self.assertIs(row['all_rules_hold'], False)
 
+    def test_a_step_that_does_not_apply_writes_nothing(self):
+        decks = {('t2', 'adv'): 'x rshunt=1e9', ('run', 'adv'): 'x rshunt=1e9'}
+        with mock.patch.object(r2, 'aborted_pinned', lambda w: [('t2', 'adv')]), \
+                mock.patch.object(r2, 'resolved', lambda w, c, k: None), \
+                mock.patch.object(r2, 'pinned_decks', lambda: decks):
+            self.assertEqual(r2.variant_plan('w', 2), {})
+
     def test_no_plan_without_aborts(self):
         with mock.patch.object(r2, 'aborted_pinned', lambda w: []):
             self.assertEqual(r2.variant_plan('w', 1), {})

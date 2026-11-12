@@ -28,6 +28,39 @@ Attempt 1 ([d1-t2-criteria.md](d1-t2-criteria.md)) stays FAILED and is not re-ev
 
 ## The candidate (single values)
 
+```mermaid
+flowchart LR
+  DRV[M12_DRV] -->|DT2K| T2K[t2k] -->|BT2K capture| T2H[t2h hold, C_H to M12_PRE]
+  T2H --> XT2A[XT2A follower] --> T2HB[t2hb]
+  DRV -->|R_1| T2P[t2p]
+  REF[REF25] -->|R_2| T2P
+  T2HB -->|R_1| T2M[t2m]
+  T2P --> XT2B[XT2B]
+  T2M --> XT2B --> T2A[t2a]
+  T2A -->|R_2 feedback| T2M
+  T2A -->|R_O 100k| T2O[t2o]
+  T2O -->|D_L| GND[GND]
+  FB[TRK12N_FB] -->|R_C 402k| T2C[t2c] -->|DT2C| T2O
+  T2M -->|R_W 100k + BT2W outside the reset window| M12[M12_PRE]
+```
+
+| Net | Connected pins (Ref.Pin) | Value/Note |
+| --- | --- | --- |
+| M12_DRV | U9B.OUT, DT2K.A, RT2P1.1 | Existing U9B output |
+| t2k | DT2K.K, BT2K.1 | Capture switch input |
+| t2h | BT2K.2, CT2H.1, RT2B.1, BT2R.1, XT2A.IN+ | Hold; CT2H / RT2B / BT2R return to M12_PRE |
+| t2hb | XT2A.OUT, XT2A.IN−, RT2M1.1 | Follower output |
+| t2p | RT2P1.2, RT2P2.1, XT2B.IN+ | RT2P2.2 is on REF25 |
+| t2m | RT2M1.2, RT2M2.1, XT2B.IN−, RT2W.1 | Window pull through RT2W |
+| t2w | RT2W.2, BT2W.1 | BT2W.2 is on M12_PRE; closed while v(ennd) < 1.0 |
+| t2a | XT2B.OUT, RT2M2.2, RT2O.1 | Feedback at the op-amp output |
+| t2o | RT2O.2, DT2L.A, DT2C.K | Limited to about +VF(D_L) |
+| t2l | DT2L.K, VT2L.+ | VT2L is a 0 V ammeter to GND |
+| t2c | DT2C.A, RT2C.1 | |
+| t2g | RT2C.2, VT2G.+ | VT2G (0 V) ties t2g to TRK12N_FB; inert control: to GND |
+| t2n | XT2A.V−, XT2B.V−, VT2N.+ | VT2N (0 V) to M12_PRE measures the candidate's −12 supply current |
+| P5_SUP | XT2A.V+, XT2B.V+ | Source of the 37–46 µA limiter current |
+
 Everything not listed here is attempt 1's, unchanged: DT2K capture through BT2K, C_H 100 nF, R_B 10 MΩ, BT2R, XT2A,
 R_1 1 MΩ, R_2 4.99 MΩ and V_R = REF25.
 
@@ -99,7 +132,7 @@ The cases run after the existing nom/adv identity control reproduces, in the ord
 | base, e12lo, e12hi, e5lo, e5hi | as attempt 1 | — | Baselines and corners, as attempt 1 |
 | ctrl | adv | inert control (R_C to GND) | Control gate, as attempt 1 |
 | t2, t2lo, t2hi, t2load | as attempt 1 | sourced rows at 25 °C, typical VF | **Required** (sourced cases) |
-| vflo, vfhi | nom, adv | D_L VF at 45 µA = 0.46 V / 1.05 V (typical 0.654). The low value is typical − 0.2 V (PROJECT, −2 mV/°C over 100 K); the high value is the 50 mA maximum | **Required** |
+| vflo, vfhi | nom, adv | D_L VF at 45 µA = 0.454 V / 1.05 V (typical 0.654). The low value is typical − 0.2 V (PROJECT, −2 mV/°C over 100 K); the high value is the 50 mA maximum | **Required** |
 | cvflo, cvfhi | nom, adv | DT2C VF at 1 µA (the clamp current) = 0.33 V / 1.05 V. Typical is 0.530; the same low and high rules as D_L | **Required** |
 | kvflo, kvfhi | nom, adv | DT2K VF at 0.5 µA = 0.42 V / 0.72 V (the model's 0.57 V ± 0.15 V, PROJECT inference) | **Required** |
 | k80n | adv | DT2K IR = 80 nA (the guaranteed 150 °C row), everything else sourced | **Required.** It decides DT2K's leakage requirement |
@@ -128,7 +161,7 @@ Every extra case compares with the pinned reference pair (`run/nom`, `run/adv`).
     and the report says so instead of "aborted".
   - **Baseline match.** Every chain member with a completed pinned record must match it within the L2 tolerance over
     the whole run.
-  - **Cross-check.** The t2/adv cross-check runs at each step that applies to it.
+  - **Cross-check.** The t2/adv cross-check runs at each step the ladder uses and that applies to it.
 - **Ladder results are VARIANT-EVALUATED, never PASS or FAIL.** They are reported beside the pinned verdict and
   never replace it. Variant rows use the pinned judging itself (rules 1–14 or L1–L4); only the verdict label
   differs.

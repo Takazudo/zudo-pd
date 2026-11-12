@@ -100,7 +100,7 @@ OPERATING_CURRENT_A = {'DL': 45e-6, 'DT2K': 0.5e-6, 'DT2C': 1e-6}   # the points
 # D_L: typical 0.654 V at 45 uA; low = typical - 0.2 V (PROJECT, -2 mV/C over 100 K); high = the 50 mA maximum.
 # DT2C: typical 0.530 V at 1 uA (the clamp current); same low and high rules.
 # DT2K: the model's 0.57 V at 0.5 uA (extrapolated from the 1 mA / 10 mA maxima) -/+ 0.15 V (PROJECT inference).
-VF_SPREAD_V = {'vflo': ('DL', 0.46), 'vfhi': ('DL', 1.05), 'cvflo': ('DT2C', 0.33), 'cvfhi': ('DT2C', 1.05),
+VF_SPREAD_V = {'vflo': ('DL', 0.454), 'vfhi': ('DL', 1.05), 'cvflo': ('DT2C', 0.33), 'cvfhi': ('DT2C', 1.05),
                'kvflo': ('DT2K', 0.42), 'kvfhi': ('DT2K', 0.72)}
 # Outside the RAMP reset window: the complement of the deck's own reset shape (t2_clamp.CLAMP_GATE).
 WINDOW_GATE = '0.5*(1-tanh((v(ennd)-1.0)*8))'
@@ -398,9 +398,10 @@ def analyze(work):
                 'verdict': combine([extra[f'hot/{n}'] for n in EXTRA['hot'][1]])},
         'dt2c_failure_ir': {'points': points, 'crossing_a': crossing,
                             'crossing_temperature_c': (temperature_for(crossing, ladder[0][0])
-                                                       if crossing and crossing > 0 else None),
-                            'note': (None if crossing is None or crossing > 0 else
-                                     'non-positive crossing: the sourced case already sits at or beyond the bound'),
+                                                       if crossing and crossing > ladder[0][0] else None),
+                            'note': (None if crossing is None or crossing > ladder[0][0] else
+                                     'crossing at or below the sourced IR: the sourced case already sits at or beyond '
+                                     'the bound'),
                             'basis': 'linear fit of the rule 6(b) margin over the DT2C-only adv cases'},
         'dt2k_ladder': {f'{label}/adv': {'ir_a': ir, 'passes': extra[f'{label}/adv'].get('passes'),
                                          'role': 'informational' if label in INFORMATIONAL else 'required'}
@@ -499,6 +500,9 @@ def variant_plan(work, step):
     if not pending:
         return {}
     decks = pinned_decks()
+    pending = [c for c in pending if applicable(decks, c, variant)]
+    if not pending:
+        return {}
     wanted = {m for c in pending for m in unit(c)} | set(unit(CROSS_CHECK))
     plan = {}
     for label, name in sorted(wanted):
