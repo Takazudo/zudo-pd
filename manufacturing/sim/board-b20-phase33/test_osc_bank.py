@@ -53,6 +53,17 @@ class VariantPlanTests(unittest.TestCase):
             states[('v-abstol-nom-nom', 'nom')] = 'COMPLETE'
             self.assertEqual(ob.variant_plan(tmp, 2), {})
 
+    def test_cross_check_joins_a_used_variant(self):
+        states = {('lo-e5lo', 'nom'): 'ABORTED'}
+
+        def status(work, lbl, name):
+            return {'status': states.get((lbl, name), 'NOT RUN' if lbl.startswith('v-') else 'COMPLETE')}
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(ob, 'status', side_effect=status), \
+                mock.patch.object(ob, 'write', return_value='x'):
+            self.assertEqual(ob.variant_plan(tmp, 1), {'v-abstol-lo-e5lo': 'nom', 'v-abstol-nom-nom': 'nom'})
+            states[('v-abstol-lo-e5lo', 'nom')] = 'COMPLETE'
+            self.assertEqual(ob.variant_plan(tmp, 2), {})
+
 
 class MetricTests(unittest.TestCase):
     def record(self):
@@ -83,7 +94,8 @@ class AnalyzeTests(unittest.TestCase):
         with mock.patch.object(ob, 'status', return_value={'status': 'ABORTED', 'abort': {'cause': 'x'}}):
             out = ob.analyze('/w')
         self.assertEqual(len(out['unknown']), 18)
-        self.assertEqual(out['worst_measured'], {})
+        self.assertEqual(out['largest_measured'], {})
+        self.assertEqual(set(out['variant_cross_check']), {'abstol', 'rshunt'})
 
 
 class CriteriaTests(unittest.TestCase):

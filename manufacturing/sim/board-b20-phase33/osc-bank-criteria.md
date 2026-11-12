@@ -34,6 +34,9 @@ matched-variant ladder from T2 rev 2:
 1. abstol 1e-9 → 1e-8;
 2. if it still aborts, rshunt 1e10 → 1e9 (where the deck has that option; adv already uses 1e9).
 
+Every variant step that is used also reruns `nom-nom` (pinned COMPLETE) under the same variant. The pinned-minus-variant
+difference of each measured quantity is reported, to show whether the variant rows are comparable with pinned ones.
+
 A variant row is labelled as such and is never presented as a pinned waveform. No other solver option changes. In
 particular the itl4 inertness result is reported beside this run but is not folded into it.
 
@@ -42,14 +45,14 @@ All measurements use the refinement's window, 40–234.5 ms.
 
 | Quantity | Definition |
 | --- | --- |
-| Peak slope inside the region | Largest adjacent-sample \|dV/dt\| over segments whose both ends lie inside the no-load exception voltage region: +5 V ≤ 0.45 V, \|−12 V\| ≤ 0.75 V. +12 V has no exception and is split at 0.75 V for reporting only |
+| Peak slope inside the region | Largest adjacent-sample \|dV/dt\| over segments whose both ends lie at or below the no-load exception voltage (values below 0 V count as inside, as in the refinement's screen): +5 V ≤ 0.45 V, \|−12 V\| ≤ 0.75 V. +12 V has no exception and is split at 0.75 V for reporting only |
 | Peak slope above the region | The same over every other segment |
 | Peak current in the region | Largest OSC ESR-branch current (v across the 50 mΩ / 0.05) at samples inside the region. This is the quantity OSC checks against its transient minima: 1900 mA (−12 V), 400 mA (+5 V) |
 | Peak current | Largest ESR-branch current over the whole window |
 | Charge in the region | Trapezoid integral of that current over sample pairs inside the region. For an ideal bank it is C × the region voltage |
-| Current half-width | Width of the contiguous span around the in-region current peak where the current stays at or above half that peak |
+| Current half-width | Width of the contiguous span around the in-region current peak where the current stays at or above half that peak. It is not limited to the region, so on +12 V (a broad plateau, no step) it is tens of ms and not comparable with +5 / −12 V |
 
-Also reported: the worst value of each quantity across completed decks, with its deck; and the labels with no
+Also reported: the largest value of each quantity across completed decks, with its deck (largest, not a judgement of worst); and the labels with no
 completed run (**unknown**).
 
 ## Reproduction check of the measurement code (before the dispatch)

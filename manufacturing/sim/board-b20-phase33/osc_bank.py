@@ -36,6 +36,7 @@ CASES = ('nom', 'adv', 'e12lo', 'e12hi', 'e5lo', 'e5hi')
 VARIANTS = (('abstol', ('abstol=1e-9', 'abstol=1e-8')), ('rshunt', ('rshunt=1e10', 'rshunt=1e9')))
 # rail -> (row index after time, sign, exception voltage region in V); +12 has no exception, so 0.75 V is used only
 # to split its report the same way as -12.
+CROSS_CHECK = 'nom-nom'   # rerun under every variant step that is used
 RAIL_ROWS = {'+12': (1, 1, 0.75), '+5': (2, 1, 0.45), '-12': (3, -1, 0.75)}
 
 
@@ -136,6 +137,11 @@ def variant_plan(work, step):
             continue
         write(work, vlabel(variant, lbl), name, varied)
         plan[vlabel(variant, lbl)] = name
+    xname, xtext = derive_cases()[CROSS_CHECK]
+    if plan and status(work, CROSS_CHECK, xname)['status'] == 'COMPLETE':
+        # The variant's comparability: one pinned-COMPLETE deck rerun under the same variant.
+        write(work, vlabel(variant, CROSS_CHECK), xname, apply_variant(xtext, variant))
+        plan[vlabel(variant, CROSS_CHECK)] = xname
     return plan
 
 
@@ -211,6 +217,24 @@ def deck_row(work, lbl, name):
     return row
 
 
+def cross_check(work):
+    """Pinned versus variant metrics for the cross-check deck, for each variant it ran under."""
+    name = derive_cases()[CROSS_CHECK][0]
+    pinned = status(work, CROSS_CHECK, name)
+    out = {}
+    for variant, _ in VARIANTS:
+        varied = status(work, vlabel(variant, CROSS_CHECK), name)
+        if varied['status'] == 'NOT RUN':
+            continue
+        row = {'pinned': pinned['status'], 'variant': varied['status']}
+        if pinned['status'] == varied['status'] == 'COMPLETE':
+            a, b = (gap.case_record(s['run'], name) for s in (pinned, varied))
+            row['difference'] = {rail: {k: rail_metrics(b, rail)[k] - v for k, v in rail_metrics(a, rail).items()
+                                        if isinstance(v, float)} for rail in RAIL_ROWS}
+        out[variant] = row
+    return out
+
+
 def analyze(work):
     rows = {lbl: deck_row(work, lbl, name) for lbl, (name, _) in derive_cases().items()}
     worst = {}
@@ -224,7 +248,7 @@ def analyze(work):
     return {'diagnostic': 'OSC-bank baseline (osc-bank-criteria.md); measures only, judges nothing',
             'fitted_uF': FITTED_UF, 'scales': SCALES,
             'bank_uF': {s: {r: bank_value(r, s) for r in FITTED_UF} for s in SCALES},
-            'decks': rows, 'worst_measured': worst,
+            'decks': rows, 'largest_measured': worst, 'variant_cross_check': cross_check(work),
             'unknown': sorted(lbl for lbl, r in rows.items() if r['measured_under'] is None)}
 
 
@@ -263,7 +287,7 @@ def main(argv=None):
     elif args.command == 'analyze':
         out = analyze(args.work)
         Path(args.output).write_text(json.dumps(out, indent=2, default=str) + '\n')
-        print(json.dumps({'worst_measured': out['worst_measured'], 'unknown': out['unknown']}, indent=2))
+        print(json.dumps({'largest_measured': out['largest_measured'], 'unknown': out['unknown']}, indent=2))
     return 0
 
 
