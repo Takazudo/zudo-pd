@@ -25,6 +25,7 @@ This record in the catalog: [CSD18543Q3A](/docs/components/catalog/#rec-c840100)
 | LCSC ID                  | `C840100`                               |
 | Package                  | `VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A`    |
 | Inventory line           | `line-c840100`                          |
+| Also known as            | `B20 back-to-back output pass FET pair` |
 
 **Fit:** Fitted
 
@@ -76,7 +77,7 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c840100-primary-specification` · **Status:** COVERED
 
-**Reason:** Manufacturer datasheet retrieved and hashed 2026-10-31.
+**Reason:** Manufacturer datasheet retrieved and hashed 2026-10-31; re-retrieved 2026-11-12 with an identical hash. 25 C VGS(th), capacitance and gate-charge rows promoted.
 
 **Facts in this domain:**
 
@@ -85,6 +86,26 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 - [`fact-c840100-vgs`](#fact-c840100-vgs)
 - [`fact-c840100-rdson-10v-max`](#fact-c840100-rdson-10v-max)
 - [`fact-c840100-rdson-4v5-max`](#fact-c840100-rdson-4v5-max)
+- [`fact-c840100-vgs-th-min`](#fact-c840100-vgs-th-min)
+- [`fact-c840100-vgs-th-typ`](#fact-c840100-vgs-th-typ)
+- [`fact-c840100-vgs-th-max`](#fact-c840100-vgs-th-max)
+- [`fact-c840100-gfs-typ`](#fact-c840100-gfs-typ)
+- [`fact-c840100-ciss-typ`](#fact-c840100-ciss-typ)
+- [`fact-c840100-ciss-max`](#fact-c840100-ciss-max)
+- [`fact-c840100-coss-typ`](#fact-c840100-coss-typ)
+- [`fact-c840100-coss-max`](#fact-c840100-coss-max)
+- [`fact-c840100-crss-typ`](#fact-c840100-crss-typ)
+- [`fact-c840100-crss-max`](#fact-c840100-crss-max)
+- [`fact-c840100-rg-typ`](#fact-c840100-rg-typ)
+- [`fact-c840100-rg-max`](#fact-c840100-rg-max)
+- [`fact-c840100-qg-4v5-typ`](#fact-c840100-qg-4v5-typ)
+- [`fact-c840100-qg-4v5-max`](#fact-c840100-qg-4v5-max)
+- [`fact-c840100-qg-10v-typ`](#fact-c840100-qg-10v-typ)
+- [`fact-c840100-qg-10v-max`](#fact-c840100-qg-10v-max)
+- [`fact-c840100-qgd-typ`](#fact-c840100-qgd-typ)
+- [`fact-c840100-qgs-typ`](#fact-c840100-qgs-typ)
+- [`fact-c840100-qg-th-typ`](#fact-c840100-qg-th-typ)
+- [`fact-c840100-typical-curves`](#fact-c840100-typical-curves)
 
 ### distributor-identity
 
@@ -104,18 +125,20 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c840100-assembled-qualification` · **Status:** OPEN
 
-**Reason:** Footprint, layout, thermal and switching behaviour on Board P are unreviewed and unmeasured.
+**Reason:** Footprint, layout, thermal and switching behaviour on Board P and in the B20 draft pass pairs are unreviewed and unmeasured.
 
 **Facts in this domain:**
 
 - [`fact-c840100-footprint-review`](#fact-c840100-footprint-review)
 - [`fact-c840100-board-p-role`](#fact-c840100-board-p-role)
+- [`fact-c840100-b20-pass-pair-role`](#fact-c840100-b20-pass-pair-role)
 - [`fact-c840100-visualization-envelope`](#fact-c840100-visualization-envelope)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
 - [`fact-c840100-footprint-review`](#fact-c840100-footprint-review)
 - [`fact-c840100-board-p-role`](#fact-c840100-board-p-role)
+- [`fact-c840100-b20-pass-pair-role`](#fact-c840100-b20-pass-pair-role)
 
 ## Facts
 
@@ -168,7 +191,7 @@ A parameter the manufacturer guarantees over the stated conditions, usually with
 
   **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
 
-  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics row RDS(on) page 2
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics row RDS(on) page 3
 </EvidenceFact>
 
 <EvidenceFact>
@@ -182,7 +205,291 @@ A parameter the manufacturer guarantees over the stated conditions, usually with
 
   **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
 
-  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics row RDS(on) page 2
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics row RDS(on) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-vgs-th-min" />
+
+  **Fact:** `fact-c840100-vgs-th-min`
+
+  **Value:** 1.5 · **Unit:** `V`
+
+  **Conditions:** VDS = VGS, ID 250 uA, TA 25 C minimum. Guaranteed at 25 C only; SLPS633 gives no guaranteed VGS(th) bound across temperature (NOT FOUND); Figure 6 is a typical curve.
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row VGS(th) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-vgs-th-max" />
+
+  **Fact:** `fact-c840100-vgs-th-max`
+
+  **Value:** 2.7 · **Unit:** `V`
+
+  **Conditions:** VDS = VGS, ID 250 uA, TA 25 C maximum. Guaranteed at 25 C only; SLPS633 gives no guaranteed VGS(th) bound across temperature (NOT FOUND); Figure 6 is a typical curve.
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row VGS(th) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-ciss-max" />
+
+  **Fact:** `fact-c840100-ciss-max`
+
+  **Value:** 1150 · **Unit:** `pF`
+
+  **Conditions:** VGS 0 V, VDS 30 V, f 1 MHz, TA 25 C maximum; no MIN given (NOT FOUND).
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Ciss page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-coss-max" />
+
+  **Fact:** `fact-c840100-coss-max`
+
+  **Value:** 218 · **Unit:** `pF`
+
+  **Conditions:** VGS 0 V, VDS 30 V, f 1 MHz, TA 25 C maximum; no MIN given (NOT FOUND).
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Coss page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-crss-max" />
+
+  **Fact:** `fact-c840100-crss-max`
+
+  **Value:** 6.2 · **Unit:** `pF`
+
+  **Conditions:** VGS 0 V, VDS 30 V, f 1 MHz, TA 25 C maximum; no MIN given (NOT FOUND).
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Crss page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-rg-max" />
+
+  **Fact:** `fact-c840100-rg-max`
+
+  **Value:** 1 · **Unit:** `Ohm`
+
+  **Conditions:** Series gate resistance, TA 25 C maximum; its test-condition cell is blank (no condition stated).
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row RG page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-qg-4v5-max" />
+
+  **Fact:** `fact-c840100-qg-4v5-max`
+
+  **Value:** 7.3 · **Unit:** `nC`
+
+  **Conditions:** VDS 30 V, ID 12 A, TA 25 C, gate charge total to 4.5 V maximum.
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Qg (4.5 V) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-qg-10v-max" />
+
+  **Fact:** `fact-c840100-qg-10v-max`
+
+  **Value:** 14.5 · **Unit:** `nC`
+
+  **Conditions:** VDS 30 V, ID 12 A, TA 25 C, gate charge total to 10 V maximum.
+
+  **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Qg (10 V) page 3
+</EvidenceFact>
+
+### TYPICAL\_CURVE
+
+A representative figure read from a characteristic curve. Typical values are not guaranteed and vary part to part.
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-vgs-th-typ" />
+
+  **Fact:** `fact-c840100-vgs-th-typ`
+
+  **Value:** 2 · **Unit:** `V`
+
+  **Conditions:** VDS = VGS, ID 250 uA, TA 25 C typical; not a bound.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row VGS(th) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-gfs-typ" />
+
+  **Fact:** `fact-c840100-gfs-typ`
+
+  **Value:** 40 · **Unit:** `S`
+
+  **Conditions:** VDS 6 V, ID 12 A, TA 25 C typical only; SLPS633 gives no gfs MIN or MAX (NOT FOUND).
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row gfs page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-ciss-typ" />
+
+  **Fact:** `fact-c840100-ciss-typ`
+
+  **Value:** 885 · **Unit:** `pF`
+
+  **Conditions:** VGS 0 V, VDS 30 V, f 1 MHz, TA 25 C typical; not a bound.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Ciss page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-coss-typ" />
+
+  **Fact:** `fact-c840100-coss-typ`
+
+  **Value:** 168 · **Unit:** `pF`
+
+  **Conditions:** VGS 0 V, VDS 30 V, f 1 MHz, TA 25 C typical; not a bound.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Coss page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-crss-typ" />
+
+  **Fact:** `fact-c840100-crss-typ`
+
+  **Value:** 4.8 · **Unit:** `pF`
+
+  **Conditions:** VGS 0 V, VDS 30 V, f 1 MHz, TA 25 C typical; not a bound.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Crss page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-rg-typ" />
+
+  **Fact:** `fact-c840100-rg-typ`
+
+  **Value:** 0.5 · **Unit:** `Ohm`
+
+  **Conditions:** Series gate resistance, TA 25 C typical; its test-condition cell is blank (no condition stated).
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row RG page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-qg-4v5-typ" />
+
+  **Fact:** `fact-c840100-qg-4v5-typ`
+
+  **Value:** 5.6 · **Unit:** `nC`
+
+  **Conditions:** VDS 30 V, ID 12 A, TA 25 C, gate charge total to 4.5 V typical; not a bound.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Qg (4.5 V) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-qg-10v-typ" />
+
+  **Fact:** `fact-c840100-qg-10v-typ`
+
+  **Value:** 11.1 · **Unit:** `nC`
+
+  **Conditions:** VDS 30 V, ID 12 A, TA 25 C, gate charge total to 10 V typical; not a bound.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Qg (10 V) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-qgd-typ" />
+
+  **Fact:** `fact-c840100-qgd-typ`
+
+  **Value:** 1.7 · **Unit:** `nC`
+
+  **Conditions:** VDS 30 V, ID 12 A, TA 25 C, gate-to-drain charge typical only; SLPS633 gives no Qgd MIN or MAX (NOT FOUND).
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Qgd page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-qgs-typ" />
+
+  **Fact:** `fact-c840100-qgs-typ`
+
+  **Value:** 3.1 · **Unit:** `nC`
+
+  **Conditions:** VDS 30 V, ID 12 A, TA 25 C, gate-to-source charge typical only; no MIN or MAX given (NOT FOUND).
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Qgs page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-qg-th-typ" />
+
+  **Fact:** `fact-c840100-qg-th-typ`
+
+  **Value:** 2 · **Unit:** `nC`
+
+  **Conditions:** VDS 30 V, ID 12 A, TA 25 C, gate charge at Vth typical only; no MIN or MAX given (NOT FOUND).
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.1 Electrical Characteristics table row Qg(th) page 3
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-typical-curves" />
+
+  **Fact:** `fact-c840100-typical-curves`
+
+  **Value:** SLPS633 5.3 Typical MOSFET Characteristics: Fig 1 transient thermal impedance; Fig 2 saturation (IDS vs VDS at VGS 4.5/6/10 V); Fig 3 transfer (IDS vs VGS at VDS 5 V, TC -55/25/125 C); Fig 4 gate charge (VGS vs Qg, ID 12 A, VDS 30 V); Fig 5 capacitance (Ciss=Cgd+Cgs, Coss=Cds+Cgd, Crss=Cgd vs VDS 0-60 V, log 1-10000 pF); Fig 6 VGS(th) vs TC -75..175 C at ID 250 uA; Fig 7 RDS(on) vs VGS at TC 25/125 C, ID 12 A; Fig 8 normalized RDS(on) vs temperature; Fig 9 diode forward voltage; Fig 10 SOA; Fig 11 single-pulse UIS; Fig 12 maximum drain current vs temperature · **Unit:** `NONE`
+
+  **Conditions:** Index of curves only. All are typical except Figures 10-12 (maximum ratings); no curve has been digitized and no value is read from any curve here. No gm-vs-current or transconductance curve other than the Fig 3 transfer curve exists (NOT FOUND).
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PRIMARY-SPEC
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — 5.3 Typical MOSFET Characteristics, Figures 1-12 pages 4-6
 </EvidenceFact>
 
 ### PROJECT\_STATE
@@ -243,6 +550,20 @@ A value this project recorded about how the part is used here — a chosen opera
   **Verdict:** NEEDS BENCH · **Provenance:** PROJECT-CHOICE
 
   **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — board\_p\_spec.py COMPONENTS Q3/U3 rows and NETS rows VBUS\_IN, EF\_IN, EF\_GATE
+</EvidenceFact>
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c840100-b20-pass-pair-role" />
+
+  **Fact:** `fact-c840100-b20-pass-pair-role`
+
+  **Value:** Board B20 draft Q1-Q6: three back-to-back common-source output pass pairs after each rail shunt. Q1/Q2 +12 V (sources P12\_CS, gates P12\_G, drains P12\_SH and P12\_OUT); Q3/Q4 +5 V (P5\_CS, P5\_G, P5\_SH/P5\_OUT); Q5/Q6 -12 V (M12\_CS, M12\_G, M12\_SH/M12\_OUT) · **Unit:** `NONE`
+
+  **Conditions:** Each pair: gate driven from \*\_DRV through RGn 10 kOhm, RGnP 100 kOhm gate-to-common-source, BZT52C11 DZn clamp gate-to-common-source (DZ1-DZ3) under the 20 V VGS absolute maximum; disable pulldowns Q10/Q11/Q25. The B20 simulation uses the vendor SPICE macro, which is not committed. VGS(th), Ciss and gate-charge bounds above are 25 C rows only; conduction, thermal and switching behaviour are unmeasured.
+
+  **Verdict:** NEEDS BENCH · **Provenance:** PROJECT-CHOICE
+
+  **Evidence:** [`src-c840100-primary`](#src-c840100-primary) — board\_b20\_spec.py power\_nfet Q1-Q6 and gate-network rows RG1-RG3, RG1P-RG3P, DZ1-DZ3; board\_b20\_components.py Q1-Q6
 </EvidenceFact>
 
 <EvidenceFact>
@@ -317,9 +638,9 @@ Every document cited above, with its identification, when it was retrieved, and 
 | Revision        | December 2016  |
 | Document date   | 2016-12-01     |
 | Retrieved       | 2026-10-31     |
-| Printed page    | 1              |
+| Printed page    | 3              |
 
-**Locator:** Absolute Maximum Ratings table and 5.1 Electrical Characteristics table rows page 1-2; Top View pin figure page 1; 7.2 Recommended PCB Pattern page 9
+**Locator:** Absolute Maximum Ratings table and Top View pin figure page 1; 5.1 Electrical Characteristics table page 3; 5.3 Typical MOSFET Characteristics Figures 1-12 pages 4-6; 7.1 Q3A Package Dimensions page 8; 7.2 Recommended PCB Pattern page 9
 
 **Availability:** AVAILABLE
 
@@ -372,6 +693,7 @@ What the recorded terms on this page mean, in ordinary words. The exact terms ab
 | `ABSOLUTE_MAXIMUM`      | A never-exceed limit. Reaching it may damage the part; it is not an operating target and there is no margin implied by it.                                         |
 | `GUARANTEED_ELECTRICAL` | A parameter the manufacturer guarantees over the stated conditions, usually with minimum, typical and maximum values.                                              |
 | `PROJECT_STATE`         | A value this project recorded about how the part is used here — a chosen operating point, a net assignment, or a derived figure. Not a manufacturer specification. |
+| `TYPICAL_CURVE`         | A representative figure read from a characteristic curve. Typical values are not guaranteed and vary part to part.                                                 |
 
 ### Coverage status
 
