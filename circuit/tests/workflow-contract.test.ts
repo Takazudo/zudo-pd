@@ -55,6 +55,7 @@ const COMPONENT_GATE_INPUTS: ReadonlyArray<{ readonly pattern: string; readonly 
   { pattern: "manufacturing/power-budget.md", samples: ["manufacturing/power-budget.md"] },
   { pattern: "manufacturing/power-budget-p15.json", samples: ["manufacturing/power-budget-p15.json"] },
   { pattern: "manufacturing/power-budget-b20.json", samples: ["manufacturing/power-budget-b20.json"] },
+  { pattern: "manufacturing/supply-capability.json", samples: ["manufacturing/supply-capability.json"] },
   { pattern: "manufacturing/power-layout.json", samples: ["manufacturing/power-layout.json"] },
   { pattern: "manufacturing/power-layout-b20.json", samples: ["manufacturing/power-layout-b20.json"] },
   {
@@ -76,6 +77,7 @@ const COMPONENT_GATE_FIXTURES: ReadonlyArray<readonly [string, readonly string[]
   ["exporter-only", ["scripts/pcb/export-jlcpcb.py"]],
   ["P r3 source-binding-only", ["scripts/pcb/board-p-r3-draft/build-draft.py"]],
   ["retained-report-only", ["manufacturing/power-budget-b20.json"]],
+  ["supply-capability-report-only", ["manufacturing/supply-capability.json"]],
   ["status-report-only", ["manufacturing/pd20-status.md"]],
   ["C12 template-only", ["manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir"]],
 ];
