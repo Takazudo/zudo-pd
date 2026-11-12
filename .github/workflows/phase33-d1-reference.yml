@@ -11,7 +11,9 @@
 # -12 V candidate decks the same way: a model evaluation of a candidate, never adoption.
 # Opt-in t2_rev2_evaluation (d1-t2-rev2-criteria.md) runs the T2 rev 2 (a2) decks, its VF-spread, leakage-ladder
 # and hot cases under the revised rules, then the labelled matched-variant ladder for pinned ABORTED cases only.
-# Not a generic compute dispatcher: three opt-in boolean inputs, no secrets, no write permission, no deploy.
+# Opt-in itl4_inertness (itl4-inertness-criteria.md) rebuilds the recorded T2 rev 2 pinned decks with only itl4 raised and
+# compares every output with the recorded hashes: a solver-setting diagnostic that judges no candidate.
+# Not a generic compute dispatcher: four opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -28,6 +30,10 @@ on:
         default: false
       t2_rev2_evaluation:
         description: Also run the T2 rev 2 (a2) -12 V evaluation and variant ladder (d1-t2-rev2-criteria.md; only once pre-registered)
+        type: boolean
+        default: false
+      itl4_inertness:
+        description: Also run the itl4 inertness diagnostic on the recorded T2 rev 2 pinned decks (itl4-inertness-criteria.md)
         type: boolean
         default: false
 
@@ -64,6 +70,11 @@ jobs:
         if: inputs.t2_evaluation && inputs.t2_rev2_evaluation
         run: |
           echo "::error::t2_evaluation and t2_rev2_evaluation are separate dispatches"
+          exit 1
+      - name: Reject the itl4 diagnostic combined with any other opt-in (it rebuilds the t2 work tree)
+        if: inputs.itl4_inertness && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation)
+        run: |
+          echo "::error::itl4_inertness is a separate dispatch"
           exit 1
       - name: Prepare hash-verified inputs (one bounded TI download each)
         run: |
@@ -139,6 +150,22 @@ jobs:
             done < "$RUNNER_TEMP/out/t2r2-plan-$step.txt"
           done
           python3 "$PHASE33/t2_rev2.py" variant-analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/t2r2-variants.json"
+      - name: itl4 inertness diagnostic (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.itl4_inertness && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/t2_rev2.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/t2r2-manifest.json"
+          python3 "$PHASE33/itl4_inertness.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/itl4-manifest.json"
+          labels=$(python3 "$PHASE33/itl4_inertness.py" labels)
+          [ -n "$labels" ] || { echo "::error::no itl4 labels"; exit 1; }
+          # Every deck runs once; an abort is recorded, never retried.
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/itl4_inertness.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: nothing pending"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/itl4/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/itl4-runner-$label.txt"; then
+              python3 "$PHASE33/itl4_inertness.py" check-run "$RUNNER_TEMP/work" "$label"
+            fi
+          done
+          python3 "$PHASE33/itl4_inertness.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/itl4-inertness.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |
