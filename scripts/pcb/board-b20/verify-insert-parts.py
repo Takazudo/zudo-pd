@@ -19,9 +19,10 @@ exact copper is only known afterwards. Filled polygons are set aside and:
 - the project's design rules (board.design_settings and net_settings in .kicad_pro, plus any sibling .kicad_dru)
   are identical, so no rule is relaxed outside the PCB file;
 - filled copper may differ only inside the edit region: each new courtyard and each removed or added copper item,
-  grown by FILL_MARGIN_MM. Every filled-area corner of each zone (by uuid and layer) that appears or disappears
-  must lie in that region, so a fill change anywhere else fails. KiCad's zero-width fracture slits are removed first,
-  because a hole that changes inside the region can move a slit that ends far outside it.
+  grown by FILL_MARGIN_MM. Every filled-polygon vertex of each zone (by uuid and layer) that appears or disappears
+  must lie in that region, so a fill change anywhere else fails. KiCad's zero-width fracture slits (and a slit foot
+  lying straight on its edge) are removed first, because a hole that changes inside the region can move a slit that
+  ends far outside it. No other vertex is dropped.
 This is a vertex screen, not a connectivity proof: a far island that loses its connection without any vertex moving,
 or a long new fill edge from a vertex inside the region, is left to DRC (unconnected items, isolated copper).
 The output records every removed and added copper item, so the delta can be reviewed item by item.
@@ -146,17 +147,20 @@ def courtyard(fp_node):
 
 
 def ring_corners(pts):
-    """Corner vertices of one KiCad filled polygon with its fracture slits removed.
+    """Vertices of one KiCad filled polygon with its fracture slits removed.
 
     KiCad stores each filled area as one outline joined to its holes by zero-width slits: an edge that the outline
     also traverses in reverse. A slit's position depends on the holes' order and can land far from an edit. Dropping
-    every reverse-edge pair, zero-length edge and straight-through (collinear) vertex leaves the outline and hole
-    corners, which do not depend on how the area was fractured.
+    the reverse-edge pairs (and zero-length edges) leaves the outline and hole loops, with each slit's hole end
+    counted once. A slit's outline foot is dropped only when it lies straight on the edge it was inserted into. Every
+    other vertex is kept as stored, so a real change anywhere still shows.
     """
     n = len(pts)
     edges = [(pts[i], pts[(i + 1) % n]) for i in range(n)]
     present = collections.Counter(edges)
-    keep = [i for i, (a, b) in enumerate(edges) if a != b and not present[(b, a)]]
+    removed = {i for i, (a, b) in enumerate(edges) if a == b or present[(b, a)]}
+    feet = {p for i in removed for p in edges[i] if edges[i][0] != edges[i][1]}
+    keep = [i for i in range(n) if i not in removed]
     by_start = collections.defaultdict(list)
     for i in keep:
         by_start[edges[i][0]].append(i)
@@ -164,11 +168,10 @@ def ring_corners(pts):
     for i in keep:
         u, v = edges[i]
         following = by_start[v]
-        if not following:
+        if v not in feet or not following:
             corners[v] += 1
             continue
-        j = min(following, key=lambda k: (k - i - 1) % n)
-        w = edges[j][1]
+        w = edges[min(following, key=lambda k: (k - i - 1) % n)][1]
         (ux, uy), (vx, vy), (wx, wy) = ((float(x), float(y)) for x, y in (u, v, w))
         cross = (vx - ux) * (wy - vy) - (vy - uy) * (wx - vx)
         off_line = abs(cross) > SLIT_FOOT_MM * max(math.hypot(wx - ux, wy - uy), 1e-9)
@@ -178,7 +181,7 @@ def ring_corners(pts):
 
 
 def fills(tree):
-    """Filled-area corners per (zone uuid, layer), as a multiset of exact coordinate strings, fracture slits removed."""
+    """Filled-polygon vertices per (zone uuid, layer), as a multiset of exact coordinate strings, fracture slits removed."""
     zones = {}
     for item in tree:
         if isinstance(item, list) and item and atom(item[0]) == 'zone':

@@ -186,6 +186,13 @@ class VerifyInsertParts(unittest.TestCase):
         result = self.check(text[:a.end()] + spike + text[a.end():])
         self.assertEqual(result['fill_vertices_changed_inside_region'], {})
 
+    def test_far_near_duplicate_vertex_cluster_move_is_refused(self):
+        text = self.inserted()
+        for x in ('69.535926', '69.535929', '69.535931'):
+            self.assertIn(f'(xy {x} 21.8495)', text)
+            text = text.replace(f'(xy {x} 21.8495)', f'(xy {x} 22.2495)')
+        self.refused(text, 'changed outside the edit region')
+
     def test_fill_change_far_away_is_refused(self):
         text = self.inserted()
         at = text.index('(filled_polygon')
