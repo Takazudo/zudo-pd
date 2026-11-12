@@ -37,7 +37,7 @@
       "record_id": "rec-c2863562",
       "domain": "primary-specification",
       "status": "COVERED",
-      "reason": "Texas Instruments SBOS807E retrieved and hashed 2026-10-31; PDF not retained.",
+      "reason": "Texas Instruments SBOS807E retrieved and hashed 2026-10-31; PDF not retained. Input bias, input-current abs max, differential input diodes and input impedance added 2026-11-12 (D12, #279) from the same hashed SBOS807E.",
       "fact_ids": [
         "fact-c2863562-manufacturer",
         "fact-c2863562-supply-absmax",
@@ -45,9 +45,27 @@
         "fact-c2863562-vos-high-voltage",
         "fact-c2863562-vcm",
         "fact-c2863562-swing-low-voltage",
-        "fact-c2863562-swing-high-voltage"
+        "fact-c2863562-swing-high-voltage",
+        "fact-c2863562-ib-low-voltage",
+        "fact-c2863562-ib-high-voltage",
+        "fact-c2863562-input-current-absmax",
+        "fact-c2863562-differential-input-diodes",
+        "fact-c2863562-input-impedance"
       ],
       "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c2863562-differential-diode-vf",
+      "record_id": "rec-c2863562",
+      "domain": "differential-diode-forward-voltage",
+      "status": "OPEN",
+      "reason": "SBOS807E gives back-to-back differential input diodes but no forward-voltage row or differential-voltage limit; the D12 back-feed screen uses a 0.4-0.7 V PA (#279).",
+      "fact_ids": [
+        "fact-c2863562-differential-diode-vf-unsourced"
+      ],
+      "blocking_fact_ids": [
+        "fact-c2863562-differential-diode-vf-unsourced"
+      ]
     },
     {
       "coverage_id": "cov-c2863562-placement",

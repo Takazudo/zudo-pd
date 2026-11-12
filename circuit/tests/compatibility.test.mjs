@@ -59,7 +59,7 @@ test('installed runtime preserves closed evidence identities, counts and canonic
   for (const path of currentEvidence.retiredFiles.paths) assert.equal(existsSync(join(root,path)),false,`retired ${path} reappeared`);
   assert.equal(model.packagePreviews.length,47);
   const inv=await json(join(root,inventoryPath));
-  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,431);
+  assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>!p.dnp).length,435);
   assert.equal(inv.lines.flatMap(l=>l.placements).filter(p=>p.dnp).length,12);
 });
 

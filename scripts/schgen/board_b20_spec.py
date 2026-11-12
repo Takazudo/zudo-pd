@@ -498,7 +498,7 @@ for rail, out, ovt, ovb, uvt, uvb, u in (('12', 'P12_OUT', '47.5k 0.1%', '12k 0.
     rprop(f'ROV{rail}B', ovb, f'OV{rail}_DIV', 'GND')
     rprop(f'RUV{rail}A', uvt, out, f'UV{rail}_DIV')
     rprop(f'RUV{rail}B', uvb, f'UV{rail}_DIV', 'GND')
-    opa(u, 'P5_SUP', 'GND', (f'OV{rail}_DIV', 'REF25', f'OV{rail}_CMP'), ('REF25', f'UV{rail}_DIV', f'UV{rail}_CMP'))
+    opa(u, 'P5_SUP', 'GND', (f'OV{rail}_IN', 'REF25', f'OV{rail}_CMP'), ('REF25', f'UV{rail}_IN', f'UV{rail}_CMP'))
     two(f'C{u}D', 'C100N', 'P5_SUP', 'GND')
 nfet('Q42', 'OV12_CMP', 'GND', 'FAULT_N')
 nfet('Q43', 'UV12_CMP', 'ARM_GND', 'FAULT_N')
@@ -588,6 +588,13 @@ part('TP5', 'TPM12', ('1', 'M12_PRE'))
 # PD20 layout review (owner decision 2026-11-04): a 100 nF high-frequency bypass from U3 pin 2 (VIN) to its PAD
 # (M12_RAW), beside the IC; it sees VIN + |Vout|, about 33 V (37.6 V worst case) on the 50 V X7R part
 two('CU3D', 'C100N', 'M12_RAW', 'VIN')
+
+# Readiness D12 (owner decision 2026-11-12, dec-b20-comparator-input-series-r): 100k in series with each U6/U7
+# divider-side input limits the OPA2187 differential-diode current from REF25 while +12 / +5 are absent. U8 (-12) is
+# left unresistored: its input diodes clamp the REF-referenced -12 dividers. Placed last so earlier annotation is kept.
+for rail in ('12', '5'):
+    two(f'RS{rail}O', 'R100K', f'OV{rail}_DIV', f'OV{rail}_IN')
+    two(f'RS{rail}U', 'R100K', f'UV{rail}_DIV', f'UV{rail}_IN')
 
 
 # VIN arrives from Board P through J5 and GND is the system return; these flags declare the

@@ -879,14 +879,23 @@ M12_TERMINAL_SINKS = (100e3, 750e3)                            # RMA1 to the U15
 VX_DIV = (30.1e3, 10e3)                                        # RVX1 / RVX2 from REF25
 Q55_BODY_VF_PA = (0.3, 0.6)                                    # PA: BSS138 body diode at ~10-20 uA (no sourced row)
 Q55_DRAIN_R = 150.0                                            # RXN: Q55 (source M12_OUT) drain M12_DX to GND
-SERIES_R_OPTIONS = (10e3, 100e3, 1e6)                          # paper fix: series resistor at each divider-side input
+SERIES_R_OPTIONS = (10e3, 100e3, 1e6)                          # paper options (#279): one R_S at every divider-side input
+# Fitted (owner decision 2026-11-12, dec-b20-comparator-input-series-r): 100k C25803 RS12O/RS12U/RS5O/RS5U (R77-R80) on
+# the U6/U7 divider-side inputs; U8 (-12) stays unresistored so its diodes keep clamping the REF-referenced dividers.
+COMPARATOR_SERIES_R = {'U6': 100e3, 'U7': 100e3, 'U8': 0.0}
+UNFIXED_SERIES_R = {'U6': 0.0, 'U7': 0.0, 'U8': 0.0}
+OPA_INPUT_C_TYP_F = 4.2e-12 + 6e-12                            # SBOS807E ZIC + ZID, typical only (no maximum)
+INPUT_STRAY_C_PA_F = 3e-12                                     # PA: pad and trace capacitance at the comparator input
+OPA_RESPONSE_TYP_S = 5.0 / 0.2e6 + 8e-6                        # scale only: 5 V swing at 0.2 V/us typ + 8 us overload recovery typ
 
 
-def comparator_input_diodes(series_r=0.0):
+def comparator_input_diodes(series_r=None, _options=True):
     """OPA2187 OV/UV comparators U6, U7, U8 and U5B: back-to-back input-diode conduction while a rail is absent.
 
     Returns the per-channel diode current and REF25 load change, the REF5025 shift from its load-regulation rows, the
-    resulting setpoint and RAMP error, and the disabled no-load terminal level the diode current back-feeds."""
+    resulting setpoint and RAMP error, and the disabled no-load terminal level the diode current back-feeds.
+    series_r maps U6 / U7 / U8 to the resistor in series with each divider-side input (default: as fitted)."""
+    rs_map = dict(COMPARATOR_SERIES_R if series_r is None else series_r)
     rows = {}
     for vf in OPA_DIFF_DIODE_VF_PA:
         ch = {}
@@ -895,13 +904,13 @@ def comparator_input_diodes(series_r=0.0):
             for kind, res, side in (('OV', OV_RES, 'A'), ('UV', UV_RES, 'B')):
                 top, bot = res[rail]
                 rth = top * bot / (top + bot)
-                i = max(0.0, REF_V - vf) / (rth + series_r)
+                i = max(0.0, REF_V - vf) / (rth + rs_map[u])
                 ch[f'{u}{side} {kind}{rail}'] = {'diode_a': i, 'ref25_delta_a': i}
         # U8: REF25 -> Ra -> node -> Rb -> M12_OUT (0 V); the diode clamps the node to GND.
         for side, (rb, ra), kind in (('A', OV_RES['-12'], 'OV'), ('B', UV_RES['-12'], 'UV')):
             v_open = REF_V * rb / (ra + rb)
             v, cur = _solve_dc({'REF': REF_V, 'GND': 0.0, 'OUT': 0.0}, [('REF', 'N', ra), ('N', 'OUT', rb)],
-                               [('N', 'GND', vf, max(series_r, 1e-3))])
+                               [('N', 'GND', vf, max(rs_map['U8'], 1e-3))])
             ch[f'U8{side} {kind}-12'] = {'diode_a': cur[0], 'ref25_delta_a': (REF_V - v['N']) / ra - REF_V / (ra + rb),
                                          'node_open_v': round(v_open, 4)}
         # U5B: REF125 against VIN_DIV; with VIN at its 19 V operating minimum the inputs differ by < VF.
@@ -945,6 +954,7 @@ def comparator_input_diodes(series_r=0.0):
                 for rail, k in TRACK_K.items()}
 
     def backfeed(vf, rs, prebias=True, u13_clamp=True, q55_vf=Q55_BODY_VF_PA[0]):
+        rs = {'+12': rs['U6'], '+5': rs['U7'], '-12': rs['U8']}
         out = {}
         for rail in ('+12', '+5'):
             top_t, bot_t = TRACK_R[rail]
@@ -958,7 +968,7 @@ def comparator_input_diodes(series_r=0.0):
             for kind, r in (('OV', OV_RES), ('UV', UV_RES)):
                 top, bot = r[rail]
                 res += [('OUT', kind, top), (kind, 'GND', bot)]
-                dio.append(('REF', kind, vf, max(rs, 1e-3)))
+                dio.append(('REF', kind, vf, max(rs[rail], 1e-3)))
             v, _ = _solve_dc(fixed, res, dio)
             out[rail] = v['OUT']
         fixed = {'REF': REF_V, 'GND': 0.0}
@@ -966,7 +976,7 @@ def comparator_input_diodes(series_r=0.0):
                ('REF', 'UVN', UV_RES['-12'][1]), ('UVN', 'OUT', UV_RES['-12'][0])]
         res += [('OUT', 'GND', r) for r in M12_TERMINAL_SINKS]
         dio = [('OUT', 'GND', q55_vf, Q55_DRAIN_R)]
-        dio += [('OVN', 'GND', vf, max(rs, 1e-3)), ('UVN', 'GND', vf, max(rs, 1e-3))] if rs < 1e12 else []
+        dio += [('OVN', 'GND', vf, max(rs['-12'], 1e-3)), ('UVN', 'GND', vf, max(rs['-12'], 1e-3))] if rs['-12'] < 1e12 else []
         v, _ = _solve_dc(fixed, res, dio)
         out['-12'] = v['OUT']
         return out
@@ -976,8 +986,9 @@ def comparator_input_diodes(series_r=0.0):
                  for q in Q55_BODY_VF_PA]
         return {rail: [round(min(x[rail] for x in cases), 3), round(max(x[rail] for x in cases), 3)] for rail in ('+12', '+5', '-12')}
 
-    now = span(0.0)
-    no_diodes = span(1e15)
+    now = span(rs_map)
+    unfixed = span(UNFIXED_SERIES_R)
+    no_diodes = span({k: 1e15 for k in rs_map})
     limits = {'+12': DISCHARGE_LEVEL['+12'], '+5': min(DISCHARGE_LEVEL['+5'], P5_ORDER_LEVEL), '-12': DISCHARGE_LEVEL['-12']}
 
     def thresh_err(rs):
@@ -998,14 +1009,33 @@ def comparator_input_diodes(series_r=0.0):
         margins[rail] = min(ov[0] / w['ov_limit'][0] - 1, 1 - ov[1] / w['ov_limit'][1],
                             uv[0] / w['uv_limit'][0] - 1, 1 - uv[1] / w['uv_limit'][1])
     options = []
-    for rs in SERIES_R_OPTIONS:
+    for rs in SERIES_R_OPTIONS if _options else ():
         err = thresh_err(rs)
-        sub = comparator_input_diodes(rs)['ref25_delta_max_a'] if series_r == 0.0 else None
-        options.append({'series_r_ohm': rs, 'ref25_delta_max_ma': None if sub is None else round(sub * 1e3, 4),
-                        'disabled_terminal_v': span(rs),
+        uniform = {k: rs for k in rs_map}
+        sub = comparator_input_diodes(uniform, _options=False)['ref25_delta_max_a']
+        options.append({'series_r_ohm': rs, 'ref25_delta_max_ma': round(sub * 1e3, 4),
+                        'disabled_terminal_v': span(uniform),
                         'ib_threshold_error_pct': {r: round(x * 100, 4) for r, x in err.items()},
                         'window_margin_pct': {r: round(m * 100, 4) for r, m in margins.items()},
                         'threshold_status': status(all(err[r] < margins[r] for r in err))})
+    fitted_windows = {}
+    fitted_rc = {}
+    for rail, u, ib in (('+12', 'U6', OPA_IB_MAX['full_range_lv']), ('+5', 'U7', OPA_IB_MAX['full_range_lv']),
+                        ('-12', 'U8', OPA_IB_MAX['full_range_hv'])):
+        w = windows()[rail]
+        for kind, res, trip, limit in (('OV', OV_RES, w['ov_trip_v'], w['ov_limit']), ('UV', UV_RES, w['uv_trip_v'], w['uv_limit'])):
+            top, bot = res[rail]
+            rth = top * bot / (top + bot)
+            gain = (top + bot) / bot          # rail volts per node volt; for -12 top is Rb (to M12_OUT), bot is Ra (to REF25)
+            dv = ib * (rth + rs_map[u]) * gain
+            lo, hi = trip[0] - dv, trip[1] + dv
+            ok = (lo > limit[0] and hi <= limit[1]) if kind == 'OV' else (lo >= limit[0] and hi < limit[1])
+            fitted_windows[f'{kind}{rail}'] = {
+                'series_r_ohm': rs_map[u], 'thevenin_ohm': round(rth, 1), 'ib_max_a': ib,
+                'rail_error_mv': round(dv * 1e3, 3), 'trip_v_with_ib': [round(lo, 4), round(hi, 4)], 'limit_v': limit,
+                'margin_pct': [round((lo - limit[0]) / limit[0] * 100, 3), round((limit[1] - hi) / limit[1] * 100, 3)],
+                'status': status(ok)}
+            fitted_rc[f'{kind}{rail}'] = round((rth + rs_map[u]) * (OPA_INPUT_C_TYP_F + INPUT_STRAY_C_PA_F) * 1e6, 3)
     channels = {k: {'diode_ma': round(c['diode_a'] * 1e3, 4), 'ref25_delta_ma': round(c['ref25_delta_a'] * 1e3, 4),
                     **({'note': c['note']} if 'note' in c else {})} for k, c in worst.items()}
     return {
@@ -1042,6 +1072,17 @@ def comparator_input_diodes(series_r=0.0):
                                   'discharge levels apply to a disabled, unloaded terminal after the hold-up is unresolved. '
                                   'No phase deck includes U6-U8 or these dividers.',
         'series_resistor_options': options,
+        'fitted_series_r_ohm': rs_map,
+        'disabled_terminal_v_before_fix': unfixed,
+        'fitted_window_ib_screen': fitted_windows,
+        'fitted_window_ib_status': status(all(v['status'] == 'PASS' for v in fitted_windows.values())),
+        'fitted_window_ib_note': ('IB (-40..125 C row for each supply: U6/U7 4.5-8 V, U8 8-36 V) x (divider Thevenin + R_S), '
+                                  'referred to the rail, widens the windows() trip bounds; windows() itself omits IB.'),
+        'fitted_input_rc_us': fitted_rc,
+        'fitted_input_rc_note': (f'tau = (Thevenin + R_S) x (SBOS807E ZIC + ZID typical {OPA_INPUT_C_TYP_F * 1e12:.1f} pF + '
+                                 f'{INPUT_STRAY_C_PA_F * 1e12:.0f} pF stray PA). No OV response budget exists in the project '
+                                 f'(NOT FOUND); for scale the comparator itself takes about {OPA_RESPONSE_TYP_S * 1e6:.0f} us typical '
+                                 '(0.2 V/us slew over 5 V plus 8 us overload recovery).'),
     }
 
 
@@ -1145,6 +1186,8 @@ def main():
     line('REF25 load (disabled, with diodes)', c['ref25_load_status'], f"{c['ref25_load_ma']['disabled_with_diodes']} mA vs {c['ref25_load_ma']['budget_pa']} mA; step on enable {c['ref25_load_ma']['step_on_enable']} mA")
     line('REF25 setpoint budget (full-range load regulation)', c['setpoint_budget_status'].split()[0], c['setpoint_budget_note'])
     line('disabled no-load terminal back-feed', c['disabled_backfeed_status'].split()[0], str(c['disabled_terminal_v_no_load']))
+    line('OV/UV windows with IB x (Thevenin + fitted R_S)', c['fitted_window_ib_status'],
+         ', '.join(f"{k} {min(v['margin_pct'])} %" for k, v in c['fitted_window_ib_screen'].items()))
     line('converter loop stability', 'SIM', 'TPS54560 average-model AC runs (see the draft page)')
 
 

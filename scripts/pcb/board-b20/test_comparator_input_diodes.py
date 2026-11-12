@@ -1,69 +1,112 @@
 """OV/UV comparator input-diode loading of REF25 and the disabled no-load back-feed (2026-11-12, D12).
 
-U6/U7/U8 (and U5B) are OPA2187 sections with back-to-back differential input diodes (SBOS807E 7.3). While a rail is
-absent, the diodes conduct from REF25 into the window dividers. These assertions pin the CALCULATED result: abs max
-and the REF25 load hold, the full-range setpoint budget and the disabled back-feed stay OPEN, and the series-resistor
-paper options keep their threshold verdicts. They do not prove bench behaviour.
+U6/U7/U8 (and U5B) are OPA2187 sections with back-to-back differential input diodes (SBOS807E 7.3.7). While a rail is
+absent, the diodes conduct from REF25 into the window dividers. The owner decision fits 100k in series with the four
+U6/U7 divider-side inputs and leaves U8 unresistored. These assertions pin the CALCULATED result for the fitted design,
+keep the pre-fix result as history, and check from the spec that U8's inputs share no node with the +12 / +5 terminal
+networks except REF25 and GND. They do not prove bench behaviour.
 """
 import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
-SOURCE = Path(__file__).resolve().parents[1] / 'calculate-board-b20-draft.py'
+ROOT = Path(__file__).resolve().parents[3]
+SOURCE = ROOT / 'scripts' / 'pcb' / 'calculate-board-b20-draft.py'
 spec = importlib.util.spec_from_file_location('calculator_comparator_diodes', SOURCE)
 calculator = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(calculator)
 RESULT = calculator.comparator_input_diodes()
+BEFORE = calculator.comparator_input_diodes(calculator.UNFIXED_SERIES_R, _options=False)
+sys.path.insert(0, str(ROOT / 'scripts' / 'schgen'))
+import board_b20_spec as b20  # noqa: E402
 
 
-class ComparatorInputDiodeTests(unittest.TestCase):
-    def test_channel_currents_at_vf_min(self):
-        expected = {'U6A OV+12': 0.2192, 'U6B UV+12': 0.0575, 'U7A OV+5': 0.1639, 'U7B UV+5': 0.3982,
-                    'U8A OV-12': 0.0841, 'U8B UV-12': 0.0318, 'U5B VINUV': 0.0}
+class FittedSeriesResistorTests(unittest.TestCase):
+    def test_spec_fits_four_resistors_on_u6_u7_only(self):
+        self.assertEqual(calculator.COMPARATOR_SERIES_R, {'U6': 100e3, 'U7': 100e3, 'U8': 0.0})
+        for rail, u, plus, minus in (('12', 'U6', 'OV12_IN', 'UV12_IN'), ('5', 'U7', 'OV5_IN', 'UV5_IN')):
+            self.assertIn(f'{u}.3', b20.NETS[plus])
+            self.assertIn(f'{u}.6', b20.NETS[minus])
+            for net, div in ((plus, f'OV{rail}_DIV'), (minus, f'UV{rail}_DIV')):
+                (res,) = [p.split('.')[0] for p in b20.NETS[net] if not p.startswith(u)]
+                self.assertEqual(b20.COMPONENTS[res][1:3], ('100k', 'C25803'))
+                self.assertIn(f'{res}.1', b20.NETS[div])
+        for net in ('OVN_DIV', 'UVN_DIV'):
+            self.assertIn('U8.2' if net == 'OVN_DIV' else 'U8.5', b20.NETS[net])
+
+    def test_u8_inputs_share_no_node_with_positive_terminals(self):
+        # Walk resistors only (two-pin R parts), stopping at stiff nodes. U8's inputs must not reach P12_OUT or P5_OUT.
+        stiff = {'REF25', 'GND', 'M12_OUT', 'M12_PRE', 'P5_SUP'}
+        pins = {}
+        for net, members in b20.NETS.items():
+            for p in members:
+                pins[p] = net
+        resistors = {r for r in b20.COMPONENTS if r.startswith('R') and {f'{r}.1', f'{r}.2'} <= set(pins)}
+        seen, todo = set(), ['OVN_DIV', 'UVN_DIV']
+        while todo:
+            net = todo.pop()
+            if net in seen or net in stiff:
+                continue
+            seen.add(net)
+            for p in b20.NETS[net]:
+                ref, pin = p.rsplit('.', 1)
+                if ref in resistors:
+                    todo.append(pins[f'{ref}.{"2" if pin == "1" else "1"}'])
+        self.assertEqual(seen, {'OVN_DIV', 'UVN_DIV'})
+        self.assertNotIn('P12_OUT', seen)
+        self.assertNotIn('P5_OUT', seen)
+
+    def test_fitted_channel_currents_and_ref_load(self):
         got = {k: v['diode_ma'] for k, v in RESULT['channels_at_vf_min'].items()}
-        self.assertEqual(got, expected)
-        self.assertEqual(RESULT['ref25_delta_ma_by_vf'], {'0.4': 0.9349, '0.7': 0.7979})
-
-    def test_abs_max_and_ref_load_hold(self):
+        self.assertEqual(got, {'U6A OV+12': 0.0192, 'U6B UV+12': 0.0154, 'U7A OV+5': 0.0186, 'U7B UV+5': 0.0199,
+                               'U8A OV-12': 0.0841, 'U8B UV-12': 0.0318, 'U5B VINUV': 0.0})
+        self.assertEqual(RESULT['ref25_delta_ma_by_vf'], {'0.4': 0.1693, '0.7': 0.1416})
         self.assertEqual(RESULT['abs_max_status'], 'PASS')
-        self.assertLess(RESULT['diode_current_max_ma'], 10.0)
         load = RESULT['ref25_load_ma']
-        self.assertEqual(load['enabled_settled'], 1.9232)
-        self.assertEqual(load['disabled_with_diodes'], 2.8423)
-        self.assertEqual(load['step_on_enable'], 0.9191)
+        self.assertEqual((load['enabled_settled'], load['disabled_with_diodes'], load['step_on_enable']), (1.9232, 2.0766, 0.1534))
         self.assertEqual(RESULT['ref25_load_status'], 'PASS')
-        self.assertEqual(RESULT['ref25_step_shift_ppm'], {'25c': 27.572, 'full_range': 45.954})
-        self.assertEqual(RESULT['setpoint_step_mv_full_range'], {'+12': 0.5584, '+5': 0.2336, '-12': 0.5575})
+        self.assertEqual(RESULT['ref25_step_shift_ppm'], {'25c': 4.603, 'full_range': 7.672})
 
-    def test_setpoint_budget_gap_stays_open(self):
-        ppm = RESULT['setpoint_budget_ppm']
-        self.assertEqual(ppm['budgeted_25c_row_at_pa'], 90.0)
-        self.assertGreater(ppm['full_range_row_at_enabled_load'], ppm['budgeted_25c_row_at_pa'])
-        self.assertEqual(RESULT['setpoint_budget_status'], 'OPEN')
-
-    def test_disabled_backfeed_stays_open(self):
-        self.assertEqual(RESULT['disabled_terminal_v_no_load'],
-                         {'+12': [0.915, 1.162], '+5': [1.467, 1.78], '-12': [0.204, 0.357]})
-        self.assertEqual(RESULT['disabled_terminal_v_without_diode_conduction']['-12'], [0.303, 0.602])
-        levels = RESULT['absent_levels_v']
-        for rail in ('+12', '+5'):
-            self.assertGreater(RESULT['disabled_terminal_v_no_load'][rail][0], levels[rail], rail)
-        # -12: the comparator diodes clamp the REF-referenced dividers today; without them the Q55 body diode bounds
-        # the terminal at one unsourced drop, which reaches the 0.6 V level only at the top of its PA.
-        self.assertLess(RESULT['disabled_terminal_v_no_load']['-12'][1], levels['-12'])
-        self.assertLess(RESULT['disabled_terminal_v_without_diode_conduction']['-12'][0], levels['-12'])
-        self.assertGreater(RESULT['disabled_terminal_v_without_diode_conduction']['-12'][1], levels['-12'])
-        self.assertIn('Q55 body diode', RESULT['disabled_backfeed_note'])
-        self.assertEqual(RESULT['disabled_backfeed_status'], 'OPEN')
+    def test_fitted_backfeed_is_below_the_absent_levels(self):
+        now, levels = RESULT['disabled_terminal_v_no_load'], RESULT['absent_levels_v']
+        self.assertEqual(now, {'+12': [0.124, 0.253], '+5': [0.158, 0.307], '-12': [0.204, 0.357]})
+        for rail, (_, high) in now.items():
+            self.assertLess(high, levels[rail], rail)
+        self.assertEqual(RESULT['disabled_backfeed_status'], 'PASS')
         self.assertIn('unresolved', RESULT['disabled_backfeed_note'])
 
-    def test_series_resistor_options(self):
+    def test_pre_fix_result_is_kept(self):
+        self.assertEqual(RESULT['disabled_terminal_v_before_fix'], {'+12': [0.915, 1.162], '+5': [1.467, 1.78], '-12': [0.204, 0.357]})
+        self.assertEqual(BEFORE['disabled_backfeed_status'], 'OPEN')
+        self.assertEqual(BEFORE['diode_current_max_ma'], 0.3982)
+        self.assertEqual(BEFORE['ref25_load_ma']['disabled_with_diodes'], 2.8423)
+        self.assertEqual(BEFORE['series_resistor_options'], [])
+
+    def test_fitted_windows_with_ib(self):
+        screen = RESULT['fitted_window_ib_screen']
+        margins = {k: v['margin_pct'] for k, v in screen.items()}
+        self.assertEqual(margins, {'OV+12': [0.328, 0.23], 'UV+12': [1.596, 1.496], 'OV+5': [0.54, 0.506],
+                                   'UV+5': [2.035, 1.942], 'OV-12': [0.316, 0.203], 'UV-12': [0.65, 0.651]})
+        self.assertEqual(RESULT['fitted_window_ib_status'], 'PASS')
+        self.assertEqual(screen['OV+12']['ib_max_a'], 5e-9)
+        self.assertEqual(screen['OV-12']['ib_max_a'], 7.5e-9)
+
+    def test_fitted_input_rc(self):
+        self.assertEqual(RESULT['fitted_input_rc_us'], {'OV+12': 1.446, 'UV+12': 1.802, 'OV+5': 1.489, 'UV+5': 1.39,
+                                                        'OV-12': 0.263, 'UV-12': 0.691})
+        self.assertIn('NOT FOUND', RESULT['fitted_input_rc_note'])
+
+    def test_paper_options_are_kept(self):
         opts = {o['series_r_ohm']: o for o in RESULT['series_resistor_options']}
         self.assertEqual({k: o['threshold_status'] for k, o in opts.items()}, {10e3: 'PASS', 100e3: 'PASS', 1e6: 'FAIL'})
-        self.assertEqual(opts[100e3]['ref25_delta_max_ma'], 0.0938)
-        self.assertEqual(opts[100e3]['ib_threshold_error_pct'], {'+12': 0.03, '+5': 0.03, '-12': 0.0361})
-        self.assertEqual(opts[100e3]['window_margin_pct'], {'+12': 0.2516, '+5': 0.5288, '-12': 0.2102})
+        # Uniform 100k including U8 lifts -12 to the Q55 body-diode drop: the reason U8 stays unresistored.
         self.assertEqual(opts[100e3]['disabled_terminal_v']['-12'], [0.302, 0.601])
+        self.assertGreater(opts[100e3]['disabled_terminal_v']['-12'][1], RESULT['absent_levels_v']['-12'])
+
+    def test_setpoint_budget_gap_stays_open(self):
+        self.assertEqual(RESULT['setpoint_budget_ppm']['budgeted_25c_row_at_pa'], 90.0)
+        self.assertEqual(RESULT['setpoint_budget_status'], 'OPEN')
 
     def test_inputs_are_not_relaxed(self):
         self.assertEqual(calculator.OPA_DIFF_DIODE_VF_PA, (0.4, 0.7))
@@ -73,6 +116,8 @@ class ComparatorInputDiodeTests(unittest.TestCase):
         self.assertEqual(calculator.REF_IOUT_MAX_A, 10e-3)
         self.assertEqual(calculator.REF_LOAD_MA_PA, 3.0)
         self.assertEqual(calculator.Q55_BODY_VF_PA, (0.3, 0.6))
+        self.assertAlmostEqual(calculator.OPA_INPUT_C_TYP_F, 10.2e-12)
+        self.assertEqual(calculator.INPUT_STRAY_C_PA_F, 3e-12)
 
 
 if __name__ == '__main__':
