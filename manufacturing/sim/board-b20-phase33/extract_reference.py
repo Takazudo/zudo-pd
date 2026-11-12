@@ -760,7 +760,7 @@ def collect(work, evidence, extra_dir=None):
     evidence = Path(evidence)
     evidence.mkdir(parents=True)
     work = Path(work)
-    runs = sorted(work.glob('ladder-*')) + sorted(work.glob('gaps/*/ladder-*')) + sorted(work.glob('t2/*/ladder-*')) + sorted(work.glob('itl4/*/ladder-*'))
+    runs = sorted(work.glob('ladder-*')) + sorted(work.glob('gaps/*/ladder-*')) + sorted(work.glob('t2/*/ladder-*')) + sorted(work.glob('itl4/*/ladder-*')) + sorted(work.glob('bank/*/ladder-*'))
     sources = []
     for run in runs:
         prefix = run.relative_to(work).as_posix()

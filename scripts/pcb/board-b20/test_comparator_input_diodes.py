@@ -86,8 +86,8 @@ class FittedSeriesResistorTests(unittest.TestCase):
     def test_fitted_windows_with_ib(self):
         screen = RESULT['fitted_window_ib_screen']
         margins = {k: v['margin_pct'] for k, v in screen.items()}
-        self.assertEqual(margins, {'OV+12': [0.328, 0.23], 'UV+12': [1.596, 1.496], 'OV+5': [0.54, 0.506],
-                                   'UV+5': [2.035, 1.942], 'OV-12': [0.316, 0.203], 'UV-12': [0.65, 0.651]})
+        self.assertEqual(margins, {'OV+12': [0.322, 0.224], 'UV+12': [1.59, 1.49], 'OV+5': [0.534, 0.501],
+                                   'UV+5': [2.028, 1.936], 'OV-12': [0.309, 0.197], 'UV-12': [0.644, 0.645]})
         self.assertEqual(RESULT['fitted_window_ib_status'], 'PASS')
         self.assertEqual(screen['OV+12']['ib_max_a'], 5e-9)
         self.assertEqual(screen['OV-12']['ib_max_a'], 7.5e-9)
@@ -104,9 +104,12 @@ class FittedSeriesResistorTests(unittest.TestCase):
         self.assertEqual(opts[100e3]['disabled_terminal_v']['-12'], [0.302, 0.601])
         self.assertGreater(opts[100e3]['disabled_terminal_v']['-12'][1], RESULT['absent_levels_v']['-12'])
 
-    def test_setpoint_budget_gap_stays_open(self):
-        self.assertEqual(RESULT['setpoint_budget_ppm']['budgeted_25c_row_at_pa'], 90.0)
-        self.assertEqual(RESULT['setpoint_budget_status'], 'OPEN')
+    def test_setpoint_budget_uses_full_range_row(self):
+        ppm = RESULT['setpoint_budget_ppm']
+        self.assertEqual(ppm['budgeted_full_range_row_at_pa'], 150.0)
+        self.assertEqual(ppm['full_range_row_at_enabled_load'], 96.16)
+        self.assertEqual(RESULT['setpoint_budget_status'], 'PASS')
+        self.assertAlmostEqual(calculator.REF_ACC, 0.001 + 50e-6 * 3.0, places=12)
 
     def test_inputs_are_not_relaxed(self):
         self.assertEqual(calculator.OPA_DIFF_DIODE_VF_PA, (0.4, 0.7))
