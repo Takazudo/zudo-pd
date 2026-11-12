@@ -1,0 +1,103 @@
+# Single-purpose B20 incremental insertion (readiness D12, #279).
+# Adds the parts named by one committed plan (scripts/pcb/board-b20/insert-plans/<id>.json) to the saved B20 PCB at the
+# pinned KiCad 10.0.6 image, removes and adds only the plan's copper on the new parts' nets, refills twice in fresh
+# processes with DRC and schematic parity under the unchanged rules, proves nothing else changed, and re-derives the
+# hash-bound desk reports from the saved native copper. It never moves an existing footprint or touches another net.
+# Output is an artifact for review; nothing is pushed. No secrets, no write permission, no deploy.
+
+name: B20 insert parts
+
+on:
+  workflow_dispatch:
+    inputs:
+      plan:
+        description: Plan id under scripts/pcb/board-b20/insert-plans (file name without .json)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: b20-insert-parts
+  cancel-in-progress: false
+
+jobs:
+  insert:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    env:
+      IMAGE: kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec
+      DOCKER_DEFAULT_PLATFORM: linux/amd64
+      PYTHONHASHSEED: '0'
+      PLAN_ID: ${{ inputs.plan }}
+      D: scripts/pcb/board-b20
+      OUT: boards/board-b20-draft
+    steps:
+      # Same pins as component-spec-skills.yml (checkout v5.0.1, setup-python v5.6.0).
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: Validate the plan id
+        run: |
+          [[ "$PLAN_ID" =~ ^[a-z0-9][a-z0-9-]*$ ]] || { echo "invalid plan id: $PLAN_ID" >&2; exit 1; }
+          test -f "$D/insert-plans/$PLAN_ID.json"
+      - name: Install the fill-comparison dependency
+        run: python3 -m pip install --disable-pip-version-check shapely==2.0.6
+      - name: Preflight - projection and schematic match the spec
+        run: |
+          python3 scripts/schgen/gen_b20_components.py --check
+          python3 scripts/schgen/gen_schematic.py scripts/schgen/board_b20_spec.py
+          git diff --exit-code -- boards/board-b20-draft/board-b20-draft.kicad_sch
+      - name: Pull the pinned KiCad image by digest
+        run: docker pull "$IMAGE"
+      - name: Insert, finalize, verify and re-derive reports
+        id: insert
+        run: |
+          set -euo pipefail
+          T="$RUNNER_TEMP/b20"; E="$RUNNER_TEMP/evidence"; mkdir -p "$T" "$E"
+          PLAN="$D/insert-plans/$PLAN_ID.json"
+          run() { docker run --rm --platform linux/amd64 --cpus 1 --user 0 -e PYTHONHASHSEED -v "$PWD":"$PWD" -v "$T":"$T" -w "$PWD" "$IMAGE" \
+            bash -c 'broadwayd :5 >/dev/null 2>&1 & sleep 1; GDK_BACKEND=broadway BROADWAY_DISPLAY=:5 exec python3 "$@"' kicad-python "$@"; }
+          cp "$OUT/board-b20-draft.kicad_pcb" "$T/before.kicad_pcb"
+          cp "$OUT/report-input-receipt.json" "$T/report-template.json"
+          run "$D/insert-parts.py" "$T/before.kicad_pcb" "$T/inserted.kicad_pcb" "$PLAN" | tee "$E/insert-parts.json"
+          python3 "$D/finalize_refill.py" "$T/inserted.kicad_pcb" "$OUT/board-b20-draft.kicad_pcb" \
+            --project "$OUT/board-b20-draft.kicad_pro" --receipt "$OUT/refill-finalization.json"
+          python3 "$D/verify-insert-parts.py" "$T/before.kicad_pcb" "$OUT/board-b20-draft.kicad_pcb" "$PLAN" "$E/insert-verification.json"
+          run "$D/dump-geom.py" "$OUT/board-b20-draft.kicad_pcb" > "$T/final-geom.json"
+          run "$D/read-routed-copper.py" "$OUT/board-b20-draft.kicad_pcb" "$T/report-template.json" "$T/final-geom.json" \
+            "$T/final-routes.json" "$OUT/report-input-receipt.json"
+          python3 "$D/loop-check.py" "$T/final-geom.json" "$T/final-routes.json" "$OUT/loop-check.json" > /dev/null
+          python3 "$D/current-check.py" "$T/final-geom.json" "$T/final-routes.json" "$OUT/current-check.json" > /dev/null
+          python3 "$D/thermal-check.py" "$OUT/thermal-check.json"
+          python3 "$D/power-report.py"
+      - name: Collect changed files
+        if: always()
+        env:
+          INSERT_OUTCOME: ${{ steps.insert.outcome }}
+        run: |
+          E="$RUNNER_TEMP/evidence"; mkdir -p "$E"
+          git status --porcelain --untracked-files=no | tee "$E/changed.txt"
+          # Changed files are offered for adoption only when every check above passed.
+          if [[ "$INSERT_OUTCOME" == success ]]; then
+            echo PASS > "$E/status.txt"; mkdir -p "$E/files"
+            git diff --name-only -z | xargs -0 -r -I{} cp --parents {} "$E/files/"
+          else
+            echo "FAILED: insert step outcome $INSERT_OUTCOME; no files offered" > "$E/status.txt"
+          fi
+          (cd "$E" && find . -type f ! -name hashes.txt -print0 | sort -z | xargs -0 sha256sum > hashes.txt)
+          cat "$E/hashes.txt"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: b20-insert-parts
+          path: ${{ runner.temp }}/evidence
+          retention-days: 30
+          if-no-files-found: error
