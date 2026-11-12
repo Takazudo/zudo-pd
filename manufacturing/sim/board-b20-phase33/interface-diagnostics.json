@@ -312,15 +312,17 @@
       "evidence": "d1-t1-leak-rejected-20261111.md"
     },
     "T2 peak-hold anti-windup clamp": {
-      "status": "UNDER EVALUATION on -12 V (admitted; not adopted); REJECTED by construction on +5 V",
+      "status": "FAIL on -12 V, attempt 1 (rules 6, 9 and L2; not adopted); REJECTED by construction on +5 V",
       "rails": {
         "+5": {
           "status": "REJECTED by construction (owner decision 2026-11-11; not evaluated in transient)",
           "reason": "RG2P (100 kohm, P5_G to P5_CS) carries Vgs/100 kohm; with the pair off it leaves P5_CS only through Q4's body diode into P5_OUT, so a gate held near the edge injects 8-20 uA against the 1.6 uA divider drain: a threshold-dependent output pedestal."
         },
         "-12": {
-          "status": "UNDER EVALUATION (admitted; not adopted)",
-          "criteria": "d1-t2-criteria.md"
+          "status": "FAIL, attempt 1 (not adopted)",
+          "criteria": "d1-t2-criteria.md",
+          "record": "d1-t2-attempt1-20261112.md",
+          "summary": "Rule 1 passes on the D1 failure deck (1.064 V/ms, 0.1915 A). Rule 6 fails by 135.4 uV (active clamp), rule 9 by 26 nV (identical in the inert control) and loaded L2 by about 0.3 mV (clamp not engaged). The four corners, t2/nom, t2lo, t2hi and t2load/nomR ABORTED."
         }
       },
       "gate_hold_constraint": "Any future +5 V or +12 V gate-hold scheme must idle at Vgs <= about 0.16 V at no load (Vgs / 100 kohm <= 1.6 uA through RG2P or RG1P and the output-side body diode), unless the gate pull-down return is changed.",
