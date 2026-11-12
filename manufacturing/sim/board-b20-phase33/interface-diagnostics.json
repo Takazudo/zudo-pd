@@ -312,15 +312,24 @@
       "evidence": "d1-t1-leak-rejected-20261111.md"
     },
     "T2 peak-hold anti-windup clamp": {
-      "status": "UNDER EVALUATION on -12 V (admitted; not adopted); REJECTED by construction on +5 V",
+      "status": "FAIL on -12 V, attempt 1 (rules 6, 9 and L2; not adopted); REJECTED by construction on +5 V",
       "rails": {
         "+5": {
           "status": "REJECTED by construction (owner decision 2026-11-11; not evaluated in transient)",
-          "reason": "RG2P (100 kohm, P5_G to P5_CS) carries Vgs/100 kohm; with the pair off it leaves P5_CS only through Q4's body diode into P5_OUT, so a gate held near the edge injects 8-20 uA against the 1.6 uA divider drain: a threshold-dependent output pedestal."
+          "reason": "RG2P (100 kohm, P5_G to P5_CS) carries Vgs/100 kohm; with the pair off it leaves P5_CS only through Q4's body diode into P5_OUT, so a gate held near the edge injects 8-20 uA against the 1.6 uA divider drain: a threshold-dependent output pedestal.",
+          "option_b": "Candidate (RG2P returned to GND) passes its paper check; pre-registration HELD pending the deck-stiffness item (owner decision 2026-11-12). Not adopted.",
+          "floor_finding": "RG2P explains at most 4.6 mV (19 %) of the 24 mV excess of the 52 mV floor over 28 mV; the floor is left as it is.",
+          "evidence": [
+            "d1-p5-gate-hold-options-20261111.md",
+            "d1-p5-option-b-paper-check-20261111.md"
+          ]
         },
         "-12": {
-          "status": "UNDER EVALUATION (admitted; not adopted)",
-          "criteria": "d1-t2-criteria.md"
+          "status": "FAIL, attempt 1 (not adopted)",
+          "criteria": "d1-t2-criteria.md",
+          "record": "d1-t2-attempt1-20261112.md",
+          "summary": "Rule 1 passes on the D1 failure deck (1.064 V/ms, 0.1915 A). Rule 6 (135.4 uV) and loaded L2 (about 0.3 mV) fail on DT2C junction capacitance coupling the capture step into trk12n_fb; rule 9 fails by 26 nV on a deck-wide disable kick at vntol (identical in the inert control). The four corners, t2/nom, t2lo, t2hi and t2load/nomR ABORTED.",
+          "deck_stiffness": "d1-deck-stiffness-20261112.md"
         }
       },
       "gate_hold_constraint": "Any future +5 V or +12 V gate-hold scheme must idle at Vgs <= about 0.16 V at no load (Vgs / 100 kohm <= 1.6 uA through RG2P or RG1P and the output-side body diode), unless the gate pull-down return is changed.",
