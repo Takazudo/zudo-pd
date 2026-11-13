@@ -23,9 +23,10 @@ exact copper is only known afterwards. Filled polygons are set aside and:
   must lie in that region, so a fill change anywhere else fails. KiCad's zero-width fracture slits (and a slit foot
   lying straight on its edge) are removed first, because a hole that changes inside the region can move a slit that
   ends far outside it. No other vertex is dropped. KiCad re-approximates arcs within the board's max_error whenever a
-  zone is refilled, so a vertex outside the region may still move if it stays within max_error (from the project's
-  rules, proven unchanged) of the other board's fill boundary of the same zone, checked from both sides. A vanished or
-  added island, hole or notch puts its vertices farther than that and still fails. Accepted moves are recorded.
+  zone is refilled, so a fill edge outside the region may still change if every point along it (sampled every
+  FILL_SAMPLE_MM) stays within max_error of the other board's fill boundary of the same zone, checked from both sides.
+  max_error comes from the project's rules, proven unchanged, and may not exceed MAX_ERROR_CAP_MM. A vanished or added
+  island, hole, notch, cut or bridge wider than that still fails. Accepted changes are recorded.
 This is a vertex screen, not a connectivity proof: a far island that loses its connection without any vertex moving,
 or a long new fill edge from a vertex inside the region, is left to DRC (unconnected items, isolated copper).
 The output records every removed and added copper item, so the delta can be reviewed item by item.
@@ -47,6 +48,10 @@ FILL_MARGIN_MM = 2.0
 REACH_MM = 10.0
 # KiCad stores 1 nm units; a slit foot rounded onto an outline edge sits within a few nm of it.
 SLIT_FOOT_MM = 1e-5
+# KiCad's default arc error; a project may tighten it but not widen the fill tolerance past this.
+MAX_ERROR_CAP_MM = 0.005
+# Spacing of the points checked along each changed fill edge; KiCad fills are at least min_thickness (0.25 mm) wide.
+FILL_SAMPLE_MM = 0.02
 
 
 def child(node, name):
@@ -188,7 +193,7 @@ def ring_edges(pts):
     n = len(pts)
     edges = [(pts[i], pts[(i + 1) % n]) for i in range(n)]
     present = collections.Counter(edges)
-    return [((float(a[0]), float(a[1])), (float(b[0]), float(b[1]))) for a, b in edges if a != b and not present[(b, a)]]
+    return [(a, b) for a, b in edges if a != b and not present[(b, a)]]
 
 
 class EdgeIndex:
@@ -198,7 +203,8 @@ class EdgeIndex:
 
     def __init__(self, edges):
         self.cells = collections.defaultdict(list)
-        for a, b in edges:
+        for edge in edges:
+            a, b = as_float(edge)
             for cx in range(math.floor(min(a[0], b[0]) / self.CELL), math.floor(max(a[0], b[0]) / self.CELL) + 1):
                 for cy in range(math.floor(min(a[1], b[1]) / self.CELL), math.floor(max(a[1], b[1]) / self.CELL) + 1):
                     self.cells[(cx, cy)].append((a, b))
@@ -238,8 +244,13 @@ def fill_edges(tree):
                 if isinstance(fp, list) and fp and atom(fp[0]) == 'filled_polygon':
                     layer = atom(child(fp, 'layer')[1])
                     pts = [(atom(q[1]), atom(q[2])) for q in child(fp, 'pts')[1:] if atom(q[0]) == 'xy']
-                    zones.setdefault((name, layer), []).extend(ring_edges(pts))
+                    zones.setdefault((name, layer), collections.Counter()).update(ring_edges(pts))
     return zones
+
+
+def as_float(edge):
+    (ax, ay), (bx, by) = edge
+    return (float(ax), float(ay)), (float(bx), float(by))
 
 
 def rules(pcb_path):
@@ -355,25 +366,35 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     f_old, f_new = fills(before), fills(after)
     if set(f_old) != set(f_new):
         raise SystemExit(f'Filled zone set changed: {sorted(set(f_old) ^ set(f_new))}')
-    max_error = float(rules_before['design_settings']['rules']['max_error'])
+    try:
+        max_error = float(rules_before['design_settings']['rules']['max_error'])
+    except (KeyError, TypeError, ValueError):
+        raise SystemExit('Project rules carry no numeric max_error; the fill tolerance cannot be bound')
+    if not 0 < max_error <= MAX_ERROR_CAP_MM:
+        raise SystemExit(f'Project max_error {max_error} mm is outside (0, {MAX_ERROR_CAP_MM}] mm')
+    e_old, e_new = fill_edges(before), fill_edges(after)
     deltas, retessellated = {}, {}
-    e_old = e_new = None
     for zone in sorted(f_old):
-        gone, came = f_old[zone] - f_new[zone], f_new[zone] - f_old[zone]
-        changed = gone + came
-        outside = [(pt, 'AFTER') for pt in gone if not inside(pt)] + [(pt, 'BEFORE') for pt in came if not inside(pt)]
-        if outside:
-            if e_old is None:
-                e_old, e_new = fill_edges(before), fill_edges(after)
-            index = {'AFTER': EdgeIndex(e_new[zone]), 'BEFORE': EdgeIndex(e_old[zone])}
-            worst = 0.0
-            for pt, other in outside:
-                d = index[other].distance((float(pt[0]), float(pt[1])), max_error)
+        changed = (f_old[zone] - f_new[zone]) + (f_new[zone] - f_old[zone])
+        moved = [(edge, 'AFTER') for edge in e_old[zone] - e_new[zone]] + [(edge, 'BEFORE') for edge in e_new[zone] - e_old[zone]]
+        index, worst, samples = {}, 0.0, 0
+        for edge, other in moved:
+            a, b = as_float(edge)
+            steps = max(1, math.ceil(math.dist(a, b) / FILL_SAMPLE_MM))
+            for k in range(steps + 1):
+                point = (a[0] + (b[0] - a[0]) * k / steps, a[1] + (b[1] - a[1]) * k / steps)
+                if inside(point):
+                    continue
+                if other not in index:
+                    index[other] = EdgeIndex(e_new[zone] if other == 'AFTER' else e_old[zone])
+                d = index[other].distance(point, max_error)
                 if d > max_error:
-                    raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region, e.g. at {pt}: '
-                                     f'more than max_error {max_error} mm from the {other} fill boundary')
-                worst = max(worst, d)
-            retessellated['/'.join(zone)] = {'vertices': len(outside), 'max_distance_mm': round(worst, 9)}
+                    raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region, e.g. at '
+                                     f'({point[0]:.6f}, {point[1]:.6f}) on edge {edge}: more than max_error '
+                                     f'{max_error} mm from the {other} fill boundary')
+                worst, samples = max(worst, d), samples + 1
+        if samples:
+            retessellated['/'.join(zone)] = {'boundary_samples': samples, 'max_distance_mm': round(worst, 9)}
         if changed:
             deltas['/'.join(zone)] = sum(changed.values())
     return {'scope': 'B20 part insertion: existing footprints, copper on other nets and non-copper content unchanged; '

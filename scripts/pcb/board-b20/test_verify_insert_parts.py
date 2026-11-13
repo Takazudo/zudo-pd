@@ -219,9 +219,39 @@ class VerifyInsertParts(unittest.TestCase):
         moved = f'(xy {float(m.group(1)) + 0.003:.6f} {m.group(2)})'
         result = self.check(text[:m.start()] + moved + text[m.end():])
         self.assertEqual(result['fill_max_error_mm'], 0.005)
-        (zone, record), = result['fill_retessellated_outside_region'].items()
-        self.assertEqual(record['vertices'], 2)
+        (_zone, record), = result['fill_retessellated_outside_region'].items()
+        self.assertGreater(record['boundary_samples'], 2)
         self.assertTrue(0 < record['max_distance_mm'] <= 0.003)
+
+    def test_far_slit_widened_into_a_cut_is_refused(self):
+        """A 0.2 mm cut along a far slit adds only vertices that sit on the old boundary; its edges cross copper."""
+        text = self.inserted()
+        _start, _end, pts = self.far_polygon(text, True)
+        raw = [(m.group(1), m.group(2)) for m in pts]
+        n = len(raw)
+        edges = [(raw[k], raw[(k + 1) % n]) for k in range(n)]
+        present = set(edges)
+        i = next(k for k in range(n) if edges[k][0] != edges[k][1] and (edges[k][1], edges[k][0]) in present)
+        j = next(k for k in range(n) if edges[k] == (edges[i][1], edges[i][0]))
+        foot, hole_end, before_foot, after_foot = (tuple(map(float, q)) for q in (raw[i], raw[i + 1], raw[i - 1], raw[(j + 2) % n]))
+        hole_prev = tuple(map(float, raw[j - 1]))
+        u = [(after_foot[k] - before_foot[k]) / verify.math.dist(before_foot, after_foot) for k in (0, 1)]
+        v = [(hole_prev[k] - hole_end[k]) / verify.math.dist(hole_end, hole_prev) for k in (0, 1)]
+        p1 = (foot[0] - u[0] * 0.1, foot[1] - u[1] * 0.1)
+        p2 = (foot[0] + u[0] * 0.1, foot[1] + u[1] * 0.1)
+        q = (hole_end[0] + v[0] * 0.2, hole_end[1] + v[1] * 0.2)
+        ring = raw[:i] + [p1, raw[i + 1]] + raw[i + 2:j] + [q, p2] + raw[j + 2:]
+        body = ' '.join(f'(xy {x:.6f} {y:.6f})' if isinstance(x, float) else f'(xy {x} {y})' for x, y in ring)
+        self.refused(text[:pts[0].start()] + body + text[pts[-1].end():], 'more than max_error')
+
+    def test_widened_max_error_is_refused(self):
+        pro = json.loads(self.pro.read_text())
+        pro['board']['design_settings']['rules']['max_error'] = 0.1
+        try:
+            self.pro.write_text(json.dumps(pro))
+            self.refused(self.inserted(), 'outside (0, 0.005]', pro_after=json.dumps(pro))
+        finally:
+            self.pro.write_text(PRO.read_text())
 
     def test_far_hole_removed_is_refused(self):
         text = self.inserted()
