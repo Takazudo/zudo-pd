@@ -43,7 +43,7 @@ dec-p-20v-front-end-r3):
   C35 is unchanged; the turn-on gate time constant falls from 6.0 ms to 0.46 ms and
   the VBEN-release turn-off constant (R11 x C35) rises from 10 ms to 15 ms.
 - Q1 soft turn-on DRAFT (dec-p-20v-q1-soft-start, phase 7, independent review
-  finding 3): C36 1 uF C15849 is a Miller capacitor from VBUS_OUT to node Q1_MX, and
+  finding 3): C36 1 uF is a Miller capacitor from VBUS_OUT to node Q1_MX, and
   Q5 BSS138-7-F (gate and source on Q1_MX, drain on Q1_G) acts as a body diode from
   Q1_MX to Q1_G. The diode lets the drain's rise feed back into the gate during
   turn-on, so the drain slews at the R12 gate current divided by C36. It blocks the
@@ -51,6 +51,10 @@ dec-p-20v-front-end-r3):
   R27 150k C22807 recharges Q1_MX from VBUS_P between cycles. The 20 V closure slews
   at about 3.1-10 V/ms (PA plateau and DC-bias range). Into a 250 uF Board B bank
   that is at most 2.5 A, below the I(OL) 4.185 A minimum. Q1 SOA is OPEN.
+  D10 (dec-p-20v-c36-x7r-1206, 2026-11-12): C36 is CL31B105KBHNNNE C1848 (1206 X7R 50 V),
+  replacing the 0603 X5R C15849 whose typical 25 C DC-bias curve leaves only 0.136-0.183 uF at
+  the closure bias. scripts/pcb/board-p/q1-closure.py screens the fitted part at 3.88-5.34 V/ms,
+  at most 1.336 A and a Q1 SOA ratio of at least 1.67 on typical data; bench T3 is NOT RUN.
 - STUSB4500 high-voltage pins on local small-current clamps (phase 9, dec-p-stusb-local-clamp;
   scripts/pcb/calculate-input-ovp-20v.py stusb_local_clamp). None of VDD, VBUS_VS_DISCH,
   DISCH or VBUS_EN_SNK connects to VBUS_P or VBUS_OUT directly any more, so the main surge
@@ -113,7 +117,7 @@ COMPONENTS = {
     'D11': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (228.6, 139.7)),
     'D12': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (266.7, 139.7)),
     'Q6': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED', False, (292.1, 266.7)),
-    'C36': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (38.1, 266.7)),
+    'C36': ('CL31B105KBHNNNE', '1uF/50V X7R', 'C1848', 'zudo-pd:C1206', False, (38.1, 266.7)),
     'Q5': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED', False, (76.2, 266.7)),
     'R27': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (114.3, 266.7)),
     'R17': ('0603WAF5101T5E', '5.1k', 'C23186', 'zudo-pd:R0603', True, (38.1, 215.9)),

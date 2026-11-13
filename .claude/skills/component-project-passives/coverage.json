@@ -953,6 +953,36 @@
         "fact-c696190-candidate-scope"
       ],
       "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c1848-electrical-limits",
+      "record_id": "rec-c1848",
+      "domain": "electrical-limits",
+      "status": "COVERED",
+      "reason": "Capacitance (1 uF), tolerance (+/-10%), rated voltage (50 Vdc) and dielectric (X7R, -55 to +125 C, plus/minus 15% TCC) are primary-source confirmed from the exact reference sheet.",
+      "fact_ids": [
+        "fact-c1848-manufacturer",
+        "fact-c1848-capacitance",
+        "fact-c1848-tolerance",
+        "fact-c1848-voltage",
+        "fact-c1848-dielectric"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c1848-bias-curve",
+      "record_id": "rec-c1848",
+      "domain": "effective-capacitance-under-installed-bias",
+      "status": "OPEN",
+      "reason": "Exact manufacturer typical DC-bias data (about 0.85-0.91 uF at 17-21 V on a 1 uF part) keeps C36 inside the adopted 0.4-1.1 uF range in the W2 screen; typical data does not establish an installed minimum across tolerance, temperature and aging, and bench T3 is NOT RUN.",
+      "fact_ids": [
+        "fact-c1848-curve-caveat",
+        "fact-c1848-dc-bias-curve"
+      ],
+      "blocking_fact_ids": [
+        "fact-c1848-curve-caveat",
+        "fact-c1848-dc-bias-curve"
+      ]
     }
   ]
 }

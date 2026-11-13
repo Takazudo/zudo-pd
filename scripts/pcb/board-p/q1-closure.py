@@ -98,7 +98,7 @@ def verify_inputs(inp: dict, root: Path = ROOT) -> None:
     for cap in inp['capacitors']:
         if canonical_sha256(cap['series']) != cap['canonical_sha256']:
             raise InputError(f"{cap['id']}: curve points do not match the cited canonical series hash")
-        if cap['status'] == 'FITTED':
+        if cap['status'] in ('FITTED', 'SUPERSEDED'):
             source = _bundle_items(cap['owner'], 'sources').get(cap['source_id'])
             if source is None or source['availability'] != 'AVAILABLE':
                 raise InputError(f"{cap['id']}: cited source {cap['source_id']} missing or unavailable")
@@ -108,7 +108,9 @@ def verify_inputs(inp: dict, root: Path = ROOT) -> None:
             if not (cap.get('url', '').startswith('https://') and cap.get('page_sha256')):
                 raise InputError(f"{cap['id']}: PROPOSED candidate lacks its manufacturer URL or page hash")
         else:
-            raise InputError(f"{cap['id']}: status must be FITTED or PROPOSED")
+            raise InputError(f"{cap['id']}: status must be FITTED, SUPERSEDED or PROPOSED")
+    if [cap['status'] for cap in inp['capacitors']].count('FITTED') != 1:
+        raise InputError('exactly one capacitor must be FITTED')
 
 
 def curve(series: dict):

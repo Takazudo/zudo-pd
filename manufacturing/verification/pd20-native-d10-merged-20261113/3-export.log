@@ -1,0 +1,63 @@
+{
+  "board-p": {
+    "board": "board-p",
+    "copper_layers": [
+      "F.Cu",
+      "B.Cu"
+    ],
+    "fitted_components": 44,
+    "bom_lines": 27,
+    "assembly_sides": {
+      "Bottom": 22,
+      "Top": 22
+    },
+    "source_lock_exclusions": {
+      "scripts/pcb/calculate-board-b20-draft.py": "B20 draft file outside the import closure of the export scripts",
+      "scripts/schgen/board_b20_components.py": "B20 draft file outside the import closure of the export scripts",
+      "scripts/schgen/board_b20_spec.py": "B20 draft file outside the import closure of the export scripts",
+      "scripts/schgen/gen_b20_components.py": "B20 draft file outside the import closure of the export scripts"
+    },
+    "drc_errors": 0,
+    "unconnected": 0,
+    "erc_errors": 0,
+    "erc_warnings": 27,
+    "drc_warnings": 95,
+    "parity_warnings": 3,
+    "origin_mm": [
+      0,
+      0
+    ],
+    "rotation_policy": "Native KiCad rotations; verify exact-part orientation in assembly preview"
+  },
+  "board-b20-draft": {
+    "board": "board-b20-draft",
+    "copper_layers": [
+      "F.Cu",
+      "In1.Cu",
+      "In2.Cu",
+      "B.Cu"
+    ],
+    "fitted_components": 270,
+    "bom_lines": 87,
+    "assembly_sides": {
+      "Top": 270
+    },
+    "source_lock_exclusions": {
+      "scripts/pcb/calculate-board-b20-draft.py": "B20 draft file outside the import closure of the export scripts",
+      "scripts/schgen/board_b20_components.py": "B20 draft file outside the import closure of the export scripts",
+      "scripts/schgen/gen_b20_components.py": "B20 draft file outside the import closure of the export scripts"
+    },
+    "drc_errors": 0,
+    "unconnected": 0,
+    "erc_errors": 0,
+    "erc_warnings": 0,
+    "drc_warnings": 4,
+    "parity_warnings": 0,
+    "origin_mm": [
+      0.0,
+      85.0
+    ],
+    "rotation_policy": "Native KiCad rotations; verify exact-part orientation in assembly preview"
+  }
+}
+heavy-guard: verdict=PASS exit=0 secs=213 min_mem_mb=8962 reason=-

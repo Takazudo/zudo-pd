@@ -279,7 +279,7 @@
   ],
   "C36": [
    6.25,
-   32.5,
+   32.75,
    0
   ],
   "R27": [
@@ -411,8 +411,8 @@
  "area_mm2": {
   "board": 1080.0,
   "mounting_hole_courtyards": 146.6,
-  "component_courtyards_library": 798.2,
-  "utilisation_of_board_less_holes": 0.855
+  "component_courtyards_library": 807.1,
+  "utilisation_of_board_less_holes": 0.865
  },
  "status": "DEVELOPMENT REVIEW, GRID-ROUTED; independent desk review dated 2026-11-08 (power-path pours, ground pours and grid-routed signals; 0 signal connection(s) open; route-power.py finds 0 detached GND cluster(s), native evidence is reported separately below). Not for fabrication or ordering. PD20: the routed draft is boards/board-p/board-p.kicad_pcb, the exported board-p; the routed 15 V as-built PCB it replaced is read from git history (run.sh AS_BUILT_REV).",
  "fit": {
@@ -497,14 +497,14 @@
    "C3 RVT1H101M0810 is 10.2 mm nominal (tolerance not stated) against the 11.1 mm nominal plane gap. The historical Board B collision motivated the adopted B20 r3 keepout. The valid PD20 pair is Board P plus B20; verify the final pair with fresh datum and assembly evidence.",
    "The library 0603 courtyard (3.37 x 1.91 mm) is larger than the as-built embedded lands; using compact lands would change geometry and needs layout review."
   ],
-  "courtyard_utilisation_of_board_less_hole_courtyards": 0.855,
+  "courtyard_utilisation_of_board_less_hole_courtyards": 0.865,
   "current_native_drc": {
    "status": "EXECUTED; inspect errors, opens, parity and warning dispositions",
-   "receipt": "/Users/takazudo/repos/circuits/zudo-pd-review-234/boards/board-p/r3-draft/native-drc-receipt.json",
-   "report_sha256": "78cc59cc19c5703cde194a57bdaa49016e4aae73eb1da61e50683f2db83a40b8",
-   "pcb_sha256": "56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348",
+   "receipt": "boards/board-p/r3-draft/native-drc-receipt.json",
+   "report_sha256": "aa6e979a820c7a7c62f7ef347193da2b6940ef1a36552b027192cc373a568031",
+   "pcb_sha256": "3fc44335431a111d4bc2cf9678fbef1a719ded77731bbd2de1fc218c576e7785",
    "kicad_version": "10.0.6",
-   "date": "2026-11-09T19:05:17",
+   "date": "2026-11-13T04:42:06",
    "errors": 0,
    "unconnected_items": 0,
    "schematic_parity": [

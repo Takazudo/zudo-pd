@@ -17,7 +17,9 @@ git show "$AS_BUILT_REV:boards/board-p/board-p.kicad_pcb" > "$T/asbuilt.kicad_pc
 NAMES=$(python3 -c "
 import importlib.util;s=importlib.util.spec_from_file_location('s','scripts/schgen/board_p_spec.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 print(' '.join(sorted({c[3].split(':')[1] for c in m.COMPONENTS.values()})))")
-run() { docker run --rm --cpus 1 --user 0 -v "$PWD":/w -v "$T":/t -w /w "$IMG" "$@"; }
+# wx needs a display (finish_details.py), so a broadway GTK backend runs inside the container, as in board-b20/run.sh
+run() { docker run --rm --cpus 1 --user 0 -v "$PWD":/w -v "$T":/t -w /w "$IMG" \
+  bash -c 'broadwayd :5 >/dev/null 2>&1 & sleep 1; GDK_BACKEND=broadway BROADWAY_DISPLAY=:5 exec "$@"' run "$@"; }
 # Mandatory focused regressions in the same pinned native workflow. No tool skip is a pass.
 run python3 /w/$D/test-native-connectivity.py
 python3 $D/test-routing-fixed-groups.py

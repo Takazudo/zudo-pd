@@ -14,7 +14,7 @@ INPUTS = json.loads((HERE / 'q1-closure-inputs.json').read_text())
 # Pinned here so an edit to the inputs cannot silently re-hash a curve or the SOA read: the PROPOSED page bytes
 # are not reproducible (render timestamp), and the SOA points are a 2026-11-11 graph read of DS37038 Fig. 12.
 PINNED_CURVES = {
-    'current': '329b040aac94fd3e353874f2ec1d8f50368ab8cd50bc7f2f8a42717ed0da0985',
+    'previous': '329b040aac94fd3e353874f2ec1d8f50368ab8cd50bc7f2f8a42717ed0da0985',
     'option-a': 'e4fc1166bb2a3297d070cdc5b1791fc5a51b5091b3756cbf876066de25bad42c',
     'option-b': '57951ee5f48a8acb80ccf57cba70db066308977f45172faab1a795fc53f01aca',
 }
@@ -28,7 +28,7 @@ def case(cap_id, vbus, vpl, ctol):
 
 
 class ReproducesRecordedScreen(unittest.TestCase):
-    """Fitted C36 must reproduce the 2026-11-11 screen in manufacturing/pd20-evidence-research.md (PR #252)."""
+    """The superseded 0603 C36 must still reproduce the 2026-11-11 screen in manufacturing/pd20-evidence-research.md (PR #252)."""
 
     ROWS = [  # vbus, plateau, tolerance, C36 at start uF, peak V/ms, Ipk 186/250 A, Ppk 186/250 W, ramp ms, avg V/ms
         (20.0, 3.5, 1.0, 0.183, 19.2, 3.57, 4.79, 71, 96, 3.21, 6.2),
@@ -39,7 +39,7 @@ class ReproducesRecordedScreen(unittest.TestCase):
 
     def test_rows(self):
         for vbus, vpl, tol, c0, pk, i186, i250, p186, p250, ramp, avg in self.ROWS:
-            k = case('current', vbus, vpl, tol)
+            k = case('previous', vbus, vpl, tol)
             with self.subTest(vbus=vbus, vpl=vpl, tol=tol):
                 self.assertAlmostEqual(k['c36_at_start_uf'], c0, delta=0.0015)
                 self.assertAlmostEqual(k['peak_slew_v_per_ms'], pk, delta=0.06)
@@ -52,12 +52,12 @@ class ReproducesRecordedScreen(unittest.TestCase):
                 self.assertEqual(k['peak_slew_vs_adopted'], 'TYPICAL_EXCEEDS')
 
     def test_energy_is_half_cv_squared(self):
-        k = case('current', 21.0, 1.5, 1.0)
+        k = case('previous', 21.0, 1.5, 1.0)
         self.assertAlmostEqual(k['banks']['186uF']['q1_energy_mj'], 0.5 * 186e-6 * 21 ** 2 * 1e3, delta=0.05)
         self.assertAlmostEqual(k['banks']['250uF']['q1_energy_mj'], 0.5 * 250e-6 * 21 ** 2 * 1e3, delta=0.05)
 
-    def test_most_fitted_cases_exceed_u2_iol_min(self):
-        cap = next(c for c in RESULT['capacitors'] if c['id'] == 'current')
+    def test_most_superseded_cases_exceed_u2_iol_min(self):
+        cap = next(c for c in RESULT['capacitors'] if c['id'] == 'previous')
         flags = [b['inrush_vs_u2_iol_min'] for k in cap['cases'] for b in k['banks'].values()]
         self.assertGreater(flags.count('TYPICAL_EXCEEDS'), len(flags) // 2)
 
@@ -66,9 +66,9 @@ class ReproducesRecordedScreen(unittest.TestCase):
         return [b['soa_ratio_peak_rectangular'] for k in cap['cases'] for b in k['banks'].values()]
 
     def test_soa_screen_ranges_match_the_record(self):
-        fitted = self.ratios('current')
-        self.assertAlmostEqual(min(fitted), 0.54, delta=0.005)
-        self.assertAlmostEqual(max(fitted), 0.86, delta=0.005)
+        previous = self.ratios('previous')
+        self.assertAlmostEqual(min(previous), 0.54, delta=0.005)
+        self.assertAlmostEqual(max(previous), 0.86, delta=0.005)
         options = self.ratios('option-a') + self.ratios('option-b')
         self.assertAlmostEqual(min(options), 1.66, delta=0.005)
         self.assertAlmostEqual(max(options), 2.64, delta=0.005)
@@ -80,6 +80,25 @@ class ReproducesRecordedScreen(unittest.TestCase):
                 self.assertAlmostEqual(k['peak_slew_v_per_ms'], pk, delta=0.02)
                 self.assertAlmostEqual(k['banks']['250uF']['peak_inrush_a'], i250, delta=0.005)
                 self.assertAlmostEqual(k['ramp_to_vbus_ms'], ramp, delta=0.01)
+
+
+class AdoptedOptionAScreen(unittest.TestCase):
+    """D10 (2026-11-12) adoption limits for the fitted C36: SOA ratio >= 1.2 and peak inrush below U2 I(OL) min at every corner."""
+
+    def test_fitted_is_option_a_and_clears_the_adoption_limits(self):
+        fitted = [c for c in RESULT['capacitors'] if c['status'] == 'FITTED']
+        self.assertEqual([c['id'] for c in fitted], ['option-a'])
+        self.assertEqual(len(fitted[0]['cases']), 8)
+        for k in fitted[0]['cases']:
+            self.assertNotEqual(k['peak_slew_vs_adopted'], 'TYPICAL_EXCEEDS')
+            for b in k['banks'].values():
+                self.assertGreaterEqual(b['soa_ratio_peak_rectangular'], 1.2)
+                self.assertLess(b['peak_inrush_a'], RESULT['u2_iol_min_a'])
+                self.assertEqual(b['inrush_vs_u2_iol_min'], 'TYPICAL_BELOW')
+                self.assertEqual(b['inrush_vs_adopted_max'], 'TYPICAL_WITHIN')
+
+    def test_tolerance_corner_cites_the_fitted_part(self):
+        self.assertEqual(INPUTS['circuit']['c_nominal_tolerance']['fact_id'], 'fact-c1848-tolerance')
 
 
 class PinnedInputs(unittest.TestCase):
@@ -107,7 +126,7 @@ class NeverAnAcceptance(unittest.TestCase):
 
     def test_candidates_are_labelled_proposed(self):
         status = {c['id']: c['status'] for c in RESULT['capacitors']}
-        self.assertEqual(status, {'current': 'FITTED', 'option-a': 'PROPOSED', 'option-b': 'PROPOSED'})
+        self.assertEqual(status, {'previous': 'SUPERSEDED', 'option-a': 'FITTED', 'option-b': 'PROPOSED'})
         for cap in RESULT['capacitors']:
             if cap['status'] == 'PROPOSED':
                 self.assertIn('not adopted', cap['label'])
@@ -134,7 +153,7 @@ class TamperControls(unittest.TestCase):
 
     def test_candidate_without_manufacturer_url_is_refused(self):
         bad = copy.deepcopy(INPUTS)
-        bad['capacitors'][1].pop('url')
+        bad['capacitors'][2].pop('url')
         with self.assertRaisesRegex(q1.InputError, 'URL or page hash'):
             q1.evaluate(bad)
 
@@ -177,7 +196,19 @@ class TamperControls(unittest.TestCase):
     def test_unknown_status_is_refused(self):
         bad = copy.deepcopy(INPUTS)
         bad['capacitors'][1]['status'] = 'ADOPTED'
-        with self.assertRaisesRegex(q1.InputError, 'FITTED or PROPOSED'):
+        with self.assertRaisesRegex(q1.InputError, 'FITTED, SUPERSEDED or PROPOSED'):
+            q1.evaluate(bad)
+
+    def test_two_fitted_capacitors_are_refused(self):
+        bad = copy.deepcopy(INPUTS)
+        bad['capacitors'][0]['status'] = 'FITTED'
+        with self.assertRaisesRegex(q1.InputError, 'exactly one'):
+            q1.evaluate(bad)
+
+    def test_fitted_option_without_owner_source_is_refused(self):
+        bad = copy.deepcopy(INPUTS)
+        bad['capacitors'][1]['source_id'] = 'src-c1848-dcbias-removed'
+        with self.assertRaisesRegex(q1.InputError, 'missing or unavailable'):
             q1.evaluate(bad)
 
 
