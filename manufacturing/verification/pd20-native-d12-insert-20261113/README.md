@@ -92,5 +92,36 @@ D12's input RC must be recomputed with this figure.
   - project rules identical.
   - The verifier itself is not changed on this branch.
 
-Status: **open.** #283 is not to be proposed for merge until the bounded fill screen that the verifier
-owner is adding lands on main and passes on this AFTER board, or the exception is otherwise accepted.
+## Decision: recorded exception (Takazudo, 2026-11-13 03:15Z)
+
+Takazudo chose option A, "record as an exception and proceed with #283", on the decision card in the
+"Retain primary sources for Board P evidence" thread. The record follows.
+
+**Refusal.** The verifier on main (`224ef46a`) refuses with:
+`Fill of 66bdc61b-a697-57c7-8c21-d31d7ae259ea/In1.Cu changed outside the edit region, e.g. at ('14.048615', '60.833682')`
+
+**Size of the difference.**
+- The fill-area delta outside the edit region is at most 3.4e-5 mm² (GND_F). The symmetric difference is at most 1.6e-4 mm².
+- The largest distance from a changed vertex to the other board's fill boundary is 3.6 µm.
+
+**12 unexplained GND_F F.Cu vertices.** These are the 12 with a distance above 0.1 µm (`fill-investigation/check1.*`, `check2.*`).
+- Eleven form a cluster at (92.37–92.45, 54.06–54.10). It lies on the fill edge that follows the
+  RAMP_RST track (94.5,55.9)-(92.3,53.4), 0.37 mm from that track and 0.68 mm from its via. It is
+  7.0–7.75 mm from any D12 change and from the R79 courtyard.
+- The twelfth is at (107.287, 49.259), 0.26 mm from pad R62.1 and 22–23 mm from any D12 change.
+- Both lie in filled polygons with no changed vertex inside the edit region.
+- They are not on reverse-edge slits and not on via or pad antipad arcs. Neither the slit-move nor the
+  edit-reach explanation holds, so the cause is unexplained.
+
+**Control.** One benign via on UV5_DIV at (68.36, 48.55) with a short In2 jog, added on a scratch BEFORE
+copy, then one pinned refill (`fill-investigation/control-via-*`):
+- 80 out-of-region vertices change;
+- their largest distance to the other board's fill boundary is 4 nm;
+- the area delta outside the region is at most 1.7e-7 mm².
+The control does not reproduce µm-scale shifts.
+
+**Rejected alternative.** A 5 µm-tolerance fill screen (PR #288, head `677f42cf`) was tried and closed
+unmerged. It passed this board (`fill-investigation/insert-verification-pr288-677f42cf-closed.json`), but
+review found it could pass an island over a far via hole.
+
+All other verifier checks pass, as recorded above.
