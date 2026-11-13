@@ -44,9 +44,9 @@ describe("the corpus normalizes to the figures the epic states", () => {
     assert.equal(model.corpus.dnpOrHandFitLines, 2);
   });
 
-  it("counts 304 sources, 1234 facts, 326 coverage domains, 41 interactions", () => {
+  it("counts 304 sources, 1253 facts, 326 coverage domains, 41 interactions", () => {
     assert.equal(model.corpus.sources, 304);
-    assert.equal(model.corpus.facts, 1234);
+    assert.equal(model.corpus.facts, 1253);
     assert.equal(model.corpus.coverageDomains, 326);
     assert.equal(model.corpus.interactions, 41);
   });
@@ -60,7 +60,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
   it("publishes every instance without duplicating or dropping one", () => {
     assert.equal(model.records.length, 129);
     assert.equal(sum(model.records, (entry) => entry.sources.length), 304);
-    assert.equal(sum(model.records, (entry) => entry.facts.length), 1234);
+    assert.equal(sum(model.records, (entry) => entry.facts.length), 1253);
     assert.equal(sum(model.records, (entry) => entry.coverage.length), 326);
     assert.equal(sum(model.records, (entry) => entry.pinMaps.length), 129);
     assert.equal(
@@ -93,7 +93,7 @@ describe("the corpus normalizes to the figures the epic states", () => {
       assert.equal(new Set(anchors).size, anchors.length, entry.identity.slug);
       total += anchors.length;
     }
-    assert.equal(total, 129 + 304 + 1234 + 326 + 47 + 129);
+    assert.equal(total, 129 + 304 + 1253 + 326 + 47 + 129);
 
     // Record-scoped anchors stay globally unique — each belongs to one page.
     const scoped = model.records.flatMap((entry) => [
@@ -218,8 +218,8 @@ describe("the real records the epic calls out", () => {
 
   it("keeps numeric, string and structured fact values in their own shapes", () => {
     const values = model.records.flatMap((entry) => entry.facts).map((fact) => fact.value);
-    assert.equal(values.filter((value) => typeof value === "number").length, 660);
-    assert.equal(values.filter((value) => typeof value === "string").length, 449);
+    assert.equal(values.filter((value) => typeof value === "number").length, 677);
+    assert.equal(values.filter((value) => typeof value === "string").length, 451);
     assert.equal(values.filter((value) => Array.isArray(value)).length, 125);
 
     const identity = model.records

@@ -1,0 +1,417 @@
+{
+ "record": "D1 T2 -12 V clamp evaluation, attempt 1 (dispatch 1 of at most 2)",
+ "source_revision": "e47ae3d8be08b670f8e28b455e337dcd2ee3acc4",
+ "workflow_run": 43122081181,
+ "workflow_outcome": "success",
+ "artifact_id": 13902530334,
+ "artifact_zip_sha256": "3875a894af85ef550fce4df4fa5fd2e60207a376822f66554f454570f0cc621b",
+ "t2_manifest_sha256": "ee7f40eb54f70498c9a7e0fe3ec6f8d980c2ad1fc2912c668d00cee9a4323611",
+ "t2_evaluation_sha256": "24d816724a90a99f4ed35ae6463c346e36bbca0813e0f17e3003a6a1abbf81fc",
+ "verdict": "FAIL",
+ "post_run_localization": {
+  "note": "Read from the same artifact after the verdict; it does not change any rule outcome.",
+  "rule6_t2_adv": {
+   "t2_enable_min_v": -0.09729197806946298,
+   "t2_enable_min_ms": 80.46,
+   "baseline_run_adv_enable_min_v": -0.09715653351823444,
+   "baseline_min_ms": 80.43,
+   "inert_control_enable_min_v": -0.09716069577897013,
+   "attribution": "active clamp path: DT2C (DBODY, CJO 20 pF) couples the 2.1 V t2o capture step (k x 0.42 V diode drop, 41-45 ms) through RT2C into trk12n_fb, 5.0-5.5 nA for about 4 ms (about 20 pC), a 1.9 mV DRV offset on CT12N that shifts the enable edge; the inert control returns the same current to GND and differs by 4.2 uV"
+  },
+  "rule9_t2_adv": {
+   "pre_disable_min_v": -12.14195474253188,
+   "after_disable_min_v": -12.14196476852409,
+   "at_ms": 240.379,
+   "excess_magnitude_v": 1.0025992e-05,
+   "resolution_v": 1e-05,
+   "inert_control_excess_magnitude_v": 1.0025992e-05,
+   "gap_attempt2_g20_excess_magnitude_v": 9.9296e-06,
+   "gap_attempt2_g16_excess_magnitude_v": 9.8938e-06,
+   "attribution": "identical in the inert control to 1e-15 V, so not the active clamp; the disable edge of every disabling deck kicks about 10 uV, at the vntol resolution",
+   "unmodified_identity_runs": "nom/adv have no disable edge (VDIS 0); rule 9 is not testable on them",
+   "finding": "the pass threshold equals the decks' vntol (1e-5 V); every disabling deck kicks 9.89-10.03 uV, so the verdict turns on 26-110 nV"
+  },
+  "L2_loaded": {
+   "reR6_dG_v": -0.0018,
+   "reR6_coupling_current_a": 5.5e-09,
+   "output_difference_peak_v": 0.00032,
+   "at_ms": [
+    64.2,
+    192.8
+   ],
+   "attribution": "the same DT2C coupling at startup and at re-enable; the clamp is not engaged at DC (<= 27 nA)"
+  },
+  "design_change_on_paper": {
+   "add": "RT2S t2c 0 10k",
+   "status": "withdrawn: fails its own paper check (509 kohm DC path from trk12n_fb to GND while the clamp switch is closed; about 0.9 % on the fb balance)",
+   "replacement": "d1-t2-rev2-paper-check-20261112.md (not admitted)"
+  }
+ },
+ "scope": "T2 peak-hold anti-windup clamp on -12 V plus the enable-edge threshold corners; model only, not adopted",
+ "criteria": "d1-t2-criteria.md",
+ "electrical_acceptance": "NOT ESTABLISHED",
+ "d1": "HELD (a -12 V only result does not close D1)",
+ "loaded_baseline_identity": {
+  "nomR": {
+   "status": "COMPLETE",
+   "waveform_sha256": "663e6dd5235c9c5ea499d658fcc09c1451a38e548f6014b17c5ecf0fee6fdd4c",
+   "recorded": "663e6dd5235c9c5ea499d658fcc09c1451a38e548f6014b17c5ecf0fee6fdd4c",
+   "reproduced": true
+  },
+  "reR6": {
+   "status": "COMPLETE",
+   "waveform_sha256": "9c60eb0a3ffff414436b1e3c4af60067924176c4f6d7d3342a9f92490e105056",
+   "recorded": "9c60eb0a3ffff414436b1e3c4af60067924176c4f6d7d3342a9f92490e105056",
+   "reproduced": true
+  },
+  "reR20": {
+   "status": "COMPLETE",
+   "waveform_sha256": "37956c98558d9042f229a6f97e3b11438de408df761ec3b7ab5706ac73cac343",
+   "recorded": "37956c98558d9042f229a6f97e3b11438de408df761ec3b7ab5706ac73cac343",
+   "reproduced": true
+  }
+ },
+ "corners": {
+  "e12lo": {
+   "rail": "-12",
+   "vo_v": -0.66,
+   "status": "ABORTED",
+   "returncode": 1,
+   "runner_reason": "solver failed, timed out, or aborted",
+   "runner_status": "FAILED",
+   "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00306795, timestep = 2.5e-18: trouble with node \"xq1.xcds.g1_int1\" | run simulation(s) aborted"
+  },
+  "e12hi": {
+   "rail": "-12",
+   "vo_v": 0.54,
+   "status": "ABORTED",
+   "returncode": 1,
+   "runner_reason": "solver failed, timed out, or aborted",
+   "runner_status": "FAILED",
+   "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00306796, timestep = 2.5e-18: trouble with node \"xu13b.n2992151\" | run simulation(s) aborted"
+  },
+  "e5lo": {
+   "rail": "+5",
+   "vo_v": -0.66,
+   "status": "ABORTED",
+   "returncode": 1,
+   "runner_reason": "solver failed, timed out, or aborted",
+   "runner_status": "FAILED",
+   "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00199365, timestep = 2.5e-18: trouble with node \"xu13a.n2992151\" | run simulation(s) aborted"
+  },
+  "e5hi": {
+   "rail": "+5",
+   "vo_v": 0.54,
+   "status": "ABORTED",
+   "returncode": 1,
+   "runner_reason": "solver failed, timed out, or aborted",
+   "runner_status": "FAILED",
+   "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.0624472, timestep = 2.5e-18: trouble with node \"xu13b.n2992151\" | run simulation(s) aborted"
+  }
+ },
+ "control": {
+  "status": "COMPLETE",
+  "rule6_loading_reference": {
+   "below_baseline_minimum_v": 4.162262006404682e-06,
+   "above_baseline_maximum_v": 2.528175422914815e-06,
+   "largest_excursion_beyond_baseline_v": 4.162262006404682e-06,
+   "resolution_v": 1e-05,
+   "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+   "contract_reference_value_v": null
+  },
+  "slope_v_per_ms": 1.4748010495605717,
+  "current_a": 0.2652632056561921,
+  "slope_minus_recorded_v_per_ms": 2.304944779485396e-05,
+  "current_minus_recorded_a": 3.873447221858228e-06,
+  "verdict": "REPRODUCED"
+ },
+ "t2": {
+  "verdict": "FAIL",
+  "no_load": {
+   "t2/nom": {
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.101275, timestep = 2.5e-18: trouble with node \"xq1.10\" | run simulation(s) aborted",
+    "passes": null
+   },
+   "t2/adv": {
+    "status": "COMPLETE",
+    "baseline": "run/adv",
+    "floor_v": -0.09710217116390635,
+    "overshoot_v": 2.1666779481677167e-05,
+    "largest_drop_v": -2.275957200481571e-08,
+    "conduction_onset_ms": 131.528,
+    "rest_vgs_v": 0.9682713993190462,
+    "onset_vgs_v": 2.3511322330670237,
+    "realized_gap_v": 1.3828608337479775,
+    "enable_vgs_max_v": 2.3430917432375344,
+    "enable_min_distance_to_conduction_v": 0.008040489829489239,
+    "enable_peak_current_a": 0.004660754152785549,
+    "enable_conduction": false,
+    "disabled_extremes_v": [
+     -0.007690266465619737,
+     -0.007672050427563535
+    ],
+    "enable_edge_extremes_v": [
+     -0.09729197806674485,
+     -0.007661421785255907
+    ],
+    "pre_disable_extremes_v": [
+     -12.141954742516184,
+     -12.14195474229414
+    ],
+    "after_disable_extremes_v": [
+     -12.141964762167959,
+     -12.134666537587734
+    ],
+    "after_disable_vgs_max_v": -0.5146016879282027,
+    "peak_slope_in_exception_region_v_per_ms": 1.0643795041260131,
+    "peak_slope_v_per_ms": 1.0643795041260131,
+    "disposition": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+    "capacitor_current_in_region_a": 0.19146896111109646,
+    "margins": {
+     "slope_v_per_ms": 0.40562,
+     "current_a": 0.073531
+    },
+    "t2": {
+     "idle_channel_current_max_a": 1.2321568055129698e-09,
+     "idle_channel_current_mean_a": 9.131728974756776e-10,
+     "idle_output_drain_min_a": 1.0867179692708322e-06,
+     "idle_output_drain_mean_a": 1.0871494317827234e-06,
+     "idle_driver_v": -10.087679871013819,
+     "idle_hold_v": -9.36745199339761,
+     "driver_peak_v": -8.928547908950653,
+     "driver_peak_ms": 71.94,
+     "idle_driver_below_peak_v": 1.1591319620631655,
+     "idle_internal_vgs_v": 0.9828355461230237,
+     "limit_cycle_driver_pp_v": 0.0029641800131212648,
+     "engaged_clamp_current_a": 9.687148975247463e-07,
+     "clamp_engaged": true,
+     "release_ms": 125.104,
+     "release_step_v": 0.001492405909964134,
+     "hold_while_disabled_max_v": 4.2495567069553674e-07,
+     "hold_after_disable_max_v": 7.563116799495159e-07
+    },
+    "rules": {
+     "1 failed-rail slope, current and voltage-region ceilings": true,
+     "2 other rails no worse than baseline": true,
+     "3 no new overshoot beyond baseline": true,
+     "4 no non-monotonic step beyond baseline": true,
+     "5 disabled state unchanged": true,
+     "6 enable edge no excursion beyond baseline": false,
+     "7 no conduction during the enable transient": true,
+     "8 disable edge: gate held off": true,
+     "9 disable edge: no excursion of either polarity": false,
+     "10 idle channel current at most half the output drain": true,
+     "11 no limit cycle while idle": true,
+     "12 release step bound": true,
+     "13 clamp engaged while idle": true,
+     "14 hold reset while disabled": true
+    },
+    "passes": false,
+    "rule6_detail": {
+     "below_baseline_minimum_v": 0.00013544455303407532,
+     "above_baseline_maximum_v": 2.536260454040311e-06,
+     "largest_excursion_beyond_baseline_v": 0.00013544455303407532,
+     "resolution_v": 1e-05,
+     "contract_reference": "none recorded: the retained phase33 records cite no -12 V enable-edge excursion bound from the interface; the 0.75 V magnitude is the no-load slope-exception region, not an excursion limit",
+     "contract_reference_value_v": null
+    },
+    "other_rails": {
+     "+12": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance",
+     "+5": "NO ADJACENT-SAMPLE SLOPE EXCEEDANCE; not electrical acceptance"
+    }
+   },
+   "t2lo/nom": {
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00213828, timestep = 2.5e-18: cause unrecorded. | run simulation(s) aborted",
+    "passes": null
+   },
+   "t2hi/nom": {
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00213825, timestep = 2.5e-18: trouble with node \"xq1.xcgd.g1_int1\" | run simulation(s) aborted",
+    "passes": null
+   }
+  },
+  "loaded": {
+   "nomR": {
+    "status": "ABORTED",
+    "returncode": 1,
+    "runner_reason": "solver failed, timed out, or aborted",
+    "runner_status": "FAILED",
+    "solver_message": "doAnalyses: TRAN:  Timestep too small; time = 0.00082655, timestep = 6.25e-18: cause unrecorded. | run simulation(s) aborted",
+    "passes": null
+   },
+   "reR6": {
+    "status": "COMPLETE",
+    "rules": {
+     "L1 startup: every rail screen no worse than baseline": true,
+     "L2 startup: outputs within reltol of baseline": false,
+     "L3 startup: -12 V peak supply current not above baseline": true,
+     "L1 re-enable: every rail screen no worse than baseline": true,
+     "L2 re-enable: outputs within reltol of baseline": false,
+     "L3 re-enable: -12 V peak supply current not above baseline": true,
+     "L4 hold reset at re-enable": true
+    },
+    "passes": false,
+    "detail": {
+     "startup": {
+      "screens": {
+       "+12": 0.3054341964154128,
+       "+5": 0.12829571087338942,
+       "-12": 0.3086397964028378
+      },
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 8.212798496831653e-06,
+        "worst_excess_over_tolerance_v": -1.0002333291496215e-05,
+        "at_ms": 43.742,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 1.075945878073123e-05,
+        "worst_excess_over_tolerance_v": -1.001490199679953e-05,
+        "at_ms": 44.798,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 0.0003205900541506726,
+        "worst_excess_over_tolerance_v": 0.0002777582608982282,
+        "at_ms": 64.174,
+        "within_tolerance": false
+       }
+      },
+      "peak_current_a": {
+       "baseline": 0.667073306653251,
+       "t2": 0.6670746131671759
+      }
+     },
+     "re-enable": {
+      "screens": {
+       "+12": 3.427296431863843,
+       "+5": 1.061066391732067,
+       "-12": 3.3752837390033688
+      },
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 1.0567047237231009e-05,
+        "worst_excess_over_tolerance_v": -1.0002336249249612e-05,
+        "at_ms": 172.352,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 1.1139729763621348e-05,
+        "worst_excess_over_tolerance_v": -1.0015516829141012e-05,
+        "at_ms": 173.426,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 0.0003224251317320917,
+        "worst_excess_over_tolerance_v": 0.0002793725926306049,
+        "at_ms": 192.772,
+        "within_tolerance": false
+       }
+      },
+      "peak_current_a": {
+       "baseline": 1.9096249446440614,
+       "t2": 1.9096244603231447
+      },
+      "reenable_ms": 169.137,
+      "hold_before_reenable_max_v": 8.142098106836598e-08,
+      "clamp_current_after_reenable_max_a": 2.725946041861478e-08
+     },
+     "clamp_current_startup_max_a": 2.6165013896739005e-08
+    }
+   },
+   "reR20": {
+    "status": "COMPLETE",
+    "rules": {
+     "L1 startup: every rail screen no worse than baseline": true,
+     "L2 startup: outputs within reltol of baseline": false,
+     "L3 startup: -12 V peak supply current not above baseline": true,
+     "L1 re-enable: every rail screen no worse than baseline": true,
+     "L2 re-enable: outputs within reltol of baseline": false,
+     "L3 re-enable: -12 V peak supply current not above baseline": true,
+     "L4 hold reset at re-enable": true
+    },
+    "passes": false,
+    "detail": {
+     "startup": {
+      "screens": {
+       "+12": 0.30515641607090094,
+       "+5": 0.12818312482565877,
+       "-12": 0.3083712039593258
+      },
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 9.970638898071371e-06,
+        "worst_excess_over_tolerance_v": -1.0002331644365687e-05,
+        "at_ms": 43.744,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 1.0078599415062894e-05,
+        "worst_excess_over_tolerance_v": -1.0014862876946238e-05,
+        "at_ms": 44.794,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 0.0003061402902588897,
+        "worst_excess_over_tolerance_v": 0.00026349319035893354,
+        "at_ms": 64.148,
+        "within_tolerance": false
+       }
+      },
+      "peak_current_a": {
+       "baseline": 0.6659599965936591,
+       "t2": 0.6659615935206769
+      }
+     },
+     "re-enable": {
+      "screens": {
+       "+12": 3.422376549832548,
+       "+5": 1.0582434143490445,
+       "-12": 3.3695516344178866
+      },
+      "differences": {
+       "+12": {
+        "max_abs_difference_v": 8.689568856112828e-05,
+        "worst_excess_over_tolerance_v": -1.0002320123260179e-05,
+        "at_ms": 174.352,
+        "within_tolerance": true
+       },
+       "+5": {
+        "max_abs_difference_v": 2.653777024508308e-05,
+        "worst_excess_over_tolerance_v": -1.001502847672695e-05,
+        "at_ms": 175.468,
+        "within_tolerance": true
+       },
+       "-12": {
+        "max_abs_difference_v": 0.00030660535568741154,
+        "worst_excess_over_tolerance_v": 0.00026389990796933676,
+        "at_ms": 194.762,
+        "within_tolerance": false
+       }
+      },
+      "peak_current_a": {
+       "baseline": 1.9096251130371387,
+       "t2": 1.9096247173675305
+      },
+      "reenable_ms": 171.179,
+      "hold_before_reenable_max_v": 8.30280288965093e-07,
+      "clamp_current_after_reenable_max_a": 2.577033799030209e-08
+     },
+     "clamp_current_startup_max_a": 2.595537487757815e-08
+    }
+   }
+  }
+ }
+}

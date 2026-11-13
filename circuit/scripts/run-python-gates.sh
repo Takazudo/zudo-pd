@@ -6,6 +6,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
+skipped=()
 step() { printf '\n== %s\n' "$*"; }
 
 step "Frozen component contract (strict)"
@@ -67,6 +68,21 @@ python3 scripts/pcb/board-p/nvm-intent-20v.py --check
 step "Board P r3 Q1 closure screen: cited inputs, reproduction and tamper controls (typical data; not acceptance)"
 python3 -m unittest discover -s scripts/pcb/board-p -p 'test_*.py'
 
+step "PD15 supply-capability screen reproduces power-budget.json and its committed report is fresh"
+python3 -m unittest discover -s scripts/pcb -p 'test_supply_capability.py'
+step "Board P r3 draft native-evidence coverage and freshness negative controls (host-only)"
+python3 scripts/pcb/board-p-r3-draft/test-correction-contract.py
+step "Board P r3 draft router: multiple fixed copper groups (host-only; needs numpy)"
+if python3 -c 'import numpy' 2>/dev/null; then
+  python3 scripts/pcb/board-p-r3-draft/test-routing-fixed-groups.py
+elif [[ -n "${CI:-}" ]]; then
+  echo "FAIL: numpy is not installed; the CI validate job must install the pinned numpy" >&2
+  exit 1
+else
+  skipped+=("Board P r3 router fixed-group regression (numpy not installed; CI runs it)")
+  echo "SKIP: numpy is not installed; this gate runs in CI only"
+fi
+
 step "B20 desk load cases bound to the PD20 contract; reports fresh"
 python3 -m unittest discover -s scripts/pcb/board-b20 -p 'test_*.py'
 
@@ -80,4 +96,9 @@ python3 -m unittest discover -s footprints/scripts -p 'test_gen_courtyards.py'
 step "Bare-copper footprints carry CPL/BOM exclusion attrs"
 python3 footprints/scripts/check_bare_copper_attrs.py
 
-printf '\nPASS: project Python gates\n'
+if (( ${#skipped[@]} )); then
+  printf '\nPASS with %d skipped gate(s); not a full pass:\n' "${#skipped[@]}"
+  printf '  SKIPPED: %s\n' "${skipped[@]}"
+else
+  printf '\nPASS: project Python gates\n'
+fi

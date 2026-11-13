@@ -1,5 +1,5 @@
 {
-  "reason": "Reviewed 2026-11-09 and 2026-11-11 exact-part evidence additions, the 2026-11-12 CSD18543Q3A threshold-over-temperature evidence (W2-G) and the 2026-11-12 D10 Board P r3 C36 correction (new record rec-c1848 CL31B105KBHNNNE; C36 leaves rec-c15849); historical migration baselines retained.",
+  "reason": "Reviewed 2026-11-09, 2026-11-11 and 2026-11-12 exact-part evidence additions, the 2026-11-12 D11 RRDY1/RRDY2 move from rec-c25803 to rec-c22807 and the D10 C36 move to rec-c1848; historical migration baselines retained.",
   "records": {
     "stusb4500qtr": {
       "sources": "5838bf3e7af4436233126219d2ba35cd7390f227eb241844a428cbb5ffee40d6"
@@ -49,9 +49,20 @@
       "coverage": "b96f291fca5deb9b5acb16000034a0a372a2ae8d5b971f6210c5daa788e91665",
       "identity": "b053ecbe1de2f033a66c14d190465ed4db7fb6467322a04f067add3f2ab1d327"
     },
+    "c25803": {
+      "identity": "ba4222bf557e9ebd01f4e43da77ceccaed726d9a384d0ac52459ef27232d768c"
+    },
+    "c22807": {
+      "identity": "28ad4cb0fc170f9dbb7e72b9e522133857ab9d2c926a51ef34bf32b1c2f397a1"
+    },
     "c840100": {
-      "facts": "e6e85eaf865a31967527f03292e1f7c9adfa2e75693bcfd3e808a7ad53d2d5fb",
-      "coverage": "4da615916646c5ffaf695aee5b9a05a1b276c8a7c381f91449a0486a61378b21"
+      "identity": "951551ba4063dca87b5e6045b52513aa7d4fc1de71d4b178eb07ff89bf766769",
+      "aliases": "75c155f4b643bb1ae9022a13f52b77bb27f52601e9843d93388cef6e6674124f",
+      "sources": "68ca14e0630911babe7c95ae4dfa9b5b58c81518b8177dba725cb286749ea977",
+      "facts": "9032fa4b4a5cbd1ac24d9f7b92f3207f3e4a0024ee8762b923e74be5558b79a0",
+      "coverage": "c643a86aeb9cf0437b67136f824719891ca04e853b90278e3cb884fe309dca76",
+      "interactions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "pinMaps": "6978e6790bce6379146b8275e1114b53d7d81aa0cec78caee50a9b585bbdb74f"
     }
   }
 }
