@@ -1,0 +1,685 @@
+{
+  "diagnostic": "D1 pinned-versus-variant cross-check (variant-cross-check-criteria.md); reads solver-setting comparability only, judges no circuit margin",
+  "read_rails": [
+    "+5",
+    "-12"
+  ],
+  "read_quantities": [
+    "peak_slope_in_region_v_per_ms",
+    "peak_current_in_region_a"
+  ],
+  "read_bound_relative": 0.0001,
+  "pairs": {
+    "abstol-nom": {
+      "deck": "nom",
+      "variant": "abstol",
+      "pinned": "COMPLETE",
+      "variant_status": "COMPLETE",
+      "difference": {
+        "+12": {
+          "region_v": {
+            "pinned": 0.75,
+            "variant": 0.75,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.3539809938957818,
+            "variant": 0.353981087517198,
+            "difference": 9.362141617508257e-08,
+            "relative": 2.644814772248658e-07
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 138.4629044913401,
+            "variant": 138.463501182378,
+            "difference": 0.0005966910378845114,
+            "relative": 4.309392758129166e-06
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.32188690538971226,
+            "variant": 0.3218869048994378,
+            "difference": -4.902744876744691e-10,
+            "relative": 1.5231265375051155e-09
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 154.59311994614862,
+            "variant": 154.59365664488382,
+            "difference": 0.0005366987352033448,
+            "relative": 3.471685773534423e-06
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.06371355774315468,
+            "variant": 0.06371358658934789,
+            "difference": 2.8846193211862214e-08,
+            "relative": 4.527481156859651e-07
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 138.47490449134008,
+            "variant": 138.473501182378,
+            "difference": -0.0014033089620966166,
+            "relative": 1.0134030907992982e-05
+          },
+          "peak_current_a": {
+            "pinned": 0.06371355774315468,
+            "variant": 0.06371358658934789,
+            "difference": 2.8846193211862214e-08,
+            "relative": 4.527481156859651e-07
+          },
+          "charge_in_region_c": {
+            "pinned": 0.0001342313299871066,
+            "variant": 0.00013426100875461308,
+            "difference": 2.9678767506471134e-08,
+            "relative": 0.00022110164228665458
+          },
+          "current_half_width_ms": {
+            "pinned": 42.486215454834806,
+            "variant": 42.486155462532096,
+            "difference": -5.999230270958833e-05,
+            "relative": 1.412041577893975e-06
+          }
+        },
+        "+5": {
+          "region_v": {
+            "pinned": 0.45,
+            "variant": 0.45,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.9548508602735011,
+            "variant": 0.954847994932148,
+            "difference": -2.865341353075479e-06,
+            "relative": 3.0008260685388606e-06
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 139.98643474989538,
+            "variant": 139.9869486530622,
+            "difference": 0.0005139031668193184,
+            "relative": 3.6710926150628493e-06
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.467670536215635,
+            "variant": 0.4669022387352777,
+            "difference": -0.0007682974803572828,
+            "relative": 0.0016428177977049934
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 140.2904347498957,
+            "variant": 140.2909486530625,
+            "difference": 0.0005139031667908966,
+            "relative": 3.663137602410764e-06
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.114510040903672,
+            "variant": 0.11451020501089317,
+            "difference": 1.6410722115944854e-07,
+            "relative": 1.4331251640849435e-06
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 139.9944347498954,
+            "variant": 139.9929486530622,
+            "difference": -0.0014860968331902313,
+            "relative": 1.0615399361018826e-05
+          },
+          "peak_current_a": {
+            "pinned": 0.114510040903672,
+            "variant": 0.11451020501089317,
+            "difference": 1.6410722115944854e-07,
+            "relative": 1.4331251640849435e-06
+          },
+          "charge_in_region_c": {
+            "pinned": 5.313933833424884e-05,
+            "variant": 5.316916406391024e-05,
+            "difference": 2.9825729661400345e-08,
+            "relative": 0.0005612740127435376
+          },
+          "current_half_width_ms": {
+            "pinned": 0.4660000000004938,
+            "variant": 0.4660000000004938,
+            "difference": 0.0,
+            "relative": 0.0
+          }
+        },
+        "-12": {
+          "region_v": {
+            "pinned": 0.75,
+            "variant": 0.75,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.8430471618176456,
+            "variant": 0.8430491485355192,
+            "difference": 1.986717873547761e-06,
+            "relative": 2.3565916161372423e-06
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 138.6609044913403,
+            "variant": 138.6595011823782,
+            "difference": -0.0014033089620966166,
+            "relative": 1.012043709973244e-05
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.537469609730019,
+            "variant": 0.5389074981204274,
+            "difference": 0.0014378883904083706,
+            "relative": 0.0026752924525921544
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 139.04443474989438,
+            "variant": 139.0429486530612,
+            "difference": -0.0014860968331902313,
+            "relative": 1.068792746623295e-05
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.15169311333672164,
+            "variant": 0.15169331401874264,
+            "difference": 2.006820210009863e-07,
+            "relative": 1.3229474732680927e-06
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 138.6709044913403,
+            "variant": 138.66950118237818,
+            "difference": -0.0014033089621250383,
+            "relative": 1.0119707283027579e-05
+          },
+          "peak_current_a": {
+            "pinned": 0.15169311333672164,
+            "variant": 0.15169331401874264,
+            "difference": 2.006820210009863e-07,
+            "relative": 1.3229474732680927e-06
+          },
+          "charge_in_region_c": {
+            "pinned": 0.00013268373789192,
+            "variant": 0.0001325377770840155,
+            "difference": -1.459608079044895e-07,
+            "relative": 0.001100065540988788
+          },
+          "current_half_width_ms": {
+            "pinned": 0.8895302585546772,
+            "variant": 0.8894474706835909,
+            "difference": -8.278787108628727e-05,
+            "relative": 9.306920173890691e-05
+          }
+        }
+      },
+      "reading": "COMPARABLE",
+      "read": [
+        {
+          "rail": "+5",
+          "quantity": "peak_slope_in_region_v_per_ms",
+          "relative": 3.0008260685388606e-06,
+          "within": true
+        },
+        {
+          "rail": "+5",
+          "quantity": "peak_current_in_region_a",
+          "relative": 1.4331251640849435e-06,
+          "within": true
+        },
+        {
+          "rail": "-12",
+          "quantity": "peak_slope_in_region_v_per_ms",
+          "relative": 2.3565916161372423e-06,
+          "within": true
+        },
+        {
+          "rail": "-12",
+          "quantity": "peak_current_in_region_a",
+          "relative": 1.3229474732680927e-06,
+          "within": true
+        }
+      ]
+    },
+    "abstol-adv": {
+      "deck": "adv",
+      "variant": "abstol",
+      "pinned": "COMPLETE",
+      "variant_status": "COMPLETE",
+      "difference": {
+        "+12": {
+          "region_v": {
+            "pinned": 0.75,
+            "variant": 0.75,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.29556803925491065,
+            "variant": 0.2955680206751896,
+            "difference": -1.857972103946892e-08,
+            "relative": 6.286106267208738e-08
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 137.3031335942655,
+            "variant": 137.3017473329698,
+            "difference": -0.0013862612956927478,
+            "relative": 1.0096355847122818e-05
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.3209323494611903,
+            "variant": 0.32093234971476525,
+            "difference": 2.5357493882438575e-10,
+            "relative": 7.901195976351709e-10
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 154.7094885794647,
+            "variant": 154.7088845211544,
+            "difference": -0.0006040583103015251,
+            "relative": 3.904468406223563e-06
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.05319692909931506,
+            "variant": 0.053196903844371354,
+            "difference": -2.5254943705754762e-08,
+            "relative": 4.7474439095169373e-07
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 137.3131335942655,
+            "variant": 137.31174733296982,
+            "difference": -0.0013862612956927478,
+            "relative": 1.0095620567431585e-05
+          },
+          "peak_current_a": {
+            "pinned": 0.05776781512055962,
+            "variant": 0.0577678151516281,
+            "difference": 3.106848112111038e-11,
+            "relative": 5.378164477273623e-10
+          },
+          "charge_in_region_c": {
+            "pinned": 0.00013432256435395097,
+            "variant": 0.00013435861298023558,
+            "difference": 3.6048626284610006e-08,
+            "relative": 0.0002683735711716977
+          },
+          "current_half_width_ms": {
+            "pinned": 45.2623549852271,
+            "variant": 45.261137188212395,
+            "difference": -0.0012177970147035921,
+            "relative": 2.690529503162311e-05
+          }
+        },
+        "+5": {
+          "region_v": {
+            "pinned": 0.45,
+            "variant": 0.45,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.8582305049836418,
+            "variant": 0.8582248909573008,
+            "difference": -5.614026341027589e-06,
+            "relative": 6.541396872317647e-06
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 139.3133554860524,
+            "variant": 139.3121374540371,
+            "difference": -0.0012180320152879176,
+            "relative": 8.743110170868457e-06
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.3542781648308634,
+            "variant": 0.35561714043685894,
+            "difference": 0.0013389756059955515,
+            "relative": 0.003779447165858484
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 139.6833554860527,
+            "variant": 139.6821374540375,
+            "difference": -0.0012180320152026525,
+            "relative": 8.719950998916776e-06
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.10293063316167805,
+            "variant": 0.1029313941466442,
+            "difference": 7.609849661527335e-07,
+            "relative": 7.393182600532711e-06
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 139.3193554860524,
+            "variant": 139.3201374540372,
+            "difference": 0.0007819679848068972,
+            "relative": 5.61277348778133e-06
+          },
+          "peak_current_a": {
+            "pinned": 0.10293063316167805,
+            "variant": 0.1029313941466442,
+            "difference": 7.609849661527335e-07,
+            "relative": 7.393182600532711e-06
+          },
+          "charge_in_region_c": {
+            "pinned": 5.32595001578576e-05,
+            "variant": 5.3206750111992525e-05,
+            "difference": -5.275004586507612e-08,
+            "relative": 0.0009904344897854562
+          },
+          "current_half_width_ms": {
+            "pinned": 0.4880000000005158,
+            "variant": 0.48800000000048804,
+            "difference": -2.7755575615628914e-14,
+            "relative": 5.687617954016307e-14
+          }
+        },
+        "-12": {
+          "region_v": {
+            "pinned": 0.75,
+            "variant": 0.75,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 1.4747780001127768,
+            "variant": 1.4747749122712113,
+            "difference": -3.0878415655521962e-06,
+            "relative": 2.093767038371923e-06
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 138.255552951071,
+            "variant": 138.2557473329708,
+            "difference": 0.0001943818998029201,
+            "relative": 1.4059608865888545e-06
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 1.051186722038192,
+            "variant": 1.0523191051859417,
+            "difference": 0.0011323831477496604,
+            "relative": 0.001077242628744428
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 138.4658098739777,
+            "variant": 138.46541491373858,
+            "difference": -0.0003949602391060125,
+            "relative": 2.8524026217409112e-06
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.26525933220897024,
+            "variant": 0.26525887443422547,
+            "difference": -4.5777474477759483e-07,
+            "relative": 1.725763014501453e-06
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 138.26555295107102,
+            "variant": 138.26574733297082,
+            "difference": 0.0001943818998029201,
+            "relative": 1.4058592010383624e-06
+          },
+          "peak_current_a": {
+            "pinned": 0.26525933220897024,
+            "variant": 0.26525887443422547,
+            "difference": -4.5777474477759483e-07,
+            "relative": 1.725763014501453e-06
+          },
+          "charge_in_region_c": {
+            "pinned": 0.00013181445525728576,
+            "variant": 0.00013173889148955604,
+            "difference": -7.556376772972664e-08,
+            "relative": 0.000573258582165631
+          },
+          "current_half_width_ms": {
+            "pinned": 0.5606762797115972,
+            "variant": 0.5596675807681972,
+            "difference": -0.0010086989433999438,
+            "relative": 0.0017990754734956904
+          }
+        }
+      },
+      "reading": "COMPARABLE",
+      "read": [
+        {
+          "rail": "+5",
+          "quantity": "peak_slope_in_region_v_per_ms",
+          "relative": 6.541396872317647e-06,
+          "within": true
+        },
+        {
+          "rail": "+5",
+          "quantity": "peak_current_in_region_a",
+          "relative": 7.393182600532711e-06,
+          "within": true
+        },
+        {
+          "rail": "-12",
+          "quantity": "peak_slope_in_region_v_per_ms",
+          "relative": 2.093767038371923e-06,
+          "within": true
+        },
+        {
+          "rail": "-12",
+          "quantity": "peak_current_in_region_a",
+          "relative": 1.725763014501453e-06,
+          "within": true
+        }
+      ]
+    },
+    "rshunt-nom": {
+      "deck": "nom",
+      "variant": "rshunt",
+      "pinned": "COMPLETE",
+      "variant_status": "COMPLETE",
+      "difference": {
+        "+12": {
+          "region_v": {
+            "pinned": 0.75,
+            "variant": 0.75,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.3539809938957818,
+            "variant": 0.35347587223907856,
+            "difference": -0.0005051216567032446,
+            "relative": 0.0014269739489232614
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 138.4629044913401,
+            "variant": 138.4750533882171,
+            "difference": 0.012148896876993831,
+            "relative": 8.774116736626494e-05
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.32188690538971226,
+            "variant": 0.3216996807188346,
+            "difference": -0.00018722467087767258,
+            "relative": 0.0005816473666457399
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 154.59311994614862,
+            "variant": 154.61486391518432,
+            "difference": 0.021743969035696864,
+            "relative": 0.00014065288961935185
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.06371355774315468,
+            "variant": 0.0636226262401851,
+            "difference": -9.093150296958508e-05,
+            "relative": 0.0014271923620425145
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 138.47490449134008,
+            "variant": 138.4850533882171,
+            "difference": 0.010148896877012703,
+            "relative": 7.329051364427835e-05
+          },
+          "peak_current_a": {
+            "pinned": 0.06371355774315468,
+            "variant": 0.0636226262401851,
+            "difference": -9.093150296958508e-05,
+            "relative": 0.0014271923620425145
+          },
+          "charge_in_region_c": {
+            "pinned": 0.0001342313299871066,
+            "variant": 0.00013424193980874063,
+            "difference": 1.0609821634021419e-08,
+            "relative": 7.904132094229067e-05
+          },
+          "current_half_width_ms": {
+            "pinned": 42.486215454834806,
+            "variant": 42.5218105269935,
+            "difference": 0.035595072158692176,
+            "relative": 0.0008378028444668531
+          }
+        },
+        "+5": {
+          "region_v": {
+            "pinned": 0.45,
+            "variant": 0.45,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.9548508602735011,
+            "variant": 0.9538215794728558,
+            "difference": -0.001029280800645238,
+            "relative": 0.0010779492834623596
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 139.98643474989538,
+            "variant": 139.9995100732979,
+            "difference": 0.013075323402517824,
+            "relative": 9.340421752921025e-05
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.467670536215635,
+            "variant": 0.46732831819762843,
+            "difference": -0.00034221801800654594,
+            "relative": 0.0007317502205201035
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 140.2904347498957,
+            "variant": 140.30351007329818,
+            "difference": 0.013075323402489403,
+            "relative": 9.320181682949076e-05
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.114510040903672,
+            "variant": 0.11438658553669546,
+            "difference": -0.00012345536697654091,
+            "relative": 0.0010781182680774158
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 139.9944347498954,
+            "variant": 140.0075100732979,
+            "difference": 0.013075323402517824,
+            "relative": 9.339887993317244e-05
+          },
+          "peak_current_a": {
+            "pinned": 0.114510040903672,
+            "variant": 0.11438658553669546,
+            "difference": -0.00012345536697654091,
+            "relative": 0.0010781182680774158
+          },
+          "charge_in_region_c": {
+            "pinned": 5.313933833424884e-05,
+            "variant": 5.3107903024891834e-05,
+            "difference": -3.143530935700861e-08,
+            "relative": 0.0005915638083274408
+          },
+          "current_half_width_ms": {
+            "pinned": 0.4660000000004938,
+            "variant": 0.4660000000003828,
+            "difference": -1.1102230246251565e-13,
+            "relative": 2.3824528425407297e-13
+          }
+        },
+        "-12": {
+          "region_v": {
+            "pinned": 0.75,
+            "variant": 0.75,
+            "difference": 0.0,
+            "relative": 0.0
+          },
+          "peak_slope_in_region_v_per_ms": {
+            "pinned": 0.8430471618176456,
+            "variant": 0.8463317511474742,
+            "difference": 0.0032845893298285578,
+            "relative": 0.0038960920320837604
+          },
+          "peak_slope_in_region_at_ms": {
+            "pinned": 138.6609044913403,
+            "variant": 138.67505338821732,
+            "difference": 0.014148896877031802,
+            "relative": 0.00010203955418389352
+          },
+          "peak_slope_above_region_v_per_ms": {
+            "pinned": 0.537469609730019,
+            "variant": 0.5390374969431337,
+            "difference": 0.0015678872131147381,
+            "relative": 0.0029171644028437574
+          },
+          "peak_slope_above_region_at_ms": {
+            "pinned": 139.04443474989438,
+            "variant": 139.057510073297,
+            "difference": 0.013075323402631511,
+            "relative": 9.403701360756147e-05
+          },
+          "peak_current_in_region_a": {
+            "pinned": 0.15169311333672164,
+            "variant": 0.15228369810482256,
+            "difference": 0.0005905847681009213,
+            "relative": 0.003893286617369158
+          },
+          "peak_current_in_region_at_ms": {
+            "pinned": 138.6709044913403,
+            "variant": 138.68505338821728,
+            "difference": 0.014148896876974959,
+            "relative": 0.00010203219578666934
+          },
+          "peak_current_a": {
+            "pinned": 0.15169311333672164,
+            "variant": 0.15228369810482256,
+            "difference": 0.0005905847681009213,
+            "relative": 0.003893286617369158
+          },
+          "charge_in_region_c": {
+            "pinned": 0.00013268373789192,
+            "variant": 0.0001326655294136289,
+            "difference": -1.8208478291093606e-08,
+            "relative": 0.00013723217766088006
+          },
+          "current_half_width_ms": {
+            "pinned": 0.8895302585546772,
+            "variant": 0.8844566850801927,
+            "difference": -0.00507357347448445,
+            "relative": 0.005703654738769733
+          }
+        }
+      },
+      "reading": "NOT COMPARABLE",
+      "read": [
+        {
+          "rail": "+5",
+          "quantity": "peak_slope_in_region_v_per_ms",
+          "relative": 0.0010779492834623596,
+          "within": false
+        },
+        {
+          "rail": "+5",
+          "quantity": "peak_current_in_region_a",
+          "relative": 0.0010781182680774158,
+          "within": false
+        },
+        {
+          "rail": "-12",
+          "quantity": "peak_slope_in_region_v_per_ms",
+          "relative": 0.0038960920320837604,
+          "within": false
+        },
+        {
+          "rail": "-12",
+          "quantity": "peak_current_in_region_a",
+          "relative": 0.003893286617369158,
+          "within": false
+        }
+      ]
+    }
+  },
+  "not_applicable": {
+    "rshunt-adv": "adv has no single rshunt=1e10 option"
+  },
+  "readings": {
+    "abstol-nom": "COMPARABLE",
+    "abstol-adv": "COMPARABLE",
+    "rshunt-nom": "NOT COMPARABLE"
+  }
+}
