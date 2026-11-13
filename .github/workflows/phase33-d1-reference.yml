@@ -19,7 +19,9 @@
 # one-line .temp hot case at the contract ceiling bank, with the same measurements: a diagnostic that judges nothing.
 # Opt-in variant_cross_check (variant-cross-check-criteria.md) reruns the identity pair under each matched-variant step and
 # compares it with the same dispatch's pinned run: it reads solver-setting comparability only.
-# Not a generic compute dispatcher: seven opt-in boolean inputs, no secrets, no write permission, no deploy.
+# Opt-in adv_rshunt_free (adv-rshunt-free-criteria.md) runs the identity adv deck at rshunt=1e10, pinned and under the
+# abstol step: a diagnostic that judges no ceiling.
+# Not a generic compute dispatcher: eight opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -52,6 +54,10 @@ on:
         default: false
       variant_cross_check:
         description: Also rerun the identity pair under each matched variant and compare with pinned (variant-cross-check-criteria.md)
+        type: boolean
+        default: false
+      adv_rshunt_free:
+        description: Also run the identity adv deck at rshunt=1e10, pinned and under abstol (adv-rshunt-free-criteria.md)
         type: boolean
         default: false
 
@@ -108,6 +114,11 @@ jobs:
         if: inputs.variant_cross_check && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank || inputs.ceiling_corners)
         run: |
           echo "::error::variant_cross_check is a separate dispatch"
+          exit 1
+      - name: Reject the rshunt-free adv diagnostic combined with any other opt-in
+        if: inputs.adv_rshunt_free && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank || inputs.ceiling_corners || inputs.variant_cross_check)
+        run: |
+          echo "::error::adv_rshunt_free is a separate dispatch"
           exit 1
       - name: Prepare hash-verified inputs (one bounded TI download each)
         run: |
@@ -262,6 +273,21 @@ jobs:
             fi
           done
           python3 "$PHASE33/variant_cross_check.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/variant-cross-check.json"
+      - name: Rshunt-free adv diagnostic (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.adv_rshunt_free && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/adv_rshunt_free.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/r10-manifest.json"
+          labels=$(python3 "$PHASE33/adv_rshunt_free.py" labels)
+          [ -n "$labels" ] || { echo "::error::no adv_rshunt_free labels"; exit 1; }
+          # Each deck runs once; an abort is recorded, never retried.
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/adv_rshunt_free.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: nothing pending"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/r10/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/r10-runner-$label.txt"; then
+              python3 "$PHASE33/adv_rshunt_free.py" check-run "$RUNNER_TEMP/work" "$label"
+            fi
+          done
+          python3 "$PHASE33/adv_rshunt_free.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/adv-rshunt-free.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |
