@@ -36,8 +36,9 @@ for fp in board.GetFootprints():
         raise SystemExit(f'Duplicate footprint {ref}')
     seen.add(ref)
     _mpn, value, lcsc, lib_id, *_ = COMPONENTS[ref]
-    if str(fp.GetFPID().Format()) != lib_id:
-        raise SystemExit(f'{ref}: footprint {fp.GetFPID().Format()} differs from {lib_id}; not a value-only change')
+    fpid = str(fp.GetFPID().GetUniStringLibId())
+    if fpid != lib_id:
+        raise SystemExit(f'{ref}: footprint {fpid} differs from {lib_id}; not a value-only change')
     fields = [item for item in fp.GetFields() if item.GetName() == 'LCSC']
     if len(fields) != 1:
         raise SystemExit(f'{ref}: expected exactly one LCSC field')

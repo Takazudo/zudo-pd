@@ -1,0 +1,50 @@
+{
+  "scope": "Mac native pair assembly preview, development export and independent package verification; nominal CAD only, no order, no supplier upload",
+  "host": "selected Mac",
+  "head": "1a4a95457b43ffd5750ac98fa2d4f29f0342d43b",
+  "utc": "2026-11-12T18:52:57.763933+00:00",
+  "rc": {
+    "1-step-datum": 0,
+    "2-assembly-preview": 0,
+    "3-export": 0,
+    "4-verify": 0
+  },
+  "step_datum": "PASS (45 pairs), output tmp/step-datum-check.json",
+  "assembly_verification_status": "PASS",
+  "assembly_verification_sha256": "0e2ad4b76e399499ad6572f46abcdad0beef12c3dc30e769ccbb71fd74d0df4e",
+  "assembly_generated_in": "tmp/pd20-d11-assembly-1a4a9545",
+  "assembly_copied_to": "boards/board-b20-draft/assembly-preview/ (assembly-preview.py refuses to overwrite an existing output directory, so it was generated into a new folder and synced in)",
+  "local_only_populated_stack_step": {
+    "sha256": "807a1a692e881f3fa8fb5ebaf6d54f423ef86f97c92cb56a4dbc8a01728433da",
+    "bytes": 344612672
+  },
+  "export_destination": "tmp/pd20-dev-export-d11-1a4a9545",
+  "export_SHA256SUMS_sha256": "9248e70512b18a1d0a618a21e8e18d98b2bfdda3628357ac055938e991e707e0",
+  "export_manifest_sha256": "30a40c73415a9d37f663004bfd3b7fdfb64389cd33093cf57069d055bf0b7000",
+  "verify_jlcpcb": "PASS (exit 0, --write on a fresh export)",
+  "tool_sha256": {
+    "tmp/mac-kicad-tools/native-lock.py": "9a20cb3d68e53481fd512eba8f03b4cb971ed1c12174e1b927d6da616cadbb54",
+    "tmp/mac-kicad-tools/kicad-cli": "a65a24ecf4e96ca5e66db77e4cd2c539d2d587e827bb48c15e42635c917e2636",
+    "tmp/mac-kicad-tools/kicad-python": "3516294c5f98abc959196cffe63d3a669f822d94aa11465bd45eec767165f357",
+    "tmp/pd20-export-tools/kicad-cli": "b262fb34237dccb248e3684ce32f74887884cc3b02b9e5907b8b64dc8523d039",
+    "tmp/kicad-macos-10.0.6/kicad-cli": "3f33c0d6e6c4ef52eef78616945d71b927c323cc191af96714c7f755025845ab",
+    "$HOME/.codex/scripts/heavy-guard.sh": "074a463dd6b3a65b7e2168df95b200c0192c414862375bcfb95f979c34c67ee7",
+    "docker_image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec"
+  },
+  "commands": [
+    "TMPDIR=/private/tmp bash \"$HOME/.codex/scripts/heavy-guard.sh\" --max-run 0 -- python3 tmp/mac-kicad-tools/native-lock.py uv run --python 3.12 --with cadquery==2.6.1 --with vtk==9.3.1 python scripts/pcb/verify-step-datums.py --output tmp/step-datum-check.json",
+    "TMPDIR=/private/tmp bash \"$HOME/.codex/scripts/heavy-guard.sh\" --max-run 0 -- python3 tmp/mac-kicad-tools/native-lock.py uv run --python 3.12 --with cadquery==2.6.1 --with vtk==9.3.1 python scripts/pcb/board-b20/assembly-preview.py --kicad-cli tmp/pd20-export-tools/kicad-cli --kicad-python tmp/mac-kicad-tools/kicad-python --output \"$PWD/tmp/pd20-d11-assembly-1a4a9545\"",
+    "rsync -a --delete tmp/pd20-d11-assembly-1a4a9545/ boards/board-b20-draft/assembly-preview/",
+    "TMPDIR=/private/tmp bash \"$HOME/.codex/scripts/heavy-guard.sh\" --max-run 0 -- python3 tmp/mac-kicad-tools/native-lock.py python3 scripts/pcb/export-jlcpcb.py tmp/pd20-dev-export-d11-1a4a9545 --boards board-p board-b20-draft --kicad-cli tmp/pd20-export-tools/kicad-cli --kicad-python tmp/mac-kicad-tools/kicad-python",
+    "uv run --python 3.12 --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py --write tmp/pd20-dev-export-d11-1a4a9545"
+  ],
+  "clearances": {
+    "terminal_to_pd_clearance": [
+      "PASS",
+      "PASS"
+    ],
+    "populated_cross_board_clearance": "PASS",
+    "c5_envelope_clearance": "PASS",
+    "project_support_collar_clearance": "PASS"
+  }
+}

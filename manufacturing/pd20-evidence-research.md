@@ -60,7 +60,7 @@ and its records are not changed here.
 ## Board P Q1 inrush SOA: 2× desk margin no longer follows (2026-11-11 C36 DC-bias)
 
 Q1 DMP3036SFG-7 closes only on a 20 V contract (POWER_ONLY_ABOVE_5V). The C36/Q5 Miller network slews VBUS_OUT at
-3.1–10 V/ms (`board_p_spec.py`). B20 holds its converters off until RDY (≥ 0.184 s at the tolerance corner, readiness D11; nominal 0.21 s historical), so the inrush is capacitive.
+3.1–10 V/ms (`board_p_spec.py`). B20 holds its converters off until RDY (≥ 0.235 s at the corner with RRDY 2 × 150k since readiness D11), so the inrush is capacitive.
 
 | Input | Value |
 |---|---|
