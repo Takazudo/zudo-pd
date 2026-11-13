@@ -1,0 +1,1231 @@
+{
+  "diagnostic": "OSC-bank baseline (osc-bank-criteria.md); measures only, judges nothing",
+  "fitted_uF": {
+    "+12": 49.9,
+    "+5": 24.5,
+    "-12": 42.2
+  },
+  "scales": {
+    "lo": 0.8,
+    "nom": 1.0,
+    "hi": 1.2
+  },
+  "bank_uF": {
+    "lo": {
+      "+12": 39.92,
+      "+5": 19.6,
+      "-12": 33.76
+    },
+    "nom": {
+      "+12": 49.9,
+      "+5": 24.5,
+      "-12": 42.2
+    },
+    "hi": {
+      "+12": 59.88,
+      "+5": 29.4,
+      "-12": 50.64
+    }
+  },
+  "decks": {
+    "lo-nom": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.00196985,
+        "timestep_s": 2.5e-18,
+        "node": "xu13a.n2992151",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001969847747830274,
+          "values": [
+            0.0001826099962454332,
+            0.0005187921020574728,
+            -0.007846806483848388,
+            0.0004299144070166281,
+            -0.3469042143511842,
+            -0.1451815489481589,
+            0.3469961035552842,
+            7.254748782825768e-06,
+            8.427818053048657e-06,
+            -11.95049528682334,
+            4.999999999999937
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.353756092104616,
+          "peak_slope_in_region_at_ms": 138.0519895551917,
+          "peak_slope_above_region_v_per_ms": 0.3212964368916167,
+          "peak_slope_above_region_at_ms": 154.6649109622475,
+          "peak_current_in_region_a": 0.014121922448188662,
+          "peak_current_in_region_at_ms": 138.0539895551917,
+          "peak_current_a": 0.014121922448188662,
+          "charge_in_region_c": 2.970949079341211e-05,
+          "current_half_width_ms": 42.896921407082175
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.38652408897066537,
+          "peak_slope_in_region_at_ms": 138.67077595014248,
+          "peak_slope_above_region_v_per_ms": 0.13373250106538617,
+          "peak_slope_above_region_at_ms": 154.02691096224692,
+          "peak_current_in_region_a": 0.007575873575933756,
+          "peak_current_in_region_at_ms": 138.6727759501425,
+          "peak_current_a": 0.007575873575933756,
+          "charge_in_region_c": 8.362555374740809e-06,
+          "current_half_width_ms": 0.8027863949509051
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7766852168066277,
+          "peak_slope_in_region_at_ms": 138.2199895551918,
+          "peak_slope_above_region_v_per_ms": 0.4643728182014769,
+          "peak_slope_above_region_at_ms": 138.6527759501424,
+          "peak_current_in_region_a": 0.026220771755531835,
+          "peak_current_in_region_at_ms": 138.2219895551918,
+          "peak_current_a": 0.026220771755531835,
+          "charge_in_region_c": 2.5009997953139414e-05,
+          "current_half_width_ms": 0.9287863949510866
+        }
+      }
+    },
+    "lo-adv": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.0883791,
+        "timestep_s": 2.5e-18,
+        "node": "xq3.xcds.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.0883791286609521,
+          "values": [
+            0.1415656879774314,
+            0.027912832801524,
+            -0.09667084017324291,
+            0.0004370249971357421,
+            -7.306630323000718e-08,
+            -3.9169492538349e-08,
+            0.0005159519615745012,
+            0.005788884134091399,
+            1.071483020859905,
+            -10.91292007892713,
+            0.000499960309762848
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.28591920650035957,
+          "peak_slope_in_region_at_ms": 136.8014440273517,
+          "peak_slope_above_region_v_per_ms": 0.3205392825279666,
+          "peak_slope_above_region_at_ms": 154.75611845668018,
+          "peak_current_in_region_a": 0.011413842571229571,
+          "peak_current_in_region_at_ms": 136.8034440273517,
+          "peak_current_a": 0.012795928104569754,
+          "charge_in_region_c": 2.9724444785034042e-05,
+          "current_half_width_ms": 45.82267442935639
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.569819454098632,
+          "peak_slope_in_region_at_ms": 138.6825700392603,
+          "peak_slope_above_region_v_per_ms": 0.19443473492830582,
+          "peak_slope_above_region_at_ms": 139.1945700392608,
+          "peak_current_in_region_a": 0.011168468866445402,
+          "peak_current_in_region_at_ms": 138.6845700392603,
+          "peak_current_a": 0.011168468866445402,
+          "charge_in_region_c": 8.355313654711235e-06,
+          "current_half_width_ms": 0.598000000000598
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.4970540557780483,
+          "peak_slope_in_region_at_ms": 137.7682695471956,
+          "peak_slope_above_region_v_per_ms": 0.9356331415144661,
+          "peak_slope_above_region_at_ms": 138.0024343119033,
+          "peak_current_in_region_a": 0.05053901752881229,
+          "peak_current_in_region_at_ms": 137.7722695471956,
+          "peak_current_a": 0.05053901752881229,
+          "charge_in_region_c": 2.49601100224813e-05,
+          "current_half_width_ms": 0.5149902845510146
+        }
+      }
+    },
+    "lo-e12lo": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.246908,
+        "timestep_s": 2.5e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.2469076783948939,
+          "values": [
+            12.12060463858053,
+            5.044567626840782,
+            -12.11566951327448,
+            1.091795753944006,
+            -7.332005225180183e-09,
+            -3.068606702072429e-09,
+            0.0006196556662416697,
+            0.00356003939306101,
+            0.004049919970278683,
+            -12.14198504090169,
+            4.994873502455054
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.4036899781233021,
+          "peak_slope_in_region_at_ms": 137.61233374603398,
+          "peak_slope_above_region_v_per_ms": 0.3209871532213869,
+          "peak_slope_above_region_at_ms": 154.7026344810644,
+          "peak_current_in_region_a": 0.01611523137061699,
+          "peak_current_in_region_at_ms": 137.616333746034,
+          "peak_current_a": 0.01611523137061699,
+          "charge_in_region_c": 2.9709835084560065e-05,
+          "current_half_width_ms": 39.33230073505259
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.34713287983627306,
+          "peak_slope_in_region_at_ms": 139.4707347977861,
+          "peak_slope_above_region_v_per_ms": 0.2618124180196348,
+          "peak_slope_above_region_at_ms": 139.7487347977864,
+          "peak_current_in_region_a": 0.00680380604275388,
+          "peak_current_in_region_at_ms": 139.4727347977861,
+          "peak_current_a": 0.00680380604275388,
+          "charge_in_region_c": 8.357811855389168e-06,
+          "current_half_width_ms": 0.8360000000008916
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.0950029021395564,
+          "peak_slope_in_region_at_ms": 138.43833374603489,
+          "peak_slope_above_region_v_per_ms": 0.9864097556181023,
+          "peak_slope_above_region_at_ms": 138.55473479778522,
+          "peak_current_in_region_a": 0.03696685416545886,
+          "peak_current_in_region_at_ms": 138.4403337460349,
+          "peak_current_a": 0.03696685416545886,
+          "charge_in_region_c": 2.4976345050574657e-05,
+          "current_half_width_ms": 0.6244010517507947
+        }
+      }
+    },
+    "lo-e12hi": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.247681,
+        "timestep_s": 2.5e-18,
+        "node": "p12_g",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.2476810762477925,
+          "values": [
+            12.11432731113718,
+            5.037297330937785,
+            -12.11247272074625,
+            0.4150626568045754,
+            -7.333596840908285e-09,
+            -3.068322484978125e-09,
+            0.0005043542558951231,
+            5.343460734952738e-05,
+            -2.243345217397854e-05,
+            -12.14199017688825,
+            4.99763442892414
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3248767134767598,
+          "peak_slope_in_region_at_ms": 137.9504845361766,
+          "peak_slope_above_region_v_per_ms": 0.3217269167629213,
+          "peak_slope_above_region_at_ms": 154.61017380707202,
+          "peak_current_in_region_a": 0.012969017618024159,
+          "peak_current_in_region_at_ms": 137.95448453617658,
+          "peak_current_a": 0.012969017618024159,
+          "charge_in_region_c": 2.972202801424126e-05,
+          "current_half_width_ms": 44.31568927092308
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.5285533111937789,
+          "peak_slope_in_region_at_ms": 139.2659157492103,
+          "peak_slope_above_region_v_per_ms": 0.17006875045494008,
+          "peak_slope_above_region_at_ms": 139.8479157492109,
+          "peak_current_in_region_a": 0.010359649937360105,
+          "peak_current_in_region_at_ms": 139.2679157492103,
+          "peak_current_a": 0.010359649937360105,
+          "charge_in_region_c": 8.35654888568874e-06,
+          "current_half_width_ms": 0.6460000000007016
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.5724988322201412,
+          "peak_slope_in_region_at_ms": 138.6264845361773,
+          "peak_slope_above_region_v_per_ms": 0.9627316514042392,
+          "peak_slope_above_region_at_ms": 138.85191574920992,
+          "peak_current_in_region_a": 0.053086145744624114,
+          "peak_current_in_region_at_ms": 138.6304845361773,
+          "peak_current_a": 0.053086145744624114,
+          "charge_in_region_c": 2.499360174606845e-05,
+          "current_half_width_ms": 0.48343121303282
+        }
+      }
+    },
+    "lo-e5lo": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.247681,
+        "timestep_s": 2.5e-18,
+        "node": "xq1.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.2476809753937891,
+          "values": [
+            12.11432813348987,
+            5.037332841555981,
+            -12.11250204073706,
+            0.4151464115171585,
+            -7.330982043640688e-09,
+            -3.084466015934595e-09,
+            0.0005043542010980673,
+            3.601077637731723e-05,
+            -6.493295498399831e-06,
+            -12.14199018344869,
+            4.997634196633048
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3537562004584419,
+          "peak_slope_in_region_at_ms": 138.05141182489112,
+          "peak_slope_above_region_v_per_ms": 0.32129643710655587,
+          "peak_slope_above_region_at_ms": 154.6645666166873,
+          "peak_current_in_region_a": 0.014121917239451331,
+          "peak_current_in_region_at_ms": 138.0534118248911,
+          "peak_current_a": 0.014121917239451331,
+          "charge_in_region_c": 2.9720778308216904e-05,
+          "current_half_width_ms": 42.89715479182249
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.5363129080467509,
+          "peak_slope_in_region_at_ms": 139.065711608469,
+          "peak_slope_above_region_v_per_ms": 0.18164117848610983,
+          "peak_slope_above_region_at_ms": 139.6137116084695,
+          "peak_current_in_region_a": 0.010511738257758807,
+          "peak_current_in_region_at_ms": 139.067711608469,
+          "peak_current_a": 0.010511738257758807,
+          "charge_in_region_c": 8.357608669133666e-06,
+          "current_half_width_ms": 0.6340000000006063
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7766876531476734,
+          "peak_slope_in_region_at_ms": 138.2194118248912,
+          "peak_slope_above_region_v_per_ms": 0.46362425826771675,
+          "peak_slope_above_region_at_ms": 138.6537116084685,
+          "peak_current_in_region_a": 0.026220763342166276,
+          "peak_current_in_region_at_ms": 138.2214118248912,
+          "peak_current_a": 0.026220763342166276,
+          "charge_in_region_c": 2.5024724614713128e-05,
+          "current_half_width_ms": 0.9302997835777815
+        }
+      }
+    },
+    "lo-e5hi": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.0999232,
+        "timestep_s": 2.5e-18,
+        "node": "xq3.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.09992318309017109,
+          "values": [
+            0.1426565042739135,
+            0.03077396694087649,
+            -0.09603731819546,
+            0.0004375385836913175,
+            -7.330982043640688e-09,
+            -3.067043508053757e-09,
+            0.0005078182673514675,
+            0.005800469874502837,
+            1.113687632633369,
+            -12.13650238932201,
+            5.000980665936794e-05
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3537560944817734,
+          "peak_slope_in_region_at_ms": 138.0519836431407,
+          "peak_slope_above_region_v_per_ms": 0.32129643748358755,
+          "peak_slope_above_region_at_ms": 154.6654482256283,
+          "peak_current_in_region_a": 0.01412192243717525,
+          "peak_current_in_region_at_ms": 138.0539836431407,
+          "peak_current_a": 0.01412192243717525,
+          "charge_in_region_c": 2.9722044731796396e-05,
+          "current_half_width_ms": 42.8974645825139
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.5625982468437853,
+          "peak_slope_in_region_at_ms": 138.6238167242847,
+          "peak_slope_above_region_v_per_ms": 0.13937644055514392,
+          "peak_slope_above_region_at_ms": 141.78744822561552,
+          "peak_current_in_region_a": 0.011026933520923987,
+          "peak_current_in_region_at_ms": 138.6258167242847,
+          "peak_current_a": 0.011026933520923987,
+          "charge_in_region_c": 8.363000844646797e-06,
+          "current_half_width_ms": 0.6178330811441035
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7766852542670236,
+          "peak_slope_in_region_at_ms": 138.2199836431409,
+          "peak_slope_above_region_v_per_ms": 0.4635403188211567,
+          "peak_slope_above_region_at_ms": 138.6538167242847,
+          "peak_current_in_region_a": 0.026220772063360043,
+          "peak_current_in_region_at_ms": 138.2219836431409,
+          "peak_current_a": 0.026220772063360043,
+          "charge_in_region_c": 2.502637560484044e-05,
+          "current_half_width_ms": 0.9298330811443045
+        }
+      }
+    },
+    "nom-nom": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.00200001,
+        "timestep_s": 2.5e-18,
+        "node": "xq1.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.002000007518688548,
+          "values": [
+            0.000148890386728475,
+            0.0004294363313729293,
+            -0.007812204292464991,
+            0.0004365085676993284,
+            -0.3446243781205567,
+            -0.1442274339699736,
+            0.3447270558750688,
+            7.095062205278523e-06,
+            8.31828782282484e-06,
+            -12.13357730588042,
+            4.999999999999937
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3553476124151854,
+          "peak_slope_in_region_at_ms": 138.123331225975,
+          "peak_slope_above_region_v_per_ms": 0.32137845519043584,
+          "peak_slope_above_region_at_ms": 154.65542380760812,
+          "peak_current_in_region_a": 0.01773179094423094,
+          "peak_current_in_region_at_ms": 138.125331225975,
+          "peak_current_a": 0.01773179094423094,
+          "charge_in_region_c": 3.7181671382213986e-05,
+          "current_half_width_ms": 42.70609258165922
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.3874479249338658,
+          "peak_slope_in_region_at_ms": 138.68985144334968,
+          "peak_slope_above_region_v_per_ms": 0.13376967208586998,
+          "peak_slope_above_region_at_ms": 154.0134238076074,
+          "peak_current_in_region_a": 0.00949244429781948,
+          "peak_current_in_region_at_ms": 138.6918514433497,
+          "peak_current_a": 0.00949244429781948,
+          "charge_in_region_c": 1.056272470955289e-05,
+          "current_half_width_ms": 0.8045202173748989
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7796476754573486,
+          "peak_slope_in_region_at_ms": 138.2913312259752,
+          "peak_slope_above_region_v_per_ms": 0.47286937400855994,
+          "peak_slope_above_region_at_ms": 138.7178514433497,
+          "peak_current_in_region_a": 0.03290057064335605,
+          "peak_current_in_region_at_ms": 138.29533122597522,
+          "peak_current_a": 0.03290057064335605,
+          "charge_in_region_c": 3.126061642601756e-05,
+          "current_half_width_ms": 0.9305202173749971
+        }
+      }
+    },
+    "nom-adv": {
+      "pinned": "COMPLETE",
+      "measured_under": "pinned",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.2878827527386559,
+          "peak_slope_in_region_at_ms": 136.8916417632515,
+          "peak_slope_above_region_v_per_ms": 0.3205918669594506,
+          "peak_slope_above_region_at_ms": 154.75072316651662,
+          "peak_current_in_region_a": 0.014365246765145057,
+          "peak_current_in_region_at_ms": 136.8956417632515,
+          "peak_current_a": 0.015997534009981607,
+          "charge_in_region_c": 3.719683805001604e-05,
+          "current_half_width_ms": 45.72508140329298
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.47329832036123304,
+          "peak_slope_in_region_at_ms": 138.3614769653832,
+          "peak_slope_above_region_v_per_ms": 0.134485831196328,
+          "peak_slope_above_region_at_ms": 141.7107231665035,
+          "peak_current_in_region_a": 0.011595787049432649,
+          "peak_current_in_region_at_ms": 138.3634769653832,
+          "peak_current_a": 0.011595787049432649,
+          "charge_in_region_c": 1.0564049587680771e-05,
+          "current_half_width_ms": 0.6884543519636854
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.5017226548871763,
+          "peak_slope_in_region_at_ms": 137.8432803593483,
+          "peak_slope_above_region_v_per_ms": 0.9556422490961548,
+          "peak_slope_above_region_at_ms": 138.07302261341988,
+          "peak_current_in_region_a": 0.06337008548856993,
+          "peak_current_in_region_at_ms": 137.8472803593483,
+          "peak_current_a": 0.06337008548856993,
+          "charge_in_region_c": 3.116902447551536e-05,
+          "current_half_width_ms": 0.5173808501677812
+        }
+      }
+    },
+    "nom-e12lo": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.246909,
+        "timestep_s": 2.5e-18,
+        "node": "p5_g",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.2469091674011877,
+          "values": [
+            12.13084731738619,
+            5.054384224644436,
+            -12.1209150049677,
+            1.091063430788098,
+            -7.33393790142145e-09,
+            -3.068862497457303e-09,
+            0.000619923431713687,
+            0.003556238351549622,
+            0.00401002606023973,
+            -12.14198504043019,
+            4.994881130372184
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.4058608875793339,
+          "peak_slope_in_region_at_ms": 137.6865569443382,
+          "peak_slope_above_region_v_per_ms": 0.3210523621445369,
+          "peak_slope_above_region_at_ms": 154.6941295012173,
+          "peak_current_in_region_a": 0.020252267390507,
+          "peak_current_in_region_at_ms": 137.68855694433822,
+          "peak_current_a": 0.020252267390507,
+          "charge_in_region_c": 3.719838555393332e-05,
+          "current_half_width_ms": 39.099572556901194
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.34108587860228495,
+          "peak_slope_in_region_at_ms": 139.53234635506308,
+          "peak_slope_above_region_v_per_ms": 0.26262894333427367,
+          "peak_slope_above_region_at_ms": 139.80234635506338,
+          "peak_current_in_region_a": 0.008356583247884908,
+          "peak_current_in_region_at_ms": 139.5343463550631,
+          "peak_current_a": 0.008356583247884908,
+          "charge_in_region_c": 1.0553903140214377e-05,
+          "current_half_width_ms": 0.8540000000009096
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.0952089912245206,
+          "peak_slope_in_region_at_ms": 138.50855694433912,
+          "peak_slope_above_region_v_per_ms": 0.9919382944338988,
+          "peak_slope_above_region_at_ms": 138.6223463550622,
+          "peak_current_in_region_a": 0.04621655579392758,
+          "peak_current_in_region_at_ms": 138.5105569443391,
+          "peak_current_a": 0.04621655579392758,
+          "charge_in_region_c": 3.1223164498282226e-05,
+          "current_half_width_ms": 0.6257894107236095
+        }
+      }
+    },
+    "nom-e12hi": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.246909,
+        "timestep_s": 2.5e-18,
+        "node": "xq3.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.246909236783396,
+          "values": [
+            12.13084685569924,
+            5.054383642522085,
+            -12.12085810964818,
+            1.091012013033679,
+            -7.330754669965245e-09,
+            -3.069857257287367e-09,
+            0.000619952467445728,
+            0.003551750407075483,
+            0.004010443072226556,
+            -12.14198488205862,
+            4.994881485667703
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.326297366528734,
+          "peak_slope_in_region_at_ms": 138.0228291478467,
+          "peak_slope_above_region_v_per_ms": 0.3218285739149508,
+          "peak_slope_above_region_at_ms": 154.59755305673409,
+          "peak_current_in_region_a": 0.016282099714193254,
+          "peak_current_in_region_at_ms": 138.02682914784668,
+          "peak_current_a": 0.016282099714193254,
+          "charge_in_region_c": 3.717628641863931e-05,
+          "current_half_width_ms": 44.2207239089151
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.524376436552221,
+          "peak_slope_in_region_at_ms": 139.2781479574256,
+          "peak_slope_above_region_v_per_ms": 0.16023861144840518,
+          "peak_slope_above_region_at_ms": 139.8901479574262,
+          "peak_current_in_region_a": 0.012847125064228138,
+          "peak_current_in_region_at_ms": 139.2801479574256,
+          "peak_current_a": 0.012847125064228138,
+          "charge_in_region_c": 1.0557382687096434e-05,
+          "current_half_width_ms": 0.6520000000005965
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.5702729620472706,
+          "peak_slope_in_region_at_ms": 138.69682914784732,
+          "peak_slope_above_region_v_per_ms": 0.977748497216512,
+          "peak_slope_above_region_at_ms": 138.9181479574252,
+          "peak_current_in_region_a": 0.06626201578771806,
+          "peak_current_in_region_at_ms": 138.6988291478473,
+          "peak_current_a": 0.06626201578771806,
+          "charge_in_region_c": 3.1182312914908754e-05,
+          "current_half_width_ms": 0.4873188095781966
+        }
+      }
+    },
+    "nom-e5lo": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.246909,
+        "timestep_s": 2.5e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.2469092057820715,
+          "values": [
+            12.13091440069418,
+            5.054419321394893,
+            -12.1208809285113,
+            1.091034993331698,
+            -7.330982043640688e-09,
+            -3.085887101406115e-09,
+            0.0006199338977239677,
+            0.003604459045868497,
+            0.004021158380015821,
+            -12.14198507495643,
+            4.994881327034575
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3553476253902316,
+          "peak_slope_in_region_at_ms": 138.12328677052048,
+          "peak_slope_above_region_v_per_ms": 0.3213784548253945,
+          "peak_slope_above_region_at_ms": 154.6560895475713,
+          "peak_current_in_region_a": 0.01773179019796345,
+          "peak_current_in_region_at_ms": 138.1252867705206,
+          "peak_current_a": 0.01773179019796345,
+          "charge_in_region_c": 3.718924725821524e-05,
+          "current_half_width_ms": 42.70680277707689
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.3770827400518793,
+          "peak_slope_in_region_at_ms": 138.604349508149,
+          "peak_slope_above_region_v_per_ms": 0.13376177322416308,
+          "peak_slope_above_region_at_ms": 154.0340895475706,
+          "peak_current_in_region_a": 0.009238486411885516,
+          "peak_current_in_region_at_ms": 138.608349508149,
+          "peak_current_a": 0.009238486411885516,
+          "charge_in_region_c": 1.0562704191563646e-05,
+          "current_half_width_ms": 0.8190627376288007
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7796476218034895,
+          "peak_slope_in_region_at_ms": 138.29128677052068,
+          "peak_slope_above_region_v_per_ms": 0.47246470732073487,
+          "peak_slope_above_region_at_ms": 138.7183495081491,
+          "peak_current_in_region_a": 0.03290057961225168,
+          "peak_current_in_region_at_ms": 138.2952867705207,
+          "peak_current_a": 0.03290057961225168,
+          "charge_in_region_c": 3.12706045156806e-05,
+          "current_half_width_ms": 0.9290627376289107
+        }
+      }
+    },
+    "nom-e5hi": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.00306781,
+        "timestep_s": 2.5e-18,
+        "node": "xq3.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.003067814788045322,
+          "values": [
+            0.0002538988785905299,
+            0.0009519159727235993,
+            -0.007809981997216354,
+            0.0004373903303039393,
+            -7.333483154070564e-09,
+            -3.068322484978125e-09,
+            0.0005454839962339975,
+            -3.720447034056746e-07,
+            -3.707309046419027e-07,
+            -12.14198685705887,
+            4.999999999999937
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.35534763059839036,
+          "peak_slope_in_region_at_ms": 138.1232708631071,
+          "peak_slope_above_region_v_per_ms": 0.32137845508341034,
+          "peak_slope_above_region_at_ms": 154.6554798546744,
+          "peak_current_in_region_a": 0.017731789964420264,
+          "peak_current_in_region_at_ms": 138.12527086310712,
+          "peak_current_a": 0.017731789964420264,
+          "charge_in_region_c": 3.719365978535036e-05,
+          "current_half_width_ms": 42.70620899159353
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.5752612800693161,
+          "peak_slope_in_region_at_ms": 138.7286396478565,
+          "peak_slope_above_region_v_per_ms": 0.14092088751919646,
+          "peak_slope_above_region_at_ms": 141.8874798546617,
+          "peak_current_in_region_a": 0.014093880184335161,
+          "peak_current_in_region_at_ms": 138.7326396478565,
+          "peak_current_a": 0.014093880184335161,
+          "charge_in_region_c": 1.0564485915044874e-05,
+          "current_half_width_ms": 0.6111687152346168
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7796475872676708,
+          "peak_slope_in_region_at_ms": 138.2912708631072,
+          "peak_slope_above_region_v_per_ms": 0.4722291413692121,
+          "peak_slope_above_region_at_ms": 138.7186396478565,
+          "peak_current_in_region_a": 0.03290058239934002,
+          "peak_current_in_region_at_ms": 138.2952708631073,
+          "peak_current_a": 0.03290058239934002,
+          "charge_in_region_c": 3.1276418500898504e-05,
+          "current_half_width_ms": 0.9293687847496956
+        }
+      }
+    },
+    "hi-nom": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.00197981,
+        "timestep_s": 2.5e-18,
+        "node": "xu13a.n2992151",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001979814813253626,
+          "values": [
+            0.0001224521389986409,
+            0.0003500695077667775,
+            -0.007789236784271153,
+            0.0004320942176637508,
+            -0.346904203293775,
+            -0.1451815442838154,
+            0.3469978414989328,
+            7.217351407723107e-06,
+            8.404434241335836e-06,
+            -12.0109993946975,
+            4.999999999999937
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.35628958812214845,
+          "peak_slope_in_region_at_ms": 138.1779786577537,
+          "peak_slope_above_region_v_per_ms": 0.3214456385621905,
+          "peak_slope_above_region_at_ms": 154.6459379505448,
+          "peak_current_in_region_a": 0.0213345213576277,
+          "peak_current_in_region_at_ms": 138.1819786577537,
+          "peak_current_a": 0.0213345213576277,
+          "charge_in_region_c": 4.466133612090342e-05,
+          "current_half_width_ms": 42.5819592928173
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.4083483407175899,
+          "peak_slope_in_region_at_ms": 138.6608567421803,
+          "peak_slope_above_region_v_per_ms": 0.1337972657665437,
+          "peak_slope_above_region_at_ms": 153.9979379505442,
+          "peak_current_in_region_a": 0.01200530652455789,
+          "peak_current_in_region_at_ms": 138.66285674218028,
+          "peak_current_a": 0.01200530652455789,
+          "charge_in_region_c": 1.2764692539219512e-05,
+          "current_half_width_ms": 0.7748780844269998
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7836852591102607,
+          "peak_slope_in_region_at_ms": 138.3479786577538,
+          "peak_slope_above_region_v_per_ms": 0.479156305519,
+          "peak_slope_above_region_at_ms": 138.7688567421804,
+          "peak_current_in_region_a": 0.03968479561001215,
+          "peak_current_in_region_at_ms": 138.3499786577538,
+          "peak_current_a": 0.03968479561001215,
+          "charge_in_region_c": 3.752487387711194e-05,
+          "current_half_width_ms": 0.9288780844270983
+        }
+      }
+    },
+    "hi-adv": {
+      "pinned": "COMPLETE",
+      "measured_under": "pinned",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.28934182776494527,
+          "peak_slope_in_region_at_ms": 136.9600069960389,
+          "peak_slope_above_region_v_per_ms": 0.3206351592887281,
+          "peak_slope_above_region_at_ms": 154.7438716702199,
+          "peak_current_in_region_a": 0.017325614694122526,
+          "peak_current_in_region_at_ms": 136.96400699603888,
+          "peak_current_a": 0.019199633082802592,
+          "charge_in_region_c": 4.466089382737572e-05,
+          "current_half_width_ms": 45.64786467420889
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.6706751553493215,
+          "peak_slope_in_region_at_ms": 138.48805069343538,
+          "peak_slope_above_region_v_per_ms": 0.1453118722341208,
+          "peak_slope_above_region_at_ms": 141.867871670207,
+          "peak_current_in_region_a": 0.01971759280738783,
+          "peak_current_in_region_at_ms": 138.4900506934354,
+          "peak_current_a": 0.01971759280738783,
+          "charge_in_region_c": 1.2758147069816067e-05,
+          "current_half_width_ms": 0.5524671089208177
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.5044886843220082,
+          "peak_slope_in_region_at_ms": 137.90190747926022,
+          "peak_slope_above_region_v_per_ms": 0.9686328942082628,
+          "peak_slope_above_region_at_ms": 138.1295216566642,
+          "peak_current_in_region_a": 0.07618292748777011,
+          "peak_current_in_region_at_ms": 137.9059074792602,
+          "peak_current_a": 0.07618292748777011,
+          "charge_in_region_c": 3.7412364551838885e-05,
+          "current_half_width_ms": 0.5195146606246925
+        }
+      }
+    },
+    "hi-e12lo": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.00197984,
+        "timestep_s": 2.5e-18,
+        "node": "xu13a.n2992151",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001979843419267113,
+          "values": [
+            0.0001224543774259025,
+            0.0003500806940407896,
+            -0.007795002210781814,
+            0.000432100449481601,
+            -0.3469042032616017,
+            -0.1451815442700024,
+            0.3469981461629459,
+            7.21781136021507e-06,
+            8.406907762025581e-06,
+            -12.0111719762123,
+            4.999999999999937
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.40741962627317324,
+          "peak_slope_in_region_at_ms": 137.74355815574572,
+          "peak_slope_above_region_v_per_ms": 0.3211055975619445,
+          "peak_slope_above_region_at_ms": 154.6869631505187,
+          "peak_current_in_region_a": 0.02439592687608294,
+          "peak_current_in_region_at_ms": 137.74755815574568,
+          "peak_current_a": 0.02439592687608294,
+          "charge_in_region_c": 4.46682506195458e-05,
+          "current_half_width_ms": 38.927404994795026
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.32165964165918354,
+          "peak_slope_in_region_at_ms": 139.56847928558162,
+          "peak_slope_above_region_v_per_ms": 0.2528348368138447,
+          "peak_slope_above_region_at_ms": 139.8384792855819,
+          "peak_current_in_region_a": 0.009456721117483413,
+          "peak_current_in_region_at_ms": 139.5704792855816,
+          "peak_current_a": 0.009456721117483413,
+          "charge_in_region_c": 1.275725385641977e-05,
+          "current_half_width_ms": 0.8980000000008981
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.0926826400232856,
+          "peak_slope_in_region_at_ms": 138.5615581557465,
+          "peak_slope_above_region_v_per_ms": 0.9937543438365335,
+          "peak_slope_above_region_at_ms": 138.67447928558067,
+          "peak_current_in_region_a": 0.055330863250355744,
+          "peak_current_in_region_at_ms": 138.56555815574652,
+          "peak_current_a": 0.055330863250355744,
+          "charge_in_region_c": 3.745820883832791e-05,
+          "current_half_width_ms": 0.6309211298346218
+        }
+      }
+    },
+    "hi-e12hi": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.00306786,
+        "timestep_s": 2.5e-18,
+        "node": "xu13a.n2992151",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.003067857621494704,
+          "values": [
+            0.0002115691069343013,
+            0.000793709534609257,
+            -0.007787341584629797,
+            0.0004373897181431505,
+            -7.332687346206512e-09,
+            -3.069004606004455e-09,
+            0.0005454810001310761,
+            -2.735047071312059e-07,
+            -5.593557530461076e-07,
+            -12.14198692291019,
+            4.999999999999937
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3273371600860166,
+          "peak_slope_in_region_at_ms": 138.078180690877,
+          "peak_slope_above_region_v_per_ms": 0.3219114585775334,
+          "peak_slope_above_region_at_ms": 154.587753196967,
+          "peak_current_in_region_a": 0.01960072048551753,
+          "peak_current_in_region_at_ms": 138.08218069087698,
+          "peak_current_a": 0.01960072048551753,
+          "charge_in_region_c": 4.4662469963103414e-05,
+          "current_half_width_ms": 44.1475725061177
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.5285633423581224,
+          "peak_slope_in_region_at_ms": 139.2364203268948,
+          "peak_slope_above_region_v_per_ms": 0.14385121877560406,
+          "peak_slope_above_region_at_ms": 142.3077531969548,
+          "peak_current_in_region_a": 0.015539527881400783,
+          "peak_current_in_region_at_ms": 139.23842032689478,
+          "peak_current_a": 0.015539527881400783,
+          "charge_in_region_c": 1.2761553020924927e-05,
+          "current_half_width_ms": 0.6520000000006798
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 1.5687117240014001,
+          "peak_slope_in_region_at_ms": 138.7501806908777,
+          "peak_slope_above_region_v_per_ms": 0.9902517573164382,
+          "peak_slope_above_region_at_ms": 138.9704203268945,
+          "peak_current_in_region_a": 0.079434214146199,
+          "peak_current_in_region_at_ms": 138.7541806908777,
+          "peak_current_a": 0.079434214146199,
+          "charge_in_region_c": 3.7362683016454985e-05,
+          "current_half_width_ms": 0.4922396360171055
+        }
+      }
+    },
+    "hi-e5lo": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.24767,
+        "timestep_s": 2.5e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.247670035749904,
+          "values": [
+            12.13356626347747,
+            5.056191794570218,
+            -12.12233879334435,
+            0.4247246582881498,
+            -7.333710527746007e-09,
+            -3.085801836277824e-09,
+            0.0005044105431579737,
+            0.0001075409683436751,
+            -1.805999348847287e-06,
+            -12.14199019113513,
+            4.997608173262373
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3562896364423574,
+          "peak_slope_in_region_at_ms": 138.1775360457197,
+          "peak_slope_above_region_v_per_ms": 0.3214456380101876,
+          "peak_slope_above_region_at_ms": 154.64613361438808,
+          "peak_current_in_region_a": 0.021334523926207497,
+          "peak_current_in_region_at_ms": 138.1815360457197,
+          "peak_current_a": 0.021334523926207497,
+          "charge_in_region_c": 4.46593647843759e-05,
+          "current_half_width_ms": 42.58259756869451
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.4754313327320866,
+          "peak_slope_in_region_at_ms": 138.6187494389198,
+          "peak_slope_above_region_v_per_ms": 0.13599834109420947,
+          "peak_slope_above_region_at_ms": 141.7141336143751,
+          "peak_current_in_region_a": 0.013977545105912093,
+          "peak_current_in_region_at_ms": 138.6207494389198,
+          "peak_current_a": 0.013977545105912093,
+          "charge_in_region_c": 1.2765428587231782e-05,
+          "current_half_width_ms": 0.6952133932003057
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7836863688951635,
+          "peak_slope_in_region_at_ms": 138.3475360457199,
+          "peak_slope_above_region_v_per_ms": 0.47924473169732396,
+          "peak_slope_above_region_at_ms": 138.76874943891988,
+          "peak_current_in_region_a": 0.039684886586566215,
+          "peak_current_in_region_at_ms": 138.3515360457199,
+          "peak_current_a": 0.039684886586566215,
+          "charge_in_region_c": 3.7522254667995924e-05,
+          "current_half_width_ms": 0.9292133932004842
+        }
+      }
+    },
+    "hi-e5hi": {
+      "pinned": "ABORTED",
+      "abort": {
+        "time_s": 0.00197986,
+        "timestep_s": 2.5e-18,
+        "node": "xu13a.n2992151",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001979860588011177,
+          "values": [
+            0.0001224557172493073,
+            0.0003499468791238111,
+            -0.007789237009533291,
+            0.0004321042330070322,
+            -0.3469042032443213,
+            -0.1451815443075759,
+            0.3469978474378195,
+            7.218670048337427e-06,
+            8.407793851583634e-06,
+            -12.01127726730314,
+            4.999999999999937
+          ]
+        }
+      },
+      "variant_abstol": "COMPLETE",
+      "measured_under": "matched variant abstol (labelled, not pinned)",
+      "rails": {
+        "+12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.3562894546485274,
+          "peak_slope_in_region_at_ms": 138.1784278103626,
+          "peak_slope_above_region_v_per_ms": 0.321445638813545,
+          "peak_slope_above_region_at_ms": 154.6476249454021,
+          "peak_current_in_region_a": 0.021334513657949018,
+          "peak_current_in_region_at_ms": 138.1824278103626,
+          "peak_current_a": 0.021334513657949018,
+          "charge_in_region_c": 4.465577032495148e-05,
+          "current_half_width_ms": 42.58119713506559
+        },
+        "+5": {
+          "region_v": 0.45,
+          "peak_slope_in_region_v_per_ms": 0.4796942906243666,
+          "peak_slope_in_region_at_ms": 138.6585538138676,
+          "peak_slope_above_region_v_per_ms": 0.1363761677991317,
+          "peak_slope_above_region_at_ms": 141.7656249453892,
+          "peak_current_in_region_a": 0.01410288432211193,
+          "peak_current_in_region_at_ms": 138.6605538138676,
+          "peak_current_a": 0.01410288432211193,
+          "charge_in_region_c": 1.2767342030749976e-05,
+          "current_half_width_ms": 0.6901260035053203
+        },
+        "-12": {
+          "region_v": 0.75,
+          "peak_slope_in_region_v_per_ms": 0.7836833195037574,
+          "peak_slope_in_region_at_ms": 138.3464278103628,
+          "peak_slope_above_region_v_per_ms": 0.4794060124833196,
+          "peak_slope_above_region_at_ms": 138.76855381386773,
+          "peak_current_in_region_a": 0.03968490802083835,
+          "peak_current_in_region_at_ms": 138.35042781036282,
+          "peak_current_a": 0.03968490802083835,
+          "charge_in_region_c": 3.751747669719574e-05,
+          "current_half_width_ms": 0.928126003505475
+        }
+      }
+    }
+  },
+  "largest_measured": {
+    "+12": {
+      "peak_slope_in_region_v_per_ms": {
+        "value": 0.40741962627317324,
+        "deck": "hi-e12lo"
+      },
+      "peak_slope_above_region_v_per_ms": {
+        "value": 0.3219114585775334,
+        "deck": "hi-e12hi"
+      },
+      "peak_current_in_region_a": {
+        "value": 0.02439592687608294,
+        "deck": "hi-e12lo"
+      },
+      "peak_current_a": {
+        "value": 0.02439592687608294,
+        "deck": "hi-e12lo"
+      },
+      "charge_in_region_c": {
+        "value": 4.46682506195458e-05,
+        "deck": "hi-e12lo"
+      }
+    },
+    "+5": {
+      "peak_slope_in_region_v_per_ms": {
+        "value": 0.6706751553493215,
+        "deck": "hi-adv"
+      },
+      "peak_slope_above_region_v_per_ms": {
+        "value": 0.26262894333427367,
+        "deck": "nom-e12lo"
+      },
+      "peak_current_in_region_a": {
+        "value": 0.01971759280738783,
+        "deck": "hi-adv"
+      },
+      "peak_current_a": {
+        "value": 0.01971759280738783,
+        "deck": "hi-adv"
+      },
+      "charge_in_region_c": {
+        "value": 1.2767342030749976e-05,
+        "deck": "hi-e5hi"
+      }
+    },
+    "-12": {
+      "peak_slope_in_region_v_per_ms": {
+        "value": 1.5724988322201412,
+        "deck": "lo-e12hi"
+      },
+      "peak_slope_above_region_v_per_ms": {
+        "value": 0.9937543438365335,
+        "deck": "hi-e12lo"
+      },
+      "peak_current_in_region_a": {
+        "value": 0.079434214146199,
+        "deck": "hi-e12hi"
+      },
+      "peak_current_a": {
+        "value": 0.079434214146199,
+        "deck": "hi-e12hi"
+      },
+      "charge_in_region_c": {
+        "value": 3.752487387711194e-05,
+        "deck": "hi-nom"
+      }
+    }
+  },
+  "variant_cross_check": {
+    "abstol": {
+      "pinned": "ABORTED",
+      "variant": "COMPLETE"
+    }
+  },
+  "unknown": []
+}

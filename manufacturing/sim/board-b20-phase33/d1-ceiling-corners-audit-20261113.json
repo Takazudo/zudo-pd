@@ -1,0 +1,331 @@
+{
+  "record": "Audit of the completed phase33 ceiling_corners diagnostic artifact (reused evidence, no rerun)",
+  "scope": "archive identity, bundle completeness, executed-deck and solver identity, pinned-versus-variant labelling and re-analysis binding; judges no candidate and changes no contract ceiling",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "run": {
+    "id": 43232694170,
+    "run_attempt": 1,
+    "head_sha": "391992840046121554320a4c58d3a5cbf2474c89",
+    "head_branch": "main",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "path": ".github/workflows/phase33-d1-reference.yml",
+    "run_started_at": "2026-11-12T14:00:05Z",
+    "updated_at": "2026-11-12T14:15:48Z",
+    "html_url": "https://github.com/Takazudo/zudo-pd/actions/runs/43232694170"
+  },
+  "jobs": [
+    {
+      "id": 131231913361,
+      "name": "extract",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "steps": {
+        "Set up job": "success",
+        "Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd": "success",
+        "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065": "success",
+        "Reject attempt 1 and rev 2 T2 in one dispatch (they share the t2 work tree and control gate)": "skipped",
+        "Reject the itl4 diagnostic combined with any other opt-in (it rebuilds the t2 work tree)": "skipped",
+        "Reject the OSC-bank diagnostic combined with any other opt-in": "skipped",
+        "Reject the ceiling-corners diagnostic combined with any other opt-in": "skipped",
+        "Prepare hash-verified inputs (one bounded TI download each)": "success",
+        "Pull the solver image by digest": "success",
+        "Run nom adv once with the pinned runner (original-only)": "success",
+        "Identity control against the retained refinement": "success",
+        "Reference analysis (only when reproduced)": "success",
+        "Gap sensitivity variants (only when requested and reproduced)": "skipped",
+        "T2 evaluation (only when requested and reproduced)": "skipped",
+        "T2 rev 2 evaluation (only when requested and reproduced)": "skipped",
+        "itl4 inertness diagnostic (only when requested and reproduced)": "skipped",
+        "OSC-bank baseline diagnostic (only when requested and reproduced)": "skipped",
+        "Ceiling-bank corners diagnostic (only when requested and reproduced)": "success",
+        "Collect evidence without vendor model bytes": "success",
+        "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02": "success",
+        "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065": "success",
+        "Post Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd": "success",
+        "Complete job": "success"
+      }
+    }
+  ],
+  "metadata_read_utc": "2026-11-13T17:33:33Z",
+  "artifact": {
+    "id": 13953060177,
+    "name": "phase33-d1-reference",
+    "size_in_bytes": 569372615,
+    "digest": "sha256:026602ed06555b1191accf1e4042c3c515cfc9e6f79df825127013cc4c3fd3fd",
+    "created_at": "2026-11-12T14:15:44Z",
+    "expires_at": "2026-12-12T14:14:43Z",
+    "expired": false,
+    "downloaded_zip_sha256": "026602ed06555b1191accf1e4042c3c515cfc9e6f79df825127013cc4c3fd3fd",
+    "downloaded_zip_bytes": 569372615
+  },
+  "bundle": {
+    "members": 148,
+    "hashes_json_entries": 147,
+    "uncompressed_bytes": 2736761157,
+    "missing_from_archive": [],
+    "unlisted_in_hashes_json": [],
+    "hash_mismatches": [],
+    "vendor_model_members": [],
+    "hashes_json_sha256": "014c19b938a0b62c9b396a99e1c6a34c992ea4fdf2c1d656910288eb52514f10"
+  },
+  "identity_control": {
+    "status": "REPRODUCED",
+    "source_revision": "391992840046121554320a4c58d3a5cbf2474c89",
+    "solver_identity_matches": true,
+    "cases": {
+      "nom": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      },
+      "adv": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      }
+    }
+  },
+  "inputs": {
+    "source_revision": "391992840046121554320a4c58d3a5cbf2474c89",
+    "spiceinit_sha256": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+    "vendor_sha256": {
+      "sbomab6.zip": "50c3c188a17bca04f2760feac9c5e6350561eb12a1e25d5a2c19b08dcc2b3930",
+      "sbomab6/OPAx187.LIB": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "slpm286.zip": "fbf5e0b576e11f2e0a1a65b0b2c589f86a182ae9ef5c412a0b0b98cd8c569715",
+      "slpm286/CSD18543Q3A.LIB": "fa4ef72177bc7691b956ef047985e6fc0a490ae1e12d41295c787e6e51dba170",
+      "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8"
+    },
+    "solver_image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+    "solver": "ngspice-44.2",
+    "identity_pair_receipts": {
+      "ladder-p4v714zz": "COMPLETE"
+    }
+  },
+  "diagnostic": {
+    "criteria": "ceiling-corners-criteria.md",
+    "manifest_sha256": "4528d976ba779d987a7434f97c06fbe273cc1f1995869de76b183f61732f3989",
+    "labels": 9,
+    "executed_decks": {
+      "adv": {
+        "label": "adv",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "180281b5611343f377f790b7d2b0d7b5f3452f78d935df6edb854bbe3c3e2f0a",
+        "deck_matches_manifest": true
+      },
+      "hot-adv": {
+        "label": "hot-adv",
+        "track": "pinned",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "b0545a78eff4793f77e01a8eadc1a2f03f73be657bc8385a06a1caffa6fa2096",
+        "deck_matches_manifest": true
+      },
+      "hot-e12hi": {
+        "label": "hot-e12hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "a511951d29ac9ce4d7ab2ddc96e0e55722a3f716361899b36a16869b4f754eb2",
+        "deck_matches_manifest": true
+      },
+      "hot-e5hi": {
+        "label": "hot-e5hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "d8f367e49897657d6b4d0e1dee8b3ae0f5e8418300a8fe7edfd504a0d025d221",
+        "deck_matches_manifest": true
+      },
+      "hot-nom": {
+        "label": "hot-nom",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "0fcc9a2cafb8108b6869682f382562e51f6877d24fece95301186c605580b158",
+        "deck_matches_manifest": true
+      },
+      "nom": {
+        "label": "nom",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "7930503ef2fff4ab7710cf44c16d32a7a805364e64d3c6f45b5b6be43fe09e57",
+        "deck_matches_manifest": true
+      },
+      "v-abstol-adv": {
+        "label": "v-abstol-adv",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "d9351a8d6b8aca54893ac4ad855ec46199658fac222935d889536e6fa83998e1",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-e12hi": {
+        "label": "v-abstol-e12hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "c43747ddc3c2ed3fd7b00be7747f859f5b0cdc71d1063b2119d210d315667cf2",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-e5hi": {
+        "label": "v-abstol-e5hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "39c6fde58505ee4c0992b9e3483522c95a69d5c5484bb0c16e44e502b7a52a55",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-e5lo": {
+        "label": "v-abstol-e5lo",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "ef9a16082a057b7f009e1855c0c47e8fa94f15e99639d3d2c47329208aba5196",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hot-e12hi": {
+        "label": "v-abstol-hot-e12hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "8683c175a899295b57069f60fcd369833146229c5261b6ef38f2a8a67354603f",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hot-e5hi": {
+        "label": "v-abstol-hot-e5hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "2158398737201e9f3921caa59b202983fac76ec9a207ae8053fd1a8f57a35ed4",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hot-nom": {
+        "label": "v-abstol-hot-nom",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "9966dc2b0dae52c20415e5ebd769ebfa81e1c8006608084c46b66385c19476de",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-nom": {
+        "label": "v-abstol-nom",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "3e9e68bc4f6be048aa32100348b2c9b2b53686adb439faf82e8d992689cf337a",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      }
+    },
+    "result_file": "ceiling-corners.json",
+    "result_sha256": "10a7e7f0b66c157f1589dcb3996edbe515e818686ce4af0af94ab25a5e5bdd47",
+    "retained_as": "d1-ceiling-corners-20261112.json",
+    "summary": {
+      "decks": {
+        "nom": {
+          "entry": "pinned",
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.247653
+        },
+        "adv": {
+          "entry": "pinned",
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.247649
+        },
+        "e5lo": {
+          "entry": "variant",
+          "pinned": "not rerun; ABORTED in recorded run 43187732133",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)"
+        },
+        "e5hi": {
+          "entry": "variant",
+          "pinned": "not rerun; ABORTED in recorded run 43187732133",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)"
+        },
+        "e12hi": {
+          "entry": "variant",
+          "pinned": "not rerun; ABORTED in recorded run 43187732133",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)"
+        },
+        "hot-nom": {
+          "entry": "pinned",
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.19067
+        },
+        "hot-adv": {
+          "entry": "pinned",
+          "pinned": "COMPLETE",
+          "measured_under": "pinned"
+        },
+        "hot-e12hi": {
+          "entry": "pinned",
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.0600831
+        },
+        "hot-e5hi": {
+          "entry": "pinned",
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00299405
+        }
+      },
+      "unknown": [],
+      "flags": [],
+      "variant_cross_check": {
+        "abstol": {
+          "pinned": "ABORTED",
+          "variant": "COMPLETE"
+        }
+      }
+    }
+  },
+  "deck_derivation": {
+    "labels": 9,
+    "manifest_labels": 9,
+    "all_match": true,
+    "mismatch": [],
+    "method": "derive_cases() of the executed revision (git archive), each deck SHA-256 against the diagnostic manifest in the bundle"
+  },
+  "reanalysis": {
+    "analyzer": "manufacturing/sim/board-b20-phase33/ceiling_corners.py analyze at 391992840046121554320a4c58d3a5cbf2474c89 on the extracted bundle",
+    "python": "CPython 3.12.3 (workflow pin 3.12)",
+    "output_sha256": "9aa53ed601f56186bc4ff1851b832171b1089d16ba3a18ee9240ed2f29ba162e",
+    "byte_identical": false,
+    "differing_keys": [
+      "model_temperature_terms"
+    ],
+    "expected_differing_keys": [
+      "model_temperature_terms"
+    ],
+    "expected_difference_reason": "the hot-case model temperature-term counts are read from the vendor model files, which the bundle deliberately omits; every measured quantity is identical"
+  },
+  "problems": [],
+  "audit_status": "VERIFIED"
+}
