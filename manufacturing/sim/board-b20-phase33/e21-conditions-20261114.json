@@ -1,0 +1,118 @@
+{
+  "record": "E21 condition 3 and current rows on the identity nom / adv decks (SIMULATION)",
+  "e21_source": "Takazudo/zudo-osc-hole-field 512e1ec2db2c4e344d56a4c6d985fcc3a209cbfb",
+  "cases": {
+    "nom": {
+      "+12": {
+        "rail_start_ms": 137.8849044913395,
+        "reference_start_ms": 124.844152129986,
+        "largest_reversal_v": 4.418725779720134e-08,
+        "largest_lead_v": -0.07155923954320031,
+        "largest_lead_at_ms": 142.3971199461364,
+        "normal_difference_v": -0.10515691320135012,
+        "returned_at_ms": 162.8831199461569,
+        "return_after_rail_start_ms": 24.998215454817398,
+        "return_after_reference_start_ms": 38.0389678161709,
+        "lead_within": true,
+        "return_within_from_rail_start": false,
+        "return_within_from_reference_start": false
+      },
+      "+5": {
+        "rail_start_ms": 139.9604347498954,
+        "reference_start_ms": 128.3007588457913,
+        "largest_reversal_v": 3.686212590031657e-08,
+        "largest_lead_v": 0.07171012585306591,
+        "largest_lead_at_ms": 140.78243474989623,
+        "normal_difference_v": 0.009287377652177353,
+        "returned_at_ms": 144.5271199461385,
+        "return_after_rail_start_ms": 4.56668519624312,
+        "return_after_reference_start_ms": 16.226361100347198,
+        "lead_within": true,
+        "return_within_from_rail_start": true,
+        "return_within_from_reference_start": false
+      },
+      "-12": {
+        "rail_start_ms": 138.2389044913399,
+        "reference_start_ms": 124.884152129986,
+        "largest_reversal_v": 2.2994990800384585e-08,
+        "largest_lead_v": 0.13330434120032686,
+        "largest_lead_at_ms": 139.2684347498947,
+        "normal_difference_v": 0.05089820197594097,
+        "returned_at_ms": 143.5511199461375,
+        "return_after_rail_start_ms": 5.312215454797597,
+        "return_after_reference_start_ms": 18.6669678161515,
+        "lead_within": true,
+        "return_within_from_rail_start": true,
+        "return_within_from_reference_start": false
+      }
+    },
+    "adv": {
+      "+12": {
+        "rail_start_ms": 136.79313359426502,
+        "reference_start_ms": 124.85373196998239,
+        "largest_reversal_v": 4.409971898766685e-08,
+        "largest_lead_v": -0.010258344175373857,
+        "largest_lead_at_ms": 138.09713359426632,
+        "normal_difference_v": -0.10688961025074795,
+        "returned_at_ms": 161.79148857947177,
+        "return_after_rail_start_ms": 24.998354985206777,
+        "return_after_reference_start_ms": 36.93775660948939,
+        "lead_within": true,
+        "return_within_from_rail_start": false,
+        "return_within_from_reference_start": false
+      },
+      "+5": {
+        "rail_start_ms": 139.29135548605228,
+        "reference_start_ms": 128.3109021732758,
+        "largest_reversal_v": 3.675490868604303e-08,
+        "largest_lead_v": 0.07370028349866597,
+        "largest_lead_at_ms": 140.1153554860532,
+        "normal_difference_v": 0.009025467346621019,
+        "returned_at_ms": 144.0754885794541,
+        "return_after_rail_start_ms": 4.78413309340181,
+        "return_after_reference_start_ms": 15.76458640617831,
+        "lead_within": true,
+        "return_within_from_rail_start": true,
+        "return_within_from_reference_start": false
+      },
+      "-12": {
+        "rail_start_ms": 138.0371335942662,
+        "reference_start_ms": 124.8937319699824,
+        "largest_reversal_v": 2.288648026649298e-08,
+        "largest_lead_v": 0.20782945882190407,
+        "largest_lead_at_ms": 138.85735548605192,
+        "normal_difference_v": 0.05097126408616015,
+        "returned_at_ms": 146.4294885794564,
+        "return_after_rail_start_ms": 8.392354985190199,
+        "return_after_reference_start_ms": 21.535756609474003,
+        "lead_within": true,
+        "return_within_from_rail_start": true,
+        "return_within_from_reference_start": false
+      }
+    }
+  },
+  "currents": {
+    "nom +5": {
+      "peak_current_in_region_a": 0.114510040903672,
+      "limit_a": 0.18,
+      "within": true
+    },
+    "nom -12": {
+      "peak_current_in_region_a": 0.15169311333672164,
+      "limit_a": 0.35,
+      "within": true
+    },
+    "adv +5": {
+      "peak_current_in_region_a": 0.10293063316167805,
+      "limit_a": 0.18,
+      "within": true
+    },
+    "adv -12": {
+      "peak_current_in_region_a": 0.26525933220897024,
+      "limit_a": 0.35,
+      "within": true
+    }
+  },
+  "condition3_rail_start_reading": true,
+  "condition3_reference_start_reading": false
+}

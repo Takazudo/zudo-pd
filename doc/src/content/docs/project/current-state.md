@@ -74,6 +74,9 @@ D1–D9 holds stay.
   The [OSC reply record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/osc-reply-20261114.md)
   also shows condition 3 failing as worded (a monotonic lead of up to 208 mV), passive D2 discharge failing 10 of 18
   per-rail load corners (calculated), and D3 needing a let-through envelope.
+  OSC recorded E21 at zudo-osc-hole-field `512e1ec` (PR #337, open): ≤ 350 mA on −12 V and ≤ 180 mA on +5 V inside the
+  regions, no load only. The simulated peaks are within it; condition 3 holds only if its "ramp start" is the rail's own
+  start ([E21 binding record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/e21-binding-20261114.md)).
   Electrical acceptance stays NOT ESTABLISHED, and the proposed 350 / 160 mA exception is not adopted.
 - **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker

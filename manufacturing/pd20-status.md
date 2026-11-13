@@ -177,6 +177,10 @@ In particular, discharge/shutdown and maximum delivered current remain pre-order
 **Slope-exception owner, recorded.** The owner accepted OSC's no-load ramp-slope exceptions on 2026-11-03 (decision card
 `cmsg_01Pv35emdXEU6gCRF3teSpo2GzmXCn8kfxsnNg5p6WdFzN`): no load only; +5 V ≤ 0.95 V/ms below 0.45 V at ≤ 114 mA;
 −12 V ≤ 1.47 V/ms below 0.75 V at ≤ 265 mA. Loaded starts keep the 1.22 / 0.51 V/ms limits.
+OSC recorded the owner-accepted replacement as E21 at zudo-osc-hole-field `512e1ec` (PR #337, open on 2026-11-14 JST):
+a no-load charging-current limit of ≤ 350 mA on −12 V while |V| ≤ 0.75 V and ≤ 180 mA on +5 V while V ≤ 0.45 V, with no V/ms
+figure inside those regions. It applies on the PD side once #337 merges and its condition 3 ramp start is settled; see the
+[E21 binding record](sim/board-b20-phase33/e21-binding-20261114.md).
 
 ## Bench test sheets (NOT RUN)
 
