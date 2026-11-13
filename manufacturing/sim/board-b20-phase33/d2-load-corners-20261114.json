@@ -1,0 +1,407 @@
+{
+  "record": "D2 passive discharge across OSC per-rail load corners (CALCULATED; resistive-load ASSUMPTION; ideal simultaneous disconnect)",
+  "absent_v": {
+    "+12": 0.5,
+    "-12": 0.6
+  },
+  "discharge_resistors_ohm": {
+    "+12": 100.0,
+    "+5": 33.0,
+    "-12": 150.0
+  },
+  "corners": [
+    {
+      "corner": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "loads_ohm": {},
+      "time_to_discharge_level_s": {
+        "+5": 0.00856,
+        "+12": 0.05792,
+        "-12": 0.08171
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "+12": 0.05792,
+        "-12": 0.08171
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "-12": 8.3589
+      },
+      "time_to_discharge_level_s": {
+        "-12": 0.00432,
+        "+5": 0.00856,
+        "+12": 0.05792
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00432,
+        "+12": 9.8171,
+        "-12": 0.5969,
+        "+5": 1.7467
+      },
+      "first_direct_hazard": {
+        "t_s": 0.00432,
+        "+12": 9.8171,
+        "-12": 0.5969,
+        "+5": 1.7467
+      }
+    },
+    {
+      "corner": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "-12": 8.3589,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "-12": 0.00432,
+        "+12": 0.05792
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00432,
+        "+12": 9.8171,
+        "-12": 0.5969,
+        "+5": 0.0477
+      },
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "-12": 6.0
+      },
+      "time_to_discharge_level_s": {
+        "-12": 0.00315,
+        "+5": 0.00856,
+        "+12": 0.05792
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00315,
+        "+12": 10.4764,
+        "-12": 0.5957,
+        "+5": 2.3472
+      },
+      "first_direct_hazard": {
+        "t_s": 0.00315,
+        "+12": 10.4764,
+        "-12": 0.5957,
+        "+5": 2.3472
+      }
+    },
+    {
+      "corner": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "-12": 6.0,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "-12": 0.00315,
+        "+12": 0.05792
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00315,
+        "+12": 10.4764,
+        "-12": 0.5957,
+        "+5": 0.17
+      },
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "+12": 7.8186
+      },
+      "time_to_discharge_level_s": {
+        "+12": 0.0042,
+        "+5": 0.00856,
+        "-12": 0.08171
+      },
+      "first_rvee_violation": {
+        "t_s": 0.0042,
+        "+12": 0.4998,
+        "-12": 10.588,
+        "+5": 1.8005
+      },
+      "first_direct_hazard": {
+        "t_s": 0.0042,
+        "+12": 0.4998,
+        "-12": 10.588,
+        "+5": 1.8005
+      }
+    },
+    {
+      "corner": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "+12": 7.8186,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "+12": 0.0042,
+        "-12": 0.08171
+      },
+      "first_rvee_violation": {
+        "t_s": 0.0042,
+        "+12": 0.4998,
+        "-12": 10.588,
+        "+5": 0.0544
+      },
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "+12": 7.8186,
+        "-12": 8.3589
+      },
+      "time_to_discharge_level_s": {
+        "+12": 0.0042,
+        "-12": 0.00432,
+        "+5": 0.00856
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "+12": 7.8186,
+        "-12": 8.3589,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "+12": 0.0042,
+        "-12": 0.00432
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "+12": 7.8186,
+        "-12": 6.0
+      },
+      "time_to_discharge_level_s": {
+        "-12": 0.00315,
+        "+12": 0.0042,
+        "+5": 0.00856
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00315,
+        "+12": 1.1173,
+        "-12": 0.5957,
+        "+5": 2.3472
+      },
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "+12": 7.8186,
+        "-12": 6.0,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "-12": 0.00315,
+        "+12": 0.0042
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00315,
+        "+12": 1.1173,
+        "-12": 0.5957,
+        "+5": 0.17
+      },
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "+12": 5.7143
+      },
+      "time_to_discharge_level_s": {
+        "+12": 0.00314,
+        "+5": 0.00856,
+        "-12": 0.08171
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00314,
+        "+12": 0.4951,
+        "-12": 11.0119,
+        "+5": 2.3531
+      },
+      "first_direct_hazard": {
+        "t_s": 0.00314,
+        "+12": 0.4951,
+        "-12": 11.0119,
+        "+5": 2.3531
+      }
+    },
+    {
+      "corner": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "+12": 5.7143,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "+12": 0.00314,
+        "-12": 0.08171
+      },
+      "first_rvee_violation": {
+        "t_s": 0.00314,
+        "+12": 0.4951,
+        "-12": 11.0119,
+        "+5": 0.1719
+      },
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "+12": 5.7143,
+        "-12": 8.3589
+      },
+      "time_to_discharge_level_s": {
+        "+12": 0.00314,
+        "-12": 0.00432,
+        "+5": 0.00856
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "+12": 5.7143,
+        "-12": 8.3589,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "+12": 0.00314,
+        "-12": 0.00432
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "loads_ohm": {
+        "+12": 5.7143,
+        "-12": 6.0
+      },
+      "time_to_discharge_level_s": {
+        "+12": 0.00314,
+        "-12": 0.00315,
+        "+5": 0.00856
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    },
+    {
+      "corner": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "loads_ohm": {
+        "+12": 5.7143,
+        "-12": 6.0,
+        "+5": 10.0
+      },
+      "time_to_discharge_level_s": {
+        "+5": 0.00199,
+        "+12": 0.00314,
+        "-12": 0.00315
+      },
+      "first_rvee_violation": null,
+      "first_direct_hazard": null
+    }
+  ],
+  "corners_total": 18,
+  "corners_failing": 10,
+  "conclusion": "Passive uncoupled discharge does not meet the voltage-form rows across OSC's committed per-rail load range"
+}
