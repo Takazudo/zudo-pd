@@ -55,7 +55,8 @@ programmed, energized, measured or re-run natively.
 | [#283](https://github.com/Takazudo/zudo-pd/pull/283) (`e868593`) | D12 R77–R80 100k 0402 C25741 inserted natively; input RC recomputed on the routed stray | `pd20-native-d12-insert-20261113/` (insertion; open fill-screen exception accepted by Takazudo) and `pd20-native-d12-merged-20261114/`, head `9435b2f`: the four steps PASS with **274 fitted B20** |
 
 These are nominal CAD and package checks, not electrical qualification. The D12 mitigation is implemented, but
-electrical acceptance is not established and the D10–D12 pre-order holds stay.
+electrical acceptance is not established. The D10 and D12 pre-order holds, D11's open verification and the
+D1–D9 holds stay.
 
 - **D12 input capacitance.** The D12 decision assumed a 3 pF stray. The insertion receipt calculated a routed UV5_IN
   upper bound of 3.43 pF, and #283 recomputed the input RC with it: UV+5 is 1.435 µs, and the maximum stays 1.802 µs.
