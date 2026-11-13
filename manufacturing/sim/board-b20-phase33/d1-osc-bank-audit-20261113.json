@@ -1,0 +1,538 @@
+{
+  "record": "Audit of the completed phase33 osc_bank diagnostic artifact (reused evidence, no rerun)",
+  "scope": "archive identity, bundle completeness, executed-deck and solver identity, pinned-versus-variant labelling and re-analysis binding; judges no candidate and changes no contract ceiling",
+  "electrical_acceptance": "NOT ESTABLISHED",
+  "run": {
+    "id": 43221578569,
+    "run_attempt": 1,
+    "head_sha": "8daa87f988d99abb02270827b47a4bb905177df9",
+    "head_branch": "main",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "path": ".github/workflows/phase33-d1-reference.yml",
+    "run_started_at": "2026-11-12T12:50:18Z",
+    "updated_at": "2026-11-12T13:24:31Z",
+    "html_url": "https://github.com/Takazudo/zudo-pd/actions/runs/43221578569"
+  },
+  "jobs": [
+    {
+      "id": 131194140390,
+      "name": "extract",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "steps": {
+        "Set up job": "success",
+        "Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd": "success",
+        "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065": "success",
+        "Reject attempt 1 and rev 2 T2 in one dispatch (they share the t2 work tree and control gate)": "skipped",
+        "Reject the itl4 diagnostic combined with any other opt-in (it rebuilds the t2 work tree)": "skipped",
+        "Reject the OSC-bank diagnostic combined with any other opt-in": "skipped",
+        "Prepare hash-verified inputs (one bounded TI download each)": "success",
+        "Pull the solver image by digest": "success",
+        "Run nom adv once with the pinned runner (original-only)": "success",
+        "Identity control against the retained refinement": "success",
+        "Reference analysis (only when reproduced)": "success",
+        "Gap sensitivity variants (only when requested and reproduced)": "skipped",
+        "T2 evaluation (only when requested and reproduced)": "skipped",
+        "T2 rev 2 evaluation (only when requested and reproduced)": "skipped",
+        "itl4 inertness diagnostic (only when requested and reproduced)": "skipped",
+        "OSC-bank baseline diagnostic (only when requested and reproduced)": "success",
+        "Collect evidence without vendor model bytes": "success",
+        "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02": "success",
+        "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065": "success",
+        "Post Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd": "success",
+        "Complete job": "success"
+      }
+    }
+  ],
+  "metadata_read_utc": "2026-11-13T17:33:31Z",
+  "artifact": {
+    "id": 13947214643,
+    "name": "phase33-d1-reference",
+    "size_in_bytes": 1146786597,
+    "digest": "sha256:c26999933ee8bcae4aee79220846a1a24e9f627be58ac22860c76f8f42d173e7",
+    "created_at": "2026-11-12T13:24:28Z",
+    "expires_at": "2026-12-12T13:22:07Z",
+    "expired": false,
+    "downloaded_zip_sha256": "c26999933ee8bcae4aee79220846a1a24e9f627be58ac22860c76f8f42d173e7",
+    "downloaded_zip_bytes": 1146786597
+  },
+  "bundle": {
+    "members": 328,
+    "hashes_json_entries": 327,
+    "uncompressed_bytes": 5484950299,
+    "missing_from_archive": [],
+    "unlisted_in_hashes_json": [],
+    "hash_mismatches": [],
+    "vendor_model_members": [],
+    "hashes_json_sha256": "dd5893a327bf2e0bf5961a4036aae855af0b69f6f2a61bb402257ec7cb40ea85"
+  },
+  "identity_control": {
+    "status": "REPRODUCED",
+    "source_revision": "8daa87f988d99abb02270827b47a4bb905177df9",
+    "solver_identity_matches": true,
+    "cases": {
+      "nom": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      },
+      "adv": {
+        "executed_deck": true,
+        "main_waveform": true,
+        "supplemental_waveform": true,
+        "executed_models_and_settings": true
+      }
+    }
+  },
+  "inputs": {
+    "source_revision": "8daa87f988d99abb02270827b47a4bb905177df9",
+    "spiceinit_sha256": "65514f56638a354f3cb368314850b7c56e4ec164c2314152d4451297f93f62b9",
+    "vendor_sha256": {
+      "sbomab6.zip": "50c3c188a17bca04f2760feac9c5e6350561eb12a1e25d5a2c19b08dcc2b3930",
+      "sbomab6/OPAx187.LIB": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "slpm286.zip": "fbf5e0b576e11f2e0a1a65b0b2c589f86a182ae9ef5c412a0b0b98cd8c569715",
+      "slpm286/CSD18543Q3A.LIB": "fa4ef72177bc7691b956ef047985e6fc0a490ae1e12d41295c787e6e51dba170",
+      "lib/opax187.lib": "a1a17afb119ffc7dbcceff289ca43af137b794f447b0e190b56a289d6cfe8f4f",
+      "lib/csd18543q3a_ngspice.lib": "fe12b71b021aa03d0fd6718e1de1d7cf013147e00161bb8853565f3dbff2c9b8"
+    },
+    "solver_image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+    "solver": "ngspice-44.2",
+    "identity_pair_receipts": {
+      "ladder-4plv48qq": "COMPLETE"
+    }
+  },
+  "diagnostic": {
+    "criteria": "osc-bank-criteria.md",
+    "manifest_sha256": "cd8588767363049a0557c37020c28b933efec305176dacbea6ee1c807673e485",
+    "labels": 18,
+    "executed_decks": {
+      "hi-adv": {
+        "label": "hi-adv",
+        "track": "pinned",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "07b3703b3e670bb5c558543fcfcb095de00915df54dd78f1b46256efbc2a996c",
+        "deck_matches_manifest": true
+      },
+      "hi-e12hi": {
+        "label": "hi-e12hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "b7a05339eb6f5e34e9251b3f5f4e88570570636b56735237edb97f6971f326ea",
+        "deck_matches_manifest": true
+      },
+      "hi-e12lo": {
+        "label": "hi-e12lo",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "51ba43f28042c74dadc9a0859fd0f234114d61bfd947d2e477b1b96e45666e8c",
+        "deck_matches_manifest": true
+      },
+      "hi-e5hi": {
+        "label": "hi-e5hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "19a73b4b19f7d87d8706fb58f30f05ea1450652c898fb9391508e49be39480e3",
+        "deck_matches_manifest": true
+      },
+      "hi-e5lo": {
+        "label": "hi-e5lo",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "fdd1a2d3063f3ea341836bbdc75dab5b212aee296a21c5a46775905fba9fe6a9",
+        "deck_matches_manifest": true
+      },
+      "hi-nom": {
+        "label": "hi-nom",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "943fd248d5a0c9fc77f919c63b56b4a39b09078d04d0dc8e13b11df0ffee00d5",
+        "deck_matches_manifest": true
+      },
+      "lo-adv": {
+        "label": "lo-adv",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "3d40f9e696167256b3475fe2901adb30d22b22fdabc6ae891e19e57028449848",
+        "deck_matches_manifest": true
+      },
+      "lo-e12hi": {
+        "label": "lo-e12hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "64bd4c2f95983d89bc572b572ed079da84f4963da68890ef9d768e11f58e7586",
+        "deck_matches_manifest": true
+      },
+      "lo-e12lo": {
+        "label": "lo-e12lo",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "6308e857903819b75b70b356a08188a0377ee04d3506835a169d7fb746824522",
+        "deck_matches_manifest": true
+      },
+      "lo-e5hi": {
+        "label": "lo-e5hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "9978d1bdf0c73e307b2de5f2ba8b81d704d1ed036c3e3e8db134dddedc6f76af",
+        "deck_matches_manifest": true
+      },
+      "lo-e5lo": {
+        "label": "lo-e5lo",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "b2ffa718205471c00e14a6320b6c99081ec3e3e3e78ceb0c9cdc8536f34ef94d",
+        "deck_matches_manifest": true
+      },
+      "lo-nom": {
+        "label": "lo-nom",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "5a667372d068593251f72edee62db1bd8f5081ffe1225f8c844682210180e5a1",
+        "deck_matches_manifest": true
+      },
+      "nom-adv": {
+        "label": "nom-adv",
+        "track": "pinned",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "76a9d86c5af469a970847d0aa5d6da5348285ef69100bba7e1333433c1f56326",
+        "deck_matches_manifest": true
+      },
+      "nom-e12hi": {
+        "label": "nom-e12hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "9089d53e83e27c5e406c2c015620df984230cdca1ec7fc597a64068df8ef9edf",
+        "deck_matches_manifest": true
+      },
+      "nom-e12lo": {
+        "label": "nom-e12lo",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "4718c4429745d2435d5c8e3f281897d17b875cd5638d2db9506b961d9a0f844c",
+        "deck_matches_manifest": true
+      },
+      "nom-e5hi": {
+        "label": "nom-e5hi",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "5d5bd2eea16b5a3d477a53b7061a276fb8eeafae9f80925fc8f3cffdd6159891",
+        "deck_matches_manifest": true
+      },
+      "nom-e5lo": {
+        "label": "nom-e5lo",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "cf9390af17800cedced825d2d76f9024aecd34102c27f293e7e9e534d260b252",
+        "deck_matches_manifest": true
+      },
+      "nom-nom": {
+        "label": "nom-nom",
+        "track": "pinned",
+        "runner_status": "FAILED",
+        "attempts": 1,
+        "executed_deck_sha256": "417adba12fd3ee3eeeab7a807a068035a6e984cd95ca5ed8a7e415b9b8323168",
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hi-e12hi": {
+        "label": "v-abstol-hi-e12hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "c493f1a6122eb578d6d1f5cc159234191cb18f56858bbe7993d698ea0d27d1f9",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hi-e12lo": {
+        "label": "v-abstol-hi-e12lo",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "f58f82a44d27c1defbb3ff2a41b8e0239fc350d44c3f167c31577d463e85b1aa",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hi-e5hi": {
+        "label": "v-abstol-hi-e5hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "e69dd8891ac244b6fc1ec7401fd39255684e5290f6180fc59cbe361c8e1df122",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hi-e5lo": {
+        "label": "v-abstol-hi-e5lo",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "a43aa62e74c415fc65e80d7de098cd9836f3921ed4613677c565da7202bb2199",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-hi-nom": {
+        "label": "v-abstol-hi-nom",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "aa4309eee2fadfa9fe790ac8c699bef76b69fc7de77de04f91dac8bafd422f36",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-lo-adv": {
+        "label": "v-abstol-lo-adv",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "7f5b9a057e2a8499ed8691fe7af411ede5c87ed5f5f48ba68497dd1c19a28d51",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-lo-e12hi": {
+        "label": "v-abstol-lo-e12hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "97ab7421eedfed211e594119621ebf11272c503dc83dc2719e36c839d19d39d9",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-lo-e12lo": {
+        "label": "v-abstol-lo-e12lo",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "82d71e0b38c63732d8de63ed394dd244c9620d17c58bdab4b6b49a73679454bc",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-lo-e5hi": {
+        "label": "v-abstol-lo-e5hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "923fd3c2d9c2d4d25adfb884ea78a1f2c302f3bcd80dac595ee592d60ca4900a",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-lo-e5lo": {
+        "label": "v-abstol-lo-e5lo",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "d274f7fe8079487c6d10c5d5a55b08f1900557980f0ebd91e909157009eae113",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-lo-nom": {
+        "label": "v-abstol-lo-nom",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "d14391718206242f1ba3dfc26550f8858c4348e23b94005102e82bcb3e56f956",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-nom-e12hi": {
+        "label": "v-abstol-nom-e12hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "10b4c1cd09886b41b69d80b088c517b443c82e899b476b9c862b3569eb020e1b",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-nom-e12lo": {
+        "label": "v-abstol-nom-e12lo",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "b33341fac126d21776544f8bac72305b03f3859717d54858db02efc52d6c969d",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-nom-e5hi": {
+        "label": "v-abstol-nom-e5hi",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "2c6db5cbd285f305d6a3d9604ee9201202c7ef97aeee8d675304497bfde140c3",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-nom-e5lo": {
+        "label": "v-abstol-nom-e5lo",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "cc5cab40c23373a3ab1ca811d3cd20501738f4f505fa15190c1735193f3af0e3",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      },
+      "v-abstol-nom-nom": {
+        "label": "v-abstol-nom-nom",
+        "track": "matched variant abstol (labelled)",
+        "runner_status": "COMPLETE",
+        "attempts": 1,
+        "executed_deck_sha256": "7239a9d9769ec0867e59d599ceba5c865c25f9ecd0d2efdad5b5a9bf85c492b2",
+        "variant_option_only": true,
+        "deck_matches_manifest": true
+      }
+    },
+    "result_file": "osc-bank.json",
+    "result_sha256": "5dcadb341246f745ed6d26e8df7d17b35f7f37fcb457b4d9cfc28a7c7a36ffb5",
+    "retained_as": "d1-osc-bank-20261112.json",
+    "summary": {
+      "decks": {
+        "lo-nom": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00196985
+        },
+        "lo-adv": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.0883791
+        },
+        "lo-e12lo": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.246908
+        },
+        "lo-e12hi": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.247681
+        },
+        "lo-e5lo": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.247681
+        },
+        "lo-e5hi": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.0999232
+        },
+        "nom-nom": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00200001
+        },
+        "nom-adv": {
+          "pinned": "COMPLETE",
+          "measured_under": "pinned"
+        },
+        "nom-e12lo": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.246909
+        },
+        "nom-e12hi": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.246909
+        },
+        "nom-e5lo": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.246909
+        },
+        "nom-e5hi": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00306781
+        },
+        "hi-nom": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00197981
+        },
+        "hi-adv": {
+          "pinned": "COMPLETE",
+          "measured_under": "pinned"
+        },
+        "hi-e12lo": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00197984
+        },
+        "hi-e12hi": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00306786
+        },
+        "hi-e5lo": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.24767
+        },
+        "hi-e5hi": {
+          "pinned": "ABORTED",
+          "variant_abstol": "COMPLETE",
+          "measured_under": "matched variant abstol (labelled, not pinned)",
+          "pinned_abort_time_s": 0.00197986
+        }
+      },
+      "unknown": [],
+      "flags": null,
+      "variant_cross_check": {
+        "abstol": {
+          "pinned": "ABORTED",
+          "variant": "COMPLETE"
+        }
+      }
+    }
+  },
+  "deck_derivation": {
+    "labels": 18,
+    "manifest_labels": 18,
+    "all_match": true,
+    "mismatch": [],
+    "method": "derive_cases() of the executed revision (git archive), each deck SHA-256 against the diagnostic manifest in the bundle"
+  },
+  "reanalysis": {
+    "analyzer": "manufacturing/sim/board-b20-phase33/osc_bank.py analyze at 8daa87f988d99abb02270827b47a4bb905177df9 on the extracted bundle",
+    "python": "CPython 3.12.3 (workflow pin 3.12)",
+    "output_sha256": "5dcadb341246f745ed6d26e8df7d17b35f7f37fcb457b4d9cfc28a7c7a36ffb5",
+    "byte_identical": true,
+    "differing_keys": [],
+    "expected_differing_keys": []
+  },
+  "problems": [],
+  "audit_status": "VERIFIED"
+}

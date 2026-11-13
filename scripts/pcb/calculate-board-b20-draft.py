@@ -881,8 +881,9 @@ VX_DIV = (30.1e3, 10e3)                                        # RVX1 / RVX2 fro
 Q55_BODY_VF_PA = (0.3, 0.6)                                    # PA: BSS138 body diode at ~10-20 uA (no sourced row)
 Q55_DRAIN_R = 150.0                                            # RXN: Q55 (source M12_OUT) drain M12_DX to GND
 SERIES_R_OPTIONS = (10e3, 100e3, 1e6)                          # paper options (#279): one R_S at every divider-side input
-# Fitted (owner decision 2026-11-12, dec-b20-comparator-input-series-r): 100k C25803 RS12O/RS12U/RS5O/RS5U (R77-R80) on
-# the U6/U7 divider-side inputs; U8 (-12) stays unresistored so its diodes keep clamping the REF-referenced dividers.
+# Fitted (owner decision 2026-11-12, dec-b20-comparator-input-series-r, 0402 package amendment the same day): 100k 0402
+# C25741 RS12O/RS12U/RS5O/RS5U (R77-R80) on the U6/U7 divider-side inputs; U8 (-12) stays unresistored so its diodes keep
+# clamping the REF-referenced dividers.
 COMPARATOR_SERIES_R = {'U6': 100e3, 'U7': 100e3, 'U8': 0.0}
 UNFIXED_SERIES_R = {'U6': 0.0, 'U7': 0.0, 'U8': 0.0}
 OPA_INPUT_C_TYP_F = 4.2e-12 + 6e-12                            # SBOS807E ZIC + ZID, typical only (no maximum)
@@ -1073,9 +1074,10 @@ def comparator_input_diodes(series_r=None, _options=True):
         'disabled_backfeed_status': 'OPEN' if any(now[r][1] > limits[r] for r in now) else 'PASS',
         'disabled_backfeed_note': 'CALCULATED DC, no external load, discharge switches off after the hold-up; spans VF, '
                                   'pre-bias on/off, the U13 input-diode clamp of TRK and the Q55 body diode (M12_OUT to RXN, VF PA '
-                                  f'{Q55_BODY_VF_PA[0]}-{Q55_BODY_VF_PA[1]} V, unsourced at uA), which bounds -12 at one drop. Whether the contract absent / '
-                                  'discharge levels apply to a disabled, unloaded terminal after the hold-up is unresolved. '
-                                  'No phase deck includes U6-U8 or these dividers.',
+                                  f'{Q55_BODY_VF_PA[0]}-{Q55_BODY_VF_PA[1]} V, unsourced at uA), which bounds -12 at one drop. The contract absent / '
+                                  'discharge levels are applied to a disabled, unloaded terminal after the hold-up, the conservative '
+                                  'reading adopted by dec-b20-comparator-input-series-r. A calculated PASS is not electrical acceptance; '
+                                  'no phase deck includes U6-U8 or these dividers.',
         'series_resistor_options': options,
         'fitted_series_r_ohm': rs_map,
         'disabled_terminal_v_before_fix': unfixed,
