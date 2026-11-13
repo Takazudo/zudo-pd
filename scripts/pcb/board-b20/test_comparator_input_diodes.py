@@ -8,6 +8,7 @@ terminals or M12_PRE without passing through REF25 or GND (FET, diode and op-amp
 bench behaviour.
 """
 import importlib.util
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -74,7 +75,17 @@ class FittedSeriesResistorTests(unittest.TestCase):
         for rail, (_, high) in now.items():
             self.assertLess(high, levels[rail], rail)
         self.assertEqual(RESULT['disabled_backfeed_status'], 'PASS')
-        self.assertIn('unresolved', RESULT['disabled_backfeed_note'])
+        # The locked decision applies the contract absent / discharge levels to the disabled, unloaded terminal.
+        self.assertEqual(levels, {'+12': 0.5, '+5': 0.6, '-12': 0.6})
+        self.assertEqual(levels['+5'], min(calculator.DISCHARGE_LEVEL['+5'], calculator.P5_ORDER_LEVEL))
+
+    def test_interpretation_is_bound_to_the_locked_decision(self):
+        decisions = json.loads((ROOT / 'scripts' / 'schgen' / 'decisions.json').read_text())['decisions']
+        (dec,) = [d for d in decisions if d['id'] == 'dec-b20-comparator-input-series-r']
+        self.assertEqual(dec['status'], 'LOCKED')
+        self.assertIn('#279', dec['applies_to'])
+        self.assertIn('fact-c25741-resistance', dec['evidence'])
+        self.assertIn(dec['id'], RESULT['disabled_backfeed_note'])
 
     def test_pre_fix_result_is_kept(self):
         self.assertEqual(RESULT['disabled_terminal_v_before_fix'], {'+12': [0.915, 1.162], '+5': [1.467, 1.78], '-12': [0.204, 0.357]})

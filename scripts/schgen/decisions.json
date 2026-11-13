@@ -934,6 +934,12 @@
         "fact-c25741-power",
         "fact-c25741-voltage",
         "fact-c11341-load-regulation"
+      ],
+      "dated_observations": [
+        {
+          "date": "2026-11-13",
+          "observation": "Amendment, decision unchanged: the 0402 package note expected short *_IN stubs to keep the 3 pF stray PA. The native insertion receipt (manufacturing/verification/pd20-native-d12-insert-20261113/README.md, board 83e369f6...) CALCULATES routed upper bounds from per-mm and per-via project assumptions (not extracted or measured): OV12_IN 0.25, OV5_IN 0.62, UV12_IN 1.67 and UV5_IN 3.43 pF. UV5_IN exceeds the PA. Since adc4149 (merged in #283 as e868593) comparator_input_diodes() uses, per U6/U7 channel, the larger of the 3 pF PA and the routed bound (U8 keeps the PA): UV+5 becomes 1.435 us (1.39 us at 3 pF) and the maximum stays 1.802 us on UV+12. The DC thresholds and the IB screen do not depend on capacitance. No OV response budget exists, so the RC is reported, not judged. Takazudo accepted the UV5 route on 2026-11-13. Reconciliation #289."
+        }
       ]
     }
   ]

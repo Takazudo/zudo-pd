@@ -92,3 +92,6 @@ stray PA. A 0.2 mm F.Cu track over the In1 GND plane (0.2 mm dielectric, εr 4.6
 microstrip (Hammerstad, CALCULATED). Neighbouring F.Cu pour can raise it toward 0.15 pF/mm. Record the routed
 *_IN lengths and the resulting figure in D12. Recompute the threshold error and the input RC if it exceeds 3 pF.
 The routed upper bounds are in `ROUTED_INPUT_STRAY_C_MAX_F` in `calculate-board-b20-draft.py`; UV5_IN reaches 3.43 pF.
+That recomputation is done (2026-11-13, `adc4149`, merged in #283): each U6/U7 channel uses the larger of the PA and its
+routed bound, so UV+5 is 1.435 µs and the maximum stays 1.802 µs (UV+12). The DC thresholds and IB screen do not depend
+on capacitance. The reconciliation is recorded in readiness D12 and on `dec-b20-comparator-input-series-r`.

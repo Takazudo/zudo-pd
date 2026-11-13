@@ -37,11 +37,37 @@ documentation changes; none orders, programs, energizes or measures hardware.
 | [#247](https://github.com/Takazudo/zudo-pd/pull/247) (`db49cfe`), [#243](https://github.com/Takazudo/zudo-pd/issues/243) | Source-bound [D1–D3 interface diagnostics](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/interface-diagnostics.md): arithmetic hypotheses bound to the generated B20 schematic and phase33 deck, with the missing inputs named | Simulation, physical qualification or any contract/exception/component change; electrical acceptance stays NOT ESTABLISHED |
 
 Unchanged: PD20 D1–D9 interface/evidence holds, NVM and manufacturing-process holds, every physical gate
-(P15-NVM, PD15 bring-up, T1–T8), and the open records [#97](https://github.com/Takazudo/zudo-pd/issues/97) (no-auto,
+(P15-NVM, PD15 bring-up, T1–T8), and the records [#97](https://github.com/Takazudo/zudo-pd/issues/97) (no-auto,
 needs-human-verify), [#164](https://github.com/Takazudo/zudo-pd/issues/164), [#185](https://github.com/Takazudo/zudo-pd/issues/185),
 [#210](https://github.com/Takazudo/zudo-pd/issues/210), [#218](https://github.com/Takazudo/zudo-pd/issues/218),
 [#228](https://github.com/Takazudo/zudo-pd/issues/228), [#231](https://github.com/Takazudo/zudo-pd/issues/231) and
-[#235](https://github.com/Takazudo/zudo-pd/issues/235).
+[#235](https://github.com/Takazudo/zudo-pd/issues/235). Issue states have since changed; see the 2026-11-13 reconciliation below.
+
+**Cloud reconciliation 2026-11-13 UTC (2026-11-14 JST)**, [#289](https://github.com/Takazudo/zudo-pd/issues/289),
+against main `e868593fd46844982db3e9b730170e56ba00ae77`. It records already-integrated work. Nothing was ordered,
+programmed, energized, measured or re-run natively.
+
+| PR (merge) | Integrated | Native receipt, bound to its own execution head |
+| --- | --- | --- |
+| [#262](https://github.com/Takazudo/zudo-pd/pull/262) (`084580b`) | D11 RRDY 2 × 150k C22807 and its field sync | `manufacturing/verification/pd20-native-d11-20261113/`, head `1a4a954`: STEP datum 45 pairs, assembly preview, development export (270 fitted B20) and independent verification PASS |
+| [#264](https://github.com/Takazudo/zudo-pd/pull/264) (`d63467b`) | D10 C36 CL31B105KBHNNNE C1848 and the native Board P rebuild | `pd20-native-d10-merged-20261113/`, head `0dbf462`: the same four steps PASS (270 fitted B20) |
+| [#282](https://github.com/Takazudo/zudo-pd/pull/282) (`59ef3b6`) | REF5025 load-regulation budget on the full-range row; interface diagnostics regenerated | Calculation only |
+| [#283](https://github.com/Takazudo/zudo-pd/pull/283) (`e868593`) | D12 R77–R80 100k 0402 C25741 inserted natively; input RC recomputed on the routed stray | `pd20-native-d12-insert-20261113/` (insertion; open fill-screen exception accepted by Takazudo) and `pd20-native-d12-merged-20261114/`, head `9435b2f`: the four steps PASS with **274 fitted B20** |
+
+These are nominal CAD and package checks, not electrical qualification. The D12 mitigation is implemented, but
+electrical acceptance is not established and the D10–D12 pre-order holds stay.
+
+- **D12 input capacitance.** The D12 decision assumed a 3 pF stray. The insertion receipt calculated a routed UV5_IN
+  upper bound of 3.43 pF, and #283 recomputed the input RC with it: UV+5 is 1.435 µs, and the maximum stays 1.802 µs.
+  The method and applicability are in the readiness ledger's reconciliation.
+- **D1 artifacts.** The completed OSC-bank and ceiling-corners D1 diagnostic artifacts (runs 43221578569 and
+  43232694170) were downloaded and verified against their recorded digests. Their result JSON and audit receipts are
+  [retained](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/d1-diagnostic-audit-20261113.md).
+  They judge nothing, most rows are matched-variant, and the pre-registered pinned cross-check was not formed.
+  electrical_acceptance stays NOT ESTABLISHED, and the proposed 350 / 160 mA exception is not adopted.
+- **Issues.** #97 and #164 were retired as not planned on 2026-11-14; their human acceptance maps to #228 and the
+  readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker
+  and Mac bridges) stay open, as do #228, #231, #235 and #279.
 
 ## P15 r1 shared input module
 
@@ -79,7 +105,7 @@ accessible packet and programming contract support the summary above, not a reco
 | --- | --- |
 | Adopted design/source | Valid pair **`board-p + board-b20-draft`**. Current `boards/board-p/board-p.kicad_pcb` is **20 V r3**, bound to `scripts/schgen/board_p_spec.py`. B20: `boards/board-b20-draft/board-b20-draft.kicad_pcb`; inventory input `scripts/schgen/board_b20_components.py` |
 | Input intent | 20 V / 5 A, 5 A e-marked cable, no degraded mode; independent of P15's image and voltage policy |
-| Implementation/artifacts | Routed r3; four-layer B20 includes merged review fixes, probe row and C43. Current fitted count **270**, [PR 226](https://github.com/Takazudo/zudo-pd/pull/226) (`ffffa40`) and component projection/model-body record. P1 contacts are NC, PDOK, GND, NC; PD15 retains ATT |
+| Implementation/artifacts | Routed r3; four-layer B20 includes merged review fixes, probe row, C43, the D11 RRDY values and the D12 R77–R80. Current fitted count **274** (88 BOM lines; projection `board_b20_components.py` 278 entries less four bare-pad exclusions), from the D12 merged-head export at `9435b2f`. The earlier count of 270 was set by [PR 226](https://github.com/Takazudo/zudo-pd/pull/226) (`ffffa40`) and held through the D11/D10 exports. P1 contacts are NC, PDOK, GND, NC; PD15 retains ATT |
 | Recorded checks | [2026-11-04 disposition](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-status.md) records native DRC/ERC, nominal interference screens and conditioned simulations. Its older **269-component export receipt stays historical**. PR 226 separately records a 270-fitted scratch export and independent-verifier PASS at `ffffa40`; both stay historical. The 2026-11-10 Mac execution adds source-bound native R1–R4/C35 correction, DRC/parity, ERC/netlist and 45-model datum receipts; final pair assembly and export are tracked separately in the execution ledger. [Independent B20 review](https://github.com/Takazudo/zudo-pd/blob/dda9ccc/manufacturing/pd20-b20-layout-review.md) retains original findings; disposition records subsequent fixes |
 | Replay limits | Source-locked reports apply to their exact inputs. Fresh corrected native geometry has been checked; the final assembly/render passed with all 63 artifact hashes verified; DEVELOPMENT REVIEW export and independent manufacturing verification passed at clean `3f24a3a`, with exact staged geometry and current datum/assembly proof. Frozen P15 historical replay remains NOT RUN because the required original STEP is absent. No physical check is claimed |
 | NVM | `boards/board-p/nvm/stusb4500-20v-intent.json` is intent only, **no program-ready binary**. TDISPAR0V is located at 0xCA[7:4]; value and reset interaction remain open. DS12499 Rev 8 answers initial lower-current source matching. POWER_ONLY_ABOVE_5V mapping conflicts with the ST draft; established-contract downgrade behavior remains open |
@@ -100,9 +126,10 @@ Each step needs the evidence named; record results here with the unit identity. 
 | 5 | PD15 staged qualification with an accepted P15 | [PD15 staged bring-up](../verification/renewal-bring-up.md) | Startup, low-line, load, ripple, thermal, surge, installed mechanics |
 | 6 | PD20: select TDISPAR0V with reset timing reviewed, resolve POWER_ONLY_ABOVE_5V mapping and established-contract transitions before any binary; close the D1–D9 interface/evidence holds in the [prototype-order ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md) (R1–R4 layout corrections are dispositioned; R5/R7 stay with T7/T3), then T1–T8 | [PD20 verification](../verification/pd20-verification.md) | Program-ready image review, then each T-gate result |
 
-Continue the local Mac execution through the linked ledger and
-[#228](https://github.com/Takazudo/zudo-pd/issues/228); the original integration PR
-has landed. Existing Board B units are not yet inspected or cleared to mate.
+The D10–D12 native Mac passes are complete (see the 2026-11-13 reconciliation). Remaining PD20 work is the
+decision and evidence holds in the linked ledger, tracked through
+[#228](https://github.com/Takazudo/zudo-pd/issues/228) and [#235](https://github.com/Takazudo/zudo-pd/issues/235).
+Existing Board B units are not yet inspected or cleared to mate.
 
 ## Historical identity boundaries
 
