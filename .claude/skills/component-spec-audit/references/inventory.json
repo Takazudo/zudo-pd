@@ -23,8 +23,8 @@
     }
   ],
   "assertions": {
-    "orderable_lines": 129,
-    "fitted_lines": 127,
+    "orderable_lines": 130,
+    "fitted_lines": 128,
     "dnp_or_hand_fit_lines": 2,
     "fitted_placements": 435,
     "dnp_placements": 12
@@ -774,7 +774,7 @@
       "owner_skill": "component-project-passives",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling, Board P soft-start Miller capacitor, LM74700 VCAP and STUSB4500 VDD_LOC",
+      "function": "1 uF ceramic capacitor, U1 VREG_2V7/VREG_1V2 decoupling, LM74700 VCAP and STUSB4500 VDD_LOC",
       "placements": [
         {
           "board": "board-a",
@@ -794,11 +794,6 @@
         {
           "board": "board-p",
           "refdes": "C34",
-          "dnp": false
-        },
-        {
-          "board": "board-p",
-          "refdes": "C36",
           "dnp": false
         },
         {
@@ -849,6 +844,24 @@
         {
           "board": "board-b20-draft",
           "refdes": "CP1",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c1848",
+      "mpn": "CL31B105KBHNNNE",
+      "manufacturer": "Samsung Electro-Mechanics",
+      "lcsc": "C1848",
+      "package": "C1206",
+      "owner_skill": "component-project-passives",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "1 uF 50 V X7R ceramic capacitor, Board P r3 Q1 Miller soft-start capacitor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "C36",
           "dnp": false
         }
       ]

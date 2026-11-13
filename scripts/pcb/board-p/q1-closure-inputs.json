@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "purpose": "Board P r3 Q1 closure screen: drain slew set by R12 gate current through the C36 Miller capacitor (dec-p-20v-q1-soft-start). CALCULATED from cited inputs; never an acceptance verdict.",
+ "purpose": "Board P r3 Q1 closure screen: drain slew set by R12 gate current through the C36 Miller capacitor (dec-p-20v-q1-soft-start; C36 part dec-p-20v-c36-x7r-1206). CALCULATED from cited inputs; never an acceptance verdict.",
  "issue": "https://github.com/Takazudo/zudo-pd/issues/231",
  "adopted": {
   "decision_id": "dec-p-20v-q1-soft-start",
@@ -65,9 +65,9 @@
     1.0,
     0.9
    ],
-   "note": "nominal and -10 % initial tolerance corner (fact-c15849-tolerance)",
+   "note": "nominal and -10 % initial tolerance corner (fact-c1848-tolerance; the superseded C15849 is also +/-10 %)",
    "owner": "component-project-passives",
-   "fact_id": "fact-c15849-tolerance"
+   "fact_id": "fact-c1848-tolerance"
   }
  },
  "u2_iol_min_a": {
@@ -117,9 +117,9 @@
  },
  "capacitors": [
   {
-   "id": "current",
-   "label": "Fitted C36 CL10A105KB8NNNC (C15849), 0603 X5R 1 uF 50 V",
-   "status": "FITTED",
+   "id": "previous",
+   "label": "Superseded C36 CL10A105KB8NNNC (C15849), 0603 X5R 1 uF 50 V (replaced 2026-11-12 by dec-p-20v-c36-x7r-1206)",
+   "status": "SUPERSEDED",
    "nominal_uf": 1.0,
    "owner": "component-project-passives",
    "source_id": "src-c15849-dcbias-20261111",
@@ -700,14 +700,14 @@
   },
   {
    "id": "option-a",
-   "label": "PROPOSED option A: CL31B105KBHNNNE, 1206 X7R 1 uF 50 V (manager recommendation, not adopted)",
-   "status": "PROPOSED",
+   "label": "Fitted C36 CL31B105KBHNNNE (C1848), 1206 X7R 1 uF 50 V (adopted 2026-11-12, dec-p-20v-c36-x7r-1206)",
+   "status": "FITTED",
    "nominal_uf": 1.0,
    "url": "https://product.samsungsem.com/mlcc/CL31B105KBHNNN.do",
    "retrieval_date": "2026-11-11",
    "page_sha256": "c8444fc6ac9ebe617b693d7a850a0cf8611ed7f0c65d02a7f7f22ee4b5feba37",
    "canonical_sha256": "e4fc1166bb2a3297d070cdc5b1791fc5a51b5091b3756cbf876066de25bad42c",
-   "conditions": "Samsung product-page characteristic data, DC Bias chart: 25 C, 1 kHz, small-signal level 1.0 (dsDcSign), 'typical data for design reference only'. Not a guaranteed minimum; tolerance, temperature and aging are not included. Candidate only: no owner record, LCSC line or BOM entry.",
+   "conditions": "Samsung product-page characteristic data, DC Bias chart: 25 C, 1 kHz, small-signal level 1.0 (dsDcSign), 'typical data for design reference only'. Not a guaranteed minimum; tolerance, temperature and aging are not included.",
    "series": {
     "partsName": "CL31B105KBHNNN",
     "graphType": "DCBias",
@@ -1279,7 +1279,9 @@
       "-61.62582171735396"
      ]
     ]
-   }
+   },
+   "owner": "component-project-passives",
+   "source_id": "src-c1848-dcbias-20261111"
   },
   {
    "id": "option-b",

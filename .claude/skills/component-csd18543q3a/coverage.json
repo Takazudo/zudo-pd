@@ -6,13 +6,34 @@
       "record_id": "rec-c840100",
       "domain": "primary-specification",
       "status": "COVERED",
-      "reason": "Manufacturer datasheet retrieved and hashed 2026-10-31.",
+      "reason": "Manufacturer datasheet retrieved and hashed 2026-10-31; re-retrieved 2026-11-12 with an identical hash. 25 C VGS(th), capacitance and gate-charge rows promoted.",
       "fact_ids": [
         "fact-c840100-manufacturer",
         "fact-c840100-vds",
         "fact-c840100-vgs",
         "fact-c840100-rdson-10v-max",
-        "fact-c840100-rdson-4v5-max"
+        "fact-c840100-rdson-4v5-max",
+        "fact-c840100-vgs-th-min",
+        "fact-c840100-vgs-th-typ",
+        "fact-c840100-vgs-th-max",
+        "fact-c840100-gfs-typ",
+        "fact-c840100-ciss-typ",
+        "fact-c840100-ciss-max",
+        "fact-c840100-coss-typ",
+        "fact-c840100-coss-max",
+        "fact-c840100-crss-typ",
+        "fact-c840100-crss-max",
+        "fact-c840100-rg-typ",
+        "fact-c840100-rg-max",
+        "fact-c840100-qg-4v5-typ",
+        "fact-c840100-qg-4v5-max",
+        "fact-c840100-qg-10v-typ",
+        "fact-c840100-qg-10v-max",
+        "fact-c840100-qgd-typ",
+        "fact-c840100-qgs-typ",
+        "fact-c840100-qg-th-typ",
+        "fact-c840100-typical-curves",
+        "fact-c840100-vgs-th-temperature-curve"
       ],
       "blocking_fact_ids": []
     },
@@ -32,15 +53,33 @@
       "record_id": "rec-c840100",
       "domain": "assembled-qualification",
       "status": "OPEN",
-      "reason": "Footprint, layout, thermal and switching behaviour on Board P are unreviewed and unmeasured.",
+      "reason": "Footprint, layout, thermal and switching behaviour on Board P and in the B20 draft pass pairs are unreviewed and unmeasured.",
       "fact_ids": [
         "fact-c840100-footprint-review",
         "fact-c840100-board-p-role",
+        "fact-c840100-b20-pass-pair-role",
         "fact-c840100-visualization-envelope"
       ],
       "blocking_fact_ids": [
         "fact-c840100-footprint-review",
-        "fact-c840100-board-p-role"
+        "fact-c840100-board-p-role",
+        "fact-c840100-b20-pass-pair-role"
+      ]
+    },
+    {
+      "coverage_id": "cov-c840100-threshold-over-temperature",
+      "record_id": "rec-c840100",
+      "domain": "threshold-over-temperature",
+      "status": "OPEN",
+      "reason": "SLPS633 guarantees VGS(th) 1.5-2.7 V only at 25 C (ID 250 uA); Figure 6 gives a typical temperature curve only, and the milliamp-level transfer characteristic is not readable. No guaranteed hot or cold threshold bound exists in the bundle.",
+      "fact_ids": [
+        "fact-c840100-vgs-th-temperature-curve",
+        "fact-c840100-vgs-th-hot-limit-unsourced",
+        "fact-c840100-transfer-5ma-unsourced"
+      ],
+      "blocking_fact_ids": [
+        "fact-c840100-vgs-th-hot-limit-unsourced",
+        "fact-c840100-transfer-5ma-unsourced"
       ]
     }
   ]

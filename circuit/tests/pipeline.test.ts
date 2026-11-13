@@ -49,10 +49,10 @@ describe("the installed package pipeline on this project's corpus", () => {
     const generatedRoot = join(scratch, "generated");
     const result = await runPipeline(projectAdapter(), { generatedRoot, dryRun: false });
 
-    assert.equal(result.report.records.available, 129);
-    assert.equal(result.report.records.selected, 129);
-    assert.equal(result.report.sources.available, 303);
-    assert.equal(result.report.sources.selected, 303);
+    assert.equal(result.report.records.available, 130);
+    assert.equal(result.report.records.selected, 130);
+    assert.equal(result.report.sources.available, 306);
+    assert.equal(result.report.sources.selected, 306);
     assert.equal(result.report.viewModelVersion, VIEW_MODEL_VERSION);
     assert.equal(result.report.provider.id, "circuit-component-spec");
     assert.equal(result.report.counts.publishedIntegrationRules, 11);

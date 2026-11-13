@@ -295,6 +295,15 @@ rectangular pulse over the whole ramp (conservative). The fitted C36 gives a rat
 clear. PROPOSED options A (1206 X7R 1 µF 50 V) and B (100 V) give 3.9–5.5 V/ms peak, 0.72–1.38 A and ratios of 1.66–2.64,
 from typical data. Linear-mode SOA at the plateau VGS, temperature and guaranteed C(V) stay OPEN.
 
+### Correction adopted 2026-11-12 (D10)
+
+The owner decision `dec-p-20v-c36-x7r-1206` adopts option A: C36 = CL31B105KBHNNNE, LCSC C1848, now an inventory line
+with its owner record (`rec-c1848`: Samsung reference sheet, product-page DC-bias chart and the LCSC listing). In
+`q1-closure-inputs.json` option A is FITTED and the 0603 part is SUPERSEDED. The fitted part screens at C36
+0.776–0.904 µF at the start of closure, 3.88–5.34 V/ms, at most 1.336 A and a minimum peak-rectangular SOA ratio of 1.67
+(energy-equivalent 3.76–5.77). The earlier sentence that the C36 part is unchanged is history. The same typical-data and
+OPEN limits apply; the Board P PCB is rebuilt natively for the 1206 land (Actions run 43107657333), while the pair assembly preview, the development export and bench T3 are still outstanding.
+
 ### Remaining primary-source items in this pass
 
 - **STUSB4500 DS12499 Rev 8 recheck: already closed.** The 2026-11-09 direct st.com download
