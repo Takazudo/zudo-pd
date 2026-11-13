@@ -117,6 +117,43 @@ class BundleAuditTests(unittest.TestCase):
         receipt = self.run_audit(tamper=edit)
         self.assertIn("runner identity mismatch ['models']", ' '.join(receipt['problems']))
 
+    def edit_json(self, name, change):
+        def tamper(files, hashes):
+            data = json.loads(files[name])
+            change(data)
+            files[name] = json.dumps(data)
+            hashes[name] = sha(files[name])
+        return self.run_audit(tamper=tamper)
+
+    def test_identity_not_reproduced_fails(self):
+        receipt = self.edit_json('identity.json', lambda d: d.update(status='NOT REPRODUCED'))
+        self.assertIn('identity control did not reproduce', receipt['problems'])
+
+    def test_identity_from_another_revision_fails(self):
+        receipt = self.edit_json('identity.json', lambda d: d.update(source_revision='1' * 40))
+        self.assertIn('identity source revision differs from the run head', receipt['problems'])
+
+    def test_pinned_row_without_a_pinned_deck_fails(self):
+        receipt = self.edit_json('osc-bank.json', lambda d: d['decks']['nom-nom'].update(pinned='NOT RUN'))
+        self.assertIn('pinned row', ' '.join(receipt['problems']))
+
+    def test_manifest_label_never_executed_fails(self):
+        receipt = self.edit_json('bank-manifest.json',
+                                 lambda d: d['labels'].update({'hi-nom': {'nom': {'deck_sha256': sha('x')}}}))
+        self.assertIn('do not cover the manifest labels', ' '.join(receipt['problems']))
+
+    def test_variant_row_without_a_completed_variant_deck_fails(self):
+        receipt = self.edit_json('bank/v-abstol-nom-nom/ladder-b/receipt.json', lambda d: d.update(status='FAILED'))
+        self.assertIn('variant abstol row has no completed executed deck', ' '.join(receipt['problems']))
+
+    def test_retained_result_must_be_the_artifact_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'a.zip'
+            meta, retained = bundle(path)
+            retained.write_text(retained.read_text() + ' ')
+            receipt = audit.audit(path, meta, 'osc_bank', retained)
+        self.assertIn('retained result differs from the artifact result', receipt['problems'])
+
     def test_rerun_attempt_fails(self):
         receipt = self.run_audit(meta_edit=lambda m: m['run'].update(run_attempt=2))
         self.assertIn('first attempt', ' '.join(receipt['problems']))

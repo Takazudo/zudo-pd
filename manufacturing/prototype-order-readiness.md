@@ -100,8 +100,8 @@ Reconciliation only. No contract, threshold, component or physical state changed
   assembly-preview outputs, the input-RC calculation, its test and documentation. The B20 PCB is still the insertion
   output `83e369f6…`.
 - **Fitted count.** B20 now has **274 fitted** components and 88 BOM lines, from the D12 merged-head export at
-  `9435b2f`. The projection `board_b20_components.py` has 278 entries: R77–R80 and the four bare-pad exclusions
-  (P1, TP3–TP5). The 270-fitted exports at `3f24a3a`, D10 and D11, and the older 269-component export, stay bound to
+  `9435b2f`. The projection `board_b20_components.py` has 278 entries, including R77–R80; less the four bare-pad
+  exclusions (P1, TP3–TP5), that gives 274. The 270-fitted exports at `3f24a3a`, D10 and D11, and the older 269-component export, stay bound to
   their revisions.
 - **D12 input capacitance.** The decision and its 0402 amendment expected short `*_IN` stubs to keep the 3 pF stray PA.
   - *Method.* The insertion receipt (`pd20-native-d12-insert-20261113/README.md`, Mac, 2026-11-13) instead CALCULATES
@@ -173,5 +173,5 @@ All PD20 T1–T8 sheets remain **NOT RUN**. These post-arrival tests do not repl
 the explicitly pre-order interface gates above. PD15 target currents and PD20
 continuous/transient/maximum demands remain acceptance demands, not measured
 ratings. #228 stays open for its remaining PD, LED and physical acceptance scope.
-#97 and #164 were retired as not planned on 2026-11-14; their human acceptance is mapped to #228 and these
+#97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance is mapped to #228 and these
 procedures, and it is not waived.

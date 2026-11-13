@@ -65,8 +65,8 @@ D1–D9 holds stay.
   43232694170) were downloaded and verified against their recorded digests. Their result JSON and audit receipts are
   [retained](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/d1-diagnostic-audit-20261113.md).
   They judge nothing, most rows are matched-variant, and the pre-registered pinned cross-check was not formed.
-  electrical_acceptance stays NOT ESTABLISHED, and the proposed 350 / 160 mA exception is not adopted.
-- **Issues.** #97 and #164 were retired as not planned on 2026-11-14; their human acceptance maps to #228 and the
+  Electrical acceptance stays NOT ESTABLISHED, and the proposed 350 / 160 mA exception is not adopted.
+- **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker
   and Mac bridges) stay open, as do #228, #231, #235 and #279.
 

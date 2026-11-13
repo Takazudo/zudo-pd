@@ -175,16 +175,28 @@ def audit(zip_path, meta, diagnostic, retained, reanalysis=None, derived=None):
         problems += deck_problems
         ladder = [(n, json.loads(zf.read(n))) for n in zf.namelist() if PurePosixPath(n).parts[0].startswith('ladder-')
                   and n.endswith('receipt.json')]
+        hashes_json_sha = sha(zf.read('hashes.json'))
+    if not ladder or any(r['status'] != 'COMPLETE' for _, r in ladder):
+        problems.append('identity-pair ladder receipt missing or not COMPLETE')
     expected_labels = set(diag_manifest['labels'])
     pinned_run = {r['label'] for r in rows.values() if r['track'] == 'pinned'}
     result = json.loads(result_bytes)
     if sha(result_bytes) != sha(Path(retained).read_bytes()):
         problems.append('retained result differs from the artifact result')
+    executed_bases = {unvariant(label)[1] for label in rows}
+    if executed_bases != expected_labels:
+        problems.append(f'executed decks do not cover the manifest labels: {sorted(executed_bases ^ expected_labels)}')
+    if set(result['decks']) != expected_labels:
+        problems.append('result rows do not match the manifest labels')
     for label, row in result['decks'].items():
         ran_pinned = label in pinned_run
         recorded = row.get('pinned')
         if ran_pinned != (recorded in ('COMPLETE', 'ABORTED')):
             problems.append(f'{label}: pinned row {recorded!r} does not match the executed decks')
+        for variant in VARIANTS:
+            vrow = rows.get(f'v-{variant}-{label}')
+            if row.get(f'variant_{variant}') == 'COMPLETE' and (vrow is None or vrow['runner_status'] != 'COMPLETE'):
+                problems.append(f'{label}: variant {variant} row has no completed executed deck')
     receipt = {
         'record': f'Audit of the completed phase33 {diagnostic} diagnostic artifact (reused evidence, no rerun)',
         'scope': 'archive identity, bundle completeness, executed-deck and solver identity, pinned-versus-variant '
@@ -194,7 +206,7 @@ def audit(zip_path, meta, diagnostic, retained, reanalysis=None, derived=None):
         'jobs': meta.get('jobs'),
         'metadata_read_utc': meta.get('metadata_read_utc'),
         'artifact': {**artifact, 'downloaded_zip_sha256': zip_sha, 'downloaded_zip_bytes': Path(zip_path).stat().st_size},
-        'bundle': {**members, 'hashes_json_sha256': sha(json.dumps(hashes, indent=2, sort_keys=True).encode() + b'\n')},
+        'bundle': {**members, 'hashes_json_sha256': hashes_json_sha},
         'identity_control': {'status': identity['status'], 'source_revision': identity['source_revision'],
                              'solver_identity_matches': identity['solver_identity_matches'],
                              'cases': {k: v['matches'] for k, v in identity['cases'].items()}},
