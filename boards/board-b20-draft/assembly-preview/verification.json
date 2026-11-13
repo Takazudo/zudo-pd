@@ -6,7 +6,7 @@
   "board_p_pcb": "boards/board-p/board-p.kicad_pcb",
   "draft": true,
   "pcb_sha256": {
-    "board-b20-draft": "09cd97abf5f793d881ee30fc62c7a7b934b1c5973a37637b37c62d15224507ce",
+    "board-b20-draft": "83e369f60c03b7aa2fd8b65b8445a4925bb8e9847a5b0a3d347fee2094961f90",
     "board-p": "56cbe0ab48b3bd25b6bab4223e3826ef437e3b972474b15481c5b86b7e889348"
   },
   "generator_sha256": "5c9e925fc5f1f100e44f39e3fc8634d2c85b8c240726d62be2aba5f8bc12aee2",
@@ -33,6 +33,8 @@
     "footprints/kicad/zudo-pd.3dshapes/R0805_L2.0-W1.3-H0.6.step": "001b6970d63e46474aa901afc1d8fe93ed3098f81f79d75f9019f417207be59b",
     "footprints/kicad/zudo-pd.3dshapes/PowerDI3333-8_MaxEnvelope_L3.35-W3.35-H0.85.wrl": "b3695cc87afb7ec472b898c7e3505708e55f1d97d49ee4b87cf8f116c40dae47",
     "footprints/kicad/zudo-pd.3dshapes/PowerDI3333-8_MaxEnvelope_L3.35-W3.35-H0.85.step": "0cbf674ddfb7c8a0849adb76cedc9b068929eed2d66f0bc276a9d0c2ec7a1f58",
+    "footprints/kicad/zudo-pd.3dshapes/R0402.wrl": "ced0a40a718711c2ae16482a4f46a9eb6a0a33ecf9f9d8c2e18c160fa951a420",
+    "footprints/kicad/zudo-pd.3dshapes/R0402.step": "134d58dd68899b29f9e19def208de6690d06010e01c304866fbd4d81c8640aa6",
     "footprints/kicad/zudo-pd.3dshapes/C1210_L3.2-W2.5-H2.5.wrl": "274c61862210b47c2d53e186f06ed698975b2a3abd7743bab34581e6289a2313",
     "footprints/kicad/zudo-pd.3dshapes/C1210_L3.2-W2.5-H2.5.step": "edbe9d046023f3de7de6feddb4c659b9f253148930c303ecd1d335d514dc4216",
     "footprints/kicad/zudo-pd.3dshapes/VSSOP-8_DGK_MaxEnvelope_W3.1-L3.1-H1.1.wrl": "85f9bba30405f973b21f772a29f7ea1b72cfb73452d1e9c2db69790abfaa6671",
@@ -86,7 +88,7 @@
     "scripts/pcb/verify-compact-mechanics.py": "5b75c1ee825a2538c0356a98b14ef50f57d1e4b69fadebfd67287a90b31e4d83",
     "scripts/pcb/board_b_layout.py": "0ef9eb9393892c107cf3c276277d71b1a59b8193b57db218d2fc3e8a0cfec821",
     "scripts/pcb/check-model-bodies.py": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
-    "scripts/schgen/board_b20_spec.py": "2e2a0d47a31bd5c2a98e8c4733d6550871371fc3c46406af38053071698323af",
+    "scripts/schgen/board_b20_spec.py": "a96e64eaab2a17201e90c0923d672e8cd0174ab4cddea42897579ada94b7cf69",
     "boards/board-p/mechanical.json": "fc629fef7fd540e0d8d2aa53486538d140b95269bf8a801ba9a3f3e31d5926e7",
     "boards/board-b/supports/hc11-evidence.json": "cd0ed4e4f13a0d68c6a52062f801d43f512ae4d05dbe84da5c8fcdef3d10b434",
     ".claude/skills/component-kangnex-wj500v-5-08-2p-c8465/facts.json": "48e16e6fe43f39ff39cb6a44304730b03bd2eeee9c0b0dbe1c396072130d0cfc"
@@ -110,13 +112,13 @@
       "declared_thickness_mm": 1.6,
       "modelled_thickness_mm": 1.59,
       "world_z_translation_mm": -1.5450000000000002,
-      "fitted_components": 270,
-      "component_solids": 709,
+      "fitted_components": 274,
+      "component_solids": 721,
       "hierarchy_geometry_check": {
         "status": "PASS",
-        "solid_count_including_core": 710,
-        "sum_individual_volume_mm3": 21913.21834806473,
-        "flat_sum_individual_volume_mm3": 21913.21834806473,
+        "solid_count_including_core": 722,
+        "sum_individual_volume_mm3": 21914.36947478237,
+        "flat_sum_individual_volume_mm3": 21914.36947478237,
         "every_solid_bounds_match": true
       },
       "component_origins_mm": {
@@ -270,6 +272,11 @@
           -76.05,
           0.039999999999999813
         ],
+        "R79": [
+          84.2,
+          -55.0,
+          0.039999999999999813
+        ],
         "R64": [
           100.75,
           -3.5,
@@ -418,6 +425,11 @@
         "RVX2": [
           108.15,
           -22.55,
+          0.039999999999999813
+        ],
+        "R78": [
+          70.61,
+          -57.16,
           0.039999999999999813
         ],
         "L4": [
@@ -805,6 +817,11 @@
           -79.05,
           0.039999999999999813
         ],
+        "R77": [
+          67.46,
+          -60.0,
+          0.039999999999999813
+        ],
         "CF1": [
           22.48,
           -79.1,
@@ -923,6 +940,11 @@
         "RVU1": [
           99.65,
           -82.15,
+          0.039999999999999813
+        ],
+        "R80": [
+          69.02,
+          -48.18,
           0.039999999999999813
         ],
         "RCP3": [
@@ -1712,6 +1734,14 @@
           -75.64999999999999,
           0.48
         ],
+        "R79": [
+          83.7,
+          -55.25,
+          0.03999999999999996,
+          84.7,
+          -54.7489999,
+          0.4000000000003334
+        ],
         "R64": [
           100.35,
           -4.3100000000000005,
@@ -1951,6 +1981,14 @@
           108.5600001,
           -21.74,
           0.48
+        ],
+        "R78": [
+          70.11,
+          -57.41,
+          0.03999999999999996,
+          71.11,
+          -56.9089999,
+          0.4000000000003334
         ],
         "L4": [
           77.25,
@@ -2568,6 +2606,14 @@
           -78.24,
           0.48
         ],
+        "R77": [
+          67.21,
+          -60.5,
+          0.03999999999999996,
+          67.71100009999999,
+          -59.5,
+          0.4000000000003334
+        ],
         "CF1": [
           22.079999899999997,
           -79.89999999999999,
@@ -2759,6 +2805,14 @@
           100.46000000000001,
           -81.75,
           0.48
+        ],
+        "R80": [
+          68.52,
+          -48.43,
+          0.03999999999999996,
+          69.52,
+          -47.9289999,
+          0.4000000000003334
         ],
         "RCP3": [
           67.99,
@@ -4307,7 +4361,7 @@
   ],
   "populated_cross_board_clearance": {
     "status": "PASS",
-    "cross_board_pairs": 12195,
+    "cross_board_pairs": 12375,
     "overlapping_bbox_pairs_checked": 1,
     "maximum_unintended_intersection_mm3": 0,
     "allowed_mating_contact_intersections": [
@@ -4640,6 +4694,11 @@
             "intersection_mm3": 0.0
           },
           {
+            "opposite_ref": "R79",
+            "clearance_mm": 71.79819565977965,
+            "intersection_mm3": 0.0
+          },
+          {
             "opposite_ref": "R64",
             "clearance_mm": 80.75298446497193,
             "intersection_mm3": 0.0
@@ -4787,6 +4846,11 @@
           {
             "opposite_ref": "RVX2",
             "clearance_mm": 87.45496555370656,
+            "intersection_mm3": 0.0
+          },
+          {
+            "opposite_ref": "R78",
+            "clearance_mm": 61.47006263214639,
             "intersection_mm3": 0.0
           },
           {
@@ -5175,6 +5239,11 @@
             "intersection_mm3": 0.0
           },
           {
+            "opposite_ref": "R77",
+            "clearance_mm": 60.75665807135872,
+            "intersection_mm3": 0.0
+          },
+          {
             "opposite_ref": "CF1",
             "clearance_mm": 57.578677033439746,
             "intersection_mm3": 0.0
@@ -5292,6 +5361,11 @@
           {
             "opposite_ref": "RVU1",
             "clearance_mm": 99.06722969781683,
+            "intersection_mm3": 0.0
+          },
+          {
+            "opposite_ref": "R80",
+            "clearance_mm": 55.39015887321501,
             "intersection_mm3": 0.0
           },
           {
@@ -6038,6 +6112,11 @@
             "intersection_mm3": 0.0
           },
           {
+            "opposite_ref": "R79",
+            "clearance_mm": 81.02104063143105,
+            "intersection_mm3": 0.0
+          },
+          {
             "opposite_ref": "R64",
             "clearance_mm": 89.17447294489605,
             "intersection_mm3": 0.0
@@ -6185,6 +6264,11 @@
           {
             "opposite_ref": "RVX2",
             "clearance_mm": 96.06706316422918,
+            "intersection_mm3": 0.0
+          },
+          {
+            "opposite_ref": "R78",
+            "clearance_mm": 70.49911151922412,
             "intersection_mm3": 0.0
           },
           {
@@ -6573,6 +6657,11 @@
             "intersection_mm3": 0.0
           },
           {
+            "opposite_ref": "R77",
+            "clearance_mm": 69.65690292426156,
+            "intersection_mm3": 0.0
+          },
+          {
             "opposite_ref": "CF1",
             "clearance_mm": 61.95556168363865,
             "intersection_mm3": 0.0
@@ -6690,6 +6779,11 @@
           {
             "opposite_ref": "RVU1",
             "clearance_mm": 108.08629480651098,
+            "intersection_mm3": 0.0
+          },
+          {
+            "opposite_ref": "R80",
+            "clearance_mm": 64.54668717292932,
             "intersection_mm3": 0.0
           },
           {
@@ -7269,12 +7363,12 @@
   ],
   "artifact_sha256": {
     "README.md": "56c72178d0fd6c4637270a58173a88e0e05fe939a07644583a1087ef94cf0ed6",
-    "board-b20-draft-model-bodies.json": "bca1fc8b88aa2e2c424878e8f836180607cbb8428ae88834159b93e7b1b6d397",
+    "board-b20-draft-model-bodies.json": "3e62e688c951458a0a55388d55e3f1dbd091a7af0c5195b26037232511b4be5f",
     "board-p-model-bodies.json": "ed09139a7dd2c949d8bb0dc71572522a535fa4961ec018ec12bd67a11d496370",
-    "board-p-stacked.step": "4487f47606cdc35b27602e1daf948ded27d0570c77394d4cce743c921c92ae65",
-    "bottom.png": "433e12c7e0217ed973c89b121cd92063ef3bf563c218c1fd7de595852ecb5f75",
-    "mechanical-check.json": "fce850cd980a06d7a2fb10432d833a880a3e08c707b30d89c6ff7f03b1d027a9",
-    "model-paths.json": "11fe2339f01139214fcb96bdfa727b6a845d7bc28ae9efc31c2fccf0eb71860d",
+    "board-p-stacked.step": "83edaf054b947bf1a8cb12a09c85d08b0068d43a5658021e28a0e4363a90f0e9",
+    "bottom.png": "339dcfbfe9b7b0676382f109945aab21989f8346b2a379385d06b487e22cc856",
+    "mechanical-check.json": "0167374f7b51b5084820751656a914fd884a9998c72c5ced16f7f99f87703c89",
+    "model-paths.json": "146f6eabe93a4ef8061484067b2322804be62a618cfd35451fc00c76d7063f0f",
     "models/ASPI-0630LR_MaxEnvelope_L7.5-W6.85-H3.0.step": "54f141a85b41ad4d0a66284e0e99fd9769fe8b55418642b6ec24556ef039b852",
     "models/ASPI-0630LR_MaxEnvelope_L7.5-W6.85-H3.0.wrl": "cda7beb94decf0ba47391f1aec30f1a59bf3734b2fc5216ed240dcf44aa054ad",
     "models/C0603_L1.6-W0.8-H0.8.step": "f2b74e1ceda9af3ce8ac13e68f37164694e30a3792f6b6a8f0709c45c0ca28dc",
@@ -7299,6 +7393,8 @@
     "models/IDC-TH_16P-P2.54_321016RG0ABK00A01.wrl": "3fa601b3b97df0f4db234b961c86507826da8fa3eaaedf3f3a20c72cd7338c4c",
     "models/PowerDI3333-8_MaxEnvelope_L3.35-W3.35-H0.85.step": "0cbf674ddfb7c8a0849adb76cedc9b068929eed2d66f0bc276a9d0c2ec7a1f58",
     "models/PowerDI3333-8_MaxEnvelope_L3.35-W3.35-H0.85.wrl": "b3695cc87afb7ec472b898c7e3505708e55f1d97d49ee4b87cf8f116c40dae47",
+    "models/R0402.step": "134d58dd68899b29f9e19def208de6690d06010e01c304866fbd4d81c8640aa6",
+    "models/R0402.wrl": "ced0a40a718711c2ae16482a4f46a9eb6a0a33ecf9f9d8c2e18c160fa951a420",
     "models/R0603.step": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
     "models/R0603.wrl": "2a125409502d8eb68f2e196ab1c28b180e0918830445364f93a45d9461b4daad",
     "models/R0805_L2.0-W1.3-H0.6.step": "001b6970d63e46474aa901afc1d8fe93ed3098f81f79d75f9019f417207be59b",
@@ -7325,11 +7421,11 @@
     "models/VSSOP-8_DGK_MaxEnvelope_W3.1-L3.1-H1.1.wrl": "85f9bba30405f973b21f772a29f7ea1b72cfb73452d1e9c2db69790abfaa6671",
     "models/WJ500V-5.08-2P_C8465.step": "e7ab1216723bbee032969a27b7c8752922a7ac8325b97c1b581d801c9293070d",
     "models/WJ500V-5.08-2P_C8465.wrl": "240f6bc006ee3db4ba725b610924e1b8dcb0105f8e30c1cbb719eed66ee9b41e",
-    "populated-collision-check.json": "2af5679a9b20ddd92b5888cf990cc8f94da67c6d46939585f51480a0b125b8da",
-    "populated-stack.step": "9fa05b63df0d766042d4b9a9555edbe424c0e22e06b4d6366f36b6dfebf624d1",
-    "preview.kicad_pcb": "8a94c84c34bd85668ecd94fe557a7450c52bf01a19ffe5d1e71e4b8b172d9fae",
+    "populated-collision-check.json": "f2cd00865f9a0115a8f6294be4f5b625b3f89ee9a1b187506ebc627d45c4fc98",
+    "populated-stack.step": "093e2446a5744662a9b21266fbdc39023699cb21a79b544745ed36d56b8454d8",
+    "preview.kicad_pcb": "db3336dc9f3e58c69fc437d605eeeb7e3c0c92d4dc305d7ab7d6c7fed075bf81",
     "preview.kicad_pro": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
-    "supplemental-envelope-check.json": "974fb95482b432dc1dd360fd618a91d1758be438ba4c3dff59af5cc123a11ace",
-    "top.png": "0cbc02818a289566605a96b361eebabd0a37ec5974e0fd3687e5145e307cd831"
+    "supplemental-envelope-check.json": "c2c63dca47c941736b47a4c62aa544d1390d732d54369ab95755e8276877ba52",
+    "top.png": "42fb454670517933427bda51e5c23b19b1bed62366f5f56ad846246c7d4b779b"
   }
 }

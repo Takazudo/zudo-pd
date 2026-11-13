@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/takazudo/repos/circuits/zudo-pd-review-234/scripts/pcb/export-jlcpcb.py", line 526, in <module>
+    main()
+    ~~~~^^
+  File "/Users/takazudo/repos/circuits/zudo-pd-review-234/scripts/pcb/export-jlcpcb.py", line 493, in main
+    verify_p_r3_report_freshness()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/takazudo/repos/circuits/zudo-pd-review-234/scripts/pcb/export-jlcpcb.py", line 185, in verify_p_r3_report_freshness
+    require(digest(root/name) == expected, 'P r3 correction source changed: '+name)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/takazudo/repos/circuits/zudo-pd-review-234/scripts/pcb/export-jlcpcb.py", line 81, in require
+    raise ValueError(message)
+ValueError: P r3 correction source changed: symbols/zudo-pd.kicad_sym
+heavy-guard: verdict=FAIL exit=1 secs=0 min_mem_mb=8794 reason=-

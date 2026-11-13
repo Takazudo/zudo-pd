@@ -63,3 +63,34 @@ D12's input RC must be recomputed with this figure.
   - Only the input bindings change; the calculated values do not.
   - `routing-report.json` counts are now the native 3503 tracks / 781 vias, with a note.
   - `test_load_cases` OK, including the thermal freshness test that #283 expected to fail until this step.
+
+## Fill-screen exception (open), recorded per the verifier owner's conditions
+
+- **(c) Verifier refusals.** Both the `#286` verifier (origin/main `a36a021f`) and the slit-aware `#287`
+  verifier (origin/main `224ef46a`, sha256 `37b6edea…`) refuse the refilled AFTER with the same line:
+  `Fill of 66bdc61b-a697-57c7-8c21-d31d7ae259ea/In1.Cu changed outside the edit region, e.g. at ('14.048615', '60.833682')`
+  (`insert-verification-filled.log`, `insert-verification-filled-main-224ef46.log`).
+  - Zones with out-of-region vertex changes: GND_IN1 In1.Cu (68 vertices), GND_F F.Cu (328) and GND_B B.Cu (117).
+- **(a) Area comparison.** `fill-slit-check.py` writes `fill-slit-check.json`. For each zone uuid and layer it
+  gives the area outside the edit region before and after and the delta:
+  - In1 −2.9e-7 mm²
+  - F.Cu −3.4e-5 mm²
+  - B.Cu −1.8e-6 mm²
+  - The symmetric difference outside the region is at most 1.6e-4 mm².
+- **(b) Slit test: FAILS as defined.** Of the out-of-region changed vertices, only 9 lie on reverse-edge slits.
+  - **504 do not.** Each is listed with its distance to the other board's fill boundary for the same zone.
+  - The maximum distance is **3.6 µm**, and 492 of them lie at about 0, which means collinear re-splits.
+  - Example: the refused In1 vertex moves to (14.052342, 60.832941), a 3.7 µm shift along a via antipad arc
+    next to a slit attachment.
+  - This is consistent with KiCad re-tessellating the whole zone inside its 5 µm `max_error`, but that is
+    **not confirmed**. The KiCad source was not traced.
+- **(d) Other checks.** `verifier-fill-bypass.diff` is a scratch copy of the `#286` verifier with only the
+  fill refusal turned into a recorded count. It passes on the refilled AFTER
+  (`insert-verification-filled-fill-bypassed.json`):
+  - 284 footprints identical;
+  - 4,173 other-net copper items identical;
+  - project rules identical.
+  - The verifier itself is not changed on this branch.
+
+Status: **open.** #283 is not to be proposed for merge until the bounded fill screen that the verifier
+owner is adding lands on main and passes on this AFTER board, or the exception is otherwise accepted.

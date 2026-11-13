@@ -1,0 +1,11 @@
+--- /private/tmp/vip-orig.py	2026-11-13 05:25:17
++++ scripts/pcb/board-b20/_vip_fill_bypassed.py	2026-11-13 05:25:17
+@@ -275,7 +275,7 @@
+         changed = (f_old[zone] - f_new[zone]) + (f_new[zone] - f_old[zone])
+         outside = [pt for pt in changed if not inside(pt)]
+         if outside:
+-            raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region, e.g. at {outside[0]}')
++            deltas.setdefault('BYPASSED_fill_outside_region', {})['/'.join(zone)] = len(outside)  # scratch copy: fill screen bypassed for D12 evidence only
+         if changed:
+             deltas['/'.join(zone)] = sum(changed.values())
+     return {'scope': 'B20 part insertion: existing footprints, copper on other nets and non-copper content unchanged; '

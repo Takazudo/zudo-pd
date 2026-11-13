@@ -1,0 +1,20 @@
+{
+  "scope": "Mac native STEP-datum proof and pair assembly preview for D12 (R77-R80); nominal CAD only, no order, no upload",
+  "head": "7be61132b4776e8383e29938d7c3e721157db22c",
+  "utc": "2026-11-13T02:46:40.689746+00:00",
+  "rc": {
+    "1-step-datum": 0,
+    "2-assembly-preview": 0,
+    "3-export": 1
+  },
+  "step_datum": "PASS (46 pairs, R0402 added PENDING review) -> footprints/kicad/step-datum-verification.json",
+  "assembly_verification_status": "PASS",
+  "assembly_generated_in": "tmp/pd20-d12-assembly-7be61132",
+  "assembly_copied_to": "boards/board-b20-draft/assembly-preview/ (rsync; the script refuses to overwrite)",
+  "local_only_populated_stack_step": {
+    "sha256": "093e2446a5744662a9b21266fbdc39023699cb21a79b544745ed36d56b8454d8",
+    "bytes": 349581495
+  },
+  "development_export": "NOT RUN to completion: export-jlcpcb.py refused before writing (\"P r3 correction source changed: symbols/zudo-pd.kicad_sym\"). #283 commit f804eb79 adds the 0402WGF1003TCE symbol to the shared library, which the Board P r3 correction proof hashes. Needs a Board P r3 proof refresh (board-p-r3-rebuild.yml) after the D10/D11/D12 merge order is settled; not done here.",
+  "verify_jlcpcb": "NOT RUN (no export)"
+}
