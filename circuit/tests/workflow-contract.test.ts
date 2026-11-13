@@ -42,6 +42,7 @@ const COMPONENT_GATE_INPUTS: ReadonlyArray<{ readonly pattern: string; readonly 
       "scripts/pcb/board-b20/report_provenance.py",
       "scripts/pcb/board-b20/test_load_cases.py",
       "scripts/pcb/board-p-r3-draft/build-draft.py",
+      "scripts/pcb/board-p-r3-draft/route-signals.py",
       "scripts/pcb/export-jlcpcb.py",
       "scripts/pcb/calculate-board-b20-draft.py",
       "scripts/pcb/pcb_common.py",
@@ -55,6 +56,7 @@ const COMPONENT_GATE_INPUTS: ReadonlyArray<{ readonly pattern: string; readonly 
   { pattern: "manufacturing/power-budget.md", samples: ["manufacturing/power-budget.md"] },
   { pattern: "manufacturing/power-budget-p15.json", samples: ["manufacturing/power-budget-p15.json"] },
   { pattern: "manufacturing/power-budget-b20.json", samples: ["manufacturing/power-budget-b20.json"] },
+  { pattern: "manufacturing/supply-capability.json", samples: ["manufacturing/supply-capability.json"] },
   { pattern: "manufacturing/power-layout.json", samples: ["manufacturing/power-layout.json"] },
   { pattern: "manufacturing/power-layout-b20.json", samples: ["manufacturing/power-layout-b20.json"] },
   {
@@ -75,7 +77,9 @@ const COMPONENT_GATE_FIXTURES: ReadonlyArray<readonly [string, readonly string[]
   ["shared-helper-only", ["scripts/pcb/board-b20/report_provenance.py"]],
   ["exporter-only", ["scripts/pcb/export-jlcpcb.py"]],
   ["P r3 source-binding-only", ["scripts/pcb/board-p-r3-draft/build-draft.py"]],
+  ["P r3 router-only", ["scripts/pcb/board-p-r3-draft/route-signals.py"]],
   ["retained-report-only", ["manufacturing/power-budget-b20.json"]],
+  ["supply-capability-report-only", ["manufacturing/supply-capability.json"]],
   ["status-report-only", ["manufacturing/pd20-status.md"]],
   ["C12 template-only", ["manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir"]],
 ];
@@ -165,12 +169,22 @@ describe("root workspace workflow contract", () => {
   it("every Python gate target is a selected path and every input family names real files", async () => {
     const gates = await readFile(join(REPO_ROOT, "circuit", "scripts", "run-python-gates.sh"), "utf8");
     const targets = new Set<string>();
-    for (const match of gates.matchAll(/^(?:python3|bash)\s+(?:-m unittest discover -s\s+)?([\w./-]+)/gmu)) {
+    for (const match of gates.matchAll(/^[ \t]*(?:python3|bash)\s+(?:-m unittest discover -s\s+)?([\w./-]+)/gmu)) {
       const target = match[1] ?? "";
       if (target && !target.startsWith("-")) targets.add(target.endsWith(".py") || target.endsWith(".sh") ? target : `${target}/test_fixture.py`);
     }
     assert.ok(targets.has("manufacturing/sim/board-b20-phase33/test_fixture.py"), "phase33 gate target was not parsed");
     assert.ok(targets.has("scripts/pcb/board-p/nvm-intent-20v.py"), "20 V NVM gate target was not parsed");
+    assert.ok(
+      targets.has("scripts/pcb/board-p-r3-draft/test-routing-fixed-groups.py"),
+      "numpy router gate target was not parsed",
+    );
+    const validate = await workflowSource("component-spec-skills.yml");
+    assert.match(
+      validate,
+      /pip install --disable-pip-version-check 'numpy==\d+\.\d+\.\d+'/u,
+      "the validate job must install an exact numpy pin for the router gate",
+    );
     const events = extractEventPaths(await workflowSource("component-spec-skills.yml"));
     for (const [event, block] of Object.entries(events)) {
       for (const target of targets) {

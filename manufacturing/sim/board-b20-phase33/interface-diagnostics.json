@@ -269,7 +269,7 @@
         {
           "placement": "+5 output to GND",
           "r_max_ohm_for_5ma": 10.3,
-          "result": "infeasible: at 5 V it draws 0.49 A, above trip_min 0.43694 A"
+          "result": "infeasible: at 5 V it draws 0.49 A, above trip_min 0.43691 A"
         },
         {
           "placement": "+5 common source to GND",
@@ -303,32 +303,102 @@
       "reason": "Needs the disconnect and AGND-return rules reinterpreted and adds an enable-edge reverse-excursion risk."
     },
     "C1 gate pre-bias while enabled": {
-      "status": "UNDER EVALUATION (not adopted)",
-      "blocking_input": "A guaranteed CSD18543Q3A VGS(th) minimum at the operating temperature and test current."
+      "status": "REJECTED (owner decision 2026-11-11)",
+      "reason": "A fixed floor cannot fit the threshold window: one that leaves a 2.0 V gap on a 2.7 V part leaves about 0.8 V on a 1.5 V part (guaranteed VGS(th) 1.5-2.7 V at 25 C). On -12 V the enable transient already brings Vgs within 8.1-9.7 mV of the model onset. No evaluated -12 V gap passed and no +5 V gap was evaluated (d1-gap-attempt2-20261111.md); the microvolt rule 6 results are not the reason."
+    },
+    "T1 reset-window integrator leak": {
+      "status": "REJECTED by construction (owner decision 2026-11-11; not evaluated in transient)",
+      "reason": "DC balance at the summing node sets the driver by offset currents, not by conduction: +5 V DRV = 1.214 V - 43.1 x out (stays wound to its rail); -12 V DRV = 23.5 x out + 1.214 V (a -0.47 V threshold-dependent pedestal). Changing R only rescales it.",
+      "evidence": "d1-t1-leak-rejected-20261111.md"
+    },
+    "T2 peak-hold anti-windup clamp": {
+      "status": "FAIL on -12 V, attempt 1 (rules 6, 9 and L2; not adopted); REJECTED by construction on +5 V",
+      "rails": {
+        "+5": {
+          "status": "REJECTED by construction (owner decision 2026-11-11; not evaluated in transient)",
+          "reason": "RG2P (100 kohm, P5_G to P5_CS) carries Vgs/100 kohm; with the pair off it leaves P5_CS only through Q4's body diode into P5_OUT, so a gate held near the edge injects 8-20 uA against the 1.6 uA divider drain: a threshold-dependent output pedestal.",
+          "option_b": "Candidate (RG2P returned to GND) passes its paper check; pre-registration HELD pending the deck-stiffness item (owner decision 2026-11-12). Not adopted.",
+          "floor_finding": "RG2P explains at most 4.6 mV (19 %) of the 24 mV excess of the 52 mV floor over 28 mV; the floor is left as it is.",
+          "evidence": [
+            "d1-p5-gate-hold-options-20261111.md",
+            "d1-p5-option-b-paper-check-20261111.md"
+          ]
+        },
+        "-12": {
+          "status": "FAIL, attempt 1 (not adopted)",
+          "criteria": "d1-t2-criteria.md",
+          "record": "d1-t2-attempt1-20261112.md",
+          "summary": "Rule 1 passes on the D1 failure deck (1.064 V/ms, 0.1915 A). Rule 6 (135.4 uV) and loaded L2 (about 0.3 mV) fail on DT2C junction capacitance coupling the capture step into trk12n_fb; rule 9 fails by 26 nV on a deck-wide disable kick at vntol (identical in the inert control). The four corners, t2/nom, t2lo, t2hi and t2load/nomR ABORTED.",
+          "deck_stiffness": "d1-deck-stiffness-20261112.md"
+        }
+      },
+      "gate_hold_constraint": "Any future +5 V or +12 V gate-hold scheme must idle at Vgs <= about 0.16 V at no load (Vgs / 100 kohm <= 1.6 uA through RG2P or RG1P and the output-side body diode), unless the gate pull-down return is changed.",
+      "d1": "HELD: a -12 V only result does not close D1 until +5 V has an answer.",
+      "evidence": "d1-t2-paper-check-20261111.md"
     },
     "C3 slower gate path": {
-      "status": "FALLBACK only if C1 fails"
+      "status": "FALLBACK (not evaluated)"
     },
     "bias_current_low_side_margins": {
       "rule": "The limiter shunts sit upstream of each pair, so bias or bleeder current is sensed: delivered current at trip becomes trip_max - I_bias (the maximum-delivered margin grows), while the transient-minimum and startup-into-full-load margins shrink by I_bias.",
       "rails": {
         "+12": {
-          "transient_minimum_margin_a": 0.04159,
-          "startup_into_full_load_margin_a": 0.00894,
-          "maximum_delivered_margin_a": 0.01515
+          "transient_minimum_margin_a": 0.04147,
+          "startup_into_full_load_margin_a": 0.0087,
+          "maximum_delivered_margin_a": 0.01503
         },
         "-12": {
-          "transient_minimum_margin_a": 0.04216,
-          "startup_into_full_load_margin_a": 0.01329,
-          "maximum_delivered_margin_a": 0.00456
+          "transient_minimum_margin_a": 0.04204,
+          "startup_into_full_load_margin_a": 0.01305,
+          "maximum_delivered_margin_a": 0.00444
         },
         "+5": {
-          "transient_minimum_margin_a": 0.03694,
-          "startup_into_full_load_margin_a": 0.02909,
-          "maximum_delivered_margin_a": 0.03916
+          "transient_minimum_margin_a": 0.03691,
+          "startup_into_full_load_margin_a": 0.02904,
+          "maximum_delivered_margin_a": 0.03914
         }
       }
     }
+  },
+  "d1_enable_edge": {
+    "status": "RECORDED NEGATIVE (owner decision 2026-11-11; no order hold)",
+    "question": "Would a fitted part at typical 2.0 V or minimum 1.5 V VGS(th) conduct at the enable edge and produce an output excursion?",
+    "finding": "Inference from a single-threshold model: the enable transient is the designed pre-bias; the loop stops at the pair's own conduction edge, so the distance to onset moves by at most a few mV under a 0.5 V emulated threshold shift and the enable-window output stays at its floor (+5 at most 51.9 mV against the 0.8 V hold screen; -12 and +12 below the 1.5 V analog threshold).",
+    "rails": {
+      "+5": {
+        "model": {
+          "peak_vgs_v": 2.3097,
+          "onset_vgs_v": 2.4428,
+          "peak_current_ma": 1.26,
+          "output_max_mv": 51.9,
+          "distance_to_onset_mv": 133.1
+        },
+        "threshold_minus_0p5_v": {
+          "peak_vgs_v": 2.3146,
+          "onset_vgs_v": 2.443,
+          "peak_current_ma": 1.32,
+          "output_max_mv": 51.7,
+          "distance_to_onset_mv": 128.4
+        }
+      },
+      "-12": {
+        "model": {
+          "peak_vgs_v": 2.3426,
+          "onset_vgs_v": 2.3504,
+          "peak_current_ma": 4.63,
+          "output_min_mv": -97.0,
+          "distance_to_onset_mv": 7.8
+        },
+        "threshold_plus_0p5_v": {
+          "peak_vgs_v": 2.343,
+          "onset_vgs_v": 2.3527,
+          "peak_current_ma": 4.65,
+          "output_min_mv": -97.2,
+          "distance_to_onset_mv": 9.7
+        }
+      }
+    },
+    "open_check": "Constant-offset threshold corners on the unchanged decks, mapped from the model 250 uA point (2.163 V on the +5 ramp): +5 VO2 -0.66 V and +0.54 V; -12 VO3 -0.66 V and +0.54 V. Untested today: -12 below the model threshold and +5 beyond -0.5 V. Rides on the next dispatch."
   },
   "d2_discharge": {
     "assumptions": [
@@ -484,10 +554,10 @@
   "d3_maximum_current": {
     "rails": {
       "+12": {
-        "trip_max_a": 2.08485,
+        "trip_max_a": 2.08497,
         "contract_max_a": 2.1,
-        "margin_a": 0.01515,
-        "allowed_di_dt_a_per_us_at_1us_response": 0.01515,
+        "margin_a": 0.01503,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.01503,
         "bound_without_timing": {
           "status": "OPEN",
           "bound_a": null,
@@ -495,10 +565,10 @@
         }
       },
       "-12": {
-        "trip_max_a": 1.99544,
+        "trip_max_a": 1.99556,
         "contract_max_a": 2.0,
-        "margin_a": 0.00456,
-        "allowed_di_dt_a_per_us_at_1us_response": 0.00456,
+        "margin_a": 0.00444,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.00444,
         "bound_without_timing": {
           "status": "OPEN",
           "bound_a": null,
@@ -506,10 +576,10 @@
         }
       },
       "+5": {
-        "trip_max_a": 0.46084,
+        "trip_max_a": 0.46086,
         "contract_max_a": 0.5,
-        "margin_a": 0.03916,
-        "allowed_di_dt_a_per_us_at_1us_response": 0.03916,
+        "margin_a": 0.03914,
+        "allowed_di_dt_a_per_us_at_1us_response": 0.03914,
         "bound_without_timing": {
           "status": "OPEN",
           "bound_a": null,
@@ -555,12 +625,12 @@
         "id": "D3-H2",
         "claim": "Delivered current including overshoot stays within the contract maximum",
         "conclusion": "UNRESOLVED",
-        "evidence": "Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound. Margins are 15.15 / 4.56 / 39.16 mA (+12 / -12 / +5), so even a 1 us total response allows at most 4.56 mA/us of growth on -12."
+        "evidence": "Needs a guaranteed detection-to-switch-off time and a load-side di/dt bound. Margins are 15.03 / 4.44 / 39.14 mA (+12 / -12 / +5), so even a 1 us total response allows at most 4.44 mA/us of growth on -12."
       }
     ]
   },
   "next_inputs": [
-    "D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both failed rails (D1-S). A minimum-load bleeder (C2) is rejected by owner decision because the pass pair is also the output disconnect; gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.",
+    "D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both failed rails (D1-S). A minimum-load bleeder (C2) is rejected by owner decision because the pass pair is also the output disconnect, and a fixed gate pre-bias while enabled (C1) is rejected because no fixed floor fits the CSD18543Q3A threshold window. A threshold-independent correction is the next proposal. Nothing is adopted.",
     "D2: OSC per-rail load current versus voltage during shutdown (or an agreed bound), a numeric definition of 'absent', and device switching data for the disconnect/discharge edge.",
     "D3: a guaranteed detection-to-switch-off time and a load-side di/dt bound, or an explicitly agreed regulating current-limit change; no excess-current budget is adopted."
   ]

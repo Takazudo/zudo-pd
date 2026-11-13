@@ -28,7 +28,7 @@ class ShuntTemperatureTests(unittest.TestCase):
         self.assertGreater(result['+12']['trip_max_a'], 2.08470)
         self.assertLess(result['-12']['trip_min_a'], 1.94231)
         self.assertGreater(result['-12']['trip_max_a'], 1.99529)
-        self.assertEqual((result['+5']['trip_min_a'], result['+5']['trip_max_a']), (0.43694, 0.46084))
+        self.assertEqual((result['+5']['trip_min_a'], result['+5']['trip_max_a']), (0.43691, 0.46086))  # widened by the full-range REF5025 load row (D12)
 
 
 if __name__ == '__main__':

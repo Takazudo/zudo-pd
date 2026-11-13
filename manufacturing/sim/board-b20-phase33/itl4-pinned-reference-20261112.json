@@ -1,0 +1,266 @@
+{
+ "source": {
+  "workflow_run": 43187732133,
+  "source_revision": "3c1eb78417b1f021a1630999068e147b8ef372ce",
+  "artifact_id": 13933777144,
+  "artifact_digest": "sha256:6f033a6c76936298a617c7a0825f79645b5200d126d4e935b24da5f777c48bd8",
+  "note": "pinned decks and output hashes of the T2 rev 2 dispatch, the reference for the itl4 inertness diagnostic"
+ },
+ "decks": {
+  "run/nom": {
+   "status": "COMPLETE",
+   "deck_sha256": "beff156925b121d039ca29d317272b1d723b307f4268de7432522de514c43aab",
+   "outputs": {
+    "nom-osc-cap.txt": "93166b6e4b8ba8a91af50f87547d74e8eeb905f17c318aadd2daafcd1e889203",
+    "nom-ref.txt": "69cba2939455779463382876906aee7b5398b42a227ca5171045188bf30894b3",
+    "nom-servo.txt": "f0d4df0db87228f12986dbea8b66576df4136ed4e16e3587427bc664a0d21572",
+    "nom.dat": "2c704109df06d060267b0bcdeeb9312dcc7260cd107cee309bebf10cdcc1114d"
+   }
+  },
+  "run/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "c2d8e4e5b28eebe4c729278ec346f9907dfa1aef46b44a9ecf5dbeb09bc6cace",
+   "outputs": {
+    "adv-osc-cap.txt": "8587f2eb8a40b83cbda01bf8352501621aa4a00bb9a558afa8c366733b48a4a8",
+    "adv-ref.txt": "a5fdc8be9a9801c6030cd0ebdfc302651a825dcb3f00b5e988824177cf781ea2",
+    "adv-servo.txt": "d33e58845a9103b8130e6fef7aa4658db121c9a3a8ae2294db3c82ab41bd83c1",
+    "adv.dat": "b7ad2e0055004d16c0d890448a2293e1cb59799aa15ecfdbbafe04c4015809e5"
+   }
+  },
+  "base/nomR": {
+   "status": "COMPLETE",
+   "deck_sha256": "ccdef4b08ce98814a706bff1909d4c3c8eab6c71eeb33f0dc6395464eaf24032",
+   "outputs": {
+    "nomR.dat": "663e6dd5235c9c5ea499d658fcc09c1451a38e548f6014b17c5ecf0fee6fdd4c"
+   }
+  },
+  "base/reR6": {
+   "status": "COMPLETE",
+   "deck_sha256": "e0bcb7bffcfb99c44813740a021b64f19038f381ff91349f65168565b0b87cd9",
+   "outputs": {
+    "reR6.dat": "9c60eb0a3ffff414436b1e3c4af60067924176c4f6d7d3342a9f92490e105056"
+   }
+  },
+  "base/reR20": {
+   "status": "COMPLETE",
+   "deck_sha256": "8d9a550f516b2f10ef1d3e5fc379d140ecd619b5fb0fde62a393f834d49b64e9",
+   "outputs": {
+    "reR20.dat": "37956c98558d9042f229a6f97e3b11438de408df761ec3b7ab5706ac73cac343"
+   }
+  },
+  "e12lo/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "f4cb68abf13b4606654e7c9e324709bad0d9cdd6163241e728c0ed38fe66b29a",
+   "outputs": null
+  },
+  "e12hi/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "7380c1429f2711456f671ab0d4dd4c89f2c70673454b23608409eb16c6c51358",
+   "outputs": null
+  },
+  "e5lo/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "7da9a83e18f4fd59fde85724ea3965190f866d65188e02f981a1f3b51e2cb2bd",
+   "outputs": null
+  },
+  "e5hi/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "6aca9ca692b2f919653c1a29c5b37d2a04e35f5d46b8966315f2097a25ac7006",
+   "outputs": null
+  },
+  "ctrl/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "a1a4d7beba6d63ead929256d96e11f524f78aae4fb11dcb4883db043d006d638",
+   "outputs": {
+    "adv-a2.txt": "4ee9f0dc78b6886e1dcb1cd869999e1d2898b8ed1d5e9c768b766f11ec5197ef",
+    "adv-gap.txt": "a65a074edc9412359cc15b5b7f2ea5b9111a1f353d2017ed67a717f8b3723ddc",
+    "adv-osc-cap.txt": "19354985fe65a296a8f83166c59c96177aab8bec91e941dd9c504a64cc22b1c1",
+    "adv-ref.txt": "633cd1c497a3fec5f91633d1399040916c5f4356918b4a7b1740329d1a3e007f",
+    "adv-servo.txt": "174aac63ae388e62d4540c36ec8ac4b7e18f48bd47cf201c5117e76aa47ed022",
+    "adv-t2.txt": "40136dbb4e732de6d1ea663b362ca0d5dba9bf0b9ca1f9936ad58954e0ee93ad",
+    "adv.dat": "0bdda34ca6763bf3d9046ceb659830b3d99ff9ab2b93aa293eb37c71439ef811"
+   }
+  },
+  "t2/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "70789b4a41a553c552537cfc58e5c355650e62780c508de4be244daf91ad3d7e",
+   "outputs": null
+  },
+  "t2/adv": {
+   "status": "ABORTED",
+   "deck_sha256": "2ee192d725d591750c6d0cc07149e902379455f9c9b0b71c9448dd8dcca758a2",
+   "outputs": null
+  },
+  "t2lo/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "b27024b9a88c054faeed6f03d914ea49d0d12875e9e71f1847ea8090facec323",
+   "outputs": null
+  },
+  "t2hi/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "4c36e56ca9b5813c2201d6b26fccffac7e2c4017713e4f7657baf45ced6894d7",
+   "outputs": null
+  },
+  "t2load/nomR": {
+   "status": "ABORTED",
+   "deck_sha256": "779ee845ee2e118f86ec13d4ab62ced50dbfcd70569e6ef8a336661cd78f2d52",
+   "outputs": null
+  },
+  "t2load/reR6": {
+   "status": "ABORTED",
+   "deck_sha256": "a5c04bcace97b969acfaf8968e643093c84c555bfd711fc8c44fe37be5a578f7",
+   "outputs": null
+  },
+  "t2load/reR20": {
+   "status": "ABORTED",
+   "deck_sha256": "7833f40f8fb75b2a561dc45ece67b5d2253e6e4826519ec31ffab421877d9eea",
+   "outputs": null
+  },
+  "vflo/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "4d04fa8ff817ad4d80df99c4916f3e930e9a9217bafa88214ee6301cc2f7925e",
+   "outputs": null
+  },
+  "vflo/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "20ded46f21fcc694a38b6906415cf77e2c34987d125622f40d59c002c537c02f",
+   "outputs": {
+    "adv-a2.txt": "24abf5f7583b4df6b6dc0c18f162499eb4af84c2915c51c971c2ea030700b3b5",
+    "adv-gap.txt": "c88aff55ffabc1a965663fa92dccfe4c3746b7470abb94f9960bb02b9d4b0e04",
+    "adv-osc-cap.txt": "58f23c6f7b9f0064568c3cf9769a9ab3150f3645e498d3e8cee415303e0f8573",
+    "adv-ref.txt": "de07465a5e9f3f7b7ae90c410b6f73cb3691b72b33d96648ee19b1aa36f6b1d7",
+    "adv-servo.txt": "9ba76419dbf4e7dafa05545ee127b8ae2aa32c17b3421e6db65108231d7a1659",
+    "adv-t2.txt": "3517b252319138d1a627f3d5554e4bca58812cb7b4083630f0a92e073b4ba0e3",
+    "adv.dat": "608e5abf5f6a329d62d458365d6d5c6774bf7c8ceca559d5cda17eff00dded0f"
+   }
+  },
+  "vfhi/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "b0eccfee7598b3598bf08d5176456c1f9beddc0481ac9c6933442feac757c3f3",
+   "outputs": null
+  },
+  "vfhi/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "cb56651eacf4f2c93e5f059e7602f04b38aebf0bd01b7911423847165414c6a6",
+   "outputs": {
+    "adv-a2.txt": "f8d5d5af208b1e1802a409584407151472cc2d55e7837b6e62b5aa2006b6e7e1",
+    "adv-gap.txt": "b73ef9981e95be6c125aa95b26add9aa1240b060d003f3df08984b78de585826",
+    "adv-osc-cap.txt": "5e160823c59bdcdd69e969c3377bac6c09afed3361d142051dded574a461e084",
+    "adv-ref.txt": "2a3ffc674ea88a50cbd395c417f28f55caf5814e4ff15810b5308fae40e23e18",
+    "adv-servo.txt": "5697cdb88079f82315b8bf216ca5cee9dbcc189cbb3e0156441cbaf9afb23a65",
+    "adv-t2.txt": "cdd15141af0242b9c25410f1fc51a6aa0e3ca63d20a0bf3f12a434bf98953161",
+    "adv.dat": "187636503b434b458597dce900b402cabd4c6597ae72e79496f9a5a970bcf4f0"
+   }
+  },
+  "cvflo/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "7ef3831a0440eaf606aa18478c9576f0416c40fe740de33d117811d329dacb00",
+   "outputs": null
+  },
+  "cvflo/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "97619c26ea31ebc827d42a726d228047c57b2638868b4b565985cd7a3a995854",
+   "outputs": {
+    "adv-a2.txt": "eab1ac965dfc97a9d581b3f8845667fcfec47bf150bf36c8134b6e31f5546c83",
+    "adv-gap.txt": "2aa53cf0063871b7971a3c41d837e50087e03afb0925140756f1e48acd55c6dc",
+    "adv-osc-cap.txt": "c631bab6c818e9d8110b77e2a963e85be3437f50a20074ab0959cee7a276bf8b",
+    "adv-ref.txt": "6f6bd7b8fbd6e1cf7da461ced5dcf53aa2f2a7ac75a5a0108dc7ec9b0e150b9d",
+    "adv-servo.txt": "f0fa861eb5860684fdbf05eaa5627e452c16df3875cdb301693fd100f8f9e979",
+    "adv-t2.txt": "78676335680adfe6f80307c1f18cef94f40065c36f9d17550f21fe4a59af7493",
+    "adv.dat": "454b5b51fc15d7494a4c86cbb7c20ee86a0ce89b6c747cd1f0cfe0f49f4079ef"
+   }
+  },
+  "cvfhi/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "2284c84e8d5a21782cb50b6c905e198147e2eb8f807215f20242eb637228b990",
+   "outputs": null
+  },
+  "cvfhi/adv": {
+   "status": "ABORTED",
+   "deck_sha256": "0f8928b164528aef42eee08c75039dca2460cafe75b8abc73dcb72cef2e28923",
+   "outputs": null
+  },
+  "kvflo/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "3ef600862fea5d903ffb9ae257f31983125c413b31a23d21841486c01e4d4195",
+   "outputs": null
+  },
+  "kvflo/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "151f2dffbc117dfbbab9fd440f651e9eb6eb559e62d610685e12046f0ccad8bf",
+   "outputs": {
+    "adv-a2.txt": "4742a605267226a186cc5c9511b0cea0992872f314d81bd9af7274b6a576b22e",
+    "adv-gap.txt": "f17e76f4caeca7bf698eda055102e9624ee1b1d75db4f3f1a0681e96e5fde52d",
+    "adv-osc-cap.txt": "9b9bc093de612c859d94403b9dc0aef2fe36a8cb268d37d6f19f11afa1165bd0",
+    "adv-ref.txt": "b476d82c14b87425271b4c80ff56b5ef444797ab5f3d5e40a64a729579430e4b",
+    "adv-servo.txt": "b774ce2bcf2a097f612bd558d9d08d9d1fe99f0f6ebd70ec9f1066e1b9094fe3",
+    "adv-t2.txt": "12e149efccda0e3041e7f4c31179099c08007f2cffa9b65e08be154dc65d6df6",
+    "adv.dat": "3c204e7a14e891948ca5724bd32129826c636e486ed8c25c2693f0462f0b5392"
+   }
+  },
+  "kvfhi/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "c8a18b1da9910fa8e200a892c620a63ddc42793593f528414b73fb1551116b98",
+   "outputs": null
+  },
+  "kvfhi/adv": {
+   "status": "ABORTED",
+   "deck_sha256": "0e4633c2b4756a05e1a8c85c3fb258cb2d0910cbc6cecc4b69ed79983e6c846e",
+   "outputs": null
+  },
+  "ir1n/adv": {
+   "status": "ABORTED",
+   "deck_sha256": "b1d3862198f2e045eb5422af0772f8993ab359baef40d3b278dd4c5d8e5bdb9a",
+   "outputs": null
+  },
+  "ir2n/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "af288650e353e4746f5aaac9f89d527e9ceaf3285136451662f177b14fd7207a",
+   "outputs": {
+    "adv-a2.txt": "e68195d5cb974895df77c89cc22f31c34958c137c4778cc830da985b0acac71c",
+    "adv-gap.txt": "78113079b18dbb47bbe9ea23c02ea46743ed954ba8f0d4b20d7e06f63b12414b",
+    "adv-osc-cap.txt": "a81704dfedfb764b1702e18e5de1575d02749cddb8cd7fd7b66de97cca1bef34",
+    "adv-ref.txt": "139a4b405586f214a295f9ec766c9fbea6ca15c9f75eff5403b7798096447a34",
+    "adv-servo.txt": "2b60fb7a8f6c94fb131276af2c420369ef22079784686ccf0eb22c02a8df6de6",
+    "adv-t2.txt": "e05bab0efdc8261d53c08fd7367182e8fa6c6430a2080a326a96d3b1d05dea96",
+    "adv.dat": "a233667cc0f0ec8a09e253036628abbc7b2f1cb16b95da9dc998501ae3504fcb"
+   }
+  },
+  "k80n/adv": {
+   "status": "ABORTED",
+   "deck_sha256": "61d59e36ea6bbac5b236eef6275f8802fb3383a713be87b0a733d015d1240420",
+   "outputs": null
+  },
+  "k1u/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "4297e8f3f347a84d55e84ba854c8141243a06ffa4340f68911697c4fceaac609",
+   "outputs": {
+    "adv-a2.txt": "c7700267d5660e0bd6f70be8d10f6458606b6bfd97c5d9e8d3387049d295f3de",
+    "adv-gap.txt": "dd114dee88956b72f2d2991e803cc77f4a161d9756f66f7c3285d0f5f67a8fa7",
+    "adv-osc-cap.txt": "7bb9f29ef1291212ac2832f235ddd4f8ca0746d1d18c0a609db271220a377c73",
+    "adv-ref.txt": "4f9877834ae5f807be3965fbc14366203d6f5d2753fd6405519cf46b41269a46",
+    "adv-servo.txt": "449adac28a41c11b419515ff83ab7760854c2b0a871621254127e73b6b31a69f",
+    "adv-t2.txt": "c05688884b177abc665e086788fc6a48b5b24e0dcb20a7d7366d6608300bff17",
+    "adv.dat": "2063f51935dcec2062fe268e339b8c27bfa09d769962b0f5c987d4f7ca3f868d"
+   }
+  },
+  "hot/nom": {
+   "status": "ABORTED",
+   "deck_sha256": "54031cf93ebb302da78599af604138674671f8a842f6bdb0cc7887bb4d859467",
+   "outputs": null
+  },
+  "hot/adv": {
+   "status": "COMPLETE",
+   "deck_sha256": "c02c93154e4598475d3e71cd8bfc1b9826853d8dfa04898530ea86869f559359",
+   "outputs": {
+    "adv-a2.txt": "1995aaeff3d8fe36d768c63b5c0a0c25d96b2ad9515127fa90af28ed62e13ac0",
+    "adv-gap.txt": "a7cfb37839a34d551d3222e23e4f23ec473f2d6a521677103b167a7a537eee59",
+    "adv-osc-cap.txt": "6e0c06a24fd3e4d34e444369398be75d364a8d1b289e632fa21abec9d661ecaf",
+    "adv-ref.txt": "56f96f6fd25b7374c7c6d2daaccdf834f5c68b65949ba7337d003e13dad10278",
+    "adv-servo.txt": "e999a5b977e04191ab4a558689ed25c45e51ebd6e5be74f6497c678488c5f8e2",
+    "adv-t2.txt": "1f6b63bc7d858fdf11495c6dbf1b172ad2247c20add930002f6ca6748ebf77bc",
+    "adv.dat": "2f678998dc72f28e6573ee1b7993b4f3844838dd478100eb7d89195e29853379"
+   }
+  }
+ }
+}

@@ -320,14 +320,82 @@ def correction_candidates(calc, record=D1_SERVO):
             'status': OWNER_REJECTED,
             'reason': 'Needs the disconnect and AGND-return rules reinterpreted and adds an enable-edge reverse-excursion risk.'},
         'C1 gate pre-bias while enabled': {
-            'status': 'UNDER EVALUATION (not adopted)',
-            'blocking_input': 'A guaranteed CSD18543Q3A VGS(th) minimum at the operating temperature and test current.'},
-        'C3 slower gate path': {'status': 'FALLBACK only if C1 fails'},
+            'status': OWNER_REJECTED,
+            'reason': 'A fixed floor cannot fit the threshold window: one that leaves a 2.0 V gap on a 2.7 V part leaves '
+                      'about 0.8 V on a 1.5 V part (guaranteed VGS(th) 1.5-2.7 V at 25 C). On -12 V the enable transient '
+                      'already brings Vgs within 8.1-9.7 mV of the model onset. No evaluated -12 V gap passed and no +5 V '
+                      'gap was evaluated (d1-gap-attempt2-20261111.md); the microvolt rule 6 results are not the reason.'},
+        'T1 reset-window integrator leak': {
+            'status': 'REJECTED by construction (owner decision 2026-11-11; not evaluated in transient)',
+            'reason': 'DC balance at the summing node sets the driver by offset currents, not by conduction: +5 V '
+                      'DRV = 1.214 V - 43.1 x out (stays wound to its rail); -12 V DRV = 23.5 x out + 1.214 V (a '
+                      '-0.47 V threshold-dependent pedestal). Changing R only rescales it.',
+            'evidence': 'd1-t1-leak-rejected-20261111.md'},
+        'T2 peak-hold anti-windup clamp': {
+            'status': 'FAIL on -12 V, attempt 1 (rules 6, 9 and L2; not adopted); REJECTED by construction on +5 V',
+            'rails': {
+                '+5': {'status': 'REJECTED by construction (owner decision 2026-11-11; not evaluated in transient)',
+                       'reason': 'RG2P (100 kohm, P5_G to P5_CS) carries Vgs/100 kohm; with the pair off it leaves P5_CS '
+                                 'only through Q4\'s body diode into P5_OUT, so a gate held near the edge injects 8-20 uA '
+                                 'against the 1.6 uA divider drain: a threshold-dependent output pedestal.',
+                       'option_b': 'Candidate (RG2P returned to GND) passes its paper check; pre-registration HELD pending '
+                                   'the deck-stiffness item (owner decision 2026-11-12). Not adopted.',
+                       'floor_finding': 'RG2P explains at most 4.6 mV (19 %) of the 24 mV excess of the 52 mV floor over 28 mV; '
+                                        'the floor is left as it is.',
+                       'evidence': ['d1-p5-gate-hold-options-20261111.md', 'd1-p5-option-b-paper-check-20261111.md']},
+                '-12': {'status': 'FAIL, attempt 1 (not adopted)', 'criteria': 'd1-t2-criteria.md',
+                        'record': 'd1-t2-attempt1-20261112.md',
+                        'summary': 'Rule 1 passes on the D1 failure deck (1.064 V/ms, 0.1915 A). Rule 6 (135.4 uV) and loaded '
+                                   'L2 (about 0.3 mV) fail on DT2C junction capacitance coupling the capture step into '
+                                   'trk12n_fb; rule 9 fails by 26 nV on a deck-wide disable kick at vntol (identical in the '
+                                   'inert control). The four corners, t2/nom, t2lo, t2hi and t2load/nomR ABORTED.',
+                        'deck_stiffness': 'd1-deck-stiffness-20261112.md'},
+            },
+            'gate_hold_constraint': 'Any future +5 V or +12 V gate-hold scheme must idle at Vgs <= about 0.16 V at no load '
+                                    '(Vgs / 100 kohm <= 1.6 uA through RG2P or RG1P and the output-side body diode), '
+                                    'unless the gate pull-down return is changed.',
+            'd1': 'HELD: a -12 V only result does not close D1 until +5 V has an answer.',
+            'evidence': 'd1-t2-paper-check-20261111.md'},
+        'C3 slower gate path': {'status': 'FALLBACK (not evaluated)'},
         'bias_current_low_side_margins': {
             'rule': 'The limiter shunts sit upstream of each pair, so bias or bleeder current is sensed: delivered current '
                     'at trip becomes trip_max - I_bias (the maximum-delivered margin grows), while the transient-minimum '
                     'and startup-into-full-load margins shrink by I_bias.',
             'rails': low_side},
+    }
+
+
+# ---------------------------------------------------------------- D1 enable-edge conduction (recorded negative)
+# Baseline waveforms of run 43109786353 (identity REPRODUCED): enable window 40-110 ms, 2 us bins; internal Vgs is the
+# gate pin minus the deck's gate offset minus the common source. The adv deck's constant offsets emulate a threshold
+# shift seen from the gate drive (+5: VO2 -0.5 V, i.e. a part 0.5 V lower; -12: VO3 +0.5 V, a part 0.5 V higher).
+ENABLE_EDGE = {
+    '+5': {'model': {'peak_vgs_v': 2.3097, 'onset_vgs_v': 2.4428, 'peak_current_ma': 1.26, 'output_max_mv': 51.9},
+           'threshold_minus_0p5_v': {'peak_vgs_v': 2.3146, 'onset_vgs_v': 2.4430, 'peak_current_ma': 1.32,
+                                     'output_max_mv': 51.7}},
+    '-12': {'model': {'peak_vgs_v': 2.3426, 'onset_vgs_v': 2.3504, 'peak_current_ma': 4.63, 'output_min_mv': -97.0},
+            'threshold_plus_0p5_v': {'peak_vgs_v': 2.3430, 'onset_vgs_v': 2.3527, 'peak_current_ma': 4.65,
+                                     'output_min_mv': -97.2}},
+}
+
+
+def enable_edge():
+    rails = {}
+    for rail, cases in ENABLE_EDGE.items():
+        rails[rail] = {k: {**v, 'distance_to_onset_mv': round((v['onset_vgs_v'] - v['peak_vgs_v']) * 1e3, 1)}
+                       for k, v in cases.items()}
+    return {
+        'status': 'RECORDED NEGATIVE (owner decision 2026-11-11; no order hold)',
+        'question': 'Would a fitted part at typical 2.0 V or minimum 1.5 V VGS(th) conduct at the enable edge and '
+                    'produce an output excursion?',
+        'finding': 'Inference from a single-threshold model: the enable transient is the designed pre-bias; the loop '
+                   'stops at the pair\'s own conduction edge, so the distance to onset moves by at most a few mV under '
+                   'a 0.5 V emulated threshold shift and the enable-window output stays at its floor (+5 at most '
+                   '51.9 mV against the 0.8 V hold screen; -12 and +12 below the 1.5 V analog threshold).',
+        'rails': rails,
+        'open_check': 'Constant-offset threshold corners on the unchanged decks, mapped from the model 250 uA point '
+                      '(2.163 V on the +5 ramp): +5 VO2 -0.66 V and +0.54 V; -12 VO3 -0.66 V and +0.54 V. Untested '
+                      'today: -12 below the model threshold and +5 beyond -0.5 V. Rides on the next dispatch.',
     }
 
 
@@ -515,8 +583,8 @@ def d1_next_input(record=D1_SERVO):
     if all(row['verdicts']['dead zone set by'].startswith('CONDUCTION THRESHOLD') for row in rows.values()):
         return ('D1: the reference side is refuted and the dead zone is set by the pass-pair conduction threshold on both '
                 'failed rails (D1-S). A minimum-load bleeder (C2) is rejected by owner decision because the pass pair is also '
-                'the output disconnect; gate pre-bias while enabled (C1) is under evaluation and first needs a guaranteed '
-                'CSD18543Q3A VGS(th) minimum at the operating temperature. Nothing is adopted.')
+                'the output disconnect, and a fixed gate pre-bias while enabled (C1) is rejected because no fixed floor fits '
+                'the CSD18543Q3A threshold window. A threshold-independent correction is the next proposal. Nothing is adopted.')
     return ('D1: the reference side is refuted but the servo record does not place both dead zones at the conduction '
             'threshold; resolve D1-S before choosing a correction candidate.')
 
@@ -532,6 +600,7 @@ def findings():
         'model_scope': scope_matrix(),
         'd1_startup': startup(calc),
         'd1_correction_candidates': correction_candidates(calc),
+        'd1_enable_edge': enable_edge(),
         'd2_discharge': discharge(calc),
         'd3_maximum_current': maximum_current(calc),
         'next_inputs': [
