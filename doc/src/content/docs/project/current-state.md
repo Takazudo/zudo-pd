@@ -68,6 +68,9 @@ D1–D9 holds stay.
   A separate cross-check run on 2026-11-13 (43484213339) closed that gap on the identity pair: the abstol variant is
   COMPARABLE (within 0.001 %) and the rshunt step is NOT COMPARABLE (0.1–0.4 %), which is as large as the D1 exceedances
   ([record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/d1-variant-cross-check-20261113.md)).
+  A follow-up run (43486530273) shows the −12 V failure is not an rshunt artefact: `adv` at rshunt 1e10 under abstol
+  gives 1.474663 V/ms and 265.238 mA, 0.008 % below the recorded values. On 2026-11-14 JST the owner chose the OSC
+  contract route for D1; no ceiling changes until OSC records its acceptance.
   Electrical acceptance stays NOT ESTABLISHED, and the proposed 350 / 160 mA exception is not adopted.
 - **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker

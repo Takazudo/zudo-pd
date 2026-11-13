@@ -66,6 +66,10 @@ Under rshunt, the window peak current moves by up to 0.39 %.
   exceedances: 0.10–0.51 %.
 
 ## Observation that needs owner attention (not a finding about `adv`)
+
+**Superseded on 2026-11-13 by [`d1-adv-rshunt-free-20261113.md`](d1-adv-rshunt-free-20261113.md):** `adv` at
+`rshunt=1e10` under abstol gives 1.474663 V/ms and 265.238 mA, only about 0.008 % below the recorded failure. The
+extrapolation below did not hold. It is kept as written.
 The recorded −12 V D1 failure comes from `adv`, whose accepted baseline already runs at `rshunt=1e9`. Pinned `adv` at
 `rshunt=1e10` aborted in the 2026-11-09 ladder.
 
