@@ -93,7 +93,7 @@ class FittedSeriesResistorTests(unittest.TestCase):
         self.assertEqual(screen['OV-12']['ib_max_a'], 7.5e-9)
 
     def test_fitted_input_rc(self):
-        self.assertEqual(RESULT['fitted_input_rc_us'], {'OV+12': 1.446, 'UV+12': 1.802, 'OV+5': 1.489, 'UV+5': 1.39,
+        self.assertEqual(RESULT['fitted_input_rc_us'], {'OV+12': 1.446, 'UV+12': 1.802, 'OV+5': 1.489, 'UV+5': 1.435,
                                                         'OV-12': 0.263, 'UV-12': 0.691})
         self.assertIn('NOT FOUND', RESULT['fitted_input_rc_note'])
 

@@ -887,6 +887,9 @@ COMPARATOR_SERIES_R = {'U6': 100e3, 'U7': 100e3, 'U8': 0.0}
 UNFIXED_SERIES_R = {'U6': 0.0, 'U7': 0.0, 'U8': 0.0}
 OPA_INPUT_C_TYP_F = 4.2e-12 + 6e-12                            # SBOS807E ZIC + ZID, typical only (no maximum)
 INPUT_STRAY_C_PA_F = 3e-12                                     # PA: pad and trace capacitance at the comparator input
+# CALCULATED upper bounds for the routed U6/U7 *_IN stubs (manufacturing/verification/pd20-native-d12-insert-20261113/README.md);
+# each channel uses the larger of this and the PA, so U8 (no new routing) keeps the PA.
+ROUTED_INPUT_STRAY_C_MAX_F = {'OV+12': 0.25e-12, 'UV+12': 1.67e-12, 'OV+5': 0.62e-12, 'UV+5': 3.43e-12}
 OPA_RESPONSE_TYP_S = 5.0 / 0.2e6 + 8e-6                        # scale only: 5 V swing at 0.2 V/us typ + 8 us overload recovery typ
 
 
@@ -1036,7 +1039,8 @@ def comparator_input_diodes(series_r=None, _options=True):
                 'rail_error_mv': round(dv * 1e3, 3), 'trip_v_with_ib': [round(lo, 4), round(hi, 4)], 'limit_v': limit,
                 'margin_pct': [round((lo - limit[0]) / limit[0] * 100, 3), round((limit[1] - hi) / limit[1] * 100, 3)],
                 'status': status(ok)}
-            fitted_rc[f'{kind}{rail}'] = round((rth + rs_map[u]) * (OPA_INPUT_C_TYP_F + INPUT_STRAY_C_PA_F) * 1e6, 3)
+            stray = max(INPUT_STRAY_C_PA_F, ROUTED_INPUT_STRAY_C_MAX_F.get(f'{kind}{rail}', 0.0))
+            fitted_rc[f'{kind}{rail}'] = round((rth + rs_map[u]) * (OPA_INPUT_C_TYP_F + stray) * 1e6, 3)
     channels = {k: {'diode_ma': round(c['diode_a'] * 1e3, 4), 'ref25_delta_ma': round(c['ref25_delta_a'] * 1e3, 4),
                     **({'note': c['note']} if 'note' in c else {})} for k, c in worst.items()}
     return {
@@ -1081,7 +1085,8 @@ def comparator_input_diodes(series_r=None, _options=True):
                                   'referred to the rail, widens the windows() trip bounds; windows() itself omits IB.'),
         'fitted_input_rc_us': fitted_rc,
         'fitted_input_rc_note': (f'tau = (Thevenin + R_S) x (SBOS807E ZIC + ZID typical {OPA_INPUT_C_TYP_F * 1e12:.1f} pF + '
-                                 f'{INPUT_STRAY_C_PA_F * 1e12:.0f} pF stray PA). No OV response budget exists in the project '
+                                 f'stray: the larger of the {INPUT_STRAY_C_PA_F * 1e12:.0f} pF PA and the CALCULATED routed upper bound, '
+                                 f'{ROUTED_INPUT_STRAY_C_MAX_F["UV+5"] * 1e12:.2f} pF on UV5_IN). No OV response budget exists in the project '
                                  f'(NOT FOUND); for scale the comparator itself takes about {OPA_RESPONSE_TYP_S * 1e6:.0f} us typical '
                                  '(0.2 V/us slew over 5 V plus 8 us overload recovery).'),
     }

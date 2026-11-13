@@ -91,3 +91,4 @@ The *_IN copper from each comparator pin to its resistor is a high-impedance nod
 stray PA. A 0.2 mm F.Cu track over the In1 GND plane (0.2 mm dielectric, εr 4.6) is about 0.09 pF/mm as a
 microstrip (Hammerstad, CALCULATED). Neighbouring F.Cu pour can raise it toward 0.15 pF/mm. Record the routed
 *_IN lengths and the resulting figure in D12. Recompute the threshold error and the input RC if it exceeds 3 pF.
+The routed upper bounds are in `ROUTED_INPUT_STRAY_C_MAX_F` in `calculate-board-b20-draft.py`; UV5_IN reaches 3.43 pF.
