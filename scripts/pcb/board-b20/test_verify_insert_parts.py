@@ -193,6 +193,53 @@ class VerifyInsertParts(unittest.TestCase):
             text = text.replace(f'(xy {x} 21.8495)', f'(xy {x} 22.2495)')
         self.refused(text, 'changed outside the edit region')
 
+    XY = re.compile(r'\(xy ([-0-9.]+) ([-0-9.]+)\)')
+
+    def far_polygon(self, text, need_slit, need_sibling=False):
+        """(start, end, points) of the first filled polygon far from AT, optionally with a fracture slit or a sibling."""
+        at = 0
+        while True:
+            start = text.index('(filled_polygon', at)
+            end = text.index('(filled_polygon', start + 1) if '(filled_polygon' in text[start + 1:] else len(text)
+            end = min(end, text.index('\n\t)', start))
+            pts = [m for m in self.XY.finditer(text, start, end)]
+            coords = [(m.group(1), m.group(2)) for m in pts]
+            far = all(abs(float(x) - AT[0]) + abs(float(y) - AT[1]) > 20 for x, y in coords)
+            edges = set(zip(coords, coords[1:] + coords[:1]))
+            zone_end = text.find('\n\t(zone', end)
+            sibling = text.find('(filled_polygon', end) != -1 and (zone_end == -1 or text.find('(filled_polygon', end) < zone_end)
+            if far and (not need_slit or any((b, a) in edges for a, b in edges)) and (not need_sibling or sibling):
+                return start, end, pts
+            at = end
+
+    def test_far_move_within_max_error_is_recorded(self):
+        text = self.inserted()
+        _start, _end, pts = self.far_polygon(text, False)
+        m = pts[0]
+        moved = f'(xy {float(m.group(1)) + 0.003:.6f} {m.group(2)})'
+        result = self.check(text[:m.start()] + moved + text[m.end():])
+        self.assertEqual(result['fill_max_error_mm'], 0.005)
+        (zone, record), = result['fill_retessellated_outside_region'].items()
+        self.assertEqual(record['vertices'], 2)
+        self.assertTrue(0 < record['max_distance_mm'] <= 0.003)
+
+    def test_far_hole_removed_is_refused(self):
+        text = self.inserted()
+        _start, _end, pts = self.far_polygon(text, True)
+        coords = [(m.group(1), m.group(2)) for m in pts]
+        n = len(coords)
+        edges = set(zip(coords, coords[1:] + coords[:1]))
+        i = next(k for k in range(n) if (coords[(k + 1) % n], coords[k]) in edges and coords[k] != coords[(k + 1) % n])
+        j = next(k for k in range(i + 2, n) if coords[k] == coords[i])
+        cut = text[:pts[i].end()] + text[pts[j].end():]
+        self.refused(cut, 'more than max_error')
+
+    def test_far_island_removed_is_refused(self):
+        text = self.inserted()
+        start, end, _pts = self.far_polygon(text, False, True)
+        block_start = text.rindex('\n', 0, start)
+        self.refused(text[:block_start] + text[end:], 'outside the edit region')
+
     def test_fill_change_far_away_is_refused(self):
         text = self.inserted()
         at = text.index('(filled_polygon')

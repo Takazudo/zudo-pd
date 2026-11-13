@@ -22,7 +22,10 @@ exact copper is only known afterwards. Filled polygons are set aside and:
   grown by FILL_MARGIN_MM. Every filled-polygon vertex of each zone (by uuid and layer) that appears or disappears
   must lie in that region, so a fill change anywhere else fails. KiCad's zero-width fracture slits (and a slit foot
   lying straight on its edge) are removed first, because a hole that changes inside the region can move a slit that
-  ends far outside it. No other vertex is dropped.
+  ends far outside it. No other vertex is dropped. KiCad re-approximates arcs within the board's max_error whenever a
+  zone is refilled, so a vertex outside the region may still move if it stays within max_error (from the project's
+  rules, proven unchanged) of the other board's fill boundary of the same zone, checked from both sides. A vanished or
+  added island, hole or notch puts its vertices farther than that and still fails. Accepted moves are recorded.
 This is a vertex screen, not a connectivity proof: a far island that loses its connection without any vertex moving,
 or a long new fill edge from a vertex inside the region, is left to DRC (unconnected items, isolated copper).
 The output records every removed and added copper item, so the delta can be reviewed item by item.
@@ -180,6 +183,37 @@ def ring_corners(pts):
     return corners
 
 
+def ring_edges(pts):
+    """The outline and hole edges of one KiCad filled polygon, fracture slits and zero-length edges removed."""
+    n = len(pts)
+    edges = [(pts[i], pts[(i + 1) % n]) for i in range(n)]
+    present = collections.Counter(edges)
+    return [((float(a[0]), float(a[1])), (float(b[0]), float(b[1]))) for a, b in edges if a != b and not present[(b, a)]]
+
+
+class EdgeIndex:
+    """Grid index over line segments for point-to-boundary distance queries."""
+
+    CELL = 1.0
+
+    def __init__(self, edges):
+        self.cells = collections.defaultdict(list)
+        for a, b in edges:
+            for cx in range(math.floor(min(a[0], b[0]) / self.CELL), math.floor(max(a[0], b[0]) / self.CELL) + 1):
+                for cy in range(math.floor(min(a[1], b[1]) / self.CELL), math.floor(max(a[1], b[1]) / self.CELL) + 1):
+                    self.cells[(cx, cy)].append((a, b))
+
+    def distance(self, point, limit):
+        """Distance from point to the nearest edge, or infinity when none lies within limit."""
+        cx, cy, reach = math.floor(point[0] / self.CELL), math.floor(point[1] / self.CELL), math.ceil(limit / self.CELL)
+        best = math.inf
+        for dx in range(-reach, reach + 1):
+            for dy in range(-reach, reach + 1):
+                for a, b in self.cells.get((cx + dx, cy + dy), ()):
+                    best = min(best, seg_distance(point, a, b))
+        return best if best <= limit else math.inf
+
+
 def fills(tree):
     """Filled-polygon vertices per (zone uuid, layer), as a multiset of exact coordinate strings, fracture slits removed."""
     zones = {}
@@ -191,6 +225,20 @@ def fills(tree):
                     layer = atom(child(fp, 'layer')[1])
                     pts = [(atom(q[1]), atom(q[2])) for q in child(fp, 'pts')[1:] if atom(q[0]) == 'xy']
                     zones.setdefault((name, layer), collections.Counter()).update(ring_corners(pts))
+    return zones
+
+
+def fill_edges(tree):
+    """Filled-area boundary edges per (zone uuid, layer), fracture slits removed."""
+    zones = {}
+    for item in tree:
+        if isinstance(item, list) and item and atom(item[0]) == 'zone':
+            name = atom(child(item, 'uuid')[1])
+            for fp in item:
+                if isinstance(fp, list) and fp and atom(fp[0]) == 'filled_polygon':
+                    layer = atom(child(fp, 'layer')[1])
+                    pts = [(atom(q[1]), atom(q[2])) for q in child(fp, 'pts')[1:] if atom(q[0]) == 'xy']
+                    zones.setdefault((name, layer), []).extend(ring_edges(pts))
     return zones
 
 
@@ -307,12 +355,25 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     f_old, f_new = fills(before), fills(after)
     if set(f_old) != set(f_new):
         raise SystemExit(f'Filled zone set changed: {sorted(set(f_old) ^ set(f_new))}')
-    deltas = {}
+    max_error = float(rules_before['design_settings']['rules']['max_error'])
+    deltas, retessellated = {}, {}
+    e_old = e_new = None
     for zone in sorted(f_old):
-        changed = (f_old[zone] - f_new[zone]) + (f_new[zone] - f_old[zone])
-        outside = [pt for pt in changed if not inside(pt)]
+        gone, came = f_old[zone] - f_new[zone], f_new[zone] - f_old[zone]
+        changed = gone + came
+        outside = [(pt, 'AFTER') for pt in gone if not inside(pt)] + [(pt, 'BEFORE') for pt in came if not inside(pt)]
         if outside:
-            raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region, e.g. at {outside[0]}')
+            if e_old is None:
+                e_old, e_new = fill_edges(before), fill_edges(after)
+            index = {'AFTER': EdgeIndex(e_new[zone]), 'BEFORE': EdgeIndex(e_old[zone])}
+            worst = 0.0
+            for pt, other in outside:
+                d = index[other].distance((float(pt[0]), float(pt[1])), max_error)
+                if d > max_error:
+                    raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region, e.g. at {pt}: '
+                                     f'more than max_error {max_error} mm from the {other} fill boundary')
+                worst = max(worst, d)
+            retessellated['/'.join(zone)] = {'vertices': len(outside), 'max_distance_mm': round(worst, 9)}
         if changed:
             deltas['/'.join(zone)] = sum(changed.values())
     return {'scope': 'B20 part insertion: existing footprints, copper on other nets and non-copper content unchanged; '
@@ -323,7 +384,8 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
             'project_before_sha256': project_before, 'project_after_sha256': project_after,
             'removed_copper': removed, 'added_copper': added,
             'existing_footprints_identical': len(old), 'other_net_copper_identical': len(fixed_before),
-            'fill_margin_mm': FILL_MARGIN_MM, 'fill_vertices_changed_inside_region': deltas}
+            'fill_margin_mm': FILL_MARGIN_MM, 'fill_vertices_changed_inside_region': deltas,
+            'fill_max_error_mm': max_error, 'fill_retessellated_outside_region': retessellated}
 
 
 def main():
