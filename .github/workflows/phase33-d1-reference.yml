@@ -17,7 +17,9 @@
 # and measures slope, current and charge per rail: a diagnostic that judges nothing.
 # Opt-in ceiling_corners (ceiling-corners-criteria.md) runs the e5 corners under the matched-variant ladder and a
 # one-line .temp hot case at the contract ceiling bank, with the same measurements: a diagnostic that judges nothing.
-# Not a generic compute dispatcher: six opt-in boolean inputs, no secrets, no write permission, no deploy.
+# Opt-in variant_cross_check (variant-cross-check-criteria.md) reruns the identity pair under each matched-variant step and
+# compares it with the same dispatch's pinned run: it reads solver-setting comparability only.
+# Not a generic compute dispatcher: seven opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -46,6 +48,10 @@ on:
         default: false
       ceiling_corners:
         description: Also run the ceiling-bank e5 corners and hot case diagnostic (ceiling-corners-criteria.md)
+        type: boolean
+        default: false
+      variant_cross_check:
+        description: Also rerun the identity pair under each matched variant and compare with pinned (variant-cross-check-criteria.md)
         type: boolean
         default: false
 
@@ -97,6 +103,11 @@ jobs:
         if: inputs.ceiling_corners && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank)
         run: |
           echo "::error::ceiling_corners is a separate dispatch"
+          exit 1
+      - name: Reject the variant cross-check combined with any other opt-in
+        if: inputs.variant_cross_check && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank || inputs.ceiling_corners)
+        run: |
+          echo "::error::variant_cross_check is a separate dispatch"
           exit 1
       - name: Prepare hash-verified inputs (one bounded TI download each)
         run: |
@@ -236,6 +247,21 @@ jobs:
             done < "$RUNNER_TEMP/out/ceiling-plan-$step.txt"
           done
           python3 "$PHASE33/ceiling_corners.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/ceiling-corners.json"
+      - name: Pinned-versus-variant cross-check (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.variant_cross_check && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/variant_cross_check.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/xcheck-manifest.json"
+          labels=$(python3 "$PHASE33/variant_cross_check.py" labels)
+          [ -n "$labels" ] || { echo "::error::no variant_cross_check labels"; exit 1; }
+          # Each variant deck runs once; an abort is recorded (NOT FORMED), never retried.
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/variant_cross_check.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: nothing pending"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/xcheck/$label/tracking" $cases --original-only 2>&1 | tee "$RUNNER_TEMP/out/xcheck-runner-$label.txt"; then
+              python3 "$PHASE33/variant_cross_check.py" check-run "$RUNNER_TEMP/work" "$label"
+            fi
+          done
+          python3 "$PHASE33/variant_cross_check.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/variant-cross-check.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |
