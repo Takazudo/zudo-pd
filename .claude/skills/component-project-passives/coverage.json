@@ -31,6 +31,35 @@
       ]
     },
     {
+      "coverage_id": "cov-c25741-electrical-limits",
+      "record_id": "rec-c25741",
+      "domain": "electrical-limits",
+      "status": "COVERED",
+      "reason": "Resistance (100000 Ohm), tolerance (1%), power (1/16 W), TCR (100 ppm/C), and max working voltage (50 V) are primary-source confirmed from the UNI-ROYAL 0402 rows.",
+      "fact_ids": [
+        "fact-c25741-manufacturer",
+        "fact-c25741-resistance",
+        "fact-c25741-tolerance",
+        "fact-c25741-power",
+        "fact-c25741-tcr",
+        "fact-c25741-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c25741-pulse-energy",
+      "record_id": "rec-c25741",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "The datasheet gives only a 5-second short-time-overload test point, not an installed-waveform pulse-energy rating.",
+      "fact_ids": [
+        "fact-c25741-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c25741-pulse-caveat"
+      ]
+    },
+    {
       "coverage_id": "cov-c23206-electrical-limits",
       "record_id": "rec-c23206",
       "domain": "electrical-limits",

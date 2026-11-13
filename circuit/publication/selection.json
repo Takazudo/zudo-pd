@@ -28,6 +28,7 @@
     "rec-umw-ao3401a-c347476",
     "rec-high-diode-smaj20a-c571370",
     "rec-c25803",
+    "rec-c25741",
     "rec-c23206",
     "rec-c23179",
     "rec-c23162",
@@ -223,6 +224,8 @@
     "src-smaj20a-board-a-baseline",
     "src-c25803-uniroyal",
     "src-c25803-boardadoc",
+    "src-c25741-uniroyal",
+    "src-c25741-identity",
     "src-c23206-uniroyal",
     "src-c23206-boardadoc",
     "src-c23179-uniroyal",
@@ -515,6 +518,8 @@
     "src-smaj20a-board-a-baseline",
     "src-c25803-uniroyal",
     "src-c25803-boardadoc",
+    "src-c25741-uniroyal",
+    "src-c25741-identity",
     "src-c23206-uniroyal",
     "src-c23206-boardadoc",
     "src-c23179-uniroyal",
@@ -863,6 +868,11 @@
     {
       "recordId": "rec-c25803",
       "sourceId": "src-c25803-uniroyal",
+      "documentKind": "specification"
+    },
+    {
+      "recordId": "rec-c25741",
+      "sourceId": "src-c25741-uniroyal",
       "documentKind": "specification"
     },
     {
@@ -1373,10 +1383,10 @@
     }
   ],
   "expect": {
-    "records": 129,
-    "sources": 304,
+    "records": 130,
+    "sources": 306,
     "integrationRules": 11,
-    "packages": 47
+    "packages": 48
   },
   "schema_version": 1
 }

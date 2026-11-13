@@ -1,0 +1,636 @@
+{
+  "scope": "B20 part insertion: existing footprints, copper on other nets and non-copper content unchanged; fill changes confined to the edit region; not electrical acceptance",
+  "before_sha256": "579385accc8ca90d9480499507a28dbbe32928dfba701e45012c67ed1ca9a444",
+  "after_sha256": "416f2c457e72657dff56fc43ebb043b714911e9aecc4e7d2e750f1096a7512b7",
+  "added_parts": [
+    "R77",
+    "R78",
+    "R79",
+    "R80"
+  ],
+  "part_nets": [
+    "OV12_DIV",
+    "OV12_IN",
+    "OV5_DIV",
+    "OV5_IN",
+    "UV12_DIV",
+    "UV12_IN",
+    "UV5_DIV",
+    "UV5_IN"
+  ],
+  "extra_nets": [],
+  "repinned_pads": [
+    {
+      "pad": "U6.3",
+      "from": "OV12_DIV",
+      "to": "OV12_IN"
+    },
+    {
+      "pad": "U6.6",
+      "from": "UV12_DIV",
+      "to": "UV12_IN"
+    },
+    {
+      "pad": "U7.3",
+      "from": "OV5_DIV",
+      "to": "OV5_IN"
+    },
+    {
+      "pad": "U7.6",
+      "from": "UV5_DIV",
+      "to": "UV5_IN"
+    }
+  ],
+  "reach_mm": 32.0,
+  "project_rules_identical": true,
+  "project_before_sha256": {
+    "board-b20-draft.kicad_pro": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab"
+  },
+  "project_after_sha256": {
+    "board-b20-draft.kicad_pro": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab"
+  },
+  "removed_copper": [
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV12_DIV",
+      "a": [
+        74.9,
+        60.3
+      ],
+      "b": [
+        75.5,
+        60.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "UV12_DIV",
+      "at": [
+        75.5,
+        60.3
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV12_DIV",
+      "a": [
+        75.1,
+        60.1
+      ],
+      "b": [
+        69.4,
+        58.4
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_DIV",
+      "a": [
+        82.9,
+        58.2
+      ],
+      "b": [
+        83.7,
+        54.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_DIV",
+      "a": [
+        82.8,
+        58.3
+      ],
+      "b": [
+        82.9,
+        58.2
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_DIV",
+      "a": [
+        82.5,
+        58.3
+      ],
+      "b": [
+        82.8,
+        58.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV12_DIV",
+      "a": [
+        69.1,
+        60.3
+      ],
+      "b": [
+        68.5,
+        60.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "OV12_DIV",
+      "at": [
+        68.5,
+        60.3
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "OV12_DIV",
+      "a": [
+        68.5,
+        60.3
+      ],
+      "b": [
+        37.2,
+        68.7
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV5_DIV",
+      "a": [
+        85.5,
+        58.3
+      ],
+      "b": [
+        84.9,
+        58.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "UV5_DIV",
+      "at": [
+        84.9,
+        58.3
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV5_DIV",
+      "a": [
+        84.9,
+        58.3
+      ],
+      "b": [
+        59.0,
+        43.9
+      ],
+      "w": 0.2
+    }
+  ],
+  "added_copper": [
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV12_DIV",
+      "a": [
+        71.39,
+        59.16
+      ],
+      "b": [
+        70.18,
+        57.16
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "UV12_DIV",
+      "at": [
+        71.39,
+        59.16
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV12_DIV",
+      "a": [
+        69.4,
+        58.4
+      ],
+      "b": [
+        72.636,
+        59.408
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV12_DIV",
+      "a": [
+        72.636,
+        59.408
+      ],
+      "b": [
+        71.39,
+        59.16
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_DIV",
+      "a": [
+        83.77,
+        55.0
+      ],
+      "b": [
+        83.7,
+        54.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV12_DIV",
+      "a": [
+        66.61,
+        59.64
+      ],
+      "b": [
+        67.46,
+        59.57
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "OV12_DIV",
+      "at": [
+        66.61,
+        59.64
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "OV12_DIV",
+      "a": [
+        37.2,
+        68.7
+      ],
+      "b": [
+        65.361,
+        61.142
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "OV12_DIV",
+      "a": [
+        65.361,
+        61.142
+      ],
+      "b": [
+        66.61,
+        59.64
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV5_DIV",
+      "a": [
+        68.36,
+        48.55
+      ],
+      "b": [
+        68.59,
+        48.18
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "UV5_DIV",
+      "at": [
+        68.36,
+        48.55
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV5_DIV",
+      "a": [
+        69.605,
+        49.796
+      ],
+      "b": [
+        68.36,
+        48.55
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV5_DIV",
+      "a": [
+        59.0,
+        43.9
+      ],
+      "b": [
+        69.605,
+        49.796
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV12_IN",
+      "a": [
+        67.46,
+        60.43
+      ],
+      "b": [
+        68.5,
+        60.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV12_IN",
+      "a": [
+        69.1,
+        60.3
+      ],
+      "b": [
+        68.5,
+        60.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV12_IN",
+      "a": [
+        74.9,
+        60.3
+      ],
+      "b": [
+        75.5,
+        60.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV12_IN",
+      "a": [
+        72.85,
+        57.88
+      ],
+      "b": [
+        71.04,
+        57.16
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "UV12_IN",
+      "at": [
+        75.5,
+        60.3
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "via",
+      "net": "UV12_IN",
+      "at": [
+        72.85,
+        57.88
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV12_IN",
+      "a": [
+        73.352,
+        59.631
+      ],
+      "b": [
+        72.85,
+        57.88
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV12_IN",
+      "a": [
+        75.1,
+        60.1
+      ],
+      "b": [
+        73.352,
+        59.631
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_IN",
+      "a": [
+        84.63,
+        55.0
+      ],
+      "b": [
+        84.3,
+        55.8
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_IN",
+      "a": [
+        84.3,
+        55.8
+      ],
+      "b": [
+        83.1,
+        57.5
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_IN",
+      "a": [
+        82.8,
+        58.3
+      ],
+      "b": [
+        82.9,
+        58.2
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_IN",
+      "a": [
+        83.1,
+        57.5
+      ],
+      "b": [
+        82.9,
+        58.2
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "OV5_IN",
+      "a": [
+        82.5,
+        58.3
+      ],
+      "b": [
+        82.8,
+        58.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV5_IN",
+      "a": [
+        70.35,
+        49.77
+      ],
+      "b": [
+        69.45,
+        48.18
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "F.Cu",
+      "net": "UV5_IN",
+      "a": [
+        85.5,
+        58.3
+      ],
+      "b": [
+        84.9,
+        58.3
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "via",
+      "net": "UV5_IN",
+      "at": [
+        84.9,
+        58.3
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "via",
+      "net": "UV5_IN",
+      "at": [
+        70.35,
+        49.77
+      ],
+      "d": 0.8,
+      "drill": 0.3
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV5_IN",
+      "a": [
+        71.353,
+        50.768
+      ],
+      "b": [
+        70.35,
+        49.77
+      ],
+      "w": 0.2
+    },
+    {
+      "kind": "segment",
+      "layer": "In2.Cu",
+      "net": "UV5_IN",
+      "a": [
+        84.9,
+        58.3
+      ],
+      "b": [
+        71.353,
+        50.768
+      ],
+      "w": 0.2
+    }
+  ],
+  "existing_footprints_identical": 284,
+  "other_net_copper_identical": 4173,
+  "fill_margin_mm": 2.0,
+  "fill_vertices_changed_inside_region": {}
+}

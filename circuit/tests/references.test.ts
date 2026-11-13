@@ -37,7 +37,7 @@ before(async () => {
 
 describe("reviewed document shortcuts", () => {
   it("partitions every reviewed record into a curated document or explicit exception", () => {
-    assert.equal(CIRCUIT_SELECTION.documentSelections.length, 128);
+    assert.equal(CIRCUIT_SELECTION.documentSelections.length, 129);
     assert.equal(CIRCUIT_SELECTION.documentExceptions.length, 1);
     assert.equal(model.records.length, CIRCUIT_SELECTION.expect.records);
     const curated = new Set(CIRCUIT_SELECTION.documentSelections.map((entry) => entry.recordId));
@@ -251,7 +251,7 @@ describe("KiCad preview manifest", () => {
     // The reviewed package count lives in
     // `selection.ts` next to the record list it is derived from, so promoting
     // a candidate cannot change one without the other being looked at.
-    assert.equal(CIRCUIT_SELECTION.expect.packages, 47);
+    assert.equal(CIRCUIT_SELECTION.expect.packages, 48);
     assert.equal(references.packages.length, CIRCUIT_SELECTION.expect.packages);
   });
 

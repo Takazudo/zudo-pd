@@ -1219,6 +1219,18 @@
       "reviewed_wrl_sha256": "88258e1191be4ca7cb7311ddf79432d7a4cea57dc35177dbe0ddcf4dc0a8d18f",
       "original_step_sha256": "f5ff5bfb4466a59084997bf315f414fcf993d15111f8b74f8a6305115efd4573",
       "review_status": "2026-11-09 independent parent source/geometry review: HCN primary dimensions and exact MPN row inspected; STEP Cartesian extrema and WRL vertex bounds independently match 3.5 x 1.8 x 1.8 mm, seating Z=0. No translation. Fresh full datum surface screen and assembled clearance remain required; derived box, not manufacturer CAD or physical fit. 2026-11-10 publication correction: generator-produced source-description comment omits the withheld PDF SHA; exact non-comment bytes and original STEP are unchanged. See circuit/cad-receipts/c5451690-publication-comment-20261110.json. Fresh datum and assembly execution still required for the new source hash."
+    },
+    {
+      "wrl": "R0402.wrl",
+      "uses_at_review": [
+        "board-b20-draft/R77",
+        "board-b20-draft/R78",
+        "board-b20-draft/R79",
+        "board-b20-draft/R80"
+      ],
+      "reviewed_wrl_sha256": "ced0a40a718711c2ae16482a4f46a9eb6a0a33ecf9f9d8c2e18c160fa951a420",
+      "original_step_sha256": "134d58dd68899b29f9e19def208de6690d06010e01c304866fbd4d81c8640aa6",
+      "review_status": "PENDING independent review: added 2026-11-13 for the D12 series resistors R77-R80 (0402 C25741) on board-b20-draft. The existing R0402 WRL/STEP pair is used unchanged; no translation is prescribed. The surface screen result is in footprints/kicad/step-datum-verification.json. Visualization only; not physical fit."
     }
   ]
 }

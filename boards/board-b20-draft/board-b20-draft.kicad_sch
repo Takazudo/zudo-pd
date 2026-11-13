@@ -7139,6 +7139,160 @@
 		      )
 		    )
 		  )
+		(symbol "zudo-pd:0402WGF1003TCE"
+				(exclude_from_sim no)
+				(in_bom yes)
+				(on_board yes)
+				(in_pos_files yes)
+				(duplicate_pin_numbers_are_jumpers no)
+				(property "Reference" "R"
+					(at 0 5.08 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Value" "0402WGF1003TCE"
+					(at 0 -5.08 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Footprint" "easyeda2kicad:R0402"
+					(at 0 -7.62 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Datasheet" "https://www.lcsc.com/product-detail/C25741.html"
+					(at 0 -10.16 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Description" "100KΩ (1003) ±1%"
+					(at 0 0 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "Manufacturer" "UNI-ROYAL(厚声)"
+					(at 0 -12.7 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "MPN" "0402WGF1003TCE"
+					(at 0 -15.24 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "LCSC Part" "C25741"
+					(at 0 -17.78 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(property "ki_keywords" "Resistors"
+					(at 0 0 0)
+					(show_name no)
+					(do_not_autoplace no)
+					(hide yes)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(symbol "0402WGF1003TCE_0_1"
+					(rectangle
+						(start -2.54 1.02)
+						(end 2.54 -1.02)
+						(stroke
+							(width 0)
+							(type default)
+						)
+						(fill
+							(type background)
+						)
+					)
+					(pin passive line
+						(at -5.08 0 0)
+						(length 2.54)
+						(name "1"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+						(number "1"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+					)
+					(pin passive line
+						(at 5.08 0 180)
+						(length 2.54)
+						(name "2"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+						(number "2"
+							(effects
+								(font
+									(size 1.27 1.27)
+								)
+							)
+						)
+					)
+				)
+				(embedded_fonts no)
+			)
 		(symbol "zudo-pd:PWR_FLAG"
 				(power global)
 				(pin_numbers
@@ -23566,6 +23720,234 @@
 		)
 	)
 	(symbol
+		(lib_id "zudo-pd:0402WGF1003TCE")
+		(at 533.4 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3fa3442a-8056-5cda-9eb7-c47c41e38814")
+		(property "Reference" "R77"
+			(at 533.4 386.08 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "100k"
+			(at 533.4 396.24 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:R0402"
+			(at 533.4 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 533.4 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25741"
+			(at 533.4 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a72de7a9-c70b-532e-81f1-74682bab2394")
+		)
+		(pin "2"
+			(uuid "9dea5380-6c3c-58f9-b216-647ed6ac8ee6")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "R77")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:0402WGF1003TCE")
+		(at 584.2 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9810c1f7-5f3b-549f-9ef3-e0f30d653b78")
+		(property "Reference" "R78"
+			(at 584.2 386.08 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "100k"
+			(at 584.2 396.24 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:R0402"
+			(at 584.2 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 584.2 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25741"
+			(at 584.2 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6c15e680-fe2f-55d3-82d8-fcff94b1904d")
+		)
+		(pin "2"
+			(uuid "f93d7933-dfcd-57b6-8dc5-13990802d732")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "R78")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:0402WGF1003TCE")
+		(at 635 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "43269655-0b9a-59e9-a5ce-7bf8040c4c1d")
+		(property "Reference" "R79"
+			(at 635 386.08 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "100k"
+			(at 635 396.24 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:R0402"
+			(at 635 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 635 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25741"
+			(at 635 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c680f0e9-5445-5431-9585-149a5d9b13f8")
+		)
+		(pin "2"
+			(uuid "2fa68d92-75f2-5d8c-8d1a-cf6f2b7f0239")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "R79")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "zudo-pd:0402WGF1003TCE")
+		(at 685.8 391.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0ee695f-731c-5426-ad2a-1b40d679bf97")
+		(property "Reference" "R80"
+			(at 685.8 386.08 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Value" "100k"
+			(at 685.8 396.24 0)
+			(effects
+				(font (size 1.27 1.27))
+			)
+		)
+		(property "Footprint" "zudo-pd:R0402"
+			(at 685.8 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 685.8 391.16 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25741"
+			(at 685.8 398.78 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ed88b27e-ce61-5a2f-b1b5-5e3e14f376bc")
+		)
+		(pin "2"
+			(uuid "87a273d5-250c-5eb0-aba4-d581dd76443b")
+		)
+		(instances
+			(project "board-b20-draft"
+				(path "/ebdc04b8-a5cc-5f1a-b351-a66b514f754d"
+					(reference "R80")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
         (lib_id "zudo-pd:PWR_FLAG") (at 25.4 800.1 0) (unit 1)
         (exclude_from_sim no) (in_bom no) (on_board no) (dnp no)
         (uuid "24142d99-ca00-5d06-9649-a531fc0a2c01")
@@ -29618,12 +30000,12 @@
 	)
 	(global_label "OV12_DIV"
 		(shape passive)
-		(at 66.04 295.91 180)
+		(at 528.32 391.16 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "cd24ed28-5204-5251-b855-1b86eb96a219")
+		(uuid "888f92c6-3170-5d33-bd4f-a53b305e32f3")
 	)
 	(global_label "UV12_DIV"
 		(shape passive)
@@ -29645,12 +30027,30 @@
 	)
 	(global_label "UV12_DIV"
 		(shape passive)
-		(at 66.04 303.53 180)
+		(at 579.12 391.16 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "7e096f52-c419-531a-b6a9-f9bb2a09d2b9")
+		(uuid "a91a9a89-73b8-51db-b9b7-01ed605d9c80")
+	)
+	(global_label "OV12_IN"
+		(shape passive)
+		(at 66.04 295.91 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "c9cb7bbc-8d01-5ca0-85c4-7c502e0d0ee3")
+	)
+	(global_label "OV12_IN"
+		(shape passive)
+		(at 538.48 391.16 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "eea2397c-25af-5074-8496-4ab3282a2131")
 	)
 	(global_label "OV12_CMP"
 		(shape passive)
@@ -29669,6 +30069,24 @@
 			(justify right)
 		)
 		(uuid "5e659c3a-9abe-5cb3-bf30-9436762dcd04")
+	)
+	(global_label "UV12_IN"
+		(shape passive)
+		(at 66.04 303.53 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "be0c4c74-6d65-59ee-a716-07aa65a36514")
+	)
+	(global_label "UV12_IN"
+		(shape passive)
+		(at 589.28 391.16 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "01e41414-d9b3-5bf7-9a70-e3eca96b142f")
 	)
 	(global_label "UV12_CMP"
 		(shape passive)
@@ -29708,12 +30126,12 @@
 	)
 	(global_label "OV5_DIV"
 		(shape passive)
-		(at 370.84 295.91 180)
+		(at 629.92 391.16 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "f84778e4-28d9-53e5-955f-56fb67f7d61f")
+		(uuid "b4c2e31a-df7b-548d-ae03-ce86b11aff7f")
 	)
 	(global_label "UV5_DIV"
 		(shape passive)
@@ -29735,12 +30153,30 @@
 	)
 	(global_label "UV5_DIV"
 		(shape passive)
-		(at 370.84 303.53 180)
+		(at 680.72 391.16 180)
 		(effects
 			(font (size 1.27 1.27))
 			(justify right)
 		)
-		(uuid "9acb8586-4f6e-5da8-9861-f9b2ab04e15f")
+		(uuid "4e8aa842-e1ef-535b-ad72-a7300b2da839")
+	)
+	(global_label "OV5_IN"
+		(shape passive)
+		(at 370.84 295.91 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "9db5578c-cf16-511e-a49a-85eeb19c31e3")
+	)
+	(global_label "OV5_IN"
+		(shape passive)
+		(at 640.08 391.16 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "ecaea9f4-a173-576a-b0b7-b804f6ea9fd0")
 	)
 	(global_label "OV5_CMP"
 		(shape passive)
@@ -29759,6 +30195,24 @@
 			(justify right)
 		)
 		(uuid "593f9752-39cf-50b9-b5b2-60905721d4dd")
+	)
+	(global_label "UV5_IN"
+		(shape passive)
+		(at 370.84 303.53 180)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right)
+		)
+		(uuid "5edafc83-8b30-57e8-aefa-c0428818cfb5")
+	)
+	(global_label "UV5_IN"
+		(shape passive)
+		(at 690.88 391.16 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left)
+		)
+		(uuid "e125a284-c448-5de1-876d-06dba3f3b5b1")
 	)
 	(global_label "UV5_CMP"
 		(shape passive)
