@@ -19,7 +19,7 @@ class DiagnosticsTests(unittest.TestCase):
         cls.calc = diag.calculator()
 
     def test_zero_load_rc_matches_closed_form(self):
-        r, c, v0 = self.calc.DISCHARGE_R['+12'], self.calc.C_LOAD_MAX['+12'], 12.48
+        r, c, v0 = diag.PRE_D2_DISCHARGE_R['+12'], self.calc.C_LOAD_MAX['+12'], 12.48
         tau = r * c
         self.assertAlmostEqual(diag.rc_voltage(v0, r, c, tau), v0 / math.e, places=12)
         self.assertAlmostEqual(diag.rc_voltage(v0, r, c, 0.0), v0, places=12)
@@ -99,9 +99,9 @@ class DiagnosticsTests(unittest.TestCase):
 
     def test_discharge_resistors_are_bound_to_the_schematic(self):
         values = diag.schematic_values()
-        self.assertEqual(diag.discharge_resistors(self.calc, values), {'+12': 100.0, '+5': 33.0, '-12': 150.0})
-        with self.assertRaisesRegex(ValueError, 'R76 is 120.0 ohm'):
-            diag.discharge_resistors(self.calc, {**values, 'R76': '120 1% 1206'})
+        self.assertEqual(diag.discharge_resistors(self.calc, values), {'+12': 0.5, '+5': 0.5, '-12': 1.5})
+        with self.assertRaisesRegex(ValueError, r'R76\+RXN2\+RXN3 is 1.6 ohm'):
+            diag.discharge_resistors(self.calc, {**values, 'R76': '0.6 1% 2512'})
         with self.assertRaisesRegex(ValueError, 'RX5 not found'):
             diag.discharge_resistors(self.calc, {k: v for k, v in values.items() if k != 'RX5'})
 

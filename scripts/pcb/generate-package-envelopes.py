@@ -45,6 +45,8 @@ ENVELOPES = [
      'YAGEO PE1206FRF470R02L sheet: L 3.2 +/-0.25, W 1.6 +/-0.25, T 0.64 +/-0.25 mm (it also covers the UNI-ROYAL 1206 3.10 +/-0.15 x 1.55 +0.15 x 0.55 +/-0.10 mm body)'),
     ('R2512_PCSR2512_MaxEnvelope_L6.6-W3.4-H0.9', (6.6, 3.4, 0.9),
      'RESI PCSR2512 sheet V8 (distributor-hosted copy, UNSOURCED): L 6.4 +/-0.2, W 3.2 +/-0.2, T 0.8 +/-0.1 mm'),
+    ('R2512_WSL_MaxEnvelope_L6.61-W3.44-H0.89', (6.61, 3.44, 0.89),
+     'Vishay WSL doc 30100 (23-Nov-2023) WSL2512 0.007-0.5 ohm row: L 0.250 +/-0.010 in, W 0.125 +/-0.010 in, H 0.025 +/-0.010 in'),
     ('C1206_HCN_C5451690_MaxEnvelope_L3.5-W1.8-H1.8', (3.5, 1.8, 1.8),
      'Holy Stone HCN catalog (source identity retained in the CAD evidence receipt): PDF page3 1206 L3.20+/-0.30 W1.60+/-0.20 Tmax1.80; PDF page6 exact C1206N473J050T thickness E1.6+/-0.2 mm'),
     ('SMC_MaxEnvelope_L8.13-W6.22-H2.5', (8.13, 6.22, 2.5),

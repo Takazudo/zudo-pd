@@ -50,7 +50,9 @@ the independent review of bad5ddf):
 - Discharge hold-up (review finding 8): CDH (10 uF) charges from the enabled-high node
   EN_E through the Q57 body diode and RDH. When EN_E falls (disable, fault or loss of
   P5_SUP), Q56 and Q54 turn on from CDH alone and drive the discharge switches for about
-  0.5-1.4 s; nothing recharges CDH until the next enable.
+  0.5-1.4 s; nothing recharges CDH until the next enable. Readiness D2 (2026-11-14 JST) makes this a fast
+  discharge: CSD18543Q3A switches into WSL2512R5000FEA 0.5 ohm loads (three in series on -12 V), with a discrete
+  sequencer that holds the -12 V switch off while +12 V is present (hold-up window now about 0.1-0.23 s).
 Phase 19: the five former *_DRAFT footprints are drawn (TI DDA0008B, DGK0008A and D0008A example
 layouts, the TA-I RLS12 1206 pad row and the RESI PCSR2512 Kelvin land; none fabrication-reviewed).
 Placement has started in boards/board-b20-draft/board-b20-draft.kicad_pcb (unrouted draft).
@@ -83,6 +85,10 @@ P = {
     'BSS': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED'),
     'PFET': ('DMP3036SFG-7', 'DMP3036SFG-7', 'C461081', 'zudo-pd:PowerDI3333-8_DMP3036SFG'),
     'Z11': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD'),
+    # readiness D2 (owner decision 2026-11-14 JST): sequencer reference zener and the fast-discharge loads
+    'Z3V9': ('BZT52C3V9-7-F_C154917', 'BZT52C3V9-7-F', 'C154917', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD'),
+    'WSL': ('WSL2512R5000FEA', '0.5 1% 2512', 'C511023', 'zudo-pd:R2512_Vishay-WSL'),
+    'C22N': ('CL21B223KBANNNC', '22nF', 'C1729', 'zudo-pd:C0805'),
     'C10U50': ('GRM32ER71H106KA12L', '10uF 50V X7R', 'C77102', 'zudo-pd:C1210'),
     'C47P': ('25SVPF47M', '47uF 25V polymer', 'C136280', 'zudo-pd:CAP-SMD_BD6.3-L6.6-W6.6-FD'),
     'C100U': ('RVT1H101M0810', '100uF 50V', 'C970687', 'zudo-pd:CAP-SMD_BD8.0-L8.3-W8.3-LS9.0-FD'),
@@ -147,7 +153,6 @@ EXACT = {
     '10.2k 0.1%': ('RT0603BRD0710K2L', 'C515735'),
     '10.4k 0.1%': ('RT0603BRD0710K4L', 'C861076'),
     '10.7k 0.1%': ('RT0603BRD0710K7L', 'C861078'),
-    '100 1% 1206': ('1206W4F1000T5E', 'C17901'),
     '100k 0.1%': ('RT0603BRD07100KL', 'C122538'),
     '102k 0.1%': ('RT0603BRD07102KL', 'C861068'),
     '10M 1%': ('0603WAF1005T5E', 'C7250'),
@@ -157,7 +162,6 @@ EXACT = {
     '118k 0.1%': ('RT0603BRD07118KL', 'C861086'),
     '12k 0.1%': ('RT0603BRD0712KL', 'C326735'),
     '145k 0.1%': ('AT0603BRD07145KL', 'C5455461'),
-    '150 1% 1206': ('1206W4F1500T5E', 'C17917'),
     '150pF C0G': ('CL10C151JB8NNNC', 'C37298'),
     '15k 0.1%': ('RT0603BRD0715KL', 'C326733'),
     '172k 0.1%': ('RT0603BRD07172KL', 'C861162'),
@@ -174,7 +178,6 @@ EXACT = {
     '27nF C0G': ('GRM2165C1H273JA01D', 'C3882413', 'zudo-pd:C0805'),
     '30.1k 0.1%': ('RT0603BRD0730K1L', 'C705764'),
     '301k 0.1%': ('RT0603BRD07301KL', 'C861309'),
-    '33 1% 1206': ('1206W4F330JT5E', 'C18005'),
     '39k 1%': ('0603WAF3902T5E', 'C23153'),
     '4.7M 1%': ('0603WAF4704T5E', 'C23163'),
     '46.4k 0.1%': ('RT0603BRD0746K4L', 'C861420'),
@@ -565,20 +568,24 @@ nfet('Q50', 'PDOK', 'ARM_GND', 'FAULT_N')
 # ---------------------------------------------------------------- discharge with hold-up
 # CDH charges from EN_E through the Q57 body diode (gate and source on EN_E) and RDH only
 # while enabled; when EN_E falls, Q56 / Q54 turn on from CDH alone.
+# Readiness D2 (owner decisions 2026-11-14 JST): disconnect first, then a fast discharge of 0.5 / 1.5 / 0.5 ohm through
+# CSD18543Q3A switches, with the -12 V switch held off by the sequencer (appended at the end) while +12 V is present
+# and |-12 V| is below its hold level. Values as simulated in manufacturing/sim/board-b20-phase33/d2-sequencer-circuit-
+# 20261114.md, except R62 47.5k for 47k and CDGN 47 nF + 22 nF for 68 nF (owned parts).
 nfet('Q57', 'EN_E', 'EN_E', 'DH_X')
 two('RDH', 'R56K', 'DH_X', 'DIS_C')
 two('CDH', 'C10U1206', 'DIS_C', 'GND')
 pfet('Q56', 'DIS_C', 'EN_E', 'DIS_P')
 two('R60', 'R100K', 'DIS_P', 'GND')
-nfet('Q51', 'DIS_P', 'GND', 'P12_DX')
-rprop('RX12', '100 1% 1206', 'P12_DX', 'P12_OUT', fp='zudo-pd:R1206_TA-I-RLS12')
-nfet('Q52', 'DIS_P', 'GND', 'P5_DX')
-rprop('RX5', '33 1% 1206', 'P5_DX', 'P5_OUT', fp='zudo-pd:R1206_TA-I-RLS12')
+power_nfet('Q51', 'GND', 'P12_DG', 'P12_DX')
+two('RX12', 'WSL', 'P12_DX', 'P12_OUT')
+power_nfet('Q52', 'GND', 'P5_DG', 'P5_DX')
+two('RX5', 'WSL', 'P5_DX', 'P5_OUT')
 pfet('Q54', 'DIS_C', 'EN_E', 'M12_DGX')
-rprop('R61', '470k 1%', 'M12_DGX', 'M12_DG')
-rprop('R62', '1M 1%', 'M12_DG', 'M12_OUT')
-nfet('Q55', 'M12_DG', 'M12_OUT', 'M12_DX')
-rprop('RXN', '150 1% 1206', 'GND', 'M12_DX', fp='zudo-pd:R1206_TA-I-RLS12')
+two('R61', 'R4K7', 'M12_DGX', 'M12_DG')
+rprop('R62', '47.5k 0.1%', 'M12_DG', 'M12_OUT')
+power_nfet('Q55', 'M12_OUT', 'M12_DG', 'M12_DX')
+two('RXN', 'WSL', 'GND', 'M12_DXA')
 
 # top-edge probe row: Board B's pin order with no ATT on B20 (P1.1 and P1.4 open); P1.3 is the shared probe ground
 part('P1', 'POGO4', ('1', None), ('2', 'PDOK'), ('3', 'GND'), ('4', None))
@@ -596,6 +603,33 @@ two('CU3D', 'C100N', 'M12_RAW', 'VIN')
 for rail in ('12', '5'):
     two(f'RS{rail}O', 'R100K0402', f'OV{rail}_DIV', f'OV{rail}_IN')
     two(f'RS{rail}U', 'R100K0402', f'UV{rail}_DIV', f'UV{rail}_IN')
+
+# Readiness D2 (owner decision 2026-11-14 JST), placed last so earlier annotation is kept: the rest of the fast
+# discharge (firing RC networks, the -12 V load as three 0.5 ohm parts in series, the -12 V gate capacitance and
+# clamp) and the discrete -12 V sequencer of manufacturing/sim/board-b20-phase33/d2-sequencer-design.md. The
+# sequencer's supply is DIS_P, which is live only after a disable, as in the simulated deck.
+two('RXN2', 'WSL', 'M12_DXA', 'M12_DXB')
+two('RXN3', 'WSL', 'M12_DXB', 'M12_DX')
+rprop('RDG12', '10k 1%', 'DIS_P', 'P12_DG')
+two('CDG12', 'C22N', 'P12_DG', 'GND')
+rprop('RDG5', '10k 1%', 'DIS_P', 'P5_DG')
+two('CDG5', 'C22N', 'P5_DG', 'GND')
+cprop('CDGNA', '47nF C0G', 'M12_DG', 'M12_OUT')
+two('CDGNB', 'C22N', 'M12_DG', 'M12_OUT')
+zener('DZN', 'M12_DG', 'M12_OUT')
+# QR: on while +12 V is above its VGS(th), which pulls SEQ_EN_N low and lets QP feed the clamp gate SEQ_G.
+rprop('RSQG', '10k 1%', 'P12_OUT', 'SEQ_RG')
+rprop('RSQGD', '1M 1%', 'SEQ_RG', 'GND')
+nfet('QSR', 'SEQ_RG', 'GND', 'SEQ_EN_N')
+two('RSQ1', 'R100K', 'DIS_P', 'SEQ_EN_N')
+pfet('QSP', 'DIS_P', 'SEQ_EN_N', 'SEQ_PD')
+two('RSQ2', 'R100K', 'SEQ_PD', 'SEQ_G')
+two('RSQ3', 'R100K', 'SEQ_G', 'M12_OUT')
+# QH clamps the -12 V switch gate to its source; QN releases it once |-12 V| exceeds VZ + VGS(th) of QN.
+nfet('QSH', 'SEQ_G', 'M12_OUT', 'M12_DG')
+part('DZS', 'Z3V9', ('1', 'GND'), ('2', 'SEQ_Z'))
+two('RSQ4', 'R4K7', 'SEQ_Z', 'M12_OUT')
+nfet('QSN', 'SEQ_Z', 'M12_OUT', 'SEQ_G')
 
 
 # VIN arrives from Board P through J5 and GND is the system return; these flags declare the

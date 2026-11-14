@@ -45,7 +45,7 @@ flowchart LR
   SH1 --> FLT
   SH2 --> FLT
   SH3 --> FLT
-  FLT --> EN[EN_N: gates pulled off, RAMP reset] --> DIS[hold-up discharge 100/150/33 Ohm]
+  FLT --> EN[EN_N: gates pulled off, RAMP reset] --> DIS[hold-up discharge 0.5/1.5/0.5 Ohm, -12 V sequenced]
 ```
 
 - **Converters.** Three TPS54560DDAR run from VIN at about 557 kHz (RT 174 kΩ, T). U3 is an
@@ -87,6 +87,13 @@ flowchart LR
 - **Shutdown and discharge.** EN_N high pulls all three gates off (the −12 V gate through the Q24/Q25
   level shifter) and resets RAMP. CDH (10 µF) is charged from EN_E only while enabled. When EN_E falls,
   Q56/Q54 drive the discharge switches from CDH alone for 0.48–1.33 s.
+  Readiness D2 (owner decisions 2026-11-14 JST, `dec-b20-d2-sequenced-fast-discharge`) replaced the drawn
+  discharge: Q51/Q52/Q55 are CSD18543Q3A switching WSL2512R5000FEA 0.5 Ω loads (RX12, RX5, and R76 + RXN2 + RXN3
+  in series for −12 V); +12/+5 fire from DIS_P through 10k / 22 nF, −12 V through R61 4.7k / R62 47.5k with
+  47 nF + 22 nF and the D4 11 V clamp. A discrete sequencer (Q7/Q8/Q9/Q13, D5 BZT52C3V9-7-F, RSQ1–RSQ4, R81/R82),
+  supplied from DIS_P, holds the −12 V switch off while +12 V is present and |−12 V| is below VZ + VGS(th). That
+  network is PASS (SIM) in 972 corner decks ([record](sim/board-b20-phase33/d2-sequencer-circuit-20261114.md));
+  the calculator's zero-load hold-up window is now 0.098–0.231 s. The PCB still carries the earlier parts.
 
 ## 3. Parts
 
@@ -114,7 +121,7 @@ outline maxima, `scripts/pcb/generate-package-envelopes.py`; visualization only)
 | `HSOP-8_TI-DDA0008B` (`HSOP-8_TPS54560DDA_DRAFT`) | 3: U1–U3 | TI DDA0008B example board layout 4214849/B (SLVSBN0C p. 49): 8 × 1.55 × 0.6 mm, 1.27 pitch, 5.4 span; thermal metal 2.95 × 4.9 mm with a 2.71 × 3.4 mm mask-defined opening; 2 × 4 vias on the 1.3 mm grid, drilled 0.3 mm (0.6 mm pad) for the Board B 0.3 mm minimum hole instead of the drawing's 0.2 mm | primary manufacturer drawing |
 | `VSSOP-8_TI-DGK0008A` (`VSSOP-8_DGK_DRAFT`) | 11: U4–U9, U13, U15, U16, U11, U12 | TI DGK0008A 4214862/A (SBOS807E p. 40; SBOS713A p. 28 is text-identical): 8 × 1.4 × 0.45 mm, 0.65 pitch, 4.4 span | primary manufacturer drawing |
 | `SOIC-8_TI-D0008A` (`SOIC-8_D_DRAFT`) | 1: U10 | TI D0008A 4214825/C (SBOS410O p. 47): 8 × 1.55 × 0.6 mm, 1.27 pitch, 5.4 span | primary manufacturer drawing |
-| `R1206_TA-I-RLS12` (`R1206_DRAFT`) | 4: RSH2, RX12, RX5, RXN | TA-I TRLS-XXOS002B §6, RLS12 5–30 mΩ row: 2 × 1.55 × 1.8 mm, 1.6 mm gap | **UNSOURCED** (distributor mirror; no TA-I-hosted copy found). A project basis for the PE1206 shunt, whose YAGEO sheet has no land, and for the PROPOSED 1206 loads |
+| `R1206_TA-I-RLS12` (`R1206_DRAFT`) | 1: RSH2 (RX12, RX5, RXN moved to `R2512_Vishay-WSL` in readiness D2) | TA-I TRLS-XXOS002B §6, RLS12 5–30 mΩ row: 2 × 1.55 × 1.8 mm, 1.6 mm gap | **UNSOURCED** (distributor mirror; no TA-I-hosted copy found). A project basis for the PE1206 shunt, whose YAGEO sheet has no land, and for the PROPOSED 1206 loads |
 | `R2512_RESI-PCSR2512_Kelvin` (`R2512_DRAFT`) | 2: RSH1, RSH3 | RESI PCSR2512 sheet PCSR2512-E16009-V8, land pattern figure: current pads 1.65 × 2.0 mm with a 4.0 mm gap, sense pads 1.4 × 1.2 mm 0.5 mm away, point-symmetric; each terminal's two pads share its number | **UNSOURCED** (DigiKey-hosted copy). New candidate record `rec-c23067428` |
 
 The RLS12 and PCSR2512 sheets were looked for on the manufacturers' own sites; neither exposes a direct
@@ -989,7 +996,7 @@ phase 12 behavioural elements (PA): the BSS138 switches, the body diodes and the
 | Discharge time ≤ 100 ms (§3) | **PASS at zero load** | 57.9 / 81.7 / 8.6 ms at ceiling capacitance; the hold-up drives the switches for 0.48–1.33 s |
 | Discharge order at zero load (§3) | **PASS** | +5 V at 0.8 V after 7.4 ms; +12 V absent at 57.9 ms; −12 V at 81.7 ms with \|−12\| = 1.45 V (≤ 6 V). C+/C− window 0.337–1.411 |
 | Discharge order under load (§3) | **OPEN** | After disconnect each rail falls at I/C into its own load (2.0 A on 180 µF is 11 V/ms). An asymmetric OSC load reorders the rails. Guaranteeing the order needs a tracked ramp-down (RAMP falling while the pairs stay in tracking): a contract change, proposed but not drawn |
-| Discharge resistor pulse rating | **OPEN** | The PROPOSED 1206 loads have no owner record or pulse curve |
+| Discharge resistor pulse rating | **OPEN** | The PROPOSED 1206 loads have no owner record or pulse curve. Since readiness D2 the loads are WSL2512R5000FEA C511023, whose datasheet gives pulse capability only through an online calculator, so the single-event energy (about 14 mJ per rail at the ceiling bank) stays UNSOURCED against a rating |
 | Disconnect skew ≤ 1 ms (§3) | **PASS (SIM)** | Run `disR`: source current below 10 mA at 21.4 / 20.0 / 24.0 µs after EN_N; skew 4 µs. Gate below 1 V at 15.9 / 16.5 µs |
 | Monotonic common ramp ≥ 10 ms, slope limits (§5) | **PASS (SIM) at the I_TRANSIENT_MIN load; no load: accepted by OSC (+5 V ≤ 0.95 V/ms below 0.45 V; −12 V ≤ 1.47 V/ms below 0.75 V, OSC `pd-interface-20v.md`), owner exception recorded 2026-11-03 (user decision card `cmsg_01Pv35emdXEU6gCRF3teSpo2GzmXCn8kfxsnNg5p6WdFzN`)** | Arithmetic: 0.754 / 0.314 / 0.762 V/ms unclamped and 0.845 / 0.425 / 0.834 V/ms clamped, PASS. Phase 10 (§5d, CRMD 470 nF): 0.322 / 0.134 / 0.322 V/ms in all four completed loaded runs. At no load +5 V reaches 0.85–0.90 V/ms (limit 0.51) and −12 V 1.21–1.47 V/ms (limit 1.22, `adv` fails). Phase 9 failed +5 V in every run |
 | Re-enable inside the RAMP reset window (§5, interrupted ramp) | **PASS (SIM, phase-12 interlock)** | Phase 12 (§5f): the minimum-off interlock holds every re-enable for 18.6–121 ms (arithmetic). All eight re-entry runs at the shortest hold pass every §5 row. Phase 11 (§5e), without the interlock, failed the slope rows at 6 ms off from steady state |

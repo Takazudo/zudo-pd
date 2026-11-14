@@ -192,18 +192,6 @@
       "status": "SHORTLISTED",
       "replaces_line_id": null,
       "rationale": "Phase 32 (2026-11-02): larger-package alternative to the B20 inverter catch diode SDT5A60SA-13 (SMA). Diodes datasheet retrieved and hashed; land does not fit the current B20 placement."
-    },
-    {
-      "candidate_id": "cand-bzt52c3v9-7-f-c154917",
-      "mpn": "BZT52C3V9-7-F",
-      "manufacturer": "Diodes Incorporated",
-      "lcsc": "C154917",
-      "package": "SOD-123",
-      "function": "Board B 20 V draft D2 discrete -12 V sequencer 3.9 V reference zener (SOD-123)",
-      "owner_skill": "component-board-b20-draft-candidates",
-      "status": "SHORTLISTED",
-      "replaces_line_id": null,
-      "rationale": "2026-11-14: owner chose a 3.9 V zener for the D2 discrete sequencer (H = VZ + VGS(th)); DS18004 VZ 3.7-4.1 V at 5 mA. Not placed."
     }
   ],
   "promoted_candidates": [
@@ -226,6 +214,11 @@
       "candidate_id": "cand-retired-c74561",
       "promoted_to_line_id": "line-c74561",
       "note": "Returned to inventory line-c74561 (15 V Board P D5, board_p15_spec.py) by dec-separate-products and dec-p15-reset-subset (phase 15, 2026-11-01). The 20 V Board P keeps TVS2200DRVR C523793. This tombstone keeps locked evidence refs to 'cand-retired-c74561' resolvable; the record lives on in component-renewal-input-protection as rec-c74561."
+    },
+    {
+      "candidate_id": "cand-bzt52c3v9-7-f-c154917",
+      "promoted_to_line_id": "line-c154917",
+      "note": "Promoted to inventory line-c154917 (board-b20-draft D5, the readiness D2 sequencer reference zener) on 2026-11-14 JST. This tombstone keeps refs to 'cand-bzt52c3v9-7-f-c154917' resolvable; the record lives on in component-board-b20-draft-candidates as rec-c154917."
     }
   ]
 }

@@ -82,9 +82,6 @@
     "rec-c164156",
     "rec-c1671",
     "rec-c17414",
-    "rec-c17901",
-    "rec-c17917",
-    "rec-c18005",
     "rec-c22935",
     "rec-c23067428",
     "rec-c23153",
@@ -129,7 +126,9 @@
     "rec-c861510",
     "rec-c861526",
     "rec-c861550",
-    "rec-c861616"
+    "rec-c861616",
+    "rec-c511023",
+    "rec-c154917"
   ],
   "sourceIds": [
     "src-c7529589-model-review",
@@ -332,12 +331,6 @@
     "src-c1671-identity",
     "src-c17414-uniroyal",
     "src-c17414-generator",
-    "src-c17901-primary",
-    "src-c17901-identity",
-    "src-c17917-primary",
-    "src-c17917-identity",
-    "src-c18005-primary",
-    "src-c18005-identity",
     "src-c22935-primary",
     "src-c22935-identity",
     "src-c23067428-primary",
@@ -437,7 +430,11 @@
     "src-c15849-dcbias-20261111",
     "src-c1848-specsheet",
     "src-c1848-dcbias-20261111",
-    "src-c1848-identity"
+    "src-c1848-identity",
+    "src-c511023-primary",
+    "src-c511023-identity",
+    "src-c154917-primary",
+    "src-c154917-identity"
   ],
   "linkableSourceIds": [
     "src-c8465-catalog",
@@ -623,12 +620,6 @@
     "src-c1671-primary",
     "src-c1671-identity",
     "src-c17414-uniroyal",
-    "src-c17901-primary",
-    "src-c17901-identity",
-    "src-c17917-primary",
-    "src-c17917-identity",
-    "src-c18005-primary",
-    "src-c18005-identity",
     "src-c22935-primary",
     "src-c22935-identity",
     "src-c23067428-primary",
@@ -727,7 +718,11 @@
     "src-c15849-dcbias-20261111",
     "src-c1848-specsheet",
     "src-c1848-dcbias-20261111",
-    "src-c1848-identity"
+    "src-c1848-identity",
+    "src-c511023-primary",
+    "src-c511023-identity",
+    "src-c154917-primary",
+    "src-c154917-identity"
   ],
   "documentSelections": [
     {
@@ -1136,21 +1131,6 @@
       "documentKind": "specification"
     },
     {
-      "recordId": "rec-c17901",
-      "sourceId": "src-c17901-primary",
-      "documentKind": "specification"
-    },
-    {
-      "recordId": "rec-c17917",
-      "sourceId": "src-c17917-primary",
-      "documentKind": "specification"
-    },
-    {
-      "recordId": "rec-c18005",
-      "sourceId": "src-c18005-primary",
-      "documentKind": "specification"
-    },
-    {
       "recordId": "rec-c22935",
       "sourceId": "src-c22935-primary",
       "documentKind": "specification"
@@ -1374,6 +1354,16 @@
       "recordId": "rec-c861616",
       "sourceId": "src-c861616-primary",
       "documentKind": "specification"
+    },
+    {
+      "recordId": "rec-c511023",
+      "sourceId": "src-c511023-primary",
+      "documentKind": "datasheet"
+    },
+    {
+      "recordId": "rec-c154917",
+      "sourceId": "src-c154917-primary",
+      "documentKind": "datasheet"
     }
   ],
   "documentExceptions": [
@@ -1383,10 +1373,10 @@
     }
   ],
   "expect": {
-    "records": 130,
-    "sources": 306,
+    "records": 129,
+    "sources": 304,
     "integrationRules": 11,
-    "packages": 48
+    "packages": 49
   },
   "schema_version": 1
 }

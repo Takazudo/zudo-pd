@@ -368,27 +368,6 @@
       "reviewed_by": "2026-11-02 PD worker phase 32: two-terminal passive, symbol pin = footprint pad; phase 33: bound to board-b20-draft with KiCad symbol RT0603BRD0710K7L on R0603"
     },
     {
-      "pin_map_id": "pinmap-c17901",
-      "record_id": "rec-c17901",
-      "symbol": "1206W4F1000T5E",
-      "footprint": "R1206_TA-I-RLS12",
-      "pins": [
-        {
-          "symbol_pin": "1",
-          "name": "1",
-          "footprint_pad": "1",
-          "function": "Resistor terminal 1"
-        },
-        {
-          "symbol_pin": "2",
-          "name": "2",
-          "footprint_pad": "2",
-          "function": "Resistor terminal 2"
-        }
-      ],
-      "reviewed_by": "2026-11-02 PD worker phase 32: two-terminal passive, symbol pin = footprint pad; phase 33: bound to board-b20-draft with KiCad symbol 1206W4F1000T5E on R1206_TA-I-RLS12"
-    },
-    {
       "pin_map_id": "pinmap-c122538",
       "record_id": "rec-c122538",
       "symbol": "RT0603BRD07100KL",
@@ -534,27 +513,6 @@
         }
       ],
       "reviewed_by": "2026-11-02 PD worker phase 32: two-terminal passive, symbol pin = footprint pad; phase 33: bound to board-b20-draft with KiCad symbol AT0603BRD07145KL on R0603"
-    },
-    {
-      "pin_map_id": "pinmap-c17917",
-      "record_id": "rec-c17917",
-      "symbol": "1206W4F1500T5E",
-      "footprint": "R1206_TA-I-RLS12",
-      "pins": [
-        {
-          "symbol_pin": "1",
-          "name": "1",
-          "footprint_pad": "1",
-          "function": "Resistor terminal 1"
-        },
-        {
-          "symbol_pin": "2",
-          "name": "2",
-          "footprint_pad": "2",
-          "function": "Resistor terminal 2"
-        }
-      ],
-      "reviewed_by": "2026-11-02 PD worker phase 32: two-terminal passive, symbol pin = footprint pad; phase 33: bound to board-b20-draft with KiCad symbol 1206W4F1500T5E on R1206_TA-I-RLS12"
     },
     {
       "pin_map_id": "pinmap-c37298",
@@ -849,27 +807,6 @@
         }
       ],
       "reviewed_by": "2026-11-02 PD worker phase 32: two-terminal passive, symbol pin = footprint pad; phase 33: bound to board-b20-draft with KiCad symbol RT0603BRD07301KL on R0603"
-    },
-    {
-      "pin_map_id": "pinmap-c18005",
-      "record_id": "rec-c18005",
-      "symbol": "1206W4F330JT5E",
-      "footprint": "R1206_TA-I-RLS12",
-      "pins": [
-        {
-          "symbol_pin": "1",
-          "name": "1",
-          "footprint_pad": "1",
-          "function": "Resistor terminal 1"
-        },
-        {
-          "symbol_pin": "2",
-          "name": "2",
-          "footprint_pad": "2",
-          "function": "Resistor terminal 2"
-        }
-      ],
-      "reviewed_by": "2026-11-02 PD worker phase 32: two-terminal passive, symbol pin = footprint pad; phase 33: bound to board-b20-draft with KiCad symbol 1206W4F330JT5E on R1206_TA-I-RLS12"
     },
     {
       "pin_map_id": "pinmap-c23153",
@@ -1315,23 +1252,44 @@
     {
       "pin_map_id": "pinmap-c154917",
       "record_id": "rec-c154917",
-      "symbol": "D (project zener symbol; candidate, not placed)",
-      "footprint": "SOD-123 land not assigned (candidate)",
+      "symbol": "BZT52C3V9-7-F_C154917",
+      "footprint": "SOD-123_L2.8-W1.8-LS3.7-RD",
       "pins": [
         {
           "symbol_pin": "1",
           "name": "K",
           "footprint_pad": "1",
-          "function": "cathode (band end); D2 sequencer: DZS to RSQ4 / QN gate"
+          "function": "cathode (band end); D2 sequencer: GND"
         },
         {
           "symbol_pin": "2",
           "name": "A",
           "footprint_pad": "2",
-          "function": "anode; D2 sequencer: GND"
+          "function": "anode; D2 sequencer: SEQ_Z (RSQ4 to M12_OUT, QN gate)"
         }
       ],
-      "reviewed_by": "2026-11-14 PD thread: polarity from DS18004 page 1 (cathode band); pad numbers follow the BZT52C11 SOD-123 convention and are confirmed when the land is assigned"
+      "reviewed_by": "2026-11-14 PD thread: polarity from DS18004 page 1 (cathode band); symbol cloned from BZT52C11-7-F_C92321 (K = pin 1, A = pin 2) on the same SOD-123 land; the earlier candidate map had the two net functions swapped"
+    },
+    {
+      "pin_map_id": "pinmap-c511023",
+      "record_id": "rec-c511023",
+      "symbol": "WSL2512R5000FEA",
+      "footprint": "R2512_Vishay-WSL",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "terminal 1"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "terminal 2"
+        }
+      ],
+      "reviewed_by": "2026-11-14 PD thread: two-terminal resistor; symbol cloned from PCSR2512BR010M6 (pins 1, 2) on the new R2512_Vishay-WSL land (pads 1, 2)"
     }
   ]
 }

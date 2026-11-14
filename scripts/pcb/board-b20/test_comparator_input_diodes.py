@@ -111,9 +111,10 @@ class FittedSeriesResistorTests(unittest.TestCase):
     def test_paper_options_are_kept(self):
         opts = {o['series_r_ohm']: o for o in RESULT['series_resistor_options']}
         self.assertEqual({k: o['threshold_status'] for k, o in opts.items()}, {10e3: 'PASS', 100e3: 'PASS', 1e6: 'FAIL'})
-        # Uniform 100k including U8 lifts -12 to the Q55 body-diode drop: the reason U8 stays unresistored.
-        self.assertEqual(opts[100e3]['disabled_terminal_v']['-12'], [0.302, 0.601])
-        self.assertGreater(opts[100e3]['disabled_terminal_v']['-12'][1], RESULT['absent_levels_v']['-12'])
+        # Uniform 100k including U8 lifts -12 to the Q55 body-diode drop, reaching the 0.6 V level: the reason U8 stays
+        # unresistored. Readiness D2 cut the drain resistance from 150 to 1.5 ohm (0.302-0.601 V at the D12 decision).
+        self.assertEqual(opts[100e3]['disabled_terminal_v']['-12'], [0.3, 0.6])
+        self.assertGreaterEqual(opts[100e3]['disabled_terminal_v']['-12'][1], RESULT['absent_levels_v']['-12'])
 
     def test_setpoint_budget_uses_full_range_row(self):
         ppm = RESULT['setpoint_budget_ppm']

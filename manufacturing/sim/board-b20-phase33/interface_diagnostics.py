@@ -33,8 +33,14 @@ EXECUTION = HERE / 'execution-20261110.json'
 D1_REFERENCE = HERE / 'd1-reference-20261111.json'
 D1_SERVO = HERE / 'd1-servo-20261111.json'
 FAILED_PEAKS = {'+5': 'nom', '-12': 'adv'}  # rail -> case holding the recorded failed condition
-# Annotated schematic reference of each discharge resistor (builder name RXN is renumbered)
-DISCHARGE_REFS = {'+12': 'RX12', '+5': 'RX5', '-12': 'R76'}
+# Annotated schematic references of each discharge load, in series (builder name RXN is renumbered); readiness D2 makes
+# the -12 V load three 0.5 ohm parts in series
+DISCHARGE_REFS = {'+12': ('RX12',), '+5': ('RX5',), '-12': ('R76', 'RXN2', 'RXN3')}
+# This 2026-11-11 record (and d2_load_corners.py) evaluates the discharge loads as drawn before readiness D2 replaced
+# them on 2026-11-14 (RX12 100, RX5 33 and RXN 150 ohm, Q55 driven through R61 470k / R62 1M). It stays a dated record
+# of that design; discharge_resistors() binds the current schematic to the calculator separately.
+PRE_D2_DISCHARGE_R = {'+12': 100.0, '+5': 33.0, '-12': 150.0}
+PRE_D2_DISCHARGE_REFS = {'+12': 'RX12', '+5': 'RX5', '-12': 'R76'}
 
 # Modeled subsystem -> annotated generated-schematic references (builder names such as RXN/CDH are renumbered) -> phase33 deck elements (empty = omitted).
 MODEL_SCOPE = [
@@ -97,12 +103,13 @@ def discharge_resistors(calc, values=None):
     """Discharge resistances from the generated schematic; refuse if the calculator constants have drifted."""
     values = schematic_values() if values is None else values
     resistors = {}
-    for rail, ref in DISCHARGE_REFS.items():
-        if ref not in values:
-            raise ValueError(f'discharge resistor {ref} not found in the schematic')
-        ohms = float(values[ref].split()[0])
+    for rail, refs in DISCHARGE_REFS.items():
+        missing = [ref for ref in refs if ref not in values]
+        if missing:
+            raise ValueError(f'discharge resistor {", ".join(missing)} not found in the schematic')
+        ohms = round(sum(float(values[ref].split()[0]) for ref in refs), 9)
         if ohms != calc.DISCHARGE_R[rail]:
-            raise ValueError(f'{ref} is {ohms} ohm in the schematic but {calc.DISCHARGE_R[rail]} ohm in the calculator')
+            raise ValueError(f'{"+".join(refs)} is {ohms} ohm in the schematic but {calc.DISCHARGE_R[rail]} ohm in the calculator')
         resistors[rail] = ohms
     return resistors
 
@@ -435,7 +442,7 @@ def rvee_violation(v12, vn, absent_v):
 
 def evaluate_discharge(calc, loads, absent_v, step_s=10e-6, stop_s=0.2, resistors=None):
     """Evaluate the voltage-form rows on per-rail closed-form decay after an ideal simultaneous disconnect."""
-    resistors = discharge_resistors(calc) if resistors is None else resistors
+    resistors = PRE_D2_DISCHARGE_R if resistors is None else resistors
     v0 = {r: calc.LOAD_BAND[r][1] for r in ('+12', '-12', '+5')}
     first = {'rvee': None, 'direct_hazard': None, 'screen': None}
     level_time = {}
@@ -473,7 +480,7 @@ def zero_load_absent_limit(calc, resistors, low=0.5, high=6.0, resolution=0.01):
 
 
 def discharge(calc):
-    resistors = discharge_resistors(calc)
+    resistors = PRE_D2_DISCHARGE_R
     # ASSUMPTION for illustration only: 'absent' = 0.5 V, the +12 V discharge level (CALCULATED A1), applied to both rails.
     absent = calc.DISCHARGE_LEVEL['+12']
     limit = zero_load_absent_limit(calc, resistors)
@@ -498,7 +505,7 @@ def discharge(calc):
                         "case stays OPEN.",
                         'OSC +/-12 V loads are largely rail-to-rail, which couples the rails; one-rail-to-AGND loads are '
                         'an illustrative assumption, not the OSC load.'],
-        'discharge_resistors_ohm': {f'{DISCHARGE_REFS[r]} ({r})': v for r, v in resistors.items()},
+        'discharge_resistors_ohm': {f'{PRE_D2_DISCHARGE_REFS[r]} ({r})': v for r, v in resistors.items()},
         'zero_load_rvee_absent_threshold_limit_v': limit,
         'cases': cases,
         'disconnect_overlap_current_bound_a': overlap,

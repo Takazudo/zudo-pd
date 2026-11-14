@@ -83,6 +83,12 @@ D1–D9 holds stay.
   envelope (worst 0.226 ms, 123 A, 0.092 A²s) fits it, so D3 is no longer a pre-order hold; a bench detection-to-off
   measurement and a cable re-run stay open
   ([E23 record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/e23-binding-20261114.md)).
+  On 2026-11-14 JST the owner adopted the D2 discharge into the B20 schematic (`dec-b20-d2-sequenced-fast-discharge`):
+  CSD18543Q3A switches into WSL2512R5000FEA C511023 0.5 Ω loads (three in series on −12 V) and the discrete −12 V
+  sequencer with BZT52C3V9-7-F C154917, as simulated PASS (SIM) in 972 corner decks
+  ([record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/d2-sequencer-circuit-20261114.md)).
+  KiCad 10.0.6 ERC reports 0 violations and the exported netlist matches the spec. The PCB is not updated, the WSL
+  pulse rating is UNSOURCED and nothing is measured, so D2 stays a pre-order hold.
 - **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker
   and Mac bridges) stay open, as do #228, #231, #235 and #279.
