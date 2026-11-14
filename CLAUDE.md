@@ -107,7 +107,7 @@ replay requires matching historical source hashes plus the original local-only f
 documentation changes. Separate development exports use new destinations and valid pairs. Preparing files is not
 an order or release. Received Board B's factory BOM matches S3 (`f25194f`) but fabrication identity, LED2 rotation,
 usable count and D1 remain incomplete; current development substitutions are not received S3.
-P15 per-unit physical programming/acceptance is NOT RUN; PD20 has intent JSON only, with TDISPAR0V value/reset interaction, POWER_ONLY_ABOVE_5V mapping and
+P15 per-unit physical programming/acceptance is NOT RUN; PD20 has intent JSON only (TDISPAR0V = 15; POWER_ONLY_ABOVE_5V at 0xE6 bit 3 per an official-GUI export pair), with TDISPAR0V reset interaction and
 established-contract downgrade behavior unresolved. TDISPAR0V position and initial lower-current source matching are documented. See current-state and per-stream verification owners.
 Ground-layout reports distinguish aggregate sampled copper width
 from the largest individual run; neither proves one continuous corridor or rated

@@ -40,7 +40,7 @@ Headroom calculations retain source/path voltage, temperature, ripple and cerami
 | Gate | Required evidence |
 | --- | --- |
 | Input design | Disposition and independent verification of the completed P r3 review findings, exact component evidence, inrush/SOA and transient bounds |
-| Configuration | TDISPAR0V value/reset timing decision, resolved POWER_ONLY_ABOVE_5V mapping conflict and established-contract downgrade behavior; reviewed program-ready binary before any T4 execution. Position 0xCA[7:4] and initial lower-current source matching are already documented |
+| Configuration | Bench T8 reset timing and established-contract downgrade behavior; reviewed program-ready binary before any T4 execution. TDISPAR0V = 15 at 0xCA[7:4], POWER_ONLY_ABOVE_5V at 0xE6 bit 3 (official-GUI export pair, 2026-11-14) and initial lower-current source matching are already documented |
 | B20 review | Disposition of original review, retained SMC hot-loop/EMI and limiter-maximum D3/U3 thermal limits; component/pulse/DC-bias gaps |
 | OSC pre-order interface | Complete actual startup/re-entry waveforms and model scope; 1.5 V analog threshold for the +5 V hold condition; adopted no-load exception ceilings; loaded asymmetric discharge and output disconnection before discharge; maximum delivered current including overshoot. A limiter trip threshold or windowed slew average is insufficient |
 | Model and design decisions | Disposition unresolved numerical/model excursions without inventing a tolerance or excess-current budget; any ramp-down before disconnection, component substitution, lower current ceiling or acceptance of unresolved thermal margins needs an explicit decision |

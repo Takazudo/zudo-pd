@@ -1,6 +1,6 @@
 {
- "_comment": "INTENT RECORD and PARTIAL desk bytes for the Board P r3 20 V / 5 A unit (dec PWR-D3 = D3-A, PWR-D5 = D5-1). Not an image to program: status BLOCKED. Never written to any part or read back.",
- "status": "BLOCKED (POWER_ONLY_ABOVE_5V position conflicts with the ST note; no reviewed image). TDISPAR0V = 15 is set (dec-pd20-tdispar0v-15)",
+ "_comment": "INTENT RECORD and PARTIAL desk bytes for the Board P r3 20 V / 5 A unit (dec PWR-D3 = D3-A, PWR-D5 = D5-1). Not an image to program: intent settled, no reviewed binary. Never written to any part or read back.",
+ "status": "INTENT SETTLED, NOT AN IMAGE TO PROGRAM (TDISPAR0V = 15, dec-pd20-tdispar0v-15; POWER_ONLY_ABOVE_5V position from the official GUI pair, dec-pd20-nvm-power-only-gui; no reviewed image; contract transitions stay bench T8)",
  "intent": {
   "SNK_PDO_NUMB": "2 (PDO1 5 V, PDO2 20 V)",
   "PDO2": "20.00 V, 5.00 A; needs a 5 A e-marked cable and a source offering 20 V / 5 A",
@@ -31,8 +31,10 @@
   },
   {
    "item": "POWER_ONLY_ABOVE_5V position",
-   "status": "CONFLICT",
-   "finding": "Set here and in the P15 image at 0xE6 = sector 4 byte 6 bit 3 (third-party map). The ST note lists 0xE6 [3:0] as RESERVED 0x0; the only other location statement is a non-ST user GUI diff (ST Community thread 32193, 2023-11-02). Needs an ST statement or a bench readback of a GUI-exported image."
+   "status": "RESOLVED BY OFFICIAL TOOL (not a readback)",
+   "finding": "Set here and in the P15 image at 0xE6 = sector 4 byte 6 bit 3. The ST note lists 0xE6 [3:0] as RESERVED 0x0, but ST's STSW-STUSB002 GUI 1.08 S, run offline by the owner on 2026-11-14 with only this setting changed, exports 0xE6 = 0x40 (off) and 0x48 (on) with every other byte identical, so the official tool uses bit 3.",
+   "source": "circuit-dev-resources st/stusb4500qtr/ export pair, sha256 195d2d6d... (on) and 5c8e5f91... (off); fact-stusb-nvm-power-only-gui-pair",
+   "residual": "The GUI offline defaults differ from the Rev 7 defaults kept here (GPIO_CFG, SHIFT_VBUS_LL2/3 and bytes 0xC2, 0xC8, 0xCA low nibble, 0xCC, 0xCE, 0xDC, 0xDE); those are not part of the pair and stay at Rev 7 defaults. A programmed-part readback is still bench work"
   }
  ],
  "partial_sectors_hex": [

@@ -180,6 +180,24 @@
       "printed_page_label": "13; 20; 29",
       "locator": "Section 3.4.2 VBUS discharge, page 13; start-up configuration page 20; electrical timing table page 29",
       "evidence_extract": "Direct canonical st.com download succeeded on 2026-11-09: application/pdf, valid PDF signature, 2007449 bytes, byte-identical to retained Rev 8 mirror. Section 3.4.2 applies TDISUSB0V to hard reset, detachment and error recovery; page 20 allows TDISPAR0V 1-15; page 29 gives 70/84/100 ms times that value. This closes the dated direct-access failure only. Old mirror records and dependent verdicts are not bulk-promoted; NVM bit-position mapping, selected discharge value and established-contract transition behavior remain unresolved."
+    },
+    {
+      "source_id": "src-stusb-gui-power-only-pair",
+      "record_id": "rec-stusb4500qtr",
+      "document_title": "STSW-STUSB002 GUI offline NVM export pair, POWER_ONLY_ABOVE_5V on / off (owner run)",
+      "document_number": "STSW-STUSB002",
+      "revision": "GUI version 1.08 S (pinned usb-c/STUSB4500 55d1109e, STUSB4500_GUI_1.08.exe)",
+      "document_date": "2026-11-14",
+      "authoritative_url": "https://github.com/usb-c/STUSB4500/tree/55d1109e7ef0cffc2ffef2494095d23306594601/GUI/App",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-11-14",
+      "authority_class": "MANUFACTURER_MIRROR",
+      "sha256": "195d2d6d75e1576b842980ea555ca5d17375f4d12e8bd8bc13be1a5bb22d1cfb",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "export file",
+      "locator": "Export files: row 0xE0, column 6 (0xE6); screenshots: SNK Parameters tab, VBus Enable Behavior checkbox",
+      "evidence_extract": "Takazudo ran ST's official GUI offline (File Edition mode, no device) with SNK_PDO_NUMB 2, PDO2 20 V / 5 A and other GUI defaults, and saved one export with POWER_ONLY_ABOVE_5V on (sha256 195d2d6d...) and one with it off (sha256 5c8e5f91...); screenshots sha256 5ca235fe... (on) and 9b5b289a... (off). All stored in circuit-dev-resources st/stusb4500qtr/. The two 40-byte exports differ only at 0xE6: 0x48 on, 0x40 off. Official-tool evidence, not a physical readback."
     }
   ]
 }
