@@ -41,7 +41,10 @@
     "b20-rdy-timing",
     "b20-comparator-input-series-r",
     "p-20v-c36-x7r-1206",
-    "b20-d2-sequenced-fast-discharge"
+    "b20-d2-sequenced-fast-discharge",
+    "pd20-tdispar0v-15",
+    "pd20-installed-capacitor-bounds",
+    "pd20-land-paste-prototype"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -963,6 +966,52 @@
         "fact-c154917-candidate-scope",
         "fact-c840100-vgs",
         "fact-c840100-vgs-th-max"
+      ]
+    },
+    {
+      "key": "pd20-tdispar0v-15",
+      "id": "dec-pd20-tdispar0v-15",
+      "title": "PD20 STUSB4500 NVM: TDISPAR0V = 15 (readiness D4, value only)",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Claude's call on 2026-11-14 JST under Takazudo's delegation (\"continue by your decision\", in reply to the D4/D5/D7-D9 needs list). The Board P r3 20 V intent sets TDISPAR0V = 15 at NVM 0xCA bits [7:4] (0x9C -> 0xFC; TDISPARPDO stays 12). This is a desk intent byte only: no .bin is written and no part is programmed. The intent stays BLOCKED on the POWER_ONLY_ABOVE_5V position conflict and on established-contract transition behaviour.",
+      "rationale": "Of the candidates 13 / 14 / 15, only 15 leaves a clear margin: a 1.050 s minimum against the 0.906 s the 2 kOhm VBUS_VS_DISCH feed needs to reach vSafe0V (about 16 %), with a 1.500 s maximum recovery window. 13 gives 0.4 % and 14 gives 8 %. The longer reset window only delays re-attach after a detach. Reapplication timing and the value/reset interaction remain bench item T8.",
+      "evidence": [
+        "fact-stusb-nvm-tdispar0v-position"
+      ]
+    },
+    {
+      "key": "pd20-installed-capacitor-bounds",
+      "id": "dec-pd20-installed-capacitor-bounds",
+      "title": "PD20 installed capacitor bounds: accept typical-curve evidence for the prototype (readiness D5)",
+      "status": "DISPOSITION",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Claude's call on 2026-11-14 JST under Takazudo's delegation (\"continue by your decision\", in reply to the D4/D5/D7-D9 needs list). No component or design change. The B20 C43 Yageo simulation (about 50 nF at 37.6 V on a 100 nF basis) and the Murata VIN DC-bias mirror (about 30 % loss at 20 V) are accepted as the prototype basis, with tolerance, X7R temperature change, aging and loop sensitivity kept as explicit, unquantified residuals rather than treated as guaranteed installed minima.",
+      "rationale": "Neither manufacturer publishes a guaranteed installed minimum for these parts, so no paper review can turn typical curves into bounds. A prototype build is the step that can measure the installed effect (ripple, loop and startup at the bench), and a later component change remains open if those measurements show inadequate margin. Electrical acceptance stays NOT ESTABLISHED.",
+      "evidence": [
+        "fact-c14663-b20-c43-dc-bias-curve",
+        "fact-c14663-simulation-caveat",
+        "fact-grm32er71h106ka12l-dc-bias-20v"
+      ]
+    },
+    {
+      "key": "pd20-land-paste-prototype",
+      "id": "dec-pd20-land-paste-prototype",
+      "title": "PD20 Board P Q1/Q3 land and paste adaptations: accept for the prototype assembly (readiness D8)",
+      "status": "DISPOSITION",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Claude's call on 2026-11-14 JST under Takazudo's delegation (\"continue by your decision\", in reply to the D4/D5/D7-D9 needs list). The project-authored DMP3036SFG-7 (C461081) and CSD18543Q3A (C840100) lands and paste, which differ from the manufacturer suggestions without a demonstrated deterministic open, are kept unchanged for the prototype. No filled vias, package change or added cost is adopted. The exact components, the 5 A contract, the R5/R7, SMC B560C and EMI/thermal residuals are preserved.",
+      "rationale": "A further desk review cannot settle solder joint formation or thermal-via wicking; inspection of the assembled prototype (joint inspection, then the 5 A thermal soak) can. The supplier via/stencil process review stays a step at order preparation, which this decision does not perform. Installed thermal resistance stays unmeasured.",
+      "evidence": [
+        "fact-c461081-footprint-review",
+        "fact-c840100-footprint-review",
+        "fact-c461081-theta-ja-min-pad"
       ]
     }
   ]

@@ -89,6 +89,11 @@ D1–D9 holds stay.
   ([record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/d2-sequencer-circuit-20261114.md)).
   KiCad 10.0.6 ERC reports 0 violations and the exported netlist matches the spec. The PCB is not updated, the WSL
   pulse rating is UNSOURCED and nothing is measured, so D2 stays a pre-order hold.
+  Later on 2026-11-14 JST, under Takazudo's delegation, Claude recorded three desk calls: TDISPAR0V = 15 in the
+  Board P r3 20 V NVM intent (`dec-pd20-tdispar0v-15`; 0xCA = 0xFC, desk byte only, the intent stays BLOCKED on the
+  POWER_ONLY_ABOVE_5V map conflict), typical-curve capacitor evidence accepted as the prototype basis
+  (`dec-pd20-installed-capacitor-bounds`, D5) and the Q1/Q3 land/paste kept unchanged for the prototype
+  (`dec-pd20-land-paste-prototype`, D8). None of these is a measurement, a programmed part or an order.
 - **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker
   and Mac bridges) stay open, as do #228, #231, #235 and #279.

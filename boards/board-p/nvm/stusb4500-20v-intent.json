@@ -1,11 +1,11 @@
 {
  "_comment": "INTENT RECORD and PARTIAL desk bytes for the Board P r3 20 V / 5 A unit (dec PWR-D3 = D3-A, PWR-D5 = D5-1). Not an image to program: status BLOCKED. Never written to any part or read back.",
- "status": "BLOCKED (TDISPAR0V value is an owner choice and not set; POWER_ONLY_ABOVE_5V position conflicts with the ST note; no reviewed image)",
+ "status": "BLOCKED (POWER_ONLY_ABOVE_5V position conflicts with the ST note; no reviewed image). TDISPAR0V = 15 is set (dec-pd20-tdispar0v-15)",
  "intent": {
   "SNK_PDO_NUMB": "2 (PDO1 5 V, PDO2 20 V)",
   "PDO2": "20.00 V, 5.00 A; needs a 5 A e-marked cable and a source offering 20 V / 5 A",
   "POWER_ONLY_ABOVE_5V": "1 (Q1 stays off at 5 V)",
-  "TDISPAR0V": ">= 13 so the 2 kOhm VBUS_VS_DISCH feed reaches vSafe0V (default 9 gives >= 630 ms, too short)",
+  "TDISPAR0V": "15 (0xCA = 0xFC; min 1.050 s, 16 % margin over the 0.906 s the 2 kOhm VBUS_VS_DISCH feed needs to reach vSafe0V; default 9 gives >= 630 ms, too short)",
   "accept_or_refuse": "VBUS_OUT only on a 20 V contract at 5 A; any lower-current 20 V contract must leave Q1 off (no degraded mode)",
   "other fields": "Rev 7 defaults, unchanged"
  },
@@ -20,7 +20,7 @@
     "14": "0xEC: min 0.980 s (8 % margin)",
     "15": "0xFC: min 1.050 s (16 % margin), max 1.500 s"
    },
-   "not_applied": "Owner selects the value; the partial bytes keep the default 0x9C"
+   "applied": "15 (0xFC), chosen by Claude on 2026-11-14 under the owner's delegation (\"continue by your decision\"); reversible desk byte only, never written to a part"
   },
   {
    "item": "capability mismatch",
@@ -37,13 +37,19 @@
  ],
  "partial_sectors_hex": [
   "00 00 B0 AA 00 45 00 00",
-  "10 40 9C 1C FF 01 3C DF",
+  "10 40 FC 1C FF 01 3C DF",
   "02 40 0F 00 32 00 FC F1",
   "00 19 54 AF FF 35 5F 00",
   "00 64 90 21 43 00 48 FB"
  ],
- "partial_sha256": "be65fd35cec40c109e096bd72d9f6cfb1549a35b98675e09d3203ac4bc000d41",
+ "partial_sha256": "4e5b71964d027e0952f3238e9b3e25abe93646282857d1bc3ffa04929a1db6d7",
  "changes_from_base": [
+  {
+   "sector": 1,
+   "byte": 2,
+   "from": "0x9C",
+   "to": "0xFC"
+  },
   {
    "sector": 3,
    "byte": 2,
