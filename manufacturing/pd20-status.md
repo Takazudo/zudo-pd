@@ -145,10 +145,11 @@ inner-layer Gerber. The 2-layer checks are unchanged, and the results schema is 
   the 0.906 s need; 14 (0xEC) or 15 (0xFC) give 8 % or 16 %. Claude chose 15 under Takazudo's delegation
   (`dec-pd20-tdispar0v-15`); it is a desk intent byte only, and the reset/reapplication interaction stays bench T8
   ([`pd20-evidence-research.md`](pd20-evidence-research.md)).
+- **POWER_ONLY_ABOVE_5V: 0xE6 bit 3 confirmed by the official GUI (2026-11-14).** Takazudo's offline STSW-STUSB002 1.08 S
+  export pair differs only at 0xE6 (0x40 off, 0x48 on), matching the intent and P15 (`dec-pd20-nvm-power-only-gui`). This is
+  official-tool evidence, not a programmed-part readback.
 - **Capability mismatch: ANSWERED (DS12499 Rev 8, sections 3.3.2 and 6.1.2).** A PDO match needs
   I(SNK) ≤ I(SRC), so a 20 V offer below 5 A gives a 5 V contract, and POWER_ONLY_ABOVE_5V keeps VBUS_EN_SNK Hi-Z.
-- **POWER_ONLY_ABOVE_5V position: CONFLICT.** The ST note marks 0xE6 bits [3:0] reserved; bit 3 rests on the
-  third-party map and a non-ST GUI diff. The P15 image uses the same bit.
 - The run-python gates rebuild the intent and fail if the committed record differs.
 
 ## Historical OSC interface status (B20 draft page §4)

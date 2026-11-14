@@ -24,9 +24,9 @@
       "record_id": "rec-stusb4500qtr",
       "domain": "project NVM image and factory-state capture",
       "status": "OPEN",
-      "reason": "No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact; field positions: TDISPAR0V is located only by an unnumbered ST draft note (fact-stusb-nvm-tdispar0v-position) and the POWER_ONLY_ABOVE_5V bit conflicts with that note (fact-stusb-nvm-power-only-position)",
-      "fact_ids": ["fact-stusb-artifact", "fact-stusb-nvm-tdispar0v-position", "fact-stusb-nvm-power-only-position"],
-      "blocking_fact_ids": ["fact-stusb-artifact", "fact-stusb-nvm-tdispar0v-position", "fact-stusb-nvm-power-only-position"]
+      "reason": "No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact; field positions: TDISPAR0V is located only by an unnumbered ST draft note (fact-stusb-nvm-tdispar0v-position) and the POWER_ONLY_ABOVE_5V bit, which that note marks reserved (fact-stusb-nvm-power-only-position), is placed at 0xE6 bit 3 by an official-GUI export pair (fact-stusb-nvm-power-only-gui-pair, 2026-11-14)",
+      "fact_ids": ["fact-stusb-artifact", "fact-stusb-nvm-tdispar0v-position", "fact-stusb-nvm-power-only-position", "fact-stusb-nvm-power-only-gui-pair"],
+      "blocking_fact_ids": ["fact-stusb-artifact", "fact-stusb-nvm-tdispar0v-position"]
     },
     {
       "coverage_id": "cov-stusb-endurance",

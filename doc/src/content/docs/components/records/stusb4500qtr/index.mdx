@@ -133,19 +133,19 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-stusb-nvm` · **Status:** OPEN
 
-**Reason:** No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact; field positions: TDISPAR0V is located only by an unnumbered ST draft note (fact-stusb-nvm-tdispar0v-position) and the POWER\_ONLY\_ABOVE\_5V bit conflicts with that note (fact-stusb-nvm-power-only-position)
+**Reason:** No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact; the 15V NVM image written for the 0.4.0 order predates this bundle and was never retained as a normalized artifact; field positions: TDISPAR0V is located only by an unnumbered ST draft note (fact-stusb-nvm-tdispar0v-position) and the POWER\_ONLY\_ABOVE\_5V bit, which that note marks reserved (fact-stusb-nvm-power-only-position), is placed at 0xE6 bit 3 by an official-GUI export pair (fact-stusb-nvm-power-only-gui-pair, 2026-11-14)
 
 **Facts in this domain:**
 
 - [`fact-stusb-artifact`](#fact-stusb-artifact)
 - [`fact-stusb-nvm-tdispar0v-position`](#fact-stusb-nvm-tdispar0v-position)
 - [`fact-stusb-nvm-power-only-position`](#fact-stusb-nvm-power-only-position)
+- [`fact-stusb-nvm-power-only-gui-pair`](#fact-stusb-nvm-power-only-gui-pair)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
 - [`fact-stusb-artifact`](#fact-stusb-artifact)
 - [`fact-stusb-nvm-tdispar0v-position`](#fact-stusb-nvm-tdispar0v-position)
-- [`fact-stusb-nvm-power-only-position`](#fact-stusb-nvm-power-only-position)
 
 ### NVM write endurance and production write budget
 
@@ -657,6 +657,20 @@ A value this project recorded about how the part is used here — a chosen opera
   **Evidence:** [src-stusb-tn-nvm: Section 1.3 bank 4 row 0xE6 (page 6) and Section 4 VBUS\_CTRL table (page 28)](#src-stusb-tn-nvm)
 </EvidenceFact>
 
+<EvidenceFact>
+  <EvidenceAnchor id="fact-stusb-nvm-power-only-gui-pair" />
+
+  **Fact:** `fact-stusb-nvm-power-only-gui-pair`
+
+  **Value:** ST's official STSW-STUSB002 GUI 1.08 S writes POWER\_ONLY\_ABOVE\_5V at NVM 0xE6 = sector 4 byte 6, bit 3 (0x40 off, 0x48 on); no other byte changes · **Unit:** `NONE`
+
+  **Conditions:** Offline export pair from the official tool, owner run 2026-11-14; agrees with the third-party map used by the P15 image and the 20 V intent and supersedes the ST draft note's RESERVED marking for project use. Not a physical readback of a programmed part.
+
+  **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
+
+  **Evidence:** [`src-stusb-gui-power-only-pair`](#src-stusb-gui-power-only-pair) — Export files: row 0xE0, column 6 (0xE6); screenshots: SNK Parameters tab, VBus Enable Behavior checkbox
+</EvidenceFact>
+
 ## Pin maps
 
 The mapping between schematic pins and PCB pads, or physical terminals for an external part, as recorded. A record may carry more than one map when the same part is documented in more than one context.
@@ -998,6 +1012,26 @@ Every document cited above, with its identification, when it was retrieved, and 
 **Availability:** AVAILABLE
 
 **Document URL:** [https://www.st.com/resource/en/datasheet/stusb4500.pdf](https://www.st.com/resource/en/datasheet/stusb4500.pdf)
+
+### STSW-STUSB002 GUI offline NVM export pair, POWER\_ONLY\_ABOVE\_5V on / off (owner run)
+
+<EvidenceAnchor id="src-stusb-gui-power-only-pair" />
+
+**Source ID:** `src-stusb-gui-power-only-pair` · **Authority:** MANUFACTURER\_MIRROR
+
+| Field           | Recorded value                                                                 |
+| --------------- | ------------------------------------------------------------------------------ |
+| Document number | STSW-STUSB002                                                                  |
+| Revision        | GUI version 1.08 S (pinned usb-c/STUSB4500 55d1109e, STUSB4500\_GUI\_1.08.exe) |
+| Document date   | 2026-11-14                                                                     |
+| Retrieved       | 2026-11-14                                                                     |
+| Printed page    | export file                                                                    |
+
+**Locator:** Export files: row 0xE0, column 6 (0xE6); screenshots: SNK Parameters tab, VBus Enable Behavior checkbox
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://github.com/usb-c/STUSB4500/tree/55d1109e7ef0cffc2ffef2494095d23306594601/GUI/App](https://github.com/usb-c/STUSB4500/tree/55d1109e7ef0cffc2ffef2494095d23306594601/GUI/App)
 
 ## Legend
 

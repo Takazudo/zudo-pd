@@ -6,15 +6,15 @@ Writes boards/board-p/nvm/stusb4500-20v-intent.json. --check rebuilds it in memo
 differs. Byte handling and field positions are imported unchanged from scripts/pcb/board-p15/nvm-image.py, so the
 base bytes, the third-party field map and the DS12499 Rev 7 default cross-check are the same ones used for P15.
 
-Status is BLOCKED, not a finished image. Research of 2026-11-08 (manufacturing/pd20-evidence-research.md):
+Status: intent settled, not a finished image (no reviewed binary; never programmed). Research of 2026-11-08 (manufacturing/pd20-evidence-research.md):
 - TDISPAR0V is located: ST technical note "TNxxx STUSB4500 NVM registers" (ST-authored draft, no revision, posted by
   an ST moderator on ST Community) puts DISCHARGE_TIME_TO_0V at NVM 0xCA = sector 1 byte 2 bits [7:4], default 0x9C
   (9 and TDISPARPDO 12, matching DS12499). TDISPAR0V = 15 is set (0xFC), chosen 2026-11-14 under owner delegation.
 - Capability mismatch is answered by DS12499 Rev 8 section 3.3.2 (owner-supplied copy, 2026-11-08): a PDO match needs
   I(SNK_PDO) <= I(SRC_PDO), so a 20 V source offering under 5 A gives no PDO2 match and a 5 V contract; with
   POWER_ONLY_ABOVE_5V = 1, VBUS_EN_SNK then stays Hi-Z (Table 6).
-- New conflict: the same ST note marks 0xE6 bits [3:0] RESERVED, while POWER_ONLY_ABOVE_5V at 0xE6 bit 3 rests on the
-  third-party map and a non-ST community GUI diff only. This bit also carries the P15 image.
+- POWER_ONLY_ABOVE_5V: the same ST note marks 0xE6 bits [3:0] RESERVED, but an official STSW-STUSB002 1.08 S offline export
+  pair (owner run 2026-11-14) differs only at 0xE6 (0x40 off, 0x48 on), placing it at bit 3 as written here and in P15.
 No .bin is written, so the partial bytes cannot be mistaken for a programmable image.
 """
 import hashlib, importlib.util, json, sys
@@ -48,9 +48,10 @@ def build():
                for i in range(5) for j in range(8) if P15.BASE[i][j] != s[i][j]]
     return {
         '_comment': 'INTENT RECORD and PARTIAL desk bytes for the Board P r3 20 V / 5 A unit (dec PWR-D3 = D3-A, '
-                    'PWR-D5 = D5-1). Not an image to program: status BLOCKED. Never written to any part or read back.',
-        'status': 'BLOCKED (POWER_ONLY_ABOVE_5V position conflicts with the ST note; no reviewed image). '
-                  'TDISPAR0V = 15 is set (dec-pd20-tdispar0v-15)',
+                    'PWR-D5 = D5-1). Not an image to program: intent settled, no reviewed binary. Never written to any part or read back.',
+        'status': 'INTENT SETTLED, NOT AN IMAGE TO PROGRAM (TDISPAR0V = 15, dec-pd20-tdispar0v-15; POWER_ONLY_ABOVE_5V '
+                  'position from the official GUI pair, dec-pd20-nvm-power-only-gui; no reviewed image; contract transitions '
+                  'stay bench T8)',
         'intent': {
             'SNK_PDO_NUMB': '2 (PDO1 5 V, PDO2 20 V)',
             'PDO2': '20.00 V, 5.00 A; needs a 5 A e-marked cable and a source offering 20 V / 5 A',
@@ -84,11 +85,16 @@ def build():
                        '650afb8f...) carries the same text',
              'residual': 'A source that later re-advertises 20 V below 5 A during a 20 V contract: the transition '
                          'behaviour of VBUS_EN_SNK is not stated (bench T8)'},
-            {'item': 'POWER_ONLY_ABOVE_5V position', 'status': 'CONFLICT',
-             'finding': 'Set here and in the P15 image at 0xE6 = sector 4 byte 6 bit 3 (third-party map). The ST note '
-                        'lists 0xE6 [3:0] as RESERVED 0x0; the only other location statement is a non-ST user GUI '
-                        'diff (ST Community thread 32193, 2023-11-02). Needs an ST statement or a bench readback of a '
-                        'GUI-exported image.'},
+            {'item': 'POWER_ONLY_ABOVE_5V position', 'status': 'RESOLVED BY OFFICIAL TOOL (not a readback)',
+             'finding': 'Set here and in the P15 image at 0xE6 = sector 4 byte 6 bit 3. The ST note lists 0xE6 [3:0] as '
+                        'RESERVED 0x0, but ST\'s STSW-STUSB002 GUI 1.08 S, run offline by the owner on 2026-11-14 with '
+                        'only this setting changed, exports 0xE6 = 0x40 (off) and 0x48 (on) with every other byte '
+                        'identical, so the official tool uses bit 3.',
+             'source': 'circuit-dev-resources st/stusb4500qtr/ export pair, sha256 195d2d6d... (on) and 5c8e5f91... '
+                       '(off); fact-stusb-nvm-power-only-gui-pair',
+             'residual': 'The GUI offline defaults differ from the Rev 7 defaults kept here (GPIO_CFG, SHIFT_VBUS_LL2/3 '
+                         'and bytes 0xC2, 0xC8, 0xCA low nibble, 0xCC, 0xCE, 0xDC, 0xDE); those are not part of the '
+                         'pair and stay at Rev 7 defaults. A programmed-part readback is still bench work'},
         ],
         'partial_sectors_hex': [' '.join(f'{b:02X}' for b in row) for row in s],
         'partial_sha256': hashlib.sha256(raw).hexdigest(),

@@ -125,7 +125,7 @@ follows a passing step 7 readback. Board B and Board L stay disconnected until s
 | --- | --- | --- |
 | SNK_PDO_NUMB | 2 (PDO1 5 V, PDO2 15 V; 20 V is never requested) | 3 → 2 |
 | PDO2 | 15.00 V, I_SNK_PDO2 1011b = 3.00 A (Rev 7 Table 17) | 1.5 A → 3.0 A |
-| POWER_ONLY_ABOVE_5V | 1 (VBUS_EN_SNK only after a PDO2/PDO3 contract), set as 0xE6 bit 3 from the SparkFun map; position CONFLICTED (2026-11-08) | 0 → 1 |
+| POWER_ONLY_ABOVE_5V | 1 (VBUS_EN_SNK only after a PDO2/PDO3 contract), set as 0xE6 bit 3 from the SparkFun map; confirmed by an official STSW-STUSB002 export pair on 2026-11-14 | 0 → 1 |
 | Every other field | the Rev 7 default | no |
 
 - **Base bytes and field positions:** both come from the SparkFun STUSB4500 Arduino library (MIT, commit
@@ -133,7 +133,9 @@ follows a passing step 7 readback. Board B and Board L stay disconnected until s
 - **Check:** decoding the base bytes with those positions gives every default in Rev 7 Tables 16–18 that the
   script checks. The other bits are not checked.
 - **Conflict (2026-11-08):** an ST draft technical note lists 0xE6 as `VBUS_CTRL` with bits [3:0] reserved, so the
-  POWER_ONLY_ABOVE_5V position used here rests on SparkFun and one non-ST GUI diff only. The image is unchanged.
+  POWER_ONLY_ABOVE_5V position used here rested on SparkFun and one non-ST GUI diff only. On 2026-11-14 an official
+  STSW-STUSB002 1.08 S offline export pair differed only at 0xE6 (0x40 off, 0x48 on), confirming bit 3 without a
+  readback. The image is unchanged.
   Step 9's VBUS_OUT-off-during-5 V measurement is the acceptance evidence; record and source:
   [PD20 evidence research](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/pd20-evidence-research.md).
 - **ST example not used:** the example image in ST's `NVM_Flasher` (commit `55d1109e`) is a customised image,

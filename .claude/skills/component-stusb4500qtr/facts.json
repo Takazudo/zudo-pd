@@ -406,6 +406,20 @@
       "verdict": "UNSOURCED",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "fact_id": "fact-stusb-nvm-power-only-gui-pair",
+      "record_id": "rec-stusb4500qtr",
+      "source_id": "src-stusb-gui-power-only-pair",
+      "class": "PROJECT_STATE",
+      "value": "ST's official STSW-STUSB002 GUI 1.08 S writes POWER_ONLY_ABOVE_5V at NVM 0xE6 = sector 4 byte 6, bit 3 (0x40 off, 0x48 on); no other byte changes",
+      "unit": "NONE",
+      "conditions": "Offline export pair from the official tool, owner run 2026-11-14; agrees with the third-party map used by the P15 image and the 20 V intent and supersedes the ST draft note's RESERVED marking for project use. Not a physical readback of a programmed part.",
+      "locator": "Export files: row 0xE0, column 6 (0xE6); screenshots: SNK Parameters tab, VBus Enable Behavior checkbox",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": ""
     }
   ]
 }
