@@ -1,0 +1,36 @@
+{
+  "record": "D2 sequenced -12 V discharge (CALCULATED; ideal switches; resistive-load ASSUMPTION)",
+  "sequenced": true,
+  "hold_v": 3.0,
+  "release_v": 0.3,
+  "resistors_ohm": {
+    "+12": 0.5,
+    "-12": 1.5,
+    "+5": 0.5
+  },
+  "banks": 9,
+  "load_corners": 27,
+  "fire_us": {
+    "+12": [
+      120,
+      155,
+      190
+    ],
+    "+5": [
+      120,
+      163,
+      210
+    ],
+    "-12": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ]
+  },
+  "cases": 10935,
+  "failing": 0,
+  "failing_examples": [],
+  "slowest_to_level_s": 0.000961
+}
