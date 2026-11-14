@@ -6776,6 +6776,34 @@
       "verdict": "NEEDS BENCH",
       "depends_on": [],
       "expression": ""
+    },
+    {
+      "record_id": "rec-c511023",
+      "source_id": "src-c511023-pulse-calculator",
+      "locator": "Pulse Energy Table and Pulse Power Table views, WSL2512, 0.5 ohm, ambient -55 / 70 / 125 C; result tables below the plots",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": "",
+      "fact_id": "fact-c511023-single-pulse-energy",
+      "class": "TRANSIENT",
+      "value": 0.831,
+      "unit": "J",
+      "conditions": "Single pulse at 125 C ambient, flat from 10 us to the 0.4615 s cross-over (1.034 J at 70 C, 1.495 J at -55 C). D2 per-part energies: 8.96 mJ (+12 V), 4.32 mJ (-12 V, one of three in series), 1.04 mJ (+5 V) in the sequenced deck; about 14 mJ per part at the 180 uF calculator ceiling. Smallest margin about 59x. Owner-supplied capture of the manufacturer web tool, not a Vishay-issued document."
+    },
+    {
+      "record_id": "rec-c511023",
+      "source_id": "src-c511023-pulse-calculator",
+      "locator": "Pulse Energy Table and Pulse Power Table views, WSL2512, 0.5 ohm, ambient -55 / 70 / 125 C; result tables below the plots",
+      "provenance": "UNVERIFIED",
+      "verdict": "UNSOURCED",
+      "depends_on": [],
+      "expression": "",
+      "fact_id": "fact-c511023-repetitive-pulse-unsourced",
+      "class": "PROJECT_STATE",
+      "value": "The calculator gives single-pulse energy and 1 s / 5 s short-time overload only; no repetitive-pulse endurance is given",
+      "unit": "NONE",
+      "conditions": "D2 discharges once per disable / power-down; the repetition rate and lifetime count are not specified by the contract. Bench T5 remains NOT RUN."
     }
   ]
 }

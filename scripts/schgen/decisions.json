@@ -44,7 +44,8 @@
     "b20-d2-sequenced-fast-discharge",
     "pd20-tdispar0v-15",
     "pd20-installed-capacitor-bounds",
-    "pd20-land-paste-prototype"
+    "pd20-land-paste-prototype",
+    "b20-d7-wsl-pulse-margin"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -1012,6 +1013,22 @@
         "fact-c461081-footprint-review",
         "fact-c840100-footprint-review",
         "fact-c461081-theta-ja-min-pad"
+      ]
+    },
+    {
+      "key": "b20-d7-wsl-pulse-margin",
+      "id": "dec-b20-d7-wsl-pulse-margin",
+      "title": "B20 discharge loads: WSL2512 single-pulse margin accepted for the prototype; repetitive endurance left to bench T5 (readiness D7)",
+      "status": "DISPOSITION",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Claude's call on 2026-11-14 JST under Takazudo's delegation (\"continue by your decision\"). No component change. Takazudo supplied captures of Vishay's SMD Power Metal Strip Pulse Calculator for WSL2512 0.5 ohm: 0.831 J single-pulse energy at 125 C (1.034 J at 70 C), flat from 10 us to 0.46 s. The largest D2 per-part energy is 8.96 mJ in the sequenced deck and about 14 mJ at the 180 uF calculator ceiling, a margin of about 59x or more. D7 is no longer a pre-order hold; repetitive endurance is a recorded residual for bench T5.",
+      "rationale": "The discharge fires once per disable or power-down, so the repetition rate is set by user power cycling, not by a switching frequency; with roughly 59x single-pulse margin the per-event temperature rise is small. The calculator gives no repetitive-pulse result and the images are owner captures (the source filename indicated an image-tool export), so the facts stay UNVERIFIED / UNSOURCED and the pulse-rating coverage stays OPEN. T5 remains NOT RUN.",
+      "evidence": [
+        "fact-c511023-single-pulse-energy",
+        "fact-c511023-repetitive-pulse-unsourced",
+        "fact-c511023-power"
       ]
     }
   ]

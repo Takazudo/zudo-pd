@@ -2238,6 +2238,24 @@
       "evidence_extract": "LCSC product page binds C511023 to VISHAY WSL2512R5000FEA, 2512, Chip Resistor - Surface Mount, '1W 500mOhm +/-75ppm/C +/-1% 2512'; 20,555 in stock from USD 0.2246 at the 2026-11-14 retrieval.",
       "refresh_policy": "VOLATILE-HTML",
       "refresh_note": "Read-only page fetch 2026-11-14 (no cart or quote); stock and price volatile. Live HTML bytes are not deterministic; the exact identity extract is locked separately."
+    },
+    {
+      "source_id": "src-c511023-pulse-calculator",
+      "record_id": "rec-c511023",
+      "document_title": "Vishay SMD Power Metal Strip Pulse Calculator output, WSL2512 0.5 ohm (owner-supplied capture)",
+      "document_number": "WSL2512R5000XYY calculator result",
+      "revision": "web tool as viewed 2026-11-14",
+      "document_date": "2026-11-14",
+      "authoritative_url": "https://www.vishay.com/en/resistors/power-metal-strip-calculator/",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-11-14",
+      "authority_class": "MANUFACTURER_MIRROR",
+      "sha256": "c4858767197d7d54007377fb1be5d8361d41639fe55e90a4266db737784a04f4",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "image",
+      "locator": "Pulse Energy Table and Pulse Power Table views, WSL2512, 0.5 ohm, ambient -55 / 70 / 125 C; result tables below the plots",
+      "evidence_extract": "Owner-supplied JPEG images of the Vishay calculator for WSL2512 0.5 ohm (energy view sha256 c4858767...; power view sha256 d093ad58...), stored in circuit-dev-resources vishay/wsl2512r5000fea/. The source filename indicated an image-tool export rather than a direct browser screenshot, so the bytes are not a Vishay-issued document. Values read: power rating 0.8 W at 70 C, derated 0.36 W at 125 C; single-pulse energy 1.495 / 1.034 / 0.831 J at -55 / 70 / 125 C, flat from 10 us to cross-over 0.3738 / 0.2585 / 0.4615 s; STOL 1 s 4.0 / 4.0 / 1.8 J and 5 s 20 / 20 / 9.0 J; 10 us peak 149,538 / 103,385 / 83,077 W. Internally consistent: 1.034 J / 10 us = 103,385 W and sqrt(103,385 / 0.5) = 455 A as shown. No repetitive-pulse result."
     }
   ]
 }

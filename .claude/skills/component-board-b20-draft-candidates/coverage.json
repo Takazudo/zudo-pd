@@ -1700,12 +1700,14 @@
       "record_id": "rec-c511023",
       "domain": "pulse-rating",
       "status": "OPEN",
-      "reason": "The datasheet gives pulse capability only through an online calculator; no tabulated single-pulse or short-time-overload limit is retained, so the D2 discharge energy is UNSOURCED against a rating.",
+      "reason": "The datasheet refers pulse capability to Vishay's online calculator. An owner-supplied capture of that calculator (2026-11-14) gives 0.831 J single-pulse energy at 125 C, about 59x the largest D2 per-part energy, but the image is not a Vishay-issued document and gives no repetitive-pulse endurance, so the domain stays OPEN.",
       "fact_ids": [
-        "fact-c511023-pulse-unsourced"
+        "fact-c511023-pulse-unsourced",
+        "fact-c511023-single-pulse-energy",
+        "fact-c511023-repetitive-pulse-unsourced"
       ],
       "blocking_fact_ids": [
-        "fact-c511023-pulse-unsourced"
+        "fact-c511023-repetitive-pulse-unsourced"
       ]
     },
     {
