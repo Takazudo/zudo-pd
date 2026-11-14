@@ -28,6 +28,9 @@ for e in plan['parts']:
     fp = p.FootprintLoad(plan['lib'], e['fp']); b.Add(fp)
     fp.SetFPID(p.LIB_ID('zudo-pd', e['fp'])); fp.SetReference(e['ref']); fp.SetValue(e['value'])
     fp.SetField('LCSC', e['lcsc']); lf = fp.GetField('LCSC'); lf.SetVisible(False); lf.SetTextThickness(p.FromMM(0.15))
+    # library footprints can carry a default supplier alias (SOD-123 has LCSC Part C92321); the exporter requires it to match
+    for alias in ('LCSC Part', 'LCSC Part #', 'JLCPCB Part #'):
+        if fp.HasField(alias): fp.SetField(alias, e['lcsc'])
     fp.SetPath(p.KIID_PATH('/' + ROOT_SHEET + '/' + e['sym_uuid']))
     fp.Value().SetVisible(False)
     fp.Reference().SetLayer(p.F_Fab); fp.Reference().SetTextSize(mm(0.5, 0.5)); fp.Reference().SetTextThickness(p.FromMM(0.08))

@@ -1,7 +1,7 @@
 {
   "scope": "Owned serialized reload/refill finalization; two fresh pinned Docker CLI processes, no heuristic rerouting.",
-  "input_sha256": "4a8b2c4179904abae05f05846ccd94cb216406f2d0035778791cd915252eb859",
-  "pcb_sha256": "b59d7a36dbb143c08e155e9d18ce14f4ff5b9413563c18b1ebab41092cd22d2e",
+  "input_sha256": "13712f22316ddb55cc17b25f0596f3d5c0d3970536f6d530dcd099be8c1b78f6",
+  "pcb_sha256": "7a8270f5637b80f847d491a61cf60d374d94bcb98ed82959a4c7e083d1c6812f",
   "project_sha256": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
   "byte_identical_second_refill": true,
   "nonfill_geometry_unchanged": true,
@@ -38,8 +38,8 @@
       "json",
       "--severity-all",
       "-o",
-      "/home/user/zudo-pd/tmp/b20-finalize-63rgkedv/drc-1.json",
-      "/home/user/zudo-pd/tmp/b20-finalize-63rgkedv/board-b20-draft.kicad_pcb"
+      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/drc-1.json",
+      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/board-b20-draft.kicad_pcb"
     ],
     [
       "docker",
@@ -70,11 +70,11 @@
       "json",
       "--severity-all",
       "-o",
-      "/home/user/zudo-pd/tmp/b20-finalize-63rgkedv/drc-2.json",
-      "/home/user/zudo-pd/tmp/b20-finalize-63rgkedv/board-b20-draft.kicad_pcb"
+      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/drc-2.json",
+      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/board-b20-draft.kicad_pcb"
     ]
   ],
-  "diagnostics": "tmp/b20-finalize-63rgkedv",
+  "diagnostics": "tmp/b20-finalize-9qecqfdm",
   "source_hashes": {
     "scripts/pcb/board-b20/finalize_refill.py": "49dac87d6540315cded616ff5e5fd3f5c3b6fe74bf3d12440e7c955bc657e0f4",
     "scripts/pcb/board-b20/verify_staged_geometry.py": "b31e443d2c91171010018d389fbe6a652090eeaff73ff9b9122a2351bc936631",

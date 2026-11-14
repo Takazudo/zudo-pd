@@ -44,8 +44,11 @@ rail labels.
 - `finalize_refill.py` passes (`refill-finalization.log`):
   - two fresh refills are byte-identical;
   - non-fill geometry and native IDs are unchanged;
-  - the output PCB sha256 is `b59d7a36…`; see `boards/board-b20-draft/refill-finalization.json`.
-- The unfilled AFTER board (sha256 `4a8b2c41…`) is the finalization input.
+  - the output PCB sha256 is `7a8270f5…`; see `boards/board-b20-draft/refill-finalization.json`.
+- The unfilled AFTER board (sha256 `13712f22…`) is the finalization input.
+- **Supplier alias fix.** The first export refused D5 because its SOD-123 library footprint carried a default
+  `LCSC Part` C92321. `apply.py` now sets every supplier alias to the part's LCSC (D5 C154917). The chain was then
+  rerun from the apply step, giving the hashes above.
 
 ## Bounded edit: verifier PASS on the unfilled board; filled-board screen recorded
 
@@ -121,8 +124,15 @@ simulated maximum.
   - Its screen passes at 5.7e-12 mm.
   - Its independent review is PENDING.
   - The proof passes 47 pairs (`footprints/kicad/step-datum-verification.json`).
-- **Assembly preview and development export.** These are recorded in `execution.json`. They ran through cloud
-  wrappers of the same pinned image instead of the selected Mac.
+- **Assembly preview and development export: PASS.** They are recorded in `execution.json` and the numbered logs.
+  They ran through cloud wrappers of the same pinned image instead of the selected Mac.
+  - Collision check: 13,275 cross-board pairs.
+  - Board P r3: 44 fitted, 22 top and 22 bottom.
+  - B20: 294 fitted in 88 BOM lines, 268 top and 26 bottom.
+  - `verify-jlcpcb.py --write` passes, with its identity, coordinate-hash and Gerber/drill parse checks.
+  - The export package itself is not committed. Its SHA256SUMS, manifest and independent validation are.
+  - First, the Board P r3 correction proof was refreshed. It had gone stale on `main` when #303 changed the shared
+    symbol library. A local run of the `board-p-r3-rebuild` steps rebuilt `board-p.kicad_pcb` byte-identically.
 
 ## Remaining residuals
 
