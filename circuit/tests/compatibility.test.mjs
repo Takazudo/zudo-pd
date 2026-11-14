@@ -169,8 +169,8 @@ test('mixed placement DNP survives actual public projection and rendered record/
 });
 
 test('all candidates retained for validation, never projected; unknown and cross-partition links fail', async () => {
-  const candidates=await json(join(root,candidatesPath)); assert.equal(candidates.candidates.length,16);
-  assert.equal(index.candidates.length,16);
+  const candidates=await json(join(root,candidatesPath)); assert.equal(candidates.candidates.length,17);
+  assert.equal(index.candidates.length,17);
   const candidateRecords=new Set(index.candidates.map(e=>e.record.record_id));
   assert.ok(model.records.every(r=>r.identity.lineId&&!candidateRecords.has(r.identity.recordId)));
   const fitted='rec-ptc-smd1210p150tf16-c7529589', candidate='rec-ptc-smd1210p200tf-c20808';

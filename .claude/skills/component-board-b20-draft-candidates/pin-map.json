@@ -1311,6 +1311,27 @@
         }
       ],
       "reviewed_by": "2026-11-03 PD worker phase 33: non-polar two-terminal capacitor; symbol pins 1/2 equal footprint pads 1/2"
+    },
+    {
+      "pin_map_id": "pinmap-c154917",
+      "record_id": "rec-c154917",
+      "symbol": "D (project zener symbol; candidate, not placed)",
+      "footprint": "SOD-123 land not assigned (candidate)",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "cathode (band end); D2 sequencer: DZS to RSQ4 / QN gate"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "anode; D2 sequencer: GND"
+        }
+      ],
+      "reviewed_by": "2026-11-14 PD thread: polarity from DS18004 page 1 (cathode band); pad numbers follow the BZT52C11 SOD-123 convention and are confirmed when the land is assigned"
     }
   ]
 }
