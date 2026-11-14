@@ -232,27 +232,27 @@
   "source_generator": "scripts/pcb/board-b20/power-report.py",
   "source_generator_sha256": "66b53ed60ce23794219c51996af71deddf69fb1eadac5eeca680b7b8800c4001",
   "thermal_source": "boards/board-b20-draft/thermal-check.json",
-  "thermal_source_sha256": "a5e0a223dcdb181bf25a72262559fe25230dcb9bd131ab1bf3cdccb9e5d2739d",
+  "thermal_source_sha256": "ba07586068d3fbba34a545670c1e6379766395841ff1889d2cbcc5bc7cfa9c4d",
   "native_input_binding": {
     "path": "boards/board-b20-draft/report-input-receipt.json",
-    "sha256": "d971a71eecf5a9392344327bb67d64d2fd001963bbec46c98b3790ae66d1f04c",
-    "pcb_sha256": "83e369f60c03b7aa2fd8b65b8445a4925bb8e9847a5b0a3d347fee2094961f90",
+    "sha256": "c70f2612a52d7240520281aff96afa1457d0e768c3c6ce7c688c8f99b2567af7",
+    "pcb_sha256": "b59d7a36dbb143c08e155e9d18ce14f4ff5b9413563c18b1ebab41092cd22d2e",
     "scope": "Native input and calculation freshness only; not current, thermal or electrical qualification"
   },
   "board_p_spec_sha256": "f1e662dbab54d9be80b0c6fd6edfcba3eba7bfff20d21c6250f74990c1bc3a36",
   "board_b20_draft_spec_sha256": "4084d84594e7ac3582e10574d1d981a0ddec28d87076e6512de6cf7c2ae176f2",
   "protection_pcb_source_sha256": {
     "board-p": "3fc44335431a111d4bc2cf9678fbef1a719ded77731bbd2de1fc218c576e7785",
-    "board-b20-draft": "83e369f60c03b7aa2fd8b65b8445a4925bb8e9847a5b0a3d347fee2094961f90"
+    "board-b20-draft": "b59d7a36dbb143c08e155e9d18ce14f4ff5b9413563c18b1ebab41092cd22d2e"
   },
   "actual_filled_copper": {
-    "pcb_sha256": "83e369f60c03b7aa2fd8b65b8445a4925bb8e9847a5b0a3d347fee2094961f90",
+    "pcb_sha256": "b59d7a36dbb143c08e155e9d18ce14f4ff5b9413563c18b1ebab41092cd22d2e",
     "negative_zones": [
       {
         "regulator": "U3",
         "layer": "B.Cu",
         "net": "M12_RAW",
-        "filled_zone_area_mm2": 191.613,
+        "filled_zone_area_mm2": 191.631,
         "excluded_other_polygons_mm2": 0.0
       },
       {
@@ -264,9 +264,9 @@
       }
     ],
     "ground_zone_areas_mm2": {
-      "B.Cu": 5811.365,
-      "F.Cu": 4633.946,
-      "In1.Cu": 8334.368
+      "B.Cu": 5763.288,
+      "F.Cu": 4681.49,
+      "In1.Cu": 8301.027
     }
   },
   "open_qualification": [
