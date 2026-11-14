@@ -97,6 +97,10 @@ D1–D9 holds stay.
   D7 followed the same day (`dec-b20-d7-wsl-pulse-margin`): owner-supplied captures of Vishay's WSL2512 0.5 Ω pulse
   calculator give 0.831 J single-pulse energy at 125 °C, about 59× the largest D2 per-part energy; repetitive
   endurance is not given and stays a residual for bench T5.
+  D9 then took the PD15 installation (`dec-pd20-stack-support-prototype`): front face down on the 18 mm printed
+  adhesive legs at H4–H7, which nominally clears the HC-11 flat-floor conflict; J5 / JOUT1 seating and the leg fit are
+  measured on the first assembled pair. With D4 settled by the official-GUI pair, D2 (PCB placement and routing of the
+  adopted discharge network) is the remaining PD20 pre-order hold in the decision register.
 - **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker
   and Mac bridges) stay open, as do #228, #231, #235 and #279.

@@ -46,7 +46,8 @@
     "pd20-installed-capacitor-bounds",
     "pd20-land-paste-prototype",
     "b20-d7-wsl-pulse-margin",
-    "pd20-nvm-power-only-gui"
+    "pd20-nvm-power-only-gui",
+    "pd20-stack-support-prototype"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -1046,6 +1047,22 @@
         "fact-stusb-nvm-power-only-gui-pair",
         "fact-stusb-nvm-power-only-position",
         "fact-stusb-nvm-tdispar0v-position"
+      ]
+    },
+    {
+      "key": "pd20-stack-support-prototype",
+      "id": "dec-pd20-stack-support-prototype",
+      "title": "PD20 stack and support: front-face-down on the 18 mm printed adhesive legs; header seating measured at first assembly (readiness D9)",
+      "status": "DISPOSITION",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Claude's call on 2026-11-14 JST under Takazudo's delegation. No PCB or part change. PD20 uses the same installation as PD15: Board B20 front/component face down, with Board P r3 mated below it, standing on the selected 18 mm printed adhesive legs (3dp-files/adhesive-leg) at the same H4-H7 corner holes instead of 11 mm HC-11 supports. The nominal 11.1 mm J5 / JOUT1 plane spacing stays the CAD basis; the actual header seating is measured on the first assembled pair. D9 is no longer a pre-order hold.",
+      "rationale": "The 18 mm seating height clears the HC-11 flat-floor conflict nominally: P substrate at 12.7 mm and the terminal drawing maximum at 14.2 mm leave 5.3 mm and 3.8 mm. On B20 the nearest front-side parts to a corner hole are R64 and R68 (0603) about 5.2 mm from the hole centre, about 0.7 mm nominal clearance to the Ø7 mm pole; the project Ø6 mm collar screen to 16 mm already passes. The 11.0 mm comparison intersects only within the mated J5 / JOUT1 model pair (fully seated XFCN PM254V 8.5 mm body), while every other cross-board pair clears at 11.1 mm. Seating, flex, leg printing, adhesive strength and M3 passage are physical and stay open for first-assembly inspection; none of this is a physical fit.",
+      "evidence": [
+        "fact-c2832269-dimensions",
+        "fact-c492405-dimensions",
+        "fact-c492405-mating"
       ]
     }
   ]
