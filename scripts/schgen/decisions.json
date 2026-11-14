@@ -47,7 +47,8 @@
     "pd20-land-paste-prototype",
     "b20-d7-wsl-pulse-margin",
     "pd20-nvm-power-only-gui",
-    "pd20-stack-support-prototype"
+    "pd20-stack-support-prototype",
+    "b20-d2-back-side-layout"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -1063,6 +1064,23 @@
         "fact-c2832269-dimensions",
         "fact-c492405-dimensions",
         "fact-c492405-mating"
+      ]
+    },
+    {
+      "key": "b20-d2-back-side-layout",
+      "id": "dec-b20-d2-back-side-layout",
+      "title": "B20 D2 layout: discharge network and swapped lands placed on B.Cu as a bounded native edit; supersedes the 2026-11-02 preference against bottom-side placement (readiness D2)",
+      "status": "DISPOSITION",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Claude's call on 2026-11-14 JST under Takazudo's delegation (\"continue by your decision\"; ordering and placement choices go to a separate decision-maker session, which chose option A). Front courtyards cover about 61 % of the board and no WSL2512 site is free on F.Cu, so the six swapped parts (Q51 / Q52 / Q55 to the CSD18543Q3A SON3.3 land, RX12 / RX5 / R76 to R2512_Vishay-WSL) and the 20 new parts (RXN2, RXN3, RDG12, CDG12, RDG5, CDG5, C44, C45, D4, D5, Q7, Q8, Q9, Q13, RSQ1-RSQ4, R81, R82) are placed on B.Cu in two clusters: +12 / +5 V beside J6 / J7 and -12 V plus the sequencer in the upper middle. Pulse paths are 1.2 mm B.Cu with multiple In1 GND vias at each switch source. This supersedes the 2026-11-02 phase 28 owner choice of four layers over bottom-side placement for this network only; B20 becomes a two-sided assembly (JLC Standard PCBA, double side), like Board P r3. No other footprint moved and no rule was relaxed.",
+      "rationale": "manufacturing/verification/pd20-native-d2-layout-20261114/README.md: pinned KiCad 10.0.6 DRC with schematic parity gives 0 errors, 0 unconnected and only the four reviewed J6/J7/J10/J11 library-mismatch warnings; two fresh refills are byte-identical; verify-insert-parts.py (extended for --replace / --field-sync) bounds the edit. CALCULATED: adiabatic I2t from the simulated per-resistor energies (8.96 / 12.95 / 1.04 mJ) gives under 0.3 K on the narrowest (0.6 mm) segment between a rail connector and its switch. Routed copper from J7 / J6 adds 3.4 / 0.6 / 34 mohm to the +12 / +5 / -12 V loads (under 3 %), and from the far J11 header 44 / 61 / 83 mohm (about 9 / 12 / 6 %); this slows each discharge by that fraction and is not re-simulated. Open: the bottom-side CPL rotation and JLC placement preview, the WSL pulse residual (D7), and bench T5. electrical_acceptance stays NOT ESTABLISHED.",
+      "evidence": [
+        "fact-c511023-land-pattern",
+        "fact-c511023-power",
+        "fact-c840100-footprint-review",
+        "fact-c840100-visualization-envelope"
       ]
     }
   ]

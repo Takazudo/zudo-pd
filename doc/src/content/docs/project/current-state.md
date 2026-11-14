@@ -87,8 +87,7 @@ D1–D9 holds stay.
   CSD18543Q3A switches into WSL2512R5000FEA C511023 0.5 Ω loads (three in series on −12 V) and the discrete −12 V
   sequencer with BZT52C3V9-7-F C154917, as simulated PASS (SIM) in 972 corner decks
   ([record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/d2-sequencer-circuit-20261114.md)).
-  KiCad 10.0.6 ERC reports 0 violations and the exported netlist matches the spec. The PCB is not updated, the WSL
-  pulse rating is UNSOURCED and nothing is measured, so D2 stays a pre-order hold.
+  KiCad 10.0.6 ERC reports 0 violations and the exported netlist matches the spec.
   Later on 2026-11-14 JST, under Takazudo's delegation, Claude recorded three desk calls: TDISPAR0V = 15 in the
   Board P r3 20 V NVM intent (`dec-pd20-tdispar0v-15`; 0xCA = 0xFC, desk byte only; the POWER_ONLY_ABOVE_5V map was
   then confirmed at 0xE6 bit 3 by Takazudo's official-GUI export pair, `dec-pd20-nvm-power-only-gui`), typical-curve capacitor evidence accepted as the prototype basis
@@ -99,8 +98,17 @@ D1–D9 holds stay.
   endurance is not given and stays a residual for bench T5.
   D9 then took the PD15 installation (`dec-pd20-stack-support-prototype`): front face down on the 18 mm printed
   adhesive legs at H4–H7, which nominally clears the HC-11 flat-floor conflict; J5 / JOUT1 seating and the leg fit are
-  measured on the first assembled pair. With D4 settled by the official-GUI pair, D2 (PCB placement and routing of the
-  adopted discharge network) is the remaining PD20 pre-order hold in the decision register.
+  measured on the first assembled pair.
+  The D2 PCB layout followed on 2026-11-14 JST (`dec-b20-d2-back-side-layout`, Claude's call under Takazudo's
+  delegation). The six swapped lands and 20 new discharge and sequencer parts are on B.Cu, which faces up when
+  installed. B20 is therefore a two-sided assembly. At the published JLC Standard price this adds $33.77 in setup and
+  stencil per order. Pulse paths are 1.2 mm B.Cu. Pinned KiCad 10.0.6 DRC with schematic parity gives 0 errors and
+  0 unconnected items, with only the four reviewed warnings. Two refills are byte-identical, and the extended insert
+  verifier bounds the edit. The reports, STEP datums (47 pairs), pair assembly preview and development export were
+  re-derived. See the
+  [D2 layout record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/verification/pd20-native-d2-layout-20261114/README.md).
+  D2 is no longer a pre-order hold, and no D-register item now holds the PD20 order. Bottom-side CPL rotations
+  in JLC's placement preview, the WSL repetitive-pulse residual and bench T1–T8 stay open, and nothing is measured.
 - **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker
   and Mac bridges) stay open, as do #228, #231, #235 and #279.

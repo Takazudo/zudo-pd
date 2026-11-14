@@ -14,6 +14,9 @@ Links below resolve inside an export of this pair. Repository documents are name
   `boards/board-p/r3-draft/independent-review.md`, with corrective work and source-bound native receipts beside it.
   Use the actual export revision's DRC/parity and layout dispositions; a historical clean DRC is not current
   acceptance. It is a two-sided board (Standard PCBA, double side).
+- **B20 is now two-sided too (D2, 2026-11-14).** The D2 discharge network and the swapped Q51/Q52/Q55 and
+  RX12/RX5/R76 lands are on B.Cu. Order it as Standard PCBA, double side, and check every bottom-side rotation in
+  JLC's placement preview. See repository `manufacturing/verification/pd20-native-d2-layout-20261114/README.md`.
 - **PD20 electrical order hold.** Actual phase33 refinement reveals modeled no-load slope/current excursions
   beyond the adopted exceptions. Loaded asymmetric discharge, disconnect-before-discharge behavior and maximum
   delivered current including overshoot remain pre-order gates. No tracked ramp-down agreement, excess-current
