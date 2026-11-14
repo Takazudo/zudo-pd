@@ -1,3 +1,4 @@
+import json
 import math
 import re
 import tempfile
@@ -71,6 +72,16 @@ class ReadTests(unittest.TestCase):
         out = fd.read(waveform(tau=(4e-4, 1e-4, 5e-5)))
         self.assertFalse(out['rows']['rvee'])
         self.assertFalse(out['pass'])
+
+
+class RecordTests(unittest.TestCase):
+    def test_attempt2_record_is_fail_on_rvee_only(self):
+        rec = json.loads((Path(__file__).parent / 'd2-fast-discharge-attempt2-20261114.json').read_text())
+        self.assertEqual((rec['reading'], rec['complete'], len(rec['failing'])), ('FAIL (SIM)', 92, 8))
+        for lbl in rec['failing']:
+            rows = rec['cases'][lbl]['rows']
+            self.assertEqual([k for k, ok in rows.items() if not ok], ['rvee'])
+            self.assertTrue(lbl.startswith('phnl'))
 
 
 if __name__ == '__main__':

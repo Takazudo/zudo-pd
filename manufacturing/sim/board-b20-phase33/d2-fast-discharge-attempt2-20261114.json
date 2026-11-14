@@ -1,0 +1,5950 @@
+{
+  "criteria": "d2-fast-discharge-criteria.md",
+  "reading": "FAIL (SIM)",
+  "decks": 162,
+  "complete": 92,
+  "not_complete": [
+    "ceil-mmz",
+    "ceil-mpm",
+    "ceil-mpz",
+    "ceil-mzz",
+    "ceil-pmm",
+    "ceil-pzm",
+    "ceil-pzz",
+    "ceil-zmz",
+    "ceil-zzm",
+    "phnhfh-mmm",
+    "phnhfh-mpz",
+    "phnhfh-mzz",
+    "phnhfh-ppm",
+    "phnhfh-pzm",
+    "phnhfh-zmz",
+    "phnhfh-zzz",
+    "phnhfl-mmm",
+    "phnhfl-mpm",
+    "phnhfl-mzm",
+    "phnhfl-mzz",
+    "phnhfl-pmz",
+    "phnhfl-ppz",
+    "phnhfl-pzm",
+    "phnhfl-zpm",
+    "phnhfl-zpz",
+    "phnlfh-mmz",
+    "phnlfh-mpz",
+    "phnlfh-ppm",
+    "phnlfh-zmm",
+    "phnlfh-zzm",
+    "phnlfh-zzz",
+    "phnlfl-mzz",
+    "phnlfl-ppm",
+    "phnlfl-ppz",
+    "phnlfl-pzm",
+    "phnlfl-zmm",
+    "plnhfh-mmm",
+    "plnhfh-mpm",
+    "plnhfh-mzm",
+    "plnhfh-mzz",
+    "plnhfh-pzm",
+    "plnhfh-zmm",
+    "plnhfl-mmz",
+    "plnhfl-mpm",
+    "plnhfl-mzz",
+    "plnhfl-pmm",
+    "plnhfl-pmz",
+    "plnhfl-ppz",
+    "plnhfl-pzm",
+    "plnhfl-pzz",
+    "plnhfl-zpm",
+    "plnhfl-zpz",
+    "plnhfl-zzz",
+    "plnlfh-mmm",
+    "plnlfh-mpm",
+    "plnlfh-pmm",
+    "plnlfh-pmz",
+    "plnlfh-ppm",
+    "plnlfh-ppz",
+    "plnlfh-pzz",
+    "plnlfh-zmm",
+    "plnlfh-zpm",
+    "plnlfh-zpz",
+    "plnlfl-mmm",
+    "plnlfl-mpm",
+    "plnlfl-mzz",
+    "plnlfl-pmm",
+    "plnlfl-zmm",
+    "plnlfl-zpm",
+    "plnlfl-zpz"
+  ],
+  "failing": [
+    "phnlfh-zmz",
+    "phnlfh-zpm",
+    "phnlfh-zpz",
+    "phnlfl-zmz",
+    "phnlfl-zpm",
+    "phnlfl-zpz",
+    "phnlfl-zzm",
+    "phnlfl-zzz"
+  ],
+  "largest_peak_discharge_current_a": {
+    "+12": 13.39743844491611,
+    "-12": 7.224024960230155,
+    "+5": 5.721572471799448
+  },
+  "largest_resistor_energy_j": {
+    "+12": 0.008955595576058862,
+    "-12": 0.012592786975006178,
+    "+5": 0.0010368155291868295
+  },
+  "cases": {
+    "ceil-zzz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131426,
+      "level_reached_ms": {
+        "+12": 0.584426,
+        "+5": 0.386426,
+        "-12": 1.016426
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 13.39743720144892,
+        "+5": 5.721497929780774,
+        "-12": 7.224024960230155
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.008955595576058862,
+        "+5": 0.00103681531903325,
+        "-12": 0.012592786975006178
+      }
+    },
+    "ceil-zzm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001025999999550267,
+          "values": [
+            12.47998376843395,
+            5.111038647657707,
+            -12.3699989816866,
+            2.599999955026656,
+            -6.416839369194349e-06,
+            -0.0002926062970232124,
+            0.001743649243053369,
+            3.14556984903902e-08,
+            -4.120193182188814e-06,
+            2.573833738731916e-11,
+            0.0314510968055652
+          ]
+        }
+      }
+    },
+    "ceil-zpz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.138269,
+      "level_reached_ms": {
+        "+12": 0.584269,
+        "+5": 0.386269,
+        "-12": 0.869269
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 13.39743737537,
+        "+5": 5.721498906976571,
+        "-12": 6.180060960677804
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0089555951466107,
+        "+5": 0.0010368152408433166,
+        "-12": 0.008042473731151861
+      }
+    },
+    "ceil-zpm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.138473,
+      "level_reached_ms": {
+        "+12": 0.584473,
+        "+5": 0.362473,
+        "-12": 0.869473
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 13.39743844491611,
+        "+5": 4.690427187209615,
+        "-12": 6.180114725587022
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.008955595270942633,
+        "+5": 0.0006507109979088687,
+        "-12": 0.00804257321493552
+      }
+    },
+    "ceil-zmz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq1.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.00102599999936158,
+          "values": [
+            12.47998393157907,
+            5.199961822151861,
+            -12.09373208189557,
+            2.599999936157982,
+            -6.400818961083132e-06,
+            -9.66556933690299e-06,
+            0.004043286739943142,
+            3.614659931372444e-07,
+            3.213890664710561e-07,
+            2.227418249844959e-11,
+            0.03146205983771524
+          ]
+        }
+      }
+    },
+    "ceil-zmm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.140906,
+      "level_reached_ms": {
+        "+12": 0.583906,
+        "+5": 0.361906,
+        "-12": 0.822906
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 13.39743640806842,
+        "+5": 4.690425080620571,
+        "-12": 5.788326970429538
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00895559549031802,
+        "+5": 0.0006507105685017516,
+        "-12": 0.006737695921383109
+      }
+    },
+    "ceil-pzz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999333718,
+          "values": [
+            12.24156737542742,
+            5.199961658976512,
+            -12.36999898680192,
+            2.599999933371822,
+            -0.0002289600538460945,
+            -9.744215901719144e-06,
+            0.001743646987733882,
+            -3.043180527129152e-06,
+            -1.107839864289417e-08,
+            2.573837439475331e-11,
+            0.0312810103516749
+          ]
+        }
+      }
+    },
+    "ceil-pzm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999841033,
+          "values": [
+            12.2415682677476,
+            5.111047523363538,
+            -12.36999898957279,
+            2.599999984103246,
+            -0.0002298953600075038,
+            -0.0002933008586296637,
+            0.001743653920129873,
+            -2.9957615481635e-06,
+            -4.131552870489941e-06,
+            2.57383466391777e-11,
+            0.03128086699681145
+          ]
+        }
+      }
+    },
+    "ceil-ppz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.138477,
+      "level_reached_ms": {
+        "+12": 0.542477,
+        "+5": 0.386477,
+        "-12": 0.869477
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 11.18141080082106,
+        "+5": 5.721572471799448,
+        "-12": 6.180107308125212
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00572933266524763,
+        "+5": 0.0010368155291868295,
+        "-12": 0.0080425621595091
+      }
+    },
+    "ceil-ppm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.138476,
+      "level_reached_ms": {
+        "+12": 0.542476,
+        "+5": 0.362476,
+        "-12": 0.869476
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 11.18141306122632,
+        "+5": 4.690438120239008,
+        "-12": 6.180106764839326
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.005729332605189052,
+        "+5": 0.0006507132317813384,
+        "-12": 0.008042560927158285
+      }
+    },
+    "ceil-pmz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.141468,
+      "level_reached_ms": {
+        "+12": 0.542468,
+        "+5": 0.386468,
+        "-12": 0.823468
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 11.18140995054134,
+        "+5": 5.721495548800483,
+        "-12": 5.788369411453365
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.005729328708833335,
+        "+5": 0.0010368152578247814,
+        "-12": 0.006737872984328245
+      }
+    },
+    "ceil-pmm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000272303,
+          "values": [
+            12.2415671706313,
+            5.111047329755322,
+            -12.09374274509805,
+            2.600000027230271,
+            -0.0002329417308146731,
+            -0.0002972143761894586,
+            0.004154322973363378,
+            -3.015585946286592e-06,
+            -4.110427482828527e-06,
+            2.189696572211611e-11,
+            0.03128646680108571
+          ]
+        }
+      }
+    },
+    "ceil-mzz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999667794,
+          "values": [
+            12.15551365595847,
+            5.199961656014575,
+            -12.36999898756581,
+            2.599999966779429,
+            -0.0003109909106342457,
+            -9.742035842918995e-06,
+            0.001743646661111597,
+            -4.230364993418334e-06,
+            -1.098165114399308e-08,
+            2.573841140218747e-11,
+            0.03121614182997689
+          ]
+        }
+      }
+    },
+    "ceil-mzm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130917,
+      "level_reached_ms": {
+        "+12": 0.527917,
+        "+5": 0.361917,
+        "-12": 1.015917
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 10.4755686052071,
+        "+5": 4.690438510496691,
+        "-12": 7.224024525666801
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.004882529916315009,
+        "+5": 0.0006507134714416876,
+        "-12": 0.012592786969678306
+      }
+    },
+    "ceil-mpz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999939422,
+          "values": [
+            12.15551224340631,
+            5.19996166040366,
+            -12.17083121578604,
+            2.599999993942142,
+            -0.0003139614985911976,
+            -9.767072981503588e-06,
+            0.003472954461358313,
+            -4.185678733392706e-06,
+            4.103029027646699e-09,
+            2.325306613926159e-11,
+            0.03121691086962028
+          ]
+        }
+      }
+    },
+    "ceil-mpm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999795936,
+          "values": [
+            12.15551366141919,
+            5.111048435542328,
+            -12.17083047159771,
+            2.599999979593593,
+            -0.0003146216963614279,
+            -0.0002952822384827414,
+            0.003475921247513725,
+            -3.167013261418106e-06,
+            -4.107598329028406e-06,
+            2.325680389011116e-11,
+            0.03121701336905836
+          ]
+        }
+      }
+    },
+    "ceil-mmz": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999997851461,
+          "values": [
+            12.15564519668775,
+            5.199998038220706,
+            -12.09374413800031,
+            2.599999785146097,
+            -0.0003141764181009421,
+            -9.768847405666747e-06,
+            0.004135226031621642,
+            0.0002605186446089647,
+            7.215800542326178e-05,
+            -1.483777486062839e-08,
+            0.03121700225015413
+          ]
+        }
+      }
+    },
+    "ceil-mmm": {
+      "bank": "ceil",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.14083,
+      "level_reached_ms": {
+        "+12": 0.52783,
+        "+5": 0.36183,
+        "-12": 0.82283
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 10.47556650545209,
+        "+5": 4.690432816002676,
+        "-12": 5.788414492178426
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00488252290544178,
+        "+5": 0.0006507126034680577,
+        "-12": 0.006738085342571987
+      }
+    },
+    "plnlfl-zzz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131199,
+      "level_reached_ms": {
+        "+12": 0.325809,
+        "+5": 0.257809,
+        "-12": 0.333809
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169316033899079,
+        "+5": 2.530044023209928,
+        "-12": 5.527799611227273
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606350967328844,
+        "+5": 8.175625819132415e-05,
+        "-12": 0.001954022124751861
+      }
+    },
+    "plnlfl-zzm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131243,
+      "level_reached_ms": {
+        "+12": 0.325435,
+        "+5": 0.230535,
+        "-12": 0.333435
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169163114376204,
+        "+5": 0.9757676621384537,
+        "-12": 5.526296665963988
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606378642082665,
+        "+5": 9.041619151230174e-06,
+        "-12": 0.0019540136303249833
+      }
+    },
+    "plnlfl-zpz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000010576,
+          "values": [
+            12.47994231869371,
+            5.199779292888069,
+            -11.92550379417523,
+            2.600000001057631,
+            -6.441764753617463e-06,
+            -1.018200845237516e-05,
+            0.003503430004229813,
+            2.516457107049064e-05,
+            6.93811989549431e-06,
+            -7.304592930523768e-09,
+            0.03146073959525861
+          ]
+        }
+      }
+    },
+    "plnlfl-zpm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999993746,
+          "values": [
+            12.47992964285993,
+            4.940902019138194,
+            -11.92564157657083,
+            2.599999999374623,
+            -6.42357008473482e-06,
+            -0.000289006183948004,
+            0.003450667802439966,
+            1.461927467971691e-08,
+            -2.475357499065467e-05,
+            1.381864992803609e-11,
+            0.03143004286836515
+          ]
+        }
+      }
+    },
+    "plnlfl-zmz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155176,
+      "level_reached_ms": {
+        "+12": 0.325194,
+        "+5": 0.258194,
+        "-12": 0.343194
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169742571369284,
+        "+5": 2.529241908182549,
+        "-12": 1.058226174014376
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606310220655862,
+        "+5": 8.175181831779396e-05,
+        "-12": 7.935618861971241e-05
+      }
+    },
+    "plnlfl-zmm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000020539,
+          "values": [
+            12.47992963732935,
+            4.940898663376728,
+            -11.75611641814663,
+            2.600000002053861,
+            -6.439421895265696e-06,
+            -0.0002977501088139434,
+            0.00417486527589972,
+            7.856556294427719e-09,
+            -2.476763397396553e-05,
+            2.149747047042183e-11,
+            0.03143486248292163
+          ]
+        }
+      }
+    },
+    "plnlfl-pzz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130915,
+      "level_reached_ms": {
+        "+12": 0.291633,
+        "+5": 0.257652,
+        "-12": 0.333633
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.838554158529746,
+        "+5": 2.529914208293018,
+        "-12": 5.526307851921112
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0002543093994630722,
+        "+5": 8.175522013398251e-05,
+        "-12": 0.0019540136852694767
+      }
+    },
+    "plnlfl-pzm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131201,
+      "level_reached_ms": {
+        "+12": 0.291191,
+        "+5": 0.230323,
+        "-12": 0.333191
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839624012721728,
+        "+5": 0.9749904134104259,
+        "-12": 5.527798264061343
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0002543111806538897,
+        "+5": 9.041777884060345e-06,
+        "-12": 0.001954022180746068
+      }
+    },
+    "plnlfl-ppz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.16191,
+      "level_reached_ms": {
+        "+12": 0.290886,
+        "+5": 0.257926,
+        "-12": 0.332886
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839522208778263,
+        "+5": 2.529223630260983,
+        "-12": 1.954964404667457
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00025430569511388016,
+        "+5": 8.175182933808482e-05,
+        "-12": 0.0002566206673881188
+      }
+    },
+    "plnlfl-ppm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.161871,
+      "level_reached_ms": {
+        "+12": 0.291743,
+        "+5": 0.229871,
+        "-12": 0.332743
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839041259898714,
+        "+5": 0.9737444811649647,
+        "-12": 1.95493140506679
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00025430770853334766,
+        "+5": 9.042002950930945e-06,
+        "-12": 0.0002566229416012596
+      }
+    },
+    "plnlfl-pmz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.162459,
+      "level_reached_ms": {
+        "+12": 0.291435,
+        "+5": 0.258475,
+        "-12": 0.343435
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839526290389621,
+        "+5": 2.529225526414912,
+        "-12": 1.058075141409294
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0002543060790801662,
+        "+5": 8.175184809227482e-05,
+        "-12": 7.932233285220955e-05
+      }
+    },
+    "plnlfl-pmm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999949741,
+          "values": [
+            11.95585090363733,
+            4.940935464739824,
+            -11.75616604192935,
+            2.599999994974042,
+            -0.0002360721612149064,
+            -0.0003029579244184788,
+            0.004216553357764496,
+            -1.384300591666943e-05,
+            -2.470974517621016e-05,
+            9.266365452731407e-12,
+            0.03095626519111516
+          ]
+        }
+      }
+    },
+    "plnlfl-mzz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999945746,
+          "values": [
+            11.77007540764028,
+            5.199775552405188,
+            -12.37007300643617,
+            2.5999999945746,
+            -0.0003213694070609563,
+            -1.023957486268046e-05,
+            0.001743245065881638,
+            -1.850815172588227e-05,
+            2.550819999669329e-09,
+            2.573854092820701e-11,
+            0.03078842631317773
+          ]
+        }
+      }
+    },
+    "plnlfl-mzm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130915,
+      "level_reached_ms": {
+        "+12": 0.280109,
+        "+5": 0.230208,
+        "-12": 0.333109
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.060395169190087,
+        "+5": 0.9757789158854848,
+        "-12": 5.526309101604607
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871358821977535,
+        "+5": 9.04176159948091e-06,
+        "-12": 0.001954013663085041
+      }
+    },
+    "plnlfl-mpz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.163731,
+      "level_reached_ms": {
+        "+12": 0.280948,
+        "+5": 0.257948,
+        "-12": 0.332948
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.059804299697408,
+        "+5": 2.529802984521385,
+        "-12": 1.954601795230149
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0001487087910888553,
+        "+5": 8.175403063568456e-05,
+        "-12": 0.0002566207930780077
+      }
+    },
+    "plnlfl-mpm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001025999999863467,
+          "values": [
+            11.77007336758325,
+            4.940936222200672,
+            -11.92567698024024,
+            2.599999986346677,
+            -0.0003201819051810162,
+            -0.0003021955549797894,
+            0.003528718743837089,
+            -1.850911706924308e-05,
+            -2.476881888924254e-05,
+            1.381655900800638e-11,
+            0.03078825947570092
+          ]
+        }
+      }
+    },
+    "plnlfl-mmz": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.162832,
+      "level_reached_ms": {
+        "+12": 0.280813,
+        "+5": 0.257813,
+        "-12": 0.342813
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.059430930770436,
+        "+5": 2.529229800475594,
+        "-12": 1.058418232153498
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0001487094957928837,
+        "+5": 8.17518755228633e-05,
+        "-12": 7.937604137134124e-05
+      }
+    },
+    "plnlfl-mmm": {
+      "bank": "plnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999993768,
+          "values": [
+            11.77007089394668,
+            4.940937772455889,
+            -11.75616894721385,
+            2.599999999376749,
+            -0.0003116414959549729,
+            -0.000294229453004391,
+            0.004144254118159552,
+            -1.852647920941308e-05,
+            -2.477666939171286e-05,
+            9.268585898780657e-12,
+            0.03078465604612267
+          ]
+        }
+      }
+    },
+    "plnlfh-zzz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130995,
+      "level_reached_ms": {
+        "+12": 0.325167,
+        "+5": 0.272167,
+        "-12": 0.333167
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169245311766218,
+        "+5": 3.182077849140693,
+        "-12": 5.526288792652123
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606370998638769,
+        "+5": 0.0001518620775537065,
+        "-12": 0.00195401360695964
+      }
+    },
+    "plnlfh-zzm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.13126,
+      "level_reached_ms": {
+        "+12": 0.325653,
+        "+5": 0.247653,
+        "-12": 0.333653
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.168049015980941,
+        "+5": 1.64159643087271,
+        "-12": 5.526307630986251
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606372823773092,
+        "+5": 3.264911850216949e-05,
+        "-12": 0.0019540136040817123
+      }
+    },
+    "plnlfh-zpz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999913456,
+          "values": [
+            12.47992964850152,
+            5.199835292227202,
+            -11.92563655102719,
+            2.599999991345565,
+            -6.485005883405393e-06,
+            -1.028505835165561e-05,
+            0.003648228500765072,
+            3.015011884599517e-08,
+            9.061437822310836e-09,
+            1.381864992803609e-11,
+            0.0314538845054851
+          ]
+        }
+      }
+    },
+    "plnlfh-zpm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999926472,
+          "values": [
+            12.47992962380145,
+            5.007918424011053,
+            -11.92564156804121,
+            2.599999992647214,
+            -6.444584187192959e-06,
+            -0.0002976137202495011,
+            0.003518135652257115,
+            -2.375605845372775e-08,
+            -1.667850864350839e-05,
+            1.381861292060194e-11,
+            0.03143976892287097
+          ]
+        }
+      }
+    },
+    "plnlfh-zmz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155185,
+      "level_reached_ms": {
+        "+12": 0.32513,
+        "+5": 0.27213,
+        "-12": 0.34313
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169853427531137,
+        "+5": 3.182351797791277,
+        "-12": 1.058386111752151
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606326010017904,
+        "+5": 0.00015186488558239757,
+        "-12": 7.937362694231558e-05
+      }
+    },
+    "plnlfh-zmm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001026000000009868,
+          "values": [
+            12.47992963347297,
+            5.007915835954949,
+            -11.75599538031804,
+            2.600000000986767,
+            -6.454486765505862e-06,
+            -0.0003031382611879962,
+            0.004241618843138895,
+            2.101501195284072e-10,
+            -1.665810366091591e-05,
+            -6.297747508673031e-11,
+            0.0314407648659317
+          ]
+        }
+      }
+    },
+    "plnlfh-pzz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999912643,
+          "values": [
+            11.95586254997968,
+            5.199847656535325,
+            -12.37007283805067,
+            2.599999991264336,
+            -0.0002623473716312219,
+            -1.043084921548143e-05,
+            0.001743371727116028,
+            8.863764378475025e-06,
+            2.48083717906411e-05,
+            -1.038614216852807e-08,
+            0.03095863442808321
+          ]
+        }
+      }
+    },
+    "plnlfh-pzm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131143,
+      "level_reached_ms": {
+        "+12": 0.291536,
+        "+5": 0.247536,
+        "-12": 0.333536
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.840055173558099,
+        "+5": 1.641604898895087,
+        "-12": 5.526309375486589
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00025431152987223795,
+        "+5": 3.2649448234325726e-05,
+        "-12": 0.001954013625171429
+      }
+    },
+    "plnlfh-ppz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.00102599999984349,
+          "values": [
+            11.95584771547398,
+            5.199835183335061,
+            -11.92567438967416,
+            2.599999984348969,
+            -0.0002339879846431359,
+            -1.007458610047252e-05,
+            0.003517250288155083,
+            -1.356348195713508e-05,
+            2.676927124412032e-09,
+            1.381829835741162e-11,
+            0.03096307164578649
+          ]
+        }
+      }
+    },
+    "plnlfh-ppm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999923214,
+          "values": [
+            11.95585224941201,
+            5.007941641038423,
+            -11.92567170079715,
+            2.599999992321389,
+            -0.0002333663022682231,
+            -0.0002968463136312494,
+            0.003512441563316315,
+            -1.357734180373882e-05,
+            -1.66494227187286e-05,
+            1.38185574094507e-11,
+            0.03096271460556706
+          ]
+        }
+      }
+    },
+    "plnlfh-pmz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999882655,
+          "values": [
+            11.95584623742392,
+            5.199835203049218,
+            -11.7561579074371,
+            2.599999988265476,
+            -0.0002416634341670942,
+            -1.017159058847028e-05,
+            0.004275163697116113,
+            -1.356792677142948e-05,
+            3.214935873074865e-09,
+            9.266818793799795e-12,
+            0.03096535783902791
+          ]
+        }
+      }
+    },
+    "plnlfh-pmm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001025999999968564,
+          "values": [
+            11.9558508484386,
+            5.007939378402551,
+            -11.7561663814412,
+            2.599999996856347,
+            -0.0002346031649267388,
+            -0.0002984167930435433,
+            0.004201145045158228,
+            -1.357327241180428e-05,
+            -1.665649622850651e-05,
+            9.266217422994789e-12,
+            0.03096288252890272
+          ]
+        }
+      }
+    },
+    "plnlfh-mzz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131495,
+      "level_reached_ms": {
+        "+12": 0.280664,
+        "+5": 0.272664,
+        "-12": 0.333664
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.06080118571667,
+        "+5": 3.182103227690796,
+        "-12": 5.526262617970986
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871000419693209,
+        "+5": 0.00015186210090837048,
+        "-12": 0.0019540135654722256
+      }
+    },
+    "plnlfh-mzm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131226,
+      "level_reached_ms": {
+        "+12": 0.28062,
+        "+5": 0.24762,
+        "-12": 0.33362
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.06080785815157,
+        "+5": 1.641599913313799,
+        "-12": 5.526309883371959
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871357451184304,
+        "+5": 3.2649369771129506e-05,
+        "-12": 0.0019540136129637523
+      }
+    },
+    "plnlfh-mpz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.162878,
+      "level_reached_ms": {
+        "+12": 0.280827,
+        "+5": 0.271827,
+        "-12": 0.332827
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.059387419107424,
+        "+5": 3.182342461244339,
+        "-12": 1.954956410283353
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871251512085936,
+        "+5": 0.00015186475010875295,
+        "-12": 0.00025662339318319893
+      }
+    },
+    "plnlfh-mpm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999863419,
+          "values": [
+            11.77007326075083,
+            5.00794236129127,
+            -11.92567755014464,
+            2.599999986341884,
+            -0.0003084668201154273,
+            -0.0002886306251070891,
+            0.003463198713234306,
+            -1.848947320581829e-05,
+            -1.664808988266486e-05,
+            1.381598539277699e-11,
+            0.03078387276962258
+          ]
+        }
+      }
+    },
+    "plnlfh-mmz": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.163373,
+      "level_reached_ms": {
+        "+12": 0.281319,
+        "+5": 0.272319,
+        "-12": 0.343319
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.05939209331526,
+        "+5": 3.18234674403212,
+        "-12": 1.058107540698484
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871275860682653,
+        "+5": 0.00015186496774392388,
+        "-12": 7.932563640172741e-05
+      }
+    },
+    "plnlfh-mmm": {
+      "bank": "plnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000634623,
+          "values": [
+            11.77010848719776,
+            5.00794674843686,
+            -11.75616598332209,
+            2.600000063462269,
+            -0.0003203042991799521,
+            -0.0002996678927047469,
+            0.004211205114529548,
+            5.624261575576384e-05,
+            -1.011266203931882e-05,
+            -1.68139703641638e-08,
+            0.03078804602111213
+          ]
+        }
+      }
+    },
+    "plnhfl-zzz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.00102600000011095,
+          "values": [
+            12.47992964179753,
+            5.19977581370321,
+            -12.37004672023161,
+            2.600000011094957,
+            -6.408242711586354e-06,
+            -9.990439707507903e-06,
+            0.001743275347166673,
+            6.660144435954862e-09,
+            2.488008021828136e-09,
+            3.087189763088342e-11,
+            0.03145716167758248
+          ]
+        }
+      }
+    },
+    "plnhfl-zzm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130914,
+      "level_reached_ms": {
+        "+12": 0.324888,
+        "+5": 0.229973,
+        "-12": 0.411888
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169834946246738,
+        "+5": 0.9744752512637795,
+        "-12": 6.11057281116611
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606382851219905,
+        "+5": 9.041673523852147e-06,
+        "-12": 0.003154099481163161
+      }
+    },
+    "plnhfl-zpz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq1.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999867157,
+          "values": [
+            12.47992966248038,
+            5.199775794987126,
+            -12.02553548528749,
+            2.599999986715653,
+            -6.419064334295399e-06,
+            -1.005367136031055e-05,
+            0.00340870675415772,
+            5.883566700504161e-08,
+            -8.05295030659181e-09,
+            1.767030965993399e-11,
+            0.03145939248810317
+          ]
+        }
+      }
+    },
+    "plnhfl-zpm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001025999999970018,
+          "values": [
+            12.47992964128992,
+            4.940902033652877,
+            -12.02553436394477,
+            2.599999997001804,
+            -6.45566296952893e-06,
+            -0.0003065497035663611,
+            0.003534795512223354,
+            1.09418465399358e-08,
+            -2.47665425803234e-05,
+            1.766919943690937e-11,
+            0.03143843477794082
+          ]
+        }
+      }
+    },
+    "plnhfl-zmz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156293,
+      "level_reached_ms": {
+        "+12": 0.325311,
+        "+5": 0.258311,
+        "-12": 0.373311
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169741865494245,
+        "+5": 2.529235688586798,
+        "-12": 2.401315646427493
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606303922620579,
+        "+5": 8.175173246414207e-05,
+        "-12": 0.0004666121819890558
+      }
+    },
+    "plnhfl-zmm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155833,
+      "level_reached_ms": {
+        "+12": 0.324747,
+        "+5": 0.229833,
+        "-12": 0.372747
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.16988096638913,
+        "+5": 0.9737363721837715,
+        "-12": 2.401652507861352
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606331877291114,
+        "+5": 9.041851313923947e-06,
+        "-12": 0.00046669861181261114
+      }
+    },
+    "plnhfl-pzz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999997701,
+          "values": [
+            11.95585126225672,
+            5.199775573408369,
+            -12.36988397035418,
+            2.599999999770141,
+            -0.0002392138100049124,
+            -1.027832666977702e-05,
+            0.001743402006809447,
+            -1.354127769559454e-05,
+            4.265672259862185e-10,
+            -1.239571038406476e-10,
+            0.03096404629013351
+          ]
+        }
+      }
+    },
+    "plnhfl-pzm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999981584,
+          "values": [
+            11.95585584777665,
+            4.940935189524276,
+            -12.37004689264718,
+            2.599999998158344,
+            -0.0002387807979857826,
+            -0.0003063988000917561,
+            0.001743401032740621,
+            -1.354164760414278e-05,
+            -2.476878343316002e-05,
+            2.573889249883147e-11,
+            0.03095634534320042
+          ]
+        }
+      }
+    },
+    "plnhfl-ppz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999964885,
+          "values": [
+            11.95584771072836,
+            5.199775627552265,
+            -12.02555828108449,
+            2.599999996488499,
+            -0.0002274508459549907,
+            -1.012335923178398e-05,
+            0.003446534868430717,
+            -1.360734012223475e-05,
+            1.074580779913958e-08,
+            1.766968053355337e-11,
+            0.030964536881879
+          ]
+        }
+      }
+    },
+    "plnhfl-ppm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156128,
+      "level_reached_ms": {
+        "+12": 0.291999,
+        "+5": 0.230128,
+        "-12": 0.379999
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839040908462749,
+        "+5": 0.9737368331309568,
+        "-12": 3.295458477506058
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0002543089908101354,
+        "+5": 9.042067346509343e-06,
+        "-12": 0.0008769383402584673
+      }
+    },
+    "plnhfl-pmz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999936706,
+          "values": [
+            11.95584627186097,
+            5.199775632062393,
+            -11.89337678035747,
+            2.599999993670614,
+            -0.0002379621176942237,
+            -1.026224572342471e-05,
+            0.004207665662875115,
+            -1.354429255684408e-05,
+            -3.789466518355766e-09,
+            1.457404567399104e-11,
+            0.03096394127551026
+          ]
+        }
+      }
+    },
+    "plnhfl-pmm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999923303,
+          "values": [
+            11.95585106028008,
+            4.940935429080676,
+            -11.89338449744206,
+            2.599999992330258,
+            -0.0002253930199458409,
+            -0.0002893049111776236,
+            0.004075527243799115,
+            -1.350974625324852e-05,
+            -2.474446213796e-05,
+            1.457493385241074e-11,
+            0.03095351819510413
+          ]
+        }
+      }
+    },
+    "plnhfl-mzz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999930569,
+          "values": [
+            11.77007541493854,
+            5.19977555248665,
+            -12.37004689368981,
+            2.599999993056847,
+            -0.0003241378783513937,
+            -1.026631389322574e-05,
+            0.001743399183624206,
+            -1.850582310680693e-05,
+            2.628183892738889e-09,
+            2.57383466391777e-11,
+            0.03078559395442753
+          ]
+        }
+      }
+    },
+    "plnhfl-mzm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130912,
+      "level_reached_ms": {
+        "+12": 0.280844,
+        "+5": 0.229969,
+        "-12": 0.411844
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.059203081364576,
+        "+5": 0.9744643269183833,
+        "-12": 6.110554564350938
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871307771222728,
+        "+5": 9.041833001611765e-06,
+        "-12": 0.0031540994036834548
+      }
+    },
+    "plnhfl-mpz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156118,
+      "level_reached_ms": {
+        "+12": 0.281098,
+        "+5": 0.258098,
+        "-12": 0.380098
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.059412907353952,
+        "+5": 2.529213137638397,
+        "-12": 3.295468614781693
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014870829742082153,
+        "+5": 8.175152997126529e-05,
+        "-12": 0.0008769317067061481
+      }
+    },
+    "plnhfl-mpm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000040285,
+          "values": [
+            11.77010016126187,
+            4.940945014895985,
+            -12.02546161362743,
+            2.600000004028496,
+            -0.0003225380860385485,
+            -0.0003043968081897219,
+            0.003521135425899047,
+            3.355118951731129e-05,
+            -7.382813919321052e-06,
+            -1.259074829581171e-08,
+            0.03078496764878425
+          ]
+        }
+      }
+    },
+    "plnhfl-mmz": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999607756,
+          "values": [
+            11.77006613076284,
+            5.199776199263239,
+            -11.89337919172391,
+            2.599999960775617,
+            -0.0003332590799800528,
+            -1.035533927051802e-05,
+            0.004282502334490346,
+            -2.00853170326809e-05,
+            1.267650162617429e-06,
+            1.663854239571568e-11,
+            0.03079261211442488
+          ]
+        }
+      }
+    },
+    "plnhfl-mmm": {
+      "bank": "plnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.162912,
+      "level_reached_ms": {
+        "+12": 0.280782,
+        "+5": 0.229912,
+        "-12": 0.372782
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.058766002091751,
+        "+5": 0.973736270405694,
+        "-12": 2.401263590590393
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871298979351146,
+        "+5": 9.042099736603495e-06,
+        "-12": 0.0004665473667821256
+      }
+    },
+    "plnhfh-zzz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130949,
+      "level_reached_ms": {
+        "+12": 0.324964,
+        "+5": 0.271964,
+        "-12": 0.411964
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169755204768663,
+        "+5": 3.182630789704969,
+        "-12": 6.110549188349659
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606367916167704,
+        "+5": 0.00015186339493570002,
+        "-12": 0.003154099355379594
+      }
+    },
+    "plnhfh-zzm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130919,
+      "level_reached_ms": {
+        "+12": 0.325124,
+        "+5": 0.247124,
+        "-12": 0.412124
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169090016229106,
+        "+5": 1.639949387795291,
+        "-12": 6.11057375705951
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.001160638263221277,
+        "+5": 3.264954802449824e-05,
+        "-12": 0.003154099453511714
+      }
+    },
+    "plnhfh-zpz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155913,
+      "level_reached_ms": {
+        "+12": 0.324859,
+        "+5": 0.271859,
+        "-12": 0.379859
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169852212440091,
+        "+5": 3.182343644539873,
+        "-12": 3.295436600469037
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606318613912993,
+        "+5": 0.00015186464592806275,
+        "-12": 0.0008769153009488989
+      }
+    },
+    "plnhfh-zpm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155945,
+      "level_reached_ms": {
+        "+12": 0.324887,
+        "+5": 0.247887,
+        "-12": 0.379887
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.169857912688016,
+        "+5": 1.64046790989841,
+        "-12": 3.295450091011862
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606320421752236,
+        "+5": 3.264890453686341e-05,
+        "-12": 0.0008769221962220744
+      }
+    },
+    "plnhfh-zmz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156323,
+      "level_reached_ms": {
+        "+12": 0.325269,
+        "+5": 0.272269,
+        "-12": 0.373269
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 7.16985169639166,
+        "+5": 3.182348733103712,
+        "-12": 2.401171606434595
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0011606319761673738,
+        "+5": 0.00015186480419552816,
+        "-12": 0.000466535426420169
+      }
+    },
+    "plnhfh-zmm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001026000001320509,
+          "values": [
+            12.47992963547208,
+            5.007915812564529,
+            -11.89334544324204,
+            2.600000132050893,
+            -6.446514817071147e-06,
+            -0.0002987816740187554,
+            0.004177075958864407,
+            4.438135192685877e-09,
+            -1.665762721358988e-05,
+            1.207293524411549e-11,
+            0.0314400060027748
+          ]
+        }
+      }
+    },
+    "plnhfh-pzz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130919,
+      "level_reached_ms": {
+        "+12": 0.290898,
+        "+5": 0.271898,
+        "-12": 0.411898
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839568142938646,
+        "+5": 3.182633004746705,
+        "-12": 6.110573785654124
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0002543107539304391,
+        "+5": 0.00015186348689738913,
+        "-12": 0.0031540994940101067
+      }
+    },
+    "plnhfh-pzm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001025999999991288,
+          "values": [
+            11.95585568039388,
+            5.00794542831721,
+            -12.37004689205392,
+            2.599999999128835,
+            -0.0002398218151711262,
+            -0.0003050643084065996,
+            0.001743405306569912,
+            -1.355110441636498e-05,
+            -1.665904102310378e-05,
+            2.573826337245085e-11,
+            0.030963907909549
+          ]
+        }
+      }
+    },
+    "plnhfh-ppz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155912,
+      "level_reached_ms": {
+        "+12": 0.291815,
+        "+5": 0.271815,
+        "-12": 0.379815
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839232168254341,
+        "+5": 3.182341260485114,
+        "-12": 3.295469315726599
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00025430969958498503,
+        "+5": 0.00015186462901627297,
+        "-12": 0.0008769320667963347
+      }
+    },
+    "plnhfh-ppm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156448,
+      "level_reached_ms": {
+        "+12": 0.291373,
+        "+5": 0.247373,
+        "-12": 0.379373
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839919675857331,
+        "+5": 1.641841303848484,
+        "-12": 3.294129216787252
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.000254308345845056,
+        "+5": 3.264876572266502e-05,
+        "-12": 0.0008769206328109995
+      }
+    },
+    "plnhfh-pmz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.16192,
+      "level_reached_ms": {
+        "+12": 0.291822,
+        "+5": 0.271822,
+        "-12": 0.372822
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.839217841087937,
+        "+5": 3.182343505540267,
+        "-12": 2.401187754284177
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0002543084158194307,
+        "+5": 0.00015186488434420418,
+        "-12": 0.0004665416502075839
+      }
+    },
+    "plnhfh-pmm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.161813,
+      "level_reached_ms": {
+        "+12": 0.291699,
+        "+5": 0.247733,
+        "-12": 0.372699
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.838476854627444,
+        "+5": 1.641220921134179,
+        "-12": 2.401238961082349
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0002543084517553921,
+        "+5": 3.264885888650457e-05,
+        "-12": 0.0004665430485602179
+      }
+    },
+    "plnhfh-mzz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq1.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999933476,
+          "values": [
+            11.77007539478426,
+            5.19983516818015,
+            -12.37004690179976,
+            2.599999993347565,
+            -0.0003244722913677833,
+            -1.013153701023839e-05,
+            0.001743400762279634,
+            -1.852085316045304e-05,
+            1.502158397670428e-09,
+            2.573844840962162e-11,
+            0.03078562782550342
+          ]
+        }
+      }
+    },
+    "plnhfh-mzm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999582836,
+          "values": [
+            11.77007917609736,
+            5.007950877119547,
+            -12.37004689391262,
+            2.599999958283621,
+            -0.0003251436946811737,
+            -0.0003041738937099581,
+            0.001743402875376887,
+            -1.850965807648208e-05,
+            -1.665453460475419e-05,
+            2.573835589103624e-11,
+            0.03078571120904964
+          ]
+        }
+      }
+    },
+    "plnhfh-mpz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156117,
+      "level_reached_ms": {
+        "+12": 0.281061,
+        "+5": 0.272061,
+        "-12": 0.380061
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.059371678820366,
+        "+5": 3.182337269546601,
+        "-12": 3.295451186823072
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014871140803061477,
+        "+5": 0.00015186463691943704,
+        "-12": 0.0008769226913116891
+      }
+    },
+    "plnhfh-mpm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.00102599999998485,
+          "values": [
+            11.77007329494956,
+            5.007942368391672,
+            -12.02556188741258,
+            2.599999998485036,
+            -0.0003381965491371375,
+            -0.0003163138695754242,
+            0.00360848208617881,
+            -1.851031129262992e-05,
+            -1.665667863903764e-05,
+            1.766974529656314e-11,
+            0.03079261342581992
+          ]
+        }
+      }
+    },
+    "plnhfh-mmz": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.163112,
+      "level_reached_ms": {
+        "+12": 0.280927,
+        "+5": 0.271927,
+        "-12": 0.372927
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 3.060401993169947,
+        "+5": 3.182623769201331,
+        "-12": 2.400773866353439
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00014870998236436224,
+        "+5": 0.00015186247240935974,
+        "-12": 0.0004665419144716988
+      }
+    },
+    "plnhfh-mmm": {
+      "bank": "plnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999828071,
+          "values": [
+            11.77007080537759,
+            5.007943459682813,
+            -11.89338623664973,
+            2.599999982807104,
+            -0.0003068499058827001,
+            -0.0002871390067866741,
+            0.004079121616086923,
+            -1.851037347933016e-05,
+            -1.665643161175012e-05,
+            1.457219992821261e-11,
+            0.03078311099029799
+          ]
+        }
+      }
+    },
+    "phnlfl-zzz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131337,
+      "level_reached_ms": {
+        "+12": 0.364072,
+        "+5": 0.258072,
+        "-12": 0.334072
+      },
+      "first_rvee_ms": 0.334072,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776491360367373,
+        "+5": 2.52991022582934,
+        "-12": 5.526308972543221
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854156602577744,
+        "+5": 8.175516018918397e-05,
+        "-12": 0.0019540136732920607
+      }
+    },
+    "phnlfl-zzm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131255,
+      "level_reached_ms": {
+        "+12": 0.364449,
+        "+5": 0.230548,
+        "-12": 0.333449
+      },
+      "first_rvee_ms": 0.333449,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.775847778920692,
+        "+5": 0.9757723641172884,
+        "-12": 5.52630951803261
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.002085415960808339,
+        "+5": 9.041615975858086e-06,
+        "-12": 0.0019540136497351885
+      }
+    },
+    "phnlfl-zpz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155456,
+      "level_reached_ms": {
+        "+12": 0.364472,
+        "+5": 0.258472,
+        "-12": 0.333472
+      },
+      "first_rvee_ms": 0.333472,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776443986234781,
+        "+5": 2.529233031050836,
+        "-12": 1.955104266699041
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.002085408606069356,
+        "+5": 8.175178013695377e-05,
+        "-12": 0.0002566548157308342
+      }
+    },
+    "phnlfl-zpm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155471,
+      "level_reached_ms": {
+        "+12": 0.364244,
+        "+5": 0.230334,
+        "-12": 0.333244
+      },
+      "first_rvee_ms": 0.333244,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.774904753462323,
+        "+5": 0.9759179117402672,
+        "-12": 1.954452573888946
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854106889375,
+        "+5": 9.04150819813058e-06,
+        "-12": 0.0002566200761830827
+      }
+    },
+    "phnlfl-zmz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155186,
+      "level_reached_ms": {
+        "+12": 0.364202,
+        "+5": 0.258202,
+        "-12": 0.343202
+      },
+      "first_rvee_ms": 0.343202,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776443819049447,
+        "+5": 2.529242596322817,
+        "-12": 1.058357580753268
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854095578633825,
+        "+5": 8.175187228575102e-05,
+        "-12": 7.937767592179025e-05
+      }
+    },
+    "phnlfl-zmm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999867531,
+          "values": [
+            12.47997394917117,
+            4.940896679044501,
+            -11.75611554210296,
+            2.599999986753057,
+            -6.432866257455316e-06,
+            -0.0002996135972352931,
+            0.004190338100897861,
+            4.538918028629269e-05,
+            -2.66571241809288e-05,
+            -1.027857591632634e-08,
+            0.03143573448117255
+          ]
+        }
+      }
+    },
+    "phnlfl-pzz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131497,
+      "level_reached_ms": {
+        "+12": 0.331234,
+        "+5": 0.258234,
+        "-12": 0.334234
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.635346355437242,
+        "+5": 2.529915532881837,
+        "-12": 5.526312995987273
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110396151307291,
+        "+5": 8.175525150505477e-05,
+        "-12": 0.0019540136927722993
+      }
+    },
+    "phnlfl-pzm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001026000001814012,
+          "values": [
+            12.07729485074637,
+            4.940946750121818,
+            -12.37006793571347,
+            2.600000181401218,
+            -0.0002369229811165496,
+            -0.0003061487128661611,
+            0.001743260873695363,
+            -9.312642760050949e-06,
+            -2.491245714963952e-05,
+            2.31746473862889e-11,
+            0.03108706143899794
+          ]
+        }
+      }
+    },
+    "phnlfl-ppz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999944993,
+          "values": [
+            12.07729023143166,
+            5.199775653143542,
+            -11.92567342756186,
+            2.599999994499314,
+            -0.0002371026927221465,
+            -1.027320155344569e-05,
+            0.003553427504812134,
+            -9.004091879205589e-06,
+            -1.345625832982478e-09,
+            1.381809481652378e-11,
+            0.03110529835360013
+          ]
+        }
+      }
+    },
+    "phnlfl-ppm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999760032,
+          "values": [
+            12.07729283198659,
+            4.940946399255505,
+            -11.9256747914215,
+            2.599999976003215,
+            -0.0002252398176096904,
+            -0.0002911732507868692,
+            0.003462278470237834,
+            -9.01893096738604e-06,
+            -2.47735096507995e-05,
+            1.381568933330376e-11,
+            0.03108516112258384
+          ]
+        }
+      }
+    },
+    "phnlfl-pmz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.160404,
+      "level_reached_ms": {
+        "+12": 0.33142,
+        "+5": 0.25842,
+        "-12": 0.34342
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634792840941628,
+        "+5": 2.529229130366605,
+        "-12": 1.058018431777706
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.000711034813467053,
+        "+5": 8.175193921241491e-05,
+        "-12": 7.932253121374167e-05
+      }
+    },
+    "phnlfl-pmm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.159909,
+      "level_reached_ms": {
+        "+12": 0.330822,
+        "+5": 0.229909,
+        "-12": 0.342822
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634343774250333,
+        "+5": 0.9737377278547541,
+        "-12": 1.058063870533098
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110387124540888,
+        "+5": 9.042113773134142e-06,
+        "-12": 7.932307853800005e-05
+      }
+    },
+    "phnlfl-mzz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999648593,
+          "values": [
+            11.93352600959268,
+            5.199779904550259,
+            -12.3700728124745,
+            2.599999964859243,
+            -0.0003535079061975921,
+            -1.057272339721749e-05,
+            0.001743368114148325,
+            3.840541876343195e-05,
+            8.499103387293871e-06,
+            -1.26931417968971e-08,
+            0.03096505933311642
+          ]
+        }
+      }
+    },
+    "phnlfl-mzm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.13148,
+      "level_reached_ms": {
+        "+12": 0.320664,
+        "+5": 0.230764,
+        "-12": 0.333664
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800619305183858,
+        "+5": 0.975746589720238,
+        "-12": 5.52621545953385
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852282377281298,
+        "+5": 9.041677745818743e-06,
+        "-12": 0.0019540135258295827
+      }
+    },
+    "phnlfl-mpz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.161127,
+      "level_reached_ms": {
+        "+12": 0.320144,
+        "+5": 0.258144,
+        "-12": 0.333144
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800335142282655,
+        "+5": 2.529233212179847,
+        "-12": 1.955114870074902
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00048522998445191875,
+        "+5": 8.175184366666966e-05,
+        "-12": 0.0002566574185418233
+      }
+    },
+    "phnlfl-mpm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.160863,
+      "level_reached_ms": {
+        "+12": 0.319776,
+        "+5": 0.229863,
+        "-12": 0.332776
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.799950304020619,
+        "+5": 0.973745579288865,
+        "-12": 1.954940574364698
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00048522720466903744,
+        "+5": 9.042050765132623e-06,
+        "-12": 0.0002566250857526788
+      }
+    },
+    "phnlfl-mmz": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.161463,
+      "level_reached_ms": {
+        "+12": 0.320479,
+        "+5": 0.258479,
+        "-12": 0.343479
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800331434731532,
+        "+5": 2.529232331341117,
+        "-12": 1.058070110284898
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00048522924079170076,
+        "+5": 8.17518557888792e-05,
+        "-12": 7.933071929457021e-05
+      }
+    },
+    "phnlfl-mmm": {
+      "bank": "phnlfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.161222,
+      "level_reached_ms": {
+        "+12": 0.320135,
+        "+5": 0.230222,
+        "-12": 0.343135
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.79993348812004,
+        "+5": 0.9737447957327738,
+        "-12": 1.059018129894829
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852265605869725,
+        "+5": 9.042019710003528e-06,
+        "-12": 7.947225244890001e-05
+      }
+    },
+    "phnlfh-zzz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000209721,
+          "values": [
+            12.47995105223838,
+            5.1998352909001,
+            -12.3700723600341,
+            2.600000020972082,
+            -6.454892172769178e-06,
+            -1.017816555304307e-05,
+            0.001743268067116333,
+            -2.863109216377779e-08,
+            8.903526804715511e-09,
+            2.565248014008148e-11,
+            0.03145575435995208
+          ]
+        }
+      }
+    },
+    "phnlfh-zzm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.00102599999980709,
+          "values": [
+            12.47995106506308,
+            5.007918489014999,
+            -12.3700729457155,
+            2.599999980708999,
+            -6.442902417802543e-06,
+            -0.0003021953988309178,
+            0.001743247537319803,
+            -5.761506827184348e-09,
+            -1.665698103181512e-05,
+            2.573854092820701e-11,
+            0.03144023494825085
+          ]
+        }
+      }
+    },
+    "phnlfh-zpz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155991,
+      "level_reached_ms": {
+        "+12": 0.364712,
+        "+5": 0.272712,
+        "-12": 0.333712
+      },
+      "first_rvee_ms": 0.333712,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.775110568551497,
+        "+5": 3.181220265718427,
+        "-12": 1.954614408232433
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854092396762917,
+        "+5": 0.0001518611713498559,
+        "-12": 0.000256618469332759
+      }
+    },
+    "phnlfh-zpm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.15567,
+      "level_reached_ms": {
+        "+12": 0.363576,
+        "+5": 0.247576,
+        "-12": 0.333576
+      },
+      "first_rvee_ms": 0.333576,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776306000931484,
+        "+5": 1.641850150716698,
+        "-12": 1.954487438352368
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854109396349968,
+        "+5": 3.2648496082869875e-05,
+        "-12": 0.0002566198339434667
+      }
+    },
+    "phnlfh-zmz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": false,
+        "direct_hazard": true
+      },
+      "pass": false,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155246,
+      "level_reached_ms": {
+        "+12": 0.364192,
+        "+5": 0.272192,
+        "-12": 0.343192
+      },
+      "first_rvee_ms": 0.343192,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776563472284067,
+        "+5": 3.182344977475434,
+        "-12": 1.058033197732023
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854120033572377,
+        "+5": 0.00015186484356411608,
+        "-12": 7.931983083758852e-05
+      }
+    },
+    "phnlfh-zmm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999989571,
+          "values": [
+            12.4799510713357,
+            5.007915088050967,
+            -11.75611372436676,
+            2.599999998957141,
+            -6.448865178754204e-06,
+            -0.0003055852461102404,
+            0.004261931884343539,
+            1.519939019090089e-08,
+            -1.66653589985799e-05,
+            9.263071791091685e-12,
+            0.03144706767138814
+          ]
+        }
+      }
+    },
+    "phnlfh-pzz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131492,
+      "level_reached_ms": {
+        "+12": 0.330664,
+        "+5": 0.272664,
+        "-12": 0.333664
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.635540357347665,
+        "+5": 3.182086567896423,
+        "-12": 5.526294676975767
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110394578903622,
+        "+5": 0.00015186213290159,
+        "-12": 0.0019540136248642932
+      }
+    },
+    "phnlfh-pzm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131414,
+      "level_reached_ms": {
+        "+12": 0.330807,
+        "+5": 0.247807,
+        "-12": 0.333807
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.635988968955836,
+        "+5": 1.641592188984774,
+        "-12": 5.526302072075481
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110387028065836,
+        "+5": 3.264926245440272e-05,
+        "-12": 0.0019540136093339124
+      }
+    },
+    "phnlfh-ppz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.159914,
+      "level_reached_ms": {
+        "+12": 0.330863,
+        "+5": 0.271863,
+        "-12": 0.332863
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634373748460149,
+        "+5": 3.182344448722798,
+        "-12": 1.95495504683752
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110364913954794,
+        "+5": 0.00015186491426556916,
+        "-12": 0.00025662303765304094
+      }
+    },
+    "phnlfh-ppm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999712679,
+          "values": [
+            12.07729268250806,
+            5.00794763951266,
+            -11.9256754316477,
+            2.599999971267875,
+            -0.0002324579140804417,
+            -0.0002977829298629331,
+            0.00351781272718199,
+            -9.074137778952718e-06,
+            -1.665319214794181e-05,
+            1.381966763247533e-11,
+            0.03109381734317403
+          ]
+        }
+      }
+    },
+    "phnlfh-pmz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.160083,
+      "level_reached_ms": {
+        "+12": 0.330838,
+        "+5": 0.272838,
+        "-12": 0.343838
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.635966667518773,
+        "+5": 3.181063931354306,
+        "-12": 1.057772883563989
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110373017468188,
+        "+5": 0.00015186216567419816,
+        "-12": 7.932243181604392e-05
+      }
+    },
+    "phnlfh-pmm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.160222,
+      "level_reached_ms": {
+        "+12": 0.330217,
+        "+5": 0.247217,
+        "-12": 0.343217
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.635892992686856,
+        "+5": 1.640800685207296,
+        "-12": 1.057637487681232
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110367686111664,
+        "+5": 3.2649270960887745e-05,
+        "-12": 7.932211525394297e-05
+      }
+    },
+    "phnlfh-mzz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131498,
+      "level_reached_ms": {
+        "+12": 0.32067,
+        "+5": 0.27267,
+        "-12": 0.33367
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800619389296678,
+        "+5": 3.182085007233749,
+        "-12": 5.526296530759787
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852307119238847,
+        "+5": 0.0001518621300012044,
+        "-12": 0.00195401362265198
+      }
+    },
+    "phnlfh-mzm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131197,
+      "level_reached_ms": {
+        "+12": 0.319479,
+        "+5": 0.247479,
+        "-12": 0.333479
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.80062686564321,
+        "+5": 1.640595576896551,
+        "-12": 5.5277991649359
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00048523291229010424,
+        "+5": 3.2649817133578736e-05,
+        "-12": 0.0019540220986467
+      }
+    },
+    "phnlfh-mpz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.00102599999991687,
+          "values": [
+            11.93349622155373,
+            5.199835189554487,
+            -11.9256763160742,
+            2.599999991686958,
+            -0.0003151200114643871,
+            -1.00676659826604e-05,
+            0.003512795787287359,
+            -1.235022756418402e-05,
+            3.115246727247722e-09,
+            1.381829835741162e-11,
+            0.03096854466090633
+          ]
+        }
+      }
+    },
+    "phnlfh-mpm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.16091,
+      "level_reached_ms": {
+        "+12": 0.31985,
+        "+5": 0.24785,
+        "-12": 0.33285
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800065808533908,
+        "+5": 1.640482429591602,
+        "-12": 1.95495047984219
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852278239531977,
+        "+5": 3.2649064741217994e-05,
+        "-12": 0.00025662297261264556
+      }
+    },
+    "phnlfh-mmz": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001025999999739459,
+          "values": [
+            11.93349455658493,
+            5.199835185902212,
+            -11.75616006519823,
+            2.599999973945854,
+            -0.0003263416535901342,
+            -1.017173070749777e-05,
+            0.00427509434359763,
+            -1.232515361948572e-05,
+            -5.72151748201577e-09,
+            9.268733928517273e-12,
+            0.03097076635989996
+          ]
+        }
+      }
+    },
+    "phnlfh-mmm": {
+      "bank": "phnlfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.161463,
+      "level_reached_ms": {
+        "+12": 0.320404,
+        "+5": 0.248404,
+        "-12": 0.343404
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800067679688205,
+        "+5": 1.640478577536072,
+        "-12": 1.058099493574584
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852304927486168,
+        "+5": 3.264930615558822e-05,
+        "-12": 7.932941594702719e-05
+      }
+    },
+    "phnhfl-zzz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131306,
+      "level_reached_ms": {
+        "+12": 0.36463,
+        "+5": 0.25763,
+        "-12": 0.41263
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.775100907549131,
+        "+5": 2.52995319477785,
+        "-12": 6.11057400323519
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854153019454033,
+        "+5": 8.175399913420267e-05,
+        "-12": 0.00315409954969619
+      }
+    },
+    "phnhfl-zzm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130914,
+      "level_reached_ms": {
+        "+12": 0.363888,
+        "+5": 0.229973,
+        "-12": 0.411888
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776539874991059,
+        "+5": 0.9744757261557613,
+        "-12": 6.110572806646645
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854175645555963,
+        "+5": 9.041669950287025e-06,
+        "-12": 0.0031540994804387787
+      }
+    },
+    "phnhfl-zpz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000955415,
+          "values": [
+            12.47995106360208,
+            5.199775802179373,
+            -12.02553220066241,
+            2.600000095541513,
+            -6.409956654351845e-06,
+            -1.005569265544182e-05,
+            0.003409947123031998,
+            -3.211653165635653e-11,
+            2.653180786182929e-09,
+            1.62391211588897e-11,
+            0.03145962169497296
+          ]
+        }
+      }
+    },
+    "phnhfl-zpm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999921095,
+          "values": [
+            12.47995106945325,
+            4.940898090889172,
+            -12.02553694572021,
+            2.59999999210945,
+            -6.444968903451809e-06,
+            -0.0003063491855073153,
+            0.003533901424248143,
+            7.932669632282341e-09,
+            -2.47689483785507e-05,
+            1.766990257815829e-11,
+            0.03143841101842205
+          ]
+        }
+      }
+    },
+    "phnhfl-zmz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156295,
+      "level_reached_ms": {
+        "+12": 0.364312,
+        "+5": 0.258312,
+        "-12": 0.373312
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776448093675839,
+        "+5": 2.529230718126875,
+        "-12": 2.401138102645978
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.002085409512758476,
+        "+5": 8.175182731712733e-05,
+        "-12": 0.0004665342013264835
+      }
+    },
+    "phnhfl-zmm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155829,
+      "level_reached_ms": {
+        "+12": 0.363743,
+        "+5": 0.229829,
+        "-12": 0.372743
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776592286657689,
+        "+5": 0.9737362190148025,
+        "-12": 2.401593771726197
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854115146858652,
+        "+5": 9.041855427702454e-06,
+        "-12": 0.00046667530266279364
+      }
+    },
+    "phnhfl-pzz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131461,
+      "level_reached_ms": {
+        "+12": 0.330783,
+        "+5": 0.257783,
+        "-12": 0.412783
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.635934542365284,
+        "+5": 2.529955903862305,
+        "-12": 6.110573888921587
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110405350454337,
+        "+5": 8.175411756027318e-05,
+        "-12": 0.0031540995612268008
+      }
+    },
+    "phnhfl-pzm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq3.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999963963,
+          "values": [
+            12.07729505913139,
+            4.940946845737818,
+            -12.37004689006979,
+            2.599999996396255,
+            -0.0002372472043816742,
+            -0.0003065646110940179,
+            0.001743401301155245,
+            -8.99060390224804e-06,
+            -2.482006540560633e-05,
+            2.573274926476188e-11,
+            0.0310870941435166
+          ]
+        }
+      }
+    },
+    "phnhfl-ppz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999875125,
+          "values": [
+            12.07729020692228,
+            5.199775654227762,
+            -12.02555987216663,
+            2.59999998751252,
+            -0.0002194306393903389,
+            -1.003858039894112e-05,
+            0.003397278729948994,
+            -9.045936025131596e-06,
+            2.579980673544924e-09,
+            1.766995346338026e-11,
+            0.03109748909782552
+          ]
+        }
+      }
+    },
+    "phnhfl-ppm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156126,
+      "level_reached_ms": {
+        "+12": 0.33104,
+        "+5": 0.230126,
+        "-12": 0.38004
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634336147193501,
+        "+5": 0.9737431807879089,
+        "-12": 3.295575560287217
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.000711035484349856,
+        "+5": 9.042013664950642e-06,
+        "-12": 0.0008769921287771033
+      }
+    },
+    "phnhfl-pmz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000055362,
+          "values": [
+            12.07728887066219,
+            5.199775680635186,
+            -11.8933796514107,
+            2.600000005536145,
+            -0.0002352036824504466,
+            -1.024795665216516e-05,
+            0.004196010814780493,
+            -9.831290213924149e-06,
+            5.659819635184249e-08,
+            -1.729727472365994e-13,
+            0.03109955023635441
+          ]
+        }
+      }
+    },
+    "phnhfl-pmm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.159912,
+      "level_reached_ms": {
+        "+12": 0.330826,
+        "+5": 0.229912,
+        "-12": 0.372826
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634340002239249,
+        "+5": 0.9737382324714092,
+        "-12": 2.401319036570929
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.000711038219391864,
+        "+5": 9.042121009065907e-06,
+        "-12": 0.0004665685605451279
+      }
+    },
+    "phnhfl-mzz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq1.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999924321,
+          "values": [
+            11.93350036543163,
+            5.199775619353252,
+            -12.37004689323195,
+            2.599999992432087,
+            -0.0003220110429538181,
+            -1.026874753051743e-05,
+            0.001743397989685036,
+            -1.240415238612513e-05,
+            -7.315321681744535e-09,
+            2.573889249883147e-11,
+            0.03096921940700534
+          ]
+        }
+      }
+    },
+    "phnhfl-mzm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999557174,
+          "values": [
+            11.93350314851867,
+            4.940949915848757,
+            -12.37004689413176,
+            2.59999995571738,
+            -0.0003226073765745241,
+            -0.0003066125109398854,
+            0.001743401570365677,
+            -1.233047476034699e-05,
+            -2.476999713962869e-05,
+            2.573815235014839e-11,
+            0.03096228806203937
+          ]
+        }
+      }
+    },
+    "phnhfl-mpz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156005,
+      "level_reached_ms": {
+        "+12": 0.320021,
+        "+5": 0.258021,
+        "-12": 0.380021
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800317798358215,
+        "+5": 2.529216612150044,
+        "-12": 3.295624525715211
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852267895756118,
+        "+5": 8.175153194199017e-05,
+        "-12": 0.0008770136818123909
+      }
+    },
+    "phnhfl-mpm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000160694,
+          "values": [
+            11.93349901823866,
+            4.940949993265995,
+            -12.02555863994707,
+            2.600000016069385,
+            -0.0003229225252425749,
+            -0.0003069378839768433,
+            0.003535565348784075,
+            -1.234331844557346e-05,
+            -2.476822403707502e-05,
+            1.729346064497742e-11,
+            0.03096718299700424
+          ]
+        }
+      }
+    },
+    "phnhfl-mmz": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.160921,
+      "level_reached_ms": {
+        "+12": 0.319937,
+        "+5": 0.257937,
+        "-12": 0.372937
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800319238785789,
+        "+5": 2.529226384789006,
+        "-12": 2.401152538180735
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852269670614921,
+        "+5": 8.175182571152e-05,
+        "-12": 0.0004665398685077338
+      }
+    },
+    "phnhfl-mmm": {
+      "bank": "phnhfl",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.001025999999947619,
+          "values": [
+            11.93349732017487,
+            4.940944318265982,
+            -11.89338520450523,
+            2.599999994761842,
+            -0.0003040821189870258,
+            -0.0002892595395564967,
+            0.004074645203672844,
+            -1.235709319757916e-05,
+            -2.476972137799294e-05,
+            1.457480432639121e-11,
+            0.03095957208264491
+          ]
+        }
+      }
+    },
+    "phnhfh-zzz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000000042175,
+          "values": [
+            12.47998130354088,
+            5.199842661732541,
+            -12.36996824629829,
+            2.600000004217538,
+            -6.461841280724911e-06,
+            -1.021674398771211e-05,
+            0.001743431200793566,
+            5.996071968183969e-05,
+            1.463749458707753e-05,
+            -1.308646050783106e-08,
+            0.03145536819200587
+          ]
+        }
+      }
+    },
+    "phnhfh-zzm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.130919,
+      "level_reached_ms": {
+        "+12": 0.364124,
+        "+5": 0.247124,
+        "-12": 0.412124
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.775802560734434,
+        "+5": 1.639940811390279,
+        "-12": 6.110573747049966
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854172485462387,
+        "+5": 3.264943940390078e-05,
+        "-12": 0.003154099453226795
+      }
+    },
+    "phnhfh-zpz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155913,
+      "level_reached_ms": {
+        "+12": 0.363859,
+        "+5": 0.271859,
+        "-12": 0.379859
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776557484619516,
+        "+5": 3.182337071089602,
+        "-12": 3.295436855307667
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.002085409547237315,
+        "+5": 0.00015186452366919292,
+        "-12": 0.0008769155316182548
+      }
+    },
+    "phnhfh-zpm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155658,
+      "level_reached_ms": {
+        "+12": 0.364564,
+        "+5": 0.247564,
+        "-12": 0.379564
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.776126639566812,
+        "+5": 1.641955368873653,
+        "-12": 3.294969008993685
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.002085409785554199,
+        "+5": 3.2648392980063675e-05,
+        "-12": 0.0008769157924163631
+      }
+    },
+    "phnhfh-zmz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999972898,
+          "values": [
+            12.47995106031529,
+            5.199835297626162,
+            -11.89333815269066,
+            2.599999997289811,
+            -6.46002456505812e-06,
+            -1.02053525665724e-05,
+            0.004279149785588743,
+            -3.8509142541443e-09,
+            -2.969287038467883e-09,
+            1.457441574833259e-11,
+            0.03145573482470952
+          ]
+        }
+      }
+    },
+    "phnhfh-zmm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "0",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155237,
+      "level_reached_ms": {
+        "+12": 0.364226,
+        "+5": 0.247226,
+        "-12": 0.373226
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 8.775181371328657,
+        "+5": 1.640879608848842,
+        "-12": 2.400355250894501
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0020854127654911735,
+        "+5": 3.264886457482452e-05,
+        "-12": 0.00046653804688349336
+      }
+    },
+    "phnhfh-pzz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.131446,
+      "level_reached_ms": {
+        "+12": 0.331464,
+        "+5": 0.272464,
+        "-12": 0.412464
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634830114317189,
+        "+5": 3.18263545849732,
+        "-12": 6.110573758798342
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110421001280336,
+        "+5": 0.00015186363039271857,
+        "-12": 0.0031540994921218334
+      }
+    },
+    "phnhfh-pzm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999936426,
+          "values": [
+            12.0772949076181,
+            5.007949529510411,
+            -12.37004690035115,
+            2.59999999364262,
+            -0.0002379790383884028,
+            -0.0003048351314305364,
+            0.001743404376270519,
+            -9.043172525480259e-06,
+            -1.665681689644316e-05,
+            2.57383466391777e-11,
+            0.0310948400381294
+          ]
+        }
+      }
+    },
+    "phnhfh-ppz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.155865,
+      "level_reached_ms": {
+        "+12": 0.33081,
+        "+5": 0.27181,
+        "-12": 0.37981
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.63435645074081,
+        "+5": 3.182337805743252,
+        "-12": 3.295480588620024
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110373131525092,
+        "+5": 0.00015186466793401274,
+        "-12": 0.0008769379072566987
+      }
+    },
+    "phnhfh-ppm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq4.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001025999999950859,
+          "values": [
+            12.0772927067517,
+            5.007947611357985,
+            -12.0255605029428,
+            2.59999999508591,
+            -0.0002276603968311974,
+            -0.0002916483070976028,
+            0.003460334791043351,
+            -9.009318375774455e-06,
+            -1.668516433994682e-05,
+            1.766971754098752e-11,
+            0.03109648135501884
+          ]
+        }
+      }
+    },
+    "phnhfh-pmz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.160491,
+      "level_reached_ms": {
+        "+12": 0.331436,
+        "+5": 0.272436,
+        "-12": 0.373436
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634351993733318,
+        "+5": 3.18234566603692,
+        "-12": 2.401197716504223
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110367243606701,
+        "+5": 0.00015186495717568863,
+        "-12": 0.0004665457864643051
+      }
+    },
+    "phnhfh-pmm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "planning",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.159916,
+      "level_reached_ms": {
+        "+12": 0.330857,
+        "+5": 0.247857,
+        "-12": 0.372857
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 5.634328103060341,
+        "+5": 1.64048208588321,
+        "-12": 2.401242208600114
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0007110377101903826,
+        "+5": 3.264916942636255e-05,
+        "-12": 0.0004665440264140636
+      }
+    },
+    "phnhfh-mzz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": null,
+        "cause": "unrecorded (ngspice named no node)",
+        "last_sample": {
+          "time_s": 0.0010259999998595,
+          "values": [
+            11.93350038859308,
+            5.199835183200469,
+            -12.37004689002798,
+            2.599999985949946,
+            -0.0003229846877275122,
+            -1.014020261891346e-05,
+            0.001743401806152178,
+            -1.234380511050404e-05,
+            2.104783902723284e-09,
+            2.573845766148016e-11,
+            0.03096944872703661
+          ]
+        }
+      }
+    },
+    "phnhfh-mzm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "0",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.13092,
+      "level_reached_ms": {
+        "+12": 0.320124,
+        "+5": 0.247124,
+        "-12": 0.412124
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800636663116713,
+        "+5": 1.639953067528655,
+        "-12": 6.110573785629757
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00048523263373663326,
+        "+5": 3.264990473376994e-05,
+        "-12": 0.0031540994676430125
+      }
+    },
+    "phnhfh-mpz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "0"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq5.xcgd.g1_int1",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.00102599999991088,
+          "values": [
+            11.93353256415598,
+            5.19983659228765,
+            -12.02556147569804,
+            2.599999991087958,
+            -0.0003180460802241214,
+            -1.009497140103122e-05,
+            0.003508462354034236,
+            5.688900216682669e-05,
+            2.803613682544892e-06,
+            3.188151964650388e-10,
+            0.03097390439635399
+          ]
+        }
+      }
+    },
+    "phnhfh-mpm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "planning",
+        "+5": "maximum"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.156113,
+      "level_reached_ms": {
+        "+12": 0.320053,
+        "+5": 0.248053,
+        "-12": 0.380053
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800061377752705,
+        "+5": 1.640479044130773,
+        "-12": 3.295453130140416
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.0004852295453559125,
+        "+5": 3.264923062754052e-05,
+        "-12": 0.0008769236588808867
+      }
+    },
+    "phnhfh-mmz": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "0"
+      },
+      "status": "COMPLETE",
+      "rows": {
+        "disconnect_before_discharge": true,
+        "disconnect_skew": true,
+        "discharge_level_within_100ms": true,
+        "rvee": true,
+        "direct_hazard": true
+      },
+      "pass": true,
+      "disconnect_ms": {
+        "+12": 0.0,
+        "+5": 0.0,
+        "-12": 0.0
+      },
+      "discharge_onset_ms": 0.160915,
+      "level_reached_ms": {
+        "+12": 0.31986,
+        "+5": 0.27186,
+        "-12": 0.37286
+      },
+      "first_rvee_ms": null,
+      "first_hazard_ms": null,
+      "peak_discharge_current_a": {
+        "+12": 4.800101786145888,
+        "+5": 3.18234872418186,
+        "-12": 2.401190232690842
+      },
+      "discharge_resistor_energy_j": {
+        "+12": 0.00048523117973495183,
+        "+5": 0.00015186496315611477,
+        "-12": 0.00046654271037995345
+      }
+    },
+    "phnhfh-mmm": {
+      "bank": "phnhfh",
+      "loads": {
+        "+12": "maximum",
+        "-12": "maximum",
+        "+5": "maximum"
+      },
+      "status": "ABORTED",
+      "abort": {
+        "time_s": 0.001026,
+        "timestep_s": 1.25e-18,
+        "node": "xq2.10",
+        "cause": "node named",
+        "last_sample": {
+          "time_s": 0.001026000004788729,
+          "values": [
+            11.93349440821849,
+            5.007956657586535,
+            -11.89336474654432,
+            2.600000478872857,
+            -0.0003470428874834397,
+            -0.0003267898655963108,
+            0.004406791977658031,
+            -1.768135371094104e-05,
+            1.21795517316059e-06,
+            -4.037162308160683e-09,
+            0.03096727578575414
+          ]
+        }
+      }
+    }
+  }
+}
