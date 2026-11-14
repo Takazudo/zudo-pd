@@ -414,7 +414,9 @@ class WorkflowTests(unittest.TestCase):
                           'description: Also run the D2 fast matched discharge candidate over banks and load corners '
                           '(d2-fast-discharge-criteria.md)', 'type: boolean', 'default: false', 'd2_sequenced:',
                           'description: Also run the D2 sequenced -12 V discharge candidate over banks and load corners '
-                          '(d2-sequenced-criteria.md)', 'type: boolean', 'default: false'])
+                          '(d2-sequenced-criteria.md)', 'type: boolean', 'default: false', 'd2_sequencer_circuit:',
+                          'description: Also run the D2 discrete -12 V sequencer at threshold and zener corners '
+                          '(d2-sequencer-circuit-criteria.md)', 'type: boolean', 'default: false'])
         self.assertRegex(text, r'\npermissions:\n  contents: read\n')
         self.assertIn('timeout-minutes: 300', text)
         self.assertRegex(text, r'\nconcurrency:\n  group: phase33-d1-reference\n')
@@ -436,9 +438,12 @@ class WorkflowTests(unittest.TestCase):
             'inputs.d2_sequenced', 'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
             'inputs.itl4_inertness', 'inputs.osc_bank', 'inputs.ceiling_corners', 'inputs.variant_cross_check',
             'inputs.adv_rshunt_free', 'inputs.d2_fast_discharge',
+            'inputs.d2_sequencer_circuit', 'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
+            'inputs.itl4_inertness', 'inputs.osc_bank', 'inputs.ceiling_corners', 'inputs.variant_cross_check',
+            'inputs.adv_rshunt_free', 'inputs.d2_fast_discharge', 'inputs.d2_sequenced',
             'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation', 'inputs.itl4_inertness',
             'inputs.osc_bank', 'inputs.ceiling_corners', 'inputs.variant_cross_check', 'inputs.adv_rshunt_free',
-            'inputs.d2_fast_discharge', 'inputs.d2_sequenced'])
+            'inputs.d2_fast_discharge', 'inputs.d2_sequenced', 'inputs.d2_sequencer_circuit'])
         self.assertIn("if: inputs.gap_sensitivity && steps.identity.outcome == 'success'", text)
         self.assertNotIn('${{ inputs', text)
         uses = re.findall(r'uses: (\S+)', text)
