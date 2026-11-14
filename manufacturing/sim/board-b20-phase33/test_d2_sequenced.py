@@ -60,5 +60,10 @@ class CalcTests(unittest.TestCase):
         self.assertEqual((rec['cases'], rec['failing']), (10935, 0))
 
 
+    def test_recorded_run_passes_with_every_deck_complete(self):
+        rec = json.loads((HERE / 'd2-sequenced-20261114.json').read_text())
+        self.assertEqual((rec['reading'], rec['complete'], rec['failing'], rec['not_complete']), ('PASS (SIM)', 243, [], []))
+
+
 if __name__ == '__main__':
     unittest.main()
