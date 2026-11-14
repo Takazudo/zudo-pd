@@ -1,4 +1,6 @@
+import json
 import unittest
+from pathlib import Path
 
 import d2_sequencer_circuit as sc
 
@@ -19,6 +21,12 @@ class DeckTests(unittest.TestCase):
         self.assertIn('.model DZSQ D(BV=3.0', text)
         self.assertIn('CDGN dgn m12_out 68n', text)
         self.assertTrue(text.startswith('* d2sc hlrh-phnlfl-zmz'))
+
+
+    def test_recorded_run_passes_every_combo(self):
+        rec = json.loads((Path(__file__).parent / 'd2-sequencer-circuit-20261114.json').read_text())
+        self.assertEqual((rec['reading'], rec['complete'], rec['not_complete']), ('PASS (SIM)', 972, []))
+        self.assertEqual(set(rec['failing_by_combo'].values()), {0})
 
 
 if __name__ == '__main__':
