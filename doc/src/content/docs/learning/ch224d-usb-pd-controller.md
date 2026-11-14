@@ -770,7 +770,6 @@ Our modular synth power supply needs:
 - [J1 substitution options](../overview/board-a-usb-pd-core.md#component-list-lcsc-parts-and-rough-cost-j1-substitution-options) - Connector specifications
 - [Board A: USB-PD Core](../overview/board-a-usb-pd-core.md) - Complete circuit (current STUSB4500 design)
 - [USB Type-C Pinout](./usb-type-c-pinout.md) - Understanding USB-C pins
-- [CH224D Datasheet](/datasheets/CH224D-datasheet.pdf) - Official datasheet
 
 ## References
 

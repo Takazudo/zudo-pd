@@ -17,20 +17,11 @@ This directory contains PCB footprint diagrams and package specifications for al
 
 ## Package Documentation (PDFs)
 
-Reference documents for standard package types:
-
-### Component-Specific Datasheets
-- `CH224D-datasheet.pdf` - WCH CH224D USB PD controller full datasheet
-- `LM2596S-datasheet.pdf` - LM2596S-ADJ DC-DC converter datasheet
-- `SMAJ-datasheet.pdf` - SMAJ series TVS diode specifications
-
-### Generic Package Specifications
-- `D2PAK-package.pdf` - TO-263-2 package dimensions (L7805ABD2T)
-- `DPAK-package.pdf` - TO-252 package dimensions (CJ7912)
-- `SMA-package.pdf` - DO-214AC package dimensions (SMAJ15A)
-- `SMA-DO214AC.pdf` - Alternate SMA package specification
-- `SOT143-package.pdf` - SOT-143 package dimensions (PRTR5V0U2X)
-- `TO-220-package.pdf` - TO-220 package dimensions (L7812CV)
+The datasheets and package drawings formerly kept under `doc/public/datasheets/` moved to the
+private [circuit-dev-resources](https://github.com/Takazudo/circuit-dev-resources) repository.
+[`circuit/external-resources.json`](../circuit/external-resources.json) maps each former file to
+its new path and SHA256. Two old names were wrong: `SMA-package.pdf` is a D-PAK outline and
+`TO-220-package.pdf` is an SOIC-8 outline, and `SMA-DO214AC.pdf` was an access-denied HTML page.
 
 ## Usage Notes
 
