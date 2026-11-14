@@ -43,3 +43,14 @@ is the owner's choice (see the plan).
 ENVELOPE FORMED, with every rail above its maximum. A local smoke test with a stand-in power FET (not evidence) gave a
 detection-to-off of about 0.07–0.21 ms, set by the Q39 corner. The overload peaks were 1.2 or 2 × maximum. The short
 peaked at about 130 A on ±12 V and 60 A on +5 V, with an I²t of about 0.1 A²s on ±12 V.
+
+## Amendment 1 (after attempt 1, before the second dispatch)
+[Attempt 1](d3-let-through-attempt1-20261114.md) was NOT FORMED: all 36 decks aborted in the vendor pass-pair model as
+EN_N reached about 1.8 V, with EN_N rising on a 10 µs time constant (REN 10k into the assumed 1 nF).
+
+The only change is the EN_N load: 1 nF becomes 5 nF, a 50 µs time constant. That matches the slope of the 50 µs edge
+that ran in the D2 decks. Everything else stays as above, including the readouts and the reading rule.
+
+The slower edge delays the pass-pair turn-off, so it lengthens detection-to-off and adds let-through. The envelope from
+this amendment is therefore conservative (an upper bound for this model) on duration, I²t and detection-to-off. The
+peak is unaffected for the short, where it comes from the first microseconds. The report states this beside each figure.

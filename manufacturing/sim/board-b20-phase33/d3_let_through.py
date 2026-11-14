@@ -29,6 +29,7 @@ TRIP_A = {'+12': 2.085, '+5': 0.461, '-12': 1.996}  # limiter design trip points
 ALERT_R = 100.0                                    # INA301 VOL 300 mV max at IOL 3 mA -> 100 ohm (PA extrapolation)
 ALERT_DELAY_S = {'+12': 1e-6, '+5': 1e-6, '-12': 10e-6}   # INA301 tp max; U9A OPA2187 recovery+slew (typical, PA)
 CORNERS = {'q31': {'f': -1.0, 's': -2.5}, 'q39': {'f': 0.5, 's': 1.5}}
+CEN_F = 5e-9                                       # amendment 1 (d3-let-through-criteria.md); attempt 1 was 1 nF
 FAULTS = ('x12', 'x20', 'sht')                     # 1.2 x max, 2 x max, short via 20 mOhm / 100 nH (ASSUMPTION)
 RAILS = {'+12': 'p12', '+5': 'p5', '-12': 'n12'}
 OTHER_LOAD_A = {'+12': d2.PLANNING_A['+12'], '-12': d2.PLANNING_A['-12'], '+5': 0.2243}   # +5 V: d2_sequenced RL5 planning
@@ -113,7 +114,8 @@ RE1 en_ex en_e 4.7k
 RE2 en_e 0 100k
 MQ33 enn en_e 0 0 NLOG
 REN p5sup enn 10k
-CEN enn 0 1n
+* amendment 1: EN_N slowed to a 50 us time constant (attempt 1 aborted in every deck at a 10 us edge); conservative
+CEN enn 0 {CEN_F:g}
 * initial condition only (not a drawn part): both latches held in the enabled state until {ARM_S * 1e6:g} us
 BRSF flt_l 0 I=v(flt_l)/100*0.5*(1-tanh((time-{ARM_S:g})*1e7))
 BRSE enn 0 I=v(enn)/100*0.5*(1-tanh((time-{ARM_S:g})*1e7))

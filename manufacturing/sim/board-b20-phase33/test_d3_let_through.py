@@ -33,6 +33,7 @@ class DeckTests(unittest.TestCase):
         self.assertIn('.model NQ39 NMOS(LEVEL=1 VTO=1.5', text)
         self.assertIn('-i(VTN)-1.996', text)
         self.assertIn('.tran 0.1u 1.5m 0 0.1u', text)
+        self.assertIn('CEN enn 0 5e-09', text)
 
     def test_overload_resistance(self):
         text = lt.derive_cases()['p12-x20-ss'][3]
