@@ -61,5 +61,14 @@ class ReadTests(unittest.TestCase):
         self.assertAlmostEqual(r['peak_a'], 2.5)
 
 
+class RecordTests(unittest.TestCase):
+    def test_recorded_envelope_formed(self):
+        import json
+        from pathlib import Path
+        rec = json.loads((Path(__file__).parent / 'd3-let-through-20261114.json').read_text())
+        self.assertEqual((rec['reading'], rec['complete'], rec['not_complete']), ('ENVELOPE FORMED (SIM)', 36, []))
+        self.assertEqual(len(rec['envelope']), 9)
+
+
 if __name__ == '__main__':
     unittest.main()
