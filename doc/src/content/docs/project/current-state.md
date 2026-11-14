@@ -78,6 +78,11 @@ D1–D9 holds stay.
   regions, no load only. The simulated peaks are within it; condition 3 holds only if its "ramp start" is the rail's own
   start ([E21 binding record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/e21-binding-20261114.md)).
   Electrical acceptance stays NOT ESTABLISHED, and the proposed 350 / 160 mA exception is not adopted.
+  OSC recorded the D3 let-through allowance as E23 at zudo-osc-hole-field `ac48836` (PR #351, merged as `38bcb4a`):
+  ≤ 0.25 ms above the maximum, ≤ 130 A peak and ≤ 0.1 A²s per fault event, one event per power cycle. The simulated
+  envelope (worst 0.226 ms, 123 A, 0.092 A²s) fits it, so D3 is no longer a pre-order hold; a bench detection-to-off
+  measurement and a cable re-run stay open
+  ([E23 record](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/sim/board-b20-phase33/e23-binding-20261114.md)).
 - **Issues.** #97 and #164 were retired as not planned on 2026-11-14 JST (2026-11-13 UTC); their human acceptance maps to #228 and the
   readiness procedures. #218 was already closed. #185 (cross-context Back sidebar restoration) and #210 (0.3.0 checker
   and Mac bridges) stay open, as do #228, #231, #235 and #279.
