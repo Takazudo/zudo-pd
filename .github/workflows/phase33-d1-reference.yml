@@ -27,7 +27,9 @@
 # corners in the same compact decks: a candidate evaluation, never adoption.
 # Opt-in d2_sequencer_circuit (d2-sequencer-circuit-criteria.md) runs the drafted discrete -12 V sequencer at four threshold
 # and zener corners over the same 243 corners: a candidate evaluation, never adoption.
-# Not a generic compute dispatcher: eleven opt-in boolean inputs, no secrets, no write permission, no deploy.
+# Opt-in d3_let_through (d3-let-through-criteria.md) runs the drawn trip chain against three fault classes per rail at
+# Q31 / Q39 threshold corners: a let-through envelope report, never adoption.
+# Not a generic compute dispatcher: twelve opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -76,6 +78,10 @@ on:
         default: false
       d2_sequencer_circuit:
         description: Also run the D2 discrete -12 V sequencer at threshold and zener corners (d2-sequencer-circuit-criteria.md)
+        type: boolean
+        default: false
+      d3_let_through:
+        description: Also run the D3 let-through envelope against the drawn trip chain (d3-let-through-criteria.md)
         type: boolean
         default: false
 
@@ -152,6 +158,11 @@ jobs:
         if: inputs.d2_sequencer_circuit && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank || inputs.ceiling_corners || inputs.variant_cross_check || inputs.adv_rshunt_free || inputs.d2_fast_discharge || inputs.d2_sequenced)
         run: |
           echo "::error::d2_sequencer_circuit is a separate dispatch"
+          exit 1
+      - name: Reject the D3 let-through envelope combined with any other opt-in
+        if: inputs.d3_let_through && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank || inputs.ceiling_corners || inputs.variant_cross_check || inputs.adv_rshunt_free || inputs.d2_fast_discharge || inputs.d2_sequenced || inputs.d2_sequencer_circuit)
+        run: |
+          echo "::error::d3_let_through is a separate dispatch"
           exit 1
       - name: Prepare hash-verified inputs (one bounded TI download each)
         run: |
@@ -366,6 +377,21 @@ jobs:
             fi
           done
           python3 "$PHASE33/d2_sequencer_circuit.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/d2-sequencer-circuit.json"
+      - name: D3 let-through envelope (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.d3_let_through && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/d3_let_through.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/d3lt-manifest.json"
+          labels=$(python3 "$PHASE33/d3_let_through.py" labels)
+          [ -n "$labels" ] || { echo "::error::no d3_let_through labels"; exit 1; }
+          # Each deck runs once; an abort is recorded, never retried.
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/d3_let_through.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: nothing pending"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/d3lt/$label/tracking" $cases --original-only > "$RUNNER_TEMP/out/d3lt-runner-$label.txt" 2>&1; then
+              python3 "$PHASE33/d3_let_through.py" check-run "$RUNNER_TEMP/work" "$label"
+            fi
+          done
+          python3 "$PHASE33/d3_let_through.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/d3-let-through.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |

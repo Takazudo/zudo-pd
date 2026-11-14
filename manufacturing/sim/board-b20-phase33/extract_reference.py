@@ -760,7 +760,7 @@ def collect(work, evidence, extra_dir=None):
     evidence = Path(evidence)
     evidence.mkdir(parents=True)
     work = Path(work)
-    runs = sorted(work.glob('ladder-*')) + sorted(work.glob('gaps/*/ladder-*')) + sorted(work.glob('t2/*/ladder-*')) + sorted(work.glob('itl4/*/ladder-*')) + sorted(work.glob('bank/*/ladder-*')) + sorted(work.glob('ceiling/*/ladder-*')) + sorted(work.glob('xcheck/*/ladder-*')) + sorted(work.glob('r10/*/ladder-*')) + sorted(work.glob('d2fd/*/ladder-*')) + sorted(work.glob('d2sq/*/ladder-*')) + sorted(work.glob('d2sc/*/ladder-*'))
+    runs = sorted(work.glob('ladder-*')) + sorted(work.glob('gaps/*/ladder-*')) + sorted(work.glob('t2/*/ladder-*')) + sorted(work.glob('itl4/*/ladder-*')) + sorted(work.glob('bank/*/ladder-*')) + sorted(work.glob('ceiling/*/ladder-*')) + sorted(work.glob('xcheck/*/ladder-*')) + sorted(work.glob('r10/*/ladder-*')) + sorted(work.glob('d2fd/*/ladder-*')) + sorted(work.glob('d2sq/*/ladder-*')) + sorted(work.glob('d2sc/*/ladder-*')) + sorted(work.glob('d3lt/*/ladder-*'))
     sources = []
     for run in runs:
         prefix = run.relative_to(work).as_posix()
