@@ -1,5 +1,5 @@
 {
-  "reason": "Reviewed 2026-11-09 and 2026-11-11 exact-part evidence additions and the 2026-11-12 D11 RRDY1/RRDY2 move from rec-c25803 to rec-c22807, and the 2026-11-12 D12 OPA2187 input facts and R77-R80 placements; historical migration baselines retained.",
+  "reason": "Reviewed 2026-11-09 and 2026-11-11 exact-part evidence additions and the 2026-11-12 D11 RRDY1/RRDY2 move from rec-c25803 to rec-c22807, and the 2026-11-12 D12 OPA2187 input facts and R77-R80 placements; historical migration baselines retained. The 2026-11-14 readiness D2 adoption promotes rec-c154917, adds rec-c511023, removes rec-c17901 / rec-c17917 / rec-c18005 and moves B20 placements.",
   "records": {
     "stusb4500qtr": {
       "sources": "5838bf3e7af4436233126219d2ba35cd7390f227eb241844a428cbb5ffee40d6"
@@ -14,7 +14,7 @@
       "coverage": "3463593bb43a8bc0af591a981c8922eddef219260ce9f8f9c4a25933198c8e5b"
     },
     "c5451690": {
-      "identity": "7fbe758f5dfa0872f6f1c9d511bccdb3178687886bc73de04c8ee9c6f6762159",
+      "identity": "ef05c95a3a2141a8b5e63b4fa4d591cec77a9ef6c96b249b23aeaaa59b6f197d",
       "aliases": "f80f2469ece098ab692f05a5e882fae4d4a0b1d6ba8c7d6b1f2a3206bebc8439",
       "sources": "4312740aa0496ac603c313c7a5be8f4f9e3e4779639078dcc73d0e1daa8dcbd1",
       "facts": "2be0bf42c49b3d39a2d9c73c4514ed1d6a6038c5376b98853a9861d190903221",
@@ -36,7 +36,8 @@
       "coverage": "ea77aca94ba8fe04ee512c60f05b0d150151b41e91ac3b4c03b03649f2d25b65"
     },
     "c461081": {
-      "facts": "df695299fe6d55bcf5c9b124723c1d83f681e4fe1fb391a69ae4c0efd9fbc3b6"
+      "facts": "df695299fe6d55bcf5c9b124723c1d83f681e4fe1fb391a69ae4c0efd9fbc3b6",
+      "identity": "e0c6a021a69b42f628ea882d1e2242a13337c1823fab96bbde6d5797c2bbfa5b"
     },
     "c13585": {
       "sources": "12f9454d9528fa9af1145520c8e43fbd1300b5a12a3b6d77b9516403534f8aa8",
@@ -50,7 +51,7 @@
       "identity": "b053ecbe1de2f033a66c14d190465ed4db7fb6467322a04f067add3f2ab1d327"
     },
     "c25803": {
-      "identity": "ba4222bf557e9ebd01f4e43da77ceccaed726d9a384d0ac52459ef27232d768c"
+      "identity": "039072ce937070e40da55c950d8b70df88fbadd85f90c61ed3cf6cfb48e7c0d8"
     },
     "c22807": {
       "identity": "28ad4cb0fc170f9dbb7e72b9e522133857ab9d2c926a51ef34bf32b1c2f397a1"
@@ -60,13 +61,37 @@
       "coverage": "e21c38864acfcba651d3a38afa6190336025f94f311bf85783cae9f53b7b9eb7"
     },
     "c840100": {
-      "identity": "951551ba4063dca87b5e6045b52513aa7d4fc1de71d4b178eb07ff89bf766769",
+      "identity": "cfb2b554b180461355fad54dc6291da238ea10451f470ca214164334771997e0",
       "aliases": "75c155f4b643bb1ae9022a13f52b77bb27f52601e9843d93388cef6e6674124f",
       "sources": "68ca14e0630911babe7c95ae4dfa9b5b58c81518b8177dba725cb286749ea977",
       "facts": "9032fa4b4a5cbd1ac24d9f7b92f3207f3e4a0024ee8762b923e74be5558b79a0",
       "coverage": "c643a86aeb9cf0437b67136f824719891ca04e853b90278e3cb884fe309dca76",
       "interactions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
       "pinMaps": "6978e6790bce6379146b8275e1114b53d7d81aa0cec78caee50a9b585bbdb74f"
+    },
+    "bzt52c11-c92321": {
+      "identity": "2b8bff3f99c311fbc693315d7798c29f8817c0f978b7c1542837adfac3866091"
+    },
+    "c23162": {
+      "identity": "fee5213f472fd64b869ea626c3437a4ceac363cba4de18564397c2477064c212"
+    },
+    "c1729": {
+      "identity": "0e869163042043d0976eb9be1423f7eac5f52c16eadb01c7fbd0d14a6a3e773a"
+    },
+    "c40912": {
+      "identity": "afb6638b2abb63696ac5aa6894160bac6c658bb92a6df4ed62b43782371fac44"
+    },
+    "c25804": {
+      "identity": "09313aa8277b4371dbb1d088a09aab41863927d8dba2bbb52f7bc87fdcaa1e2c"
+    },
+    "c136962": {
+      "identity": "90e8ccbfa3fcf9ddfa6c7e67e2a2c258b8a8ccbc569413aaa58de2bed245625f"
+    },
+    "c23178": {
+      "identity": "a4be68c70772a632318ef21770e6caad342a7c337136ecfd957734121d9624c2"
+    },
+    "c22935": {
+      "identity": "dd1cdf56449446abea9034e289249c5ebd8120fdf4d2897dd42d6da9afe348d7"
     }
   }
 }

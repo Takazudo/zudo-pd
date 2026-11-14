@@ -42,7 +42,7 @@ def hazard(v12, vn, v5):
 
 def corners(calc=None, resistors=None, step_s=10e-6, stop_s=0.2):
     calc = idg.calculator() if calc is None else calc
-    resistors = idg.discharge_resistors(calc) if resistors is None else resistors
+    resistors = idg.PRE_D2_DISCHARGE_R if resistors is None else resistors   # the pre-D2 drawn loads (dated record)
     saved = idg.rvee_violation, idg.direct_hazard
     idg.rvee_violation = lambda v12, vn, _absent: rvee(v12, vn)
     idg.direct_hazard = lambda v12, vn, v5, _absent: hazard(v12, vn, v5)

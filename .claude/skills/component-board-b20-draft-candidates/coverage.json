@@ -386,36 +386,6 @@
       ]
     },
     {
-      "coverage_id": "cov-c17901-primary-specification",
-      "record_id": "rec-c17901",
-      "domain": "primary-specification",
-      "status": "COVERED",
-      "reason": "Manufacturer document retrieved and hashed 2026-11-02; PDF not retained.",
-      "fact_ids": [
-        "fact-c17901-manufacturer",
-        "fact-c17901-resistance",
-        "fact-c17901-tolerance",
-        "fact-c17901-tcr",
-        "fact-c17901-power",
-        "fact-c17901-voltage",
-        "fact-c17901-identity"
-      ],
-      "blocking_fact_ids": []
-    },
-    {
-      "coverage_id": "cov-c17901-placement",
-      "record_id": "rec-c17901",
-      "domain": "placement",
-      "status": "OPEN",
-      "reason": "Placed on the unvalidated board-b20-draft (inventory-bound in phase 33); no assembly, bench or as-built record.",
-      "fact_ids": [
-        "fact-c17901-candidate-scope"
-      ],
-      "blocking_fact_ids": [
-        "fact-c17901-candidate-scope"
-      ]
-    },
-    {
       "coverage_id": "cov-c122538-primary-specification",
       "record_id": "rec-c122538",
       "domain": "primary-specification",
@@ -622,36 +592,6 @@
       ],
       "blocking_fact_ids": [
         "fact-c5455461-candidate-scope"
-      ]
-    },
-    {
-      "coverage_id": "cov-c17917-primary-specification",
-      "record_id": "rec-c17917",
-      "domain": "primary-specification",
-      "status": "COVERED",
-      "reason": "Manufacturer document retrieved and hashed 2026-11-02; PDF not retained.",
-      "fact_ids": [
-        "fact-c17917-manufacturer",
-        "fact-c17917-resistance",
-        "fact-c17917-tolerance",
-        "fact-c17917-tcr",
-        "fact-c17917-power",
-        "fact-c17917-voltage",
-        "fact-c17917-identity"
-      ],
-      "blocking_fact_ids": []
-    },
-    {
-      "coverage_id": "cov-c17917-placement",
-      "record_id": "rec-c17917",
-      "domain": "placement",
-      "status": "OPEN",
-      "reason": "Placed on the unvalidated board-b20-draft (inventory-bound in phase 33); no assembly, bench or as-built record.",
-      "fact_ids": [
-        "fact-c17917-candidate-scope"
-      ],
-      "blocking_fact_ids": [
-        "fact-c17917-candidate-scope"
       ]
     },
     {
@@ -1071,36 +1011,6 @@
       ],
       "blocking_fact_ids": [
         "fact-c861309-candidate-scope"
-      ]
-    },
-    {
-      "coverage_id": "cov-c18005-primary-specification",
-      "record_id": "rec-c18005",
-      "domain": "primary-specification",
-      "status": "COVERED",
-      "reason": "Manufacturer document retrieved and hashed 2026-11-02; PDF not retained.",
-      "fact_ids": [
-        "fact-c18005-manufacturer",
-        "fact-c18005-resistance",
-        "fact-c18005-tolerance",
-        "fact-c18005-tcr",
-        "fact-c18005-power",
-        "fact-c18005-voltage",
-        "fact-c18005-identity"
-      ],
-      "blocking_fact_ids": []
-    },
-    {
-      "coverage_id": "cov-c18005-placement",
-      "record_id": "rec-c18005",
-      "domain": "placement",
-      "status": "OPEN",
-      "reason": "Placed on the unvalidated board-b20-draft (inventory-bound in phase 33); no assembly, bench or as-built record.",
-      "fact_ids": [
-        "fact-c18005-candidate-scope"
-      ],
-      "blocking_fact_ids": [
-        "fact-c18005-candidate-scope"
       ]
     },
     {
@@ -1760,12 +1670,56 @@
       "record_id": "rec-c154917",
       "domain": "placement",
       "status": "OPEN",
-      "reason": "Not placed; the D2 sequencer is not yet in board_b20_spec.py. The SOD-123 land already in the library is the BZT52C11 one.",
+      "reason": "Placed as D5 on the unvalidated board-b20-draft schematic (readiness D2, 2026-11-14 JST) on the existing SOD-123_L2.8-W1.8-LS3.7-RD land; not yet placed on the PCB, and no assembly, bench or as-built record.",
       "fact_ids": [
         "fact-c154917-candidate-scope"
       ],
       "blocking_fact_ids": [
         "fact-c154917-candidate-scope"
+      ]
+    },
+    {
+      "coverage_id": "cov-c511023-primary-specification",
+      "record_id": "rec-c511023",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Vishay WSL doc 30100 (23-Nov-2023) retrieved 2026-11-14 with the locked hash; WSL2512 rows read. PDF stored in circuit-dev-resources.",
+      "fact_ids": [
+        "fact-c511023-manufacturer",
+        "fact-c511023-resistance",
+        "fact-c511023-power",
+        "fact-c511023-tcr",
+        "fact-c511023-voltage",
+        "fact-c511023-temperature",
+        "fact-c511023-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c511023-pulse-rating",
+      "record_id": "rec-c511023",
+      "domain": "pulse-rating",
+      "status": "OPEN",
+      "reason": "The datasheet gives pulse capability only through an online calculator; no tabulated single-pulse or short-time-overload limit is retained, so the D2 discharge energy is UNSOURCED against a rating.",
+      "fact_ids": [
+        "fact-c511023-pulse-unsourced"
+      ],
+      "blocking_fact_ids": [
+        "fact-c511023-pulse-unsourced"
+      ]
+    },
+    {
+      "coverage_id": "cov-c511023-placement",
+      "record_id": "rec-c511023",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Placed on the unvalidated board-b20-draft schematic (readiness D2, 2026-11-14 JST); not yet placed on the PCB; no assembly, bench or as-built record. Land drawn from the datasheet pad table, not fabrication-reviewed.",
+      "fact_ids": [
+        "fact-c511023-candidate-scope",
+        "fact-c511023-land-pattern"
+      ],
+      "blocking_fact_ids": [
+        "fact-c511023-candidate-scope"
       ]
     }
   ]

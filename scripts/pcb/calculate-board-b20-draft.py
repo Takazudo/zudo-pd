@@ -100,6 +100,7 @@ R01_TCR = 25e-6
 CSD_RDS_4V5_MAX = 15.6e-3
 CSD_RDS_10V_MAX = 9.9e-3
 CSD_VGS_MAX = 20.0
+CSD_VGSTH = (1.5, 2.7)        # fact-c840100-vgs-th-min / -max, TA 25 C only
 CSD_RDS_HOT_FACTOR_PA = 1.25   # PA: normalized RDS(on) at about 85 C junction, read from a typical curve (not a bound)
 # Diodes BZT52C11-7-F DS18004 (G)
 VZ11 = (10.4, 11.6)
@@ -163,8 +164,11 @@ SERVO_RJ = {'+12': 1e6, '+5': 1e6, '-12': 4.7e6}     # PROPOSED 1 % injection re
 FB_R_TOL, RJ_TOL = 0.001, 0.01
 VIN_UV_RES = (226e3, 18e3)  # PROPOSED 0.1 %, compared with REF/2 from two C861589 8.2 k
 VIN_UV_MAX_PA = VIN_MIN       # PA: trip must stay below the minimum operating VIN
-DISCHARGE_R = {'+12': 100.0, '-12': 150.0, '+5': 33.0}     # PROPOSED 1206
-HOLDUP = {'C': 10e-6, 'R_gate': 100e3, 'R_m12': 470e3 + 1e6, 'R_charge': 56e3}   # CDH, R60, R61 + R62, RDH
+# Readiness D2 (owner decisions 2026-11-14 JST): WSL2512R5000FEA C511023 0.5 ohm loads, three in series on -12 V
+DISCHARGE_R = {'+12': 0.5, '-12': 1.5, '+5': 0.5}
+HOLDUP = {'C': 10e-6, 'R_gate': 100e3, 'R_m12': 4.7e3 + 47.5e3, 'R_charge': 56e3,   # CDH, R60, R61 + R62, RDH
+          'R_m12_gate_frac': 47.5e3 / (4.7e3 + 47.5e3),                            # R62 / (R61 + R62)
+          'R_seq': (100e3, 100e3 + 100e3)}   # D2 sequencer loads on DIS_P: RSQ1 (QR on), RSQ2 + RSQ3 (QP on); all assumed on
 LIMIT_DIV = {  # INA301 LIMIT dividers from REF (0.1 %); LIMIT also carries ILIMIT x (top || bot)
     '+12': {'top': 649.0, 'bot': 2.74e3},
     '+5': {'top': 3.09e3, 'bot': 1.5e3},
@@ -670,11 +674,12 @@ def discharge():
     p5_ratio_max = a / (r5 * math.log(LOAD_BAND['+5'][1] / P5_ORDER_LEVEL))
     en_e = 4.98 * 100e3 / 104.7e3
     v0 = en_e - 0.6                       # PA body-diode drop of Q57
-    rload = 1 / (1 / HOLDUP['R_gate'] + 1 / HOLDUP['R_m12'])
+    rload = 1 / (1 / HOLDUP['R_gate'] + 1 / HOLDUP['R_m12'] + sum(1 / r for r in HOLDUP['R_seq']))
     tau_h = HOLDUP['C'] * rload
-    window = [tau_h * math.log(v0 / max(DMP_VGSTH[1], BSS_VGSTH_MAX)), tau_h * math.log(v0 / max(DMP_VGSTH[0], BSS_VGSTH_MIN_PA))]
+    # Q56 / Q54 (DMP3036) must stay on, and the discharge switches Q51 / Q52 / Q55 (CSD18543Q3A) must stay above VGS(th)
+    window = [tau_h * math.log(v0 / max(DMP_VGSTH[1], CSD_VGSTH[1])), tau_h * math.log(v0 / max(DMP_VGSTH[0], CSD_VGSTH[0]))]
     charge_tau = HOLDUP['C'] * HOLDUP['R_charge']
-    q55_vgs = (v0 + LOAD_BAND['-12'][1]) * 1e6 / HOLDUP['R_m12']
+    q55_vgs = (v0 + LOAD_BAND['-12'][1]) * HOLDUP['R_m12_gate_frac']   # before the DZN 11 V clamp
     peak = {r: LOAD_BAND[r][1] / DISCHARGE_R[r] for r in DISCHARGE_R}
     return {
         'times_at_ceiling_zero_load_s': {'+12': round(t12, 5), '-12': round(tn, 5), '+5': round(t5, 5)},
@@ -701,10 +706,10 @@ def discharge():
         'loaded_fall_rate_v_per_ms': {r: round(I_MAX[r] / C_LOAD_MAX[r] / 1e3, 3) for r in C_LOAD_MAX},
         'discharge_peak_current_a': {r: round(v, 4) for r, v in peak.items()},
         'pulse_rating_status': 'OPEN',
-        'pulse_rating_reason': 'The installed UNI-ROYAL 1206W4F1000T5E/C17901, 1206W4F1500T5E/C17917 and '
-                               '1206W4F330JT5E/C18005 have exact owner records. The retained V.7 short-time overload '
-                               'test bounds the recorded single-event screen only; repetitive discharge endurance is '
-                               'UNSOURCED. See manufacturing/pd20-evidence-research.md; no substitute is adopted.',
+        'pulse_rating_reason': 'Readiness D2: Vishay WSL2512R5000FEA/C511023 solid metal-alloy 0.5 ohm parts (one on '
+                               '+12 and +5, three in series on -12). WSL doc 30100 gives its pulse capability only through '
+                               'an online calculator, not a tabulated limit, so the single-event energy below is not '
+                               'judged against a sourced pulse rating; repetitive discharge endurance is UNSOURCED.',
         'pulse_energy_j': {r: round(0.5 * C_LOAD_MAX[r] * LOAD_BAND[r][1] ** 2, 5) for r in C_LOAD_MAX},
         'reverse_current_after_window_status': 'OPEN',
         'reverse_current_reason': 'During the one-shot window the discharge path draws up to the peak currents above from an '
@@ -878,8 +883,8 @@ P5_SUP_NOM_V = 4.98                                            # PROPOSED AP6320
 RCP_R = 1e3                                                    # RCP1 / RCP3, RAMP to RAMP_P12 / RAMP_P5
 M12_TERMINAL_SINKS = (100e3, 750e3)                            # RMA1 to the U15A virtual ground, RT12NB to TRK12N (~0 V)
 VX_DIV = (30.1e3, 10e3)                                        # RVX1 / RVX2 from REF25
-Q55_BODY_VF_PA = (0.3, 0.6)                                    # PA: BSS138 body diode at ~10-20 uA (no sourced row)
-Q55_DRAIN_R = 150.0                                            # RXN: Q55 (source M12_OUT) drain M12_DX to GND
+Q55_BODY_VF_PA = (0.3, 0.6)                                    # PA: CSD18543Q3A body diode at ~10-20 uA (no sourced row)
+Q55_DRAIN_R = 1.5                                              # R76 + RXN2 + RXN3: Q55 (source M12_OUT) drain M12_DX to GND
 SERIES_R_OPTIONS = (10e3, 100e3, 1e6)                          # paper options (#279): one R_S at every divider-side input
 # Fitted (owner decision 2026-11-12, dec-b20-comparator-input-series-r, 0402 package amendment the same day): 100k 0402
 # C25741 RS12O/RS12U/RS5O/RS5U (R77-R80) on the U6/U7 divider-side inputs; U8 (-12) stays unresistored so its diodes keep

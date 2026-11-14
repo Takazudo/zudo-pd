@@ -1,4 +1,9 @@
-# D2 −12 V discharge sequencer: discrete design draft with a 3.9 V zener reference (PROPOSED, not adopted)
+# D2 −12 V discharge sequencer: discrete design draft with a 3.9 V zener reference (adopted into the schematic 2026-11-14)
+
+**Adopted 2026-11-14 JST** (`dec-b20-d2-sequenced-fast-discharge` in `scripts/schgen/decisions.json`): drawn in
+`board_b20_spec.py` as Q7 / Q8 / Q9 / Q13 (QR / QP / QH / QN), D5 (DZS), RSQ1–RSQ4 and R81 / R82. **Correction:** the
+supply node is `DIS_P`, not `DIS_C` as the table below says. `DIS_C` stays charged while the board is enabled; the
+simulated deck feeds RSQ1 and QP from the disable-gated `dis` node, which is `DIS_P`. The table is kept as drafted.
 
 The owner chose a 3.9 V zener reference on 2026-11-14 JST. This draft turns the behavioural sequencer that passed in
 simulation ([record](d2-sequenced-20261114.md)) into parts. Nothing in the schematic, PCB, BOM or inventory changes

@@ -40,7 +40,8 @@
     "b-stock-gap-substitutions",
     "b20-rdy-timing",
     "b20-comparator-input-series-r",
-    "p-20v-c36-x7r-1206"
+    "p-20v-c36-x7r-1206",
+    "b20-d2-sequenced-fast-discharge"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -940,6 +941,28 @@
           "date": "2026-11-13",
           "observation": "Amendment, decision unchanged: the 0402 package note expected short *_IN stubs to keep the 3 pF stray PA. The native insertion receipt (manufacturing/verification/pd20-native-d12-insert-20261113/README.md, board 83e369f6...) CALCULATES routed upper bounds from per-mm and per-via project assumptions (not extracted or measured): OV12_IN 0.25, OV5_IN 0.62, UV12_IN 1.67 and UV5_IN 3.43 pF. UV5_IN exceeds the PA. Since adc4149 (merged in #283 as e868593) comparator_input_diodes() uses, per U6/U7 channel, the larger of the 3 pF PA and the routed bound (U8 keeps the PA): UV+5 becomes 1.435 us (1.39 us at 3 pF) and the maximum stays 1.802 us on UV+12. The DC thresholds and the IB screen do not depend on capacitance. No OV response budget exists, so the RC is reported, not judged. Takazudo accepted the UV5 route on 2026-11-13. Reconciliation #289."
         }
+      ]
+    },
+    {
+      "key": "b20-d2-sequenced-fast-discharge",
+      "id": "dec-b20-d2-sequenced-fast-discharge",
+      "title": "B20 discharge: disconnect first, then a fast 0.5 / 1.5 / 0.5 ohm discharge through CSD18543Q3A switches, with a discrete -12 V sequencer (readiness D2)",
+      "status": "LOCKED",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Owner decisions by Takazudo on 2026-11-14 JST: the D2 route (disconnect first, then a fast matched discharge), the 3.9 V zener reference, and adoption of the discrete -12 V sequencer into the schematic. Drawn in board_b20_spec.py: Q51 / Q52 / Q55 become CSD18543Q3A C840100; the loads are WSL2512R5000FEA C511023 0.5 ohm (RX12 on +12 V, RX5 on +5 V, R76 + RXN2 + RXN3 in series on -12 V); the +12 / +5 V switches fire from DIS_P through 10k and 22 nF (CL21B223KBANNNC C1729); the -12 V switch is driven from Q54 through R61 4.7k with R62 47.5k (C136962, for the simulated 47k), 47 nF C0G (C5451690) + 22 nF (C1729) for the simulated 68 nF, and an 11 V BZT52C11 clamp. The sequencer (QR / QP / QH / QN = Q7 / Q8 / Q9 / Q13, DZS = D5 BZT52C3V9-7-F C154917, RSQ1-RSQ4, R81 / R82) holds the -12 V switch gate at its source while +12 V is present and |-12 V| is below VZ + VGS(th); it is supplied from DIS_P, which is live only after a disable, as in the simulated deck (the design note's DIS_C label was an error). The retired 1206W4F1000T5E / 1206W4F1500T5E / 1206W4F330JT5E loads leave the inventory.",
+      "rationale": "manufacturing/sim/board-b20-phase33/d2-sequencer-circuit-20261114.md: PASS (SIM) in all 972 corner decks (generic small-FET and zener corner models, vendor CSD18543Q3A model), with 0.35 V left to the 6 V limit at the high corner; built on the fast-discharge deck of d2-sequenced-20261114.md. The two value substitutions keep the simulated time constants within 1.5 % (68 -> 69 nF, 47 -> 47.5k). Open: the WSL pulse rating is UNSOURCED (the datasheet refers pulse capability to an online calculator), the zener VZ at the 0.1-0.3 mA switching current is a PA, PCB placement and routing of the pulse paths, assembly and the bench check. D2 stays a PRE-ORDER HOLD and electrical_acceptance stays NOT ESTABLISHED.",
+      "evidence": [
+        "fact-c511023-resistance",
+        "fact-c511023-power",
+        "fact-c511023-pulse-unsourced",
+        "fact-c511023-candidate-scope",
+        "fact-c154917-vz-min-5ma",
+        "fact-c154917-vz-max-5ma",
+        "fact-c154917-candidate-scope",
+        "fact-c840100-vgs",
+        "fact-c840100-vgs-th-max"
       ]
     }
   ]
