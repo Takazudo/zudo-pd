@@ -31,6 +31,7 @@ FITTED_BANK = {'+12': 49.9e-6, '+5': 24.5e-6, '-12': 42.2e-6}   # OSC owner-repo
 CEILING_BANK = {'+12': 180e-6, '+5': 120e-6, '-12': 180e-6}
 START_V = {'+12': 12.48, '+5': 5.2, '-12': -12.37}               # load-band maxima
 DISABLE_S = 1e-3
+EDGE_S = 50e-6     # amendment 1: the phase-7 disR edge; attempt 1 (1 us) aborted at the edge in every deck
 STOP_S = 6e-3
 LEVEL_V = {'+12': 0.5, '-12': 0.6, '+5': 0.6}
 CURRENT_THRESHOLD_A = 0.010
@@ -106,7 +107,7 @@ RM12S m12_src m12_pre 20m
 CM12 0 m12_pre 57u
 RSHN m12_sh m12_pre 10m
 * shutdown decision: EN_N rises at {td * 1e3:g} ms
-VENN enn 0 PWL(0 0 {td:.6g} 0 {td + 1e-6:.6g} 5)
+VENN enn 0 PWL(0 0 {td:.6g} 0 {td + EDGE_S:.6g} 5)
 * pass pairs held fully on from the amplifier supply (slowest turn-off), drawn pulldowns on EN_N
 RG1 vin p12_g 10k
 RG1P p12_g p12_cs 100k

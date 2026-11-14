@@ -25,7 +25,7 @@ A compact shutdown deck, not the full startup deck. It is built by `d2_fast_disc
 - **Converters:** stiff sources behind 20 mΩ, set at the load-band maxima (12.48 / 5.2 / −12.37 V). The drawn shunts
   and pass pairs use the vendor CSD18543Q3A model.
 - **Pass gates:** at the start, each is held fully on from its amplifier's supply rail through RG 10 kΩ, with the drawn
-  11 V clamp. That is the slowest case for turn-off. EN_N rises at 1.000 ms, with a 1 µs edge, and pulls the gates
+  11 V clamp. That is the slowest case for turn-off. EN_N rises at 1.000 ms, with a 50 µs edge (amendment 1), and pulls the gates
   through the drawn behavioural pulldowns (1/3.5 S).
 - **OSC side:** the bank, with 50 mΩ ESR, and resistive loads at nominal voltage (an ASSUMPTION).
 - **Solver:** pinned settings (`method=gear reltol=1e-3 abstol=1e-9 vntol=1e-5 itl4=200 rshunt=1e10`), `.tran 1u 6m 0
@@ -80,3 +80,14 @@ does not reach the OSC rails.
   discharge after the disconnect, which was measured at 20–24 µs in phase 7.
 - **The firing delays may not be matched across rails.** The −12 V switch's firing time differs from +12 V's. If
   the R-VEE row fails, it will be at the high-+12 V / low-−12 V bank corner, the margin edge in the calculation.
+
+## Amendment 1 (2026-11-14, before attempt 2)
+Attempt 1 is run [43542523696](https://github.com/Takazudo/zudo-pd/actions/runs/43542523696) at `d7e7ba6`. Its
+identity control REPRODUCED, and the artifact digest and every bundle hash matched. All 162 decks ABORTED 0.4 µs into
+the 1 µs EN_N edge, with a timestep of 1.25e-18 s and no node named. The reading was **NOT FORMED**, recorded in
+[`d2-fast-discharge-attempt1-20261114.json`](d2-fast-discharge-attempt1-20261114.json).
+
+The only change for attempt 2 is the EN_N edge, which becomes 50 µs. That is the edge of the phase-7 `disR`
+disconnect deck, which completed with the same vendor models. Everything else stands as written above: the candidate,
+corners, solver settings and reading rule. The rows are still timed from EN_N crossing 2.5 V, and an attempt-2 abort
+is again recorded, not retried.
