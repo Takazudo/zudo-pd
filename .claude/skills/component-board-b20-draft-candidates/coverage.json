@@ -1734,6 +1734,39 @@
       "blocking_fact_ids": [
         "fact-c5451690-candidate-scope"
       ]
+    },
+    {
+      "coverage_id": "cov-c154917-primary-specification",
+      "record_id": "rec-c154917",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Diodes DS18004 Rev. 38-2 retrieved 2026-11-14 with the locked hash; BZT52C3V9 row read. PDF stored in circuit-dev-resources.",
+      "fact_ids": [
+        "fact-c154917-manufacturer",
+        "fact-c154917-vz-min-5ma",
+        "fact-c154917-vz-max-5ma",
+        "fact-c154917-zzt-max",
+        "fact-c154917-zzk-max",
+        "fact-c154917-ir-max",
+        "fact-c154917-pd",
+        "fact-c154917-tj-max",
+        "fact-c154917-polarity",
+        "fact-c154917-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c154917-placement",
+      "record_id": "rec-c154917",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Not placed; the D2 sequencer is not yet in board_b20_spec.py. The SOD-123 land already in the library is the BZT52C11 one.",
+      "fact_ids": [
+        "fact-c154917-candidate-scope"
+      ],
+      "blocking_fact_ids": [
+        "fact-c154917-candidate-scope"
+      ]
     }
   ]
 }

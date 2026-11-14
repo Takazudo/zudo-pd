@@ -2277,6 +2277,45 @@
       "printed_page_label": "1/16, 2/16, 15/16",
       "locator": "Table: Electrical Parameters printed 1/16; part code 2/16; revision history 15/16",
       "evidence_extract": "Manufacturer-hosted E16009 V9: 5 <= R <=10 mOhm is 2 W at +70 C; code B +/-0.1%, R010 10 mOhm, M +/-15 ppm/C, 6 unmarked (9 marked). Revision V5 dated 2024-07-30 explicitly upgrades 5-10 mOhm from 1 W to 2 W; V8 adds 10 ppm/C material. Current family rating explains historical 1 W/2 W disagreement, but does not establish the revision/date of supplied C23067428 stock. Keep 1 W/10 A working bound pending lot confirmation."
+    },
+    {
+      "source_id": "src-c154917-primary",
+      "record_id": "rec-c154917",
+      "document_title": "Diodes Incorporated BZT52C2V0 - BZT52C51 surface mount zener diode",
+      "document_number": "DS18004 Rev. 38 - 2",
+      "revision": "Rev. 38 - 2",
+      "document_date": "2017-10-01",
+      "authoritative_url": "https://www.diodes.com/assets/Datasheets/ds18004.pdf",
+      "alternate_authoritative_url": "https://www.diodes.com/part/view/BZT52C3V9",
+      "retrieval_date": "2026-11-14",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "0fbd7d137524820f0160594065cbceb8c6b3188757c328416d08fceb7418202f",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 1,
+      "printed_page_label": "2",
+      "locator": "Page 2 Electrical Characteristics table, exact BZT52C3V9 row (marking W5); page 1 Mechanical Data (Case SOD123, Polarity Cathode Band) and Ordering Information table, (Type Number)-7-F row; page 2 Thermal Characteristics table",
+      "evidence_extract": "DS18004 Rev. 38-2 (same bytes as the BZT52C11 owner's locked source). Page 2 electrical characteristics, exact BZT52C3V9 row: marking W5, VZ 3.9 V nominal, 3.7 V min, 4.1 V max at IZT 5 mA; ZZT 90 ohm max at 5 mA; ZZK 600 ohm max at IZK 1.0 mA; IR 3.0 uA max at VR 1.0 V; temperature coefficient -3.5 to 0 mV/C at IZTC 5 mA. Thermal table: PD 500 mW (Note 7, TL +75 C), 370 mW (Note 8, TA +25 C); RthJA 338 C/W (Note 8); TJ/TSTG -65 to +150 C. Page 1: Case SOD123, Polarity Cathode Band; ordering (Type Number)-7-F, SOD123, 3,000/tape and reel. No VZ bound below 1 mA. PDF stored in the private circuit-dev-resources repository at diodes/bzt52c3v9-7-f/bzt52c2v0-bzt52c51-datasheet-ds18004-rev-38-2.pdf (same SHA256)."
+    },
+    {
+      "source_id": "src-c154917-identity",
+      "record_id": "rec-c154917",
+      "document_title": "LCSC product page C154917 - BZT52C3V9-7-F | Single Zener Diodes | DIODES | LCSC",
+      "document_number": "C154917",
+      "revision": "volatile web page (as retrieved)",
+      "document_date": "2026-11-14",
+      "authoritative_url": "https://www.lcsc.com/product-detail/C154917.html",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-11-14",
+      "authority_class": "DISTRIBUTOR_IDENTITY",
+      "sha256": "d2753fbbdfcf880cf2074333960517c1080fcde6a23fd85005c562d8fdd32c04",
+      "identity_extract_sha256": "8f88152214882e91b6c4fcf244d35cbfa664816f228ea57c5056ff64a82f9de1",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "web",
+      "locator": "Product page title row and product data row productCode C154917 / productModel BZT52C3V9-7-F / brand DIODES / encapStandard SOD-123, retrieved 2026-11-14",
+      "evidence_extract": "LCSC product page binds C154917 to DIODES BZT52C3V9-7-F, SOD-123, Single Zener Diodes category, 'DIODE ZENER 3.9V 370mW SOD-123'; stock 10,940 at USD 0.0623 (10+ qty) at the 2026-11-14 retrieval. The owner supplied the LCSC number on 2026-11-14 JST.",
+      "refresh_policy": "VOLATILE-HTML",
+      "refresh_note": "Read-only page fetch 2026-11-14 (no cart or quote); stock and price volatile. Live HTML bytes are not deterministic; the exact identity extract is locked separately."
     }
   ]
 }
