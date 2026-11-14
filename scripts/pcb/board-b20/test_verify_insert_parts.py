@@ -91,6 +91,31 @@ class VerifyInsertParts(unittest.TestCase):
         self.assertEqual(result['removed_copper'], [])
         self.assertEqual(result['fill_vertices_changed_inside_region'], {})
 
+    def value_changed(self, ref, base=None):
+        base = self.text if base is None else base
+        start, end = footprint_block(base, ref)
+        block = re.sub(r'\(property "Value" "[^"]*"', '(property "Value" "SYNCED"', base[start:end], count=1)
+        return base[:start] + block + base[end:]
+
+    def test_field_sync_allows_value_text_only(self):
+        result = self.check(self.value_changed('R61', self.inserted()), field_sync={'R61'})
+        self.assertEqual(result['field_synced_parts'], ['R61'])
+        self.refused(self.value_changed('R61', self.inserted()), 'Existing footprint R61 changed')
+
+    def test_field_sync_refuses_a_moved_footprint(self):
+        text = self.value_changed('R61', self.inserted())
+        start, end = footprint_block(text, 'R61')
+        block = re.sub(r'\(at ([-0-9.]+) ', lambda m: f'(at {float(m.group(1)) + 0.5} ', text[start:end], count=1)
+        self.refused(text[:start] + block + text[end:], 'Existing footprint R61 changed', field_sync={'R61'})
+
+    def test_replaced_footprint_may_change_and_must_change(self):
+        text = self.inserted()
+        start, end = footprint_block(text, 'R61')
+        block = re.sub(r'\(at ([-0-9.]+) ', lambda m: f'(at {float(m.group(1)) + 0.5} ', text[start:end], count=1)
+        result = self.check(text[:start] + block + text[end:], replaced={'R61'})
+        self.assertEqual(result['replaced_parts'], ['R61'])
+        self.refused(self.inserted(), 'did not change', replaced={'R61'})
+
     def test_copper_on_another_net_is_refused(self):
         text = self.inserted()
         at = text.index('\n\t(segment')
@@ -148,7 +173,7 @@ class VerifyInsertParts(unittest.TestCase):
         text = self.inserted()
         at = text.index('\n\t(segment')
         far = segment(NET_A, (AT[0] - 40, AT[1] + 30), (AT[0] - 41, AT[1] + 30))
-        self.refused(text[:at] + far + text[at:], 'beyond 10.0 mm of the new parts')
+        self.refused(text[:at] + far + text[at:], 'beyond 10.0 mm')
 
     def test_relaxed_rule_is_refused(self):
         pro = json.loads(self.pro.read_text())
@@ -159,7 +184,7 @@ class VerifyInsertParts(unittest.TestCase):
         text = self.inserted()
         at = text.index('\n\t(segment')
         detour = segment(NET_A, (AT[0] - 4, AT[1]), (AT[0] - 4, AT[1] + 40)) + segment(NET_A, (AT[0] - 4, AT[1] + 40), (AT[0] - 3, AT[1]))
-        self.refused(text[:at] + detour + text[at:], 'beyond 10.0 mm of the new parts')
+        self.refused(text[:at] + detour + text[at:], 'beyond 10.0 mm')
 
     def test_fracture_slits_do_not_count_as_fill_change(self):
         square = [('0', '0'), ('10', '0'), ('10', '10'), ('0', '10')]

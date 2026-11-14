@@ -1,20 +1,26 @@
 """Prove a B20 PCB edit only added parts and changed copper on their nets (plus explicitly allowed nets).
 
 usage: verify-insert-parts.py BEFORE.kicad_pcb AFTER.kicad_pcb --refs R77,R78 [--repin U7.6=UV5_IN ...]
-       [--extra-net NET ...] [--reach-mm 10] --output OUT.json
+       [--replace Q51,RX12] [--field-sync R61,R62] [--extra-net NET ...] [--reach-mm 10] [--added-reach-mm 10]
+       --output OUT.json
 
 Each board's project is read from beside it (BEFORE.kicad_pro, AFTER.kicad_pro, and any .kicad_dru).
 
 Pure Python (sexp), no third-party dependency. Built for an insertion done in native KiCad, where the
 exact copper is only known afterwards. Filled polygons are set aside and:
-- every footprint of BEFORE is in AFTER with an identical tree, and AFTER adds exactly --refs. The only exception
+- every footprint of BEFORE is in AFTER with an identical tree, and AFTER adds exactly --refs. Each --replace
+  reference stays but its footprint may change entirely (a land or side swap); its old and new pad nets are allowed
+  and both its old and new courtyard anchor the reach and fill region. Each --field-sync footprint may differ only in
+  its Value and LCSC property text. The only exception
   is each --repin pad: a series part splits a net, so that existing pad moves from one new-part net to another
   (for example U7.6 from UV5_DIV to UV5_IN). Its old and new net must be on two pads of one new part, the new
   net must not exist anywhere in BEFORE, and the pad must change; nothing else in that footprint may;
 - the allowed nets are the nets on the new footprints' pads plus each --extra-net; every segment and via on any
   other net is unchanged as a whole tree (identity included);
-- every removed or added segment or via lies, along its whole length, within --reach-mm of a new courtyard or a repinned
-  footprint, so copper on an allowed net cannot change elsewhere on the board;
+- every removed segment or via, except copper on a net whose every BEFORE pad is on a replaced footprint (a net
+  re-laid out whole), lies, along its whole length, within --reach-mm of a new or replaced (old or new)
+  courtyard or a repinned footprint, and every added one within --added-reach-mm (default --reach-mm), so copper on
+  an allowed net cannot change elsewhere on the board. The largest distance found for each is reported;
 - every other top-level node (setup, layers, outline and legend graphics, zone definitions) is identical;
 - the project's design rules (board.design_settings and net_settings in .kicad_pro, plus any sibling .kicad_dru)
   are identical, so no rule is relaxed outside the PCB file;
@@ -219,8 +225,19 @@ def all_nets(tree):
     return found
 
 
-def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REACH_MM):
+FIELD_SYNC_PROPERTIES = ('Value', 'LCSC')
+
+
+def without_synced_fields(fp_node):
+    return [[q[0], q[1], '<synced>'] + q[3:] if isinstance(q, list) and q and atom(q[0]) == 'property'
+            and atom(q[1]) in FIELD_SYNC_PROPERTIES else q for q in fp_node]
+
+
+def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REACH_MM, replaced=(), field_sync=(),
+           added_reach_mm=None):
     repins = dict(repins or {})
+    replaced, field_sync = set(replaced), set(field_sync)
+    added_reach_mm = reach_mm if added_reach_mm is None else added_reach_mm
     if Path(before_path).resolve() == Path(after_path).resolve():
         raise SystemExit('BEFORE and AFTER are the same file')
     rules_before, project_before = rules(before_path)
@@ -238,7 +255,13 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
         raise SystemExit(f'Footprints removed: {sorted(set(old) - set(new))}')
     if set(new) - set(old) != refs:
         raise SystemExit(f'Footprints added {sorted(set(new) - set(old))} differ from expected {sorted(refs)}')
-    part_nets = set().union(*(pad_nets(new[r]) for r in refs)) if refs else set()
+    missing = (replaced | field_sync) - (set(old) & set(new))
+    if missing or replaced & field_sync or (replaced | field_sync) & refs:
+        raise SystemExit(f'--replace/--field-sync must name distinct existing footprints: {sorted(missing)}')
+    unchanged = sorted(r for r in replaced if key(strip(old[r])) == key(strip(new[r])))
+    if unchanged:
+        raise SystemExit(f'Replaced footprints {unchanged} did not change; drop them from --replace')
+    part_nets = set().union(set(), *(pad_nets(new[r]) for r in refs), *(pad_nets(old[r]) | pad_nets(new[r]) for r in replaced))
     before_nets = all_nets(before)
     repinned = []
     for spec, net_to in sorted(repins.items()):
@@ -256,7 +279,11 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
             raise SystemExit(f'Repinned pad {spec} is not on {net_to} in AFTER')
         set_pad_net(old[ref], number, child(after_pad, 'net'))
         repinned.append({'pad': spec, 'from': net_from, 'to': net_to})
-    for ref in sorted(old):
+    for ref in sorted(field_sync):
+        if key(strip(old[ref])) == key(strip(new[ref])):
+            raise SystemExit(f'Field-sync footprint {ref} did not change; drop it from --field-sync')
+        old[ref], new[ref] = without_synced_fields(old[ref]), without_synced_fields(new[ref])
+    for ref in sorted(set(old) - replaced):
         if key(strip(old[ref])) != key(strip(new[ref])):
             raise SystemExit(f'Existing footprint {ref} changed' + (' beyond its repinned pad' if any(
                 r['pad'].split('.')[0] == ref for r in repinned) else ''))
@@ -287,18 +314,32 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     if unused:
         raise SystemExit(f'Extra nets {sorted(unused)} were allowed but not changed; drop them from the allowance')
 
-    anchors = [courtyard(new[r]) for r in refs] + [footprint_reach(new[r['pad'].split('.')[0]]) for r in repinned]
+    courtyards = ([courtyard(new[r]) for r in refs] + [courtyard(old[r]) for r in sorted(replaced)]
+                  + [courtyard(new[r]) for r in sorted(replaced)])
+    anchors = courtyards + [footprint_reach(new[r['pad'].split('.')[0]]) for r in repinned]
 
-    def near(point):
-        return any(seg_distance(point, a, b) <= r + reach_mm for a, b, r in anchors)
+    def distance(point):
+        return min(max(0.0, seg_distance(point, a, b) - r) for a, b, r in anchors)
 
-    for item in removed + added:
-        a, b, _r = reach(item)
-        steps = max(1, math.ceil(math.dist(a, b) / 0.5))
-        if not all(near([a[0] + (b[0] - a[0]) * k / steps, a[1] + (b[1] - a[1]) * k / steps]) for k in range(steps + 1)):
-            raise SystemExit(f'Copper change on {item["net"]} lies beyond {reach_mm} mm of the new parts: {item}')
+    # A net whose every BEFORE pad sits on a replaced footprint is re-laid out whole, so its old copper may go anywhere.
+    other_pads = set().union(set(), *(pad_nets(fp) for r, fp in old.items() if r not in replaced))
+    vanished = sorted({item['net'] for item in removed} - other_pads - {'GND'})
+    farthest = {}
+    for label, items, limit in (('removed', [i for i in removed if i['net'] not in vanished], reach_mm),
+                                ('added', added, added_reach_mm)):
+        farthest[label] = 0.0
+        for item in items:
+            a, b, _r = reach(item)
+            steps = max(1, math.ceil(math.dist(a, b) / 0.5))
+            worst = max(distance([a[0] + (b[0] - a[0]) * k / steps, a[1] + (b[1] - a[1]) * k / steps])
+                        for k in range(steps + 1))
+            item['reach_mm'] = round(worst, 3)
+            farthest[label] = max(farthest[label], worst)
+            if worst > limit:
+                raise SystemExit(f'{label.capitalize()} copper on {item["net"]} lies {worst:.2f} mm from the edited parts, '
+                                 f'beyond {limit} mm: {item}')
 
-    region = [courtyard(new[r]) for r in refs] + [reach(item) for item in removed + added]
+    region = courtyards + [reach(item) for item in removed + added]
 
     def inside(point):
         p = (float(point[0]), float(point[1]))
@@ -318,8 +359,11 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     return {'scope': 'B20 part insertion: existing footprints, copper on other nets and non-copper content unchanged; '
                      'fill changes confined to the edit region; not electrical acceptance',
             'before_sha256': hashlib.sha256(raw_before).hexdigest(), 'after_sha256': hashlib.sha256(raw_after).hexdigest(),
-            'added_parts': sorted(refs), 'part_nets': sorted(part_nets), 'extra_nets': sorted(extra_nets),
-            'repinned_pads': repinned, 'reach_mm': reach_mm, 'project_rules_identical': True,
+            'added_parts': sorted(refs), 'replaced_parts': sorted(replaced), 'field_synced_parts': sorted(field_sync),
+            'part_nets': sorted(part_nets), 'extra_nets': sorted(extra_nets),
+            'repinned_pads': repinned, 'reach_mm': reach_mm, 'added_reach_mm': added_reach_mm,
+            'farthest_change_mm': {k: round(v, 3) for k, v in farthest.items()},
+            'retired_nets': {n: sum(1 for i in removed if i['net'] == n) for n in vanished}, 'project_rules_identical': True,
             'project_before_sha256': project_before, 'project_after_sha256': project_after,
             'removed_copper': removed, 'added_copper': added,
             'existing_footprints_identical': len(old), 'other_net_copper_identical': len(fixed_before),
@@ -333,12 +377,17 @@ def main():
     parser.add_argument('--refs', required=True)
     parser.add_argument('--repin', action='append', default=[], help='REF.PAD=NEW_NET')
     parser.add_argument('--extra-net', action='append', default=[])
+    parser.add_argument('--replace', default='', help='existing references whose footprint is swapped')
+    parser.add_argument('--field-sync', default='', help='existing references whose Value/LCSC text changes')
     parser.add_argument('--reach-mm', type=float, default=REACH_MM)
+    parser.add_argument('--added-reach-mm', type=float)
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
     repins = dict(r.split('=', 1) for r in args.repin)
-    result = verify(args.before, args.after, set(filter(None, args.refs.split(','))), args.extra_net, repins,
-                    args.reach_mm)
+    def refs_of(text):
+        return set(filter(None, text.split(',')))
+    result = verify(args.before, args.after, refs_of(args.refs), args.extra_net, repins, args.reach_mm,
+                    refs_of(args.replace), refs_of(args.field_sync), args.added_reach_mm)
     Path(args.output).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({k: v for k, v in result.items() if k not in ('removed_copper', 'added_copper')}, indent=2))
 
