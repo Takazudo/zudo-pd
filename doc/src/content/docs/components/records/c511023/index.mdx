@@ -93,15 +93,17 @@ Coverage is stated one domain at a time and is never rolled up. A domain marked 
 
 **Coverage ID:** `cov-c511023-pulse-rating` · **Status:** OPEN
 
-**Reason:** The datasheet gives pulse capability only through an online calculator; no tabulated single-pulse or short-time-overload limit is retained, so the D2 discharge energy is UNSOURCED against a rating.
+**Reason:** The datasheet refers pulse capability to Vishay's online calculator. An owner-supplied capture of that calculator (2026-11-14) gives 0.831 J single-pulse energy at 125 C, about 59x the largest D2 per-part energy, but the image is not a Vishay-issued document and gives no repetitive-pulse endurance, so the domain stays OPEN.
 
 **Facts in this domain:**
 
 - [`fact-c511023-pulse-unsourced`](#fact-c511023-pulse-unsourced)
+- [`fact-c511023-single-pulse-energy`](#fact-c511023-single-pulse-energy)
+- [`fact-c511023-repetitive-pulse-unsourced`](#fact-c511023-repetitive-pulse-unsourced)
 
 **Blocked by:** these facts must be resolved before the domain can close. Each is listed in full under Facts.
 
-- [`fact-c511023-pulse-unsourced`](#fact-c511023-pulse-unsourced)
+- [`fact-c511023-repetitive-pulse-unsourced`](#fact-c511023-repetitive-pulse-unsourced)
 
 ### placement
 
@@ -186,6 +188,24 @@ A parameter the manufacturer guarantees over the stated conditions, usually with
   **Verdict:** PASS - primary-source confirmed · **Provenance:** PRIMARY-SPEC
 
   **Evidence:** [`src-c511023-primary`](#src-c511023-primary) — Page 1 Standard Electrical Specifications table, WSL2512 row and note (1); page 2 Technical Specifications table and DIMENSIONS table, WSL2512 0.007 to 0.5 ohm row; page 3 Derating / Pulse Capability figure and Performance table
+</EvidenceFact>
+
+### TRANSIENT
+
+Behaviour during a short event — startup, a switching edge, a fault or a surge.
+
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c511023-single-pulse-energy" />
+
+  **Fact:** `fact-c511023-single-pulse-energy`
+
+  **Value:** 0.831 · **Unit:** `J`
+
+  **Conditions:** Single pulse at 125 C ambient, flat from 10 us to the 0.4615 s cross-over (1.034 J at 70 C, 1.495 J at -55 C). D2 per-part energies: 8.96 mJ (+12 V), 4.32 mJ (-12 V, one of three in series), 1.04 mJ (+5 V) in the sequenced deck; about 14 mJ per part at the 180 uF calculator ceiling. Smallest margin about 59x. Owner-supplied capture of the manufacturer web tool, not a Vishay-issued document.
+
+  **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
+
+  **Evidence:** [`src-c511023-pulse-calculator`](#src-c511023-pulse-calculator) — Pulse Energy Table and Pulse Power Table views, WSL2512, 0.5 ohm, ambient -55 / 70 / 125 C; result tables below the plots
 </EvidenceFact>
 
 ### PROJECT\_STATE
@@ -276,6 +296,20 @@ A value this project recorded about how the part is used here — a chosen opera
   **Evidence:** [`src-c511023-primary`](#src-c511023-primary) — scripts/schgen/board\_b20\_spec.py discharge block; manufacturing/sim/board-b20-phase33/d2-fast-discharge-criteria.md candidate section
 </EvidenceFact>
 
+<EvidenceFact>
+  <EvidenceAnchor id="fact-c511023-repetitive-pulse-unsourced" />
+
+  **Fact:** `fact-c511023-repetitive-pulse-unsourced`
+
+  **Value:** The calculator gives single-pulse energy and 1 s / 5 s short-time overload only; no repetitive-pulse endurance is given · **Unit:** `NONE`
+
+  **Conditions:** D2 discharges once per disable / power-down; the repetition rate and lifetime count are not specified by the contract. Bench T5 remains NOT RUN.
+
+  **Verdict:** UNSOURCED · **Provenance:** UNVERIFIED
+
+  **Evidence:** [`src-c511023-pulse-calculator`](#src-c511023-pulse-calculator) — Pulse Energy Table and Pulse Power Table views, WSL2512, 0.5 ohm, ambient -55 / 70 / 125 C; result tables below the plots
+</EvidenceFact>
+
 ## Pin maps
 
 The mapping between schematic pins and PCB pads, or physical terminals for an external part, as recorded. A record may carry more than one map when the same part is documented in more than one context.
@@ -353,6 +387,26 @@ Every document cited above, with its identification, when it was retrieved, and 
 
 **Document URL:** [https://www.lcsc.com/product-detail/C511023.html](https://www.lcsc.com/product-detail/C511023.html)
 
+### Vishay SMD Power Metal Strip Pulse Calculator output, WSL2512 0.5 ohm (owner-supplied capture)
+
+<EvidenceAnchor id="src-c511023-pulse-calculator" />
+
+**Source ID:** `src-c511023-pulse-calculator` · **Authority:** MANUFACTURER\_MIRROR
+
+| Field           | Recorded value                    |
+| --------------- | --------------------------------- |
+| Document number | WSL2512R5000XYY calculator result |
+| Revision        | web tool as viewed 2026-11-14     |
+| Document date   | 2026-11-14                        |
+| Retrieved       | 2026-11-14                        |
+| Printed page    | image                             |
+
+**Locator:** Pulse Energy Table and Pulse Power Table views, WSL2512, 0.5 ohm, ambient -55 / 70 / 125 C; result tables below the plots
+
+**Availability:** AVAILABLE
+
+**Document URL:** [https://www.vishay.com/en/resistors/power-metal-strip-calculator/](https://www.vishay.com/en/resistors/power-metal-strip-calculator/)
+
 ## Legend
 
 What the recorded terms on this page mean, in ordinary words. The exact terms above are the ones that count; these descriptions explain them and never replace them.
@@ -382,6 +436,7 @@ What the recorded terms on this page mean, in ordinary words. The exact terms ab
 | `ABSOLUTE_MAXIMUM`      | A never-exceed limit. Reaching it may damage the part; it is not an operating target and there is no margin implied by it.                                         |
 | `GUARANTEED_ELECTRICAL` | A parameter the manufacturer guarantees over the stated conditions, usually with minimum, typical and maximum values.                                              |
 | `PROJECT_STATE`         | A value this project recorded about how the part is used here — a chosen operating point, a net assignment, or a derived figure. Not a manufacturer specification. |
+| `TRANSIENT`             | Behaviour during a short event — startup, a switching edge, a fault or a surge.                                                                                    |
 
 ### Coverage status
 
@@ -398,10 +453,11 @@ What the recorded terms on this page mean, in ordinary words. The exact terms ab
 
 ### Source authority
 
-| Recorded term          | What it means                                                        |
-| ---------------------- | -------------------------------------------------------------------- |
-| `DISTRIBUTOR_IDENTITY` | A distributor listing. Establishes which part this is, nothing more. |
-| `MANUFACTURER_PRIMARY` | The manufacturer's own document for this exact part.                 |
+| Recorded term          | What it means                                                                                            |
+| ---------------------- | -------------------------------------------------------------------------------------------------------- |
+| `DISTRIBUTOR_IDENTITY` | A distributor listing. Establishes which part this is, nothing more.                                     |
+| `MANUFACTURER_MIRROR`  | A copy of a manufacturer document hosted elsewhere. Usable, but weaker than the manufacturer's own copy. |
+| `MANUFACTURER_PRIMARY` | The manufacturer's own document for this exact part.                                                     |
 
 ### Identity state
 

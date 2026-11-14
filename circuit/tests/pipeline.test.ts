@@ -51,8 +51,8 @@ describe("the installed package pipeline on this project's corpus", () => {
 
     assert.equal(result.report.records.available, 129);
     assert.equal(result.report.records.selected, 129);
-    assert.equal(result.report.sources.available, 304);
-    assert.equal(result.report.sources.selected, 304);
+    assert.equal(result.report.sources.available, 305);
+    assert.equal(result.report.sources.selected, 305);
     assert.equal(result.report.viewModelVersion, VIEW_MODEL_VERSION);
     assert.equal(result.report.provider.id, "circuit-component-spec");
     assert.equal(result.report.counts.publishedIntegrationRules, 11);

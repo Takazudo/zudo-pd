@@ -140,9 +140,9 @@
     ]
   },
   "sources": {
-    "available": 304,
-    "selected": 304,
-    "linkable": 286,
+    "available": 305,
+    "selected": 305,
+    "linkable": 287,
     "ids": [
       "src-ao3401a-board-a-baseline",
       "src-ao3401a-usb-pd-input-sch",
@@ -299,6 +299,7 @@
       "src-c492405-page",
       "src-c511023-identity",
       "src-c511023-primary",
+      "src-c511023-pulse-calculator",
       "src-c515735-identity",
       "src-c515735-primary",
       "src-c523793-identity",
@@ -580,151 +581,151 @@
     {
       "key": "source.sourceId",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.documentTitle",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.documentNumber",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.revision",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.documentDate",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.retrievalDate",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.authorityClass",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.availability",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.locator",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.printedPageLabel",
       "decision": "PUBLISH",
-      "emitted": 304,
+      "emitted": 305,
       "withheld": 0
     },
     {
       "key": "source.physicalPdfPageIndex",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 304
+      "withheld": 305
     },
     {
       "key": "source.authoritativeUrl",
       "decision": "PUBLISH",
-      "emitted": 286,
+      "emitted": 287,
       "withheld": 0
     },
     {
       "key": "source.alternateAuthoritativeUrl",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 304
+      "withheld": 305
     },
     {
       "key": "source.sha256",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 304
+      "withheld": 305
     },
     {
       "key": "source.evidenceExtract",
       "decision": "DENY",
       "emitted": 0,
-      "withheld": 304
+      "withheld": 305
     },
     {
       "key": "fact.factId",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.class",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.value",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.unit",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.conditions",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.locator",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.provenance",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.verdict",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.dependsOn",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
       "key": "fact.expression",
       "decision": "PUBLISH",
-      "emitted": 1264,
+      "emitted": 1266,
       "withheld": 0
     },
     {
@@ -1978,6 +1979,12 @@
       "reason": "ABSOLUTE_HTTP_URL"
     },
     {
+      "sourceId": "src-c511023-pulse-calculator",
+      "url": "https://www.vishay.com/en/resistors/power-metal-strip-calculator/",
+      "decision": "ALLOW",
+      "reason": "ABSOLUTE_HTTP_URL"
+    },
+    {
       "sourceId": "src-c515735-identity",
       "url": "https://www.lcsc.com/product-detail/C515735.html",
       "decision": "ALLOW",
@@ -2875,11 +2882,11 @@
   "counts": {
     "generatedPages": 133,
     "publishedCoverageDomains": 328,
-    "publishedFacts": 1264,
+    "publishedFacts": 1266,
     "publishedIntegrationRules": 11,
     "publishedInteractions": 41,
     "publishedPinMaps": 129,
     "publishedRecords": 129,
-    "publishedSources": 304
+    "publishedSources": 305
   }
 }
