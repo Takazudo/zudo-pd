@@ -21,7 +21,9 @@
 # compares it with the same dispatch's pinned run: it reads solver-setting comparability only.
 # Opt-in adv_rshunt_free (adv-rshunt-free-criteria.md) runs the identity adv deck at rshunt=1e10, pinned and under the
 # abstol step: a diagnostic that judges no ceiling.
-# Not a generic compute dispatcher: eight opt-in boolean inputs, no secrets, no write permission, no deploy.
+# Opt-in d2_fast_discharge (d2-fast-discharge-criteria.md) runs the D2 fast matched discharge candidate in compact
+# shutdown decks over 9 banks x 18 load corners: a candidate evaluation, never adoption.
+# Not a generic compute dispatcher: nine opt-in boolean inputs, no secrets, no write permission, no deploy.
 
 name: Phase33 D1 reference extraction
 
@@ -58,6 +60,10 @@ on:
         default: false
       adv_rshunt_free:
         description: Also run the identity adv deck at rshunt=1e10, pinned and under abstol (adv-rshunt-free-criteria.md)
+        type: boolean
+        default: false
+      d2_fast_discharge:
+        description: Also run the D2 fast matched discharge candidate over banks and load corners (d2-fast-discharge-criteria.md)
         type: boolean
         default: false
 
@@ -119,6 +125,11 @@ jobs:
         if: inputs.adv_rshunt_free && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank || inputs.ceiling_corners || inputs.variant_cross_check)
         run: |
           echo "::error::adv_rshunt_free is a separate dispatch"
+          exit 1
+      - name: Reject the D2 fast discharge evaluation combined with any other opt-in
+        if: inputs.d2_fast_discharge && (inputs.gap_sensitivity || inputs.t2_evaluation || inputs.t2_rev2_evaluation || inputs.itl4_inertness || inputs.osc_bank || inputs.ceiling_corners || inputs.variant_cross_check || inputs.adv_rshunt_free)
+        run: |
+          echo "::error::d2_fast_discharge is a separate dispatch"
           exit 1
       - name: Prepare hash-verified inputs (one bounded TI download each)
         run: |
@@ -288,6 +299,21 @@ jobs:
             fi
           done
           python3 "$PHASE33/adv_rshunt_free.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/adv-rshunt-free.json"
+      - name: D2 fast discharge evaluation (only when requested and reproduced)
+        if: ${{ !cancelled() && inputs.d2_fast_discharge && steps.identity.outcome == 'success' }}
+        run: |
+          python3 "$PHASE33/d2_fast_discharge.py" prepare "$RUNNER_TEMP/work" --manifest "$RUNNER_TEMP/out/d2fd-manifest.json"
+          labels=$(python3 "$PHASE33/d2_fast_discharge.py" labels)
+          [ -n "$labels" ] || { echo "::error::no d2_fast_discharge labels"; exit 1; }
+          # Each deck runs once; an abort is recorded, never retried.
+          for label in $labels; do
+            cases=$(python3 "$PHASE33/d2_fast_discharge.py" pending "$RUNNER_TEMP/work" "$label")
+            if [ -z "$cases" ]; then echo "$label: nothing pending"; continue; fi
+            if ! python3 "$PHASE33/run_ladder.py" "$RUNNER_TEMP/work/d2fd/$label/tracking" $cases --original-only > "$RUNNER_TEMP/out/d2fd-runner-$label.txt" 2>&1; then
+              python3 "$PHASE33/d2_fast_discharge.py" check-run "$RUNNER_TEMP/work" "$label"
+            fi
+          done
+          python3 "$PHASE33/d2_fast_discharge.py" analyze "$RUNNER_TEMP/work" --output "$RUNNER_TEMP/out/d2-fast-discharge.json"
       - name: Collect evidence without vendor model bytes
         if: always()
         run: |

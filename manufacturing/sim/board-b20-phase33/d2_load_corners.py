@@ -40,9 +40,9 @@ def hazard(v12, vn, v5):
     return one and v5 > idg.P5_HOLD_MAX
 
 
-def corners(calc=None):
+def corners(calc=None, resistors=None, step_s=10e-6, stop_s=0.2):
     calc = idg.calculator() if calc is None else calc
-    resistors = idg.discharge_resistors(calc)
+    resistors = idg.discharge_resistors(calc) if resistors is None else resistors
     saved = idg.rvee_violation, idg.direct_hazard
     idg.rvee_violation = lambda v12, vn, _absent: rvee(v12, vn)
     idg.direct_hazard = lambda v12, vn, v5, _absent: hazard(v12, vn, v5)
@@ -50,7 +50,7 @@ def corners(calc=None):
         rows = []
         for a, b, c in itertools.product(CORNERS['+12'], CORNERS['-12'], CORNERS['+5']):
             loads = {r: load_ohm(r, k) for r, k in (('+12', a), ('-12', b), ('+5', c)) if load_ohm(r, k)}
-            result = idg.evaluate_discharge(calc, loads, 'per-rail', resistors=resistors)
+            result = idg.evaluate_discharge(calc, loads, 'per-rail', step_s=step_s, stop_s=stop_s, resistors=resistors)
             rows.append({'corner': {'+12': a, '-12': b, '+5': c}, 'loads_ohm': {r: round(x, 4) for r, x in loads.items()},
                          'time_to_discharge_level_s': result['time_to_discharge_level_s'],
                          'first_rvee_violation': result['first_rvee_violation'],

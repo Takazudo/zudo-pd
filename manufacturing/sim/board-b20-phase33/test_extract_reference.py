@@ -410,7 +410,9 @@ class WorkflowTests(unittest.TestCase):
                           'description: Also rerun the identity pair under each matched variant and compare with pinned '
                           '(variant-cross-check-criteria.md)', 'type: boolean', 'default: false', 'adv_rshunt_free:',
                           'description: Also run the identity adv deck at rshunt=1e10, pinned and under abstol '
-                          '(adv-rshunt-free-criteria.md)', 'type: boolean', 'default: false'])
+                          '(adv-rshunt-free-criteria.md)', 'type: boolean', 'default: false', 'd2_fast_discharge:',
+                          'description: Also run the D2 fast matched discharge candidate over banks and load corners '
+                          '(d2-fast-discharge-criteria.md)', 'type: boolean', 'default: false'])
         self.assertRegex(text, r'\npermissions:\n  contents: read\n')
         self.assertIn('timeout-minutes: 300', text)
         self.assertRegex(text, r'\nconcurrency:\n  group: phase33-d1-reference\n')
@@ -426,8 +428,12 @@ class WorkflowTests(unittest.TestCase):
             'inputs.itl4_inertness', 'inputs.osc_bank', 'inputs.ceiling_corners',
             'inputs.adv_rshunt_free', 'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
             'inputs.itl4_inertness', 'inputs.osc_bank', 'inputs.ceiling_corners', 'inputs.variant_cross_check',
+            'inputs.d2_fast_discharge', 'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation',
+            'inputs.itl4_inertness', 'inputs.osc_bank', 'inputs.ceiling_corners', 'inputs.variant_cross_check',
+            'inputs.adv_rshunt_free',
             'inputs.gap_sensitivity', 'inputs.t2_evaluation', 'inputs.t2_rev2_evaluation', 'inputs.itl4_inertness',
-            'inputs.osc_bank', 'inputs.ceiling_corners', 'inputs.variant_cross_check', 'inputs.adv_rshunt_free'])
+            'inputs.osc_bank', 'inputs.ceiling_corners', 'inputs.variant_cross_check', 'inputs.adv_rshunt_free',
+            'inputs.d2_fast_discharge'])
         self.assertIn("if: inputs.gap_sensitivity && steps.identity.outcome == 'success'", text)
         self.assertNotIn('${{ inputs', text)
         uses = re.findall(r'uses: (\S+)', text)
