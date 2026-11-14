@@ -179,7 +179,7 @@ In particular, discharge/shutdown and maximum delivered current remain pre-order
 −12 V ≤ 1.47 V/ms below 0.75 V at ≤ 265 mA. Loaded starts keep the 1.22 / 0.51 V/ms limits.
 OSC recorded the owner-accepted replacement as E21 at zudo-osc-hole-field `512e1ec` (PR #337, merged to OSC `main` as `39f20ef` on 2026-11-14 JST):
 a no-load charging-current limit of ≤ 350 mA on −12 V while |V| ≤ 0.75 V and ≤ 180 mA on +5 V while V ≤ 0.45 V, with no V/ms
-figure inside those regions. It applies on the PD side; condition 3 is read with the rail's own start, pending the owner's confirmation; see the
+figure inside those regions. It applies on the PD side; condition 3 is read with the rail's own start, as the owner confirmed on 2026-11-14 JST; see the
 [E21 binding record](sim/board-b20-phase33/e21-binding-20261114.md).
 
 ## Bench test sheets (NOT RUN)
