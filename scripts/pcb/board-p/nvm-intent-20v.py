@@ -9,7 +9,7 @@ base bytes, the third-party field map and the DS12499 Rev 7 default cross-check 
 Status is BLOCKED, not a finished image. Research of 2026-11-08 (manufacturing/pd20-evidence-research.md):
 - TDISPAR0V is located: ST technical note "TNxxx STUSB4500 NVM registers" (ST-authored draft, no revision, posted by
   an ST moderator on ST Community) puts DISCHARGE_TIME_TO_0V at NVM 0xCA = sector 1 byte 2 bits [7:4], default 0x9C
-  (9 and TDISPARPDO 12, matching DS12499). The value (13, 14 or 15) is an owner choice; it is NOT set in the bytes.
+  (9 and TDISPARPDO 12, matching DS12499). TDISPAR0V = 15 is set (0xFC), chosen 2026-11-14 under owner delegation.
 - Capability mismatch is answered by DS12499 Rev 8 section 3.3.2 (owner-supplied copy, 2026-11-08): a PDO match needs
   I(SNK_PDO) <= I(SRC_PDO), so a 20 V source offering under 5 A gives no PDO2 match and a 5 V contract; with
   POWER_ONLY_ABOVE_5V = 1, VBUS_EN_SNK then stays Hi-Z (Table 6).
@@ -39,21 +39,24 @@ def build():
     s[4][1] = v >> 2
     P15.setbits(s, 3, 4, 0, 4, 15)     # I_SNK_PDO2 = 1111b = 5.00 A (DS12499 Rev 7 Table 17)
     P15.setbits(s, 4, 6, 3, 1, 1)      # POWER_ONLY_ABOVE_5V = 1: VBUS_EN_SNK only after a PDO2 contract
+    assert P15.BASE[1][2] == 0x9C
+    P15.setbits(s, 1, 2, 4, 4, 15)     # TDISPAR0V = 15 at 0xCA [7:4] (ST TNxxx draft note); 0x9C -> 0xFC
     d = P15.decode(s)
-    assert d['SNK_PDO_NUMB'] == 2 and d['PDO2']['V'] == 20.0 and d['PDO2']['A'] == 5.0 and d['POWER_ONLY_ABOVE_5V'] == 1
+    assert s[1][2] == 0xFC and d['SNK_PDO_NUMB'] == 2 and d['PDO2']['V'] == 20.0 and d['PDO2']['A'] == 5.0 and d['POWER_ONLY_ABOVE_5V'] == 1
     raw = bytes(b for row in s for b in row)
     changed = [{'sector': i, 'byte': j, 'from': f'0x{P15.BASE[i][j]:02X}', 'to': f'0x{s[i][j]:02X}'}
                for i in range(5) for j in range(8) if P15.BASE[i][j] != s[i][j]]
     return {
         '_comment': 'INTENT RECORD and PARTIAL desk bytes for the Board P r3 20 V / 5 A unit (dec PWR-D3 = D3-A, '
                     'PWR-D5 = D5-1). Not an image to program: status BLOCKED. Never written to any part or read back.',
-        'status': 'BLOCKED (TDISPAR0V value is an owner choice and not set; POWER_ONLY_ABOVE_5V position conflicts '
-                  'with the ST note; no reviewed image)',
+        'status': 'BLOCKED (POWER_ONLY_ABOVE_5V position conflicts with the ST note; no reviewed image). '
+                  'TDISPAR0V = 15 is set (dec-pd20-tdispar0v-15)',
         'intent': {
             'SNK_PDO_NUMB': '2 (PDO1 5 V, PDO2 20 V)',
             'PDO2': '20.00 V, 5.00 A; needs a 5 A e-marked cable and a source offering 20 V / 5 A',
             'POWER_ONLY_ABOVE_5V': '1 (Q1 stays off at 5 V)',
-            'TDISPAR0V': '>= 13 so the 2 kOhm VBUS_VS_DISCH feed reaches vSafe0V (default 9 gives >= 630 ms, too short)',
+            'TDISPAR0V': '15 (0xCA = 0xFC; min 1.050 s, 16 % margin over the 0.906 s the 2 kOhm VBUS_VS_DISCH feed needs '
+                         'to reach vSafe0V; default 9 gives >= 630 ms, too short)',
             'accept_or_refuse': 'VBUS_OUT only on a 20 V contract at 5 A; any lower-current 20 V contract must leave '
                                 'Q1 off (no degraded mode)',
             'other fields': 'Rev 7 defaults, unchanged',
@@ -68,7 +71,8 @@ def build():
              'candidates': {'13': '0xDC: TDISUSB0V min 0.910 s against 0.906 s needed (0.4 % margin)',
                             '14': '0xEC: min 0.980 s (8 % margin)',
                             '15': '0xFC: min 1.050 s (16 % margin), max 1.500 s'},
-             'not_applied': 'Owner selects the value; the partial bytes keep the default 0x9C'},
+             'applied': '15 (0xFC), chosen by Claude on 2026-11-14 under the owner\'s delegation ("continue by your '
+                        'decision"); reversible desk byte only, never written to a part'},
             {'item': 'capability mismatch', 'status': 'ANSWERED (DS12499 Rev 8)',
              'finding': 'DS12499 section 3.3.2: a match needs V(SNK_PDOi) = V(SRC_PDOj) and I(SNK_PDOi) <= '
                         'I(SRC_PDOj). A 20 V offer below 5 A does not match PDO2 = 20 V / 5 A, so the contract falls '
