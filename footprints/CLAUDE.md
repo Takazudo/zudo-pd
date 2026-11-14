@@ -10,8 +10,9 @@ This project uses [easyeda2kicad.py](https://github.com/uPesy/easyeda2kicad.py) 
   `doc/public/assets/component-previews/footprints/*.svg` by the installed
   `@takazudo/zudo-circuit-doc` package using `circuit.config.ts` (`pnpm
   previews:generate` from the repository root) — do not hand-export or hand-edit
-- **Historical package drawings**: `doc/public/datasheets/packages/*.pdf`
-- **Public retained datasheets**: `doc/public/datasheets/*.pdf`; evidence sources stay in their owner bundles
+- **Package drawings and datasheets**: in the private
+  [circuit-dev-resources](https://github.com/Takazudo/circuit-dev-resources) repository, not here;
+  `circuit/external-resources.json` maps the former `doc/public/datasheets/` files. Evidence stays in the owner bundles
 
 **Symbols (schematic symbols):**
 - **Symbol library**: `/symbols/zudo-pd.kicad_sym` (single file containing all project symbols)

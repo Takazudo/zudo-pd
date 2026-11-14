@@ -59,7 +59,7 @@ test('all existing public files are individually reviewed; preview ownership sta
  const assets=await json(join(root,'circuit/publication/assets.json'));const allowed=new Map(assets.assets.map(a=>[a.path,a.reason]));
  async function visit(dir){for(const entry of await readdir(join(root,'doc/public',dir),{withFileTypes:true})){const path=dir?`${dir}/${entry.name}`:entry.name;if(entry.isDirectory())await visit(path);else if(!path.startsWith('assets/component-previews/')){assert.ok(allowed.has(path),path);assert.ok(allowed.get(path).length>40,path);}}}
  await visit('');for(const path of allowed.keys())assert.ok((await stat(join(root,'doc/public',path))).isFile(),path);
- assert.ok(allowed.has('_redirects'));assert.ok(assets.assets.filter(a=>a.path.startsWith('datasheets/')).every(a=>a.reason.includes('historical')));
+ assert.ok(allowed.has('_redirects'));assert.equal(assets.assets.filter(a=>/\.pdf$/iu.test(a.path)||a.path.startsWith('datasheets/')).length,0);
 });
 test('thin host imports package SSR, islands and stylesheet; project browser keeps all 12 cases',async()=>{
  const bindings=await readFile(join(root,'doc/src/chrome-bindings.tsx'),'utf8');assert.match(bindings,/circuitDocMdxExtras/u);assert.doesNotMatch(bindings,/component-docs\/ui/u);

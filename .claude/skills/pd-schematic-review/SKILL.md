@@ -67,8 +67,10 @@ PY
 This is what keeps "datasheet-aware" from collapsing into "from memory". For each part, pick
 the strongest available source and record it:
 
-- **Local PDFs** — `doc/public/datasheets/*.pdf` (LM2596S, L7812CD2T, L7805ABD2T, CJ7912,
-  CH224D, SMAJ, USBLC6, etc.). Prefer these; read them when a number matters.
+- **Stored PDFs** — the private
+  [circuit-dev-resources](https://github.com/Takazudo/circuit-dev-resources) repository (LM2596
+  from UMW, ST L78, CJ7912, CH224, Bourns SMAJ, etc.; `circuit/external-resources.json` maps
+  the former local names). Prefer these; read them when a number matters.
 - **Local repo docs** — `doc/src/content/docs/components/*.md` and
   `doc/src/content/docs/inbox/stusb4500-pinout.md`, `v3-pd-failure-diagnosis.md`. These
   already distill the datasheets and the v3 root cause.

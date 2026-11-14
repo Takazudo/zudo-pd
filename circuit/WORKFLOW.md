@@ -30,6 +30,7 @@ Do this at the start of every task.
 | `circuit/publication/assets.json` | Allowlist of files deliberately published under `doc/public/` | Project | Yes, as a reviewed diff |
 | `circuit/cad-receipts/` | CAD asset receipts (see Workflow D), created when the first asset is acquired | Project | Yes |
 | `.circuit-cache/sources/` | Local working copies of downloaded sources (git-ignored) | Project, local only | Yes |
+| [Takazudo/circuit-dev-resources](https://github.com/Takazudo/circuit-dev-resources) | Private store for retained vendor datasheets, drawings and models, cited by path and SHA256; `circuit/external-resources.json` maps files moved out of `doc/public/datasheets/` | Separate private repository | Yes |
 | `circuit.config.ts` | Project configuration read by the CLI | Project | Yes |
 | `doc/zfb.config.ts` | Site config: header nav, sidebar categories, features | Project | Yes |
 | `doc/src/**` outside `content/docs/` | Chrome bindings, styles and other site-shell code | Project | Yes |

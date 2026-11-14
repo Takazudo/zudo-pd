@@ -134,6 +134,20 @@ Adding or replacing a part follows the audit skill's
 human reference, then validation. The component catalog under
 `doc/src/content/docs/components/` is generated; never hand-edit it.
 
+## Vendor documents live in circuit-dev-resources
+
+Store datasheets, package drawings, application notes, SPICE/IBIS models and other
+retrieved vendor primary sources in the private repository
+[Takazudo/circuit-dev-resources](https://github.com/Takazudo/circuit-dev-resources),
+following its README layout and inventory (path plus SHA256). Do not commit them here or
+publish them under `doc/public/`. That repository is private, so restricted or copyrighted
+material may be stored there. Save every source a session downloads or receives there,
+so later sessions do not have to fetch it again. Evidence in `sources.json` still cites the
+vendor `authoritative_url` and the `sha256`, which must match the stored file's inventory
+row. `tmp/pdfs/` and `.circuit-cache/sources/` remain ignored local working copies only.
+`circuit/external-resources.json` maps the former `doc/public/datasheets/` files to their
+new paths.
+
 ## Schematic and PCB ownership
 
 The pure-Python regeneration gate covers A/B/P/P15 via `scripts/schgen/board_a_spec.py`,
