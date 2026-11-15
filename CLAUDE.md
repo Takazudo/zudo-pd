@@ -221,3 +221,7 @@ project checks and publication contracts; `doc/` authored/generated documentatio
 ## Development orchestration
 
 For multi-session work or expensive checks, also read [circuit/ORCHESTRATION.md](circuit/ORCHESTRATION.md), [the current task/environment/model mapping](circuit/orchestration/current-plan.md) and [the bounded task template](circuit/templates/orchestration-task.md). These govern cloud-first coordination, shared resources, recovery and the scoped DNS-incident deferral; they do not replace the hardware/evidence rules above or authorize new physical actions.
+
+For Moya + Codex Cloud, follow the [repository-local operating procedure](circuit/orchestration/moya-codex-cloud.md).
+Its campaign/checkpoint and task/review templates, start/resume prompts and current
+PD/LED example are complete here; no OSC workflow lookup is required.

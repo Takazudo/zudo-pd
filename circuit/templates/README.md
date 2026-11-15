@@ -1,6 +1,23 @@
 # Authoring templates
 
-These templates are **not published**. Copy one into the documentation tree when the activity it describes actually happens; do not publish empty copies to fill the navigation.
+These templates are **not published**. Copy one to its destination below when the
+activity it describes actually happens; do not create empty live records to fill
+the navigation or a campaign directory.
+
+## Development orchestration templates
+
+Use the [local Moya + Codex Cloud workflow](../orchestration/moya-codex-cloud.md).
+Campaign records belong under `circuit/orchestration/campaigns/`, outside the site
+documentation tree. These templates include the fields needed to operate and resume
+work without looking up another repository's campaign.
+
+| Template | Destination and responsibility |
+| --- | --- |
+| [orchestration-campaign.md](./orchestration-campaign.md) | `circuit/orchestration/campaigns/<campaign-id>/plan.md`; manager-owned scope, authority, allocations, task/attempt ledger, decisions, integration and durable checkpoint |
+| [orchestration-task.md](./orchestration-task.md) | `circuit/orchestration/campaigns/<campaign-id>/<task-id>.md`; bounded assignment, worker/reviewer prompts, result, independent review and integration record |
+
+Complete required admission fields before dispatch. A template is not a launch
+receipt, model selection, resource allocation or permission grant.
 
 ## Project documentation templates
 

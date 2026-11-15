@@ -23,3 +23,11 @@ The generated catalog is committed under `doc/src/content/docs/components/` and
 must never be hand-edited. The package preflight report is
 `circuit/generated/preflight.json`; selected preview assets are generated under
 `doc/public/assets/component-previews/`.
+
+## Development orchestration
+
+The [Moya + Codex Cloud workflow](orchestration/moya-codex-cloud.md) provides the
+local operating procedure and prompts. Read [ORCHESTRATION.md](ORCHESTRATION.md)
+for policy and [current-plan.md](orchestration/current-plan.md) for the current queue.
+Use the [campaign/checkpoint](templates/orchestration-campaign.md) and
+[task/result/review](templates/orchestration-task.md) templates for execution records.
