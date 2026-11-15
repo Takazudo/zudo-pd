@@ -1,5 +1,19 @@
 # Documentation ownership and migration map
 
+## Accepted PD/LED consolidation plan (2026-11-16 JST)
+
+The [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308) and [consolidation plan](orchestration/pd-led-unification.md)
+record the accepted future structure: one repository, one site, one shared Components
+catalog, with Project / Shared P15 / PD15 / PD20 / LED Lamp / Components as the six
+entry categories. [The Moya + Codex Cloud supplement](orchestration/moya-codex-cloud.md)
+owns campaign startup and handoff details; the epic owns live progress and decisions.
+This entry records a plan only. No content route, component owner, CAD asset, source
+lock, manufacturing receipt or historical heading has moved. The migration must add
+and verify old-to-new path, route, fragment and evidence-ID mappings before cutover.
+The existing ownership tables below remain current until that implementation lands.
+
+## Existing site inventory baseline
+
 Inventory refreshed 2026-11-05 JST against main `dda9ccc9bfdead8884c354c478280baca641cec1` before edits:
 203 site Markdown/MDX pages = 132 generated component pages + 71 authored pages; 24 top-level manufacturing Markdown
 files. These are **dated migration observations**, not permanent corpus locks. Use `git ls-files`, configured inventory,
