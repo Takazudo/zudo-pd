@@ -1,25 +1,33 @@
-# Moya + Codex Cloud: PD/LED consolidation handoff
+# Moya + Codex Cloud: zudo-pd development workflow
 
-Owner-selected next execution route, recorded 2026-11-16 JST.
-Read [ORCHESTRATION.md](../ORCHESTRATION.md), [WORKFLOW.md](../WORKFLOW.md),
-[CLAUDE.md](../../CLAUDE.md), [the consolidation plan](pd-led-unification.md) and
-[super epic #308](https://github.com/Takazudo/zudo-pd/issues/308). This supplement applies the existing runbook to the
-accepted consolidation scope; it does not start a session or install a scheduler.
+Repository-owned operating procedure, 2026-11-16 JST. Use this workflow for a new
+task or an ongoing campaign in `Takazudo/zudo-pd`. All required operating steps,
+templates and prompts are maintained here; opening the OSC repository is not a
+startup, dispatch, review or recovery requirement.
 
-## Reference and adaptation
+## Start here
 
-Adapted from `zudo-osc-hole-field` at
-`85b2b489d6f47b34991e3d9b0d2e09991a458a97`:
-[orchestration policy](https://github.com/Takazudo/zudo-osc-hole-field/blob/85b2b489d6f47b34991e3d9b0d2e09991a458a97/circuit/ORCHESTRATION.md),
-[task template](https://github.com/Takazudo/zudo-osc-hole-field/blob/85b2b489d6f47b34991e3d9b0d2e09991a458a97/circuit/templates/orchestration-task.md),
-[campaign example](https://github.com/Takazudo/zudo-osc-hole-field/blob/85b2b489d6f47b34991e3d9b0d2e09991a458a97/circuit/orchestration/campaigns/osc-stack-20261114/plan.md)
-and [coordination format](https://github.com/Takazudo/zudo-osc-hole-field/issues/288).
+| Local entry | Responsibility |
+| --- | --- |
+| [AGENTS.md](../../AGENTS.md), [CLAUDE.md](../../CLAUDE.md), [WORKFLOW.md](../WORKFLOW.md) | Repository instructions, hardware/source ownership, evidence and required checks |
+| [ORCHESTRATION.md](../ORCHESTRATION.md) | Role/model preferences, resource admission, authority, storage, failures and integration policy |
+| This guide | The manager's repeatable start -> assign -> collect -> review -> integrate -> resume procedure |
+| [Current plan](current-plan.md) and the selected tracker | Which accepted work is next, its dependencies and current decisions |
+| [Campaign/checkpoint template](../templates/orchestration-campaign.md) | Manager-owned queue, allocations, live attempts, decisions and restart record |
+| [Task/result/review template](../templates/orchestration-task.md) | One worker's bounded brief, returned evidence and independent review/integration record |
 
-Reuse the division of responsibilities, bounded tasks, independent review, durable
-handoff and serialized integration. OSC's inspected live campaign used Claude Code
-Cloud; its CPU/RAM/session limits, native admissions, merge grants, tool pins and
-historical holds do not transfer here. Moya/Codex capabilities must be observed in
-the actual clients. An instruction naming a model is not proof of model selection.
+At a new campaign's kickoff, copy the campaign template to
+`circuit/orchestration/campaigns/<campaign-id>/plan.md` and the task template to
+`circuit/orchestration/campaigns/<campaign-id>/<task-id>.md`. Fill the brief before
+admission. Templates are unpublished working records; do not create empty live
+campaigns just to populate the tree. A small task can use one tracker and one worker;
+larger work uses an epic with independently completable children.
+
+Moya/Codex launch controls and selected models must be observed in the actual clients.
+An instruction naming a model is not proof of selection. This guide is an operating
+procedure, not an installed scheduler. The current PD/LED consolidation is the
+[local application example](#pdled-consolidation-example); its C1/C2 task names do
+not define every future campaign.
 
 ## Roles
 
@@ -39,17 +47,18 @@ do not assign concurrent writers to shared evidence, package files or generated 
 Follow the existing model preferences: confirmed Astra/Fable for hard new design or
 validation-policy decisions, Sol or another demonstrated adequate model for substantial
 implementation, and smaller adequate models for fixed work. Record requested and
-actual selections, or `unknown`. Routine migration coordination can proceed while an
+actual selections, or `unknown`. Routine coordination can proceed while an
 unrelated hard design decision awaits a suitable session. Workers return `NEEDS_DESIGN`
 instead of changing circuit constraints or acceptance criteria.
 
 ## Startup and the first wave
 
-1. Read the epic, accepted plan, repository instructions and current checkpoint. Refresh
-   both repositories' heads, issues/PRs and existing live sessions. Reuse the tracker;
+1. Read the selected tracker, accepted plan, repository instructions and current
+   checkpoint. Refresh this repository's heads, issues/PRs, existing live sessions
+   and any sibling inputs explicitly required by the task. Reuse the tracker;
    reconcile any incumbent manager before taking ownership.
-2. Record Moya's actual session URL/ID and campaign ID under
-   `circuit/orchestration/campaigns/<campaign-id>/plan.md`. Initially the campaign is
+2. Record Moya's actual session URL/ID and campaign ID in the local campaign template
+   copied to `circuit/orchestration/campaigns/<campaign-id>/plan.md`. Initially it is
    `PLANNED`; none of the sessions, branches or resource reservations in a proposal
    should be presented as existing.
 3. Confirm how this client launches Codex Cloud work, returns session/run IDs, selects
@@ -60,20 +69,50 @@ instead of changing circuit constraints or acceptance criteria.
    Set finite numeric task/session limits, CI reserve, deadlines and retry budgets.
    Unknown headroom prevents unbounded fan-out, not read-only inventory. Worktrees and
    subagents in one VM share CPU/RAM; keep at most one admitted heavy job per unprofiled
-   VM. Do not copy OSC's allocation numbers or consume another campaign's reserve.
-5. Establish C1's child issue, scope and task brief, with body links back to the epic.
+   VM. Use measured allocations and preserve other campaigns' reserves.
+5. Establish the next ready task's issue, scope and task brief, linking its parent when
+   there is one. For a focused single-issue task, reuse that issue directly.
    Search before creating records. Moya owns the queue and shared allocation; children
    own their task result files. Native sub-issue relationships are optional capability,
    not a claim to make without successful API evidence.
-6. Dispatch the bounded C1 baseline/mapping task. Its first outputs are the manifest,
-   reviewed path/ID/route mappings, conflict disposition for #307 and a C2 import brief.
-   Proceed through the plan's dependency order after review, rather than handing the
-   whole migration to one context-free worker.
+6. Admit and dispatch one bounded task after its inputs, write ownership, checks,
+   capability and resource budget are complete. Use the worker prompt in the local
+   task template. Record the returned session/run ID immediately, collect the required
+   result, obtain independent review and integrate in dependency order.
+
+If the guest VM profile is available only after a session starts, first use an
+explicitly bounded read-only inventory/profiling task. Before that launch, confirm
+the available session slot, existing jobs, launch capability, numeric session limit
+and finite deadline/usage budget. The worker reports the actual host/tools/model and
+resource fingerprint; it performs no implementation or heavy computation. Complete
+resource admission from that result before the substantive task starts. This uses
+the existing authorized scope and does not permit fan-out against unknown headroom.
+
+## Task states and the next action
+
+| State | Required record / next action |
+| --- | --- |
+| `PLANNED` | Goal and dependencies recorded; manager completes the brief and prerequisites |
+| `ADMITTED` | Inputs, authority, exclusive writes, budget, checks and reviewer confirmed; dispatcher may launch this attempt |
+| `RUNNING` | Actual provider session/run ID recorded; collect completion events or bounded status results |
+| `REVIEW_READY` | Final SHA and required result/evidence returned; an independent reviewer inspects those bytes |
+| `INTEGRATED` | Authorized integration confirmed on the target branch, with required checks and a receipt; eligible delivery issue may close |
+| `BLOCKED` / `NEEDS_DESIGN` | Name the missing prerequisite or decision, its owner and ready work that can continue |
+| `FAILED` / `REJECTED` / `CANCELLED` | Retain the result and failure/stop evidence; any new admitted attempt gets a new ID |
+| `UNKNOWN` | A launch or interrupted execution is unresolved; reconcile the original provider attempt before replacement |
+
+Task execution state and adoption/release status are separate fields. A review request
+for changes returns the task to its recorded implementation stage; retain the earlier
+review and re-review the new final SHA. If merge authority is absent, a reviewed PR
+stays `REVIEW_READY`, with integration explicitly pending. Closing an unrelated or
+physical-evidence issue is never an automatic transition.
 
 ## Task contract and result
 
-Use [the existing bounded task template](../templates/orchestration-task.md). Each
-assignment must contain its goal/non-goals, child issue and epic, exact base commit,
+Use [the local bounded task template](../templates/orchestration-task.md). It includes
+copyable worker and independent-review prompts. Each
+assignment must contain its goal/non-goals, canonical tracker and parent/child links
+when applicable, exact base commit,
 input identities, dependencies, allowed files, exclusive branch/workspace, tools,
 commands, acceptance criteria, reviewer/integrator, artifact policy, finite deadline,
 retry/stop conditions and granted actions. Keep commit/push ownership explicit;
@@ -95,7 +134,7 @@ text. Preserve failed cases and unresolved evidence instead of weakening gates.
 
 ## Progress, interruption and coordination
 
-The epic is the progress/decision entry point. Child issues hold task-level development
+The selected tracker is the progress/decision entry point. Child issues, when used, hold task-level development
 notes; campaign files hold reproducible inputs and receipts. Record meaningful changes,
 review/verification results, blockers and pauses rather than routine polling transcripts.
 
@@ -135,22 +174,80 @@ completion. The manager verifies safety and permission before retrying denied cl
 
 ## Integration and scope
 
-The user has authorized this session's epic and planning-document updates. The next
-campaign's kickoff records its own implementation, issue-maintenance, commit/push and
-merge scope. Repository/sibling writes, public cutover and hardware actions are distinct;
-the imported OSC runbook does not grant them. Without merge authority, retain reviewed
+Record the current user's request and existing applicable grants in the campaign:
+implementation, issue maintenance, commit/push and merge scope. Reuse granted scope
+without asking again. Repository/sibling writes, public cutover and hardware actions
+are distinct; this reusable guide supplies procedure rather than a new grant.
+Without merge authority, retain reviewed
 PRs and delivery issues open for integration. With authority, complete eligible merges
 after independent review, applicable policy and checks on the current head.
 
 Existing `main-deploy.yml` can publish the site after an authorized main update. Record
 that automatic outcome separately; do not introduce new hosting, alter secrets or
 execute an additional release/deploy command just because a plan mentions a site.
-Do not order, program, energize or qualify hardware through the migration task.
+Hardware orders, programming and energization need their own applicable scope and
+acceptance; completing a software or documentation task does not establish them.
 
-Close completed children after verified integration, then the consolidation epic when
-its acceptance is met. Keep #228 and other hardware obligations open according to
-their own evidence. Stop when only owner/physical/platform gates remain and leave a
+Close completed children after verified integration, then their parent when its full
+acceptance is met. Keep other hardware obligations open according to their own
+evidence. Stop when only owner/physical/platform gates remain and leave a
 concrete handoff, rather than inventing unrelated work to keep a campaign busy.
+
+## Manager start and resume prompts
+
+For a new task, replace the tracker and accepted scope before use:
+
+```text
+Manage <accepted task scope> in Takazudo/zudo-pd as the single Moya manager,
+using Codex Cloud for bounded implementation. The canonical tracker is <issue URL>.
+Read its current body/comments, AGENTS.md, CLAUDE.md, circuit/WORKFLOW.md,
+circuit/ORCHESTRATION.md, circuit/orchestration/moya-codex-cloud.md and
+circuit/orchestration/current-plan.md. All operating templates are in this repo.
+
+Reconcile existing campaigns, writers, PRs and live jobs first. Reuse the tracker
+and actual grants. Copy the local campaign/checkpoint template only if no matching
+campaign exists; record capabilities, measured allocations, ownership and next work.
+Complete a local task brief for the first ready outcome before dispatch. Use its
+worker prompt and independent-review prompt, record real session/run IDs, and
+integrate accepted changes serially within the recorded authority. Maintain issues
+and checkpoints. Return actual results, blockers and the next action.
+```
+
+For interruption recovery or manager takeover:
+
+```text
+Resume <campaign-id> in Takazudo/zudo-pd from
+circuit/orchestration/campaigns/<campaign-id>/plan.md and <tracker URL>.
+Read the local Moya + Codex Cloud workflow and repository instructions.
+Reconcile the incumbent manager and record the new manager's acknowledgment.
+Inspect current branches/SHAs, task results, retained artifact hashes and actual
+provider jobs. Resolve UNKNOWN attempts before retrying or replacing workers.
+Preserve unrelated diffs, unmerged work and the existing issue/PR/session mapping.
+Refresh capacity and applicable grants, then resume only the recorded safe next
+operation. Do not recreate a tracker, repeat a completed check without cause, or
+assume a closed chat stopped its jobs. Report takeover and the next ready task.
+```
+
+## PD/LED consolidation example
+
+The current application is [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308)
+and [the accepted consolidation plan](pd-led-unification.md). C0 recorded the plan;
+the next implementation task is C1. These are planned task fields, not a launch
+receipt or an admitted resource allocation:
+
+| Task field | C1 application |
+| --- | --- |
+| Goal | Review the migration baseline and mappings before any LED import |
+| Inputs | Refreshed PD and LED commits, their open issues/PRs, P15 owner/consumer records and the accepted plan |
+| Allowed output | The campaign record, baseline manifest, path/route/fragment/evidence-ID tables, task/issue ownership map and bounded C2 brief |
+| Dependency | Inspect PR #307's current state and reconcile overlapping writers; independent inventory may proceed |
+| Scope boundary | Keep hardware, component evidence, native files, frozen packages and site routes unchanged during C1 |
+| Completion | Manifest accounts for source/history/identity and required checks; independent reviewer accepts the mappings and C2 contract |
+| Next | Dispatch the bounded C2 import only after the C1 review and its prerequisites |
+
+Choose exclusive files, exact current SHAs, actual session/model controls and numeric
+resource budgets at kickoff using the local templates. Keep #228 as the hardware
+program and preserve the current plan's P15/PD15/PD20/LED evidence boundaries.
 
 ## Kickoff prompt
 
@@ -174,7 +271,8 @@ Maintain the epic and child issues, record decisions and verification, and creat
 reviewable commits/PRs within the implementation scope. Confirm actual launch/model
 controls, resource limits and granted integration actions. If you cannot launch a
 worker directly, return its exact prompt and record the actual session after launch.
-Do not claim dispatch from a plan or assume another campaign's merge authority.
+Use this repository's campaign and task templates; no OSC workflow reading is
+required. Do not claim dispatch from a plan or assume another campaign's authority.
 
 Require independent review and applicable checks on final integration bytes.
 Keep shared writers serialized, preserve history and unresolved physical evidence,
@@ -182,3 +280,12 @@ checkpoint before interruptions, and report what is integrated, pending and bloc
 Continue ready in-scope work; leave review-ready PRs open unless merge has been
 authorized for this campaign. No hardware orders, programming or energization.
 ```
+
+## Optional provenance
+
+The initial policy was adapted from `zudo-osc-hole-field`, inspected at
+`85b2b489d6f47b34991e3d9b0d2e09991a458a97` in the earlier planning session.
+That source is historical attribution. The maintained operating contract, templates,
+PD-specific example and prompts are the local files linked above. Changes to another
+repository's campaign, permissions, model selections, resource numbers or tool pins
+do not silently update this workflow.

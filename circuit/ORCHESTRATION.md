@@ -1,14 +1,18 @@
 # Cloud-first circuit development orchestration
 
-Owner-directed policy, 2026-11-12. Adapted from zudo-osc-hole-field PR #329 (merge `ebfbc0940d2af6bc199405d4d5dbef8950a6bfa5`), not its PCB state, task IDs, tool pins or execution permissions. Read the root agent instructions and applicable component/evidence workflow first. [Current mapping](orchestration/current-plan.md) owns the repository-specific starting points; use the [task brief](templates/orchestration-task.md) for admitted work.
+Owner-directed policy, 2026-11-12; repository-local operating entry updated 2026-11-16 JST.
+Read the root agent instructions and applicable component/evidence workflow first.
+[Current mapping](orchestration/current-plan.md) owns the repository-specific starting
+points; use the [campaign/checkpoint template](templates/orchestration-campaign.md)
+and [task brief](templates/orchestration-task.md) for admitted work.
 
 This is a runbook, not an installed scheduler. It neither starts a campaign nor authorizes new hardware actions. Existing design decisions, immutable evidence, local-only storage, native gates and publication restrictions remain authoritative.
 
-For the owner-selected next PD/LED consolidation campaign, use the
-[Moya + Codex Cloud supplement](orchestration/moya-codex-cloud.md) and
-[accepted consolidation plan](orchestration/pd-led-unification.md).
-Moya is the intended single manager and Codex Cloud the implementation environment;
-actual launch capabilities, sessions and budgets must be recorded at kickoff.
+The [Moya + Codex Cloud procedure](orchestration/moya-codex-cloud.md) is the reusable
+execution guide for this repository, with local start/worker/review/resume prompts
+and complete templates. The [accepted consolidation plan](orchestration/pd-led-unification.md)
+is its current application. Actual launch capabilities, sessions and budgets must be
+recorded at kickoff. No external project's workflow is required to operate it.
 
 ## 1. Manager and model roles
 
@@ -38,6 +42,12 @@ Account/pool capacity is shared across zudo-osc-hole-field, zudo-pd, zudo-led-la
 
 Before launch record numeric session/job limits, occupancy, CI reserve, memory/CPU allocations, time/usage ceilings and their observed basis. A Markdown allocation is not a distributed lock: use a single dispatcher unless a real atomic lease is implemented. Unknown shared headroom blocks fan-out, not read-only planning.
 
+When a guest VM can be profiled only after session launch, admit a bounded read-only
+bootstrap within a confirmed session slot and finite deadline/usage budget. Record
+the pre-launch account/occupancy limits, then collect the actual guest fingerprint
+before admitting implementation or heavy computation. This staged observation does
+not enlarge allocations or waive any substantive task's resource/evidence gates.
+
 A worktree, clone, terminal or subagent does not add CPU/RAM. Count all processes in a VM together unless isolation is verified. Windows and WSL share physical-host resources. Fingerprint actual CPU affinity/quota, cgroup limits/current usage, available memory, swap, disk, tools and lifetime. Do not equate RAM total, cgroup ceiling and immediately available memory. Include child/container peaks and OS/finalization reserve. Default to at most one admitted heavy job per unprofiled VM; even that needs a bounded estimate and the existing guard.
 
 Full setup + computation + verification + cleanup + upload must fit the enforced deadline. A single memory-heavy job cannot pool RAM from several small VMs. Stage chains consume the previous accepted candidate; do not parallelize dependent stages on stale predecessors. Independent candidate trials or proven-independent fixtures may run concurrently, but final whole-design acceptance is still required.
@@ -66,7 +76,7 @@ Run applicable baseline/focused/generation/native checks and independent review 
 
 Merge when the current request authorizes it and applicable review/check/policy requirements hold. Otherwise keep a useful draft. Do not change repository protections, falsify statuses or treat a one-off documentation exception as permission to merge unverified circuit changes. Inspect existing automatic site deployment effects before an authorized push/merge; do not enable hosting or execute separate deployment/release commands without authority.
 
-## 7. Current DNS incident: defer, do not repair
+## 7. Dated DNS incident (2026-11-12): defer, do not repair
 
 For this 2026-11-12 kickoff, the owner prioritizes development over the previously observed Ubuntu APT mirror DNS failure during browser dependency setup in OSC run `43043788239` (apt exit 100). This is a presumed transient external incident, not verified recovery or proof these repositories have the same failure.
 
@@ -81,3 +91,11 @@ Prefer cloud completion. When measured resources, native OS/hardware evidence, r
 Reuse actual trackers before creating more. Classify open PRs/issues as ready, implementation/review pending, superseded, rejected evidence, owner hold, or evidence/environment blocked. Do not mass-close by age, green CI or an obsolete headline. Close only verified completed scope or explicitly documented safe duplicates/retirements; preserve unique evidence, stacked dependencies and held branches.
 
 For an owner-authorized continuous campaign, repeat inspect → plan → implement → independently review → verify → integrate when authorized → resweep. Do not stop at the first PR, but do not invent work when only physical/owner gates remain. Persist the task/issue/branch/session mapping, decisions, blockers and next action before interruption. Keep paused worktrees and recovery artifacts; remove only this campaign's verified disposable resources, and leave the main checkout clean without discarding unrelated changes.
+
+## Source history
+
+The initial policy was adapted from zudo-osc-hole-field PR #329, merge
+`ebfbc0940d2af6bc199405d4d5dbef8950a6bfa5`. This is provenance, not an external
+operating dependency. The policy, templates and executable entry points maintained
+in zudo-pd govern this repository; another campaign's pins, budgets, task IDs or
+permissions do not transfer automatically.

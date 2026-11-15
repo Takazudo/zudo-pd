@@ -1,5 +1,10 @@
 # zudo-pd orchestration mapping
 
+Use the [local Moya + Codex Cloud workflow](moya-codex-cloud.md) and its
+[campaign/checkpoint template](../templates/orchestration-campaign.md) for any accepted
+development campaign. This file selects current work; the operating procedure and
+all dispatch/review/recovery prompts are maintained within this repository.
+
 ## Accepted next campaign: PD/LED consolidation
 
 Updated 2026-11-16 JST (2026-11-15 UTC). The owner selected **Moya + Codex Cloud**
