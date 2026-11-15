@@ -17,6 +17,13 @@ P15 programming acceptance is NOT RUN; PD20 has intent only, no program-ready 20
 
 ## Documentation
 
+The accepted next step is to bring `zudo-led-lamp` into this repository and maintain
+one documentation site and one shared component catalog, using `zudo-circuit-doc`.
+The target categories are **Project / Shared P15 / PD15 / PD20 / LED Lamp / Components**.
+LED source and its site are still separate; the migration has not started.
+See the [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308), [consolidation plan](circuit/orchestration/pd-led-unification.md)
+and [Moya + Codex Cloud handoff](circuit/orchestration/moya-codex-cloud.md).
+
 [Documentation site](https://pd.takazudomodular.com) and [current procedures](doc/src/content/docs/project/procedures.mdx).
 From the repository root, use the pinned package manager:
 

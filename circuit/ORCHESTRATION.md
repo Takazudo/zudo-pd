@@ -4,6 +4,12 @@ Owner-directed policy, 2026-11-12. Adapted from zudo-osc-hole-field PR #329 (mer
 
 This is a runbook, not an installed scheduler. It neither starts a campaign nor authorizes new hardware actions. Existing design decisions, immutable evidence, local-only storage, native gates and publication restrictions remain authoritative.
 
+For the owner-selected next PD/LED consolidation campaign, use the
+[Moya + Codex Cloud supplement](orchestration/moya-codex-cloud.md) and
+[accepted consolidation plan](orchestration/pd-led-unification.md).
+Moya is the intended single manager and Codex Cloud the implementation environment;
+actual launch capabilities, sessions and budgets must be recorded at kickoff.
+
 ## 1. Manager and model roles
 
 Use one active top-level manager per campaign: Claude Code Cloud Project or ChatGPT Dots. Record the actual session ID and reconcile an incumbent before takeover. Use supported child-session facilities only; discover capabilities rather than inventing APIs. If children are unavailable, work sequentially and say so.
