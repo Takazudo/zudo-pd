@@ -49,6 +49,19 @@ def pointer(parts):
     return '/' + '/'.join(str(p).replace('~', '~0').replace('/', '~1') for p in parts)
 
 
+def key_kind(key):
+    if key in REF_KEYS:
+        return REF_KEYS[key]
+    compact = key.replace('_', '').lower()
+    for prefix, kind in [('record', 'record'), ('line', 'line'), ('source', 'source'),
+                         ('fact', 'fact'), ('coverage', 'coverage'),
+                         ('interaction', 'interaction'), ('route', 'routing'),
+                         ('pinmap', 'pin_map'), ('rule', 'rule')]:
+        if compact.endswith(prefix + 'ids') or compact.endswith(prefix + 'id'):
+            return kind
+    return None
+
+
 def corpus(side):
     base = LED if side == 'led' else PD
     paths = []
@@ -92,17 +105,6 @@ def definitions(files, side):
 
 def references(files, definitions_by_kind, mapping=None):
     refs, unresolved = [], []
-    def key_kind(key):
-        if key in REF_KEYS:
-            return REF_KEYS[key]
-        compact = key.replace('_', '').lower()
-        for prefix, kind in [('record', 'record'), ('line', 'line'), ('source', 'source'),
-                             ('fact', 'fact'), ('coverage', 'coverage'),
-                             ('interaction', 'interaction'), ('route', 'routing'),
-                             ('pinmap', 'pin_map'), ('rule', 'rule')]:
-            if compact.endswith(prefix + 'ids') or compact.endswith(prefix + 'id'):
-                return kind
-        return None
     def walk(value, path, parts):
         if isinstance(value, dict):
             for key, child in value.items():
@@ -130,6 +132,62 @@ def references(files, definitions_by_kind, mapping=None):
     return refs, unresolved
 
 
+def textual_references(files, identifiers):
+    """Find literal ID mentions in prose, including string-valued list leaves."""
+    pattern = re.compile(r'(?<![A-Za-z0-9_-])(' + '|'.join(
+        re.escape(x) for x in sorted(identifiers, key=len, reverse=True)) +
+        r')(?![A-Za-z0-9_-])')
+    found = []
+    def walk(value, path, parts):
+        if isinstance(value, dict):
+            for key, child in value.items():
+                if key_kind(key):
+                    continue  # structured references have their own closure table
+                walk(child, path, parts + [key])
+        elif isinstance(value, list):
+            for index, child in enumerate(value):
+                walk(child, path, parts + [index])
+        elif isinstance(value, str):
+            matches = sorted(set(pattern.findall(value)))
+            if matches:
+                found.append({'path': path, 'pointer': pointer(parts), 'ids': matches})
+    for path, doc in files.items():
+        walk(doc, path, [])
+    return found
+
+
+def arithmetic_review(files, fact_mapping):
+    """Pair each dependency with its expression symbol for later validator review."""
+    rows = []
+    for path, doc in files.items():
+        if Path(path).name != 'facts.json':
+            continue
+        for index, fact in enumerate(doc['facts']):
+            deps = fact.get('depends_on', [])
+            expression = fact.get('expression', '')
+            if not deps and not expression:
+                continue
+            bindings = [{'old_id': dep, 'proposed_id': fact_mapping[dep],
+                         'old_symbol': dep.replace('-', '_'),
+                         'proposed_symbol': fact_mapping[dep].replace('-', '_')}
+                        for dep in deps]
+            tokens = set(re.findall(r'[A-Za-z_][A-Za-z_0-9]*', expression))
+            aliases = {item['old_symbol'] for item in bindings}
+            proposed_expression = re.sub(
+                r'[A-Za-z_][A-Za-z_0-9]*',
+                lambda match: next((item['proposed_symbol'] for item in bindings
+                                    if item['old_symbol'] == match.group()), match.group()),
+                expression)
+            rows.append({'path': path, 'pointer': pointer(['facts', index]),
+                         'fact_id': fact['fact_id'], 'proposed_fact_id': fact_mapping[fact['fact_id']],
+                         'original_expression': expression,
+                         'proposed_expression_for_review': proposed_expression,
+                         'dependency_bindings': bindings,
+                         'unmatched_expression_symbols': sorted(tokens - aliases),
+                         'unused_dependency_symbols': sorted(aliases - tokens)})
+    return rows
+
+
 def proposal():
     pd_files, led_files = corpus('pd'), corpus('led')
     pd_defs, led_defs = definitions(pd_files, 'pd'), definitions(led_files, 'led')
@@ -153,24 +211,9 @@ def proposal():
         raise ValueError(f'baseline PD has {len(pd_unresolved)} unresolved structured references')
     # Keep prose/locator references visible for manual migration. Replacing them
     # blindly can alter quoted source evidence, so they are not auto-translated.
-    old_ids = {old: new for group in mapping.values() for old, new in group.items()}
-    pattern = re.compile(r'(?<![A-Za-z0-9_-])(' + '|'.join(re.escape(x) for x in sorted(old_ids, key=len, reverse=True)) + r')(?![A-Za-z0-9_-])')
-    textual = []
-    def scan_text(value, path, parts):
-        if isinstance(value, dict):
-            for key, child in value.items():
-                if isinstance(child, str) and key not in REF_KEYS and not key.endswith('_id'):
-                    matches = sorted(set(pattern.findall(child)))
-                    if matches:
-                        textual.append({'path': path, 'pointer': pointer(parts + [key]),
-                                        'ids': matches})
-                elif isinstance(child, (dict, list)):
-                    scan_text(child, path, parts + [key])
-        elif isinstance(value, list):
-            for index, child in enumerate(value):
-                scan_text(child, path, parts + [index])
-    for path, doc in led_files.items():
-        scan_text(doc, path, [])
+    old_ids = {old for group in mapping.values() for old in group}
+    textual = textual_references(led_files, old_ids)
+    arithmetic = arithmetic_review(led_files, mapping['fact'])
     locks = {path: digest((ROOT / path).read_bytes()) for path in sorted(led_files | pd_files)}
     return {
         'schema': 'pd-led-c3c-evidence-translation/1',
@@ -182,12 +225,16 @@ def proposal():
                    'led_definitions': len(rows), 'led_structured_references': len(led_refs),
                    'pd_structured_references': len(pd_refs), 'unresolved_led_references': len(unresolved),
                    'textual_reference_locations': len(textual),
+                   'arithmetic_expression_reviews': len(arithmetic),
+                   'arithmetic_expression_mismatches': sum(bool(row['unmatched_expression_symbols'] or
+                                                                row['unused_dependency_symbols']) for row in arithmetic),
                    'shared_original_ids_by_kind': {kind: len(set(led_defs[kind]) & set(pd_defs[kind]))
                                                    for kind in sorted(led_defs)}},
         'mappings': rows,
         'reference_translation': led_refs,
         'unresolved_references': unresolved,
         'textual_references_for_manual_review': textual,
+        'arithmetic_expression_review': arithmetic,
         'holds': ['No ID equality implies matching identity, payload, verdict, conditions or source authority.',
                   'SMAJ footprint and CAD pin equivalence require separate native review.',
                   'LED line DNP flags require placement-level review; #307 remains independent.',

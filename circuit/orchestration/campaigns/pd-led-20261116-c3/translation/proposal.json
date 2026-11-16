@@ -405,6 +405,8 @@
     "pd_structured_references": 12381,
     "unresolved_led_references": 0,
     "textual_reference_locations": 463,
+    "arithmetic_expression_reviews": 27,
+    "arithmetic_expression_mismatches": 0,
     "shared_original_ids_by_kind": {
       "coverage": 32,
       "fact": 141,
@@ -39010,6 +39012,644 @@
       "ids": [
         "src-c2832269-drawing"
       ]
+    }
+  ],
+  "arithmetic_expression_review": [
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/7",
+      "fact_id": "fact-al8860-current-min",
+      "proposed_fact_id": "led-fact-al8860-current-min-c5f0d4fb7022-f17a4a55",
+      "original_expression": "fact_al8860_sense_min / fact_rlp25_resistance_max",
+      "proposed_expression_for_review": "led_fact_al8860_sense_min_ff1b19c218ed_f17a4a55 / led_fact_rlp25_resistance_max_a38bf17a3b43_f17a4a55",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-al8860-sense-min",
+          "proposed_id": "led-fact-al8860-sense-min-ff1b19c218ed-f17a4a55",
+          "old_symbol": "fact_al8860_sense_min",
+          "proposed_symbol": "led_fact_al8860_sense_min_ff1b19c218ed_f17a4a55"
+        },
+        {
+          "old_id": "fact-rlp25-resistance-max",
+          "proposed_id": "led-fact-rlp25-resistance-max-a38bf17a3b43-f17a4a55",
+          "old_symbol": "fact_rlp25_resistance_max",
+          "proposed_symbol": "led_fact_rlp25_resistance_max_a38bf17a3b43_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/8",
+      "fact_id": "fact-al8860-current-max",
+      "proposed_fact_id": "led-fact-al8860-current-max-6738447e3b08-f17a4a55",
+      "original_expression": "fact_al8860_sense_max / fact_rlp25_resistance_min",
+      "proposed_expression_for_review": "led_fact_al8860_sense_max_3599ac2ad53f_f17a4a55 / led_fact_rlp25_resistance_min_2011f96ce0f8_f17a4a55",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-al8860-sense-max",
+          "proposed_id": "led-fact-al8860-sense-max-3599ac2ad53f-f17a4a55",
+          "old_symbol": "fact_al8860_sense_max",
+          "proposed_symbol": "led_fact_al8860_sense_max_3599ac2ad53f_f17a4a55"
+        },
+        {
+          "old_id": "fact-rlp25-resistance-min",
+          "proposed_id": "led-fact-rlp25-resistance-min-2011f96ce0f8-f17a4a55",
+          "old_symbol": "fact_rlp25_resistance_min",
+          "proposed_symbol": "led_fact_rlp25_resistance_min_2011f96ce0f8_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/10",
+      "fact_id": "fact-al8860-peak-current",
+      "proposed_fact_id": "led-fact-al8860-peak-current-d8011c55a8fe-f17a4a55",
+      "original_expression": "fact_al8860_current_max * (1 + fact_al8860_ripple_fraction / 2)",
+      "proposed_expression_for_review": "led_fact_al8860_current_max_6738447e3b08_f17a4a55 * (1 + led_fact_al8860_ripple_fraction_6bdab23f73a2_f17a4a55 / 2)",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-al8860-current-max",
+          "proposed_id": "led-fact-al8860-current-max-6738447e3b08-f17a4a55",
+          "old_symbol": "fact_al8860_current_max",
+          "proposed_symbol": "led_fact_al8860_current_max_6738447e3b08_f17a4a55"
+        },
+        {
+          "old_id": "fact-al8860-ripple-fraction",
+          "proposed_id": "led-fact-al8860-ripple-fraction-6bdab23f73a2-f17a4a55",
+          "old_symbol": "fact_al8860_ripple_fraction",
+          "proposed_symbol": "led_fact_al8860_ripple_fraction_6bdab23f73a2_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/23",
+      "fact_id": "fact-rlp25-resistance-min",
+      "proposed_fact_id": "led-fact-rlp25-resistance-min-2011f96ce0f8-f17a4a55",
+      "original_expression": "fact_rlp25_resistance * (1 - fact_rlp25_tolerance)",
+      "proposed_expression_for_review": "led_fact_rlp25_resistance_b2fb9faa195e_f17a4a55 * (1 - led_fact_rlp25_tolerance_caa906baf237_f17a4a55)",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-rlp25-resistance",
+          "proposed_id": "led-fact-rlp25-resistance-b2fb9faa195e-f17a4a55",
+          "old_symbol": "fact_rlp25_resistance",
+          "proposed_symbol": "led_fact_rlp25_resistance_b2fb9faa195e_f17a4a55"
+        },
+        {
+          "old_id": "fact-rlp25-tolerance",
+          "proposed_id": "led-fact-rlp25-tolerance-caa906baf237-f17a4a55",
+          "old_symbol": "fact_rlp25_tolerance",
+          "proposed_symbol": "led_fact_rlp25_tolerance_caa906baf237_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/24",
+      "fact_id": "fact-rlp25-resistance-max",
+      "proposed_fact_id": "led-fact-rlp25-resistance-max-a38bf17a3b43-f17a4a55",
+      "original_expression": "fact_rlp25_resistance * (1 + fact_rlp25_tolerance)",
+      "proposed_expression_for_review": "led_fact_rlp25_resistance_b2fb9faa195e_f17a4a55 * (1 + led_fact_rlp25_tolerance_caa906baf237_f17a4a55)",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-rlp25-resistance",
+          "proposed_id": "led-fact-rlp25-resistance-b2fb9faa195e-f17a4a55",
+          "old_symbol": "fact_rlp25_resistance",
+          "proposed_symbol": "led_fact_rlp25_resistance_b2fb9faa195e_f17a4a55"
+        },
+        {
+          "old_id": "fact-rlp25-tolerance",
+          "proposed_id": "led-fact-rlp25-tolerance-caa906baf237-f17a4a55",
+          "old_symbol": "fact_rlp25_tolerance",
+          "proposed_symbol": "led_fact_rlp25_tolerance_caa906baf237_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/30",
+      "fact_id": "fact-rlp25-worst-power",
+      "proposed_fact_id": "led-fact-rlp25-worst-power-e6895ecd827d-f17a4a55",
+      "original_expression": "fact_al8860_current_max * fact_al8860_current_max * fact_rlp25_resistance_min",
+      "proposed_expression_for_review": "led_fact_al8860_current_max_6738447e3b08_f17a4a55 * led_fact_al8860_current_max_6738447e3b08_f17a4a55 * led_fact_rlp25_resistance_min_2011f96ce0f8_f17a4a55",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-al8860-current-max",
+          "proposed_id": "led-fact-al8860-current-max-6738447e3b08-f17a4a55",
+          "old_symbol": "fact_al8860_current_max",
+          "proposed_symbol": "led_fact_al8860_current_max_6738447e3b08_f17a4a55"
+        },
+        {
+          "old_id": "fact-rlp25-resistance-min",
+          "proposed_id": "led-fact-rlp25-resistance-min-2011f96ce0f8-f17a4a55",
+          "old_symbol": "fact_rlp25_resistance_min",
+          "proposed_symbol": "led_fact_rlp25_resistance_min_2011f96ce0f8_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/31",
+      "fact_id": "fact-rlp25-power-margin",
+      "proposed_fact_id": "led-fact-rlp25-power-margin-4a56382ccef7-f17a4a55",
+      "original_expression": "fact_rlp25_power - fact_rlp25_worst_power",
+      "proposed_expression_for_review": "led_fact_rlp25_power_9c4add7690a4_f17a4a55 - led_fact_rlp25_worst_power_e6895ecd827d_f17a4a55",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-rlp25-power",
+          "proposed_id": "led-fact-rlp25-power-9c4add7690a4-f17a4a55",
+          "old_symbol": "fact_rlp25_power",
+          "proposed_symbol": "led_fact_rlp25_power_9c4add7690a4_f17a4a55"
+        },
+        {
+          "old_id": "fact-rlp25-worst-power",
+          "proposed_id": "led-fact-rlp25-worst-power-e6895ecd827d-f17a4a55",
+          "old_symbol": "fact_rlp25_worst_power",
+          "proposed_symbol": "led_fact_rlp25_worst_power_e6895ecd827d_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/35",
+      "fact_id": "fact-fxl-inductance-min",
+      "proposed_fact_id": "led-fact-fxl-inductance-min-39922e8fdf02-f17a4a55",
+      "original_expression": "fact_fxl_inductance * (1 - fact_fxl_tolerance)",
+      "proposed_expression_for_review": "led_fact_fxl_inductance_7e243b62f430_f17a4a55 * (1 - led_fact_fxl_tolerance_9f0a2869a93b_f17a4a55)",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-fxl-inductance",
+          "proposed_id": "led-fact-fxl-inductance-7e243b62f430-f17a4a55",
+          "old_symbol": "fact_fxl_inductance",
+          "proposed_symbol": "led_fact_fxl_inductance_7e243b62f430_f17a4a55"
+        },
+        {
+          "old_id": "fact-fxl-tolerance",
+          "proposed_id": "led-fact-fxl-tolerance-9f0a2869a93b-f17a4a55",
+          "old_symbol": "fact_fxl_tolerance",
+          "proposed_symbol": "led_fact_fxl_tolerance_9f0a2869a93b_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/44",
+      "fact_id": "fact-fxl-isat-margin",
+      "proposed_fact_id": "led-fact-fxl-isat-margin-c86991694225-f17a4a55",
+      "original_expression": "fact_fxl_isat_max - fact_al8860_peak_current",
+      "proposed_expression_for_review": "led_fact_fxl_isat_max_c6bfc733efb1_f17a4a55 - led_fact_al8860_peak_current_d8011c55a8fe_f17a4a55",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-fxl-isat-max",
+          "proposed_id": "led-fact-fxl-isat-max-c6bfc733efb1-f17a4a55",
+          "old_symbol": "fact_fxl_isat_max",
+          "proposed_symbol": "led_fact_fxl_isat_max_c6bfc733efb1_f17a4a55"
+        },
+        {
+          "old_id": "fact-al8860-peak-current",
+          "proposed_id": "led-fact-al8860-peak-current-d8011c55a8fe-f17a4a55",
+          "old_symbol": "fact_al8860_peak_current",
+          "proposed_symbol": "led_fact_al8860_peak_current_d8011c55a8fe_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/57",
+      "fact_id": "fact-ss26-voltage-margin",
+      "proposed_fact_id": "led-fact-ss26-voltage-margin-914de7fe6772-f17a4a55",
+      "original_expression": "fact_ss26_reverse_voltage - fact_ss26_project_nets",
+      "proposed_expression_for_review": "led_fact_ss26_reverse_voltage_3e9d3d97827a_f17a4a55 - led_fact_ss26_project_nets_b217e801d564_f17a4a55",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-ss26-reverse-voltage",
+          "proposed_id": "led-fact-ss26-reverse-voltage-3e9d3d97827a-f17a4a55",
+          "old_symbol": "fact_ss26_reverse_voltage",
+          "proposed_symbol": "led_fact_ss26_reverse_voltage_3e9d3d97827a_f17a4a55"
+        },
+        {
+          "old_id": "fact-ss26-project-nets",
+          "proposed_id": "led-fact-ss26-project-nets-b217e801d564-f17a4a55",
+          "old_symbol": "fact_ss26_project_nets",
+          "proposed_symbol": "led_fact_ss26_project_nets_b217e801d564_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-al8860mp-13/facts.json",
+      "pointer": "/facts/58",
+      "fact_id": "fact-ss26-current-margin",
+      "proposed_fact_id": "led-fact-ss26-current-margin-1886f75b5f56-f17a4a55",
+      "original_expression": "fact_ss26_average_current - fact_al8860_peak_current",
+      "proposed_expression_for_review": "led_fact_ss26_average_current_7bc99044c770_f17a4a55 - led_fact_al8860_peak_current_d8011c55a8fe_f17a4a55",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-ss26-average-current",
+          "proposed_id": "led-fact-ss26-average-current-7bc99044c770-f17a4a55",
+          "old_symbol": "fact_ss26_average_current",
+          "proposed_symbol": "led_fact_ss26_average_current_7bc99044c770_f17a4a55"
+        },
+        {
+          "old_id": "fact-al8860-peak-current",
+          "proposed_id": "led-fact-al8860-peak-current-d8011c55a8fe-f17a4a55",
+          "old_symbol": "fact_al8860_peak_current",
+          "proposed_symbol": "led_fact_al8860_peak_current_d8011c55a8fe_f17a4a55"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-ap63203wu-7/facts.json",
+      "pointer": "/facts/18",
+      "fact_id": "fact-ap63203-required-inductor-current",
+      "proposed_fact_id": "led-fact-ap63203-required-inductor-current-d46461413966-68405f04",
+      "original_expression": "fact_ap63203_load_max * (1 + fact_ap63203_current_headroom)",
+      "proposed_expression_for_review": "led_fact_ap63203_load_max_45e04f47ce0c_68405f04 * (1 + led_fact_ap63203_current_headroom_d2c5b0ec4761_68405f04)",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-ap63203-load-max",
+          "proposed_id": "led-fact-ap63203-load-max-45e04f47ce0c-68405f04",
+          "old_symbol": "fact_ap63203_load_max",
+          "proposed_symbol": "led_fact_ap63203_load_max_45e04f47ce0c_68405f04"
+        },
+        {
+          "old_id": "fact-ap63203-current-headroom",
+          "proposed_id": "led-fact-ap63203-current-headroom-d2c5b0ec4761-68405f04",
+          "old_symbol": "fact_ap63203_current_headroom",
+          "proposed_symbol": "led_fact_ap63203_current_headroom_d2c5b0ec4761_68405f04"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-ap63203wu-7/facts.json",
+      "pointer": "/facts/30",
+      "fact_id": "fact-fnr-inductance-min",
+      "proposed_fact_id": "led-fact-fnr-inductance-min-4b8c1f1a8204-68405f04",
+      "original_expression": "fact_fnr_inductance * (1 - fact_fnr_tolerance)",
+      "proposed_expression_for_review": "led_fact_fnr_inductance_a74c5b668d96_68405f04 * (1 - led_fact_fnr_tolerance_ea53cbc0d8d0_68405f04)",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-fnr-inductance",
+          "proposed_id": "led-fact-fnr-inductance-a74c5b668d96-68405f04",
+          "old_symbol": "fact_fnr_inductance",
+          "proposed_symbol": "led_fact_fnr_inductance_a74c5b668d96_68405f04"
+        },
+        {
+          "old_id": "fact-fnr-tolerance",
+          "proposed_id": "led-fact-fnr-tolerance-ea53cbc0d8d0-68405f04",
+          "old_symbol": "fact_fnr_tolerance",
+          "proposed_symbol": "led_fact_fnr_tolerance_ea53cbc0d8d0_68405f04"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-ap63203wu-7/facts.json",
+      "pointer": "/facts/39",
+      "fact_id": "fact-fnr-isat-margin",
+      "proposed_fact_id": "led-fact-fnr-isat-margin-611f0cad1cf6-68405f04",
+      "original_expression": "fact_fnr_isat_max - fact_ap63203_required_inductor_current",
+      "proposed_expression_for_review": "led_fact_fnr_isat_max_7cf7e4d4ffde_68405f04 - led_fact_ap63203_required_inductor_current_d46461413966_68405f04",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-fnr-isat-max",
+          "proposed_id": "led-fact-fnr-isat-max-7cf7e4d4ffde-68405f04",
+          "old_symbol": "fact_fnr_isat_max",
+          "proposed_symbol": "led_fact_fnr_isat_max_7cf7e4d4ffde_68405f04"
+        },
+        {
+          "old_id": "fact-ap63203-required-inductor-current",
+          "proposed_id": "led-fact-ap63203-required-inductor-current-d46461413966-68405f04",
+          "old_symbol": "fact_ap63203_required_inductor_current",
+          "proposed_symbol": "led_fact_ap63203_required_inductor_current_d46461413966_68405f04"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-ap63203wu-7/facts.json",
+      "pointer": "/facts/40",
+      "fact_id": "fact-fnr-irated-margin",
+      "proposed_fact_id": "led-fact-fnr-irated-margin-e649674ffc1b-68405f04",
+      "original_expression": "fact_fnr_irated_max - fact_ap63203_required_inductor_current",
+      "proposed_expression_for_review": "led_fact_fnr_irated_max_c354a2949885_68405f04 - led_fact_ap63203_required_inductor_current_d46461413966_68405f04",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-fnr-irated-max",
+          "proposed_id": "led-fact-fnr-irated-max-c354a2949885-68405f04",
+          "old_symbol": "fact_fnr_irated_max",
+          "proposed_symbol": "led_fact_fnr_irated_max_c354a2949885_68405f04"
+        },
+        {
+          "old_id": "fact-ap63203-required-inductor-current",
+          "proposed_id": "led-fact-ap63203-required-inductor-current-d46461413966-68405f04",
+          "old_symbol": "fact_ap63203_required_inductor_current",
+          "proposed_symbol": "led_fact_ap63203_required_inductor_current_d46461413966_68405f04"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-bhfuse-bsmd1206-075-30v/facts.json",
+      "pointer": "/facts/18",
+      "fact_id": "fact-bhfuse-voltage-margin",
+      "proposed_fact_id": "led-fact-bhfuse-voltage-margin-3365183f2d11-caffcff0",
+      "original_expression": "fact_bhfuse_voltage_max - fact_bhfuse_project_voltage",
+      "proposed_expression_for_review": "led_fact_bhfuse_voltage_max_4eaa5f803bad_caffcff0 - led_fact_bhfuse_project_voltage_5fa9f0364236_caffcff0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-bhfuse-voltage-max",
+          "proposed_id": "led-fact-bhfuse-voltage-max-4eaa5f803bad-caffcff0",
+          "old_symbol": "fact_bhfuse_voltage_max",
+          "proposed_symbol": "led_fact_bhfuse_voltage_max_4eaa5f803bad_caffcff0"
+        },
+        {
+          "old_id": "fact-bhfuse-project-voltage",
+          "proposed_id": "led-fact-bhfuse-project-voltage-5fa9f0364236-caffcff0",
+          "old_symbol": "fact_bhfuse_project_voltage",
+          "proposed_symbol": "led_fact_bhfuse_project_voltage_5fa9f0364236_caffcff0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-honglitronic-hl-am-2835h421w-s1-08-hr3/facts.json",
+      "pointer": "/facts/21",
+      "fact_id": "fact-c2934070-rcwv",
+      "proposed_fact_id": "led-fact-c2934070-rcwv-c36ed05b5d3d-21c01143",
+      "original_expression": "(fact_c2934070_power * fact_c2934070_resistance) ** 0.5",
+      "proposed_expression_for_review": "(led_fact_c2934070_power_90d12f3c366f_21c01143 * led_fact_c2934070_resistance_58b08f029bc1_21c01143) ** 0.5",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c2934070-power",
+          "proposed_id": "led-fact-c2934070-power-90d12f3c366f-21c01143",
+          "old_symbol": "fact_c2934070_power",
+          "proposed_symbol": "led_fact_c2934070_power_90d12f3c366f_21c01143"
+        },
+        {
+          "old_id": "fact-c2934070-resistance",
+          "proposed_id": "led-fact-c2934070-resistance-58b08f029bc1-21c01143",
+          "old_symbol": "fact_c2934070_resistance",
+          "proposed_symbol": "led_fact_c2934070_resistance_58b08f029bc1_21c01143"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-honglitronic-hl-am-2835h421w-s1-08-hr3/facts.json",
+      "pointer": "/facts/24",
+      "fact_id": "fact-c2934070-drop-60ma",
+      "proposed_fact_id": "led-fact-c2934070-drop-60ma-a3aff418d3cd-21c01143",
+      "original_expression": "fact_c2934070_resistance * 0.06",
+      "proposed_expression_for_review": "led_fact_c2934070_resistance_58b08f029bc1_21c01143 * 0.06",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c2934070-resistance",
+          "proposed_id": "led-fact-c2934070-resistance-58b08f029bc1-21c01143",
+          "old_symbol": "fact_c2934070_resistance",
+          "proposed_symbol": "led_fact_c2934070_resistance_58b08f029bc1_21c01143"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-honglitronic-hl-am-2835h421w-s1-08-hr3/facts.json",
+      "pointer": "/facts/25",
+      "fact_id": "fact-c2934070-power-60ma",
+      "proposed_fact_id": "led-fact-c2934070-power-60ma-63ae1985fad6-21c01143",
+      "original_expression": "fact_c2934070_resistance * 0.06 * 0.06",
+      "proposed_expression_for_review": "led_fact_c2934070_resistance_58b08f029bc1_21c01143 * 0.06 * 0.06",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c2934070-resistance",
+          "proposed_id": "led-fact-c2934070-resistance-58b08f029bc1-21c01143",
+          "old_symbol": "fact_c2934070_resistance",
+          "proposed_symbol": "led_fact_c2934070_resistance_58b08f029bc1_21c01143"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-project-passives/facts.json",
+      "pointer": "/facts/28",
+      "fact_id": "fact-c25803-rcwv-squared",
+      "proposed_fact_id": "led-fact-c25803-rcwv-squared-c171164d11a0-b9f709d0",
+      "original_expression": "fact_c25803_power * fact_c25803_resistance",
+      "proposed_expression_for_review": "led_fact_c25803_power_b3db19a7922a_b9f709d0 * led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c25803-power",
+          "proposed_id": "led-fact-c25803-power-b3db19a7922a-b9f709d0",
+          "old_symbol": "fact_c25803_power",
+          "proposed_symbol": "led_fact_c25803_power_b3db19a7922a_b9f709d0"
+        },
+        {
+          "old_id": "fact-c25803-resistance",
+          "proposed_id": "led-fact-c25803-resistance-4c4550d7a8ca-b9f709d0",
+          "old_symbol": "fact_c25803_resistance",
+          "proposed_symbol": "led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-project-passives/facts.json",
+      "pointer": "/facts/36",
+      "fact_id": "fact-c22807-rcwv-squared",
+      "proposed_fact_id": "led-fact-c22807-rcwv-squared-66d07b397cff-b9f709d0",
+      "original_expression": "fact_c22807_power * fact_c22807_resistance",
+      "proposed_expression_for_review": "led_fact_c22807_power_0ba4923a43a9_b9f709d0 * led_fact_c22807_resistance_78b4791a1540_b9f709d0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c22807-power",
+          "proposed_id": "led-fact-c22807-power-0ba4923a43a9-b9f709d0",
+          "old_symbol": "fact_c22807_power",
+          "proposed_symbol": "led_fact_c22807_power_0ba4923a43a9_b9f709d0"
+        },
+        {
+          "old_id": "fact-c22807-resistance",
+          "proposed_id": "led-fact-c22807-resistance-78b4791a1540-b9f709d0",
+          "old_symbol": "fact_c22807_resistance",
+          "proposed_symbol": "led_fact_c22807_resistance_78b4791a1540_b9f709d0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-project-passives/facts.json",
+      "pointer": "/facts/45",
+      "fact_id": "fact-c23179-rcwv-squared",
+      "proposed_fact_id": "led-fact-c23179-rcwv-squared-e1ccae8bcf9e-b9f709d0",
+      "original_expression": "fact_c23179_power * fact_c23179_resistance",
+      "proposed_expression_for_review": "led_fact_c23179_power_ef9063384590_b9f709d0 * led_fact_c23179_resistance_a66c59b26863_b9f709d0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c23179-power",
+          "proposed_id": "led-fact-c23179-power-ef9063384590-b9f709d0",
+          "old_symbol": "fact_c23179_power",
+          "proposed_symbol": "led_fact_c23179_power_ef9063384590_b9f709d0"
+        },
+        {
+          "old_id": "fact-c23179-resistance",
+          "proposed_id": "led-fact-c23179-resistance-a66c59b26863-b9f709d0",
+          "old_symbol": "fact_c23179_resistance",
+          "proposed_symbol": "led_fact_c23179_resistance_a66c59b26863_b9f709d0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-project-passives/facts.json",
+      "pointer": "/facts/54",
+      "fact_id": "fact-c23162-rcwv-squared",
+      "proposed_fact_id": "led-fact-c23162-rcwv-squared-d4c69c75c862-b9f709d0",
+      "original_expression": "fact_c23162_power * fact_c23162_resistance",
+      "proposed_expression_for_review": "led_fact_c23162_power_7c892d98a93f_b9f709d0 * led_fact_c23162_resistance_7aa8c26b7b83_b9f709d0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c23162-power",
+          "proposed_id": "led-fact-c23162-power-7c892d98a93f-b9f709d0",
+          "old_symbol": "fact_c23162_power",
+          "proposed_symbol": "led_fact_c23162_power_7c892d98a93f_b9f709d0"
+        },
+        {
+          "old_id": "fact-c23162-resistance",
+          "proposed_id": "led-fact-c23162-resistance-7aa8c26b7b83-b9f709d0",
+          "old_symbol": "fact_c23162_resistance",
+          "proposed_symbol": "led_fact_c23162_resistance_7aa8c26b7b83_b9f709d0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-project-passives/facts.json",
+      "pointer": "/facts/69",
+      "fact_id": "fact-c17414-rcwv-squared",
+      "proposed_fact_id": "led-fact-c17414-rcwv-squared-b178335e495b-b9f709d0",
+      "original_expression": "fact_c17414_power * fact_c17414_resistance",
+      "proposed_expression_for_review": "led_fact_c17414_power_170c99d915a2_b9f709d0 * led_fact_c17414_resistance_adc0e94b3b17_b9f709d0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c17414-power",
+          "proposed_id": "led-fact-c17414-power-170c99d915a2-b9f709d0",
+          "old_symbol": "fact_c17414_power",
+          "proposed_symbol": "led_fact_c17414_power_170c99d915a2_b9f709d0"
+        },
+        {
+          "old_id": "fact-c17414-resistance",
+          "proposed_id": "led-fact-c17414-resistance-adc0e94b3b17-b9f709d0",
+          "old_symbol": "fact_c17414_resistance",
+          "proposed_symbol": "led_fact_c17414_resistance_adc0e94b3b17_b9f709d0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-project-passives/facts.json",
+      "pointer": "/facts/78",
+      "fact_id": "fact-c4216-rcwv-squared",
+      "proposed_fact_id": "led-fact-c4216-rcwv-squared-a718cba3ee4f-b9f709d0",
+      "original_expression": "fact_c4216_power * fact_c4216_resistance",
+      "proposed_expression_for_review": "led_fact_c4216_power_182c0ffff6b8_b9f709d0 * led_fact_c4216_resistance_8c26fe800396_b9f709d0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c4216-power",
+          "proposed_id": "led-fact-c4216-power-182c0ffff6b8-b9f709d0",
+          "old_symbol": "fact_c4216_power",
+          "proposed_symbol": "led_fact_c4216_power_182c0ffff6b8_b9f709d0"
+        },
+        {
+          "old_id": "fact-c4216-resistance",
+          "proposed_id": "led-fact-c4216-resistance-8c26fe800396-b9f709d0",
+          "old_symbol": "fact_c4216_resistance",
+          "proposed_symbol": "led_fact_c4216_resistance_8c26fe800396_b9f709d0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-project-passives/facts.json",
+      "pointer": "/facts/87",
+      "fact_id": "fact-c22775-rcwv-squared",
+      "proposed_fact_id": "led-fact-c22775-rcwv-squared-ede28f8cefe1-b9f709d0",
+      "original_expression": "fact_c22775_power * fact_c22775_resistance",
+      "proposed_expression_for_review": "led_fact_c22775_power_62ccc1aac1af_b9f709d0 * led_fact_c22775_resistance_b5c1666db018_b9f709d0",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-c22775-power",
+          "proposed_id": "led-fact-c22775-power-62ccc1aac1af-b9f709d0",
+          "old_symbol": "fact_c22775_power",
+          "proposed_symbol": "led_fact_c22775_power_62ccc1aac1af_b9f709d0"
+        },
+        {
+          "old_id": "fact-c22775-resistance",
+          "proposed_id": "led-fact-c22775-resistance-b5c1666db018-b9f709d0",
+          "old_symbol": "fact_c22775_resistance",
+          "proposed_symbol": "led_fact_c22775_resistance_b5c1666db018_b9f709d0"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
+    },
+    {
+      "path": "products/led-lamp/.claude/skills/component-stusb4500qtr/facts.json",
+      "pointer": "/facts/37",
+      "fact_id": "fact-rd-rcwv-squared",
+      "proposed_fact_id": "led-fact-rd-rcwv-squared-d98a511cce0a-a1507772",
+      "original_expression": "fact_rd_power * fact_rd_value * 1000",
+      "proposed_expression_for_review": "led_fact_rd_power_fa6799af42f2_a1507772 * led_fact_rd_value_6cbd13c7c862_a1507772 * 1000",
+      "dependency_bindings": [
+        {
+          "old_id": "fact-rd-power",
+          "proposed_id": "led-fact-rd-power-fa6799af42f2-a1507772",
+          "old_symbol": "fact_rd_power",
+          "proposed_symbol": "led_fact_rd_power_fa6799af42f2_a1507772"
+        },
+        {
+          "old_id": "fact-rd-value",
+          "proposed_id": "led-fact-rd-value-6cbd13c7c862-a1507772",
+          "old_symbol": "fact_rd_value",
+          "proposed_symbol": "led_fact_rd_value_6cbd13c7c862_a1507772"
+        }
+      ],
+      "unmatched_expression_symbols": [],
+      "unused_dependency_symbols": []
     }
   ],
   "holds": [
