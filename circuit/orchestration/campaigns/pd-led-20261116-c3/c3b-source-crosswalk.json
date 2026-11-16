@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "task": "Takazudo/zudo-pd#315",
+  "inspected_base": "123a26ec7327f3605dd19990472a3e99b655bb85",
+  "scope": "Identity text and order-code crosswalk only; no merged evidence, placement, CAD, or publication decision",
+  "identities": [
+    {
+      "line_id": "line-c2678061",
+      "lcsc": "C2678061",
+      "pd_identity": {"manufacturer": "ST (STMicroelectronics)", "mpn": "STUSB4500QTR"},
+      "led_identity": {"manufacturer": "STMicroelectronics", "mpn": "STUSB4500QTR"},
+      "crosswalk": "Both manufacturer strings are already routed to the PD record for the same exact MPN and LCSC ID. Treat this as a text alias only, with product conditions kept separate.",
+      "basis": [
+        ".claude/skills/component-stusb4500qtr/routing.json:route-stusb4500qtr",
+        ".claude/skills/component-stusb4500qtr/sources.json:src-stusb-ds12499 (DS12499 Rev 8, manufacturer-authored mirror, SHA256 82d6080e6d3e994f0969f4f018039d1f0871db9f6793c80c09e63e80325029e8)",
+        ".claude/skills/component-stusb4500qtr/facts.json:fact-stusb-manufacturer"
+      ],
+      "hold": "The manufacturer site remained unavailable in the retained receipt; fact-stusb-manufacturer is UNSOURCED. Do not promote primary-source trust or copy LED-specific fact and interaction payloads."
+    },
+    {
+      "line_id": "line-c347476",
+      "lcsc": "C347476",
+      "pd_identity": {"manufacturer": "UMW", "mpn": "AO3401A"},
+      "led_identity": {"manufacturer": "UMW (Youtai Semiconductor)", "mpn": "AO3401A"},
+      "crosswalk": "The PD route already accepts UMW, UMW (Youtai Semiconductor), and Youtai Semiconductor for this exact record. The retained primary sheet confirms the UMW maker mark; the expanded wording is a routing alias, not a separately established legal-name claim.",
+      "basis": [
+        ".claude/skills/component-umw-ao3401a-c347476/routing.json:route-umw-ao3401a-c347476",
+        ".claude/skills/component-umw-ao3401a-c347476/sources.json:src-umw-ao3401a-c347476-datasheet (UMW AO3401A, SHA256 fd1ac814d5a5f489f565fb8abf63812335c561fb11d24d4b4f752381070c8139)",
+        ".claude/skills/component-umw-ao3401a-c347476/facts.json:fact-umw-ao3401a-manufacturer"
+      ],
+      "hold": "The order code alone does not prove a cross-vendor AO3401A substitution. Preserve the LED and PD application-specific facts and verdicts."
+    },
+    {
+      "line_id": "line-c85382",
+      "lcsc": "C85382",
+      "pd_identity": {"manufacturer": "Nexperia", "datasheet_part": "PESD24VS1UB"},
+      "led_identity": {"manufacturer": "Nexperia", "order_code": "PESD24VS1UB,115"},
+      "crosswalk": "The retained LCSC identity receipt binds C85382 to Nexperia PESD24VS1UB,115. The Nexperia primary sheet identifies the base PESD24VS1UB device and SOD523 package. The ,115 suffix is an order/packing distinction; it must route only when that exact suffix is present.",
+      "basis": [
+        ".claude/skills/component-pesd24vs1ub-c85382/sources.json:src-pesd24vs1ub-nexperia-primary (6 August 2026, SHA256 93da62874438e6d8993e9c87ec138d7b5b81edee7a642b78d6c057fdd553207b)",
+        ".claude/skills/component-pesd24vs1ub-c85382/sources.json:src-pesd24vs1ub-lcsc-identity (14 August 2026 identity extract SHA256 c1d6463c8be27fea544c6e2f237831240af591e96b7308d6dad035451570d4ea)",
+        ".claude/skills/component-pesd24vs1ub-c85382/facts.json:fact-pesd24vs1ub-identity"
+      ],
+      "hold": "LED D6/D7 were line-level DNP in the historical inventory; PD D6/D7 are placement-level DNP on A/P/P15. Neither is fitted evidence. Retain LED source-state and evidence-payload differences; do not copy or promote LED verdicts."
+    }
+  ],
+  "outside_scope": "SMAJ20A C571370 footprint conflict remains open for native pad/body review. All globally colliding evidence IDs and product conditions in C3a reconciliation remain unresolved."
+}
