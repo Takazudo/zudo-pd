@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "required_skill_files": ["SKILL.md", "manifest.json", "sources.json", "facts.json", "coverage.json", "routing.json", "interactions.json", "pin-map.json"],
+  "record_required": ["record_id", "line_id", "kind", "parent_record_id", "mpn", "manufacturer", "lcsc", "package", "source_ids", "fact_ids", "interaction_ids", "open_domains"],
+  "source_required": ["source_id", "document_title", "document_number", "revision", "document_date", "authoritative_url", "alternate_authoritative_url", "retrieval_date", "authority_class", "sha256", "availability", "physical_pdf_page_index", "printed_page_label", "locator", "evidence_extract"],
+  "fact_required": ["fact_id", "record_id", "source_id", "class", "value", "unit", "conditions", "locator", "provenance", "verdict", "depends_on", "expression"],
+  "coverage_required": ["coverage_id", "record_id", "domain", "status", "reason", "fact_ids", "blocking_fact_ids"],
+  "interaction_required": ["interaction_id", "record_ids", "fact_ids", "conditions", "verdict"],
+  "open_domain_contract": "Each item is a nonblank domain string with exactly one matching OPEN coverage domain and an explicit reason. COVERED domains require explicit same-record fact IDs whose complete evidence closure is AVAILABLE and not UNSOURCED.",
+  "blocking_fact_ids_contract": "Every coverage entry carries blocking_fact_ids, a same-record subset of fact_ids. For an OPEN entry it names the exact facts whose non-PASS verdicts keep the domain open; each member must carry a verdict of UNSOURCED or NEEDS BENCH, or cite a SOURCE UNAVAILABLE source. The converse is enforced too: whenever any fact listed in fact_ids meets that same blocking test, blocking_fact_ids must name at least one of them. It may be empty only when no listed fact addresses the domain in that sense; a NOT APPLICABLE fact never blocks, so an OPEN entry whose only evidence is NOT APPLICABLE correctly keeps the array empty. Independently, any OPEN reason whose text claims evidence is unavailable, lower-authority, or UNSOURCED must cite the blocking facts instead of leaving the array empty.",
+  "pass_trust_contract": "PRIMARY-SPEC PASS requires AVAILABLE MANUFACTURER_PRIMARY; CALCULATED PASS requires only trusted raw leaves through the full dependency closure.",
+  "source_availability": ["AVAILABLE", "SOURCE UNAVAILABLE"],
+  "authority_classes": ["MANUFACTURER_PRIMARY", "MANUFACTURER_MIRROR", "REFERENCE_DESIGN", "DISTRIBUTOR_IDENTITY", "PROJECT_GENERATOR", "BENCH_RECORD"],
+  "fact_classes": ["ABSOLUTE_MAXIMUM", "RECOMMENDED_OPERATION", "GUARANTEED_ELECTRICAL", "TYPICAL_CURVE", "TRANSIENT", "PROTECTION_STANDOFF", "PROTECTION_BREAKDOWN", "PROTECTION_CLAMP", "THERMAL_SOA", "PROJECT_STATE"],
+  "provenance": ["PRIMARY-SPEC", "DISTRIBUTOR-IDENTITY", "REFERENCE-DESIGN", "CALCULATED", "PROJECT-CHOICE", "BENCH-OBSERVED", "UNVERIFIED"],
+  "verdicts": ["PASS - primary-source confirmed", "CONFIRMED - distributor identity only", "BLOCKER - deterministic spec violation", "NEEDS BENCH", "UNSOURCED", "NOT APPLICABLE"]
+}

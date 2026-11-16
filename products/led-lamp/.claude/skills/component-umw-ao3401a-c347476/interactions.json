@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "interactions": [
+    {
+      "interaction_id": "int-umw-ao3401a-netlist",
+      "record_ids": ["rec-umw-ao3401a"],
+      "fact_ids": [
+        "fact-umw-ao3401a-pinout",
+        "fact-umw-ao3401a-vgs",
+        "fact-umw-ao3401a-body-diode",
+        "fact-umw-ao3401a-project-nets"
+      ],
+      "conditions": "Generator asserts Q1.1 gate=Q1_G, Q1.2 source=VBUS_IN, Q1.3 drain=VBUS_OUT; verify exported netlist, symbol/footprint mapping and as-built orientation. Reversed source/drain or gate-source excursion beyond +/-12 V is a deterministic blocker",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-umw-ao3401a-bench",
+      "record_ids": ["rec-umw-ao3401a"],
+      "fact_ids": [
+        "fact-umw-ao3401a-rdson",
+        "fact-umw-ao3401a-threshold",
+        "fact-umw-ao3401a-thermal",
+        "fact-umw-ao3401a-soa"
+      ],
+      "conditions": "Scope VGS, VDS, inrush and steady current from 5 V through highest negotiated VBUS; confirm off leakage/body-diode direction, load regulation, case temperature, and SOA margin with intended downstream load",
+      "verdict": "NEEDS BENCH"
+    }
+  ]
+}

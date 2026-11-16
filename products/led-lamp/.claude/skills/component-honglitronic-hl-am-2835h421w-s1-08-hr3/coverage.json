@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c210315-spec",
+      "record_id": "rec-c210315",
+      "domain": "polarity-optical-electrical-and-process-ratings",
+      "status": "COVERED",
+      "reason": "The manufacturer family/base drawing supports these conditioned polarity, optical, electrical and process ratings.",
+      "fact_ids": [
+        "fact-c210315-manufacturer",
+        "fact-c210315-polarity",
+        "fact-c210315-flux",
+        "fact-c210315-vf-min",
+        "fact-c210315-vf-max",
+        "fact-c210315-cri",
+        "fact-c210315-view",
+        "fact-c210315-forward-current-max",
+        "fact-c210315-power-max",
+        "fact-c210315-reverse-voltage-max",
+        "fact-c210315-junction-temperature-max",
+        "fact-c210315-solder-temperature-max",
+        "fact-c210315-reflow"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c210315-exact-order-code",
+      "record_id": "rec-c210315",
+      "domain": "exact-cct-and-orderability-identity",
+      "status": "COVERED",
+      "reason": "Available LCSC JSON-LD confirms the exact C210315-to-MPN/2800-3100 K/3000 K distributor identity only; the manufacturer PDF remains the electrical authority.",
+      "fact_ids": [
+        "fact-c210315-orderable-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c210315-incoming-acceptance",
+      "record_id": "rec-c210315",
+      "domain": "incoming-reel-label-and-cct-acceptance",
+      "status": "OPEN",
+      "reason": "Distributor identity and manufacturer bin tables do not prove the received reel label, WS/TC bin fields, fitted population, or measured CCT.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c210315-sharing",
+      "record_id": "rec-c210315",
+      "domain": "installed-branch-current-and-sharing",
+      "status": "OPEN",
+      "reason": "parallel topology plus component ratings does not establish actual branch currents",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c210315-thermal",
+      "record_id": "rec-c210315",
+      "domain": "junction-temperature-and-enclosure-thermal-state",
+      "status": "OPEN",
+      "reason": "no installed thermal measurement or junction calculation",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c210315-driver",
+      "record_id": "rec-c210315",
+      "domain": "pwm-waveform-and-driver-fault-response",
+      "status": "OPEN",
+      "reason": "driver configuration, PWM waveform and fault behavior are outside retained evidence",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c2934070-context",
+      "record_id": "rec-c2934070",
+      "domain": "identity-resistance-power-voltage-and-temperature",
+      "status": "COVERED",
+      "reason": "fact-c2934070-manufacturer through fact-c2934070-temperature are locked to the manufacturer-primary FRC specification.",
+      "fact_ids": [
+        "fact-c2934070-manufacturer",
+        "fact-c2934070-resistance",
+        "fact-c2934070-tolerance",
+        "fact-c2934070-power",
+        "fact-c2934070-tcr",
+        "fact-c2934070-voltage",
+        "fact-c2934070-rcwv",
+        "fact-c2934070-temperature"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c2934070-stress",
+      "record_id": "rec-c2934070",
+      "domain": "installed-resistor-temperature-and-pulse-stress",
+      "status": "OPEN",
+      "reason": "nominal calculations do not establish installed waveform, temperature, sharing or pulse stress",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    }
+  ]
+}

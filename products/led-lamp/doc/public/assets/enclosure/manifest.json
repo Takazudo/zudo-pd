@@ -1,0 +1,2249 @@
+{
+  "revision": "prototype-03-square-posts",
+  "units": "mm",
+  "config": {
+    "outer_tip_radius": 58.0,
+    "outer_valley_radius": 54.0,
+    "inner_tip_radius": 48.0,
+    "inner_valley_radius": 44.0,
+    "teeth": 16,
+    "panel_thickness": 13.0,
+    "panel_count": 6,
+    "floor_thickness": 2.4,
+    "feet_height": 6.0,
+    "board_p_support": 5.0,
+    "board_gap": 11.0,
+    "pcb_thickness": 1.6,
+    "pin_diameter": 2.4,
+    "socket_diameter": 2.8,
+    "pin_height": 1.0,
+    "socket_depth": 1.35,
+    "post_width": 4.0,
+    "post_clearance": 0.0,
+    "post_bottom_recess": 1.0,
+    "joint_radius": 51.0,
+    "usb_opening_width": 18.0,
+    "usb_opening_height": 13.0,
+    "wheel_access_width": 30.0,
+    "wheel_access_depth": 38.0
+  },
+  "source_hashes": {
+    "enclosure/generate.py": "926d575794b79d390e4e1254c4edd54c6135f7798fea02daaeb6d3b26ae0fd36",
+    "footprints/kicad/zudo-led-lamp.3dshapes/LED-SMD_L3.5-W2.8-H0.7.step": "3950f739b2e9163404e0e98e33c876ebafdf6088500b2c3855ac725715120e6e",
+    "footprints/kicad/zudo-led-lamp.3dshapes/C0603_L1.6-W0.8-H0.8.step": "f9918dd3888f5ca8b9c906b8cb10b9d8e335f6855513b3e235a18123ae353a78",
+    "footprints/kicad/zudo-led-lamp.3dshapes/R2512_L6.3-W3.2-H0.6.step": "d34780eb5085295fb4a1eb5b1f5acc10fb14adc5438cd630e13497305530862e",
+    "footprints/kicad/zudo-led-lamp.3dshapes/C1206_L3.2-W1.6-H1.3.step": "8c99630f2bb86b653b57c467d723383db2a61971d491692b1eb2a5768df02cef",
+    "footprints/kicad/zudo-led-lamp.3dshapes/TSOT-26_L2.9-W1.6-P0.95-LS2.8-BL.step": "a8ffb0afc940ec9e0ce869d16f41faa486004f5cc5013e7ecec23d16ffa680ed",
+    "footprints/kicad/zudo-led-lamp.3dshapes/R0603.step": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
+    "footprints/kicad/zudo-led-lamp.3dshapes/R0805_L2.0-W1.3-H0.6.step": "001b6970d63e46474aa901afc1d8fe93ed3098f81f79d75f9019f417207be59b",
+    "footprints/kicad/zudo-led-lamp.3dshapes/IND-SMD_L7.0-W6.6-H2.8_FXL0630.step": "02299170d9b3a4cd3bce3deea6dbc758ab7d5e8cb8b888464d0a940f4cfaa68b",
+    "footprints/kicad/zudo-led-lamp.3dshapes/SMA_L4.3-W2.6-LS5.0-FD.step": "c2559d2addaf77f7ab6a456c25071c142825a8b9ac35f226bd29f32157bb486b",
+    "footprints/kicad/zudo-led-lamp.3dshapes/F1206_L3.2-W1.7-H0.6.step": "b4aa1c51737817cb825db00ace803703d2022f88e8062722a44807b791b94f1f",
+    "footprints/kicad/zudo-led-lamp.3dshapes/TSSOP-20_L6.5-W4.4-H1.0-LS6.4-P0.65.step": "a5e7eefa7f0245d8cfd2f80a92974768a8369a4ad184fe612e8379d22c4c5dca",
+    "footprints/kicad/zudo-led-lamp.3dshapes/MSOP-8_L3.0-W3.0-P0.65-LS4.9-BL-EP1.8.step": "48850e0ba8c705a3ed743f6390adaab2a1d0596e479fb656a4d3820779e8c833",
+    "footprints/kicad/zudo-led-lamp.3dshapes/IND-SMD_L4.0-W4.0-H2.6_FNR40XXS.step": "74f9ee02cb5adcb8e149e9452ece79ead7312c30211f2e812f08011b83bec38a",
+    "footprints/kicad/zudo-led-lamp.3dshapes/SMA_L4.2-W2.6-LS5.3-RD.step": "cae76c7a440b48c6e959dcfd5b9b8e8ed6dd731b7cf5fcb58a2b767283b138df",
+    "footprints/kicad/zudo-led-lamp.3dshapes/C0805_L2.0-W1.3-H1.3.step": "99acc6b12df8e17000d6e7529bddac9ea44e1240f5635482742aae256f49b5df",
+    "footprints/kicad/zudo-led-lamp.3dshapes/SW-TH_SS-12D01-G020.step": "fc474ae1f7fde48b66f40c479a7e512004d33b76240da28d623a281ec1a7d261",
+    "footprints/kicad/zudo-led-lamp.3dshapes/POT-TH_RK10J11E0034_family.step": "a269286859ddcf169a50c53c80608770861e5dd891d52231b39f04d058c07fa1",
+    "footprints/kicad/zudo-led-lamp.3dshapes/HDR-TH_5P-P2.54-M-LI-1X5P.step": "73e08cb77c73909d7a22a844b0e2b72731a4831b9b2626cfc691730514f9f63f",
+    "footprints/kicad/zudo-led-lamp.3dshapes/HDR-TH_6P-P2.54-V-F.step": "6101de529b83a8e40d64b9e05257aaeaa86d39c19e3ce22019d66e50f42541db",
+    "footprints/kicad/zudo-led-lamp.3dshapes/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.step": "9057661be7130af37402e30647602e467285870efe0b403443404628462cf576",
+    "footprints/kicad/zudo-led-lamp.3dshapes/SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.step": "77ba908a82212855f2a6d38b120604e403137808eaba47113ce858f1831017e5",
+    "footprints/kicad/zudo-led-lamp.3dshapes/SOD-523_L1.2-W0.8-H0.7-LS1.6.step": "db577ce0ad0cfe606d0ba741eaca8f8f2e7b49fb55b6e87bd33aacd80d3fb808",
+    "footprints/kicad/zudo-led-lamp.3dshapes/TYPE-C-SMD_6P-L8.9-W6.8-H3.2-P1.00.step": "78e05b327ed9cafeb90af4e2270b96f9884e86e391353cba6c005b2082d07545",
+    "footprints/kicad/zudo-led-lamp.3dshapes/HDR-TH_6P-P2.54-M-LI-1X6P.step": "dc269a9893939c6010e8f9d4632f8b55b6c641528794a5971dded9a0bc519136"
+  },
+  "retention": "Unthreaded printed posts: fit-based retention only; no positive axial lock. Support the base when lifting.",
+  "status": "FIT PROTOTYPE \u2014 physical fit and powered thermal testing pending",
+  "pcb_models_checked": true,
+  "board_sources": {
+    "board-l": {
+      "sha256": "1d9dc7a70d10216b25cd40eb5f9dafa60eacdffa0a1fddda04e9ff6c0eab765b",
+      "holes": [
+        [
+          4.0,
+          4.0
+        ],
+        [
+          4.0,
+          56.0
+        ],
+        [
+          20.5,
+          4.0
+        ],
+        [
+          39.5,
+          4.0
+        ],
+        [
+          56.0,
+          56.0
+        ]
+      ],
+      "footprints": {
+        "LED4": {
+          "at": [
+            46.0,
+            8.09,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "J4": {
+          "at": [
+            30.04,
+            58.25,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "C19": {
+          "at": [
+            55.6,
+            30.8,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "REF**": {
+          "at": [
+            56.0,
+            56.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED6": {
+          "at": [
+            54.1,
+            8.09,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED12": {
+          "at": [
+            14.5,
+            8.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R36": {
+          "at": [
+            3.0,
+            42.3,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C10": {
+          "at": [
+            47.75,
+            52.5
+          ],
+          "side": "F.Cu"
+        },
+        "R32": {
+          "at": [
+            52.0,
+            28.25,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C22": {
+          "at": [
+            36.254,
+            51.025
+          ],
+          "side": "F.Cu"
+        },
+        "R34": {
+          "at": [
+            43.5,
+            18.0,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "U4": {
+          "at": [
+            39.2,
+            57.2
+          ],
+          "side": "F.Cu"
+        },
+        "LED15": {
+          "at": [
+            47.275,
+            22.91,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "RT1": {
+          "at": [
+            31.0,
+            28.175,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R24": {
+          "at": [
+            23.254,
+            50.825
+          ],
+          "side": "F.Cu"
+        },
+        "LED18": {
+          "at": [
+            21.8,
+            22.685,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R30": {
+          "at": [
+            50.305,
+            44.525,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "RS1": {
+          "at": [
+            19.65,
+            42.925,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED11": {
+          "at": [
+            10.45,
+            8.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "L1": {
+          "at": [
+            10.545,
+            40.3
+          ],
+          "side": "F.Cu"
+        },
+        "LED13": {
+          "at": [
+            39.175,
+            22.91,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R33": {
+          "at": [
+            11.25,
+            14.5
+          ],
+          "side": "F.Cu"
+        },
+        "D11": {
+          "at": [
+            10.8,
+            57.8
+          ],
+          "side": "F.Cu"
+        },
+        "C11": {
+          "at": [
+            47.75,
+            54.75
+          ],
+          "side": "F.Cu"
+        },
+        "F1": {
+          "at": [
+            42.0,
+            56.35,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "U3": {
+          "at": [
+            30.13,
+            53.18,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C12": {
+          "at": [
+            49.75,
+            57.25
+          ],
+          "side": "F.Cu"
+        },
+        "R25": {
+          "at": [
+            30.95,
+            39.7
+          ],
+          "side": "F.Cu"
+        },
+        "LED8": {
+          "at": [
+            43.3,
+            31.535,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R21": {
+          "at": [
+            17.3,
+            49.175,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED23": {
+          "at": [
+            17.225,
+            31.86,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED3": {
+          "at": [
+            54.29,
+            48.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED19": {
+          "at": [
+            6.19,
+            48.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED24": {
+          "at": [
+            21.275,
+            31.86,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C14": {
+          "at": [
+            56.25,
+            43.75,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED2": {
+          "at": [
+            50.24,
+            48.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED14": {
+          "at": [
+            43.225,
+            22.91,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R22": {
+          "at": [
+            19.575,
+            39.6,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "U2": {
+          "at": [
+            18.765,
+            55.33,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "TP1": {
+          "at": [
+            21.0,
+            58.4,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R35": {
+          "at": [
+            4.5,
+            23.25,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R37": {
+          "at": [
+            4.5,
+            32.25,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C24": {
+          "at": [
+            31.0,
+            27.0,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "L2": {
+          "at": [
+            32.175,
+            42.775,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R20": {
+          "at": [
+            23.254,
+            53.225,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "D10": {
+          "at": [
+            54.25,
+            38.75,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "C16": {
+          "at": [
+            27.225,
+            40.55,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED9": {
+          "at": [
+            47.35,
+            31.535,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED16": {
+          "at": [
+            13.7,
+            22.685,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED1": {
+          "at": [
+            46.19,
+            48.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED20": {
+          "at": [
+            10.24,
+            48.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED5": {
+          "at": [
+            50.05,
+            8.09,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R27": {
+          "at": [
+            22.8,
+            58.0,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C13": {
+          "at": [
+            45.0,
+            57.75
+          ],
+          "side": "F.Cu"
+        },
+        "LED7": {
+          "at": [
+            39.25,
+            31.535,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R31": {
+          "at": [
+            40.5,
+            13.25,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED10": {
+          "at": [
+            6.96,
+            8.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C18": {
+          "at": [
+            55.6,
+            33.5,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C21": {
+          "at": [
+            19.5,
+            49.5,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C17": {
+          "at": [
+            27.2,
+            42.525,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED22": {
+          "at": [
+            13.175,
+            31.86,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R26": {
+          "at": [
+            36.0,
+            56.5
+          ],
+          "side": "F.Cu"
+        },
+        "LED21": {
+          "at": [
+            14.29,
+            48.725,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "LED17": {
+          "at": [
+            17.75,
+            22.685,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C15": {
+          "at": [
+            39.8,
+            53.4,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C20": {
+          "at": [
+            36.254,
+            53.625
+          ],
+          "side": "F.Cu"
+        },
+        "SW2": {
+          "at": [
+            9.1,
+            27.75,
+            90.0
+          ],
+          "side": "B.Cu"
+        },
+        "RV1": {
+          "at": [
+            51.9,
+            9.5
+          ],
+          "side": "B.Cu"
+        },
+        "J3": {
+          "at": [
+            57.95,
+            29.475,
+            -90.0
+          ],
+          "side": "B.Cu"
+        },
+        "J2": {
+          "at": [
+            29.4,
+            37.7
+          ],
+          "side": "B.Cu"
+        }
+      },
+      "stackup_mm": {
+        "F.Mask": 0.01,
+        "F.Cu": 0.035,
+        "dielectric 1": 1.51,
+        "B.Cu": 0.035,
+        "B.Mask": 0.01
+      }
+    },
+    "board-p": {
+      "sha256": "930a50dd5b37017dcaf65f4344eeee8af6a3fe9e663f32c4fd118af2e904fffa",
+      "holes": [
+        [
+          4.0,
+          4.0
+        ],
+        [
+          12.8,
+          32.6
+        ],
+        [
+          23.0,
+          4.0
+        ]
+      ],
+      "footprints": {
+        "REF**": {
+          "at": [
+            23.0,
+            4.0
+          ],
+          "side": "F.Cu"
+        },
+        "U1": {
+          "at": [
+            11.728,
+            23.288,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "D5": {
+          "at": [
+            22.25,
+            10.08
+          ],
+          "side": "F.Cu"
+        },
+        "C30": {
+          "at": [
+            17.378,
+            23.034,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R19": {
+          "at": [
+            14.014,
+            17.192,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "J3": {
+          "at": [
+            25.2,
+            27.4,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R14": {
+          "at": [
+            15.792,
+            17.192,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "Q1": {
+          "at": [
+            18.586,
+            13.636,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C2": {
+          "at": [
+            17.378,
+            21.002,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R15": {
+          "at": [
+            17.378,
+            26.59,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R11": {
+          "at": [
+            22.142,
+            16.176
+          ],
+          "side": "F.Cu"
+        },
+        "D7": {
+          "at": [
+            4.87,
+            16.684,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "J1": {
+          "at": [
+            13.506,
+            5.0,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R20": {
+          "at": [
+            8.83,
+            16.684,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R16": {
+          "at": [
+            17.378,
+            24.812,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "R12": {
+          "at": [
+            23.412,
+            12.62,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "C34": {
+          "at": [
+            17.378,
+            28.368
+          ],
+          "side": "F.Cu"
+        },
+        "JOUT1": {
+          "at": [
+            12.9,
+            37.7
+          ],
+          "side": "F.Cu"
+        },
+        "R13": {
+          "at": [
+            5.632,
+            23.288
+          ],
+          "side": "F.Cu"
+        },
+        "C35": {
+          "at": [
+            22.142,
+            14.398,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "J2": {
+          "at": [
+            1.8,
+            29.8,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R18": {
+          "at": [
+            7.13,
+            16.718,
+            -90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R21": {
+          "at": [
+            4.362,
+            20.494,
+            180.0
+          ],
+          "side": "F.Cu"
+        },
+        "D6": {
+          "at": [
+            12.33,
+            16.684,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "R17": {
+          "at": [
+            10.73,
+            16.684,
+            90.0
+          ],
+          "side": "F.Cu"
+        },
+        "C1": {
+          "at": [
+            3.854,
+            12.62,
+            -90.0
+          ],
+          "side": "F.Cu"
+        }
+      },
+      "stackup_mm": {
+        "F.Mask": 0.01,
+        "F.Cu": 0.035,
+        "dielectric 1": 1.51,
+        "B.Cu": 0.035,
+        "B.Mask": 0.01
+      }
+    }
+  },
+  "datums": {
+    "floor_top": 8.4,
+    "board_p_bottom": 13.4,
+    "board_p_top": 15.0,
+    "board_l_bottom": 26.0,
+    "board_l_top": 27.6,
+    "top": 86.4,
+    "usb_opening_bottom": 8.4
+  },
+  "checks": [
+    "Every printable STL is watertight, consistently wound, and positive-volume",
+    "Every print mesh starts on Z=0",
+    "Each assembly print file contains one connected solid",
+    "All printed-part pairs and modeled PCB/hardware intersections checked",
+    "16 x 8 mm overmold corridor to PCB edge and 8.4 x 2.6 mm metal-nose corridor are open; actual seating unverified",
+    "Existing PCB mounting and six-pin alignment checked"
+  ],
+  "intersection_checks": [
+    [
+      "00-base",
+      "01-band-usb",
+      0.0
+    ],
+    [
+      "00-base",
+      "mount-01-17.6mm",
+      0.0
+    ],
+    [
+      "00-base",
+      "mount-02-17.6mm",
+      0.0
+    ],
+    [
+      "00-base",
+      "mount-03-5.0mm",
+      0.0
+    ],
+    [
+      "00-base",
+      "mount-04-5.0mm",
+      0.0
+    ],
+    [
+      "00-base",
+      "mount-05-5.0mm",
+      0.0
+    ],
+    [
+      "00-base",
+      "mount-06-17.6mm",
+      0.0
+    ],
+    [
+      "00-base",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "00-base",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "00-base",
+      "post-03-flat",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "02-band",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "mount-01-17.6mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "mount-02-17.6mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "mount-03-5.0mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "mount-04-5.0mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "mount-05-5.0mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "mount-06-17.6mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "interboard-01-11.0mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "interboard-02-11.0mm",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "post-03-flat",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "board-l-components-reference",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "board-p-substrate-reference",
+      0.0
+    ],
+    [
+      "01-band-usb",
+      "board-p-components-reference",
+      0.0
+    ],
+    [
+      "02-band",
+      "03-band",
+      0.0
+    ],
+    [
+      "02-band",
+      "mount-01-17.6mm",
+      0.0
+    ],
+    [
+      "02-band",
+      "mount-02-17.6mm",
+      0.0
+    ],
+    [
+      "02-band",
+      "mount-06-17.6mm",
+      0.0
+    ],
+    [
+      "02-band",
+      "interboard-01-11.0mm",
+      0.0
+    ],
+    [
+      "02-band",
+      "interboard-02-11.0mm",
+      0.0
+    ],
+    [
+      "02-band",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "02-band",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "02-band",
+      "post-03-flat",
+      0.0
+    ],
+    [
+      "02-band",
+      "board-l-substrate-reference",
+      0.0
+    ],
+    [
+      "02-band",
+      "board-l-components-reference",
+      0.0
+    ],
+    [
+      "02-band",
+      "board-p-components-reference",
+      0.0
+    ],
+    [
+      "03-band",
+      "04-band",
+      0.0
+    ],
+    [
+      "03-band",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "03-band",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "03-band",
+      "post-03-flat",
+      0.0
+    ],
+    [
+      "04-band",
+      "05-band",
+      0.0
+    ],
+    [
+      "04-band",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "04-band",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "04-band",
+      "post-03-flat",
+      0.0
+    ],
+    [
+      "05-band",
+      "06-band-top",
+      0.0
+    ],
+    [
+      "05-band",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "05-band",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "05-band",
+      "post-03-flat",
+      0.0
+    ],
+    [
+      "06-band-top",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "06-band-top",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "06-band-top",
+      "post-03-flat",
+      0.0
+    ],
+    [
+      "mount-01-17.6mm",
+      "board-l-components-reference",
+      0
+    ],
+    [
+      "mount-02-17.6mm",
+      "board-l-components-reference",
+      0
+    ],
+    [
+      "mount-03-5.0mm",
+      "board-p-components-reference",
+      0
+    ],
+    [
+      "mount-04-5.0mm",
+      "board-p-components-reference",
+      0
+    ],
+    [
+      "mount-05-5.0mm",
+      "board-p-components-reference",
+      0
+    ],
+    [
+      "mount-06-17.6mm",
+      "board-l-components-reference",
+      0
+    ],
+    [
+      "interboard-01-11.0mm",
+      "board-l-components-reference",
+      0
+    ],
+    [
+      "interboard-01-11.0mm",
+      "board-p-components-reference",
+      0
+    ],
+    [
+      "interboard-02-11.0mm",
+      "board-l-components-reference",
+      0
+    ],
+    [
+      "interboard-02-11.0mm",
+      "board-p-components-reference",
+      0
+    ],
+    [
+      "foot-01",
+      "post-01-flat",
+      0.0
+    ],
+    [
+      "foot-02",
+      "post-02-flat",
+      0.0
+    ],
+    [
+      "foot-03",
+      "post-03-flat",
+      0.0
+    ]
+  ],
+  "parts": [
+    {
+      "name": "00-base",
+      "file": "stl/00-base.stl",
+      "color": "#ead9b5",
+      "position": [
+        0,
+        0,
+        6.0
+      ],
+      "group": "print",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -57.8490104675293,
+          -57.8490104675293,
+          0.0
+        ],
+        [
+          57.8490104675293,
+          57.8490104675293,
+          3.4000000953674316
+        ]
+      ],
+      "volume_mm3": 18983.936,
+      "triangles": 5954,
+      "watertight": true,
+      "sha256": "29d63763b1ad345cf8bb08f90a390e089c3930d7185ae215bc3573997fa00c3f"
+    },
+    {
+      "name": "01-band-usb",
+      "file": "stl/01-band-usb.stl",
+      "color": "#ead9b5",
+      "position": [
+        0,
+        0,
+        8.4
+      ],
+      "group": "print",
+      "level": 1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Band 1; 13 mm; suggested clear filament; print in any color",
+      "bounds_mm": [
+        [
+          -57.8490104675293,
+          -57.8490104675293,
+          0.0
+        ],
+        [
+          57.8490104675293,
+          53.69922637939453,
+          14.0
+        ]
+      ],
+      "volume_mm3": 38325.438,
+      "triangles": 4338,
+      "watertight": true,
+      "sha256": "15e3687cd60ab9d93d58b4afeb1f2bbe8c2d1f4ad9b18f4980c2ac6aa94424d4",
+      "profile_angle_degrees": 0,
+      "body_height_mm": 13.0
+    },
+    {
+      "name": "02-band",
+      "file": "stl/02-band.stl",
+      "color": "#ead9b5",
+      "position": [
+        0,
+        0,
+        21.4
+      ],
+      "group": "print",
+      "level": 2,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Band 2; 13 mm; suggested clear filament; print in any color",
+      "bounds_mm": [
+        [
+          -57.8490104675293,
+          -57.8490104675293,
+          0.0
+        ],
+        [
+          57.8490104675293,
+          57.8490104675293,
+          14.0
+        ]
+      ],
+      "volume_mm3": 40753.878,
+      "triangles": 4358,
+      "watertight": true,
+      "sha256": "9d8558948059eb3393b23bef09b2a356fa66c0a27b61a961fd2278d06783e54f",
+      "profile_angle_degrees": 0,
+      "body_height_mm": 13.0
+    },
+    {
+      "name": "03-band",
+      "file": "stl/03-band.stl",
+      "color": "#df880c",
+      "position": [
+        0,
+        0,
+        34.4
+      ],
+      "group": "print",
+      "level": 3,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Band 3; 13 mm; suggested amber filament; print in any color",
+      "bounds_mm": [
+        [
+          -57.8490104675293,
+          -57.8490104675293,
+          0.0
+        ],
+        [
+          57.8490104675293,
+          57.8490104675293,
+          14.0
+        ]
+      ],
+      "volume_mm3": 40753.878,
+      "triangles": 4358,
+      "watertight": true,
+      "sha256": "9d8558948059eb3393b23bef09b2a356fa66c0a27b61a961fd2278d06783e54f",
+      "profile_angle_degrees": 0,
+      "body_height_mm": 13.0
+    },
+    {
+      "name": "04-band",
+      "file": "stl/04-band.stl",
+      "color": "#337e7d",
+      "position": [
+        0,
+        0,
+        47.4
+      ],
+      "group": "print",
+      "level": 4,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Band 4; 13 mm; suggested teal filament; print in any color",
+      "bounds_mm": [
+        [
+          -57.8490104675293,
+          -57.8490104675293,
+          0.0
+        ],
+        [
+          57.8490104675293,
+          57.8490104675293,
+          14.0
+        ]
+      ],
+      "volume_mm3": 40753.878,
+      "triangles": 4358,
+      "watertight": true,
+      "sha256": "9d8558948059eb3393b23bef09b2a356fa66c0a27b61a961fd2278d06783e54f",
+      "profile_angle_degrees": 0,
+      "body_height_mm": 13.0
+    },
+    {
+      "name": "05-band",
+      "file": "stl/05-band.stl",
+      "color": "#ead9b5",
+      "position": [
+        0,
+        0,
+        60.4
+      ],
+      "group": "print",
+      "level": 5,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Band 5; 13 mm; suggested clear filament; print in any color",
+      "bounds_mm": [
+        [
+          -57.8490104675293,
+          -57.8490104675293,
+          0.0
+        ],
+        [
+          57.8490104675293,
+          57.8490104675293,
+          14.0
+        ]
+      ],
+      "volume_mm3": 40753.878,
+      "triangles": 4358,
+      "watertight": true,
+      "sha256": "9d8558948059eb3393b23bef09b2a356fa66c0a27b61a961fd2278d06783e54f",
+      "profile_angle_degrees": 0,
+      "body_height_mm": 13.0
+    },
+    {
+      "name": "06-band-top",
+      "file": "stl/06-band-top.stl",
+      "color": "#58545b",
+      "position": [
+        0,
+        0,
+        73.4
+      ],
+      "group": "print",
+      "level": 6,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Band 6; 13 mm; suggested smoke filament; print in any color",
+      "bounds_mm": [
+        [
+          -57.8490104675293,
+          -57.8490104675293,
+          0.0
+        ],
+        [
+          57.8490104675293,
+          57.8490104675293,
+          13.0
+        ]
+      ],
+      "volume_mm3": 40740.974,
+      "triangles": 1832,
+      "watertight": true,
+      "sha256": "91c8f1de817670434727e7885c793ec8287bf9d1daf97cd23fdffed6d60528a1",
+      "profile_angle_degrees": 0,
+      "body_height_mm": 13.0
+    },
+    {
+      "name": "mount-01-17.6mm",
+      "file": "stl/mount-01-17.6mm.stl",
+      "color": "#999999",
+      "position": [
+        -26.0,
+        26.0,
+        8.4
+      ],
+      "group": "print",
+      "level": 1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "PCB mounting spacer at KiCad Board L (4, 4); M3 nylon hardware recommended",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          17.600000381469727
+        ]
+      ],
+      "volume_mm3": 337.633,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "70442de24bbe6a74fcf36cba3d05128f3028aae9492b310d59ae12ddac8e4efb"
+    },
+    {
+      "name": "mount-02-17.6mm",
+      "file": "stl/mount-02-17.6mm.stl",
+      "color": "#999999",
+      "position": [
+        -26.0,
+        -26.0,
+        8.4
+      ],
+      "group": "print",
+      "level": 1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "PCB mounting spacer at KiCad Board L (4, 56); M3 nylon hardware recommended",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          17.600000381469727
+        ]
+      ],
+      "volume_mm3": 337.633,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "70442de24bbe6a74fcf36cba3d05128f3028aae9492b310d59ae12ddac8e4efb"
+    },
+    {
+      "name": "mount-03-5.0mm",
+      "file": "stl/mount-03-5.0mm.stl",
+      "color": "#999999",
+      "position": [
+        -9.5,
+        26.0,
+        8.4
+      ],
+      "group": "print",
+      "level": 1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "PCB mounting spacer at KiCad Board L (20.5, 4); M3 nylon hardware recommended",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          5.0
+        ]
+      ],
+      "volume_mm3": 95.918,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "22f09c25439bcfd56ed060f8f1847a8ae692db854e83de98cf9694289021a894"
+    },
+    {
+      "name": "mount-04-5.0mm",
+      "file": "stl/mount-04-5.0mm.stl",
+      "color": "#999999",
+      "position": [
+        -0.6999999999999993,
+        -2.6000000000000014,
+        8.4
+      ],
+      "group": "print",
+      "level": 1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "PCB mounting spacer at KiCad Board L (29.3, 32.6); M3 nylon hardware recommended",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          5.0
+        ]
+      ],
+      "volume_mm3": 95.918,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "22f09c25439bcfd56ed060f8f1847a8ae692db854e83de98cf9694289021a894"
+    },
+    {
+      "name": "mount-05-5.0mm",
+      "file": "stl/mount-05-5.0mm.stl",
+      "color": "#999999",
+      "position": [
+        9.5,
+        26.0,
+        8.4
+      ],
+      "group": "print",
+      "level": 1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "PCB mounting spacer at KiCad Board L (39.5, 4); M3 nylon hardware recommended",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          5.0
+        ]
+      ],
+      "volume_mm3": 95.918,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "22f09c25439bcfd56ed060f8f1847a8ae692db854e83de98cf9694289021a894"
+    },
+    {
+      "name": "mount-06-17.6mm",
+      "file": "stl/mount-06-17.6mm.stl",
+      "color": "#999999",
+      "position": [
+        26.0,
+        -26.0,
+        8.4
+      ],
+      "group": "print",
+      "level": 1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "PCB mounting spacer at KiCad Board L (56, 56); M3 nylon hardware recommended",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          17.600000381469727
+        ]
+      ],
+      "volume_mm3": 337.633,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "70442de24bbe6a74fcf36cba3d05128f3028aae9492b310d59ae12ddac8e4efb"
+    },
+    {
+      "name": "interboard-01-11.0mm",
+      "file": "stl/interboard-01-11.0mm.stl",
+      "color": "#aaaaaa",
+      "position": [
+        -9.5,
+        26,
+        15.0
+      ],
+      "group": "print",
+      "level": 3,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          11.0
+        ]
+      ],
+      "volume_mm3": 211.02,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "ca3a207b38179bc7eede2d73925cda00e6cf2ff321438dd63a8ceadbf1ea8e8a"
+    },
+    {
+      "name": "interboard-02-11.0mm",
+      "file": "stl/interboard-02-11.0mm.stl",
+      "color": "#aaaaaa",
+      "position": [
+        9.5,
+        26,
+        15.0
+      ],
+      "group": "print",
+      "level": 3,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -2.9986572265625,
+          -2.999664306640625,
+          0.0
+        ],
+        [
+          3.0,
+          2.999664306640625,
+          11.0
+        ]
+      ],
+      "volume_mm3": 211.02,
+      "triangles": 840,
+      "watertight": true,
+      "sha256": "ca3a207b38179bc7eede2d73925cda00e6cf2ff321438dd63a8ceadbf1ea8e8a"
+    },
+    {
+      "name": "foot-01",
+      "file": "stl/foot-01.stl",
+      "color": "#58545b",
+      "position": [
+        51.0,
+        0.0,
+        0
+      ],
+      "group": "print",
+      "level": -1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Printed round foot, diameter 12 x 6 mm; centered 4 mm square hole; TPU trial",
+      "bounds_mm": [
+        [
+          -5.997314453125,
+          -5.99932861328125,
+          0.0
+        ],
+        [
+          6.0,
+          5.99932861328125,
+          6.0
+        ]
+      ],
+      "volume_mm3": 582.179,
+      "triangles": 436,
+      "watertight": true,
+      "sha256": "3702871069a4241aa6cc519d205e9fad978a26f062325a7da4aefda4ef3552cb"
+    },
+    {
+      "name": "post-01-flat",
+      "file": "stl/post-01-flat.stl",
+      "color": "#77747b",
+      "position": [
+        53.0,
+        0.0,
+        1.0
+      ],
+      "group": "print",
+      "level": -1,
+      "rotation_y_degrees": -90,
+      "quantity": 1,
+      "note": "Printed 4 x 4 x 85.4 mm cuboid; keep long side flat on bed; friction fit only",
+      "bounds_mm": [
+        [
+          0.0,
+          -2.0,
+          0.0
+        ],
+        [
+          85.4000015258789,
+          2.0,
+          4.0
+        ]
+      ],
+      "volume_mm3": 1366.4,
+      "triangles": 12,
+      "watertight": true,
+      "sha256": "13ff5ac2291170a8947f9180f1d9a709f05a02a47203d50fe27b56d15bb252ec"
+    },
+    {
+      "name": "foot-02",
+      "file": "stl/foot-02.stl",
+      "color": "#58545b",
+      "position": [
+        -25.499999999999993,
+        44.16729559300637,
+        0
+      ],
+      "group": "print",
+      "level": -1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Printed round foot, diameter 12 x 6 mm; centered 4 mm square hole; TPU trial",
+      "bounds_mm": [
+        [
+          -5.997314453125,
+          -5.99932861328125,
+          0.0
+        ],
+        [
+          6.0,
+          5.99932861328125,
+          6.0
+        ]
+      ],
+      "volume_mm3": 582.179,
+      "triangles": 436,
+      "watertight": true,
+      "sha256": "3702871069a4241aa6cc519d205e9fad978a26f062325a7da4aefda4ef3552cb"
+    },
+    {
+      "name": "post-02-flat",
+      "file": "stl/post-02-flat.stl",
+      "color": "#77747b",
+      "position": [
+        -23.499999999999993,
+        44.16729559300637,
+        1.0
+      ],
+      "group": "print",
+      "level": -1,
+      "rotation_y_degrees": -90,
+      "quantity": 1,
+      "note": "Printed 4 x 4 x 85.4 mm cuboid; keep long side flat on bed; friction fit only",
+      "bounds_mm": [
+        [
+          0.0,
+          -2.0,
+          0.0
+        ],
+        [
+          85.4000015258789,
+          2.0,
+          4.0
+        ]
+      ],
+      "volume_mm3": 1366.4,
+      "triangles": 12,
+      "watertight": true,
+      "sha256": "13ff5ac2291170a8947f9180f1d9a709f05a02a47203d50fe27b56d15bb252ec"
+    },
+    {
+      "name": "foot-03",
+      "file": "stl/foot-03.stl",
+      "color": "#58545b",
+      "position": [
+        -25.50000000000002,
+        -44.16729559300636,
+        0
+      ],
+      "group": "print",
+      "level": -1,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "Printed round foot, diameter 12 x 6 mm; centered 4 mm square hole; TPU trial",
+      "bounds_mm": [
+        [
+          -5.997314453125,
+          -5.99932861328125,
+          0.0
+        ],
+        [
+          6.0,
+          5.99932861328125,
+          6.0
+        ]
+      ],
+      "volume_mm3": 582.179,
+      "triangles": 436,
+      "watertight": true,
+      "sha256": "3702871069a4241aa6cc519d205e9fad978a26f062325a7da4aefda4ef3552cb"
+    },
+    {
+      "name": "post-03-flat",
+      "file": "stl/post-03-flat.stl",
+      "color": "#77747b",
+      "position": [
+        -23.50000000000002,
+        -44.16729559300636,
+        1.0
+      ],
+      "group": "print",
+      "level": -1,
+      "rotation_y_degrees": -90,
+      "quantity": 1,
+      "note": "Printed 4 x 4 x 85.4 mm cuboid; keep long side flat on bed; friction fit only",
+      "bounds_mm": [
+        [
+          0.0,
+          -2.0,
+          0.0
+        ],
+        [
+          85.4000015258789,
+          2.0,
+          4.0
+        ]
+      ],
+      "volume_mm3": 1366.4,
+      "triangles": 12,
+      "watertight": true,
+      "sha256": "13ff5ac2291170a8947f9180f1d9a709f05a02a47203d50fe27b56d15bb252ec"
+    },
+    {
+      "name": "test-square-post-flat",
+      "file": "stl/test-square-post-flat.stl",
+      "color": "#999999",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          0.0,
+          -2.0,
+          0.0
+        ],
+        [
+          20.0,
+          2.0,
+          4.0
+        ]
+      ],
+      "volume_mm3": 320.0,
+      "triangles": 12,
+      "watertight": true,
+      "sha256": "36fb46254f7f5b479ba7ec8e0f8efb18e05789f7389501eaaec29d0373e4696c"
+    },
+    {
+      "name": "test-square-hole-4.0",
+      "file": "stl/test-square-hole-4.0.stl",
+      "color": "#999999",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -6.0,
+          -6.0,
+          0.0
+        ],
+        [
+          6.0,
+          6.0,
+          13.0
+        ]
+      ],
+      "volume_mm3": 1664.0,
+      "triangles": 32,
+      "watertight": true,
+      "sha256": "105985d6d8ce63a23b5eae56a3611a94b9246d497bc226341e5e47958c55a123"
+    },
+    {
+      "name": "test-square-hole-4.2",
+      "file": "stl/test-square-hole-4.2.stl",
+      "color": "#999999",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -6.0,
+          -6.0,
+          0.0
+        ],
+        [
+          6.0,
+          6.0,
+          13.0
+        ]
+      ],
+      "volume_mm3": 1642.68,
+      "triangles": 32,
+      "watertight": true,
+      "sha256": "20f413f0c91204e9f8d3c1c8bbe44f04aafc0f5e8665025f3f45c8159cbb9c2b"
+    },
+    {
+      "name": "test-square-hole-4.4",
+      "file": "stl/test-square-hole-4.4.stl",
+      "color": "#999999",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -6.0,
+          -6.0,
+          0.0
+        ],
+        [
+          6.0,
+          6.0,
+          13.0
+        ]
+      ],
+      "volume_mm3": 1620.32,
+      "triangles": 32,
+      "watertight": true,
+      "sha256": "8f847fe72e32e21dfa2af85958766d7c88c2cf5cb39612783e0323a1eba0ed63"
+    },
+    {
+      "name": "test-pin-2.4",
+      "file": "stl/test-pin-2.4.stl",
+      "color": "#aaaaaa",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -8.0,
+          -8.0,
+          0.0
+        ],
+        [
+          8.0,
+          8.0,
+          4.0
+        ]
+      ],
+      "volume_mm3": 772.301,
+      "triangles": 854,
+      "watertight": true,
+      "sha256": "5ed329d449e8188863a366fbfd36a249dc017e97a0a552435878fc831748174b"
+    },
+    {
+      "name": "test-socket-clearance-0.2",
+      "file": "stl/test-socket-clearance-0.2.stl",
+      "color": "#aaaaaa",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -8.0,
+          -8.0,
+          0.0
+        ],
+        [
+          8.0,
+          8.0,
+          3.0
+        ]
+      ],
+      "volume_mm3": 760.837,
+      "triangles": 432,
+      "watertight": true,
+      "sha256": "e3ba70ee25957ee38449e97d54528950d7fb1023bac816eb7c048f581831c4c0"
+    },
+    {
+      "name": "test-socket-clearance-0.4",
+      "file": "stl/test-socket-clearance-0.4.stl",
+      "color": "#aaaaaa",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -8.0,
+          -8.0,
+          0.0
+        ],
+        [
+          8.0,
+          8.0,
+          3.0
+        ]
+      ],
+      "volume_mm3": 759.692,
+      "triangles": 432,
+      "watertight": true,
+      "sha256": "8e0f81e514c994775a7cc7989494b6fc09b1168acad472da8e68ffe61c00916f"
+    },
+    {
+      "name": "test-socket-clearance-0.6",
+      "file": "stl/test-socket-clearance-0.6.stl",
+      "color": "#aaaaaa",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "group": "coupon",
+      "level": 0,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          -8.0,
+          -8.0,
+          0.0
+        ],
+        [
+          8.0,
+          8.0,
+          3.0
+        ]
+      ],
+      "volume_mm3": 758.463,
+      "triangles": 432,
+      "watertight": true,
+      "sha256": "8e300afa47b645e243c43666878acd3f4db9a128ea75523d890cf2d7d4a9ac65"
+    },
+    {
+      "name": "board-l-substrate-reference",
+      "file": "preview/board-l-substrate-reference.stl",
+      "color": "#326949",
+      "position": [
+        -30,
+        30,
+        26.045
+      ],
+      "group": "electronics",
+      "level": 4,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          0.0,
+          -60.0,
+          0.0
+        ],
+        [
+          60.0,
+          0.0,
+          1.5099999904632568
+        ]
+      ],
+      "volume_mm3": 5342.437,
+      "triangles": 11060,
+      "watertight": true,
+      "sha256": "dbebae4fbdb5c5ea2cee19ac01aeece75d6ec9a05121b86c3c683000289ac139"
+    },
+    {
+      "name": "board-l-components-reference",
+      "file": "preview/board-l-components-reference.stl",
+      "color": "#b4b4b6",
+      "position": [
+        -30,
+        30,
+        26.045
+      ],
+      "group": "electronics",
+      "level": 4,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          1.399999976158142,
+          -59.1150016784668,
+          -8.585000038146973
+        ],
+        [
+          58.900001525878906,
+          -1.850000023841858,
+          4.394999980926514
+        ]
+      ],
+      "volume_mm3": 1155.173,
+      "triangles": 494750,
+      "watertight": false,
+      "sha256": "75ef961e5a9dd66172bac9895141f3fdbd5ec64d398a4f21390171b9239bbda1"
+    },
+    {
+      "name": "board-p-substrate-reference",
+      "file": "preview/board-p-substrate-reference.stl",
+      "color": "#326949",
+      "position": [
+        -13.5,
+        30,
+        13.445
+      ],
+      "group": "electronics",
+      "level": 2,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          0.0,
+          -40.0,
+          0.0
+        ],
+        [
+          27.0,
+          0.0,
+          1.5099999904632568
+        ]
+      ],
+      "volume_mm3": 1581.903,
+      "triangles": 5572,
+      "watertight": true,
+      "sha256": "ccb925cde7d8b5d3b6e093f8dabccd0849323c913bb176a007df542219a7d0ce"
+    },
+    {
+      "name": "board-p-components-reference",
+      "file": "preview/board-p-components-reference.stl",
+      "color": "#b4b4b6",
+      "position": [
+        -13.5,
+        30,
+        13.445
+      ],
+      "group": "electronics",
+      "level": 2,
+      "rotation_y_degrees": 0,
+      "quantity": 1,
+      "note": "",
+      "bounds_mm": [
+        [
+          3.053999900817871,
+          -38.95000076293945,
+          -1.4049999713897705
+        ],
+        [
+          24.852489471435547,
+          -2.4000000953674316,
+          10.194999694824219
+        ]
+      ],
+      "volume_mm3": 261.72,
+      "triangles": 188410,
+      "watertight": false,
+      "sha256": "7472c35465f05abc8f779ec8903ded550f32735a91c4792f77ebdff91d9ced28"
+    }
+  ]
+}

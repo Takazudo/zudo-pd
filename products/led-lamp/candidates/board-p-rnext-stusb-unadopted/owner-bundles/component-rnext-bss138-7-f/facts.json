@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "fact_id": "fact-c40912-manufacturer",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-primary",
+      "class": "PROJECT_STATE",
+      "value": "Diodes Incorporated",
+      "unit": "NONE",
+      "conditions": "Manufacturer datasheet title.",
+      "locator": "Title block page 1; pin configuration figure page 1",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c40912-identity",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-identity",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C40912",
+        "manufacturer": "Diodes Incorporated",
+        "mpn": "BSS138-7-F",
+        "variant": "50 V N-channel small-signal MOSFET, SOT-23"
+      },
+      "unit": "NONE",
+      "conditions": "Exact catalog identity only; current stock and assembly quote remain unconfirmed.",
+      "locator": "Product identity table manufacturer/MPN/LCSC/package rows",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c40912-vds",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-primary",
+      "class": "ABSOLUTE_MAXIMUM",
+      "value": 50,
+      "unit": "V",
+      "conditions": "Drain-source.",
+      "locator": "Absolute Maximum Ratings table row VDSS page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c40912-vgs",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-primary",
+      "class": "ABSOLUTE_MAXIMUM",
+      "value": 20,
+      "unit": "V",
+      "conditions": "Gate-source continuous magnitude.",
+      "locator": "Absolute Maximum Ratings table row Gate-Source Voltage page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c40912-vgsth-max",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 1.5,
+      "unit": "V",
+      "conditions": "VDS = VGS, ID 250 uA. SLVSE94G asks for VGTH(min) <= 3 V for the pulldown FET.",
+      "locator": "Electrical Characteristics row VGS(TH) page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c40912-ciss-max",
+      "record_id": "rec-c40912",
+      "source_id": "src-c40912-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 50,
+      "unit": "pF",
+      "conditions": "Input capacitance maximum; SLVSE94G asks for Ciss <= 50 pF for the pulldown FET.",
+      "locator": "Electrical Characteristics row Ciss page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-bss138-7-f-led-rnext-role",
+      "record_id": "rec-c40912",
+      "source_id": "src-bss138-7-f-led-rnext-spec",
+      "class": "PROJECT_STATE",
+      "value": "Q5: gate and source on Q1_MX, drain on Q1_G; body diode couples C36 Miller feedback into Q1 gate during turn-on.",
+      "unit": "NONE",
+      "conditions": "UNADOPTED LED Board P r-next schematic draft; no PCB, no assembly, nothing energized",
+      "locator": "COMPONENTS row Q5 and NETS rows containing Q5",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-bss138-7-f-led-land",
+      "record_id": "rec-c40912",
+      "source_id": "src-bss138-7-f-led-land-check",
+      "class": "PROJECT_STATE",
+      "value": "zudo-pd:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR: DIFF against PDF page 5, Suggested Pad Layout SOT23 (Standard) table; pad X 0.8 x Y 0.9: drawing [0.8, 0.9] vs land [0.8, 1.0]; row centre span C 2.0: drawing 2.0 vs land 2.3; outer extent Y1 2.9: drawing 2.9 vs land 3.3",
+      "unit": "NONE",
+      "conditions": "Pad geometry only (TOL 0.011 mm); solder mask, paste and assembly yield are not checked",
+      "locator": "lands[] row Q5",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    }
+  ]
+}

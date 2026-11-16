@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "skill": "component-rnext-tvs2200drvr",
+  "records": [
+    {
+      "record_id": "rec-c523793",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "TVS2200DRVR",
+      "manufacturer": "Texas Instruments",
+      "lcsc": "C523793",
+      "line_id": null,
+      "candidate_id": "cand-rnext-c523793",
+      "package": "WSON-6_DRV0006A_TI-EXAMPLE",
+      "source_ids": [
+        "src-c523793-primary",
+        "src-c523793-identity",
+        "src-tvs2200drvr-led-rnext-spec",
+        "src-tvs2200drvr-led-land-check"
+      ],
+      "fact_ids": [
+        "fact-c523793-manufacturer",
+        "fact-c523793-identity",
+        "fact-c523793-vrwm",
+        "fact-c523793-vbr",
+        "fact-c523793-vclamp-40a",
+        "fact-c523793-ipp-10-1000",
+        "fact-c523793-ileak-vrwm",
+        "fact-c523793-slew-limit",
+        "fact-c523793-vclamp-35a-125c",
+        "fact-tvs2200drvr-led-rnext-role",
+        "fact-tvs2200drvr-led-land"
+      ],
+      "interaction_ids": [
+        "int-tvs2200drvr-led-rnext"
+      ],
+      "open_domains": [
+        "led-rnext-application"
+      ],
+      "refdes": [
+        "D5"
+      ],
+      "imported_from": "zudo-pd@3ac13d462bd7bdbf06a07b4716d9c94306f8bca4:.claude/skills/component-tvs2200drvr/manifest.json#rec-c523793"
+    }
+  ]
+}

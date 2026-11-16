@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "skill": "component-ap63203wu-7",
+  "records": [
+    {
+      "record_id": "rec-ap63203wu-7",
+      "line_id": "line-c780769",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "AP63203WU-7",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C780769",
+      "package": "TSOT-26_L2.9-W1.6-P0.95-LS2.8-BL",
+      "source_ids": [
+        "src-ap6320x-ds41326",
+        "src-ap63203-generator"
+      ],
+      "fact_ids": [
+        "fact-ap63203-manufacturer",
+        "fact-ap63203-topology",
+        "fact-ap63203-en-open",
+        "fact-ap63203-vin-recommended-max",
+        "fact-ap63203-vin-absolute-dc",
+        "fact-ap63203-vin-transient",
+        "fact-ap63203-vout-min",
+        "fact-ap63203-vout-max",
+        "fact-ap63203-frequency",
+        "fact-ap63203-min-on-time",
+        "fact-ap63203-min-off-time",
+        "fact-ap63203-soft-start",
+        "fact-ap63203-peak-limit-min",
+        "fact-ap63203-hiccup",
+        "fact-ap63203-inductor-min",
+        "fact-ap63203-inductor-max",
+        "fact-ap63203-load-max",
+        "fact-ap63203-current-headroom",
+        "fact-ap63203-required-inductor-current",
+        "fact-ap63203-dcr-max",
+        "fact-ap63203-cap-min",
+        "fact-ap63203-cap-max",
+        "fact-ap63203-reference-l",
+        "fact-ap63203-reference-cap",
+        "fact-ap63203-thermal",
+        "fact-ap63203-layout",
+        "fact-ap63203-project-nets"
+      ],
+      "interaction_ids": [
+        "int-ap63203-startup",
+        "int-ap63203-power-stage"
+      ],
+      "open_domains": [
+        "minimum-off-time",
+        "project-load-transients-and-thermal"
+      ]
+    },
+    {
+      "record_id": "rec-fnr4030s4r7mt",
+      "line_id": "line-c167874",
+      "kind": "subordinate",
+      "parent_record_id": "rec-ap63203wu-7",
+      "mpn": "FNR4030S4R7MT",
+      "manufacturer": "Changjiang Microelectronics Tech (cjiang)",
+      "lcsc": "C167874",
+      "package": "IND-SMD_L4.0-W4.0_FNR40XXS",
+      "source_ids": [
+        "src-fnr-series-mirror",
+        "src-fnr-generator",
+        "src-fnr-series-official"
+      ],
+      "fact_ids": [
+        "fact-fnr-manufacturer",
+        "fact-fnr-inductance",
+        "fact-fnr-tolerance",
+        "fact-fnr-inductance-min",
+        "fact-fnr-dcr-max",
+        "fact-fnr-srf-min",
+        "fact-fnr-isat-max",
+        "fact-fnr-irated-max",
+        "fact-fnr-rating-definitions",
+        "fact-fnr-temperature",
+        "fact-fnr-package",
+        "fact-fnr-project-nets",
+        "fact-fnr-isat-margin",
+        "fact-fnr-irated-margin"
+      ],
+      "interaction_ids": [
+        "int-fnr-filter",
+        "int-ap63203-power-stage"
+      ],
+      "open_domains": [
+        "project-load-and-temperature"
+      ]
+    },
+    {
+      "record_id": "rec-cl21a226maqnnne",
+      "line_id": "line-c45783",
+      "kind": "subordinate",
+      "parent_record_id": "rec-ap63203wu-7",
+      "mpn": "CL21A226MAQNNNE",
+      "manufacturer": "Samsung Electro-Mechanics",
+      "lcsc": "C45783",
+      "package": "C0805",
+      "source_ids": [
+        "src-samsung-cl21-product",
+        "src-cl21-generator"
+      ],
+      "fact_ids": [
+        "fact-cl21-manufacturer",
+        "fact-cl21-capacitance",
+        "fact-cl21-tolerance",
+        "fact-cl21-voltage",
+        "fact-cl21-dielectric",
+        "fact-cl21-temperature",
+        "fact-cl21-package",
+        "fact-cl21-dc-bias",
+        "fact-cl21-project-count",
+        "fact-cl21-project-nets",
+        "fact-cl21-effective-capacitance-status"
+      ],
+      "interaction_ids": [
+        "int-cl21-output-filter",
+        "int-ap63203-power-stage"
+      ],
+      "open_domains": [
+        "guaranteed-effective-capacitance"
+      ]
+    }
+  ]
+}

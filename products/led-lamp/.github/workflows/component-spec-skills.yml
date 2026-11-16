@@ -1,0 +1,82 @@
+# Offline validation of the frozen component contract: the canonical Python
+# validator, its unit tests, the cross-component routing/refusal forward tests,
+# and schematic regen-idempotency. No credentials, no network, no KiCad.
+#
+# The four checks below are the source of truth for component evidence; the two
+# doc workflows depend on the first of them because `pnpm build` shells out to
+# validate.py. That is why all three pin the same Python 3.12.
+
+name: Component spec skills
+
+on:
+  pull_request:
+    paths:
+      - 'CLAUDE.md'
+      - '.claude/skills/**'
+      - '.github/workflows/component-spec-skills.yml'
+      - 'scripts/schgen/**'
+      - 'doc/src/content/docs/architecture/bom.mdx'
+      - 'doc/src/content/docs/**/*.mdx'
+      - 'boards/**/*.kicad_sch'
+      - 'boards/**/*.kicad_pcb'
+      - 'symbols/**/*.kicad_sym'
+      - 'footprints/**/*.kicad_mod'
+      - 'firmware/**'
+  push:
+    paths:
+      - 'CLAUDE.md'
+      - '.claude/skills/**'
+      - '.github/workflows/component-spec-skills.yml'
+      - 'scripts/schgen/**'
+      - 'doc/src/content/docs/architecture/bom.mdx'
+      - 'doc/src/content/docs/**/*.mdx'
+      - 'boards/**/*.kicad_sch'
+      - 'boards/**/*.kicad_pcb'
+      - 'symbols/**/*.kicad_sym'
+      - 'footprints/**/*.kicad_mod'
+      - 'firmware/**'
+
+concurrency:
+  group: component-spec-skills-${{ github.ref }}
+  # Superseded runs on a topic branch or PR carry no information. On main they
+  # do — that run is the record for a commit that is already merged.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # SHA-pinned to the exact pins the two doc workflows already use — a
+      # mutable tag is a supply-chain hole, and three workflows on one runner
+      # image should not disagree about which checkout they get. Both SHAs
+      # verified against the real tags (checkout v5.0.1, setup-python v5.6.0);
+      # checkout moves v4 -> v5 to match, which changes only the action's own
+      # Node runtime, not what these four steps do.
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Validate frozen component contract (offline)
+        run: python3 .claude/skills/component-spec-audit/scripts/validate.py
+      - name: Test validator and fixtures (offline)
+        run: python3 -m unittest discover -s .claude/skills/component-spec-audit/scripts -p 'test_*.py'
+      - name: Test cross-component routing and refusals (offline)
+        run: python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py
+      - name: Regen-idempotency check (pure Python, no KiCad)
+        run: |
+          python3 scripts/schgen/gen_schematic.py board_p_spec
+          python3 scripts/schgen/gen_schematic.py board_l_spec
+          python3 scripts/schgen/gen_schematic.py swd_adapter_spec
+          git diff --exit-code boards/
+      - name: Verify external power switch topology
+        run: python3 scripts/schgen/verify_power_switch.py
+      - name: Verify SWD adapter numeric orientation
+        run: python3 scripts/schgen/verify_swd_adapter.py
+      - name: P15 consumer reference (local side; the zudo-pd side needs an explicit zudo-pd checkout)
+        run: |
+          python3 scripts/checks/verify-p15-reference.py --local-only
+          python3 -m unittest discover -s scripts/checks -p 'test_*.py'

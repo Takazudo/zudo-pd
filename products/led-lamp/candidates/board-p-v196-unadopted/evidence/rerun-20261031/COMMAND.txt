@@ -1,0 +1,3 @@
+kicad-cli version > /out/version.txt; kicad-cli pcb drc --format json --severity-all --schematic-parity --units mm --exit-code-violations -o /out/V196-rerun-drc.json /work/board-p-COUT1206-TRIAL.kicad_pcb > /out/drc.stdout 2>/out/drc.stderr; echo $? > /out/drc.exit
+kicad-cli pcb drc --format json --severity-all --units mm --exit-code-violations -o /out/V196-rerun-drc.json /work/board-p-COUT1206-TRIAL.kicad_pcb > /out/drc.stdout 2>/out/drc.stderr; echo $? > /out/drc.exit
+kicad-cli sch export netlist --format kicadsexpr -o /out/V196.net /work/board-p-COUT1206-TRIAL.kicad_sch > /out/net.stdout 2>&1; echo $? > /out/net.exit

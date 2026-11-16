@@ -1,0 +1,6 @@
+{"schema_version":1,"routes":[
+  {"route_id":"route-al8860","record_id":"rec-al8860mp-13","aliases":{"mpn":["AL8860MP-13"],"lcsc":["C500782"],"manufacturer":["Diodes Incorporated"],"function":["buck LED driver","hysteretic LED driver"]},"positive":["audit AL8860MP-13 CTRL pin","check C500782 thermal limit"],"negative":["audit AL8861 LED driver","check C500783"]},
+  {"route_id":"route-rlp25","record_id":"rec-rlp25feer200","aliases":{"mpn":["RLP25FEER200"],"lcsc":["C459674"],"manufacturer":["TA-I Technology"],"function":["200 mOhm current-sense resistor","AL8860 sense resistor"]},"positive":["RLP25FEER200 pulse rating","audit C459674"],"negative":["RLP25FEER100 pulse rating","audit C459675"]},
+  {"route_id":"route-fxl0630","record_id":"rec-fxl0630-330-m","aliases":{"mpn":["FXL0630-330-M"],"lcsc":["C177245"],"manufacturer":["Changjiang Microelectronics Tech"],"function":["33 uH LED buck inductor","AL8860 inductor"]},"positive":["FXL0630-330-M saturation","audit C177245"],"negative":["FXL0630-220-M saturation","audit C177246"]},
+  {"route_id":"route-ro-ss26","record_id":"rec-ro-ss26","aliases":{"mpn":["SS26"],"lcsc":["C7420363"],"manufacturer":["R+O"],"function":["60 V Schottky catch diode","AL8860 freewheel diode"]},"positive":["exact R+O SS26 polarity","audit C7420363"],"negative":["other-vendor SS26 polarity C999019","audit SS24 C7420364"]}
+]}

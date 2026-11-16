@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-csd18543q3a-primary",
+      "record_id": "rec-c840100",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-c840100-manufacturer",
+        "fact-c840100-identity",
+        "fact-c840100-vds",
+        "fact-c840100-vgs",
+        "fact-c840100-rdson-10v-max",
+        "fact-c840100-rdson-4v5-max"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-csd18543q3a-led-application",
+      "record_id": "rec-c840100",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-csd18543q3a-led-rnext-role",
+        "fact-csd18543q3a-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-csd18543q3a-led-rnext-role",
+        "fact-csd18543q3a-led-land"
+      ]
+    }
+  ]
+}

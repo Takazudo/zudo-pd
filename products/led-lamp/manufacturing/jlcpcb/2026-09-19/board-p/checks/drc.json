@@ -1,0 +1,548 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-09-19T05:44:44",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Duplicate footprints",
+            "key": "duplicate_footprints"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [
+        {
+            "description": "Extra footprint",
+            "items": [
+                {
+                    "description": "Footprint REF**",
+                    "pos": {
+                        "x": 4.0,
+                        "y": 4.0
+                    },
+                    "uuid": "058fd6f4-0a71-4846-95a0-de373a58db3c"
+                }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+        },
+        {
+            "description": "Extra footprint",
+            "items": [
+                {
+                    "description": "Footprint REF**",
+                    "pos": {
+                        "x": 12.8,
+                        "y": 32.6
+                    },
+                    "uuid": "82586680-3bb4-4f93-af5d-30ce589b0874"
+                }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+        },
+        {
+            "description": "Extra footprint",
+            "items": [
+                {
+                    "description": "Footprint REF**",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 4.0
+                    },
+                    "uuid": "c22d9e4e-418d-44e5-96ee-83a0420ef7bc"
+                }
+            ],
+            "severity": "warning",
+            "type": "extra_footprint"
+        }
+    ],
+    "source": "board-p.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [Q1_G] on F.Cu, length 0.0877 mm",
+                    "pos": {
+                        "x": 20.172,
+                        "y": 15.86
+                    },
+                    "uuid": "d735d748-2958-418a-9913-8ca2c40dd53c"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "3acc2a21-5031-4635-b093-ce078ab52c56"
+                },
+                {
+                    "description": "Segment of J3 on F.Silkscreen",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 16.8
+                    },
+                    "uuid": "8aec3efe-2c38-4019-814a-0f7ae7131f02"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "3acc2a21-5031-4635-b093-ce078ab52c56"
+                },
+                {
+                    "description": "Segment of J2 on F.Silkscreen",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 35.3
+                    },
+                    "uuid": "2b9c468f-3d5c-4af1-840b-51f2f6185052"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Drilled holes co-located",
+            "items": [
+                {
+                    "description": "Via [SCL] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 9.43,
+                        "y": 28.518
+                    },
+                    "uuid": "6e6e3ea8-ff93-4023-b13e-d0dd878921b3"
+                },
+                {
+                    "description": "Via [SCL] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 9.43,
+                        "y": 28.518
+                    },
+                    "uuid": "7138c466-90ec-4f7a-b7cb-8969be4d2029"
+                }
+            ],
+            "severity": "warning",
+            "type": "holes_co_located"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of D5",
+                    "pos": {
+                        "x": 20.218,
+                        "y": 12.62
+                    },
+                    "uuid": "fc0146ff-80ae-4c6c-b308-547c91742dd3"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of C30",
+                    "pos": {
+                        "x": 19.73,
+                        "y": 22.272
+                    },
+                    "uuid": "0c3d1234-0c42-43a4-bf4a-56d8a0a0c0c9"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (CC1D)",
+                    "pos": {
+                        "x": 22.086,
+                        "y": 18.566
+                    },
+                    "uuid": "e5c224b4-e0da-4123-8cee-b03cc97fec6c"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (PDOK)",
+                    "pos": {
+                        "x": 22.086,
+                        "y": 33.75
+                    },
+                    "uuid": "b44191b4-326e-4e78-9831-678a3a3cca9b"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (CC2D)",
+                    "pos": {
+                        "x": 22.186,
+                        "y": 20.966
+                    },
+                    "uuid": "64725007-4594-481b-88f4-fe380f50a696"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (VREG)",
+                    "pos": {
+                        "x": 22.186,
+                        "y": 23.59
+                    },
+                    "uuid": "6b1d5c4f-9ceb-4bbd-aa84-854a351a8700"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (VBEN)",
+                    "pos": {
+                        "x": 22.286,
+                        "y": 36.29
+                    },
+                    "uuid": "d2fdef6b-3d01-4277-9ef1-ca418ac7b4b5"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (VDD)",
+                    "pos": {
+                        "x": 22.406,
+                        "y": 26.13
+                    },
+                    "uuid": "f4bf3a32-a5c1-4eae-b34e-ebf87f0d04bb"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (RST)",
+                    "pos": {
+                        "x": 22.66,
+                        "y": 28.67
+                    },
+                    "uuid": "2b1bcfc0-3f88-4358-84a7-d5e2d64ecc4e"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (ATT)",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 31.21
+                    },
+                    "uuid": "75f0e052-a6b5-4d07-b8fe-e3c54364c8b6"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J3 (<-- EDGE)",
+                    "pos": {
+                        "x": 39.17,
+                        "y": 29.94
+                    },
+                    "uuid": "c959ea49-9ba6-4594-a44f-adb355beeb4f"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of R11",
+                    "pos": {
+                        "x": 24.73,
+                        "y": 15.618
+                    },
+                    "uuid": "9aecffc4-f790-4c47-83e8-e34a123dd65f"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of R16",
+                    "pos": {
+                        "x": 19.73,
+                        "y": 24.218
+                    },
+                    "uuid": "286b8278-1505-4014-ba07-9cbcf1cd2150"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.5000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of C35",
+                    "pos": {
+                        "x": 24.682,
+                        "y": 14.398
+                    },
+                    "uuid": "3938c37c-d083-414a-8287-43c06695aa8c"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.6000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (<-- EDGE)",
+                    "pos": {
+                        "x": -9.63,
+                        "y": 30.816
+                    },
+                    "uuid": "28e6a56f-faaf-4eed-9dec-33841ebd0b1e"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (NC)",
+                    "pos": {
+                        "x": 4.338,
+                        "y": 26.002
+                    },
+                    "uuid": "dd4e9755-ed20-47fe-9c17-401da7c03d15"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (SDA)",
+                    "pos": {
+                        "x": 4.438,
+                        "y": 31.07
+                    },
+                    "uuid": "0c71436f-3a7f-469e-aa36-6135d3ecf449"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (SCL)",
+                    "pos": {
+                        "x": 4.438,
+                        "y": 33.602
+                    },
+                    "uuid": "4287f4e0-dd2a-4b1a-ac36-142931cf0cb3"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "Footprint text of J2 (GND)",
+                    "pos": {
+                        "x": 4.538,
+                        "y": 28.53
+                    },
+                    "uuid": "12960105-1afd-46bb-a85f-8588430010a2"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Circle of Q1 on F.Silkscreen",
+                    "pos": {
+                        "x": 20.036,
+                        "y": 12.436
+                    },
+                    "uuid": "1454e8a2-d234-4329-a3e9-9288a98b2918"
+                },
+                {
+                    "description": "Reference field of D5",
+                    "pos": {
+                        "x": 20.218,
+                        "y": 12.62
+                    },
+                    "uuid": "fc0146ff-80ae-4c6c-b308-547c91742dd3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Circle of J1 on F.Silkscreen",
+                    "pos": {
+                        "x": 17.976,
+                        "y": 7.25
+                    },
+                    "uuid": "200b9cc8-dcac-4c55-9342-6e5ef59d02ea"
+                },
+                {
+                    "description": "PTH pad 0 [GND] of J1",
+                    "pos": {
+                        "x": 17.826,
+                        "y": 6.75
+                    },
+                    "uuid": "43b98e3e-86eb-4a42-8ee4-bcdadc385e7f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of D5",
+                    "pos": {
+                        "x": 20.218,
+                        "y": 12.62
+                    },
+                    "uuid": "fc0146ff-80ae-4c6c-b308-547c91742dd3"
+                },
+                {
+                    "description": "Pad 1 [Q1_G] of Q1 on F.Cu",
+                    "pos": {
+                        "x": 19.536,
+                        "y": 12.486
+                    },
+                    "uuid": "8cc9e4bc-be6b-4a0f-9cd1-2446e7f86c89"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R12",
+                    "pos": {
+                        "x": 23.424,
+                        "y": 10.588
+                    },
+                    "uuid": "d581389a-dfa3-43f8-a039-2300b9ed7737"
+                },
+                {
+                    "description": "Pad 2 [GND] of D5 on F.Cu",
+                    "pos": {
+                        "x": 24.82,
+                        "y": 10.08
+                    },
+                    "uuid": "6e5f033c-fe1a-4a52-8d95-4d7837be1c3d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

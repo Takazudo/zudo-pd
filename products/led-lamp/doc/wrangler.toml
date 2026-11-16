@@ -1,0 +1,53 @@
+# Cloudflare Workers Static Assets configuration
+
+name = "zudo-led-lamp"
+main = "./dist/_worker.js"
+
+compatibility_date = "2024-12-01"
+# nodejs_compat is required by the CF adapter bundle at dist/_worker.js,
+# which imports node:async_hooks (AsyncLocalStorage). Without this flag
+# wrangler 4.x refuses to load the worker even when dist/_worker.js exists.
+compatibility_flags = ["nodejs_compat"]
+
+# Top-level fields (MUST stay above the [assets] table — in TOML any key after
+# a table header is scoped into that table; if these sit under [assets] wrangler
+# warns "Unexpected fields found in assets field" and silently ignores them).
+#
+# workers_dev enables the worker's PUBLIC *.workers.dev subdomain, required for
+# the preview-alias URLs below to route (without it, pr-<N> preview URLs return
+# "error code: 1042" — the workers.dev hostname is private). Production is also
+# served on the custom domain at the bottom of this file.
+workers_dev = true
+
+# preview_urls enables *.workers.dev version-preview URLs for PR previews
+# (consumed by pr-checks.yml via `wrangler versions upload --preview-alias`).
+# Requires workers_dev = true (above) to route.
+preview_urls = true
+
+# ---------------------------------------------------------------------------
+# Static asset serving
+#
+# not_found_handling = "404-page" serves dist/404.html for unmatched GETs.
+#
+# run_worker_first = false means the asset layer is consulted before the
+# worker script; the worker only runs when no matching asset is found.
+#
+# .assetsignore mechanism: dist/.assetsignore lists _worker.js and
+# _zfb_inner.mjs so those files are excluded from the public asset directory
+# and are not served as downloadable files. The adapter (zfb build) emits this
+# file itself; CI also (re)writes it defensively before deploy since it is not
+# committed to the repo.
+# ---------------------------------------------------------------------------
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "404-page"
+run_worker_first = false
+
+# ---------------------------------------------------------------------------
+# Custom domain routing
+# route host MUST equal the zudoDoc({ siteUrl }) host in zfb.config.ts
+# ---------------------------------------------------------------------------
+[[routes]]
+pattern = "zudo-led-lamp.takazudomodular.com"
+custom_domain = true

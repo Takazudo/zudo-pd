@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "skill": "component-stusb4500qtr",
+  "records": [
+    {
+      "record_id": "rec-stusb4500qtr",
+      "line_id": "line-c2678061",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "STUSB4500QTR",
+      "manufacturer": "STMicroelectronics",
+      "lcsc": "C2678061",
+      "package": "QFN-24_L4.0-W4.0-P0.50-BL-EP2.8",
+      "source_ids": [
+        "src-stusb-ds12499",
+        "src-stusb-ds12499-ratings",
+        "src-stusb-um2650",
+        "src-stusb-um2398",
+        "src-stusb-stsw004",
+        "src-stusb-ds12499-primary-attempt",
+        "src-stusb-um2650-primary-attempt",
+        "src-stusb-board-p-generator"
+      ],
+      "fact_ids": [
+        "fact-stusb-manufacturer",
+        "fact-stusb-order-code",
+        "fact-stusb-pin-states",
+        "fact-stusb-ccdb",
+        "fact-stusb-disch",
+        "fact-stusb-vbus-vs-disch",
+        "fact-stusb-vben",
+        "fact-stusb-supplies",
+        "fact-stusb-vdd-absolute-max",
+        "fact-stusb-cc-absolute-max",
+        "fact-stusb-vbus-pin-absolute-max",
+        "fact-stusb-load-time",
+        "fact-stusb-state-sequence",
+        "fact-stusb-nvm-load",
+        "fact-stusb-volatile-pdo",
+        "fact-stusb-discharge-registers",
+        "fact-stusb-fault-status",
+        "fact-stusb-reference-design",
+        "fact-stusb-artifact",
+        "fact-stusb-endurance",
+        "fact-stusb-ds12499-primary-attempt",
+        "fact-stusb-um2650-primary-attempt",
+        "fact-stusb-vreg2v7-load"
+      ],
+      "interaction_ids": [
+        "int-stusb-netlist",
+        "int-stusb-safe-power",
+        "int-stusb-nvm-verification",
+        "int-stusb-state-bench",
+        "int-stusb-cc-protection",
+        "int-stusb-external-rd"
+      ],
+      "open_domains": [
+        "identity/package/pinout",
+        "unpowered/reset/startup/normal/fault/disconnect behavior",
+        "project NVM image and factory-state capture",
+        "NVM write endurance and production write budget",
+        "safe power/provisioning/bench discriminators",
+        "VREG_2V7 external DC loading and NVM-jig voltage matching"
+      ]
+    },
+    {
+      "record_id": "rec-pesd24vs1ub",
+      "line_id": "line-c85382",
+      "kind": "subordinate",
+      "parent_record_id": "rec-stusb4500qtr",
+      "mpn": "PESD24VS1UB,115",
+      "manufacturer": "Nexperia",
+      "lcsc": "C85382",
+      "package": "SOD-523_L1.2-W0.8-LS1.6-RD",
+      "source_ids": [
+        "src-pesd24vs1ub"
+      ],
+      "fact_ids": [
+        "fact-pesd-manufacturer",
+        "fact-pesd-pinout",
+        "fact-pesd-standoff",
+        "fact-pesd-breakdown",
+        "fact-pesd-clamp",
+        "fact-pesd-leakage",
+        "fact-pesd-capacitance",
+        "fact-pesd-esd"
+      ],
+      "interaction_ids": [
+        "int-stusb-cc-protection"
+      ],
+      "open_domains": [
+        "as-built DNP fit state and CC signal-integrity impact"
+      ]
+    },
+    {
+      "record_id": "rec-rd-0603waf5101t5e",
+      "line_id": "line-c23186",
+      "kind": "subordinate",
+      "parent_record_id": "rec-stusb4500qtr",
+      "mpn": "0603WAF5101T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C23186",
+      "package": "R0603",
+      "source_ids": [
+        "src-rd-uniroyal-smd-sp-001",
+        "src-rd-board-p-generator",
+        "src-rd-c23186"
+      ],
+      "fact_ids": [
+        "fact-rd-manufacturer",
+        "fact-rd-value",
+        "fact-rd-tolerance",
+        "fact-rd-power",
+        "fact-rd-tcr",
+        "fact-rd-voltage-cap",
+        "fact-rd-rcwv-squared",
+        "fact-rd-pinout",
+        "fact-rd-fit-state"
+      ],
+      "interaction_ids": [
+        "int-stusb-external-rd"
+      ],
+      "open_domains": [
+        "as-built fit state and external-Rd interaction"
+      ]
+    }
+  ]
+}

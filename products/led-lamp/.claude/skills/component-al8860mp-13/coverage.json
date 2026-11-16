@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-al8860-pin-topology",
+      "record_id": "rec-al8860mp-13",
+      "domain": "pin-topology-and-ep",
+      "status": "COVERED",
+      "reason": "fact-al8860-topology, fact-al8860-pin-ep, fact-al8860-project-nets",
+      "fact_ids": [
+        "fact-al8860-topology",
+        "fact-al8860-pin-ep",
+        "fact-al8860-project-nets"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-al8860-limits-control",
+      "record_id": "rec-al8860mp-13",
+      "domain": "limits-control-timing-faults",
+      "status": "COVERED",
+      "reason": "fact-al8860-vin-recommended-max through fact-al8860-faults, plus fact-al8860-duty-band (DS39014 Rev 8-2, Electrical Characteristics table row DSW Recommended Duty Cycle Range, re-verified 2026-08-02 against the currently live diodes.com PDF, hash-matched to the retained mirror)",
+      "fact_ids": [
+        "fact-al8860-vin-recommended-max",
+        "fact-al8860-vin-absolute-max",
+        "fact-al8860-sense-min",
+        "fact-al8860-sense-max",
+        "fact-al8860-current-min",
+        "fact-al8860-current-max",
+        "fact-al8860-ripple-fraction",
+        "fact-al8860-peak-current",
+        "fact-al8860-ctrl",
+        "fact-al8860-min-on-time",
+        "fact-al8860-max-frequency",
+        "fact-al8860-inductance-min",
+        "fact-al8860-inductance-max",
+        "fact-al8860-faults",
+        "fact-al8860-duty-band"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-al8860-layout",
+      "record_id": "rec-al8860mp-13",
+      "domain": "layout-and-thermal",
+      "status": "COVERED",
+      "reason": "fact-al8860-layout",
+      "fact_ids": [
+        "fact-al8860-layout"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-al8860-led-domain",
+      "record_id": "rec-al8860mp-13",
+      "domain": "led-string-voltage-temperature",
+      "status": "OPEN",
+      "reason": "Exact LED VF versus current/temperature and switching-node overshoot require the LED/integration records and bench waveform.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-rlp25-ratings",
+      "record_id": "rec-rlp25feer200",
+      "domain": "resistance-power-tcr-overload",
+      "status": "COVERED",
+      "reason": "fact-rlp25-resistance through fact-rlp25-power-margin",
+      "fact_ids": [
+        "fact-rlp25-resistance",
+        "fact-rlp25-tolerance",
+        "fact-rlp25-resistance-min",
+        "fact-rlp25-resistance-max",
+        "fact-rlp25-power",
+        "fact-rlp25-tcr",
+        "fact-rlp25-overload",
+        "fact-rlp25-temperature",
+        "fact-rlp25-project-nets",
+        "fact-rlp25-worst-power",
+        "fact-rlp25-power-margin"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-rlp25-project-pulse",
+      "record_id": "rec-rlp25feer200",
+      "domain": "project-pulse-load",
+      "status": "OPEN",
+      "reason": "The generated design does not define startup/fault pulse energy or local resistor temperature; verify against the 5x/5 s test and derating.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-fxl-electrical",
+      "record_id": "rec-fxl0630-330-m",
+      "domain": "inductance-dcr-current-package",
+      "status": "OPEN",
+      "reason": "A direct cjiang.com.cn primary-retrieval attempt on 2026-08-02 (src-fxl-series-official) confirmed manufacturer identity, inductance, tolerance, DCR max, absolute-maximum voltage, temperature range, and package against the manufacturer's own site, and its typical Isat/Irms figures (2.5 A / 2 A) match the mirror's typical column exactly. However, that document shows only a single typical-labeled Isat/Irms column, not the mirror's separate max-design column, so the mirror's max-design fact-fxl-isat-max (2.1 A) and fact-fxl-irated-max (1.8 A) remain unsourced at primary, and fact-fxl-isat-margin (which depends on fact-fxl-isat-max) and fact-fxl-rating-definitions stay open.",
+      "fact_ids": [
+        "fact-fxl-inductance",
+        "fact-fxl-tolerance",
+        "fact-fxl-inductance-min",
+        "fact-fxl-dcr-max",
+        "fact-fxl-isat-max",
+        "fact-fxl-irated-max",
+        "fact-fxl-rating-definitions",
+        "fact-fxl-voltage-max",
+        "fact-fxl-temperature",
+        "fact-fxl-package",
+        "fact-fxl-project-nets",
+        "fact-fxl-isat-margin"
+      ],
+      "blocking_fact_ids": [
+        "fact-fxl-isat-max",
+        "fact-fxl-irated-max",
+        "fact-fxl-rating-definitions",
+        "fact-fxl-isat-margin"
+      ]
+    },
+    {
+      "coverage_id": "cov-fxl-open",
+      "record_id": "rec-fxl0630-330-m",
+      "domain": "self-resonance-and-end-application-temperature",
+      "status": "OPEN",
+      "reason": "The exact FXL0630 table does not state SRF, and mirror current ratings require end-application temperature/ripple verification.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-ss26-electrical",
+      "record_id": "rec-ro-ss26",
+      "domain": "polarity-voltage-current-leakage-package",
+      "status": "OPEN",
+      "reason": "fact-ss26-polarity through fact-ss26-current-margin. Domain remains open because retained evidence is unavailable, lower-authority, or UNSOURCED. A direct primary-retrieval attempt on 2026-08-02 (src-ss26-primary-attempt) identified the exact R+O manufacturer (Zhuhai Hongjiacheng Technology Co., Ltd.) and reached its official site, but no SS26-specific datasheet could be located there (dynamic product listing, not independently indexed); no other vendor's SS26 datasheet may substitute for this exact part.",
+      "fact_ids": [
+        "fact-ss26-polarity",
+        "fact-ss26-reverse-voltage",
+        "fact-ss26-rms-voltage",
+        "fact-ss26-average-current",
+        "fact-ss26-surge-current",
+        "fact-ss26-forward-voltage",
+        "fact-ss26-leakage-25c",
+        "fact-ss26-leakage-100c",
+        "fact-ss26-thermal",
+        "fact-ss26-package",
+        "fact-ss26-project-nets",
+        "fact-ss26-voltage-margin",
+        "fact-ss26-current-margin"
+      ],
+      "blocking_fact_ids": [
+        "fact-ss26-polarity",
+        "fact-ss26-reverse-voltage",
+        "fact-ss26-rms-voltage",
+        "fact-ss26-average-current",
+        "fact-ss26-surge-current",
+        "fact-ss26-forward-voltage",
+        "fact-ss26-leakage-25c",
+        "fact-ss26-leakage-100c",
+        "fact-ss26-thermal",
+        "fact-ss26-package",
+        "fact-ss26-voltage-margin",
+        "fact-ss26-current-margin"
+      ]
+    },
+    {
+      "coverage_id": "cov-ss26-open",
+      "record_id": "rec-ro-ss26",
+      "domain": "junction-temperature-and-switch-waveform",
+      "status": "OPEN",
+      "reason": "Mirror thermal data is typical and the generated source does not bound SW overshoot, diode duty cycle, or junction temperature.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    }
+  ]
+}

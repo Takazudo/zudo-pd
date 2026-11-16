@@ -1,0 +1,1040 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-31T01:51:39",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.6",
+    "schematic_parity": [
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint C1",
+                    "pos": {
+                        "x": 10.0,
+                        "y": 12.5
+                    },
+                    "uuid": "d8fba188-2a1b-5f06-9e00-99082b7d6f48"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint CMON",
+                    "pos": {
+                        "x": 6.5,
+                        "y": 19.0
+                    },
+                    "uuid": "00366751-b71b-5c7e-ba6e-2ab81c8966f0"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint COUT",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 23.2
+                    },
+                    "uuid": "9c50d5ea-1c95-586c-87c9-5cd9d3598321"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint CSLEW",
+                    "pos": {
+                        "x": 17.5,
+                        "y": 22.3
+                    },
+                    "uuid": "c6a59d12-9414-57e0-b470-e2e6315135a7"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(J1-PadB8))",
+            "items": [
+                {
+                    "description": "Pad B8 [<no net>] of J1 on F.Cu",
+                    "pos": {
+                        "x": 15.25,
+                        "y": 7.355
+                    },
+                    "uuid": "75a3b712-1ecd-5d71-87a1-a0fa24f1cde4"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(J1-PadA8))",
+            "items": [
+                {
+                    "description": "Pad A8 [<no net>] of J1 on F.Cu",
+                    "pos": {
+                        "x": 12.25,
+                        "y": 7.355
+                    },
+                    "uuid": "fe6b9638-fb96-5e25-9ddc-49cb1c48fdc0"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint JOUT1",
+                    "pos": {
+                        "x": 12.9,
+                        "y": 37.7
+                    },
+                    "uuid": "255d6e30-c331-551a-8cc3-42b1dcd824ce"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(JOUT1-Pad3))",
+            "items": [
+                {
+                    "description": "PTH pad 3 [<no net>] of JOUT1",
+                    "pos": {
+                        "x": 11.63,
+                        "y": 37.7
+                    },
+                    "uuid": "e995eda1-c9ca-56b8-a0af-80a6ded225e8"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(JOUT1-Pad4))",
+            "items": [
+                {
+                    "description": "PTH pad 4 [<no net>] of JOUT1",
+                    "pos": {
+                        "x": 14.17,
+                        "y": 37.7
+                    },
+                    "uuid": "d6133a46-f31d-5642-9d74-a038312a9b02"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint QINH",
+                    "pos": {
+                        "x": 19.0,
+                        "y": 14.5
+                    },
+                    "uuid": "628e2713-0d27-504b-8a98-93e3c5e5aa04"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RB",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 12.0
+                    },
+                    "uuid": "fa0114eb-5cd7-5c82-9b1a-852d6a70f1bc"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RBE",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 15.0
+                    },
+                    "uuid": "26ab0bbd-324a-5a39-8fdb-be00fb8e7ae8"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RBLEED",
+                    "pos": {
+                        "x": 20.5,
+                        "y": 31.5
+                    },
+                    "uuid": "c8c65741-a010-5a01-8d95-dfa836f8d11c"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RG",
+                    "pos": {
+                        "x": 19.0,
+                        "y": 9.1
+                    },
+                    "uuid": "0d556e65-4521-56ad-878b-e0e3ed89a5d3"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RILM",
+                    "pos": {
+                        "x": 16.8,
+                        "y": 17.4
+                    },
+                    "uuid": "cb8f6ffe-4239-502a-a2bd-25cae3af3335"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RISET",
+                    "pos": {
+                        "x": 23.0,
+                        "y": 9.0
+                    },
+                    "uuid": "8ccb2301-b1be-5c73-b070-6b89456f4f5f"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RMH1",
+                    "pos": {
+                        "x": 2.6,
+                        "y": 22.1
+                    },
+                    "uuid": "682f07dd-e342-564d-ba8e-91eaf3e2e2ec"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RMH2",
+                    "pos": {
+                        "x": 3.0,
+                        "y": 25.5
+                    },
+                    "uuid": "03ffc19b-a67c-5850-aa80-2c99d17e120f"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RML",
+                    "pos": {
+                        "x": 6.5,
+                        "y": 25.0
+                    },
+                    "uuid": "148ba30b-2aa3-5460-b45e-806282ea5673"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint ROVH",
+                    "pos": {
+                        "x": 10.5,
+                        "y": 21.5
+                    },
+                    "uuid": "cee8de1e-e2c5-5895-8fe5-5300bab1bfd8"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint ROVL",
+                    "pos": {
+                        "x": 10.5,
+                        "y": 24.0
+                    },
+                    "uuid": "c6ee0460-0047-539b-8890-2250fb5fcb17"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RSLEW",
+                    "pos": {
+                        "x": 17.5,
+                        "y": 20.2
+                    },
+                    "uuid": "18af06df-71cb-5776-bc45-04a5f8830eff"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RUVH",
+                    "pos": {
+                        "x": 10.5,
+                        "y": 16.0
+                    },
+                    "uuid": "1b95499d-acd5-56eb-98b7-fc843485b4c3"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RUVL",
+                    "pos": {
+                        "x": 10.0,
+                        "y": 18.3
+                    },
+                    "uuid": "85cc6efa-c7d2-5efb-8750-5002af5e63be"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint RVSET",
+                    "pos": {
+                        "x": 19.0,
+                        "y": 11.0
+                    },
+                    "uuid": "1353771f-d1a4-5232-8e58-3dcc4941660e"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint U1",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "4f28f3f5-ebe6-53ca-9f72-19d1460a178c"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(U1-SDA-Pad6))",
+            "items": [
+                {
+                    "description": "Pad 6 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 14.0
+                    },
+                    "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(U1-SCL-Pad7))",
+            "items": [
+                {
+                    "description": "Pad 7 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.5
+                    },
+                    "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint U2",
+                    "pos": {
+                        "x": 13.5,
+                        "y": 19.0
+                    },
+                    "uuid": "0e6ea1b4-8d58-5b2f-97c8-a9b59a17212e"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(U2-ITIMER-Pad10))",
+            "items": [
+                {
+                    "description": "Pad 10 [<no net>] of U2 on F.Cu",
+                    "pos": {
+                        "x": 14.4,
+                        "y": 18.3
+                    },
+                    "uuid": "bf6b9acd-85e4-5707-acf3-f7fa21239625"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(U2-PG-Pad3))",
+            "items": [
+                {
+                    "description": "Pad 3 [<no net>] of U2 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 19.225
+                    },
+                    "uuid": "67d4cf55-a01b-5713-83fc-7ce7f84d0ae0"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Missing symbol field 'LCSC' in footprint",
+            "items": [
+                {
+                    "description": "Footprint UMON",
+                    "pos": {
+                        "x": 6.5,
+                        "y": 22.0
+                    },
+                    "uuid": "1445a9db-8d17-5bc0-8b84-86b9149c96e0"
+                }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+        },
+        {
+            "description": "Pad missing net given by schematic (unconnected-(UMON-OUTB-Pad6))",
+            "items": [
+                {
+                    "description": "Pad 6 [<no net>] of UMON on F.Cu",
+                    "pos": {
+                        "x": 7.85,
+                        "y": 21.05
+                    },
+                    "uuid": "33e002c9-ff10-5194-93dd-09843948dbeb"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        }
+    ],
+    "source": "board-p-COUT1206-TRIAL.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1751 mm)",
+            "items": [
+                {
+                    "description": "Pad A1/B12 [GND] of J1 on F.Cu",
+                    "pos": {
+                        "x": 16.7,
+                        "y": 7.355
+                    },
+                    "uuid": "4ba5c7cd-0454-5642-ad4f-14c4fcdc4482"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 16.39,
+                        "y": 6.28
+                    },
+                    "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.2099 mm)",
+            "items": [
+                {
+                    "description": "Pad A4/B9 [RAW_USB_VBUS] of J1 on F.Cu",
+                    "pos": {
+                        "x": 15.9,
+                        "y": 7.355
+                    },
+                    "uuid": "0c3d2fa4-9b40-5512-81b7-c7dcad0ab61c"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 16.39,
+                        "y": 6.28
+                    },
+                    "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.2099 mm)",
+            "items": [
+                {
+                    "description": "Pad B4/A9 [RAW_USB_VBUS] of J1 on F.Cu",
+                    "pos": {
+                        "x": 11.1,
+                        "y": 7.355
+                    },
+                    "uuid": "df2d4331-d36f-5fd6-a30d-5494c2863f0d"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 10.61,
+                        "y": 6.28
+                    },
+                    "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1751 mm)",
+            "items": [
+                {
+                    "description": "Pad B1/A12 [GND] of J1 on F.Cu",
+                    "pos": {
+                        "x": 10.3,
+                        "y": 7.355
+                    },
+                    "uuid": "3edb7167-833c-540d-bdb7-c2e73da3f98c"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 10.61,
+                        "y": 6.28
+                    },
+                    "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 1 [RAW_USB_VBUS] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.0
+                    },
+                    "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.5
+                    },
+                    "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+                },
+                {
+                    "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.0
+                    },
+                    "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.5
+                    },
+                    "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.5
+                    },
+                    "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+                },
+                {
+                    "description": "Pad 1 [RAW_USB_VBUS] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.0
+                    },
+                    "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.0
+                    },
+                    "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+                },
+                {
+                    "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.5
+                    },
+                    "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.0
+                    },
+                    "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.5
+                    },
+                    "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+                },
+                {
+                    "description": "Pad 5 [USB_CC2] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 14.0
+                    },
+                    "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.5
+                    },
+                    "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 5 [USB_CC2] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 14.0
+                    },
+                    "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 6 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 14.0
+                    },
+                    "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec"
+                },
+                {
+                    "description": "Pad 7 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.5
+                    },
+                    "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 6 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 14.0
+                    },
+                    "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 7 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.5
+                    },
+                    "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+                },
+                {
+                    "description": "Pad 8 [VSET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.0
+                    },
+                    "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 7 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.5
+                    },
+                    "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 8 [VSET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.0
+                    },
+                    "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+                },
+                {
+                    "description": "Pad 9 [ISET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.5
+                    },
+                    "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 8 [VSET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.0
+                    },
+                    "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 9 [ISET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.5
+                    },
+                    "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+                },
+                {
+                    "description": "Pad 10 [CONTRACT_GATE_N] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.0
+                    },
+                    "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 9 [ISET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.5
+                    },
+                    "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 10 [CONTRACT_GATE_N] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.0
+                    },
+                    "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        }
+    ]
+}

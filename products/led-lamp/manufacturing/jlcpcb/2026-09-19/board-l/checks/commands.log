@@ -1,0 +1,49 @@
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/checks/drc.json /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_pcb
+Found 59 violations
+Found 0 unconnected items
+Found 0 schematic parity issues
+Saved DRC Report to /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/checks/drc.json
+Saved board
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch erc --format json -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/checks/erc.json /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_sch
+Found 6 violations
+Saved ERC Report to /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/checks/erc.json
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli sch export netlist --format kicadsexpr -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/raw/board-l.net /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_sch
+Fontconfig error: Cannot load default config file: No such file: (null)
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-led-lamp/scripts/schgen/verify_netlist.py board_l_spec /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/raw/board-l.net
+PASS: 61 nets, 180 nodes (46 expected nets + 15 unconnected)
+
+$ /opt/homebrew/opt/python@3.14/bin/python3.14 /Users/takazudo/repos/circuits/zudo-led-lamp/scripts/schgen/verify_power_switch.py --netlist /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/raw/board-l.net
+PASS: C5446803 fitted PCB identity, common/throw mapping, isolated OFF throw and ON/OFF feed topology; not a bench back-power test
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers -l F.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-F_Cu.gtl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-B_Cu.gbl'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-F_Paste.gtp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-B_Paste.gbp'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-F_Silkscreen.gto'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-B_Silkscreen.gbo'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-F_Mask.gts'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-B_Mask.gbs'.
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-Edge_Cuts.gm1'.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_pcb
+Created file '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-PTH.drl'
+Created file '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/gerbers/board-l-NPTH.drl'
+Done.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/raw/positions.csv /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_pcb
+Wrote position data to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/raw/positions.csv'.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/assembly-top.svg /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/assembly-top.svg'.
+Done.
+
+$ /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/assembly-bottom.svg --mirror /Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/source/board-l.kicad_pcb
+Plotted to '/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/board-l/assembly-bottom.svg'.
+Done.

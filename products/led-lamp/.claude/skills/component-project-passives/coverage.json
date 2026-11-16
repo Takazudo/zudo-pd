@@ -1,0 +1,427 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c13585-identity",
+      "record_id": "rec-c13585",
+      "domain": "identity-and-rated-capacitance",
+      "status": "COVERED",
+      "reason": "fact-c13585-manufacturer; fact-c13585-capacitance; fact-c13585-voltage",
+      "fact_ids": [
+        "fact-c13585-manufacturer",
+        "fact-c13585-capacitance",
+        "fact-c13585-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c13585-temp",
+      "record_id": "rec-c13585",
+      "domain": "dielectric-temperature-and-termination",
+      "status": "COVERED",
+      "reason": "fact-c13585-dielectric; fact-c13585-package",
+      "fact_ids": [
+        "fact-c13585-dielectric",
+        "fact-c13585-package"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c13585-bias",
+      "record_id": "rec-c13585",
+      "domain": "effective-capacitance-under-installed-bias",
+      "status": "OPEN",
+      "reason": "fact-c13585-curve-caveat: installed voltage/curve point is not retained",
+      "fact_ids": [
+        "fact-c13585-curve-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c13585-curve-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c13585-aging",
+      "record_id": "rec-c13585",
+      "domain": "aging-at-installed-condition",
+      "status": "OPEN",
+      "reason": "fact-c13585-curve-caveat: exact aging data/condition is not retained",
+      "fact_ids": [
+        "fact-c13585-curve-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c13585-curve-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c13585-ripple",
+      "record_id": "rec-c13585",
+      "domain": "ripple-current-under-installed-layout",
+      "status": "OPEN",
+      "reason": "fact-c13585-curve-caveat: typical curve is not a guaranteed layout-specific limit",
+      "fact_ids": [
+        "fact-c13585-curve-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c13585-curve-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c14663-identity",
+      "record_id": "rec-c14663",
+      "domain": "identity-and-rated-capacitance",
+      "status": "COVERED",
+      "reason": "fact-c14663-manufacturer; fact-c14663-capacitance; fact-c14663-voltage",
+      "fact_ids": [
+        "fact-c14663-manufacturer",
+        "fact-c14663-capacitance",
+        "fact-c14663-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c14663-temp",
+      "record_id": "rec-c14663",
+      "domain": "dielectric-temperature-and-termination",
+      "status": "COVERED",
+      "reason": "fact-c14663-dielectric; fact-c14663-termination",
+      "fact_ids": [
+        "fact-c14663-dielectric",
+        "fact-c14663-termination"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c14663-bias",
+      "record_id": "rec-c14663",
+      "domain": "effective-capacitance-under-installed-bias",
+      "status": "OPEN",
+      "reason": "fact-c14663-simulation-caveat: simulation is not specification",
+      "fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c14663-aging",
+      "record_id": "rec-c14663",
+      "domain": "aging-at-installed-condition",
+      "status": "OPEN",
+      "reason": "fact-c14663-simulation-caveat: exact aging condition is not retained",
+      "fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c14663-ripple",
+      "record_id": "rec-c14663",
+      "domain": "ripple-current-under-installed-layout",
+      "status": "OPEN",
+      "reason": "fact-c14663-simulation-caveat: simulation is not a maximum capability",
+      "fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c14663-simulation-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c15849-identity",
+      "record_id": "rec-c15849",
+      "domain": "identity-and-rated-capacitance",
+      "status": "COVERED",
+      "reason": "fact-c15849-manufacturer; fact-c15849-capacitance; fact-c15849-voltage",
+      "fact_ids": [
+        "fact-c15849-manufacturer",
+        "fact-c15849-capacitance",
+        "fact-c15849-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c15849-temp",
+      "record_id": "rec-c15849",
+      "domain": "dielectric-temperature-and-termination",
+      "status": "COVERED",
+      "reason": "fact-c15849-dielectric; fact-c15849-package",
+      "fact_ids": [
+        "fact-c15849-dielectric",
+        "fact-c15849-package"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c15849-bias",
+      "record_id": "rec-c15849",
+      "domain": "effective-capacitance-under-installed-bias",
+      "status": "OPEN",
+      "reason": "fact-c15849-curve-caveat: installed voltage/curve point is not retained",
+      "fact_ids": [
+        "fact-c15849-curve-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c15849-curve-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c15849-aging",
+      "record_id": "rec-c15849",
+      "domain": "aging-at-installed-condition",
+      "status": "OPEN",
+      "reason": "fact-c15849-curve-caveat: exact aging data/condition is not retained",
+      "fact_ids": [
+        "fact-c15849-curve-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c15849-curve-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c15849-ripple",
+      "record_id": "rec-c15849",
+      "domain": "ripple-current-under-installed-layout",
+      "status": "OPEN",
+      "reason": "fact-c15849-curve-caveat: typical curve is not a guaranteed layout-specific limit",
+      "fact_ids": [
+        "fact-c15849-curve-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c15849-curve-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c25803-rating",
+      "record_id": "rec-c25803",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c25803-manufacturer; fact-c25803-resistance; fact-c25803-tolerance; fact-c25803-power; fact-c25803-tcr; fact-c25803-voltage",
+      "fact_ids": [
+        "fact-c25803-manufacturer",
+        "fact-c25803-resistance",
+        "fact-c25803-tolerance",
+        "fact-c25803-power",
+        "fact-c25803-tcr",
+        "fact-c25803-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c25803-pulse",
+      "record_id": "rec-c25803",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c25803-pulse-caveat",
+      "fact_ids": [
+        "fact-c25803-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c25803-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c22807-rating",
+      "record_id": "rec-c22807",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c22807-manufacturer; fact-c22807-resistance; fact-c22807-tolerance; fact-c22807-power; fact-c22807-tcr; fact-c22807-voltage",
+      "fact_ids": [
+        "fact-c22807-manufacturer",
+        "fact-c22807-resistance",
+        "fact-c22807-tolerance",
+        "fact-c22807-power",
+        "fact-c22807-tcr",
+        "fact-c22807-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c22807-pulse",
+      "record_id": "rec-c22807",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c22807-pulse-caveat",
+      "fact_ids": [
+        "fact-c22807-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c22807-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c23179-rating",
+      "record_id": "rec-c23179",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c23179-manufacturer; fact-c23179-resistance; fact-c23179-tolerance; fact-c23179-power; fact-c23179-tcr; fact-c23179-voltage",
+      "fact_ids": [
+        "fact-c23179-manufacturer",
+        "fact-c23179-resistance",
+        "fact-c23179-tolerance",
+        "fact-c23179-power",
+        "fact-c23179-tcr",
+        "fact-c23179-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c23179-pulse",
+      "record_id": "rec-c23179",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c23179-pulse-caveat",
+      "fact_ids": [
+        "fact-c23179-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c23179-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c23162-rating",
+      "record_id": "rec-c23162",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c23162-manufacturer; fact-c23162-resistance; fact-c23162-tolerance; fact-c23162-power; fact-c23162-tcr; fact-c23162-voltage",
+      "fact_ids": [
+        "fact-c23162-manufacturer",
+        "fact-c23162-resistance",
+        "fact-c23162-tolerance",
+        "fact-c23162-power",
+        "fact-c23162-tcr",
+        "fact-c23162-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c23162-pulse",
+      "record_id": "rec-c23162",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c23162-pulse-caveat",
+      "fact_ids": [
+        "fact-c23162-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c23162-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c21189-jumper",
+      "record_id": "rec-c21189",
+      "domain": "zero-ohm-resistance-current-and-temperature",
+      "status": "COVERED",
+      "reason": "fact-c21189-jumper-resistance; fact-c21189-rated-current; fact-c21189-overload-current; fact-c21189-temperature",
+      "fact_ids": [
+        "fact-c21189-jumper-resistance",
+        "fact-c21189-rated-current",
+        "fact-c21189-overload-current",
+        "fact-c21189-temperature"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c21189-pulse",
+      "record_id": "rec-c21189",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c21189-pulse-caveat",
+      "fact_ids": [
+        "fact-c21189-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c21189-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c17414-rating",
+      "record_id": "rec-c17414",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c17414-manufacturer; fact-c17414-resistance; fact-c17414-tolerance; fact-c17414-power; fact-c17414-tcr; fact-c17414-voltage",
+      "fact_ids": [
+        "fact-c17414-manufacturer",
+        "fact-c17414-resistance",
+        "fact-c17414-tolerance",
+        "fact-c17414-power",
+        "fact-c17414-tcr",
+        "fact-c17414-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c17414-pulse",
+      "record_id": "rec-c17414",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c17414-pulse-caveat",
+      "fact_ids": [
+        "fact-c17414-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c17414-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c4216-rating",
+      "record_id": "rec-c4216",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c4216-manufacturer; fact-c4216-resistance; fact-c4216-tolerance; fact-c4216-power; fact-c4216-tcr; fact-c4216-voltage",
+      "fact_ids": [
+        "fact-c4216-manufacturer",
+        "fact-c4216-resistance",
+        "fact-c4216-tolerance",
+        "fact-c4216-power",
+        "fact-c4216-tcr",
+        "fact-c4216-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c4216-pulse",
+      "record_id": "rec-c4216",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c4216-pulse-caveat",
+      "fact_ids": [
+        "fact-c4216-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c4216-pulse-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c22775-rating",
+      "record_id": "rec-c22775",
+      "domain": "identity-value-tolerance-and-thermal-rating",
+      "status": "COVERED",
+      "reason": "fact-c22775-manufacturer; fact-c22775-resistance; fact-c22775-tolerance; fact-c22775-power; fact-c22775-tcr; fact-c22775-voltage",
+      "fact_ids": [
+        "fact-c22775-manufacturer",
+        "fact-c22775-resistance",
+        "fact-c22775-tolerance",
+        "fact-c22775-power",
+        "fact-c22775-tcr",
+        "fact-c22775-voltage"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c22775-pulse",
+      "record_id": "rec-c22775",
+      "domain": "pulse-energy-at-installed-waveform",
+      "status": "OPEN",
+      "reason": "fact-c22775-pulse-caveat",
+      "fact_ids": [
+        "fact-c22775-pulse-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c22775-pulse-caveat"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "fact_id": "fact-c2941042-manufacturer",
+      "record_id": "rec-c2941042",
+      "source_id": "src-c2941042-primary",
+      "class": "PROJECT_STATE",
+      "value": "Texas Instruments",
+      "unit": "NONE",
+      "conditions": "Manufacturer datasheet title.",
+      "locator": "Title block page 1; Table 5-1 Pin Functions page 3",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c2941042-identity",
+      "record_id": "rec-c2941042",
+      "source_id": "src-c2941042-identity",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C2941042",
+        "manufacturer": "Texas Instruments",
+        "mpn": "LM74700QDBVRQ1",
+        "variant": "LM74700-Q1 ideal diode controller, SOT-23-6 DBV"
+      },
+      "unit": "NONE",
+      "conditions": "Exact catalog identity only; current stock and assembly quote remain unconfirmed.",
+      "locator": "Product identity table manufacturer/MPN/LCSC/package rows",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c2941042-anode-operating",
+      "record_id": "rec-c2941042",
+      "source_id": "src-c2941042-primary",
+      "class": "RECOMMENDED_OPERATION",
+      "value": "4 / 60 (min/max)",
+      "unit": "V",
+      "conditions": "V(ANODE) operating input voltage, TJ -40..125 C. On a collapsing +5 V rail the 4 V floor matters.",
+      "locator": "6.5 Electrical Characteristics table row V(ANODE) Operating input voltage page 5",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c2941042-anode-absmax",
+      "record_id": "rec-c2941042",
+      "source_id": "src-c2941042-primary",
+      "class": "ABSOLUTE_MAXIMUM",
+      "value": "-65 / 65 (min/max)",
+      "unit": "V",
+      "conditions": "ANODE to GND.",
+      "locator": "6.1 Absolute Maximum Ratings table row ANODE to GND page 4",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c2941042-vak-reg",
+      "record_id": "rec-c2941042",
+      "source_id": "src-c2941042-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": "13 / 20 / 29 (min/typ/max)",
+      "unit": "mV",
+      "conditions": "Regulated forward V(AK) threshold.",
+      "locator": "6.5 Electrical Characteristics table row V(AK REG) page 5",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c2941042-vak-rev",
+      "record_id": "rec-c2941042",
+      "source_id": "src-c2941042-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": "-17 / -11 / -2 (min/typ/max)",
+      "unit": "mV",
+      "conditions": "V(AK) threshold for reverse current; reverse current up to |V(AK REV)|/RDS(on) flows before turn-off.",
+      "locator": "6.5 Electrical Characteristics table row V(AK REV) page 5",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-lm74700qdbvrq1-led-rnext-role",
+      "record_id": "rec-c2941042",
+      "source_id": "src-lm74700qdbvrq1-led-rnext-spec",
+      "class": "PROJECT_STATE",
+      "value": "U3: ideal-diode controller for Q3; ANODE and EN on VBUS_IN, CATHODE on EF_IN, GATE on EF_GATE, VCAP via C37, as in the zudo-pd r3 common block.",
+      "unit": "NONE",
+      "conditions": "UNADOPTED LED Board P r-next schematic draft; no PCB, no assembly, nothing energized",
+      "locator": "COMPONENTS row U3 and NETS rows containing U3",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-lm74700qdbvrq1-led-land",
+      "record_id": "rec-c2941042",
+      "source_id": "src-lm74700qdbvrq1-led-land-check",
+      "class": "PROJECT_STATE",
+      "value": "rnext-mfr:SOT-23-6_DBV0006A_TI-EXAMPLE: MATCH against PDF page 34, DBV0006A EXAMPLE BOARD LAYOUT 4214840/G",
+      "unit": "NONE",
+      "conditions": "Pad geometry only (TOL 0.011 mm); solder mask, paste and assembly yield are not checked",
+      "locator": "lands[] row U3 (selected draft)",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    }
+  ]
+}

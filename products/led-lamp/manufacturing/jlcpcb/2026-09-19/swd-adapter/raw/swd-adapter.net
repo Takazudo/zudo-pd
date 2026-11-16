@@ -1,0 +1,617 @@
+(export
+	(version "E")
+	(design
+		(source "/Users/takazudo/repos/circuits/zudo-led-lamp/manufacturing/jlcpcb/2026-09-19/swd-adapter/source/swd-adapter.kicad_sch")
+		(date "2026-09-19T05:45:26")
+		(tool "Eeschema 10.0.0")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title)
+				(company)
+				(rev)
+				(date)
+				(source "swd-adapter.kicad_sch")
+				(comment
+					(number "1")
+					(value "")
+				)
+				(comment
+					(number "2")
+					(value "")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "J1")
+			(value "ST-LINK/V2 20-pin")
+			(footprint "zudo-led-lamp:IDC-TH_20P-P2.54-V-R2-C10-S2.54")
+			(fields
+				(field
+					(name "LCSC") "C4749199")
+				(field
+					(name "Footprint") "zudo-led-lamp:IDC-TH_20P-P2.54-V-R2-C10-S2.54")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "DS254P-2X10-L0")
+				(description "2x10 2.54 mm vertical through-hole shrouded IDC header")
+			)
+			(property
+				(name "LCSC")
+				(value "C4749199")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "swd-adapter.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "IDC shrouded connector")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "cc448861-446c-50cc-b73e-db73b237de40")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "20")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J2")
+			(value "Board L SWD 1x5")
+			(footprint "zudo-led-lamp:HDR-TH_5P-P2.54-V-M")
+			(fields
+				(field
+					(name "LCSC") "C492404")
+				(field
+					(name "Footprint") "zudo-led-lamp:HDR-TH_5P-P2.54-V-M")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "PZ254V-11-05P")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C492404")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "swd-adapter.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "Pin Headers")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "28c306c6-ce67-5eee-89d6-b93517c9fa56")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "DS254P-2X10-L0")
+			(description "2x10 2.54 mm vertical through-hole shrouded IDC header")
+			(docs "https://datasheet.lcsc.com/datasheet/pdf/12c51383c39fcead6f26da1b11a5fd7f.pdf?productCode=C4749199")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "DS254P-2X10-L0")
+				(field
+					(name "Footprint") "zudo-led-lamp:IDC-TH_20P-P2.54-V-R2-C10-S2.54")
+				(field
+					(name "Datasheet") "https://datasheet.lcsc.com/datasheet/pdf/12c51383c39fcead6f26da1b11a5fd7f.pdf?productCode=C4749199")
+				(field
+					(name "Description") "2x10 2.54 mm vertical through-hole shrouded IDC header")
+				(field
+					(name "Manufacturer") "DEALON")
+				(field
+					(name "MPN") "DS254P-2X10-L0")
+				(field
+					(name "LCSC Part") "C4749199")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "5")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "6")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "7")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "8")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "9")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "10")
+					(type "passive")
+				)
+				(pin
+					(num "11")
+					(name "11")
+					(type "passive")
+				)
+				(pin
+					(num "12")
+					(name "12")
+					(type "passive")
+				)
+				(pin
+					(num "13")
+					(name "13")
+					(type "passive")
+				)
+				(pin
+					(num "14")
+					(name "14")
+					(type "passive")
+				)
+				(pin
+					(num "15")
+					(name "15")
+					(type "passive")
+				)
+				(pin
+					(num "16")
+					(name "16")
+					(type "passive")
+				)
+				(pin
+					(num "17")
+					(name "17")
+					(type "passive")
+				)
+				(pin
+					(num "18")
+					(name "18")
+					(type "passive")
+				)
+				(pin
+					(num "19")
+					(name "19")
+					(type "passive")
+				)
+				(pin
+					(num "20")
+					(name "20")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "PZ254V-11-05P")
+			(docs "https://lcsc.com/product-detail/New-Arrivals_XFCN-PZ254V-11-05P_C492404.html")
+			(fields
+				(field
+					(name "Reference") "H")
+				(field
+					(name "Value") "PZ254V-11-05P")
+				(field
+					(name "Footprint") "zudo-led-lamp:HDR-TH_5P-P2.54-V-M")
+				(field
+					(name "Datasheet") "https://lcsc.com/product-detail/New-Arrivals_XFCN-PZ254V-11-05P_C492404.html")
+				(field
+					(name "Description")
+				)
+				(field
+					(name "Manufacturer") "XFCN(兴飞)")
+				(field
+					(name "MPN") "PZ254V-11-05P")
+				(field
+					(name "LCSC Part") "C492404")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "5")
+					(type "passive")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "zudo-led-lamp")
+			(uri "${KIPRJMOD}/../../../../../symbols/zudo-led-lamp.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "GND")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "10")
+				(pinfunction "10_10")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "12")
+				(pinfunction "12_12")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "14")
+				(pinfunction "14_14")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "16")
+				(pinfunction "16_16")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "18")
+				(pinfunction "18_18")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "20")
+				(pinfunction "20_20")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "3")
+				(pinfunction "3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "4")
+				(pinfunction "4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "5")
+				(pinfunction "5_5")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "6")
+				(pinfunction "6_6")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "8")
+				(pinfunction "8_8")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "5")
+				(pinfunction "5_5")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "2")
+			(name "NRST")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "15")
+				(pinfunction "15_15")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "3")
+				(pinfunction "3_3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "SWCLK")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "9")
+				(pinfunction "9_9")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "4")
+			(name "SWDIO")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "7")
+				(pinfunction "7_7")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "5")
+			(name "VAPP")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "4")
+				(pinfunction "4_4")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "6")
+			(name "unconnected-(J1-Pad11)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "11")
+				(pinfunction "11_11")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "7")
+			(name "unconnected-(J1-Pad13)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "13")
+				(pinfunction "13_13")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "8")
+			(name "unconnected-(J1-Pad17)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "17")
+				(pinfunction "17_17")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "9")
+			(name "unconnected-(J1-Pad19)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "19")
+				(pinfunction "19_19")
+				(pintype "passive+no_connect")
+			)
+		)
+	)
+)

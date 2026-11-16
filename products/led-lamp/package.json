@@ -1,0 +1,28 @@
+{
+  "name": "zudo-led-lamp-workspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.1",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "circuit:project-check": "python3 .claude/skills/component-spec-audit/scripts/validate.py && python3 -m unittest discover -s .claude/skills/component-spec-audit/scripts -p 'test_*.py' && python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py",
+    "circuit:check": "pnpm circuit:project-check && zudo-circuit-doc validate",
+    "circuit:generate": "zudo-circuit-doc generate",
+    "circuit:models": "zudo-circuit-doc models",
+    "circuit:prepare": "zudo-circuit-doc models && zudo-circuit-doc generate",
+    "circuit:doctor": "zudo-circuit-doc doctor",
+    "previews:generate": "zudo-circuit-doc footprints generate",
+    "previews:check": "zudo-circuit-doc footprints check",
+    "dev": "pnpm --dir doc dev",
+    "build": "pnpm --dir doc generate:enclosure-viewer && pnpm circuit:prepare && pnpm --dir doc build:site",
+    "check": "zudo-circuit-doc check && pnpm --dir doc check",
+    "check:site": "zudo-circuit-doc check-built && zudo-circuit-doc scan && pnpm --dir doc check:images && pnpm --dir doc check:anchors && pnpm --dir doc check:mermaid",
+    "test:browser": "pnpm --dir doc test:model-viewer:browser",
+    "b4push": "bash circuit/scripts/run-b4push.sh"
+  },
+  "devDependencies": {
+    "@takazudo/zudo-circuit-doc": "^0.3.0"
+  }
+}

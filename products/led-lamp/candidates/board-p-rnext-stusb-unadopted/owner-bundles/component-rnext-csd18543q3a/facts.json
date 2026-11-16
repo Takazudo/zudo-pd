@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "fact_id": "fact-c840100-manufacturer",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "PROJECT_STATE",
+      "value": "Texas Instruments",
+      "unit": "NONE",
+      "conditions": "Manufacturer datasheet title.",
+      "locator": "Title block page 1; pin configuration figure page 1",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-identity",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-identity",
+      "class": "PROJECT_STATE",
+      "value": {
+        "lcsc": "C840100",
+        "manufacturer": "Texas Instruments",
+        "mpn": "CSD18543Q3A",
+        "variant": "60 V N-channel power MOSFET, SON 3.3x3.3"
+      },
+      "unit": "NONE",
+      "conditions": "Exact catalog identity only; current stock and assembly quote remain unconfirmed.",
+      "locator": "Product identity table manufacturer/MPN/LCSC/package rows",
+      "provenance": "DISTRIBUTOR-IDENTITY",
+      "verdict": "CONFIRMED - distributor identity only",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-vds",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "ABSOLUTE_MAXIMUM",
+      "value": 60,
+      "unit": "V",
+      "conditions": "Drain-to-source, TA 25 C.",
+      "locator": "Absolute Maximum Ratings table row VDS page 1",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-vgs",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "ABSOLUTE_MAXIMUM",
+      "value": 20,
+      "unit": "V",
+      "conditions": "Gate-to-source magnitude (+/-20 V). U2 B_GATE clamp is 8.3-14 V above IN_SYS (SLVSE94G).",
+      "locator": "Absolute Maximum Ratings table row VGS page 1",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-rdson-10v-max",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 9.9,
+      "unit": "mOhm",
+      "conditions": "VGS 10 V, ID 12 A, 25 C maximum; the B_GATE minimum drive of 8.3 V is below the 10 V test point, so use the 4.5 V row (15.6 mOhm max) as the screening bound.",
+      "locator": "5.1 Electrical Characteristics row RDS(on) page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-c840100-rdson-4v5-max",
+      "record_id": "rec-c840100",
+      "source_id": "src-c840100-primary",
+      "class": "GUARANTEED_ELECTRICAL",
+      "value": 15.6,
+      "unit": "mOhm",
+      "conditions": "VGS 4.5 V, ID 12 A, 25 C maximum; hot RDS(on) is from a typical curve only.",
+      "locator": "5.1 Electrical Characteristics row RDS(on) page 2",
+      "provenance": "PRIMARY-SPEC",
+      "verdict": "PASS - primary-source confirmed",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-csd18543q3a-led-rnext-role",
+      "record_id": "rec-c840100",
+      "source_id": "src-csd18543q3a-led-rnext-spec",
+      "class": "PROJECT_STATE",
+      "value": "Q3: LM74700-driven reverse-blocking FET; source VBUS_IN (1-3), gate EF_GATE (4), drain EF_IN (5-9).",
+      "unit": "NONE",
+      "conditions": "UNADOPTED LED Board P r-next schematic draft; no PCB, no assembly, nothing energized",
+      "locator": "COMPONENTS row Q3 and NETS rows containing Q3",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    },
+    {
+      "fact_id": "fact-csd18543q3a-led-land",
+      "record_id": "rec-c840100",
+      "source_id": "src-csd18543q3a-led-land-check",
+      "class": "PROJECT_STATE",
+      "value": "zudo-pd:VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A: MATCH against PDF page 9, 7.2 Q3A Recommended PCB Pattern",
+      "unit": "NONE",
+      "conditions": "Pad geometry only (TOL 0.011 mm); solder mask, paste and assembly yield are not checked",
+      "locator": "lands[] row Q3",
+      "provenance": "PROJECT-CHOICE",
+      "verdict": "NEEDS BENCH",
+      "depends_on": [],
+      "expression": ""
+    }
+  ]
+}

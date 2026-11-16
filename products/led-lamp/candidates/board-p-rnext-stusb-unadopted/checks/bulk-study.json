@@ -1,0 +1,488 @@
+{
+ "status": "desk arithmetic, UNADOPTED; L7 stays BLOCKING (TYP I(SCP)/tFASTTRIP, no guaranteed bound below the TVS2200 clamp)",
+ "sources": {
+  "usb-pd-r3.2-v1.2": {
+   "url": "https://www.usb.org/sites/default/files/USB_PD_R3.2_V1.2%283%29.zip",
+   "zip_sha256": "ccdb5b0fcb6af9ed787ba81d1781065772c7d15a816638137327ebbbf16f3bae",
+   "member": "USB_PD_R3.2_V1.2/USB_PD_R3.2_V1.2_2026_08_19.pdf",
+   "member_sha256": "1a041ab16c7ffcd39569809859fc59e569ade9cf155e4c314a46c9e9b1184027",
+   "retrieved": "2026-10-31",
+   "locators": {
+    "sink_params": "Table 4.7 Sink Electrical Parameters, PDF page 83 (printed 83)",
+    "source_params": "Table 4.6 rows vSrcNew/vSrcValid/vSrcSlewPos, PDF page 82 (printed 82)",
+    "bulk_rule": "Section 4.2.2 text, PDF page 62 (printed 62)"
+   }
+  },
+  "usb-pd-ecn-csnkbulkpd": {
+   "member": "USB_PD_R3.2_V1.2/ECNs/USB PD R3.2 V1.1 ECN cSnkBulkPd Clarifications.pdf",
+   "member_sha256": "ecfcb37657b3047c9e9d8503f4309d363c5fdfc194d7a0a6bae38a4ef204a5d1",
+   "locators": {
+    "rule": "ECN page 2, section 7.2.2 -> 4.2.2 replacement text"
+   }
+  },
+  "ti-tps1663": {
+   "note": "same PDF as owner bundle component-rnext-tps16630pwpr (sha256 8f91a0db...)",
+   "locators": {
+    "dvdt": "section 8.3 Equation 1 and 2, PDF page 17; I(dVdT), GAIN(dVdT) PDF page 9",
+    "ovp_timing": "OVP_toff(dly) PDF page 9; I(OL) at 4.02 k, I(FASTRIP) = 2 x I(OL), I(SCP) PDF page 8; tFASTTRIP PDF page 10"
+   }
+  },
+  "zudo-pd-l7-model": {
+   "note": "zudo-pd 3ac13d46 scripts/pcb/calculate-input-ovp-20v.py (same charge model, reproduced here)"
+  }
+ },
+ "usb_pd_limits": {
+  "cSnkBulkPd_max_uF": 100.0,
+  "rule": "total Sink bulk on VBUS <= cSnkBulk/cSnkBulkPd; more is permitted only if isolated from VBUS through current-limiting circuitry ([USB3]); cSnkBulk itself is 'See [USB3]' and that document is not retained (gap)",
+  "vSrcSlewPos_mV_per_us": 30,
+  "iSnkStdby_max_A": 0.5,
+  "v15_highest_legit_v": 16.25,
+  "transition_charge_current_A": {
+   "120.0uF": 3.6,
+   "100uF": 3.0,
+   "47uF": 1.41,
+   "22uF": 0.66
+  },
+  "reading": "U2 is fully on after attach, so C3 is charged at the source slew during 5 V -> 15 V; the spec sizes vSrcSlewPos on 3 A and 100 uF Sink bulk, so <=100 uF nominal keeps within it; 120 uF (+20 %) is 3.6 A, below I(OL) min 4.185 A"
+ },
+ "attach_inrush_through_U2_dvdt_A": {
+  "120.0uF": 0.0577,
+  "47uF": 0.0226,
+  "22uF": 0.0106
+ },
+ "led_load": "Board L draws about 0.41-0.5 A at 15 V behind Q1 and U4 (U4 dVdT limited); the load sets no bulk requirement on VBUS_P",
+ "surge_charge_uC": 179.8,
+ "ovp_cases": {
+  "common 174k/10k (fitted, 20 V capable)": {
+   "trip_v": [
+    21.595,
+    22.567
+   ],
+   "guard_over_15v_legit_max_v": 5.345,
+   "c_eff_needed_for_node_target_uF": {
+    "MLCC bank, 0.005 ohm PROP": 88.4,
+    "electrolytic 0.03 ohm PA": 100.2,
+    "electrolytic 0.3 ohm": null,
+    "electrolytic 0.5 ohm": null
+   },
+   "rows": [
+    {
+     "c_eff_uF": 10,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 40.6,
+     "margin_to_28v": -12.6
+    },
+    {
+     "c_eff_uF": 10,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 40.84,
+     "margin_to_28v": -12.84
+    },
+    {
+     "c_eff_uF": 10,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 43.44,
+     "margin_to_28v": -15.44
+    },
+    {
+     "c_eff_uF": 10,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 45.36,
+     "margin_to_28v": -17.36
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 30.79,
+     "margin_to_28v": -2.79
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 31.03,
+     "margin_to_28v": -3.03
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 33.63,
+     "margin_to_28v": -5.63
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 35.56,
+     "margin_to_28v": -7.56
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 28.06,
+     "margin_to_28v": -0.06
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 28.3,
+     "margin_to_28v": -0.3
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 30.9,
+     "margin_to_28v": -2.9
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 32.83,
+     "margin_to_28v": -4.83
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 26.44,
+     "margin_to_28v": 1.56
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 26.68,
+     "margin_to_28v": 1.32
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 29.28,
+     "margin_to_28v": -1.28
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 31.21,
+     "margin_to_28v": -3.21
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 25.26,
+     "margin_to_28v": 2.74
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 25.5,
+     "margin_to_28v": 2.5
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 28.1,
+     "margin_to_28v": -0.1
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 30.03,
+     "margin_to_28v": -2.03
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 24.86,
+     "margin_to_28v": 3.14
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 25.1,
+     "margin_to_28v": 2.9
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 27.7,
+     "margin_to_28v": 0.3
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 29.63,
+     "margin_to_28v": -1.63
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 24.41,
+     "margin_to_28v": 3.59
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 24.65,
+     "margin_to_28v": 3.35
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 27.25,
+     "margin_to_28v": 0.75
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 29.18,
+     "margin_to_28v": -1.18
+    }
+   ]
+  },
+  "LED-only 133k/10k (15 V-only, not adopted)": {
+   "trip_v": [
+    16.783,
+    17.538
+   ],
+   "guard_over_15v_legit_max_v": 0.533,
+   "c_eff_needed_for_node_target_uF": {
+    "MLCC bank, 0.005 ohm PROP": 25.5,
+    "electrolytic 0.03 ohm PA": 26.4,
+    "electrolytic 0.3 ohm": 42.6,
+    "electrolytic 0.5 ohm": 78.3
+   },
+   "rows": [
+    {
+     "c_eff_uF": 10,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 35.57,
+     "margin_to_28v": -7.57
+    },
+    {
+     "c_eff_uF": 10,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 35.81,
+     "margin_to_28v": -7.81
+    },
+    {
+     "c_eff_uF": 10,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 38.41,
+     "margin_to_28v": -10.41
+    },
+    {
+     "c_eff_uF": 10,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 40.34,
+     "margin_to_28v": -12.34
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 25.76,
+     "margin_to_28v": 2.24
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 26.0,
+     "margin_to_28v": 2.0
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 28.6,
+     "margin_to_28v": -0.6
+    },
+    {
+     "c_eff_uF": 22,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 30.53,
+     "margin_to_28v": -2.53
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 23.04,
+     "margin_to_28v": 4.96
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 23.28,
+     "margin_to_28v": 4.72
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 25.88,
+     "margin_to_28v": 2.12
+    },
+    {
+     "c_eff_uF": 33,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 27.8,
+     "margin_to_28v": 0.2
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 21.41,
+     "margin_to_28v": 6.59
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 21.65,
+     "margin_to_28v": 6.35
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 24.25,
+     "margin_to_28v": 3.75
+    },
+    {
+     "c_eff_uF": 47,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 26.18,
+     "margin_to_28v": 1.82
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 20.23,
+     "margin_to_28v": 7.77
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 20.47,
+     "margin_to_28v": 7.53
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 23.07,
+     "margin_to_28v": 4.93
+    },
+    {
+     "c_eff_uF": 68,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 25.0,
+     "margin_to_28v": 3.0
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 19.83,
+     "margin_to_28v": 8.17
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 20.07,
+     "margin_to_28v": 7.93
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 22.67,
+     "margin_to_28v": 5.33
+    },
+    {
+     "c_eff_uF": 80,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 24.6,
+     "margin_to_28v": 3.4
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "MLCC bank, 0.005 ohm PROP",
+     "node_v": 19.38,
+     "margin_to_28v": 8.62
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "electrolytic 0.03 ohm PA",
+     "node_v": 19.63,
+     "margin_to_28v": 8.37
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "electrolytic 0.3 ohm",
+     "node_v": 22.23,
+     "margin_to_28v": 5.77
+    },
+    {
+     "c_eff_uF": 100,
+     "esr_case": "electrolytic 0.5 ohm",
+     "node_v": 24.15,
+     "margin_to_28v": 3.85
+    }
+   ]
+  }
+ },
+ "mlcc_substitution": {
+  "part": {
+   "part": "CL31A106KBHNNNE C13585 (10 uF 50 V X5R 1206, LED inventory)",
+   "nominal_uF": 10.0,
+   "tol": 0.1,
+   "courtyard_mm2": 15.06,
+   "bias_retention": "UNSOURCED: Samsung curves are typical design reference only (fact-c13585-curve-caveat)"
+  },
+  "rows": [
+   {
+    "case": "common OVP, MLCC",
+    "c_eff_needed_uF": 88.4,
+    "retention_PROP": 0.3,
+    "parts": 33,
+    "courtyard_mm2": 497.0,
+    "vs_C3_mm2": 95.69
+   },
+   {
+    "case": "common OVP, MLCC",
+    "c_eff_needed_uF": 88.4,
+    "retention_PROP": 0.5,
+    "parts": 20,
+    "courtyard_mm2": 301.2,
+    "vs_C3_mm2": 95.69
+   },
+   {
+    "case": "common OVP, MLCC",
+    "c_eff_needed_uF": 88.4,
+    "retention_PROP": 0.7,
+    "parts": 15,
+    "courtyard_mm2": 225.9,
+    "vs_C3_mm2": 95.69
+   },
+   {
+    "case": "LED OVP, MLCC",
+    "c_eff_needed_uF": 25.5,
+    "retention_PROP": 0.3,
+    "parts": 10,
+    "courtyard_mm2": 150.6,
+    "vs_C3_mm2": 95.69
+   },
+   {
+    "case": "LED OVP, MLCC",
+    "c_eff_needed_uF": 25.5,
+    "retention_PROP": 0.5,
+    "parts": 6,
+    "courtyard_mm2": 90.4,
+    "vs_C3_mm2": 95.69
+   },
+   {
+    "case": "LED OVP, MLCC",
+    "c_eff_needed_uF": 25.5,
+    "retention_PROP": 0.7,
+    "parts": 5,
+    "courtyard_mm2": 75.3,
+    "vs_C3_mm2": 95.69
+   }
+  ]
+ },
+ "conclusion": [
+  "C3 is sized by the L7 surge-charge model (179.8 uC TYP), not by the LED load or by USB PD rules.",
+  "With the common 174k OVP an MLCC bank needs C_eff about 88 uF for the 24.65 V node target: 15-33 C13585 parts (226-497 mm2) against the 95.7 mm2 can.",
+  "With an LED-only 133k OVP the need falls to about 25.5 uF: 5-10 C13585 parts (75-151 mm2), depending on unsourced DC-bias retention; the area gain is at best 20 mm2 and not established.",
+  "Keep C3 for LED. Offer the LED-only OVP retune to PD as an L7 margin improvement, not as an area fix."
+ ]
+}

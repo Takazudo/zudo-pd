@@ -1,0 +1,1 @@
+kicad-cli version > /out/version.txt; kicad-cli pcb drc --format json --severity-all --units mm --exit-code-violations -o /out/V199-scratch-baserules-drc.json /work/board-p-COUT1206-TRIAL.kicad_pcb > /out/drc.stdout 2>/out/drc.stderr; echo $? > /out/drc.exit

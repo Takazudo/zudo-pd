@@ -1,0 +1,15 @@
+{
+  "schema_version":1,
+  "cases":[
+    {"name":"wrong-mpn","base":"inventory","target":"lines.line-c283540.mpn","value":"WRONG-MPN","expected_error":"MPN"},
+    {"name":"wrong-lcsc","base":"inventory","target":"lines.line-c283540.lcsc","value":"C999999","expected_error":"LCSC"},
+    {"name":"wrong-package","base":"inventory","target":"lines.line-c283540.package","value":"WRONG-PACKAGE","expected_error":"package"},
+    {"name":"duplicate-ownership","base":"inventory","target":"lines.line-c2678061.line_id","value":"line-c283540","expected_error":"duplicate line_id"},
+    {"name":"missing-locator","base":"golden","target":"facts.fact-golden-limit.locator","value":"","expected_error":"locator"},
+    {"name":"unsourced-manufacturer","base":"template","target":"facts.fact-example-manufacturer.provenance","value":"PROJECT-CHOICE","expected_error":"manufacturer"},
+    {"name":"unavailable-without-state","base":"template","target":"sources.src-example.availability","value":"","expected_error":"availability"},
+    {"name":"stale-online-hash","base":"template","target":"sources.src-example.sha256","value":"xyz","expected_error":"SHA-256"},
+    {"name":"raw-fact-dependency","base":"golden","target":"facts.fact-golden-limit.depends_on","value":["fact-golden-margin"],"expected_error":"raw fact"},
+    {"name":"unacknowledged-gap","base":"template","target":"coverage.cov-example-pinout.status","value":"UNKNOWN","expected_error":"coverage"}
+  ]
+}

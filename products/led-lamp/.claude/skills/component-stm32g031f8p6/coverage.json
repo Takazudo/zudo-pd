@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c529334-pins",
+      "record_id": "rec-c529334",
+      "domain": "package-pins-reset-boot-adc-and-errata-context",
+      "status": "OPEN",
+      "reason": "fact-c529334-pin-bonds through fact-c529334-errata retain locators but remain UNSOURCED because exact official bytes were unavailable. Domain remains open because retained evidence is unavailable, lower-authority, or UNSOURCED.",
+      "fact_ids": [
+        "fact-c529334-pin-bonds",
+        "fact-c529334-reset",
+        "fact-c529334-adc",
+        "fact-c529334-mux",
+        "fact-c529334-boot",
+        "fact-c529334-debug",
+        "fact-c529334-errata"
+      ],
+      "blocking_fact_ids": [
+        "fact-c529334-pin-bonds",
+        "fact-c529334-reset",
+        "fact-c529334-adc",
+        "fact-c529334-mux",
+        "fact-c529334-boot",
+        "fact-c529334-debug",
+        "fact-c529334-errata"
+      ]
+    },
+    {
+      "coverage_id": "cov-c529334-options",
+      "record_id": "rec-c529334",
+      "domain": "programmed-option-bytes-and-boot-policy",
+      "status": "OPEN",
+      "reason": "fact-c529334-boot: programmed option bytes are not retained; fact-c529334-boot-artifact: no nBOOT_SEL/nBOOT0/nBOOT1 option-byte readback artifact has been captured, so verdict stays NEEDS BENCH",
+      "fact_ids": [
+        "fact-c529334-boot",
+        "fact-c529334-boot-artifact"
+      ],
+      "blocking_fact_ids": [
+        "fact-c529334-boot",
+        "fact-c529334-boot-artifact"
+      ]
+    },
+    {
+      "coverage_id": "cov-c529334-fw",
+      "record_id": "rec-c529334",
+      "domain": "firmware-pin-mux-clock-and-timer-state",
+      "status": "OPEN",
+      "reason": "fact-c529334-mux remains UNSOURCED candidate mapping. The unflashed target in firmware/board-l/target implements pin-mux, clock and timer setup; source-code configuration does not establish programmed state, applicable-device errata acceptance or measured behavior.",
+      "fact_ids": [
+        "fact-c529334-mux"
+      ],
+      "blocking_fact_ids": [
+        "fact-c529334-mux"
+      ]
+    },
+    {
+      "coverage_id": "cov-c529334-adc",
+      "record_id": "rec-c529334",
+      "domain": "adc-sample-time-and-installed-source-impedance",
+      "status": "OPEN",
+      "reason": "fact-c529334-adc: ADC configuration and effective source impedance are unverified",
+      "fact_ids": [
+        "fact-c529334-adc"
+      ],
+      "blocking_fact_ids": [
+        "fact-c529334-adc"
+      ]
+    },
+    {
+      "coverage_id": "cov-c529334-debug",
+      "record_id": "rec-c529334",
+      "domain": "debug-low-power-and-bench-state",
+      "status": "OPEN",
+      "reason": "fact-c529334-debug remains UNSOURCED. firmware/board-l/target/board_iwdg.c configures IWDG freeze during a debugger halt for development builds; this does not establish installed DBG_STOP/DBG_STANDBY state, debug low-power retention or measured behavior.",
+      "fact_ids": [
+        "fact-c529334-debug"
+      ],
+      "blocking_fact_ids": [
+        "fact-c529334-debug"
+      ]
+    },
+    {
+      "coverage_id": "cov-c492404-spec",
+      "record_id": "rec-c492404",
+      "domain": "identity-ratings-mechanical-and-project-pin-order",
+      "status": "COVERED",
+      "reason": "fact-c492404-manufacturer; fact-c492404-rating; fact-c492404-mechanical; fact-c492404-topology",
+      "fact_ids": [
+        "fact-c492404-manufacturer",
+        "fact-c492404-rating",
+        "fact-c492404-mechanical",
+        "fact-c492404-topology"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c492404-fit",
+      "record_id": "rec-c492404",
+      "domain": "installed-header-and-programmer-state",
+      "status": "OPEN",
+      "reason": "fact-c492404-topology marks J3 hand-fit/DNP; installed state and programmer behavior require inspection",
+      "fact_ids": [
+        "fact-c492404-topology"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c4749199-spec",
+      "record_id": "rec-c4749199",
+      "domain": "identity-mechanical-and-electrical-drawing",
+      "status": "COVERED",
+      "reason": "fact-c4749199-identity binds the exact distributor orderable line; fact-c4749199-mechanical and fact-c4749199-rating are locked to the available DEALON drawing",
+      "fact_ids": [
+        "fact-c4749199-manufacturer",
+        "fact-c4749199-identity",
+        "fact-c4749199-mechanical",
+        "fact-c4749199-rating"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c4749199-stlink",
+      "record_id": "rec-c4749199",
+      "domain": "stlink-v2-interface-source-lock",
+      "status": "OPEN",
+      "reason": "fact-c4749199-stlink-mapping retains exact UM1075 locators but remains UNSOURCED because official PDF bytes could not be retained; the project topology is explicit but does not promote that unavailable source to PASS",
+      "fact_ids": [
+        "fact-c4749199-stlink-mapping",
+        "fact-c4749199-topology"
+      ],
+      "blocking_fact_ids": [
+        "fact-c4749199-stlink-mapping"
+      ]
+    },
+    {
+      "coverage_id": "cov-c4749199-bench",
+      "record_id": "rec-c4749199",
+      "domain": "physical-fit-continuity-and-debug-state",
+      "status": "OPEN",
+      "reason": "fact-c4749199-bench remains NEEDS BENCH until a fabricated adapter is inspected and exercised",
+      "fact_ids": [
+        "fact-c4749199-bench"
+      ],
+      "blocking_fact_ids": [
+        "fact-c4749199-bench"
+      ]
+    }
+  ]
+}

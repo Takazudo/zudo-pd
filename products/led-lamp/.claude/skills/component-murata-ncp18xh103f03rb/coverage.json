@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c13564-context",
+      "record_id": "rec-c13564",
+      "domain": "older-catalog-nominal-context-and-project-divider-topology",
+      "status": "OPEN",
+      "reason": "The 3 genuinely unsourced older-catalog facts (fact-c13564-power, fact-c13564-temperature, fact-c13564-package) retain only lower-authority catalog context and are UNSOURCED, and the generator-derived divider topology fact (fact-c13564-topology) is UNSOURCED pending independent confirmation. The current-primary PASS facts (fact-c13564-resistance, fact-c13564-beta, fact-c13564-max-current, fact-c13564-lifecycle) are confirmed by the current Murata part list and do not belong to this domain.",
+      "fact_ids": [
+        "fact-c13564-power",
+        "fact-c13564-temperature",
+        "fact-c13564-package",
+        "fact-c13564-topology"
+      ],
+      "blocking_fact_ids": [
+        "fact-c13564-power",
+        "fact-c13564-temperature",
+        "fact-c13564-package",
+        "fact-c13564-topology"
+      ]
+    },
+    {
+      "coverage_id": "cov-c13564-rt",
+      "record_id": "rec-c13564",
+      "domain": "guaranteed-full-resistance-temperature-table",
+      "status": "OPEN",
+      "reason": "fact-c13564-curve-caveat: exact current guaranteed table unavailable",
+      "fact_ids": [
+        "fact-c13564-curve-caveat"
+      ],
+      "blocking_fact_ids": [
+        "fact-c13564-curve-caveat"
+      ]
+    },
+    {
+      "coverage_id": "cov-c13564-selfheat",
+      "record_id": "rec-c13564",
+      "domain": "installed-dissipation-factor-and-self-heating",
+      "status": "OPEN",
+      "reason": "a nominal Typical Dissipation Constant value now exists in the older catalog mirror (fact-c13564-dissipation) but it is UNSOURCED/unverified nominal context and does not guarantee installed thermal coupling on this PCB",
+      "fact_ids": [
+        "fact-c13564-dissipation"
+      ],
+      "blocking_fact_ids": [
+        "fact-c13564-dissipation"
+      ]
+    },
+    {
+      "coverage_id": "cov-c13564-time",
+      "record_id": "rec-c13564",
+      "domain": "thermal-time-constant-and-placement-response",
+      "status": "OPEN",
+      "reason": "no exact retained time constant or installed placement measurement",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c13564-life",
+      "record_id": "rec-c13564",
+      "domain": "current-nrnd-lifecycle-confirmation",
+      "status": "COVERED",
+      "reason": "fact-c13564-lifecycle is confirmed by the current manufacturer-primary part list",
+      "fact_ids": [
+        "fact-c13564-lifecycle"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c13564-fw",
+      "record_id": "rec-c13564",
+      "domain": "firmware-conversion-and-thresholds",
+      "status": "OPEN",
+      "reason": "The unflashed target implements ADC acquisition and proposed raw-code thermal gating and derating in firmware/board-l/target/board_adc.c and board_samples.c/.h. Exact-part R-T/tolerance evidence, installed thermal correlation and threshold calibration remain unverified; the proposed codes are not a guaranteed temperature conversion or measured acceptance.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    }
+  ]
+}

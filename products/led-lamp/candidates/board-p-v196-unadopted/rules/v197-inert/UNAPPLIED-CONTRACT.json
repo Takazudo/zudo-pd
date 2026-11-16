@@ -1,0 +1,2031 @@
+{
+  "schema": "unapplied-feature-contract/1",
+  "active": false,
+  "board_sha256": "c191997b3b34856076bc89df435684de5cd15f7636d6e2a216cc7652f4c02ad2",
+  "project_sha256": "ecd79b11e0fe3f2ba49b88046e6c4ccb996e5dfb98655d5308121cf6801cc4ef",
+  "original_DRC_sha256": "05b18410c946c9d3db653680f31cac90dea651bfbd77b7396109d61df54d0507",
+  "original_errors": 22,
+  "original_warnings": 0,
+  "pairs": [
+    {
+      "id": "J1-01",
+      "kind": "hole_clearance",
+      "minimum_mm": ".175",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "4ba5c7cd-0454-5642-ad4f-14c4fcdc4482",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "A1/B12",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-3.2",
+            "-7.355",
+            "180"
+          ],
+          "size": [
+            "0.6",
+            "1.15"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "36b730445e2c166d1abf2ddaacbdc0b1b282e0b974cc24eb4bc41b7d5365a685"
+        },
+        {
+          "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "",
+          "pad_type": "np_thru_hole",
+          "shape": "circle",
+          "local_at": [
+            "-2.89",
+            "-6.28",
+            "180"
+          ],
+          "size": [
+            "0.65",
+            "0.65"
+          ],
+          "layers": [
+            "*.Cu",
+            "*.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "7537470085c05637947435cf7bd3b89d364b954b2e207560f938558564eb01f8"
+        }
+      ],
+      "original_finding": {
+        "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1751 mm)",
+        "items": [
+          {
+            "description": "Pad A1/B12 [GND] of J1 on F.Cu",
+            "pos": {
+              "x": 16.7,
+              "y": 7.355
+            },
+            "uuid": "4ba5c7cd-0454-5642-ad4f-14c4fcdc4482"
+          },
+          {
+            "description": "NPTH pad of J1",
+            "pos": {
+              "x": 16.39,
+              "y": 6.28
+            },
+            "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d"
+          }
+        ],
+        "severity": "error",
+        "type": "hole_clearance"
+      }
+    },
+    {
+      "id": "J1-02",
+      "kind": "hole_clearance",
+      "minimum_mm": ".200",
+      "basis": "retained published NPTH nominal capability proposal; not finished margin guarantee",
+      "items": [
+        {
+          "uuid": "0c3d2fa4-9b40-5512-81b7-c7dcad0ab61c",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "A4/B9",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-2.4",
+            "-7.355",
+            "180"
+          ],
+          "size": [
+            "0.6",
+            "1.15"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "12",
+            "RAW_USB_VBUS"
+          ],
+          "full_pad_AST_sha256": "19bdf6bf231a99727d97688b3cf083eb67c7af65f91f65aef685d2073a966c9a"
+        },
+        {
+          "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "",
+          "pad_type": "np_thru_hole",
+          "shape": "circle",
+          "local_at": [
+            "-2.89",
+            "-6.28",
+            "180"
+          ],
+          "size": [
+            "0.65",
+            "0.65"
+          ],
+          "layers": [
+            "*.Cu",
+            "*.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "7537470085c05637947435cf7bd3b89d364b954b2e207560f938558564eb01f8"
+        }
+      ],
+      "original_finding": {
+        "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.2099 mm)",
+        "items": [
+          {
+            "description": "Pad A4/B9 [RAW_USB_VBUS] of J1 on F.Cu",
+            "pos": {
+              "x": 15.9,
+              "y": 7.355
+            },
+            "uuid": "0c3d2fa4-9b40-5512-81b7-c7dcad0ab61c"
+          },
+          {
+            "description": "NPTH pad of J1",
+            "pos": {
+              "x": 16.39,
+              "y": 6.28
+            },
+            "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d"
+          }
+        ],
+        "severity": "error",
+        "type": "hole_clearance"
+      }
+    },
+    {
+      "id": "J1-03",
+      "kind": "hole_clearance",
+      "minimum_mm": ".200",
+      "basis": "retained published NPTH nominal capability proposal; not finished margin guarantee",
+      "items": [
+        {
+          "uuid": "df2d4331-d36f-5fd6-a30d-5494c2863f0d",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "B4/A9",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "2.4",
+            "-7.355",
+            "180"
+          ],
+          "size": [
+            "0.6",
+            "1.15"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "12",
+            "RAW_USB_VBUS"
+          ],
+          "full_pad_AST_sha256": "e365d92f54786df35c0b24a988aff2f65497221eccc4ae5d7c1f2c1735d46793"
+        },
+        {
+          "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "",
+          "pad_type": "np_thru_hole",
+          "shape": "circle",
+          "local_at": [
+            "2.89",
+            "-6.28",
+            "180"
+          ],
+          "size": [
+            "0.65",
+            "0.65"
+          ],
+          "layers": [
+            "*.Cu",
+            "*.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "afd2db152b2bb48b1cab7a0ff125e51a9c2e74625a7414a6adc758afa0d1f3a2"
+        }
+      ],
+      "original_finding": {
+        "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.2099 mm)",
+        "items": [
+          {
+            "description": "Pad B4/A9 [RAW_USB_VBUS] of J1 on F.Cu",
+            "pos": {
+              "x": 11.1,
+              "y": 7.355
+            },
+            "uuid": "df2d4331-d36f-5fd6-a30d-5494c2863f0d"
+          },
+          {
+            "description": "NPTH pad of J1",
+            "pos": {
+              "x": 10.61,
+              "y": 6.28
+            },
+            "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e"
+          }
+        ],
+        "severity": "error",
+        "type": "hole_clearance"
+      }
+    },
+    {
+      "id": "J1-04",
+      "kind": "hole_clearance",
+      "minimum_mm": ".175",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "3edb7167-833c-540d-bdb7-c2e73da3f98c",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "B1/A12",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "3.2",
+            "-7.355",
+            "180"
+          ],
+          "size": [
+            "0.6",
+            "1.15"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "e10305fc5cc14bbd6efae71ee412c0ab0e5d0e526132c4ba02ccb3388d932e16"
+        },
+        {
+          "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e",
+          "reference": "J1",
+          "footprint": "trial:USB4105_V106_TRIAL_UNASSIGNED",
+          "footprint_at": [
+            "13.5",
+            "0",
+            "180"
+          ],
+          "pad_number": "",
+          "pad_type": "np_thru_hole",
+          "shape": "circle",
+          "local_at": [
+            "2.89",
+            "-6.28",
+            "180"
+          ],
+          "size": [
+            "0.65",
+            "0.65"
+          ],
+          "layers": [
+            "*.Cu",
+            "*.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "afd2db152b2bb48b1cab7a0ff125e51a9c2e74625a7414a6adc758afa0d1f3a2"
+        }
+      ],
+      "original_finding": {
+        "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1751 mm)",
+        "items": [
+          {
+            "description": "Pad B1/A12 [GND] of J1 on F.Cu",
+            "pos": {
+              "x": 10.3,
+              "y": 7.355
+            },
+            "uuid": "3edb7167-833c-540d-bdb7-c2e73da3f98c"
+          },
+          {
+            "description": "NPTH pad of J1",
+            "pos": {
+              "x": 10.61,
+              "y": 6.28
+            },
+            "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e"
+          }
+        ],
+        "severity": "error",
+        "type": "hole_clearance"
+      }
+    },
+    {
+      "id": "U1-01",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "1",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "-1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "12",
+            "RAW_USB_VBUS"
+          ],
+          "full_pad_AST_sha256": "0e1e5034beea3c6467a47ef29ccdcbe188b3aaa758b91b3c23e2151caf88d413"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 1 [RAW_USB_VBUS] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 12.0
+            },
+            "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-02",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "2",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "-0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "17",
+            "USB_DP"
+          ],
+          "full_pad_AST_sha256": "b7e11330ae9408cb4dad357ced92d808e2cf17e5c7e1bcc58b3ab1faa2f1d175"
+        },
+        {
+          "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "1",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "-1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "12",
+            "RAW_USB_VBUS"
+          ],
+          "full_pad_AST_sha256": "0e1e5034beea3c6467a47ef29ccdcbe188b3aaa758b91b3c23e2151caf88d413"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 12.5
+            },
+            "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+          },
+          {
+            "description": "Pad 1 [RAW_USB_VBUS] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 12.0
+            },
+            "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-03",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "2",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "-0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "17",
+            "USB_DP"
+          ],
+          "full_pad_AST_sha256": "b7e11330ae9408cb4dad357ced92d808e2cf17e5c7e1bcc58b3ab1faa2f1d175"
+        },
+        {
+          "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "3",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "0.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "16",
+            "USB_DM"
+          ],
+          "full_pad_AST_sha256": "8cc2f112e8474183760f1a489075392d3e4a3cd409daa538da66eeb3416c19c2"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 12.5
+            },
+            "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+          },
+          {
+            "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 13.0
+            },
+            "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-04",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "2",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "-0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "17",
+            "USB_DP"
+          ],
+          "full_pad_AST_sha256": "b7e11330ae9408cb4dad357ced92d808e2cf17e5c7e1bcc58b3ab1faa2f1d175"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 12.5
+            },
+            "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-05",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "3",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "0.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "16",
+            "USB_DM"
+          ],
+          "full_pad_AST_sha256": "8cc2f112e8474183760f1a489075392d3e4a3cd409daa538da66eeb3416c19c2"
+        },
+        {
+          "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "4",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "14",
+            "USB_CC1"
+          ],
+          "full_pad_AST_sha256": "0ed3256f4a4426dff0a90bba92b2102e4e20784fcabb7ad1065aad60ed158bc6"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 13.0
+            },
+            "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+          },
+          {
+            "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 13.5
+            },
+            "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-06",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "3",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "0.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "16",
+            "USB_DM"
+          ],
+          "full_pad_AST_sha256": "8cc2f112e8474183760f1a489075392d3e4a3cd409daa538da66eeb3416c19c2"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 13.0
+            },
+            "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-07",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "4",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "14",
+            "USB_CC1"
+          ],
+          "full_pad_AST_sha256": "0ed3256f4a4426dff0a90bba92b2102e4e20784fcabb7ad1065aad60ed158bc6"
+        },
+        {
+          "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "5",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "15",
+            "USB_CC2"
+          ],
+          "full_pad_AST_sha256": "98e7ce0b9065feee29d98b74658c49699cf376bc0c6acc4ba4e5de71588c930d"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 13.5
+            },
+            "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+          },
+          {
+            "description": "Pad 5 [USB_CC2] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 14.0
+            },
+            "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-08",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "4",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "14",
+            "USB_CC1"
+          ],
+          "full_pad_AST_sha256": "0ed3256f4a4426dff0a90bba92b2102e4e20784fcabb7ad1065aad60ed158bc6"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 13.5
+            },
+            "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-09",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "5",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "-1.4",
+            "1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "15",
+            "USB_CC2"
+          ],
+          "full_pad_AST_sha256": "98e7ce0b9065feee29d98b74658c49699cf376bc0c6acc4ba4e5de71588c930d"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 5 [USB_CC2] of U1 on F.Cu",
+            "pos": {
+              "x": 12.6,
+              "y": 14.0
+            },
+            "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-10",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "6",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "edaad6c95cc846ae3fdff87c980513dc8da2088585adec6feedaf3e8e7f98ab7"
+        },
+        {
+          "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "7",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "3b92104eea28565e933cbe2c3b80902bffcad8dd9b9a4c16e034c2d587288ffe"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 6 [<no net>] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 14.0
+            },
+            "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec"
+          },
+          {
+            "description": "Pad 7 [<no net>] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 13.5
+            },
+            "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-11",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "6",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "edaad6c95cc846ae3fdff87c980513dc8da2088585adec6feedaf3e8e7f98ab7"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 6 [<no net>] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 14.0
+            },
+            "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-12",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "7",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "3b92104eea28565e933cbe2c3b80902bffcad8dd9b9a4c16e034c2d587288ffe"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 7 [<no net>] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 13.5
+            },
+            "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-13",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "7",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [],
+          "full_pad_AST_sha256": "3b92104eea28565e933cbe2c3b80902bffcad8dd9b9a4c16e034c2d587288ffe"
+        },
+        {
+          "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "8",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "0.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "18",
+            "VSET"
+          ],
+          "full_pad_AST_sha256": "f7933d156fddeb7f4f0036b88157bb916721ea1b1ce1ce8bbb6f38931f6bdd98"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 7 [<no net>] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 13.5
+            },
+            "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+          },
+          {
+            "description": "Pad 8 [VSET] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 13.0
+            },
+            "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-14",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "8",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "0.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "18",
+            "VSET"
+          ],
+          "full_pad_AST_sha256": "f7933d156fddeb7f4f0036b88157bb916721ea1b1ce1ce8bbb6f38931f6bdd98"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 8 [VSET] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 13.0
+            },
+            "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-15",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "8",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "0.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "18",
+            "VSET"
+          ],
+          "full_pad_AST_sha256": "f7933d156fddeb7f4f0036b88157bb916721ea1b1ce1ce8bbb6f38931f6bdd98"
+        },
+        {
+          "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "9",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "-0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "8",
+            "ISET"
+          ],
+          "full_pad_AST_sha256": "541cdbdc9928e621ba984ead238cee499083fd1f7bed8d43dc24b1456259c727"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 8 [VSET] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 13.0
+            },
+            "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+          },
+          {
+            "description": "Pad 9 [ISET] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 12.5
+            },
+            "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-16",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "9",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "-0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "8",
+            "ISET"
+          ],
+          "full_pad_AST_sha256": "541cdbdc9928e621ba984ead238cee499083fd1f7bed8d43dc24b1456259c727"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 9 [ISET] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 12.5
+            },
+            "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-17",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "9",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "-0.5"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "8",
+            "ISET"
+          ],
+          "full_pad_AST_sha256": "541cdbdc9928e621ba984ead238cee499083fd1f7bed8d43dc24b1456259c727"
+        },
+        {
+          "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "10",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "-1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "1",
+            "CONTRACT_GATE_N"
+          ],
+          "full_pad_AST_sha256": "89f638e31bb093ecaaf89c6d2cb4075e5bc3c3eb98eb12592d421dc5bae3412c"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 9 [ISET] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 12.5
+            },
+            "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+          },
+          {
+            "description": "Pad 10 [CONTRACT_GATE_N] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 12.0
+            },
+            "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    },
+    {
+      "id": "U1-18",
+      "kind": "clearance",
+      "minimum_mm": ".150",
+      "basis": "user working assumption; not supplier acceptance",
+      "items": [
+        {
+          "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "10",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "1.4",
+            "-1.0"
+          ],
+          "size": [
+            "0.8",
+            "0.35"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Paste",
+            "F.Mask"
+          ],
+          "net": [
+            "1",
+            "CONTRACT_GATE_N"
+          ],
+          "full_pad_AST_sha256": "89f638e31bb093ecaaf89c6d2cb4075e5bc3c3eb98eb12592d421dc5bae3412c"
+        },
+        {
+          "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a",
+          "reference": "U1",
+          "footprint": "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL",
+          "footprint_at": [
+            "14.0",
+            "13.0",
+            "0"
+          ],
+          "pad_number": "11",
+          "pad_type": "smd",
+          "shape": "rect",
+          "local_at": [
+            "0",
+            "0"
+          ],
+          "size": [
+            "1.7",
+            "2.4"
+          ],
+          "layers": [
+            "F.Cu",
+            "F.Mask"
+          ],
+          "net": [
+            "5",
+            "GND"
+          ],
+          "full_pad_AST_sha256": "3e3a8d70fc57fab9bc4f8148f17ef5ba46e1660815d73ddf966e23f937c7bb6a"
+        }
+      ],
+      "original_finding": {
+        "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+        "items": [
+          {
+            "description": "Pad 10 [CONTRACT_GATE_N] of U1 on F.Cu",
+            "pos": {
+              "x": 15.4,
+              "y": 12.0
+            },
+            "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335"
+          },
+          {
+            "description": "Pad 11 [GND] of U1 on F.Cu",
+            "pos": {
+              "x": 14.0,
+              "y": 13.0
+            },
+            "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+          }
+        ],
+        "severity": "error",
+        "type": "clearance"
+      }
+    }
+  ],
+  "default_constraints_unchanged": {
+    "clearance_mm": ".200",
+    "hole_clearance_mm": ".250",
+    "track_width_mm": ".200"
+  },
+  "mask": "unchanged U1 explicit+.020, nominal web.110; no new rule",
+  "geometry_policy": "Exact full input hashes; any geometry/project change invalidates contract. UUID alone never matches."
+}

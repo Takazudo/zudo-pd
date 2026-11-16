@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "interactions": [
+    {
+      "interaction_id": "int-tps3701-led-rnext",
+      "record_ids": [
+        "rec-tps3701"
+      ],
+      "fact_ids": [
+        "fact-tps3701-led-rnext-role",
+        "fact-tps3701-led-land"
+      ],
+      "conditions": "U5 in the LED r-next draft: verify exported netlist, land, orientation and bench behaviour before any adoption",
+      "verdict": "NEEDS BENCH"
+    }
+  ]
+}

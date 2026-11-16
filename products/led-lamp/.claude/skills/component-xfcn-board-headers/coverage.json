@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {"coverage_id":"cov-c492405-spec","record_id":"rec-c492405","domain":"identity, pitch, ratings, dimensions, mating family, and dated stock","status":"COVERED","reason":"Exact manufacturer drawing/page plus dated distributor identity and inventory record","fact_ids":["fact-c492405-manufacturer","fact-c492405-identity","fact-c492405-pitch","fact-c492405-current","fact-c492405-voltage","fact-c492405-temperature","fact-c492405-dimensions","fact-c492405-mating"],"blocking_fact_ids":[]},
+    {"coverage_id":"cov-c492405-map","record_id":"rec-c492405","domain":"Board P signal mapping","status":"OPEN","reason":"The Board P JOUT1 signal binding is recorded in pin-map.json and interactions.json and must be continuity-checked before mating.","fact_ids":[],"blocking_fact_ids":[]},
+    {"coverage_id":"cov-c492405-mechanical","record_id":"rec-c492405","domain":"direct board alignment, standoff, retention, and polarity verification","status":"OPEN","reason":"PCB placement and enclosure retention require layout and bench review beyond the connector drawing.","fact_ids":["fact-c492405-mating"],"blocking_fact_ids":[]},
+    {"coverage_id":"cov-c2832269-spec","record_id":"rec-c2832269","domain":"identity, pitch, ratings, dimensions, mating family, and dated stock","status":"COVERED","reason":"Exact manufacturer drawing/page plus dated distributor identity and inventory record","fact_ids":["fact-c2832269-manufacturer","fact-c2832269-identity","fact-c2832269-pitch","fact-c2832269-current","fact-c2832269-voltage","fact-c2832269-temperature","fact-c2832269-dimensions","fact-c2832269-mating"],"blocking_fact_ids":[]},
+    {"coverage_id":"cov-c2832269-map","record_id":"rec-c2832269","domain":"Board L signal mapping","status":"OPEN","reason":"The Board L J2 signal binding is recorded in pin-map.json and interactions.json and must be continuity-checked before mating.","fact_ids":[],"blocking_fact_ids":[]},
+    {"coverage_id":"cov-c2832269-mechanical","record_id":"rec-c2832269","domain":"direct board alignment, standoff, retention, and polarity verification","status":"OPEN","reason":"PCB placement and enclosure retention require layout and bench review beyond the connector drawing.","fact_ids":["fact-c2832269-mating"],"blocking_fact_ids":[]}
+  ]
+}

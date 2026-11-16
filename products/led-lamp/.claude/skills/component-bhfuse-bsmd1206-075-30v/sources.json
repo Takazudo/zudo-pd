@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src-bhfuse-1206",
+      "record_id": "rec-bsmd1206-075-30v",
+      "document_title": "BSMD1206 Series Surface Mount PTC Device",
+      "document_number": "BSMD1206 Series",
+      "revision": "Revision 2025",
+      "document_date": "2025",
+      "authoritative_url": "https://baihong-oss.oss-cn-shenzhen.aliyuncs.com/baihong/1206%20Datasheet.pdf",
+      "alternate_authoritative_url": "https://en.bhfuse.com/website/product-detail/43",
+      "retrieval_date": "2026-08-02",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "6d5827b9497205e2b8b401dfb1b6e466cedd5ae1a8c120eeac9bbad403d5dcbc",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 1,
+      "printed_page_label": "2/10",
+      "locator": "Electrical Characteristics table row BSMD1206-075-30V; Vocabulary rows; Thermal Derating table row BSMD1206-075; Warning rows 1-6",
+      "evidence_extract": "At 25 C: Ihold 0.75 A, Itrip 1.50 A, Vmax 30 V, Imax 40 A, Pd 0.8 W typical, trip within 0.20 s at 8 A, Rmin 0.090 ohm, R1max 0.500 ohm. Ihold at 85 C is 0.41 A. Repeated trips reduce hold current."
+    },
+    {
+      "source_id": "src-bhfuse-generator",
+      "record_id": "rec-bsmd1206-075-30v",
+      "document_title": "Board L generated schematic specification",
+      "document_number": "scripts/schgen/board_l_spec.py",
+      "revision": "a29a046fc2bc7291704b297cf23a9be5bc000115",
+      "document_date": "2026-09-05",
+      "authoritative_url": "https://raw.githubusercontent.com/Takazudo/zudo-led-lamp/a29a046fc2bc7291704b297cf23a9be5bc000115/scripts/schgen/board_l_spec.py",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-09-05",
+      "authority_class": "PROJECT_GENERATOR",
+      "sha256": "a51cfe45ed77b36a07757e53a136c6c4ba5786b3d3b3f610f8f4e73a9fb57fc3",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "source file",
+      "locator": "COMPONENTS table row F1; NETS rows VBUS_L and V15_FUSED",
+      "evidence_extract": "F1 is BSMD1206-075-30V C976305; pin 1 is VBUS_L and pin 2 is V15_FUSED."
+    }
+  ]
+}

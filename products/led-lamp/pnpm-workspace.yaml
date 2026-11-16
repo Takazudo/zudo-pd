@@ -1,0 +1,15 @@
+packages:
+  - doc
+
+# pnpm 11 defaults minimumReleaseAge to 1440min; its exclude matcher can't match this project's peer-nested lockfile keys (upstream pnpm bug), so disable the gate outright.
+minimumReleaseAge: 0
+
+# esbuild and wrangler's native binaries (bundler + local Worker runtime) need
+# their postinstall scripts to fetch platform binaries. pnpm 10 reads
+# onlyBuiltDependencies; pnpm 11 reads allowBuilds.
+onlyBuiltDependencies:
+  - esbuild
+  - workerd
+allowBuilds:
+  esbuild: true
+  workerd: true

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "interactions": [
+    {
+      "interaction_id": "int-high-diode-netlist",
+      "record_ids": ["rec-high-diode-smaj20a"],
+      "fact_ids": [
+        "fact-high-diode-smaj20a-polarity",
+        "fact-high-diode-smaj20a-standoff",
+        "fact-high-diode-smaj20a-clamp"
+      ],
+      "conditions": "Primary polarity/ratings are retained; assert and continuity-check that D5 and D10 numeric pads place the banded cathode on their VBUS rails and anode on GND before energization",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-high-diode-bench",
+      "record_ids": ["rec-high-diode-smaj20a"],
+      "fact_ids": [
+        "fact-high-diode-smaj20a-identity",
+        "fact-high-diode-smaj20a-polarity",
+        "fact-high-diode-smaj20a-leakage",
+        "fact-high-diode-smaj20a-thermal"
+      ],
+      "conditions": "Verify reel label/body marking, numeric pad orientation and continuity, leakage/heating, and both Board P and Board L surge waveforms with controlled fixtures; primary table limits do not prove the as-built response",
+      "verdict": "NEEDS BENCH"
+    }
+  ]
+}
