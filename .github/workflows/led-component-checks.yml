@@ -20,6 +20,7 @@ on:
       - 'products/led-lamp/firmware/**'
       - 'products/led-lamp/doc/src/content/docs/**/*.mdx'
       - 'circuit/scripts/check-led-p15-reference.sh'
+      - 'scripts/pcb/board-p15/**'
       - '.github/workflows/led-component-checks.yml'
   push:
     branches:
@@ -35,6 +36,7 @@ on:
       - 'products/led-lamp/firmware/**'
       - 'products/led-lamp/doc/src/content/docs/**/*.mdx'
       - 'circuit/scripts/check-led-p15-reference.sh'
+      - 'scripts/pcb/board-p15/**'
       - '.github/workflows/led-component-checks.yml'
 
 concurrency:
