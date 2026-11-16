@@ -1,32 +1,30 @@
 // Read-only audit against the installed, pinned 0.3.0 route and anchor functions.
 import { createHash } from 'node:crypto';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { verifyLockedCorpus } from './locks.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..');
 const installed = join(root, 'node_modules/@takazudo/zudo-circuit-doc');
 const idsPath = join(installed, 'lib/core/ids.js');
 const sitePath = join(installed, 'lib/core/site.js');
-const { anchor, assertUnique, recordSlug, SLUG_PATTERN } = await import(pathToFileURL(idsPath));
-const { recordRoute, integrationRoute } = await import(pathToFileURL(sitePath));
-
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 const sha256 = (path) => createHash('sha256').update(readFileSync(path)).digest('hex');
 const proposalPath = join(root, 'circuit/orchestration/campaigns/pd-led-20261116-c3/translation/proposal.json');
 const proposal = readJson(proposalPath);
+const locked = verifyLockedCorpus(root, proposal.source_locks_sha256, proposal.source_set_sha256);
+const { anchor, assertUnique, recordSlug, SLUG_PATTERN } = await import(pathToFileURL(idsPath));
+const { recordRoute, integrationRoute } = await import(pathToFileURL(sitePath));
 const packageJson = readJson(join(installed, 'package.json'));
 if (packageJson.version !== '0.3.0' || proposal.schema !== 'pd-led-c3c-evidence-translation/1') {
   throw new Error('unexpected package or proposal contract');
 }
 
 const pdRoot = join(root, '.claude/skills');
-const pdRecordIds = readdirSync(pdRoot)
-  .filter((name) => name.startsWith('component-'))
-  .flatMap((name) => {
-    try { return readJson(join(pdRoot, name, 'manifest.json')).records.map((record) => record.record_id); }
-    catch (error) { if (error.code === 'ENOENT') return []; throw error; }
-  });
+const pdRecordIds = [...locked.verifiedBytes]
+  .filter(([path]) => /^\.claude\/skills\/component-[^/]+\/manifest\.json$/u.test(path))
+  .flatMap(([, bytes]) => JSON.parse(bytes.toString('utf8')).records.map((record) => record.record_id));
 const proposedRecords = proposal.mappings.filter((row) => row.kind === 'record');
 const allRecords = [...pdRecordIds, ...proposedRecords.map((row) => row.proposed_id)];
 const routes = allRecords.map((id) => recordRoute(recordSlug(id)));
@@ -41,8 +39,8 @@ for (const id of allRecords) anchor(id);
 
 const pdRulesPath = join(pdRoot, 'circuit-spec-integration/references/rules.json');
 const ledRulesPath = join(root, 'products/led-lamp/.claude/skills/circuit-spec-integration/references/rules.json');
-const pdRules = readJson(pdRulesPath).rules;
-const ledRules = readJson(ledRulesPath).rules;
+const pdRules = JSON.parse(locked.verifiedBytes.get(pdRulesPath.slice(root.length + 1)).toString('utf8')).rules;
+const ledRules = JSON.parse(locked.verifiedBytes.get(ledRulesPath.slice(root.length + 1)).toString('utf8')).rules;
 const ruleMap = new Map(proposal.mappings.filter((row) => row.kind === 'rule')
   .map((row) => [row.old_id, row.proposed_id]));
 const pdIntegrationIds = pdRules.flatMap((rule) => [rule.rule_id,
@@ -78,6 +76,8 @@ const result = {
   base_commit: 'f008ad037681bca977005b4353affa9928f0d146',
   installed_package_version: packageJson.version,
   proposal_source_set_sha256: proposal.source_set_sha256,
+  locked_source_files_verified: locked.locked_source_files_verified,
+  locked_pd_manifest_files_verified: locked.locked_pd_manifest_files_verified,
   inspected_file_sha256: sourceLocks,
   pd_record_routes: pdRecordIds.length,
   proposed_led_record_routes: proposedRecords.length,
