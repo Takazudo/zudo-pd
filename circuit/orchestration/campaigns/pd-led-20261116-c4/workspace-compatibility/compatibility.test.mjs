@@ -5,11 +5,13 @@ import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { verifyBindings } from './source-bindings.mjs';
 
 const [unified, separate, ledSource] = process.argv.slice(2);
 if (![unified, separate, ledSource].every(Boolean)) {
-  throw new Error('usage: node --test compatibility.test.mjs UNIFIED SEPARATE LED_SOURCE');
+  throw new Error('usage: node compatibility.test.mjs UNIFIED SEPARATE LED_SOURCE');
 }
+await verifyBindings(unified, separate, ledSource);
 const load = async (path) => import(pathToFileURL(path).href);
 const packageRoot = async (root, nested) => realpath(join(root,
   nested ? 'products/led-lamp/node_modules/@takazudo/zudo-circuit-doc'
@@ -49,6 +51,20 @@ async function references() {
   return { encoded, descriptor, descriptorModule, render };
 }
 const referencePromise = references();
+
+test('binding verifier rejects changed source and installed package bytes', async () => {
+  const mutate = (suffix) => async (path) => {
+    const bytes = await readFile(path);
+    if (!path.endsWith(suffix)) return bytes;
+    const changed = Buffer.from(bytes);
+    changed[0] ^= 1;
+    return changed;
+  };
+  await assert.rejects(() => verifyBindings(unified, separate, ledSource,
+    mutate('components/records/c15849/index.mdx')), /source binding mismatch/u);
+  await assert.rejects(() => verifyBindings(unified, separate, ledSource,
+    mutate('lib/browser-smoke/chrome.js')), /source binding mismatch/u);
+});
 
 test('retained LED available-document model card passes both installed scanners', async () => {
   const { encoded, descriptor, render } = await referencePromise;

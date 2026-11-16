@@ -3,11 +3,13 @@ import { createServer } from 'node:http';
 import { readFile, realpath } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { verifyBindings } from './source-bindings.mjs';
 
-const [unified, separate, chromium] = process.argv.slice(2);
-if (![unified, separate, chromium].every(Boolean)) {
-  throw new Error('usage: node focus-browser.mjs UNIFIED SEPARATE CHROMIUM');
+const [unified, separate, ledSource, chromium] = process.argv.slice(2);
+if (![unified, separate, ledSource, chromium].every(Boolean)) {
+  throw new Error('usage: node focus-browser.mjs UNIFIED SEPARATE LED_SOURCE CHROMIUM');
 }
+await verifyBindings(unified, separate, ledSource);
 const server = createServer((request, response) => {
   response.writeHead(200, { 'content-type': 'text/html' });
   response.end('<!doctype html><html><title>LED focus probe</title><body>LED focus probe</body></html>');
