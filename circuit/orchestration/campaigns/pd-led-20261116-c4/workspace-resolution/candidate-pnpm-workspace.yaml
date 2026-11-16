@@ -1,0 +1,11 @@
+packages:
+  - doc
+  - products/led-lamp
+  - products/led-lamp/doc
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  sharp: true
+  workerd: true
+patchedDependencies:
+  '@takazudo/zudo-circuit-doc@0.3.0': patches/@takazudo__zudo-circuit-doc@0.3.0.patch
