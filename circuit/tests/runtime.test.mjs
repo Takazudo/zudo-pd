@@ -30,7 +30,7 @@ test('all 60 retained legacy routes retain every baseline evidence anchor and us
   assert.ok(page.includes('Generated from the component evidence records'),path);
  }
 });
-test('root and doc resolve the same 0.3.0 release with only the reviewed #210 checker and Mac lifecycle bridges',async()=>{
+test('root and doc resolve the same 0.3.0 release with the reviewed project bridges',async()=>{
  const fromRoot=createRequire(join(root,'package.json')),fromDoc=createRequire(join(root,'doc/package.json'));
  const a=await realpath(fromRoot.resolve('@takazudo/zudo-circuit-doc/package.json')),b=await realpath(fromDoc.resolve('@takazudo/zudo-circuit-doc/package.json'));
  assert.equal(a,b);
@@ -38,9 +38,10 @@ test('root and doc resolve the same 0.3.0 release with only the reviewed #210 ch
  const patchFile='patches/@takazudo__zudo-circuit-doc@0.3.0.patch';
  const patch=await readFile(join(root,patchFile),'utf8');const patchHash=createHash('sha256').update(patch).digest('hex');
  assert.ok(a.includes(`patch_hash=${patchHash.slice(0,20)}`),'installed copy carries exactly the reviewed patch');
- // Only the reviewed checker branch and active-page browser lifecycle paths are patched.
- assert.deepEqual([...patch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['lib/browser-smoke/cdp.js','lib/browser-smoke/chrome.js','lib/scan/built-references.js']);
+ // Preserve the three #210 hunks and patch only the package's bundle resolver for #315.
+ assert.deepEqual([...patch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['lib/browser-smoke/cdp.js','lib/browser-smoke/chrome.js','lib/scan/built-references.js','python/circuit_evidence/routing.py']);
  assert.match(patch,/issues\/210/u);
+ assert.match(patch,/diff --git a\/python\/circuit_evidence\/routing\.py b\/python\/circuit_evidence\/routing\.py/u);
  const workspace=await readFile(join(root,'pnpm-workspace.yaml'),'utf8');
  assert.equal([...workspace.matchAll(/^  '@takazudo\/[^']+':/gmu)].length,1);
  assert.match(workspace,new RegExp(`patchedDependencies:\\n  '@takazudo/zudo-circuit-doc@0\\.3\\.0': ${patchFile.replaceAll('.','\\.')}`,'u'));
@@ -49,6 +50,7 @@ test('root and doc resolve the same 0.3.0 release with only the reviewed #210 ch
  assert.ok(lock.includes(`patchedDependencies:\n  '@takazudo/zudo-circuit-doc@0.3.0': ${patchHash}\n\n`),'lock records only the reviewed circuit patch');
  assert.doesNotMatch(lock,/zudo-doc@[^(\s]*\(patch_hash/u);
  const checker=await readFile(join(packageRoot,'lib/scan/built-references.js'),'utf8');assert.match(checker,/Temporary bridge: https:\/\/github\.com\/Takazudo\/zudo-pd\/issues\/210/u);
+ const routing=await readFile(join(packageRoot,'python/circuit_evidence/routing.py'),'utf8');assert.match(routing,/unknown attached numeric order suffix/u);
  const schema=await readFile(join(packageRoot,'lib/config/schema.js'),'utf8');assert.match(schema,/candidates: optional/u);assert.match(schema,/mpnFromValueLcsc/u);assert.match(schema,/fit: optional\(oneOf\(\["line", "placement"\]\)\)/u);assert.match(schema,/publicCanonicalFootprints/u);
  const reference=await readFile(join(packageRoot,'lib/provider/v1/references.js'),'utf8');assert.match(reference,/STALE_SELECTION", `missing record/u);
  assert.equal(mapped.config.inventoryProvider.fit,'placement');

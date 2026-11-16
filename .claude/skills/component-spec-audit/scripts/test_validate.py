@@ -506,6 +506,29 @@ class ComponentSpecValidatorTests(unittest.TestCase):
         self.assertEqual(validator.resolve_bundle_route("EXAMPLE-MPN", routes), ["rec-example"])
         self.assertEqual(validator.resolve_bundle_route("EXAMPLE-MPN C999999", routes), [])
 
+    def test_pesd_order_code_routing_rejects_wrong_suffix_without_affecting_other_routes(self):
+        routes = validator.load(validator.ROOT / ".claude/skills/component-pesd24vs1ub-c85382/routing.json")["routes"]
+        record = ["rec-pesd24vs1ub-c85382"]
+        for query in (
+            "PESD24VS1UB", "PESD24VS1UB,115", "PESD24VS1UB, 115",
+            "nexperia pesd24vs1ub,115 C85382", "PESD24VS1UB, please check pinout",
+        ):
+            with self.subTest(positive=query):
+                self.assertEqual(validator.resolve_bundle_route(query, routes), record)
+        for query in (
+            "PESD24VS1UB,125", "PESD24VS1UB,125 C85382",
+            "PESD24VS1UB,115 and PESD24VS1UB,125", "PESD24VS1UB,1150",
+            "  nexperia  pesd24vs1ub, 125  C85382  ",
+        ):
+            with self.subTest(negative=query):
+                self.assertEqual(validator.resolve_bundle_route(query, routes), [])
+        for owner, query, expected in (
+            ("component-stusb4500qtr", "STMicroelectronics STUSB4500QTR", "rec-stusb4500qtr"),
+            ("component-umw-ao3401a-c347476", "UMW AO3401A", "rec-umw-ao3401a-c347476"),
+        ):
+            other = validator.load(validator.ROOT / ".claude/skills" / owner / "routing.json")["routes"]
+            self.assertEqual(validator.resolve_bundle_route(query, other), [expected])
+
     def test_external_vendor_qualifier_artifact_is_required(self):
         with tempfile.TemporaryDirectory() as directory:
             missing = Path(directory) / "missing.json"
