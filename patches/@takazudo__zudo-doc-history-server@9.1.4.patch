@@ -1,5 +1,5 @@
 diff --git a/dist/chunk-6T5SSYWE.js b/dist/chunk-6T5SSYWE.js
-index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..f270167dba41b0b70b69ba12f16fb57cc13bb4b4 100644
+index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f46235f638aa9 100644
 --- a/dist/chunk-6T5SSYWE.js
 +++ b/dist/chunk-6T5SSYWE.js
 @@ -60,9 +60,10 @@ function parseCommitLog(output) {
@@ -103,7 +103,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..f270167dba41b0b70b69ba12f16fb57c
            "--follow",
            "--format=%H",
            "--name-only",
-@@ -366,17 +376,38 @@ function parseFirstLastMeta(output) {
+@@ -366,17 +376,40 @@ function parseFirstLastMeta(output) {
    }
    return acc.finish();
  }
@@ -116,8 +116,10 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..f270167dba41b0b70b69ba12f16fb57c
 +  const head = execFileSync("git", ["rev-parse", "HEAD"], { ...gitOpts() }).trim();
 +  if (importedLedCommitCache?.head === head) return importedLedCommitCache.commits;
 +  const commits = new Set([LED_IMPORT]);
-+  for (const rev of [LED_SOURCE_PARENT, `${LED_IMPORT}..${head}`]) {
-+    const output = execFileSync("git", ["rev-list", rev], { ...gitOpts() });
++  // A merge can bring in commits from an unrelated pre-import PD branch.
++  // Keep only post-import ancestry, not every commit in IMPORT..HEAD.
++  for (const args of [[LED_SOURCE_PARENT], ["--ancestry-path", `${LED_IMPORT}..${head}`]]) {
++    const output = execFileSync("git", ["rev-list", ...args], { ...gitOpts() });
 +    for (const hash of output.split("\n")) if (hash) commits.add(hash);
 +  }
 +  importedLedCommitCache = { head, commits };
@@ -144,7 +146,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..f270167dba41b0b70b69ba12f16fb57c
      "--full-history",
      "--name-status",
      "--find-renames",
-@@ -384,7 +415,7 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+@@ -384,7 +417,7 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
      `--format=${WALK_FORMAT}`
    ];
    if (relSpecs.length > 0) args.push("--", ...relSpecs);
@@ -153,7 +155,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..f270167dba41b0b70b69ba12f16fb57c
      const child = spawn("git", args, {
        stdio: ["ignore", "pipe", "ignore"],
        cwd: repoRoot
-@@ -405,16 +436,41 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+@@ -405,16 +438,41 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
        buf += decoder.end();
        if (buf.length > 0) acc.pushLine(buf);
        const relMap = acc.finish();

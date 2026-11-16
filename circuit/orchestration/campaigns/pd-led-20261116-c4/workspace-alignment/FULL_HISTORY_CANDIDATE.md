@@ -13,8 +13,8 @@ manufacturing, publication, or the canonical migration.
   The current workspace SHA-256 is
   `c2d8c7aebaa86543f2e8200daca63cb9246128f829a52423a858794865965ce5`
   because it adds the local doc-history-server patch. The current lock SHA-256
-  is `835c51b8af6076f7df1991f20db0751ba2448b573a0bba9136ff110c6d998cac`;
-  its further changes are the patch-hash resolution.
+  is `afb1adb9c7fc334ebaef7edf8fc5d61d2702be44f1c1c0c3f1ae51fff9fe34a2`;
+  its further changes are the patch-hash resolutions.
 - The LED `packageManager` pin is the only change in its `package.json`, from
   `pnpm@10.34.1` to the root's `pnpm@11.5.2`. Its candidate SHA-256 is
   `624b990b14b18e4fe4d1a4b2c3996fde61606b8098c15df6976e9391e9a8b581`.
@@ -45,7 +45,8 @@ The import merge requires `git log -m` for the relocated LED document tree;
 ordinary PD paths must keep their first-parent walk because some source-era
 LED paths overlap PD names. The local patch scopes the merge walk accordingly,
 limits LED revisions to descendants of the import or ancestors of its exact
-LED source parent, deduplicates merge-parent Compare entries, and follows each
+LED source parent, excluding divergent pre-import PD branches merged afterward,
+deduplicates merge-parent Compare entries, and follows each
 imported document back to its source-era Created date in bounded batches. The LED Getting
 Started page separately labels the 2026-11-16 import and the original
 repository. The LED route's supported `docHistoryMeta` binding reads the

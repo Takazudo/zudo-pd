@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
-import { resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
+import { tmpdir } from 'node:os';
 import test from 'node:test';
 
 const repo = resolve(import.meta.dirname, '../../../../..');
@@ -67,6 +68,54 @@ test('overlapping LED and PD path names stay in their own ancestry', async () =>
     }
     assert.equal(meta.get(file).oldest.date, history.entries.at(-1).date);
     assert.equal(meta.get(file).newest.date, history.entries[0].date);
+  }
+});
+
+test('a divergent PD merge cannot add a pre-import branch to LED history', () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'pd-led-history-dag-'));
+  try {
+    execFileSync('git', ['clone', '--quiet', '--shared', '--no-checkout', repo, fixture]);
+    const git = (args, options = {}) => execFileSync('git', args, { cwd: fixture, encoding: 'utf8', ...options }).trim();
+    const env = {
+      ...process.env,
+      GIT_AUTHOR_NAME: 'History fixture',
+      GIT_AUTHOR_EMAIL: 'history@example.invalid',
+      GIT_COMMITTER_NAME: 'History fixture',
+      GIT_COMMITTER_EMAIL: 'history@example.invalid',
+    };
+    const importCommit = '2edec40d50f99fa69cbde55eb62fbd1082ee12d1';
+    const base = 'ea0a4a80e6d7268bb3df1e80c57408d672909244';
+    const head = git(['rev-parse', 'HEAD']);
+    const path = 'products/led-lamp/doc/src/content/docs/architecture/index.mdx';
+    const blob = git(['hash-object', '-w', '--stdin'], { input: 'Divergent PD branch fixture\n' });
+
+    const commitTree = (index, parent) => {
+      const indexed = { ...env, GIT_INDEX_FILE: join(fixture, index) };
+      git(['read-tree', parent], { env: indexed });
+      git(['update-index', '--add', '--cacheinfo', '100644', blob, path], { env: indexed });
+      return git(['write-tree'], { env: indexed });
+    };
+    const sideTree = commitTree('side-index', base);
+    const side = git(['commit-tree', sideTree, '-p', base, '-m', 'divergent PD edit'], { env });
+    const mergeTree = commitTree('merge-index', head);
+    const merge = git(['commit-tree', mergeTree, '-p', head, '-p', side, '-m', 'merge divergent PD edit'], { env });
+    git(['update-ref', 'refs/heads/divergent-fixture', merge]);
+    git(['symbolic-ref', 'HEAD', 'refs/heads/divergent-fixture']);
+
+    assert.ok(git(['rev-list', `${importCommit}..HEAD`]).split('\n').includes(side));
+    assert.ok(git(['log', '-m', '--follow', '--format=%H', '--', path]).split('\n').includes(side));
+    const probe = `import { pathToFileURL } from 'node:url'; import { resolve } from 'node:path';
+      const { getDocHistoryAsync } = await import(pathToFileURL(${JSON.stringify(historyModule)}));
+      const history = await getDocHistoryAsync(resolve(${JSON.stringify(path)}), 'architecture');
+      process.stdout.write(JSON.stringify(history.entries.map((entry) => entry.hash)));`;
+    const hashes = JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', probe], {
+      cwd: fixture,
+      encoding: 'utf8',
+    }));
+    assert.ok(hashes.includes(merge), 'fixture merge should remain in LED history');
+    assert.ok(!hashes.includes(side), 'unrelated pre-import PD branch leaked into LED history');
+  } finally {
+    rmSync(fixture, { recursive: true, force: true });
   }
 });
 
