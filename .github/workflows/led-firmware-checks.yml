@@ -38,7 +38,8 @@ jobs:
       - name: V72 and target host tests
         run: make -C products/led-lamp/firmware/board-l/target host-test target-host-test
 
-  # The Makefile enforces arm-none-eabi-gcc 13.2.1 and the RS1 200 mOhm cap.
+  # Package versions were verified in Ubuntu 24.04; the Makefile additionally
+  # enforces arm-none-eabi-gcc 13.2.1 and the RS1 200 mOhm cap.
   target-build:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -47,7 +48,10 @@ jobs:
       - name: Install pinned arm-none-eabi toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends gcc-arm-none-eabi libnewlib-arm-none-eabi
+          sudo apt-get install -y --no-install-recommends \
+            gcc-arm-none-eabi=15:13.2.rel1-2 \
+            binutils-arm-none-eabi=2.42-1ubuntu1+23 \
+            libnewlib-arm-none-eabi=4.4.0.20231231-2
           arm-none-eabi-gcc --version
       - name: Target image (build only) and receipt
         run: |
