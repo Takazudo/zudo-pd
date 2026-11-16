@@ -12,6 +12,10 @@ at `44fd3ba810aad627fd461b90093a3482707b44da` on zudo-pd main. This page owns th
 software check, CAD result, order plan, received board and bench measurement establish different things; nothing on
 the current path has been programmed, energized or measured.
 
+The source-file links below target the preserved zudo-pd import commit; those
+five file blobs are byte-identical in this consolidation candidate. The linked
+LED issues and pull requests remain in the original zudo-led-lamp repository.
+
 ## Adopted path: zudo-pd P15 r1 with the two existing Board Ls
 
 | Dimension | Recorded state |
@@ -48,24 +52,24 @@ not a pass.
 
 | # | Action | Procedure | Evidence to record |
 | --- | --- | --- | --- |
-| 1 | Complete owner checkout checks, then order 2 × P15 r1 (zudo-pd owns the files) | [LED prototype-order handoff](https://github.com/Takazudo/zudo-led-lamp/blob/main/manufacturing/README.md) | Downloaded hashes, all polarized placements including D5/D9, stock, assembly eligibility, total cost; eventual order date and number |
+| 1 | Complete owner checkout checks, then order 2 × P15 r1 (zudo-pd owns the files) | [LED prototype-order handoff](https://github.com/Takazudo/zudo-pd/blob/2edec40d50f99fa69cbde55eb62fbd1082ee12d1/products/led-lamp/manufacturing/README.md) | Downloaded hashes, all polarized placements including D5/D9, stock, assembly eligibility, total cost; eventual order date and number |
 | 2 | Incoming P15 inspection and per-unit NVM acceptance before any Board L connection | [zudo-pd P15-NVM-1–7](https://github.com/Takazudo/zudo-pd/blob/44fd3ba810aad627fd461b90093a3482707b44da/doc/src/content/docs/architecture/board-p15-programming.md) | Power-cycle readback hash, 15 V contract on a 20 V-capable source with no load, and VBUS_OUT measured off during the 5 V attach phase (the POWER_ONLY_ABOVE_5V bit position is third-party and an ST draft note marks it reserved) |
-| 3 | Board L identity and unpowered checks, first energizing on a current-limited source | [Before-programming checklist](https://github.com/Takazudo/zudo-led-lamp/blob/main/firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md) §0–2 | Board identity, RS1 four-wire (Kelvin) measured resistance with instrument/date, rail readings |
-| 4 | Option-byte readback, image identity against the receipt, firmware readback | Checklist §3–4; [bench sheet O](https://github.com/Takazudo/zudo-led-lamp/blob/main/firmware/board-l/BENCH-TEST-SHEETS.md) | Save receipt and ELF identity; record option-byte readbacks separately. Raw flash-image readback must match `artifacts.loadable_image_sha256` over exactly `artifacts.loadable_image_bytes` at the ELF-confirmed load range (current FLASH origin `0x08000000`); see checklist §4 and bench sheet F |
+| 3 | Board L identity and unpowered checks, first energizing on a current-limited source | [Before-programming checklist](https://github.com/Takazudo/zudo-pd/blob/2edec40d50f99fa69cbde55eb62fbd1082ee12d1/products/led-lamp/firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md) §0–2 | Board identity, RS1 four-wire (Kelvin) measured resistance with instrument/date, rail readings |
+| 4 | Option-byte readback, image identity against the receipt, firmware readback | Checklist §3–4; [bench sheet O](https://github.com/Takazudo/zudo-pd/blob/2edec40d50f99fa69cbde55eb62fbd1082ee12d1/products/led-lamp/firmware/board-l/BENCH-TEST-SHEETS.md) | Save receipt and ELF identity; record option-byte readbacks separately. Raw flash-image readback must match `artifacts.loadable_image_sha256` over exactly `artifacts.loadable_image_bytes` at the ELF-confirmed load range (current FLASH origin `0x08000000`); see checklist §4 and bench sheet F |
 | 5 | Startup/CTRL measurement, knob calibration, LED current, thermal and NTC correlation | Checklist §5–6; bench sheets B, K, C, N, T | Each sheet row with the board identity |
 | 6 | Mate an accepted P15 with a passing Board L; record contract, ATT/PDOK and input current | Checklist and P15 procedure | Contract voltage, ATT/PDOK, input current |
-| 7 | Enclosure print and fit: seated gap, USB engagement, controls, retention, optical appearance, temperature | [Enclosure guide](https://github.com/Takazudo/zudo-led-lamp/blob/main/enclosure/README.md) | Measured gap, plug seating, photos, temperatures |
+| 7 | Enclosure print and fit: seated gap, USB engagement, controls, retention, optical appearance, temperature | [Enclosure guide](https://github.com/Takazudo/zudo-pd/blob/2edec40d50f99fa69cbde55eb62fbd1082ee12d1/products/led-lamp/enclosure/README.md) | Measured gap, plug seating, photos, temperatures |
 
 Before action 4 the owner also chooses the first bench image's open firmware behaviour (noise configuration, gamma,
 latch and tuning values). The options and a recommendation are in
-[`firmware/board-l/target/OPEN-PRODUCT-DECISIONS.md`](https://github.com/Takazudo/zudo-led-lamp/blob/main/firmware/board-l/target/OPEN-PRODUCT-DECISIONS.md).
+[`firmware/board-l/target/OPEN-PRODUCT-DECISIONS.md`](https://github.com/Takazudo/zudo-pd/blob/2edec40d50f99fa69cbde55eb62fbd1082ee12d1/products/led-lamp/firmware/board-l/target/OPEN-PRODUCT-DECISIONS.md).
 Keep RS1 = 200 mΩ and `CTRL_FULL_CCR` = 2407; the 250 mΩ and 3200 alternatives are not selected.
 
 The existing Board Ls are not yet inspected or cleared to mate. Physical holds [#34](https://github.com/Takazudo/zudo-led-lamp/issues/34),
 [#35](https://github.com/Takazudo/zudo-led-lamp/issues/35) and [#52](https://github.com/Takazudo/zudo-led-lamp/issues/52)
 remain open. [#145](https://github.com/Takazudo/zudo-led-lamp/issues/145) (HUSB238) is an unadopted future alternative.
 
-The [prototype-order handoff](https://github.com/Takazudo/zudo-led-lamp/blob/main/manufacturing/README.md)
+The [prototype-order handoff](https://github.com/Takazudo/zudo-pd/blob/2edec40d50f99fa69cbde55eb62fbd1082ee12d1/products/led-lamp/manufacturing/README.md)
 separates verified source and four-file identity from full historical replay (**NOT RUN**, original STEP absent).
 Supplier preview and order-day stock, assembly eligibility and total cost remain unresolved owner actions.
 Cloud preparation does not mean ordered or qualified. [zudo-pd#228](https://github.com/Takazudo/zudo-pd/issues/228)

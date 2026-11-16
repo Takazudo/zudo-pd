@@ -11,7 +11,10 @@ export default defineConfig(
     // Keep the Classic look this site has always used; zudo-doc 9 defaults to Graphite.
     themePack: "default",
     themePacks: ["default"],
-    githubUrl: "https://github.com/Takazudo/zudo-led-lamp",
+    // The header points to the maintained consolidated repository. Source
+    // buttons remain disabled because the shared zudo-doc URL helper assumes
+    // content lives at repository root; this product lives in a nested path.
+    githubUrl: "https://github.com/Takazudo/zudo-pd",
     // siteUrl host MUST match the wrangler.toml custom-domain route.
     siteUrl: "https://zudo-led-lamp.takazudomodular.com",
     llmsTxt: true,

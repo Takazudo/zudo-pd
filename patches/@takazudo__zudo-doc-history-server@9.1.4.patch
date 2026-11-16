@@ -1,31 +1,65 @@
 diff --git a/dist/chunk-6T5SSYWE.js b/dist/chunk-6T5SSYWE.js
-index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..ab8c97d2ce17c992346acea25afcc5c537bf8175 100644
+index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..f270167dba41b0b70b69ba12f16fb57cc13bb4b4 100644
 --- a/dist/chunk-6T5SSYWE.js
 +++ b/dist/chunk-6T5SSYWE.js
-@@ -63,6 +63,7 @@ function parseCommitLog(output) {
- function hashToPathArgs(relPath, maxEntries) {
+@@ -60,9 +60,10 @@ function parseCommitLog(output) {
+   }
+   return records;
+ }
+-function hashToPathArgs(relPath, maxEntries) {
++function hashToPathArgs(relPath, maxEntries, merge = false) {
    return [
      "log",
-+    "-m",
++    ...(merge ? ["-m"] : []),
      "--follow",
      "--format=%H",
      "--name-only",
-@@ -173,6 +174,7 @@ function batchFetchContentsAsync(pairs) {
- function commitMetaArgs(relPath, maxEntries) {
+@@ -107,12 +108,12 @@ function parseHashToPathMap(output) {
+   }
+   return map;
+ }
+-async function buildHashToPathMapAsync(filePath, maxEntries) {
++async function buildHashToPathMapAsync(filePath, maxEntries, merge = false) {
+   const relPath = filePath.startsWith("/") ? toRepoRelative(filePath) : filePath;
+   try {
+     const { stdout } = await execFileAsync(
+       "git",
+-      hashToPathArgs(relPath, maxEntries),
++      hashToPathArgs(relPath, maxEntries, merge),
+       { ...gitOpts() }
+     );
+     return parseHashToPathMap(stdout.trim());
+@@ -170,9 +171,10 @@ function batchFetchContentsAsync(pairs) {
+     child.stdin.end();
+   });
+ }
+-function commitMetaArgs(relPath, maxEntries) {
++function commitMetaArgs(relPath, maxEntries, merge = false) {
    return [
      "log",
-+    "-m",
++    ...(merge ? ["-m"] : []),
      "--follow",
      "--format=%H%n%aI%n%aN%n%s%n",
      "-n",
-@@ -188,16 +190,19 @@ async function getDocHistoryAsync(filePath, slug, maxEntries = 50) {
-     execFileAsync("git", commitMetaArgs(relPath, maxEntries), { ...gitOpts() }).then(({ stdout }) => stdout.trim() ? parseCommitLog(stdout.trim()) : []).catch(() => []),
-     buildHashToPathMapAsync(relPath, maxEntries)
-   ]);
+@@ -184,30 +186,36 @@ function commitMetaArgs(relPath, maxEntries) {
+ async function getDocHistoryAsync(filePath, slug, maxEntries = 50) {
+   if (!isGitRepo()) return { slug, filePath, entries: [] };
+   const relPath = filePath.startsWith("/") ? toRepoRelative(filePath) : filePath;
+-  const [metaRecords, hashToPath] = await Promise.all([
+-    execFileAsync("git", commitMetaArgs(relPath, maxEntries), { ...gitOpts() }).then(({ stdout }) => stdout.trim() ? parseCommitLog(stdout.trim()) : []).catch(() => []),
+-    buildHashToPathMapAsync(relPath, maxEntries)
+-  ]);
 -  if (metaRecords.length === 0) {
++  const readRecords = (merge) => execFileAsync("git", commitMetaArgs(relPath, maxEntries, merge), { ...gitOpts() }).then(({ stdout }) => stdout.trim() ? parseCommitLog(stdout.trim()) : []).catch(() => []);
++  const merge = isImportedLedPath(relPath);
++  const metaRecords = await readRecords(merge);
++  // The LED path moved in the import merge. Select only descendants of that
++  // merge and ancestors of its LED source parent, never old PD path twins.
++  const scopedRecords = merge ? metaRecords.filter((rec) => importedLedCommits().has(rec.hash)) : metaRecords;
++  const hashToPath = await buildHashToPathMapAsync(relPath, maxEntries, merge);
 +  // -m emits one record per merge parent. A document has one version at a
 +  // commit; duplicate hashes otherwise create empty Compare steps.
-+  const uniqueRecords = metaRecords.filter((rec, index) => metaRecords.findIndex((other) => other.hash === rec.hash) === index);
++  const uniqueRecords = scopedRecords.filter((rec, index) => scopedRecords.findIndex((other) => other.hash === rec.hash) === index);
 +  if (uniqueRecords.length === 0) {
      return { slug, filePath: relPath, entries: [] };
    }
@@ -41,27 +75,126 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..ab8c97d2ce17c992346acea25afcc5c5
      if (contentMap.has(rec.hash)) {
        entries.push({ ...rec, content: contentMap.get(rec.hash) });
      } else {
-@@ -223,6 +228,7 @@ async function getFileAtCommitAsync(hash, filePath) {
+-      const content = await getFileAtCommitAsync(rec.hash, filePath);
++      const content = await getFileAtCommitAsync(rec.hash, filePath, merge);
+       entries.push({ ...rec, content });
+     }
+   }
+   return { slug, filePath: relPath, entries };
+ }
+-async function getFileAtCommitAsync(hash, filePath) {
++async function getFileAtCommitAsync(hash, filePath, merge = false) {
+   const isAbsolute = filePath.startsWith("/");
+   const relPath = isAbsolute ? toRepoRelative(filePath) : filePath;
+   try {
+@@ -223,6 +231,7 @@ async function getFileAtCommitAsync(hash, filePath) {
          "git",
          [
            "log",
-+          "-m",
++          ...(merge ? ["-m"] : []),
            "-1",
            "--follow",
            "--diff-filter=R",
-@@ -250,6 +256,7 @@ async function getFileAtCommitAsync(hash, filePath) {
+@@ -250,6 +259,7 @@ async function getFileAtCommitAsync(hash, filePath) {
          "git",
          [
            "log",
-+          "-m",
++          ...(merge ? ["-m"] : []),
            "--follow",
            "--format=%H",
            "--name-only",
-@@ -377,6 +384,7 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+@@ -366,17 +376,38 @@ function parseFirstLastMeta(output) {
+   }
+   return acc.finish();
+ }
+-function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+-  if (!isGitRepo()) return Promise.resolve(/* @__PURE__ */ new Map());
++const LED_IMPORT = "2edec40d50f99fa69cbde55eb62fbd1082ee12d1";
++const LED_SOURCE_PARENT = "88cb17409cf16a0391e8eadf0ad8a43d60a37356";
++let importedLedCommitCache = null;
++function importedLedCommits() {
++  const head = execFileSync("git", ["rev-parse", "HEAD"], { ...gitOpts() }).trim();
++  if (importedLedCommitCache?.head === head) return importedLedCommitCache.commits;
++  const commits = new Set([LED_IMPORT]);
++  for (const rev of [LED_SOURCE_PARENT, `${LED_IMPORT}..${head}`]) {
++    const output = execFileSync("git", ["rev-list", rev], { ...gitOpts() });
++    for (const hash of output.split("\n")) if (hash) commits.add(hash);
++  }
++  importedLedCommitCache = { head, commits };
++  return commits;
++}
++function isImportedLedPath(relPath) {
++  // The zudo-pd #312 merge moved the LED document tree under this prefix.
++  // Its source ancestry requires per-parent merge diffs; PD's does not.
++  return relPath.startsWith("products/led-lamp/doc/src/content/docs/");
++}
++async function getAllFilesFirstLastMetaAsync(pathspecs = []) {
++  if (!isGitRepo()) return /* @__PURE__ */ new Map();
+   const repoRoot = getRepoRoot();
+   const relSpecs = pathspecs.map(
+     (p) => p.startsWith("/") ? toRepoRelative(p) : p
+   );
++  const merge = relSpecs.length > 0 && relSpecs.every((p) => p.startsWith("products/led-lamp/doc/src/content/docs"));
+   const args = [
+     "-c",
      "core.quotePath=false",
      // emit raw UTF-8 paths so keys match content-walker paths
      "log",
-+    "-m",
++    ...(merge ? ["-m"] : []),
      "--full-history",
      "--name-status",
      "--find-renames",
+@@ -384,7 +415,7 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+     `--format=${WALK_FORMAT}`
+   ];
+   if (relSpecs.length > 0) args.push("--", ...relSpecs);
+-  return new Promise((resolvePromise) => {
++  const absMap = await new Promise((resolvePromise) => {
+     const child = spawn("git", args, {
+       stdio: ["ignore", "pipe", "ignore"],
+       cwd: repoRoot
+@@ -405,16 +436,41 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+       buf += decoder.end();
+       if (buf.length > 0) acc.pushLine(buf);
+       const relMap = acc.finish();
+-      const absMap = /* @__PURE__ */ new Map();
++      const result = /* @__PURE__ */ new Map();
+       for (const [rel, meta] of relMap) {
+-        absMap.set(join(repoRoot, rel), {
++        result.set(join(repoRoot, rel), {
+           oldest: { author: meta.oldest.author, date: normalizeGitDate(meta.oldest.date) },
+           newest: { author: meta.newest.author, date: normalizeGitDate(meta.newest.date) }
+         });
+       }
+-      resolvePromise(absMap);
++      resolvePromise(result);
+     });
+   });
++  if (merge) {
++    // The directory walk sees each imported file at the merge but cannot
++    // follow its old path. Per-file --follow recovers the original Created
++    // author/date. Four Git processes at a time bound build resources.
++    const allowed = importedLedCommits();
++    const paths = [...absMap.keys()].filter((p) => isImportedLedPath(toRepoRelative(p)));
++    for (let i = 0; i < paths.length; i += 4) {
++      await Promise.all(paths.slice(i, i + 4).map(async (filePath) => {
++        const relPath = toRepoRelative(filePath);
++        try {
++          const { stdout } = await execFileAsync("git", ["log", "-m", "--follow", "--format=%H%x09%aI%x09%aN", "--", relPath], { ...gitOpts() });
++          const records = stdout.trim().split("\n").filter(Boolean).map((line) => line.split("\t")).filter(([hash]) => allowed.has(hash));
++          if (records.length === 0) return;
++          const [, newestDate, newestAuthor] = records[0];
++          const [, oldestDate, oldestAuthor] = records.at(-1);
++          const entry = absMap.get(filePath);
++          if (newestDate && newestAuthor) entry.newest = { date: normalizeGitDate(newestDate), author: newestAuthor };
++          if (oldestDate && oldestAuthor) entry.oldest = { date: normalizeGitDate(oldestDate), author: oldestAuthor };
++        } catch {
++          // Preserve the import metadata if source history is unavailable.
++        }
++      }));
++    }
++  }
++  return absMap;
+ }
+ function collectContentFiles(dir) {
+   const results = [];
