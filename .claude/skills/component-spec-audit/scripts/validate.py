@@ -628,6 +628,9 @@ def resolve_bundle_route(query, routes):
             pattern = rf"(?<![A-Za-z0-9]){re.escape(base)}\s*,\s*([0-9][A-Za-z0-9_-]*)"
             if any(match.group(1).casefold() not in allowed for match in re.finditer(pattern, query, re.I)):
                 return []
+            # Use the declared alias spelling for the ordinary manufacturer
+            # checks too; otherwise spacing after the comma bypasses from/by.
+            query = re.sub(pattern, lambda match: f"{base},{match.group(1)}", query, flags=re.I)
     entries = []
     for route in routes:
         for mpn in route["aliases"]["mpn"]:

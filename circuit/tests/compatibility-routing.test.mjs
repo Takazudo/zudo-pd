@@ -19,11 +19,14 @@ positive = [
     'PESD24VS1UB', 'PESD24VS1UB,115', 'PESD24VS1UB, 115',
     'nexperia pesd24vs1ub,115 C85382', 'board-p Nexperia PESD24VS1UB,115',
     'PESD24VS1UB, please check pinout', 'C85382',
+    'PESD24VS1UB, 115 from Nexperia', 'PESD24VS1UB, 115 by Nexperia',
 ]
 negative = [
     'PESD24VS1UB,125', 'PESD24VS1UB,125 C85382',
     'PESD24VS1UB,115 and PESD24VS1UB,125', 'PESD24VS1UB,1150',
     '  nexperia  pesd24vs1ub, 125  C85382  ',
+    'PESD24VS1UB, 115 from OtherVendor', 'PESD24VS1UB, 115 by OtherVendor',
+    'PESD24VS1UB,115 from OtherVendor', 'PESD24VS1UB,115 by OtherVendor',
 ]
 for query, expected in [(q, ['rec-pesd24vs1ub-c85382']) for q in positive] + [(q, []) for q in negative]:
     assert installed(query, routes, policy) == expected, ('installed', query)

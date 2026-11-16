@@ -512,6 +512,7 @@ class ComponentSpecValidatorTests(unittest.TestCase):
         for query in (
             "PESD24VS1UB", "PESD24VS1UB,115", "PESD24VS1UB, 115",
             "nexperia pesd24vs1ub,115 C85382", "PESD24VS1UB, please check pinout",
+            "PESD24VS1UB, 115 from Nexperia", "PESD24VS1UB, 115 by Nexperia",
         ):
             with self.subTest(positive=query):
                 self.assertEqual(validator.resolve_bundle_route(query, routes), record)
@@ -519,6 +520,8 @@ class ComponentSpecValidatorTests(unittest.TestCase):
             "PESD24VS1UB,125", "PESD24VS1UB,125 C85382",
             "PESD24VS1UB,115 and PESD24VS1UB,125", "PESD24VS1UB,1150",
             "  nexperia  pesd24vs1ub, 125  C85382  ",
+            "PESD24VS1UB, 115 from OtherVendor", "PESD24VS1UB, 115 by OtherVendor",
+            "PESD24VS1UB,115 from OtherVendor", "PESD24VS1UB,115 by OtherVendor",
         ):
             with self.subTest(negative=query):
                 self.assertEqual(validator.resolve_bundle_route(query, routes), [])

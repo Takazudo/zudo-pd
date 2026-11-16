@@ -29,7 +29,9 @@ Python hunk at `python/circuit_evidence/routing.py`. In the pinned 0.3.0 package
 the bare `PESD24VS1UB` alias otherwise also matches an unknown attached order
 suffix such as `,125`, even when the query supplies the correct LCSC C85382.
 The bundle-only guard rejects an attached numeric suffix that is absent from
-that route's declared comma-qualified MPN aliases. It leaves bare identities,
+that route's declared comma-qualified MPN aliases. Accepted spacing around the
+comma is normalized to the declared alias before the existing manufacturer
+`from`/`by` checks, so it cannot bypass a conflicting vendor. It leaves bare identities,
 ordinary comma punctuation, manufacturer/board qualifiers, shared MPN handling,
 empty-LCSC routes and inventory routing unchanged. The project-local validator
 uses the same guard; `circuit/tests/compatibility-routing.test.mjs` exercises the
