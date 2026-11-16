@@ -43,8 +43,8 @@ not treated as a root exemption. Its lock stayed byte-identical in scratch.
 
 ## Resolution differences to review
 
-- The unified lock has four importers and 422 package snapshots. All 329 PD
-  package and snapshot entries are unchanged; every direct PD and LED
+- The unified lock has four importers, 422 package entries and 438 snapshot
+  entries. All 329 PD package and snapshot entries are unchanged; every direct PD and LED
   dependency retains its existing version, except that both LED importers now
   reference the **PD-patched** circuit-doc 0.3.0 snapshot.
 - Shared transitive resolution changes three LED references: `hono`
