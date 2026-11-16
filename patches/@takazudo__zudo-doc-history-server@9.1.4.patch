@@ -1,0 +1,67 @@
+diff --git a/dist/chunk-6T5SSYWE.js b/dist/chunk-6T5SSYWE.js
+index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..ab8c97d2ce17c992346acea25afcc5c537bf8175 100644
+--- a/dist/chunk-6T5SSYWE.js
++++ b/dist/chunk-6T5SSYWE.js
+@@ -63,6 +63,7 @@ function parseCommitLog(output) {
+ function hashToPathArgs(relPath, maxEntries) {
+   return [
+     "log",
++    "-m",
+     "--follow",
+     "--format=%H",
+     "--name-only",
+@@ -173,6 +174,7 @@ function batchFetchContentsAsync(pairs) {
+ function commitMetaArgs(relPath, maxEntries) {
+   return [
+     "log",
++    "-m",
+     "--follow",
+     "--format=%H%n%aI%n%aN%n%s%n",
+     "-n",
+@@ -188,16 +190,19 @@ async function getDocHistoryAsync(filePath, slug, maxEntries = 50) {
+     execFileAsync("git", commitMetaArgs(relPath, maxEntries), { ...gitOpts() }).then(({ stdout }) => stdout.trim() ? parseCommitLog(stdout.trim()) : []).catch(() => []),
+     buildHashToPathMapAsync(relPath, maxEntries)
+   ]);
+-  if (metaRecords.length === 0) {
++  // -m emits one record per merge parent. A document has one version at a
++  // commit; duplicate hashes otherwise create empty Compare steps.
++  const uniqueRecords = metaRecords.filter((rec, index) => metaRecords.findIndex((other) => other.hash === rec.hash) === index);
++  if (uniqueRecords.length === 0) {
+     return { slug, filePath: relPath, entries: [] };
+   }
+-  const pairs = metaRecords.map((rec) => ({
++  const pairs = uniqueRecords.map((rec) => ({
+     hash: rec.hash,
+     path: hashToPath.get(rec.hash) ?? relPath
+   }));
+   const contentMap = await batchFetchContentsAsync(pairs);
+   const entries = [];
+-  for (const rec of metaRecords) {
++  for (const rec of uniqueRecords) {
+     if (contentMap.has(rec.hash)) {
+       entries.push({ ...rec, content: contentMap.get(rec.hash) });
+     } else {
+@@ -223,6 +228,7 @@ async function getFileAtCommitAsync(hash, filePath) {
+         "git",
+         [
+           "log",
++          "-m",
+           "-1",
+           "--follow",
+           "--diff-filter=R",
+@@ -250,6 +256,7 @@ async function getFileAtCommitAsync(hash, filePath) {
+         "git",
+         [
+           "log",
++          "-m",
+           "--follow",
+           "--format=%H",
+           "--name-only",
+@@ -377,6 +384,7 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+     "core.quotePath=false",
+     // emit raw UTF-8 paths so keys match content-walker paths
+     "log",
++    "-m",
+     "--full-history",
+     "--name-status",
+     "--find-renames",

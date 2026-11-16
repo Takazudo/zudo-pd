@@ -6,9 +6,12 @@ manufacturing, publication, or the canonical migration.
 
 ## Preservation receipt
 
-- The root `pnpm-workspace.yaml` and `pnpm-lock.yaml` are byte-identical to the
-  reviewed C4f candidate files. Their SHA-256 values are `c26306641fd6274d3157a8782f3b3c5767ddfe447afa59d1051d1320d3d3de76`
-  and `4642e444fcfe57682deea81634073311c1ffafaf530b8f0c077247544521a6c4`.
+- The root `pnpm-workspace.yaml` is byte-identical to the reviewed C4f
+  candidate file (SHA-256 `c26306641fd6274d3157a8782f3b3c5767ddfe447afa59d1051d1320d3d3de76`).
+  The initial integration lock at `960842535539eeef44c2835db6548724a37c4958`
+  was byte-identical to C4f (SHA-256
+  `4642e444fcfe57682deea81634073311c1ffafaf530b8f0c077247544521a6c4`).
+  The current lock adds only the local doc-history-server patch resolution.
 - The LED `packageManager` pin is the only change in its `package.json`, from
   `pnpm@10.34.1` to the root's `pnpm@11.5.2`. Its candidate SHA-256 is
   `624b990b14b18e4fe4d1a4b2c3996fde61606b8098c15df6976e9391e9a8b581`.
@@ -28,3 +31,11 @@ trust and release-age policy, and run with install scripts disabled during
 validation. Actual checks and their results are recorded on campaign issue
 `#308` against the exact candidate head. This receipt does not infer document
 history continuity from the zero-history archive experiment.
+
+The import merge requires `git log -m` for the LED history server to see the
+added files. The local package patch adds that flag to its Git walks and
+deduplicates merge-parent entries before Compare renders them. The focused
+test checks one current and two source-era revisions with nonempty content.
+The plugin's bulk Created date still starts at the import merge; source-era
+history is present in the interactive route, and the date limitation must be
+resolved or accepted before publication.
