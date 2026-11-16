@@ -5,7 +5,9 @@
 // `chromeBindingsModule`.
 import { defineChromeBindings } from "@takazudo/zudo-doc/chrome-bindings";
 import { circuitDocMdxExtras } from "@takazudo/zudo-circuit-doc/mdx-extras";
+import docHistoryMeta from "../.zfb/doc-history-meta.json";
 
 export const chromeBindings = defineChromeBindings({
   mdxExtras: { ...circuitDocMdxExtras },
+  docHistoryMeta,
 });

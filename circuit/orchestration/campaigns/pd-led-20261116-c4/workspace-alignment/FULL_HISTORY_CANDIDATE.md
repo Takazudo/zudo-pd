@@ -29,8 +29,9 @@ manufacturing, publication, or the canonical migration.
   generated PD catalog pages refreshing the already-reviewed exact
   `PESD24VS1UB,115` alias; LED's generated CLAUDE page; the LED site GitHub
   setting; and two authored LED pages that label provenance and correct five
-  source-file destinations (six links). The campaign test, this receipt,
-  pnpm workspace/lock, and local package patch also change. Evidence-source
+  source-file destinations (six links); and the LED host chrome binding,
+  metadata bootstrap, and rendered-history gate. The campaign test, this
+  receipt, pnpm workspace/lock, and local package patch also change. Evidence-source
   files, inventory rules, CAD, BOM, DNP, and historical reports remain
   unchanged. Full Git ancestry remains available to this worktree.
 
@@ -47,7 +48,10 @@ limits LED revisions to descendants of the import or ancestors of its exact
 LED source parent, deduplicates merge-parent Compare entries, and follows each
 imported document back to its source-era Created date in bounded batches. The LED Getting
 Started page separately labels the 2026-11-16 import and the original
-repository. The site header targets the maintained zudo-pd repository.
+repository. The LED route's supported `docHistoryMeta` binding reads the
+plugin-generated manifest so these dates render in built HTML. An ignored
+empty manifest bootstraps clean type checks and standalone builds; the plugin
+replaces it during the build. The site header targets the maintained zudo-pd repository.
 Automatic View Source buttons remain disabled because zudo-doc's shared
 `githubUrl` mapping omits the nested `products/led-lamp/doc` path; the six
 authored source links instead target the immutable zudo-pd import commit,

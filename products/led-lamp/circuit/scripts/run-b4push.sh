@@ -48,6 +48,9 @@ bash doc/scripts/check-zfb-link-warnings.sh "$BUILD_LOG"
 step "built site: component references, publication scan, images, anchors, Mermaid"
 pnpm check:site
 
+step "rendered document history and maintained-source links"
+pnpm --dir doc check:history-rendered
+
 step "component generation is deterministic (second run, read-only)"
 pnpm --dir doc check:components
 
