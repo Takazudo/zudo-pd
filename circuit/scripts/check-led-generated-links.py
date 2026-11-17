@@ -68,6 +68,7 @@ def check():
     pd_dist = ROOT / "doc/dist"
     old_cache = {}
     new_cache = {}
+    expected_hrefs = {}
     counts = Counter()
     for row in links:
         split = urlsplit(row["url"])
@@ -88,6 +89,7 @@ def check():
         assert new_path.is_file(), f"Missing private authored page: {new_route}"
         if new_route not in new_cache:
             new_cache[new_route] = html_tags(new_path)
+        expected_hrefs.setdefault(new_route, Counter())[OLD_HOST + row["url"]] += 1
         assert OLD_HOST + row["url"] in new_cache[new_route].hrefs, f"Old-host link changed: {new_route} {row['url']}"
         if built(pd_dist, route).is_file():
             counts["pd_same_path"] += 1
@@ -103,6 +105,10 @@ def check():
                 "/docs/components/integration/", "/docs/components/records/",
             }, f"Unmapped generated record: {route}"
             counts["section"] += 1
+    for route, expected in expected_hrefs.items():
+        rendered = Counter(new_cache[route].hrefs)
+        for href, count in expected.items():
+            assert rendered[href] == count, f"Old-host link count changed: {route} {href} expected={count} actual={rendered[href]}"
     assert counts == {"fragments": 38, "pd_same_path": 37, "record": 41, "section": 19}, counts
     print(f"PASS: {len(links)} held links, {counts['fragments']} historical fragments, "
           f"{counts['record']} candidate record uses, {counts['section']} section uses, "

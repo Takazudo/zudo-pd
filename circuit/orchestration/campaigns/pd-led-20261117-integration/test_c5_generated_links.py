@@ -44,6 +44,21 @@ class GeneratedLinksTest(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, "Old-host link changed"):
                 contract.check()
 
+    def test_one_of_two_identical_links_removed_fails(self):
+        original = contract.html_tags
+        href = (contract.OLD_HOST +
+                "/docs/components/records/al8860mp-13/#fact-al8860-ctrl")
+
+        def changed(path):
+            tags = original(path)
+            if str(path).endswith("led-lamp/architecture/decisions/index.html"):
+                tags.hrefs.remove(href)
+            return tags
+
+        with patch.object(contract, "html_tags", side_effect=changed):
+            with self.assertRaisesRegex(AssertionError, "Old-host link count changed"):
+                contract.check()
+
 
 if __name__ == "__main__":
     unittest.main()
