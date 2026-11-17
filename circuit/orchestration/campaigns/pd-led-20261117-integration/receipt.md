@@ -58,3 +58,8 @@ integration head. Any PR may trigger the configured preview deployment; an
 authorized main update may trigger production deployment. Neither is initiated
 by this branch checkpoint. Hardware, private-source, #307 and physical holds
 remain unchanged.
+
+The [C5 authored-link preflight](C5_LINK_AUDIT.md) binds the current LED page
+bytes to the accepted C1 maps and records which page links depend on held
+generated routes or assets. It changes no site route, content or publication
+selection.
