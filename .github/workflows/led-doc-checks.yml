@@ -1,0 +1,103 @@
+# Credential-free root-discovered checks for the imported LED documentation,
+# enclosure and generated component site. The source workflow under
+# products/led-lamp/.github/workflows/ is retained as history and is inactive.
+# This workflow does not upload a preview, deploy a site or access secrets.
+
+name: LED Documentation Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - 'base/**'
+    paths:
+      - 'products/led-lamp/doc/**'
+      - 'products/led-lamp/enclosure/**'
+      - 'products/led-lamp/.claude/skills/**'
+      - 'products/led-lamp/circuit.config.ts'
+      - 'products/led-lamp/circuit/**'
+      - 'products/led-lamp/scripts/schgen/**'
+      - 'products/led-lamp/boards/**'
+      - 'products/led-lamp/symbols/**'
+      - 'products/led-lamp/footprints/**'
+      - 'products/led-lamp/package.json'
+      - 'products/led-lamp/CLAUDE.md'
+      - 'doc/src/content/docs/led-lamp/**'
+      - 'doc/src/content/docs/catalog/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'patches/**'
+      - 'circuit/orchestration/campaigns/pd-led-20261117-integration/**'
+      - '.github/workflows/led-doc-checks.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'products/led-lamp/doc/**'
+      - 'products/led-lamp/enclosure/**'
+      - 'products/led-lamp/.claude/skills/**'
+      - 'products/led-lamp/circuit.config.ts'
+      - 'products/led-lamp/circuit/**'
+      - 'products/led-lamp/scripts/schgen/**'
+      - 'products/led-lamp/boards/**'
+      - 'products/led-lamp/symbols/**'
+      - 'products/led-lamp/footprints/**'
+      - 'products/led-lamp/package.json'
+      - 'products/led-lamp/CLAUDE.md'
+      - 'doc/src/content/docs/led-lamp/**'
+      - 'doc/src/content/docs/catalog/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'patches/**'
+      - 'circuit/orchestration/campaigns/pd-led-20261117-integration/**'
+      - '.github/workflows/led-doc-checks.yml'
+
+concurrency:
+  group: led-doc-checks-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: LED docs, enclosure and browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout complete source history
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup root pnpm pin
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+        with:
+          version: 11.5.2
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Install locked root workspace
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify imported LED pages agree with the unified site
+        run: python3 circuit/orchestration/campaigns/pd-led-20261117-integration/c5_dev_site.py
+
+      - name: LED documentation and enclosure gates
+        run: pnpm --dir products/led-lamp b4push
+
+      - name: LED built-site browser smoke
+        run: pnpm --dir products/led-lamp test:browser
