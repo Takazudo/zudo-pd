@@ -104,11 +104,11 @@ not an inventory of private vendor datasheets or new manufacturer documents.
 | `enclosure/exploded.png` | 1 | Generated prototype exploded image. |
 | `enclosure/underside.png` | 1 | Generated prototype underside image. |
 | `enclosure/post-flat.png` | 1 | Generated post print-orientation image. |
-| `enclosure/selected-concept.png` | 1 | Historical appearance reference; its authorship/redistribution provenance is not established by the enclosure manifest. |
+| `enclosure/selected-concept.png` | 1 | Historical appearance reference; its embedded C2PA claim identifies `gpt-image` 2.0 / OpenAI Media Service API, but not a human author or redistribution grant. |
 | `pcb/board-l-rear-controls.png` | 1 | Historical Board L render; it does not prove assembled fit. |
 | `pcb/board-l-stack-clearance.svg` | 1 | Historical two-board projection; physical clearance remains unverified. |
 | `enclosure/smoke-reversing-stls.zip` | 1 | Generated print STL set, 459,449 bytes; keep its prototype status. |
-| `enclosure/assembly-step.zip` | 1 | Generated assembled STEP archive, 23,270,837 bytes; review embedded model provenance before rehosting. |
+| `enclosure/assembly-step.zip` | 1 | Generated assembled STEP archive, 23,270,837 bytes; source input hashes are traceable, but constituent model redistribution terms remain unverified. |
 | `enclosure/index.html` | 2 | Interactive viewer; rehosting requires its CSS, JS, manifest, downloads and 33 manifest mesh paths together. |
 | `enclosure/manifest.json` | 1 | Generated geometry/verification record; its status remains fit prototype, with bench work pending. |
 
@@ -120,6 +120,37 @@ paths. The appearance reference, assembled STEP/model provenance, and complete
 interactive viewer dependency set need targeted rights/source and purpose
 review. Copying any asset to PD still requires a reviewed asset allowlist diff;
 do not infer hardware fit or replace old-host URLs from this byte check.
+
+The two targeted provenance checks narrow what remains unknown:
+
+- `products/led-lamp/doc/public/assets/enclosure/selected-concept.png` is the
+  exact 2,285,210-byte image introduced in historical LED commit `853ce017`
+  (2026-09-09); its current SHA-256 is
+  `91f805d7e1e0b1789e93d861bd5c00fe7665b438cbb4c91f2dd1ff5896eef6d0`.
+  Its PNG `caBX` chunk contains a C2PA claim naming `gpt-image` version 2.0,
+  `OpenAI Media Service API`, and creation on 2026-09-05. The claim's signature
+  was not independently validated here. The enclosure generator and manifest
+  do not list this image as an output or input. Neither the image metadata nor
+  its Git commit identifies the human requester, prompt/input rights or a
+  redistribution grant. Rehosting therefore needs an exact-image rights and
+  intended-use decision; the existing old-host reference can remain.
+- `products/led-lamp/doc/public/assets/enclosure/assembly-step.zip` has current
+  SHA-256 `af58417cc4fbeec035253b93517767dea8f856322b18839db4e22bee4e521bba`.
+  It contains one `assembly.step` entry (148,596,267 uncompressed bytes) with
+  `square_posts_prototype_03` in its STEP header. Git shows initial generation
+  in `853ce017` and a board-source refresh in `dcfc2742` (2026-09-19); the
+  current archive bytes equal that latter source commit. `enclosure/generate.py`
+  creates the assembly from project geometry and KiCad board exports. The
+  adjacent `manifest.json` records both board hashes and 25 source hashes
+  (generator plus 24 exact `.step` paths); all still match the local files.
+  `footprints/CLAUDE.md` describes the EasyEDA/LCSC acquisition process, and
+  `footprints/vendor/C470643/README.md` and `C5446803/README.md` document two
+  family-model adaptations. The archive and manifest do not provide a
+  per-model redistribution grant or an exact acquisition/rights record for
+  each of the 24 `.step` inputs listed in `source_hashes`; the other 22 lack
+  even those item-specific vendor notes. The STEP header's generic Open CASCADE
+  author field does not resolve those rights. Review the exact model paths in
+  `manifest.json` and their terms before moving this ZIP to a new public host.
 
 ## Completion boundary
 
