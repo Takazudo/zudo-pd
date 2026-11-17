@@ -117,7 +117,7 @@ def transform_page(source, routes, old_route, held_counts=(0, 0)):
 
 def section_bridge(old_route, title, fragments, source):
     lines = [
-        "---", f"title: {json.dumps(title)}", "description: Private LED migration section pointer; historical evidence remains on its original host.", "---", "",
+        "---", f"title: {title}", "description: Private LED migration section pointer; historical evidence remains on its original host.", "---", "",
         f"# {title}", "",
         "> **Development navigation candidate.** This page does not publish LED component records, calculation results or fitted-state claims. The source-era generated section remains at its original URL.", "",
         f"[Open the original LED section]({OLD_HOST}{old_route}) · [Compare the 35 scoped LED candidates](/docs/catalog/led-candidates/) · [View the single line catalog](/docs/catalog/lines/)", "",
