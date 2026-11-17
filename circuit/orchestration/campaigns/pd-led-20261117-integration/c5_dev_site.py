@@ -134,6 +134,39 @@ def candidate_catalog(pd, led):
     return "\n".join(lines)
 
 
+def unified_line_catalog(pd, led):
+    lines = [
+        "---", "title: Unified line review", "sidebar_position: 2", "---", "",
+        "# Unified line review", "",
+        "> **Private development comparison.** This table shows 129 PD lines and 35 LED source lines together, using product-scoped keys. It is not a shared exact-part decision, active LED selection or manufacturing BOM.",
+        "",
+        "PD's [generated exact records](/docs/components/records/) retain active authority. [LED candidate details](./led-candidates.mdx) explain the 17 overlapping line IDs and four text conflicts. Matching IDs in this table stay separate rows.",
+        "",
+        "| Scoped line key | Manufacturer / full MPN | Package / LCSC | Review status | Recorded fit input |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for scope, inventory in (("PD", pd), ("LED", led)):
+        for line in inventory["lines"]:
+            if scope == "PD":
+                dnp = sum(bool(placement["dnp"]) for placement in line["placements"])
+                non_dnp = len(line["placements"]) - dnp
+                fit = f"{non_dnp} non-DNP / {dnp} DNP placement declarations; assembled fit unverified"
+                status = "PD active evidence; see generated record"
+            else:
+                fit = ("Historical line DNP; placement mapping pending" if line["dnp"]
+                       else "Historical line not DNP; physical fit unverified")
+                status = "LED candidate; identity and source review pending"
+            cells = (f'{scope}:{line["line_id"]}', f'{line["manufacturer"]} / {line["mpn"]}',
+                     f'{line["package"]} / {line["lcsc"]}', status, fit)
+            assert all("|" not in str(value) and "\n" not in str(value) for value in cells)
+            lines.append("| " + " | ".join(map(str, cells)) + " |")
+    assert len(lines) - 13 == 164, len(lines)
+    lines += [
+        "", "Both source inventories are unchanged. This table is generated from the same source bytes as the LED detail table; candidate replay fails on source or output drift. CAD roots, record facts, public assets and publication selections are outside this comparison.", "",
+    ]
+    return "\n".join(lines)
+
+
 def outputs():
     # The preceding lexical audit is the source-lock and discovered-page gate.
     import subprocess
@@ -154,6 +187,7 @@ def outputs():
     pd = json.loads((ROOT / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
     led = json.loads((LED / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
     result[DOCS / "catalog/led-candidates.mdx"] = candidate_catalog(pd, led)
+    result[DOCS / "catalog/lines.mdx"] = unified_line_catalog(pd, led)
     return result
 
 
@@ -172,4 +206,4 @@ if __name__ == "__main__":
     expected_led.add(DOCS / "led-lamp/index.mdx")  # Authored development landing.
     actual_led = set((DOCS / "led-lamp").rglob("*.mdx")) | set((DOCS / "led-lamp").rglob("*.md"))
     assert actual_led == expected_led, "Unexpected or missing development LED page"
-    print(f"C5 development candidate: {len(generated) - 1} LED pages, 1 candidate catalog; {'written' if args.write else 'matched'}")
+    print(f"C5 development candidate: {len(generated) - 2} LED pages, 2 catalog tables; {'written' if args.write else 'matched'}")

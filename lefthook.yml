@@ -16,6 +16,7 @@ pre-commit:
         - 'doc/src/content/docs/led-lamp/power/**'
         - 'doc/src/content/docs/led-lamp/research/**'
         - 'doc/src/content/docs/catalog/led-candidates.mdx'
+        - 'doc/src/content/docs/catalog/lines.mdx'
       stage_fixed: true
       run: ./scripts/mdx-format.sh --write {staged_files}
 
