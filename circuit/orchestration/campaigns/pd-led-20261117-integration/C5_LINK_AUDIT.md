@@ -29,6 +29,17 @@ A missing or modified asset fails before the private page copies are accepted.
 This is a local source/closure check, not permission to copy assets into PD's
 public tree.
 
+After both sites are built, run `python3 circuit/scripts/check-led-generated-links.py`.
+It binds the 60 held generated-link occurrences to the C1 and C3 source maps,
+checks that each historical LED route exists, and checks all 38 referenced
+fragments in rendered historical HTML. It also checks that private rendered
+pages retain the exact old-host href. Forty-one occurrences reach 18 legacy
+record routes with product-scoped C3 candidate syntax; this does not adopt
+those records. The other 19 reach four generated section routes whose semantic
+mapping remains unresolved. Thirty-seven occurrences have a same-path PD page,
+so stripping the old host would silently change their destination. Missing
+fragments or localized links fail the gate.
+
 Authored-page links are inventoried lexically, excluding fenced code. The
 enclosure viewer's source HTML and manifest are parsed for dependencies. This
 check does not validate page meaning, authorize a redirect or approve any new

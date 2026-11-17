@@ -61,7 +61,7 @@ The remaining cutover choices are concrete:
 | Target | Safe current behavior | Later option and required evidence |
 | --- | --- | --- |
 | `/docs/architecture/`, `/docs/architecture/board-p/`, `/docs/research/` | Keep PD's existing routes and the LED old host; each private copy links to its exact original page. | Manage an LED-host redirect after approving the namespaced destinations. A blanket PD-host redirect would displace existing PD pages. |
-| 60 links to historical generated LED records on seven pages | Keep exact old-host record links. | Approve source-bound C3 identity, document and active record selection per target, then replace each link and test fragments. |
+| 60 links to historical generated LED pages on seven pages (41 record uses, 19 section uses) | Keep exact old-host links. All 38 historical fragments exist; 37 uses have same-path PD pages and must retain the host. | Approve exact record identity, document and active selection for the 18 referenced record routes. Resolve the four section routes separately; then replace only approved links and retest fragments. |
 | 12 references to 11 LED assets on two pages | Keep the old-host asset URLs and PD's current asset allowlist. | Review copyright, source, exact bytes and publication purpose per asset before copying selected files into namespaced PD paths. |
 | 25 self-contained authored pages | Keep private with current-context notes and source-era body. | Editorially approve exact pages and currentness; a mechanically clean link graph alone does not authorize publication. |
 
