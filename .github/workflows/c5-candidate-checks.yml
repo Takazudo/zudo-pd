@@ -6,7 +6,7 @@ name: C2–C5 Candidate Checks (No Deploy)
 on:
   push:
     branches:
-      - codex/c5-asset-closure-20261117-01
+      - codex/c5-generated-link-contract-20261117-01
 
 concurrency:
   group: c5-candidate-checks-${{ github.ref }}
@@ -27,8 +27,8 @@ jobs:
           persist-credentials: false
       - name: Verify exact reviewed source base and workflow-only delta
         run: |
-          base=1bb4c1d75d30e4b053faafc375b0e6eeeecd5825
-          test "$GITHUB_REF" = refs/heads/codex/c5-asset-closure-20261117-01
+          base=25ed28893910945af29f592f9ef792e509bdfda4
+          test "$GITHUB_REF" = refs/heads/codex/c5-generated-link-contract-20261117-01
           git merge-base --is-ancestor "$base" HEAD
           unexpected=$(git diff --name-only "$base" HEAD | sed '/^\.github\/workflows\/c5-candidate-checks\.yml$/d')
           test -z "$unexpected" || { printf 'Unexpected source delta: %s\n' "$unexpected"; exit 1; }
@@ -88,6 +88,8 @@ jobs:
         run: pnpm build
       - name: Compare rendered historical and namespaced LED fragments
         run: node circuit/scripts/check-led-authored-fragments.mjs
+      - name: Verify held generated LED links and historical fragments
+        run: python3 circuit/scripts/check-led-generated-links.py
       - name: LED browser smoke
         run: pnpm --dir products/led-lamp test:browser
 
