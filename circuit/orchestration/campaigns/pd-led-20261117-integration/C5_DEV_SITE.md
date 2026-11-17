@@ -75,9 +75,11 @@ All paths below are relative to the already public
 `https://zudo-led-lamp.takazudomodular.com/assets/` host. Each local source is
 `products/led-lamp/doc/public/assets/` plus the listed path. A read-only live
 check on 2026-11-17 UTC received HTTP 200 for all 11 routes. Ten responses
-matched the exact local bytes and C1 SHA-256 values. `enclosure/index.html`
-differs only because Cloudflare adds its analytics script during delivery; its
-source HTML and the other ten assets remain bound to the full hashes in
+matched the exact local bytes and C1 SHA-256 values. The first
+`enclosure/index.html` response included one Cloudflare analytics script absent
+from the source file; a later independent response matched the source bytes
+exactly. Treat that injection as response-dependent. The source HTML and all
+other referenced assets remain bound to the full hashes in
 `pd-led-20261116-c1/asset-map.tsv`. These are historical public product assets,
 not an inventory of private vendor datasheets or new manufacturer documents.
 
