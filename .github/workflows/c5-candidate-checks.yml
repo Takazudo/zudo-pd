@@ -27,7 +27,7 @@ jobs:
           persist-credentials: false
       - name: Verify exact reviewed source base and workflow-only delta
         run: |
-          base=d5441c3a08dbd31591ec2c6a2568e0c46936421e
+          base=988f30672986ba5daa1c908ead3c8d12165ec20f
           test "$GITHUB_REF" = refs/heads/codex/c5-asset-closure-20261117-01
           git merge-base --is-ancestor "$base" HEAD
           unexpected=$(git diff --name-only "$base" HEAD | sed '/^\.github\/workflows\/c5-candidate-checks\.yml$/d')
