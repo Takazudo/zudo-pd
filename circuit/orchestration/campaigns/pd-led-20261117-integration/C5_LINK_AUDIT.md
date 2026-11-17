@@ -5,6 +5,8 @@ from the repository root to verify [the saved result](c5-link-audit.json) agains
 the current authored LED bytes and the accepted C1 route/asset maps. The script
 is read-only by default; `--write` regenerates the JSON for a reviewed source
 change. Its SHA-256 locks cover both maps and all 34 current authored MDX files.
+It also requires the current 97 MD/MDX document paths to match the C1 map
+exactly, so a newly added or removed page cannot silently escape review.
 
 The audit finds 136 old `/docs/` links: 76 target other authored LED pages and
 60 target generated LED component pages that require the single C3 catalog.

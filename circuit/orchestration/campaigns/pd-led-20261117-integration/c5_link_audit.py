@@ -57,6 +57,13 @@ def audit():
     route_map = C1 / "route-map.tsv"
     asset_map = C1 / "asset-map.tsv"
     routes = rows(route_map)
+    docs_root = ROOT / "products/led-lamp/doc/src/content/docs"
+    mapped_pages = {ROOT / "products/led-lamp" / row["source_path"] for row in routes}
+    current_pages = set(docs_root.rglob("*.md")) | set(docs_root.rglob("*.mdx"))
+    assert current_pages == mapped_pages, {
+        "unmapped_pages": sorted(str(path.relative_to(ROOT)) for path in current_pages - mapped_pages),
+        "missing_mapped_pages": sorted(str(path.relative_to(ROOT)) for path in mapped_pages - current_pages),
+    }
     assets = {row["source_path"]: row for row in rows(asset_map)}
     by_old = {row["old_route"].rstrip("/"): row for row in routes}
     by_source = {str((ROOT / "products/led-lamp" / row["source_path"]).resolve()): row
