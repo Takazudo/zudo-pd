@@ -11,7 +11,13 @@ class EditorialTest(unittest.TestCase):
                      if path.is_relative_to(c5_dev_site.DOCS / "led-lamp")}
         marked = {path for path, content in led_pages.items()
                   if "**Integrated context (development review).**" in content}
-        self.assertEqual(len(led_pages), 34)
+        self.assertEqual(len(led_pages), 38)
+        bridges = {path: content for path, content in led_pages.items()
+                   if path.is_relative_to(c5_dev_site.DOCS / "led-lamp/components")}
+        self.assertEqual(len(bridges), 4)
+        self.assertTrue(all("**Development navigation candidate.**" in content
+                            and "**Integrated context (development review).**" not in content
+                            for content in bridges.values()))
         self.assertEqual(len(marked), len(EDITORIAL), 25)
         held = {path for path, content in led_pages.items() if "**Held legacy references.**" in content}
         self.assertEqual(len(held), 9)

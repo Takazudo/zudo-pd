@@ -31,7 +31,11 @@ class CatalogNavigationTest(unittest.TestCase):
         pages = {str(path.relative_to(c5_dev_site.DOCS)): content
                  for path, content in self.outputs.items()
                  if path.is_relative_to(c5_dev_site.DOCS / "led-lamp")}
-        self.assertEqual(len(pages), 34)
+        self.assertEqual(len(pages), 38)  # 34 authored copies and four private section pointers.
+        self.assertEqual({name for name in pages if name.startswith("led-lamp/components/")}, {
+            "led-lamp/components/index.mdx", "led-lamp/components/catalog/index.mdx",
+            "led-lamp/components/integration/index.mdx", "led-lamp/components/records/index.mdx",
+        })
         by_source = {row["source_path"]: row for row in c5_dev_site.source_rows()}
         self.assertEqual(len([row for row in by_source.values() if row["class"] == "authored"]), 34)
         def content_for(source):
