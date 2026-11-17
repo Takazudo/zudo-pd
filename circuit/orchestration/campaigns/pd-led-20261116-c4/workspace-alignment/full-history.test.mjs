@@ -69,6 +69,18 @@ test('the C1 merge does not invent an LED edit or update date', async () => {
     'a byte-identical merge must not move the document update date');
 });
 
+test('a same-named PD path cannot hide the LED import snapshot', async () => {
+  const file = resolve(ledDoc, 'src/content/docs/claude-skills/component-type-c-31-m-17/index.mdx');
+  const history = await getDocHistoryAsync(file, 'claude-skills/component-type-c-31-m-17');
+  const hashes = history.entries.map(({ hash }) => hash);
+  assert.equal(hashes[0], '2edec40d50f99fa69cbde55eb62fbd1082ee12d1');
+  assert.ok(hashes.includes('b11ba50295795a7d716aca0996846059b12400e0'), 'LED source-era revision missing');
+  assert.ok(!hashes.includes('609c1bbcd6c5e331737e15edc121d050f393c3bc'), 'same-named PD revision leaked');
+  assert.ok(!hashes.includes('e0be0beefdf4eebd7658194929e9f58145fc392d'), 'unchanged C1 merge leaked');
+  const meta = await getAllFilesFirstLastMetaAsync([resolve(ledDoc, 'src/content/docs')]);
+  assert.equal(meta.get(file).newest.date, '2026-11-16T11:09:13Z');
+});
+
 test('overlapping LED and PD path names stay in their own ancestry', async () => {
   const meta = await getAllFilesFirstLastMetaAsync([resolve(ledDoc, 'src/content/docs')]);
   const isAncestor = (a, b) => spawnSync('git', ['merge-base', '--is-ancestor', a, b], { cwd: repo }).status === 0;

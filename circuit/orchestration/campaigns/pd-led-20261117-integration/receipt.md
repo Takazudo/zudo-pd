@@ -25,7 +25,10 @@ merge as an LED edit relative to its C1 parent even though the imported LED
 file was unchanged from the first parent. The local history package patch now
 filters such post-import, first-parent-identical merges from both Compare
 entries and the rendered latest-update metadata. A focused regression binds
-this exact merge and LED file; the lock changed only by the patch hash.
+this exact merge and LED file. A second regression covers a same-named PD/LED
+path where `--follow` misses the import commit despite an imported blob; the
+patch restores that boundary without admitting unrelated PD history. The lock
+changed only by the patch hash.
 
 ## Gates before C3 and C5 adoption
 
