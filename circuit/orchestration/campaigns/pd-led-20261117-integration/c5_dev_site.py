@@ -9,7 +9,9 @@ import csv
 import hashlib
 import json
 import re
+from collections import Counter
 from pathlib import Path
+from c5_editorial import EDITORIAL, HISTORICAL_TITLES
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -45,7 +47,7 @@ def split_suffix(url):
     return match.groups()
 
 
-def transform_page(source, routes, old_route):
+def transform_page(source, routes, old_route, held_counts=(0, 0)):
     content = source.read_text()
     assert content.startswith("---\n") and "\n---\n" in content[4:], source
     fence = None
@@ -85,14 +87,26 @@ def transform_page(source, routes, old_route):
     else:
         metadata = metadata.replace("---\n", "---\n" + description + "\n", 1)
     original = source.relative_to(LED).as_posix()
+    if original in HISTORICAL_TITLES:
+        metadata, count = re.subn(r"^title:.*$", "title: " + json.dumps(HISTORICAL_TITLES[original]),
+                                   metadata, count=1, flags=re.MULTILINE)
+        assert count == 1, f"Missing source title: {source}"
     notice = (
         "\n> **Development migration candidate.** This page preserves historical LED text; "
         "its status and decisions need review before publication. Held legacy citation links "
         "open the original LED page for their exact source. "
         f"[Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/{original}) "
-        f"and [existing LED site]({OLD_HOST}/docs/).\n"
+        f"and [original LED page]({OLD_HOST}{old_route}).\n"
     )
-    return metadata + notice + content[boundary:]
+    note = EDITORIAL.get(original)
+    context = "\n> **Integrated context (development review).** " + note + "\n" if note else ""
+    held_generated, held_assets = held_counts
+    held = ("\n> **Held legacy references.** "
+            f"{held_generated} generated-record link(s) and {held_assets} asset link(s) on this page "
+            "still use the original LED host. They are not adopted into PD's record or asset "
+            "selection. See the [item evidence review](/docs/catalog/item-evidence/).\n"
+            if held_generated or held_assets else "")
+    return metadata + notice + context + held + content[boundary:]
 
 
 def candidate_catalog(pd, led):
@@ -172,6 +186,16 @@ def outputs():
     import subprocess
     subprocess.run(["python3", str(HERE / "c5_link_audit.py")], cwd=ROOT, check=True,
                    stdout=subprocess.DEVNULL)
+    item_review = json.loads((HERE / "c3-c5-item-evidence.json").read_text())
+    expected = {row["source"].removeprefix("products/led-lamp/") for row in item_review["pages"]
+                if row["status"].startswith("editorial review candidate")}
+    assert set(EDITORIAL) == expected and len(EDITORIAL) == 25, "Editorial scope drift"
+    audit = json.loads((HERE / "c5-link-audit.json").read_text())
+    generated_links = Counter(row["source"] for row in audit["route_links"]
+                              if row["target_class"] == "generated")
+    asset_links = Counter(row["source"] for row in audit["asset_links"])
+    assert sum(generated_links.values()) == 60 and sum(asset_links.values()) == 12
+    assert len(set(generated_links) | set(asset_links)) == 9
     rows = source_rows()
     by_old = {row["old_route"].rstrip("/"): row for row in rows}
     result = {}
@@ -183,7 +207,9 @@ def outputs():
         # The C1 route stores the filename stem; non-index routes are flat MDX.
         dest = DOCS / route / "index.mdx" if old.name == "index.mdx" else DOCS / (route + ".mdx")
         assert dest not in result, dest
-        result[dest] = transform_page(old, by_old, row["old_route"])
+        source_name = str(old.relative_to(ROOT))
+        result[dest] = transform_page(old, by_old, row["old_route"],
+                                      (generated_links[source_name], asset_links[source_name]))
     pd = json.loads((ROOT / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
     led = json.loads((LED / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
     result[DOCS / "catalog/led-candidates.mdx"] = candidate_catalog(pd, led)

@@ -41,6 +41,34 @@ joins the accepted identity, DNP and CAD reconciliation to the C1 route,
 asset and redirect maps. Its machine-readable bundle is source-locked and
 holds every unapproved route or asset from activation.
 
+## Editorial integration and cutover choices
+
+The 25 authored copies with no detected held record or asset dependency now
+carry page-specific integrated-context notes. They point to current P15,
+project status, release gates or repository setup as appropriate, while the
+source-era body remains intact for traceability. In particular, the old
+Cloudflare and scaffold installation instructions are labeled historical in
+their navigation titles as well as in the page body. Historical Board P titles
+also distinguish those pages from shared P15 and PD20 r3.
+Every copied page links to its **exact original LED route**, so reviewers can
+compare old and new text. The nine copies with held dependencies also state
+their own generated-link and asset-link counts; the total remains 60 and 12.
+`c5_editorial.py` is the source for these notes, and the build gate checks its
+scope against the source-bound 25-page set.
+
+The remaining cutover choices are concrete:
+
+| Target | Safe current behavior | Later option and required evidence |
+| --- | --- | --- |
+| `/docs/architecture/`, `/docs/architecture/board-p/`, `/docs/research/` | Keep PD's existing routes and the LED old host; each private copy links to its exact original page. | Manage an LED-host redirect after approving the namespaced destinations. A blanket PD-host redirect would displace existing PD pages. |
+| 60 links to historical generated LED records on seven pages | Keep exact old-host record links. | Approve source-bound C3 identity, document and active record selection per target, then replace each link and test fragments. |
+| 12 references to 11 LED assets on two pages | Keep the old-host asset URLs and PD's current asset allowlist. | Review copyright, source, exact bytes and publication purpose per asset before copying selected files into namespaced PD paths. |
+| 25 self-contained authored pages | Keep private with current-context notes and source-era body. | Editorially approve exact pages and currentness; a mechanically clean link graph alone does not authorize publication. |
+
+The recommended immediate disposition is the safe current behavior in every
+row. Any later cutover needs an entry-level decision and verification against
+the final site head. This branch performs none of those public actions.
+
 ## Completion boundary
 
 Before any public-site change, reviewers must settle component identity and
