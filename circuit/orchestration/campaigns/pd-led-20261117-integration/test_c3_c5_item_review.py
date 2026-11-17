@@ -1,4 +1,7 @@
 import unittest
+import json
+import tempfile
+from pathlib import Path
 from unittest.mock import patch
 
 import c3_c5_item_review as review
@@ -22,6 +25,30 @@ class ItemReviewTest(unittest.TestCase):
         with patch.dict(review.PACKAGE_LOCKS, {"board-p/excluded.csv": "0" * 64}):
             with self.assertRaisesRegex(AssertionError, "LED package changed"):
                 review.build()
+
+    def test_pin_map_mutation_changes_bound_owner_digest(self):
+        with tempfile.TemporaryDirectory(dir=review.ROOT) as temporary:
+            home = Path(temporary) / "component-sample"
+            home.mkdir()
+            (home / "manifest.json").write_text(json.dumps({"records": [{"record_id": "rec-test"}]}))
+            (home / "sources.json").write_text(json.dumps({"sources": []}))
+            pin_file = home / "pin-map.json"
+            pin_file.write_text(json.dumps({"pin_maps": [{"record_id": "rec-test", "footprint": "F",
+                                                          "pins": [{"symbol_pin": "1", "footprint_pad": "1"}]}]}))
+            before = review.record_evidence(Path(temporary), "rec-test")
+            pin_file.write_text(pin_file.read_text().replace('"footprint_pad": "1"', '"footprint_pad": "2"'))
+            after = review.record_evidence(Path(temporary), "rec-test")
+            self.assertNotEqual(before["owner_file_sha256"]["pin-map.json"],
+                                after["owner_file_sha256"]["pin-map.json"])
+
+    def test_cad_blob_mutation_fails_closed(self):
+        with tempfile.TemporaryDirectory(dir=review.ROOT) as temporary:
+            path = Path(temporary) / "sample.kicad_mod"
+            path.write_bytes(b'(pad "1")\n')
+            expected = review.checked_git_blob(path, review.git_blob(path))
+            path.write_bytes(b'(pad "2")\n')  # same byte length, changed pad
+            with self.assertRaisesRegex(AssertionError, "CAD source blob changed"):
+                review.checked_git_blob(path, expected)
 
 
 if __name__ == "__main__":

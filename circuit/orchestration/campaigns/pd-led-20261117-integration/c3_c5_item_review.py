@@ -31,6 +31,17 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def git_blob(path):
+    data = path.read_bytes()
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+
+
+def checked_git_blob(path, expected):
+    actual = git_blob(path)
+    assert actual == expected, f"CAD source blob changed: {path}"
+    return actual
+
+
 def load_csv(path):
     with path.open(newline="") as stream:
         return list(csv.DictReader(stream))
@@ -54,7 +65,8 @@ def record_evidence(root, record_id):
         "owner": str(home.relative_to(ROOT)),
         "source_sha256": sorted({row["sha256"] for row in sources}),
         "pin_map": pins[0] if pins else None,
-        "owner_file_sha256": {name: digest(home / name) for name in ("manifest.json", "sources.json")},
+        "owner_file_sha256": {name: digest(home / name) for name in
+                              ("manifest.json", "sources.json", "pin-map.json") if (home / name).exists()},
     }
 
 
@@ -122,6 +134,8 @@ def build():
     for row in c3["cad_path_collisions"]:
         pd_path, led_path = ROOT / row["relative_path"], ROOT / row["led_destination"]
         assert pd_path.is_file() and led_path.is_file()
+        checked_git_blob(pd_path, row["pd_blob"])
+        checked_git_blob(led_path, row["led_blob"])
         assert (pd_path.read_bytes() == led_path.read_bytes()) == row["same_bytes"]
         pd_pads = re.findall(r'\(pad\s+"?([^"\s)]+)', pd_path.read_text()) if pd_path.suffix == ".kicad_mod" else []
         led_pads = re.findall(r'\(pad\s+"?([^"\s)]+)', led_path.read_text()) if led_path.suffix == ".kicad_mod" else []
