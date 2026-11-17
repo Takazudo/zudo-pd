@@ -18,6 +18,7 @@ pre-commit:
         - 'doc/src/content/docs/catalog/led-candidates.mdx'
         - 'doc/src/content/docs/catalog/lines.mdx'
         - 'doc/src/content/docs/catalog/review.mdx'
+        - 'doc/src/content/docs/catalog/item-evidence.mdx'
       stage_fixed: true
       run: ./scripts/mdx-format.sh --write {staged_files}
 

@@ -22,7 +22,11 @@ Mechanically supportable candidates are kept separate from owner decisions:
 - Four conflicting identity text lines remain distinct. Thirteen same-text
   overlaps remain unverified, and 18 LED-only lines remain candidates.
 - Seven LED placement DNP flags are transcribed from four historical line
-  flags only. Source BOM/CPL, CAD and assembled fit remain unproved.
+  flags only. The [item evidence review](c3-c5-item-evidence.json) checks the
+  dated 2026-09-19 export: four Board P placements are excluded, while three
+  Board L/SWD headers are requested in BOM and CPL despite line-level DNP.
+  This establishes dated export intent only; current CAD and assembled fit
+  remain unproved.
 - All 21 same-relative CAD paths retain separate PD and LED roots; 20 have
   different bytes. No pad/pin/model equivalence follows from the one equal
   project file.

@@ -18,6 +18,8 @@ pnpm circuit:check
 python3 circuit/orchestration/campaigns/pd-led-20261117-integration/c5_dev_site.py
 python3 circuit/orchestration/campaigns/pd-led-20261117-integration/c3_c5_decisions.py
 python3 -m unittest discover -s circuit/orchestration/campaigns/pd-led-20261117-integration -p 'test_c3_c5_decisions.py'
+python3 circuit/orchestration/campaigns/pd-led-20261117-integration/c3_c5_item_review.py
+python3 -m unittest discover -s circuit/orchestration/campaigns/pd-led-20261117-integration -p 'test_c3_c5_item_review.py'
 pnpm test:circuit
 pnpm test:compatibility
 bash circuit/scripts/run-python-gates.sh
