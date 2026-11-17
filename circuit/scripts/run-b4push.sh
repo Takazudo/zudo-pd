@@ -15,6 +15,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
 pnpm circuit:check
+python3 circuit/orchestration/campaigns/pd-led-20261117-integration/c5_dev_site.py
 pnpm test:circuit
 pnpm test:compatibility
 bash circuit/scripts/run-python-gates.sh

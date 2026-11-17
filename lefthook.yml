@@ -5,11 +5,17 @@ pre-commit:
   commands:
     format-mdx:
       glob: 'doc/src/content/docs/**/*.{md,mdx}'
-      # Generated component-record pages (pnpm circuit:generate)
-      # are byte-exact against the committed-output drift check. Formatting
-      # them at commit time would drift them from the next circuit:prepare
-      # run and turn CI red on every PR touching the tree.
-      exclude: 'doc/src/content/docs/components/**'
+      # Generated component pages and source-bound C5 development copies have
+      # their own byte-exact drift checks; formatting at commit time changes
+      # those outputs without changing their inputs.
+      exclude:
+        - 'doc/src/content/docs/components/**'
+        - 'doc/src/content/docs/led-lamp/architecture/**'
+        - 'doc/src/content/docs/led-lamp/getting-started/**'
+        - 'doc/src/content/docs/led-lamp/how-to/**'
+        - 'doc/src/content/docs/led-lamp/power/**'
+        - 'doc/src/content/docs/led-lamp/research/**'
+        - 'doc/src/content/docs/catalog/led-candidates.mdx'
       stage_fixed: true
       run: ./scripts/mdx-format.sh --write {staged_files}
 

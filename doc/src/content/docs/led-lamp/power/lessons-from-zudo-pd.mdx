@@ -1,0 +1,199 @@
+---
+title: Lessons Carried From zudo-pd
+description: Development migration candidate; historical LED text awaiting unified-site review.
+sidebar_position: 40
+---
+
+> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/power/lessons-from-zudo-pd.mdx) and [existing LED site](https://zudo-led-lamp.takazudomodular.com/docs/).
+
+Board P's topology is not a from-scratch design — it is adapted from a circuit that
+took the zudo-pd project **four separate failed JLCPCB orders** (v1 through v4) to
+diagnose. This page carries forward the specific, hard-won rules that diagnosis
+produced, so this project does not have to re-learn them.
+
+:::danger[Be honest about what this circuit actually is]
+The fixed topology documented in [Board P — USB-PD Front End](./board-p-front-end.mdx)
+is **datasheet-verified and matches ST's own reference designs** for the STUSB4500 —
+but it was **never bench-confirmed** on zudo-pd's own hardware. All four of that
+project's PCBA runs failed, each for a different reason later diagnosed from the
+netlist and the datasheet, not from a working board. This project inherits a
+well-reasoned, datasheet-consistent circuit — not a field-proven one. Treat the first
+Board P bring-up as the first real-world test of this topology, not a formality.
+:::
+
+## CC topology rules
+
+**Use `CC1DB↔CC1` / `CC2DB↔CC2` dead-battery bridges, external Rd deleted (DNP).**
+This is the single most consequential rule from zudo-pd's diagnosis. The STUSB4500 has
+a non-disableable internal 5.1 kΩ ±10% Rd pull-down on CC1/CC2 the moment it powers up
+(DS12499 §7.3 Table 22). Adding an *external* 5.1 kΩ Rd in parallel — the mistake
+zudo-pd's earlier revision made — puts two 5.1 kΩ resistors in parallel the instant the
+chip boots, presenting ≈2.55 kΩ to the source. That is below the USB Type-C sink Rd
+window (5.1 kΩ ±20%), and lands the source-seen CC voltage inside or below the
+detection-undefined band depending on the source's current advertisement. The failure
+is charger-dependent and can look like intermittent negotiation rather than an obvious
+hard fault.
+
+The correct topology — the one Board P uses — is ST's own reference wiring for a
+VBUS-only sink (DS12499 §3.5): bridge each dead-battery pin to its corresponding CC pin
+through a 0 Ω link, and leave the external Rd footprints unpopulated (DNP, kept only as
+rework insurance).
+
+**Keep CC lines as plain copper between the connector and the chip.** Do not route CC
+through any part that has an internal pin-to-pin flow-through (the way some ESD arrays
+do) unless that part's continuity is independently verified — a part-internal join that
+silently opens (wrong footprint, wrong rotation, bad solder joint) produces a board
+that powers up, runs I2C, and never negotiates PD, with no way to tell why from the
+outside.
+
+## Pin-18 network
+
+`VBUS_IN → 470 Ω → VBUS_VS_DISCH (pin 18)` is mandatory and must not be a divider.
+DS12499 specifies pin 18 as simultaneously the VBUS presence/voltage sense input *and*
+the receptacle-side discharge path (§7.3 Table 22, `IDISUSB` ≤50 mA through an external
+series resistor). At 470 Ω: 15 V/470 Ω ≈ 32 mA, and even a 20 V mis-contract edge case
+gives ≈43 mA — both inside the 50 mA rating. A voltage-divider variant would mis-scale
+the sense point and simultaneously break the discharge function, since both roles share
+the one pin through the one resistor. This was zudo-pd's earliest (v1/v3) failure mode
+— leaving pin 18 unconnected or wrongly wired.
+
+## TVS margin rule
+
+Pick a TVS standoff voltage **above the worst *legal* operating rail**, then compare each
+datasheet clamp point against **every downstream part's conditioned rating**. A clamp
+table row is a screening point, not a universal rail ceiling or substitute for the
+source-impedance, waveform, parasitic, simulation, and bench analysis:
+
+- D5 (SMAJ20A)'s 20 V standoff sits 33% above the 15 V contracted rail while still
+  tolerating the 20 V mis-contract edge case (a PD source that briefly offers a
+  different PDO than expected) without conducting.
+- Its 32.4 V row is specified at 12.3 A, 10/1000 µs, and 25 °C. Comparing that point
+  with every part on `VBUS_IN` exposes conditioned STUSB/Q1 overages, but those are
+  **open evidence risks, not accepted violations**—see the
+  [ratings matrix](./ratings-matrix.mdx) and [issue #34](https://github.com/Takazudo/zudo-led-lamp/issues/34).
+
+The rule that actually matters in practice: **do the conditioned clamp-point check
+explicitly and per-part, then prove the real waveform.** It is easy to verify a TVS is
+"rated high enough" against the nominal rail and stop there. The real question is what
+each part sees for the actual current, duration, temperature, source, and layout—not
+just what it sees in normal operation.
+
+## Never a 5 V-class USB ESD array on a PD VBUS rail
+
+zudo-pd's earlier revisions used a combined CC-ESD/VBUS-clamp part (USBLC6-2SC6-family)
+whose VBUS pin is a ~6 V-breakdown zener — correct for a 5 V-only USB rail, and a hard
+absolute-maximum violation the instant a 15 V PD contract completes. The part's CC-line
+ESD protection was legitimate, but bundling it with a 5 V-class VBUS clamp made the
+whole part unsuitable for any PD-capable design. Board P's D5 (SMAJ20A) handles VBUS
+clamping alone, at the correct 20 V standoff; CC-line ESD is covered by the
+STUSB4500's own integrated 22 V-rated protection, with DNP footprints (D6/D7,
+PESD24VS1UB) available as an opt-in upgrade for enclosed/production builds only.
+
+## NVM factory-default trap — 20 V on first plug-in
+
+A **fresh, unprogrammed STUSB4500 ships with PDO3 = 20 V/1.0 A at the highest
+priority.** Plug a fresh chip into any charger that supports 20 V PD before programming
+its NVM, and it will negotiate 20 V — directly onto a board designed around a 15 V
+rail. A routine 20 V steady-state input is outside the intended programmed state and
+is not made acceptable by the SMAJ20A's single conditioned 32.4 V datasheet point;
+the installed input-protection waveform remains an open evidence gate.
+
+**Rule: the first-ever power-up of an unprogrammed Board P must use a 5 V-only USB-C
+charger** (any ordinary phone charger with no PD-capable profile above 5 V, or a
+USB-A-to-C cable, which supplies 5 V with no CC negotiation involved at all). The
+chip's I2C interface and NVM programming only need 5 V VDD to function — there is no
+need for a PD-capable source during programming. Only switch to a real 15 V PD charger
+after NVM has been written and read back correctly.
+
+**Read-back-verify every NVM write.** The `POWER_ONLY_ABOVE_5V` bit specifically has a
+history of not persisting on the first write attempt. After any NVM write, re-read the
+full configuration and confirm `SNK_PDO_NUMB = 2` (eliminating PDO3/20 V entirely, not
+merely deprioritizing it), PDO2 = 15 V/3 A, and `POWER_ONLY_ABOVE_5V = 1` before
+considering the chip configured. Setting `SNK_PDO_NUMB = 2` is the only way to
+*guarantee* 20 V is never requested — ST's PDO-priority documentation is ambiguous
+enough between sources that simply deprioritizing PDO3 is not a safe substitute for
+removing it from the advertised list entirely.
+
+## JLCPCB CPL rotation gotcha
+
+If Board P's future KiCad project uses footprints derived from LCSC/EasyEDA (via
+`easyeda2kicad.py` or similar), JLCPCB's automatic rotation-correction database can
+**over-correct** those footprints. The plugin's default rules target KiCad's official
+footprint libraries; EasyEDA-derived footprints follow a different naming convention
+(`<package>_L<length>-W<width>-P<pitch>-LS<lead-span>-{BL|BR}`) that is already drawn in
+JLCPCB's own pin-1 convention and should receive **no further rotation correction** —
+but a generic rule like `^SOT-23 → -90°` in the plugin's default database matches these
+footprints anyway and applies a bogus correction. On zudo-pd's v2 board, this produced
+a CPL that would have mounted SOT-23 parts rotated 90° from correct — JLCPCB's
+pre-production review caught a QFN rotation issue on that same order but did **not**
+catch the SOT-23 over-correction.
+
+**Mitigation:** use the `kicad-jlcpcb-tools` KiCad plugin (community-maintained
+rotation database) rather than manual CPL export, and add specific override regexes in
+its Corrections Manager for any EasyEDA-derived footprint family used on this board
+(e.g. `^SOT-23-6_L2\.9-W1\.6.*$` → 0°, `^SOT-23_L2\.9-W1\.3.*$` → 0°) before trusting
+its generated CPL. Do not rely on JLCPCB's pre-production review alone to catch this —
+it has a track record of missing it on low-part-count boards.
+
+## Extended-part fee economics
+
+JLCPCB splits components into **Basic** (common resistors/MLCCs — no extra fee) and
+**Extended** parts (specialty ICs, electrolytic caps, connectors, and similar —
+**¥470 per unique part number, one-time setup fee**, not per-board). This fee amortizes
+fast across a reorder batch but is a real one-time cost on a first order. Board P's
+part count keeps this small by design: of the fitted parts in the
+[component list](./board-p-front-end.mdx#component-list-lcsc-parts-and-rough-cost),
+U1 (STUSB4500), J1 (the USB-C receptacle), D5 (SMAJ20A), and JOUT1 (the XFCN male header)
+are the ones most likely to be Extended-tier; most of the resistors and MLCCs are
+commodity 0603/0805/1206 parts that are typically Basic-tier at JLCPCB (verify each
+part's actual tier at order time — tier assignment can change).
+
+## LCSC stock re-verify at order time
+
+Every LCSC number in [Board P's component list](./board-p-front-end.mdx) was checked
+against a local parts-database snapshot dated 2026-07-25 — stock figures there are a
+point-in-time read, not a guarantee. Re-check stock (and, for the SMAJ20A alternate
+C1973455, which showed only 1 unit in stock at snapshot time, confirm it is not the
+only option) immediately before placing any order.
+
+## Standalone Board P bring-up sequence
+
+Bench-test Board P **completely alone**, before connecting it to any downstream board,
+using this sequence:
+
+1. **NVM programming, on a 5 V-only source.** Program the chip per the factory-default
+   trap rule above. Confirm via read-back before proceeding.
+2. **First 15 V-capable charger plug-in, Board P still standalone (nothing connected to
+   `JOUT1`).** Probe the debug pogo pads (`J3`): pad 4 (`VBUS_IN`) should read ≈15 V once
+   negotiated, pad 3 (`VREG_2V7`) should read ≈2.7 V regardless of negotiation state
+   (confirms the chip itself is alive even before checking negotiation), pad 8
+   (`VBEN`/VBUS_EN_SNK) should be pulled low once negotiation succeeds.
+3. **Confirm the load switch, not just the chip.** `VBUS_OUT` (at `JOUT1` pins 1/2, or a
+   test point if Board P's layout adds one) should read 0 V until the 15 V contract is
+   live, then track `VBUS_IN` closely once `VBEN` asserts. A chip that negotiates
+   correctly but a switch that never turns on points at the Q1 gate network, not the
+   STUSB4500.
+4. **Only after standalone bring-up passes, connect a downstream board to `JOUT1`** and
+   re-verify the same measurements with a real load present — a downstream board's
+   input capacitance or inrush current can reveal problems (like the multi-port-charger
+   negotiation collapse pattern in
+   [Charger Compatibility](./charger-compatibility.mdx)) invisible with `JOUT1`
+   unloaded.
+
+:::tip
+Do not use downstream-rail test points to judge whether Board P itself is working
+during steps 1–2 — they can legitimately read 0 V while Board P's own chip is powered
+and functioning normally, simply because the load switch has not turned on yet.
+:::
+
+## References
+
+- [Board P — USB-PD Front End](./board-p-front-end.mdx) — the circuit these rules
+  apply to.
+- [Worst-Case Ratings Matrix](./ratings-matrix.mdx) — the per-part margin analysis the
+  TVS margin rule above is drawn from.
+- [Charger Compatibility](./charger-compatibility.mdx) — the negotiation-collapse
+  failure mode referenced in the bring-up sequence.
+- zudo-pd's NVM programming setup page, v4 USB-PD failure diagnosis page, board-split
+  decision page, and kicad-jlcpcb-tools how-to page — source of the specific failure
+  modes and mitigations distilled above.

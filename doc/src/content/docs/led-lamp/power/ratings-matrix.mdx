@@ -1,0 +1,167 @@
+---
+title: Worst-Case Ratings Matrix
+description: Development migration candidate; historical LED text awaiting unified-site review.
+sidebar_position: 20
+---
+
+> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/power/ratings-matrix.mdx) and [existing LED site](https://zudo-led-lamp.takazudomodular.com/docs/).
+
+This page screens every fitted [Board P](./board-p-front-end.mdx) part against two
+reference points using the cited evidence. Manufacturer-primary evidence is used where
+available; manufacturer mirrors and catalog records retain their lower-authority trust
+state and cannot establish primary-source closure:
+
+1. **15 V nominal** — the steady-state PD-contracted rail voltage.
+2. **32.4 V conditioned clamp point** — the exact High Diode SMAJ20A primary row gives
+   VC max at IPP 12.3 A for a 10/1000 µs waveform at 25 °C. It is not a universal rail
+   ceiling; source impedance, waveform, layout and as-built behavior still require proof.
+
+Every limit cited below is also held as a stored fact, with its exact value, unit,
+conditions, provenance and verdict, in the [component reference](https://zudo-led-lamp.takazudomodular.com/docs/components/). The
+evidence column links each row to the canonical fact rather than repeating it, so the
+number here and the number there can never drift apart. The cross-component question this
+whole page asks — whether the input rail stays inside every part's own limit across a
+legal contract, a mis-contract and a clamp event — is published as
+[`rule-rail-envelope`](https://zudo-led-lamp.takazudomodular.com/docs/components/integration/#rule-rail-envelope), together with
+the exact wording of what it refuses to conclude.
+
+## The C456012 discrepancy — resolved
+
+zudo-pd's own USB-C connector page describes its `C456012` receptacle as "**Voltage
+Rating: 20V maximum, USB PD 3.0 compatible**." That claim does not hold up against the
+part's actual manufacturer datasheet.
+
+**Primary evidence.** The manufacturer datasheet for C456012 (Shenzhen Shouhan
+Technology Co., Ltd, "TYPE-C 6P"), pulled directly from JLCPCB's part page, states in
+its headline **RATING** field:
+
+> RATING（额定值）: **5 V 3 A**
+
+This is corroborated by JLCPCB's own product page for the same part, whose spec table
+lists "Rated Voltage: 5V" as a first-class field, not an inferred default. The same
+5 V-class rating appears identically on all three alternate 6-pin receptacles zudo-pd's
+own docs had already flagged as candidates (C668623, C5156600, C36936554) — this is a
+labeling convention across a whole family of budget 6-pin Type-C receptacles at
+JLCPCB, not a quirk of one part number.
+
+**What the 5 V figure actually means.** The same C456012 datasheet's mechanical/
+durability test section separately specifies **dielectric withstand voltage of
+100–500 VAC** (1 minute, ≤0.5 mA trip current) and **insulation resistance ≥100 MΩ at
+100 VDC** — both far above the 15–32.4 V range this design operates in. The "5 V 3 A"
+figure is the manufacturer's headline continuous-duty rating for the part's most common
+use case (plain USB 5 V bus power), not a hard breakdown ceiling. But a headline rating
+that undersells the part by 4× (or that a reviewer cannot verify covers PD voltages at
+all) is not something to route 15 V PD current through without a documented
+replacement — especially when JLCPCB's own catalog carries genuinely 20 V-rated parts
+in the same mechanical family for a comparable price.
+
+**Replacement: C283540 (TYPE-C-31-M-17).** Found via the JLCPCB parts database by
+searching the USB Connectors category for explicitly 20 V-rated, right-angle SMD, 6-pin
+power-only receptacles (the same mounting style as C456012, so the swap is a drop-in
+at the schematic-symbol level). The current HRO Rev A manufacturer drawing states:
+
+> 4-1. CURRENT RATING: 5.0 A, VOLTAGE RATING: 20 V
+> 4-2. INSULATION RESISTANCE: 100 MΩ MIN
+> 4-3. DIELECTRIC WITHSTAND VOLTAGE: AC 100 V FOR 1 MINUTE
+> 4-4. LOW CONTACT RESISTANCE: initial 40 mΩ max, after-life 50 mΩ max
+
+The drawing names contacts `A5/A9/A12/B12/B9/B5`, but that does not prove equivalence
+to the project's numeric pins or shell. Incoming-part orientation and continuity remain
+an evidence gate. Stock at
+JLCPCB was 33,876 units as of the 2026-07-25 DB snapshot — re-verify at order time per
+the usual LCSC stock caveat.
+
+| | C456012 (original, rejected) | C283540 (replacement) |
+|---|---|---|
+| Manufacturer rating | **5 V, 3 A** (primary datasheet) | **20 V, 5.0 A** (primary datasheet) |
+| Dielectric withstand | AC 100–500 V / 1 min | AC 100 V / 1 min |
+| Insulation resistance | ≥100 MΩ | ≥100 MΩ |
+| Mount style | 6P SMD, right-angle | 6P SMD, right-angle (same) |
+| Contact labels | A5/A9/A12/B12/B9/B5 | Same USB contact names; project numeric mapping requires continuity |
+| Stock (DB 2026-07-25) | 527,859 | 33,876 |
+| Verdict | **Rejected** — headline rating does not cover this design's PD range with any datasheet-provable margin | **Selected, evidence-gated** — primary 20 V/5 A ratings; numeric pin/shell mapping and incoming continuity still OPEN |
+
+## Ratings matrix
+
+| Part | Rated limit (cited evidence) | vs 15 V nominal | vs conditioned 32.4 V point | Verdict |
+|------|-------------------------------|------------------|------------------------------|---------|
+| U1 STUSB4500QTR — VDD pin | Manufacturer-authored DS12499 Rev 8 mirror states 28 V absolute max and 4.1–22 V operating range; mirror evidence remains `UNSOURCED` under the primary-only trust policy. Canonical: [`fact-stusb-vdd-absolute-max`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/stusb4500qtr/#fact-stusb-vdd-absolute-max), [`fact-stusb-supplies`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/stusb4500qtr/#fact-stusb-supplies) | Conditioned arithmetic is below the stated operating ceiling, but trust closure is OPEN | The 32.4 V conditioned D5 table point would exceed the stated 28 V absolute maximum; the actual waveform is unresolved | **EVIDENCE BLOCKER (UNSOURCED)** — require primary evidence plus simulation and measured VDD waveform |
+| U1 STUSB4500QTR — CC1/CC2/CC1DB/CC2DB pins | Manufacturer-authored Rev 8 mirror states 22 V short-to-VBUS protection; primary trust remains OPEN. Canonical: [`fact-stusb-cc-absolute-max`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/stusb4500qtr/#fact-stusb-cc-absolute-max) | Conditioned only | Generator topology does not place CC pins directly on `VBUS_IN`, but as-built continuity is unverified | OPEN |
+| Q1 UMW AO3401A, exact C347476 | VDS absolute max **−30 V**, VGS absolute max **±12 V** (UMW manufacturer specification); this exact orderable must not be attributed to AOS. Canonical: [`fact-umw-ao3401a-vds`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/umw-ao3401a/#fact-umw-ao3401a-vds), [`fact-umw-ao3401a-vgs`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/umw-ao3401a/#fact-umw-ao3401a-vgs) | Ideal steady VBEN-low divider gives VGS = `−15×100k/(100k+150k)` = **−6.0 V** (and −8.0 V at a 20 V mis-contract) | A static 32.4 V divider calculation gives −12.96 V, but C35 is gate-to-source and the nominal `(100k∥150k)×100nF` time constant is about 6 ms; actual VDS/VGS depends on waveform, duration, device and parasitics | **OPEN transient risk** — do not call the clamp event a deterministic violation or PASS without measured gate/source/drain waveforms and as-built confirmation |
+| D5/D10 exact C571370 High Diode SMAJ20A | Primary PDF confirms band=cathode, VRWM 20 V, VBR 22.2–24.5 V @ 1 mA, VC max 32.4 V @ IPP 12.3 A for 10/1000 µs at 25 °C. Canonical: [`fact-high-diode-smaj20a-standoff`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/high-diode-smaj20a/#fact-high-diode-smaj20a-standoff), [`fact-high-diode-smaj20a-breakdown`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/high-diode-smaj20a/#fact-high-diode-smaj20a-breakdown), [`fact-high-diode-smaj20a-clamp`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/high-diode-smaj20a/#fact-high-diode-smaj20a-clamp) | Conditioned primary rating is compatible with 15 V nominal | Simulation/as-built D5 and D10 pad orientation, source impedance and actual waveform remain OPEN | **EVIDENCE BLOCKER** — primary ratings are closed; numeric pad mapping, both-rail simulation and measured waveforms are not |
+| J1 receptacle (exact C283540 TYPE-C-31-M-17) | Primary Rev A drawing confirms 5 A, 20 V, 100 VAC/min, 10,000 cycles and −30…+80 °C; stable distributor mirror binds C283540. Canonical: [`fact-type-c-31-m-17-ratings`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/type-c-31-m-17/#fact-type-c-31-m-17-ratings), [`fact-type-c-31-m-17-current`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/type-c-31-m-17/#fact-type-c-31-m-17-current) | Conditioned rating has margin at 15 V / 0.41 A | Numeric project pin/shell mapping, incoming orientation and continuity remain OPEN | **EVIDENCE BLOCKER** — do not energize for PD until incoming-part mapping/continuity is verified |
+| JOUT1/J2 — XFCN PZ254V male + PM254V female pair | Both exact manufacturer records rate 3 A/contact and 250 V; both drawings explicitly name the reciprocal single-row series as the mate. Canonical: [`fact-c492405-current`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c492405/#fact-c492405-current), [`fact-c492405-voltage`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c492405/#fact-c492405-voltage), [`fact-c2832269-current`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c2832269/#fact-c2832269-current), [`fact-c2832269-voltage`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c2832269/#fact-c2832269-voltage) | Pass electrically, wide margin | Pass by voltage rating | Electrical rating PASS; unkeyed PCB alignment/polarity/retention NEEDS BENCH |
+| C1 (10 µF, C13585) | 50 V X5R (JLCPCB catalog). Canonical: [`fact-c13585-voltage`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c13585/#fact-c13585-voltage) | Pass | Pass | Pass |
+| C2, C35 (100 nF, exact C14663 CC0603KRX7R9BB104) | 50 V X7R (manufacturer specification). Canonical: [`fact-c14663-voltage`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c14663/#fact-c14663-voltage) | Pass | Pass | Pass |
+| C30, C34 (1 µF, C15849) | 50 V X5R (JLCPCB catalog) — note: exceeds the 16 V figure in zudo-pd's own component notes, which was a legacy value, not this verified part's actual rating. Canonical: [`fact-c15849-voltage`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c15849/#fact-c15849-voltage) | Pass | Pass | Pass |
+| R11–R16, R19, R20 (chip resistors) | 75 V (JLCPCB catalog, 0603 thick-film series). Canonical: [`fact-c25803-voltage`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c25803/#fact-c25803-voltage), [`fact-c22807-voltage`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c22807/#fact-c22807-voltage) | Pass | Pass | Pass |
+| R17, R18 (DNP, C23186) | 75 V | N/A — never populated on a powered build | N/A | Pass (DNP) |
+| D6, D7 (DNP, C85382 PESD24VS1UB) | VRWM 24 V per Nexperia part family (matches zudo-pd's board-split-decision citation) | N/A — enclosed/production-build option only, never fitted on the bring-up build | N/A | Not evaluated against worst-case — optional provision only |
+
+## Summary
+
+The input-protection chain is not evidence-closed. Exact J1 and D5/D10 primary ratings
+are now retained, but their project/as-built mappings remain open; STUSB limits are
+retained only from a manufacturer-authored mirror, and Q1 VDS/VGS
+during a clamp event depends on the real waveform and gate/source dynamics. Nominal
+arithmetic is useful for planning, but it is not a fitted-chain PASS. Primary exact-part
+evidence, simulation, incoming/as-built continuity checks, and bench waveforms are required.
+Track that safety gate in [input-protection evidence blocker #34](https://github.com/Takazudo/zudo-led-lamp/issues/34).
+
+The two conditioned overages named above are published as calculations, each with the
+exact conditions under which its number means anything:
+[`calc-stusb-vdd-clamp-overage`](https://zudo-led-lamp.takazudomodular.com/docs/components/integration/#calc-stusb-vdd-clamp-overage)
+and
+[`calc-q1-vds-clamp-overage`](https://zudo-led-lamp.takazudomodular.com/docs/components/integration/#calc-q1-vds-clamp-overage).
+Neither is a waveform measurement, and
+[`rule-rail-envelope`](https://zudo-led-lamp.takazudomodular.com/docs/components/integration/#rule-rail-envelope) says so in its
+own words.
+
+:::note
+The retained Rev 8 mirror distinguishes the 22 V operating ceiling from the 28 V
+absolute maximum. Those values remain conditioned leads, not primary-source closure,
+and neither value makes an unknown D5 clamp waveform acceptable.
+:::
+
+The C283540 selection closes primary rating/mechanical evidence, but not project numeric
+contact mapping, orientation, or incoming continuity.
+
+## References
+
+- ST DS12499 Rev 8 manufacturer-authored archive mirror — Table 20 "Absolute maximum ratings", Table
+  21 "Operating conditions".
+- UMW (Youtai Semiconductor) AO3401A specification for exact orderable C347476 — title block, pin figure, and absolute-maximum table.
+- Manufacturer datasheets for C456012 (Shenzhen Shouhan Technology, "TYPE-C 6P") and
+  C283540 (HRO, "TYPE-C-31-M-17"); the stable distributor mirror is used only for orderable binding.
+- Local JLCPCB parts database (snapshot dated 2026-07-25) for catalog ratings on
+  passives, the D5/D6/D7 TVS/ESD parts, and the JOUT1 connector.
+- [Board P — USB-PD Front End](./board-p-front-end.mdx) for the full component list
+  and net table.
+- The canonical component records behind every row above, each with its sources,
+  coverage domains and pin maps:
+  [STUSB4500QTR](https://zudo-led-lamp.takazudomodular.com/docs/components/records/stusb4500qtr/),
+  [AO3401A](https://zudo-led-lamp.takazudomodular.com/docs/components/records/umw-ao3401a/),
+  [SMAJ20A](https://zudo-led-lamp.takazudomodular.com/docs/components/records/high-diode-smaj20a/),
+  [TYPE-C-31-M-17](https://zudo-led-lamp.takazudomodular.com/docs/components/records/type-c-31-m-17/),
+  [PZ254V-11-06P](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c492405/), and
+  [PM254V-11-06-H85](https://zudo-led-lamp.takazudomodular.com/docs/components/records/c2832269/). The full set is in the
+  [catalog](https://zudo-led-lamp.takazudomodular.com/docs/components/catalog/).
+
+
+## Low-profile controls boundary
+
+SW2 is **G-Switch SS-12D01-G020 / C5446803**, rated **1 A at 24 V DC** in the
+exact manufacturer-authored drawing retrieved through a distributor mirror. The
+nominal lamp load is about 0.41 A at 15 V. This does not qualify inrush, contact
+bounce, lifetime or the existing unresolved TVS/transient envelope. Common 2
+feeds throw 1 in ON; throw 3 stays isolated on the PCB but becomes live in OFF.
+Board P remains powered. See [switch checks](/docs/led-lamp/architecture/power-switch/).
+
+RV1 is **ALPS RK10J11E0034 / C470643**, a 10 kΩ ±30% single-unit pot, operated
+as a V3P3-to-GND divider. The [manufacturer catalog](https://tech.alpsalpine.com/cms.media/product_catalog_rv_03_rk10j_en_780020d1ea.pdf)
+lists 20 V DC applicability, −10 to +60 °C ambient, and manual-solder insertion
+mounting. Keep local control temperature inside that range. The model's low height
+does not prove seating or retention on the 1.6 mm PCB. Worst-case unloaded wiper
+source resistance plus R27 is 3.35 kΩ; qualify ADC acquisition and calibration.
+The 100 kΩ/100 nF pull-down filter gives nominal 10 ms open-wiper decay, not
+complete fault detection. Existing PD, safe-start and thermal gates remain required.

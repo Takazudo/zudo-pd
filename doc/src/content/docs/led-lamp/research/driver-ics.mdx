@@ -1,0 +1,120 @@
+---
+title: Constant-Current Buck LED Driver ICs
+description: Development migration candidate; historical LED text awaiting unified-site review.
+sidebar_position: 20
+---
+
+> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/research/driver-ics.mdx) and [existing LED site](https://zudo-led-lamp.takazudomodular.com/docs/).
+
+Three constant-current step-down (buck) LED driver ICs, each with a full supporting passive set sourced from the local JLCPCB DB (fetched 2026-07-25; per-part lookup dates noted where they differ from that).
+
+## Rail constraint: a conditioned TVS screening point
+
+The exact SMAJ20A datasheet row gives a **32.4 V maximum clamping-voltage point only
+at 12.3 A, for a 10/1000 µs waveform at 25 °C**. It is not a guaranteed ceiling
+for the installed rail: source impedance, waveform, layout, and as-built behavior can
+change the result. The steady-state rail is 15 V nominal. Each candidate below is
+compared with the 32.4 V point as a conditioned screen, but that comparison does not
+establish transient compliance. The real waveform and input-protection chain remain
+open under [issue #34](https://github.com/Takazudo/zudo-led-lamp/issues/34).
+
+## Candidate 1 — PT4115 (PowTech)
+
+| Spec | Value |
+|---|---|
+| Part | PT4115 (C347356), SOT-89-5 |
+| Input voltage | 6–30V operating |
+| Output current | up to 1.2A |
+| Switching frequency | up to 1MHz |
+| Dimming | DIM pin: PWM (100Hz–~20kHz) or DC analog. `<0.3V` = off, `>2.5V` = full current |
+| Stock (tier) | 113,894, [partdetail](https://jlcpcb.com/partdetail/C347356) (DB date 2026-06-26) |
+
+**Conditioned screen: no headroom.** The 30 V operating ceiling is below the 32.4 V
+datasheet point. If the installed rail followed those exact conditions, it would exceed
+the published operating range; that comparison neither proves the real waveform nor
+establishes the part's transient survival. This research pass could not confirm the
+PT4115 *absolute maximum* rating from a machine-readable primary datasheet. Resolve
+both gaps before selection: obtain exact primary limits and establish the installed
+waveform, or evaluate a higher-voltage candidate. PT4115E is advertised as a
+higher-voltage variant but was not confirmed in the local parts database; Candidates
+2 and 3 have more conditioned headroom but still require the same waveform closure.
+
+**Passive set:**
+
+| Role | Formula/target | Candidate part | Spec | Stock | Link |
+|---|---|---|---|---|---|
+| Current-sense resistor | Rsense = 0.1 / Iout(A) | FRM121WFR100TM (C7467250) | 100mΩ, 1W, 1206 → Iout≈1A | 234,535 | [partdetail](https://jlcpcb.com/partdetail/C7467250) |
+| Current-sense resistor (alt) | same formula | RLP25FEER300 (C393077) | 300mΩ, 2W, 2512 → Iout≈333mA | 36,723 | [partdetail](https://jlcpcb.com/partdetail/C393077) |
+| Current-sense resistor (alt) | same formula | RLP25FEER200 (C459674) | 200mΩ, 2W, 2512 → Iout≈500mA | 20,654 | [partdetail](https://jlcpcb.com/partdetail/C459674) |
+| Inductor | ~30–70uH class for a few-hundred-mA target at 1MHz (exact value depends on the LED current locked in by the architecture pass) | FXL0630-330-M (C177245) | 33uH, 2/2.5A, molded, SMD 7×6.6mm | 228,367 | [partdetail](https://jlcpcb.com/partdetail/C177245) |
+| Inductor (alt) | — | YNR6028-470M (C497831) | 47uH, ~1.1A, shielded, SMD 6×6mm | 102,033 | [partdetail](https://jlcpcb.com/partdetail/C497831) |
+| Catch diode (non-synchronous; statically screened against PT4115's 30 V operating ceiling, with actual switch-node stress OPEN) | ≥40V, low Vf pending waveform closure | SS24 (C7420362) | 40V/2A Schottky, SMA, [Preferred] | 336,102 | [partdetail](https://jlcpcb.com/partdetail/C7420362) |
+| Input cap | ~10uF, rated well above 15V nominal | CS3225X7R106K500NRL (C2918502) | 10uF, 50V, X7R, 1210 | 474,840 | [partdetail](https://jlcpcb.com/partdetail/C2918502) |
+| Output cap (optional, ripple smoothing) | small value, same voltage class | reuse C2918502 or a smaller-value part in the same family | — | — | — |
+
+All passive C-numbers lookup-verified individually; dates 2026-06-24 to 2026-06-27.
+
+## Candidate 2 — AL8860 (Diodes Incorporated)
+
+| Spec | Value |
+|---|---|
+| Part | AL8860MP-13 (C500782), MSOP-8-EP |
+| Input voltage | 4.5–40V |
+| Output current | up to 1.5A |
+| Switching frequency | 1MHz (hysteretic) |
+| Dimming | single ADIM pin: DC voltage or PWM, on/off + brightness combined. Default soft-start 0.1ms (fast — improves low-duty-cycle PWM dimming accuracy). Best dimming accuracy comes from a low PWM frequency relative to the fixed 1MHz switching frequency (datasheet guidance; sub-1kHz to low-kHz PWM recommended for this fixed switching rate) |
+| Stock (tier) | 4,000, [partdetail](https://jlcpcb.com/partdetail/C500782) (DB date 2026-06-27) |
+
+**Conditioned screen: 7.6 V headroom.** The 40 V operating ceiling is 7.6 V above the
+32.4 V datasheet point. That is useful screening headroom, not proof that the installed
+transient remains at or below 32.4 V or that the complete circuit passes a surge case.
+
+**Passive set:** same current-sense-resistor formula and inductor family as PT4115 above (both manufacturers use the same 0.1/Iout sense convention and a similar 1MHz-class inductor range) — reuse the Candidate 1 table. The one change: the catch diode should be rated above AL8860's 40V ceiling itself (not just the conditioned 32.4 V point), since a fault could in principle push the switch node toward the IC's own max:
+
+| Role | Candidate part | Spec | Stock | Link |
+|---|---|---|---|---|
+| Catch diode | SS26 (C7420363) | 60V/2A Schottky, SMA, [Preferred] | 282,808 | [partdetail](https://jlcpcb.com/partdetail/C7420363) |
+
+Lookup-verified, DB date 2026-05-23. A 40 V-rated SS24 only matches AL8860's
+published 40 V input ceiling in a static comparison; it has no rating headroom at that
+point and cannot be accepted until switch-node stress and the diode's applicable rating
+conditions are established. The retained SS26 provides 20 V of static rating headroom,
+but that comparison is not a surge PASS.
+
+A smaller-footprint pin-compatible option, AL8860WT-7 (TSOT-25), was found in the DB but currently shows 0 stock — noted for completeness, not selected as the primary candidate.
+
+## Candidate 3 — TPS92511 (Texas Instruments)
+
+| Spec | Value |
+|---|---|
+| Part | TPS92511DDAR (C114277), SO-8-EP |
+| Input voltage | 4.5–65V |
+| Output current | up to 500mA |
+| Switching frequency | up to ~500kHz–2MHz class (500kHz used in TI's own dimming-performance example) |
+| Dimming | DIM pin, PWM. TI's own example: at 500kHz switching, a 6µs minimum DIM pulse width supports a 150Hz dimming frequency with >1000:1 contrast ratio |
+| Stock (tier) | 10,445, [partdetail](https://jlcpcb.com/partdetail/C114277) (DB date 2026-06-23) |
+
+**Conditioned screen: 32.6 V headroom.** The 65 V ceiling is 32.6 V above the
+conditioned 32.4 V point, the largest screening headroom of the three. It is not a
+claim about the installed transient or full-circuit compliance.
+
+Architecturally different from the other two: TI describes it as a **floating-buck** topology with an integrated low-side N-MOSFET (no bootstrap capacitor needed) and sets LED current via an external resistor on an **IADJ** pin through a current-mirror scheme, not a ground-referenced sense resistor. TI's collateral describes the design as needing only "5 external components." This research pass could not pull the exact IADJ resistor formula or confirm whether a discrete catch diode and one or two capacitors round out those 5 parts — that level of detail needs the primary TI datasheet before this candidate goes into a schematic. Reusable input/inductor/cap families above are only placeholders; their voltage ratings must be checked against the established installed waveform, not inferred from the 32.4 V conditioned point or the IC's own 65 V ceiling.
+
+A higher-current sibling, TPS92512HVDGQR (C90641, 4.5–60V, up to 2.5A, MSOP-10-EP, 2MHz, stock 8,670, [partdetail](https://jlcpcb.com/partdetail/C90641), lookup-verified DB date 2026-06-23), is available in the same family if the architecture pass lands on a higher target LED current than PT4115/AL8860 comfortably cover.
+
+## Driver comparison summary
+
+| Driver | Vin range | Headroom above conditioned 32.4 V point | Max Iout | Dimming | Passive set confidence |
+|---|---|---|---|---|---|
+| PT4115 | 6–30V | −2.4 V; conditioned operating-range exceedance, waveform still OPEN | 1.2A | PWM 100Hz–20kHz + analog | Full (verified via multiple secondary sources) |
+| AL8860 | 4.5–40V | +7.6 V conditioned headroom; not a surge PASS | 1.5A | Single-pin PWM/analog, fast softstart | Full (verified via primary Diodes Inc. datasheet) |
+| TPS92511 | 4.5–65V | +32.6 V conditioned headroom; not a surge PASS | 500mA | PWM, up to >1000:1 contrast at 150Hz | Partial — IADJ formula and exact passive count need primary TI datasheet |
+
+## Questions the architecture pass must answer
+
+- What installed transient waveform must each candidate withstand, and does exact
+  primary evidence establish compliance? The 32.4 V conditioned point alone cannot
+  make PT4115, AL8860, TPS92511, or PT4115E a surge PASS.
+- What target LED current does the LED-candidate pick actually need — this fixes the exact Rsense value (PT4115/AL8860) or IADJ resistor (TPS92511) and the exact inductor value, both left as a bracketed range here.
+- Does the "one driver per parallel LED string" ballast option (see `led-candidates.mdx`) multiply the driver IC count, and if so does that push toward the cheaper PT4115/AL8860 over the pricier TPS92511?
+- TPS92511's floating-buck topology and IADJ current-setting need primary-datasheet confirmation before this candidate can be schematic-ready — is that research worth doing now, or should TPS92511 be dropped in favor of the two fully-characterized options?

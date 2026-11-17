@@ -1,0 +1,201 @@
+---
+title: Final BOM
+description: Development migration candidate; historical LED text awaiting unified-site review.
+sidebar_position: 40
+---
+
+> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/architecture/bom.mdx) and [existing LED site](https://zudo-led-lamp.takazudomodular.com/docs/).
+
+For new selection work, read the [draft cost, availability and socket guidance](./component-selection-guidelines.mdx). The historical Board P rows below do not select parts for the isolated HUSB candidate. Preserve their dated evidence; do not treat old stock/fee figures as a current quote.
+
+This is the **final** BOM, not a candidate list. Every C-number below was re-verified
+individually against the local JLCPCB parts database (snapshot dated **2026-07-25**;
+per-part data-fetch dates within the snapshot range from 2026-05-23 to 2026-07-03).
+The XFCN `JOUT1`/`J2` mating pair was separately checked against live JLCPCB/LCSC
+inventory and manufacturer drawings on **2026-08-20**; its rows carry that date.
+
+This page intentionally covers the two assembled lamp boards. The separate
+[ST-LINK/V2 SWD adapter](./swd-adapter.mdx) has only two hand-fit/DNP connector
+lines, `C4749199` and `C492404`; their current identity and evidence live in the
+component catalog rather than the lamp-PCBA cost arithmetic below.
+
+Every fitted line below also has a canonical component record — the exact orderable
+identity, every board placement, the sources behind it and which coverage domains are
+still open. Browse them in the [component catalog](https://zudo-led-lamp.takazudomodular.com/docs/components/catalog/); the
+cross-component rules that span several of these parts at once are on the
+[integration page](https://zudo-led-lamp.takazudomodular.com/docs/components/integration/). This page keeps the ordering,
+tier and cost reasoning, which lives nowhere else.
+
+:::warning[Stock is a point-in-time read]
+Stock figures are from the snapshot, not a guarantee. Re-check every line immediately
+before ordering — and pay particular attention to the four lines flagged below with
+stock under 25,000. Tier assignments (Basic / Preferred / Extended) can also change; the
+fee arithmetic at the bottom of this page is only as good as the tier data on the day
+you order.
+:::
+
+## Low-profile control replacement (2026-09-06)
+
+| Ref | Qty | Selected part | Dated JLCPCB stock / order quantity |
+|---|---:|---|---|
+| RV1 | 1 | ALPS RK10J11E0034 / [C470643](https://jlcpcb.com/partdetail/C470643) | 6,939 / 6,677 |
+| SW2 | 1 | G-Switch SS-12D01-G020 / [C5446803](https://jlcpcb.com/partdetail/C5446803) | 3,709 / 3,698 |
+
+Both controls replace the prior EC11 encoder and Dailywell toggle. Stock is a dated
+observation, not a reservation. ALPS specifies manual soldering and insertion
+(t:2 mm); supplier listing availability does not approve this board's assembly.
+Verify seating/retention and soldering on the 1.6 mm PCB with the assembler.
+
+R22 changes to 100 kΩ C25803; R27 remains 100 Ω C22775 and C22 remains 100 nF
+C14663. R23, R28 and C23 are removed. Four RV1 dummy/support terminals remain
+unconnected. Refresh the BOM/CPL and quote from the revised design rather than
+reusing the old stock and Extended-fee snapshot below. See [rear controls](./rear-controls.mdx).
+
+
+## Board P — USB-PD front end
+
+Adopted unchanged from the [power-section audit](/docs/led-lamp/power/board-p-front-end/#component-list-lcsc-parts-and-rough-cost).
+
+| Ref | Qty | Part | LCSC | Package | Tier | Stock | Role |
+|---|---|---|---|---|---|---|---|
+| U1 | 1 | STUSB4500QTR | [C2678061](https://jlcpcb.com/partdetail/C2678061) | QFN-24-EP 4x4 | Extended | 4,562 | PD sink controller |
+| Q1 | 1 | AO3401A | [C347476](https://jlcpcb.com/partdetail/C347476) | SOT-23 | Extended | 862,120 | Load switch (P-FET) |
+| J1 | 1 | TYPE-C-31-M-17 | [C283540](https://jlcpcb.com/partdetail/C283540) | 6P SMD right-angle | Extended | 33,876 | Primary 20 V/5 A rating; project numeric contact mapping/incoming continuity OPEN |
+| D5 | 1 | SMAJ20A | [C571370](https://jlcpcb.com/partdetail/C571370) | SMA | Extended | 3,770 | Primary VRWM 20 V; numeric pad/orientation and actual clamp waveform OPEN |
+| C1 | 1 | CL31A106KBHNNNE 10 µF 50 V | [C13585](https://jlcpcb.com/partdetail/C13585) | 1206 | **Basic** | 1,877,266 | VDD bulk |
+| C2, C35 | 2 | CC0603KRX7R9BB104 100 nF 50 V | [C14663](https://jlcpcb.com/partdetail/C14663) | 0603 | **Basic** | 12,618,106 | VDD HF decouple, gate–source soft-start. The C1711 → C14663 swap recommended on the [Board P page](./board-p.mdx) was applied at KiCad capture — one Extended line removed, reel shared with Board L |
+| C30, C34 | 2 | CL10A105KB8NNNC 1 µF 50 V | [C15849](https://jlcpcb.com/partdetail/C15849) | 0603 | **Basic** | 5,979,916 | VREG decoupling |
+| R11 | 1 | 100 kΩ ±1% | [C25803](https://jlcpcb.com/partdetail/C25803) | 0603 | **Basic** | 7,990,119 | Gate pull-up (default OFF); shares Board L's R26 reel |
+| R12 | 1 | 150 kΩ ±1% | [C22807](https://jlcpcb.com/partdetail/C22807) | 0603 | **Basic** | 414,154 | Gate series — re-ratioed from 56 kΩ by the design review to keep V_GS inside ±12 V at a 20 V mis-contract |
+| R13, R14 | 2 | 470 Ω ±1% | [C23179](https://jlcpcb.com/partdetail/C23179) | 0603 | **Basic** | 1,899,614 | DISCH + pin-18 series |
+| R15, R16 | 2 | 4.7 kΩ ±1% | [C23162](https://jlcpcb.com/partdetail/C23162) | 0603 | **Basic** | 7,433,362 | I2C pull-ups |
+| R19, R20 | 2 | 0 Ω | [C21189](https://jlcpcb.com/partdetail/C21189) | 0603 | **Basic** | 6,153,233 | CC1DB/CC2DB bridges |
+| R21 | 1 | 10 kΩ ±1% | [C17414](https://jlcpcb.com/partdetail/C17414) | 0805 | **Basic** | 10,726,008 | RESET pull-down (run state); shares Board L's reel. Added by the design review with the J2.4 reset line |
+| JOUT1 | 1 | PZ254V-11-06P male | [C492405](https://zudo-led-lamp.takazudomodular.com/docs/architecture/bom/) | THT 1x6, 2.54 mm | Extended | 98,021 (live 2026-08-20) | Direct Board L interface; unkeyed, verify pin 1 |
+| J2, J3 | — | Pogo pads 1x4 / 1x8 | — | Bare copper | — | — | NVM I2C + debug, no part |
+
+**DNP — footprint only, not populated:**
+
+| Ref | Part | LCSC | Package | Tier | Stock | Note |
+|---|---|---|---|---|---|---|
+| R17, R18 | 5.1 kΩ ±1% | [C23186](https://jlcpcb.com/partdetail/C23186) | 0603 | **Basic** | 3,775,920 | External Rd — rework insurance only, never populate on a powered build |
+| D6, D7 | PESD24VS1UB | [C85382](https://jlcpcb.com/partdetail/C85382) | SOD-523 | Extended | 109,452 | CC-line ESD, enclosed/production builds only |
+
+## Board L — driver, control, LED array
+
+| Ref | Qty | Part | LCSC | Package | Tier | Stock | Role |
+|---|---|---|---|---|---|---|---|
+| U2 | 1 | AL8860MP-13 | [C500782](https://jlcpcb.com/partdetail/C500782) | MSOP-8-EP | Extended | **4,000** | CC buck LED driver, 4.5–40 V, 1.5 A |
+| U3 | 1 | STM32G031F8P6 | [C529334](https://jlcpcb.com/partdetail/C529334) | TSSOP-20 | Extended | 12,551 | Control MCU, Cortex-M0+, 64 KB |
+| U4 | 1 | AP63203WU-7 | [C780769](https://jlcpcb.com/partdetail/C780769) | TSOT-23-6 | Extended | 11,392 | 3.3 V synchronous buck, 3.8–32 V |
+| D10 | 1 | SMAJ20A | [C571370](https://jlcpcb.com/partdetail/C571370) | SMA | Extended | **3,770** | Local 15 V input TVS; numeric pad/orientation and actual waveform OPEN |
+| D11 | 1 | SS26 | [C7420363](https://jlcpcb.com/partdetail/C7420363) | SMA | *Preferred* | 282,808 | Catch diode, 60 V/2 A Schottky |
+| L1 | 1 | FXL0630-330-M 33 µH | [C177245](https://jlcpcb.com/partdetail/C177245) | SMD 7x6.6 mm | Extended | 228,367 | LED buck inductor, 2.1 A max-design Isat (retained value; the 2.5 A figure is a typical-labeled catalogue column), 310 mΩ |
+| L2 | 1 | FNR4030S4R7MT 4.7 µH | [C167874](https://jlcpcb.com/partdetail/C167874) | SMD 4x4 mm | Extended | 252,195 | Logic buck inductor, shielded, 78 mΩ |
+| RS1 | 1 | RLP25FEER200 200 mΩ ±1% 2 W | [C459674](https://jlcpcb.com/partdetail/C459674) | 2512 | Extended | **20,654** | High-side sense → 500 mA |
+| R30–R37 | 8 | 33 Ω ±1% 1 W | [C2934070](https://jlcpcb.com/partdetail/C2934070) | 2512 | Extended | 85,468 | Per-string ballast — upsized from a 250 mW 1206 by the design review (the 1206 exceeded its rating at the worst-case 90 mA string) |
+| R20, R24, R25 | 3 | 10 kΩ ±1% | [C17414](https://jlcpcb.com/partdetail/C17414) | 0805 | **Basic** | 10,726,008 | CTRL filter series, PDOK/ATT pull-ups |
+| R22, R26 | 2 | 100 kΩ ±1% | [C25803](https://jlcpcb.com/partdetail/C25803) | 0603 | **Basic** | 7,990,119 | Brightness ADC pull-down and NTC divider top — R26 moved off the 10 kΩ line by the design review; the outgoing 10 kΩ divider exceeded the NTC's 0.1 mA maximum operating current by 68%. Shares Board P's R11 reel |
+| R27 | 1 | 100 Ω ±1% | [C22775](https://jlcpcb.com/partdetail/C22775) | 0603 | **Basic** | 7,325,193 | Brightness wiper series resistor |
+| R21 | 1 | 33 kΩ ±1% | [C4216](https://jlcpcb.com/partdetail/C4216) | 0603 | **Basic** | 696,981 | CTRL pull-down + divider (default-OFF) |
+| C10, C11, C12, C14 | 4 | CL31A106KBHNNNE 10 µF 50 V | [C13585](https://jlcpcb.com/partdetail/C13585) | 1206 | **Basic** | 1,877,266 | Input bulk + both buck input caps |
+| C13, C15, C18, C20–C22, C24 | 7 | CC0603KRX7R9BB104 100 nF 50 V | [C14663](https://jlcpcb.com/partdetail/C14663) | 0603 | **Basic** | 12,618,106 | HF decouple, BST, NRST, CTRL filter, brightness ADC filter, NTC filter |
+| C16, C17 | 2 | CL21A226MAQNNNE 22 µF 25 V | [C45783](https://jlcpcb.com/partdetail/C45783) | 0805 | **Basic** | 1,734,789 | 3.3 V output caps per DS41326 Table 2 |
+| C19 | 1 | CL10A105KB8NNNC 1 µF 50 V | [C15849](https://jlcpcb.com/partdetail/C15849) | 0603 | **Basic** | 5,979,916 | MCU VDD bulk |
+| RT1 | 1 | NCP18XH103F03RB 10 kΩ B=3380 K | [C13564](https://jlcpcb.com/partdetail/C13564) | 0603 | Extended | 398,625 | NTC, placed inside the LED array |
+| F1 | 1 | BSMD1206-075-30V | [C976305](https://jlcpcb.com/partdetail/C976305) | 1206 | Extended | 73,979 | PPTC, 750 mA hold / 1.5 A trip / 30 V |
+| J2 | 1 | PM254V-11-06-H85 female | [C2832269](https://zudo-led-lamp.takazudomodular.com/docs/architecture/bom/) | THT 1x6, 2.54 mm | Extended | 42,315 (live 2026-08-20) | Direct mate for Board P JOUT1; mirrors its pin map |
+| RV1 | 1 | RK10J11E0034 | [C470643](https://jlcpcb.com/partdetail/C470643) | Insertion, low-profile wheel | Verify quote | **6,939** | Single-unit 10 kΩ ±30%; 270°±10° stops |
+| SW2 | 1 | SS-12D01-G020 | [C5446803](https://jlcpcb.com/partdetail/C5446803) | THT short slide switch | Verify quote | **3,709** | Maintained SPDT, 1 A at 24 V DC |
+| LED1–LED24 | 24 | HL-AM-2835H421W-S1-08-HR3 (2800–3100 K) | [C210315](https://jlcpcb.com/partdetail/C210315) | SMD2835-2P | Extended | 399,813 | 3000 K, CRI 80, 29 lm typ @ 60 mA |
+
+**Footprint only — not in the assembly BOM:**
+
+| Ref | Suggested part | LCSC | Package | Tier | Stock | Note |
+|---|---|---|---|---|---|---|
+| J3 | PZ254V-11-05P 1x5P | [C492404](https://jlcpcb.com/partdetail/C492404) | THT 2.54 mm | Extended | 251,600 | SWD. Hand-fit a pin strip during bring-up rather than paying an Extended fee for a debug-only connector — the same reasoning that put pogo pads on Board P |
+| J4 | Pogo pads 1x3 | — | Bare copper | — | — | UART debug, no part — same bare-copper style as Board P's J2/J3 |
+
+## Sourcing risks
+
+Four lines carry stock low enough to matter on a small order. None is a design flaw —
+they are the specialty parts — but each needs a re-check before ordering.
+
+| Part | Stock | Risk and fallback |
+|---|---|---|
+| D5 / D10 SMAJ20A ([C571370](https://jlcpcb.com/partdetail/C571370)) | **3,770**, and **two boards need it** | Lowest-stock line in the whole design. Do not make a same-name or different-standoff substitution: exact vendor identity, conditioned clamp table, pad orientation, and both rail waveforms must be re-audited in the [ratings analysis](/docs/led-lamp/power/ratings-matrix/) and against the canonical record ([`rec-high-diode-smaj20a`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/high-diode-smaj20a/)) |
+| U2 AL8860MP-13 ([C500782](https://jlcpcb.com/partdetail/C500782)) — canonical record [`rec-al8860mp-13`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/al8860mp-13/) | **4,000** | Fine for a prototype run. `AL8860WT-7` (TSOT-25) is pin-compatible in function but showed 0 stock and is limited to 1 A — it would still cover this design's 500 mA if the MSOP part disappears |
+| RV1 RK10J11E0034 / C470643 | **6,939** | Current stopped-pot choice; do not substitute an encoder without circuit/firmware revision |
+| RS1 RLP25FEER200 ([C459674](https://jlcpcb.com/partdetail/C459674)) | **20,654** | Any 200 mΩ ±1% 2512 sense resistor rated 1 W or better substitutes directly; the value, not the manufacturer, is what sets 500 mA — see [`fact-rlp25-resistance`](https://zudo-led-lamp.takazudomodular.com/docs/components/records/rlp25feer200/#fact-rlp25-resistance) |
+
+## Extended-part fee economics
+
+:::note[Historical estimate — not a current quote]
+The counts, tiers and costs below describe the earlier Board P/EC11-era estimate.
+They are retained as history, not the adopted P15 plus existing Board L procurement
+plan. `C2991196` is the superseded encoder; the current Board L table uses RV1
+`C470643` and SW2 `C5446803`, whose tiers require quote verification. Do not reuse
+these totals or infer replacement tiers: any future order needs a current quote.
+:::
+
+JLCPCB charges a one-time setup fee — **~¥470 (roughly $3)** — per unique **Extended**
+part number, per order. Basic and Preferred parts do not incur it. The fee is per order,
+so a part used on both boards is charged **twice** when the boards are ordered as two
+separate PCBA jobs, which they must be.
+
+| | Board P | Board L |
+|---|---|---|
+| Unique fitted part numbers | 14 | 22 |
+| of which **Basic** | 9 | 8 |
+| of which **Preferred** | 0 | 1 |
+| of which **Extended** | **5** | **13** |
+
+Board P Extended lines: `C2678061`, `C347476`, `C283540`, `C571370`, `C492405` — one
+fewer than the original plan, because the C1711 → C14663 100 nF swap was applied.
+
+Board L Extended lines: `C500782`, `C529334`, `C780769`, `C571370`, `C177245`,
+`C167874`, `C459674`, `C2934070`, `C13564`, `C976305`, `C2832269`, `C2991196`, `C210315`.
+
+| | Value |
+|---|---|
+| Extended lines charged | 5 + 13 = **18** |
+| Setup fee total | 18 x ¥470 ≈ **¥8,460** (roughly **$54**) |
+| Component cost, both boards, single-unit quantity | roughly **$8** |
+
+**The setup fees are about seven times the parts cost.** That is the shape of every
+small JLCPCB PCBA order and it is worth internalising before optimising anything else:
+one avoided Extended line saves more than the entire resistor and capacitor content of
+both boards combined. It also amortises to nothing on a reorder — a second batch of the
+same design pays no setup fee at all.
+
+Two reductions were already taken:
+
+- **Board L's 10 µF caps use [C13585](https://jlcpcb.com/partdetail/C13585) (1206, Basic)
+  rather than the 1210 X7R part the driver research listed
+  ([C2918502](https://jlcpcb.com/partdetail/C2918502), Extended).** Saves ¥470 and shares
+  a reel with Board P. The trade is X5R instead of the X7R the AL8860 datasheet asks for
+  — X5R is rated to +85 °C, which covers this lamp's envelope, but if a build shows input
+  ripple problems, C2918502 is the datasheet-strict swap.
+- **Both boards' 100 nF caps now share [C14663](https://jlcpcb.com/partdetail/C14663)
+  (0603, Basic).** Board P originally specified [C1711](https://jlcpcb.com/partdetail/C1711)
+  (0805, Extended); the swap was applied at KiCad capture and is already counted in the
+  arithmetic above.
+
+Two more are available if the budget matters:
+
+- Dropping `RT1` (NTC) and `F1` (PPTC) would save ¥940 and remove the thermal-derate
+  and over-current protections. Both were added deliberately; this is the price of them.
+- Ordering both boards as a single panelised PCBA job, if JLCPCB permits it for the
+  design, would collapse the shared `C571370` TVS line from two charges to one — ¥470
+  saved. The two connector halves are different orderables and do not collapse.
+
+## Parts explicitly not on this BOM
+
+| Not present | Why |
+|---|---|
+| Aluminum MCPCB / heatsink | 0.19 W per LED site is well inside the plain-FR-4 regime — see [board split](./overview.mdx#board-split) |
+| Status LED | Would add current to the logic rail for information the lamp itself already conveys |
+| Crystal oscillator | HSI16 + PLL at 64 MHz is far more accurate than anything this design's timing needs |
+| BOOT0 strapping resistor | The factory-default option bit `nBOOT_SEL = 1` makes the G0 boot from flash and ignore the BOOT0 pin entirely (the pin is only consulted if `nBOOT_SEL` is cleared) — so no strap is needed, but flipping `nBOOT_SEL` in firmware would change that |
+| External Rd on CC lines | Deliberately DNP — the single most consequential rule from [zudo-pd's diagnosis](/docs/led-lamp/power/lessons-from-zudo-pd/#cc-topology-rules) |
+| SWD/UART connectors | Footprint only; hand-fit for bring-up |

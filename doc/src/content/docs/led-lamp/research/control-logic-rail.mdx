@@ -1,0 +1,92 @@
+---
+title: "Control Research: Logic Rail (15V → 3.3V)"
+description: Development migration candidate; historical LED text awaiting unified-site review.
+sidebar_position: 50
+---
+
+> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/research/control-logic-rail.mdx) and [existing LED site](https://zudo-led-lamp.takazudomodular.com/docs/).
+
+:::note[Current control revision — 2026-09-06]
+The current design uses **RV1 ALPS RK10J11E0034 / C470643**, a stopped 10 kΩ
+potentiometer with 270°±10° travel, and **SW2 G-Switch SS-12D01-G020 / C5446803**.
+Encoder comparisons and example firmware below are historical research, not the
+current netlist or executable firmware. See [Board L's current ADC mapping](/docs/led-lamp/architecture/board-l/#mcu-knob-and-dimming-path-knob-mapping).
+The absolute ADC position replaces edge counting and the old fixed startup target;
+start dark and ramp only after valid position, PD-status and thermal checks.
+:::
+
+
+## Context
+
+The PD board (Board-P) delivers a switched 15V rail. The control MCU, its ADC-connected knob, and any status LED need a clean low-current 3.3V logic rail derived from that 15V. This page compares a **switching buck converter** against a **linear regulator (LDO)** for that conversion and gives JLCPCB-verified candidates for both routes.
+
+The right choice depends heavily on how much current the logic rail actually has to supply — see the dissipation math below before picking a default.
+
+## The dissipation math (do this honestly)
+
+An LDO drops the difference between input and output voltage across itself and turns 100% of that difference into heat:
+
+```
+P_loss(LDO) = (V_in - V_out) x I_logic
+            = (15V - 3.3V) x I_logic
+            = 11.7V x I_logic
+```
+
+A buck converter instead only dissipates its switching + conduction losses, roughly `P_loss(buck) = P_out x (1/eta - 1)` for efficiency `eta` (typically 80-90% for these small ICs at light load):
+
+| I_logic | LDO loss (11.7V x I) | Buck loss (@ ~85% eta, P_out = 3.3V x I) | LDO efficiency |
+|---|---|---|---|
+| 2 mA (MCU idle/sleep) | 23.4 mW | ~1.2 mW | 22% |
+| 10 mA (MCU active, ADC sampling) | 117 mW | ~5.8 mW | 22% |
+| 20 mA (MCU + encoder pull-ups + status LED) | 234 mW | ~11.6 mW | 22% |
+| 50 mA (MCU + several peripherals, margin) | 585 mW | ~29 mW | 22% |
+| 100 mA (padding for future expansion) | 1.17 W | ~58 mW | 22% |
+
+LDO efficiency is flat at `V_out / V_in` = 3.3/15 = **22%** regardless of load, because the loss scales linearly with current — there is no "good" operating point, only a "small enough absolute loss" one.
+
+**Where an LDO stops being sensible:** for this design the logic load is genuinely tiny (a low-power MCU, a knob input, maybe one status LED) — realistically 2-20 mA. At 20 mA an LDO in a small SMD package (SOT-89/SOT-223) dissipates ~230 mW, which is fine with a modest copper pour and no heatsink. Once the budget creeps past ~50 mA (585 mW), the LDO needs real thermal design (copper area, possibly a bigger package) for a saving that a $0.50 buck IC gets essentially for free. **Rule of thumb: LDO is fine below ~30 mA on this rail; above that, default to the buck.** The architecture pass should pin down the actual logic budget (MCU + knob + any status LED + margin) before deciding.
+
+Note the 15V input is a step-down of *at least* 11.7V for the LDO — larger than the more common "12V→3.3V" or "5V→3.3V" cases seen in most reference designs, which is exactly why this rail is worth scrutinizing rather than defaulting to an LDO out of habit.
+
+## Option A — Buck converter (switching)
+
+Two JLCPCB-verified candidates, both fixed-package integrated FET bucks (no external FET needed):
+
+| Part | LCSC | Stock | Tier | Package | V_in range | Output | Switching freq | Price (1-9) | Notes |
+|---|---|---|---|---|---|---|---|---|---|
+| AP63203WU-7 | [C780769](https://jlcpcb.com/partdetail/C780769) | 11,392 | Extended | TSOT-23-6 | 3.8-32V | Fixed 3.3V | 1.1 MHz | $0.60 | Simplest BOM — fixed-output part, no feedback divider needed. 2A capable (10x headroom over our load). |
+| XL7015E1 | [C73013](https://jlcpcb.com/partdetail/C73013) | 21,778 | Extended | TO-252-5 | 5-80V | Adjustable (needs FB divider) | 150 kHz | $0.52 | Much wider input margin (80V abs max vs 32V) absorbs any 15V-rail transient without derating; TO-252 tab gives easy thermal relief if ever needed. Lower switching frequency means a physically larger inductor. |
+
+Supporting passives (both routes need an inductor + input/output ceramic caps):
+
+- AP63203 (1.1 MHz, needs a small inductor): **SWPA4030S2R2NT**, 2.2µH / 2.95A shielded power inductor — [C279948](https://jlcpcb.com/partdetail/C279948), stock 14,729, Extended.
+- XL7015 (150 kHz, needs a larger inductor): **SWPA5040S330MT**, 33µH / 1.2A shielded power inductor — [C86618](https://jlcpcb.com/partdetail/C86618), stock 238, Extended (lower stock — worth re-checking closer to BOM lock, or substitute any 22-47µH shielded inductor rated >200mA).
+- Input/output ceramic caps (10µF/25V X7R, 0805/1206) are commodity parts, abundantly stocked in the Basic tier — not worth a dedicated C-number lookup here; the architecture pass should just pick from the Basic capacitor list when finalizing the BOM.
+
+**Trade-off vs LDO:** more parts (IC + inductor + 2 caps, and for XL7015 also a feedback divider), but near-lossless at any realistic logic current and tolerant of headroom growth (extra peripherals, a brighter status LED) without a thermal re-check.
+
+## Option B — LDO (linear)
+
+Two JLCPCB-verified fixed 3.3V LDO candidates:
+
+| Part | LCSC | Stock | Tier | Package | V_in max | Dropout | I_q | Price (lowest qty tier) | Notes |
+|---|---|---|---|---|---|---|---|---|---|
+| AMS1117-3.3 | [C6186](https://jlcpcb.com/partdetail/C6186) | 2,007,447 | **Basic** | SOT-223 | **15V** | ~1.1-1.3V | ~5 mA | $0.20 (1-49) | Cheapest, best-stocked, Basic-tier (no Extended fee). **Caveat: 15V absolute max input equals our nominal rail voltage** — any ripple or transient on the PD board's 15V output would exceed the part's rating. Only safe if the architecture pass confirms the 15V rail is tightly regulated with headroom, or adds a small margin resistor/TVS ahead of it. |
+| HT7333-1 | [C5451671](https://jlcpcb.com/partdetail/C5451671) | 10,104 | Extended | SOT-89 | 18V | ~90mV@40mA (very low) | ~2 µA | $0.07 (1-99) | 3V of headroom over the 15V nominal rail — comfortably absorbs ripple/transients. Much lower quiescent current than AMS1117, which matters if the lamp ever needs a low-power standby state. Slightly lower current capability (250mA) but still >>10x our logic load. |
+
+**Recommendation for this option:** if an LDO is chosen, prefer **HT7333-1** over AMS1117-3.3 specifically because of the input-voltage margin — the AMS1117's 15V abs-max rating sits exactly at the nominal rail voltage with zero margin, which is a fragile spec to depend on even though it's the cheaper, better-stocked, Basic-tier part.
+
+## Recommendation matrix (non-binding — architecture pass decides)
+
+| Logic budget | Suggested route |
+|---|---|
+| < ~20 mA, cost/BOM-simplicity prioritized | LDO (HT7333-1 for margin, or AMS1117-3.3 if 15V-rail regulation is confirmed tight) |
+| Anywhere in range, efficiency/thermal-margin prioritized | Buck (AP63203WU-7 for simplicity, XL7015E1 for extra input-transient margin) |
+| > ~50 mA, or thermal headroom is tight in the enclosure | Buck — LDO loss becomes hard to justify |
+
+## Questions the architecture pass must answer
+
+- What is the actual worst-case logic current budget (MCU active + ADC + knob pull-ups/pull-downs + any status LED)? This single number decides LDO-vs-buck.
+- How tightly regulated is the PD board's switched 15V rail — is there headroom for the AMS1117's exact-15V abs-max rating, or should HT7333 (or the buck route) be the default for safety margin?
+- Does the enclosure/thermal budget have room for a buck inductor's footprint (SMD, 4x4mm-5x5mm class), or is board area tight enough that the LDO's 3-part BOM matters more than its heat?
+- Should the logic rail also power anything beyond the MCU + knob (e.g., a status LED, a debug UART bridge) — this changes the current budget materially.

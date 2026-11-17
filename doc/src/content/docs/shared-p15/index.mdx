@@ -1,0 +1,19 @@
+---
+title: Shared P15 r1
+sidebar_position: 1
+---
+
+# Shared P15 r1
+
+> **Development navigation candidate.** The existing P15 owner and physical acceptance gates remain unchanged.
+
+P15 r1 is the 15 V / 3 A input module shared by LED Lamp first and PD15 afterward. Its owner is `boards/board-p15/`; the LED source tree carries a pinned consumer reference. A matching source hash does not show that an individual unit was programmed or tested.
+
+| Read next | Scope |
+| --- | --- |
+| [Module and six-pin interface](/docs/architecture/p15-shared-input/) | Source owner, nets and load boundary |
+| [NVM programming](/docs/architecture/board-p15-programming/) | Per-unit programming and acceptance procedure |
+| [Current state](/docs/project/current-state/) | Dated artifact and unit status |
+| [Release readiness](/docs/architecture/release-readiness/) | Remaining physical gates |
+
+The LED consumer reference stays in `products/led-lamp/boards/p15-r1-reference.json`. The historical LED `board-p/` is a distinct 15 V board, not PD20's 20 V Board P r3.

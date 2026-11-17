@@ -1,0 +1,77 @@
+---
+title: "Control Research: MCU Candidates"
+description: Development migration candidate; historical LED text awaiting unified-site review.
+sidebar_position: 60
+---
+
+> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/research/mcu-candidates.mdx) and [existing LED site](https://zudo-led-lamp.takazudomodular.com/docs/).
+
+## Requirements recap
+
+From the source issue: the MCU needs **at least one ADC channel** (for the knob, if the potentiometer route is chosen — see [control-knob](/docs/led-lamp/research/control-knob/)), **at least one PWM output** (to drive the LED driver's dim pin), and a tiny/cheap package is fine since this is a low-pin-count control task, not a general-purpose compute job. Three low-cost families cover the space JLCPCB actually stocks well: WCH's RISC-V **CH32V003**, ST's Cortex-M0+ **STM32C0/G0**, and Puya's Cortex-M0 **PY32F0**.
+
+## Option A — CH32V003 (RISC-V, WCH)
+
+The cheapest, smallest option — a 48MHz RISC-V "QingKe V2A" core, 16KB flash, 2KB SRAM, 10-bit ADC, and general-purpose timers capable of PWM well above any flicker-relevant frequency (see [modulation-algorithms](/docs/led-lamp/research/modulation-algorithms/)).
+
+| Part | LCSC | Stock | Tier | Package | Price (1-49) |
+|---|---|---|---|---|---|
+| CH32V003F4P6 | [C5187096](https://jlcpcb.com/partdetail/C5187096) | 10,810 | Extended | TSSOP-20 | $0.29 |
+| CH32V003J4M6 | [C5346354](https://jlcpcb.com/partdetail/C5346354) | 15,461 | Extended | SOP-8 | $0.22 |
+| CH32V003F4U6 | [C5299908](https://jlcpcb.com/partdetail/C5299908) | 36,392 | Extended | QFN-20(3x3) | $0.29 |
+
+TSSOP-20 (C5187096) is the pragmatic pick for a first prototype board — hand-solder-friendly pitch and 18 usable I/O (per the DB listing) vs. the SOP-8 variant's much tighter pin budget (8 physical pins total, several consumed by power/ground/reset — exact GPIO count needs a datasheet check, not verified here), giving room for the knob's ADC/quadrature pins, the PWM dim output, and a debug pad without fighting for pins.
+
+**Programming/debug interface plan:** CH32V003 uses a WCH-proprietary **single-wire SDI** debug interface (not standard SWD) — only the **WCH-LinkE** programmer (and WCH-LinkW) supports it. Plan: break out a small pad group (SDI pin + 3.3V + GND, e.g. a 3-pin 2.54mm header or pogo-pad footprint) for the WCH-LinkE clip during bring-up; it doesn't need to be a permanently populated connector on a production board.
+
+**macOS toolchain notes:** WCH's official MounRiver Studio IDE is Windows-first with poor native macOS support, but there's a solid **open-source path that works well on macOS**: the community [ch32fun](https://github.com/cnlohr/ch32fun) (formerly ch32v003fun) project pairs a `riscv64-unknown-elf-gcc` toolchain (installable via [riscv-software-src/homebrew-riscv](https://github.com/riscv-software-src/homebrew-riscv)) with **minichlink**, an open-source, cross-platform (libusb-based) command-line flasher/GDB server that talks to the WCH-LinkE directly — no Windows-only vendor tool required. This is the recommended macOS path.
+
+## Option B — STM32C0 / STM32G0 (ARM Cortex-M0+, ST)
+
+The most toolchain-mature option, at a small cost premium over CH32V003. Two sub-families cover a cost/feature spread:
+
+| Part | LCSC | Stock | Tier | Package | Flash/SRAM | Clock | ADC | Price (1-9) |
+|---|---|---|---|---|---|---|---|---|
+| STM32C011F4P6TR | [C7373263](https://jlcpcb.com/partdetail/C7373263) | 6,765 | Extended | TSSOP-20 | 16KB/6KB | 48MHz | 12-bit | $0.83 |
+| STM32G031F8P6 | [C529334](https://jlcpcb.com/partdetail/C529334) | 12,551 | Extended | TSSOP-20 | 64KB/8KB | 64MHz | 12-bit | $1.24 |
+
+STM32C0 is ST's cost-reduced line aimed squarely at CH32V003/PY32-class pricing while keeping the full ARM Cortex-M0+ ecosystem; STM32G0 costs more but has 4x the flash/RAM headroom if the modulation firmware grows (e.g., a recorded-flame LUT playback approach — see [modulation-algorithms](/docs/led-lamp/research/modulation-algorithms/)). Both have 12-bit ADC (finer knob resolution than CH32V003's 10-bit) and multiple timers with PWM channels well above any flicker-relevant frequency.
+
+**Programming/debug interface plan:** standard ARM **SWD** (2-wire: SWDIO + SWCLK, plus power/GND/reset) via any ST-Link (V2/V3 or clone) or a generic CMSIS-DAP probe. Break out a 4-6 pin SWD pad group (SWDIO, SWCLK, GND, 3V3, optionally NRST) for bring-up.
+
+**macOS toolchain notes:** this is the best-supported path on macOS by a clear margin. `arm-none-eabi-gcc` installs cleanly via Homebrew, **OpenOCD** (also Homebrew) drives ST-Link natively, **STM32CubeIDE** ships a native macOS build, and **PlatformIO**'s `ststm32` platform has first-class macOS support (including automatic toolchain + debugger installation). No community forks or workarounds needed anywhere in this chain.
+
+## Option C — PY32F002A (ARM Cortex-M0, Puya)
+
+The cheapest per-unit ARM option, and the highest stock of any candidate here — Puya's PY32 line is the "3-cent MCU" family that's become a common CH32V003 alternative for cost-sensitive designs while staying on the ARM Cortex-M0 core (vs. CH32V003's RISC-V).
+
+| Part | LCSC | Stock | Tier | Package | Flash/RAM | Clock | ADC | Price (1-49) |
+|---|---|---|---|---|---|---|---|---|
+| PY32F002AF15P6TU | [C5292059](https://jlcpcb.com/partdetail/C5292059) | 28,327 | Extended | TSSOP-20 | 20KB/3KB (typical for this line) | 24MHz | 12-bit | $0.19 |
+| PY32F002AL15S6TU | [C5292060](https://jlcpcb.com/partdetail/C5292060) | 22,795 | Extended | SOP-8 | same core | 24MHz | 12-bit | $0.13 |
+
+TSSOP-20 (C5292059) is the pick for the same reason as the CH32V003 TSSOP variant — more I/O headroom for knob + PWM + debug pads without pin-count pressure.
+
+**Programming/debug interface plan:** PY32F002A exposes standard ARM **SWD**, same 2-wire interface as the STM32 option — any ST-Link/CMSIS-DAP probe works. It also has a factory **UART ISP bootloader**, meaning a board can be flashed over a simple USB-UART adapter with no dedicated debug probe at all — attractive for a low-cost production/rework path once firmware is stable, at the cost of no live debugging over that path.
+
+**macOS toolchain notes:** SWD flashing/debugging works via **pyOCD**, which explicitly lists PY32F002Ax5/Bx5 support and is fully cross-platform (Linux/macOS/Windows, no elevated privileges needed on macOS) — or via **OpenOCD** using Puya's official GCC support package or the community `openocd-puya` fork. Both are viable on macOS; pyOCD is the simpler install (`pip install pyocd`). The UART-ISP path needs only a generic USB-UART adapter and Puya's Python flashing tool, no macOS-specific concerns.
+
+## Comparison summary
+
+| | CH32V003 | STM32C0/G0 | PY32F002A |
+|---|---|---|---|
+| Core | RISC-V (QingKe V2A) | ARM Cortex-M0+ | ARM Cortex-M0 |
+| Unit cost (TSSOP-20, 1pc-ish) | ~$0.29 | $0.83-1.24 | ~$0.19 |
+| ADC | 10-bit | 12-bit | 12-bit |
+| Debug interface | Proprietary single-wire SDI (WCH-LinkE only) | Standard SWD (any probe) | Standard SWD (any probe) + UART ISP bootloader |
+| macOS toolchain maturity | Good via community open-source (ch32fun + minichlink) | Best — official vendor + Homebrew + PlatformIO all first-class | Good via pyOCD (official support) or OpenOCD fork |
+| Stock (best TSSOP-20 SKU) | 10,810 | 6,765-12,551 | 28,327 |
+
+All three satisfy the ADC-channel + PWM-output requirement comfortably; the meaningful differentiators are debug-tooling maturity (STM32 clearly ahead) vs. unit cost (PY32F002A clearly ahead, CH32V003 close behind) vs. ecosystem familiarity.
+
+## Questions the architecture pass must answer
+
+- Which axis matters more for this project: lowest per-unit cost (PY32F002A or CH32V003) or lowest toolchain friction during bring-up (STM32C0/G0)? All three are viable — this is a preference call, not a technical blocker.
+- Does the firmware plan (see [modulation-algorithms](/docs/led-lamp/research/modulation-algorithms/)) need more than CH32V003/PY32's ~16-20KB flash and 2-3KB SRAM (e.g., a recorded-flame LUT approach would want more headroom), which would favor STM32G031's 64KB/8KB?
+- Should the debug pads be a permanently populated connector (easier rework, costs BOM + board space) or a pogo-pin/pad-only footprint (cheaper, needs a test jig)?
+- If PY32F002A is chosen, does the production flow want the UART-ISP path (no debug probe needed) as the primary flashing method, with SWD reserved for development-time debugging only?
