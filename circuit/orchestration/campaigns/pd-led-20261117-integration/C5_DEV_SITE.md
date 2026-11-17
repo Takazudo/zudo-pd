@@ -36,6 +36,11 @@ Historical line DNP flags do not assert assembled fit. PD's owner bundles,
 inventory, candidates, CAD roots, selection, asset allowlist and matrix remain
 unchanged.
 
+The [private C3/C5 decision review](../../../../doc/src/content/docs/catalog/review.mdx)
+joins the accepted identity, DNP and CAD reconciliation to the C1 route,
+asset and redirect maps. Its machine-readable bundle is source-locked and
+holds every unapproved route or asset from activation.
+
 ## Completion boundary
 
 Before any public-site change, reviewers must settle component identity and
