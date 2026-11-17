@@ -20,6 +20,12 @@ C1 = CAMPAIGN / "pd-led-20261116-c1/route-map.tsv"
 C3 = CAMPAIGN / "pd-led-20261116-c3/route-contract/result.json"
 AUDIT = CAMPAIGN / "pd-led-20261117-integration/c5-link-audit.json"
 OLD_HOST = "https://zudo-led-lamp.takazudomodular.com"
+SECTION_BRIDGES = {
+    "/docs/components/": "/docs/led-lamp/components/",
+    "/docs/components/catalog/": "/docs/led-lamp/components/catalog/",
+    "/docs/components/integration/": "/docs/led-lamp/components/integration/",
+    "/docs/components/records/": "/docs/led-lamp/components/records/",
+}
 LOCKS = {
     C1: "e60f2c64b19957f541d36c66db55c7a66528ea1344950451836376a7a8dba527",
     C3: "63b829cf642f1a537907208aea8ee2577da4945da6a1c4ce984713fdf4bb6d8a",
@@ -68,6 +74,7 @@ def check():
     pd_dist = ROOT / "doc/dist"
     old_cache = {}
     new_cache = {}
+    bridge_cache = {}
     expected_hrefs = {}
     counts = Counter()
     for row in links:
@@ -100,10 +107,18 @@ def check():
             assert not built(pd_dist, target["proposed_route"]).is_file(), target
             counts["record"] += 1
         else:
-            assert route in {
-                "/docs/components/", "/docs/components/catalog/",
-                "/docs/components/integration/", "/docs/components/records/",
-            }, f"Unmapped generated record: {route}"
+            assert route in SECTION_BRIDGES, f"Unmapped generated record: {route}"
+            bridge = SECTION_BRIDGES[route]
+            assert bridge.startswith("/docs/led-lamp/components/") and bridge != route
+            bridge_path = built(pd_dist, bridge)
+            assert bridge_path.is_file(), f"Missing private LED section bridge: {bridge}"
+            if bridge not in bridge_cache:
+                bridge_cache[bridge] = html_tags(bridge_path)
+            assert OLD_HOST + route in bridge_cache[bridge].hrefs, f"Missing historical section pointer: {bridge}"
+            assert route not in bridge_cache[bridge].hrefs, f"Section pointer binds to PD: {bridge}"
+            if split.fragment:
+                assert split.fragment in bridge_cache[bridge].ids, f"Missing section bridge anchor: {bridge}#{split.fragment}"
+                assert OLD_HOST + row["url"] in bridge_cache[bridge].hrefs, f"Missing historical anchored pointer: {bridge} {row['url']}"
             counts["section"] += 1
     for route, expected in expected_hrefs.items():
         rendered = Counter(new_cache[route].hrefs)

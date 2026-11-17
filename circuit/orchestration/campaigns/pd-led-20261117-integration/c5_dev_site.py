@@ -30,6 +30,12 @@ HELD_CITATION_SHA256 = {
     "1f57a875abd66c1777cee0b78de591207dc5a5e8e1e9f36e88ae8970b85e8958",
     "ec3a04f1d355445fed808a86e1af02b602b186e8f63bc0d69838a3cb947a7c03",
 }
+SECTION_BRIDGES = {
+    "/docs/components/": ("components", "LED component evidence index", "18fde002d0c6dbc0eb7f297c90ba100adc431fa58518df9eadf9865a986d7494"),
+    "/docs/components/catalog/": ("components/catalog", "LED historical component catalog", "370a032b176bee46c25af314e672e9f8781b6d59219cbf190d06d2d79a148540"),
+    "/docs/components/integration/": ("components/integration", "LED historical integration rules", "9d90679d171b6b173b2c922447c78d8df7914fca525a307159598f2787108965"),
+    "/docs/components/records/": ("components/records", "LED historical record index", "1701a93ef47d809877017af58430f2e987852816f0c164d3ff28a44c8d6b8760"),
+}
 
 
 def digest(path):
@@ -107,6 +113,20 @@ def transform_page(source, routes, old_route, held_counts=(0, 0)):
             "selection. See the [item evidence review](/docs/catalog/item-evidence/).\n"
             if held_generated or held_assets else "")
     return metadata + notice + context + held + content[boundary:]
+
+
+def section_bridge(old_route, title, fragments, source):
+    lines = [
+        "---", f"title: {json.dumps(title)}", "description: Private LED migration section pointer; historical evidence remains on its original host.", "---", "",
+        f"# {title}", "",
+        "> **Development navigation candidate.** This page does not publish LED component records, calculation results or fitted-state claims. The source-era generated section remains at its original URL.", "",
+        f"[Open the original LED section]({OLD_HOST}{old_route}) · [Compare the 35 scoped LED candidates](/docs/catalog/led-candidates/) · [View the single line catalog](/docs/catalog/lines/)", "",
+    ]
+    for fragment in sorted(fragments):
+        assert re.fullmatch(r"(?:rule|calc)-[a-z0-9-]+", fragment), fragment
+        assert f'<EvidenceAnchor id="{fragment}" />' in source, fragment
+        lines.extend((f"## {fragment}", "", f"[Open the source-era section at this anchor]({OLD_HOST}{old_route}#{fragment})", ""))
+    return "\n".join(lines)
 
 
 def candidate_catalog(pd, led):
@@ -219,6 +239,27 @@ def outputs():
         source_name = str(old.relative_to(ROOT))
         result[dest] = transform_page(old, by_old, row["old_route"],
                                       (generated_links[source_name], asset_links[source_name]))
+    section_rows = {row["old_route"]: row for row in rows
+                    if row["class"] == "generated" and row["old_route"] in SECTION_BRIDGES}
+    assert set(section_rows) == set(SECTION_BRIDGES)
+    from urllib.parse import urlsplit
+    section_fragments = {route: set() for route in SECTION_BRIDGES}
+    for link in audit["route_links"]:
+        if link["target_class"] != "generated":
+            continue
+        target = urlsplit(link["url"])
+        if target.path in section_fragments and target.fragment:
+            section_fragments[target.path].add(target.fragment)
+    assert {route: len(fragments) for route, fragments in section_fragments.items()} == {
+        "/docs/components/": 0, "/docs/components/catalog/": 0,
+        "/docs/components/integration/": 6, "/docs/components/records/": 0,
+    }
+    for old_route, (suffix, title, sha) in SECTION_BRIDGES.items():
+        source = LED / section_rows[old_route]["source_path"]
+        assert digest(source) == sha, f"Section source changed: {source}"
+        dest = DOCS / "led-lamp" / suffix / "index.mdx"
+        assert dest not in result
+        result[dest] = section_bridge(old_route, title, section_fragments[old_route], source.read_text())
     pd = json.loads((ROOT / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
     led = json.loads((LED / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
     result[DOCS / "catalog/led-candidates.mdx"] = candidate_catalog(pd, led)

@@ -61,13 +61,28 @@ The remaining cutover choices are concrete:
 | Target | Safe current behavior | Later option and required evidence |
 | --- | --- | --- |
 | `/docs/architecture/`, `/docs/architecture/board-p/`, `/docs/research/` | Keep PD's existing routes and the LED old host; each private copy links to its exact original page. | Manage an LED-host redirect after approving the namespaced destinations. A blanket PD-host redirect would displace existing PD pages. |
-| 60 links to historical generated LED pages on seven pages (41 record uses, 19 section uses) | Keep exact old-host links. All 38 historical fragments exist; 37 uses have same-path PD pages and must retain the host. | Approve exact record identity, document and active selection for the 18 referenced record routes. Resolve the four section routes separately; then replace only approved links and retest fragments. |
+| 60 links to historical generated LED pages on seven pages (41 record uses, 19 section uses) | Keep exact old-host links. All 38 historical fragments exist; 37 uses have same-path PD pages and must retain the host. Four private LED section pointers now provide product-scoped navigation without publishing records or results. | Approve exact record identity, document and active selection for the 18 referenced record routes. Review any later public link replacement separately and retest fragments. |
 | 12 references to 11 LED assets on two pages | Keep the old-host asset URLs and PD's current asset allowlist. | Review copyright, source, exact bytes and publication purpose per asset before copying selected files into namespaced PD paths. |
 | 25 self-contained authored pages | Keep private with current-context notes and source-era body. | Editorially approve exact pages and currentness; a mechanically clean link graph alone does not authorize publication. |
 
 The recommended immediate disposition is the safe current behavior in every
 row. Any later cutover needs an entry-level decision and verification against
 the final site head. This branch performs none of those public actions.
+
+The four generated-section routes now have these **private navigation
+candidates**. They are small pointers to the source-era LED sections, not copies
+of their generated claims. The six referenced integration fragment names have
+matching anchors on the private pointer and exact links back to historical
+anchors. The earlier `c3-c5-candidates.json` records these section targets as
+unresolved at that review head; this later C5 bridge resolves the navigation
+syntax only. All 19 authored references still open the original LED host.
+
+| Original LED route | Private section pointer | Scope |
+| --- | --- | --- |
+| `/docs/components/` | `/docs/led-lamp/components/` | Corpus introduction and historical section link |
+| `/docs/components/catalog/` | `/docs/led-lamp/components/catalog/` | Historical catalog pointer and separate scoped candidate catalog |
+| `/docs/components/integration/` | `/docs/led-lamp/components/integration/` | Six referenced rule/calculation anchors, each linking to its original LED anchor |
+| `/docs/components/records/` | `/docs/led-lamp/components/records/` | Historical record-index pointer, without adopting any generated record |
 
 ### Existing LED asset references
 
