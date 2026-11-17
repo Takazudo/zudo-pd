@@ -28,8 +28,14 @@ def sha256(path):
 
 def verify_asset_bytes(source_path, mapped, led_root=None):
     led_root = led_root or ROOT / "products/led-lamp"
-    path = led_root / source_path
-    assert path.resolve().is_relative_to(led_root.resolve()) and not path.is_symlink(), source_path
+    relative = Path(source_path)
+    assert not relative.is_absolute() and ".." not in relative.parts, source_path
+    assert not led_root.is_symlink(), led_root
+    path = led_root
+    for part in relative.parts:
+        path = path / part
+        assert not path.is_symlink(), f"LED asset path uses a symlink: {path}"
+    assert path.resolve().is_relative_to(led_root.resolve()), source_path
     assert path.is_file(), source_path
     assert mapped["staging_path"] == f"products/led-lamp/{source_path}", source_path
     assert sha256(path) == mapped["led_sha256"], f"LED asset source bytes changed: {source_path}"

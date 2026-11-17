@@ -25,6 +25,17 @@ class AssetSourceTest(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, "source bytes changed"):
                 c5_link_audit.verify_asset_bytes(source, mapped, led)
 
+        with tempfile.TemporaryDirectory() as directory:
+            led = Path(directory)
+            actual = led / "actual"
+            actual.mkdir()
+            (actual / "assembled.png").write_bytes(original)
+            linked = led / "doc/public/assets/enclosure"
+            linked.parent.mkdir(parents=True)
+            linked.symlink_to(actual, target_is_directory=True)
+            with self.assertRaisesRegex(AssertionError, "symlink"):
+                c5_link_audit.verify_asset_bytes(source, mapped, led)
+
 
 if __name__ == "__main__":
     unittest.main()
