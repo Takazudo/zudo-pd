@@ -80,8 +80,10 @@ async function main() {
       await navigate(cdp, `${origin}/docs/led-lamp/`);
       await click(cdp, `document.querySelector('site-search button[aria-label="Search"]')`);
       await waitFor(cdp, `document.querySelector('site-search dialog')?.open === true`);
-      await evaluate(cdp, `(() => { const input = document.querySelector('site-search dialog input'); input.value = 'Historical LED Board P net table'; input.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+      await evaluate(cdp, `(() => { const input = document.querySelector('site-search dialog input'); input.value = 'board-p'; input.dispatchEvent(new Event('input', { bubbles: true })); })()`);
       await waitFor(cdp, `document.querySelector('site-search dialog a[href*="/docs/led-lamp/architecture/board-p"]')`, 15_000);
+      const searchLinks = await evaluate(cdp, `Array.from(document.querySelectorAll('site-search dialog [data-search-results] a[href]')).map(a => new URL(a.href).pathname)`);
+      assert(searchLinks.slice(0, 10).includes('/docs/architecture/board-p') && searchLinks.slice(0, 10).includes('/docs/led-lamp/architecture/board-p'), `${width}px: broad board-p query did not expose both PD and LED Board P pages in first batch: ${JSON.stringify(searchLinks)}`);
       await click(cdp, `document.querySelector('site-search dialog a[href*="/docs/led-lamp/architecture/board-p"]')`);
       await waitFor(cdp, `location.pathname.replace(/\\/$/, '') === '/docs/led-lamp/architecture/board-p'`);
       await waitFor(cdp, `Array.from(document.querySelectorAll('main a')).some(a => a.textContent.trim() === 'original LED page')`);

@@ -1,5 +1,17 @@
 # Circuit-doc 0.3.0 project bridges
 
+## Zudo Doc 9.1.4 search ranking (private PD/LED site)
+
+`@takazudo__zudo-doc@9.1.4.patch` teaches the pinned search widget to rank a
+hyphenated URL slug and a space-delimited title together. A query such as
+`board-p` now surfaces both the PD and historical LED Board P pages before
+component records that merely mention that board in their descriptions. The
+patch changes the package's scoring module and its shipped inline browser
+script together; it does not alter the indexed source pages, their routes or
+the package version. `circuit/tests/search-ranking.test.mjs` and the actual
+Chrome navigation smoke cover the two distinct destinations. Remove this
+bridge when an upstream pinned release provides equivalent scoring.
+
 Removal tracker: [zudo-pd #210](https://github.com/Takazudo/zudo-pd/issues/210).
 The runtime request is `^0.3.0`. The root lock resolves the npm 0.3.0 tarball with its
 registry integrity and this patch's hash. The patch retains the reviewed

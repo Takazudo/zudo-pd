@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, realpath, mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
@@ -77,7 +78,8 @@ test('all archived circuit and entity-bearing heading IDs match actual productio
  }
  const fromRoot=await realpath(createRequire(join(root,'package.json')).resolve('@takazudo/zudo-doc/extract-headings'));
  assert.equal(await realpath(requireDoc.resolve('@takazudo/zudo-doc/extract-headings')),fromRoot);
- assert.doesNotMatch(fromRoot,/patch_hash=/u);
+ const searchPatch=await readFile(join(root,'patches/@takazudo__zudo-doc@9.1.4.patch'));
+ assert.ok(fromRoot.includes(`patch_hash=${createHash('sha256').update(searchPatch).digest('hex').slice(0,20)}`));
  assert.equal(JSON.parse(await readFile(join(root,'doc/node_modules/@takazudo/zudo-doc/package.json'),'utf8')).version,'9.1.4');
 });
 
