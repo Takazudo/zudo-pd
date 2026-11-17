@@ -1,7 +1,14 @@
 diff --git a/dist/chunk-6T5SSYWE.js b/dist/chunk-6T5SSYWE.js
-index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f46235f638aa9 100644
+index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..0aacc3df729c9d4f4ba181acaba5fa21107f6f18 100644
 --- a/dist/chunk-6T5SSYWE.js
 +++ b/dist/chunk-6T5SSYWE.js
+@@ -1,5 +1,5 @@
+ // src/git-history.ts
+-import { execFile, execFileSync, spawn } from "child_process";
++import { execFile, execFileSync, spawn, spawnSync } from "child_process";
+ import { promisify } from "util";
+ import { readdirSync } from "fs";
+ import { join, relative } from "path";
 @@ -60,9 +60,10 @@ function parseCommitLog(output) {
    }
    return records;
@@ -55,7 +62,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f4623
 +  const metaRecords = await readRecords(merge);
 +  // The LED path moved in the import merge. Select only descendants of that
 +  // merge and ancestors of its LED source parent, never old PD path twins.
-+  const scopedRecords = merge ? metaRecords.filter((rec) => importedLedCommits().has(rec.hash)) : metaRecords;
++  const scopedRecords = merge ? metaRecords.filter((rec) => importedLedCommits().has(rec.hash) && !isUnchangedImportedMerge(rec.hash, relPath)) : metaRecords;
 +  const hashToPath = await buildHashToPathMapAsync(relPath, maxEntries, merge);
 +  // -m emits one record per merge parent. A document has one version at a
 +  // commit; duplicate hashes otherwise create empty Compare steps.
@@ -103,7 +110,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f4623
            "--follow",
            "--format=%H",
            "--name-only",
-@@ -366,17 +376,40 @@ function parseFirstLastMeta(output) {
+@@ -366,17 +376,58 @@ function parseFirstLastMeta(output) {
    }
    return acc.finish();
  }
@@ -116,14 +123,32 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f4623
 +  const head = execFileSync("git", ["rev-parse", "HEAD"], { ...gitOpts() }).trim();
 +  if (importedLedCommitCache?.head === head) return importedLedCommitCache.commits;
 +  const commits = new Set([LED_IMPORT]);
++  const postImport = new Set([LED_IMPORT]);
 +  // A merge can bring in commits from an unrelated pre-import PD branch.
 +  // Keep only post-import ancestry, not every commit in IMPORT..HEAD.
 +  for (const args of [[LED_SOURCE_PARENT], ["--ancestry-path", `${LED_IMPORT}..${head}`]]) {
 +    const output = execFileSync("git", ["rev-list", ...args], { ...gitOpts() });
-+    for (const hash of output.split("\n")) if (hash) commits.add(hash);
++    for (const hash of output.split("\n")) {
++      if (!hash) continue;
++      commits.add(hash);
++      if (args[0] === "--ancestry-path") postImport.add(hash);
++    }
 +  }
-+  importedLedCommitCache = { head, commits };
++  importedLedCommitCache = { head, commits, postImport };
 +  return commits;
++}
++function isUnchangedImportedMerge(hash, relPath) {
++  importedLedCommits();
++  if (hash === LED_IMPORT || !importedLedCommitCache.postImport.has(hash)) return false;
++  const [, firstParent, secondParent] = execFileSync("git", ["rev-list", "--parents", "-n", "1", hash], { ...gitOpts() }).trim().split(" ");
++  if (!secondParent) return false;
++  // -m sees a file added relative to the other merge parent even when the
++  // imported file is byte-identical to our first parent. Do not report that
++  // merge as a document edit or use its date as the latest document update.
++  const diff = spawnSync("git", ["diff", "--quiet", firstParent, hash, "--", relPath], { ...gitOpts() });
++  if (diff.status === 0) return true;
++  if (diff.status === 1) return false;
++  throw new Error(`Unable to inspect imported document merge ${hash}: ${diff.stderr ?? ""}`);
 +}
 +function isImportedLedPath(relPath) {
 +  // The zudo-pd #312 merge moved the LED document tree under this prefix.
@@ -146,7 +171,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f4623
      "--full-history",
      "--name-status",
      "--find-renames",
-@@ -384,7 +417,7 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+@@ -384,7 +435,7 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
      `--format=${WALK_FORMAT}`
    ];
    if (relSpecs.length > 0) args.push("--", ...relSpecs);
@@ -155,7 +180,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f4623
      const child = spawn("git", args, {
        stdio: ["ignore", "pipe", "ignore"],
        cwd: repoRoot
-@@ -405,16 +438,41 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
+@@ -405,16 +456,41 @@ function getAllFilesFirstLastMetaAsync(pathspecs = []) {
        buf += decoder.end();
        if (buf.length > 0) acc.pushLine(buf);
        const relMap = acc.finish();
@@ -183,7 +208,7 @@ index 3e16c9d8a4d6e7f1625c3cd27c319da4d22f1218..b268ea7f2be727a65df1da26135f4623
 +        const relPath = toRepoRelative(filePath);
 +        try {
 +          const { stdout } = await execFileAsync("git", ["log", "-m", "--follow", "--format=%H%x09%aI%x09%aN", "--", relPath], { ...gitOpts() });
-+          const records = stdout.trim().split("\n").filter(Boolean).map((line) => line.split("\t")).filter(([hash]) => allowed.has(hash));
++          const records = stdout.trim().split("\n").filter(Boolean).map((line) => line.split("\t")).filter(([hash]) => allowed.has(hash) && !isUnchangedImportedMerge(hash, relPath));
 +          if (records.length === 0) return;
 +          const [, newestDate, newestAuthor] = records[0];
 +          const [, oldestDate, oldestAuthor] = records.at(-1);

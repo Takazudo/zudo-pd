@@ -20,6 +20,13 @@ revisions. They are retained as historical migration inputs, not regenerated
 from the later candidate head. The imported LED files remain under
 `products/led-lamp/`, and the original LED repository remains available.
 
+The C1 merge exposed a document-history edge case: `git log -m` included that
+merge as an LED edit relative to its C1 parent even though the imported LED
+file was unchanged from the first parent. The local history package patch now
+filters such post-import, first-parent-identical merges from both Compare
+entries and the rendered latest-update metadata. A focused regression binds
+this exact merge and LED file; the lock changed only by the patch hash.
+
 ## Gates before C3 and C5 adoption
 
 The accepted C3 translation work is source-bound feasibility evidence. It has

@@ -55,6 +55,20 @@ test('LED rename through the import merge retains source-era revisions', async (
   assert.match(rename, /R100\s+doc\/src\/content\/docs\/architecture\/board-l\.mdx\s+products\/led-lamp\/doc\/src\/content\/docs\/architecture\/board-l\.mdx/u);
 });
 
+test('the C1 merge does not invent an LED edit or update date', async () => {
+  const c1Merge = 'e0be0beefdf4eebd7658194929e9f58145fc392d';
+  const ledBoard = resolve(ledDoc, 'src/content/docs/architecture/board-l.mdx');
+  const relativeBoard = 'products/led-lamp/doc/src/content/docs/architecture/board-l.mdx';
+  assert.equal(spawnSync('git', ['diff', '--quiet', `${c1Merge}^1`, c1Merge, '--', relativeBoard], { cwd: repo }).status, 0,
+    'the C1 merge must leave this LED document unchanged');
+  const history = await getDocHistoryAsync(ledBoard, 'architecture/board-l');
+  assert.ok(!history.entries.some(({ hash }) => hash === c1Merge), 'a byte-identical merge must not become a Compare step');
+  assert.equal(history.entries[0].hash, '2edec40d50f99fa69cbde55eb62fbd1082ee12d1');
+  const meta = await getAllFilesFirstLastMetaAsync([resolve(ledDoc, 'src/content/docs')]);
+  assert.equal(meta.get(ledBoard).newest.date, '2026-11-16T11:09:13Z',
+    'a byte-identical merge must not move the document update date');
+});
+
 test('overlapping LED and PD path names stay in their own ancestry', async () => {
   const meta = await getAllFilesFirstLastMetaAsync([resolve(ledDoc, 'src/content/docs')]);
   const isAncestor = (a, b) => spawnSync('git', ['merge-base', '--is-ancestor', a, b], { cwd: repo }).status === 0;
