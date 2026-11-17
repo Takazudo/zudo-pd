@@ -3,11 +3,18 @@ title: Unified line review
 sidebar_position: 2
 ---
 
-# Unified line review
+# Unified component lines
 
-> **Private development comparison.** This table shows 129 PD lines and 35 LED source lines together, using product-scoped keys. It is not a shared exact-part decision, active LED selection or manufacturing BOM.
+> **Private development comparison.** Search 129 active PD evidence lines and 35 historical LED candidate lines together. Product-scoped keys remain separate even when their line IDs match. This is not a shared exact-part decision, active LED selection or manufacturing BOM.
 
 PD's [generated exact records](/docs/components/records/) retain active authority. [LED candidate details](./led-candidates.mdx) explain the 17 overlapping line IDs and four text conflicts. Matching IDs in this table stay separate rows.
+
+<label for="catalog-line-query">Find by scoped key, manufacturer, MPN, package or order code</label>
+<input id="catalog-line-query" type="search" autocomplete="off" placeholder="e.g. STUSB4500 or C2678061" />
+<label for="catalog-line-status">Evidence status</label>
+<select id="catalog-line-status"><option value="all">All 164 lines</option><option value="PD">PD active evidence (129)</option><option value="LED">LED historical candidates (35)</option></select>
+<p id="catalog-line-count" role="status" aria-live="polite">Showing 164 of 164 lines</p>
+<script type="module" src="/assets/client/catalog-line-filter.js"></script>
 
 | Scoped line key | Manufacturer / full MPN | Package / LCSC | Review status | Recorded fit input |
 | --- | --- | --- | --- | --- |

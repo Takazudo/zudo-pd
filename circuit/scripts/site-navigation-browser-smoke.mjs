@@ -8,6 +8,7 @@ import { tmpdir } from "node:os";
 import { extname, join, normalize, resolve, sep } from "node:path";
 
 const dist = resolve(new URL("../../doc/dist", import.meta.url).pathname);
+const routeMap = resolve(new URL("../orchestration/campaigns/pd-led-20261116-c1/route-map.tsv", import.meta.url).pathname);
 const categories = [
   ["Project", "/docs/project", "Start Here"], ["Shared P15", "/docs/shared-p15", "Shared P15 r1"],
   ["PD15", "/docs/pd15", "PD15"], ["PD20", "/docs/pd20", "PD20"],
@@ -77,6 +78,34 @@ async function main() {
         await waitFor(cdp, `location.pathname.replace(/\\/$/, '') === ${JSON.stringify(path)}`);
         await waitFor(cdp, `document.querySelector('main h1')?.textContent.includes(${JSON.stringify(heading)})`);
       }
+      await navigate(cdp, `${origin}/docs/catalog/lines/`);
+      await waitFor(cdp, `document.querySelectorAll('main table tbody tr').length === 164`);
+      await evaluate(cdp, `(() => { const select = document.querySelector('#catalog-line-status'); select.value = 'LED'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
+      await waitFor(cdp, `document.querySelector('#catalog-line-count')?.textContent === 'Showing 35 of 164 lines'`);
+      assert(await evaluate(cdp, `Array.from(document.querySelectorAll('main table tbody tr:not([hidden])')).every(row => row.cells[0].textContent.trim().startsWith('LED:'))`), `${width}px: LED filter leaked PD lines`);
+      await evaluate(cdp, `(() => { const query = document.querySelector('#catalog-line-query'); query.value = 'STUSB4500'; query.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+      await waitFor(cdp, `document.querySelector('#catalog-line-count')?.textContent === 'Showing 1 of 164 lines'`);
+      assert(await evaluate(cdp, `document.querySelector('main table tbody tr:not([hidden])')?.cells[0].textContent.trim() === 'LED:line-c2678061'`), `${width}px: scoped LED conflict row missing`);
+      await evaluate(cdp, `(() => { const select = document.querySelector('#catalog-line-status'); select.value = 'PD'; select.dispatchEvent(new Event('change', { bubbles: true })); })()`);
+      await waitFor(cdp, `document.querySelector('#catalog-line-count')?.textContent === 'Showing 1 of 164 lines'`);
+      assert(await evaluate(cdp, `document.querySelector('main table tbody tr:not([hidden])')?.cells[0].textContent.trim() === 'PD:line-c2678061'`), `${width}px: scoped PD conflict row missing`);
+      if (width === 1440) {
+        const authored = (await readFile(routeMap, 'utf8')).trim().split('\n').slice(1)
+          .map((line) => line.split('\t')).filter((row) => row[4] === 'authored');
+        assert(authored.length === 34, `Expected 34 authored routes, got ${authored.length}`);
+        for (const [, oldRoute, proposedRoute] of authored) {
+          await navigate(cdp, `${origin}${proposedRoute}`);
+          await waitFor(cdp, `document.querySelector('main')?.textContent.includes('Development migration candidate')`);
+          const original = await evaluate(cdp, `Array.from(document.querySelectorAll('main a')).find(a => a.textContent.trim() === 'original LED page')?.href`);
+          assert(original === `https://zudo-led-lamp.takazudomodular.com${oldRoute}`, `Authored route ${proposedRoute} lost source link: ${original}`);
+        }
+        for (const oldRoute of ['/docs/architecture/', '/docs/architecture/board-p/', '/docs/research/']) {
+          await navigate(cdp, `${origin}${oldRoute}`);
+          assert(await evaluate(cdp, `document.querySelector('main h1') !== null && !Array.from(document.querySelectorAll('main a')).some(a => a.textContent.trim() === 'original LED page')`), `PD collision route displaced: ${oldRoute}`);
+        }
+        console.log('PASS: 34 authored LED routes and 3 preserved PD collision routes');
+      }
+      console.log(`PASS: ${width}px 164-line scoped catalog filter`);
       await navigate(cdp, `${origin}/docs/led-lamp/`);
       await click(cdp, `document.querySelector('site-search button[aria-label="Search"]')`);
       await waitFor(cdp, `document.querySelector('site-search dialog')?.open === true`);

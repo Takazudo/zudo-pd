@@ -151,14 +151,22 @@ def candidate_catalog(pd, led):
 def unified_line_catalog(pd, led):
     lines = [
         "---", "title: Unified line review", "sidebar_position: 2", "---", "",
-        "# Unified line review", "",
-        "> **Private development comparison.** This table shows 129 PD lines and 35 LED source lines together, using product-scoped keys. It is not a shared exact-part decision, active LED selection or manufacturing BOM.",
+        "# Unified component lines", "",
+        "> **Private development comparison.** Search 129 active PD evidence lines and 35 historical LED candidate lines together. Product-scoped keys remain separate even when their line IDs match. This is not a shared exact-part decision, active LED selection or manufacturing BOM.",
         "",
         "PD's [generated exact records](/docs/components/records/) retain active authority. [LED candidate details](./led-candidates.mdx) explain the 17 overlapping line IDs and four text conflicts. Matching IDs in this table stay separate rows.",
+        "",
+        '<label for="catalog-line-query">Find by scoped key, manufacturer, MPN, package or order code</label>',
+        '<input id="catalog-line-query" type="search" autocomplete="off" placeholder="e.g. STUSB4500 or C2678061" />',
+        '<label for="catalog-line-status">Evidence status</label>',
+        '<select id="catalog-line-status"><option value="all">All 164 lines</option><option value="PD">PD active evidence (129)</option><option value="LED">LED historical candidates (35)</option></select>',
+        '<p id="catalog-line-count" role="status" aria-live="polite">Showing 164 of 164 lines</p>',
+        '<script type="module" src="/assets/client/catalog-line-filter.js"></script>',
         "",
         "| Scoped line key | Manufacturer / full MPN | Package / LCSC | Review status | Recorded fit input |",
         "| --- | --- | --- | --- | --- |",
     ]
+    count = 0
     for scope, inventory in (("PD", pd), ("LED", led)):
         for line in inventory["lines"]:
             if scope == "PD":
@@ -174,7 +182,8 @@ def unified_line_catalog(pd, led):
                      f'{line["package"]} / {line["lcsc"]}', status, fit)
             assert all("|" not in str(value) and "\n" not in str(value) for value in cells)
             lines.append("| " + " | ".join(map(str, cells)) + " |")
-    assert len(lines) - 13 == 164, len(lines)
+            count += 1
+    assert count == 164
     lines += [
         "", "Both source inventories are unchanged. This table is generated from the same source bytes as the LED detail table; candidate replay fails on source or output drift. CAD roots, record facts, public assets and publication selections are outside this comparison.", "",
     ]
