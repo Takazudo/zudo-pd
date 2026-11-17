@@ -21,11 +21,18 @@ the PD host would be wrong. Twenty-five authored pages have no detected held
 route or asset dependency, but still require content, fragment, history and
 publication review before any move.
 
-This is a lexical inventory of absolute Markdown and `href`/`src` links,
-relative Markdown links, and local Markdown fragments, excluding fenced code.
-It does not parse the rendered DOM, validate fragments, settle content meaning,
-authorize a redirect or approve any public asset. Keep the old LED host working
-while the cutover is reviewed.
+The preflight now checks the **bytes** of all 11 distinct referenced LED assets
+against the SHA-256 values in C1 `asset-map.tsv`. For the enclosure viewer it
+also checks the five relative HTML dependencies and all 33 mesh paths named by
+the manifest (38 distinct dependencies), including their source-map hashes.
+A missing or modified asset fails before the private page copies are accepted.
+This is a local source/closure check, not permission to copy assets into PD's
+public tree.
+
+Authored-page links are inventoried lexically, excluding fenced code. The
+enclosure viewer's source HTML and manifest are parsed for dependencies. This
+check does not validate page meaning, authorize a redirect or approve any new
+public asset. Keep the old LED host working while cutover is reviewed.
 
 ## Decision options for the next serialized step
 

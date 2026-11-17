@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bind current LED authored links to the accepted C1 route and asset maps.
+"""Bind current LED authored links and referenced asset bytes to the C1 maps.
 
 This is a lexical preflight, not a page move or publication decision.
 """
@@ -9,7 +9,9 @@ import csv
 import hashlib
 import json
 import re
+from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -22,6 +24,54 @@ FENCE = re.compile(r"^\s{0,3}(`{3,}|~{3,})")
 
 def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def verify_asset_bytes(source_path, mapped, led_root=None):
+    led_root = led_root or ROOT / "products/led-lamp"
+    path = led_root / source_path
+    assert path.resolve().is_relative_to(led_root.resolve()) and not path.is_symlink(), source_path
+    assert path.is_file(), source_path
+    assert mapped["staging_path"] == f"products/led-lamp/{source_path}", source_path
+    assert sha256(path) == mapped["led_sha256"], f"LED asset source bytes changed: {source_path}"
+
+
+class RelativeAssetRefs(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.paths = []
+
+    def handle_starttag(self, _tag, attrs):
+        self.paths.extend(value for key, value in attrs if key in ("src", "href") and value)
+
+
+def verify_referenced_assets(asset_links, asset_map):
+    referenced = {row["asset_source"] for row in asset_links}
+    assert len(asset_links) == 12 and len(referenced) == 11, "Referenced LED asset set changed"
+    for source in referenced:
+        assert source in asset_map, source
+        verify_asset_bytes(source, asset_map[source])
+
+    # The old-host enclosure viewer needs a closure, not only index.html. The
+    # HTML names its local CSS/JS/downloads; viewer.js loads the manifest and
+    # the manifest names its mesh files. Preserve and verify their exact bytes.
+    index = "doc/public/assets/enclosure/index.html"
+    assert index in referenced
+    base = ROOT / "products/led-lamp/doc/public/assets/enclosure"
+    parser = RelativeAssetRefs()
+    parser.feed((base / "index.html").read_text())
+    manifest = json.loads((base / "manifest.json").read_text())
+    assert len(parser.paths) == 5 and len(manifest["parts"]) == 33
+    dependencies = set(parser.paths) | {part["file"] for part in manifest["parts"]}
+    assert len(dependencies) == 38, "Enclosure viewer dependency set changed"
+    for url in dependencies:
+        split = urlsplit(url)
+        assert not (split.scheme or split.netloc or split.query or split.fragment), url
+        assert split.path and not split.path.startswith("/"), url
+        path = (base / split.path).resolve()
+        assert path.is_relative_to(base.resolve()), url
+        source = "doc/public/assets/enclosure/" + path.relative_to(base.resolve()).as_posix()
+        assert source in asset_map, source
+        verify_asset_bytes(source, asset_map[source])
 
 
 def rows(path):
@@ -121,6 +171,7 @@ def audit():
                 })
                 page_dependencies[source][mapped["class"]] += 1
             relative_links.append(item)
+    verify_referenced_assets(asset_links, assets)
     old_collisions = sorted(row["old_route"] for row in authored if root_route_exists(row["old_route"]))
     counts = {
         "authored_pages": len(authored),

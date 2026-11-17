@@ -61,5 +61,7 @@ remain unchanged.
 
 The [C5 authored-link preflight](C5_LINK_AUDIT.md) binds the current LED page
 bytes to the accepted C1 maps and records which page links depend on held
-generated routes or assets. It changes no site route, content or publication
+generated routes or assets. It also checks the exact bytes of 11 referenced
+assets and the enclosure viewer's 38-file local dependency closure against
+the same C1 asset map. It changes no site route, content or publication
 selection.

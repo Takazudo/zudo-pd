@@ -69,6 +69,41 @@ The recommended immediate disposition is the safe current behavior in every
 row. Any later cutover needs an entry-level decision and verification against
 the final site head. This branch performs none of those public actions.
 
+### Existing LED asset references
+
+All paths below are relative to the already public
+`https://zudo-led-lamp.takazudomodular.com/assets/` host. Each local source is
+`products/led-lamp/doc/public/assets/` plus the listed path. A read-only live
+check on 2026-11-17 UTC received HTTP 200 for all 11 routes. Ten responses
+matched the exact local bytes and C1 SHA-256 values. `enclosure/index.html`
+differs only because Cloudflare adds its analytics script during delivery; its
+source HTML and the other ten assets remain bound to the full hashes in
+`pd-led-20261116-c1/asset-map.tsv`. These are historical public product assets,
+not an inventory of private vendor datasheets or new manufacturer documents.
+
+| Exact old-host path | References | Source and later migration consideration |
+| --- | ---: | --- |
+| `enclosure/assembled.png` | 1 | Generated prototype assembly image; retain historical fit label. |
+| `enclosure/exploded.png` | 1 | Generated prototype exploded image. |
+| `enclosure/underside.png` | 1 | Generated prototype underside image. |
+| `enclosure/post-flat.png` | 1 | Generated post print-orientation image. |
+| `enclosure/selected-concept.png` | 1 | Historical appearance reference; its authorship/redistribution provenance is not established by the enclosure manifest. |
+| `pcb/board-l-rear-controls.png` | 1 | Historical Board L render; it does not prove assembled fit. |
+| `pcb/board-l-stack-clearance.svg` | 1 | Historical two-board projection; physical clearance remains unverified. |
+| `enclosure/smoke-reversing-stls.zip` | 1 | Generated print STL set, 459,449 bytes; keep its prototype status. |
+| `enclosure/assembly-step.zip` | 1 | Generated assembled STEP archive, 23,270,837 bytes; review embedded model provenance before rehosting. |
+| `enclosure/index.html` | 2 | Interactive viewer; rehosting requires its CSS, JS, manifest, downloads and 33 manifest mesh paths together. |
+| `enclosure/manifest.json` | 1 | Generated geometry/verification record; its status remains fit prototype, with bench work pending. |
+
+The 11 routes are all on the original LED host in the private copies; none has
+an existing PD path collision. Keeping those links requires no new disclosure.
+For a later approved public cutover, six generated images/diagrams and the STL
+archive can be evaluated as already public product material under namespaced
+paths. The appearance reference, assembled STEP/model provenance, and complete
+interactive viewer dependency set need targeted rights/source and purpose
+review. Copying any asset to PD still requires a reviewed asset allowlist diff;
+do not infer hardware fit or replace old-host URLs from this byte check.
+
 ## Completion boundary
 
 Before any public-site change, reviewers must settle component identity and
