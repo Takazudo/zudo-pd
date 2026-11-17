@@ -6,7 +6,7 @@ name: C2–C5 Candidate Checks (No Deploy)
 on:
   push:
     branches:
-      - codex/c5-check-only-ci-20261117-01
+      - codex/c5-catalog-navigation-20261117-01
 
 concurrency:
   group: c5-candidate-checks-${{ github.ref }}
@@ -27,8 +27,8 @@ jobs:
           persist-credentials: false
       - name: Verify exact reviewed source base and workflow-only delta
         run: |
-          base=f972244578f0b07efea0b5bc2bc713fc13077d68
-          test "$GITHUB_REF" = refs/heads/codex/c5-check-only-ci-20261117-01
+          base=45d7d21f5cd146106fc6b2f33d320d0782ead2df
+          test "$GITHUB_REF" = refs/heads/codex/c5-catalog-navigation-20261117-01
           git merge-base --is-ancestor "$base" HEAD
           unexpected=$(git diff --name-only "$base" HEAD | sed '/^\.github\/workflows\/c5-candidate-checks\.yml$/d')
           test -z "$unexpected" || { printf 'Unexpected source delta: %s\n' "$unexpected"; exit 1; }
