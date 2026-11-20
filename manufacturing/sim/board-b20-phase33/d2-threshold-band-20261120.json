@@ -1,0 +1,625 @@
+{
+ "record": "D2 firing-network threshold/tolerance band (SIM, ngspice-44.2, pinned KiCad image; nothing measured)",
+ "criteria": "d2-threshold-band-criteria.md",
+ "sets": {
+  "G": {
+   "set": "G",
+   "reading": "PASS (SIM)",
+   "decks": 2808,
+   "complete": 2808,
+   "smallest_abs_m12_while_p12_present": [
+    "C1-hlrl-phnlfl-zmp-pl-ne-g",
+    0.7416302435545307
+   ],
+   "largest_abs_m12_once_p12_absent": [
+    "C1-hhrl-ceil-mzz-pe-nl-g",
+    5.652473651133987
+   ],
+   "earliest_discharge_onset_ms": 0.023202,
+   "slowest_level_ms": 1.432982,
+   "largest_peak_discharge_current_a": {
+    "+12": 17.1940679590688,
+    "-12": 7.597915839732044,
+    "+5": 7.247517037808919
+   },
+   "largest_resistor_energy_j": {
+    "+12": 0.010769924985651949,
+    "-12": 0.01300717781653986,
+    "+5": 0.0012462788830505938
+   },
+   "failing": 0,
+   "not_complete": 0,
+   "failing_rows": {},
+   "by_combo_edge": {
+    "hhrh nom": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.555276872287436,
+     "max_abs_m12_once_p12_absent": 5.649122317713409
+    },
+    "hhrh pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.011588536692473,
+     "max_abs_m12_once_p12_absent": 5.65007428466285
+    },
+    "hhrh pe-nl": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.706333990483428,
+     "max_abs_m12_once_p12_absent": 5.649037874080052
+    },
+    "hhrh pl-ne": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.083224066278738,
+     "max_abs_m12_once_p12_absent": 5.641950009102219
+    },
+    "hhrh pl-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.356512252219822,
+     "max_abs_m12_once_p12_absent": 5.648593894316803
+    },
+    "hhrl nom": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.554540209211268,
+     "max_abs_m12_once_p12_absent": 5.650811717825501
+    },
+    "hhrl pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.006630447436861,
+     "max_abs_m12_once_p12_absent": 5.651822288255051
+    },
+    "hhrl pe-nl": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.715035855224984,
+     "max_abs_m12_once_p12_absent": 5.652473651133987
+    },
+    "hhrl pl-ne": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.082446965481499,
+     "max_abs_m12_once_p12_absent": 5.647597684140512
+    },
+    "hhrl pl-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.355930574609697,
+     "max_abs_m12_once_p12_absent": 5.648360156959589
+    },
+    "hlrh nom": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.753564096493687,
+     "max_abs_m12_once_p12_absent": 3.514280584256626
+    },
+    "hlrh pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.06552034862521,
+     "max_abs_m12_once_p12_absent": 3.639871379961774
+    },
+    "hlrh pe-nl": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.877818795265191,
+     "max_abs_m12_once_p12_absent": 5.332751198593832
+    },
+    "hlrh pl-ne": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.7418804660337861,
+     "max_abs_m12_once_p12_absent": 3.509439533031842
+    },
+    "hlrh pl-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.9310853122289335,
+     "max_abs_m12_once_p12_absent": 3.511118730212619
+    },
+    "hlrl nom": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.756159859535029,
+     "max_abs_m12_once_p12_absent": 3.515614327165041
+    },
+    "hlrl pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.063629000612358,
+     "max_abs_m12_once_p12_absent": 3.639832467093208
+    },
+    "hlrl pe-nl": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.548067103797586,
+     "max_abs_m12_once_p12_absent": 5.3327133736892
+    },
+    "hlrl pl-ne": {
+     "decks": 243,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.7416302435545307,
+     "max_abs_m12_once_p12_absent": 3.513797275057745
+    },
+    "hlrl pl-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.9331126665336001,
+     "max_abs_m12_once_p12_absent": 3.514441010083802
+    }
+   },
+   "sha256": "3e36dffa778dd280c900437b8af931289d0377b8f5c0602e41c51b356f5cba06"
+  },
+  "CTL": {
+   "set": "CTL",
+   "reading": "FAIL (SIM)",
+   "decks": 576,
+   "complete": 576,
+   "smallest_abs_m12_while_p12_present": [
+    "asdrawn-hlrl-phnlfl-zmz-pl-ne-ctl",
+    0.1616279737929177
+   ],
+   "largest_abs_m12_once_p12_absent": [
+    "asdrawn-hhrl-ceil-mzz-pe-nl-ctl",
+    5.651492626636267
+   ],
+   "earliest_discharge_onset_ms": 0.024401,
+   "slowest_level_ms": 1.686324,
+   "largest_peak_discharge_current_a": {
+    "+12": 14.87947287438355,
+    "-12": 7.588465851124976,
+    "+5": 6.305951797112385
+   },
+   "largest_resistor_energy_j": {
+    "+12": 0.009687501587654872,
+    "-12": 0.012939106778670191,
+    "+5": 0.0011193216665528218
+   },
+   "failing": 72,
+   "not_complete": 0,
+   "failing_rows": {
+    "rvee": 72,
+    "direct_hazard": 20
+   },
+   "by_combo_edge": {
+    "hhrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.49576069346952,
+     "max_abs_m12_once_p12_absent": 5.649692521404159
+    },
+    "hhrh pl-ne": {
+     "decks": 72,
+     "failing": 12,
+     "min_abs_m12_while_p12_present": 0.238040739075971,
+     "max_abs_m12_once_p12_absent": 5.628485332018824
+    },
+    "hhrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.49739747631352,
+     "max_abs_m12_once_p12_absent": 5.651492626636267
+    },
+    "hhrl pl-ne": {
+     "decks": 72,
+     "failing": 12,
+     "min_abs_m12_while_p12_present": 0.2382068398429707,
+     "max_abs_m12_once_p12_absent": 5.643804779217436
+    },
+    "hlrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.719248110436251,
+     "max_abs_m12_once_p12_absent": 3.514965247409865
+    },
+    "hlrh pl-ne": {
+     "decks": 72,
+     "failing": 24,
+     "min_abs_m12_while_p12_present": 0.1617448229219552,
+     "max_abs_m12_once_p12_absent": 3.502103947602344
+    },
+    "hlrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.716906657519863,
+     "max_abs_m12_once_p12_absent": 3.516777422195502
+    },
+    "hlrl pl-ne": {
+     "decks": 72,
+     "failing": 24,
+     "min_abs_m12_while_p12_present": 0.1616279737929177,
+     "max_abs_m12_once_p12_absent": 3.511056376923713
+    }
+   },
+   "sha256": "41915cd032aa6cbfc124ce4fe0e78d8d74bcf3cc5dabf61fdcbd38f17ec15e8b"
+  },
+  "CTL-SAME": {
+   "set": "CTL-SAME",
+   "reading": "FAIL (SIM)",
+   "decks": 576,
+   "complete": 576,
+   "smallest_abs_m12_while_p12_present": [
+    "asdrawn-hlrh-phnlfl-zmm-pl-nl-ctl",
+    0.2040062762373842
+   ],
+   "largest_abs_m12_once_p12_absent": [
+    "asdrawn-hhrl-ceil-mzz-pe-ne-ctl",
+    5.650747764443321
+   ],
+   "earliest_discharge_onset_ms": 0.0232,
+   "slowest_level_ms": 1.767263,
+   "largest_peak_discharge_current_a": {
+    "+12": 14.87981251841836,
+    "-12": 7.597896435208896,
+    "+5": 6.30665002490823
+   },
+   "largest_resistor_energy_j": {
+    "+12": 0.009687500418507397,
+    "-12": 0.013007143339037778,
+    "+5": 0.0011193202152959606
+   },
+   "failing": 64,
+   "not_complete": 0,
+   "failing_rows": {
+    "rvee": 64,
+    "direct_hazard": 8
+   },
+   "by_combo_edge": {
+    "hhrh pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.026293982743344,
+     "max_abs_m12_once_p12_absent": 5.647495329319447
+    },
+    "hhrh pl-nl": {
+     "decks": 72,
+     "failing": 12,
+     "min_abs_m12_while_p12_present": 0.2989811802646561,
+     "max_abs_m12_once_p12_absent": 5.644860966961193
+    },
+    "hhrl pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.026286939911282,
+     "max_abs_m12_once_p12_absent": 5.650747764443321
+    },
+    "hhrl pl-nl": {
+     "decks": 72,
+     "failing": 12,
+     "min_abs_m12_while_p12_present": 0.299048284655369,
+     "max_abs_m12_once_p12_absent": 5.644635516724566
+    },
+    "hlrh pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.389948828981807,
+     "max_abs_m12_once_p12_absent": 3.514298676901852
+    },
+    "hlrh pl-nl": {
+     "decks": 72,
+     "failing": 20,
+     "min_abs_m12_while_p12_present": 0.2040062762373842,
+     "max_abs_m12_once_p12_absent": 3.511933768043362
+    },
+    "hlrl pe-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.389158894840513,
+     "max_abs_m12_once_p12_absent": 3.516446353043836
+    },
+    "hlrl pl-nl": {
+     "decks": 72,
+     "failing": 20,
+     "min_abs_m12_while_p12_present": 0.2042811054478737,
+     "max_abs_m12_once_p12_absent": 3.511748482526081
+    }
+   },
+   "sha256": "3c2c9bd5ef57820b895ee8cf9e3f1b936add2102c93b36d1b591e0745bc5574b"
+  },
+  "PA-HOT": {
+   "set": "PA-HOT",
+   "reading": "PASS (SIM)",
+   "decks": 576,
+   "complete": 576,
+   "smallest_abs_m12_while_p12_present": [
+    "C1-hlrl-phnlfh-zmm-pl-ne-hot",
+    0.9980214522762537
+   ],
+   "largest_abs_m12_once_p12_absent": [
+    "C1-hhrh-plnhfl-mzz-pe-nl-hot",
+    5.877028718899757
+   ],
+   "earliest_discharge_onset_ms": 0.015416,
+   "slowest_level_ms": 1.242142,
+   "largest_peak_discharge_current_a": {
+    "+12": 17.64041862531356,
+    "-12": 7.61921640921537,
+    "+5": 7.408541962492521
+   },
+   "largest_resistor_energy_j": {
+    "+12": 0.010953729851531053,
+    "-12": 0.01297010987811037,
+    "+5": 0.0012662198985171113
+   },
+   "failing": 0,
+   "not_complete": 0,
+   "failing_rows": {},
+   "by_combo_edge": {
+    "hhrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.850346392773268,
+     "max_abs_m12_once_p12_absent": 5.877028718899757
+    },
+    "hhrh pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.454286266900324,
+     "max_abs_m12_once_p12_absent": 5.643723078441468
+    },
+    "hhrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.880959813153686,
+     "max_abs_m12_once_p12_absent": 5.876989039628793
+    },
+    "hhrl pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.454261218567722,
+     "max_abs_m12_once_p12_absent": 5.648403320046349
+    },
+    "hlrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.942203226607593,
+     "max_abs_m12_once_p12_absent": 5.87687687923375
+    },
+    "hlrh pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.9989212133472133,
+     "max_abs_m12_once_p12_absent": 3.510739580569333
+    },
+    "hlrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.664966462226734,
+     "max_abs_m12_once_p12_absent": 5.876835381732025
+    },
+    "hlrl pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.9980214522762537,
+     "max_abs_m12_once_p12_absent": 3.514370495001102
+    }
+   },
+   "sha256": "068ce6c5e4fbe79d4366bd13c01c1334dfa8d2f302806d9e3c901c4ba10ac839"
+  },
+  "PA-COLD": {
+   "set": "PA-COLD",
+   "reading": "FAIL (SIM)",
+   "decks": 576,
+   "complete": 576,
+   "smallest_abs_m12_while_p12_present": [
+    "C1-hlrh-phnlfl-zmm-pl-ne-cold",
+    0.5931474098536659
+   ],
+   "largest_abs_m12_once_p12_absent": [
+    "C1-hhrl-ceil-mzm-pe-nl-cold",
+    5.652483408276207
+   ],
+   "earliest_discharge_onset_ms": 0.022809,
+   "slowest_level_ms": 1.407269,
+   "largest_peak_discharge_current_a": {
+    "+12": 16.98574762961661,
+    "-12": 7.611457665744883,
+    "+5": 7.173158163041464
+   },
+   "largest_resistor_energy_j": {
+    "+12": 0.010683719721116099,
+    "-12": 0.012952001710803704,
+    "+5": 0.0012369518574405903
+   },
+   "failing": 8,
+   "not_complete": 0,
+   "failing_rows": {
+    "rvee": 8
+   },
+   "by_combo_edge": {
+    "hhrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.693775310772722,
+     "max_abs_m12_once_p12_absent": 5.64917872620521
+    },
+    "hhrh pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.8653120517871221,
+     "max_abs_m12_once_p12_absent": 5.64066380284518
+    },
+    "hhrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.762932007493862,
+     "max_abs_m12_once_p12_absent": 5.652483408276207
+    },
+    "hhrl pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 0.8660770681565149,
+     "max_abs_m12_once_p12_absent": 5.646977556133069
+    },
+    "hlrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.951901544234685,
+     "max_abs_m12_once_p12_absent": 5.466363937742456
+    },
+    "hlrh pl-ne": {
+     "decks": 72,
+     "failing": 4,
+     "min_abs_m12_while_p12_present": 0.5931474098536659,
+     "max_abs_m12_once_p12_absent": 3.508554768660758
+    },
+    "hlrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.584534069775453,
+     "max_abs_m12_once_p12_absent": 5.466325513654416
+    },
+    "hlrl pl-ne": {
+     "decks": 72,
+     "failing": 4,
+     "min_abs_m12_while_p12_present": 0.5946522901235058,
+     "max_abs_m12_once_p12_absent": 3.513376812709271
+    }
+   },
+   "sha256": "eed161cd762c081f310213ff83dbfb8157eab1d80536d8d032bfcdb7d0631e8a"
+  },
+  "L49": {
+   "set": "L49",
+   "reading": "PASS (SIM)",
+   "decks": 576,
+   "complete": 576,
+   "smallest_abs_m12_while_p12_present": [
+    "C1-hlrh-phnlfl-zmz-pl-ne-l49",
+    1.317224148517765
+   ],
+   "largest_abs_m12_once_p12_absent": [
+    "C1-hhrl-ceil-mzz-pe-nl-l49",
+    5.653141578435142
+   ],
+   "earliest_discharge_onset_ms": 0.023062,
+   "slowest_level_ms": 1.197864,
+   "largest_peak_discharge_current_a": {
+    "+12": 17.57277880930579,
+    "-12": 7.601775024252491,
+    "+5": 7.383923400746866
+   },
+   "largest_resistor_energy_j": {
+    "+12": 0.010925867937754692,
+    "-12": 0.013011199813591756,
+    "+5": 0.0012631395717741477
+   },
+   "failing": 0,
+   "not_complete": 0,
+   "failing_rows": {},
+   "by_combo_edge": {
+    "hhrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.710084030211754,
+     "max_abs_m12_once_p12_absent": 5.648750664753564
+    },
+    "hhrh pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.9185129504712,
+     "max_abs_m12_once_p12_absent": 5.647629031792455
+    },
+    "hhrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 3.797927838062582,
+     "max_abs_m12_once_p12_absent": 5.653141578435142
+    },
+    "hhrl pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.918813911558175,
+     "max_abs_m12_once_p12_absent": 5.65120378001556
+    },
+    "hlrh pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.048065151698315,
+     "max_abs_m12_once_p12_absent": 5.624851363417589
+    },
+    "hlrh pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.317224148517765,
+     "max_abs_m12_once_p12_absent": 3.514727574714826
+    },
+    "hlrl pe-nl": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 2.610822357010893,
+     "max_abs_m12_once_p12_absent": 5.624811023277542
+    },
+    "hlrl pl-ne": {
+     "decks": 72,
+     "failing": 0,
+     "min_abs_m12_while_p12_present": 1.317239842116887,
+     "max_abs_m12_once_p12_absent": 3.517524452796285
+    }
+   },
+   "sha256": "56baaf71ec27e41d1052faff5385801dd5785e4def1fecf41d4fa6828f9a967f"
+  }
+ },
+ "onset_floor": {
+  "as_worded": {
+   "g_ms": 0.023202,
+   "floor_ms": 0.023401,
+   "met": false
+  },
+  "amendment_1": {
+   "g_ms": 0.023202,
+   "floor_ms": 0.0222,
+   "met": true
+  }
+ },
+ "posthoc_parasitic_not_preregistered": {
+  "C1-hlrh-phnlfl-zmz-pl-ne-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 0.7073176817278986,
+   "max_abs_m12_once_p12_absent": 0.7038373669711911
+  },
+  "C1-hlrl-phnlfl-zmz-pl-ne-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 0.7066634214829903,
+   "max_abs_m12_once_p12_absent": 0.7031823498440156
+  },
+  "C1-hhrh-phnlfl-zmz-pl-ne-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 1.035380016388492,
+   "max_abs_m12_once_p12_absent": 1.03029567177902
+  },
+  "C1-hlrh-phnlfh-zmm-pl-ne-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 0.7068346307877261,
+   "max_abs_m12_once_p12_absent": 0.7033566841565478
+  },
+  "C1-hhrl-plnhfh-mzm-pe-nl-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 5.603733059590827,
+   "max_abs_m12_once_p12_absent": 5.556528632195977
+  },
+  "C1-hhrl-ceil-mzp-pe-nl-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 5.592185888523858,
+   "max_abs_m12_once_p12_absent": 5.575016580594363
+  },
+  "C1-hhrh-plnhfl-mzz-pe-nl-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 5.436164146870449,
+   "max_abs_m12_once_p12_absent": 5.374304942189878
+  },
+  "C1-hlrl-plnhfh-mzm-pe-nl-par": {
+   "pass": true,
+   "min_abs_m12_while_p12_present": 5.452856389596327,
+   "max_abs_m12_once_p12_absent": 5.390803207128363
+  }
+ },
+ "verdict": {
+  "five_rows_G": "PASS (SIM)",
+  "onset_floor_as_worded": "NOT MET",
+  "onset_floor_amendment_1": "MET"
+ }
+}

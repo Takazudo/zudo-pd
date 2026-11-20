@@ -2,7 +2,7 @@
 
 usage: verify-insert-parts.py BEFORE.kicad_pcb AFTER.kicad_pcb --refs R77,R78 [--repin U7.6=UV5_IN ...]
        [--replace Q51,RX12] [--field-sync R61,R62] [--extra-net NET ...] [--reach-mm 10] [--added-reach-mm 10]
-       --output OUT.json
+       [--allow-outside-fill-gain] --output OUT.json
 
 Each board's project is read from beside it (BEFORE.kicad_pro, AFTER.kicad_pro, and any .kicad_dru).
 
@@ -29,6 +29,13 @@ exact copper is only known afterwards. Filled polygons are set aside and:
   must lie in that region, so a fill change anywhere else fails. KiCad's zero-width fracture slits (and a slit foot
   lying straight on its edge) are removed first, because a hole that changes inside the region can move a slit that
   ends far outside it. No other vertex is dropped.
+With --allow-outside-fill-gain, a zone whose fill changed outside the region is accepted only if the change there is a
+pure gain of copper: every corner that disappears outside the region lies inside (or within re-approximation distance of the
+boundary of) the AFTER fill of the same zone and layer, and every corner that appears outside the region lies outside
+(or within that distance of the boundary of) the BEFORE fill. The distance is twice the project's max_error. Any loss (a removed island, a new hole, a boundary
+moved inward) is still refused, and so is any outside change to a zone whose net is not an allowed net. The zone set, zone definitions, rules, footprints and other-net copper checks are
+unchanged and still apply. Each accepted zone is reported under fill_gain_outside_region. A gain is not a clearance or
+connectivity proof: DRC with refill and unchanged rules is still required.
 This is a vertex screen, not a connectivity proof: a far island that loses its connection without any vertex moving,
 or a long new fill edge from a vertex inside the region, is left to DRC (unconnected items, isolated copper).
 The output records every removed and added copper item, so the delta can be reviewed item by item.
@@ -50,6 +57,9 @@ FILL_MARGIN_MM = 2.0
 REACH_MM = 10.0
 # KiCad stores 1 nm units; a slit foot rounded onto an outline edge sits within a few nm of it.
 SLIT_FOOT_MM = 1e-5
+# A refill re-approximates every arc and clearance outline within the project's max_error (design_settings.rules,
+# 0.005 mm on B20), once on each side of the true curve, so an unchanged boundary may move by up to twice it.
+FILL_GAIN_ERROR_FACTOR = 2.0
 
 
 def child(node, name):
@@ -200,6 +210,67 @@ def fills(tree):
     return zones
 
 
+def fill_rings(tree):
+    """Filled-polygon rings per (zone uuid, layer) as float point lists, fracture slits kept (they cancel in even-odd)."""
+    zones = {}
+    for item in tree:
+        if isinstance(item, list) and item and atom(item[0]) == 'zone':
+            name = atom(child(item, 'uuid')[1])
+            for fp in item:
+                if isinstance(fp, list) and fp and atom(fp[0]) == 'filled_polygon':
+                    layer = atom(child(fp, 'layer')[1])
+                    pts = [(float(atom(q[1])), float(atom(q[2]))) for q in child(fp, 'pts')[1:] if atom(q[0]) == 'xy']
+                    zones.setdefault((name, layer), []).append(pts)
+    return zones
+
+
+def zone_nets(tree):
+    return {atom(child(i, 'uuid')[1]): atom(child(i, 'net')[1]) if child(i, 'net') else None
+            for i in tree if isinstance(i, list) and i and atom(i[0]) == 'zone'}
+
+
+def fill_inside(point, rings):
+    """Even-odd point-in-fill over every ring of one zone and layer; a slit's two reverse edges cancel."""
+    x, y = point
+    odd = False
+    for ring in rings:
+        n = len(ring)
+        for i in range(n):
+            (x1, y1), (x2, y2) = ring[i - 1], ring[i]
+            if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+                odd = not odd
+    return odd
+
+
+def fill_boundary_distance(point, rings):
+    """Distance to the fill outline and hole loops, ignoring zero-width fracture slits (which run through copper)."""
+    best = math.inf
+    for ring in rings:
+        n = len(ring)
+        edges = [(ring[i], ring[(i + 1) % n]) for i in range(n)]
+        present = collections.Counter(edges)
+        for a, b in edges:
+            if a == b or present[(b, a)]:
+                continue
+            if min(a[0], b[0]) - best > point[0] or max(a[0], b[0]) + best < point[0]:
+                continue
+            best = min(best, seg_distance(point, a, b))
+    return best
+
+
+def fill_gain_only(lost, gained, rings_before, rings_after, eps):
+    """First corner showing a copper loss, or None: a lost corner must be covered by AFTER, a new one not by BEFORE."""
+    for pt in lost:
+        p = (float(pt[0]), float(pt[1]))
+        if not fill_inside(p, rings_after) and fill_boundary_distance(p, rings_after) > eps:
+            return pt, 'a BEFORE corner is no longer covered by the AFTER fill'
+    for pt in gained:
+        p = (float(pt[0]), float(pt[1]))
+        if fill_inside(p, rings_before) and fill_boundary_distance(p, rings_before) > eps:
+            return pt, 'a new AFTER corner lies inside the BEFORE fill'
+    return None
+
+
 def rules(pcb_path):
     """Design rules from the project beside the board, and the sha256 of each file read."""
     pro = Path(pcb_path).with_suffix('.kicad_pro')
@@ -234,7 +305,7 @@ def without_synced_fields(fp_node):
 
 
 def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REACH_MM, replaced=(), field_sync=(),
-           added_reach_mm=None):
+           added_reach_mm=None, allow_outside_fill_gain=False):
     repins = dict(repins or {})
     replaced, field_sync = set(replaced), set(field_sync)
     added_reach_mm = reach_mm if added_reach_mm is None else added_reach_mm
@@ -244,6 +315,10 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     rules_after, project_after = rules(after_path)
     if rules_before != rules_after:
         raise SystemExit('Project design rules changed (design_settings, net_settings or .kicad_dru)')
+    max_error = rules_after['design_settings'].get('rules', {}).get('max_error')
+    if allow_outside_fill_gain and not (isinstance(max_error, (int, float)) and 0 < max_error <= 0.01):
+        raise SystemExit(f'--allow-outside-fill-gain needs a project max_error in (0, 0.01] mm, found {max_error}')
+    gain_eps = FILL_GAIN_ERROR_FACTOR * max_error if allow_outside_fill_gain else None
     raw_before, raw_after = Path(before_path).read_bytes(), Path(after_path).read_bytes()
     before, after = parse(tokenize(raw_before.decode())), parse(tokenize(raw_after.decode()))
     for tree, label in ((before, 'BEFORE'), (after, 'AFTER')):
@@ -348,12 +423,24 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     f_old, f_new = fills(before), fills(after)
     if set(f_old) != set(f_new):
         raise SystemExit(f'Filled zone set changed: {sorted(set(f_old) ^ set(f_new))}')
-    deltas = {}
+    deltas, gains = {}, {}
+    rings_old = rings_new = None
     for zone in sorted(f_old):
         changed = (f_old[zone] - f_new[zone]) + (f_new[zone] - f_old[zone])
         outside = [pt for pt in changed if not inside(pt)]
-        if outside:
+        if outside and not allow_outside_fill_gain:
             raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region, e.g. at {outside[0]}')
+        if outside:
+            if rings_old is None:
+                rings_old, rings_new = fill_rings(before), fill_rings(after)
+            if zone_nets(after).get(zone[0]) not in allowed:
+                raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region on a net that is not allowed')
+            lost = [pt for pt in f_old[zone] - f_new[zone] if not inside(pt)]
+            gained = [pt for pt in f_new[zone] - f_old[zone] if not inside(pt)]
+            loss = fill_gain_only(lost, gained, rings_old[zone], rings_new[zone], gain_eps)
+            if loss:
+                raise SystemExit(f'Fill of {"/".join(zone)} lost copper outside the edit region at {loss[0]}: {loss[1]}')
+            gains['/'.join(zone)] = {'corners_removed_outside': len(lost), 'corners_added_outside': len(gained)}
         if changed:
             deltas['/'.join(zone)] = sum(changed.values())
     return {'scope': 'B20 part insertion: existing footprints, copper on other nets and non-copper content unchanged; '
@@ -367,7 +454,9 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
             'project_before_sha256': project_before, 'project_after_sha256': project_after,
             'removed_copper': removed, 'added_copper': added,
             'existing_footprints_identical': len(old), 'other_net_copper_identical': len(fixed_before),
-            'fill_margin_mm': FILL_MARGIN_MM, 'fill_vertices_changed_inside_region': deltas}
+            'fill_margin_mm': FILL_MARGIN_MM, 'fill_vertices_changed_inside_region': deltas,
+            'allow_outside_fill_gain': allow_outside_fill_gain, 'fill_gain_eps_mm': gain_eps,
+            'fill_gain_outside_region': gains}
 
 
 def main():
@@ -381,13 +470,15 @@ def main():
     parser.add_argument('--field-sync', default='', help='existing references whose Value/LCSC text changes')
     parser.add_argument('--reach-mm', type=float, default=REACH_MM)
     parser.add_argument('--added-reach-mm', type=float)
+    parser.add_argument('--allow-outside-fill-gain', action='store_true',
+                        help='accept a fill change outside the edit region only where it is a pure gain of copper')
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
     repins = dict(r.split('=', 1) for r in args.repin)
     def refs_of(text):
         return set(filter(None, text.split(',')))
     result = verify(args.before, args.after, refs_of(args.refs), args.extra_net, repins, args.reach_mm,
-                    refs_of(args.replace), refs_of(args.field_sync), args.added_reach_mm)
+                    refs_of(args.replace), refs_of(args.field_sync), args.added_reach_mm, args.allow_outside_fill_gain)
     Path(args.output).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({k: v for k, v in result.items() if k not in ('removed_copper', 'added_copper')}, indent=2))
 

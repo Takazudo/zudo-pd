@@ -1,0 +1,1011 @@
+{
+ "set": "verify",
+ "reading": "FAIL (SIM)",
+ "decks": 16,
+ "complete": 16,
+ "not_complete": [],
+ "failing": [
+  "asdrawn-hhrh-phnlfl-zmz-pl-ne-dband",
+  "asdrawn-hlrh-phnlfl-zmz-pl-ne-d49",
+  "asdrawn-hlrh-phnlfl-zmz-pl-ne-dband",
+  "asdrawn-hlrh-phnlfl-zmz-pl-nl-dband"
+ ],
+ "failing_rows": {
+  "asdrawn-hhrh-phnlfl-zmz-pl-ne-dband": [
+   "rvee"
+  ],
+  "asdrawn-hlrh-phnlfl-zmz-pl-ne-d49": [
+   "rvee"
+  ],
+  "asdrawn-hlrh-phnlfl-zmz-pl-ne-dband": [
+   "rvee",
+   "direct_hazard"
+  ],
+  "asdrawn-hlrh-phnlfl-zmz-pl-nl-dband": [
+   "rvee",
+   "direct_hazard"
+  ]
+ },
+ "smallest_abs_m12_while_p12_present": [
+  "asdrawn-hlrh-phnlfl-zmz-pl-ne-dband",
+  0.1870213171269676
+ ],
+ "largest_abs_m12_once_p12_absent": [
+  "asdrawn-hhrl-ceil-mzp-pe-nl-d49",
+  5.65227074074901
+ ],
+ "earliest_discharge_onset_ms": 0.025777,
+ "slowest_level_ms": 1.220384,
+ "largest_peak_discharge_current_a": {
+  "+12": 12.94080236711121,
+  "-12": 7.539762815499053,
+  "+5": 6.103207405364721
+ },
+ "largest_resistor_energy_j": {
+  "+12": 0.006448931435406638,
+  "-12": 0.012756258012625922,
+  "+5": 0.0009899117127816599
+ },
+ "cases": {
+  "asdrawn-hlrh-phnlfl-zmz-pl-ne-d49": {
+   "cand": "asdrawn",
+   "combo": "hlrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "pl-ne",
+   "vth": {
+    "12": 2.7,
+    "5": 2.7,
+    "n": 1.5
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 10100.0,
+    "cdg": 2.4465e-08,
+    "r61": 4653.0,
+    "r62": 47547.49999999999,
+    "cdgn": 6.445e-08
+   },
+   "deck_sha256": "061c52ca9f045ca7059e6385f9ffa03425f48b2186a3d0eb256f3685ff640209",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": false,
+    "direct_hazard": true
+   },
+   "pass": false,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.026016,
+   "level_reached_ms": {
+    "+12": 0.484403,
+    "+5": 0.365407,
+    "-12": 0.445407
+   },
+   "first_rvee_ms": 0.445407,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 6.967971152555875,
+    "+5": 1.942157678385762,
+    "-12": 5.052392904082894
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0017104819668694508,
+    "+5": 6.396317955615847e-05,
+    "-12": 0.0008964732727854034
+   },
+   "min_abs_m12_while_p12_present": 0.49661305476173,
+   "max_abs_m12_once_p12_absent": 0.4941578837440003,
+   "onset_by_rail_ms": {
+    "+12": 0.231638,
+    "+5": 0.242638,
+    "-12": 0.026016
+   }
+  },
+  "asdrawn-hlrh-phnlfl-zmz-pl-ne-dband": {
+   "cand": "asdrawn",
+   "combo": "hlrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "pl-ne",
+   "vth": {
+    "12": 2.7,
+    "5": 2.7,
+    "n": 1.5
+   },
+   "dis": 4.16,
+   "vals": {
+    "rdg": 10100.0,
+    "cdg": 2.4465e-08,
+    "r61": 4653.0,
+    "r62": 47547.49999999999,
+    "cdgn": 6.445e-08
+   },
+   "deck_sha256": "a8ed71b113605b6c1cb92147611f9ba2f0d43fb2aaa5b2208362d6f3ab0ba3e8",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": false,
+    "direct_hazard": false
+   },
+   "pass": false,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.028036,
+   "level_reached_ms": {
+    "+12": 0.682965,
+    "+5": 0.521212,
+    "-12": 0.448212
+   },
+   "first_rvee_ms": 0.448212,
+   "first_hazard_ms": 0.448212,
+   "peak_discharge_current_a": {
+    "+12": 4.13273238320094,
+    "+5": 1.151970914243281,
+    "-12": 4.916841358828602
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.001096554229783132,
+    "+5": 3.963765996640054e-05,
+    "-12": 0.0008557473343963383
+   },
+   "min_abs_m12_while_p12_present": 0.1870213171269676,
+   "max_abs_m12_once_p12_absent": 0.1860840519159339,
+   "onset_by_rail_ms": {
+    "+12": 0.309212,
+    "+5": 0.326212,
+    "-12": 0.028036
+   }
+  },
+  "asdrawn-hhrh-phnlfl-zmz-pl-ne-d49": {
+   "cand": "asdrawn",
+   "combo": "hhrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "pl-ne",
+   "vth": {
+    "12": 2.7,
+    "5": 2.7,
+    "n": 1.5
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 10100.0,
+    "cdg": 2.4465e-08,
+    "r61": 4653.0,
+    "r62": 47547.49999999999,
+    "cdgn": 6.445e-08
+   },
+   "deck_sha256": "cbbff8ea3538cbe4721a0a4afdddea3bfd65b8f4607a46e3bc552df473c95b9e",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.025777,
+   "level_reached_ms": {
+    "+12": 0.484078,
+    "+5": 0.36553,
+    "-12": 0.522078
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 6.967946805244678,
+    "+5": 1.941609496464096,
+    "-12": 5.052230050317364
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0017104819281890875,
+    "+5": 6.396302676520626e-05,
+    "-12": 0.0006330867393172171
+   },
+   "min_abs_m12_while_p12_present": 0.7260982395605129,
+   "max_abs_m12_once_p12_absent": 0.7225210128770233,
+   "onset_by_rail_ms": {
+    "+12": 0.230749,
+    "+5": 0.241749,
+    "-12": 0.025777
+   }
+  },
+  "asdrawn-hhrh-phnlfl-zmz-pl-ne-dband": {
+   "cand": "asdrawn",
+   "combo": "hhrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "pl-ne",
+   "vth": {
+    "12": 2.7,
+    "5": 2.7,
+    "n": 1.5
+   },
+   "dis": 4.16,
+   "vals": {
+    "rdg": 10100.0,
+    "cdg": 2.4465e-08,
+    "r61": 4653.0,
+    "r62": 47547.49999999999,
+    "cdgn": 6.445e-08
+   },
+   "deck_sha256": "f83bded119849829ae8a3fd723d7d52a56ea21802b5121f04e2af52a77239d5c",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": false,
+    "direct_hazard": true
+   },
+   "pass": false,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.028032,
+   "level_reached_ms": {
+    "+12": 0.683674,
+    "+5": 0.521025,
+    "-12": 0.525025
+   },
+   "first_rvee_ms": 0.525025,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 4.132727103030358,
+    "+5": 1.1519375144069,
+    "-12": 4.917073398246943
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0010965547324390805,
+    "+5": 3.963766283433383e-05,
+    "-12": 0.0005917194522078216
+   },
+   "min_abs_m12_while_p12_present": 0.2737718710640164,
+   "max_abs_m12_once_p12_absent": 0.2724105002599126,
+   "onset_by_rail_ms": {
+    "+12": 0.309025,
+    "+5": 0.327025,
+    "-12": 0.028032
+   }
+  },
+  "asdrawn-hlrh-phnlfl-zmz-pl-nl-d49": {
+   "cand": "asdrawn",
+   "combo": "hlrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "pl-nl",
+   "vth": {
+    "12": 2.7,
+    "5": 2.7,
+    "n": 2.7
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 10100.0,
+    "cdg": 2.4465e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "0f0c26f95261b4752619fea7c4000cf2854e22b290d589fe5916a65ff1b13bf6",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.070379,
+   "level_reached_ms": {
+    "+12": 0.484841,
+    "+5": 0.366125,
+    "-12": 0.487841
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 6.96815285029156,
+    "+5": 1.94207327625325,
+    "-12": 3.62768264227357
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0017104834798649363,
+    "+5": 6.396245281557145e-05,
+    "-12": 0.00043725919443507
+   },
+   "min_abs_m12_while_p12_present": 0.6093372567580913,
+   "max_abs_m12_once_p12_absent": 0.6063309751937405,
+   "onset_by_rail_ms": {
+    "+12": 0.231427,
+    "+5": 0.242427,
+    "-12": 0.070379
+   }
+  },
+  "asdrawn-hlrh-phnlfl-zmz-pl-nl-dband": {
+   "cand": "asdrawn",
+   "combo": "hlrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "pl-nl",
+   "vth": {
+    "12": 2.7,
+    "5": 2.7,
+    "n": 2.7
+   },
+   "dis": 4.16,
+   "vals": {
+    "rdg": 10100.0,
+    "cdg": 2.4465e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "bdc444c214d2eb18b070024b540a124b8fc6f7903c46b0f1a693ac9cb8c99df1",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": false,
+    "direct_hazard": false
+   },
+   "pass": false,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.076338,
+   "level_reached_ms": {
+    "+12": 0.682977,
+    "+5": 0.521527,
+    "-12": 0.494527
+   },
+   "first_rvee_ms": 0.494527,
+   "first_hazard_ms": 0.494527,
+   "peak_discharge_current_a": {
+    "+12": 4.132687958997875,
+    "+5": 1.151945083580269,
+    "-12": 3.380721938697929
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.00109655499044808,
+    "+5": 3.963766444953768e-05,
+    "-12": 0.00037841227110788994
+   },
+   "min_abs_m12_while_p12_present": 0.2353717756394832,
+   "max_abs_m12_once_p12_absent": 0.2341981195392876,
+   "onset_by_rail_ms": {
+    "+12": 0.309527,
+    "+5": 0.326527,
+    "-12": 0.076338
+   }
+  },
+  "asdrawn-hhrl-plnhfh-mzm-pe-nl-d49": {
+   "cand": "asdrawn",
+   "combo": "hhrl",
+   "bank": "plnhfh",
+   "loads": "mzm",
+   "edge": "pe-nl",
+   "vth": {
+    "12": 1.5,
+    "5": 1.5,
+    "n": 2.7
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 9900.0,
+    "cdg": 1.98e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "5542f6f8d300c5f29a074968c38da067f09bef539d5d5920012019e008fbce89",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.057718,
+   "level_reached_ms": {
+    "+12": 0.199429,
+    "+5": 0.165415,
+    "-12": 0.523116
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 5.100984887709449,
+    "+5": 2.574188368008258,
+    "-12": 6.932548587617516
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.00036109913230567567,
+    "+5": 6.784286778359655e-05,
+    "-12": 0.0033341927013835052
+   },
+   "min_abs_m12_while_p12_present": 5.630616631460109,
+   "max_abs_m12_once_p12_absent": 5.650646450435925,
+   "onset_by_rail_ms": {
+    "+12": 0.091226,
+    "+5": 0.095051,
+    "-12": 0.057718
+   }
+  },
+  "asdrawn-hhrl-plnhfh-mzm-pe-nl-dband": {
+   "cand": "asdrawn",
+   "combo": "hhrl",
+   "bank": "plnhfh",
+   "loads": "mzm",
+   "edge": "pe-nl",
+   "vth": {
+    "12": 1.5,
+    "5": 1.5,
+    "n": 2.7
+   },
+   "dis": 4.6,
+   "vals": {
+    "rdg": 9900.0,
+    "cdg": 1.98e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "68960c0d703b84530c5606fae20f2990349ebddb3af1b4e8be00faf36e1b28ae",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.058858,
+   "level_reached_ms": {
+    "+12": 0.211856,
+    "+5": 0.177564,
+    "-12": 0.540725
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 4.595268078502571,
+    "+5": 2.345152020921464,
+    "-12": 6.919261425931939
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0003089564422639288,
+    "+5": 5.9594889714477825e-05,
+    "-12": 0.003324440214711395
+   },
+   "min_abs_m12_while_p12_present": 5.629649014115419,
+   "max_abs_m12_once_p12_absent": 5.649365471125626,
+   "onset_by_rail_ms": {
+    "+12": 0.099815,
+    "+5": 0.103815,
+    "-12": 0.058858
+   }
+  },
+  "asdrawn-hhrl-ceil-mzp-pe-nl-d49": {
+   "cand": "asdrawn",
+   "combo": "hhrl",
+   "bank": "ceil",
+   "loads": "mzp",
+   "edge": "pe-nl",
+   "vth": {
+    "12": 1.5,
+    "5": 1.5,
+    "n": 2.7
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 9900.0,
+    "cdg": 1.98e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "851fca91fcd962077c34bc3fa844b1025147292ca9fe9d5b97ab5a26f16c8cbb",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.057477,
+   "level_reached_ms": {
+    "+12": 0.435097,
+    "+5": 0.280941,
+    "-12": 1.199323
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 12.94080236711121,
+    "+5": 6.103207405364721,
+    "-12": 7.539762815499053
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.006448931435406638,
+    "+5": 0.0009899117127816599,
+    "-12": 0.012756258012625922
+   },
+   "min_abs_m12_while_p12_present": 5.631869875780037,
+   "max_abs_m12_once_p12_absent": 5.65227074074901,
+   "onset_by_rail_ms": {
+    "+12": 0.088941,
+    "+5": 0.092941,
+    "-12": 0.057477
+   }
+  },
+  "asdrawn-hhrl-ceil-mzp-pe-nl-dband": {
+   "cand": "asdrawn",
+   "combo": "hhrl",
+   "bank": "ceil",
+   "loads": "mzp",
+   "edge": "pe-nl",
+   "vth": {
+    "12": 1.5,
+    "5": 1.5,
+    "n": 2.7
+   },
+   "dis": 4.6,
+   "vals": {
+    "rdg": 9900.0,
+    "cdg": 1.98e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "4af1f495a0a72423cd74e3fc925539ea39da2deccc9b3fbaa3d70b43b8ffb516",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.058877,
+   "level_reached_ms": {
+    "+12": 0.45031,
+    "+5": 0.294903,
+    "-12": 1.220384
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 12.31597963134209,
+    "+5": 5.874526997180674,
+    "-12": 7.533326764884972
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.006104046195268099,
+    "+5": 0.0009548701523382162,
+    "-12": 0.012744959336693716
+   },
+   "min_abs_m12_while_p12_present": 5.630889600915247,
+   "max_abs_m12_once_p12_absent": 5.65132409732309,
+   "onset_by_rail_ms": {
+    "+12": 0.096498,
+    "+5": 0.101498,
+    "-12": 0.058877
+   }
+  },
+  "asdrawn-hhrh-plnhfh-mzm-pe-nl-d49": {
+   "cand": "asdrawn",
+   "combo": "hhrh",
+   "bank": "plnhfh",
+   "loads": "mzm",
+   "edge": "pe-nl",
+   "vth": {
+    "12": 1.5,
+    "5": 1.5,
+    "n": 2.7
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 9900.0,
+    "cdg": 1.98e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "f84836a2fb12167be28f44e28c292d840761247887b5645073ce458542bd1f85",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.057718,
+   "level_reached_ms": {
+    "+12": 0.199117,
+    "+5": 0.165413,
+    "-12": 0.46783
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 5.101057596682535,
+    "+5": 2.57417086773512,
+    "-12": 6.932548587432767
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0003611000954844746,
+    "+5": 6.784296338907516e-05,
+    "-12": 0.003334883384247849
+   },
+   "min_abs_m12_while_p12_present": 5.630616622706858,
+   "max_abs_m12_once_p12_absent": 5.650824616027951,
+   "onset_by_rail_ms": {
+    "+12": 0.091226,
+    "+5": 0.095051,
+    "-12": 0.057718
+   }
+  },
+  "asdrawn-hhrh-plnhfh-mzm-pe-nl-dband": {
+   "cand": "asdrawn",
+   "combo": "hhrh",
+   "bank": "plnhfh",
+   "loads": "mzm",
+   "edge": "pe-nl",
+   "vth": {
+    "12": 1.5,
+    "5": 1.5,
+    "n": 2.7
+   },
+   "dis": 4.6,
+   "vals": {
+    "rdg": 9900.0,
+    "cdg": 1.98e-08,
+    "r61": 4747.0,
+    "r62": 47452.5,
+    "cdgn": 7.3815e-08
+   },
+   "deck_sha256": "d0f3e6b0e6cdb235f1e3c8cc1220019de8211bca85afb3287ea381f5159f33d4",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.058858,
+   "level_reached_ms": {
+    "+12": 0.211305,
+    "+5": 0.177563,
+    "-12": 0.518186
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 4.595269284481129,
+    "+5": 2.345151267883377,
+    "-12": 6.919261426313185
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0003089569437418839,
+    "+5": 5.95949431638001e-05,
+    "-12": 0.003324738348716633
+   },
+   "min_abs_m12_while_p12_present": 5.629649009102937,
+   "max_abs_m12_once_p12_absent": 5.649469407624204,
+   "onset_by_rail_ms": {
+    "+12": 0.099815,
+    "+5": 0.103815,
+    "-12": 0.058858
+   }
+  },
+  "asdrawn-hlrh-phnlfl-zmz-nom-d49": {
+   "cand": "asdrawn",
+   "combo": "hlrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "nom",
+   "vth": {
+    "12": 2.0,
+    "5": 2.0,
+    "n": 2.0
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 10000.0,
+    "cdg": 2.2e-08,
+    "r61": 4700.0,
+    "r62": 47500.0,
+    "cdgn": 6.9e-08
+   },
+   "deck_sha256": "353db1aabbcd49a814099fa860d075266b4d0ffc13bae66d4af8411f7a2fd0bd",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.042385,
+   "level_reached_ms": {
+    "+12": 0.33743,
+    "+5": 0.233862,
+    "-12": 0.46143
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 9.269971647723693,
+    "+5": 2.695283920129107,
+    "-12": 4.47056298021009
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0021829302420984437,
+    "+5": 8.65935785140266e-05,
+    "-12": 0.0006976590263072279
+   },
+   "min_abs_m12_while_p12_present": 1.109727215166222,
+   "max_abs_m12_once_p12_absent": 1.104274252439522,
+   "onset_by_rail_ms": {
+    "+12": 0.137899,
+    "+5": 0.144899,
+    "-12": 0.042385
+   }
+  },
+  "asdrawn-hlrh-phnlfl-zmz-nom-dband": {
+   "cand": "asdrawn",
+   "combo": "hlrh",
+   "bank": "phnlfl",
+   "loads": "zmz",
+   "edge": "nom",
+   "vth": {
+    "12": 2.0,
+    "5": 2.0,
+    "n": 2.0
+   },
+   "dis": 4.6,
+   "vals": {
+    "rdg": 10000.0,
+    "cdg": 2.2e-08,
+    "r61": 4700.0,
+    "r62": 47500.0,
+    "cdgn": 6.9e-08
+   },
+   "deck_sha256": "90f3e0c73bbdeebe7004ed02eadd0306528584c27e88190e696996535de81076",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.044399,
+   "level_reached_ms": {
+    "+12": 0.363639,
+    "+5": 0.25672,
+    "-12": 0.462639
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 8.524126989582774,
+    "+5": 2.446886709800303,
+    "-12": 4.39866129553474
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.0020355114943185846,
+    "+5": 7.933565123017802e-05,
+    "-12": 0.0006776823937757302
+   },
+   "min_abs_m12_while_p12_present": 0.9822346461456578,
+   "max_abs_m12_once_p12_absent": 0.9774067096984212,
+   "onset_by_rail_ms": {
+    "+12": 0.150567,
+    "+5": 0.158567,
+    "-12": 0.044399
+   }
+  },
+  "asdrawn-hhrl-plnhfh-mzm-nom-d49": {
+   "cand": "asdrawn",
+   "combo": "hhrl",
+   "bank": "plnhfh",
+   "loads": "mzm",
+   "edge": "nom",
+   "vth": {
+    "12": 2.0,
+    "5": 2.0,
+    "n": 2.0
+   },
+   "dis": 4.9,
+   "vals": {
+    "rdg": 10000.0,
+    "cdg": 2.2e-08,
+    "r61": 4700.0,
+    "r62": 47500.0,
+    "cdgn": 6.9e-08
+   },
+   "deck_sha256": "e0af0e02d68ddffcb1c8d72c3a0ad3fd52345d2345299cdd049a4d4c5948d776",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.03733,
+   "level_reached_ms": {
+    "+12": 0.259243,
+    "+5": 0.226379,
+    "-12": 0.539267
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 3.494622436035587,
+    "+5": 1.84324864296088,
+    "-12": 7.03243981844273
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.00018759256504252288,
+    "+5": 3.951878502596427e-05,
+    "-12": 0.0033794261858309765
+   },
+   "min_abs_m12_while_p12_present": 5.629307165922755,
+   "max_abs_m12_once_p12_absent": 5.64623557252175,
+   "onset_by_rail_ms": {
+    "+12": 0.144454,
+    "+5": 0.148454,
+    "-12": 0.03733
+   }
+  },
+  "asdrawn-hhrl-plnhfh-mzm-nom-dband": {
+   "cand": "asdrawn",
+   "combo": "hhrl",
+   "bank": "plnhfh",
+   "loads": "mzm",
+   "edge": "nom",
+   "vth": {
+    "12": 2.0,
+    "5": 2.0,
+    "n": 2.0
+   },
+   "dis": 4.6,
+   "vals": {
+    "rdg": 10000.0,
+    "cdg": 2.2e-08,
+    "r61": 4700.0,
+    "r62": 47500.0,
+    "cdgn": 6.9e-08
+   },
+   "deck_sha256": "b6106c613888f70e517047e165959629d6138e2b3039e37fd73391a0475c1f4e",
+   "status": "COMPLETE",
+   "rows": {
+    "disconnect_before_discharge": true,
+    "disconnect_skew": true,
+    "discharge_level_within_100ms": true,
+    "rvee": true,
+    "direct_hazard": true
+   },
+   "pass": true,
+   "disconnect_ms": {
+    "+12": 0.0,
+    "+5": 0.0,
+    "-12": 0.0
+   },
+   "discharge_onset_ms": 0.037966,
+   "level_reached_ms": {
+    "+12": 0.279422,
+    "+5": 0.245304,
+    "-12": 0.562676
+   },
+   "first_rvee_ms": null,
+   "first_hazard_ms": null,
+   "peak_discharge_current_a": {
+    "+12": 2.996406550270332,
+    "+5": 1.606232518189943,
+    "-12": 7.016045917464872
+   },
+   "discharge_resistor_energy_j": {
+    "+12": 0.00014742563947102197,
+    "+5": 3.2352539114033815e-05,
+    "-12": 0.0033714459811928976
+   },
+   "min_abs_m12_while_p12_present": 5.628316762250789,
+   "max_abs_m12_once_p12_absent": 5.644612570054763,
+   "onset_by_rail_ms": {
+    "+12": 0.157941,
+    "+5": 0.162322,
+    "-12": 0.037966
+   }
+  }
+ }
+}

@@ -27,7 +27,7 @@ rail labels.
 | −12 V and the sequencer, upper middle | Q55 (50, 25; 90), RXN3 (56, 23), RXN2 (64, 23), R76 (63, 18), C44, C45, D4, Q9, RSQ3, Q13, RSQ4, D5, Q8, RSQ2, RSQ1, Q7, R81, R82 |
 
 - **Pulse paths.** P12_DX, P5_DX, M12_DX, M12_DXA and M12_DXB are 1.2 mm B.Cu and contain no vias. RX12 / RX5 reach
-  J7 by 1.2 mm B.Cu. Q51 / Q52 sources have three GND vias each, and R76.1 has four.
+  J7 by 1.2 mm B.Cu. Q51 has two GND source vias and Q52 four (corrected 2026-11-20; this line first said three each), and R76.1 has four.
 - **Q55 to M12_OUT.** This path is 1.0 mm B.Cu / In2 with paralleled vias.
 - **DIS_P chain.** The retained DIS_P chain from R60 to Q56 ran through the old Q51.1 pad. A 0.25 mm F.Cu bridge
   from (96.7, 68.3) to (97.6, 67.6) replaces that junction.
@@ -133,6 +133,15 @@ simulated maximum.
   - The export package itself is not committed. Its SHA256SUMS, manifest and independent validation are.
   - First, the Board P r3 correction proof was refreshed. It had gone stale on `main` when #303 changed the shared
     symbol library. A local run of the `board-p-r3-rebuild` steps rebuilt `board-p.kicad_pcb` byte-identically.
+
+## 2026-11-20 review and value change
+
+The [independent review](review-20261120/README.md) accepts both pending models, the parity and the gain-only fill
+change (now checked by `--allow-outside-fill-gain`). It finds the loop-resistance figure above leaves out hot RDS(on)
+and the In1 return (worst total +20 / +24 / +11 %, margins still held), and that the discharge-switch threshold spread
+needs a retimed firing RC. RDG12 / RDG5 and CDG12 / CDG5 therefore changed by a value-only field sync
+(`dec-b20-d2-firing-threshold-band`); the PCB SHA-256 recorded above is superseded by that sync, and the current
+package is `manufacturing/releases/pd20-prototype-review/`.
 
 ## Remaining residuals
 

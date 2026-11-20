@@ -48,7 +48,8 @@
     "b20-d7-wsl-pulse-margin",
     "pd20-nvm-power-only-gui",
     "pd20-stack-support-prototype",
-    "b20-d2-back-side-layout"
+    "b20-d2-back-side-layout",
+    "b20-d2-firing-threshold-band"
   ],
   "notes": "Machine-consumable wave-6 decision lock for epic #86 / plan #101. Issue bodies #124/#125/#126 mirror these decisions; this file is the source of truth. Validate with scripts/schgen/check_decisions.py. Statuses: LOCKED = spec-able pick the downstream spec must implement; NO-SPEC-CHANGE-NEEDS-BENCH = recorded math, explicitly no spec change; DISPOSITION = accepted residual / recorded options, no part change.",
   "decisions": [
@@ -1081,6 +1082,24 @@
         "fact-c511023-power",
         "fact-c840100-footprint-review",
         "fact-c840100-visualization-envelope"
+      ]
+    },
+    {
+      "key": "b20-d2-firing-threshold-band",
+      "id": "dec-b20-d2-firing-threshold-band",
+      "title": "B20 D2 firing RC: RDG12/RDG5 4.02k 0.1 % C705781 and CDG12/CDG5 27 nF C0G C3882413 so the CSD18543Q3A guaranteed threshold band keeps R-VEE (readiness D2)",
+      "status": "DISPOSITION",
+      "applies_to": [
+        "doc"
+      ],
+      "decision": "Claude's call on 2026-11-20 under Takazudo's delegation (campaign #318; a separate decision-maker session evaluated the independent review finding). In board_b20_spec the +12 / +5 V discharge-switch firing networks change from RDG 10k 1 % C25804 + CDG 22 nF X7R C1729 to RDG 4.02k 0.1 % RT0603BRD074K02L C705781 + CDG 27 nF C0G GRM2165C1H273JA01D C3882413. Both lines are already fitted on B20; footprints (R0603, C0805), placement and copper are unchanged, so the PCB takes a value-only field sync. The -12 V network (R61, R62, C44, C45), the switches, loads and sequencer are unchanged. D2 is no longer a pre-order hold on this basis; the residuals below go to bench T5.",
+      "rationale": "The 2026-11-20 independent review of PR #307 found that the pre-registered D2 sweeps never moved the discharge-switch threshold. With fact-c840100-vgs-th-min/-typ/-max (1.5 / 2.0 / 2.7 V, 25 C) and the drive the enable network actually reaches (4.10-4.65 V; the decks had used an unreachable 4.9 V), the as-drawn network fails R-VEE in 136 of 1,152 control decks (down to 0.16 V). Pre-registered set G (guaranteed band x part tolerances x drive) with the retimed values: the five d2_fast_discharge.read rows PASS (SIM) in 2,808 of 2,808 complete decks; smallest |-12 V| while +12 V present 0.742 V (limit 0.6 V), largest once absent 5.652 V (limit 6 V), slowest level 1.43 ms. An added onset-floor row failed as first worded by 0.2 us and is MET under amendment 1, written before its control decks ran. Reported bands: PA-HOT PASS, legacy 4.9 V drive PASS, PA-COLD FAIL in 8 of 576 decks (0.593-0.595 V, a typical +0.12 V cold shift). Residuals: narrow timing window (about 0.14 V / 40 us low-side margin), cold threshold and the unsourced drive level (measure DIS_C and firing times in T5), ideal disconnect in the deck, generic small-part models. Fallback if T5 shows inadequate margin: a higher firing drive (not simulated, no part proposed). Records: manufacturing/sim/board-b20-phase33/d2-threshold-band-decision-20261120.md and manufacturing/verification/pd20-native-d2-layout-20261114/review-20261120/. electrical_acceptance stays NOT ESTABLISHED.",
+      "evidence": [
+        "fact-c840100-vgs-th-min",
+        "fact-c840100-vgs-th-typ",
+        "fact-c840100-vgs-th-max",
+        "fact-c840100-ciss-typ",
+        "fact-c840100-ciss-max"
       ]
     }
   ]

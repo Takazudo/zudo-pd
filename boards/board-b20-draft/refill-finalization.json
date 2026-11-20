@@ -1,7 +1,7 @@
 {
   "scope": "Owned serialized reload/refill finalization; two fresh pinned Docker CLI processes, no heuristic rerouting.",
-  "input_sha256": "13712f22316ddb55cc17b25f0596f3d5c0d3970536f6d530dcd099be8c1b78f6",
-  "pcb_sha256": "7a8270f5637b80f847d491a61cf60d374d94bcb98ed82959a4c7e083d1c6812f",
+  "input_sha256": "bc16fc9bfa0f1d7120fd6a95b15cc1690084cd3210253eb0ad2fe35afa9e388f",
+  "pcb_sha256": "bc16fc9bfa0f1d7120fd6a95b15cc1690084cd3210253eb0ad2fe35afa9e388f",
   "project_sha256": "7457763da2c2e125bca274d22133e2b0ba30f06864d020d50c2a2d9d662eedab",
   "byte_identical_second_refill": true,
   "nonfill_geometry_unchanged": true,
@@ -38,8 +38,8 @@
       "json",
       "--severity-all",
       "-o",
-      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/drc-1.json",
-      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/board-b20-draft.kicad_pcb"
+      "/home/user/zudo-pd/tmp/b20-finalize-_2hl2mz1/drc-1.json",
+      "/home/user/zudo-pd/tmp/b20-finalize-_2hl2mz1/board-b20-draft.kicad_pcb"
     ],
     [
       "docker",
@@ -70,18 +70,18 @@
       "json",
       "--severity-all",
       "-o",
-      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/drc-2.json",
-      "/home/user/zudo-pd/tmp/b20-finalize-9qecqfdm/board-b20-draft.kicad_pcb"
+      "/home/user/zudo-pd/tmp/b20-finalize-_2hl2mz1/drc-2.json",
+      "/home/user/zudo-pd/tmp/b20-finalize-_2hl2mz1/board-b20-draft.kicad_pcb"
     ]
   ],
-  "diagnostics": "tmp/b20-finalize-9qecqfdm",
+  "diagnostics": "tmp/b20-finalize-_2hl2mz1",
   "source_hashes": {
     "scripts/pcb/board-b20/finalize_refill.py": "49dac87d6540315cded616ff5e5fd3f5c3b6fe74bf3d12440e7c955bc657e0f4",
     "scripts/pcb/board-b20/verify_staged_geometry.py": "b31e443d2c91171010018d389fbe6a652090eeaff73ff9b9122a2351bc936631",
     "scripts/schgen/sexp.py": "ba08b45d7c9bab16242687f0826bd252207ce5973a326202cbfd7063e940c920"
   },
   "native_context_hashes": {
-    "boards/board-b20-draft/board-b20-draft.kicad_sch": "ddbe16edb985badd3e3a6687b5c2576913bf2c80f98f9d80ac15724b6a229df6",
+    "boards/board-b20-draft/board-b20-draft.kicad_sch": "a28de0cacc66600b760f8d0cde16f430c761db1b32f330500442d2f066fc92b9",
     "boards/board-b20-draft/fp-lib-table": "ce60ef4b91dee74f1fbc4118d3b6406585b6a2ff76aa583c4bb313c1c396a03c",
     "boards/board-b20-draft/sym-lib-table": "cc88b980c549b1279baf32416cc123de820ef0913793fcd9abb88da02430c877"
   },
