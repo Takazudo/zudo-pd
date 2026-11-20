@@ -1,5 +1,19 @@
 # Documentation ownership and migration map
 
+## Accepted PD/LED consolidation plan (2026-11-16 JST)
+
+The [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308) and [consolidation plan](orchestration/pd-led-unification.md)
+record the accepted future structure: one repository, one site, one shared Components
+catalog, with Project / Shared P15 / PD15 / PD20 / LED Lamp / Components as the six
+entry categories. [The local Moya + Codex Cloud workflow](orchestration/moya-codex-cloud.md)
+owns campaign startup and handoff details; the epic owns live progress and decisions.
+This entry records a plan only. No content route, component owner, CAD asset, source
+lock, manufacturing receipt or historical heading has moved. The migration must add
+and verify old-to-new path, route, fragment and evidence-ID mappings before cutover.
+The existing ownership tables below remain current until that implementation lands.
+
+## Existing site inventory baseline
+
 Inventory refreshed 2026-11-05 JST against main `dda9ccc9bfdead8884c354c478280baca641cec1` before edits:
 203 site Markdown/MDX pages = 132 generated component pages + 71 authored pages; 24 top-level manufacturing Markdown
 files. These are **dated migration observations**, not permanent corpus locks. Use `git ls-files`, configured inventory,
@@ -13,6 +27,7 @@ publication selection and generated preflight when refreshing. The tables includ
 | Stable P15 / PD15 / PD20 source mapping, design responsibilities and interfaces | `architecture/p15-shared-input.md`, `pd15.md`, `pd20.md` | Adopted design/interface/source identity changes |
 | Acceptance criteria | `architecture/release-readiness.md` | A per-stream acceptance gate changes |
 | Current procedures | `project/hardware-workflow.md`, `component-assets.md`, `jlcpcb-package.md`; P15 programming and per-stream verification | Executable command, evidence or acceptance procedure changes |
+| Moya/Codex operation and reusable records | `orchestration/moya-codex-cloud.md`, `ORCHESTRATION.md`, `templates/orchestration-campaign.md`, `templates/orchestration-task.md` | Startup, assignment, review, integration or recovery procedure changes; current queue stays in `orchestration/current-plan.md` and the selected tracker |
 | Decision chronology / research | `decisions/index.mdx`, `research/index.mdx` | Adoption/supersession or candidate status changes |
 | Site navigation | `doc/zfb.config.ts` | Reading structure changes; preserve categoryMatch for every exposed category and landing children |
 | Migration ownership | This map | A document is added, split, reclassified or no longer recommended |

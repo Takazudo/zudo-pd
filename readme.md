@@ -17,6 +17,13 @@ P15 programming acceptance is NOT RUN; PD20 has intent only, no program-ready 20
 
 ## Documentation
 
+The accepted next step is to bring `zudo-led-lamp` into this repository and maintain
+one documentation site and one shared component catalog, using `zudo-circuit-doc`.
+The target categories are **Project / Shared P15 / PD15 / PD20 / LED Lamp / Components**.
+LED source and its site are still separate; the migration has not started.
+See the [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308), [consolidation plan](circuit/orchestration/pd-led-unification.md)
+and [Moya + Codex Cloud workflow](circuit/orchestration/moya-codex-cloud.md).
+
 [Documentation site](https://pd.takazudomodular.com) and [current procedures](doc/src/content/docs/project/procedures.mdx).
 From the repository root, use the pinned package manager:
 
@@ -26,6 +33,15 @@ pnpm dev
 ```
 
 `pnpm b4push` runs the complete guarded repository gate. Software/CAD checks do not qualify hardware.
+
+## Development workflow
+
+Use the [repository-local Moya + Codex Cloud procedure](circuit/orchestration/moya-codex-cloud.md)
+for startup, bounded implementation, independent review, integration and recovery.
+It includes copyable prompts and a PD/LED example. The
+[campaign/checkpoint template](circuit/templates/orchestration-campaign.md) and
+[task/result/review template](circuit/templates/orchestration-task.md) are maintained
+here, so routine development does not require another repository's workflow documents.
 
 ## Design files
 
