@@ -1,0 +1,15 @@
+MATCH      pcb                  boards/board-p15/board-p15-draft.kicad_pcb
+MATCH      schematic-spec       scripts/schgen/board_p15_spec.py
+MATCH      schematic-generated  boards/board-p15/board-p15.kicad_sch
+MATCH      nvm-image            boards/board-p15/nvm/stusb4500-15v.bin
+MATCH      nvm-decode           boards/board-p15/nvm/stusb4500-15v.json
+MATCH      population-bom       manufacturing/releases/corner-support-review/board-p15/bom.csv
+MATCH      population-cpl       manufacturing/releases/corner-support-review/board-p15/cpl.csv
+INFO       frozen source lock: 452/498 paths unchanged at the selected revision (46 later changes, expected for a fixed snapshot)
+STATUS     source_verification: checked by scripts/pcb/board-p15/verify-shared-reference.py at an explicitly selected revision
+STATUS     ordered: NOT ORDERED
+STATUS     received: NOT RECEIVED
+STATUS     programmed: NOT RUN
+STATUS     measured: NOT RUN
+FAIL       adoption_revision 4a0741fabf8d2332848a3740708aab26b8504133: not an ancestor of the selected revision
+FAIL at HEAD (dc1df18b32f0201fa766cacef6f30479dcb3c390)

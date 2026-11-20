@@ -1,6 +1,7 @@
 """Controls for verify-insert-parts.py: a new part with copper on its own nets passes, anything else is refused."""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import tempfile
@@ -91,6 +92,31 @@ class VerifyInsertParts(unittest.TestCase):
         self.assertEqual(result['removed_copper'], [])
         self.assertEqual(result['fill_vertices_changed_inside_region'], {})
 
+    def value_changed(self, ref, base=None):
+        base = self.text if base is None else base
+        start, end = footprint_block(base, ref)
+        block = re.sub(r'\(property "Value" "[^"]*"', '(property "Value" "SYNCED"', base[start:end], count=1)
+        return base[:start] + block + base[end:]
+
+    def test_field_sync_allows_value_text_only(self):
+        result = self.check(self.value_changed('R61', self.inserted()), field_sync={'R61'})
+        self.assertEqual(result['field_synced_parts'], ['R61'])
+        self.refused(self.value_changed('R61', self.inserted()), 'Existing footprint R61 changed')
+
+    def test_field_sync_refuses_a_moved_footprint(self):
+        text = self.value_changed('R61', self.inserted())
+        start, end = footprint_block(text, 'R61')
+        block = re.sub(r'\(at ([-0-9.]+) ', lambda m: f'(at {float(m.group(1)) + 0.5} ', text[start:end], count=1)
+        self.refused(text[:start] + block + text[end:], 'Existing footprint R61 changed', field_sync={'R61'})
+
+    def test_replaced_footprint_may_change_and_must_change(self):
+        text = self.inserted()
+        start, end = footprint_block(text, 'R61')
+        block = re.sub(r'\(at ([-0-9.]+) ', lambda m: f'(at {float(m.group(1)) + 0.5} ', text[start:end], count=1)
+        result = self.check(text[:start] + block + text[end:], replaced={'R61'})
+        self.assertEqual(result['replaced_parts'], ['R61'])
+        self.refused(self.inserted(), 'did not change', replaced={'R61'})
+
     def test_copper_on_another_net_is_refused(self):
         text = self.inserted()
         at = text.index('\n\t(segment')
@@ -148,7 +174,7 @@ class VerifyInsertParts(unittest.TestCase):
         text = self.inserted()
         at = text.index('\n\t(segment')
         far = segment(NET_A, (AT[0] - 40, AT[1] + 30), (AT[0] - 41, AT[1] + 30))
-        self.refused(text[:at] + far + text[at:], 'beyond 10.0 mm of the new parts')
+        self.refused(text[:at] + far + text[at:], 'beyond 10.0 mm')
 
     def test_relaxed_rule_is_refused(self):
         pro = json.loads(self.pro.read_text())
@@ -159,7 +185,7 @@ class VerifyInsertParts(unittest.TestCase):
         text = self.inserted()
         at = text.index('\n\t(segment')
         detour = segment(NET_A, (AT[0] - 4, AT[1]), (AT[0] - 4, AT[1] + 40)) + segment(NET_A, (AT[0] - 4, AT[1] + 40), (AT[0] - 3, AT[1]))
-        self.refused(text[:at] + detour + text[at:], 'beyond 10.0 mm of the new parts')
+        self.refused(text[:at] + detour + text[at:], 'beyond 10.0 mm')
 
     def test_fracture_slits_do_not_count_as_fill_change(self):
         square = [('0', '0'), ('10', '0'), ('10', '10'), ('0', '10')]
@@ -202,6 +228,125 @@ class VerifyInsertParts(unittest.TestCase):
         self.assertGreater(abs(float(m.group(1)) - AT[0]) + abs(float(m.group(2)) - AT[1]), 10)
         self.refused(text[:m.start()] + moved + text[m.end():], 'changed outside the edit region')
 
+
+class OutsideFillGain(VerifyInsertParts):
+    """--allow-outside-fill-gain: a pure copper gain outside the edit region passes; a loss, a gain on a net that is not
+    allowed, and every non-fill change are still refused (negative controls)."""
+    ZONE = 'effbc381-86bc-5185-a325-99ab337d2695'   # the main GND zone on B.Cu
+    IN1 = '66bdc61b-a697-57c7-8c21-d31d7ae259ea'
+
+    def zone_span(self, text, uuid):
+        at = text.index(f'(uuid "{uuid}")')
+        start = text.rindex('\n\t(zone', 0, at)
+        depth, i = 0, start + 1
+        while True:
+            if text[i] == '(':
+                depth += 1
+            elif text[i] == ')':
+                depth -= 1
+                if depth == 0:
+                    return start, i + 1
+            i += 1
+
+    def rings(self, text):
+        return verify.fill_rings(verify.parse(verify.tokenize(text)))
+
+    def free_square(self, text, uuid, layer, inside):
+        """A 0.6 mm square, 1 mm clear of the fill boundary, wholly outside (or inside) the zone's fill, far from AT."""
+        rings = self.rings(text)[(uuid, layer)]
+        for x in range(5, 105):
+            for y in range(5, 80):
+                c = (x + 0.5, y + 0.5)
+                if verify.fill_inside(c, rings) == inside and verify.fill_boundary_distance(c, rings) > 1.0:
+                    return [(c[0] - 0.3, c[1] - 0.3), (c[0] + 0.3, c[1] - 0.3), (c[0] + 0.3, c[1] + 0.3), (c[0] - 0.3, c[1] + 0.3)]
+        self.skipTest('no free square found')
+
+    def with_gnd_track(self):
+        """The inserted RX1 plus one GND segment beside it, so that GND is an allowed (changed) net."""
+        text = self.inserted()
+        at = text.index('\n\t(segment')
+        return text[:at] + segment('GND', (AT[0] - 2, AT[1] + 3), (AT[0] - 4, AT[1] + 3)) + text[at:]
+
+    def add_island(self, text, uuid, layer, square):
+        start, end = self.zone_span(text, uuid)
+        pts = ' '.join(f'(xy {x:.6f} {y:.6f})' for x, y in square)
+        island = f'\n\t\t(filled_polygon\n\t\t\t(layer "{layer}")\n\t\t\t(pts {pts})\n\t\t)'
+        return text[:end - 2] + island + text[end - 2:]
+
+    def gain_text(self):
+        text = self.with_gnd_track()
+        return self.add_island(text, self.ZONE, 'B.Cu', self.free_square(text, self.ZONE, 'B.Cu', inside=False))
+
+    def test_far_gain_is_refused_without_the_option(self):
+        self.refused(self.gain_text(), 'changed outside the edit region', extra=['GND'])
+
+    def test_far_gain_passes_with_the_option(self):
+        result = self.check(self.gain_text(), extra=['GND'], allow_outside_fill_gain=True)
+        gain = result['fill_gain_outside_region'][f'{self.ZONE}/B.Cu']
+        self.assertEqual((gain['corners_removed_outside'], gain['corners_added_outside']), (0, 4))
+        self.assertEqual(result['fill_gain_eps_mm'], 0.01)
+
+    def test_far_island_removed_is_refused(self):
+        text = self.with_gnd_track()
+        start, end = self.zone_span(text, self.ZONE)
+        block = text[start:end]
+        polys = [m.start() for m in re.finditer(r'\(filled_polygon', block)]
+        sizes = []
+        for i, p in enumerate(polys):
+            q = polys[i + 1] if i + 1 < len(polys) else len(block) - 2
+            sizes.append((q - p, p, q))
+        _, p, q = min(sizes)
+        cut = block[:p].rstrip('\t\n ') + '\n\t\t' + block[q:].lstrip('\t\n ')
+        self.refused(text[:start] + cut + text[end:], 'lost copper outside the edit region', extra=['GND'],
+                     allow_outside_fill_gain=True)
+
+    def test_far_new_hole_is_refused(self):
+        text = self.with_gnd_track()
+        square = self.free_square(text, self.IN1, 'In1.Cu', inside=True)
+        start, end = self.zone_span(text, self.IN1)
+        block = text[start:end]
+        m = re.compile(r'\(pts\s*\(xy ([-0-9.]+) ([-0-9.]+)\)').search(block, block.index('(filled_polygon'))
+        foot = f'(xy {m.group(1)} {m.group(2)})'
+        hole = ' '.join(f'(xy {x:.6f} {y:.6f})' for x, y in [square[0], square[3], square[2], square[1], square[0]])
+        block = block[:m.end()] + ' ' + hole + ' ' + foot + block[m.end():]
+        self.refused(text[:start] + block + text[end:], 'lost copper outside the edit region', extra=['GND'],
+                     allow_outside_fill_gain=True)
+
+    def test_gain_on_a_net_that_is_not_allowed_is_refused(self):
+        text = self.inserted()
+        text = self.add_island(text, self.ZONE, 'B.Cu', self.free_square(text, self.ZONE, 'B.Cu', inside=False))
+        self.refused(text, 'net that is not allowed', allow_outside_fill_gain=True)
+
+    def test_option_does_not_admit_other_net_copper(self):
+        text = self.gain_text()
+        m = re.search(r'\(segment\s*\(start ([-0-9.]+) ([-0-9.]+)\)(?:(?!\(segment)[\s\S])*?\(net "(?!GND|TEST_)[^"]+"\)', text)
+        moved = text[:m.start(1)] + f'{float(m.group(1)) + 0.1:g}' + text[m.end(1):]
+        self.refused(moved, 'Copper on a net outside the allowed set changed', extra=['GND'], allow_outside_fill_gain=True)
+
+    def test_option_does_not_admit_a_zone_setting_change(self):
+        text = self.gain_text()
+        start, end = self.zone_span(text, self.ZONE)
+        block = text[start:end]
+        self.assertIn('(clearance 0.25)', block)
+        changed = block.replace('(clearance 0.25)', '(clearance 0.2)', 1)
+        self.refused(text[:start] + changed + text[end:], 'Non-copper board content changed', extra=['GND'],
+                     allow_outside_fill_gain=True)
+
+    @unittest.skipUnless(os.environ.get('B20_D2_BEFORE'), 'set B20_D2_BEFORE to the D2 BEFORE board (main b377136)')
+    def test_d2_refilled_board_passes_only_with_the_option(self):
+        before = Path(os.environ['B20_D2_BEFORE'])
+        args = dict(refs=set('C44,C45,CDG12,CDG5,D4,D5,Q13,Q7,Q8,Q9,R81,R82,RDG12,RDG5,RSQ1,RSQ2,RSQ3,RSQ4,RXN2,RXN3'.split(',')),
+                    extra_nets=[], replaced=set('Q51,Q52,Q55,RX12,RX5,R76'.split(',')), field_sync={'R61', 'R62'},
+                    reach_mm=12, added_reach_mm=26)
+        with self.assertRaisesRegex(SystemExit, 'changed outside the edit region'):
+            verify.verify(str(before), str(PCB), **args)
+        result = verify.verify(str(before), str(PCB), allow_outside_fill_gain=True, **args)
+        self.assertEqual(len(result['fill_gain_outside_region']), 3)
+
+
+
+for _name in [n for n in vars(VerifyInsertParts) if n.startswith('test_')]:
+    setattr(OutsideFillGain, _name, None)   # run the base controls once, in their own class
 
 if __name__ == '__main__':
     unittest.main()

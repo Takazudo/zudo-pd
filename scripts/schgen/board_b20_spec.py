@@ -610,10 +610,12 @@ for rail in ('12', '5'):
 # sequencer's supply is DIS_P, which is live only after a disable, as in the simulated deck.
 two('RXN2', 'WSL', 'M12_DXA', 'M12_DXB')
 two('RXN3', 'WSL', 'M12_DXB', 'M12_DX')
-rprop('RDG12', '10k 1%', 'DIS_P', 'P12_DG')
-two('CDG12', 'C22N', 'P12_DG', 'GND')
-rprop('RDG5', '10k 1%', 'DIS_P', 'P5_DG')
-two('CDG5', 'C22N', 'P5_DG', 'GND')
+# 2026-11-20 (dec-b20-d2-firing-threshold-band): the +12 / +5 V firing RC is 4.02k 0.1 % + 27 nF C0G (was 10k + 22 nF
+# X7R) so the CSD18543Q3A guaranteed 1.5-2.7 V threshold band keeps R-VEE (d2-threshold-band-20261120.md).
+two('RDG12', 'RP4K02', 'DIS_P', 'P12_DG')
+cprop('CDG12', '27nF C0G', 'P12_DG', 'GND', fp='zudo-pd:C0805')
+two('RDG5', 'RP4K02', 'DIS_P', 'P5_DG')
+cprop('CDG5', '27nF C0G', 'P5_DG', 'GND', fp='zudo-pd:C0805')
 cprop('CDGNA', '47nF C0G', 'M12_DG', 'M12_OUT')
 two('CDGNB', 'C22N', 'M12_DG', 'M12_OUT')
 zener('DZN', 'M12_DG', 'M12_OUT')

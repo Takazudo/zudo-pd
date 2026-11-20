@@ -1231,6 +1231,31 @@
       "reviewed_wrl_sha256": "ced0a40a718711c2ae16482a4f46a9eb6a0a33ecf9f9d8c2e18c160fa951a420",
       "original_step_sha256": "134d58dd68899b29f9e19def208de6690d06010e01c304866fbd4d81c8640aa6",
       "review_status": "PENDING independent review: added 2026-11-13 for the D12 series resistors R77-R80 (0402 C25741) on board-b20-draft. The existing R0402 WRL/STEP pair is used unchanged; no translation is prescribed. The surface screen result is in footprints/kicad/step-datum-verification.json. Visualization only; not physical fit."
+    },
+    {
+      "wrl": "R2512_WSL_MaxEnvelope_L6.61-W3.44-H0.89.wrl",
+      "uses_at_review": [
+        "board-b20-draft/RX12",
+        "board-b20-draft/RX5",
+        "board-b20-draft/R76",
+        "board-b20-draft/RXN2",
+        "board-b20-draft/RXN3"
+      ],
+      "reviewed_wrl_sha256": "c0e04e9805049a6aa5bd1590072a14db157c436cc9a82d91335935abe02a557e",
+      "original_step_sha256": "da3c77a393021b451b65b4c12551dbeeb498ae62d88c57b50f15ea4046cc0f40",
+      "review_status": "PENDING independent review: added 2026-11-14 when the D2 layout placed the WSL2512 loads on B20 (back side); the sampled WRL/STEP screen below passes, box axes and seating not yet independently reviewed",
+      "surface_before_normalization": {
+        "wrl_to_step": {
+          "max_mm": 5.60085311462899e-12,
+          "p99_mm": 5.60085311462899e-12,
+          "samples": 20
+        },
+        "step_to_wrl": {
+          "max_mm": 5.692530501859741e-12,
+          "p99_mm": 5.692530501859741e-12,
+          "samples": 20
+        }
+      }
     }
   ]
 }

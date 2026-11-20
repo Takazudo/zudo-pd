@@ -369,7 +369,7 @@ their positions.
 #### Phase 28: 4-layer B20 adopted, JLC7628 stackup, 5 unconnected
 
 **Decision (owner, project decision card answered 2026-11-02 15:40Z, relayed by the coordinator):** B20 grows to
-4 copper layers rather than bottom-side placement or a larger outline. The phase 27 comparison is the basis. This
+4 copper layers rather than bottom-side placement or a larger outline. The phase 27 comparison is the basis. (Superseded for the D2 discharge network only on 2026-11-14: `dec-b20-d2-back-side-layout` places it on B.Cu, so B20 is now a two-sided assembly; see `manufacturing/verification/pd20-native-d2-layout-20261114/README.md`.) This
 draft decision is recorded here and not in `scripts/schgen/decisions.json`: that registry covers the Board P/A/B wave-6
 specs, accepts no `board_b20_spec` target, and requires component fact evidence, but a stackup has no component owner. The
 4-layer board replaces the 2-layer phase 26 board in `boards/board-b20-draft/board-b20-draft.kicad_pcb`. Under the

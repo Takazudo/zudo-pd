@@ -1,0 +1,46 @@
+{
+ "scope": "Cloud pinned-image STEP datum proof, pair assembly preview, development export and independent package verification; nominal CAD only, no order, no supplier upload",
+ "host": "Claude cloud container (docker, linux/amd64)",
+ "head_before_rerun": "faee8ebd0d4c93bebc29681826c9ed6339c01165",
+ "utc": "2026-11-14T20:00:50.575734+00:00",
+ "board_b20_pcb_sha256": "7a8270f5637b80f847d491a61cf60d374d94bcb98ed82959a4c7e083d1c6812f",
+ "board_p_pcb_sha256": "3fc44335431a111d4bc2cf9678fbef1a719ded77731bbd2de1fc218c576e7785",
+ "step_datum": "PASS (47 pairs), footprints/kicad/step-datum-verification.json",
+ "assembly_verification_status": "PASS",
+ "assembly_verification_sha256": "af7627744c2481453d92085cb5d66d36b731677bd589d4ff3675497cd7c889d0",
+ "local_only_populated_stack_step": {
+  "sha256": "58c4d2f247a5da5f2be80af03adfe03889ea38babb55e072fcf43e448113ce66"
+ },
+ "export_destination": "tmp/pd20-dev-export-d2 (local, not committed)",
+ "export_SHA256SUMS_sha256": "129c84664900dc42c02f6c2ae84835381b59b39c0ae973304e9efb1de5549d8f",
+ "export_manifest_sha256": "d8af988f28dcbd1f541d22c01fa186291d84adba7402e8e1529edc08d1959825",
+ "verify_jlcpcb": "PASS (exit 0, --write on a fresh export)",
+ "export_counts": {
+  "board-p": {
+   "fitted": 44,
+   "bom_lines": 27,
+   "sides": {
+    "Top": 22,
+    "Bottom": 22
+   }
+  },
+  "board-b20-draft": {
+   "fitted": 294,
+   "bom_lines": 88,
+   "sides": {
+    "Top": 268,
+    "Bottom": 26
+   }
+  }
+ },
+ "tool_sha256": {
+  "tmp/cloud-kicad-tools/kicad-cli": "66995070a9a10ab4ff80fcd7bd304e41fc0edd985efd541809fb4109b6247797",
+  "tmp/cloud-kicad-tools/kicad-python": "18254287d0c29bd0f38f641446f35705c1b8a25c71c092006a3c8dea9dc452ef",
+  "docker_image": "kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec"
+ },
+ "tool_wrappers": {
+  "kicad-cli": "#!/bin/bash\nIMG=kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec\nexec docker run --rm -i --platform linux/amd64 --cpus 1 --user 0 -e PYTHONHASHSEED=0 -v /home/user/zudo-pd:/home/user/zudo-pd -v /tmp:/tmp -w \"$PWD\" --entrypoint /bin/bash \"$IMG\" -c 'broadwayd :5 >/dev/null 2>&1 & sleep 1; GDK_BACKEND=broadway BROADWAY_DISPLAY=:5 exec kicad-cli \"$@\"' kicad-cli \"$@\"\n",
+  "kicad-python": "#!/bin/bash\nIMG=kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec\nexec docker run --rm -i --platform linux/amd64 --cpus 1 --user 0 -e PYTHONHASHSEED=0 -v /home/user/zudo-pd:/home/user/zudo-pd -v /tmp:/tmp -w \"$PWD\" --entrypoint /bin/bash \"$IMG\" -c 'broadwayd :5 >/dev/null 2>&1 & sleep 1; GDK_BACKEND=broadway BROADWAY_DISPLAY=:5 exec python3 \"$@\"' kicad-python \"$@\"\n"
+ },
+ "chain_script": "set -euo pipefail\ncd /home/user/zudo-pd\nexport PYTHONHASHSEED=0 D=scripts/pcb/board-b20 OUT=boards/board-b20-draft\nV=manufacturing/verification/pd20-native-d2-layout-20261114\ncp tmp/d2/after-unfilled.kicad_pcb tmp/d2v/after-unfilled.kicad_pcb\ngit show main:boards/board-b20-draft/board-b20-draft.kicad_pcb > tmp/d2v/before.kicad_pcb\npython3 $D/finalize_refill.py tmp/d2v/after-unfilled.kicad_pcb $OUT/board-b20-draft.kicad_pcb --project $OUT/board-b20-draft.kicad_pro --receipt $OUT/refill-finalization.json > $V/refill-finalization.log 2>&1\nA=\"--refs C44,C45,CDG12,CDG5,D4,D5,Q13,Q7,Q8,Q9,R81,R82,RDG12,RDG5,RSQ1,RSQ2,RSQ3,RSQ4,RXN2,RXN3 --replace Q51,Q52,Q55,RX12,RX5,R76 --field-sync R61,R62 --reach-mm 12 --added-reach-mm 26\"\npython3 $D/verify-insert-parts.py tmp/d2v/before.kicad_pcb tmp/d2v/after-unfilled.kicad_pcb $A --output $V/insert-verification-unfilled.json > /dev/null\npython3 $D/verify-insert-parts.py tmp/d2v/before.kicad_pcb $OUT/board-b20-draft.kicad_pcb $A --output /dev/null > $V/insert-verification-filled.log 2>&1 || true\npython3 $V/edit-region.py tmp/d2v/before.kicad_pcb $V/insert-verification-unfilled.json $V/edit-region.json\nuv run -q --python 3.12 --with shapely python $V/fill-slit-check.py tmp/d2v/before.kicad_pcb $OUT/board-b20-draft.kicad_pcb $V/edit-region.json tmp/d2v/fill-slit-check.json > tmp/d2v/fill-slit.log\npython3 -c \"\nimport json;r=json.load(open('tmp/d2v/fill-slit-check.json'));v=r.pop('non_slit_vertices');r['non_slit_vertices_largest_50']=sorted(v,key=lambda x:-x['distance_to_other_fill_boundary_mm'])[:50]\njson.dump(r,open('$V/fill-slit-check.json','w'),indent=1)\"\nT=tmp/d2v/rep; mkdir -p $T; git show main:$OUT/report-input-receipt.json > $T/report-template.json\ntmp/d2/kpy.sh $D/dump-geom.py $OUT/board-b20-draft.kicad_pcb 2>/dev/null > $T/final-geom.json\ntmp/d2/kpy.sh $D/read-routed-copper.py $OUT/board-b20-draft.kicad_pcb $T/report-template.json $T/final-geom.json $T/final-routes.json $OUT/report-input-receipt.json 2>&1 | grep -v Debug\npython3 $D/loop-check.py $T/final-geom.json $T/final-routes.json $OUT/loop-check.json > /dev/null\npython3 $D/current-check.py $T/final-geom.json $T/final-routes.json $OUT/current-check.json > /dev/null\npython3 $D/thermal-check.py $OUT/thermal-check.json > /dev/null\npython3 -c \"\nimport json;p='$OUT/routing-report.json';r=json.load(open(p));d=json.load(open('$OUT/report-input-receipt.json'));r['tracks'],r['vias']=d['native_track_count'],d['native_via_count'];open(p,'w').write(json.dumps(r,indent=1)+'\\n');print(r['tracks'],r['vias'])\"\npython3 $D/power-report.py > /dev/null\ntmp/d2/kpy.sh tmp/d2/dump.py $OUT/board-b20-draft.kicad_pcb tmp/d2v/final-geom.json >/dev/null 2>&1\npython3 $V/loop-resistance.py tmp/d2v/final-geom.json > $V/loop-resistance.txt\nuv run --python 3.12 --with cadquery==2.6.1 --with vtk==9.3.1 python scripts/pcb/verify-step-datums.py --output tmp/step-datum-check.json > tmp/d2x/1-step-datum.log 2>&1\ncp tmp/step-datum-check.json footprints/kicad/step-datum-verification.json\nrm -rf tmp/pd20-d2-assembly\nuv run --python 3.12 --with cadquery==2.6.1 --with vtk==9.3.1 python scripts/pcb/board-b20/assembly-preview.py --kicad-cli $PWD/tmp/cloud-kicad-tools/kicad-cli --kicad-python $PWD/tmp/cloud-kicad-tools/kicad-python --output \"$PWD/tmp/pd20-d2-assembly\" > tmp/d2x/2-assembly-preview.log 2>&1\nrm -rf $OUT/assembly-preview && cp -a tmp/pd20-d2-assembly $OUT/assembly-preview\npython3 - <<'PY'\nimport json,hashlib,os\np='manufacturing/local-only-assembly-previews.json';d=json.load(open(p))\nf='boards/board-b20-draft/assembly-preview/populated-stack.step'\nfor k in d:\n    if isinstance(d[k],list):\n        for e in d[k]:\n            if e.get('path')==f: e['sha256']=hashlib.sha256(open(f,'rb').read()).hexdigest();e['bytes']=os.path.getsize(f)\nopen(p,'w').write(json.dumps(d,indent=2)+'\\n')\nPY\nrm -rf tmp/pd20-dev-export-d2\npython3 scripts/pcb/export-jlcpcb.py tmp/pd20-dev-export-d2 --boards board-p board-b20-draft --kicad-cli $PWD/tmp/cloud-kicad-tools/kicad-cli --kicad-python $PWD/tmp/cloud-kicad-tools/kicad-python > tmp/d2x/3-export.log 2>&1\nuv run -q --python 3.12 --with gerbonara --with resvg-py python scripts/pcb/verify-jlcpcb.py --write tmp/pd20-dev-export-d2 > tmp/d2x/4-verify.log 2>&1\necho CHAIN PASS\n"
+}
