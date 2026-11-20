@@ -1,0 +1,264 @@
+{
+ "basis": "catalog estimate, not a supplier quote; retained fee model scripts/pcb/calculate-lineup-cost.py board_cost() with fee table from jlc-snapshot-2026-10-31 (page still Last updated Oct 22, 2026 on 2026-11-20) and the 2026-11-20 JLC catalog rows",
+ "lot": 2,
+ "joints_per_board": {
+  "smd": 72,
+  "th": 10
+ },
+ "double_sided": false,
+ "model": {
+  "parts_usd": 7.13,
+  "assembly_usd": 32.72,
+  "assembly_kind": "Economic PCBA, single-side",
+  "assembly_classes_usd": {
+   "Standard PCBA, single-side": 74.71,
+   "Economic PCBA, single-side": 32.72
+  },
+  "lines": 14,
+  "extended_lines": 6,
+  "stock_below_purchase": []
+ },
+ "model_rows": [
+  {
+   "lcsc": "C13585",
+   "model": "CL31A106KBHNNNE",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.1223,
+   "line_usd": 0.2446,
+   "library": "base",
+   "stock": 4072626
+  },
+  {
+   "lcsc": "C14663",
+   "model": "CC0603KRX7R9BB104",
+   "qty_per_board": 2,
+   "buy": 4,
+   "unit_usd": 0.0055,
+   "line_usd": 0.022,
+   "library": "base",
+   "stock": 53624762
+  },
+  {
+   "lcsc": "C15849",
+   "model": "CL10A105KB8NNNC",
+   "qty_per_board": 3,
+   "buy": 6,
+   "unit_usd": 0.0092,
+   "line_usd": 0.0552,
+   "library": "base",
+   "stock": 11753651
+  },
+  {
+   "lcsc": "C192739",
+   "model": "BZT52C18-7-F",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.1292,
+   "line_usd": 0.2584,
+   "library": "expand",
+   "stock": 6328
+  },
+  {
+   "lcsc": "C21189",
+   "model": "0603WAF0000T5E",
+   "qty_per_board": 3,
+   "buy": 6,
+   "unit_usd": 0.0021,
+   "line_usd": 0.0126,
+   "library": "base",
+   "stock": 15694342
+  },
+  {
+   "lcsc": "C21190",
+   "model": "0603WAF1001T5E",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.0016,
+   "line_usd": 0.0032,
+   "library": "base",
+   "stock": 29838292
+  },
+  {
+   "lcsc": "C22807",
+   "model": "0603WAF1503T5E",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.0017,
+   "line_usd": 0.0034,
+   "library": "base",
+   "stock": 800782
+  },
+  {
+   "lcsc": "C23179",
+   "model": "0603WAF4700T5E",
+   "qty_per_board": 3,
+   "buy": 6,
+   "unit_usd": 0.0019,
+   "line_usd": 0.0114,
+   "library": "base",
+   "stock": 4115437
+  },
+  {
+   "lcsc": "C25803",
+   "model": "0603WAF1003T5E",
+   "qty_per_board": 3,
+   "buy": 6,
+   "unit_usd": 0.0029,
+   "line_usd": 0.0174,
+   "library": "base",
+   "stock": 13173279
+  },
+  {
+   "lcsc": "C2678061",
+   "model": "STUSB4500QTR",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 2.8335,
+   "line_usd": 5.667,
+   "library": "expand",
+   "stock": 6249
+  },
+  {
+   "lcsc": "C283540",
+   "model": "TYPE-C-31-M-17",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.1987,
+   "line_usd": 0.3974,
+   "library": "expand",
+   "stock": 9403
+  },
+  {
+   "lcsc": "C347476",
+   "model": "AO3401A",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.0317,
+   "line_usd": 0.0634,
+   "library": "expand",
+   "stock": 1160858
+  },
+  {
+   "lcsc": "C492405",
+   "model": "PZ254V-11-06P",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.043,
+   "line_usd": 0.086,
+   "library": "expand",
+   "stock": 70725
+  },
+  {
+   "lcsc": "C74561",
+   "model": "SMAJ16A",
+   "qty_per_board": 1,
+   "buy": 2,
+   "unit_usd": 0.1461,
+   "line_usd": 0.2922,
+   "library": "expand",
+   "stock": 4492
+  }
+ ],
+ "conservative_attrition_parts_usd": 9.72,
+ "conservative_rows": [
+  {
+   "lcsc": "C13585",
+   "need": 2,
+   "buy": 6,
+   "unit_usd": 0.1223,
+   "line_usd": 0.7338
+  },
+  {
+   "lcsc": "C14663",
+   "need": 4,
+   "buy": 20,
+   "unit_usd": 0.0055,
+   "line_usd": 0.11
+  },
+  {
+   "lcsc": "C15849",
+   "need": 6,
+   "buy": 20,
+   "unit_usd": 0.0092,
+   "line_usd": 0.184
+  },
+  {
+   "lcsc": "C192739",
+   "need": 2,
+   "buy": 10,
+   "unit_usd": 0.1292,
+   "line_usd": 1.292
+  },
+  {
+   "lcsc": "C21189",
+   "need": 6,
+   "buy": 20,
+   "unit_usd": 0.0021,
+   "line_usd": 0.042
+  },
+  {
+   "lcsc": "C21190",
+   "need": 2,
+   "buy": 20,
+   "unit_usd": 0.0016,
+   "line_usd": 0.032
+  },
+  {
+   "lcsc": "C22807",
+   "need": 2,
+   "buy": 20,
+   "unit_usd": 0.0017,
+   "line_usd": 0.034
+  },
+  {
+   "lcsc": "C23179",
+   "need": 6,
+   "buy": 20,
+   "unit_usd": 0.0019,
+   "line_usd": 0.038
+  },
+  {
+   "lcsc": "C25803",
+   "need": 6,
+   "buy": 20,
+   "unit_usd": 0.0029,
+   "line_usd": 0.058
+  },
+  {
+   "lcsc": "C2678061",
+   "need": 2,
+   "buy": 2,
+   "unit_usd": 2.8335,
+   "line_usd": 5.667
+  },
+  {
+   "lcsc": "C283540",
+   "need": 2,
+   "buy": 2,
+   "unit_usd": 0.1987,
+   "line_usd": 0.3974
+  },
+  {
+   "lcsc": "C347476",
+   "need": 2,
+   "buy": 10,
+   "unit_usd": 0.0317,
+   "line_usd": 0.317
+  },
+  {
+   "lcsc": "C492405",
+   "need": 2,
+   "buy": 2,
+   "unit_usd": 0.043,
+   "line_usd": 0.086
+  },
+  {
+   "lcsc": "C74561",
+   "need": 2,
+   "buy": 5,
+   "unit_usd": 0.1461,
+   "line_usd": 0.7305
+  }
+ ]
+}

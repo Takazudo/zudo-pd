@@ -1,0 +1,415 @@
+
+$ tmp/cloud-kicad-tools/kicad-cli pcb drc --refill-zones --save-board --schematic-parity --format json -o manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/drc.json manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb
+Found 4 violations
+Found 0 unconnected items
+Found 0 schematic parity issues
+Saved DRC Report to manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/drc.json
+Saved board
+
+$ /usr/local/bin/python3 scripts/pcb/board-b20/verify_staged_geometry.py boards/board-b20-draft/board-b20-draft.kicad_pcb manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb --expected-source-sha256 bc16fc9bfa0f1d7120fd6a95b15cc1690084cd3210253eb0ad2fe35afa9e388f --output manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/staged-geometry.json
+PASS: exact approved source/staged manufacturing geometry, including filled copper
+
+$ /usr/local/bin/python3 scripts/pcb/check-model-paths.py manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb --output manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/model-paths.json
+{
+  "pcb": "board-b20-draft.kicad_pcb",
+  "pcb_sha256": "c5df71c5754485d930749c44f5c499990243ae52a5a24ff3b0c331dd37eb423d",
+  "status": "PASS",
+  "fitted_components": 294,
+  "fitted_components_with_visible_models": 294,
+  "model_references": 294,
+  "errors": [],
+  "scope": "Model paths, file availability, visible fitted-part coverage and finite/nonzero transforms only. Models are visualization assets; physical dimensions, polarity, assembly fit and exact-part provenance require separate review."
+}
+
+$ /usr/local/bin/python3 scripts/pcb/check-model-bodies.py manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb --output manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/model-bodies.json
+{
+  "status": "PASS",
+  "scope": "Opaque-body placement sanity screen only; not exact manufacturer geometry, collision/occlusion certification, native pixel coverage or physical fit.",
+  "pcb_sha256": "c5df71c5754485d930749c44f5c499990243ae52a5a24ff3b0c331dd37eb423d",
+  "checker_sha256": "6866c173acbd56b8d128f9ed0b0e66868d7364c2842e6911c6c2ef22c75d6fb6",
+  "fitted_components": 294,
+  "screened_components": 294,
+  "errors": []
+}
+
+$ tmp/cloud-kicad-tools/kicad-cli pcb render --width 1800 --height 1400 --quality high --rotate 20,0,-15 --zoom 0.8 -o manufacturing/releases/pd20-prototype-review/board-b20-draft/3d-top.png manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb
+Loading…
+Build board outline
+
+Create layers
+Create tracks and vias
+Create zones
+Build Tech layers
+Build Tech layer 11
+Build Tech layer 9
+Build Tech layer 15
+Build Tech layer 13
+Build Tech layer 7
+Build Tech layer 5
+Build Tech layer 3
+Build Tech layer 1
+Build Tech layer 17
+Build Tech layer 19
+Build Tech layer 21
+Build Tech layer 23
+Build Tech layer 39
+Build Tech layer 41
+Build Tech layer 43
+Build Tech layer 45
+Build Tech layer 47
+Build Tech layer 49
+Build Tech layer 51
+Build Tech layer 53
+Build Tech layer 55
+Build Tech layer 57
+Build Tech layer 59
+Build Tech layer 61
+Build Tech layer 63
+Build Tech layer 65
+Build Tech layer 67
+Build Tech layer 69
+Build Tech layer 71
+Build Tech layer 73
+Build Tech layer 75
+Build Tech layer 77
+Build Tech layer 79
+Build Tech layer 81
+Build Tech layer 83
+Build Tech layer 85
+Build Tech layer 87
+Build Tech layer 89
+Build Tech layer 91
+Build Tech layer 93
+Build Tech layer 95
+Build Tech layer 97
+Build Tech layer 99
+Build Tech layer 101
+Build Tech layer 103
+Build Tech layer 105
+Build Tech layer 107
+Build Tech layer 109
+Build Tech layer 111
+Build Tech layer 113
+Build Tech layer 115
+Build Tech layer 117
+Build Tech layer 119
+Build Tech layer 121
+Build Tech layer 123
+Build Tech layer 125
+Build Tech layer 127
+Simplifying copper layer polygons
+Calculating plated copper
+Simplify holes contours
+Build BVH for holes and vias
+Load Raytracing: board
+Load Raytracing: layers
+Loading 3D models...
+Reload time 1.823 s
+Rendering: 1 %
+Rendering: 2 %
+Rendering: 2 %
+Rendering: 3 %
+Rendering: 4 %
+Rendering: 5 %
+Rendering: 6 %
+Rendering: 6 %
+Rendering: 7 %
+Rendering: 7 %
+Rendering: 7 %
+Rendering: 8 %
+Rendering: 9 %
+Rendering: 9 %
+Rendering: 10 %
+Rendering: 11 %
+Rendering: 12 %
+Rendering: 12 %
+Rendering: 13 %
+Rendering: 14 %
+Rendering: 15 %
+Rendering: 15 %
+Rendering: 16 %
+Rendering: 17 %
+Rendering: 17 %
+Rendering: 17 %
+Rendering: 17 %
+Rendering: 17 %
+Rendering: 17 %
+Rendering: 17 %
+Rendering: 18 %
+Rendering: 18 %
+Rendering: 18 %
+Rendering: 18 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 19 %
+Rendering: 20 %
+Rendering: 20 %
+Rendering: 20 %
+Rendering: 21 %
+Rendering: 21 %
+Rendering: 21 %
+Rendering: 21 %
+Rendering: 21 %
+Rendering: 21 %
+Rendering: 22 %
+Rendering: 22 %
+Rendering: 22 %
+Rendering: 22 %
+Rendering: 23 %
+Rendering: 23 %
+Rendering: 23 %
+Rendering: 24 %
+Rendering: 24 %
+Rendering: 24 %
+Rendering: 24 %
+Rendering: 24 %
+Rendering: 24 %
+Rendering: 25 %
+Rendering: 25 %
+Rendering: 25 %
+Rendering: 25 %
+Rendering: 25 %
+Rendering: 26 %
+Rendering: 26 %
+Rendering: 26 %
+Rendering: 26 %
+Rendering: 26 %
+Rendering: 27 %
+Rendering: 27 %
+Rendering: 27 %
+Rendering: 27 %
+Rendering: 28 %
+Rendering: 28 %
+Rendering: 28 %
+Rendering: 28 %
+Rendering: 28 %
+Rendering: 29 %
+Rendering: 29 %
+Rendering: 29 %
+Rendering: 29 %
+Rendering: 30 %
+Rendering: 30 %
+Rendering: 30 %
+Rendering: 30 %
+Rendering: 30 %
+Rendering: 31 %
+Rendering: 31 %
+Rendering: 31 %
+Rendering: 31 %
+Rendering: 32 %
+Rendering: 32 %
+Rendering: 32 %
+Rendering: 32 %
+Rendering: 33 %
+Rendering: 33 %
+Rendering: 34 %
+Rendering: 34 %
+Rendering: 35 %
+Rendering: 35 %
+Rendering: 35 %
+Rendering: 35 %
+Rendering: 35 %
+Rendering: 35 %
+Rendering: 35 %
+Rendering: 36 %
+Rendering: 36 %
+Rendering: 36 %
+Rendering: 36 %
+Rendering: 37 %
+Rendering: 37 %
+Rendering: 37 %
+Rendering: 37 %
+Rendering: 37 %
+Rendering: 37 %
+Rendering: 38 %
+Rendering: 38 %
+Rendering: 39 %
+Rendering: 40 %
+Rendering: 41 %
+Rendering: 41 %
+Rendering: 42 %
+Rendering: 43 %
+Rendering: 44 %
+Rendering: 45 %
+Rendering: 45 %
+Rendering: 46 %
+Rendering: 47 %
+Rendering: 47 %
+Rendering: 48 %
+Rendering: 48 %
+Rendering: 49 %
+Rendering: 50 %
+Rendering: 51 %
+Rendering: 51 %
+Rendering: 52 %
+Rendering: 53 %
+Rendering: 53 %
+Rendering: 54 %
+Rendering: 54 %
+Rendering: 54 %
+Rendering: 54 %
+Rendering: 55 %
+Rendering: 55 %
+Rendering: 55 %
+Rendering: 55 %
+Rendering: 56 %
+Rendering: 56 %
+Rendering: 57 %
+Rendering: 58 %
+Rendering: 58 %
+Rendering: 58 %
+Rendering: 59 %
+Rendering: 59 %
+Rendering: 60 %
+Rendering: 60 %
+Rendering: 61 %
+Rendering: 62 %
+Rendering: 62 %
+Rendering: 63 %
+Rendering: 64 %
+Rendering: 65 %
+Rendering: 65 %
+Rendering: 66 %
+Rendering: 67 %
+Rendering: 68 %
+Rendering: 68 %
+Rendering: 69 %
+Rendering: 70 %
+Rendering: 70 %
+Rendering: 71 %
+Rendering: 72 %
+Rendering: 73 %
+Rendering: 73 %
+Rendering: 74 %
+Rendering: 74 %
+Rendering: 75 %
+Rendering: 75 %
+Rendering: 75 %
+Rendering: 75 %
+Rendering: 75 %
+Rendering: 76 %
+Rendering: 76 %
+Rendering: 76 %
+Rendering: 77 %
+Rendering: 77 %
+Rendering: 77 %
+Rendering: 77 %
+Rendering: 78 %
+Rendering: 78 %
+Rendering: 78 %
+Rendering: 78 %
+Rendering: 78 %
+Rendering: 79 %
+Rendering: 79 %
+Rendering: 79 %
+Rendering: 79 %
+Rendering: 79 %
+Rendering: 79 %
+Rendering: 80 %
+Rendering: 80 %
+Rendering: 80 %
+Rendering: 80 %
+Rendering: 81 %
+Rendering: 81 %
+Rendering: 81 %
+Rendering: 81 %
+Rendering: 81 %
+Rendering: 82 %
+Rendering: 82 %
+Rendering: 82 %
+Rendering: 82 %
+Rendering: 82 %
+Rendering: 83 %
+Rendering: 83 %
+Rendering: 83 %
+Rendering: 84 %
+Rendering: 85 %
+Rendering: 85 %
+Rendering: 86 %
+Rendering: 86 %
+Rendering: 87 %
+Rendering: 87 %
+Rendering: 87 %
+Rendering: 87 %
+Rendering: 88 %
+Rendering: 88 %
+Rendering: 88 %
+Rendering: 88 %
+Rendering: 88 %
+Rendering: 88 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 89 %
+Rendering: 90 %
+Rendering: 90 %
+Rendering: 91 %
+Rendering: 92 %
+Rendering: 92 %
+Rendering: 93 %
+Rendering: 94 %
+Rendering: 94 %
+Rendering: 95 %
+Rendering: 96 %
+Rendering: 97 %
+Rendering: 97 %
+Rendering: 98 %
+Rendering: 99 %
+Rendering: 99 %
+Rendering: 100 %
+Rendering: Post processing shader
+Rendering time 118.600 s
+Successfully created 3D render image
+
+$ tmp/cloud-kicad-tools/kicad-cli sch erc --format json -o manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/erc.json manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_sch
+Found 0 violations
+Saved ERC Report to manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/erc.json
+
+$ tmp/cloud-kicad-tools/kicad-cli sch export pdf -o manufacturing/releases/pd20-prototype-review/board-b20-draft/schematic.pdf manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_sch
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/schematic.pdf'.
+Done.
+
+$ tmp/cloud-kicad-tools/kicad-cli sch export netlist --format kicadsexpr -o manufacturing/releases/pd20-prototype-review/board-b20-draft/raw/board-b20-draft.net manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_sch
+
+$ /usr/local/bin/python3 scripts/schgen/verify_netlist.py board_b20_spec manufacturing/releases/pd20-prototype-review/board-b20-draft/raw/board-b20-draft.net
+PASS: 157 nets, 864 nodes (148 expected nets + 9 unconnected)
+
+$ tmp/cloud-kicad-tools/kicad-cli pcb export gerbers -l F.Cu,In1.Cu,In2.Cu,B.Cu,F.Mask,B.Mask,F.Silkscreen,B.Silkscreen,Edge.Cuts,F.Paste,B.Paste --use-drill-file-origin --subtract-soldermask -o manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-F_Cu.gtl'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-In1_Cu.g1'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-In2_Cu.g2'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-B_Cu.gbl'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-F_Paste.gtp'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-B_Paste.gbp'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-F_Silkscreen.gto'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-B_Silkscreen.gbo'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-F_Mask.gts'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-B_Mask.gbs'.
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-Edge_Cuts.gm1'.
+
+$ tmp/cloud-kicad-tools/kicad-cli pcb export drill --format excellon --drill-origin plot --excellon-units mm --excellon-separate-th --excellon-oval-format route -o manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb
+Created file 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-PTH.drl'
+Created file 'manufacturing/releases/pd20-prototype-review/board-b20-draft/gerbers/board-b20-draft-NPTH.drl'
+Done.
+
+$ tmp/cloud-kicad-tools/kicad-cli pcb export pos --format csv --units mm --use-drill-file-origin --exclude-dnp -o manufacturing/releases/pd20-prototype-review/board-b20-draft/raw/positions.csv manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb
+Wrote position data to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/raw/positions.csv'.
+
+$ tmp/cloud-kicad-tools/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l F.Cu,F.Fab,F.Silkscreen,Edge.Cuts -o manufacturing/releases/pd20-prototype-review/board-b20-draft/assembly-top.svg manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/assembly-top.svg'.
+Done.
+
+$ tmp/cloud-kicad-tools/kicad-cli pcb export svg --mode-single --fit-page-to-board --exclude-drawing-sheet --sketch-pads-on-fab-layers -l B.Cu,B.Fab,B.Silkscreen,Edge.Cuts -o manufacturing/releases/pd20-prototype-review/board-b20-draft/assembly-bottom.svg --mirror manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_pcb
+Plotted to 'manufacturing/releases/pd20-prototype-review/board-b20-draft/assembly-bottom.svg'.
+Done.

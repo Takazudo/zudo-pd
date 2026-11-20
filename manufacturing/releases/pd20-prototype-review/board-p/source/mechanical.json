@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "board": "board-p",
+  "units": "mm",
+  "outline": {
+    "min": [
+      0,
+      0
+    ],
+    "max": [
+      27,
+      40
+    ],
+    "size": [
+      27,
+      40
+    ],
+    "thickness": 1.6,
+    "layers": 2
+  },
+  "mounting_holes": [
+    {
+      "ref": "MH1",
+      "center": [
+        4,
+        4
+      ],
+      "drill": 3.2,
+      "type": "NPTH",
+      "hardware": "M3"
+    },
+    {
+      "ref": "MH2",
+      "center": [
+        23,
+        4
+      ],
+      "drill": 3.2,
+      "type": "NPTH",
+      "hardware": "M3"
+    },
+    {
+      "ref": "MH3",
+      "center": [
+        12.8,
+        32.6
+      ],
+      "drill": 3.2,
+      "type": "NPTH",
+      "hardware": "M3"
+    }
+  ],
+  "interface": {
+    "ref": "JOUT1",
+    "mpn": "PZ254V-11-06P",
+    "lcsc": "C492405",
+    "side": "top",
+    "center": [
+      12.9,
+      37.7
+    ],
+    "rotation_deg": 0,
+    "pads": [
+      {
+        "pin": 1,
+        "center": [
+          6.55,
+          37.7
+        ],
+        "net": "VBUS_OUT"
+      },
+      {
+        "pin": 2,
+        "center": [
+          9.09,
+          37.7
+        ],
+        "net": "VBUS_OUT"
+      },
+      {
+        "pin": 3,
+        "center": [
+          11.63,
+          37.7
+        ],
+        "net": "ATT"
+      },
+      {
+        "pin": 4,
+        "center": [
+          14.17,
+          37.7
+        ],
+        "net": "PDOK"
+      },
+      {
+        "pin": 5,
+        "center": [
+          16.71,
+          37.7
+        ],
+        "net": "GND"
+      },
+      {
+        "pin": 6,
+        "center": [
+          19.25,
+          37.7
+        ],
+        "net": "GND"
+      }
+    ]
+  },
+  "mating_connector": {
+    "mpn": "PM254V-11-06-H85",
+    "lcsc": "C2832269",
+    "body_height": 8.5,
+    "note": "Select standoff after stack fit verification; pin/body nominal dimensions alone do not prove installed spacing."
+  },
+  "usb": {
+    "ref": "J1",
+    "center": [
+      13.506,
+      5
+    ],
+    "side": "top",
+    "rotation_deg": 180,
+    "opening_edge": "y=0"
+  },
+  "adapted_from": {
+    "snapshot_date": "2026-09-19",
+    "pcb_sha256": "1d7086674da8ece700207d9b49256c11fe52ab57ba2c091e75bddf22d7fb33e4",
+    "schematic_sha256": "ed2c4836a0d60d062c81a60a3e86874904bab16ad0bc63b04aa6a3aa7e6a2600"
+  },
+  "qualification": "Routed prototype design; NVM readback, bench load/thermal and stack fit verification pending."
+}

@@ -4,18 +4,19 @@
 (Astra review 2026-11-04, PD20 and CHECKPOINT) changed, what was checked at which revision, and what stays open. Every
 bench row below is a test sheet that has **not been executed**; each one needs owner approval and hardware.
 
-## 2026-11-13 UTC reconciliation (2026-11-14 JST)
+## Current state: 2026-11-20, no pre-order design hold
 
-The NOT RUN Mac steps in the dated D10 and D11 sections below have since run. Each pass is bound to its own head:
-- D11 at `1a4a954`: `verification/pd20-native-d11-20261113/`;
-- D10 at `0dbf462`: `verification/pd20-native-d10-merged-20261113/`;
-- D12 at `9435b2f`: `verification/pd20-native-d12-merged-20261114/`.
+B20 is now a two-sided assembly with **294 fitted parts** (88 BOM lines, 268 top, 26 bottom). The 26 bottom parts are
+the D2 sequenced fast-discharge network ([D2 layout](verification/pd20-native-d2-layout-20261114/README.md) and its
+[independent review](verification/pd20-native-d2-layout-20261114/review-20261120/README.md)); the D2 firing RC was
+retimed on 2026-11-20 (`dec-b20-d2-firing-threshold-band`). The revision-bound package is
+`releases/pd20-prototype-review/` with its [order sheet](releases/pd20-prototype-review/ORDER-SHEET.md). The
+[readiness ledger](prototype-order-readiness.md) records D1–D12 with no remaining pre-order design hold; every open item
+needs an assembled board or a supplier preview. The dated sections below, including the 270 / 274 counts, are
+historical. Every bench row stays NOT RUN.
 
-Each passed the STEP datum check, the pair assembly preview, a development export and independent verification.
-These are nominal CAD results only. Current B20 has **274 fitted components** (D12 R77–R80 added). The
-270-component count below is historical, bound to `3f24a3a` and the D10/D11 exports. The holds, D12's open
-fill-screen exception and every bench row are unchanged. See the
-[readiness reconciliation](prototype-order-readiness.md) and [#289](https://github.com/Takazudo/zudo-pd/issues/289).
+Earlier native passes stay bound to their heads: D11 `1a4a954`, D10 `0dbf462`, D12 `9435b2f`
+([#289](https://github.com/Takazudo/zudo-pd/issues/289)).
 
 ## 2026-11-12 JST owner decision D10 (Board P r3 C36)
 
@@ -31,7 +32,7 @@ preview and development export are NOT RUN (selected Mac required), and bench T3
 The [local Mac ledger](prototype-order-readiness.md) separates current source,
 capability, verification and decision blockers. The earlier native/export rows
 below remain dated development evidence until replaced by final-source receipts.
-At that checkpoint B20 had **270 fitted components** (274 since D12; see the reconciliation above); the 269-component export is historical.
+At that checkpoint B20 had **270 fitted components** (later 274 after D12, and 294 after D2); the 269-component export is historical.
 Fresh native correction, pair assembly and independently verified DEVELOPMENT REVIEW
 export passed at clean `3f24a3abb43e0f24f5e0a12f739ba8ae6bbad03d`; see the
 [durable package review](verification/pd20-native-20261110/development-export-review.json).
