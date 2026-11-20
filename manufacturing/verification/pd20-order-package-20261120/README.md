@@ -17,9 +17,9 @@ selected Mac:
    Board P r3 has 44 fitted (22 top, 22 bottom, 27 lines); B20 has 294 fitted (268 top, 26 bottom, 88 lines).
    DRC has 0 errors and 0 unconnected items on both boards; B20 ERC has 0 errors.
 
-The package was exported a second time after its `ORDER-NOTES.md` source (`manufacturing/package-notes-b20.md`)
-dropped stale counts. Only the second export is kept; its Gerber ZIP bytes differ from the first export's, and its
-`SHA256SUMS` is the binding record.
+The package was re-exported twice after its `ORDER-NOTES.md` source (`manufacturing/package-notes-b20.md`) was
+corrected (stale counts, then an independent review's wording fixes). Only the last export is kept. Gerber ZIP bytes
+differ between exports, so its `SHA256SUMS` is the binding record.
 
 ## Two catalog lines had zero JLC stock
 

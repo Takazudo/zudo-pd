@@ -104,9 +104,8 @@ Build BVH for holes and vias
 Load Raytracing: board
 Load Raytracing: layers
 Loading 3D models...
-Reload time 1.823 s
+Reload time 1.592 s
 Rendering: 1 %
-Rendering: 2 %
 Rendering: 2 %
 Rendering: 3 %
 Rendering: 4 %
@@ -118,15 +117,12 @@ Rendering: 7 %
 Rendering: 7 %
 Rendering: 8 %
 Rendering: 9 %
-Rendering: 9 %
-Rendering: 10 %
 Rendering: 11 %
-Rendering: 12 %
 Rendering: 12 %
 Rendering: 13 %
 Rendering: 14 %
 Rendering: 15 %
-Rendering: 15 %
+Rendering: 16 %
 Rendering: 16 %
 Rendering: 17 %
 Rendering: 17 %
@@ -157,19 +153,21 @@ Rendering: 21 %
 Rendering: 21 %
 Rendering: 21 %
 Rendering: 21 %
-Rendering: 22 %
+Rendering: 21 %
 Rendering: 22 %
 Rendering: 22 %
 Rendering: 22 %
 Rendering: 23 %
 Rendering: 23 %
 Rendering: 23 %
+Rendering: 23 %
 Rendering: 24 %
 Rendering: 24 %
 Rendering: 24 %
 Rendering: 24 %
 Rendering: 24 %
 Rendering: 24 %
+Rendering: 25 %
 Rendering: 25 %
 Rendering: 25 %
 Rendering: 25 %
@@ -184,11 +182,13 @@ Rendering: 27 %
 Rendering: 27 %
 Rendering: 27 %
 Rendering: 27 %
+Rendering: 27 %
 Rendering: 28 %
 Rendering: 28 %
 Rendering: 28 %
 Rendering: 28 %
 Rendering: 28 %
+Rendering: 29 %
 Rendering: 29 %
 Rendering: 29 %
 Rendering: 29 %
@@ -210,6 +210,7 @@ Rendering: 33 %
 Rendering: 33 %
 Rendering: 34 %
 Rendering: 34 %
+Rendering: 34 %
 Rendering: 35 %
 Rendering: 35 %
 Rendering: 35 %
@@ -221,17 +222,16 @@ Rendering: 36 %
 Rendering: 36 %
 Rendering: 36 %
 Rendering: 36 %
+Rendering: 36 %
 Rendering: 37 %
 Rendering: 37 %
 Rendering: 37 %
 Rendering: 37 %
 Rendering: 37 %
 Rendering: 37 %
-Rendering: 38 %
 Rendering: 38 %
 Rendering: 39 %
 Rendering: 40 %
-Rendering: 41 %
 Rendering: 41 %
 Rendering: 42 %
 Rendering: 43 %
@@ -246,7 +246,6 @@ Rendering: 48 %
 Rendering: 49 %
 Rendering: 50 %
 Rendering: 51 %
-Rendering: 51 %
 Rendering: 52 %
 Rendering: 53 %
 Rendering: 53 %
@@ -260,24 +259,23 @@ Rendering: 55 %
 Rendering: 55 %
 Rendering: 56 %
 Rendering: 56 %
+Rendering: 56 %
 Rendering: 57 %
 Rendering: 58 %
 Rendering: 58 %
 Rendering: 58 %
-Rendering: 59 %
+Rendering: 58 %
 Rendering: 59 %
 Rendering: 60 %
 Rendering: 60 %
 Rendering: 61 %
 Rendering: 62 %
-Rendering: 62 %
+Rendering: 63 %
 Rendering: 63 %
 Rendering: 64 %
 Rendering: 65 %
-Rendering: 65 %
 Rendering: 66 %
 Rendering: 67 %
-Rendering: 68 %
 Rendering: 68 %
 Rendering: 69 %
 Rendering: 70 %
@@ -285,9 +283,9 @@ Rendering: 70 %
 Rendering: 71 %
 Rendering: 72 %
 Rendering: 73 %
-Rendering: 73 %
 Rendering: 74 %
 Rendering: 74 %
+Rendering: 74 %
 Rendering: 75 %
 Rendering: 75 %
 Rendering: 75 %
@@ -300,7 +298,7 @@ Rendering: 77 %
 Rendering: 77 %
 Rendering: 77 %
 Rendering: 77 %
-Rendering: 78 %
+Rendering: 77 %
 Rendering: 78 %
 Rendering: 78 %
 Rendering: 78 %
@@ -320,7 +318,6 @@ Rendering: 81 %
 Rendering: 81 %
 Rendering: 81 %
 Rendering: 81 %
-Rendering: 82 %
 Rendering: 82 %
 Rendering: 82 %
 Rendering: 82 %
@@ -329,20 +326,20 @@ Rendering: 83 %
 Rendering: 83 %
 Rendering: 83 %
 Rendering: 84 %
-Rendering: 85 %
+Rendering: 84 %
 Rendering: 85 %
 Rendering: 86 %
 Rendering: 86 %
 Rendering: 87 %
 Rendering: 87 %
 Rendering: 87 %
-Rendering: 87 %
 Rendering: 88 %
 Rendering: 88 %
 Rendering: 88 %
 Rendering: 88 %
 Rendering: 88 %
 Rendering: 88 %
+Rendering: 89 %
 Rendering: 89 %
 Rendering: 89 %
 Rendering: 89 %
@@ -356,20 +353,16 @@ Rendering: 90 %
 Rendering: 90 %
 Rendering: 91 %
 Rendering: 92 %
-Rendering: 92 %
 Rendering: 93 %
-Rendering: 94 %
 Rendering: 94 %
 Rendering: 95 %
 Rendering: 96 %
 Rendering: 97 %
-Rendering: 97 %
 Rendering: 98 %
-Rendering: 99 %
 Rendering: 99 %
 Rendering: 100 %
 Rendering: Post processing shader
-Rendering time 118.600 s
+Rendering time 114.899 s
 Successfully created 3D render image
 
 $ tmp/cloud-kicad-tools/kicad-cli sch erc --format json -o manufacturing/releases/pd20-prototype-review/board-b20-draft/checks/erc.json manufacturing/releases/pd20-prototype-review/board-b20-draft/source/board-b20-draft.kicad_sch

@@ -3,8 +3,7 @@
 **Draft only. These notes accompany a review export, not an order.** The board-b20-draft PCB is a
 four-layer development board with source-bound native checks. No export of this pair has been uploaded, quoted
 or ordered. Electrical and physical qualification remain incomplete; the pair is a development prototype, not a
-release. The current development review package in `corner-support-review/` is the 15 V pair
-(board-p15 + Board B). This pair is not that package.
+release. The frozen P15 package in `corner-support-review/` (board-p15 + Board B) is a separate package.
 
 Links below resolve inside an export of this pair. Repository documents are named by their path in
 [Takazudo/zudo-pd](https://github.com/Takazudo/zudo-pd).

@@ -118,7 +118,7 @@ at `6cb02c8`, and `scripts/pcb/board-p-r3-draft/run.sh` reads its outline, conne
 
 ## Historical export binding and per-variant verification
 
-The retained 269-part scratch-export observations below predate the current 270-part B20.
+The retained 269-part scratch-export observations below predate the later 270-part B20 (294 parts since D2).
 They do not accept the final corrected pair. Its fresh DEVELOPMENT REVIEW export remains
 pending in the [current ledger](prototype-order-readiness.md).
 

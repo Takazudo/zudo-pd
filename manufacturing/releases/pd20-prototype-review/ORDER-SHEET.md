@@ -10,12 +10,13 @@ Upload one board at a time. Each board is a separate JLC PCB + PCBA order line.
 
 | Board | Gerber/drill ZIP | BOM | CPL |
 | --- | --- | --- | --- |
-| Board P r3 | `board-p/board-p-gerbers.zip` `58e565f5…` | `board-p/bom.csv` `82a356e2…` | `board-p/cpl.csv` `65ea1721…` |
-| B20 | `board-b20-draft/board-b20-draft-gerbers.zip` `c519edb0…` | `board-b20-draft/bom.csv` `eb4622bf…` | `board-b20-draft/cpl.csv` `6e0c04ed…` |
+| Board P r3 | `board-p/board-p-gerbers.zip` `654c1011…` | `board-p/bom.csv` `82a356e2…` | `board-p/cpl.csv` `65ea1721…` |
+| B20 | `board-b20-draft/board-b20-draft-gerbers.zip` `6748bfd2…` | `board-b20-draft/bom.csv` `eb4622bf…` | `board-b20-draft/cpl.csv` `6e0c04ed…` |
 
-`manifest.json` (`7dd82543…`) binds these to their PCB, schematic, project and spec hashes. Its `git_base` is the
-parent commit of the commit that adds this package; the source hashes, not `git_base`, identify the inputs.
-`excluded.csv` lists the bare pads, holes and DNP parts that are intentionally absent from the BOM and CPL. Check the
+`manifest.json` (`f430a76a…`) binds these to their PCB, schematic, project and spec hashes. Its `git_base` is the
+checkout's HEAD when the export ran; the source hashes, not `git_base`, identify
+the inputs, and they match the commit that adds this package.
+`excluded.csv` lists the bare-copper pads and DNP parts that are intentionally absent from the BOM and CPL. Check the
 whole folder with `sha256sum -c SHA256SUMS` before uploading.
 
 ## Board settings

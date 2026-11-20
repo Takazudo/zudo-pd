@@ -57,7 +57,7 @@ this record's own addition and failed on a defect in its control.
   `explore1`–`explore3` picked C1. Neighbours fail: 4.7 kΩ + 22 nF X7R reaches 6.05 V at a 4.9 V drive, 3.09 kΩ + 27 nF
   reaches 6.13 V with the hot term, and 4.7 kΩ + 27 nF falls to 0.58 V at the drive band.
 - **After the run (8 decks, `d2_threshold_posthoc.py`):** the reviewer's routed-parasitic resistance corners on the
-  worst G decks. All pass; the smallest value falls from 0.742 V to 0.707 V and the largest is 5.60 V.
+  worst G decks. All pass; the smallest value falls from 0.742 V to 0.707 V and the largest is 5.575 V.
 
 ## What this leaves open
 
