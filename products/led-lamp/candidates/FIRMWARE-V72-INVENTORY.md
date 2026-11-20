@@ -1,5 +1,9 @@
 # Board L firmware: V72 source inventory and gap to product firmware
 
+**Superseded state (2026-10-31):** the sources are imported unchanged in
+`firmware/board-l/src/`; 8 units are linked into the build-only `firmware/board-l/target/`
+image (unflashed). The provenance text below is retained as written.
+
 **State: portable C continuation exists outside Git; it is NOT target-linked, NOT
 flashed, and NOT a firmware release.** Repository `main` has no `firmware/`
 directory, and `board-l.mdx` states "this repository has no executable control firmware".

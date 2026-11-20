@@ -22,7 +22,7 @@ not guaranteed limits.
 | Board L serial / marking | |
 | Board P (P15) serial, NVM acceptance record | |
 | Date, operator | |
-| Firmware git commit, `make` size output, ELF SHA256 | |
+| Firmware git commit, `make` size output, ELF SHA256 *and* receipt `loadable_image_sha256` / `loadable_image_bytes` (the identity used for readback, sheet F; the ELF hash is build-path-dependent) | |
 | `CTRL_FULL_CCR` built / `BOARD_L_PRODUCTION` defined? | 2407 / |
 | RS1 measured resistance (mΩ), four-wire Kelvin across pads (checklist 1.1) | |
 | RS1 instrument identity and measurement date (board identity above) | |
@@ -144,11 +144,13 @@ at RS1. Enclosure state recorded (open bench / closed enclosure).
 | --- | --- | --- | --- | --- | --- | --- |
 | T1 | Knob max, open bench, ambient recorded | TC1–TC4, NTC code, TP1 | Steady state reached; record the NTC-to-TC1 offset | TC1 > 76 °C before derate starts | | NOT EXECUTED |
 | T2 | Knob max, closed enclosure | Same | Same | Same | | NOT EXECUTED |
-| T3 | Derate onset (only if reached naturally; no forced heating without approval) | NTC code at derate start vs TC1 | Derate begins before TC1 ≈ 76 °C | Derate after 76 °C | | NOT EXECUTED |
+| T3 | Derate onset (only if reached naturally; no forced heating without approval) | NTC code at derate start vs TC1 | Onset recorded; the 200 mΩ onset temperature is UNKNOWN (not computed) | TC1 > 76 °C with no derate (upper bound, not a pass limit) | | NOT EXECUTED |
 | T4 | Knob 50 %, closed enclosure | TC1–TC4 | Recorded | — | | NOT EXECUTED |
 
-The 76 °C reference is the #52 analysis figure for 250 mΩ; with 200 mΩ the derate must
-start earlier. Neither number is a measured LED rating.
+76 °C is the #52 figure for the unselected 250 mΩ case. The 200 mΩ onset temperature is
+**not computed** in the retained analysis (UNKNOWN). Treat 76 °C as an upper bound for
+recording only, not a pass limit, until an owner-reviewed 200 mΩ value exists. It is not a
+measured LED rating.
 
 ## Close-out
 

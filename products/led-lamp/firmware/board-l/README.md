@@ -30,7 +30,7 @@ permission.
 | Noise / animation | `noise_stage.*` | Random modulation stage |
 | Host test | `test_input_app.c` | Only `main()` in the tree; host-only |
 
-## Recorded status (from the packet, not re-run here)
+## Recorded status (packet results, plus the 2026-10-31 re-run)
 
 - Host test, host-attempt4: **PASS 44**, exit 0, `target_execution: false`
   (`provenance/host-attempt4-result.json`). Compiled with `cc -std=c11 -O0 -Wall -Wextra
@@ -40,6 +40,9 @@ permission.
   (`provenance/m0plus-object-attempt1-result.json`). No link, no run.
 - Re-run on 2026-10-31 with `make -C target host-test` (gcc 13.3.0): **PASS 44**, exit 0.
   All 33 non-test units also cross-compile for Cortex-M0+ (`make -C target v72-objects`).
+- 2026-11-20 rebuild at LED `dd4cb00` (same firmware tree as this import): host tests PASS
+  44/5430/106/71053; loadable image `421e5b6d…2a9e`, 10908 B, unchanged. Receipt:
+  [`receipts/2026-11-20-unflashed-bench-candidate.md`](receipts/2026-11-20-unflashed-bench-candidate.md).
 
 A minimal target skeleton is in [`target/`](target/README.md): vector table, linker script,
 clock, safe CTRL init order, `main` and a Makefile. Since phase 4, `main` runs the V72
@@ -59,7 +62,7 @@ Rows marked *(skeleton)* have a first build-only version in `target/`; none is v
 | *(skeleton)* `main()` / scheduler / tick source for the target | Only the host test has a `main` |
 | *(skeleton)* Clock tree configuration (64 MHz intent) | Timer, ADC and PWM timing depend on it |
 | *(skeleton)* GPIO configuration, including the ordered safe init: CTRL pin defined low → TIM3 configured at 0 % → enable → ramp | Hardware CTRL pull-down stays the primary OFF guarantee; firmware must not glitch it |
-| PA5/PA7 as analog/unused (#145 B-plan); PA15 never an output (shares a pin with SWCLK/BOOT0) | Board P V196/V198 leaves JOUT1.3/.4 NC |
+| PA5 (PDOK) and PA7 (ATT) stay in their reset analog state and are not read; PA15 never an output (shares a pin with SWCLK/BOOT0) | On the adopted P15 r1, JOUT1.3/.4 carry STUSB4500 ATT/PDOK (zudo-pd `board_p15_spec.py`: ATT U1.11→JOUT1.3, PDOK U1.20→JOUT1.4) into Board L R25/R24 pull-ups. Whether PD state should gate or derate light is an open owner decision ([`PROPOSAL-CTRL-RESET-OPTIONS.md`](target/PROPOSAL-CTRL-RESET-OPTIONS.md) §4); V196/V198 (#145) are unadopted |
 | *(skeleton)* ADC peripheral bring-up and the chosen ADC cadence | `target/board_adc.c` is one scan per 1 kHz tick into V72 `sample_adapter`. It is unexecuted. V72 `stm32g031_adc_transport.c` is not used |
 | *(proposed)* Chosen `knob_window`, ramp increment and response budget | Proposed: window 8 (max age 7 ticks, so all 8 samples count), about 2.5 s ramp. Not approved |
 | *(proposed)* NTC (NCP18XH103) code-to-temperature table and derating/shutdown thresholds | `target/board_samples.c`: codes 104 → 69, open ≥ 3500. The NTC-to-TS correlation is unmeasured |
@@ -67,4 +70,4 @@ Rows marked *(skeleton)* have a first build-only version in `target/`; none is v
 | *(skeleton)* Fault policy: BOR level, watchdog, reset-cause handling, sensor-fault reinit conditions | `target/board_policy.c`, `board_iwdg.c`: IWDG about 100 ms, a 3-reset latch, a BOR option gate. A sensor fault latches until reset |
 | Option bytes / boot mode (`nBOOT_SEL`, #46) | Determines whether the programmed image boots. The firmware only reads them. Writing them is a bench step: `BEFORE-PROGRAMMING-CHECKLIST.md` |
 | *(skeleton)* Build system (Makefile with header and configuration tracking, build receipt), pinned arm-none-eabi-gcc 13.2.1, CI host tests and a build-only target job | Reproducibility. Each image is an unflashed bench candidate identified by `target/build/board-l-skeleton.receipt.json` |
-| *(proposed)* #52 peak-current mitigation | CTRL is filtered-analog. Single `CTRL_FULL_CCR`, default 2407 (75.2 %) for RS1 = 200 mΩ; the RS1 = 250 mΩ change is recommended |
+| *(proposed)* #52 peak-current mitigation | CTRL is filtered-analog. Single `CTRL_FULL_CCR` 2407 (75.2 %) for the adopted RS1 = 200 mΩ boards. The 250 mΩ / 3200 alternative from `candidates/board-l-led-margin-52/` is not selected; the Makefile refuses any other ceiling without `ACCEPT_NONDEFAULT_CAP=1` |

@@ -92,8 +92,8 @@ What this table does **not** cover, and what must be measured instead (sheet B i
 
 | # | Check | Expect | Why |
 | --- | --- | --- | --- |
-| 1.1 | Read the RS1 value **by 4-wire (Kelvin) resistance** across the RS1 pads. The marking code is not in the retained evidence, so do not rely on it or a photograph. Record board identity, instrument/date and measured resistance in the bench header | 200 mΩ ±1 % as built (RLP25FEER200), or 250 mΩ if reworked (RLP25FEER250) | Selects the duty ceiling, below |
-| 1.2 | Confirm the firmware ceiling matches 1.1 | 200 mΩ requires `CTRL_FULL_CCR` 2407, the default. 3200 is allowed **only** if 1.1 measured 250 mΩ and the owner approved it | #52: the default keeps the hot branch ≤ 81 mA at h = 30 % and ballast ±2 % (typical CTRL transfer only) |
+| 1.1 | Read the RS1 value **by 4-wire (Kelvin) resistance** across the RS1 pads. The marking code is not in the retained evidence, so do not rely on it or a photograph. Record board identity, instrument/date and measured resistance in the bench header | 200 mΩ ±1 % (RLP25FEER200, as built). Any other reading is a **stop**: record it and do not program that board. No rework is planned; 250 mΩ / 3200 are not selected | Confirms the board matches the adopted 2407 ceiling, below |
+| 1.2 | Confirm the firmware ceiling matches 1.1 | 200 mΩ requires `CTRL_FULL_CCR` 2407, the default and the only selected ceiling | #52: the default keeps the hot branch ≤ 81 mA at h = 30 % and ballast ±2 % (typical CTRL transfer only) |
 | 1.3 | Resistance TP1 (CTRL) to GND | About 33 kΩ (R21), possibly lower through R20 into the unpowered PA6 | The pull-down that holds CTRL OFF is present |
 | 1.4 | R20 10 kΩ, R21 33 kΩ, C21 present (visual, plus 1.3) | Fitted | The CTRL filter and OFF path |
 | 1.5 | V15 to GND, V3P3 to GND | No short | First power |
@@ -215,7 +215,7 @@ Production builds do not freeze the IWDG under the debugger.
 | 5.6 | Each ballast R30–R37 (33 Ω) drop → branch mean | About 1.57 V (≈ 48 mA) | Any branch > 81 mA **mean**. Peak needs 5.7 |
 | 5.7 | Coil/LED_N current ripple at minimum and maximum V15 (scope) | Gives the real h, the unpublished VSENSE_HYS | Peak = mean × (1 + h) > 81 mA on the hottest branch |
 | 5.8 | Pulse-skip sweep near the floor (LED_N on a scope) | The burst rate | Bursts < ~300 Hz: raise `CTRL_MIN_CCR` (board-l.mdx Gate 4) |
-| 5.9 | NTC_SENSE against a thermocouple at the hottest LED solder point | The NTC-to-TS correlation | Derate (code 104) must begin before TS ≈ 76 °C at 250 mΩ, and earlier at 200 mΩ |
+| 5.9 | NTC_SENSE against a thermocouple at the hottest LED solder point | The NTC-to-TS correlation | Record the derate (code 104) onset temperature. 76 °C is the #52 figure for the unselected 250 mΩ case; the 200 mΩ onset temperature is **not computed** in the retained analysis (UNKNOWN). Treat 76 °C as an upper bound for recording only, not a pass limit, until an owner-reviewed 200 mΩ value exists |
 
 ## 6. OFF-path checks on the bench
 

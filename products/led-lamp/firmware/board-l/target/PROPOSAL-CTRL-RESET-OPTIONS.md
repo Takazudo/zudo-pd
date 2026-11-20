@@ -141,16 +141,20 @@ A blank device's empty-check boot behaviour, and when the option load takes effe
 
 ## 4. What truly needs the user
 
-- **RS1 for #52:** 250 mΩ, 20 % less light, guaranteed margin; or keep 200 mΩ with the
-  typical-only 75.2 % firmware ceiling (`CTRL_FULL_CCR` 2407, the default).
+- **RS1 for #52: decided.** Keep 200 mΩ with `CTRL_FULL_CCR` 2407 (75.2 %, a
+  typical-transfer ceiling, not a guarantee). 250 mΩ / 3200 are not selected
+  ([`OPEN-PRODUCT-DECISIONS.md`](OPEN-PRODUCT-DECISIONS.md)).
 - **Production RDP level:** 0 or 1.
-- **Product feel:** the ramp time (proposed ≈2.5 s, following the bring-up), gamma 2.2 as
-  the V72 default (bring-up and `board-l.mdx` precedent), the brightness floor, and the
-  animation depth.
+- **Product feel:** the ramp time (proposed ≈2.5 s, following the bring-up), gamma, the
+  brightness floor, and the animation depth. Gamma is none (linear) in the current image;
+  V72 has no default gamma (`../src/normalized_transfer.h`). 2.2 is only the bring-up and
+  `board-l.mdx` precedent and the recommended first candidate *after* the steady bench
+  image (OPEN-PRODUCT-DECISIONS D2).
 - **PDOK/ATT gating:** whether a missing PD contract blocks or derates the output. The
   bring-up only reports these signals.
-- **Bring-up image on 200 mΩ boards:** it has no ceiling. Whether it may be used at all
-  before RS1 changes is a user decision; it needs a firmware-side cap first.
+- **Bring-up image on the 200 mΩ boards:** it has no ceiling, so it must not be used at
+  full knob (`../README.md`); RS1 is not planned to change. Any use is a user decision and
+  needs a firmware-side cap first.
 - **Explicit permission** to program any Board L, including writing option bytes.
 
 Everything else above is derived. It still needs DS/RM confirmation where marked, and the

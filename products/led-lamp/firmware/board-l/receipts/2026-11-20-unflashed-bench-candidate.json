@@ -1,0 +1,168 @@
+{
+  "schema": "led-campaign-firmware-receipt/1",
+  "status": "UNFLASHED BENCH CANDIDATE",
+  "status_note": "Build-only. Not flashed, not run on hardware, not validated or released. Programming/energizing a Board L requires separate explicit owner permission and firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md.",
+  "date": "2026-11-20",
+  "source": {
+    "repository": "zudo-led-lamp",
+    "commit": "dd4cb00ab3f5a9fe0024e3ca5e4a5cd5b8437aaa",
+    "repository_dirty": false,
+    "firmware_dirty": false,
+    "build_checkout": "fresh `git clone` of zudo-led-lamp main dd4cb00 in an isolated build directory",
+    "zudo_pd_candidate_firmware_tree": "identical tree dba59a4aff40c9efe43b3d765196bc0e30df5604 at products/led-lamp/firmware on origin/codex/c5-asset-provenance-20261117-01 (c3d13892)"
+  },
+  "toolchain": {
+    "target": {
+      "cc": "arm-none-eabi-gcc",
+      "version_line": "arm-none-eabi-gcc (15:13.2.rel1-2) 13.2.1 20231009",
+      "version": "13.2.1",
+      "pinned": "13.2.1",
+      "matches_pin": true,
+      "pin_override": false
+    },
+    "apt_packages": {
+      "gcc-arm-none-eabi": "15:13.2.rel1-2",
+      "libnewlib-arm-none-eabi": "4.4.0.20231231-2",
+      "binutils-arm-none-eabi": "2.42-1ubuntu1+23"
+    },
+    "host_cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "python": "Python 3.13.18",
+    "make": "GNU Make 4.3",
+    "os": "Ubuntu 24.04.5 LTS"
+  },
+  "options": {
+    "profile": "default-rs1-200mohm",
+    "board_defs": "",
+    "cflags": [
+      "-mcpu=cortex-m0plus",
+      "-mthumb",
+      "-std=c11",
+      "-Os",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffreestanding",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I../src"
+    ],
+    "ldflags": [
+      "-mcpu=cortex-m0plus",
+      "-mthumb",
+      "--specs=nano.specs",
+      "--specs=nosys.specs",
+      "-nostartfiles",
+      "-T",
+      "stm32g031f8_flash.ld",
+      "-Wl,--gc-sections",
+      "-Wl,-Map=build/board-l-skeleton.map",
+      "-Wl,--print-memory-usage"
+    ],
+    "config_id": "71633366b96c0b12514454fc5e8186d2e9f3a8408f74514a48ccc12ba87f55e8",
+    "BOARD_L_PRODUCTION": false
+  },
+  "constants_in_code": {
+    "file": "firmware/board-l/target/board_l_proposal.h",
+    "file_sha256": "84e6e29c0cbeee51fc51a891b2e5d590eda2144843cfb84a4d578b9814a5c021",
+    "CTRL_FULL_CCR": "2407u (#ifndef default; Makefile cap-check refuses any other effective value unless ACCEPT_NONDEFAULT_CAP=1)",
+    "CTRL_PERIOD_TICKS": "3200u (20 kHz at 64 MHz)",
+    "CTRL_MIN_CCR": "518u",
+    "LAMP_RAMP_INCREMENT": "26u (~2.5 s)",
+    "RESET_LATCH_COUNT": "3u",
+    "RESET_HEALTHY_TICKS": "10000u",
+    "IWDG_PRESCALER_FIELD": "3u",
+    "IWDG_RELOAD_FIELD": "99u",
+    "OPTION_BOR_LEVEL_FIELD": "3u",
+    "RS1": "No RS1 constant in code. RS1 = 200 mOhm appears only in comments (board_l_proposal.h lines 12-17) and in the receipt field ctrl_ceiling.assumed_rs1_mohm = 200 (written by tools/build_receipt.py for profile default-rs1-200mohm). The physical RS1 value must be measured four-wire per checklist 1.1.",
+    "receipt_ctrl_ceiling": {
+      "CTRL_FULL_CCR": 2407,
+      "CTRL_PERIOD_TICKS": 3200,
+      "CTRL_MIN_CCR": 518,
+      "duty_percent": 75.22,
+      "adopted_default": true,
+      "assumed_rs1_mohm": 200,
+      "nondefault_acknowledged": false,
+      "note": "Default 2407 protects an unchanged RS1 = 200 mOhm board (calculated, typical transfer; not measured)."
+    },
+    "noise_config": "NULL (steady light) per OPEN-PRODUCT-DECISIONS D1 current image",
+    "gamma": "none (linear) per D2 current image"
+  },
+  "artifacts": {
+    "board-l-skeleton.elf": {
+      "sha256": "ae3158556e408ca5881ebba5ffa19c39b49bb9473c727dcc8100bb2b4cc9a2e9",
+      "bytes": 117320,
+      "note": "ELF embeds build path in debug data; not a cross-checkout identity"
+    },
+    "board-l-skeleton.bin": {
+      "sha256": "421e5b6d5626355170491edf257844d774d93b3c89e32ab20f3982cd1fec2a9e",
+      "bytes": 10908,
+      "load_range": "[0x08000000, 0x08000000+10908) start-inclusive/end-exclusive; includes 4-byte 0x00 gap 0x080000BC-0x080000BF between .isr_vector and .text",
+      "matches_receipt_loadable_image": true,
+      "matches_repo_recorded_2026-11-08": "421e5b6d...2a9e (firmware/board-l/target/README.md:88)"
+    },
+    "board-l-skeleton.hex": {
+      "sha256": "b8e6952d678a8d971ecec29e664014ecc33756d6e7dc3f339b78d2bbc322a36a",
+      "bytes": 30738,
+      "note": "objcopy -O ihex of the same ELF; convenience only, the receipt identity is the raw .bin"
+    },
+    "board-l-skeleton.map": {
+      "sha256": "f513a65ff911ff57d20217aa1786c7398d89f8716e3d6f9af0e97923a5e1d248"
+    },
+    "board-l-skeleton.receipt.json (repo tool output)": {
+      "sha256": "422f18df73fe775637021412a03d15168657c17466d04002d73b71b931327f51"
+    }
+  },
+  "memory": {
+    "text": 10904,
+    "data": 0,
+    "bss": 984,
+    "flash_used": 10904,
+    "flash_region": 65536,
+    "ram_static_used": 984,
+    "ram_region": 8192
+  },
+  "memory_note": "Linker --print-memory-usage reports FLASH 10908 B (includes the 4-byte alignment gap); size(1) text = 10904 B.",
+  "tests": [
+    {
+      "cmd": "make -C firmware/board-l/target host-test target-host-test",
+      "exit": 0,
+      "result": [
+        "PASS 44 explicit-window knob averaging scenarios",
+        "PASS 5430 checks, 0 failures (lamp_target off-by-default contract)",
+        "PASS 106 checks, 0 failures (boot policy)",
+        "PASS 71053 checks, 0 failures (ADC sample source through V72 to CTRL)"
+      ]
+    },
+    {
+      "cmd": "make clean && make",
+      "exit": 0,
+      "result": "receipt UNFLASHED BENCH CANDIDATE, profile default-rs1-200mohm, CTRL_FULL_CCR 2407, firmware_dirty False, toolchain matches_pin true"
+    },
+    {
+      "cmd": "objcopy -O binary + CI python identity check",
+      "exit": 0,
+      "result": "PASS raw binary 10908 bytes, sha256 421e5b6d5626355170491edf257844d774d93b3c89e32ab20f3982cd1fec2a9e"
+    },
+    {
+      "cmd": "make v72-objects",
+      "exit": 0,
+      "result": "33/33 V72 units cross-compiled (not linked)"
+    },
+    {
+      "cmd": "TMPDIR=<scratch> make check-incremental",
+      "exit": 0,
+      "result": "12 PASS lines; clean ELF in scratch copy aca3e3c5...94b2 (scratch path differs, so ELF hash differs from this build; loadable image is path-independent)"
+    }
+  ],
+  "not_run": [
+    "make verify-regs (needs ST cmsis_device_g0 / HAL / CMSIS_5 headers fetched outside the repo)",
+    "verify/check_vectors.py (needs ST startup_stm32g031xx.s)",
+    "mutation runs listed in target/README.md",
+    "any flashing, option-byte access, readback or energizing (not permitted)"
+  ],
+  "logs": "Build logs were kept with the build outside the repository and are not committed.",
+  "binary_images_committed": false,
+  "committed_copy_note": "Committed copy of the 2026-11-20 campaign receipt. Local build paths are removed; no ELF/HEX/BIN/MAP image is committed. Rebuild per BEFORE-PROGRAMMING-CHECKLIST.md section 4 and compare loadable_image_sha256."
+}
