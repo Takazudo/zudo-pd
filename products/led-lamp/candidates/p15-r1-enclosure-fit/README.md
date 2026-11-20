@@ -36,3 +36,5 @@ measured. Nominal datums only: 5 mm Board P supports, 11 mm board gap.
 | Tallest P15 bodies below Board L | JOUT1 (mating), then J1 USB-C at 7.84 mm, D5 SMAJ16A at 8.91 mm below the Board L bottom face |
 
 Status: CAD PASS at nominal datums. Physical fit, header seating depth and the real board gap are NOT RUN.
+
+Current print inputs (tracked STL hashes, the 7 coupons missing from the Bambu 3MFs): [PRINT-INPUTS.md](PRINT-INPUTS.md).
