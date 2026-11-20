@@ -5,20 +5,23 @@ Use the [local Moya + Codex Cloud workflow](moya-codex-cloud.md) and its
 development campaign. This file selects current work; the operating procedure and
 all dispatch/review/recovery prompts are maintained within this repository.
 
-## Accepted next campaign: PD/LED consolidation
+## Current campaign: PD/LED consolidation
 
 Updated 2026-11-16 JST (2026-11-15 UTC). The owner selected **Moya + Codex Cloud**
 for the next implementation session. The [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308),
 [accepted consolidation plan](pd-led-unification.md) and
 [execution handoff](moya-codex-cloud.md) are its entry points.
-This update records the plan; it does not launch workers or migrate LED/source/docs.
+Status 2026-11-20: C1/C2 are done (`2edec40d` imports LED `88cb1740` with its history under
+`products/led-lamp/`), and the C4/C5 six-category site is published by the current-docs slice.
+C3 and C6 stay open under #308; campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318)
+manages the order deliverables.
 
 | Control / starting point | Observed state / next action |
 | --- | --- |
 | Destination | `zudo-pd/main` inspected at `b377136d96f738a803a5dc5e8416402450dceeb7`, through #306; refresh before implementation |
 | LED input | `zudo-led-lamp/main` inspected at `88cb17409cf16a0391e8eadf0ad8a43d60a37356`; preserve original history and source identities |
 | Manager / implementation environment | Intended single manager Moya; Codex Cloud implements bounded tasks; actual sessions and launch controls not yet assigned |
-| First deliverable | C1 migration baseline, path/route/fragment/evidence-ID mapping, child issue and writer allocation, then a reviewed C2 import brief |
+| Remaining deliverables | C3 identity adoption (four conflicting identity texts, 21 CAD path collisions) into one active catalog; C6 cutover of the 60 held generated LED links, 11 LED assets and old routes, which stay on the old LED host until then |
 | In-flight circuit work | #307 remains open at `9312dc627df2de22d1ac44a3a05fbcb207665b3e`; inspect its latest disposition before overlapping moves or evidence/configuration changes |
 | Existing hardware tracking | #228 remains the hardware completion owner; #235 and #279 retain their own PD20 acceptance scope; #210 retains framework-bridge parity obligations |
 | Resource / model / integration allocation | Unassigned for this campaign; observe capacity, reserve CI and record actual selections and granted actions at kickoff |

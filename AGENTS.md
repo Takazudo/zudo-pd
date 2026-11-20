@@ -6,6 +6,7 @@ Read [circuit/WORKFLOW.md](circuit/WORKFLOW.md) first. It is the canonical workf
 - Run `pnpm circuit:check` before editing and again after.
 - Vendor datasheets, drawings and models go in the private [Takazudo/circuit-dev-resources](https://github.com/Takazudo/circuit-dev-resources) repository, cited here by path and SHA256; never commit them to this repository (see CLAUDE.md).
 - Never hand-edit the generated pages under `doc/src/content/docs/components/`; change the evidence and run `pnpm circuit:generate`.
+- `products/led-lamp/` is the imported LED Lamp source of record (Board L, firmware, enclosure); follow its own `CLAUDE.md`/`AGENTS.md` there.
 
 The project hardware and evidence rules in [CLAUDE.md](CLAUDE.md) remain authoritative.
 
