@@ -1,19 +1,36 @@
 ---
 title: Shared P15 r1
+description: Current entry point for the shared 15 V / 3 A P15 r1 input module used by LED Lamp first and then PD15.
 sidebar_position: 1
 ---
 
 # Shared P15 r1
 
-> **Development navigation candidate.** The existing P15 owner and physical acceptance gates remain unchanged.
+P15 r1 is the 15 V / 3 A STUSB4500 input module shared by LED Lamp first and PD15 afterward. One owner serves both
+consumers; a matching source hash does not show that an individual unit was programmed or tested.
 
-P15 r1 is the 15 V / 3 A input module shared by LED Lamp first and PD15 afterward. Its owner is `boards/board-p15/`; the LED source tree carries a pinned consumer reference. A matching source hash does not show that an individual unit was programmed or tested.
+## Current source
 
-| Read next | Scope |
-| --- | --- |
-| [Module and six-pin interface](/docs/architecture/p15-shared-input/) | Source owner, nets and load boundary |
-| [NVM programming](/docs/architecture/board-p15-programming/) | Per-unit programming and acceptance procedure |
-| [Current state](/docs/project/current-state/) | Dated artifact and unit status |
-| [Release readiness](/docs/architecture/release-readiness/) | Remaining physical gates |
+- PCB `boards/board-p15/board-p15-draft.kicad_pcb`, schematic owner `scripts/schgen/board_p15_spec.py`, NVM image
+  `boards/board-p15/nvm/stusb4500-15v.bin`, identity record `boards/board-p15/shared-reference.json`.
+- [Module and six-pin interface](/docs/architecture/p15-shared-input/) owns nets and the load boundary.
+- The LED consumer reference is `products/led-lamp/boards/p15-r1-reference.json`. The historical LED `board-p/`
+  is a distinct 15 V board, not PD20's 20 V Board P r3.
 
-The LED consumer reference stays in `products/led-lamp/boards/p15-r1-reference.json`. The historical LED `board-p/` is a distinct 15 V board, not PD20's 20 V Board P r3.
+## Order files
+
+Two assembled P15 r1 come from the fixed `manufacturing/releases/corner-support-review/board-p15/` files. The
+[P15 order handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md) lists the
+exact upload files, hashes and owner checks. Preparing files is not an order.
+
+## Procedures
+
+- [NVM programming and acceptance](/docs/architecture/board-p15-programming/) (P15-NVM-1–7), per unit, before
+  any Board L or Board B load.
+- [LED lamp preparation](/docs/led-lamp/prototype-preparation/) and [PD15](/docs/pd15/) for the consumer steps.
+
+## Status
+
+Not ordered, received, programmed or measured; per-unit programming and acceptance are NOT RUN.
+[Current state](/docs/project/current-state/) owns the dated record and
+[release readiness](/docs/architecture/release-readiness/) the remaining gates.
