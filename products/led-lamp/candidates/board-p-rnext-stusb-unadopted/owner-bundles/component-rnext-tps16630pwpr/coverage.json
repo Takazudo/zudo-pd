@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-tps16630pwpr-primary",
+      "record_id": "rec-c1849461",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-c1849461-manufacturer",
+        "fact-c1849461-identity",
+        "fact-c1849461-vin-operating",
+        "fact-c1849461-in-absmax",
+        "fact-c1849461-ovp-rising",
+        "fact-c1849461-uvlo-rising",
+        "fact-c1849461-iol-4k02",
+        "fact-c1849461-ovp-toff",
+        "fact-c1849461-ron",
+        "fact-c1849461-dvdt",
+        "fact-c1849461-mode-latch",
+        "fact-c1849461-shdn-open"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-tps16630pwpr-led-application",
+      "record_id": "rec-c1849461",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-tps16630pwpr-led-rnext-role",
+        "fact-tps16630pwpr-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-tps16630pwpr-led-rnext-role",
+        "fact-tps16630pwpr-led-land"
+      ]
+    }
+  ]
+}

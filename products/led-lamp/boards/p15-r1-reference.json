@@ -1,0 +1,48 @@
+{
+  "schema": "zudo-led-lamp/p15-consumer-reference/1",
+  "purpose": "Consumer reference to the shared P15 r1 module owned by zudo-pd. It records which external source the LED path uses; it does not make P15 part of this repository's inventory, and a hash match is not electrical, mechanical, programmed or physical acceptance.",
+  "owner": {
+    "repository": "https://github.com/Takazudo/zudo-pd",
+    "record_path": "boards/board-p15/shared-reference.json",
+    "record_commit": "8af9e5569c2534c03ce132515d1ec11f4c3f83d3",
+    "record_commit_note": "First zudo-pd commit carrying the record (branch claude/project-thread-bgdr5q, pending the zudo-pd integration PR); hashes were re-read at zudo-pd main 6b08236a30331659756ca6a9af492e59f3fc6061",
+    "verifier": "scripts/pcb/board-p15/verify-shared-reference.py"
+  },
+  "adoption": {
+    "decision_date": "2026-11-03",
+    "zudo_pd_commit": "4a0741fabf8d2332848a3740708aab26b8504133",
+    "where": "candidates/README.md#current-path-p15-r1--the-two-existing-board-ls"
+  },
+  "pinned_artifacts": [
+    {
+      "role": "pcb",
+      "path": "boards/board-p15/board-p15-draft.kicad_pcb",
+      "sha256": "97acc5f4c712f0be01dbc5d6809a5bd17ecdceb97f3e6a831bef94500117d065"
+    },
+    {
+      "role": "nvm-image",
+      "path": "boards/board-p15/nvm/stusb4500-15v.bin",
+      "sha256": "76622e14862e53cf318b24eb662f7dc9f34d48134867cf954b30c195c26e8eeb"
+    }
+  ],
+  "led_side": {
+    "board": "boards/board-l/ (two units from the 2026-09-19 order, reused unchanged; RS1 200 mOhm)",
+    "interface": "Board L J2 mates P15 JOUT1.1-6 (VBUS_OUT x2, ATT, PDOK, GND x2); orientation is unkeyed and must be verified",
+    "interface_owner": "zudo-led-lamp owns Board L J2 and the enclosure; zudo-pd owns P15 JOUT1",
+    "firmware_cap": "CTRL_FULL_CCR = 2407 for RS1 200 mOhm",
+    "enclosure_fit_evidence": "candidates/p15-r1-enclosure-fit/ (CAD only, nominal datums)"
+  },
+  "historical_board_p": {
+    "path": "boards/board-p/board-p.kicad_pcb",
+    "sha256": "930a50dd5b37017dcaf65f4344eeee8af6a3fe9e663f32c4fd118af2e904fffa",
+    "note": "As-ordered 2026-09-19 LED Board P (STUSB4500, issues #143/#144). Historical; never P15 and never zudo-pd's 20 V Board P r3. Bytes preserved."
+  },
+  "acceptance_owner": "zudo-pd doc/src/content/docs/architecture/board-p15-programming.md: every P15 unit passes P15-NVM-1 to -7 before it mates with a Board L",
+  "status": {
+    "source_verification": "checked by scripts/checks/verify-p15-reference.py against an explicit zudo-pd checkout and revision",
+    "ordered": "NOT ORDERED",
+    "received": "NOT RECEIVED",
+    "programmed": "NOT RUN",
+    "measured": "NOT RUN"
+  }
+}

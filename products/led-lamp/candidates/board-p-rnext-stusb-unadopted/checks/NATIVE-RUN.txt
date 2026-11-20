@@ -1,0 +1,9 @@
+kicad-cli 10.0.6 image kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec, serialized with flock /tmp/kicad-native.lock
+phase 11 rerun after J3 footprint change (footprints resolved through fp-lib-table; repo candidates/ and footprints/kicad/ copied read-only into the container)
+sch erc --severity-all --exit-code-violations: exit 5 (0 errors; 0 footprint_link_issues (phase 9: 54); 13 pin_to_pin warnings, unchanged from phase 9)
+sch export netlist: exit 0
+verify_netlist: PASS: 53 nets, 203 nodes (36 expected nets + 17 unconnected)
+input sha256:
+f30a41da210ba4157c4b6b7e9ffad0e2050346ab96940fb827a3f834e643d3cb  candidates/board-p-rnext-stusb-unadopted/board-p-rnext.kicad_sch
+de28953f87d30a39a07b32a57cefef9a2dc3321502226e72e2d1025a1de11acc  candidates/board-p-rnext-stusb-unadopted/libraries/rnext.kicad_sym
+e175b4db3a7725b94e15f18711bd32baeb281608643dff89d51584c275952e5f  candidates/board-p-rnext-stusb-unadopted/fp-lib-table

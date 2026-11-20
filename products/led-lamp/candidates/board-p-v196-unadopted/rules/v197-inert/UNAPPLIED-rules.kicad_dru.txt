@@ -1,0 +1,68 @@
+# UNAPPLIED STUDY. NOT an installed project rule file. Mandatory exact-input preflight.
+(version 1)
+(rule "UNAPPLIED_J1-01"
+  (condition "(A.Type == 'Pad' && A.Parent == 'J1' && A.Pad_Number == 'A1/B12' && A.Position_X == 16.700000 mm && A.Position_Y == 7.355000 mm) && (B.Type == 'Pad' && B.Parent == 'J1' && B.Position_X == 16.390000 mm && B.Position_Y == 6.280000 mm)")
+  (constraint hole_clearance (min 0.175 mm)))
+(rule "UNAPPLIED_J1-02"
+  (condition "(A.Type == 'Pad' && A.Parent == 'J1' && A.Pad_Number == 'A4/B9' && A.Position_X == 15.900000 mm && A.Position_Y == 7.355000 mm) && (B.Type == 'Pad' && B.Parent == 'J1' && B.Position_X == 16.390000 mm && B.Position_Y == 6.280000 mm)")
+  (constraint hole_clearance (min 0.200 mm)))
+(rule "UNAPPLIED_J1-03"
+  (condition "(A.Type == 'Pad' && A.Parent == 'J1' && A.Pad_Number == 'B4/A9' && A.Position_X == 11.100000 mm && A.Position_Y == 7.355000 mm) && (B.Type == 'Pad' && B.Parent == 'J1' && B.Position_X == 10.610000 mm && B.Position_Y == 6.280000 mm)")
+  (constraint hole_clearance (min 0.200 mm)))
+(rule "UNAPPLIED_J1-04"
+  (condition "(A.Type == 'Pad' && A.Parent == 'J1' && A.Pad_Number == 'B1/A12' && A.Position_X == 10.300000 mm && A.Position_Y == 7.355000 mm) && (B.Type == 'Pad' && B.Parent == 'J1' && B.Position_X == 10.610000 mm && B.Position_Y == 6.280000 mm)")
+  (constraint hole_clearance (min 0.175 mm)))
+(rule "UNAPPLIED_U1-01"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '1' && A.Position_X == 12.600000 mm && A.Position_Y == 12.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-02"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '2' && A.Position_X == 12.600000 mm && A.Position_Y == 12.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '1' && B.Position_X == 12.600000 mm && B.Position_Y == 12.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-03"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '2' && A.Position_X == 12.600000 mm && A.Position_Y == 12.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '3' && B.Position_X == 12.600000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-04"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '2' && A.Position_X == 12.600000 mm && A.Position_Y == 12.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-05"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '3' && A.Position_X == 12.600000 mm && A.Position_Y == 13.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '4' && B.Position_X == 12.600000 mm && B.Position_Y == 13.500000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-06"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '3' && A.Position_X == 12.600000 mm && A.Position_Y == 13.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-07"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '4' && A.Position_X == 12.600000 mm && A.Position_Y == 13.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '5' && B.Position_X == 12.600000 mm && B.Position_Y == 14.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-08"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '4' && A.Position_X == 12.600000 mm && A.Position_Y == 13.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-09"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '5' && A.Position_X == 12.600000 mm && A.Position_Y == 14.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-10"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '6' && A.Position_X == 15.400000 mm && A.Position_Y == 14.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '7' && B.Position_X == 15.400000 mm && B.Position_Y == 13.500000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-11"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '6' && A.Position_X == 15.400000 mm && A.Position_Y == 14.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-12"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '7' && A.Position_X == 15.400000 mm && A.Position_Y == 13.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-13"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '7' && A.Position_X == 15.400000 mm && A.Position_Y == 13.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '8' && B.Position_X == 15.400000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-14"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '8' && A.Position_X == 15.400000 mm && A.Position_Y == 13.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-15"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '8' && A.Position_X == 15.400000 mm && A.Position_Y == 13.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '9' && B.Position_X == 15.400000 mm && B.Position_Y == 12.500000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-16"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '9' && A.Position_X == 15.400000 mm && A.Position_Y == 12.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-17"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '9' && A.Position_X == 15.400000 mm && A.Position_Y == 12.500000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '10' && B.Position_X == 15.400000 mm && B.Position_Y == 12.000000 mm)")
+  (constraint clearance (min 0.150 mm)))
+(rule "UNAPPLIED_U1-18"
+  (condition "(A.Type == 'Pad' && A.Parent == 'U1' && A.Pad_Number == '10' && A.Position_X == 15.400000 mm && A.Position_Y == 12.000000 mm) && (B.Type == 'Pad' && B.Parent == 'U1' && B.Pad_Number == '11' && B.Position_X == 14.000000 mm && B.Position_Y == 13.000000 mm)")
+  (constraint clearance (min 0.150 mm)))

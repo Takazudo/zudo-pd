@@ -1,0 +1,400 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "case_id": "usb-pd-programmed-state",
+      "observed_run_id": "observed-usb-pd-programmed-state",
+      "prompt": "Change the STUSB4500QTR C2678061 NVM policy to request 15 V and prove the UMW AO3401A C347476 load switch remains safely off through dead-battery, reset, attach, hard reset, fault, and disconnect.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-stusb4500qtr",
+        "component-umw-ao3401a-c347476",
+        "component-project-passives",
+        "component-al8860mp-13",
+        "component-ap63203wu-7"
+      ],
+      "routing_queries": [
+        {
+          "query": "STUSB4500QTR C2678061",
+          "expected_line_ids": [
+            "line-c2678061"
+          ]
+        },
+        {
+          "query": "UMW AO3401A C347476",
+          "expected_line_ids": [
+            "line-c347476"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-stusb4500qtr",
+        "rec-umw-ao3401a",
+        "rec-c25803",
+        "rec-c22807",
+        "rec-c14663",
+        "rec-c21189",
+        "rec-rd-0603waf5101t5e",
+        "rec-al8860mp-13",
+        "rec-ap63203wu-7"
+      ],
+      "subordinate_record_ids": [
+        "rec-rd-0603waf5101t5e"
+      ],
+      "required_source_ids": [
+        "src-stusb-ds12499",
+        "src-stusb-um2650",
+        "src-stusb-stsw004",
+        "src-umw-ao3401a",
+        "src-umw-ao3401a-board-p-generator",
+        "src-c25803-uniroyal",
+        "src-c22807-uniroyal",
+        "src-c14663-generator",
+        "src-rd-board-p-generator"
+      ],
+      "rule_ids": [
+        "rule-usb-pd-nvm-load-switch"
+      ],
+      "required_fact_ids": [
+        "fact-stusb-nvm-load",
+        "fact-stusb-artifact",
+        "fact-umw-ao3401a-vgs",
+        "fact-umw-ao3401a-project-nets",
+        "fact-c25803-resistance",
+        "fact-c22807-resistance",
+        "fact-c14663-c35-topology",
+        "fact-rd-fit-state"
+      ],
+      "required_calculation_ids": [
+        "calc-q1-steady-vgs",
+        "calc-q1-gate-tau"
+      ],
+      "expected_observed_conditions": [
+        "mirror-only STUSB trust; NVM/readback/as-built state absent",
+        "ideal VBEN-low divider gives VGS -6 V at 15 V, -8 V at 20 V, -12.96 V at conditioned 32.4 V TVS table point",
+        "nominal gate tau approximately 6 ms excluding device/parasitic/waveform effects"
+      ],
+      "expected_verdicts": [
+        "UNSOURCED"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "logic-converter-substitution",
+      "observed_run_id": "observed-logic-converter-substitution",
+      "prompt": "Evaluate changing the installed FNR4030S4R7MT C167874 inductor value/package and CL21A226MAQNNNE C45783 output-capacitor population around AP63203WU-7 C780769; recalculate saturation, heating, timing, and effective capacitance over the full V15 and load envelope.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-ap63203wu-7",
+        "component-stm32g031f8p6"
+      ],
+      "routing_queries": [
+        {
+          "query": "FNR4030S4R7MT C167874",
+          "expected_line_ids": [
+            "line-c167874"
+          ]
+        },
+        {
+          "query": "AP63203WU-7 C780769",
+          "expected_line_ids": [
+            "line-c780769"
+          ]
+        },
+        {
+          "query": "CL21A226MAQNNNE C45783",
+          "expected_line_ids": [
+            "line-c45783"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-ap63203wu-7",
+        "rec-fnr4030s4r7mt",
+        "rec-cl21a226maqnnne",
+        "rec-c529334"
+      ],
+      "subordinate_record_ids": [
+        "rec-fnr4030s4r7mt",
+        "rec-cl21a226maqnnne"
+      ],
+      "required_source_ids": [
+        "src-ap6320x-ds41326",
+        "src-fnr-series-mirror",
+        "src-samsung-cl21-product"
+      ],
+      "rule_ids": [
+        "rule-ap63203-logic-stage"
+      ],
+      "required_fact_ids": [
+        "fact-fnr-isat-margin",
+        "fact-fnr-irated-margin",
+        "fact-ap63203-min-off-time",
+        "fact-cl21-effective-capacitance-status"
+      ],
+      "required_calculation_ids": [],
+      "expected_observed_conditions": [
+        "V15 transients, EN-open startup, switching timing, actual 3V3 load steps, inductor heat/saturation, effective capacitance, layout and MCU state",
+        "FNR isat/irated margin now primary-confirmed; irated margin remains negative (2.7 A target vs 2.0 A primary Irms max)",
+        "unavailable min-off-time",
+        "no guaranteed effective installed capacitance"
+      ],
+      "expected_verdicts": [
+        "UNSOURCED"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "mcu-led-thermal-change",
+      "observed_run_id": "observed-mcu-led-thermal-change",
+      "prompt": "Raise the STM32G031F8P6 C529334 PWM ceiling for the AL8860MP-13 C500782 LED stage and prove LED junction, FOJAN FRC2512F33R0TS C2934070 ballast, NTC sensing, enclosure thermal state, and firmware thresholds remain safe.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-al8860mp-13",
+        "component-honglitronic-hl-am-2835h421w-s1-08-hr3",
+        "component-murata-ncp18xh103f03rb",
+        "component-stm32g031f8p6",
+        "component-project-passives"
+      ],
+      "routing_queries": [
+        {
+          "query": "STM32G031F8P6 C529334",
+          "expected_line_ids": [
+            "line-c529334"
+          ]
+        },
+        {
+          "query": "AL8860MP-13 C500782",
+          "expected_line_ids": [
+            "line-c500782"
+          ]
+        },
+        {
+          "query": "FRC2512F33R0TS C2934070",
+          "expected_line_ids": [
+            "line-c2934070"
+          ]
+        },
+        {
+          "query": "NCP18XH103F03RB C13564",
+          "expected_line_ids": [
+            "line-c13564"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-al8860mp-13",
+        "rec-rlp25feer200",
+        "rec-fxl0630-330-m",
+        "rec-ro-ss26",
+        "rec-c210315",
+        "rec-c2934070",
+        "rec-c4216",
+        "rec-c13564",
+        "rec-c529334",
+        "rec-c25803"
+      ],
+      "subordinate_record_ids": [
+        "rec-rlp25feer200",
+        "rec-fxl0630-330-m",
+        "rec-ro-ss26",
+        "rec-c2934070"
+      ],
+      "required_source_ids": [
+        "src-al8860-ds39014",
+        "src-c210315-spec",
+        "src-c2934070-spec",
+        "src-c2934070-generator",
+        "src-c13564-current",
+        "src-c529334-ds"
+      ],
+      "rule_ids": [
+        "rule-al8860-led-stage",
+        "rule-ntc-adc-firmware"
+      ],
+      "required_fact_ids": [
+        "fact-al8860-peak-current",
+        "fact-c2934070-rcwv",
+        "fact-c210315-forward-current-max",
+        "fact-c210315-junction-temperature-max",
+        "fact-c2934070-topology",
+        "fact-c13564-max-current",
+        "fact-c13564-curve-caveat",
+        "fact-c529334-adc"
+      ],
+      "required_calculation_ids": [],
+      "expected_observed_conditions": [
+        "full LED Vf/current/temperature envelope",
+        "eight-branch current sharing",
+        "PWM and faults",
+        "PCB/enclosure thermal path",
+        "NTC divider ADC acquisition and firmware thresholds"
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH",
+        "UNSOURCED"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "low-slider-power-cut",
+      "observed_run_id": "observed-low-slider-power-cut",
+      "prompt": "Evaluate G-Switch SS-12D01-G020 C5446803 low-profile Board L switch and isolated live OFF throw; prove OFF isolation, mounted height and capacitive switching endurance.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-gswitch-ss-12d01-g020",
+        "component-bhfuse-bsmd1206-075-30v",
+        "component-al8860mp-13",
+        "component-ap63203wu-7"
+      ],
+      "routing_queries": [
+        {
+          "query": "G-Switch SS-12D01-G020",
+          "expected_line_ids": [
+            "line-c5446803"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-c5446803",
+        "rec-bsmd1206-075-30v",
+        "rec-al8860mp-13",
+        "rec-ap63203wu-7"
+      ],
+      "subordinate_record_ids": [],
+      "required_source_ids": [
+        "src-c5446803-datasheet",
+        "src-c5446803-generator",
+        "src-bhfuse-generator",
+        "src-ap6320x-ds41326"
+      ],
+      "rule_ids": [
+        "rule-c5446803-power-cut"
+      ],
+      "required_fact_ids": [
+        "fact-c5446803-rating",
+        "fact-c5446803-terminals",
+        "fact-c5446803-project-nets",
+        "fact-bhfuse-project-nets",
+        "fact-ap63203-en-open"
+      ],
+      "required_calculation_ids": [],
+      "expected_observed_conditions": [
+        "SW2 center common 2 receives V15_FUSED and joins outer pin 1 to switched V15 in ON. In OFF it joins isolated outer pin 3, which has no PCB net but is fused-feed live. Both converters lose normal supply in OFF while Board P remains powered. G020 has a 2 mm actuator and 5.5 mm body-plus-actuator dimension; the corrected model retains shoulder stand-off for approximately 6 mm PCB reach, requiring physical confirmation. Verify inrush, bounce, restart, contact life, rail decay and service-interface back-power. Exact switch drawing remains manufacturer-mirror evidence."
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH"
+      ],
+      "must_refuse": true
+    },
+    {
+      "case_id": "stopped-potentiometer-adc",
+      "observed_run_id": "observed-stopped-potentiometer-adc",
+      "prompt": "Evaluate ALPS RK10J11E0034 C470643 stopped brightness potentiometer with R27/R22/C22 and STM32 PA0 ADC; prove calibrated brightness, open-wiper behavior, safe startup and fit in the 1.6 mm board.",
+      "expected_trigger_skill": "circuit-spec-integration",
+      "expected_loaded_skills": [
+        "component-spec-audit",
+        "circuit-spec-integration",
+        "component-alps-rk10j11e0034",
+        "component-stm32g031f8p6",
+        "component-project-passives"
+      ],
+      "routing_queries": [
+        {
+          "query": "RK10J11E0034",
+          "expected_line_ids": [
+            "line-c470643"
+          ]
+        }
+      ],
+      "direct_record_ids": [
+        "rec-c470643",
+        "rec-c529334",
+        "rec-c22775",
+        "rec-c25803",
+        "rec-c14663"
+      ],
+      "subordinate_record_ids": [],
+      "required_source_ids": [
+        "src-c470643-spec",
+        "src-c470643-page",
+        "src-c470643-generator",
+        "src-c529334-ds",
+        "src-c529334-generator",
+        "src-c22775-generator",
+        "src-c25803-uniroyal",
+        "src-c14663-yageo"
+      ],
+      "rule_ids": [
+        "rule-c470643-brightness-adc"
+      ],
+      "required_fact_ids": [
+        "fact-c470643-resistance",
+        "fact-c470643-tolerance",
+        "fact-c470643-terminals",
+        "fact-c470643-stops",
+        "fact-c470643-project-nets",
+        "fact-c470643-adc-design",
+        "fact-c470643-firmware-target",
+        "fact-c529334-adc",
+        "fact-c529334-topology",
+        "fact-c22775-brightness-topology",
+        "fact-c25803-resistance",
+        "fact-c14663-capacitance"
+      ],
+      "required_calculation_ids": [],
+      "expected_observed_conditions": [
+        "RV1 RK10J11E0034 is the single-unit 10 kOhm +/-30% stopped potentiometer: end 1=GND, end 3=V3P3, wiper 2 through R27 100 Ohm to U3.7 PA0 BRIGHT_ADC; all four mechanical pads and U3.8 are no-connects. R22 100 kOhm and C22 100 nF connect BRIGHT_ADC to GND. Worst divider source resistance is 3.25 kOhm plus 100 Ohm before bias loading; open-wiper nominal RC decay is 10 ms, not a certified fault detector. Use the documented 160.5-cycle ADC target, reference/errata review, endpoint and inversion calibration, averaging and startup ramp with thermal/PD gates. The 270-degree physical stops replace quadrature behavior. The catalog lists Insertion (t: 2 mm); this is not treated as a mandatory PCB thickness. Seating and contact life on the actual 1.6 mm PCB need prototype proof, and firmware is not flashed."
+      ],
+      "expected_verdicts": [
+        "NEEDS BENCH"
+      ],
+      "must_refuse": true
+    }
+  ],
+  "negative_routes": [
+    {
+      "kind": "conflicting-identifiers",
+      "query": "0603WAF4700T5E C23162",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "conflicting-identifiers",
+      "query": "CL31A106KBHNNNE C15849",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "wrong-vendor",
+      "query": "High Diode SS26 C7420363",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "wrong-vendor-lowercase",
+      "query": "vishay SS26 C7420363",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "wrong-vendor-suffix",
+      "query": "AO3401A from Vishay C347476",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "superseded-identity",
+      "query": "C1711 100 nF capacitor",
+      "expected_line_ids": []
+    },
+    {
+      "kind": "ambiguous-alias",
+      "query": "UNI-ROYAL resistor",
+      "expected_line_ids": []
+    }
+  ]
+}

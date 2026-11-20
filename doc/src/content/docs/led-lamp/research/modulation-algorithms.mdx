@@ -1,0 +1,134 @@
+---
+title: "Control Research: Fire/Wave Modulation Algorithms"
+description: Historical LED page copied from zudo-led-lamp at 88cb1740; current status lives in the LED Lamp section.
+sidebar_position: 80
+---
+
+> **Historical LED page** copied from zudo-led-lamp at `88cb1740`; current status lives in [LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/doc/src/content/docs/research/modulation-algorithms.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/research/modulation-algorithms/).
+
+> **Integrated context.** These are algorithm sketches, not evidence that a physical Board L was flashed or measured. Check the [LED status](../architecture/current-state.mdx) and firmware receipt before claiming a running effect.
+
+:::note[Current control revision — 2026-09-06]
+The current design uses **RV1 ALPS RK10J11E0034 / C470643**, a stopped 10 kΩ
+potentiometer with 270°±10° travel, and **SW2 G-Switch SS-12D01-G020 / C5446803**.
+Encoder comparisons and example firmware below are historical research, not the
+current netlist or executable firmware. See [Board L's current ADC mapping](/docs/led-lamp/architecture/board-l/#mcu-knob-and-dimming-path-knob-mapping).
+The absolute ADC position replaces edge counting and the old fixed startup target;
+start dark and ramp only after valid position, PD-status and thermal checks.
+:::
+
+
+## Two frequencies, not one
+
+It helps to separate two very different rates in this design:
+
+1. **PWM carrier frequency** — how fast the MCU's hardware timer toggles the dim output on/off to encode an instantaneous duty cycle. This must be fast enough to be invisible and (if it interacts with the driver's control loop rather than a simple switch) within the driver's acceptable dim-input range.
+2. **Animation update rate** — how often the *software* computes a new target brightness value (the "frame rate" of the fire/wave effect itself). This is far slower — tens of Hz is plenty for something that reads as smooth, organic motion to a human eye.
+
+The hardware timer handles (1) continuously in the background; firmware only needs to update the timer's compare/duty register at rate (2).
+
+## PWM carrier frequency choice
+
+Human flicker perception: direct (foveal) vision generally stops perceiving flicker above **~100-120Hz**, but peripheral vision is more sensitive and can catch flicker up to **~300Hz**, and quick eye or object motion ("phantom array" effect) can reveal flicker at frequencies well above the classic thresholds. A slow, ambient decorative lamp is mostly viewed in peripheral vision and may be seen in motion (camera pans, walking past it), so **targeting ≥500Hz-1kHz** for the PWM carrier gives real margin over the ~100-300Hz flicker-perception floor, rather than just clearing the minimum bar.
+
+A second, independent constraint is **audible noise**: if the PWM signal ever couples into a magnetic component (e.g., if the "dim" pin modulates something inside the driver's own switching loop rather than a clean logic-level enable), frequencies in the audio band (roughly 20Hz-20kHz, worst around 2-8kHz where hearing is most sensitive) can produce an audible whine. Staying in the **1-2kHz** range is a reasonable middle ground: comfortably above the flicker-perception floor, while low enough that most people won't localize it as an obvious high-pitched noise even if some coupling exists — though **above 20kHz is the only way to guarantee inaudibility** if the driver topology makes that a real risk. All three MCU candidates in [mcu-candidates](/docs/led-lamp/research/mcu-candidates/) can generate PWM well past 20kHz on a general-purpose timer if that turns out to matter.
+
+**Interaction with the driver's dim-input bandwidth:** the LED driver research (owned by the sibling `driver-*` pages) will specify whether its dim pin expects (a) a direct duty-cycle PWM signal that the driver's own internal circuitry decodes, or (b) an analog control voltage (0 to some V_ref) that must be produced by low-pass filtering the MCU's PWM output through an external RC filter to emulate a DAC. Case (b) adds a real constraint: the RC filter's cutoff must sit well below the PWM carrier frequency (to smooth it into a clean DC-like level) but well above the animation update rate (so the filter doesn't itself introduce lag into the fire/wave motion) — e.g., a carrier at 1kHz and an animation update at 50Hz leaves a full decade of room for an RC filter around 100-200Hz. This is called out explicitly as a question for the architecture pass below, since the driver choice isn't finalized yet.
+
+## Gamma / perceptual correction
+
+Human brightness perception is roughly logarithmic, not linear with PWM duty cycle — a linear duty-cycle sweep looks bunched up and barely-changing at the bright end, then jumps rapidly near zero. To get "50% *perceived* brightness," the actual duty cycle needs to be roughly **18%**, not 50% — this is well-documented in LED dimming references using either a gamma curve (commonly `y = x^2.2` to `x^2.8`) or the more precise CIE 1931 lightness formula. Concretely, the animation algorithm should work in a **perceptual brightness space** (0-255 "how bright it should look") and pass every value through a gamma lookup table before writing it to the PWM duty register — this is what makes "lighter-darker, like flowing" read as smooth rather than jerky, especially at the low-brightness end where a fire/candle effect spends a lot of its time.
+
+```c
+// 256-entry gamma LUT, computed once at build time (or startup):
+// lut[i] = round(255 * pow(i / 255.0, GAMMA))   // GAMMA ~ 2.2-2.8
+uint8_t gamma_lut[256];
+
+void set_perceptual_brightness(uint8_t perceptual_0_255) {
+    uint8_t duty = gamma_lut[perceptual_0_255];
+    pwm_set_duty(duty);   // writes the hardware timer compare register
+}
+```
+
+On a tiny MCU with 16-20KB flash, a 256-byte `uint8_t` LUT is cheap; if flash is tighter, an 8-bit approximation (`x*x/255` for a rough `gamma≈2`) is a workable fallback with a small quality loss.
+
+## Modulation approach 1 — Filtered noise ("candle flicker")
+
+The classic approach used in commercial candle-flicker LEDs and countless firmware candle projects: take pseudo-random noise and pass it through a low-pass filter (a single-pole IIR is enough) so it wanders smoothly instead of jumping erratically, then add it as a delta around a base brightness.
+
+```c
+// Runs at the animation update rate (e.g. 50-100Hz)
+int16_t noise_state = 0;
+
+uint8_t next_flicker_frame(uint8_t base_brightness, uint8_t depth, uint8_t responsiveness /*0-255*/) {
+    int16_t raw_noise = (int16_t)random_uniform(-128, 127);
+    // one-pole low-pass: state += (raw - state) * alpha; alpha = responsiveness/256
+    noise_state += ((raw_noise - noise_state) * responsiveness) >> 8;
+
+    int16_t value = base_brightness + ((noise_state * depth) >> 8);
+    return clamp(value, 0, 255);
+}
+```
+
+`responsiveness` is the IIR filter's alpha: a *high* value lets the state track the raw random noise almost immediately (twitchy, jittery flicker), while a *low* value heavily filters it into slow, lazy motion ("breathing" rather than "flickering"). If the knob-mapping (see below) wants a "speed" control that behaves the intuitive way — turning it up makes the effect *more* active — map the knob to `responsiveness` directly; if a "smoothness" framing is preferred instead, invert it (`alpha = 255 - knob_value`) before passing it in. Layering 2-3 of these at different responsiveness/depth settings and summing them (as used in more elaborate candle-emulation firmware) adds realism at the cost of a bit more CPU/RAM — worth prototyping both a single-layer and layered version.
+
+## Modulation approach 2 — Bounded random walk ("slow wave / breathing")
+
+A slower, smoother variant for a "wave" rather than "fire" feel: the brightness target takes small random steps and reflects off configured min/max bounds, rather than being pulled toward a fixed base value. This produces a more organic, less centered drift than the filtered-noise approach.
+
+```c
+// Runs at the animation update rate
+int16_t wave_value = 128;   // current perceptual brightness, 0-255
+int8_t  wave_dir = 1;       // +1 or -1, flips on bounds or randomly
+
+uint8_t next_wave_frame(uint8_t min_b, uint8_t max_b, uint8_t step_size, uint8_t wander_chance) {
+    if (random_uniform(0, 255) < wander_chance) {
+        wave_dir = -wave_dir;               // occasionally reverse direction unprompted
+    }
+    wave_value += wave_dir * random_uniform(1, step_size);
+    if (wave_value <= min_b) { wave_value = min_b; wave_dir = 1; }
+    if (wave_value >= max_b) { wave_value = max_b; wave_dir = -1; }
+    return (uint8_t)wave_value;
+}
+```
+
+`step_size` maps naturally to "speed," `(max_b - min_b)` maps naturally to "depth."
+
+## Modulation approach 3 — LUT playback of recorded flame data
+
+Instead of synthesizing randomness, record a real flame's luminance curve (from video analysis or a reference dataset) as a lookup table baked into flash, and play it back in a loop — optionally with small per-loop randomization (slight speed jitter, randomized start offset each loop, occasional skip-ahead) so the repeat isn't perceptible.
+
+```c
+extern const uint8_t flame_lut[LUT_LEN];   // pre-baked in flash
+uint16_t play_pos = 0;
+uint16_t loop_speed_q8 = 256;               // 256 = 1.0x speed, knob-adjustable
+
+uint8_t next_lut_frame(void) {
+    play_pos = (play_pos + (loop_speed_q8 >> 8)) % LUT_LEN;
+    // add sub-pixel interpolation between play_pos and play_pos+1 for smoother motion
+    // at fractional loop_speed_q8 values, or fixed-point accumulate for smooth speed control
+    return flame_lut[play_pos];
+}
+```
+
+This trades RAM/flash (the LUT itself — realistically a few hundred bytes to a couple KB depending on resolution/length) for the most "authentically fire-like" motion, since it's literally sampled from real flame behavior rather than approximated. Best fit for the higher-flash STM32G031 candidate from [mcu-candidates](/docs/led-lamp/research/mcu-candidates/) if the LUT needs to be large; CH32V003/PY32's smaller flash budgets favor a short, tightly-compressed LUT or one of the procedural approaches instead.
+
+All three approaches write into the same `set_perceptual_brightness()` gamma-corrected output path described above — the choice between them is about *how the target value is generated*, not how it reaches the PWM pin.
+
+## What the knob could map to (enumerate — architecture pass decides)
+
+A single knob (rotary encoder per [control-knob](/docs/led-lamp/research/control-knob/)) can only directly control one parameter at a time unless combined with a mode gesture (e.g., short-press-to-cycle if the encoder's push-button variant is used). Candidates, any of which fit the pseudocode above:
+
+- **Base brightness** — the DC level the flicker/wave varies around (`base_brightness` in approach 1, or the `(min_b+max_b)/2` center in approach 2). Most intuitive "lamp knob" behavior for a first-time user.
+- **Speed** — how fast the effect moves (`responsiveness` in approach 1, `step_size`/`wander_chance` in approach 2, `loop_speed_q8` in approach 3). Turns a calm ember into an agitated flame.
+- **Depth** — how much the brightness swings around its center (`depth` in approach 1, `(max_b - min_b)` in approach 2). Turns a subtle flicker into a dramatic one.
+- **Mode-cycled combination** — if the encoder has an integrated push-button, a short press could cycle which of the above the knob currently adjusts, letting one physical control reach all three parameters at the cost of a small UI-discoverability trade-off (no visual indicator of current mode without an added status LED or similar).
+
+## Questions the architecture pass must answer
+
+- Which single parameter (or mode-cycled set) does the knob control? This is explicitly left open per the source issue's scope.
+- Which of the three modulation approaches (or a hybrid/layered combination) does the firmware implement? Approach 1 and 2 are cheap and procedural; approach 3 needs a real recorded/authored dataset before flash size can be finalized.
+- What does the LED driver's dim pin actually expect (direct PWM vs. filtered analog voltage) — this determines whether an external RC filter is needed and what its cutoff should be, per the "interaction with the driver's dim-input bandwidth" note above. Depends on the driver choice from the sibling power-stage research.
+- Final PWM carrier frequency and animation update rate — the ranges above (~1-2kHz carrier, ~30-100Hz animation update) are a reasonable starting point but should be tuned once the physical LED/diffuser is chosen (a diffused/frosted lamp may hide flicker more than a bare LED).
+
+Sources consulted for the flicker-threshold and gamma-correction claims above: [Waveform Lighting — flicker-free LED dimming](https://www.waveformlighting.com/film-photography/an-introduction-to-flicker-free-led-strip-dimming), [Analog Devices — avoiding the audio band with PWM LED dimming](https://www.analog.com/en/resources/technical-articles/avoid-the-audio-band-with-pwm-led-dimming.html), [mbedded.ninja — controlling LED brightness with PWM (gamma correction)](https://blog.mbedded.ninja/programming/firmware/controlling-led-brightness-using-pwm/), [Lucky Resistor — candlelight emulation with layered randomness](https://luckyresistor.me/blog/2023/0201_221706/).

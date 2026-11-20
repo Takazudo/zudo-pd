@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-high-diode-smaj20a",
+      "record_id": "rec-high-diode-smaj20a",
+      "symbol": "SMAJ20A_C571370",
+      "footprint": "SMA_L4.2-W2.6-LS5.3-RD",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "project cathode/VBUS mapping"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "project anode/GND mapping"
+        }
+      ],
+      "reviewed_by": "official High Diode band=cathode evidence plus generator/KiCad K/A-to-pad-1/2 mapping; incoming reel/body orientation and continuity remain bench-gated"
+    }
+  ]
+}

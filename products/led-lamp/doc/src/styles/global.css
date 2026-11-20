@@ -1,0 +1,19 @@
+/* zfb's zudo-wind preset owns the reset and generated utility layer. Declare
+   the package layers first so authored flow styles keep their cascade order. */
+@layer zw-reset, zd-flow;
+
+/* Package-shipped tokens, content typography, and feature CSS.
+   Order is load-bearing — theme.css MUST precede features.css. Do not reorder.
+   The design-token panel stays off (#125), so no zdtp stylesheet is imported. */
+@import "@takazudo/zudo-doc/theme.css";
+@import "@takazudo/zudo-doc/content.css";
+@import "@takazudo/zudo-doc/page-loading.css";
+@import "@takazudo/zudo-doc/features.css";
+
+/* ADR-015: zudo-circuit-doc's unlayered evidence/preview styles, after the zudo-doc CSS. */
+@import "@takazudo/zudo-circuit-doc/styles.css";
+
+/* Override design-token custom properties from the package theme here. */
+:root {
+  /* e.g. --color-accent: oklch(0.6 0.2 250); */
+}

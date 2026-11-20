@@ -1,0 +1,97 @@
+---
+title: "Control Research: Knob Candidates"
+description: Historical LED page copied from zudo-led-lamp at 88cb1740; current status lives in the LED Lamp section.
+sidebar_position: 70
+---
+
+> **Historical LED page** copied from zudo-led-lamp at `88cb1740`; current status lives in [LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/doc/src/content/docs/research/control-knob.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/research/control-knob/).
+
+> **Integrated context.** This compares historical control options. The selected Board L control and its remaining physical checks belong to the dated [LED status](../architecture/current-state.mdx), not to a fresh choice on this page.
+
+:::note[Current control revision — 2026-09-06]
+The current design uses **RV1 ALPS RK10J11E0034 / C470643**, a stopped 10 kΩ
+potentiometer with 270°±10° travel, and **SW2 G-Switch SS-12D01-G020 / C5446803**.
+Encoder comparisons and example firmware below are historical research, not the
+current netlist or executable firmware. See [Board L's current ADC mapping](/docs/led-lamp/architecture/board-l/#mcu-knob-and-dimming-path-knob-mapping).
+The absolute ADC position replaces edge counting and the old fixed startup target;
+start dark and ramp only after valid position, PD-status and thermal checks.
+:::
+
+
+## Context
+
+The lamp needs a physical **knob** the user turns to control the fire/wave modulation (see [modulation-algorithms](/docs/led-lamp/research/modulation-algorithms/) for what it might control). Two classic approaches: a panel-mount **potentiometer** read by the MCU's ADC, or a **rotary encoder** read as a quadrature digital signal. The source issue requires the circuit to stay **JLCPCB-only** — this page checks real stock, not just "what's the standard part for this."
+
+## Option A — Panel-mount potentiometer (analog, into ADC)
+
+**How it works:** a 3-terminal resistive element; the wiper voltage (a fraction of the rail reference) is read directly by one ADC channel. Absolute position — the knob's physical angle always corresponds to the same reading, even after a power cycle. Familiar, simple firmware (`read_adc() -> brightness`), no interrupts or edge-counting needed.
+
+**JLCPCB availability — checked honestly, and it's thin.** The classic panel-mount pot (metal bushing + threaded shaft for panel mounting through an enclosure, the part a hobbyist would reach for — e.g. the ubiquitous **WH148**) has **zero stock across every SKU variant** in the local JLCPCB DB:
+
+| Part | LCSC | Stock |
+|---|---|---|
+| WH148-1A-2 | [C9900040052](https://jlcpcb.com/partdetail/C9900040052) | 0 |
+| WH148B100K | [C9900048519](https://jlcpcb.com/partdetail/C9900048519) | 0 |
+| WH148-B10K | [C9900237220](https://jlcpcb.com/partdetail/C9900237220) | 0 |
+| WH148/5PIN-B100KL20 | [C9900242673](https://jlcpcb.com/partdetail/C9900242673) | 0 |
+
+This isn't a one-off gap — the broader `Resistors > Potentiometers, Variable Resistors` category (23,518 parts) is dominated by **PCB-mount trimmers** meant for screwdriver calibration, not hand-turned panel knobs:
+
+| Part | LCSC | Stock | Tier | Package | Notes |
+|---|---|---|---|---|---|
+| 3296W-1-103 (10kΩ) | [C118954](https://jlcpcb.com/partdetail/C118954) | 77,039 | Extended | THT, 9.5x4.9mm | Screwdriver-slot single-turn cermet trimmer. Abundant stock, but no shaft/knob-friendly bushing — not ergonomic as a user-facing control without an adapter. |
+| 3362P-1-103 (10kΩ) | [C118956](https://jlcpcb.com/partdetail/C118956) | 31,418 | Extended | THT, 7x6.6mm | Same category — top-adjust trimmer, not a panel knob. |
+
+**Honest verdict:** a *true* panel-mount potentiometer with a knob-ready bushing and shaft is **not realistically sourceable from JLCPCB's SMT/THT assembly stock** — the DB confirms zero stock on the standard part family. Getting one would mean sourcing off-JLCPCB (e.g. Bourns/Alps via Digi-Key/Mouser), which breaks the JLCPCB-only constraint from the source issue. The 3296/3362-style trimmers are well-stocked but are calibration trimmers, not knobs — usable only as a fallback behind a panel cutout with a small custom-fit knob press-fit onto the adjustment slot, which is a marginal user experience and not recommended as the primary path.
+
+## Option B — Rotary encoder (quadrature, digital)
+
+**How it works:** two digital outputs (A/B) that a rotating shaft toggles out of phase; the MCU counts edges (interrupt or timer input-capture) to track relative position, and optionally a third pin for an integrated push-button (many encoder parts bundle a click-to-push switch on the same shaft). Endless rotation — no mechanical end-stops — and typically better tactile "feel" (detents) for a UI control than a pot.
+
+**JLCPCB availability — good.** `Switches > Rotary Encoders` has **2,976 parts**, and the common **EC11 family** (the de facto hobbyist/consumer-electronics standard, THT, panel-mountable via a threaded metal bushing + nut, same mechanical mounting style people expect from a "knob") is well stocked.
+
+:::caution[Pulses-per-revolution is unresolved]
+The three project surfaces disagree. The retained manufacturer-authored specification (KK-2010-9648) states
+**15 pulses / 30 detents** per revolution; the parts DB and
+[board-l](/docs/led-lamp/architecture/board-l/) state the **reverse** — 30 pulses / 15 detents — and the generator's
+SW1 label says only "15-detent". A 2026-08-02 retrieval attempt could not reach Alps Alpine's primary source: the
+`EC11L1525G01` product page returns HTTP 403 on every path while the sibling `EC11E15244G1` page loads
+normally, and no `EC11L` row appears in any current encoder sub-category listing. Mirror-only evidence cannot
+settle a number the firmware UI scale depends on, so the table below leaves the count unresolved rather than
+adopting the mirror's figure. Tracked in [#32](https://github.com/Takazudo/zudo-led-lamp/issues/32).
+:::
+
+| Part | LCSC | Stock | Tier | Detents | Push-button | Price (1-9) |
+|---|---|---|---|---|---|---|
+| EC11L1525G01 | [C2991196](https://jlcpcb.com/partdetail/C2991196) | 4,566 | Extended | Detent/pulse count unresolved — the mirror (KK-2010-9648) says 15 pulses / 30 detents, see [#32](https://github.com/Takazudo/zudo-led-lamp/issues/32) | No | $1.27 |
+| EC11E15244G1 | [C370970](https://jlcpcb.com/partdetail/C370970) | 5,515 | Extended | 15 | No (check datasheet for exact variant) | $2.26 |
+| EC11N1525404 | [C470748](https://jlcpcb.com/partdetail/C470748) | 4,658 | Extended | 15 | Two-phase output, incremental | $2.76 |
+
+None of these are Basic/Preferred tier (all Extended, ~¥470 one-time fee per unique part on JLCPCB's assembly service) — but stock is in the thousands across multiple SKUs, versus zero for panel pots. This is the honest recommendation for a JLCPCB-only BOM.
+
+**Trade-offs vs a pot:**
+- No absolute position — firmware must track a running count and clamp/wrap it in software; after a power cycle the knob's physical angle doesn't correspond to anything until the user turns it (mitigated by picking a sane default on boot, see [control-safety](/docs/led-lamp/research/control-safety/)).
+- Needs 2 GPIO (A/B) rather than 1 ADC channel, plus interrupt or polling logic instead of a single `read_adc()` call — slightly more firmware complexity, but well-trodden ground (every MCU family has quadrature-decode examples).
+- Mounting: EC11's metal bushing + nut is the same panel-mounting mechanism people expect from a knob, which matters for the future 3D-printed enclosure — a designed-in panel cutout + nut is straightforward, unlike adapting a trimmer's screwdriver slot.
+
+## Recommendation
+
+**Rotary encoder (EC11 family) is the honest JLCPCB-only pick** — real stock, real panel-mountable hardware, endless rotation fits a "speed/depth/brightness" style control well. A panel potentiometer would be the more common electrical choice (simpler firmware, absolute position) but isn't realistically available in JLCPCB's own stock for the panel-ready form factor; using it would require breaking the JLCPCB-only sourcing constraint from the source issue.
+
+## Questions the architecture pass must answer
+
+- Confirm final acceptance of the JLCPCB-only constraint's implication: does the project accept the encoder's lack of absolute position, or is off-JLCPCB pot sourcing acceptable for this one part (breaking the stated constraint)?
+- Does the chosen encoder need an integrated push-button (for a mode-select gesture, e.g. short-press to cycle between speed/depth/brightness assignment)? None of the three shortlisted EC11 SKUs above were confirmed to include one from the DB description alone — verify against the actual datasheet before BOM lock.
+- Pull-up strategy for the A/B lines: external resistors vs MCU-internal pull-ups (all three MCU candidates in [mcu-candidates](/docs/led-lamp/research/mcu-candidates/) have internal weak pull-ups, likely sufficient given the encoder's low switching speed).
+- Debounce approach: firmware-timer debounce vs a small RC filter on A/B — either works at knob-turning speeds; architecture pass picks based on GPIO budget and firmware complexity preference.
+
+
+## Current selection: stopped ALPS wheel
+
+The user selected **RK10J11E0034 / C470643**. JLCPCB showed 6,939 stocked and
+6,677 available to order on 2026-09-06 JST. The [primary ALPS catalog](https://tech.alpsalpine.com/cms.media/product_catalog_rv_03_rk10j_en_780020d1ea.pdf)
+identifies the single-unit 10 kΩ ±30% 1B taper and drawing 1. The exact product
+page confirms 270°±10° travel and physical stops. Five lower mounting positions
+include three electrical pins and two dummy supports; two upper supports also
+remain. Pin 2 is the wiper. Read absolute ADC position and validate installed
+clockwise direction instead of carrying over encoder counting or boot defaults.

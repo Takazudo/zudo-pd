@@ -30,7 +30,7 @@ test('all 60 retained legacy routes retain every baseline evidence anchor and us
   assert.ok(page.includes('Generated from the component evidence records'),path);
  }
 });
-test('root and doc resolve the same 0.3.0 release with only the reviewed #210 checker and Mac lifecycle bridges',async()=>{
+test('root and doc resolve the same 0.3.0 release with the reviewed project bridges',async()=>{
  const fromRoot=createRequire(join(root,'package.json')),fromDoc=createRequire(join(root,'doc/package.json'));
  const a=await realpath(fromRoot.resolve('@takazudo/zudo-circuit-doc/package.json')),b=await realpath(fromDoc.resolve('@takazudo/zudo-circuit-doc/package.json'));
  assert.equal(a,b);
@@ -38,17 +38,31 @@ test('root and doc resolve the same 0.3.0 release with only the reviewed #210 ch
  const patchFile='patches/@takazudo__zudo-circuit-doc@0.3.0.patch';
  const patch=await readFile(join(root,patchFile),'utf8');const patchHash=createHash('sha256').update(patch).digest('hex');
  assert.ok(a.includes(`patch_hash=${patchHash.slice(0,20)}`),'installed copy carries exactly the reviewed patch');
- // Only the reviewed checker branch and active-page browser lifecycle paths are patched.
- assert.deepEqual([...patch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['lib/browser-smoke/cdp.js','lib/browser-smoke/chrome.js','lib/scan/built-references.js']);
+ // Preserve the three #210 hunks and patch only the package's bundle resolver for #315.
+ assert.deepEqual([...patch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['lib/browser-smoke/cdp.js','lib/browser-smoke/chrome.js','lib/scan/built-references.js','python/circuit_evidence/routing.py']);
  assert.match(patch,/issues\/210/u);
+ assert.match(patch,/diff --git a\/python\/circuit_evidence\/routing\.py b\/python\/circuit_evidence\/routing\.py/u);
+ const historyPatchFile='patches/@takazudo__zudo-doc-history-server@9.1.4.patch';
+ const historyPatch=await readFile(join(root,historyPatchFile),'utf8');
+ const historyPatchHash=createHash('sha256').update(historyPatch).digest('hex');
+ assert.deepEqual([...historyPatch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['dist/chunk-6T5SSYWE.js']);
+ assert.match(historyPatch,/merge parent/u);
+ const searchPatchFile='patches/@takazudo__zudo-doc@9.1.4.patch';
+ const searchPatch=await readFile(join(root,searchPatchFile),'utf8');
+ const searchPatchHash=createHash('sha256').update(searchPatch).digest('hex');
+ assert.deepEqual([...searchPatch.matchAll(/^diff --git a\/(\S+)/gmu)].map(m=>m[1]),['dist/search-widget-script/generated-script.js','dist/search-widget-script/scoring.js']);
+ assert.match(searchPatch,/titleSlugLc/u);assert.match(searchPatch,/urlLc/u);
  const workspace=await readFile(join(root,'pnpm-workspace.yaml'),'utf8');
- assert.equal([...workspace.matchAll(/^  '@takazudo\/[^']+':/gmu)].length,1);
+ assert.equal([...workspace.matchAll(/^  '@takazudo\/[^']+':/gmu)].length,3);
  assert.match(workspace,new RegExp(`patchedDependencies:\\n  '@takazudo/zudo-circuit-doc@0\\.3\\.0': ${patchFile.replaceAll('.','\\.')}`,'u'));
+ assert.match(workspace,new RegExp(`  '@takazudo/zudo-doc-history-server@9\\.1\\.4': ${historyPatchFile.replaceAll('.','\\.')}`,'u'));
+ assert.ok(workspace.includes(`  '@takazudo/zudo-doc@9.1.4': ${searchPatchFile}`));
  const lock=await readFile(join(root,'pnpm-lock.yaml'),'utf8');
  assert.match(lock,/\n  '@takazudo\/zudo-circuit-doc@0\.3\.0':\n    resolution: \{integrity: sha512-HTiQMLba\+Ozt1gDUhf3aNH49ua9E4oxEjxqTvJLCRqBChmVNBQ7\+Io8XkAZqfSnskBOilnfr7SpSzrWLhhyi1A==\}/u);
- assert.ok(lock.includes(`patchedDependencies:\n  '@takazudo/zudo-circuit-doc@0.3.0': ${patchHash}\n\n`),'lock records only the reviewed circuit patch');
- assert.doesNotMatch(lock,/zudo-doc@[^(\s]*\(patch_hash/u);
+ assert.ok(lock.includes(`patchedDependencies:\n  '@takazudo/zudo-circuit-doc@0.3.0': ${patchHash}\n  '@takazudo/zudo-doc-history-server@9.1.4': ${historyPatchHash}\n  '@takazudo/zudo-doc@9.1.4': ${searchPatchHash}\n\n`),'lock records exactly the three reviewed patches');
+ assert.ok(lock.includes(`@takazudo/zudo-doc@9.1.4(patch_hash=${searchPatchHash})`));
  const checker=await readFile(join(packageRoot,'lib/scan/built-references.js'),'utf8');assert.match(checker,/Temporary bridge: https:\/\/github\.com\/Takazudo\/zudo-pd\/issues\/210/u);
+ const routing=await readFile(join(packageRoot,'python/circuit_evidence/routing.py'),'utf8');assert.match(routing,/unknown attached numeric order suffix/u);
  const schema=await readFile(join(packageRoot,'lib/config/schema.js'),'utf8');assert.match(schema,/candidates: optional/u);assert.match(schema,/mpnFromValueLcsc/u);assert.match(schema,/fit: optional\(oneOf\(\["line", "placement"\]\)\)/u);assert.match(schema,/publicCanonicalFootprints/u);
  const reference=await readFile(join(packageRoot,'lib/provider/v1/references.js'),'utf8');assert.match(reference,/STALE_SELECTION", `missing record/u);
  assert.equal(mapped.config.inventoryProvider.fit,'placement');

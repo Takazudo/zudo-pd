@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-tps3701",
+      "record_id": "rec-tps3701",
+      "symbol": "TPS3701DDCT",
+      "footprint": "TPS3701_DDC0006A_DRAFT",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "OUTA",
+          "footprint_pad": "1",
+          "function": "OUTA / WIN_EN_UVLO"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "GND",
+          "footprint_pad": "2",
+          "function": "GND / GND"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "INA",
+          "footprint_pad": "3",
+          "function": "INA / WIN_MON_SENSE"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "INB",
+          "footprint_pad": "4",
+          "function": "INB / GND"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "VDD",
+          "footprint_pad": "5",
+          "function": "VDD / VBUS_OUT"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "OUTB",
+          "footprint_pad": "6",
+          "function": "OUTB / NC"
+        }
+      ],
+      "reviewed_by": "2026-10-31 LED worker: SBVS240C pin table vs rnext.kicad_sym TPS3701DDCT and monitor-candidate:TPS3701_DDC0006A_DRAFT pads"
+    }
+  ]
+}

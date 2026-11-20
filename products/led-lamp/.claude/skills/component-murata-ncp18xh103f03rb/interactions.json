@@ -1,0 +1,4 @@
+{"schema_version":1,"interactions":[
+{"interaction_id":"int-c13564-divider","record_ids":["rec-c13564"],"fact_ids":["fact-c13564-resistance","fact-c13564-beta","fact-c13564-topology","fact-c13564-curve-caveat"],"conditions":"ADC conversion needs exact R-T data, pull-up tolerance, V3P3/VREF, acquisition time, RC settling and firmware algorithm","verdict":"NEEDS BENCH"},
+{"interaction_id":"int-c13564-thermal","record_ids":["rec-c13564"],"fact_ids":["fact-c13564-power","fact-c13564-temperature","fact-c13564-curve-caveat","fact-c13564-dissipation"],"conditions":"Validate self-heating, PCB/air coupling, thermal lag and thresholds in the installed enclosure","verdict":"NEEDS BENCH"}
+]}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-tps259474l-primary",
+      "record_id": "rec-tps259474l",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-tps259474l-manufacturer",
+        "fact-tps259474l-variant",
+        "fact-tps259474l-pinout",
+        "fact-tps259474l-vin-absmax",
+        "fact-tps259474l-vin-operating",
+        "fact-tps259474l-ovlo-pin-operating",
+        "fact-tps259474l-rilm-range",
+        "fact-tps259474l-uvlo-rising",
+        "fact-tps259474l-uvlo-falling",
+        "fact-tps259474l-ov-rising",
+        "fact-tps259474l-ov-falling",
+        "fact-tps259474l-ilim-3k32",
+        "fact-tps259474l-ilim-1k65"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-tps259474l-led-application",
+      "record_id": "rec-tps259474l",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-tps259474l-led-rnext-role",
+        "fact-tps259474l-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-tps259474l-led-rnext-role",
+        "fact-tps259474l-led-land"
+      ]
+    },
+    {
+      "coverage_id": "cov-tps259474l-distributor",
+      "record_id": "rec-tps259474l",
+      "domain": "distributor-identity",
+      "status": "OPEN",
+      "reason": "LCSC C2864845 is UNSOURCED: carried from the V196 trial BOM without a retained distributor page",
+      "fact_ids": [
+        "fact-tps259474l-lcsc-identity"
+      ],
+      "blocking_fact_ids": [
+        "fact-tps259474l-lcsc-identity"
+      ]
+    }
+  ]
+}

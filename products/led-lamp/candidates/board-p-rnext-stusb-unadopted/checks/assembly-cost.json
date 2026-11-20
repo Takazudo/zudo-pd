@@ -1,0 +1,67 @@
+{
+ "status": "public list prices, per order, 1-29 boards; not a quote",
+ "pages": {
+  "price": {
+   "url": "https://jlcpcb.com/help/article/pcb-assembly-price",
+   "sha256_html": "7b421c338f5fc6dee2f6fa43db13f1ec7dcac2a1c333969e083f62890a61838f"
+  },
+  "capabilities": {
+   "url": "https://jlcpcb.com/capabilities/pcb-assembly-capabilities",
+   "sha256_html": "bf6db4e087d7fb702363a3c1822f8392403223d7b64c16f48c308216d2d621cc"
+  }
+ },
+ "economic": {
+  "assembly_types": "single sided placement only",
+  "single_pcb_min_mm": [
+   10,
+   10
+  ],
+  "order_volume": "2-50 pcs",
+  "setup": 8.18,
+  "stencil": 1.53,
+  "feeder_per_extended_type": 3.07,
+  "fixture": 0.0
+ },
+ "standard_double_sided": {
+  "assembly_types": "single and double sided",
+  "single_pcb_min_mm": [
+   70,
+   70
+  ],
+  "panel_min_mm": [
+   70,
+   70
+  ],
+  "setup": 51.12,
+  "stencil": 16.42,
+  "feeder_per_type": 1.53,
+  "fixture_1_29pcs": 16.42
+ },
+ "fitted_part_types_with_lcsc": 30,
+ "fixed_fee_rows": [
+  {
+   "extended_types": 0,
+   "economic_single_usd": 9.71,
+   "standard_double_usd": 129.86,
+   "delta_usd": 120.15
+  },
+  {
+   "extended_types": 15,
+   "economic_single_usd": 55.76,
+   "standard_double_usd": 129.86,
+   "delta_usd": 74.1
+  },
+  {
+   "extended_types": 30,
+   "economic_single_usd": 101.81,
+   "standard_double_usd": 129.86,
+   "delta_usd": 28.05
+  }
+ ],
+ "gaps": [
+  "Basic/Extended class per part (sets the Economic feeder fee)",
+  "panel fabrication cost: a 27 x 40 mm board is below the 70 x 70 mm Standard PCBA minimum, so it needs a panel",
+  "handling fee >= 14.93 USD applies only when both services are offered for one order"
+ ],
+ "reading": "double-sided assembly forces Standard PCBA and a panel; the fixed fees alone add the delta below per order"
+}

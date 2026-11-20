@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "routes": [
+    {
+      "route_id": "route-stusb4500qtr",
+      "record_id": "rec-stusb4500qtr",
+      "aliases": {
+        "mpn": ["STUSB4500QTR"],
+        "lcsc": ["C2678061"],
+        "manufacturer": ["STMicroelectronics"],
+        "function": [
+          "USB-PD sink controller",
+          "USB PD sink controller",
+          "NVM controller"
+        ]
+      },
+      "positive": [
+        "STUSB4500QTR pin audit",
+        "C2678061 NVM",
+        "STMicroelectronics STUSB4500QTR",
+        "USB-PD sink controller STUSB4500QTR"
+      ],
+      "negative": ["STUSB4500L C2678062", "STUSB4700"]
+    },
+    {
+      "route_id": "route-pesd24vs1ub",
+      "record_id": "rec-pesd24vs1ub",
+      "aliases": {
+        "mpn": ["PESD24VS1UB,115", "PESD24VS1UB"],
+        "lcsc": ["C85382"],
+        "manufacturer": ["Nexperia"],
+        "function": ["CC-line ESD protection", "USB-C CC ESD"]
+      },
+      "positive": [
+        "PESD24VS1UB,115 pinout",
+        "C85382",
+        "Nexperia PESD24VS1UB,115",
+        "CC-line ESD protection PESD24VS1UB,115"
+      ],
+      "negative": ["PESD24VS2UB C999003", "PESD24VS1UL"]
+    },
+    {
+      "route_id": "route-rd-0603waf5101t5e",
+      "record_id": "rec-rd-0603waf5101t5e",
+      "aliases": {
+        "mpn": ["0603WAF5101T5E"],
+        "lcsc": ["C23186"],
+        "manufacturer": ["UNI-ROYAL"],
+        "function": ["external USB-C Rd resistor", "external Rd"]
+      },
+      "positive": [
+        "0603WAF5101T5E",
+        "C23186",
+        "UNI-ROYAL 0603WAF5101T5E",
+        "external USB-C Rd resistor 0603WAF5101T5E"
+      ],
+      "negative": ["0603WAF5100T5E C999011", "0603WAF5102T5E"]
+    }
+  ]
+}

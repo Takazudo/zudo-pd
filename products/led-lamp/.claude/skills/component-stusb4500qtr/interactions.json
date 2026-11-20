@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "interactions": [
+    {
+      "interaction_id": "int-stusb-netlist",
+      "record_ids": ["rec-stusb4500qtr"],
+      "fact_ids": [
+        "fact-stusb-pin-states",
+        "fact-stusb-ccdb",
+        "fact-stusb-disch",
+        "fact-stusb-vbus-vs-disch",
+        "fact-stusb-vben",
+        "fact-stusb-vreg2v7-load"
+      ],
+      "conditions": "Assert U1.24=VBUS_IN; U1.18 reaches VBUS_IN only through R14; U1.9 reaches VBUS_OUT only through R13; U1.16=VBEN drives the PMOS gate network; U1.1/5 bridge through R19/R20 to CC1/CC2; U1.22 and EP are GND; NC pins remain NC; U1.23=VREG_2V7 also bridges to R15.2/R16.2 (I2C pull-ups) and pogo pad J3.3, an external DC load beyond decoupling that DS12499 does not yet authorize",
+      "verdict": "UNSOURCED"
+    },
+    {
+      "interaction_id": "int-stusb-safe-power",
+      "record_ids": ["rec-stusb4500qtr"],
+      "fact_ids": [
+        "fact-stusb-supplies",
+        "fact-stusb-load-time",
+        "fact-stusb-vben"
+      ],
+      "conditions": "First power with load disconnected and current limit; use VDD 4.1..22 V or VSYS 3.0..5.5 V, common-ground I2C, wait beyond TLOAD, confirm gate remains deasserted detached before attaching a compliant source",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-stusb-nvm-verification",
+      "record_ids": ["rec-stusb4500qtr"],
+      "fact_ids": [
+        "fact-stusb-nvm-load",
+        "fact-stusb-volatile-pdo",
+        "fact-stusb-artifact",
+        "fact-stusb-endurance"
+      ],
+      "conditions": "Capture factory 40 bytes; diff intended normalized 40-byte image; write once within verified endurance; read all 40 bytes; reset and read; remove all power long enough for rails to collapse and read again; decode PDO/polarity/discharge fields and negotiate each intended profile",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-stusb-state-bench",
+      "record_ids": ["rec-stusb4500qtr"],
+      "fact_ids": [
+        "fact-stusb-state-sequence",
+        "fact-stusb-discharge-registers",
+        "fact-stusb-fault-status",
+        "fact-stusb-vben"
+      ],
+      "conditions": "Observe unpowered Rd, reset Hi-Z, startup load, attach/negotiation, SNK_READY, detach, hard reset, lower-PDO transition, forced fault, VBUS discharge, VBUS_EN_SNK and POWER_OK/ATTACH polarity with scope and register snapshots",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-stusb-cc-protection",
+      "record_ids": ["rec-stusb4500qtr", "rec-pesd24vs1ub"],
+      "fact_ids": [
+        "fact-stusb-ccdb",
+        "fact-pesd-standoff",
+        "fact-pesd-capacitance",
+        "fact-pesd-pinout"
+      ],
+      "conditions": "D6/D7 are DNP from CC1/CC2 to GND; if fitted, pin 1 must face CC and pin 2 GND; confirm capacitance and clamp behavior do not invalidate PD signaling or ST CC protection limits",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-stusb-external-rd",
+      "record_ids": ["rec-stusb4500qtr", "rec-rd-0603waf5101t5e"],
+      "fact_ids": [
+        "fact-stusb-ccdb",
+        "fact-rd-value",
+        "fact-rd-tolerance",
+        "fact-rd-fit-state"
+      ],
+      "conditions": "R17/R18 are DNP CC-to-GND external Rd options while R19/R20 fit CCDB bridges; fitting both may parallel Rd and is prohibited until the exact intended topology and resistance tolerance are re-audited",
+      "verdict": "NEEDS BENCH"
+    }
+  ]
+}

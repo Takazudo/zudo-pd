@@ -1,0 +1,248 @@
+{
+  "schema": "pd-led-c3f-calculation-feasibility/1",
+  "base_commit": "4962df857d995ed8de5e363507a0c67ba378e08f",
+  "installed_package_version": "0.3.0",
+  "tool_sha256": {
+    "pnpm-lock.yaml": "0cfc99232bcf94ff625900330524d5e296b3e734e7d6deeabc745be11cf85b8c",
+    "patches/@takazudo__zudo-circuit-doc@0.3.0.patch": "7991370866d4019bc1c7b2411e9421c18ba701a850f580c49c4d098e8b005e6c",
+    "node_modules/@takazudo/zudo-circuit-doc/python/circuit_evidence/facts.py": "4ef8235930af235754f245b4f2cb6009b21013053178570b7065218efa6161ba",
+    "node_modules/@takazudo/zudo-circuit-doc/python/circuit_evidence/integration/rules.py": "cf1c1409d4eb659a096cd49a79449af657a56d027471deb9a52d64937156f5b7",
+    "node_modules/@takazudo/zudo-circuit-doc/lib/core/ids.js": "cadfcdd43f6a0f95b9b5dfce404156859ab5473f632423189657e3cb8dd34053"
+  },
+  "proposal_source_set_sha256": "88cb32adcb07ac54cd4a469e26a5e76051b94e7a150a60466e9b0da8d2ec39a1",
+  "led_rules_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+  "pd_rules_sha256": "139345d969d8cbb35f8ffe3d687330b2953294154c25db2072b299cde6f38070",
+  "led_fact_files_verified": 14,
+  "calculation_count": 9,
+  "current_pd_calculation_id_collisions": 0,
+  "proposed_pd_calculation_id_collisions": 0,
+  "focused_validator_passes": 9,
+  "calculation_rows": [
+    {
+      "rule_id": "rule-rail-envelope",
+      "proposed_rule_id": "led-rule-rail-envelope-7a629ee6d98e-fb655ceb",
+      "old_calculation_id": "calc-stusb-vdd-clamp-overage",
+      "proposed_calculation_id": "led-calc-stusb-vdd-clamp-overage-aee65e25c6fe-fb655ceb",
+      "payload_sha256": "aee65e25c6fe35c2783e5f06a99209166889b3a05f158681f361887ca8bbd431",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-stusb-vdd-absolute-max",
+        "fact-high-diode-smaj20a-clamp"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-stusb-vdd-absolute-max-f5a7184f6eaa-a1507772",
+        "led-fact-high-diode-smaj20a-clamp-0443d4f16d8f-55e1f943"
+      ],
+      "old_expression": "fact_high_diode_smaj20a_clamp - fact_stusb_vdd_absolute_max",
+      "proposed_expression_for_review": "led_fact_high_diode_smaj20a_clamp_0443d4f16d8f_55e1f943 - led_fact_stusb_vdd_absolute_max_f5a7184f6eaa_a1507772",
+      "scenario_variables_preserved": [],
+      "scenario_count": 1,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-rail-envelope",
+      "proposed_rule_id": "led-rule-rail-envelope-7a629ee6d98e-fb655ceb",
+      "old_calculation_id": "calc-q1-vds-clamp-overage",
+      "proposed_calculation_id": "led-calc-q1-vds-clamp-overage-5b45a3406fca-fb655ceb",
+      "payload_sha256": "5b45a3406fca16e37e5c3d843b026d3bd96f7f09bf137b95881cdad8f13754d6",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-umw-ao3401a-vds",
+        "fact-high-diode-smaj20a-clamp"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-umw-ao3401a-vds-2c4d82bf6b0a-c9ad17fb",
+        "led-fact-high-diode-smaj20a-clamp-0443d4f16d8f-55e1f943"
+      ],
+      "old_expression": "fact_high_diode_smaj20a_clamp + fact_umw_ao3401a_vds",
+      "proposed_expression_for_review": "led_fact_high_diode_smaj20a_clamp_0443d4f16d8f_55e1f943 + led_fact_umw_ao3401a_vds_2c4d82bf6b0a_c9ad17fb",
+      "scenario_variables_preserved": [],
+      "scenario_count": 1,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-usb-pd-nvm-load-switch",
+      "proposed_rule_id": "led-rule-usb-pd-nvm-load-switch-2547c8e34259-fb655ceb",
+      "old_calculation_id": "calc-q1-steady-vgs",
+      "proposed_calculation_id": "led-calc-q1-steady-vgs-24e757b5c498-fb655ceb",
+      "payload_sha256": "24e757b5c4984c7264b07f19c4fa90cf9decc711403081ff9f1618055f50f032",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-stusb-vben",
+        "fact-c25803-resistance",
+        "fact-c22807-resistance",
+        "fact-c22807-r12-topology"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-stusb-vben-7af269adad19-a1507772",
+        "led-fact-c25803-resistance-4c4550d7a8ca-b9f709d0",
+        "led-fact-c22807-resistance-78b4791a1540-b9f709d0",
+        "led-fact-c22807-r12-topology-c30d34e91e4a-b9f709d0"
+      ],
+      "old_expression": "-vbus_v * fact_c25803_resistance / (fact_c25803_resistance + fact_c22807_resistance)",
+      "proposed_expression_for_review": "-vbus_v * led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 / (led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 + led_fact_c22807_resistance_78b4791a1540_b9f709d0)",
+      "scenario_variables_preserved": [
+        "vbus_v"
+      ],
+      "scenario_count": 3,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-usb-pd-nvm-load-switch",
+      "proposed_rule_id": "led-rule-usb-pd-nvm-load-switch-2547c8e34259-fb655ceb",
+      "old_calculation_id": "calc-q1-steady-vgs-margin",
+      "proposed_calculation_id": "led-calc-q1-steady-vgs-margin-7b419f9b48f5-fb655ceb",
+      "payload_sha256": "7b419f9b48f5d74b3731a926e47ec78ba6bb598ecc907e1c6c747654967709aa",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-umw-ao3401a-vgs",
+        "fact-c25803-resistance",
+        "fact-c22807-resistance",
+        "fact-c22807-r12-topology"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-umw-ao3401a-vgs-49d6543f2728-c9ad17fb",
+        "led-fact-c25803-resistance-4c4550d7a8ca-b9f709d0",
+        "led-fact-c22807-resistance-78b4791a1540-b9f709d0",
+        "led-fact-c22807-r12-topology-c30d34e91e4a-b9f709d0"
+      ],
+      "old_expression": "fact_umw_ao3401a_vgs - vbus_v * fact_c25803_resistance / (fact_c25803_resistance + fact_c22807_resistance)",
+      "proposed_expression_for_review": "led_fact_umw_ao3401a_vgs_49d6543f2728_c9ad17fb - vbus_v * led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 / (led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 + led_fact_c22807_resistance_78b4791a1540_b9f709d0)",
+      "scenario_variables_preserved": [
+        "vbus_v"
+      ],
+      "scenario_count": 3,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-usb-pd-nvm-load-switch",
+      "proposed_rule_id": "led-rule-usb-pd-nvm-load-switch-2547c8e34259-fb655ceb",
+      "old_calculation_id": "calc-q1-gate-tau",
+      "proposed_calculation_id": "led-calc-q1-gate-tau-636c7236938e-fb655ceb",
+      "payload_sha256": "636c7236938ee0223415dc96862db591dffa100e8e4e575db0e68367845f0773",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-c25803-resistance",
+        "fact-c22807-resistance",
+        "fact-c14663-capacitance",
+        "fact-c14663-c35-topology"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-c25803-resistance-4c4550d7a8ca-b9f709d0",
+        "led-fact-c22807-resistance-78b4791a1540-b9f709d0",
+        "led-fact-c14663-capacitance-f426a50a730a-b9f709d0",
+        "led-fact-c14663-c35-topology-d2af77cf9bdc-b9f709d0"
+      ],
+      "old_expression": "(fact_c25803_resistance * fact_c22807_resistance / (fact_c25803_resistance + fact_c22807_resistance)) * fact_c14663_capacitance * 1e-6",
+      "proposed_expression_for_review": "(led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 * led_fact_c22807_resistance_78b4791a1540_b9f709d0 / (led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 + led_fact_c22807_resistance_78b4791a1540_b9f709d0)) * led_fact_c14663_capacitance_f426a50a730a_b9f709d0 * 1e-6",
+      "scenario_variables_preserved": [],
+      "scenario_count": 1,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-al8860-led-stage",
+      "proposed_rule_id": "led-rule-al8860-led-stage-6310baa49816-fb655ceb",
+      "old_calculation_id": "calc-led-hot-branch-peak",
+      "proposed_calculation_id": "led-calc-led-hot-branch-peak-d5b45ed518b8-fb655ceb",
+      "payload_sha256": "d5b45ed518b8ce4e9a625898804983d796b822c2563405c4b5b88eafcfecf68f",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-al8860-peak-current",
+        "fact-c2934070-resistance",
+        "fact-c2934070-tolerance"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-al8860-peak-current-d8011c55a8fe-f17a4a55",
+        "led-fact-c2934070-resistance-58b08f029bc1-21c01143",
+        "led-fact-c2934070-tolerance-a84d0646dbbb-21c01143"
+      ],
+      "old_expression": "(fact_al8860_peak_current + 7 * spread_v / (fact_c2934070_resistance * (1 + fact_c2934070_tolerance / 100))) / (1 + 7 * (1 - fact_c2934070_tolerance / 100) / (1 + fact_c2934070_tolerance / 100))",
+      "proposed_expression_for_review": "(led_fact_al8860_peak_current_d8011c55a8fe_f17a4a55 + 7 * spread_v / (led_fact_c2934070_resistance_58b08f029bc1_21c01143 * (1 + led_fact_c2934070_tolerance_a84d0646dbbb_21c01143 / 100))) / (1 + 7 * (1 - led_fact_c2934070_tolerance_a84d0646dbbb_21c01143 / 100) / (1 + led_fact_c2934070_tolerance_a84d0646dbbb_21c01143 / 100))",
+      "scenario_variables_preserved": [
+        "spread_v"
+      ],
+      "scenario_count": 3,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-al8860-led-stage",
+      "proposed_rule_id": "led-rule-al8860-led-stage-6310baa49816-fb655ceb",
+      "old_calculation_id": "calc-led-hot-branch-headroom",
+      "proposed_calculation_id": "led-calc-led-hot-branch-headroom-564fb9e57722-fb655ceb",
+      "payload_sha256": "564fb9e57722b1bee3f7bceae35ced3ebf9f7394ce863bd6e1d9de50f27e83b2",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-c210315-forward-current-max",
+        "fact-al8860-peak-current",
+        "fact-c2934070-resistance",
+        "fact-c2934070-tolerance"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-c210315-forward-current-max-dd855e008a8b-21c01143",
+        "led-fact-al8860-peak-current-d8011c55a8fe-f17a4a55",
+        "led-fact-c2934070-resistance-58b08f029bc1-21c01143",
+        "led-fact-c2934070-tolerance-a84d0646dbbb-21c01143"
+      ],
+      "old_expression": "fact_c210315_forward_current_max - 1000 * (fact_al8860_peak_current + 7 * spread_v / (fact_c2934070_resistance * (1 + fact_c2934070_tolerance / 100))) / (1 + 7 * (1 - fact_c2934070_tolerance / 100) / (1 + fact_c2934070_tolerance / 100))",
+      "proposed_expression_for_review": "led_fact_c210315_forward_current_max_dd855e008a8b_21c01143 - 1000 * (led_fact_al8860_peak_current_d8011c55a8fe_f17a4a55 + 7 * spread_v / (led_fact_c2934070_resistance_58b08f029bc1_21c01143 * (1 + led_fact_c2934070_tolerance_a84d0646dbbb_21c01143 / 100))) / (1 + 7 * (1 - led_fact_c2934070_tolerance_a84d0646dbbb_21c01143 / 100) / (1 + led_fact_c2934070_tolerance_a84d0646dbbb_21c01143 / 100))",
+      "scenario_variables_preserved": [
+        "spread_v"
+      ],
+      "scenario_count": 3,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-ntc-adc-firmware",
+      "proposed_rule_id": "led-rule-ntc-adc-firmware-a01bbfa07084-fb655ceb",
+      "old_calculation_id": "calc-ntc-divider-current-margin",
+      "proposed_calculation_id": "led-calc-ntc-divider-current-margin-700c5718c040-fb655ceb",
+      "payload_sha256": "700c5718c04074517cfeb25e65e66d9b09ea173ff38719138396fdeb8d780dcc",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-c13564-max-current",
+        "fact-c25803-resistance",
+        "fact-c25803-tolerance"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-c13564-max-current-17ff75d6b43e-ba74c720",
+        "led-fact-c25803-resistance-4c4550d7a8ca-b9f709d0",
+        "led-fact-c25803-tolerance-42802b4f08ef-b9f709d0"
+      ],
+      "old_expression": "fact_c13564_max_current - 1000 * rail_v / (fact_c25803_resistance * (1 - fact_c25803_tolerance / 100))",
+      "proposed_expression_for_review": "led_fact_c13564_max_current_17ff75d6b43e_ba74c720 - 1000 * rail_v / (led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 * (1 - led_fact_c25803_tolerance_42802b4f08ef_b9f709d0 / 100))",
+      "scenario_variables_preserved": [
+        "rail_v"
+      ],
+      "scenario_count": 2,
+      "focused_validator_result": "PASS"
+    },
+    {
+      "rule_id": "rule-ntc-adc-firmware",
+      "proposed_rule_id": "led-rule-ntc-adc-firmware-a01bbfa07084-fb655ceb",
+      "old_calculation_id": "calc-ntc-adc-source-impedance",
+      "proposed_calculation_id": "led-calc-ntc-adc-source-impedance-97732b1402f9-fb655ceb",
+      "payload_sha256": "97732b1402f9705a3bc988cd6e564bdc1c44f89ec4b9b9c46893d9cbd577a36d",
+      "rules_file_sha256": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd",
+      "old_fact_ids": [
+        "fact-c25803-resistance",
+        "fact-c25803-tolerance"
+      ],
+      "proposed_fact_ids": [
+        "led-fact-c25803-resistance-4c4550d7a8ca-b9f709d0",
+        "led-fact-c25803-tolerance-42802b4f08ef-b9f709d0"
+      ],
+      "old_expression": "fact_c25803_resistance * (1 + fact_c25803_tolerance / 100) * r_ntc_ohm / (fact_c25803_resistance * (1 + fact_c25803_tolerance / 100) + r_ntc_ohm)",
+      "proposed_expression_for_review": "led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 * (1 + led_fact_c25803_tolerance_42802b4f08ef_b9f709d0 / 100) * r_ntc_ohm / (led_fact_c25803_resistance_4c4550d7a8ca_b9f709d0 * (1 + led_fact_c25803_tolerance_42802b4f08ef_b9f709d0 / 100) + r_ntc_ohm)",
+      "scenario_variables_preserved": [
+        "r_ntc_ohm"
+      ],
+      "scenario_count": 2,
+      "focused_validator_result": "PASS"
+    }
+  ],
+  "holds": [
+    "In-memory focused validate_calculation only; no merged-corpus validator or generated pages ran.",
+    "Proposed calculation IDs and expressions are not canonical adoption or identity approval.",
+    "All textual, identity/CAD/SMAJ, DNP, publication, private-resource, #307 and physical holds remain."
+  ]
+}

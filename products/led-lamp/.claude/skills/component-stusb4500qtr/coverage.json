@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-stusb-identity",
+      "record_id": "rec-stusb4500qtr",
+      "domain": "identity/package/pinout",
+      "status": "OPEN",
+      "reason": "Exact DS12499 Rev 8 bytes are reproducibly retained from a manufacturer-document mirror, but primary-only trust and project symbol/footprint/as-built evidence remain open for fact-stusb-manufacturer, fact-stusb-order-code, and fact-stusb-pin-states; dated 2026-08-02 and 2026-08-14 direct st.com retrievals (fact-stusb-ds12499-primary-attempt) found the primary source unavailable, so all remain UNSOURCED",
+      "fact_ids": ["fact-stusb-manufacturer", "fact-stusb-order-code", "fact-stusb-pin-states", "fact-stusb-ds12499-primary-attempt"],
+      "blocking_fact_ids": ["fact-stusb-manufacturer", "fact-stusb-order-code", "fact-stusb-pin-states", "fact-stusb-ds12499-primary-attempt"]
+    },
+    {
+      "coverage_id": "cov-stusb-states",
+      "record_id": "rec-stusb4500qtr",
+      "domain": "unpowered/reset/startup/normal/fault/disconnect behavior",
+      "status": "OPEN",
+      "reason": "Exact DS12499 Rev 8 and UM2650 Rev 3 bytes are reproducibly retained from mirrors; primary-only trust in these mirror bytes has not been established, and state behavior still requires programmed/as-built bench confirmation for fact-stusb-ccdb, fact-stusb-disch, fact-stusb-vbus-vs-disch, fact-stusb-vben, fact-stusb-load-time, fact-stusb-state-sequence, fact-stusb-nvm-load, fact-stusb-volatile-pdo, fact-stusb-discharge-registers, and fact-stusb-fault-status; dated 2026-08-02 and 2026-08-14 direct st.com retrievals (fact-stusb-ds12499-primary-attempt, fact-stusb-um2650-primary-attempt) found both primary sources unavailable, so all remain UNSOURCED",
+      "fact_ids": ["fact-stusb-ccdb", "fact-stusb-disch", "fact-stusb-vbus-vs-disch", "fact-stusb-vben", "fact-stusb-load-time", "fact-stusb-state-sequence", "fact-stusb-nvm-load", "fact-stusb-volatile-pdo", "fact-stusb-discharge-registers", "fact-stusb-fault-status", "fact-stusb-ds12499-primary-attempt", "fact-stusb-um2650-primary-attempt"],
+      "blocking_fact_ids": ["fact-stusb-ccdb", "fact-stusb-disch", "fact-stusb-vbus-vs-disch", "fact-stusb-vben", "fact-stusb-load-time", "fact-stusb-state-sequence", "fact-stusb-nvm-load", "fact-stusb-volatile-pdo", "fact-stusb-discharge-registers", "fact-stusb-fault-status", "fact-stusb-ds12499-primary-attempt", "fact-stusb-um2650-primary-attempt"]
+    },
+    {
+      "coverage_id": "cov-stusb-nvm",
+      "record_id": "rec-stusb4500qtr",
+      "domain": "project NVM image and factory-state capture",
+      "status": "OPEN",
+      "reason": "No as-built 40-byte dump or project-normalized image has been supplied for fact-stusb-artifact",
+      "fact_ids": ["fact-stusb-artifact"],
+      "blocking_fact_ids": ["fact-stusb-artifact"]
+    },
+    {
+      "coverage_id": "cov-stusb-endurance",
+      "record_id": "rec-stusb4500qtr",
+      "domain": "NVM write endurance and production write budget",
+      "status": "OPEN",
+      "reason": "No manufacturer-primary endurance row is present in the retained reviewed extracts for fact-stusb-endurance",
+      "fact_ids": ["fact-stusb-endurance"],
+      "blocking_fact_ids": ["fact-stusb-endurance"]
+    },
+    {
+      "coverage_id": "cov-stusb-bringup",
+      "record_id": "rec-stusb4500qtr",
+      "domain": "safe power/provisioning/bench discriminators",
+      "status": "OPEN",
+      "reason": "Operating/state mirror bytes are available, but primary-only trust for fact-stusb-supplies, fact-stusb-vdd-absolute-max, fact-stusb-cc-absolute-max, and fact-stusb-vbus-pin-absolute-max, plus project NVM/readback/power-cycle evidence and bench waveforms, remain open; dated 2026-08-02 and 2026-08-14 direct st.com retrievals (fact-stusb-ds12499-primary-attempt, fact-stusb-um2650-primary-attempt) found both primary sources unavailable, so all remain UNSOURCED",
+      "fact_ids": ["fact-stusb-supplies", "fact-stusb-vdd-absolute-max", "fact-stusb-cc-absolute-max", "fact-stusb-vbus-pin-absolute-max", "fact-stusb-ds12499-primary-attempt", "fact-stusb-um2650-primary-attempt"],
+      "blocking_fact_ids": ["fact-stusb-supplies", "fact-stusb-vdd-absolute-max", "fact-stusb-cc-absolute-max", "fact-stusb-vbus-pin-absolute-max", "fact-stusb-ds12499-primary-attempt", "fact-stusb-um2650-primary-attempt"]
+    },
+    {
+      "coverage_id": "cov-stusb-vreg2v7-load",
+      "record_id": "rec-stusb4500qtr",
+      "domain": "VREG_2V7 external DC loading and NVM-jig voltage matching",
+      "status": "OPEN",
+      "reason": "Pin 23 (VREG_2V7) is documented decoupling-only in DS12499, yet Board P loads it with R15/R16 4.7k I2C pull-ups and exposes it on debug pogo pad J3.3 (net U1.23 C30.2 R15.2 R16.2 J3.3); closure requires a manufacturer-primary locator authorizing this external DC load (or a re-route decision, out of this plan's scope) plus confirmation that the NVM-programming jig's logic levels match 2.7 V before issue #34's programming artifact executes",
+      "fact_ids": ["fact-stusb-vreg2v7-load"],
+      "blocking_fact_ids": ["fact-stusb-vreg2v7-load"]
+    },
+    {
+      "coverage_id": "cov-pesd-spec",
+      "record_id": "rec-pesd24vs1ub",
+      "domain": "identity/pinout/standoff/breakdown/clamp/leakage/package",
+      "status": "COVERED",
+      "reason": "Nexperia datasheet tables and package figure",
+      "fact_ids": [
+        "fact-pesd-manufacturer",
+        "fact-pesd-pinout",
+        "fact-pesd-standoff",
+        "fact-pesd-breakdown",
+        "fact-pesd-clamp",
+        "fact-pesd-leakage",
+        "fact-pesd-capacitance",
+        "fact-pesd-esd"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-pesd-bench",
+      "record_id": "rec-pesd24vs1ub",
+      "domain": "as-built DNP fit state and CC signal-integrity impact",
+      "status": "OPEN",
+      "reason": "The generator marks D6/D7 DNP and no fitted-board measurement exists",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-rd-identity",
+      "record_id": "rec-rd-0603waf5101t5e",
+      "domain": "exact orderable identity and project placement",
+      "status": "COVERED",
+      "reason": "UNI-ROYAL part-number system confirms the exact MPN and ratings; immutable project generator confirms C23186 placements and DNP state",
+      "fact_ids": [
+        "fact-rd-manufacturer",
+        "fact-rd-value",
+        "fact-rd-tolerance",
+        "fact-rd-power",
+        "fact-rd-tcr",
+        "fact-rd-voltage-cap",
+        "fact-rd-rcwv-squared",
+        "fact-rd-pinout",
+        "fact-rd-fit-state"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-rd-primary",
+      "record_id": "rec-rd-0603waf5101t5e",
+      "domain": "manufacturer-primary electrical and mechanical specification",
+      "status": "COVERED",
+      "reason": "UNI-ROYAL SMD-SP-001 V.7 confirms 0603 size, 5.1 kOhm, 1%, 0.1 W, TCR and voltage ratings",
+      "fact_ids": [
+        "fact-rd-manufacturer",
+        "fact-rd-value",
+        "fact-rd-tolerance",
+        "fact-rd-power",
+        "fact-rd-tcr",
+        "fact-rd-voltage-cap",
+        "fact-rd-rcwv-squared",
+        "fact-rd-pinout",
+        "fact-rd-fit-state"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-rd-fit",
+      "record_id": "rec-rd-0603waf5101t5e",
+      "domain": "as-built fit state and external-Rd interaction",
+      "status": "OPEN",
+      "reason": "Generator marks R17/R18 DNP and selects fitted CCDB bridges, but the assembled fit state and parallel-termination behavior require inspection/bench confirmation",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    }
+  ]
+}

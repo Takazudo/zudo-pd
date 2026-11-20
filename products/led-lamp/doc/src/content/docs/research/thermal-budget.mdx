@@ -1,0 +1,58 @@
+---
+title: Thermal Budget — First Pass
+description: Dissipation estimates per LED candidate and driver, and what they imply for PCB copper vs. MCPCB vs. discrete heatsink. Enclosure thermal design is a later phase.
+sidebar_position: 30
+---
+
+This is a **first pass**, sized to inform the LED/driver choice now, not a final thermal design — the enclosure is explicitly out of scope for this epic. The goal here is narrower: which LED candidates from `led-candidates.mdx` are compatible with plain FR-4 copper, and which force an aluminum MCPCB or discrete heatsink onto the board split before the architecture pass locks anything in.
+
+## Method
+
+Two dissipation sources on the LED board:
+
+1. **LED junction dissipation** — for an LED running at forward voltage Vf and current I, essentially all of Vf×I becomes heat (a few percent leaves as light — commercial white LEDs are roughly 20–40% wall-plug efficient at the system level, but for a conservative thermal budget it's standard practice to treat the full electrical input as heat).
+2. **Driver dissipation** — a buck converter isn't 100% efficient; the undelivered fraction becomes heat in the driver IC, inductor, and catch diode. For the driver candidates in `driver-ics.mdx` (PT4115, AL8860, TPS92511 — all simple non-synchronous bucks in this power class), a working assumption of **85–92% efficiency** at these current levels is reasonable pending bench measurement; this pass uses 88% as a mid-estimate.
+
+Driver dissipation ≈ P_LED × (1/η − 1). At η=0.88, that's roughly 14% of the delivered LED power showing up as driver-side heat — e.g. a 3.6W LED load implies ~0.5W dissipated across the driver IC + inductor + diode, concentrated mostly in the IC package.
+
+## Per-candidate dissipation
+
+| LED candidate | Per-unit dissipation | Notes |
+|---|---|---|
+| SMD2835 (60mA bin) | ~0.2W | e.g. XL-2835UWC-02 (C2843876) — Vf 3.4V × 60mA |
+| SMD2835 (150mA bin) | ~0.6W | e.g. HL-A-2835D46W (C210329) — Vf 3.4V × 150mA |
+| SMD5730 (150mA) | ~0.5–0.6W | all three 5730 candidates cluster here |
+| CXA1304 COB (9V/400mA bin) | 3.6W in one 13.4×13.4mm package | concentrated — see below |
+
+A discrete-array design multiplies the per-unit number by however many LEDs the architecture pass lands on (parallel strings × series count) — total board dissipation for, say, 12 SMD2835 units at 150mA is ~7.2W spread across the board footprint, very different from putting the same 7.2W into two COB packages.
+
+## Driver dissipation estimate
+
+| Driver | Target LED load | Estimated driver-side dissipation (η≈88%) |
+|---|---|---|
+| PT4115 / AL8860, ~350mA output | ~1–1.2W (a 3s or 4s discrete string) | ~0.14–0.2W |
+| PT4115 / AL8860, ~1A output | ~3–4W (higher-current string) | ~0.5W |
+| TPS92511, 500mA output | up to ~1.5–2W (single 3s/4s string at its max current) | ~0.2–0.3W |
+| One driver per COB module (9V/400mA) | 3.6W | ~0.5W, concentrated in the SO-8-EP/MSOP package |
+
+These are single-digit-tenths-of-a-watt numbers per driver — small next to the LED dissipation itself, but not negligible if several driver ICs are crowded onto a small board (one-driver-per-parallel-string architecture, see `led-candidates.mdx`).
+
+## PCB thermal strategy: copper pour vs. MCPCB vs. discrete heatsink
+
+Rule-of-thumb sizing (standard 2oz copper on FR-4, natural convection, no forced air — consistent with a decorative lamp, not a fan-cooled fixture):
+
+- **Plain FR-4 with a generous copper pour** (thermal vias to a ground/heatsink-plane pour) comfortably handles on the order of **~1W per LED site** before local temperature rise becomes a real concern for LED lifetime. This covers every 2835/5730 discrete candidate above (0.2–0.6W each) with margin, *provided* the pour area per pad is generous and via-stitched — a token pad with no pour will not hit this.
+- Once a **single site** needs to shed more than roughly 1–1.5W, plain FR-4 copper starts to struggle — thermal resistance from junction to ambient via a thin FR-4 dielectric is fundamentally worse than a metal-core path. This is exactly the CXA1304 COB case at 3.6W in one 13.4mm package: **plain FR-4 copper pour is not a credible thermal path for that candidate.** It needs either an **aluminum MCPCB** (metal-core PCB, thermal resistance roughly an order of magnitude better than FR-4 for the same copper weight) or a **discrete heatsink** bonded to the COB's thermal pad.
+- A discrete-array design that totals several watts across many small LEDs (e.g. 12× SMD2835 at 150mA ≈ 7.2W board-wide) sits in between: no single site is hot, but the *board* as a whole needs enough total copper area and, likely, thermal relief to whatever the LED board mounts to (not just local pours per pad) — this is a board-level layout constraint, not a single-component one.
+
+| LED path | Per-site dissipation | Recommended PCB strategy |
+|---|---|---|
+| SMD2835 / SMD5730 array | 0.2–0.6W each | Plain FR-4, generous copper pour + thermal vias per pad |
+| CXA1304 COB (9V bin) | 3.6W, one site | Aluminum MCPCB or discrete heatsink — plain FR-4 copper is undersized |
+
+## Questions the architecture pass must answer
+
+- If the discrete-array path is chosen, what's the actual LED count/total board dissipation once the brightness target is fixed — does it stay under the "many small sites, generous pour" regime, or does density push toward MCPCB anyway?
+- If the COB path is chosen, does the board split put the COB on its own MCPCB daughter-board, or does the whole LED board go aluminum-core (cost/complexity tradeoff, not resolved here)?
+- Does the driver IC(s) need their own thermal relief beyond a standard pour, given they're clustered with LED heat sources on the same small board?
+- The 85–92% efficiency assumption above is a first-pass estimate, not a datasheet-sourced number for any specific driver at the specific current the architecture pass will pick — worth bench-confirming once a driver is selected, per the general "not yet bench-confirmed" caveat already flagged for the PD front end in issue #5.

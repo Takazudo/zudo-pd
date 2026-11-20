@@ -1,0 +1,2680 @@
+(export
+	(version "E")
+	(design
+		(source "/work/board-p-COUT1206-TRIAL.kicad_sch")
+		(date "2026-10-31T02:02:53")
+		(tool "Eeschema 10.0.6")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title)
+				(company)
+				(rev)
+				(date)
+				(source "board-p-COUT1206-TRIAL.kicad_sch")
+				(comment
+					(number "1")
+					(value "")
+				)
+				(comment
+					(number "2")
+					(value "")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "C1")
+			(value "1uF/50V - EFFECTIVE C OPEN")
+			(footprint "zudo-led-lamp:C0603")
+			(fields
+				(field
+					(name "LCSC") "C15849")
+				(field
+					(name "Footprint") "zudo-led-lamp:C0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "CL10A105KB8NNNC")
+				(description "1uF (105) ±10% 50V")
+			)
+			(property
+				(name "LCSC")
+				(value "C15849")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "Multilayer Ceramic Capacitors MLCC - SMD/SMT")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "5f4c170d-391b-58c8-90e2-9914217f5658")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "CMON")
+			(value "100nF 50V / CC0603KRX7R9BB104")
+			(footprint "zudo-led-lamp:C0603")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "zudo-led-lamp:C0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "C_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "e15ce948-6012-51e5-8518-e21899a4980f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "COUT")
+			(value "4.7uF/50V X7R - TRIAL; EFFECTIVE C QUALIFIED TYPICAL ONLY")
+			(footprint "cout-candidate:COUT_CL31B475KBHNNNE_1206_TRIAL")
+			(datasheet "https://product.samsungsem.com/mlcc/CL31B475KBHNNN.do")
+			(description "UNADOPTED COUT-only 4.7uF 50V X7R 1206; typical 3.197602uF at15V, not guaranteed minimum")
+			(fields
+				(field
+					(name "LCSC") "C51205")
+				(field
+					(name "MPN") "CL31B475KBHNNNE")
+				(field
+					(name "Manufacturer") "Samsung Electro-Mechanics")
+				(field
+					(name "LCSC Part") "C51205")
+				(field
+					(name "Footprint") "cout-candidate:COUT_CL31B475KBHNNNE_1206_TRIAL")
+				(field
+					(name "Datasheet") "https://product.samsungsem.com/mlcc/CL31B475KBHNNN.do")
+				(field
+					(name "Description") "UNADOPTED COUT-only 4.7uF 50V X7R 1206; typical 3.197602uF at15V, not guaranteed minimum")
+			)
+			(libsource
+				(lib "cout-candidate")
+				(part "CL31B475KBHNNNE")
+				(description "UNADOPTED COUT-only 4.7uF 50V X7R 1206; typical 3.197602uF at15V, not guaranteed minimum")
+			)
+			(property
+				(name "LCSC")
+				(value "C51205")
+			)
+			(property
+				(name "MPN")
+				(value "CL31B475KBHNNNE")
+			)
+			(property
+				(name "Manufacturer")
+				(value "Samsung Electro-Mechanics")
+			)
+			(property
+				(name "LCSC Part")
+				(value "C51205")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "Multilayer Ceramic Capacitors MLCC - SMD/SMT")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "73b28bd6-96d1-5532-9cb8-41bc828f37a8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "CSLEW")
+			(value "22nF 50V 5% C0G / GRM21B5C1H223JA01L - PROVISIONAL")
+			(footprint "husb-candidate:GRM21B5C1H223JA01L_MURATA_REFLOW")
+			(fields
+				(field
+					(name "LCSC") "C77069")
+				(field
+					(name "Footprint") "husb-candidate:GRM21B5C1H223JA01L_MURATA_REFLOW")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "C_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C77069")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "ac0de1e1-3618-5612-b7ee-26a83fceb92b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J1")
+			(value "USB4105 TRIAL ADAPTER - UNADOPTED")
+			(footprint "trial:USB4105_V106_TRIAL_UNASSIGNED")
+			(fields
+				(field
+					(name "Footprint") "trial:USB4105_V106_TRIAL_UNASSIGNED")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "trial")
+				(part "USB4105_V107_TRIAL_ADAPTER")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "2beb26bb-8a00-541a-97c2-f779caa42ea9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "A1/B12")
+						)
+						(pin
+							(num "A4/B9")
+						)
+						(pin
+							(num "B8")
+						)
+						(pin
+							(num "A5")
+						)
+						(pin
+							(num "B7")
+						)
+						(pin
+							(num "A6")
+						)
+						(pin
+							(num "A7")
+						)
+						(pin
+							(num "B6")
+						)
+						(pin
+							(num "A8")
+						)
+						(pin
+							(num "B5")
+						)
+						(pin
+							(num "B4/A9")
+						)
+						(pin
+							(num "B1/A12")
+						)
+						(pin
+							(num "S1")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "JOUT1")
+			(value "SHARED OUTPUT - UNQUALIFIED")
+			(footprint "zudo-led-lamp:HDR-TH_6P-P2.54-V-M")
+			(fields
+				(field
+					(name "LCSC") "C492405")
+				(field
+					(name "Footprint") "zudo-led-lamp:HDR-TH_6P-P2.54-V-M")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "PZ254V-11-06P")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C492405")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "Pin Headers")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "4b4fdaa3-c97f-5560-85fd-7b651d8d0131")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "QINH")
+			(value "SMMBT3904LT1G / onsemi")
+			(footprint "husb-candidate:SMMBT3904LT1G_CASE318_ONSEMI_EXAMPLE")
+			(fields
+				(field
+					(name "LCSC") "C84555")
+				(field
+					(name "Footprint") "husb-candidate:SMMBT3904LT1G_CASE318_ONSEMI_EXAMPLE")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "SMMBT3904LT1G")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C84555")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "af776d53-ddb3-50c2-9528-c09209055671")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RB")
+			(value "100000ohm 1% >=0.1W / RT0603BRD07100KL")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C122538")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C122538")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "fba17d7a-fd8b-5217-a5d3-728f237ed623")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RBE")
+			(value "1000000ohm 1% >=0.1W / RC0603FR-071ML")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C105578")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C105578")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "09357af7-0002-52e3-838f-20eddc1c6fba")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RBLEED")
+			(value "2200ohm 1% >=0.5W / 1210W2F2201T5E")
+			(footprint "husb-candidate:RBLEED_1210W2F2201T5E")
+			(fields
+				(field
+					(name "LCSC") "C422361")
+				(field
+					(name "Footprint") "husb-candidate:RBLEED_1210W2F2201T5E")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C422361")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "cd8768d0-cf1b-53f3-a05f-c0934a3bbca4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RG")
+			(value "100000ohm 1% >=0.1W / RT0603BRD07100KL")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C122538")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C122538")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "9b889cff-15d6-5dff-bc95-259113ee720f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RILM")
+			(value "1270ohm 1% >=0.1W / RC0603FR-071K27L")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C245930")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C245930")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f8df42be-0028-5340-8ef1-04a9e46ae7ad")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RISET")
+			(value "22.6k 1% / 0603WAF2262T5E")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C22959")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C22959")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d4115ac9-d145-550a-b1d5-94ee74ea9f17")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RMH1")
+			(value "133k 0.1% / RT0603BRD07133KL")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C861111")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C861111")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "2c6003cd-f48a-5b69-bb50-1c38462463f3")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RMH2")
+			(value "180k 0.1% / RT0603BRD07180KL")
+			(footprint "rmh2-candidate:RMH2_RT0603BRD07180KL_YAGEO_REFLOW_CANDIDATE")
+			(fields
+				(field
+					(name "LCSC") "C326731")
+				(field
+					(name "Footprint") "rmh2-candidate:RMH2_RT0603BRD07180KL_YAGEO_REFLOW_CANDIDATE")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C326731")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "e90a9606-ae72-504a-9c5d-d49f0e1776c1")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RML")
+			(value "10k 0.1% / RT0603BRD0710KL")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C95204")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C95204")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "5f322280-9c57-5b0c-accd-464fac0b007a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "ROVH")
+			(value "133000ohm 0.1% >=0.1W / RT0603BRD07133KL")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C861111")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C861111")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "12e8c8c3-4362-5b47-867d-296f77cdbbf8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "ROVL")
+			(value "10000ohm 0.1% >=0.1W / RT0603BRD0710KL")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C95204")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C95204")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "bfacd234-2f22-56e5-8164-3d2a162a4ebe")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RSLEW")
+			(value "100ohm 1% >=0.1W / 0603WAF1000T5E")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C22775")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C22775")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b85b7a9a-38a0-5aef-b8e0-0739e0684d52")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RUVH")
+			(value "97600ohm 0.1% >=0.1W / RT0603BRD0797K6L")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C861608")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C861608")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b945d56f-f2e6-5eb8-bcef-824f20506220")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RUVL")
+			(value "10000ohm 0.1% >=0.1W / RT0603BRD0710KL")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C95204")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C95204")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b3c10bef-920b-5af0-8b3a-bc300d011179")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "RVSET")
+			(value "14k 1% / 0603WAF1402T5E")
+			(footprint "zudo-led-lamp:R0603")
+			(fields
+				(field
+					(name "LCSC") "C22803")
+				(field
+					(name "Footprint") "zudo-led-lamp:R0603")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "R_CANDIDATE")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C22803")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "8a4eba26-3048-55fb-885d-97e46797476a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "HUSB238_006DD - DRAFT LAND / NOT RELEASED")
+			(footprint "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL")
+			(fields
+				(field
+					(name "LCSC") "C55013903")
+				(field
+					(name "Footprint") "husb-candidate:HUSB238_DFN10_3x3_EP1.7x2.4_PASTE_PROPOSAL")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "HUSB238_006DD")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C55013903")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "a35f6ecc-b892-5e3e-a6b8-67338c85b4f7")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U2")
+			(value "TPS259474LRPWR - TI LAND CANDIDATE / NOT RELEASED")
+			(footprint "husb-candidate:TPS259474_RPW0010A_TI_EXAMPLE")
+			(fields
+				(field
+					(name "LCSC") "C2864845")
+				(field
+					(name "Footprint") "husb-candidate:TPS259474_RPW0010A_TI_EXAMPLE")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "TPS259474LRPWR")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C2864845")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "2e3f8600-71bb-59f1-9797-154ee271541c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "UMON")
+			(value "TPS3701DDCT CHARACTERIZATION ONLY")
+			(footprint "monitor-candidate:TPS3701_DDC0006A_DRAFT")
+			(fields
+				(field
+					(name "LCSC") "C132027")
+				(field
+					(name "Footprint") "monitor-candidate:TPS3701_DDC0006A_DRAFT")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "zudo-led-lamp")
+				(part "TPS3701DDCT")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C132027")
+			)
+			(property
+				(name "Sheetname")
+				(value "board-p-COUT1206-TRIAL")
+			)
+			(property
+				(name "Sheetfile")
+				(value "board-p-COUT1206-TRIAL.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "353b606a-2027-5729-93de-225add79a367")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "cout-candidate")
+			(part "CL31B475KBHNNNE")
+			(description "UNADOPTED COUT-only 4.7uF 50V X7R 1206; typical 3.197602uF at15V, not guaranteed minimum")
+			(docs "https://product.samsungsem.com/mlcc/CL31B475KBHNNN.do")
+			(fields
+				(field
+					(name "Reference") "C")
+				(field
+					(name "Value") "4.7uF/50V X7R - TRIAL; EFFECTIVE C QUALIFIED TYPICAL ONLY")
+				(field
+					(name "Footprint") "cout-candidate:COUT_CL31B475KBHNNNE_1206_TRIAL")
+				(field
+					(name "Datasheet") "https://product.samsungsem.com/mlcc/CL31B475KBHNNN.do")
+				(field
+					(name "Description") "UNADOPTED COUT-only 4.7uF 50V X7R 1206; typical 3.197602uF at15V, not guaranteed minimum")
+				(field
+					(name "Manufacturer") "Samsung Electro-Mechanics")
+				(field
+					(name "MPN") "CL31B475KBHNNNE")
+				(field
+					(name "LCSC Part") "C51205")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "trial")
+			(part "USB4105_V107_TRIAL_ADAPTER")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "USB4105_V107_TRIAL_ADAPTER")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "A1/B12")
+					(name "A1/B12")
+					(type "passive")
+				)
+				(pin
+					(num "A4/B9")
+					(name "A4/B9")
+					(type "passive")
+				)
+				(pin
+					(num "A5")
+					(name "A5")
+					(type "passive")
+				)
+				(pin
+					(num "A6")
+					(name "A6")
+					(type "passive")
+				)
+				(pin
+					(num "A7")
+					(name "A7")
+					(type "passive")
+				)
+				(pin
+					(num "A8")
+					(name "A8")
+					(type "passive")
+				)
+				(pin
+					(num "B1/A12")
+					(name "B1/A12")
+					(type "passive")
+				)
+				(pin
+					(num "B4/A9")
+					(name "B4/A9")
+					(type "passive")
+				)
+				(pin
+					(num "B5")
+					(name "B5")
+					(type "passive")
+				)
+				(pin
+					(num "B6")
+					(name "B6")
+					(type "passive")
+				)
+				(pin
+					(num "B7")
+					(name "B7")
+					(type "passive")
+				)
+				(pin
+					(num "B8")
+					(name "B8")
+					(type "passive")
+				)
+				(pin
+					(num "S1")
+					(name "S1")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "CL10A105KB8NNNC")
+			(description "1uF (105) ±10% 50V")
+			(docs "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_SAMSUNG_CL10A105KB8NNNC_1uF-105-10-50V_C15849.html")
+			(fields
+				(field
+					(name "Reference") "C")
+				(field
+					(name "Value") "CL10A105KB8NNNC")
+				(field
+					(name "Footprint") "zudo-led-lamp:C0603")
+				(field
+					(name "Datasheet") "https://lcsc.com/product-detail/Multilayer-Ceramic-Capacitors-MLCC-SMD-SMT_SAMSUNG_CL10A105KB8NNNC_1uF-105-10-50V_C15849.html")
+				(field
+					(name "Description") "1uF (105) ±10% 50V")
+				(field
+					(name "Manufacturer") "SAMSUNG(三星)")
+				(field
+					(name "MPN") "CL10A105KB8NNNC")
+				(field
+					(name "LCSC Part") "C15849")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "C_CANDIDATE")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "C_CANDIDATE")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "HUSB238_006DD")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "HUSB238_006DD")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "D+")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "D-")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "CC1")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "CC2")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "SDA")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "SCL")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "VSET")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "ISET")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "GATE")
+					(type "open_collector")
+				)
+				(pin
+					(num "11")
+					(name "GND_EP")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "PZ254V-11-06P")
+			(docs "https://lcsc.com/product-detail/New-Arrivals_XFCN-PZ254V-11-06P_C492405.html")
+			(fields
+				(field
+					(name "Reference") "H")
+				(field
+					(name "Value") "PZ254V-11-06P")
+				(field
+					(name "Footprint") "zudo-led-lamp:HDR-TH_6P-P2.54-V-M")
+				(field
+					(name "Datasheet") "https://lcsc.com/product-detail/New-Arrivals_XFCN-PZ254V-11-06P_C492405.html")
+				(field
+					(name "Description")
+				)
+				(field
+					(name "Manufacturer") "XFCN(兴飞)")
+				(field
+					(name "MPN") "PZ254V-11-06P")
+				(field
+					(name "LCSC Part") "C492405")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "5")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "6")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "R_CANDIDATE")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "R_CANDIDATE")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "SMMBT3904LT1G")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "SMMBT3904LT1G")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "B")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "E")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "C")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "TPS259474LRPWR")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "TPS259474LRPWR")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "EN_UVLO")
+					(type "input")
+				)
+				(pin
+					(num "2")
+					(name "OVLO")
+					(type "input")
+				)
+				(pin
+					(num "3")
+					(name "PG")
+					(type "open_collector")
+				)
+				(pin
+					(num "4")
+					(name "PGTH")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "IN")
+					(type "power_in")
+				)
+				(pin
+					(num "6")
+					(name "OUT")
+					(type "power_out")
+				)
+				(pin
+					(num "7")
+					(name "DVDT")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "9")
+					(name "ILM")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "ITIMER")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "zudo-led-lamp")
+			(part "TPS3701DDCT")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "TPS3701DDCT")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "OUTA")
+					(type "open_collector")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "INA")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "INB")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "VDD")
+					(type "power_in")
+				)
+				(pin
+					(num "6")
+					(name "OUTB")
+					(type "open_collector")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "cout-candidate")
+			(uri "${KIPRJMOD}/libraries/cout-candidate.kicad_sym")
+		)
+		(library
+			(logical "trial")
+			(uri "${KIPRJMOD}/libraries/trial.kicad_sym")
+		)
+		(library
+			(logical "zudo-led-lamp")
+			(uri "${KIPRJMOD}/libraries/retained.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "CONTRACT_GATE_N")
+			(class "Default")
+			(node
+				(ref "RB")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "RG")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "10")
+				(pinfunction "GATE_10")
+				(pintype "open_collector")
+			)
+		)
+		(net
+			(code "2")
+			(name "DVDT")
+			(class "Default")
+			(node
+				(ref "RSLEW")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "7")
+				(pinfunction "DVDT_7")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "DVDT_CAP")
+			(class "Default")
+			(node
+				(ref "CSLEW")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "RSLEW")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "4")
+			(name "EN_UVLO")
+			(class "Default")
+			(node
+				(ref "QINH")
+				(pin "3")
+				(pinfunction "C_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "RUVH")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RUVL")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "1")
+				(pinfunction "EN_UVLO_1")
+				(pintype "input")
+			)
+			(node
+				(ref "UMON")
+				(pin "1")
+				(pinfunction "OUTA_1")
+				(pintype "open_collector")
+			)
+		)
+		(net
+			(code "5")
+			(name "GND")
+			(class "Default")
+			(node
+				(ref "C1")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "CMON")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "COUT")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "CSLEW")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "A1/B12")
+				(pinfunction "A1/B12_A1/B12")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "B1/A12")
+				(pinfunction "B1/A12_B1/A12")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "S1")
+				(pinfunction "S1_S1")
+				(pintype "passive")
+			)
+			(node
+				(ref "JOUT1")
+				(pin "5")
+				(pinfunction "5_5")
+				(pintype "passive")
+			)
+			(node
+				(ref "JOUT1")
+				(pin "6")
+				(pinfunction "6_6")
+				(pintype "passive")
+			)
+			(node
+				(ref "QINH")
+				(pin "2")
+				(pinfunction "E_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RBE")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RBLEED")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RILM")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RISET")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RML")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "ROVL")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RUVL")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RVSET")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "11")
+				(pinfunction "GND_EP_11")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "4")
+				(pinfunction "PGTH_4")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "8")
+				(pinfunction "GND_8")
+				(pintype "power_in")
+			)
+			(node
+				(ref "UMON")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "UMON")
+				(pin "4")
+				(pinfunction "INB_4")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "6")
+			(name "ILM")
+			(class "Default")
+			(node
+				(ref "RILM")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "9")
+				(pinfunction "ILM_9")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "7")
+			(name "INHIBIT_BASE")
+			(class "Default")
+			(node
+				(ref "QINH")
+				(pin "1")
+				(pinfunction "B_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "RB")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RBE")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "8")
+			(name "ISET")
+			(class "Default")
+			(node
+				(ref "RISET")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "9")
+				(pinfunction "ISET_9")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "9")
+			(name "MONITOR_DIVIDER_SERIES")
+			(class "Default")
+			(node
+				(ref "RMH1")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RMH2")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "10")
+			(name "MONITOR_SENSE")
+			(class "Default")
+			(node
+				(ref "RMH2")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RML")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "UMON")
+				(pin "3")
+				(pinfunction "INA_3")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "11")
+			(name "OVLO")
+			(class "Default")
+			(node
+				(ref "ROVH")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "ROVL")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "2")
+				(pinfunction "OVLO_2")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "12")
+			(name "RAW_USB_VBUS")
+			(class "Default")
+			(node
+				(ref "C1")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "CMON")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "A4/B9")
+				(pinfunction "A4/B9_A4/B9")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "B4/A9")
+				(pinfunction "B4/A9_B4/A9")
+				(pintype "passive")
+			)
+			(node
+				(ref "RG")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "RMH1")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "ROVH")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "RUVH")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "1")
+				(pinfunction "VIN_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "5")
+				(pinfunction "IN_5")
+				(pintype "power_in")
+			)
+			(node
+				(ref "UMON")
+				(pin "5")
+				(pinfunction "VDD_5")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "13")
+			(name "SWITCHED_OUTPUT")
+			(class "Default")
+			(node
+				(ref "COUT")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "JOUT1")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "JOUT1")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "RBLEED")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "6")
+				(pinfunction "OUT_6")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "14")
+			(name "USB_CC1")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "A5")
+				(pinfunction "A5_A5")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "4")
+				(pinfunction "CC1_4")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "15")
+			(name "USB_CC2")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "B5")
+				(pinfunction "B5_B5")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "5")
+				(pinfunction "CC2_5")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "16")
+			(name "USB_DM")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "A7")
+				(pinfunction "A7_A7")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "B7")
+				(pinfunction "B7_B7")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "3")
+				(pinfunction "D-_3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "17")
+			(name "USB_DP")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "A6")
+				(pinfunction "A6_A6")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "B6")
+				(pinfunction "B6_B6")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "2")
+				(pinfunction "D+_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "18")
+			(name "VSET")
+			(class "Default")
+			(node
+				(ref "RVSET")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "8")
+				(pinfunction "VSET_8")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "19")
+			(name "unconnected-(J1-PadA8)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "A8")
+				(pinfunction "A8_A8")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "20")
+			(name "unconnected-(J1-PadB8)")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "B8")
+				(pinfunction "B8_B8")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "21")
+			(name "unconnected-(JOUT1-Pad3)")
+			(class "Default")
+			(node
+				(ref "JOUT1")
+				(pin "3")
+				(pinfunction "3_3")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "22")
+			(name "unconnected-(JOUT1-Pad4)")
+			(class "Default")
+			(node
+				(ref "JOUT1")
+				(pin "4")
+				(pinfunction "4_4")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "23")
+			(name "unconnected-(U1-SCL-Pad7)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "7")
+				(pinfunction "SCL_7")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "24")
+			(name "unconnected-(U1-SDA-Pad6)")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "6")
+				(pinfunction "SDA_6")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "25")
+			(name "unconnected-(U2-ITIMER-Pad10)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "10")
+				(pinfunction "ITIMER_10")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "26")
+			(name "unconnected-(U2-PG-Pad3)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "3")
+				(pinfunction "PG_3")
+				(pintype "open_collector+no_connect")
+			)
+		)
+		(net
+			(code "27")
+			(name "unconnected-(UMON-OUTB-Pad6)")
+			(class "Default")
+			(node
+				(ref "UMON")
+				(pin "6")
+				(pinfunction "OUTB_6")
+				(pintype "open_collector+no_connect")
+			)
+		)
+	)
+)

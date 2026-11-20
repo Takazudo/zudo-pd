@@ -1,0 +1,135 @@
+---
+title: "Control Research: Safe Default-OFF and Fault Handling"
+description: Historical LED page copied from zudo-led-lamp at 88cb1740; current status lives in the LED Lamp section.
+sidebar_position: 90
+---
+
+> **Historical LED page** copied from zudo-led-lamp at `88cb1740`; current status lives in [LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/doc/src/content/docs/research/control-safety.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/research/control-safety/).
+
+> **Integrated context.** These default-off and fault-handling sketches are source-era analysis, not proof of current firmware or measured failsafe behavior. Consult the [LED status](../architecture/current-state.mdx) before implementation or testing.
+
+:::note[Current control revision — 2026-09-06]
+The current design uses **RV1 ALPS RK10J11E0034 / C470643**, a stopped 10 kΩ
+potentiometer with 270°±10° travel, and **SW2 G-Switch SS-12D01-G020 / C5446803**.
+Encoder comparisons and example firmware below are historical research, not the
+current netlist or executable firmware. See [Board L's current ADC mapping](/docs/led-lamp/architecture/board-l/#mcu-knob-and-dimming-path-knob-mapping).
+The absolute ADC position replaces edge counting and the old fixed startup target;
+start dark and ramp only after valid position, PD-status and thermal checks.
+:::
+
+
+## Safe default-OFF
+
+The requirement: **the LED must stay off from the moment power is applied until the MCU firmware has booted and actively asserts the dim signal** — not "off by default in firmware," but off by hardware default, before firmware has run at all.
+
+This matters because every MCU has a window, between power-up and the point where its firmware initializes GPIO directions, where its pins are in an undefined or high-impedance (floating) state:
+
+- On power-up, before the internal power-on-reset (POR) releases the core, and briefly after, GPIOs are typically **high-impedance inputs** (this is true across all three MCU candidates in [mcu-candidates](/docs/led-lamp/research/mcu-candidates/) — CH32V003, STM32C0/G0, and PY32F0 all reset to floating/input GPIO state).
+- A floating pin has an undefined logic level — it can read or drive anywhere between rails depending on board noise, capacitive coupling, and the driver IC's own input characteristics.
+- If the LED driver's dim pin floats to "enabled" during this window (even briefly, or during a brown-out/reset event later), the LED could flash or glow unintentionally.
+
+**The fix has to live in hardware, not firmware:** add an external pull resistor on the driver's dim-pin net so that a floating/undefined MCU pin resolves to the "off" state by default, and firmware then actively overrides it once it's ready:
+
+- If the driver's dim pin is **active-high** (a high level enables output), add a **pull-down** resistor (e.g., 10kΩ) from the dim-pin net to ground. A floating MCU pin reads/settles near 0V through the pull-down → driver stays disabled. Firmware then configures the pin as an output and drives it high (or starts PWM) only once initialization completes.
+- If the driver's dim pin is **active-low** (a low level enables output — less common but some drivers work this way), the resistor direction flips: a **pull-up** to the logic rail instead.
+- If the dim pin expects an **analog control voltage** rather than a logic level (see the driver-interaction note in [modulation-algorithms](/docs/led-lamp/research/modulation-algorithms/)), the same principle applies to whichever polarity means "off": bias that node to the off-state voltage by default (e.g., pull to ground if 0V means off) so an un-driven MCU output — or an RC-filtered PWM pin during its power-up float — settles into the safe state, not an ambiguous mid-rail voltage that could pass as a "some brightness" signal.
+
+The exact polarity and resistor placement depend on the final driver IC choice (owned by the sibling `driver-*` research) — this page documents the *principle* (default-off must be a passive hardware guarantee, not a firmware promise) rather than a specific pull direction, since the driver isn't picked yet.
+
+**Additional consideration — reset/brown-out events:** the pull resistor's protection isn't just for the initial power-up — it also covers any later event where the MCU resets (brown-out, watchdog timeout, ESD glitch) and its GPIOs briefly re-enter the floating reset state. The dim pin returns to "off" every time the MCU isn't actively driving it, which is the correct fail-safe behavior for a lamp (fail dark, not fail bright).
+
+```
+Power rail ──┬── LED driver dim pin ──┬── pull-down (e.g. 10k) ── GND   [active-high dim example]
+             │                        │
+             └── (rest of driver)     └── MCU GPIO (configured as output only after firmware init)
+```
+
+## Fault handling sketch
+
+None of this needs to be elaborate for a decorative lamp, but a few cheap checks avoid obviously bad failure modes.
+
+### Knob-fault fallback
+
+If the knob is a potentiometer (see [control-knob](/docs/led-lamp/research/control-knob/) — though the honest JLCPCB-availability verdict there favors a rotary encoder instead), an open-circuit wiper (broken connection, bad solder joint) leaves the ADC input floating, which reads as noisy/erratic rather than a stable value. If the knob is an encoder, a stuck or bouncing quadrature line can produce invalid A/B transition sequences.
+
+```c
+// Potentiometer route: bias the ADC pin so an open wiper reads a defined level
+// (external pull resistor on the ADC input, same principle as the dim-pin pull above)
+// rather than floating to arbitrary noise.
+
+uint8_t last_good_reading = DEFAULT_SAFE_BRIGHTNESS;  // e.g. ~40% — sane, not blinding, not off
+uint8_t consecutive_jitter_count = 0;
+
+uint8_t read_knob_with_fault_check(void) {
+    uint16_t raw = adc_read(KNOB_CHANNEL);
+    uint8_t  scaled = scale_to_0_255(raw);
+
+    if (abs((int)scaled - (int)last_good_reading) > JITTER_THRESHOLD) {
+        consecutive_jitter_count++;
+        if (consecutive_jitter_count > FAULT_SAMPLE_COUNT) {
+            return DEFAULT_SAFE_BRIGHTNESS;   // fall back, don't chase noise
+        }
+    } else {
+        consecutive_jitter_count = 0;
+        last_good_reading = scaled;
+    }
+    return last_good_reading;
+}
+```
+
+```c
+// Encoder route: reject invalid A/B transitions (both edges changing at once,
+// which is not physically possible from a real quadrature signal) rather than
+// applying a bogus increment; if invalid transitions persist, hold last value.
+
+int8_t decode_quadrature_step(uint8_t a, uint8_t b, uint8_t prev_a, uint8_t prev_b) {
+    uint8_t transition = (prev_a << 3) | (prev_b << 2) | (a << 1) | b;
+    switch (transition) {
+        case 0b0001: case 0b0111: case 0b1110: case 0b1000: return +1;
+        case 0b0010: case 0b1011: case 0b1101: case 0b0100: return -1;
+        case 0b0000: case 0b0101: case 0b1010: case 0b1111: return 0;   // no change / same state
+        default: return 0;   // invalid transition (both bits flipped) — ignore, don't jump
+    }
+}
+```
+
+### Over-temperature derating hook
+
+Thermal management itself is owned by the sibling `thermal-*` research, but the control firmware needs a hook to respond to it — e.g., an NTC thermistor on a spare ADC channel, or a digital over-temp flag from the driver/thermal circuit:
+
+```c
+// Called once per animation frame, after the modulation algorithm computes
+// its target perceptual brightness but before the gamma LUT + PWM write.
+
+uint8_t apply_thermal_derate(uint8_t requested_brightness, uint16_t temp_c_x10) {
+    if (temp_c_x10 >= CRITICAL_TEMP_X10) {
+        return 0;                                   // hard cutoff — protect hardware
+    }
+    if (temp_c_x10 >= DERATE_START_TEMP_X10) {
+        // linear derate between DERATE_START and CRITICAL
+        uint16_t range = CRITICAL_TEMP_X10 - DERATE_START_TEMP_X10;
+        uint16_t over  = temp_c_x10 - DERATE_START_TEMP_X10;
+        uint8_t  scale = 255 - (uint8_t)((over * 255) / range);
+        return (uint8_t)(((uint16_t)requested_brightness * scale) >> 8);
+    }
+    return requested_brightness;                     // normal operation
+}
+```
+
+This composes cleanly with any of the three modulation approaches from [modulation-algorithms](/docs/led-lamp/research/modulation-algorithms/) — it's just one more stage in the pipeline (`modulation algorithm -> thermal derate -> gamma LUT -> PWM write`), and doesn't need to know which algorithm produced the requested value.
+
+## Questions the architecture pass must answer
+
+- What is the driver's dim-pin active polarity (active-high vs. active-low, or analog-voltage "off" level) — needed to finalize the pull-resistor direction and value. Depends on the driver IC chosen in the sibling power-stage research.
+- What temperature sensing does the thermal design actually provide (NTC on a spare ADC channel, a digital over-temp comparator output, or something on the driver IC itself) — this page assumes an ADC-readable temperature value but the actual signal type depends on the `thermal-*` research.
+- What counts as `DEFAULT_SAFE_BRIGHTNESS` for a knob-fault fallback — a fixed firmware constant is simplest, but should it be tunable, and should a persistent knob fault (not just transient jitter) also trigger any user-visible indication (if a status LED exists on the logic rail)?
+- Should the pull-down/pull-up resistor value be tuned against the MCU's internal weak pull-up/down strength (all three MCU candidates have configurable internal pulls) to potentially avoid an external resistor entirely for the dim-pin default-off guarantee, or is an external resistor preferred for reliability independent of firmware GPIO configuration timing?
+
+
+## Current potentiometer fault boundary
+
+R22 (100 kΩ) pulls BRIGHT_ADC down and C22 (100 nF) filters it; an open wiper
+decays toward dark with nominal 10 ms RC. R27 is 100 Ω in series. This does not
+identify every fault: a stuck wiper or short to V3P3 can resemble a valid setting.
+Validate ADC acquisition/calibration, clamp readings, retain independent PD and
+thermal gates, and keep PWM off until startup checks pass.

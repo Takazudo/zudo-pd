@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-type-c-31-m-17",
+      "record_id": "rec-type-c-31-m-17",
+      "symbol": "TYPE-C-31-M-17",
+      "footprint": "USB-C-SMD_10P-P1.00-L6.8-W8.9",
+      "pins": [
+        {
+          "symbol_pin": "0",
+          "name": "SHIELD",
+          "footprint_pad": "0",
+          "function": "shell/ground project mapping"
+        },
+        {
+          "symbol_pin": "1",
+          "name": "GND1",
+          "footprint_pad": "1",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "VBUS1",
+          "footprint_pad": "2",
+          "function": "VBUS_IN"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "CC1",
+          "footprint_pad": "3",
+          "function": "configuration channel 1"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "CC2",
+          "footprint_pad": "4",
+          "function": "configuration channel 2"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "VBUS2",
+          "footprint_pad": "5",
+          "function": "VBUS_IN duplicate"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "GND2",
+          "footprint_pad": "6",
+          "function": "ground duplicate"
+        }
+      ],
+      "reviewed_by": "board_p_spec.py project mapping only; physical connector mapping remains UNSOURCED"
+    }
+  ]
+}

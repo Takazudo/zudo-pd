@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c470643-identity",
+      "record_id": "rec-c470643",
+      "domain": "identity and documented component characteristics",
+      "status": "COVERED",
+      "reason": "Exact component identity and retained authoritative evidence; installation and firmware are separate.",
+      "fact_ids": [
+        "fact-c470643-manufacturer",
+        "fact-c470643-resistance",
+        "fact-c470643-tolerance",
+        "fact-c470643-taper",
+        "fact-c470643-rating",
+        "fact-c470643-terminals",
+        "fact-c470643-mounting",
+        "fact-c470643-stops",
+        "fact-c470643-life",
+        "fact-c470643-ambient",
+        "fact-c470643-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c470643-open-0",
+      "record_id": "rec-c470643",
+      "domain": "installed-seating-and-contact-life",
+      "status": "OPEN",
+      "reason": "Prototype the insertion part in the project 1.6 mm PCB; catalog notation Insertion (t: 2 mm) is retained without treating it as a mandatory substrate thickness; verify mounting, retention, underside clearance, contact behavior and operational life. Manufacturer catalog lists Manual soldering while JLCPCB lists Wave Soldering; resolve the permitted process before fabrication.",
+      "fact_ids": [
+        "fact-c470643-mounting",
+        "fact-c470643-life"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c470643-open-1",
+      "record_id": "rec-c470643",
+      "domain": "adc-acquisition-calibration-and-firmware",
+      "status": "OPEN",
+      "reason": "The source impedance and RC values are design calculations; verify ADC sampling, reference, errata, endpoint/inversion calibration, startup and actual programmed behavior.",
+      "fact_ids": [
+        "fact-c470643-adc-design",
+        "fact-c470643-firmware-target"
+      ],
+      "blocking_fact_ids": []
+    }
+  ]
+}

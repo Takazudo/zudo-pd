@@ -1,0 +1,121 @@
+---
+title: C3 and C5 item evidence
+sidebar_position: 5
+---
+
+# C3 and C5 item evidence
+
+> **Review record only.** This is a per-item reading of retained sources. It does not adopt shared component identities, fitted state, CAD or publication.
+
+## Overlapping part identities
+
+The exact source digest and owner-file locks for every row are in the machine-readable bundle. A shared source or equal pin rows is evidence for review, not proof of shared use or CAD equivalence.
+
+| LED line | Different identity fields | Shared retained source hashes | Pin rows equal | Disposition |
+| --- | --- | ---: | --- | --- |
+| `line-c283540` | none | 3 | yes | equal identity text; independent use/pin/CAD review held |
+| `line-c2678061` | manufacturer | 3 | yes | exact identity conflict; keep distinct |
+| `line-c347476` | manufacturer | 1 | no/unavailable | exact identity conflict; keep distinct |
+| `line-c571370` | package | 2 | no/unavailable | exact identity conflict; keep distinct |
+| `line-c85382` | mpn | 0 | no/unavailable | exact identity conflict; keep distinct |
+| `line-c13585` | none | 2 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+| `line-c14663` | none | 1 | yes | equal identity text; independent use/pin/CAD review held |
+| `line-c15849` | none | 2 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+| `line-c25803` | none | 1 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+| `line-c22807` | none | 1 | yes | equal identity text; independent use/pin/CAD review held |
+| `line-c23179` | none | 1 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+| `line-c23162` | none | 1 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+| `line-c23186` | none | 1 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+| `line-c21189` | none | 1 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+| `line-c17414` | none | 1 | yes | equal identity text; independent use/pin/CAD review held |
+| `line-c492405` | none | 3 | yes | equal identity text; independent use/pin/CAD review held |
+| `line-c2832269` | none | 3 | no/unavailable | equal identity text; independent use/pin/CAD review held |
+
+The four exact text conflicts are STUSB4500 manufacturer spelling, AO3401A manufacturer spelling, SMAJ20A package/footprint dimensions, and PESD24VS1UB order suffix. The SMAJ20A footprint names and pin text also differ; retain separate footprints. Shared source hashes do not resolve those project-specific choices.
+
+## Seven historical DNP flags against the dated export
+
+The 2026-09-19 BOM/CPL/excluded files and upload-set README are locked in the bundle. This is the export's requested population, not evidence of an assembled board. Authored Board L/SWD pages describe hand-fit headers, while the upload-set README requests all connector headers for JLCPCB soldering. Keep that unresolved document disagreement visible.
+
+| Board/refdes | 2026-09-19 export | Historical line flag | Current design/physical state |
+| --- | --- | --- | --- |
+| `board-p/D6` | 2026-09-19 export excludes placement | DNP | held / unverified |
+| `board-p/D7` | 2026-09-19 export excludes placement | DNP | held / unverified |
+| `board-p/R17` | 2026-09-19 export excludes placement | DNP | held / unverified |
+| `board-p/R18` | 2026-09-19 export excludes placement | DNP | held / unverified |
+| `board-l/J3` | 2026-09-19 export requests placement despite line-level DNP | DNP | held / unverified |
+| `swd-adapter/J2` | 2026-09-19 export requests placement despite line-level DNP | DNP | held / unverified |
+| `swd-adapter/J1` | 2026-09-19 export requests placement despite line-level DNP | DNP | held / unverified |
+
+**Recommendation:** treat Board P D6/D7/R17/R18 as excluded in that dated package; treat Board L J3 and SWD J1/J2 as requested placements in that dated package. Do not copy the line DNP flag to those three placements. Reconcile the current board and supplier preview before any assembly or manufacturing claim.
+
+## CAD files
+
+All 21 same-relative paths were compared as current bytes against the preserved C3 map. Only the KiCad project file is equal-byte; 20 paths differ. Footprint pad-number multisets are inspected but say nothing about pad geometry or model placement. The full per-path Git blob IDs, sizes and pad lists are in the bundle. Retain product-specific roots.
+
+| Relative path | Bytes | Pad numbers |
+| --- | --- | --- |
+| `boards/board-p/board-p.kicad_pcb` | different | n/a |
+| `boards/board-p/board-p.kicad_pro` | equal | n/a |
+| `boards/board-p/board-p.kicad_sch` | different | n/a |
+| `boards/board-p/fp-lib-table` | different | n/a |
+| `boards/board-p/sym-lib-table` | different | n/a |
+| `footprints/CLAUDE.md` | different | n/a |
+| `footprints/kicad/C0603.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/C0805.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/C1206.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/F1206.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/HDR-TH_6P-P2.54-V-F.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/HDR-TH_6P-P2.54-V-M.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/PogoPad_1x04_P2.54mm.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/PogoPad_1x08_P2.54mm.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/R0603.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/R0805.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/SOD-523_L1.2-W0.8-LS1.6-RD.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/SOT-23_L2.9-W1.3-P1.90-LS2.4-BR.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/TestPad_D1.5mm.kicad_mod` | different | same count/numbers |
+| `footprints/kicad/USB-C-SMD_10P-P1.00-L6.8-W8.9.kicad_mod` | different | same count/numbers |
+
+## Authored page candidates
+
+Every copied page has an exact source digest in the bundle and a published historical copy route. Twenty-five pages have no *detected* held generated-route or asset dependency; all still need editorial and publication review. The other nine have item-specific dependencies. Three legacy routes collide with PD, so blanket same-host redirects cannot preserve them.
+
+| Old route | Historical copy route | Held generated links | Held asset links | PD collision |
+| --- | --- | ---: | ---: | --- |
+| `/docs/architecture/board-l/` | `/docs/led-lamp/architecture/board-l/` | 3 | 0 | no |
+| `/docs/architecture/board-p/` | `/docs/led-lamp/architecture/board-p/` | 0 | 0 | yes |
+| `/docs/architecture/bom/` | `/docs/led-lamp/architecture/bom/` | 5 | 0 | no |
+| `/docs/architecture/component-selection-guidelines/` | `/docs/led-lamp/architecture/component-selection-guidelines/` | 1 | 0 | no |
+| `/docs/architecture/current-state/` | `/docs/led-lamp/architecture/current-state/` | 0 | 0 | no |
+| `/docs/architecture/decisions/` | `/docs/led-lamp/architecture/decisions/` | 15 | 0 | no |
+| `/docs/architecture/enclosure/` | `/docs/led-lamp/architecture/enclosure/` | 0 | 10 | no |
+| `/docs/architecture/` | `/docs/led-lamp/architecture/` | 0 | 0 | yes |
+| `/docs/architecture/next-steps/` | `/docs/led-lamp/architecture/next-steps/` | 0 | 0 | no |
+| `/docs/architecture/overview/` | `/docs/led-lamp/architecture/overview/` | 0 | 0 | no |
+| `/docs/architecture/power-switch/` | `/docs/led-lamp/architecture/power-switch/` | 0 | 0 | no |
+| `/docs/architecture/rear-controls/` | `/docs/led-lamp/architecture/rear-controls/` | 0 | 2 | no |
+| `/docs/architecture/swd-adapter/` | `/docs/led-lamp/architecture/swd-adapter/` | 2 | 0 | no |
+| `/docs/getting-started/` | `/docs/led-lamp/getting-started/` | 0 | 0 | no |
+| `/docs/getting-started/installation/` | `/docs/led-lamp/getting-started/installation/` | 0 | 0 | no |
+| `/docs/getting-started/introduction/` | `/docs/led-lamp/getting-started/introduction/` | 0 | 0 | no |
+| `/docs/how-to/ci-cloudflare-setup/` | `/docs/led-lamp/how-to/ci-cloudflare-setup/` | 0 | 0 | no |
+| `/docs/how-to/component-docs-adoption/` | `/docs/led-lamp/how-to/component-docs-adoption/` | 3 | 0 | no |
+| `/docs/how-to/` | `/docs/led-lamp/how-to/` | 0 | 0 | no |
+| `/docs/power/board-p-front-end/` | `/docs/led-lamp/power/board-p-front-end/` | 0 | 0 | no |
+| `/docs/power/charger-compatibility/` | `/docs/led-lamp/power/charger-compatibility/` | 0 | 0 | no |
+| `/docs/power/` | `/docs/led-lamp/power/` | 0 | 0 | no |
+| `/docs/power/lessons-from-zudo-pd/` | `/docs/led-lamp/power/lessons-from-zudo-pd/` | 0 | 0 | no |
+| `/docs/power/ratings-matrix/` | `/docs/led-lamp/power/ratings-matrix/` | 31 | 0 | no |
+| `/docs/research/control-knob/` | `/docs/led-lamp/research/control-knob/` | 0 | 0 | no |
+| `/docs/research/control-logic-rail/` | `/docs/led-lamp/research/control-logic-rail/` | 0 | 0 | no |
+| `/docs/research/control-safety/` | `/docs/led-lamp/research/control-safety/` | 0 | 0 | no |
+| `/docs/research/driver-ics/` | `/docs/led-lamp/research/driver-ics/` | 0 | 0 | no |
+| `/docs/research/` | `/docs/led-lamp/research/` | 0 | 0 | yes |
+| `/docs/research/led-candidates/` | `/docs/led-lamp/research/led-candidates/` | 0 | 0 | no |
+| `/docs/research/led-interconnect/` | `/docs/led-lamp/research/led-interconnect/` | 0 | 0 | no |
+| `/docs/research/mcu-candidates/` | `/docs/led-lamp/research/mcu-candidates/` | 0 | 0 | no |
+| `/docs/research/modulation-algorithms/` | `/docs/led-lamp/research/modulation-algorithms/` | 0 | 0 | no |
+| `/docs/research/thermal-budget/` | `/docs/led-lamp/research/thermal-budget/` | 0 | 0 | no |
+
+The [machine-readable item review](https://github.com/Takazudo/zudo-pd/blob/codex/c3-c5-item-evidence-20261117-01/circuit/orchestration/campaigns/pd-led-20261117-integration/c3-c5-item-evidence.json) retains exact source hashes, BOM/CPL rows, owner files, CAD blobs and page paths. Publication, preview and physical work remain held.

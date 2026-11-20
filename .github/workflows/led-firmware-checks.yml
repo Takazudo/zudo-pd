@@ -1,0 +1,79 @@
+# Root-discovered Board L firmware gates for the imported LED product.
+# Source: products/led-lamp/.github/workflows/firmware-host-tests.yml.
+# The imported workflow is retained as history but is inactive in this repository.
+# These jobs build and test an unflashed candidate; they do not access hardware.
+
+name: LED Firmware Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - 'base/**'
+    paths:
+      - 'products/led-lamp/firmware/**'
+      - '.github/workflows/led-firmware-checks.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'products/led-lamp/firmware/**'
+      - '.github/workflows/led-firmware-checks.yml'
+
+concurrency:
+  group: led-firmware-checks-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  host-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - name: Compiler version
+        run: cc --version
+      - name: V72 and target host tests
+        run: make -C products/led-lamp/firmware/board-l/target host-test target-host-test
+
+  # Package versions were verified in Ubuntu 24.04; the Makefile additionally
+  # enforces arm-none-eabi-gcc 13.2.1 and the RS1 200 mOhm cap.
+  target-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - name: Install pinned arm-none-eabi toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            gcc-arm-none-eabi=15:13.2.rel1-2 \
+            binutils-arm-none-eabi=2.42-1ubuntu1+23 \
+            libnewlib-arm-none-eabi=4.4.0.20231231-2
+          arm-none-eabi-gcc --version
+      - name: Target image (build only) and receipt
+        run: |
+          make -C products/led-lamp/firmware/board-l/target clean
+          make -C products/led-lamp/firmware/board-l/target
+          cat products/led-lamp/firmware/board-l/target/build/board-l-skeleton.receipt.json
+      - name: Independently verify raw image identity against receipt
+        working-directory: products/led-lamp/firmware/board-l/target
+        run: |
+          arm-none-eabi-objcopy -O binary build/board-l-skeleton.elf build/identity-check.bin
+          python3 - <<'PYTHON'
+          import hashlib
+          import json
+          from pathlib import Path
+          image = Path('build/identity-check.bin').read_bytes()
+          expected = json.loads(Path('build/board-l-skeleton.receipt.json').read_text())['artifacts']
+          digest = hashlib.sha256(image).hexdigest()
+          if len(image) != expected['loadable_image_bytes'] or digest != expected['loadable_image_sha256']:
+              raise SystemExit('FAIL: raw binary differs from receipt hash/length')
+          print(f'PASS: raw binary {len(image)} bytes, SHA256 {digest}')
+          PYTHON
+      - name: All V72 units cross-compile
+        run: make -C products/led-lamp/firmware/board-l/target v72-objects
+      - name: Incremental and configuration-switch rebuilds
+        run: make -C products/led-lamp/firmware/board-l/target check-incremental

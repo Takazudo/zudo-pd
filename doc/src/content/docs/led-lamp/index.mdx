@@ -1,0 +1,80 @@
+---
+title: LED Lamp
+description: Current LED Lamp status - shared P15 r1 with the two received Board Ls, order inputs, the unflashed firmware candidate, enclosure print inputs and what is not run.
+sidebar_position: 1
+---
+
+# LED Lamp
+
+The lamp is the shared [P15 r1](/docs/shared-p15/) 15 V / 3 A input with Board L (LED drive, MCU control), its
+firmware and a printed enclosure. Its source of record is
+[`products/led-lamp/`](https://github.com/Takazudo/zudo-pd/tree/main/products/led-lamp), imported from
+`zudo-led-lamp` with its history. This page owns the current LED status; the pages under it are historical LED
+pages unless stated otherwise.
+
+## Current source
+
+| Part | Current source | State |
+| --- | --- | --- |
+| Input | Shared P15 r1, owned by `boards/board-p15/` ([Shared P15](/docs/shared-p15/)). The LED consumer reference is `products/led-lamp/boards/p15-r1-reference.json` | Not ordered, programmed or measured |
+| Board L | `products/led-lamp/boards/board-l/` as ordered on 2026-09-19, reused unchanged. RS1 = 200 mΩ (RLP25FEER200) | 2 received; not inspected; MCU believed blank; RS1 not yet measured |
+| Firmware | `products/led-lamp/firmware/board-l/target/`, V72 sources, `CTRL_FULL_CCR` 2407 (75.2 %) | Build-only UNFLASHED BENCH CANDIDATE |
+| Enclosure | `products/led-lamp/enclosure/` prototype 03 generator and its tracked print STLs | CAD fit with P15 at nominal datums only |
+
+RS1 = 200 mΩ with `CTRL_FULL_CCR` 2407 is the adopted pairing. The 250 mΩ rework and the 3200 ceiling are not
+selected; HUSB238 and new animation behaviour are not adopted. The old LED `board-p/` pages describe historical
+15 V hardware, distinct from P15 and from PD20's Board P r3.
+
+## Order inputs
+
+- **Board L:** 0 new. Reuse the two boards received from the 2026-09-19 order.
+- **P15:** two assembled P15 r1 from the fixed package, per the
+  [P15 order handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md) owned by
+  [Shared P15](/docs/shared-p15/). Not ordered; the owner checkout checks remain open.
+
+## Firmware candidate
+
+The 2026-11-20 build at LED `dd4cb00` (the same firmware tree as this import) is an **UNFLASHED BENCH
+CANDIDATE**: loadable image SHA-256 `421e5b6d5626355170491edf257844d774d93b3c89e32ab20f3982cd1fec2a9e`,
+10908 B, profile `default-rs1-200mohm`. Host tests passed (44, 5430, 106 and 71053 checks). The receipt is
+[`firmware/board-l/receipts/2026-11-20-unflashed-bench-candidate.md`](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/firmware/board-l/receipts/2026-11-20-unflashed-bench-candidate.md);
+no binary image is committed. The current image runs steady and linear (noise NULL, no gamma) and does not read
+PDOK/ATT. Noise, gamma, latch and knob/NTC tuning values and PD gating remain open owner decisions in
+[`OPEN-PRODUCT-DECISIONS.md`](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/firmware/board-l/target/OPEN-PRODUCT-DECISIONS.md).
+
+## Enclosure print inputs
+
+Print from the tracked STLs and `smoke-reversing-stls.zip` listed with their hashes in
+[`PRINT-INPUTS.md`](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/candidates/p15-r1-enclosure-fit/PRINT-INPUTS.md).
+They are valid for P15 at the default parameters. The Bambu `_3dp/*.3mf` projects lack 7 of the 8 fitting
+coupons, so print those from the STLs first.
+
+## Preparation and post-arrival sequence
+
+[Lamp prototype preparation](./prototype-preparation.md) lists the jig, instruments and parts and the order of
+steps after P15 arrives: P15 inspection and NVM acceptance, Board L unpowered checks and RS1 Kelvin
+measurement, first energizing, option-byte readback, firmware identity, current and thermal checks, mating
+and enclosure fit. Every programming, energizing or fit step needs the owner's explicit permission.
+
+## Not run
+
+P15 ordering, programming and PD acceptance; Board L inspection, RS1 measurement, energizing, option-byte
+access, flashing and readback; LED current, thermal and NTC measurements; enclosure printing and physical fit
+are all **NOT RUN**. The 200 mΩ derate-onset temperature is not computed (UNKNOWN).
+
+## Historical LED pages
+
+| Read next | Scope |
+| --- | --- |
+| [LED status checkpoint](./architecture/current-state.mdx) | Dated source-repository status and owner actions 1–7 |
+| [Architecture overview](./architecture/overview.mdx) | Original two-board split, annotated for P15 |
+| [Board L](./architecture/board-l.mdx) | LED drive and control design |
+| [Next steps](./architecture/next-steps.mdx) | Source-era handover worklist |
+| [LED part lines](/docs/catalog/led-candidates/) | LED component identity lines, not adopted into the PD catalog |
+| [Component sections](/docs/led-lamp/components/) | Pointers to the four LED generated sections and their source-era anchors |
+| [C3/C5 item evidence](/docs/catalog/item-evidence/) | Per-line population evidence and per-page link dependencies |
+
+The 34 copied pages were copied from `zudo-led-lamp` at `88cb1740`; each links to its exact original LED page.
+Links to LED generated component pages and LED assets stay on the original LED host, which remains live.
+
+<CategoryNav category="led-lamp" />

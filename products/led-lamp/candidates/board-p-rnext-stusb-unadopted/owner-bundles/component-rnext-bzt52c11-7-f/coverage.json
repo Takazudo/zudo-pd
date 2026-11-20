@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-bzt52c11-7-f-primary",
+      "record_id": "rec-bzt52c11-c92321",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-bzt52c11-manufacturer",
+        "fact-bzt52c11-identity",
+        "fact-bzt52c11-vz-window",
+        "fact-bzt52c11-vz-min",
+        "fact-bzt52c11-vz-max",
+        "fact-bzt52c11-ir-leakage",
+        "fact-bzt52c11-zzt",
+        "fact-bzt52c11-pd",
+        "fact-bzt52c11-polarity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-bzt52c11-7-f-led-application",
+      "record_id": "rec-bzt52c11-c92321",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-bzt52c11-7-f-led-rnext-role",
+        "fact-bzt52c11-7-f-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-bzt52c11-7-f-led-rnext-role",
+        "fact-bzt52c11-7-f-led-land"
+      ]
+    }
+  ]
+}

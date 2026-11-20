@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-c5446803",
+      "record_id": "rec-c5446803",
+      "symbol": "SS-12D01-G020",
+      "footprint": "SW-TH_SS-12D01-G020",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "Switched V15 to both converters; joins common 2 in ON"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "Common; V15_FUSED from F1.2"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "3",
+          "footprint_pad": "3",
+          "function": "No PCB net; internally fused-feed live in OFF; keep isolated"
+        }
+      ],
+      "reviewed_by": "2026-09-06 exact drawing and corrected imported assets; mechanical pins have no electrical net"
+    }
+  ]
+}

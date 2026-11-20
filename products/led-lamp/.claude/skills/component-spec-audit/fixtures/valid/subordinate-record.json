@@ -1,0 +1,32 @@
+{
+  "records":[
+    {"record_id":"rec-parent","line_id":"line-parent","kind":"standalone","parent_record_id":null,"mpn":"PARENT-MPN","manufacturer":"Parent Maker","lcsc":"C000000","package":"PARENT-PKG","source_ids":["src-parent"],"fact_ids":["fact-parent-manufacturer","fact-parent-pin"],"interaction_ids":["int-parent"],"open_domains":["pinout"]},
+    {"record_id":"rec-child","line_id":"line-child","kind":"subordinate","parent_record_id":"rec-parent","mpn":"CHILD-MPN","manufacturer":"Child Maker","lcsc":"C000001","package":"CHILD-PKG","source_ids":["src-child"],"fact_ids":["fact-child-manufacturer","fact-child-pin"],"interaction_ids":["int-child"],"open_domains":["pinout"]}
+  ],
+  "sources":[
+    {"source_id":"src-parent","record_id":"rec-parent","document_title":"Parent datasheet","document_number":"PARENT-1","revision":"A","document_date":"2026-01-01","authoritative_url":"https://example.invalid/parent.pdf","alternate_authoritative_url":"","retrieval_date":"2026-01-02","authority_class":"MANUFACTURER_PRIMARY","sha256":"0000000000000000000000000000000000000000000000000000000000000000","availability":"SOURCE UNAVAILABLE","physical_pdf_page_index":0,"printed_page_label":"1","locator":"Section 1, Table 1, row pin 1","evidence_extract":"Synthetic standalone parent fixture."},
+    {"source_id":"src-child","record_id":"rec-child","document_title":"Child datasheet","document_number":"CHILD-1","revision":"A","document_date":"2026-01-01","authoritative_url":"https://example.invalid/child.pdf","alternate_authoritative_url":"","retrieval_date":"2026-01-02","authority_class":"MANUFACTURER_PRIMARY","sha256":"0000000000000000000000000000000000000000000000000000000000000000","availability":"SOURCE UNAVAILABLE","physical_pdf_page_index":1,"printed_page_label":"2","locator":"Section 1, Table 1, row pin 1","evidence_extract":"Synthetic subordinate fixture."}
+  ],
+  "facts":[
+    {"fact_id":"fact-parent-manufacturer","record_id":"rec-parent","source_id":"src-parent","class":"PROJECT_STATE","value":"Parent Maker","unit":"NONE","conditions":"exact identity","locator":"src-parent: title block","provenance":"UNVERIFIED","verdict":"UNSOURCED","depends_on":[],"expression":""},
+    {"fact_id":"fact-parent-pin","record_id":"rec-parent","source_id":"src-parent","class":"PROJECT_STATE","value":"OUT","unit":"NONE","conditions":"all states","locator":"src-parent: Section 1, Table 1, row pin 1","provenance":"UNVERIFIED","verdict":"UNSOURCED","depends_on":[],"expression":""},
+    {"fact_id":"fact-child-manufacturer","record_id":"rec-child","source_id":"src-child","class":"PROJECT_STATE","value":"Child Maker","unit":"NONE","conditions":"exact identity","locator":"src-child: title block","provenance":"UNVERIFIED","verdict":"UNSOURCED","depends_on":[],"expression":""},
+    {"fact_id":"fact-child-pin","record_id":"rec-child","source_id":"src-child","class":"PROJECT_STATE","value":"IN","unit":"NONE","conditions":"all states","locator":"src-child: Section 1, Table 1, row pin 1","provenance":"UNVERIFIED","verdict":"UNSOURCED","depends_on":[],"expression":""}
+  ],
+  "coverage":[
+    {"coverage_id":"cov-parent","record_id":"rec-parent","domain":"pinout","status":"OPEN","reason":"fact-parent-pin is UNSOURCED","fact_ids":["fact-parent-pin"],"blocking_fact_ids":["fact-parent-pin"]},
+    {"coverage_id":"cov-child","record_id":"rec-child","domain":"pinout","status":"OPEN","reason":"fact-child-pin is UNSOURCED","fact_ids":["fact-child-pin"],"blocking_fact_ids":["fact-child-pin"]}
+  ],
+  "routes":[
+    {"route_id":"route-parent","record_id":"rec-parent","aliases":{"mpn":["PARENT-MPN"],"lcsc":["C000000"],"manufacturer":["Parent Maker"],"function":["parent function"]},"positive":["PARENT-MPN","C000000"],"negative":["UNRELATED-ONE"]},
+    {"route_id":"route-child","record_id":"rec-child","aliases":{"mpn":["CHILD-MPN"],"lcsc":["C000001"],"manufacturer":["Child Maker"],"function":["child function"]},"positive":["CHILD-MPN","C000001"],"negative":["UNRELATED-TWO"]}
+  ],
+  "interactions":[
+    {"interaction_id":"int-parent","record_ids":["rec-parent"],"fact_ids":["fact-parent-pin"],"conditions":"all states","verdict":"UNSOURCED"},
+    {"interaction_id":"int-child","record_ids":["rec-child"],"fact_ids":["fact-child-pin"],"conditions":"all states","verdict":"UNSOURCED"}
+  ],
+  "pin_maps":[
+    {"pin_map_id":"pinmap-parent","record_id":"rec-parent","symbol":"PARENT-MPN","footprint":"PARENT-PKG","pins":[{"symbol_pin":"1","name":"OUT","footprint_pad":"1","function":"output"}],"reviewed_by":"fixture-reviewer"},
+    {"pin_map_id":"pinmap-child","record_id":"rec-child","symbol":"CHILD-MPN","footprint":"CHILD-PKG","pins":[{"symbol_pin":"1","name":"IN","footprint_pad":"1","function":"input"}],"reviewed_by":"fixture-reviewer"}
+  ]
+}

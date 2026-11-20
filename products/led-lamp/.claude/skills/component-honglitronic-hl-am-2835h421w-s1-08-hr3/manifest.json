@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "skill": "component-honglitronic-hl-am-2835h421w-s1-08-hr3",
+  "records": [
+    {
+      "record_id": "rec-c210315",
+      "line_id": "line-c210315",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "HL-AM-2835H421W-S1-08-HR3",
+      "manufacturer": "Honglitronic",
+      "lcsc": "C210315",
+      "package": "LED-SMD_L3.3-W2.8-RD",
+      "source_ids": [
+        "src-c210315-spec",
+        "src-c210315-lcsc",
+        "src-c210315-generator"
+      ],
+      "fact_ids": [
+        "fact-c210315-manufacturer",
+        "fact-c210315-orderable-identity",
+        "fact-c210315-polarity",
+        "fact-c210315-flux",
+        "fact-c210315-vf-min",
+        "fact-c210315-vf-max",
+        "fact-c210315-cri",
+        "fact-c210315-view",
+        "fact-c210315-forward-current-max",
+        "fact-c210315-power-max",
+        "fact-c210315-reverse-voltage-max",
+        "fact-c210315-junction-temperature-max",
+        "fact-c210315-solder-temperature-max",
+        "fact-c210315-reflow",
+        "fact-c210315-topology"
+      ],
+      "interaction_ids": [
+        "int-c210315-sharing",
+        "int-c210315-thermal",
+        "int-c210315-process"
+      ],
+      "open_domains": [
+        "incoming-reel-label-and-cct-acceptance",
+        "installed-branch-current-and-sharing",
+        "junction-temperature-and-enclosure-thermal-state",
+        "pwm-waveform-and-driver-fault-response"
+      ]
+    },
+    {
+      "record_id": "rec-c2934070",
+      "line_id": "line-c2934070",
+      "kind": "subordinate",
+      "parent_record_id": "rec-c210315",
+      "mpn": "FRC2512F33R0TS",
+      "manufacturer": "FOJAN",
+      "lcsc": "C2934070",
+      "package": "R2512",
+      "source_ids": [
+        "src-c2934070-spec",
+        "src-c2934070-generator"
+      ],
+      "fact_ids": [
+        "fact-c2934070-manufacturer",
+        "fact-c2934070-resistance",
+        "fact-c2934070-tolerance",
+        "fact-c2934070-power",
+        "fact-c2934070-tcr",
+        "fact-c2934070-voltage",
+        "fact-c2934070-rcwv",
+        "fact-c2934070-temperature",
+        "fact-c2934070-topology",
+        "fact-c2934070-drop-60ma",
+        "fact-c2934070-power-60ma"
+      ],
+      "interaction_ids": [
+        "int-c210315-sharing",
+        "int-c2934070-stress"
+      ],
+      "open_domains": [
+        "installed-resistor-temperature-and-pulse-stress"
+      ]
+    }
+  ]
+}

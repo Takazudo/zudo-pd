@@ -1,16 +1,16 @@
 # Documentation ownership and migration map
 
-## Accepted PD/LED consolidation plan (2026-11-16 JST)
+## PD/LED consolidation state (2026-11-20)
 
 The [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308) and [consolidation plan](orchestration/pd-led-unification.md)
-record the accepted future structure: one repository, one site, one shared Components
-catalog, with Project / Shared P15 / PD15 / PD20 / LED Lamp / Components as the six
-entry categories. [The local Moya + Codex Cloud workflow](orchestration/moya-codex-cloud.md)
-owns campaign startup and handoff details; the epic owns live progress and decisions.
-This entry records a plan only. No content route, component owner, CAD asset, source
-lock, manufacturing receipt or historical heading has moved. The migration must add
-and verify old-to-new path, route, fragment and evidence-ID mappings before cutover.
-The existing ownership tables below remain current until that implementation lands.
+define one repository, one site and one shared Components catalog. C1 and C2 are done: `2edec40d` imports
+LED `88cb1740` with its history under `products/led-lamp/`, which is the LED Lamp source of record. The C4/C5
+site has the six categories Project / Shared P15 / PD15 / PD20 / LED Lamp / Components; the LED Lamp landing
+owns current LED status and the 34 copied LED pages are historical. C3 identity adoption (four conflicting
+identity texts, 21 CAD path collisions) and the C6 cutover (60 held generated LED links, 11 LED assets and old
+routes on the original LED host) remain open. Campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318)
+manages order deliverables. [The local Moya + Codex Cloud workflow](orchestration/moya-codex-cloud.md) owns
+campaign handoff. The PD ownership tables below are unchanged by the import.
 
 ## Existing site inventory baseline
 

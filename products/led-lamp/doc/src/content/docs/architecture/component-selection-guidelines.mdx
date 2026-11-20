@@ -1,0 +1,134 @@
+---
+title: Component Selection Guidelines — Draft
+description: Cost and availability guidance for the two-unit LED plan; locally retained; engineering recommendations remain draft.
+sidebar_position: 39
+---
+
+Locally integrated on 2026-10-24 from the reviewed draft; engineering recommendations remain draft and no hardware selection is adopted. This page supplements the [BOM and dated cost history](./bom.mdx),
+not the exact evidence owners. Route additions/substitutions through
+`.claude/skills/component-spec-audit/` and its inventory; use
+`circuit-spec-integration` for real cross-component consequences. Do not hand-edit
+[generated component records](/docs/components/records/).
+
+## Confirmed user decisions
+
+- Two finished lamps; prioritize reuse of the two existing assembled Board Ls.
+  Their health is not yet established. The old PD failure is not evidence that
+  Board L failed, and it does not justify buying two replacement Board Ls.
+- Current isolated input direction is HUSB238_006DD, 15 V-only, LED-first/common
+  Board P. General USB-C form is accepted with required PD capability stated;
+  no specific charger/cable model prerequisite and no claim every USB-C source
+  supports 15 V. Do not add 12 V fallback operation.
+- Prefer inexpensive, ample-stock ordinary JLC parts that meet actual requirements.
+  Compare separately sourced IC/socket routes when a large price difference exists;
+  the user regards insertion effort as small.
+- M-12 is a candidate, not confirmed mounting geometry. Historical STUSB/M-17
+  records and the old “Final BOM” remain history; they are not silently restored
+  as the current HUSB candidate. Separate PD Board A/SBP-001 is not this LED body
+  or shared Board P.
+
+These decisions are recorded in the 2026-10-23 handoff and 2026-10-24 coordinator
+instruction `led-moya-component-guidance-draft-90e616f9-a543-4f55-8edd-1ad356f67439`.
+The immutable draft packet retains their provenance; local integration records these user directions without adopting candidate hardware.
+
+## Draft recommendations: cost and availability first
+
+Start with circuit requirements, then compare a small shortlist of inexpensive,
+widely stocked JLCPCB orderables before committing the design to a costly or obscure
+part. For ordinary interchangeable parts, match value, package, tolerance, working
+voltage, power and dielectric requirements. Prefer Basic when its actual assembly
+cost makes the total lower; a tier label alone does not decide suitability or cost.
+Do not spend an exhaustive brand comparison on a low-stress ordinary resistor or
+hold its source selection for unrelated physical measurements.
+
+Scale the review to function. Precision feedback/sensing, timing, audio-critical
+paths, storage/low-leakage nodes and high-stress or ambiguous applications need the
+specific relevant limits: for example TCR, voltage coefficient, leakage, noise,
+ESR/stability, effective capacitance, pulse energy or thermal limits. Engineering
+must derive these from the circuit and exact sources; do not ask the user to invent
+limits or silently relax a justified requirement to select a cheaper part.
+
+Before selecting, record exact manufacturer, complete orderable MPN/suffix,
+package and pin map, supplier code, quantity basis, source URL and observation date.
+Separate catalog listing, current stock, assembly eligibility, lead time and
+user-owned inventory. Compare total delivered/assembled cost including minimum
+quantity, unavoidable surplus, setup/placement charges, shipping and tax. Preserve
+unknown charges explicitly. Recheck dated evidence when a real purchase is prepared;
+this draft contains no live stock check or current quote.
+
+## Draft recommendations: compare socket routes explicitly
+
+Compare these routes early when an IC dominates cost. A socket does not itself
+reduce the chip price, and a DIP version or pin-compatible adapter is not assumed.
+
+| Route | Identify and count | Actual work and material effects |
+| --- | --- | --- |
+| Direct SMT PCBA | Exact IC, board footprint, fitted quantity and assembler charges | Factory placement/soldering; package heat path and assembly constraints |
+| Separately sourced genuine DIP plus socket | Exact genuine DIP orderable, socket pitch/width/pin count, IC/socket quantities and supplier terms | Socket must be soldered by the permitted assembler, then IC inserted; check height/clearance, retention and relevant contact/current or leakage limits |
+| Identified SMD adapter plus socket | Exact SMD IC, adapter circuit/pin mapping, adapter PCB/assembly and compatible socket | State who solders IC to adapter and socket to main PCB, and who inserts it; include extra area/height, heat path, relevant parasitics/leakage and contacts |
+
+For a two-finished-unit comparison, start with twice the actual placements of each
+IC/socket/adapter, subtract only established reusable inventory, then apply each
+supplier's actual MOQ and excess requirements. Keep installed demand and purchase
+quantity separate. If the project's final quantity differs, recompute rather than
+carry over this comparison scenario.
+
+The user considers insertion effort minor. Do not dismiss substantial verified
+savings with a generic labor penalty or hypothetical reliability warning. List the
+actual soldering/insertion steps and any circuit-specific effect that changes the
+choice; do not assign an hourly cost without evidence or user direction. A
+factory-only soldering requirement, where applicable, remains separate from manual
+socket insertion: insertion permission does not authorize hand-soldering a socket
+or adapter. Check the project's assembly contract before proposing that route.
+
+## Unresolved choices and evidence boundary
+
+No replacement part, socket, DIP variant, adapter, assembler or supplier is selected
+by this guidance. Additional parent review may follow; do not invent
+prior approvals or describe every costly historical part as a proven mistake.
+Keep confirmed user decisions separate from recommendations and inherited engineering
+assumptions. A candidate BOM identity does not authorize canonical adoption,
+manufacturing or product acceptance. Existing electrical and physical qualification
+gates remain attached to the relevant design, not to every unrelated ordinary part.
+
+## Dated user evidence and selection record
+
+The coordinator supplied two earlier user directions: 2026-10-23 10:21 UTC,
+select as cheaply as suitable by circuit location and consider sockets for expensive
+ICs; 10:27 UTC, investigate expensive/obscure choices before selection and treat
+insertion as minor work. The JPY1000-to-JPY100 example expresses a preference for
+large material savings; it is not a supplier quote. Evidence IDs are
+`Sentinel_bc24f83491c4819182c58425045a7a9e` and
+`Sentinel_83405254a0988191a187f6627a2d261b`, relayed in
+`led-moya-guidance-user-evidence-b492dc8f-f27b-425e-acb1-589d5fd45542`.
+Socketing is an option, not a goal: prefer a suitable cheaper SMT route when its
+total cost already wins. Connector contact/interface/mounting compatibility must
+be established for the exact counterpart; it is not generic resistor substitution.
+
+Keep one short dated record per actual choice:
+
+| Record | Required content |
+| --- | --- |
+| Use and requirements | Circuit location/function; justified limits and their source |
+| Identity and quantity | Manufacturer, exact MPN/JLC code/package; placements, finished-unit count, reusable inventory and purchase-quantity basis |
+| Commercial observation | Price, stock, Basic/Extended/category, assembly eligibility and lead time, date and URL; fees/tax/shipping/MOQ limits |
+| Decision | Suitable alternatives considered, reason, concrete tradeoffs and remaining unknowns |
+
+No new numeric spending cap or exhaustive brand comparison is required.
+
+## Existing evidence to reuse
+
+The [BOM](./bom.mdx) labels its JLC snapshot 2026-07-25, header observations
+2026-08-20 and control changes 2026-09-06. Its old Extended-fee/reorder arithmetic
+must not be presented as today's quote or used to authorize removing protections.
+The [architecture overview](./overview.mdx) and exact owner records provide design
+context, not proof of as-built health.
+
+The isolated V15 installed BOM has 25 physical parts per new input candidate,
+50 for two, grouped into 20 orderable rows; two source-only flags are excluded.
+It records zero new Board L builds and leaves order quantities unset. This is a
+source snapshot, not a procurement approval. The retained M-12 observation on
+2026-10-23 was quantity two, displayed total JPY58, MOQ1 at
+[JLC C165948](https://jlcpcb.com/parts/componentSearch?searchTxt=C165948).
+It excludes verified shipping, assembly and tax terms and is not refreshed here.
+Do not use it as proof of current stock or physical fit.

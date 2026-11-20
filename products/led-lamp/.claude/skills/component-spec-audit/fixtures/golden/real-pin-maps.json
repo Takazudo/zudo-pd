@@ -1,0 +1,1351 @@
+{
+  "schema_version": 1,
+  "locks": [
+    {
+      "record_id": "rec-al8860mp-13",
+      "pin_map_id": "pinmap-al8860",
+      "canonical_sha256": "1ed1918b10391488781b98c32fd9c7319298a8d478b932d3ff804f47c7d867df",
+      "evidence_fact_ids": [
+        "fact-al8860-topology",
+        "fact-al8860-pin-ep",
+        "fact-al8860-project-nets"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "SET",
+          "footprint_pad": "1",
+          "function": "sense input; Board L SET"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "GND",
+          "footprint_pad": "2",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "GND",
+          "footprint_pad": "3",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "CTRL",
+          "footprint_pad": "4",
+          "function": "PWM/analog control"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "SW",
+          "footprint_pad": "5",
+          "function": "switch drain; LED_N"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "SW",
+          "footprint_pad": "6",
+          "function": "switch drain; LED_N"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "NC",
+          "footprint_pad": "7",
+          "function": "no connection"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "VIN",
+          "footprint_pad": "8",
+          "function": "V15 input"
+        },
+        {
+          "symbol_pin": "9",
+          "name": "EP",
+          "footprint_pad": "9",
+          "function": "GND thermal pad, not current-return substitute"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-rlp25feer200",
+      "pin_map_id": "pinmap-rlp25",
+      "canonical_sha256": "4c6cf6d998d8c23b31dbfb0e6588ca6bddd166091e2fa043b8f6c0d63c234238",
+      "evidence_fact_ids": [
+        "fact-rlp25-project-nets"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "V15",
+          "footprint_pad": "1",
+          "function": "high-side supply terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "SET",
+          "footprint_pad": "2",
+          "function": "sense terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-fxl0630-330-m",
+      "pin_map_id": "pinmap-fxl0630",
+      "canonical_sha256": "9a45e135dbde72a768f283cef584855859ff21e1421a78f8ef23e651ba23cc9a",
+      "evidence_fact_ids": [
+        "fact-fxl-project-nets"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "SET",
+          "footprint_pad": "1",
+          "function": "driver/sense side"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "LED_P",
+          "footprint_pad": "2",
+          "function": "LED-string positive side"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-ro-ss26",
+      "pin_map_id": "pinmap-ro-ss26",
+      "canonical_sha256": "cba69e4123d4dfb7fa66de754cb179df198b2226828f8719d2f0deb7f209b351",
+      "evidence_fact_ids": [
+        "fact-ss26-project-nets"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "A",
+          "footprint_pad": "1",
+          "function": "anode at LED_N"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "K",
+          "footprint_pad": "2",
+          "function": "cathode/banded end at V15"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c470643",
+      "pin_map_id": "pinmap-c470643",
+      "canonical_sha256": "ba012baf730f244ffe3b5027a2b04f519246343b1ec20a22fbcb2532b8cde525",
+      "evidence_fact_ids": [
+        "fact-c470643-terminals"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "LOW",
+          "footprint_pad": "1",
+          "function": "Resistive end terminal; GND"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "WIPER",
+          "footprint_pad": "2",
+          "function": "Wiper; BRIGHT_WIPER through R27 to BRIGHT_ADC"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "HIGH",
+          "footprint_pad": "3",
+          "function": "Resistive end terminal; V3P3"
+        },
+        {
+          "symbol_pin": "MP1",
+          "name": "DUMMY",
+          "footprint_pad": "MP1",
+          "function": "Mechanical dummy/support; no electrical connection"
+        },
+        {
+          "symbol_pin": "MP2",
+          "name": "DUMMY",
+          "footprint_pad": "MP2",
+          "function": "Mechanical dummy/support; no electrical connection"
+        },
+        {
+          "symbol_pin": "MP3",
+          "name": "SUPPORT",
+          "footprint_pad": "MP3",
+          "function": "Mechanical dummy/support; no electrical connection"
+        },
+        {
+          "symbol_pin": "MP4",
+          "name": "SUPPORT",
+          "footprint_pad": "MP4",
+          "function": "Mechanical dummy/support; no electrical connection"
+        }
+      ],
+      "reviewer": "2026-09-06 exact drawing and corrected imported assets; mechanical pins have no electrical net"
+    },
+    {
+      "record_id": "rec-ap63203wu-7",
+      "pin_map_id": "pinmap-ap63203",
+      "canonical_sha256": "3fa95de41493cde1e56b3130714f057acfcd882acd5bd73bfa8fdba47ca8a9d7",
+      "evidence_fact_ids": [
+        "fact-ap63203-topology",
+        "fact-ap63203-project-nets"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "FB",
+          "footprint_pad": "1",
+          "function": "fixed-output sense at V3P3"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "EN",
+          "footprint_pad": "2",
+          "function": "open for automatic startup"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "VIN",
+          "footprint_pad": "3",
+          "function": "V15 input"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "GND",
+          "footprint_pad": "4",
+          "function": "power ground"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "SW",
+          "footprint_pad": "5",
+          "function": "SW_LOGIC switching node"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "BST",
+          "footprint_pad": "6",
+          "function": "bootstrap node"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-fnr4030s4r7mt",
+      "pin_map_id": "pinmap-fnr4030",
+      "canonical_sha256": "75967ba2fc521a9e67e1ca80cf4e547c66bbde2e2a29b76828a43f706287f1ef",
+      "evidence_fact_ids": [
+        "fact-fnr-project-nets"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "SW_LOGIC",
+          "footprint_pad": "1",
+          "function": "switching-node side"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "V3P3",
+          "footprint_pad": "2",
+          "function": "regulated-output side"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-cl21a226maqnnne",
+      "pin_map_id": "pinmap-cl21a226",
+      "canonical_sha256": "c5924b9d02a6997a1f396be14542699b90672a444bbdbc12cb48fb2be1b38f16",
+      "evidence_fact_ids": [
+        "fact-cl21-project-nets"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "V3P3",
+          "footprint_pad": "1",
+          "function": "output rail; C16/C17"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "GND",
+          "footprint_pad": "2",
+          "function": "power ground; C16/C17"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-bsmd1206-075-30v",
+      "pin_map_id": "pinmap-bhfuse-075",
+      "canonical_sha256": "0f4fb48a2ae021d7ba5e983328f87598b0f8e0876f2acb7f1d60d20661288edd",
+      "evidence_fact_ids": [
+        "fact-bhfuse-project-nets"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "VBUS_L",
+          "footprint_pad": "1",
+          "function": "upstream input"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "V15_FUSED",
+          "footprint_pad": "2",
+          "function": "fused switch feed"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-high-diode-smaj20a",
+      "pin_map_id": "pinmap-high-diode-smaj20a",
+      "canonical_sha256": "7f9605f19e8228b45775e6389dc2e04ea75385af2e4f384ebb3720cf6930b66b",
+      "evidence_fact_ids": [
+        "fact-high-diode-smaj20a-manufacturer"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "project cathode/VBUS mapping"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "project anode/GND mapping"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c210315",
+      "pin_map_id": "pinmap-c210315",
+      "canonical_sha256": "cd992e9f4c53673fc58699643d2d1ac3ed9bd32a1b423c896b7e16b8dd385bfd",
+      "evidence_fact_ids": [
+        "fact-c210315-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "cathode"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "anode"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c2934070",
+      "pin_map_id": "pinmap-c2934070",
+      "canonical_sha256": "e0e9b1ef55789b77ae900cebda5ba03400da6654d3bfa54fcc6332abaf4e695c",
+      "evidence_fact_ids": [
+        "fact-c2934070-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c492405",
+      "pin_map_id": "pinmap-c492405",
+      "canonical_sha256": "b054ccfbc97acd54e839c14b174987fa56c119150d0bc51a03539f6f23ea47fa",
+      "evidence_fact_ids": [
+        "fact-c492405-dimensions"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "Board P VBUS_OUT conductor A"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "Board P VBUS_OUT conductor B"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "3",
+          "footprint_pad": "3",
+          "function": "Board P ATT"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "4",
+          "footprint_pad": "4",
+          "function": "Board P PDOK"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "5",
+          "footprint_pad": "5",
+          "function": "Board P GND conductor A"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "6",
+          "footprint_pad": "6",
+          "function": "Board P GND conductor B"
+        }
+      ],
+      "reviewer": "2026-08-20 XFCN connector replacement review"
+    },
+    {
+      "record_id": "rec-c2832269",
+      "pin_map_id": "pinmap-c2832269",
+      "canonical_sha256": "af08afdb63cf29a5f7d71db91e0652d42dfea7fe97a14c67108e5dc8485077f6",
+      "evidence_fact_ids": [
+        "fact-c2832269-dimensions"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "Board L VBUS_L conductor A"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "Board L VBUS_L conductor B"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "3",
+          "footprint_pad": "3",
+          "function": "Board L ATT"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "4",
+          "footprint_pad": "4",
+          "function": "Board L PDOK"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "5",
+          "footprint_pad": "5",
+          "function": "Board L GND conductor A"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "6",
+          "footprint_pad": "6",
+          "function": "Board L GND conductor B"
+        }
+      ],
+      "reviewer": "2026-08-20 XFCN connector replacement review"
+    },
+    {
+      "record_id": "rec-c13564",
+      "pin_map_id": "pinmap-c13564",
+      "canonical_sha256": "770a7f17278bf8bb83a79ccd313d1ca7e766d340d822e721e9c935c57818386b",
+      "evidence_fact_ids": [
+        "fact-c13564-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "NTC_SENSE"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "GND"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c13585",
+      "pin_map_id": "pinmap-c13585",
+      "canonical_sha256": "b4aef35138ec54d97a58ae520a9f6b57353a102987b6c71c67cc059b4c6e2850",
+      "evidence_fact_ids": [
+        "fact-c13585-manufacturer"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c14663",
+      "pin_map_id": "pinmap-c14663",
+      "canonical_sha256": "48ff494f74eefe94a4b5eaac566cbbc937c3a10799dc835ee8c7fdbec51e7f9a",
+      "evidence_fact_ids": [
+        "fact-c14663-c35-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c15849",
+      "pin_map_id": "pinmap-c15849",
+      "canonical_sha256": "5745e327d06db81ecea7f61b15b433ad1b82d8ddf4250cd7ed4372cbb389479e",
+      "evidence_fact_ids": [
+        "fact-c15849-manufacturer"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c25803",
+      "pin_map_id": "pinmap-c25803",
+      "canonical_sha256": "43bb32a9b95057e7c9c27bd5d16b916057acc81d00c3d1f672507810c59bcd9f",
+      "evidence_fact_ids": [
+        "fact-c25803-manufacturer"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c22807",
+      "pin_map_id": "pinmap-c22807",
+      "canonical_sha256": "208948c426a1dbef2807ba63e1fba21b5d479e0557a6c3abb3dc994d9015bed0",
+      "evidence_fact_ids": [
+        "fact-c22807-r12-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c23179",
+      "pin_map_id": "pinmap-c23179",
+      "canonical_sha256": "182aee6309359f93c48208f33f7f68a8888920441a0823370c53c521049a2311",
+      "evidence_fact_ids": [
+        "fact-c23179-discharge-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c23162",
+      "pin_map_id": "pinmap-c23162",
+      "canonical_sha256": "37119862169550cd72d251919a5badc16afc4e822c5e6cbc88ec19af67ba67fb",
+      "evidence_fact_ids": [
+        "fact-c23162-manufacturer"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c21189",
+      "pin_map_id": "pinmap-c21189",
+      "canonical_sha256": "a54dd329f3f332cfb9291cc9d48eca81d5a4c089227d58fb3bbb5e4bd9983962",
+      "evidence_fact_ids": [
+        "fact-c21189-ccdb-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c17414",
+      "pin_map_id": "pinmap-c17414",
+      "canonical_sha256": "6d4e9bce9c84222a23866443e6728a5ac3ad014bececd61f25854d467b0d3c73",
+      "evidence_fact_ids": [
+        "fact-c17414-reset-ctrl-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c4216",
+      "pin_map_id": "pinmap-c4216",
+      "canonical_sha256": "0a7076fb0881b17574df8793ce4037f89ef3c7476dc74c487fafb8eb5b0d91f4",
+      "evidence_fact_ids": [
+        "fact-c4216-ctrl-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c22775",
+      "pin_map_id": "pinmap-c22775",
+      "canonical_sha256": "35ce675fc1074718cd6f892f07bceb62de9456c7457cb8f50a1689d46d4ab42e",
+      "evidence_fact_ids": [
+        "fact-c22775-brightness-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "terminal-1",
+          "footprint_pad": "1",
+          "function": "passive terminal"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "terminal-2",
+          "footprint_pad": "2",
+          "function": "passive terminal"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c529334",
+      "pin_map_id": "pinmap-c529334",
+      "canonical_sha256": "281190bf57d1e4b15a2e83439967565a04fb159a8969869296634bbe5ac5a92f",
+      "evidence_fact_ids": [
+        "fact-c529334-pin-bonds",
+        "fact-c529334-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "PB7/PB8",
+          "footprint_pad": "1",
+          "function": "shared GPIO bond"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "PB9/PC14-OSC32_IN",
+          "footprint_pad": "2",
+          "function": "shared GPIO/oscillator bond"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "PC15-OSC32_OUT",
+          "footprint_pad": "3",
+          "function": "GPIO/oscillator"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "VDD/VDDA",
+          "footprint_pad": "4",
+          "function": "digital and analog supply"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "VSS/VSSA",
+          "footprint_pad": "5",
+          "function": "digital and analog ground"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "PF2-NRST",
+          "footprint_pad": "6",
+          "function": "reset"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "PA0",
+          "footprint_pad": "7",
+          "function": "BRIGHT_ADC ADC_IN0"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "PA1",
+          "footprint_pad": "8",
+          "function": "unused GPIO; explicit no-connect"
+        },
+        {
+          "symbol_pin": "9",
+          "name": "PA2",
+          "footprint_pad": "9",
+          "function": "UART_TX candidate"
+        },
+        {
+          "symbol_pin": "10",
+          "name": "PA3",
+          "footprint_pad": "10",
+          "function": "UART_RX candidate"
+        },
+        {
+          "symbol_pin": "11",
+          "name": "PA4",
+          "footprint_pad": "11",
+          "function": "NTC_SENSE ADC_IN4"
+        },
+        {
+          "symbol_pin": "12",
+          "name": "PA5",
+          "footprint_pad": "12",
+          "function": "PDOK"
+        },
+        {
+          "symbol_pin": "13",
+          "name": "PA6",
+          "footprint_pad": "13",
+          "function": "PWM_DIM timer candidate"
+        },
+        {
+          "symbol_pin": "14",
+          "name": "PA7",
+          "footprint_pad": "14",
+          "function": "ATT"
+        },
+        {
+          "symbol_pin": "15",
+          "name": "PB0/PB1/PB2/PA8",
+          "footprint_pad": "15",
+          "function": "shared GPIO bond"
+        },
+        {
+          "symbol_pin": "16",
+          "name": "PA11[PA9]",
+          "footprint_pad": "16",
+          "function": "GPIO selectable by SYSCFG PA11_RMP remap"
+        },
+        {
+          "symbol_pin": "17",
+          "name": "PA12[PA10]",
+          "footprint_pad": "17",
+          "function": "GPIO selectable by SYSCFG PA12_RMP remap"
+        },
+        {
+          "symbol_pin": "18",
+          "name": "PA13",
+          "footprint_pad": "18",
+          "function": "SWDIO"
+        },
+        {
+          "symbol_pin": "19",
+          "name": "PA15/PA14-BOOT0",
+          "footprint_pad": "19",
+          "function": "SWCLK and boot-capable shared bond"
+        },
+        {
+          "symbol_pin": "20",
+          "name": "PB3/PB4/PB5/PB6",
+          "footprint_pad": "20",
+          "function": "shared GPIO bond"
+        }
+      ],
+      "reviewer": "2026-09-06 Board L absolute-brightness PA0 mapping review; primary STM32 byte-lock trust remains open"
+    },
+    {
+      "record_id": "rec-c4749199",
+      "pin_map_id": "pinmap-c4749199",
+      "canonical_sha256": "9a8de986d91ee1eff89bd9ae86b42b3b9172d9b53b2e72d1dfdc79d49ab90a12",
+      "evidence_fact_ids": [
+        "fact-c4749199-mechanical",
+        "fact-c4749199-stlink-mapping",
+        "fact-c4749199-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "VAPP",
+          "footprint_pad": "1",
+          "function": "VAPP target-voltage sense to J2.4"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "VAPP",
+          "footprint_pad": "2",
+          "function": "VAPP target-voltage sense to J2.4"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "TRST",
+          "footprint_pad": "3",
+          "function": "GND for SWD ribbon noise reduction"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "TDI",
+          "footprint_pad": "5",
+          "function": "GND for SWD ribbon noise reduction"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "TMS_SWDIO",
+          "footprint_pad": "7",
+          "function": "SWDIO to J2.1"
+        },
+        {
+          "symbol_pin": "9",
+          "name": "TCK_SWCLK",
+          "footprint_pad": "9",
+          "function": "SWCLK to J2.2"
+        },
+        {
+          "symbol_pin": "13",
+          "name": "TDO_SWO",
+          "footprint_pad": "13",
+          "function": "optional SWO intentionally no connect"
+        },
+        {
+          "symbol_pin": "15",
+          "name": "NRST",
+          "footprint_pad": "15",
+          "function": "NRST to J2.3"
+        },
+        {
+          "symbol_pin": "19",
+          "name": "VDD_3V3_OUT",
+          "footprint_pad": "19",
+          "function": "debugger 3.3 V output intentionally no connect"
+        },
+        {
+          "symbol_pin": "20",
+          "name": "GND",
+          "footprint_pad": "20",
+          "function": "GND"
+        }
+      ],
+      "reviewer": "issue-104 drawing and numeric orientation audit 2026-08-23"
+    },
+    {
+      "record_id": "rec-c492404",
+      "pin_map_id": "pinmap-c492404",
+      "canonical_sha256": "a67719853caa387658d6833839b4da36caf8ba1fd33b364528360d0e14b22d2a",
+      "evidence_fact_ids": [
+        "fact-c492404-topology"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "pin-1",
+          "footprint_pad": "1",
+          "function": "SWDIO"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "pin-2",
+          "footprint_pad": "2",
+          "function": "SWCLK"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "pin-3",
+          "footprint_pad": "3",
+          "function": "NRST"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "pin-4",
+          "footprint_pad": "4",
+          "function": "V3P3"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "pin-5",
+          "footprint_pad": "5",
+          "function": "GND"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-stusb4500qtr",
+      "pin_map_id": "pinmap-stusb4500qtr",
+      "canonical_sha256": "d3337ac911b24a312359737028faedcece369f55a6838818233fd9d923194908",
+      "evidence_fact_ids": [
+        "fact-stusb-pin-states"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "CC1DB",
+          "footprint_pad": "1",
+          "function": "dead-battery enable CC1"
+        },
+        {
+          "symbol_pin": "10",
+          "name": "GND",
+          "footprint_pad": "10",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "11",
+          "name": "ATTACH",
+          "footprint_pad": "11",
+          "function": "active-low open-drain attach"
+        },
+        {
+          "symbol_pin": "12",
+          "name": "ADDR0",
+          "footprint_pad": "12",
+          "function": "I2C address"
+        },
+        {
+          "symbol_pin": "13",
+          "name": "ADDR1",
+          "footprint_pad": "13",
+          "function": "I2C address"
+        },
+        {
+          "symbol_pin": "14",
+          "name": "POWER_OK3",
+          "footprint_pad": "14",
+          "function": "active-low open-drain contract flag"
+        },
+        {
+          "symbol_pin": "15",
+          "name": "GPIO",
+          "footprint_pad": "15",
+          "function": "configurable active-low open-drain"
+        },
+        {
+          "symbol_pin": "16",
+          "name": "VBUS_EN_SNK",
+          "footprint_pad": "16",
+          "function": "active-low HV open-drain sink-path enable"
+        },
+        {
+          "symbol_pin": "17",
+          "name": "A_B_SIDE",
+          "footprint_pad": "17",
+          "function": "active-low open-drain orientation"
+        },
+        {
+          "symbol_pin": "18",
+          "name": "VBUS_VS_DISCH",
+          "footprint_pad": "18",
+          "function": "VBUS sense/monitor/internal discharge"
+        },
+        {
+          "symbol_pin": "19",
+          "name": "ALERT",
+          "footprint_pad": "19",
+          "function": "I2C interrupt active-low OD"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "CC1",
+          "footprint_pad": "2",
+          "function": "configuration channel 1"
+        },
+        {
+          "symbol_pin": "20",
+          "name": "POWER_OK2",
+          "footprint_pad": "20",
+          "function": "HV active-low OD contract flag"
+        },
+        {
+          "symbol_pin": "21",
+          "name": "VREG_1V2",
+          "footprint_pad": "21",
+          "function": "1.2 V regulator decoupling"
+        },
+        {
+          "symbol_pin": "22",
+          "name": "VSYS",
+          "footprint_pad": "22",
+          "function": "system supply or ground if unused"
+        },
+        {
+          "symbol_pin": "23",
+          "name": "VREG_2V7",
+          "footprint_pad": "23",
+          "function": "2.7 V regulator decoupling"
+        },
+        {
+          "symbol_pin": "24",
+          "name": "VDD",
+          "footprint_pad": "24",
+          "function": "VBUS-side supply"
+        },
+        {
+          "symbol_pin": "25",
+          "name": "EP",
+          "footprint_pad": "25",
+          "function": "exposed-pad ground"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "NC",
+          "footprint_pad": "3",
+          "function": "no connect"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "CC2",
+          "footprint_pad": "4",
+          "function": "configuration channel 2"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "CC2DB",
+          "footprint_pad": "5",
+          "function": "dead-battery enable CC2"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "RESET",
+          "footprint_pad": "6",
+          "function": "active-high reset"
+        },
+        {
+          "symbol_pin": "7",
+          "name": "SCL",
+          "footprint_pad": "7",
+          "function": "I2C clock"
+        },
+        {
+          "symbol_pin": "8",
+          "name": "SDA",
+          "footprint_pad": "8",
+          "function": "I2C data open drain"
+        },
+        {
+          "symbol_pin": "9",
+          "name": "DISCH",
+          "footprint_pad": "9",
+          "function": "internal discharge input or external discharge active-low OD"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-pesd24vs1ub",
+      "pin_map_id": "pinmap-pesd24vs1ub",
+      "canonical_sha256": "67a167a92747fa4e189c63a9ac0881bbcf272d062a965eeaed1ff5e86a66ae48",
+      "evidence_fact_ids": [
+        "fact-pesd-pinout"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "K",
+          "footprint_pad": "1",
+          "function": "cathode to protected CC line"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "A",
+          "footprint_pad": "2",
+          "function": "anode to ground"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-rd-0603waf5101t5e",
+      "pin_map_id": "pinmap-rd-0603waf5101t5e",
+      "canonical_sha256": "7a90aabc643e455c841fea5520466a3038bb0eb43ea37259aa1dcfdc3edb9316",
+      "evidence_fact_ids": [
+        "fact-rd-pinout",
+        "fact-rd-fit-state"
+      ],
+      "trust_status": "PROJECT-LOCKED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "CC1/CC2 when fitted"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "ground when fitted"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-type-c-31-m-17",
+      "pin_map_id": "pinmap-type-c-31-m-17",
+      "canonical_sha256": "b23c96902ad7b39ddedabb140b9da455d3878d6ca28a3f3ac8143f48cb51e520",
+      "evidence_fact_ids": [
+        "fact-type-c-31-m-17-contacts"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "0",
+          "name": "SHIELD",
+          "footprint_pad": "0",
+          "function": "shell/ground project mapping"
+        },
+        {
+          "symbol_pin": "1",
+          "name": "GND1",
+          "footprint_pad": "1",
+          "function": "ground"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "VBUS1",
+          "footprint_pad": "2",
+          "function": "VBUS_IN"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "CC1",
+          "footprint_pad": "3",
+          "function": "configuration channel 1"
+        },
+        {
+          "symbol_pin": "4",
+          "name": "CC2",
+          "footprint_pad": "4",
+          "function": "configuration channel 2"
+        },
+        {
+          "symbol_pin": "5",
+          "name": "VBUS2",
+          "footprint_pad": "5",
+          "function": "VBUS_IN duplicate"
+        },
+        {
+          "symbol_pin": "6",
+          "name": "GND2",
+          "footprint_pad": "6",
+          "function": "ground duplicate"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-umw-ao3401a",
+      "pin_map_id": "pinmap-umw-ao3401a",
+      "canonical_sha256": "137045d5cfc7822c6bfb44743853be59f2d3f549b5dd6cde09fb968f111daaf9",
+      "evidence_fact_ids": [
+        "fact-umw-ao3401a-pinout",
+        "fact-umw-ao3401a-project-nets"
+      ],
+      "trust_status": "TRUSTED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "G",
+          "footprint_pad": "1",
+          "function": "gate/Q1_G"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "S",
+          "footprint_pad": "2",
+          "function": "source/VBUS_IN"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "D",
+          "footprint_pad": "3",
+          "function": "drain/VBUS_OUT"
+        }
+      ],
+      "reviewer": "issue-25 foreground integration review"
+    },
+    {
+      "record_id": "rec-c5446803",
+      "pin_map_id": "pinmap-c5446803",
+      "canonical_sha256": "6ca80ab491ccb894149f967a8476b2b1eeeed5978ff469c53e58c79144ad4708",
+      "evidence_fact_ids": [
+        "fact-c5446803-terminals"
+      ],
+      "trust_status": "UNSOURCED",
+      "critical_pins": [
+        {
+          "symbol_pin": "1",
+          "name": "1",
+          "footprint_pad": "1",
+          "function": "Switched V15 to both converters; joins common 2 in ON"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "2",
+          "footprint_pad": "2",
+          "function": "Common; V15_FUSED from F1.2"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "3",
+          "footprint_pad": "3",
+          "function": "No PCB net; internally fused-feed live in OFF; keep isolated"
+        }
+      ],
+      "reviewer": "2026-09-06 exact drawing and corrected imported assets; mechanical pins have no electrical net"
+    }
+  ]
+}

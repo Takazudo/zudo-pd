@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "interactions": [
+    {
+      "interaction_id": "int-xfcn-pair", "record_ids": ["rec-c492405", "rec-c2832269"],
+      "fact_ids": ["fact-c492405-pitch", "fact-c492405-mating", "fact-c2832269-pitch", "fact-c2832269-mating"],
+      "conditions": "Nominal XFCN single-row PZ254 male to PM254 female series pairing at 2.54 mm pitch; does not prove PCB alignment or polarity",
+      "verdict": "PASS - primary-source confirmed"
+    },
+    {
+      "interaction_id": "int-xfcn-board-map", "record_ids": ["rec-c492405", "rec-c2832269"],
+      "fact_ids": ["fact-c492405-identity", "fact-c2832269-identity"],
+      "conditions": "Board P JOUT1 and Board L J2 both use pins 1/2 power, 3 ATT, 4 PDOK, and 5/6 ground; verify physical pin-1-to-pin-1 orientation and continuity before power",
+      "verdict": "NEEDS BENCH"
+    },
+    {
+      "interaction_id": "int-xfcn-mechanical", "record_ids": ["rec-c492405", "rec-c2832269"],
+      "fact_ids": ["fact-c492405-dimensions", "fact-c492405-current", "fact-c2832269-dimensions", "fact-c2832269-current"],
+      "conditions": "Review PCB-to-PCB spacing and interference, fully seat the unkeyed pair, add appropriate mechanical retention, continuity-test all six nets with power absent, then current-limit first power and check connector temperature under maximum intended load",
+      "verdict": "NEEDS BENCH"
+    }
+  ]
+}

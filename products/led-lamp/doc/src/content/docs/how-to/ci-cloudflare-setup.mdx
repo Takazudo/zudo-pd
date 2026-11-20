@@ -1,0 +1,82 @@
+---
+title: Cloudflare Hosting & CI Setup
+sidebar_position: 2
+---
+
+How the `doc/` site is hosted on Cloudflare Workers, and the human step
+that turns on CI deploys.
+
+:::tip[Status: fully configured]
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are both set, and the
+pipeline is verified end-to-end — production and PR previews both deploy
+from CI. The manual token steps below are kept as the runbook for rotating
+the token or re-creating it in another repo.
+:::
+
+## What's already configured
+
+- **Hosting.** The site deploys to Cloudflare Workers static assets
+  (`doc/wrangler.toml`, worker name `zudo-led-lamp`), served at the custom
+  domain `https://zudo-led-lamp.takazudomodular.com/`. The
+  `[[routes]]`/`custom_domain = true` entry and `workers_dev = true` are
+  fully declarative — a plain `wrangler deploy` attaches both the custom
+  domain and the `*.workers.dev` subdomain on its own; no manual Cloudflare
+  API call is needed. This was verified with the first production deploy
+  (done manually from an OAuth-authenticated local `wrangler`, from this
+  worktree) — the site is already live.
+- **`doc/zfb.config.ts`** sets `siteUrl` to the same host as the
+  `wrangler.toml` route, and `adapter: "@takazudo/zfb-adapter-cloudflare"`
+  so `pnpm build` emits `dist/_worker.js`.
+- **Versions are pinned.** `doc/package.json` pins `wrangler` as an exact
+  devDependency and `packageManager` (pnpm). CI resolves the wrangler
+  version it runs from that pin, so a `wrangler` upgrade is a normal
+  dependency bump, not a silent CI drift.
+- **`.github/workflows/main-deploy.yml`** — on every push to `main` that
+  touches `doc/`: install, type check, build, then deploy to production.
+- **`.github/workflows/pr-checks.yml`** — on every PR targeting `main` or
+  a `base/**` worktree branch that touches `doc/`: install, type check,
+  build, then deploy a preview (`wrangler versions upload --preview-alias
+  pr-<N>`) and post/update a sticky PR comment with the preview URL.
+- **Secret gating.** Both workflows read a secret-readiness step before
+  touching Cloudflare — if `CLOUDFLARE_API_TOKEN` isn't set yet, the
+  deploy/preview steps are skipped with an explicit `::notice::`, and the
+  job still finishes **green**. Nothing goes red just because the token is
+  missing.
+- **`CLOUDFLARE_ACCOUNT_ID`** repo secret is already set (from `wrangler
+  whoami` on an authorized local session).
+
+## The manual token step (done — kept as a runbook)
+
+CI cannot deploy or produce PR previews until `CLOUDFLARE_API_TOKEN` exists
+as a repo secret. This has been done; the steps remain here for rotating the
+token, since creating one needs a human with Cloudflare dashboard access:
+
+1. Go to [Cloudflare Dashboard → My Profile → API
+   Tokens](https://dash.cloudflare.com/profile/api-tokens) → **Create
+   Token**.
+2. Use the **"Edit Cloudflare Workers"** template. It already grants
+   `Account → Workers Scripts → Edit` and `Zone → Workers Routes → Edit` —
+   the pair `wrangler deploy` needs to both upload the worker and attach the
+   custom domain declared in `wrangler.toml` (no separate Cloudflare API
+   "cutover" step exists in this repo; the domain attach happens through
+   `wrangler deploy` itself). When the token-creation UI asks for **Zone
+   Resources**, make sure it includes `takazudomodular.com` — a token scoped
+   to "All zones from an account" or explicitly excluding that zone will
+   fail the domain attach with a permission error.
+3. Set the secret:
+   ```sh
+   gh secret set CLOUDFLARE_API_TOKEN --repo Takazudo/zudo-led-lamp
+   ```
+
+## Smoke test
+
+Open any pull request that touches `doc/`. Expect `pr-checks.yml` to post a
+sticky comment on the PR:
+
+- **Before the token exists:** the comment says "Preview pending" — this is
+  expected, not a bug.
+- **After the token exists:** the comment updates in place with a working
+  `https://pr-<N>-zudo-led-lamp.<subdomain>.workers.dev` preview link.
+
+Either way, the PR check itself should be green — only the presence of a
+working preview link changes.

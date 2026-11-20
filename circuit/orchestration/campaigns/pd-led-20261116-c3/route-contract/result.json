@@ -1,0 +1,312 @@
+{
+  "schema": "pd-led-c3e-route-contract/1",
+  "base_commit": "f008ad037681bca977005b4353affa9928f0d146",
+  "installed_package_version": "0.3.0",
+  "proposal_source_set_sha256": "a399646b028a50ff74a3f42d9c1949e1858a84aac06288989977f11175097285",
+  "locked_source_files_verified": 393,
+  "locked_pd_manifest_files_verified": 41,
+  "inspected_file_sha256": {
+    "circuit/orchestration/campaigns/pd-led-20261116-c3/translation/proposal.json": "5240b1f2a8dea5b8951ffaf0c6c27f24fc99d3dbcbebefc550f97c6aa42ee32e",
+    "pnpm-lock.yaml": "0cfc99232bcf94ff625900330524d5e296b3e734e7d6deeabc745be11cf85b8c",
+    "patches/@takazudo__zudo-circuit-doc@0.3.0.patch": "7991370866d4019bc1c7b2411e9421c18ba701a850f580c49c4d098e8b005e6c",
+    "node_modules/@takazudo/zudo-circuit-doc/lib/core/ids.js": "cadfcdd43f6a0f95b9b5dfce404156859ab5473f632423189657e3cb8dd34053",
+    "node_modules/@takazudo/zudo-circuit-doc/lib/core/site.js": "e34e6ac67f10bbc542f7ceebeca6b2a6ad48bd901ed7d1fbc4361870d6d6106e",
+    "node_modules/@takazudo/zudo-circuit-doc/lib/core/mdx.js": "8a44a6eef21a930c48d04c23455fbb6e2bd3064af0106824a435a6543437ac1b",
+    "node_modules/@takazudo/zudo-circuit-doc/lib/provider/v1/index.js": "e32cfb6cfb20404ca287f36fdd0cec310fdc9956afbfcd1801a7de10c3842748",
+    "node_modules/@takazudo/zudo-circuit-doc/lib/provider/v1/integration.js": "c7612098b54feb359ab3600d37606ac92a36cd6cc33cf59a289e491f17bf0c85",
+    "node_modules/@takazudo/zudo-circuit-doc/python/circuit_evidence/integration/rules.py": "cf1c1409d4eb659a096cd49a79449af657a56d027471deb9a52d64937156f5b7",
+    ".claude/skills/circuit-spec-integration/references/rules.json": "139345d969d8cbb35f8ffe3d687330b2953294154c25db2072b299cde6f38070",
+    "products/led-lamp/.claude/skills/circuit-spec-integration/references/rules.json": "fb655ceba05b843ee5aafd00593cad2409e9490f415757012e17ce33d40050fd"
+  },
+  "pd_record_routes": 145,
+  "proposed_led_record_routes": 35,
+  "changed_legacy_led_routes": 35,
+  "legacy_led_route_map": [
+    {
+      "old_id": "rec-al8860mp-13",
+      "legacy_led_route": "/docs/components/records/al8860mp-13/",
+      "proposed_route": "/docs/components/records/led-rec-al8860mp-13-6643bcec4f30-54344e1e/"
+    },
+    {
+      "old_id": "rec-ap63203wu-7",
+      "legacy_led_route": "/docs/components/records/ap63203wu-7/",
+      "proposed_route": "/docs/components/records/led-rec-ap63203wu-7-cc6725a086a1-13137552/"
+    },
+    {
+      "old_id": "rec-bsmd1206-075-30v",
+      "legacy_led_route": "/docs/components/records/bsmd1206-075-30v/",
+      "proposed_route": "/docs/components/records/led-rec-bsmd1206-075-30v-0453b98e30ad-c27cc091/"
+    },
+    {
+      "old_id": "rec-c13564",
+      "legacy_led_route": "/docs/components/records/c13564/",
+      "proposed_route": "/docs/components/records/led-rec-c13564-7875b07d72a4-ff0e411b/"
+    },
+    {
+      "old_id": "rec-c13585",
+      "legacy_led_route": "/docs/components/records/c13585/",
+      "proposed_route": "/docs/components/records/led-rec-c13585-886adab9450c-9ba57106/"
+    },
+    {
+      "old_id": "rec-c14663",
+      "legacy_led_route": "/docs/components/records/c14663/",
+      "proposed_route": "/docs/components/records/led-rec-c14663-1e60694af261-9ba57106/"
+    },
+    {
+      "old_id": "rec-c15849",
+      "legacy_led_route": "/docs/components/records/c15849/",
+      "proposed_route": "/docs/components/records/led-rec-c15849-ea3dd29e548e-9ba57106/"
+    },
+    {
+      "old_id": "rec-c17414",
+      "legacy_led_route": "/docs/components/records/c17414/",
+      "proposed_route": "/docs/components/records/led-rec-c17414-1fd0d2d7c1e4-9ba57106/"
+    },
+    {
+      "old_id": "rec-c210315",
+      "legacy_led_route": "/docs/components/records/c210315/",
+      "proposed_route": "/docs/components/records/led-rec-c210315-326644ee8e90-14616c54/"
+    },
+    {
+      "old_id": "rec-c21189",
+      "legacy_led_route": "/docs/components/records/c21189/",
+      "proposed_route": "/docs/components/records/led-rec-c21189-88b2e3943d7f-9ba57106/"
+    },
+    {
+      "old_id": "rec-c22775",
+      "legacy_led_route": "/docs/components/records/c22775/",
+      "proposed_route": "/docs/components/records/led-rec-c22775-b9f40a86a60b-9ba57106/"
+    },
+    {
+      "old_id": "rec-c22807",
+      "legacy_led_route": "/docs/components/records/c22807/",
+      "proposed_route": "/docs/components/records/led-rec-c22807-5d3b1aa68168-9ba57106/"
+    },
+    {
+      "old_id": "rec-c23162",
+      "legacy_led_route": "/docs/components/records/c23162/",
+      "proposed_route": "/docs/components/records/led-rec-c23162-44ba97c36d6e-9ba57106/"
+    },
+    {
+      "old_id": "rec-c23179",
+      "legacy_led_route": "/docs/components/records/c23179/",
+      "proposed_route": "/docs/components/records/led-rec-c23179-fd2faee9afd9-9ba57106/"
+    },
+    {
+      "old_id": "rec-c25803",
+      "legacy_led_route": "/docs/components/records/c25803/",
+      "proposed_route": "/docs/components/records/led-rec-c25803-087299e69cb6-9ba57106/"
+    },
+    {
+      "old_id": "rec-c2832269",
+      "legacy_led_route": "/docs/components/records/c2832269/",
+      "proposed_route": "/docs/components/records/led-rec-c2832269-96e82cc021d6-caf657c3/"
+    },
+    {
+      "old_id": "rec-c2934070",
+      "legacy_led_route": "/docs/components/records/c2934070/",
+      "proposed_route": "/docs/components/records/led-rec-c2934070-7ccab3fa1213-14616c54/"
+    },
+    {
+      "old_id": "rec-c4216",
+      "legacy_led_route": "/docs/components/records/c4216/",
+      "proposed_route": "/docs/components/records/led-rec-c4216-77976c623083-9ba57106/"
+    },
+    {
+      "old_id": "rec-c470643",
+      "legacy_led_route": "/docs/components/records/c470643/",
+      "proposed_route": "/docs/components/records/led-rec-c470643-ff9a8372f644-0711ce33/"
+    },
+    {
+      "old_id": "rec-c4749199",
+      "legacy_led_route": "/docs/components/records/c4749199/",
+      "proposed_route": "/docs/components/records/led-rec-c4749199-f7c20e0e77f5-231287ba/"
+    },
+    {
+      "old_id": "rec-c492404",
+      "legacy_led_route": "/docs/components/records/c492404/",
+      "proposed_route": "/docs/components/records/led-rec-c492404-1b4a69d5e86d-231287ba/"
+    },
+    {
+      "old_id": "rec-c492405",
+      "legacy_led_route": "/docs/components/records/c492405/",
+      "proposed_route": "/docs/components/records/led-rec-c492405-0d755a2aeb3a-caf657c3/"
+    },
+    {
+      "old_id": "rec-c529334",
+      "legacy_led_route": "/docs/components/records/c529334/",
+      "proposed_route": "/docs/components/records/led-rec-c529334-12ddb587cbcc-231287ba/"
+    },
+    {
+      "old_id": "rec-c5446803",
+      "legacy_led_route": "/docs/components/records/c5446803/",
+      "proposed_route": "/docs/components/records/led-rec-c5446803-55f5384481c2-42990878/"
+    },
+    {
+      "old_id": "rec-cl21a226maqnnne",
+      "legacy_led_route": "/docs/components/records/cl21a226maqnnne/",
+      "proposed_route": "/docs/components/records/led-rec-cl21a226maqnnne-31341ac8c1c3-13137552/"
+    },
+    {
+      "old_id": "rec-fnr4030s4r7mt",
+      "legacy_led_route": "/docs/components/records/fnr4030s4r7mt/",
+      "proposed_route": "/docs/components/records/led-rec-fnr4030s4r7mt-f7356c441da8-13137552/"
+    },
+    {
+      "old_id": "rec-fxl0630-330-m",
+      "legacy_led_route": "/docs/components/records/fxl0630-330-m/",
+      "proposed_route": "/docs/components/records/led-rec-fxl0630-330-m-08e9aa17d4d3-54344e1e/"
+    },
+    {
+      "old_id": "rec-high-diode-smaj20a",
+      "legacy_led_route": "/docs/components/records/high-diode-smaj20a/",
+      "proposed_route": "/docs/components/records/led-rec-high-diode-smaj20a-3b294eb58e43-94103b02/"
+    },
+    {
+      "old_id": "rec-pesd24vs1ub",
+      "legacy_led_route": "/docs/components/records/pesd24vs1ub/",
+      "proposed_route": "/docs/components/records/led-rec-pesd24vs1ub-0bc011b7f2de-e8d8c85c/"
+    },
+    {
+      "old_id": "rec-rd-0603waf5101t5e",
+      "legacy_led_route": "/docs/components/records/rd-0603waf5101t5e/",
+      "proposed_route": "/docs/components/records/led-rec-rd-0603waf5101t5e-6507f4055c58-e8d8c85c/"
+    },
+    {
+      "old_id": "rec-rlp25feer200",
+      "legacy_led_route": "/docs/components/records/rlp25feer200/",
+      "proposed_route": "/docs/components/records/led-rec-rlp25feer200-8845d7299185-54344e1e/"
+    },
+    {
+      "old_id": "rec-ro-ss26",
+      "legacy_led_route": "/docs/components/records/ro-ss26/",
+      "proposed_route": "/docs/components/records/led-rec-ro-ss26-624dc2b179c0-54344e1e/"
+    },
+    {
+      "old_id": "rec-stusb4500qtr",
+      "legacy_led_route": "/docs/components/records/stusb4500qtr/",
+      "proposed_route": "/docs/components/records/led-rec-stusb4500qtr-94738a868c01-e8d8c85c/"
+    },
+    {
+      "old_id": "rec-type-c-31-m-17",
+      "legacy_led_route": "/docs/components/records/type-c-31-m-17/",
+      "proposed_route": "/docs/components/records/led-rec-type-c-31-m-17-874a285f353e-1b2ec290/"
+    },
+    {
+      "old_id": "rec-umw-ao3401a",
+      "legacy_led_route": "/docs/components/records/umw-ao3401a/",
+      "proposed_route": "/docs/components/records/led-rec-umw-ao3401a-b195b958b6ee-fb4f9374/"
+    }
+  ],
+  "proposed_record_slug_prefix": "led-rec",
+  "invalid_proposed_anchor_ids": [],
+  "duplicate_record_routes": 0,
+  "pd_integration_anchors": 40,
+  "led_integration_anchors": 17,
+  "duplicate_integration_routes": 0,
+  "calculation_review": [
+    {
+      "rule_id": "rule-rail-envelope",
+      "calculation_id": "calc-stusb-vdd-clamp-overage",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_stusb_vdd_absolute_max",
+        "fact_high_diode_smaj20a_clamp"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-rail-envelope",
+      "calculation_id": "calc-q1-vds-clamp-overage",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_umw_ao3401a_vds",
+        "fact_high_diode_smaj20a_clamp"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-usb-pd-nvm-load-switch",
+      "calculation_id": "calc-q1-steady-vgs",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_c25803_resistance",
+        "fact_c22807_resistance"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-usb-pd-nvm-load-switch",
+      "calculation_id": "calc-q1-steady-vgs-margin",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_umw_ao3401a_vgs",
+        "fact_c25803_resistance",
+        "fact_c22807_resistance"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-usb-pd-nvm-load-switch",
+      "calculation_id": "calc-q1-gate-tau",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_c25803_resistance",
+        "fact_c22807_resistance",
+        "fact_c14663_capacitance"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-al8860-led-stage",
+      "calculation_id": "calc-led-hot-branch-peak",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_al8860_peak_current",
+        "fact_c2934070_resistance",
+        "fact_c2934070_tolerance"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-al8860-led-stage",
+      "calculation_id": "calc-led-hot-branch-headroom",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_c210315_forward_current_max",
+        "fact_al8860_peak_current",
+        "fact_c2934070_resistance",
+        "fact_c2934070_tolerance"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-ntc-adc-firmware",
+      "calculation_id": "calc-ntc-divider-current-margin",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_c13564_max_current",
+        "fact_c25803_resistance",
+        "fact_c25803_tolerance"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    },
+    {
+      "rule_id": "rule-ntc-adc-firmware",
+      "calculation_id": "calc-ntc-adc-source-impedance",
+      "unchanged_id_in_c3c": true,
+      "old_fact_aliases_still_in_expression": [
+        "fact_c25803_resistance",
+        "fact_c25803_tolerance"
+      ],
+      "translated_fact_ids_in_structured_table": true
+    }
+  ],
+  "holds": [
+    "Current installed 0.3.0 route/anchor syntax passes; no generated page was built.",
+    "C3c does not translate LED calculation_id or the fact aliases in integration calculation expressions.",
+    "Nine current calculation IDs do not collide with PD today; later canonical work must review their identity and expression/structured fact IDs together.",
+    "All legacy LED record routes would change; C5 must review old paths and fragments before any cutover.",
+    "Textual, exact identity, CAD/SMAJ, DNP, publication, private resource and physical holds remain."
+  ]
+}

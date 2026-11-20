@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-tps3701-primary",
+      "record_id": "rec-tps3701",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-tps3701-manufacturer",
+        "fact-tps3701-pinout",
+        "fact-tps3701-vdd-absmax",
+        "fact-tps3701-vdd-operating",
+        "fact-tps3701-ina-falling",
+        "fact-tps3701-ina-rising",
+        "fact-tps3701-iin",
+        "fact-tps3701-out-leak"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-tps3701-led-application",
+      "record_id": "rec-tps3701",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-tps3701-led-rnext-role",
+        "fact-tps3701-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-tps3701-led-rnext-role",
+        "fact-tps3701-led-land"
+      ]
+    },
+    {
+      "coverage_id": "cov-tps3701-distributor",
+      "record_id": "rec-tps3701",
+      "domain": "distributor-identity",
+      "status": "OPEN",
+      "reason": "LCSC C132027 is UNSOURCED: carried from the V196 trial BOM without a retained distributor page",
+      "fact_ids": [
+        "fact-tps3701-lcsc-identity"
+      ],
+      "blocking_fact_ids": [
+        "fact-tps3701-lcsc-identity"
+      ]
+    }
+  ]
+}

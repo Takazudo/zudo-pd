@@ -1,0 +1,12 @@
+{
+ "retrieved": "2026-10-31",
+ "note": "One ordinary GET each. Bytes are not committed. Each hash equals the hash already retained in the owner skill.",
+ "sources": [
+  {"id": "src-al8860-ds39014", "url": "https://www.diodes.com/datasheet/download/AL8860.pdf", "revision": "DS39014 Rev. 8-2 (April 2026)", "bytes": 764339, "sha256": "a0c8c9a6524a044bdfca8814fd6be82fa220eb2e72070467991cb4f72b5a65f0", "matches_retained": true,
+   "used": ["EC table @TA=25C: VSENSE 96/100/104 mV; VSENSE_HYS +/-20 % typ only (no max); VEN 0.3-2.5 V analog dimming range; VEN(OFF) 0.2 V typ, VEN(ON) 0.25 V typ", "Abs max VCTRL -0.3 to +6 V", "Recommended TA -40..+85 C", "Analog Dimming text: 0.3-2.5 V adjusts 0-100 % linearly 'as shown in Figure 1' (typical curve; no accuracy limit)", "Feature list: 'Typical 5% Output Current Accuracy'", "Inductor Selection: delta-I internally set to 0.40 x ILED", "Soft-start 1.5 ms/nF typical"]},
+  {"id": "src-c210315-spec", "url": "https://www.honglitronic.com/upload/file/2025-04/col24/1745911741682.pdf", "revision": "B-17-A-0596 A/3", "bytes": 1921844, "sha256": "518887938bfb12aa1ff68374beb356296203bcb0526b6cadfca55b569a492c05", "matches_retained": true,
+   "used": ["Abs max @Ta=25C: IF 90 mA, Pd 306 mW, TS 85 C. No pulsed or peak forward-current row exists (issue #52 option 3 cannot be closed from this source)", "Page 5 curve 'Soldering Temperature VS Allowable Forward Current': read from the graph as 90 mA flat to about TS 65 C, then linear to about 70 mA at TS 85 C. Approximate (graph-read)"]},
+  {"id": "src-rlp25-spec", "url": "https://www.tai.com.tw/files/uploads/Prod_spec/RLP25.pdf", "revision": "TRLP-250S008L, issued 2024/12/03", "bytes": 527709, "sha256": "90976febccfcb35bc4c6e4111b2e81a77b89c84e0bcea06b08c682ce47a26bc0", "matches_retained": true,
+   "used": ["Type designation RLP25 + F(+/-1 %) + E(embossed) + E(2 W) + Rxxx", "Resistance range 1-680 mOhm. 100 mOhm < R <= 680 mOhm is available at 1/1.5/2 W", "TCR +/-50 ppm/C; -55..+170 C", "Land/dimension row R > 4 mOhm is the same for 200 and 250 mOhm"]}
+ ]
+}

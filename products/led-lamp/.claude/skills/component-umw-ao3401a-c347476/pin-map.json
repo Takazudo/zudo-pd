@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "pin_maps": [
+    {
+      "pin_map_id": "pinmap-umw-ao3401a",
+      "record_id": "rec-umw-ao3401a",
+      "symbol": "AO3401A_C347476",
+      "footprint": "SOT-23_L2.9-W1.3-P1.90-LS2.4-BR",
+      "pins": [
+        {
+          "symbol_pin": "1",
+          "name": "G",
+          "footprint_pad": "1",
+          "function": "gate/Q1_G"
+        },
+        {
+          "symbol_pin": "2",
+          "name": "S",
+          "footprint_pad": "2",
+          "function": "source/VBUS_IN"
+        },
+        {
+          "symbol_pin": "3",
+          "name": "D",
+          "footprint_pad": "3",
+          "function": "drain/VBUS_OUT"
+        }
+      ],
+      "reviewed_by": "exact UMW AO3401A pin figure plus board_p_spec.py"
+    }
+  ]
+}

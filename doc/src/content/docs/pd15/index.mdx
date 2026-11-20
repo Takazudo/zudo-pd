@@ -1,0 +1,35 @@
+---
+title: PD15
+description: Current entry point for PD15, the shared P15 r1 input with the existing Board B.
+sidebar_position: 1
+---
+
+# PD15
+
+PD15 combines the shared [P15 r1](/docs/shared-p15/) input with Board B. The +12 V / 1.2 A, −12 V / 0.8 A and
++5 V / 0.5 A budgets are design targets, not measured ratings.
+
+## Current source
+
+- Input: [Shared P15 r1](/docs/shared-p15/).
+- Board B: `boards/board-b/`; [PD15 architecture](/docs/architecture/pd15/) owns the circuit and interfaces.
+- Current development Board B includes later substitutions and is not identical to the received S3 hardware.
+
+## Order files
+
+PD15 = P15 + the existing Board B. Order two P15 from the
+[P15 order handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md); there is
+**0 new Board B** — reuse the S3 Board B ordered 2026-09-20 and received, whose usable count and condition are not yet recorded.
+
+## Procedures
+
+- [Board B unpowered check](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/board-b-unpowered-check.md)
+  for the received S3 boards.
+- [P15 NVM programming](/docs/architecture/board-p15-programming/), then [bring-up](/docs/verification/renewal-bring-up/).
+
+## Status
+
+Received Board B's factory BOM matches S3 `f25194f`; fabrication identity, LED2 rotation, usable count and D1
+inspection are incomplete. P15 programming, PD15 bring-up and qualification are NOT RUN.
+[Current state](/docs/project/current-state/) owns the dated record and
+[release readiness](/docs/architecture/release-readiness/) the remaining gates.

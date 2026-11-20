@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "type": "pin-locks",
+      "locks": ".claude/skills/component-spec-audit/fixtures/golden/real-pin-maps.json",
+      "assertions": [
+        { "recordId": "rec-stusb4500qtr", "label": "STUSB", "trustStatus": "UNSOURCED" },
+        { "recordId": "rec-al8860mp-13", "label": "AL8860", "pin": { "name": "EP", "symbolPin": "9", "footprintPad": "9" } }
+      ]
+    },
+    {
+      "type": "critical-fact-review",
+      "review": ".claude/skills/component-spec-audit/fixtures/golden/critical-fact-review.json",
+      "requiredDomains": ["connector", "polarity", "pin", "default-state", "rail", "converter", "thermal", "current"],
+      "minPasses": 2,
+      "reviewLogsRoot": ".claude/skills/component-spec-audit"
+    },
+    {
+      "type": "refresh-evidence",
+      "evidence": ".claude/skills/component-spec-audit/fixtures/refresh-evidence.json",
+      "requiredAuthorityClasses": ["PROJECT_GENERATOR", "MANUFACTURER_PRIMARY"],
+      "retrievalProfile": "browser-like-v1"
+    },
+    {
+      "type": "integration",
+      "exactDomains": [
+        "potentiometer-brightness-adc",
+        "board-mounted lamp power switching",
+        "rail-envelope",
+        "usb-pd-nvm-load-switch",
+        "al8860-led-stage",
+        "ap63203-logic-stage",
+        "ntc-adc-firmware",
+        "source-to-bench-chain"
+      ],
+      "allowedVerdicts": ["NEEDS BENCH", "UNSOURCED"],
+      "requireChainRule": true,
+      "chainConstraints": { "generated-netlist": "MIXED", "trailingOpen": 5 },
+      "requiredFiles": [
+        ".claude/skills/circuit-spec-integration/agents/openai.yaml",
+        ".claude/skills/circuit-spec-integration/references/rules.json",
+        ".claude/skills/circuit-spec-integration/references/forward-tests.json",
+        ".claude/skills/circuit-spec-integration/references/observed-runs.json",
+        ".claude/skills/circuit-spec-integration/scripts/check_forward_tests.py"
+      ]
+    },
+    {
+      "type": "seeded-fixtures",
+      "directRouting": ".claude/skills/component-spec-audit/fixtures/direct-routing.json",
+      "invalidCases": [
+        { "name": "wrong-mpn", "base": "inventory", "target": "lines.line-c283540.mpn", "value": "WRONG-MPN", "expected_error": "MPN" },
+        { "name": "wrong-lcsc", "base": "inventory", "target": "lines.line-c283540.lcsc", "value": "C999999", "expected_error": "LCSC" },
+        { "name": "wrong-package", "base": "inventory", "target": "lines.line-c283540.package", "value": "WRONG-PACKAGE", "expected_error": "package" },
+        { "name": "duplicate-ownership", "base": "inventory", "target": "lines.line-c2678061.line_id", "value": "line-c283540", "expected_error": "duplicate line_id" }
+      ]
+    }
+  ]
+}

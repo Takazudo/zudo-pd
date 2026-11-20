@@ -1,0 +1,58 @@
+diff --git a/dist/search-widget-script/generated-script.js b/dist/search-widget-script/generated-script.js
+index f133345ff19d3d61c924f4dd759f9b8bd1c01f94..93c7df5b11fdbb5698170a14b6d28999c5879623 100644
+--- a/dist/search-widget-script/generated-script.js
++++ b/dist/search-widget-script/generated-script.js
+@@ -44,6 +44,8 @@ function buildSearchWidgetScript() {
+   for (var i = 0; i < entries.length; i++) {
+     var e = entries[i];
+     e._titleLc = (e.title || "").toLowerCase();
++    e._titleSlugLc = e._titleLc.replace(/\\s+/g, "-");
++    e._urlLc = (e.url || "").toLowerCase();
+     e._descLc = (e.description || "").toLowerCase();
+     e._bodyLc = (e.body || "").toLowerCase();
+   }
+@@ -52,11 +54,14 @@ function buildSearchWidgetScript() {
+   function scoreEntry(entry, terms) {
+   var score = 0;
+   var titleLc = entry._titleLc;
++  var titleSlugLc = entry._titleSlugLc;
++  var urlLc = entry._urlLc;
+   var descLc = entry._descLc;
+   var bodyLc = entry._bodyLc;
+   for (var i = 0; i < terms.length; i++) {
+     var t = terms[i];
+-    if (titleLc.indexOf(t) !== -1) score += 3;
++    if (titleLc.indexOf(t) !== -1 || titleSlugLc.indexOf(t) !== -1) score += 3;
++    if (urlLc.indexOf(t) !== -1) score += 4;
+     if (descLc.indexOf(t) !== -1) score += 2;
+     if (bodyLc.indexOf(t) !== -1) score += 1;
+   }
+diff --git a/dist/search-widget-script/scoring.js b/dist/search-widget-script/scoring.js
+index 10e1fb82a5652cdc3f1acb9643fa9162b92e64c0..24ea3fa67fddda1ea5779de476c12b274c40e07f 100644
+--- a/dist/search-widget-script/scoring.js
++++ b/dist/search-widget-script/scoring.js
+@@ -2,6 +2,8 @@ function prepareLc(entries) {
+   for (var i = 0; i < entries.length; i++) {
+     var e = entries[i];
+     e._titleLc = (e.title || "").toLowerCase();
++    e._titleSlugLc = e._titleLc.replace(/\s+/g, "-");
++    e._urlLc = (e.url || "").toLowerCase();
+     e._descLc = (e.description || "").toLowerCase();
+     e._bodyLc = (e.body || "").toLowerCase();
+   }
+@@ -9,11 +11,14 @@ function prepareLc(entries) {
+ function scoreEntry(entry, terms) {
+   var score = 0;
+   var titleLc = entry._titleLc;
++  var titleSlugLc = entry._titleSlugLc;
++  var urlLc = entry._urlLc;
+   var descLc = entry._descLc;
+   var bodyLc = entry._bodyLc;
+   for (var i = 0; i < terms.length; i++) {
+     var t = terms[i];
+-    if (titleLc.indexOf(t) !== -1) score += 3;
++    if (titleLc.indexOf(t) !== -1 || titleSlugLc.indexOf(t) !== -1) score += 3;
++    if (urlLc.indexOf(t) !== -1) score += 4;
+     if (descLc.indexOf(t) !== -1) score += 2;
+     if (bodyLc.indexOf(t) !== -1) score += 1;
+   }

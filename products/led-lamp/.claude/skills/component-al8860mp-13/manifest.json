@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "skill": "component-al8860mp-13",
+  "records": [
+    {
+      "record_id": "rec-al8860mp-13",
+      "line_id": "line-c500782",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "AL8860MP-13",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C500782",
+      "package": "MSOP-8_L3.0-W3.0-P0.65-LS4.9-BL-EP1.8",
+      "source_ids": [
+        "src-al8860-ds39014",
+        "src-al8860-generator"
+      ],
+      "fact_ids": [
+        "fact-al8860-manufacturer",
+        "fact-al8860-topology",
+        "fact-al8860-pin-ep",
+        "fact-al8860-vin-recommended-max",
+        "fact-al8860-vin-absolute-max",
+        "fact-al8860-sense-min",
+        "fact-al8860-sense-max",
+        "fact-al8860-current-min",
+        "fact-al8860-current-max",
+        "fact-al8860-ripple-fraction",
+        "fact-al8860-peak-current",
+        "fact-al8860-ctrl",
+        "fact-al8860-min-on-time",
+        "fact-al8860-max-frequency",
+        "fact-al8860-inductance-min",
+        "fact-al8860-inductance-max",
+        "fact-al8860-faults",
+        "fact-al8860-layout",
+        "fact-al8860-project-nets",
+        "fact-al8860-duty-band"
+      ],
+      "interaction_ids": [
+        "int-al8860-control",
+        "int-al8860-power-stage"
+      ],
+      "open_domains": [
+        "led-string-voltage-temperature"
+      ]
+    },
+    {
+      "record_id": "rec-rlp25feer200",
+      "line_id": "line-c459674",
+      "kind": "subordinate",
+      "parent_record_id": "rec-al8860mp-13",
+      "mpn": "RLP25FEER200",
+      "manufacturer": "TA-I Technology",
+      "lcsc": "C459674",
+      "package": "R2512",
+      "source_ids": [
+        "src-rlp25-spec",
+        "src-rlp25-generator"
+      ],
+      "fact_ids": [
+        "fact-rlp25-manufacturer",
+        "fact-rlp25-resistance",
+        "fact-rlp25-tolerance",
+        "fact-rlp25-resistance-min",
+        "fact-rlp25-resistance-max",
+        "fact-rlp25-power",
+        "fact-rlp25-tcr",
+        "fact-rlp25-overload",
+        "fact-rlp25-temperature",
+        "fact-rlp25-project-nets",
+        "fact-rlp25-worst-power",
+        "fact-rlp25-power-margin"
+      ],
+      "interaction_ids": [
+        "int-rlp25-sense",
+        "int-al8860-power-stage"
+      ],
+      "open_domains": [
+        "project-pulse-load"
+      ]
+    },
+    {
+      "record_id": "rec-fxl0630-330-m",
+      "line_id": "line-c177245",
+      "kind": "subordinate",
+      "parent_record_id": "rec-al8860mp-13",
+      "mpn": "FXL0630-330-M",
+      "manufacturer": "Changjiang Microelectronics Tech",
+      "lcsc": "C177245",
+      "package": "IND-SMD_L7.0-W6.6_FXL0630",
+      "source_ids": [
+        "src-fxl-series-mirror",
+        "src-fxl-generator",
+        "src-fxl-series-official"
+      ],
+      "fact_ids": [
+        "fact-fxl-manufacturer",
+        "fact-fxl-inductance",
+        "fact-fxl-tolerance",
+        "fact-fxl-inductance-min",
+        "fact-fxl-dcr-max",
+        "fact-fxl-isat-max",
+        "fact-fxl-irated-max",
+        "fact-fxl-rating-definitions",
+        "fact-fxl-voltage-max",
+        "fact-fxl-temperature",
+        "fact-fxl-package",
+        "fact-fxl-project-nets",
+        "fact-fxl-isat-margin"
+      ],
+      "interaction_ids": [
+        "int-fxl-energy-storage",
+        "int-al8860-power-stage"
+      ],
+      "open_domains": [
+        "inductance-dcr-current-package",
+        "self-resonance-and-end-application-temperature"
+      ]
+    },
+    {
+      "record_id": "rec-ro-ss26",
+      "line_id": "line-c7420363",
+      "kind": "subordinate",
+      "parent_record_id": "rec-al8860mp-13",
+      "mpn": "SS26",
+      "manufacturer": "R+O",
+      "lcsc": "C7420363",
+      "package": "SMA_L4.3-W2.6-LS5.0-FD",
+      "source_ids": [
+        "src-ro-ss26-mirror",
+        "src-ss26-generator",
+        "src-ss26-primary-attempt"
+      ],
+      "fact_ids": [
+        "fact-ss26-manufacturer",
+        "fact-ss26-polarity",
+        "fact-ss26-reverse-voltage",
+        "fact-ss26-rms-voltage",
+        "fact-ss26-average-current",
+        "fact-ss26-surge-current",
+        "fact-ss26-forward-voltage",
+        "fact-ss26-leakage-25c",
+        "fact-ss26-leakage-100c",
+        "fact-ss26-thermal",
+        "fact-ss26-package",
+        "fact-ss26-project-nets",
+        "fact-ss26-voltage-margin",
+        "fact-ss26-current-margin"
+      ],
+      "interaction_ids": [
+        "int-ss26-freewheel",
+        "int-al8860-power-stage"
+      ],
+      "open_domains": [
+        "polarity-voltage-current-leakage-package",
+        "junction-temperature-and-switch-waveform"
+      ]
+    }
+  ]
+}

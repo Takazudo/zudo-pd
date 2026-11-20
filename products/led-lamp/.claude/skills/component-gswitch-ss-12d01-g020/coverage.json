@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-c5446803-identity",
+      "record_id": "rec-c5446803",
+      "domain": "identity and documented component characteristics",
+      "status": "COVERED",
+      "reason": "Exact component identity and retained authoritative evidence; installation and firmware are separate.",
+      "fact_ids": [
+        "fact-c5446803-identity"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c5446803-open-0",
+      "record_id": "rec-c5446803",
+      "domain": "manufacturer-primary source trust",
+      "status": "OPEN",
+      "reason": "Manufacturer-authored drawing is retrieved through a distributor mirror and remains UNSOURCED under the primary-only trust contract.",
+      "fact_ids": [
+        "fact-c5446803-manufacturer",
+        "fact-c5446803-rating",
+        "fact-c5446803-terminals",
+        "fact-c5446803-mounting",
+        "fact-c5446803-life",
+        "fact-c5446803-ambient",
+        "fact-c5446803-contact-resistance"
+      ],
+      "blocking_fact_ids": [
+        "fact-c5446803-manufacturer",
+        "fact-c5446803-rating",
+        "fact-c5446803-terminals",
+        "fact-c5446803-mounting",
+        "fact-c5446803-life",
+        "fact-c5446803-ambient",
+        "fact-c5446803-contact-resistance"
+      ]
+    },
+    {
+      "coverage_id": "cov-c5446803-open-1",
+      "record_id": "rec-c5446803",
+      "domain": "capacitive switching and contact wetting",
+      "status": "OPEN",
+      "reason": "Qualify lamp inrush, restart, bounce and contact endurance at the actual load.",
+      "fact_ids": [
+        "fact-c5446803-project-nets"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c5446803-open-2",
+      "record_id": "rec-c5446803",
+      "domain": "assembled switch and OFF isolation",
+      "status": "OPEN",
+      "reason": "Verify physical switch fit, soldering, OFF rail decay, the isolated live third terminal and service-interface back-power on a prototype.",
+      "fact_ids": [
+        "fact-c5446803-project-nets",
+        "fact-c5446803-assembly"
+      ],
+      "blocking_fact_ids": []
+    }
+  ]
+}

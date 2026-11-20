@@ -1,0 +1,154 @@
+{
+  "comment": "publication.assets is the reviewed allowlist (ADR-018) for restricted public files beyond the generated previews and models. Entries are added only as a reviewed diff with a reason.",
+  "schema_version": 1,
+  "assets": [
+    {
+      "path": "assets/enclosure/assembly-step.zip",
+      "reason": "Deliberate enclosure download: the complete assembled enclosure STEP described in enclosure/README.md, produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/manifest.json",
+      "reason": "Enclosure viewer manifest produced by enclosure/generate.py and verified by enclosure/verify_exports.py; lists the published enclosure meshes. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/preview/board-l-components-reference.stl",
+      "reason": "Enclosure viewer reference mesh for board context, produced by enclosure/generate.py and excluded from print STLs; a coarse placement reference, not component evidence."
+    },
+    {
+      "path": "assets/enclosure/preview/board-l-substrate-reference.stl",
+      "reason": "Enclosure viewer reference mesh for board context, produced by enclosure/generate.py and excluded from print STLs; a coarse placement reference, not component evidence."
+    },
+    {
+      "path": "assets/enclosure/preview/board-p-components-reference.stl",
+      "reason": "Enclosure viewer reference mesh for board context, produced by enclosure/generate.py and excluded from print STLs; a coarse placement reference, not component evidence."
+    },
+    {
+      "path": "assets/enclosure/preview/board-p-substrate-reference.stl",
+      "reason": "Enclosure viewer reference mesh for board context, produced by enclosure/generate.py and excluded from print STLs; a coarse placement reference, not component evidence."
+    },
+    {
+      "path": "assets/enclosure/smoke-reversing-stls.zip",
+      "reason": "Deliberate enclosure download: the printable enclosure STL set (historical file name) described in enclosure/README.md, produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/00-base.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/01-band-usb.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/02-band.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/03-band.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/04-band.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/05-band.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/06-band-top.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/foot-01.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/foot-02.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/foot-03.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/interboard-01-11.0mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/interboard-02-11.0mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/mount-01-17.6mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/mount-02-17.6mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/mount-03-5.0mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/mount-04-5.0mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/mount-05-5.0mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/mount-06-17.6mm.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/post-01-flat.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/post-02-flat.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/post-03-flat.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-pin-2.4.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-socket-clearance-0.2.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-socket-clearance-0.4.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-socket-clearance-0.6.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-square-hole-4.0.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-square-hole-4.2.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-square-hole-4.4.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/enclosure/stl/test-square-post-flat.stl",
+      "reason": "Deliberate enclosure print file published for the interactive enclosure viewer and downloads (enclosure/README.md), produced by enclosure/generate.py. Not component evidence."
+    },
+    {
+      "path": "assets/pcb/board-l-stack-clearance.svg",
+      "reason": "Hand-reviewed rear-projection illustration of the two-board stack embedded by docs/architecture/rear-controls.mdx; a documentation figure, not a KiCad export or component evidence."
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "retrieved_utc": "2026-10-31",
+  "note": "Official public documents fetched once with an ordinary HTTPS GET; bytes are not committed (repo keeps vendor PDFs out of Git). Page/table locators are for the exact hashed bytes.",
+  "sources": [
+    {
+      "id": "src-ti-tps3701-sbvs240c",
+      "title": "TI TPS3701 datasheet SBVS240C (Nov 2014, rev Feb 2019)",
+      "url": "https://www.ti.com/lit/ds/symlink/tps3701.pdf",
+      "bytes": 757645,
+      "sha256": "27c94a6c3a243bf539e98942d26f0bd9ed979c5775c12cf86b7c1a8c3d7d9560",
+      "used": "6.5 Electrical Characteristics (VIT-(INA) 397/400/403 mV, VIT+(INA) 400/405.5/413 mV, IIN +/-25 nA, V(POR) 0.8 V max, UVLO 1.3-1.7 V); 6.6 Timing (tpd(HL) 9.9 us typ, td(start) 155 us typ); 6.1 Abs max VDD 40 V"
+    },
+    {
+      "id": "src-ti-tps25947-slvsfc9c",
+      "title": "TI TPS25947xx datasheet SLVSFC9C (Oct 2020, rev May 2026)",
+      "url": "https://www.ti.com/lit/ds/symlink/tps25947.pdf",
+      "bytes": 5316794,
+      "sha256": "8f96de389903091650d4f462dcfad3210071c3ae7093623a7978f34baf8a65b4",
+      "identity_note": "SHA256 equals the hash retained by the 3d49db76 HUSB006 README for TI SLVSFC9C May 2026.",
+      "used": "6.1 Abs max VIN 28 V (-10..125 C); 6.3 ROC VIN 2.7-23 V, VOVLO 0.5-1.5 V; 6.5 VUVLO(R) 1.183/1.20/1.223 V, VUVLO(F) 1.076/1.09/1.116 V, VOV(R)/VOV(F) same, IENLKG/IOVLKG +/-0.1 uA; 6.6 tOVLO 1.2 us typ; 6.7 tD,OFF 25.32 us typ (RL 100 ohm, COUT 1 uF, VIN 12 V)"
+    },
+    {
+      "id": "src-hynetek-husb238-rev25",
+      "title": "Hynetek HUSB238 Data Sheet Rev 2.5 (04/2023)",
+      "url": "https://www.hynetek.com/uploadfiles/site/219/news/c16af076-8c40-4e8d-b126-b4f9b83e86ea.pdf",
+      "bytes": 1436387,
+      "sha256": "d4dabfe5e6055ec72f14dd2f4ae8f913be80822c14d2d24f910ea4bb777c002a",
+      "identity_note": "SHA256 equals the historical retained hash of the Library copy libfile_36d4c8194b6c819194ceeb865223b402.",
+      "used": "p5 IVSET/IISET 95-105 uA, GATE sink 10 mA / 100-300 ohm; p6 OVP 115-125 % of requested V, tDB_OV 50 us typ, UVP requested-2 V typ, tDB_UV 1 ms; p7 abs max VIN/GATE 30 V; p5 ROC VIN 3.24-21 V; p9 Table 6 VSET (14 k = 15 V); p10 Table 7 ISET (22.6 k = 3 A), RDO determination and Next-PDO/Request-5V rule; p11 OVP/UVP actions, UVP disabled by default; p15 Ordering Guide (_006DD: Next PDO, USB Comm Yes, GATE During Contract)"
+    },
+    {
+      "id": "src-yageo-rt-v17",
+      "title": "Yageo RT series chip resistor product specification V.17 (Feb 12, 2026)",
+      "url": "https://yageogroup.com/content/datasheet/asset/file/PYU-RT_1-TO-0-01_ROHS_L",
+      "bytes": 547014,
+      "sha256": "00a9148c2958122200e8a93292e389392a795adcfe40562d6ca4f690d1e5d7d1",
+      "used": "Ordering code TCR letter D = 25 ppm/C, tolerance B = 0.1 %; Table 4: Life/Endurance, High-temperature exposure, Moisture, Thermal shock, Humidity, Resistance to soldering heat each +/-(0.5 % + 0.05 ohm); board flex +/-(0.25 % + 0.05 ohm)"
+    },
+    {
+      "id": "obs-jlc-c55013903",
+      "title": "JLCPCB part detail page C55013903 (observation only, not a quote)",
+      "url": "https://jlcpcb.com/partdetail/C55013903",
+      "bytes": 255129,
+      "sha256": "09f4ba41e77511d2e224c1fc1d6c4c302f9715f6d3548c1328a6e868167bf69a",
+      "used": "Hynetek HUSB238_006DD, DFN-10L(3x3), library type expand, overseasStockCount 0, canPresaleNumber 0, preMinPurchaseNum 441, encapsulationNumber 3000, lossNumber 4. Dynamic page: values are a dated snapshot. Related listings on the same page: HUSB238_001DD C2682482 (Hynetek), HUSB238_004DD C9900000966 and HUSB238_003DD C9900028396 (brand 'JLCPCB Assembly'), all stockCount 0."
+    }
+  ],
+  "denied_not_bypassed": [
+    {"url": "https://wmsc.lcsc.com/ftps/wm/search/global?keyword=HUSB238", "result": "HTTP 403 Access Denied; not retried by another route"}
+  ]
+}

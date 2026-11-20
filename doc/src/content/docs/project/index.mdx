@@ -3,21 +3,23 @@ title: Start Here
 sidebar_position: 1
 ---
 
-zudo-pd has two products and a shared input module. Begin with [current state](./current-state.md) for dated
-artifacts, received units, verification and remaining work.
+This site covers Shared P15, PD15, PD20 and the LED Lamp. Begin with [current state](./current-state.md)
+for dated artifacts, received units, verification and remaining work. Each stream's landing page owns its current
+summary; LED pages copied from the former LED site keep their source-era status labels.
 
 | Stream | Read next | Valid source pair |
 | --- | --- | --- |
-| P15 shared input | [P15 r1](../architecture/p15-shared-input.md), [per-unit programming](../architecture/board-p15-programming.md) | `board-p15`, shared LED first then PD15 |
-| PD15 product | [PD15](../architecture/pd15.md), [bring-up](../verification/renewal-bring-up.md) | `board-p15 + board-b` |
-| PD20 product | [PD20](../architecture/pd20.md), [blocked NVM and test sheets](../verification/pd20-verification.md) | `board-p + board-b20-draft` |
+| P15 shared input | [Shared P15](../shared-p15/index.mdx), [P15 r1](../architecture/p15-shared-input.md), [per-unit programming](../architecture/board-p15-programming.md) | `board-p15`, shared LED first then PD15 |
+| PD15 product | [PD15 landing](../pd15/index.mdx), [PD15](../architecture/pd15.md), [bring-up](../verification/renewal-bring-up.md) | `board-p15 + board-b` |
+| PD20 product | [PD20 landing](../pd20/index.mdx), [PD20](../architecture/pd20.md), [blocked NVM and test sheets](../verification/pd20-verification.md) | `board-p + board-b20-draft` |
+| LED Lamp | [LED Lamp](../led-lamp/index.mdx), [source-era status](../led-lamp/architecture/current-state.mdx) | Shared P15 + Board L; legacy LED Board P is historical |
 
 ## Current reading path
 
 - [Project brief](./project-brief.md) and [repository map](./repository-map.md): intent and authoritative paths.
 - [Architecture](../architecture/index.mdx), [board contract](../architecture/board-contract.md) and
   [release gates](../architecture/release-readiness.md): responsibilities, interfaces and acceptance.
-- [Components](/docs/components/catalog/): exact inventory and provenance; a generated record is not a physical test.
+- [Components](/docs/catalog/): one catalog entry for PD's reviewed generated records and LED's explicitly unadopted line candidates; a generated record is not a physical test.
 - [Decisions](../decisions/index.mdx) and [research](../research/index.mdx): adopted direction versus candidates.
 - [Current procedures](./procedures.mdx): generation, assets, packages and per-stream verification.
 - [Archive](../archive/index.mdx): earlier designs and diagnostic history at stable URLs.

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "src-umw-ao3401a",
+      "record_id": "rec-umw-ao3401a",
+      "document_title": "UMW AO3401A P-Channel Enhancement MOSFET",
+      "document_number": "AO3401A",
+      "revision": "document retrieved 2026-08-02",
+      "document_date": "undated",
+      "authoritative_url": "https://www.umw-ic.com/static/pdf/c9d58224f731ff9fc35c005d79a7a9bf.pdf",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-08-02",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "fd1ac814d5a5f489f565fb8abf63812335c561fb11d24d4b4f752381070c8139",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 1,
+      "printed_page_label": "2",
+      "locator": "Page 1 pin figure and absolute maximum table; page 2 electrical-characteristics table; Figures 9-11 SOA/thermal",
+      "evidence_extract": "Exact UMW P-channel AO3401A: pins G/S/D=1/2/3; VDS -30 V, VGS +/-12 V; RDS(on) max 50/65/120 mOhm at -10/-4.5/-2.5 V drive."
+    },
+    {
+      "source_id": "src-umw-ao3401a-board-p-generator",
+      "record_id": "rec-umw-ao3401a",
+      "document_title": "Board P generated schematic specification",
+      "document_number": "board-p-spec",
+      "revision": "410bc1a342286dd6c205d6dcec0f248b8a963987",
+      "document_date": "2026-08-01",
+      "authoritative_url": "https://raw.githubusercontent.com/Takazudo/zudo-led-lamp/410bc1a342286dd6c205d6dcec0f248b8a963987/scripts/schgen/board_p_spec.py",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-08-02",
+      "authority_class": "PROJECT_GENERATOR",
+      "sha256": "8be1483b0800f9932fe0e2d09cbc4393f702807474316eb32a46d1ae9d0905ac",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "source",
+      "locator": "COMPONENTS row Q1 and NETS rows Q1_G, VBUS_IN and VBUS_OUT",
+      "evidence_extract": "Q1 is exact UMW AO3401A C347476; Q1.1 is Q1_G, Q1.2 is VBUS_IN and Q1.3 is VBUS_OUT in the generated Board P source."
+    }
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "provenance_note": "Observed explicit circuit-spec-integration policy rendering/refusal against frozen evidence packets. Deterministic forward fixtures separately prove routing and evidence discovery; these runs do not claim independent model discovery of IDs. The low-slider and stopped-potentiometer runs record actual parent Codex responses after reviewing the named packets. Response rendering used no tools and created no persistent session; these are not independent subagent observations. The parent subsequently clarified that the ALPS Insertion (t: 2 mm) notation must not be treated as a mandatory PCB substrate thickness; the stopped-potentiometer response incorporates that clarification.",
+  "runs": [
+    {
+      "run_id": "observed-usb-pd-programmed-state",
+      "case_id": "usb-pd-programmed-state",
+      "runner": "Claude Code CLI 2.1.220",
+      "model": "claude-haiku-4-5-20251001",
+      "run_date": "2026-08-02",
+      "cost_usd": 0.022947,
+      "invocation": {
+        "skill": "/circuit-spec-integration",
+        "tools": "disabled",
+        "session_persistence": false,
+        "evidence_packet": "frozen"
+      },
+      "prompt": "Change the STUSB4500QTR C2678061 NVM policy to request 15 V and prove the UMW AO3401A C347476 load switch remains safely off through dead-battery, reset, attach, hard reset, fault, and disconnect.",
+      "prompt_sha256": "db20bf48d2a6f14cb0257abdcb7d2a9da2364c84b1fe65d5f621ae702458f67e",
+      "response_sha256": "fb9cddaac541d1f81c31969d415c86b8a0946b584705409960be8c6d844c56cc",
+      "response": {
+        "trigger_skill": "circuit-spec-integration",
+        "loaded_skills": [
+          "component-spec-audit",
+          "circuit-spec-integration",
+          "component-stusb4500qtr",
+          "component-umw-ao3401a-c347476",
+          "component-project-passives",
+          "component-al8860mp-13",
+          "component-ap63203wu-7"
+        ],
+        "fact_ids": [
+          "fact-stusb-nvm-load",
+          "fact-stusb-artifact",
+          "fact-umw-ao3401a-vgs",
+          "fact-umw-ao3401a-project-nets",
+          "fact-c25803-resistance",
+          "fact-c22807-resistance",
+          "fact-c14663-c35-topology",
+          "fact-rd-fit-state"
+        ],
+        "source_ids": [
+          "src-stusb-ds12499",
+          "src-stusb-um2650",
+          "src-stusb-stsw004",
+          "src-umw-ao3401a",
+          "src-umw-ao3401a-board-p-generator",
+          "src-c25803-uniroyal",
+          "src-c22807-uniroyal",
+          "src-c14663-generator",
+          "src-rd-board-p-generator"
+        ],
+        "conditions": [
+          "mirror-only STUSB trust; NVM/readback/as-built state absent",
+          "ideal VBEN-low divider gives VGS -6 V at 15 V, -8 V at 20 V, -12.96 V at conditioned 32.4 V TVS table point",
+          "nominal gate tau approximately 6 ms excluding device/parasitic/waveform effects"
+        ],
+        "calculation_ids": [
+          "calc-q1-steady-vgs",
+          "calc-q1-gate-tau"
+        ],
+        "verdicts": [
+          "UNSOURCED"
+        ],
+        "refused": true,
+        "refusal": "Safety proof cannot be established without as-built NVM readback, dynamic gate, parasitic and waveform evidence, reset and fault sequencing, and bench or simulation evidence; no design change is authorized."
+      }
+    },
+    {
+      "run_id": "observed-logic-converter-substitution",
+      "case_id": "logic-converter-substitution",
+      "runner": "Claude Code CLI 2.1.220",
+      "model": "claude-haiku-4-5-20251001",
+      "run_date": "2026-08-02",
+      "cost_usd": 0.034142,
+      "invocation": {
+        "skill": "/circuit-spec-integration",
+        "tools": "disabled",
+        "session_persistence": false,
+        "evidence_packet": "frozen"
+      },
+      "prompt": "Evaluate changing the installed FNR4030S4R7MT C167874 inductor value/package and CL21A226MAQNNNE C45783 output-capacitor population around AP63203WU-7 C780769; recalculate saturation, heating, timing, and effective capacitance over the full V15 and load envelope.",
+      "prompt_sha256": "04b6551190505e0cfa091588e7af2cc9709320bd6bf869602549d4391eca5211",
+      "response_sha256": "7d233a04292ced8c444ce7982ae2f8462b07986503ba8388a23a72ca67a58d65",
+      "response": {
+        "trigger_skill": "circuit-spec-integration",
+        "loaded_skills": [
+          "component-spec-audit",
+          "circuit-spec-integration",
+          "component-ap63203wu-7",
+          "component-stm32g031f8p6"
+        ],
+        "fact_ids": [
+          "fact-fnr-isat-margin",
+          "fact-fnr-irated-margin",
+          "fact-ap63203-min-off-time",
+          "fact-cl21-effective-capacitance-status"
+        ],
+        "source_ids": [
+          "src-ap6320x-ds41326",
+          "src-fnr-series-mirror",
+          "src-samsung-cl21-product"
+        ],
+        "conditions": [
+          "V15 transients, EN-open startup, switching timing, actual 3V3 load steps, inductor heat/saturation, effective capacitance, layout and MCU state",
+          "FNR isat/irated margin now primary-confirmed; irated margin remains negative (2.7 A target vs 2.0 A primary Irms max)",
+          "unavailable min-off-time",
+          "no guaranteed effective installed capacitance"
+        ],
+        "calculation_ids": [],
+        "verdicts": [
+          "UNSOURCED"
+        ],
+        "refused": true,
+        "refusal": "No substitution or change is authorized until primary minimum-off-time and inductor evidence and installed effective capacitance close."
+      }
+    },
+    {
+      "run_id": "observed-mcu-led-thermal-change",
+      "case_id": "mcu-led-thermal-change",
+      "runner": "Claude Code CLI 2.1.220",
+      "model": "claude-haiku-4-5-20251001",
+      "run_date": "2026-08-02",
+      "cost_usd": 0.023615,
+      "invocation": {
+        "skill": "/circuit-spec-integration",
+        "tools": "disabled",
+        "session_persistence": false,
+        "evidence_packet": "frozen"
+      },
+      "prompt": "Raise the STM32G031F8P6 C529334 PWM ceiling for the AL8860MP-13 C500782 LED stage and prove LED junction, FOJAN FRC2512F33R0TS C2934070 ballast, NTC sensing, enclosure thermal state, and firmware thresholds remain safe.",
+      "prompt_sha256": "6d0ae548554b3b891679a8d234b008983503121449b7368ab3719a894a26759a",
+      "response_sha256": "1f04adc4c9e9f1b6e80b60069cbb59ab3c85577e2b2a9d3d6cf5de0ba52ee394",
+      "response": {
+        "trigger_skill": "circuit-spec-integration",
+        "loaded_skills": [
+          "component-spec-audit",
+          "circuit-spec-integration",
+          "component-al8860mp-13",
+          "component-honglitronic-hl-am-2835h421w-s1-08-hr3",
+          "component-murata-ncp18xh103f03rb",
+          "component-stm32g031f8p6",
+          "component-project-passives"
+        ],
+        "fact_ids": [
+          "fact-al8860-peak-current",
+          "fact-c2934070-rcwv",
+          "fact-c210315-forward-current-max",
+          "fact-c210315-junction-temperature-max",
+          "fact-c2934070-topology",
+          "fact-c13564-max-current",
+          "fact-c13564-curve-caveat",
+          "fact-c529334-adc"
+        ],
+        "source_ids": [
+          "src-al8860-ds39014",
+          "src-c210315-spec",
+          "src-c2934070-spec",
+          "src-c2934070-generator",
+          "src-c13564-current",
+          "src-c529334-ds"
+        ],
+        "conditions": [
+          "full LED Vf/current/temperature envelope",
+          "eight-branch current sharing",
+          "PWM and faults",
+          "PCB/enclosure thermal path",
+          "NTC divider ADC acquisition and firmware thresholds"
+        ],
+        "calculation_ids": [],
+        "verdicts": [
+          "NEEDS BENCH",
+          "UNSOURCED"
+        ],
+        "refused": true,
+        "refusal": "No PWM change is authorized until measured junction, waveform and enclosure state, sourced ADC and NTC firmware thresholds, branch sharing, and thermal path close."
+      }
+    },
+    {
+      "run_id": "observed-low-slider-power-cut",
+      "case_id": "low-slider-power-cut",
+      "runner": "Parent Codex explicit-skill policy rendering from the frozen named evidence packet; not independent discovery",
+      "model": "inherited session model",
+      "run_date": "2026-09-06",
+      "invocation": {
+        "skill": "/circuit-spec-integration",
+        "tools": "disabled",
+        "session_persistence": false,
+        "evidence_packet": "frozen"
+      },
+      "prompt": "Evaluate G-Switch SS-12D01-G020 C5446803 low-profile Board L switch and isolated live OFF throw; prove OFF isolation, mounted height and capacitive switching endurance.",
+      "prompt_sha256": "2ae40dd76903dbf9f558e382aea74fd2fc3bcc1686dc4f8d6b38eaa614e439d9",
+      "response_sha256": "704cab8338e66eb4c7b39657fe4198cde0216aeb4bde7a0113e5fe603272a2f0",
+      "response": {
+        "trigger_skill": "circuit-spec-integration",
+        "loaded_skills": [
+          "component-spec-audit",
+          "circuit-spec-integration",
+          "component-gswitch-ss-12d01-g020",
+          "component-bhfuse-bsmd1206-075-30v",
+          "component-al8860mp-13",
+          "component-ap63203wu-7"
+        ],
+        "source_ids": [
+          "src-c5446803-datasheet",
+          "src-c5446803-generator",
+          "src-bhfuse-generator",
+          "src-ap6320x-ds41326"
+        ],
+        "fact_ids": [
+          "fact-c5446803-rating",
+          "fact-c5446803-terminals",
+          "fact-c5446803-project-nets",
+          "fact-bhfuse-project-nets",
+          "fact-ap63203-en-open"
+        ],
+        "conditions": [
+          "SW2 center common 2 receives V15_FUSED and joins outer pin 1 to switched V15 in ON. In OFF it joins isolated outer pin 3, which has no PCB net but is fused-feed live. Both converters lose normal supply in OFF while Board P remains powered. G020 has a 2 mm actuator and 5.5 mm body-plus-actuator dimension; the corrected model retains shoulder stand-off for approximately 6 mm PCB reach, requiring physical confirmation. Verify inrush, bounce, restart, contact life, rail decay and service-interface back-power. Exact switch drawing remains manufacturer-mirror evidence."
+        ],
+        "calculation_ids": [],
+        "verdicts": [
+          "NEEDS BENCH"
+        ],
+        "refused": true,
+        "refusal": "The design supports normal feed interruption through common 2 to pin 1 in ON, with pin 3 isolated on the PCB but live in OFF. It does not prove capacitive-switch endurance or absence of alternate back-power. The mirrored drawing provides 3.5 mm body plus 2 mm actuator, while the model retains about 0.5 mm shoulder stand-off; approximately 6 mm mounted reach needs physical verification. Production and bench certification are refused from this evidence alone."
+      }
+    },
+    {
+      "run_id": "observed-stopped-potentiometer-adc",
+      "case_id": "stopped-potentiometer-adc",
+      "runner": "Parent Codex explicit-skill policy rendering from the frozen named evidence packet; not independent discovery",
+      "model": "inherited session model",
+      "run_date": "2026-09-06",
+      "invocation": {
+        "skill": "/circuit-spec-integration",
+        "tools": "disabled",
+        "session_persistence": false,
+        "evidence_packet": "frozen"
+      },
+      "prompt": "Evaluate ALPS RK10J11E0034 C470643 stopped brightness potentiometer with R27/R22/C22 and STM32 PA0 ADC; prove calibrated brightness, open-wiper behavior, safe startup and fit in the 1.6 mm board.",
+      "prompt_sha256": "17ac0807e72e9f8f7a6c97dc93bc201851baee7a07a564c4d4430a86448d7f06",
+      "response_sha256": "2eb845744fe8e4d9b3f302f049709e7fa83f6de4fcd9a994e2152f96d1b1bf16",
+      "response": {
+        "trigger_skill": "circuit-spec-integration",
+        "loaded_skills": [
+          "component-spec-audit",
+          "circuit-spec-integration",
+          "component-alps-rk10j11e0034",
+          "component-stm32g031f8p6",
+          "component-project-passives"
+        ],
+        "source_ids": [
+          "src-c470643-spec",
+          "src-c470643-page",
+          "src-c470643-generator",
+          "src-c529334-ds",
+          "src-c529334-generator",
+          "src-c22775-generator",
+          "src-c25803-uniroyal",
+          "src-c14663-yageo"
+        ],
+        "fact_ids": [
+          "fact-c470643-resistance",
+          "fact-c470643-tolerance",
+          "fact-c470643-terminals",
+          "fact-c470643-stops",
+          "fact-c470643-project-nets",
+          "fact-c470643-adc-design",
+          "fact-c470643-firmware-target",
+          "fact-c529334-adc",
+          "fact-c529334-topology",
+          "fact-c22775-brightness-topology",
+          "fact-c25803-resistance",
+          "fact-c14663-capacitance"
+        ],
+        "conditions": [
+          "RV1 RK10J11E0034 is the single-unit 10 kOhm +/-30% stopped potentiometer: end 1=GND, end 3=V3P3, wiper 2 through R27 100 Ohm to U3.7 PA0 BRIGHT_ADC; all four mechanical pads and U3.8 are no-connects. R22 100 kOhm and C22 100 nF connect BRIGHT_ADC to GND. Worst divider source resistance is 3.25 kOhm plus 100 Ohm before bias loading; open-wiper nominal RC decay is 10 ms, not a certified fault detector. Use the documented 160.5-cycle ADC target, reference/errata review, endpoint and inversion calibration, averaging and startup ramp with thermal/PD gates. The 270-degree physical stops replace quadrature behavior. The catalog lists Insertion (t: 2 mm); this is not treated as a mandatory PCB thickness. Seating and contact life on the actual 1.6 mm PCB need prototype proof, and firmware is not flashed."
+        ],
+        "calculation_ids": [],
+        "verdicts": [
+          "NEEDS BENCH"
+        ],
+        "refused": true,
+        "refusal": "The single-gang wiper 2, endpoints 1 and 3, and four mechanical no-connects match the primary drawing. The nominal design calculations give 13000/4 + 100 = 3350 Ohm before bias and 100000 x 100 nF = 10 ms open-wiper decay; loading means the transfer is not perfectly linear. The static circuit does not prove calibrated brightness, safe flashed startup, detection of all wiper faults or seating in the actual 1.6 mm PCB; the catalog Insertion (t: 2 mm) notation does not prove that a 2 mm substrate is mandatory. Endpoint and inversion calibration, long ADC sampling, reference and errata review, and bench startup, gate and fit verification are required before certification."
+      }
+    }
+  ]
+}

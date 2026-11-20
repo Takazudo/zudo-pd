@@ -1,0 +1,175 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-09-19T05:44:50",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.0",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/b65df504-9084-5a04-b6e1-694328d4ef8b",
+            "violations": [
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol JOUT1 Pin 1 [1, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.8255
+                            },
+                            "uuid": "29cc6ee2-a75a-56d1-9c67-04e0ea335821"
+                        },
+                        {
+                            "description": "Symbol JOUT1 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.8509
+                            },
+                            "uuid": "5fd65c2a-7cf9-566c-81e1-5cab327b7db7"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol JOUT1 Pin 2 [2, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.8509
+                            },
+                            "uuid": "5fd65c2a-7cf9-566c-81e1-5cab327b7db7"
+                        },
+                        {
+                            "description": "Symbol Q1 Pin 3 [D, Passive, Line]",
+                            "pos": {
+                                "x": 2.4257,
+                                "y": 0.4572
+                            },
+                            "uuid": "8601992e-0550-5e14-b872-c0676bb20c8b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol JOUT1 Pin 3 [3, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.8763
+                            },
+                            "uuid": "4521a669-255c-55dd-bb7e-f7db53019c79"
+                        },
+                        {
+                            "description": "Symbol J3 Pin 6 [6, Passive, Line]",
+                            "pos": {
+                                "x": 3.0988,
+                                "y": 1.8542
+                            },
+                            "uuid": "b1370922-c736-53c2-8c48-a385b31c4b52"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol JOUT1 Pin 4 [4, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.9017
+                            },
+                            "uuid": "8f45a496-8b44-5216-80d2-25fa9d5e8cd3"
+                        },
+                        {
+                            "description": "Symbol J3 Pin 7 [7, Passive, Line]",
+                            "pos": {
+                                "x": 3.0988,
+                                "y": 1.8796
+                            },
+                            "uuid": "ea820192-294d-5b87-a0cd-649b11ccc74b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Unspecified are connected",
+                    "items": [
+                        {
+                            "description": "Symbol JOUT1 Pin 5 [5, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.9271
+                            },
+                            "uuid": "c59162c4-8c15-5296-bbf3-3c26661b73c5"
+                        },
+                        {
+                            "description": "Symbol JOUT1 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.9525
+                            },
+                            "uuid": "69cc314c-a682-5166-830e-860a8102fefc"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Unspecified and Passive are connected",
+                    "items": [
+                        {
+                            "description": "Symbol JOUT1 Pin 6 [6, Unspecified, Line]",
+                            "pos": {
+                                "x": 3.1369,
+                                "y": 0.9525
+                            },
+                            "uuid": "69cc314c-a682-5166-830e-860a8102fefc"
+                        },
+                        {
+                            "description": "Symbol J2 Pin 3 [3, Passive, Line]",
+                            "pos": {
+                                "x": 3.0988,
+                                "y": 1.3716
+                            },
+                            "uuid": "b26d5738-2362-5e87-a622-1f546eeb52d2"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                }
+            ]
+        }
+    ],
+    "source": "board-p.kicad_sch"
+}

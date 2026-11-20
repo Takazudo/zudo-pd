@@ -1,0 +1,21 @@
+# Project routing
+
+Use `.claude/skills/component-spec-audit` whenever circuit, schematic, PCB, BOM, firmware, bring-up, substitution, or related documentation work touches component identity, behavior, ratings, pins, packages, defaults, previews, or interactions. **Adding or replacing a BOM component always starts there**: it owns the exact schematic/spec change, evidence, KiCad assets, explicit catalog publication, previews, generated docs, and validation. Run its offline validator first and route every exact MPN/LCSC/function through the central inventory. Never infer unavailable evidence from memory or a same-name/generic-family part.
+
+Load every matching exact owner skill, including first-class subordinate records:
+
+- `component-gswitch-ss-12d01-g020`: JLCPCB C5446803 maintained low-profile slider, Board L through-hole mounting and isolated live OFF throw.
+- `component-stusb4500qtr`: STUSB4500QTR, PESD24VS1UB,115, and the DNP external-Rd resistors.
+- `component-umw-ao3401a-c347476`, `component-type-c-31-m-17`, `component-high-diode-smaj20a-c571370`, and `component-xfcn-board-headers`: Board P switching, receptacle, TVS, and the PZ254V/PM254V board-to-board header pair.
+- `component-project-passives`: exact Samsung/Yageo MLCC and UNI-ROYAL resistor lines assigned there.
+- `component-al8860mp-13`: AL8860 plus its sense resistor, inductor, and exact R+O catch diode.
+- `component-ap63203wu-7`: AP63203 plus its inductor and exact output MLCC.
+- `component-bhfuse-bsmd1206-075-30v`: input PPTC.
+- `component-stm32g031f8p6`: MCU, Board L's hand-fit 1x5 SWD header, and the adapter's exact ST-LINK/V2 20-pin header.
+- `component-alps-rk10j11e0034`, `component-murata-ncp18xh103f03rb`, and `component-honglitronic-hl-am-2835h421w-s1-08-hr3`: stopped potentiometer, NTC, LED, and LED-ballast records.
+
+Also load `circuit-spec-integration` for any cross-component rail, protection, startup, state/configuration, converter, sensing, thermal, harness, symbol/footprint, as-built, or firmware interaction. Component and integration skills audit design state; they do not authorize silently changing component selections, connectivity, firmware behavior, or unresolved harness domains.
+
+## Development orchestration
+
+For multi-session work or expensive checks, also read [circuit/ORCHESTRATION.md](circuit/ORCHESTRATION.md), [the current task/environment/model mapping](circuit/orchestration/current-plan.md) and [the bounded task template](circuit/templates/orchestration-task.md). These govern cloud-first coordination, shared resources, recovery and the scoped DNS-incident deferral; they do not replace the hardware/evidence rules above or authorize new physical actions.

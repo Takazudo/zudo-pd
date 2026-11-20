@@ -1,0 +1,116 @@
+---
+title: C3 and C5 decision review
+sidebar_position: 4
+---
+
+# C3 and C5 decision review
+
+> **Source-bound review record.** These rows identify proposed translations and held decisions; they are not a shared part/CAD approval, an assembled-fit finding or a publication selection.
+
+## Exact component identity
+
+The 17 overlapping LED line IDs include 13 equal-text identity candidates that still need source, pin, CAD and use review. Four have the following field conflicts. The 18 LED-only lines remain product-scoped candidates.
+
+| LED line / part | Different field(s) | LED text | PD text | Recommendation |
+| --- | --- | --- | --- | --- |
+| line-c2678061 / STUSB4500QTR | manufacturer | manufacturer=STMicroelectronics | manufacturer=ST (STMicroelectronics) | Keep distinct; require owner evidence |
+| line-c347476 / AO3401A | manufacturer | manufacturer=UMW (Youtai Semiconductor) | manufacturer=UMW | Keep distinct; require owner evidence |
+| line-c571370 / SMAJ20A | package | package=SMA_L4.2-W2.6-LS5.3-RD | package=D-FLAT_L4.3-W2.6-LS5.3-RD | Keep distinct; require owner evidence |
+| line-c85382 / PESD24VS1UB,115 | mpn | mpn=PESD24VS1UB,115 | mpn=PESD24VS1UB | Keep distinct; require owner evidence |
+
+## LED line DNP projection
+
+Seven placement rows inherit four historical LED line DNP flags. The dated export check shows four Board P exclusions and three requested Board L/SWD connector placements; see the [item evidence review](./item-evidence.mdx). Current design and physical fit remain held.
+
+| LED line | Product CAD namespace | Refdes | Status |
+| --- | --- | --- | --- |
+| line-c85382 | products/led-lamp/boards/board-p | D6 | DNP flag projected; fit unverified |
+| line-c85382 | products/led-lamp/boards/board-p | D7 | DNP flag projected; fit unverified |
+| line-c23186 | products/led-lamp/boards/board-p | R17 | DNP flag projected; fit unverified |
+| line-c23186 | products/led-lamp/boards/board-p | R18 | DNP flag projected; fit unverified |
+| line-c492404 | products/led-lamp/boards/board-l | J3 | DNP flag projected; fit unverified |
+| line-c492404 | products/led-lamp/boards/swd-adapter | J2 | DNP flag projected; fit unverified |
+| line-c4749199 | products/led-lamp/boards/swd-adapter | J1 | DNP flag projected; fit unverified |
+
+## CAD namespace
+
+Twenty-one relative CAD paths collide across PD and LED; 20 have different bytes. Even the one equal-byte project file does not prove package or board equivalence. Keep both roots until pad, symbol pin, body, courtyard and model-locator review.
+
+| Relative path | Bytes | Candidate disposition |
+| --- | --- | --- |
+| boards/board-p/board-p.kicad_pcb | different | Separate PD and LED roots |
+| boards/board-p/board-p.kicad_pro | equal | Separate PD and LED roots |
+| boards/board-p/board-p.kicad_sch | different | Separate PD and LED roots |
+| boards/board-p/fp-lib-table | different | Separate PD and LED roots |
+| boards/board-p/sym-lib-table | different | Separate PD and LED roots |
+| footprints/CLAUDE.md | different | Separate PD and LED roots |
+| footprints/kicad/C0603.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/C0805.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/C1206.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/F1206.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/HDR-TH_6P-P2.54-V-F.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/HDR-TH_6P-P2.54-V-M.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/PogoPad_1x04_P2.54mm.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/PogoPad_1x08_P2.54mm.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/R0603.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/R0805.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/SOD-523_L1.2-W0.8-LS1.6-RD.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/SOT-23_L2.9-W1.3-P1.90-LS2.4-BR.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/TestPad_D1.5mm.kicad_mod | different | Separate PD and LED roots |
+| footprints/kicad/USB-C-SMD_10P-P1.00-L6.8-W8.9.kicad_mod | different | Separate PD and LED roots |
+
+## Routes and redirects
+
+All 34 historical LED page copies exist. Thirty-five generated record targets have source-bound proposed syntax but no active combined catalog; four generated section routes need semantic review. Twenty-four raw-resource routes stay withheld. Three old authored routes collide with PD and cannot receive blanket redirects on the PD host.
+
+| Old LED route already used by PD | Historical copy route |
+| --- | --- |
+| /docs/architecture/board-p/ | /docs/led-lamp/architecture/board-p/ |
+| /docs/architecture/ | /docs/led-lamp/architecture/ |
+| /docs/research/ | /docs/led-lamp/research/ |
+
+The 40 mapped PD redirect lines still match their source positions. All 12 LED aliases stay held: six point to proposed generated record routes and six point to raw resources. Their old-host behavior must be preserved until an approved cutover.
+
+| Old LED alias | Proposed target or hold |
+| --- | --- |
+| /docs/components/records/wr11as | /docs/components/records/led-rec-c5446803-55f5384481c2-42990878/ |
+| /docs/components/records/wr11as/ | /docs/components/records/led-rec-c5446803-55f5384481c2-42990878/ |
+| /docs/components/records/c496154 | /docs/components/records/led-rec-c5446803-55f5384481c2-42990878/ |
+| /docs/components/records/c496154/ | /docs/components/records/led-rec-c5446803-55f5384481c2-42990878/ |
+| /docs/components/records/c2991196 | /docs/components/records/led-rec-c470643-ff9a8372f644-0711ce33/ |
+| /docs/components/records/c2991196/ | /docs/components/records/led-rec-c470643-ff9a8372f644-0711ce33/ |
+| /docs/claude-skills/component-nkk-wr11as | Raw-resource route held |
+| /docs/claude-skills/component-nkk-wr11as/ | Raw-resource route held |
+| /docs/claude-skills/component-dailywell-1ms1t1b1m1qes-5 | Raw-resource route held |
+| /docs/claude-skills/component-dailywell-1ms1t1b1m1qes-5/ | Raw-resource route held |
+| /docs/claude-skills/component-alps-ec11l1525g01 | Raw-resource route held |
+| /docs/claude-skills/component-alps-ec11l1525g01/ | Raw-resource route held |
+
+## Assets referenced by copied authored pages
+
+Twelve links refer to 11 distinct LED assets. They stay on the original LED host. A namespaced PD path is only a candidate; none is approved by PD's asset allowlist. The full C1 inventory also holds 49 manual assets and 51 generated previews.
+
+| Original LED asset | Candidate PD path | References |
+| --- | --- | ---: |
+| doc/public/assets/enclosure/assembled.png | /assets/led-lamp/enclosure/assembled.png | 1 |
+| doc/public/assets/enclosure/assembly-step.zip | /assets/led-lamp/enclosure/assembly-step.zip | 1 |
+| doc/public/assets/enclosure/exploded.png | /assets/led-lamp/enclosure/exploded.png | 1 |
+| doc/public/assets/enclosure/index.html | /assets/led-lamp/enclosure/index.html | 2 |
+| doc/public/assets/enclosure/manifest.json | /assets/led-lamp/enclosure/manifest.json | 1 |
+| doc/public/assets/enclosure/post-flat.png | /assets/led-lamp/enclosure/post-flat.png | 1 |
+| doc/public/assets/enclosure/selected-concept.png | /assets/led-lamp/enclosure/selected-concept.png | 1 |
+| doc/public/assets/enclosure/smoke-reversing-stls.zip | /assets/led-lamp/enclosure/smoke-reversing-stls.zip | 1 |
+| doc/public/assets/enclosure/underside.png | /assets/led-lamp/enclosure/underside.png | 1 |
+| doc/public/assets/pcb/board-l-rear-controls.png | /assets/led-lamp/pcb/board-l-rear-controls.png | 1 |
+| doc/public/assets/pcb/board-l-stack-clearance.svg | /assets/led-lamp/pcb/board-l-stack-clearance.svg | 1 |
+
+## Choices that still need an owner decision
+
+| Target | Options | Recommended next action and impact |
+| --- | --- | --- |
+| Four conflicting part identities and 13 same-text overlaps | Share identities now; or retain product-scoped records | Retain scoped records until primary source, pin and use evidence is reviewed. This delays one active LED-inclusive generated catalog. |
+| Seven DNP placements and 21 CAD path collisions | Adopt common fit/packages now; or keep source namespaces | Keep separate roots and historical line flags; verify BOM/CPL, pads, symbols and models before fitted/package claims. No manufacturing conclusion follows. |
+| 34 pages, 39 generated routes, 24 raw routes, 49 manual assets and 12 aliases | Publish all; or approve exact entries | Approve exact pages/assets/redirects under PD's restricted policy. Until then, retain old-host links; the 34 copies are published as historical pages. |
+
+The [C3 reconciliation source](https://github.com/Takazudo/zudo-pd/blob/codex/c3-c5-decision-review-20261117-01/circuit/orchestration/campaigns/pd-led-20261116-c3/c3a-reconciliation.md), [C1 maps](https://github.com/Takazudo/zudo-pd/tree/codex/c3-c5-decision-review-20261117-01/circuit/orchestration/campaigns/pd-led-20261116-c1) and [machine-readable review bundle](https://github.com/Takazudo/zudo-pd/blob/codex/c3-c5-decision-review-20261117-01/circuit/orchestration/campaigns/pd-led-20261117-integration/c3-c5-candidates.json) retain exact input paths and hashes. No private vendor documents or local-only STEP are included.

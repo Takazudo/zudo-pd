@@ -1,0 +1,544 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-26T21:18:04",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.6",
+    "schematic_parity": [],
+    "source": "board-p-COUT1206-TRIAL.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1751 mm)",
+            "items": [
+                {
+                    "description": "Pad A1/B12 [GND] of J1 on F.Cu",
+                    "pos": {
+                        "x": 16.7,
+                        "y": 7.355
+                    },
+                    "uuid": "4ba5c7cd-0454-5642-ad4f-14c4fcdc4482"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 16.39,
+                        "y": 6.28
+                    },
+                    "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.2099 mm)",
+            "items": [
+                {
+                    "description": "Pad A4/B9 [RAW_USB_VBUS] of J1 on F.Cu",
+                    "pos": {
+                        "x": 15.9,
+                        "y": 7.355
+                    },
+                    "uuid": "0c3d2fa4-9b40-5512-81b7-c7dcad0ab61c"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 16.39,
+                        "y": 6.28
+                    },
+                    "uuid": "9a113a25-cfb9-5029-b2fc-102972994c5d"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.2099 mm)",
+            "items": [
+                {
+                    "description": "Pad B4/A9 [RAW_USB_VBUS] of J1 on F.Cu",
+                    "pos": {
+                        "x": 11.1,
+                        "y": 7.355
+                    },
+                    "uuid": "df2d4331-d36f-5fd6-a30d-5494c2863f0d"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 10.61,
+                        "y": 6.28
+                    },
+                    "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1751 mm)",
+            "items": [
+                {
+                    "description": "Pad B1/A12 [GND] of J1 on F.Cu",
+                    "pos": {
+                        "x": 10.3,
+                        "y": 7.355
+                    },
+                    "uuid": "3edb7167-833c-540d-bdb7-c2e73da3f98c"
+                },
+                {
+                    "description": "NPTH pad of J1",
+                    "pos": {
+                        "x": 10.61,
+                        "y": 6.28
+                    },
+                    "uuid": "456f52ff-4951-54d6-acb7-bc7de5a1773e"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 1 [RAW_USB_VBUS] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.0
+                    },
+                    "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.5
+                    },
+                    "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+                },
+                {
+                    "description": "Pad 1 [RAW_USB_VBUS] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.0
+                    },
+                    "uuid": "bddf6543-c970-5fd0-beec-21f35520bd69"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.5
+                    },
+                    "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+                },
+                {
+                    "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.0
+                    },
+                    "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 2 [USB_DP] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 12.5
+                    },
+                    "uuid": "e71a0e15-f568-54b8-9c97-4feef0e00fe9"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.0
+                    },
+                    "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+                },
+                {
+                    "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.5
+                    },
+                    "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 3 [USB_DM] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.0
+                    },
+                    "uuid": "b5e76b14-0561-56d9-b062-2d5338622c06"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.5
+                    },
+                    "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+                },
+                {
+                    "description": "Pad 5 [USB_CC2] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 14.0
+                    },
+                    "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 4 [USB_CC1] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 13.5
+                    },
+                    "uuid": "68cb0d2e-75ac-5adb-8bcb-94b4b9f90e6a"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 5 [USB_CC2] of U1 on F.Cu",
+                    "pos": {
+                        "x": 12.6,
+                        "y": 14.0
+                    },
+                    "uuid": "29c6c715-e9c5-5002-97f2-65047f6c44b9"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 6 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 14.0
+                    },
+                    "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec"
+                },
+                {
+                    "description": "Pad 7 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.5
+                    },
+                    "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 6 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 14.0
+                    },
+                    "uuid": "ebd3388d-7f93-53be-94fc-46543a5965ec"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 7 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.5
+                    },
+                    "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 7 [<no net>] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.5
+                    },
+                    "uuid": "f5245a7a-384f-53b1-acf5-42199c47ed96"
+                },
+                {
+                    "description": "Pad 8 [VSET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.0
+                    },
+                    "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 8 [VSET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.0
+                    },
+                    "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 8 [VSET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 13.0
+                    },
+                    "uuid": "1d0cd9da-7cc2-58bc-93ff-281412313a60"
+                },
+                {
+                    "description": "Pad 9 [ISET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.5
+                    },
+                    "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 9 [ISET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.5
+                    },
+                    "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 9 [ISET] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.5
+                    },
+                    "uuid": "11541f49-8d03-5b82-802e-9be4ef8a5308"
+                },
+                {
+                    "description": "Pad 10 [CONTRACT_GATE_N] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.0
+                    },
+                    "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation ( clearance 0.2000 mm; actual 0.1500 mm)",
+            "items": [
+                {
+                    "description": "Pad 10 [CONTRACT_GATE_N] of U1 on F.Cu",
+                    "pos": {
+                        "x": 15.4,
+                        "y": 12.0
+                    },
+                    "uuid": "2bd6fe90-3530-5793-8618-2e4f7cc92335"
+                },
+                {
+                    "description": "Pad 11 [GND] of U1 on F.Cu",
+                    "pos": {
+                        "x": 14.0,
+                        "y": 13.0
+                    },
+                    "uuid": "135f62d2-c5d2-511d-b653-421bae0f696a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        }
+    ]
+}

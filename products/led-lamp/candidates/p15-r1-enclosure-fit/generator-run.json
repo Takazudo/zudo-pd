@@ -1,0 +1,388 @@
+{
+ "_comment": "enclosure/generate.py run in an isolated copy with the P15 r1 PCB as boards/board-p/board-p.kicad_pcb; tracked outputs not regenerated",
+ "led_commit": "cfc8cb4e190acd25270e6813ed20c600d61c5d84",
+ "generate_py_sha256": "926d575794b79d390e4e1254c4edd54c6135f7798fea02daaeb6d3b26ae0fd36",
+ "board_p_pcb_sha256": "97acc5f4c712f0be01dbc5d6809a5bd17ecdceb97f3e6a831bef94500117d065",
+ "board_p_pcb_source": "zudo-pd boards/board-p15/board-p15-draft.kicad_pcb (P15 package source lock, git_base 3b9821b)",
+ "board_l_pcb_sha256": "1d9dc7a70d10216b25cd40eb5f9dafa60eacdffa0a1fddda04e9ff6c0eab765b",
+ "kicad": "10.0.6, kicad/kicad@sha256:18693567392b80da435f9fa952ce3a3e534c66eb5a6033f5b9c80aa3b19dd3ec",
+ "exit": 0,
+ "pcb_models_checked": true,
+ "checks": [
+  "Every printable STL is watertight, consistently wound, and positive-volume",
+  "Every print mesh starts on Z=0",
+  "Each assembly print file contains one connected solid",
+  "All printed-part pairs and modeled PCB/hardware intersections checked",
+  "16 x 8 mm overmold corridor to PCB edge and 8.4 x 2.6 mm metal-nose corridor are open; actual seating unverified",
+  "Existing PCB mounting and six-pin alignment checked"
+ ],
+ "max_intersection_mm3": 0.0,
+ "intersection_checks": [
+  [
+   "00-base",
+   "01-band-usb",
+   0.0
+  ],
+  [
+   "00-base",
+   "mount-01-17.6mm",
+   0.0
+  ],
+  [
+   "00-base",
+   "mount-02-17.6mm",
+   0.0
+  ],
+  [
+   "00-base",
+   "mount-03-5.0mm",
+   0.0
+  ],
+  [
+   "00-base",
+   "mount-04-5.0mm",
+   0.0
+  ],
+  [
+   "00-base",
+   "mount-05-5.0mm",
+   0.0
+  ],
+  [
+   "00-base",
+   "mount-06-17.6mm",
+   0.0
+  ],
+  [
+   "00-base",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "00-base",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "00-base",
+   "post-03-flat",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "02-band",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "mount-01-17.6mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "mount-02-17.6mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "mount-03-5.0mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "mount-04-5.0mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "mount-05-5.0mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "mount-06-17.6mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "interboard-01-11.0mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "interboard-02-11.0mm",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "post-03-flat",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "board-l-components-reference",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "board-p-substrate-reference",
+   0.0
+  ],
+  [
+   "01-band-usb",
+   "board-p-components-reference",
+   0.0
+  ],
+  [
+   "02-band",
+   "03-band",
+   0.0
+  ],
+  [
+   "02-band",
+   "mount-01-17.6mm",
+   0.0
+  ],
+  [
+   "02-band",
+   "mount-02-17.6mm",
+   0.0
+  ],
+  [
+   "02-band",
+   "mount-06-17.6mm",
+   0.0
+  ],
+  [
+   "02-band",
+   "interboard-01-11.0mm",
+   0.0
+  ],
+  [
+   "02-band",
+   "interboard-02-11.0mm",
+   0.0
+  ],
+  [
+   "02-band",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "02-band",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "02-band",
+   "post-03-flat",
+   0.0
+  ],
+  [
+   "02-band",
+   "board-l-substrate-reference",
+   0.0
+  ],
+  [
+   "02-band",
+   "board-l-components-reference",
+   0.0
+  ],
+  [
+   "02-band",
+   "board-p-components-reference",
+   0.0
+  ],
+  [
+   "03-band",
+   "04-band",
+   0.0
+  ],
+  [
+   "03-band",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "03-band",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "03-band",
+   "post-03-flat",
+   0.0
+  ],
+  [
+   "04-band",
+   "05-band",
+   0.0
+  ],
+  [
+   "04-band",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "04-band",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "04-band",
+   "post-03-flat",
+   0.0
+  ],
+  [
+   "05-band",
+   "06-band-top",
+   0.0
+  ],
+  [
+   "05-band",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "05-band",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "05-band",
+   "post-03-flat",
+   0.0
+  ],
+  [
+   "06-band-top",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "06-band-top",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "06-band-top",
+   "post-03-flat",
+   0.0
+  ],
+  [
+   "mount-01-17.6mm",
+   "board-l-components-reference",
+   0
+  ],
+  [
+   "mount-02-17.6mm",
+   "board-l-components-reference",
+   0
+  ],
+  [
+   "mount-03-5.0mm",
+   "board-p-components-reference",
+   0
+  ],
+  [
+   "mount-04-5.0mm",
+   "board-p-components-reference",
+   0
+  ],
+  [
+   "mount-05-5.0mm",
+   "board-p-components-reference",
+   0
+  ],
+  [
+   "mount-06-17.6mm",
+   "board-l-components-reference",
+   0
+  ],
+  [
+   "interboard-01-11.0mm",
+   "board-l-components-reference",
+   0
+  ],
+  [
+   "interboard-01-11.0mm",
+   "board-p-components-reference",
+   0
+  ],
+  [
+   "interboard-02-11.0mm",
+   "board-l-components-reference",
+   0
+  ],
+  [
+   "interboard-02-11.0mm",
+   "board-p-components-reference",
+   0
+  ],
+  [
+   "foot-01",
+   "post-01-flat",
+   0.0
+  ],
+  [
+   "foot-02",
+   "post-02-flat",
+   0.0
+  ],
+  [
+   "foot-03",
+   "post-03-flat",
+   0.0
+  ]
+ ],
+ "datums": {
+  "floor_top": 8.4,
+  "board_p_bottom": 13.4,
+  "board_p_top": 15.0,
+  "board_l_bottom": 26.0,
+  "board_l_top": 27.6,
+  "top": 86.4,
+  "usb_opening_bottom": 8.4
+ },
+ "source_hashes": {
+  "enclosure/generate.py": "926d575794b79d390e4e1254c4edd54c6135f7798fea02daaeb6d3b26ae0fd36",
+  "footprints/kicad/zudo-led-lamp.3dshapes/LED-SMD_L3.5-W2.8-H0.7.step": "3950f739b2e9163404e0e98e33c876ebafdf6088500b2c3855ac725715120e6e",
+  "footprints/kicad/zudo-led-lamp.3dshapes/C0603_L1.6-W0.8-H0.8.step": "f9918dd3888f5ca8b9c906b8cb10b9d8e335f6855513b3e235a18123ae353a78",
+  "footprints/kicad/zudo-led-lamp.3dshapes/R2512_L6.3-W3.2-H0.6.step": "d34780eb5085295fb4a1eb5b1f5acc10fb14adc5438cd630e13497305530862e",
+  "footprints/kicad/zudo-led-lamp.3dshapes/C1206_L3.2-W1.6-H1.3.step": "8c99630f2bb86b653b57c467d723383db2a61971d491692b1eb2a5768df02cef",
+  "footprints/kicad/zudo-led-lamp.3dshapes/TSOT-26_L2.9-W1.6-P0.95-LS2.8-BL.step": "a8ffb0afc940ec9e0ce869d16f41faa486004f5cc5013e7ecec23d16ffa680ed",
+  "footprints/kicad/zudo-led-lamp.3dshapes/R0603.step": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
+  "footprints/kicad/zudo-led-lamp.3dshapes/R0805_L2.0-W1.3-H0.6.step": "001b6970d63e46474aa901afc1d8fe93ed3098f81f79d75f9019f417207be59b",
+  "footprints/kicad/zudo-led-lamp.3dshapes/IND-SMD_L7.0-W6.6-H2.8_FXL0630.step": "02299170d9b3a4cd3bce3deea6dbc758ab7d5e8cb8b888464d0a940f4cfaa68b",
+  "footprints/kicad/zudo-led-lamp.3dshapes/SMA_L4.3-W2.6-LS5.0-FD.step": "c2559d2addaf77f7ab6a456c25071c142825a8b9ac35f226bd29f32157bb486b",
+  "footprints/kicad/zudo-led-lamp.3dshapes/F1206_L3.2-W1.7-H0.6.step": "b4aa1c51737817cb825db00ace803703d2022f88e8062722a44807b791b94f1f",
+  "footprints/kicad/zudo-led-lamp.3dshapes/TSSOP-20_L6.5-W4.4-H1.0-LS6.4-P0.65.step": "a5e7eefa7f0245d8cfd2f80a92974768a8369a4ad184fe612e8379d22c4c5dca",
+  "footprints/kicad/zudo-led-lamp.3dshapes/MSOP-8_L3.0-W3.0-P0.65-LS4.9-BL-EP1.8.step": "48850e0ba8c705a3ed743f6390adaab2a1d0596e479fb656a4d3820779e8c833",
+  "footprints/kicad/zudo-led-lamp.3dshapes/IND-SMD_L4.0-W4.0-H2.6_FNR40XXS.step": "74f9ee02cb5adcb8e149e9452ece79ead7312c30211f2e812f08011b83bec38a",
+  "footprints/kicad/zudo-led-lamp.3dshapes/SMA_L4.2-W2.6-LS5.3-RD.step": "cae76c7a440b48c6e959dcfd5b9b8e8ed6dd731b7cf5fcb58a2b767283b138df",
+  "footprints/kicad/zudo-led-lamp.3dshapes/C0805_L2.0-W1.3-H1.3.step": "99acc6b12df8e17000d6e7529bddac9ea44e1240f5635482742aae256f49b5df",
+  "footprints/kicad/zudo-led-lamp.3dshapes/SW-TH_SS-12D01-G020.step": "fc474ae1f7fde48b66f40c479a7e512004d33b76240da28d623a281ec1a7d261",
+  "footprints/kicad/zudo-led-lamp.3dshapes/POT-TH_RK10J11E0034_family.step": "a269286859ddcf169a50c53c80608770861e5dd891d52231b39f04d058c07fa1",
+  "footprints/kicad/zudo-led-lamp.3dshapes/HDR-TH_5P-P2.54-M-LI-1X5P.step": "73e08cb77c73909d7a22a844b0e2b72731a4831b9b2626cfc691730514f9f63f",
+  "footprints/kicad/zudo-led-lamp.3dshapes/HDR-TH_6P-P2.54-V-F.step": "6101de529b83a8e40d64b9e05257aaeaa86d39c19e3ce22019d66e50f42541db",
+  "footprints/kicad/zudo-pd.3dshapes/R0603.step": "e52f17888a8c6c2cb8d56dccf25e2ed131a12a241311657622543c405e42826c",
+  "footprints/kicad/zudo-pd.3dshapes/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.step": "9057661be7130af37402e30647602e467285870efe0b403443404628462cf576",
+  "footprints/kicad/zudo-pd.3dshapes/SMA_Littelfuse_SMAJ16A_C74561.step": "bcd3e4bf0159280b233508bd4141e7c35f6af8be32e605725ab5e715daa1514e",
+  "footprints/kicad/zudo-pd.3dshapes/C0603_L1.6-W0.8-H0.8.step": "f2b74e1ceda9af3ce8ac13e68f37164694e30a3792f6b6a8f0709c45c0ca28dc",
+  "footprints/kicad/zudo-pd.3dshapes/SOD-123_L2.8-W1.8-LS3.7-RD.step": "1a3ff428cbd393ef718338336f3bc921239a12b8d495beac300798295fc1fb9f",
+  "footprints/kicad/zudo-pd.3dshapes/SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.step": "25a44f09c5a587e1dff6f7bdb8d2e573381bf1fb679eb41b07f112a5b3fd1a1f",
+  "footprints/kicad/zudo-pd.3dshapes/SOD-523_L1.2-W0.8-H0.7-LS1.6.step": "f82f40cbaa007f705d1d625cbd99c8b2c953d5b5aaec59687c06e34d4b77b37b",
+  "footprints/kicad/zudo-pd.3dshapes/USB-C-SMD_10P-P1.00-L6.8-W8.9.step": "1513d5fe63fea87ca6e8566ca8e416b828d3498c569bba3495aa936ab1bd2624",
+  "footprints/kicad/zudo-pd.3dshapes/HDR-TH_6P-P2.54-M-LI-1X6P.step": "dc269a9893939c6010e8f9d4632f8b55b6c641528794a5971dded9a0bc519136",
+  "footprints/kicad/zudo-pd.3dshapes/C1206_L3.2-W1.6-H1.3.step": "5490b3b6503db57694500df9e009f34739f841152e215280fb909979b014d4ab"
+ }
+}

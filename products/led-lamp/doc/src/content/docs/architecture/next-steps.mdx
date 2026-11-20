@@ -1,0 +1,352 @@
+---
+title: Next Steps — The KiCad Phase
+description: What happens after this architecture is locked — schematic capture order, the footprint and CPL rotation pipeline, BOM/CPL export, the staged bring-up sequence, and the open questions that need bench answers.
+sidebar_position: 60
+---
+
+> **2026-11-08:** this page is the original architecture-epic handover and is kept for its
+> layout notes and bring-up gates. The KiCad data it anticipated now exists, both boards were
+> ordered on 2026-09-19, and a linked (never flashed) Board L target image builds in CI. The
+> current path is zudo-pd P15 r1 with the two existing Board Ls; see
+> [Current State and Completion](./current-state.mdx).
+
+The architecture is locked; the next phase is KiCad data, which was explicitly out of
+scope for this epic. This page is the handover: what to build, in what order, with which
+tools, and which gates must pass before the next step is allowed.
+
+## Fit and validate the rear controls
+
+Board L now includes the routed JLCPCB **C5446803 SW2 slide switch** and rear RV1 stopped potentiometer.
+The [rear-controls handoff](./rear-controls.mdx) gives PCB coordinates, the actual
+3D render, and enclosure constraints. SW2 is included in the BOM/CPL; check both
+control bodies in the enclosure and check terminal fit and front lead projection.
+Follow the [bring-up sequence](./power-switch.mdx), including inrush, bounce,
+rail decay, contact reliability and service back-power. These checks remain
+unperformed until hardware exists.
+
+## Schematic capture order
+
+Capture Board P first even though it is the already-solved board — it forces the shared
+symbol/footprint library into existence against a circuit whose net table is already
+settled, so Board L's capture is not simultaneously debugging the library.
+
+1. **Board P** — from the [locked net table](./board-p.mdx#net-connectivity-table).
+   The C1711 → [C14663](https://jlcpcb.com/partdetail/C14663) 100 nF swap noted on that
+   page was applied at capture (one Extended fee removed).
+2. **Board L power section** — J2, F1, D10, the input bulk caps, and both converters.
+   Verify the 15 V rail on its own before any load exists downstream of it.
+3. **Board L LED array** — the eight ballast/string blocks. Draw one string as a
+   hierarchical sheet and instantiate it eight times rather than copy-pasting; the
+   [net table](./board-l.mdx#net-connectivity-table-led-array-8-strings-x-3-series) names the nets in exactly
+   that repeating pattern.
+4. **Board L control** — U3, RV1, RT1, the CTRL RC filter, the pad groups.
+
+Run ERC after each stage, not once at the end.
+
+## Layout notes worth having up front
+
+| Concern | Guidance |
+|---|---|
+| **The whole LED array switches**, not just `LED_N` | `LED_N` (common cathode + SW pins) swings 0 → ~15.5 V at ~440 kHz — and because the string voltage is fixed, `LED_P` and every per-string net swing the same 15.5 V_pp right along with it. Keep **all** array copper compact; pour **no** array net as a large plane, `LED_P` included |
+| D11's loop is the one that matters | The D11–U2–C12/C13 loop is the only high-di/dt commutation loop in the converter. D11's anode must sit immediately at U2 pins 5/6 with C12/C13 closing the loop to pins 2/3. Putting D11 out near the array would turn the whole array into the commutation loop |
+| Ballast on the anode side | R30–R37 sit between `LED_P` and each string's top LED, deliberately, so `LED_N` stays one compact net instead of eight |
+| RS1 is a **high-side** sense resistor | It sits between `V15` and `SET`, not in the ground return. Kelvin-connect it and keep the `SET` trace short — this is the node that sets LED current |
+| U2 exposed pad | Tie to the ground pour for heat, but the datasheet is explicit that it must **not** be the electrical ground return path — pins 2 and 3 are |
+| LED thermal pours | The [thermal budget](/docs/research/thermal-budget/) is clear that the ~1 W/site figure assumes a generous via-stitched pour per pad; a token pad does not hit it. At 0.19 W/site there is margin, but do not spend it all on cramped copper |
+| RT1 placement | Physically **inside** the LED array, not near the board edge — it is measuring the array's temperature, and the derate thresholds assume that |
+| RV1 and the board edge | Reserve the full Ø14±0.2 mm wheel envelope and finger access; its centre is offset from the footprint origin. Verify the low-profile housing and 1.6 mm PCB fit |
+
+## Footprint pipeline
+
+The LCSC parts here mostly have EasyEDA footprints, and pulling them in is faster than
+drawing them — but it is also where the
+[CPL rotation gotcha](/docs/power/lessons-from-zudo-pd/#jlcpcb-cpl-rotation-gotcha) bites.
+
+1. **`easyeda2kicad`** to import symbols and footprints for the LCSC parts, especially
+   the ones with no KiCad-official equivalent (U1 STUSB4500, U2 AL8860, J1 receptacle,
+   RV1 potentiometer and SW2 slide switch).
+2. **`kicad-jlcpcb-tools`** for the BOM/CPL export rather than KiCad's built-in export —
+   it carries a community-maintained rotation database.
+3. **Add explicit rotation overrides in its Corrections Manager** for every
+   EasyEDA-derived footprint family on these boards, before trusting a single generated
+   CPL. The failure mode zudo-pd hit is a generic rule like `^SOT-23 → -90°` matching an
+   EasyEDA footprint that is *already drawn in JLCPCB's pin-1 convention* and applying a
+   bogus 90° correction. On these boards that pattern threatens at minimum: Q1 (SOT-23),
+   U4 (TSOT-23-6), U2 (MSOP-8-EP), U1 (QFN-24-EP), and U3 (TSSOP-20).
+4. **Check the rendered CPL against the assembly preview by eye**, part by part, for
+   every polarised or oriented device. JLCPCB's own pre-production review caught a QFN
+   rotation problem on zudo-pd's v2 board and **missed** the SOT-23 over-correction on
+   the same order — it is not a safety net.
+
+## BOM and CPL export
+
+Use the `jlcpcb-bom-generate-from-kicad` skill to produce the JLCPCB-format BOM and CPL
+from the KiCad project. Then reconcile against the [Final BOM](./bom.mdx) page: every
+C-number must match, and the DNP lines (Board P's R17/R18 and D6/D7) plus the
+footprint-only pad groups (Board L's J3 and J4) must be **absent** from the assembly BOM,
+not present with zero quantity.
+
+Re-verify stock on the four flagged lines — `C571370`, `C500782`, `C2991196`, `C459674` —
+on the day of ordering, per the [sourcing risks](./bom.mdx#sourcing-risks) table.
+
+:::danger[Stale `LCSC Part` fields inside shared footprints — check before ordering]
+The EasyEDA-imported `.kicad_mod` files each carry an `(property "LCSC Part" "C…")` naming
+the *one* part they were downloaded for, but generic packages are shared across many
+parts. The embedded value is wrong for most users of that footprint:
+
+| Footprint | Embedded | Actually used by |
+|---|---|---|
+| `C0805` | `C1711` (retired 0805 100 nF) | **only** C16/C17 = 22 µF `C45783` — the embedded part is on neither board |
+| `R0603` | `C25803` (100 kΩ) | nine resistor values **and** RT1, the `C13564` NTC |
+| `R2512` | `C459674` (RS1 sense) | also R30–R37, the `C2934070` ballasts |
+| `C0603` | `C15849` (1 µF) | also the eight `C14663` 100 nF parts |
+| `R1206` | `C2907384` | nothing — retired with the 1206 ballast |
+
+`kicad-jlcpcb-tools` resolves a part by scanning **board-footprint** fields and taking the
+first whose name begins with `LCSC`/`JLC` — and both the schematic-supplied `LCSC` field
+and the footprint's own `LCSC Part` qualify, so the stale one can win. KiCad's own
+`sch export bom` reads schematic fields and is not affected; the risk is specific to the
+plugin workflow this page mandates.
+
+**Remedy:** delete every `LCSC`/`JLC` property from the shared package footprints, in
+**both** `footprints/kicad/` and `footprints/kicad/zudo-led-lamp.pretty/`, keeping the two
+copies byte-identical (`cmp -s`). Part identity then comes only from the schematic, which
+`scripts/schgen/schgen_core.py` emits per instance from the spec's LCSC column.
+
+**Editing a footprint means regenerating its preview.**
+`pnpm --dir doc check:footprint-previews` (zudo-circuit-doc `footprints check`) verifies a per-package
+`canonicalInputSha256` over the footprint bytes, so any `.kicad_mod` change must be
+followed by `pnpm --dir doc generate:footprint-previews`, which renders through the
+digest-pinned KiCad 9.0.9 container. That path is working — the container is cached and
+regeneration was verified to reproduce the committed SVG bytes exactly — so expect the
+cleanup diff to be the property deletions plus exactly 22 refreshed hashes in
+`manifest.json`. Do not hand-edit the manifest.
+
+Until the cleanup lands, treat a generated BOM's part numbers as unverified and diff every
+line against [the BOM](./bom.mdx) by hand.
+:::
+
+:::note[Docker is needed only for footprint previews]
+Nothing on the board path needs it. Schematic generation is pure Python,
+`scripts/schgen/verify.sh` uses a local `kicad-cli`, and layout, DRC and fab export are
+ordinary KiCad. `check:footprint-previews` verifies committed bytes with no KiCad at all —
+only *regeneration* requires the container.
+
+The pinned digest publishes **linux/amd64 only**, so an ARM host must emulate. The
+renderer passes `--platform linux/amd64` for exactly this reason; a first-time setup on
+Apple Silicon still needs the image pulled with the same flag:
+
+```sh
+docker pull --platform linux/amd64 kicad/kicad@sha256:e638b79b0321f29395a5b783e94bb9f3c73303e8da15da27b8f5cb4b67a37729
+```
+
+Emulated amd64 was verified to render byte-identical output, so the reproducibility
+contract holds on ARM. Note the renderer is pinned to KiCad **9.0.9** while the schematics
+are generated for KiCad **10** — deliberate, since the pin exists for byte reproducibility,
+not compatibility. A local KiCad 10 renders the same geometry but formats coordinates to
+six decimals instead of four, which changes every hash.
+:::
+
+## Bring-up sequence
+
+The order here is not a suggestion. Each numbered step is a gate.
+
+### Gate 1 — Board P NVM programming, on a 5 V-only source
+
+:::danger[This gate protects the whole build]
+A fresh, unprogrammed STUSB4500 ships with **PDO3 = 20 V/1.0 A at the highest priority**.
+Plug it into any 20 V-capable PD charger before programming and it will negotiate 20 V
+onto a board margined for a 15 V rail. **First-ever power-up must use a 5 V-only USB-C
+charger** — an ordinary phone charger with no PD profile above 5 V, or a USB-A-to-C
+cable, which supplies 5 V with no CC negotiation at all. The chip's I2C and NVM only need
+5 V VDD.
+:::
+
+Write the NVM via the J2 pogo pads, then **read back and verify**: `SNK_PDO_NUMB = 2`
+(PDO3 removed entirely, not merely deprioritised), PDO2 = 15 V/3 A, and
+`POWER_ONLY_ABOVE_5V = 1`. That last bit has a history of not persisting on the first
+write. Do not proceed until read-back is clean.
+
+### Gate 2 — Board P standalone on a 15 V charger, nothing on JOUT1
+
+Probe the J3 debug pads:
+
+| Pad | Expected |
+|---|---|
+| 3 (`VREG_2V7`) | ≈2.7 V regardless of negotiation state — confirms the chip is alive before you judge negotiation |
+| 4 (`VBUS_IN`) | ≈15 V once negotiated |
+| 8 (`VBEN`) | pulled low once negotiation succeeds |
+| JOUT1 pins 1/2 (`VBUS_OUT`) | 0 V until the contract is live, then tracking `VBUS_IN` |
+
+A chip that negotiates but a switch that never turns on points at the Q1 gate network,
+not the STUSB4500. And do not judge Board P by downstream rails — they can legitimately
+read 0 V while the chip is perfectly healthy.
+
+Two things this gate **cannot** measure, so don't chase them: J3 pads 6/7 (`ATT`/`PDOK`)
+float — the pull-ups live on Board L, so with nothing on JOUT1 these open-drain lines
+read garbage. Probe pad 8 (`VBEN`) instead. And before Gate 3, **ring out the harness
+pin-for-pin**: both ends are the same 6-pin XH housing, and a reverse-crimped harness
+puts 15 V onto Board L's ground with F1 on the wrong side of the fault to help.
+
+**Also measure here:** the steady-state voltage across R14. This settles the
+[open question](./board-p.mdx#one-number-this-pass-could-not-resolve) about whether the
+pin-18 network draws ~32 mA continuously (0.48 W in a 100 mW resistor) or only during a
+discharge event. A drop near zero confirms the sense-only reading.
+
+Use a **single-port** PD charger with an explicit **15 V** entry in its PDO list. Every
+multi-port GaN charger in zudo-pd's testing failed; the one that worked was single-port —
+see [Charger Compatibility](/docs/power/charger-compatibility/).
+
+### Gate 3 — Board L power section alone, MCU unprogrammed
+
+Connect Board L. Before anything else, confirm the LED array is **dark**. Then:
+
+| Measurement | Expected |
+|---|---|
+| `V15` at F1's output | ≈15 V, minus a few tens of mV across the PPTC |
+| `V3P3` | 3.30 V ±3% |
+| `CTRL`, with the MCU held in reset | **below 0.2 V** |
+
+That last one is a real gate, not a formality: the
+[safe default-OFF](./board-l.mdx#mcu-knob-and-dimming-path-safe-default-off) analysis
+rests on a CTRL bias-current bound that no retained fact carries, so nothing on paper
+closes it. If CTRL reads above 0.2 V, lower R21 and scale R20 down by the **same ratio**
+so the R21/(R20+R21) divider still delivers ~2.53 V at full duty — concretely
+**R21 33 kΩ → 10 kΩ together with R20 10 kΩ → 3.3 kΩ**, which gives
+3.3 V × 10/13.3 = 2.48 V.
+
+:::danger[Change both, in that pairing]
+Dropping R21 to 10 kΩ while leaving R20 at 10 kΩ halves full-scale CTRL to 1.65 V; the
+reverse pairing (R21 3.3 kΩ, R20 10 kΩ) collapses it to 0.82 V. Either one silently caps
+the lamp well below I_NOM and invalidates the firmware's `CTRL_FULL_CCR` mapping (`firmware/board-l/target/board_l_proposal.h`).
+:::
+
+### Gate 4 — LED array at fixed current, no firmware
+
+**Historical gate.** On the adopted RS1 = 200 mΩ boards, full CTRL (2.5 V) is the #52 case
+whose hot branch can reach 88.6–96.9 mA, above the 90 mA LED absolute maximum. Do not drive
+CTRL above the firmware-ceiling level (≈ 1.90 V) without a separate owner-approved procedure;
+use `firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md` §5 instead.
+
+Drive CTRL from a bench supply at 2.5 V. Confirm:
+
+- Total current into `LED_P` ≈ 500 mA
+- **Per-string current across each of the eight ballast resistors** — this is the
+  measurement the whole ballast analysis exists to validate. The prediction is ±15%
+  around 62.5 mA for a same-reel spread. If any string exceeds ~90 mA, the imbalance is
+  worse than the datasheet's own bound and the ballast value needs raising
+- Switching frequency at `LED_N` ≈ 440 kHz
+- Board temperature after 30 minutes, at RT1 and at the hottest-looking LED
+
+Then sweep CTRL from 0.3 V to 2.5 V (drive and measure at **TP1**) and confirm smooth,
+monotonic dimming with no flicker, buzz, or dropout — **with a scope on `LED_N`** (probe
+D11's anode). Record the CTRL level below which the driver enters pulse-skip / burst
+mode: at deep dimming the required on-time falls below the AL8860's 500 ns minimum and
+the converter burst-fires at an unpredictable rate. If that burst rate is under
+~300 Hz at the firmware's intended floor, raise `CTRL_MIN_CCR` (`firmware/board-l/target/board_l_proposal.h`) above the recorded
+point. Any audible noise here is worth chasing before firmware exists — it is far
+harder to attribute once an animation is running.
+
+### Gate 5 — Firmware
+
+A build-only target image now implements PA0 acquisition, a placeholder endpoint calibration,
+window-8 averaging, the CTRL mapping with ceiling, thermal derating and the boot policy
+(`firmware/board-l/target/`). Not implemented or open: inversion, calibration storage, gamma,
+modulation and PD gating. Nothing has been flashed. The original requirement: implement
+PA0/ADC_IN0 absolute-position acquisition with suitable sample time for up to 3.35 kΩ
+source resistance, endpoint calibration, averaging and underside-direction inversion
+if required, then PWM/CTRL mapping, gamma, modulation and thermal derating.
+Initialize PWM off; only after valid ADC, PD-status and thermal checks, ramp toward
+the knob's current position. The current image gates on ADC validity, thermal input, the reset latch and the BOR option gate. It does **not** read PDOK/ATT; PD gating is an open owner decision. Verify power-on, watchdog/reset and rapid OFF/ON behavior.
+
+Open the wiper connection and measure the R22/C22 nominal 10 ms discharge toward
+dark. This does not prove detection of all contact or wiring faults; a short to
+V3P3 can look like a valid high setting. Validate the fault policy and ADC settling
+on hardware, with the actual wheel and operating temperature.
+
+
+## Open questions for the bench
+
+| Question | Why it matters | How to answer |
+|---|---|---|
+| ~~Does Board P's R14 draw continuously?~~ **Resolved: no** | ST DS12499 §2.2.12 names the 50 mA figure as a discharge-event current; the sense role is high-impedance | Gate 2 measurement kept as confirmation only |
+| ~~Does R21 hold CTRL below 0.2 V?~~ **Resolved: yes** | The AL8860 soft-start spec bounds CTRL bias at ≤1.67 µA → ≤55 mV across R21 | Gate 3 measurement (at TP1) kept as confirmation only |
+| Where does pulse-skip start on the dimming sweep? | Burst-firing below the AL8860's minimum on-time is a flicker frequency; sets the real firmware floor | Gate 4 — scope on `LED_N` during the CTRL sweep |
+| Real string-to-string imbalance | Sets whether 33 Ω of ballast is enough | Gate 4 — measure all eight ballast drops |
+| Actual driver efficiency | The budget assumes 92%; component losses suggest ~95%; the research assumed 88% | Gate 4 — input power versus `LED_P` output power |
+| Is 440 kHz switching audible? | Analog dimming should prevent it, but the inductor still switches | Gate 4 — listen in a quiet room, at several brightness levels |
+| Is ~700 lm the right brightness through a diffuser? | The diffuser does not exist yet | Only answerable once the enclosure phase starts |
+| Does the wheel turn brighter clockwise from underneath? | Endpoint polarity must match the user-facing direction | Measure endpoints and apply firmware inversion if needed |
+
+## One pre-layout decision this design has not made
+
+**Should L1 move to the far side of the LED array?** Board L currently orders the power
+path `V15 → RS1 → SET → L1 → LED_P → ballast → strings → LED_N → U2.SW`, which makes every
+net in the 24-LED array a switching node (`LED_N` 0 → ~15.5 V, `LED_P` ~11 → ~26.6 V at
+~440 kHz). That is why the layout table above says to pour **no** array net as a plane —
+which directly contradicts the [thermal budget](/docs/research/thermal-budget/)'s
+requirement of a generous via-stitched pour per LED pad. The design cannot satisfy both.
+
+Reordering to `V15 → RS1 → SET(= array anode) → ballast → strings → LED_N → L1 → SW_LED →
+U2.SW`, with D11's anode on the new `SW_LED` node, resolves it:
+
+- **Electrically equivalent where it matters.** L and the LED string are in series either
+  way, so the inductor voltage, ripple, average current and duty are unchanged. The
+  freewheel path becomes `SW_LED → D11 → V15 → RS1 → SET → array → L1`, so RS1 still
+  carries the freewheel current and still senses *average* LED current — the property the
+  AL8860's high-side sense depends on.
+- **The array stops switching.** `SET` and `LED_N` become quiet: the residual is the
+  ripple across the ballasts (~0.8 V pp from the nominal 0.2 A pp total, plus an
+  unretained LED dynamic-resistance term), against ~15.5 V pp today. Only the compact
+  `SW_LED` triangle — L1, U2 pins 5/6, D11's anode — swings.
+- **Nothing else moves.** Ballasts stay anode-side, the eight cathodes still meet at one
+  net, D11's anode still sits at U2 pins 5/6, and the commutation loop is unchanged.
+
+Two caveats before acting. First, no retained fact records which ordering the AL8860's
+typical application circuit uses; `fact-al8860-topology` says only "hysteretic buck with
+integrated NDMOS and high-side current sense". The reasoning above stands on its own, but
+the datasheet-figure confirmation is **not in the evidence registry** and should be
+retained before this is treated as a reference-design correction rather than a project
+choice. Second, this is a **connectivity change**, which the root `CLAUDE.md` says the
+audit skills do not authorize on their own.
+
+Procedure if adopted: edit the three `NETS` rows in `scripts/schgen/board_l_spec.py`,
+regenerate both boards, then re-pin the affected `PROJECT_STATE` records — the
+`src-*-generator` sources in `component-al8860mp-13` and
+`component-honglitronic-hl-am-2835h421w-s1-08-hr3` are sha256-locked to
+`board_l_spec.py` at revision `410bc1a`, so `fact-al8860-project-nets`,
+`fact-fxl-project-nets`, `fact-ss26-project-nets` and `fact-c210315-topology` cannot be
+truthfully updated until the new spec is committed and re-hashed. `validate.py` also locks
+the AL8860 pin map in `fixtures/golden/real-pin-maps.json`. Do the spec edit and the
+evidence re-pin in one commit, or the gate goes red.
+
+## Evidence the registry is missing but the design leans on
+
+Three numbers the design depends on are asserted in prose and retained in no fact file.
+None is a wiring error; all three need a source refresh (`validate.py --online`) rather
+than a hardware change.
+
+| Gap | Status | Action |
+|---|---|---|
+| AL8860 CTRL soft-start rate and the ≤1.67 µA bias bound behind the safe default-OFF proof | **Load-bearing.** Not retained, and a *typical* soft-start figure cannot bound a worst case even once retained — the part publishes no guaranteed maximum CTRL source current | Retain the row as typical, keep Gate 3's CTRL measurement as the real gate, and decide whether safe default-OFF needs a hardware guarantee rather than a resistor |
+| `PA0 = TIM2_CH1`, `PA1 = TIM2_CH2` (AF2) — the whole hardware-quadrature knob | Not retained (`grep -r TIM2 .claude/skills/` is empty), but independently confirmed correct against ST's datasheet. No mitigation needed | Retain the AF-mapping row on `rec-c529334` |
+| STM32G031 option-byte boot default used to justify omitting a BOOT0 strap | Not retained; `fact-c529334-boot` explicitly says the programmed values are unknown. Independently confirmed that no strap is needed given the SWD/NRST header | Retain RM0444 + errata, and keep an option-byte readback as a production gate |
+
+## Risks carried into the KiCad phase
+
+| Risk | Severity | Mitigation |
+|---|---|---|
+| Board P's topology has **never** run on hardware — four PCBA orders failed before it was fixed on paper | High | Gates 1 and 2 exist precisely for this. Budget for a second Board P spin |
+| CPL rotation over-correction on EasyEDA-derived footprints | High — it silently produces a mis-assembled board | Explicit Corrections Manager overrides plus a manual CPL review; do not rely on JLCPCB's pre-production check |
+| Charger incompatibility | Medium | Buy or borrow a single-port PD charger with an explicit 15 V PDO before ordering boards, so a negotiation failure is not ambiguous between "bad board" and "bad charger" |
+| SMAJ20A stock (3,770 units, needed on both boards) | Medium | Order both boards' quantity in one go; do not substitute a different standoff voltage |
+| String imbalance worse than predicted | Medium | Raise the ballast value; costs duty-cycle headroom. Detected at Gate 4, before firmware |
+| The 5% analog dimming floor reads as a visible snap to off | Low | Bias the modulation to stay above the floor, or accept the ember-never-goes-black behaviour |
+| Enclosure thermal behaviour is completely unmodelled | Low for the prototype, real for the finished lamp | Enclosure is out of scope for this epic; the thermal derate hook and RT1 exist so the firmware can respond once it is not |
+
+## References
+
+- [Lessons Carried From zudo-pd](/docs/power/lessons-from-zudo-pd/) — NVM trap, bring-up sequence, CPL rotation, Extended-fee economics
+- [Charger Compatibility](/docs/power/charger-compatibility/) — the 15 V-PDO purchase rule and the tested-charger evidence
+- [Board L](./board-l.mdx) — the design these gates are validating
+- [Final BOM](./bom.mdx) — what to order, and the stock lines to re-check first

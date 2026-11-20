@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-umw-identity",
+      "record_id": "rec-umw-ao3401a",
+      "domain": "exact vendor identity/package/pinout",
+      "status": "COVERED",
+      "reason": "UMW document title and pin figure",
+      "fact_ids": [
+        "fact-umw-ao3401a-manufacturer",
+        "fact-umw-ao3401a-pinout",
+        "fact-umw-ao3401a-vds",
+        "fact-umw-ao3401a-vgs",
+        "fact-umw-ao3401a-current",
+        "fact-umw-ao3401a-rdson",
+        "fact-umw-ao3401a-threshold",
+        "fact-umw-ao3401a-body-diode",
+        "fact-umw-ao3401a-thermal",
+        "fact-umw-ao3401a-soa",
+        "fact-umw-ao3401a-project-nets"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-umw-electrical",
+      "record_id": "rec-umw-ao3401a",
+      "domain": "polarity/ratings/threshold/RDS(on)/body diode",
+      "status": "COVERED",
+      "reason": "UMW absolute maximum and electrical tables",
+      "fact_ids": [
+        "fact-umw-ao3401a-manufacturer",
+        "fact-umw-ao3401a-pinout",
+        "fact-umw-ao3401a-vds",
+        "fact-umw-ao3401a-vgs",
+        "fact-umw-ao3401a-current",
+        "fact-umw-ao3401a-rdson",
+        "fact-umw-ao3401a-threshold",
+        "fact-umw-ao3401a-body-diode",
+        "fact-umw-ao3401a-thermal",
+        "fact-umw-ao3401a-soa",
+        "fact-umw-ao3401a-project-nets"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-umw-thermal",
+      "record_id": "rec-umw-ao3401a",
+      "domain": "application SOA/thermal/inrush behavior",
+      "status": "OPEN",
+      "reason": "UMW thermal rows and SOA figures are available, but installed copper, inrush waveform, negotiated VBUS and temperature require bench evidence",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-umw-project-netlist",
+      "record_id": "rec-umw-ao3401a",
+      "domain": "generated connectivity versus symbol/footprint/as-built confirmation",
+      "status": "OPEN",
+      "reason": "Immutable generator source records Q1 nets, but exported netlist, footprint mapping and assembled orientation must be independently checked",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    }
+  ]
+}

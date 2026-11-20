@@ -1,0 +1,34 @@
+---
+title: PD20
+description: Current entry point for PD20, the 20 V Board P r3 with four-layer Board B20.
+sidebar_position: 1
+---
+
+# PD20
+
+PD20 pairs the 20 V Board P r3 with four-layer Board B20: 20 V / 5 A intent, a 5 A e-marked cable and no
+degraded mode. It is separate from shared P15 and from the historical LED Board P.
+
+## Current source
+
+- `boards/board-p/board-p.kicad_pcb` (20 V Board P r3) and `boards/board-b20-draft/`.
+- [PD20 architecture](/docs/architecture/pd20/) and [20 V Board P](/docs/architecture/board-p/) own the design.
+
+## Order files
+
+The revision-bound package is `manufacturing/releases/pd20-prototype-review/`, with its
+[order sheet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/releases/pd20-prototype-review/ORDER-SHEET.md).
+B20 is a two-sided assembly with 294 fitted parts (268 top, 26 bottom); Board P r3 has 44. The quantity is undecided,
+and on 2026-11-20 JLC had zero stock for U11 / U12 (INA301A3) and R35. The
+[prototype-order readiness ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md)
+records no pre-order design hold and owns the residuals that need an assembled board.
+
+## Procedures
+
+- [PD20 verification](/docs/verification/pd20-verification/) (T1–T8).
+
+## Status
+
+PD20 has NVM intent only (TDISPAR0V = 15; POWER_ONLY_ABOVE_5V at 0xE6 bit 3), with no program-ready binary.
+Nothing is ordered, programmed or measured. [Current state](/docs/project/current-state/) owns the dated record and
+[release readiness](/docs/architecture/release-readiness/) the remaining gates.

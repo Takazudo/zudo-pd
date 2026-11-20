@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "skill": "component-stm32g031f8p6",
+  "records": [
+    {
+      "record_id": "rec-c529334",
+      "line_id": "line-c529334",
+      "kind": "standalone",
+      "parent_record_id": null,
+      "mpn": "STM32G031F8P6",
+      "manufacturer": "STMicroelectronics",
+      "lcsc": "C529334",
+      "package": "TSSOP-20_L6.5-W4.4-P0.65-LS6.4-BL",
+      "source_ids": [
+        "src-c529334-ds",
+        "src-c529334-rm",
+        "src-c529334-es",
+        "src-c529334-generator"
+      ],
+      "fact_ids": [
+        "fact-c529334-manufacturer",
+        "fact-c529334-pin-bonds",
+        "fact-c529334-reset",
+        "fact-c529334-adc",
+        "fact-c529334-mux",
+        "fact-c529334-boot",
+        "fact-c529334-debug",
+        "fact-c529334-errata",
+        "fact-c529334-topology",
+        "fact-c529334-boot-artifact"
+      ],
+      "interaction_ids": [
+        "int-c529334-firmware",
+        "int-c529334-boot-debug",
+        "int-c529334-adc",
+        "int-c492404-programming",
+        "int-c529334-boot-artifact"
+      ],
+      "open_domains": [
+        "package-pins-reset-boot-adc-and-errata-context",
+        "programmed-option-bytes-and-boot-policy",
+        "firmware-pin-mux-clock-and-timer-state",
+        "adc-sample-time-and-installed-source-impedance",
+        "debug-low-power-and-bench-state"
+      ]
+    },
+    {
+      "record_id": "rec-c492404",
+      "line_id": "line-c492404",
+      "kind": "subordinate",
+      "parent_record_id": "rec-c529334",
+      "mpn": "PZ254V-11-05P",
+      "manufacturer": "XFCN",
+      "lcsc": "C492404",
+      "package": "HDR-TH_5P-P2.54-V-M",
+      "source_ids": [
+        "src-c492404-page",
+        "src-c492404-drawing",
+        "src-c492404-generator"
+      ],
+      "fact_ids": [
+        "fact-c492404-manufacturer",
+        "fact-c492404-rating",
+        "fact-c492404-mechanical",
+        "fact-c492404-topology"
+      ],
+      "interaction_ids": [
+        "int-c492404-programming"
+      ],
+      "open_domains": [
+        "installed-header-and-programmer-state"
+      ]
+    },
+    {
+      "record_id": "rec-c4749199",
+      "line_id": "line-c4749199",
+      "kind": "subordinate",
+      "parent_record_id": "rec-c529334",
+      "mpn": "DS254P-2X10-L0",
+      "manufacturer": "DEALON",
+      "lcsc": "C4749199",
+      "package": "IDC-TH_20P-P2.54-V-R2-C10-S2.54",
+      "source_ids": [
+        "src-c4749199-lcsc",
+        "src-c4749199-drawing",
+        "src-c4749199-um1075",
+        "src-c4749199-generator"
+      ],
+      "fact_ids": [
+        "fact-c4749199-manufacturer",
+        "fact-c4749199-identity",
+        "fact-c4749199-mechanical",
+        "fact-c4749199-rating",
+        "fact-c4749199-stlink-mapping",
+        "fact-c4749199-topology",
+        "fact-c4749199-bench"
+      ],
+      "interaction_ids": [
+        "int-c492404-programming"
+      ],
+      "open_domains": [
+        "stlink-v2-interface-source-lock",
+        "physical-fit-continuity-and-debug-state"
+      ]
+    }
+  ]
+}

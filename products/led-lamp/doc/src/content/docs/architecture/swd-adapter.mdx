@@ -1,0 +1,55 @@
+---
+title: ST-LINK/V2 SWD adapter
+description: The separate two-connector adapter from the genuine ST-LINK/V2 20-pin ribbon to Board L's 1x5 SWD header, including the locked pin map and power warning.
+sidebar_position: 4
+---
+
+# ST-LINK/V2 SWD adapter
+
+`boards/swd-adapter/` is a separate 36 × 18.1 mm, two-layer PCB. It contains
+exactly two hand-fit/DNP connectors and no active or passive circuitry:
+
+- J1: DEALON `DS254P-2X10-L0` / `C4749199`, 2×10 shrouded 2.54 mm IDC header.
+- J2: XFCN `PZ254V-11-05P` / `C492404`, unkeyed 1×5 2.54 mm header.
+
+The exact connector evidence, drawing, footprint preview, model, and unresolved
+bench checks are published in [`rec-c4749199`](/docs/components/records/c4749199/).
+Board L's 1×5 order remains published in
+[`rec-c492404`](/docs/components/records/c492404/).
+
+## Locked mapping
+
+| ST-LINK/V2 J1 | Adapter net | Board-side J2 |
+| --- | --- | --- |
+| 7 | SWDIO | 1 |
+| 9 | SWCLK | 2 |
+| 15 | NRST | 3 |
+| 1, 2 | VAPP target-voltage sense | 4 |
+| 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20 | GND | 5 |
+| 11, 13 (SWO), 17, 19 | no connect | — |
+
+This mapping targets the genuine ST-LINK/V2 CN3 interface documented in
+[UM1075 Rev 10](https://www.st.com/resource/en/user_manual/um1075-stlink-v2-in-circuit-debugger-stlink-v2-1-stlink-v2-ct-stlink-v3-pg00061083.pdf).
+The repository could not retain exact bytes from that URL, so the frozen
+component evidence conservatively keeps the interface interpretation
+`UNSOURCED` even though the generated schematic and PCB lock the mapping.
+
+## Connection and power warning
+
+Use a straight, pin-for-pin 1×5 female-to-female cable from adapter J2 to Board
+L J3. Both 1×5 headers are unkeyed: align the square copper pad and `PIN 1`
+silkscreen marks at both ends. Align the 20-pin ribbon's keyed plug with J1's
+central shroud notch and pin-1 triangle.
+
+The target must supply its own 3.3 V rail. J1 pins 1 and 2 only let ST-LINK
+sense that target voltage. J1 pin 19 is the debugger's 3.3 V output and is
+intentionally isolated; the adapter must never use it to power Board L.
+
+## Verification state
+
+The schematic regenerates deterministically, its exported netlist matches all
+25 connector pins, and KiCad DRC reports no violations, unconnected items, or
+schematic-parity issues. Fabrication-dependent acceptance remains `NEEDS BENCH`:
+verify physical mating, every signal and ground continuity path, pin 19
+isolation, absence of a VAPP-to-GND short, target-voltage sensing, and a real
+debug/programming session.

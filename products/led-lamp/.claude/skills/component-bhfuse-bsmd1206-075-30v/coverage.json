@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-bhfuse-electrical",
+      "record_id": "rec-bsmd1206-075-30v",
+      "domain": "hold-trip-voltage-current-time-resistance",
+      "status": "COVERED",
+      "reason": "fact-bhfuse-hold-25c through fact-bhfuse-resistance-reset-max",
+      "fact_ids": [
+        "fact-bhfuse-hold-25c",
+        "fact-bhfuse-trip-25c",
+        "fact-bhfuse-voltage-max",
+        "fact-bhfuse-fault-current-max",
+        "fact-bhfuse-trip-power-typ",
+        "fact-bhfuse-time-trip",
+        "fact-bhfuse-resistance-min",
+        "fact-bhfuse-resistance-reset-max"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-bhfuse-thermal",
+      "record_id": "rec-bsmd1206-075-30v",
+      "domain": "ambient-derating-cycling-reset-processing-package",
+      "status": "COVERED",
+      "reason": "fact-bhfuse-hold-85c through fact-bhfuse-package",
+      "fact_ids": [
+        "fact-bhfuse-hold-85c",
+        "fact-bhfuse-temperature",
+        "fact-bhfuse-surface-temperature",
+        "fact-bhfuse-reset-definition",
+        "fact-bhfuse-cycling",
+        "fact-bhfuse-process-warning",
+        "fact-bhfuse-package"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-bhfuse-fault",
+      "record_id": "rec-bsmd1206-075-30v",
+      "domain": "fault-current-ambient-and-cycling",
+      "status": "OPEN",
+      "reason": "The generator does not bound upstream fault current/energy, ambient/local heating, trip count, cooling interval, or downstream normal-load envelope.",
+      "fact_ids": [],
+      "blocking_fact_ids": []
+    }
+  ]
+}

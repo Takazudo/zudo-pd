@@ -1,0 +1,61 @@
+{
+ "note": "Sanitized summary of the retained host-attempt4 commands.json; the original (SHA256 below) contains local-machine paths and is not committed.",
+ "original_sha256": "5fd241c3d31cd6b0221877655ac4b3bd80240188acaa3d047bf841c106c1884b",
+ "commands": [
+  {
+   "command": [
+    "timeout",
+    "--kill-after=5s",
+    "40s",
+    "cc",
+    "-std=c11",
+    "-O0",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-I",
+    "source",
+    "test_input_app.c",
+    "input_composition.c",
+    "acquisition_registers.c",
+    "acquisition_word_rules.c",
+    "discontinuous_acquisition.c",
+    "adc_completed_frame.c",
+    "completed_frame_bridge.c",
+    "output_composition.c",
+    "tim3_readiness.c",
+    "tim3_profile.c",
+    "tim3_access.c",
+    "tim3_access_map.c",
+    "preload_lifecycle.c",
+    "tim3_preload.c",
+    "host_timer_output.c",
+    "ctrl_timer_map.c",
+    "adc_channel_config.c",
+    "sample_adapter.c",
+    "input_conversion.c",
+    "thermal_gain.c",
+    "board_binding.c",
+    "adc_preparation.c",
+    "lamp_app.c",
+    "lamp_control.c",
+    "noise_stage.c",
+    "normalized_transfer.c",
+    "-o",
+    "test"
+   ],
+   "exit": 0
+  },
+  {
+   "command": [
+    "timeout",
+    "--kill-after=5s",
+    "40s",
+    "test"
+   ],
+   "exit": 0
+  }
+ ]
+}

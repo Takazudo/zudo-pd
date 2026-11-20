@@ -1,0 +1,534 @@
+{
+ "tolerance_mm": 0.011,
+ "diff_count": 8,
+ "lands": [
+  {
+   "refdes": "U4",
+   "footprint": "husb-candidate:TPS259474_RPW0010A_TI_EXAMPLE",
+   "source": "TI SLVSFC9C sha256 8f96de38",
+   "locator": "PDF page 73, RPW0010A EXAMPLE BOARD LAYOUT 4225183/A",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 10,
+     "footprint": 10,
+     "result": "MATCH"
+    },
+    {
+     "check": "pads 2,3,8,9 length 8X (0.6) x width (0.25)",
+     "expected": [
+      0.25,
+      0.6
+     ],
+     "footprint": [
+      0.25,
+      0.6
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "IN/OUT pads 5,6 2X (0.3) x (2.4)",
+     "expected": [
+      0.3,
+      2.4
+     ],
+     "footprint": [
+      0.3,
+      2.4
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "pad columns 1-4 to 7-10 centre span (1.8)",
+     "expected": 1.8,
+     "footprint": 1.8,
+     "result": "MATCH"
+    },
+    {
+     "check": "pads 5-6 centre spacing 2X (0.25)",
+     "expected": 0.5,
+     "footprint": 0.5,
+     "result": "MATCH"
+    },
+    {
+     "check": "pads 2-3 centre spacing 2X (0.225)",
+     "expected": 0.45,
+     "footprint": 0.45,
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "U5",
+   "footprint": "monitor-candidate:TPS3701_DDC0006A_DRAFT",
+   "source": "TI SBVS240C sha256 27c94a6c",
+   "locator": "PDF page 26, DDC0006A EXAMPLE BOARD LAYOUT 4214841/E",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 6,
+     "footprint": 6,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad 6X (1.1) x 6X (0.6)",
+     "expected": [
+      0.6,
+      1.1
+     ],
+     "footprint": [
+      0.6,
+      1.1
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "pitch 4X (0.95)",
+     "expected": 0.95,
+     "footprint": 0.95,
+     "result": "MATCH"
+    },
+    {
+     "check": "row centre span (2.7)",
+     "expected": 2.7,
+     "footprint": 2.7,
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "U3",
+   "footprint": "zudo-pd:SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+   "source": "TI SNOSD17G sha256 e16b3a8c",
+   "locator": "PDF page 34, DBV0006A EXAMPLE BOARD LAYOUT 4214840/G",
+   "verdict": "DIFF",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 6,
+     "footprint": 6,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad 6X (1.1) x 6X (0.6)",
+     "expected": [
+      0.6,
+      1.1
+     ],
+     "footprint": [
+      0.53,
+      1.07
+     ],
+     "result": "DIFF"
+    },
+    {
+     "check": "pitch 2X (0.95)",
+     "expected": 0.95,
+     "footprint": 0.95,
+     "result": "MATCH"
+    },
+    {
+     "check": "row centre span (2.6)",
+     "expected": 2.6,
+     "footprint": 2.3,
+     "result": "DIFF"
+    }
+   ]
+  },
+  {
+   "refdes": "U2",
+   "footprint": "zudo-pd:HTSSOP-20_PWP0020T_P0.65_EP2.96_TI-DRAFT",
+   "source": "TI SLVSET9G sha256 8f91a0db",
+   "locator": "PDF page 42, PWP0020T EXAMPLE BOARD LAYOUT",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 21,
+     "footprint": 21,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad 20X (1.5) x 20X (0.45)",
+     "expected": [
+      0.45,
+      1.5
+     ],
+     "footprint": [
+      0.45,
+      1.5
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "pitch 18X (0.65)",
+     "expected": 0.65,
+     "footprint": 0.65,
+     "result": "MATCH"
+    },
+    {
+     "check": "row centre span (5.8)",
+     "expected": 5.8,
+     "footprint": 5.8,
+     "result": "MATCH"
+    },
+    {
+     "check": "thermal pad (2.96) x (2.96)",
+     "expected": [
+      2.96,
+      2.96
+     ],
+     "footprint": [
+      2.96,
+      2.96
+     ],
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "D5",
+   "footprint": "zudo-pd:WSON-6_L2.0-W2.0-P0.65-BL-EP",
+   "source": "TI SLVSED5C sha256 84c986c9",
+   "locator": "PDF page 19, DRV0006A EXAMPLE BOARD LAYOUT 4222173/C",
+   "verdict": "DIFF",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 7,
+     "footprint": 7,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad 6X (0.45) x 6X (0.3)",
+     "expected": [
+      0.3,
+      0.45
+     ],
+     "footprint": [
+      0.4,
+      0.45
+     ],
+     "result": "DIFF"
+    },
+    {
+     "check": "pitch 4X (0.65)",
+     "expected": 0.65,
+     "footprint": 0.65,
+     "result": "MATCH"
+    },
+    {
+     "check": "row centre span (1.95)",
+     "expected": 1.95,
+     "footprint": 1.96,
+     "result": "MATCH"
+    },
+    {
+     "check": "exposed pad 7 (1) x (1.6)",
+     "expected": [
+      1.0,
+      1.6
+     ],
+     "footprint": [
+      1.0,
+      1.6
+     ],
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "Q3",
+   "footprint": "zudo-pd:VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A",
+   "source": "TI SLPS633 sha256 119cdef2",
+   "locator": "PDF page 9, 7.2 Q3A Recommended PCB Pattern",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 9,
+     "footprint": 9,
+     "result": "MATCH"
+    },
+    {
+     "check": "pads 1-4 4X (0.6) x 4X (0.3)",
+     "expected": [
+      0.3,
+      0.6
+     ],
+     "footprint": [
+      0.3,
+      0.6
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "pitch 3X (0.65)",
+     "expected": 0.65,
+     "footprint": 0.65,
+     "result": "MATCH"
+    },
+    {
+     "check": "drain pad 9 (1.775) x (2.45)",
+     "expected": [
+      1.775,
+      2.45
+     ],
+     "footprint": [
+      1.775,
+      2.45
+     ],
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "Q1",
+   "footprint": "zudo-pd:PowerDI3333-8_DMP3036SFG",
+   "source": "Diodes DS37038 Rev. 6-2 sha256 7d68df47",
+   "locator": "PDF page 7, Suggested Pad Layout PowerDI3333-8 table",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 9,
+     "footprint": 9,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad Y 0.700 x X 0.420",
+     "expected": [
+      0.42,
+      0.7
+     ],
+     "footprint": [
+      0.42,
+      0.7
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "pitch C 0.650",
+     "expected": 0.65,
+     "footprint": 0.65,
+     "result": "MATCH"
+    },
+    {
+     "check": "outer extent Y3 3.700",
+     "expected": 3.7,
+     "footprint": 3.7,
+     "result": "MATCH"
+    },
+    {
+     "check": "drain pad Y2 2.250 x X3 2.370",
+     "expected": [
+      2.25,
+      2.37
+     ],
+     "footprint": [
+      2.25,
+      2.37
+     ],
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "Q5",
+   "footprint": "zudo-pd:SOT-23_L2.9-W1.3-P1.90-LS2.4-BR",
+   "source": "Diodes DS30144 Rev. 25-2 sha256 c93dcb33",
+   "locator": "PDF page 5, Suggested Pad Layout SOT23 (Standard) table",
+   "verdict": "DIFF",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 3,
+     "footprint": 3,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad X 0.8 x Y 0.9",
+     "expected": [
+      0.8,
+      0.9
+     ],
+     "footprint": [
+      0.8,
+      1.0
+     ],
+     "result": "DIFF"
+    },
+    {
+     "check": "row centre span C 2.0",
+     "expected": 2.0,
+     "footprint": 2.3,
+     "result": "DIFF"
+    },
+    {
+     "check": "outer extent Y1 2.9",
+     "expected": 2.9,
+     "footprint": 3.3,
+     "result": "DIFF"
+    }
+   ]
+  },
+  {
+   "refdes": "D8",
+   "footprint": "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD",
+   "source": "Diodes DS18004 Rev. 38-2 sha256 0fbd7d13",
+   "locator": "PDF page 4, Suggested Pad Layout SOD123 table",
+   "verdict": "DIFF",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 2,
+     "footprint": 2,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad X 0.900 x Y 0.950",
+     "expected": [
+      0.9,
+      0.95
+     ],
+     "footprint": [
+      0.95,
+      1.15
+     ],
+     "result": "DIFF"
+    },
+    {
+     "check": "outer extent X1 4.050",
+     "expected": 4.05,
+     "footprint": 4.33,
+     "result": "DIFF"
+    }
+   ]
+  },
+  {
+   "refdes": "U3 (selected draft)",
+   "footprint": "rnext-mfr:SOT-23-6_DBV0006A_TI-EXAMPLE",
+   "source": "TI SNOSD17G sha256 e16b3a8c",
+   "locator": "PDF page 34, DBV0006A EXAMPLE BOARD LAYOUT 4214840/G",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 6,
+     "footprint": 6,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad 6X (1.1) x 6X (0.6)",
+     "expected": [
+      0.6,
+      1.1
+     ],
+     "footprint": [
+      0.6,
+      1.1
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "pitch 2X (0.95)",
+     "expected": 0.95,
+     "footprint": 0.95,
+     "result": "MATCH"
+    },
+    {
+     "check": "row centre span (2.6)",
+     "expected": 2.6,
+     "footprint": 2.6,
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "D5 (selected draft)",
+   "footprint": "rnext-mfr:WSON-6_DRV0006A_TI-EXAMPLE",
+   "source": "TI SLVSED5C sha256 84c986c9",
+   "locator": "PDF page 19, DRV0006A EXAMPLE BOARD LAYOUT 4222173/C",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 7,
+     "footprint": 7,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad 6X (0.45) x 6X (0.3)",
+     "expected": [
+      0.3,
+      0.45
+     ],
+     "footprint": [
+      0.3,
+      0.45
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "pitch 4X (0.65)",
+     "expected": 0.65,
+     "footprint": 0.65,
+     "result": "MATCH"
+    },
+    {
+     "check": "row centre span (1.95)",
+     "expected": 1.95,
+     "footprint": 1.95,
+     "result": "MATCH"
+    },
+    {
+     "check": "exposed pad 7 (1) x (1.6)",
+     "expected": [
+      1.0,
+      1.6
+     ],
+     "footprint": [
+      1.0,
+      1.6
+     ],
+     "result": "MATCH"
+    }
+   ]
+  },
+  {
+   "refdes": "D8 (selected draft)",
+   "footprint": "rnext-mfr:SOD-123_DIODES-SUGGESTED",
+   "source": "Diodes DS18004 Rev. 38-2 sha256 0fbd7d13",
+   "locator": "PDF page 4, Suggested Pad Layout SOD123 table",
+   "verdict": "MATCH",
+   "checks": [
+    {
+     "check": "pad count",
+     "expected": 2,
+     "footprint": 2,
+     "result": "MATCH"
+    },
+    {
+     "check": "pad X 0.900 x Y 0.950",
+     "expected": [
+      0.9,
+      0.95
+     ],
+     "footprint": [
+      0.9,
+      0.95
+     ],
+     "result": "MATCH"
+    },
+    {
+     "check": "outer extent X1 4.050",
+     "expected": 4.05,
+     "footprint": 4.05,
+     "result": "MATCH"
+    }
+   ]
+  }
+ ]
+}

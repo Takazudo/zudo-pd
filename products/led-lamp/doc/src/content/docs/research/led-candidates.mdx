@@ -1,0 +1,99 @@
+---
+title: High-Brightness LED Candidates
+description: Series/parallel white-LED options for the 15V/3A rail, with voltage-headroom and current-sharing analysis. Final pick is an architecture-phase decision.
+sidebar_position: 10
+---
+
+The LED power stage sits downstream of the PD board ("Board P"), which delivers a switched **15V rail contracted to 3A (45W ceiling)**. This page catalogs LED options against that rail — it does not pick one. All candidates were verified against the local JLCPCB parts DB (fetched 2026-07-25); per-part lookup dates are noted where they differ.
+
+:::note
+The 45W figure is the USB-PD *contract cap*, not a target lamp brightness. Nothing here assumes the lamp actually draws that much — the architecture phase sets the real optical power budget.
+:::
+
+## Candidate 1 — SMD2835 discrete white LEDs (array)
+
+Small (2.8×3.5mm), cheap, extremely well-stocked package. Individually low-power (0.06–0.6W), meant to be used in banks — series strings for voltage, parallel strings for total lumens.
+
+| Part | Vf | Current | Power | CCT | Stock (tier) | Link |
+|---|---|---|---|---|---|---|
+| XL-2835UWC-02 (C2843876) | 3.4V | 60mA | 200mW | 6000–7500K (cool) | 842,272 | [partdetail](https://jlcpcb.com/partdetail/C2843876) |
+| HL-AM-2835H421W-S1-08-HR3 (C210315) | 3.2V | 60mA | 288mW | 3000K (warm) | 399,813 | [partdetail](https://jlcpcb.com/partdetail/C210315) |
+| HL-A-2835D46W-S1-08-HR3 (C210329) | 3.4V | 150mA | 612mW | 6500K (cool) | 158,756 | [partdetail](https://jlcpcb.com/partdetail/C210329) |
+
+All three lookup-verified, DB date 2026-06-24 to 2026-06-27. Package: SMD2835-2P.
+
+## Candidate 2 — SMD5730 discrete white LEDs (array)
+
+Larger die/pad (5.7×3.0mm) than 2835 — more copper contact area per emitter for the same rough Vf/current class, i.e. an easier thermal path per LED at the cost of a bigger footprint. Also array-oriented.
+
+| Part | Vf | Current | Power | CCT | Stock (tier) | Link |
+|---|---|---|---|---|---|---|
+| XL-5730UWC-05 (C2843887) | 3.4V | 150mA | 500mW | 6000–7000K (cool) | 260,428 | [partdetail](https://jlcpcb.com/partdetail/C2843887) |
+| HL-A-5730D34W-S1-08-HR3 (C210353) | 3.4V | 150mA | 612mW | 6000K (cool) | 154,506 | [partdetail](https://jlcpcb.com/partdetail/C210353) |
+| HL-A-5730D1W-S1-08-HR3 (C210346) | 3.4V | 150mA | 510mW | 4000K (neutral) | 21,668 | [partdetail](https://jlcpcb.com/partdetail/C210346) |
+
+All three lookup-verified, DB date 2026-06-24. Package: SMD5730-3P.
+
+## Candidate 3 — COB module (single high-flux source)
+
+A COB puts multiple die on one substrate behind a single pair of pads, avoiding the parallel-string current-sharing problem entirely (see below) at the cost of a much more concentrated thermal load.
+
+**CXA1304 9V/400mA family** — fully-specified, single-die-equivalent COB in the 3.6W class:
+
+| Part | Vf | Current | Power | Flux | CRI | CCT | Stock | Link |
+|---|---|---|---|---|---|---|---|---|
+| CXA1304-...-B430G (C510489) | 9V | 400mA | 3.6W | 457lm | 80 | 3000K | 0 | [partdetail](https://jlcpcb.com/partdetail/C510489) |
+| CXA1304-...-C240G (C510492) | 9V | 400mA | 3.6W | 490lm | 80 | 4000K | 0 | [partdetail](https://jlcpcb.com/partdetail/C510492) |
+| CXA1304-...-C257F (C510494) | 9V | 400mA | 3.6W | 490lm | 80 | 5700K (cold) | 0 | [partdetail](https://jlcpcb.com/partdetail/C510494) |
+
+Lookup-verified, DB date 2026-06-27. Package: SMD 13.4×13.4mm.
+
+:::warning
+**All three CXA1304 SKUs show zero current stock** in this DB snapshot. JLCPCB restocks COB parts irregularly — treat this as a real sourcing risk to flag for the architecture pass, not just a note. Re-verify at order time regardless of what's chosen.
+:::
+
+Also note: this same CXA1304 family is sold in **18V/200mA and 36V/~lm-matched bins**
+(e.g. C510500, C510507 — not tabulated above) that are electrically incompatible with a
+straight buck topology on a 15V rail (see headroom analysis below). Only the **9V bin**
+is usable here without a boost or buck-boost stage — picking the wrong voltage bin off a
+parametric search would be a real mistake.
+
+**Alternate (currently in stock, specs unverified):** HL-LM002H384W-7B1C18 (C22398559), SMD 13.5×13.5mm, 3000K, Stock 108, [partdetail](https://jlcpcb.com/partdetail/C22398559). Lookup-verified (DB date 2026-05-23) for existence/stock only — its datasheet is a scanned/image PDF that did not yield machine-readable Vf/current/lumen data in this research pass. Usable as a stock-available fallback, but Vf and thermal specs must be confirmed from the manufacturer directly before any headroom or thermal math is done against it.
+
+## Voltage headroom analysis
+
+A buck constant-current driver needs the LED string's total forward voltage to sit comfortably *below* the 15V rail — the difference is the driver's working headroom (dropout + ripple margin). Too little headroom and the driver can't regulate cleanly at the top of the rail's tolerance; too much and efficiency suffers (all binned as switching loss dropping the extra volts).
+
+| LED family | Series count | Total Vf | Headroom to 15V | Verdict |
+|---|---|---|---|---|
+| 2835 / 5730 (Vf≈3.2–3.4V) | 3s | ≈9.6–10.2V | ≈4.8–5.4V | Safe margin, but wastes efficiency dropping >30% of the rail in the driver |
+| 2835 / 5730 (Vf≈3.2–3.4V) | 4s | ≈12.8–13.6V | ≈1.4–2.2V | Tight — workable with a driver rated for low dropout at this duty cycle, but leaves little margin against rail sag or Vf spread at temperature |
+| CXA1304 COB (Vf=9V, 9V bin only) | 1 (single module) | 9V | 6V | Large headroom, single emitter — simplest to drive, least LED-side complexity |
+| CXA1304 COB (18V/36V bins) | — | 18V / ≥36V | **negative** | **Will not fit under a 15V rail at all** with a simple buck — excluded unless the architecture pass adopts a boost or buck-boost stage |
+
+This mirrors the source issue's own worked example (4s white ≈ 12–13V, leaving ~2–3V for the driver) — the 4s point for 2835/5730 lands right at that edge.
+
+## Current-sharing considerations for parallel strings
+
+To reach meaningful total lumen output, one series string (of either discrete package) is not enough — the architecture will need **multiple strings in parallel**. This is the risk the issue calls out explicitly:
+
+- LED forward voltage is binned, not exact — even LEDs from the same reel can differ by ±0.1–0.2V at a given current. Tie multiple strings directly across the same regulated-current output and the lowest-Vf string hogs a disproportionate share of the current.
+- Some LED chemistries have a **negative** Vf-vs-temperature coefficient at constant current: the hottest string's Vf drops further, letting it draw even more current, which heats it further — a slow thermal-runaway spiral in the worst case (more relevant to high-current single strings than these ~150mA-class discretes, but worth flagging).
+- Ballast options, roughly cheapest to most robust:
+  1. **Per-string ballast resistor** — a few ohms in series with each parallel string, sized to drop enough voltage that Vf mismatch becomes a small fraction of the string's total impedance. Cheap, lossy (pure resistive dissipation, subtracts from the LED headroom budget above), simplest to lay out.
+  2. **Factory-matched/binned strings** — buy LEDs in a tight Vf bin and don't rely on ballast at all. Reduces BOM cost of ballast parts but adds a procurement constraint (bin availability, reorder risk) that the JLCPCB catalog snapshot alone can't confirm.
+  3. **One CC driver output per string** — no shared node, no sharing problem, at the cost of one driver IC (+ its full passive set, see `driver-ics.mdx`) per string. Most robust, most parts.
+- The COB candidate (single module) sidesteps this entirely — it's one part, one current path, no parallel-string question. That's a real point in its favor if the sourcing-stock risk above can be resolved.
+
+## Thermal path per candidate (see `thermal-budget.mdx` for numbers)
+
+- 2835/5730 discretes: low per-LED dissipation (0.06–0.6W), but a bright design needs many of them — total board dissipation adds up even though no single site is hot.
+- COB: all the heat lands in one 13.4mm² package (3.6W in the CXA1304 9V bin) — copper pour alone is unlikely to be enough; see the thermal page for what's actually needed.
+
+## Questions the architecture pass must answer
+
+- Discrete array (2835/5730, many small strings) vs. single COB (concentrated, simpler current path) — which trades better against the enclosure/thermal plan and the target lumen output?
+- If discrete: 3s (safe headroom, lower efficiency) or 4s (tight headroom, higher efficiency) per string, and how many strings in parallel?
+- If discrete + parallel strings: ballast resistor, Vf-binned procurement, or one driver per string?
+- If COB: is the 9V/400mA CXA1304 bin's zero-stock status acceptable to design around (pre-order lead time) or does it force a fallback to the stock-available-but-spec-unverified LM002H384W part (requiring its datasheet be tracked down through the manufacturer, not JLCPCB)?
+- What CCT (warm/neutral/cool) does the fire/wave-like modulation concept actually want? Some candidates above only exist in a subset of CCTs at high stock.

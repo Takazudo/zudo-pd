@@ -1,4 +1,7 @@
-packages: [ "doc" ]
+packages:
+  - doc
+  - products/led-lamp
+  - products/led-lamp/doc
 allowBuilds:
   esbuild: true
   lefthook: true
@@ -6,3 +9,5 @@ allowBuilds:
   workerd: true
 patchedDependencies:
   '@takazudo/zudo-circuit-doc@0.3.0': patches/@takazudo__zudo-circuit-doc@0.3.0.patch
+  '@takazudo/zudo-doc@9.1.4': patches/@takazudo__zudo-doc@9.1.4.patch
+  '@takazudo/zudo-doc-history-server@9.1.4': patches/@takazudo__zudo-doc-history-server@9.1.4.patch

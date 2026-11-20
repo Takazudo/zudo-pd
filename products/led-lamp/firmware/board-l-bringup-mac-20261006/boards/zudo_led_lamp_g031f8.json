@@ -1,0 +1,26 @@
+{
+  "build": {
+    "core": "stm32",
+    "cpu": "cortex-m0plus",
+    "extra_flags": "-DSTM32G0 -DSTM32G0xx -DSTM32G031xx",
+    "f_cpu": "64000000L",
+    "mcu": "stm32g031f8",
+    "product_line": "STM32G031xx"
+  },
+  "debug": {
+    "default_tools": ["stlink"],
+    "jlink_device": "STM32G031F8",
+    "openocd_target": "stm32g0x",
+    "svd_path": "STM32G031.svd"
+  },
+  "frameworks": ["cmsis"],
+  "name": "zudo-led-lamp Board L (STM32G031F8P6)",
+  "upload": {
+    "maximum_ram_size": 8192,
+    "maximum_size": 65536,
+    "protocol": "stlink",
+    "protocols": ["stlink", "cmsis-dap", "jlink"]
+  },
+  "url": "https://github.com/Takazudo/zudo-led-lamp",
+  "vendor": "zudo"
+}

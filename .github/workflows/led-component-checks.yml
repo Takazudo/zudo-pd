@@ -1,0 +1,89 @@
+# Root-discovered offline gates for the imported LED component and schematic
+# contract. The historical workflow under products/led-lamp/.github is inactive.
+# The P15 step uses the reviewed same-repository consumer/owner verifier.
+
+name: LED Component Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - 'base/**'
+    paths:
+      - 'products/led-lamp/CLAUDE.md'
+      - 'products/led-lamp/.claude/skills/**'
+      - 'products/led-lamp/scripts/schgen/**'
+      - 'products/led-lamp/scripts/checks/**'
+      - 'products/led-lamp/boards/**'
+      - 'products/led-lamp/symbols/**'
+      - 'products/led-lamp/footprints/**'
+      - 'products/led-lamp/firmware/**'
+      - 'products/led-lamp/doc/src/content/docs/**/*.mdx'
+      - 'circuit/scripts/check-led-p15-reference.sh'
+      - 'scripts/pcb/board-p15/**'
+      - '.github/workflows/led-component-checks.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'products/led-lamp/CLAUDE.md'
+      - 'products/led-lamp/.claude/skills/**'
+      - 'products/led-lamp/scripts/schgen/**'
+      - 'products/led-lamp/scripts/checks/**'
+      - 'products/led-lamp/boards/**'
+      - 'products/led-lamp/symbols/**'
+      - 'products/led-lamp/footprints/**'
+      - 'products/led-lamp/firmware/**'
+      - 'products/led-lamp/doc/src/content/docs/**/*.mdx'
+      - 'circuit/scripts/check-led-p15-reference.sh'
+      - 'scripts/pcb/board-p15/**'
+      - '.github/workflows/led-component-checks.yml'
+
+concurrency:
+  group: led-component-checks-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # P15 consumer/owner check reads two historical commits.
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: Validate LED component contract (offline)
+        working-directory: products/led-lamp
+        run: python3 .claude/skills/component-spec-audit/scripts/validate.py
+      - name: Test LED component validator and fixtures (offline)
+        working-directory: products/led-lamp
+        run: python3 -m unittest discover -s .claude/skills/component-spec-audit/scripts -p 'test_*.py'
+      - name: Test LED cross-component routing and refusals (offline)
+        working-directory: products/led-lamp
+        run: python3 .claude/skills/circuit-spec-integration/scripts/check_forward_tests.py
+      - name: LED schematic regeneration is idempotent (pure Python)
+        working-directory: products/led-lamp
+        run: |
+          python3 scripts/schgen/gen_schematic.py board_p_spec
+          python3 scripts/schgen/gen_schematic.py board_l_spec
+          python3 scripts/schgen/gen_schematic.py swd_adapter_spec
+          git diff --exit-code -- boards/
+          test -z "$(git ls-files --others --exclude-standard -- boards/)"
+      - name: Verify LED external power switch topology
+        working-directory: products/led-lamp
+        run: python3 scripts/schgen/verify_power_switch.py
+      - name: Verify LED SWD adapter numeric orientation
+        working-directory: products/led-lamp
+        run: python3 scripts/schgen/verify_swd_adapter.py
+      - name: Verify same-repository P15 consumer and owner history
+        run: bash circuit/scripts/check-led-p15-reference.sh
+      - name: Test P15 consumer and owner verifiers
+        run: |
+          python3 -m unittest discover -s products/led-lamp/scripts/checks -p 'test_*.py'
+          python3 -m unittest discover -s scripts/pcb/board-p15 -p 'test_verify_shared_reference.py'

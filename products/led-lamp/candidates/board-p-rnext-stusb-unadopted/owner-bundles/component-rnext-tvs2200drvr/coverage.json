@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-tvs2200drvr-primary",
+      "record_id": "rec-c523793",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-c523793-manufacturer",
+        "fact-c523793-identity",
+        "fact-c523793-vrwm",
+        "fact-c523793-vbr",
+        "fact-c523793-vclamp-40a",
+        "fact-c523793-ipp-10-1000",
+        "fact-c523793-ileak-vrwm",
+        "fact-c523793-slew-limit",
+        "fact-c523793-vclamp-35a-125c"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-tvs2200drvr-led-application",
+      "record_id": "rec-c523793",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-tvs2200drvr-led-rnext-role",
+        "fact-tvs2200drvr-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-tvs2200drvr-led-rnext-role",
+        "fact-tvs2200drvr-led-land"
+      ]
+    }
+  ]
+}

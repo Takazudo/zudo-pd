@@ -1,0 +1,111 @@
+---
+title: Charger Compatibility
+description: Why resistor-strapped USB-PD trigger ICs (CH224D-class) were rejected in favor of a certified auto-negotiating controller, the tested-charger evidence behind that call, and the "verify 15V is in the PDO list" purchase rule.
+sidebar_position: 30
+---
+
+Board P uses the STUSB4500 — a USB-IF certified, auto-run PD sink controller — instead
+of a simpler resistor-strapped trigger IC such as the CH224D family. This choice is
+inherited directly from the zudo-pd project, which tried the resistor-strapped
+approach first and measured real compatibility failures against it.
+
+## Why resistor-strapped triggers were rejected
+
+A resistor-strapped PD trigger (CH224D and similar parts) requests a fixed voltage by
+presenting a configuration resistor value to the controller — there is no software PD
+stack behind it. That has two consequences that matter for a device meant to work with
+whatever USB-C charger someone already owns:
+
+- **No retry logic.** If the first negotiation attempt fails or a source's timing does
+  not match what the simple hardware state machine expects, the part does not retry —
+  it falls back to plain 5 V and stays there.
+- **Passive against dynamic power management.** Modern multi-port GaN chargers
+  redistribute power as ports connect/disconnect and may re-advertise PDOs
+  dynamically. A resistor-strapped sink has no mechanism to react to any of that; a
+  certified sink controller with retry/re-negotiation logic (like the STUSB4500) does.
+
+There is also a load-switch interaction that matters independently of which PD
+controller is used: if downstream DC-DC converters start drawing current the instant
+USB-C first connects at 5 V, that draw can collapse the 5 V rail before the negotiation
+IC ever completes a 15 V request. Board P's Q1 load switch exists specifically to gate
+downstream power off until the STUSB4500 confirms a live 15 V contract — see
+[Board P's front-end page](./board-p-front-end.mdx) for the gate-drive network.
+
+## Tested-charger evidence
+
+zudo-pd's own documentation records a real bench comparison of the resistor-strapped
+CH224D design against a range of USB-PD chargers:
+
+| Charger | Model | Power | Ports | Result with CH224D |
+|---------|-------|-------|-------|----------------------|
+| Anker Nano II 65W | A2663 | 65 W | 1× USB-C | ✅ Works |
+| Anker Prime 200W | A2683 | 200 W | 4× USB-C + 2× USB-A | ❌ All ports fail |
+| Elecom EC-AC67150BK | — | 150 W | 3× USB-C + 1× USB-A | ❌ All ports fail |
+| Digiforce Square 65W | — | 65 W | — | ❌ Fails |
+| CIO NovaPort SLIM 45W | — | 45 W | 2× USB-C | ❌ Fails |
+
+That is **1 of 5 tested chargers working** (20%) against the resistor-strapped
+controller — only the single-port Anker Nano II 65W succeeded.
+
+:::note
+zudo-pd's own prose repeats a "~33% compatibility, 2 of 6 chargers worked" figure in
+several places (its CH224D component page, its STUSB4500 page, its BOM page). This
+audit could not find a documented 6-charger test table anywhere in zudo-pd's sources —
+including its own linked GitHub issue #33 — to back that number; every enumerated
+table found (reproduced above) lists exactly 5 chargers and exactly 1 success. This is
+carried forward here as an honest flag on the source material rather than silently
+repeated: **the directionally-correct, well-evidenced claim is "most multi-port GaN
+chargers failed, the single-port unit worked"; the precise "33%" / "2 of 6" figure is
+unreconciled in zudo-pd's own docs** and should not be quoted as a hard number without
+finding its source test session.
+:::
+
+The pattern across every failure is the same, regardless of the exact fraction:
+**single-port chargers worked; every multi-port GaN charger tested, failed.** Symptoms
+on a failed charger: only a brief -12V LED flicker, then all output rails dead — the
+downstream DC-DC stage's inverting converter momentarily reacting to whatever residual
+voltage exists on a 5 V-only supply, then everything collapsing once the 5 V itself
+sags.
+
+## Recommendation for this lamp
+
+- **Prefer a dedicated single-port USB-C PD charger.** The one charger that worked
+  cleanly in zudo-pd's testing (Anker Nano II 65W) is single-port. This is not proof
+  every single-port charger will work — it is the strongest available signal that
+  single-port, simpler power-management chargers are lower-risk than high-wattage
+  multi-port GaN units for a hardware-only sink negotiation.
+- **Avoid multi-port GaN chargers above roughly 100 W** unless a specific model has
+  been confirmed working with an STUSB4500-based design — none has been, as of this
+  audit. The STUSB4500's certified retry/re-negotiation logic should do meaningfully
+  better than the CH224D's zero-retry behavior against these chargers, but that
+  expectation has not been bench-confirmed for this project (see the honesty note in
+  [Lessons Carried From zudo-pd](./lessons-from-zudo-pd.mdx)).
+- **Test before committing to a charger for the finished lamp**, especially if reusing
+  a charger already on hand rather than buying one specifically for this purpose.
+
+## The "verify 15 V is in the PDO list" rule
+
+Before buying or reusing any charger for this lamp, check its listed PDO
+(Power Data Object) profiles for an explicit **15 V** entry. Some PD chargers skip 15 V
+entirely — e.g. a charger advertising only 5 V / 9 V / 20 V. Board P's NVM is
+programmed to request 15 V/3 A specifically (see
+[Lessons Carried From zudo-pd](./lessons-from-zudo-pd.mdx) for why — the alternative,
+requesting 20 V, is out of scope for the D5/Q1 rating margins established in the
+[ratings matrix](./ratings-matrix.mdx)). A charger whose PDO list has no 15 V entry
+will fail to negotiate the target contract regardless of how good its PD stack is —
+this is a charger-selection problem, not a Board P design defect.
+
+Look for the voltage list printed on the charger itself or its packaging/listing (e.g.
+"5V⎓3A / 9V⎓3A / 15V⎓3A / 20V⎓3.25A"); a listing that jumps 9 V → 20 V without 15 V will
+not work with this design as programmed.
+
+## References
+
+- zudo-pd's CH224D component page, STUSB4500 component page, USB-PD adapter overview
+  page, and BOM page — source of the charger test data and the unreconciled
+  "~33%"/"2 of 6" figure flagged above.
+- zudo-pd's public GitHub issue #33 ("Consider replacing CH224D with STUSB4500 for
+  better charger compatibility") — the same 3-row subset of the test table, no
+  additional chargers.
+- [Board P — USB-PD Front End](./board-p-front-end.mdx) for the load-switch circuit
+  that gates power during negotiation.

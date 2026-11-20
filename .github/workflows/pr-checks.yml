@@ -137,6 +137,9 @@ jobs:
       - name: Project model viewer browser smoke
         run: pnpm test:model-viewer:browser
 
+      - name: Six-category site navigation browser smoke
+        run: pnpm test:site-navigation:browser
+
       - name: Additional package browser smoke
         run: pnpm exec zudo-circuit-doc check-browser
 

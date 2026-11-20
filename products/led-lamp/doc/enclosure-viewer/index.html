@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Straight starburst bands · enclosure prototype</title>
+  <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+  <header>
+    <div><h1>Straight starburst bands</h1><p>Prototype 03 · printed square posts + round feet · dimensions in mm</p></div>
+    <a href="smoke-reversing-stls.zip" download>Download STL collection</a>
+  </header>
+  <main>
+    <section class="stage" aria-label="Interactive enclosure model">
+      <div id="viewport" tabindex="0" aria-label="3D model. Drag to orbit, scroll to zoom. Use the view buttons for keyboard navigation."></div>
+      <p id="status" role="status">Loading the CAD meshes…</p>
+      <p class="hint">Drag to orbit · scroll to zoom · right-drag to pan</p>
+    </section>
+    <aside aria-label="Preview controls">
+      <h2>Inspect the assembly</h2>
+      <div class="buttons">
+        <button id="assembled" type="button">Assembled</button>
+        <button id="exploded" type="button">Exploded</button>
+        <button id="base" type="button">PCB & base</button>
+        <button id="underside" type="button">Underside</button>
+        <button id="top" type="button">Top</button>
+      </div>
+      <label for="separation">Layer separation <output id="separation-value">0 mm</output></label>
+      <input id="separation" type="range" min="0" max="8" step="0.5" value="0">
+      <label for="layers">Visible bands <output id="layers-value">6 / 6</output></label>
+      <input id="layers" type="range" min="0" max="6" step="1" value="6">
+      <label class="check"><input id="electronics" type="checkbox" checked> PCB models</label>
+      <label class="check"><input id="hardware" type="checkbox" checked> Printed square posts</label>
+      <label class="check"><input id="transparent" type="checkbox"> See through shell</label>
+      <label class="check"><input id="section" type="checkbox"> Half-section</label>
+      <label for="part">Individual print part</label>
+      <select id="part"><option value="">Whole assembly</option></select>
+      <p id="part-note">Every panel is a separate, flat-printable part.</p>
+      <a id="part-download" hidden download>Download selected STL</a>
+      <p class="notice">CAD fit prototype. Colors are illustrative; this view does not simulate light transmission. PCB models exclude actual solder and manufacturing variation.</p>
+      <a href="assembly-step.zip" download>Assembled STEP model (ZIP)</a>
+      <a href="manifest.json">Dimensions & verification record</a>
+    </aside>
+  </main>
+  <noscript>This preview needs JavaScript. The STL collection, assembled STEP model and documentation remain available.</noscript>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>

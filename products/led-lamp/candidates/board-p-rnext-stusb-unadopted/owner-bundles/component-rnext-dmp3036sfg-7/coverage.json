@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-dmp3036sfg-7-primary",
+      "record_id": "rec-c461081",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-c461081-manufacturer",
+        "fact-c461081-identity",
+        "fact-c461081-vds",
+        "fact-c461081-vgs",
+        "fact-c461081-current-vgs5-ta25",
+        "fact-c461081-current-vgs5-ta70",
+        "fact-c461081-current-vgs10-ta25",
+        "fact-c461081-body-diode-current",
+        "fact-c461081-theta-ja-1in2",
+        "fact-c461081-theta-ja-min-pad",
+        "fact-c461081-rdson-10v-max",
+        "fact-c461081-rdson-5v-max",
+        "fact-c461081-vgsth-max"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-dmp3036sfg-7-led-application",
+      "record_id": "rec-c461081",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-dmp3036sfg-7-led-rnext-role",
+        "fact-dmp3036sfg-7-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-dmp3036sfg-7-led-rnext-role",
+        "fact-dmp3036sfg-7-led-land"
+      ]
+    }
+  ]
+}

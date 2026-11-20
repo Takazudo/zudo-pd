@@ -215,8 +215,9 @@ the former `l-bump-version-*` skills were retired in #202.
 Repository map: `boards/` projects; `scripts/schgen/` specs and checks; `.claude/skills/`
 evidence; `symbols/` and `footprints/kicad/` assets; `circuit/` package config,
 project checks and publication contracts; `doc/` authored/generated documentation;
-`3dp-files/` the current adhesive-leg prototype. `doc/CLAUDE.md` and
-`footprints/CLAUDE.md` provide local rules.
+`3dp-files/` the current adhesive-leg prototype; `products/led-lamp/` the imported LED Lamp
+source of record (Board L, firmware, enclosure), with its own `CLAUDE.md`/`AGENTS.md`.
+`doc/CLAUDE.md` and `footprints/CLAUDE.md` provide local rules.
 
 ## Development orchestration
 

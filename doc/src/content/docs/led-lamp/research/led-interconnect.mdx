@@ -1,0 +1,67 @@
+---
+title: Board-to-Board Interconnect Candidates
+description: Historical LED page copied from zudo-led-lamp at 88cb1740; current status lives in the LED Lamp section.
+sidebar_position: 40
+---
+
+> **Historical LED page** copied from zudo-led-lamp at `88cb1740`; current status lives in [LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/doc/src/content/docs/research/led-interconnect.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/research/led-interconnect/).
+
+> **Integrated context.** The connector candidates below predate the integrated P15 handoff. The actual [P15 interface](/docs/architecture/p15-shared-input/) and Board L mating/physical checks govern any current connection claim.
+
+Board P (PD front end) and the LED/control board are separate PCBs per the epic's board-split decision. This page evaluates connector families for that link — power (15V, contract cap 3A) plus whatever status/signal lines the architecture pass ends up needing (e.g. an ATT/PDOK line per the Board-P audit). All parts lookup-verified against the local JLCPCB DB (fetched 2026-07-25; per-part lookup dates noted).
+
+## Candidate 1 — XFCN direct 2.54 mm male/female pair (selected)
+
+| Spec | Value |
+|---|---|
+| Part | PZ254V-11-06P male (C492405) + PM254V-11-06-H85 female (C2832269) |
+| Pitch | 2.54mm |
+| Rating | 250V / **3A per contact** on both halves |
+| Pins | 6 |
+| Stock (tier) | 98,021 male / 42,315 female on 2026-08-20; [male](https://zudo-led-lamp.takazudomodular.com/docs/research/led-interconnect/), [female](https://zudo-led-lamp.takazudomodular.com/docs/research/led-interconnect/) |
+
+The manufacturer drawings explicitly specify the reciprocal PZ254/PM254 single-row series as mates. Power contacts remain doubled (2 of the 6 pins ganged per rail for both the 15V feed and return), leaving 2 pins for signal/status.
+
+**Pros:** cheap, compact, amply stocked, exact manufacturer-matched pair, and no cable housing/contact/wire/crimp BOM.
+**Cons:** unkeyed and not latching; PCB alignment, pin-1 polarity, standoff, and mechanical retention become part of the board/enclosure design. A single contact has no headroom over the 3A contract cap, so doubling remains mandatory for that envelope.
+
+## Candidate 2 — JST VH, 2-pin (headroom alternative)
+
+| Spec | Value |
+|---|---|
+| Part | B2P-VH(LF)(SN) (C160315) |
+| Pitch | 3.96mm |
+| Rating | 250V / **10A per contact** |
+| Pins | 2 |
+| Stock (tier) | 207,876, [partdetail](https://jlcpcb.com/partdetail/C160315) |
+
+VH is the "step up" connector family precisely for cases like this: a single contact carries **3.3× the 3A contract cap** with margin, so no doubling is needed — one pin per rail is enough. A 3-pin (VH-3A / B3P-VH, C160316) or 4-pin (VH-4A / B4P-VH, C160317) variant in the same family would add signal pins without touching the power-margin story.
+
+**Pros:** real single-contact margin over the 3A cap, same connector family scales to more pins if signal lines are added, robust for hand assembly/rework.
+**Cons:** larger 3.96mm pitch and taller housing than XH — bigger board-edge footprint; splitting power (VH) and signal (a separate small connector) into two connectors is more parts/more assembly steps than XH's single 6-pin combo, unless a wider VH variant is used for everything.
+
+## Candidate 3 (for comparison) — Molex-style KK 2.54mm, 4-pin
+
+| Spec | Value |
+|---|---|
+| Part | 2510-4A (C2847671) |
+| Pitch | 2.54mm |
+| Rating | 250V / **3A** |
+| Pins | 4 |
+| Stock (tier) | 104,421, [partdetail](https://jlcpcb.com/partdetail/C2847671) |
+
+Included to show that XH isn't an outlier — most connectors in this 2–2.5mm pitch class top out at 3A per contact, i.e. exactly at this project's cap with zero margin. This family would need the same doubled-contact treatment as XH if selected; it isn't a genuine alternative to the margin problem, just a different footprint with the identical constraint.
+
+## Comparison
+
+| Connector | Pitch | Per-contact rating | Margin over 3A cap | Doubling needed? | Pin count used for power+return |
+|---|---|---|---|---|---|
+| XFCN PZ254V/PM254V (C492405/C2832269) | 2.54mm | 3A | None | Yes | 4 of 6 |
+| JST VH (C160315) | 3.96mm | 10A | 3.3× | No | 2 |
+| Molex KK 2510 (C2847671) | 2.54mm | 3A | None | Yes | 4 of 4 (no pins left for signal without a larger variant) |
+
+## Questions the architecture pass must answer
+
+- Is the selected pair's zero-contract-margin doubling scheme acceptable here, or does the LED board's actual 410 mA load and 205 mA/contact split make VH's extra headroom unnecessary?
+- How many signal/status lines actually need to cross this connector (ATT/PDOK status, anything else)? That fixes whether XH's remaining 2 pins are enough, or whether VH needs a companion small-signal connector.
+- Board-edge space, direct-board alignment, standoff, polarity, and retention must be fixed in the PCB/enclosure layout before the unkeyed pair is energized.

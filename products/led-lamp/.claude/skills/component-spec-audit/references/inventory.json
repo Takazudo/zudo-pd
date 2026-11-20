@@ -1,0 +1,895 @@
+{
+  "schema_version": 1,
+  "generator_specs": [
+    "scripts/schgen/board_p_spec.py",
+    "scripts/schgen/board_l_spec.py",
+    "scripts/schgen/swd_adapter_spec.py"
+  ],
+  "assertions": {
+    "orderable_lines": 35,
+    "fitted_lines": 31,
+    "dnp_or_hand_fit_lines": 4
+  },
+  "exclusions": [
+    {
+      "board": "board-p",
+      "refdes": "J2",
+      "reason": "bare-copper NVM/I2C pogo pads; no orderable/LCSC line"
+    },
+    {
+      "board": "board-p",
+      "refdes": "J3",
+      "reason": "bare-copper debug pogo pads; no orderable/LCSC line"
+    },
+    {
+      "board": "board-l",
+      "refdes": "J4",
+      "reason": "bare-copper UART pogo pads; no orderable/LCSC line"
+    },
+    {
+      "board": "board-l",
+      "refdes": "TP1",
+      "reason": "bare-copper test pad; no orderable/LCSC line"
+    }
+  ],
+  "lines": [
+    {
+      "line_id": "line-c283540",
+      "mpn": "TYPE-C-31-M-17",
+      "manufacturer": "HRO",
+      "lcsc": "C283540",
+      "package": "USB-C-SMD_10P-P1.00-L6.8-W8.9",
+      "dnp": false,
+      "owner_skill": "component-type-c-31-m-17",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "USB-C receptacle",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "J1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2678061",
+      "mpn": "STUSB4500QTR",
+      "manufacturer": "STMicroelectronics",
+      "lcsc": "C2678061",
+      "package": "QFN-24_L4.0-W4.0-P0.50-BL-EP2.8",
+      "dnp": false,
+      "owner_skill": "component-stusb4500qtr",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "USB-PD sink controller",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "U1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c347476",
+      "mpn": "AO3401A",
+      "manufacturer": "UMW (Youtai Semiconductor)",
+      "lcsc": "C347476",
+      "package": "SOT-23_L2.9-W1.3-P1.90-LS2.4-BR",
+      "dnp": false,
+      "owner_skill": "component-umw-ao3401a-c347476",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "P-channel load-switch MOSFET",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "Q1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c571370",
+      "mpn": "SMAJ20A",
+      "manufacturer": "High Diode",
+      "lcsc": "C571370",
+      "package": "SMA_L4.2-W2.6-LS5.3-RD",
+      "dnp": false,
+      "owner_skill": "component-high-diode-smaj20a-c571370",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "20 V TVS diode",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D5"
+        },
+        {
+          "board": "board-l",
+          "refdes": "D10"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c85382",
+      "mpn": "PESD24VS1UB,115",
+      "manufacturer": "Nexperia",
+      "lcsc": "C85382",
+      "package": "SOD-523_L1.2-W0.8-LS1.6-RD",
+      "dnp": true,
+      "owner_skill": "component-stusb4500qtr",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "CC-line ESD protection",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "D6"
+        },
+        {
+          "board": "board-p",
+          "refdes": "D7"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c13585",
+      "mpn": "CL31A106KBHNNNE",
+      "manufacturer": "Samsung Electro-Mechanics",
+      "lcsc": "C13585",
+      "package": "C1206",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "10 uF 50 V MLCC",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "C1"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C10"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C11"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C12"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C14"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c14663",
+      "mpn": "CC0603KRX7R9BB104",
+      "manufacturer": "Yageo",
+      "lcsc": "C14663",
+      "package": "C0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "100 nF 50 V MLCC",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "C2"
+        },
+        {
+          "board": "board-p",
+          "refdes": "C35"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C20"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C24"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C13"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C15"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C18"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C21"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C22"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c15849",
+      "mpn": "CL10A105KB8NNNC",
+      "manufacturer": "Samsung Electro-Mechanics",
+      "lcsc": "C15849",
+      "package": "C0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "1 uF 50 V MLCC",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "C30"
+        },
+        {
+          "board": "board-p",
+          "refdes": "C34"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C19"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c25803",
+      "mpn": "0603WAF1003T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C25803",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "100 kOhm resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R11"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R26"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R22"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c22807",
+      "mpn": "0603WAF1503T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C22807",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "150 kOhm resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R12"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23179",
+      "mpn": "0603WAF4700T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C23179",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "470 Ohm resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R13"
+        },
+        {
+          "board": "board-p",
+          "refdes": "R14"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23162",
+      "mpn": "0603WAF4701T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C23162",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "4.7 kOhm resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R15"
+        },
+        {
+          "board": "board-p",
+          "refdes": "R16"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c23186",
+      "mpn": "0603WAF5101T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C23186",
+      "package": "R0603",
+      "dnp": true,
+      "owner_skill": "component-stusb4500qtr",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "external USB-C Rd resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R17"
+        },
+        {
+          "board": "board-p",
+          "refdes": "R18"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c21189",
+      "mpn": "0603WAF0000T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C21189",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "zero-Ohm CCDB bridge",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R19"
+        },
+        {
+          "board": "board-p",
+          "refdes": "R20"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c17414",
+      "mpn": "0805W8F1002T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C17414",
+      "package": "R0805",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "10 kOhm resistor",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "R21"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R20"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R24"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R25"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c492405",
+      "mpn": "PZ254V-11-06P",
+      "manufacturer": "XFCN",
+      "lcsc": "C492405",
+      "package": "HDR-TH_6P-P2.54-V-M",
+      "dnp": false,
+      "owner_skill": "component-xfcn-board-headers",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "male board-to-board header",
+      "placements": [
+        {
+          "board": "board-p",
+          "refdes": "JOUT1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2832269",
+      "mpn": "PM254V-11-06-H85",
+      "manufacturer": "XFCN",
+      "lcsc": "C2832269",
+      "package": "HDR-TH_6P-P2.54-V-F",
+      "dnp": false,
+      "owner_skill": "component-xfcn-board-headers",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "female board-to-board header",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "J2"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c976305",
+      "mpn": "BSMD1206-075-30V",
+      "manufacturer": "BHFUSE",
+      "lcsc": "C976305",
+      "package": "F1206",
+      "dnp": false,
+      "owner_skill": "component-bhfuse-bsmd1206-075-30v",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "750 mA PPTC fuse",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "F1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c500782",
+      "mpn": "AL8860MP-13",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C500782",
+      "package": "MSOP-8_L3.0-W3.0-P0.65-LS4.9-BL-EP1.8",
+      "dnp": false,
+      "owner_skill": "component-al8860mp-13",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "buck LED driver",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "U2"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c459674",
+      "mpn": "RLP25FEER200",
+      "manufacturer": "TA-I Technology",
+      "lcsc": "C459674",
+      "package": "R2512",
+      "dnp": false,
+      "owner_skill": "component-al8860mp-13",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "200 mOhm current-sense resistor",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "RS1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c177245",
+      "mpn": "FXL0630-330-M",
+      "manufacturer": "Changjiang Microelectronics Tech",
+      "lcsc": "C177245",
+      "package": "IND-SMD_L7.0-W6.6_FXL0630",
+      "dnp": false,
+      "owner_skill": "component-al8860mp-13",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "33 uH LED buck inductor",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "L1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c7420363",
+      "mpn": "SS26",
+      "manufacturer": "R+O",
+      "lcsc": "C7420363",
+      "package": "SMA_L4.3-W2.6-LS5.0-FD",
+      "dnp": false,
+      "owner_skill": "component-al8860mp-13",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "60 V Schottky catch diode",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "D11"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c780769",
+      "mpn": "AP63203WU-7",
+      "manufacturer": "Diodes Incorporated",
+      "lcsc": "C780769",
+      "package": "TSOT-26_L2.9-W1.6-P0.95-LS2.8-BL",
+      "dnp": false,
+      "owner_skill": "component-ap63203wu-7",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "3.3 V synchronous buck converter",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "U4"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c167874",
+      "mpn": "FNR4030S4R7MT",
+      "manufacturer": "Changjiang Microelectronics Tech (cjiang)",
+      "lcsc": "C167874",
+      "package": "IND-SMD_L4.0-W4.0_FNR40XXS",
+      "dnp": false,
+      "owner_skill": "component-ap63203wu-7",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "4.7 uH logic buck inductor",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "L2"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c529334",
+      "mpn": "STM32G031F8P6",
+      "manufacturer": "STMicroelectronics",
+      "lcsc": "C529334",
+      "package": "TSSOP-20_L6.5-W4.4-P0.65-LS6.4-BL",
+      "dnp": false,
+      "owner_skill": "component-stm32g031f8p6",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "control MCU",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "U3"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c470643",
+      "mpn": "RK10J11E0034",
+      "manufacturer": "Alps Alpine",
+      "lcsc": "C470643",
+      "package": "POT-TH_RK10J11E0034",
+      "dnp": false,
+      "owner_skill": "component-alps-rk10j11e0034",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "stopped brightness potentiometer",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "RV1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c492404",
+      "mpn": "PZ254V-11-05P",
+      "manufacturer": "XFCN",
+      "lcsc": "C492404",
+      "package": "HDR-TH_5P-P2.54-V-M",
+      "dnp": true,
+      "owner_skill": "component-stm32g031f8p6",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "hand-fit SWD header",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "J3"
+        },
+        {
+          "board": "swd-adapter",
+          "refdes": "J2"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c4749199",
+      "mpn": "DS254P-2X10-L0",
+      "manufacturer": "DEALON",
+      "lcsc": "C4749199",
+      "package": "IDC-TH_20P-P2.54-V-R2-C10-S2.54",
+      "dnp": true,
+      "owner_skill": "component-stm32g031f8p6",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "ST-LINK/V2 20-pin adapter header",
+      "placements": [
+        {
+          "board": "swd-adapter",
+          "refdes": "J1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c13564",
+      "mpn": "NCP18XH103F03RB",
+      "manufacturer": "Murata",
+      "lcsc": "C13564",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-murata-ncp18xh103f03rb",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "10 kOhm NTC thermistor",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "RT1"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c45783",
+      "mpn": "CL21A226MAQNNNE",
+      "manufacturer": "Samsung Electro-Mechanics",
+      "lcsc": "C45783",
+      "package": "C0805",
+      "dnp": false,
+      "owner_skill": "component-ap63203wu-7",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "22 uF 25 V buck output MLCC",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "C16"
+        },
+        {
+          "board": "board-l",
+          "refdes": "C17"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c4216",
+      "mpn": "0603WAF3302T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C4216",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "33 kOhm resistor",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "R21"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c22775",
+      "mpn": "0603WAF1000T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C22775",
+      "package": "R0603",
+      "dnp": false,
+      "owner_skill": "component-project-passives",
+      "identity_state": "UNRESOLVED",
+      "source_state": "SOURCE UNAVAILABLE",
+      "function": "100 Ohm brightness ADC series resistor",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "R27"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2934070",
+      "mpn": "FRC2512F33R0TS",
+      "manufacturer": "FOJAN",
+      "lcsc": "C2934070",
+      "package": "R2512",
+      "dnp": false,
+      "owner_skill": "component-honglitronic-hl-am-2835h421w-s1-08-hr3",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "33 Ohm LED ballast resistor",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "R30"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R31"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R32"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R33"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R34"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R35"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R36"
+        },
+        {
+          "board": "board-l",
+          "refdes": "R37"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c210315",
+      "mpn": "HL-AM-2835H421W-S1-08-HR3",
+      "manufacturer": "Honglitronic",
+      "lcsc": "C210315",
+      "package": "LED-SMD_L3.3-W2.8-RD",
+      "dnp": false,
+      "owner_skill": "component-honglitronic-hl-am-2835h421w-s1-08-hr3",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "3000 K 2835 LED",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "LED1"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED2"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED3"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED4"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED5"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED6"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED7"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED8"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED9"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED10"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED11"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED12"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED13"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED14"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED15"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED16"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED17"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED18"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED19"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED20"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED21"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED22"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED23"
+        },
+        {
+          "board": "board-l",
+          "refdes": "LED24"
+        }
+      ]
+    },
+    {
+      "line_id": "line-c5446803",
+      "mpn": "SS-12D01-G020",
+      "manufacturer": "G-Switch",
+      "lcsc": "C5446803",
+      "package": "SW-TH_SS-12D01-G020",
+      "dnp": false,
+      "owner_skill": "component-gswitch-ss-12d01-g020",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "maintained lamp power slider",
+      "placements": [
+        {
+          "board": "board-l",
+          "refdes": "SW2"
+        }
+      ]
+    }
+  ]
+}

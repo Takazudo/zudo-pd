@@ -1,10 +1,24 @@
-# Circuit-doc 0.3.0 checker and Mac browser bridges
+# Circuit-doc 0.3.0 project bridges
+
+## Zudo Doc 9.1.4 search ranking (private PD/LED site)
+
+`@takazudo__zudo-doc@9.1.4.patch` teaches the pinned search widget to rank a
+hyphenated URL slug and a space-delimited title together. A query such as
+`board-p` now surfaces both the PD and historical LED Board P pages before
+component records that merely mention that board in their descriptions. The
+patch changes the package's scoring module and its shipped inline browser
+script together; it does not alter the indexed source pages, their routes or
+the package version. `circuit/tests/search-ranking.test.mjs` and the actual
+Chrome navigation smoke cover the two distinct destinations. Remove this
+bridge when an upstream pinned release provides equivalent scoring.
 
 Removal tracker: [zudo-pd #210](https://github.com/Takazudo/zudo-pd/issues/210).
 The runtime request is `^0.3.0`. The root lock resolves the npm 0.3.0 tarball with its
-registry integrity and this patch's hash. The patch retains the reviewed `lib/scan/built-references.js` checker branch and
-adds only active-page setup in `lib/browser-smoke/chrome.js` and its visibility
-precondition in `lib/browser-smoke/cdp.js`. Dependency versions are unchanged.
+registry integrity and this patch's hash. The patch retains the reviewed
+`lib/scan/built-references.js` checker branch and the active-page setup in
+`lib/browser-smoke/chrome.js` with its visibility precondition in
+`lib/browser-smoke/cdp.js`. The fourth hunk guards bundle order-code routing
+in `python/circuit_evidence/routing.py`. Dependency versions are unchanged.
 
 ## Why it exists
 
@@ -19,6 +33,22 @@ The bridge extends the allowed set by exactly the section's own `data-model-url`
 match the package's model-asset pattern. The later model checks in the same function still
 require exactly one declared model with a safe path. A link to any other WRL, a document URL,
 or a site route still fails. `circuit/tests/compatibility.test.mjs` covers both directions.
+
+## Bundle order-code routing (2026-11-16)
+
+Issue [#315](https://github.com/Takazudo/zudo-pd/issues/315) adds one independent
+Python hunk at `python/circuit_evidence/routing.py`. In the pinned 0.3.0 package,
+the bare `PESD24VS1UB` alias otherwise also matches an unknown attached order
+suffix such as `,125`, even when the query supplies the correct LCSC C85382.
+The bundle-only guard rejects an attached numeric suffix that is absent from
+that route's declared comma-qualified MPN aliases. Accepted spacing around the
+comma is normalized to the declared alias before the existing manufacturer
+`from`/`by` checks, so it cannot bypass a conflicting vendor. It leaves bare identities,
+ordinary comma punctuation, manufacturer/board qualifiers, shared MPN handling,
+empty-LCSC routes and inventory routing unchanged. The project-local validator
+uses the same guard; `circuit/tests/compatibility-routing.test.mjs` exercises the
+installed package and CLI. This patch changes no registry version and does not
+establish component evidence or fitted status.
 
 ## Mac active-page lifecycle (2026-11-09)
 
@@ -43,7 +73,9 @@ substitute. See [Chrome's active-page emulation API](https://chromedevtools.gith
 Remove each bridge only when a released package passes its retained regression.
 The checker must accept the unavailable-document record's own model link, and the
 Mac browser launcher must establish an active page without weakening cleanup checks.
-Keep #210 open while either bridge remains. When both are retired, delete the file, drop `patchedDependencies` from
+The routing bridge must reject unknown attached order codes without losing its
+existing direct-routing behavior; track that condition in #315. Keep #210 open
+while either original bridge remains. When all bridges are retired, delete the file, drop `patchedDependencies` from
 `pnpm-workspace.yaml`, refresh the lock, and update `circuit/tests/runtime.test.mjs` to
 assert an unpatched install. Run `pnpm check:site` and `pnpm test:compatibility`.
 

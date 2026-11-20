@@ -45,3 +45,29 @@ index 7d37e594e7c3ae181d21bcbcf3c6ad4df386724f..60201b5e8bc010e3a71747b802bd8599
              fail("PUBLICATION_POLICY", `${slug} must not link a document when the document is unavailable`, { slug });
          }
      }
+diff --git a/python/circuit_evidence/routing.py b/python/circuit_evidence/routing.py
+index 187357d6494b91f9410b1d739c25e504f97de8c3..ee4922ec377f7f846b781eddb8cf5c22ac7a436e 100644
+--- a/python/circuit_evidence/routing.py
++++ b/python/circuit_evidence/routing.py
+@@ -153,4 +153,21 @@ def resolve_bundle_route(query, routes, routing=NO_ROUTING_POLICY):
+ def resolve_bundle_route(query, routes, routing=NO_ROUTING_POLICY):
++    # Reject an unknown attached numeric order suffix before bare-MPN or LCSC
++    # fallback. Only bundles declaring comma-qualified MPN aliases are affected;
++    # a comma followed by ordinary prose still acts as punctuation.
++    for route in routes:
++        order_codes = {}
++        for alias in route["aliases"]["mpn"]:
++            if "," in alias:
++                base, suffix = alias.split(",", 1)
++                if suffix and suffix[0].isdigit():
++                    order_codes.setdefault(base.casefold(), set()).add(suffix.casefold())
++        for base, allowed in order_codes.items():
++            pattern = rf"(?<![A-Za-z0-9]){re.escape(base)}\s*,\s*([0-9][A-Za-z0-9_-]*)"
++            if any(match.group(1).casefold() not in allowed for match in re.finditer(pattern, query, re.I)):
++                return []
++            # Use the declared alias spelling for the ordinary manufacturer
++            # checks too; otherwise spacing after the comma bypasses from/by.
++            query = re.sub(pattern, lambda match: f"{base},{match.group(1)}", query, flags=re.I)
+     entries = []
+     for route in routes:
+         for mpn in route["aliases"]["mpn"]:

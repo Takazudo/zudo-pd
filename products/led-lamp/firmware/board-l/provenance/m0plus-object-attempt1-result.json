@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "objects": [
+    {
+      "name": "sample_adapter.o",
+      "sha256": "b3ecd4081486c33a90f64b31fdf085b2e8b170f2c6e8088e7d691ba38b76a2ee",
+      "bytes": 38988
+    },
+    {
+      "name": "board_binding.o",
+      "sha256": "a30d4b978d65b5a19e6f6ca07c43bfe306932c392a791297e50534f3846313b8",
+      "bytes": 48332
+    },
+    {
+      "name": "input_composition.o",
+      "sha256": "8ce6baaf8cbd1b590b34982591e87a6d698ed218d72c225b24a7fcd419e7051f",
+      "bytes": 43676
+    },
+    {
+      "name": "output_composition.o",
+      "sha256": "178eec1684b52f991b9be5e725886529eb4d6faeee6ea1a2f57d1a99ec177a93",
+      "bytes": 44628
+    }
+  ],
+  "compiler_flags": [
+    "-mcpu=cortex-m0plus",
+    "-mthumb",
+    "-mlittle-endian",
+    "-mfloat-abi=soft",
+    "-mabi=aapcs",
+    "-std=c11",
+    "-ffreestanding",
+    "-O0",
+    "-g3",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic"
+  ],
+  "link": false,
+  "execution": false,
+  "physical": false,
+  "instruction_count_claim": false
+}

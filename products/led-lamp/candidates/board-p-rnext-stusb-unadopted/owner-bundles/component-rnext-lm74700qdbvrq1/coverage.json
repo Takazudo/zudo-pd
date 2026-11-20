@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "coverage": [
+    {
+      "coverage_id": "cov-lm74700qdbvrq1-primary",
+      "record_id": "rec-c2941042",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "Manufacturer datasheet re-fetched 2026-10-31 by the LED worker; ratings and pin table read from it",
+      "fact_ids": [
+        "fact-c2941042-manufacturer",
+        "fact-c2941042-identity",
+        "fact-c2941042-anode-operating",
+        "fact-c2941042-anode-absmax",
+        "fact-c2941042-vak-reg",
+        "fact-c2941042-vak-rev"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-lm74700qdbvrq1-led-application",
+      "record_id": "rec-c2941042",
+      "domain": "led-rnext-application",
+      "status": "OPEN",
+      "reason": "UNADOPTED schematic draft: placement, copper, thermal, land assembly and bench behaviour are not established",
+      "fact_ids": [
+        "fact-lm74700qdbvrq1-led-rnext-role",
+        "fact-lm74700qdbvrq1-led-land"
+      ],
+      "blocking_fact_ids": [
+        "fact-lm74700qdbvrq1-led-rnext-role",
+        "fact-lm74700qdbvrq1-led-land"
+      ]
+    }
+  ]
+}

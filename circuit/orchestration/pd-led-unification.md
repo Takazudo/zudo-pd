@@ -2,7 +2,10 @@
 
 Accepted planning decision: **2026-11-16 JST (2026-11-15 UTC)**.
 Tracking: [super epic #308](https://github.com/Takazudo/zudo-pd/issues/308). Execution: [Moya + Codex Cloud](moya-codex-cloud.md).
-Status: **plan recorded; migration not started; no implementation sessions launched by this record**.
+Status (2026-11-20): **C1 baseline and C2 import done; C4 workspace and C5 six-category site delivered
+in the current-docs slice; C3 identity adoption and C6 cutover open under #308.** LED history is preserved:
+`2edec40d` merges LED `88cb1740` under `products/led-lamp/`. Campaign
+[#318](https://github.com/Takazudo/zudo-pd/issues/318) manages the order deliverables.
 
 This plan is self-contained. The epic owns live progress, child links, decisions and
 blockers; this file owns the accepted structure, migration sequence and acceptance
@@ -21,12 +24,11 @@ sites duplicate navigation, component evidence, status and source-reference work
 Readers should be able to choose a product and follow its design, current state,
 manufacturing and verification without reconstructing the story across repositories.
 
-The owner authorized the epic, README and planning-document updates in the current
-session. Actual LED import, component consolidation, site migration and cutover are
-work for the next user-started Moya + Codex Cloud implementation campaign. This plan
-does not change circuit decisions, physical acceptance, version numbers or current
-manufacturing packages. The next campaign records its own implementation and merge
-authority; the current documentation update is not a standing grant for later work.
+The LED import (C2) and the six-category site (C5) are in place. Component identity
+adoption (C3: four conflicting identity texts and 21 CAD path collisions) and the
+old-site link and asset cutover (C6) remain. This plan does not change circuit
+decisions, physical acceptance, version numbers or current manufacturing packages.
+Each campaign records its own implementation and merge authority.
 
 ## 2. Inspected source snapshot
 
@@ -163,7 +165,7 @@ at a time. C1 may inventory and plan while #307 is open; broad moves that overla
 changes wait for its disposition or an explicitly reconciled baseline. Do not use the
 migration to merge, reject or redo #307's circuit work implicitly.
 
-### C1 outputs: the first Codex Cloud task
+### C1 outputs (delivered)
 
 Create a campaign directory under `circuit/orchestration/campaigns/<campaign-id>/`
 with a `plan.md`, a machine-readable baseline manifest and mapping tables. Record:
@@ -178,8 +180,8 @@ with a `plan.md`, a machine-readable baseline manifest and mapping tables. Recor
 5. Child issue/branch/session ownership, permitted parallel work, checks, rollback and
    one fully specified C2 task brief. Report actual capabilities, not assumed sessions.
 
-This first task does not import LED or switch the public site. Its independently
-reviewed manifest is the input contract for subsequent implementation.
+The reviewed C1 manifest is in `campaigns/pd-led-20261116-c1/`; C2 imported LED from it
+without switching the old LED site.
 
 ### C4 details that must survive directory moves
 
@@ -270,5 +272,7 @@ This is documentation/repository completion, not a manufacturing release.
 ## 8. Next-session entry
 
 Give Moya the epic URL and [the execution handoff](moya-codex-cloud.md#kickoff-prompt).
-The first result should be the reviewed C1 baseline and bounded C2 brief. There is no
-need to repeat the design discussion or create another umbrella tracker.
+The remaining work is C3 (owner-reviewed identity, CAD and DNP adoption into one active
+catalog) and C6 (the 60 held generated LED links, 11 LED assets and old-route redirects,
+which stay on the old LED host until then). There is no need to repeat the design
+discussion or create another umbrella tracker.

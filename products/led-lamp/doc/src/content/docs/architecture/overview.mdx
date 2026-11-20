@@ -1,0 +1,159 @@
+---
+title: Prototype Architecture — Overview
+description: The locked prototype architecture for the lamp — two lamp boards plus a separate SWD adapter, a 24-LED warm-white array at 500mA, an AL8860 constant-current buck, an STM32G031 control MCU, and a stopped potentiometer mapped to brightness. Decisions, not options.
+sidebar_position: 10
+---
+
+This section is the **locked prototype architecture**: the thing KiCad work starts
+from. Everything here is a decision with a recorded reason that traces back to the
+[power](/docs/power/board-p-front-end/) and [research](/docs/research/led-candidates/)
+sections. Where those pages enumerated options, this section picks one and says why —
+see [Decisions](./decisions.mdx) for the chosen-vs-rejected record.
+
+:::warning[Nothing here is bench-confirmed]
+Board P's topology was never validated on working hardware (see
+[Lessons Carried From zudo-pd](/docs/power/lessons-from-zudo-pd/)), and Board L is a
+new design that has never existed as a PCB. This is a datasheet-grounded paper design.
+Treat the first build as the first real test, and follow the bring-up gates in
+[Next Steps](./next-steps.mdx).
+:::
+
+## Headline numbers
+
+| Parameter | Locked value |
+|---|---|
+| Lamp board count | **2** — Board P (USB-PD front end) + Board L (driver, LEDs, control); the SWD adapter is a separate service accessory |
+| PD contract | 15 V / 3 A (45 W cap) |
+| System draw | **~6.2 W, ~410 mA** — 13.7% of the contract cap, **7.3x margin** |
+| LED array | **24x** SMD2835 warm white, 8 parallel strings of 3 series |
+| CCT / CRI | 3000 K (2800–3100 K bin), CRI Ra ≥ 80 |
+| Drive current | **500 mA** total, 62.5 mA per string |
+| Light output | **~700 lm typical, ≥620 lm worst-case bin** |
+| Driver | AL8860MP-13 constant-current buck, hysteretic, ~440 kHz |
+| Logic rail | 3.3 V from an AP63203 synchronous buck |
+| MCU | STM32G031F8P6 (Cortex-M0+, 64 KB flash, TSSOP-20) |
+| Knob | ALPS RK10J11E0034 stopped potentiometer → **base brightness** |
+| Dimming | Analog (RC-filtered 20 kHz PWM into the driver's CTRL pin) — no visible flicker by construction |
+| Board L dissipation | ~6.1 W spread over 24 LED sites + 8 ballast resistors — plain FR-4, no MCPCB |
+
+## System block diagram
+
+```mermaid
+flowchart TD;
+  CHG["USB-C PD charger\n15V PDO required"];
+
+  subgraph BP["Board P — USB-PD front end (existing spec)"];
+    J1["J1 TYPE-C-31-M-17\nreceptacle"];
+    U1["U1 STUSB4500QTR\nPD sink controller"];
+    Q1["Q1 AO3401A\nload switch"];
+    D5["D5 SMAJ20A\n20V standoff, 32.4V clamp"];
+    J2P["J2/J3 pogo pads\nNVM I2C + debug"];
+    JOUT1["JOUT1 PZ254V male 6P"];
+    J1 --> U1;
+    U1 -->|"VBEN"| Q1;
+    D5 --- U1;
+    J2P --- U1;
+    Q1 --> JOUT1;
+    U1 -->|"ATT / PDOK"| JOUT1;
+  end;
+
+  subgraph BL["Board L — driver + control + LED array"];
+    J2L["J2 PM254V female 6P"];
+    F1["F1 PPTC 750mA/30V"];
+    V15["15V rail\nD10 SMAJ20A + bulk caps"];
+    U2["U2 AL8860MP-13\nCC buck, Rs=200mR"];
+    ARR["LED array\n8 strings x 3s\n8x 33R ballast\n24x HL-AM-2835H421W"];
+    U4["U4 AP63203WU-7\n3.3V synchronous buck"];
+    V33["3.3V logic rail"];
+    U3["U3 STM32G031F8P6\nCortex-M0+"];
+    RV1["RV1 ALPS 10k pot\nabsolute ADC position"];
+    RC["R20 10k + R21 33k + C21 100n\nRC low-pass, 0 to 2.53V"];
+    J3L["J3 SWD pads\nJ4 UART pads"];
+    J2L --> F1;
+    F1 --> SW2["PCB slide switch C5446803\nmaintained ON-OFF"];
+    SW2 --> V15;
+    V15 --> U2;
+    U2 -->|"L1 33uH + D11 SS26"| ARR;
+    ARR -->|"NTC RT1 10k"| U3;
+    V15 --> U4;
+    U4 --> V33;
+    V33 --> U3;
+    RV1 --> U3;
+    U3 -->|"PA6 PWM 20kHz"| RC;
+    RC -->|"analog CTRL"| U2;
+    J3L --- U3;
+    J2L -->|"ATT / PDOK"| U3;
+  end;
+
+  CHG -->|"USB-C cable"| J1;
+  JOUT1 -->|"switched 15V x2, GND x2, ATT, PDOK"| J2L;
+```
+
+## Board split
+
+**Two boards, no LED daughterboard.** Board P must be its own PCB (it is a reusable
+switched-15 V sink module, and it has to be bench-brought-up alone before anything is
+connected to it). Everything else lands on Board L.
+
+The case for a third board — an LED module on aluminum MCPCB — was evaluated and
+**rejected**. The [thermal budget](/docs/research/thermal-budget/) page sets the plain-FR-4
+ceiling at roughly **1 W per LED site**; this design runs **0.19 W per site** across 24
+sites. That is squarely in that page's "many small sites, generous pour" regime, not the
+concentrated-COB regime that forces metal core. A third board would add a second
+interconnect carrying the driver's switching node over a cable — a real EMI cost — to
+solve a thermal problem this design does not have.
+
+:::note[The split boundary is still designed in]
+The LED array is drawn as a self-contained block with a **4-net interface**: `LED_P`
+(array anode rail), `LED_N` (common cathode = the driver's switching node), `NTC_SENSE`,
+and `GND`. If the later enclosure phase forces the emitters onto a separate plane from
+the knob, the array can be lifted onto a daughterboard across exactly those four nets
+without touching the rest of Board L. The reason it is not split *now* is the `LED_N`
+switching node: running a ~440 kHz, 15 V-swing node down a wire harness is an EMI
+problem that only pays for itself if the mechanics actually demand it.
+:::
+
+## Interfaces
+
+| Interface | Physical | Nets |
+|---|---|---|
+| Charger → Board P | USB-C receptacle (J1) | CC1, CC2, VBUS, GND |
+| Board P → Board L | Direct XFCN 1x6, 2.54 mm pair: `PZ254V-11-06P` male on Board P and `PM254V-11-06-H85` female on Board L | 1,2 = switched 15 V (paired); 3 = ATT; 4 = PDOK; 5,6 = GND (paired). Unkeyed: verify physical pin-1 alignment before power |
+| Board P programming | J2 pogo pads 1x4 (I2C NVM + reset), J3 pogo pads 1x8 (debug) | SCL, SDA, GND, RESET |
+| Board L programming | J3 pad group 1x5, 2.54 mm (SWD) | SWDIO, SWCLK, NRST, 3V3, GND |
+| Board L debug | J4 pad group 1x3, 2.54 mm (UART) | PA2 TX, PA3 RX, GND |
+| Power control | C5446803 slide switch assembled on rear Board L | Fused positive feed / switched V15 return; Board P remains powered |
+| User control | ALPS RK10J11E0034 stopped potentiometer, rear low-profile wheel | Endpoints and wiper |
+
+The XH connector's per-contact current math is inherited unchanged from
+[Board P's downstream interface](/docs/power/board-p-front-end/#downstream-interface):
+3 A/contact nameplate, doubled contacts per rail. Against this design's actual 410 mA
+draw that is **14x** derated margin per contact, not the 1.6x the connector was sized
+for against the 3 A contract cap. The doubling stays anyway — it costs nothing, it is
+already in Board P's spec, and it keeps the harness reusable if a brighter revision
+raises the current.
+
+## Lamp power
+
+The [C5446803 slide switch](./power-switch.mdx) turns off the LED driver and MCU supply
+by opening Board L’s fused positive feed. Board P remains connected to USB-PD.
+The short slide switch is assembled on the rear PCB; ON restarts the MCU after sufficient rail decay; rapid toggles need verification.
+
+## What the knob does
+
+The knob sets **base brightness**, and nothing else. Speed and depth of the fire/wave
+modulation are firmware constants. Design intent, not in the current image. The first bench image is steady and linear (noise NULL, no gamma). That is a **recommendation** in OPEN-PRODUCT-DECISIONS D1/D2, not owner approval. Enabling animation needs an owner-chosen `noise_config`, a PRNG and its own review. The full reasoning is in
+[Decisions](./decisions.mdx#control-scheme); the short version is that a lamp knob that
+does not change brightness is a surprise. RV1 has fixed end stops and absolute position;
+there is no push-button mode gesture. Firmware must start dark and ramp to the validated
+position, with endpoint calibration, averaging and installed-direction verification.
+
+## Where to go next
+
+| Page | Contents |
+|---|---|
+| [Board P](./board-p.mdx) | Locked front-end spec, full net table, interface pin assignment |
+| [Board L](./board-l.mdx) | Driver/control/LED design, full pin-level net table, all component values with worked math |
+| [Final BOM](./bom.mdx) | Every part, C-number, tier, stock, and the Extended-fee arithmetic |
+| [Decisions](./decisions.mdx) | Chosen vs rejected per slot, with reasons |
+| [Next Steps](./next-steps.mdx) | The KiCad phase — bring-up order, footprint pipeline, risks |
