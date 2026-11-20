@@ -177,7 +177,7 @@ def build():
 def markdown(data):
     lines = ["---", "title: C3 and C5 item evidence", "sidebar_position: 5", "---", "",
              "# C3 and C5 item evidence", "",
-             "> **Private review only.** This is a per-item reading of retained sources. It does not adopt shared component identities, fitted state, CAD or publication.", "",
+             "> **Review record only.** This is a per-item reading of retained sources. It does not adopt shared component identities, fitted state, CAD or publication.", "",
              "## Overlapping part identities", "",
              "The exact source digest and owner-file locks for every row are in the machine-readable bundle. A shared source or equal pin rows is evidence for review, not proof of shared use or CAD equivalence.", "",
              "| LED line | Different identity fields | Shared retained source hashes | Pin rows equal | Disposition |",
@@ -201,8 +201,8 @@ def markdown(data):
         pad_status = "same count/numbers" if pads else "different count/numbers" if pads is False else "n/a"
         lines.append(f'| `{row["relative_path"]}` | {"equal" if row["same_bytes"] else "different"} | {pad_status} |')
     lines += ["", "## Authored page candidates", "",
-              "Every copied page has an exact source digest in the bundle and an existing private development route. Twenty-five pages have no *detected* held generated-route or asset dependency; all still need editorial and publication review. The other nine have item-specific dependencies. Three legacy routes collide with PD, so blanket same-host redirects cannot preserve them.", "",
-              "| Old route | Private destination | Held generated links | Held asset links | PD collision |",
+              "Every copied page has an exact source digest in the bundle and a published historical copy route. Twenty-five pages have no *detected* held generated-route or asset dependency; all still need editorial and publication review. The other nine have item-specific dependencies. Three legacy routes collide with PD, so blanket same-host redirects cannot preserve them.", "",
+              "| Old route | Historical copy route | Held generated links | Held asset links | PD collision |",
               "| --- | --- | ---: | ---: | --- |"]
     for row in data["pages"]:
         lines.append(f'| `{row["old_route"]}` | `{row["development_route"]}` | '

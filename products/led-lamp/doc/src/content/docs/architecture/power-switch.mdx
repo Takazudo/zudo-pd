@@ -40,8 +40,9 @@ service cables before handling the assembly.
 
 ON restarts the MCU only after sufficient rail decay; rapid OFF/ON may avoid
 reset. Firmware must initialize PWM off, validate the RV1 absolute ADC position
-and PD/thermal state, then ramp toward that position. No executable lamp-control
-firmware is supplied by this hardware revision.
+and PD/thermal state, then ramp toward that position. The current image gates on ADC validity, thermal input, the reset latch and the BOR option gate. It does **not** read PDOK/ATT; PD gating is an open owner decision. The lamp-control
+image in `firmware/board-l/target/` is build-only and unflashed; the received Board Ls are
+believed blank.
 
 ## Short actuator and model provenance
 

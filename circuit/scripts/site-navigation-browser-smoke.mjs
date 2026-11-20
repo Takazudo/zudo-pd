@@ -95,7 +95,7 @@ async function main() {
         assert(authored.length === 34, `Expected 34 authored routes, got ${authored.length}`);
         for (const [, oldRoute, proposedRoute] of authored) {
           await navigate(cdp, `${origin}${proposedRoute}`);
-          await waitFor(cdp, `document.querySelector('main')?.textContent.includes('Development migration candidate')`);
+          await waitFor(cdp, `document.querySelector('main')?.textContent.includes('Historical LED page')`);
           const original = await evaluate(cdp, `Array.from(document.querySelectorAll('main a')).find(a => a.textContent.trim() === 'original LED page')?.href`);
           assert(original === `https://zudo-led-lamp.takazudomodular.com${oldRoute}`, `Authored route ${proposedRoute} lost source link: ${original}`);
         }

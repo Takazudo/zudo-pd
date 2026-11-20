@@ -142,7 +142,7 @@ The short slide switch is assembled on the rear PCB; ON restarts the MCU after s
 ## What the knob does
 
 The knob sets **base brightness**, and nothing else. Speed and depth of the fire/wave
-modulation are firmware constants. The full reasoning is in
+modulation are firmware constants. Design intent, not in the current image. The first bench image is steady and linear (noise NULL, no gamma). That is a **recommendation** in OPEN-PRODUCT-DECISIONS D1/D2, not owner approval. Enabling animation needs an owner-chosen `noise_config`, a PRNG and its own review. The full reasoning is in
 [Decisions](./decisions.mdx#control-scheme); the short version is that a lamp knob that
 does not change brightness is a surprise. RV1 has fixed end stops and absolute position;
 there is no push-button mode gesture. Firmware must start dark and ramp to the validated

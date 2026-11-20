@@ -1,12 +1,12 @@
 ---
 title: Next Steps — The KiCad Phase
-description: Development migration candidate; historical LED text awaiting unified-site review.
+description: Historical LED page copied from zudo-led-lamp at 88cb1740; current status lives in the LED Lamp section.
 sidebar_position: 60
 ---
 
-> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/architecture/next-steps.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/architecture/next-steps/).
+> **Historical LED page** copied from zudo-led-lamp at `88cb1740`; current status lives in [LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/doc/src/content/docs/architecture/next-steps.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/architecture/next-steps/).
 
-> **Integrated context (development review).** This is the original handover worklist, not the current integration queue. Board L, firmware and P15 status must be checked against the dated [LED checkpoint](./current-state.mdx) and the integrated [project current state](/docs/project/current-state/) before assigning work.
+> **Integrated context.** This is the original handover worklist, not the current integration queue. Board L, firmware and P15 status must be checked against the dated [LED checkpoint](./current-state.mdx) and the integrated [project current state](/docs/project/current-state/) before assigning work.
 
 > **2026-11-08:** this page is the original architecture-epic handover and is kept for its
 > layout notes and bring-up gates. The KiCad data it anticipated now exists, both boards were
@@ -222,10 +222,15 @@ so the R21/(R20+R21) divider still delivers ~2.53 V at full duty — concretely
 :::danger[Change both, in that pairing]
 Dropping R21 to 10 kΩ while leaving R20 at 10 kΩ halves full-scale CTRL to 1.65 V; the
 reverse pairing (R21 3.3 kΩ, R20 10 kΩ) collapses it to 0.82 V. Either one silently caps
-the lamp well below I_NOM and invalidates the firmware's `DUTY_FULL_Q16` mapping.
+the lamp well below I_NOM and invalidates the firmware's `CTRL_FULL_CCR` mapping (`firmware/board-l/target/board_l_proposal.h`).
 :::
 
 ### Gate 4 — LED array at fixed current, no firmware
+
+**Historical gate.** On the adopted RS1 = 200 mΩ boards, full CTRL (2.5 V) is the #52 case
+whose hot branch can reach 88.6–96.9 mA, above the 90 mA LED absolute maximum. Do not drive
+CTRL above the firmware-ceiling level (≈ 1.90 V) without a separate owner-approved procedure;
+use `firmware/board-l/BEFORE-PROGRAMMING-CHECKLIST.md` §5 instead.
 
 Drive CTRL from a bench supply at 2.5 V. Confirm:
 
@@ -242,18 +247,21 @@ monotonic dimming with no flicker, buzz, or dropout — **with a scope on `LED_N
 D11's anode). Record the CTRL level below which the driver enters pulse-skip / burst
 mode: at deep dimming the required on-time falls below the AL8860's 500 ns minimum and
 the converter burst-fires at an unpredictable rate. If that burst rate is under
-~300 Hz at the firmware's intended floor, raise `DUTY_FLOOR_Q16` above the recorded
+~300 Hz at the firmware's intended floor, raise `CTRL_MIN_CCR` (`firmware/board-l/target/board_l_proposal.h`) above the recorded
 point. Any audible noise here is worth chasing before firmware exists — it is far
 harder to attribute once an animation is running.
 
 ### Gate 5 — Firmware
 
-No executable control firmware is in this repository. Implement PA0/ADC_IN0
-absolute-position acquisition first, with suitable sample time for up to 3.35 kΩ
+A build-only target image now implements PA0 acquisition, a placeholder endpoint calibration,
+window-8 averaging, the CTRL mapping with ceiling, thermal derating and the boot policy
+(`firmware/board-l/target/`). Not implemented or open: inversion, calibration storage, gamma,
+modulation and PD gating. Nothing has been flashed. The original requirement: implement
+PA0/ADC_IN0 absolute-position acquisition with suitable sample time for up to 3.35 kΩ
 source resistance, endpoint calibration, averaging and underside-direction inversion
-if required. Then bring up PWM/CTRL mapping, gamma, modulation and thermal derating.
+if required, then PWM/CTRL mapping, gamma, modulation and thermal derating.
 Initialize PWM off; only after valid ADC, PD-status and thermal checks, ramp toward
-the knob's current position. Verify power-on, watchdog/reset and rapid OFF/ON behavior.
+the knob's current position. The current image gates on ADC validity, thermal input, the reset latch and the BOR option gate. It does **not** read PDOK/ATT; PD gating is an open owner decision. Verify power-on, watchdog/reset and rapid OFF/ON behavior.
 
 Open the wiper connection and measure the R22/C22 nominal 10 ms discharge toward
 dark. This does not prove detection of all contact or wiring faults; a short to

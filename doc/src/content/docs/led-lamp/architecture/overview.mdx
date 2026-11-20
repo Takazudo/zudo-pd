@@ -1,12 +1,12 @@
 ---
 title: "Historical LED architecture overview"
-description: Development migration candidate; historical LED text awaiting unified-site review.
+description: Historical LED page copied from zudo-led-lamp at 88cb1740; current status lives in the LED Lamp section.
 sidebar_position: 10
 ---
 
-> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/architecture/overview.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/architecture/overview/).
+> **Historical LED page** copied from zudo-led-lamp at `88cb1740`; current status lives in [LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/doc/src/content/docs/architecture/overview.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/architecture/overview/).
 
-> **Integrated context (development review).** The original two-board drawing uses the historical LED Board P. The integrated input is [P15 r1](/docs/architecture/p15-shared-input/) with Board L as its LED consumer. Keep the Board P connector and load claims below in their source-era scope.
+> **Integrated context.** The original two-board drawing uses the historical LED Board P. The integrated input is [P15 r1](/docs/architecture/p15-shared-input/) with Board L as its LED consumer. Keep the Board P connector and load claims below in their source-era scope.
 
 This section is the **locked prototype architecture**: the thing KiCad work starts
 from. Everything here is a decision with a recorded reason that traces back to the
@@ -146,7 +146,7 @@ The short slide switch is assembled on the rear PCB; ON restarts the MCU after s
 ## What the knob does
 
 The knob sets **base brightness**, and nothing else. Speed and depth of the fire/wave
-modulation are firmware constants. The full reasoning is in
+modulation are firmware constants. Design intent, not in the current image. The first bench image is steady and linear (noise NULL, no gamma). That is a **recommendation** in OPEN-PRODUCT-DECISIONS D1/D2, not owner approval. Enabling animation needs an owner-chosen `noise_config`, a PRNG and its own review. The full reasoning is in
 [Decisions](./decisions.mdx#control-scheme); the short version is that a lamp knob that
 does not change brightness is a surprise. RV1 has fixed end stops and absolute position;
 there is no push-button mode gesture. Firmware must start dark and ramp to the validated

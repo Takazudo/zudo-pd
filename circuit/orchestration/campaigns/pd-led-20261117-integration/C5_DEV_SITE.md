@@ -1,8 +1,13 @@
-# C5 private development site candidate
+# C5 six-category site
 
-This isolated branch supplies a buildable six-category navigation and one
-Components entry point for local review. It is not a public cutover or canonical
-C3 adoption. The six header categories are Project, Shared P15, PD15, PD20,
+**Status 2026-11-20:** the owner decided (#318) to merge this slice to main and publish it at
+pd.takazudomodular.com as the current-docs site. The LED Lamp landing and its preparation page are
+current; the 34 copies are labelled historical LED pages copied at `88cb1740`. The sections below are
+the original candidate record. It remains true that this is not a canonical C3 adoption or C6 cutover:
+the 60 held generated links and 11 LED assets stay on the original LED host, which stays live.
+
+This branch supplies a buildable six-category navigation and one
+Components entry point. It is not canonical C3 adoption. The six header categories are Project, Shared P15, PD15, PD20,
 LED Lamp and Components. Existing PD architecture, verification, research and
 archive routes remain intact and reachable through the new landing pages and
 internal links. `categoryMatch` values bind the new directories. The development

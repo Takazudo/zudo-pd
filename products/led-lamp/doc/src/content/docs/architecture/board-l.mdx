@@ -400,8 +400,9 @@ ADC endpoints, allow inversion after checking clockwise direction from underneat
 average samples, clamp the result and apply the existing brightness/modulation mapping.
 The pull-down loads the track, so raw ADC codes are not an ideal unloaded angle scale.
 Keep PWM off during reset and initialization; after valid ADC, PD-status and thermal
-checks, ramp toward the measured knob position. There is no fixed 40% boot target.
-These are implementation requirements: this repository has no executable control firmware.
+checks, ramp toward the measured knob position. There is no fixed 40% boot target. The current image gates on ADC validity, thermal input, the reset latch and the BOR option gate. It does **not** read PDOK/ATT; PD gating is an open owner decision.
+These requirements are implemented as a build-only image in `firmware/board-l/target/` (V72 sources,
+receipt labelled UNFLASHED BENCH CANDIDATE); it has never been flashed or run.
 
 
 ### Modulation algorithm
@@ -411,6 +412,12 @@ layered as that page suggests) — a slow "breathing" layer and a faster "flicke
 summed around the knob's base brightness. Approach 3 (recorded-flame LUT) is rejected
 because no such dataset exists for this project; approach 2's bounded random walk is
 folded in as the slow layer's character rather than kept as a separate mode.
+
+:::note[Design sketch, superseded for the current image]
+The floor is `CTRL_MIN_CCR` 518 / 3200 and the ceiling is `CTRL_FULL_CCR` 2407 / 3200 (75.2 %,
+≈ 1.90 V CTRL), not 100 %. Noise is NULL (steady) and the transfer is linear, with a 1 kHz
+control tick. Animation and gamma remain open owner decisions (OPEN-PRODUCT-DECISIONS D1/D2).
+:::
 
 This is an algorithm sketch, not executable firmware. The ADC/calibration and startup
 helpers below require implementation; initialization must ramp from zero to the
@@ -480,7 +487,7 @@ recommended minimum, and the datasheet's own "Pulse Skip Mode" waveform is what 
 instead: burst-firing at an unpredictable rate that *is* a flicker frequency. This is
 inside the manufacturer's sanctioned 5–100% analog range, but Gate 4 must sweep CTRL
 while watching `LED_N` on a scope and record where pulse-skip starts; if the burst rate
-lands under ~300 Hz, raise the firmware's `DUTY_FLOOR_Q16` above that point.
+lands under ~300 Hz, raise the firmware's `CTRL_MIN_CCR` above that point.
 :::
 
 :::note[The dimming floor is 5%, not zero]

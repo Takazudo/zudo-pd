@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the private C5 LED page and catalog candidate from locked source.
+"""Build the published C5 historical LED page copies and catalog review tables from locked source.
 
 This does not change canonical evidence, selection, assets or generated records.
 """
@@ -19,6 +19,8 @@ HERE = Path(__file__).resolve().parent
 DOCS = ROOT / "doc/src/content/docs"
 LED = ROOT / "products/led-lamp"
 OLD_HOST = "https://zudo-led-lamp.takazudomodular.com"
+# LED commit imported with full history by merge 2edec40d.
+IMPORT_REV = "88cb1740"
 LINK = re.compile(r"(?:\]\(|\b(?:href|src)=[\"'])(/(?:docs|assets)/[^\s)\"']+)")
 FENCE = re.compile(r"^\s{0,3}(`{3,}|~{3,})")
 NAV = re.compile(r'<CategoryNav category="[^"]+"\s*/>')
@@ -87,7 +89,7 @@ def transform_page(source, routes, old_route, held_counts=(0, 0)):
     content = "".join(output)
     boundary = content.index("\n---\n", 4) + len("\n---\n")
     metadata = content[:boundary]
-    description = "description: Development migration candidate; historical LED text awaiting unified-site review."
+    description = f"description: Historical LED page copied from zudo-led-lamp at {IMPORT_REV}; current status lives in the LED Lamp section."
     if re.search(r"^description:", metadata, flags=re.MULTILINE):
         metadata = re.sub(r"^description:.*$", description, metadata, count=1, flags=re.MULTILINE)
     else:
@@ -98,14 +100,14 @@ def transform_page(source, routes, old_route, held_counts=(0, 0)):
                                    metadata, count=1, flags=re.MULTILINE)
         assert count == 1, f"Missing source title: {source}"
     notice = (
-        "\n> **Development migration candidate.** This page preserves historical LED text; "
-        "its status and decisions need review before publication. Held legacy citation links "
-        "open the original LED page for their exact source. "
-        f"[Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/{original}) "
+        f"\n> **Historical LED page** copied from zudo-led-lamp at `{IMPORT_REV}`; current status lives in "
+        "[LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for "
+        "their exact source. "
+        f"[Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/{original}) "
         f"and [original LED page]({OLD_HOST}{old_route}).\n"
     )
     note = EDITORIAL.get(original)
-    context = "\n> **Integrated context (development review).** " + note + "\n" if note else ""
+    context = "\n> **Integrated context.** " + note + "\n" if note else ""
     held_generated, held_assets = held_counts
     held = ("\n> **Held legacy references.** "
             f"{held_generated} generated-record link(s) and {held_assets} asset link(s) on this page "
@@ -117,9 +119,9 @@ def transform_page(source, routes, old_route, held_counts=(0, 0)):
 
 def section_bridge(old_route, title, fragments, source):
     lines = [
-        "---", f"title: {title}", "description: Private LED migration section pointer; historical evidence remains on its original host.", "---", "",
+        "---", f"title: {title}", "description: LED section pointer; historical evidence remains on its original host.", "---", "",
         f"# {title}", "",
-        "> **Development navigation candidate.** This page does not publish LED component records, calculation results or fitted-state claims. The source-era generated section remains at its original URL.", "",
+        "> **Navigation pointer.** This page does not publish LED component records, calculation results or fitted-state claims. The source-era generated section remains at its original URL.", "",
         f"[Open the original LED section]({OLD_HOST}{old_route}) · [Compare the 35 scoped LED candidates](/docs/catalog/led-candidates/) · [View the single line catalog](/docs/catalog/lines/)", "",
     ]
     for fragment in sorted(fragments):
@@ -139,7 +141,7 @@ def candidate_catalog(pd, led):
     lines = [
         "---", "title: LED component candidates", "sidebar_position: 2", "---", "",
         "# LED component candidates", "",
-        "> **Development candidate only.** The 35 LED inventory lines below are historical input, not adopted into the PD component evidence or publication selection. Matching IDs do not establish matching parts, packages, pins, source facts or fitted state.",
+        "> **Review record; not adopted.** The 35 LED inventory lines below are historical input, not adopted into the PD component evidence or publication selection. Matching IDs do not establish matching parts, packages, pins, source facts or fitted state.",
         "",
         "[PD's reviewed generated records](/docs/components/records/) remain the active catalog. This single catalog entry point keeps LED candidates visible for reconciliation without merging their identities or publishing raw sources.",
         "",
@@ -163,7 +165,7 @@ def candidate_catalog(pd, led):
         lines.append("| " + " | ".join(map(str, cells)) + " |")
     lines += [
         "", "The four text conflicts include STUSB4500QTR manufacturer spelling, AO3401A maker identity, SMAJ20A footprint, and PESD24VS1UB suffix and use conditions. The other shared IDs still need evidence, pin and use review. The 18 LED-only lines need full identity and source review. The four LED line DNP flags cover seven placements; this table does not assert assembled fit.",
-        "", "[C3 reconciliation](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/circuit/orchestration/campaigns/pd-led-20261116-c3/c3a-reconciliation.md) records the unresolved obligations. Separate CAD roots and PD's restricted publication selection remain in force.", "",
+        "", "[C3 reconciliation](https://github.com/Takazudo/zudo-pd/blob/main/circuit/orchestration/campaigns/pd-led-20261116-c3/c3a-reconciliation.md) records the unresolved obligations. Separate CAD roots and PD's restricted publication selection remain in force.", "",
     ]
     return "\n".join(lines)
 
@@ -172,7 +174,7 @@ def unified_line_catalog(pd, led):
     lines = [
         "---", "title: Unified line review", "sidebar_position: 2", "---", "",
         "# Unified component lines", "",
-        "> **Private development comparison.** Search 129 active PD evidence lines and 35 historical LED candidate lines together. Product-scoped keys remain separate even when their line IDs match. This is not a shared exact-part decision, active LED selection or manufacturing BOM.",
+        "> **Review comparison.** Search 129 active PD evidence lines and 35 historical LED candidate lines together. Product-scoped keys remain separate even when their line IDs match. This is not a shared exact-part decision, active LED selection or manufacturing BOM.",
         "",
         "PD's [generated exact records](/docs/components/records/) retain active authority. [LED candidate details](./led-candidates.mdx) explain the 17 overlapping line IDs and four text conflicts. Matching IDs in this table stay separate rows.",
         "",
@@ -279,7 +281,8 @@ if __name__ == "__main__":
         else:
             assert path.read_text() == content, f"Candidate drift: {path}"
     expected_led = {path for path in generated if path.is_relative_to(DOCS / "led-lamp")}
-    expected_led.add(DOCS / "led-lamp/index.mdx")  # Authored development landing.
+    expected_led.add(DOCS / "led-lamp/index.mdx")  # Authored current landing.
+    expected_led.add(DOCS / "led-lamp/prototype-preparation.md")  # Authored current procedure index.
     actual_led = set((DOCS / "led-lamp").rglob("*.mdx")) | set((DOCS / "led-lamp").rglob("*.md"))
-    assert actual_led == expected_led, "Unexpected or missing development LED page"
-    print(f"C5 development candidate: {len(generated) - 2} LED pages, 2 catalog tables; {'written' if args.write else 'matched'}")
+    assert actual_led == expected_led, "Unexpected or missing LED page"
+    print(f"C5 LED copies: {len(generated) - 2} LED pages, 2 catalog tables; {'written' if args.write else 'matched'}")

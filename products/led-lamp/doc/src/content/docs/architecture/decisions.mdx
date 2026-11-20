@@ -206,7 +206,7 @@ information then available; it is superseded by this stocked low-profile wheel.
 
 Use PA0 ADC_IN0, R27 100 Ω, R22 100 kΩ pull-down and C22 100 nF. Calibrate and
 average ADC input, verify installed direction, and ramp from dark to the position
-after valid PD/thermal checks. Do not restore the old fixed 40% startup target.
+after valid PD/thermal checks. Do not restore the old fixed 40% startup target. The current image gates on ADC validity, thermal input, the reset latch and the BOR option gate. It does **not** read PDOK/ATT; PD gating is an open owner decision.
 
 
 ## Control scheme
@@ -265,6 +265,8 @@ The 20 kHz carrier is chosen to sit above the audio band entirely and to give th
 reaches the driver as a switching signal.
 
 ### Modulation algorithm
+
+Design intent, not in the current image. The first bench image is steady and linear (noise NULL, no gamma). That is a **recommendation** in OPEN-PRODUCT-DECISIONS D1/D2, not owner approval. Enabling animation needs an owner-chosen `noise_config`, a PRNG and its own review.
 
 | | |
 |---|---|

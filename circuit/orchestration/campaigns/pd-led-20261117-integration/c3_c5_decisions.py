@@ -22,7 +22,7 @@ INPUT_SHA256 = {
     "circuit/orchestration/campaigns/pd-led-20261116-c1/redirect-map.tsv": "3880ee324ae0950c99f9405c5c99837f285827e528664a040a4e73f0bb158799",
     "circuit/orchestration/campaigns/pd-led-20261116-c3/reconciliation.json": "4867c72be1e2b1d244771e61455e5db9439fe9e5c63621b014243dde560ddc94",
     "circuit/orchestration/campaigns/pd-led-20261116-c3/route-contract/result.json": "63b829cf642f1a537907208aea8ee2577da4945da6a1c4ce984713fdf4bb6d8a",
-    "circuit/orchestration/campaigns/pd-led-20261117-integration/c5-link-audit.json": "0650ac70484869ba50debb610391f853c09243830ca133a2848d4dde3b7f1362",
+    "circuit/orchestration/campaigns/pd-led-20261117-integration/c5-link-audit.json": "992b2ad5acf5e8a14f707a844bd72e5cc96c4dc16f0c31e7a2458fd61ae329e8",
     "doc/public/_redirects": "b15d15c5be4c199b8bf20cca6b2ff6b31aa900727d408f3e1b2a2945a5a76f93",
     "products/led-lamp/doc/public/_redirects": "f339b3049300d76937832bea6beff12f0458a51387806c4ecfb198999f88c461",
 }
@@ -223,7 +223,7 @@ def markdown(result):
     out = [
         "---", "title: C3 and C5 decision review", "sidebar_position: 4", "---", "",
         "# C3 and C5 decision review", "",
-        "> **Private source-bound candidate.** These rows identify proposed translations and held decisions; they are not a shared part/CAD approval, an assembled-fit finding or a publication selection.",
+        "> **Source-bound review record.** These rows identify proposed translations and held decisions; they are not a shared part/CAD approval, an assembled-fit finding or a publication selection.",
         "", "## Exact component identity", "",
         "The 17 overlapping LED line IDs include 13 equal-text identity candidates that still need source, pin, CAD and use review. Four have the following field conflicts. The 18 LED-only lines remain product-scoped candidates.",
         "", "| LED line / part | Different field(s) | LED text | PD text | Recommendation |",
@@ -257,8 +257,8 @@ def markdown(result):
                                                   "Separate PD and LED roots"))) + " |")
     out += [
         "", "## Routes and redirects", "",
-        "All 34 authored development destinations exist. Thirty-five generated record targets have source-bound proposed syntax but no active combined catalog; four generated section routes need semantic review. Twenty-four raw-resource routes stay withheld. Three old authored routes collide with PD and cannot receive blanket redirects on the PD host.",
-        "", "| Old LED route already used by PD | Development destination |",
+        "All 34 historical LED page copies exist. Thirty-five generated record targets have source-bound proposed syntax but no active combined catalog; four generated section routes need semantic review. Twenty-four raw-resource routes stay withheld. Three old authored routes collide with PD and cannot receive blanket redirects on the PD host.",
+        "", "| Old LED route already used by PD | Historical copy route |",
         "| --- | --- |",
     ]
     for row in result["routes"]:
@@ -286,7 +286,7 @@ def markdown(result):
         "| --- | --- | --- |",
         "| Four conflicting part identities and 13 same-text overlaps | Share identities now; or retain product-scoped records | Retain scoped records until primary source, pin and use evidence is reviewed. This delays one active LED-inclusive generated catalog. |",
         "| Seven DNP placements and 21 CAD path collisions | Adopt common fit/packages now; or keep source namespaces | Keep separate roots and historical line flags; verify BOM/CPL, pads, symbols and models before fitted/package claims. No manufacturing conclusion follows. |",
-        "| 34 pages, 39 generated routes, 24 raw routes, 49 manual assets and 12 aliases | Publish all; or approve exact entries | Approve exact pages/assets/redirects under PD's restricted policy. Until then, retain old-host links and the nonpublic candidate site. |",
+        "| 34 pages, 39 generated routes, 24 raw routes, 49 manual assets and 12 aliases | Publish all; or approve exact entries | Approve exact pages/assets/redirects under PD's restricted policy. Until then, retain old-host links; the 34 copies are published as historical pages. |",
         "", "The [C3 reconciliation source](https://github.com/Takazudo/zudo-pd/blob/codex/c3-c5-decision-review-20261117-01/circuit/orchestration/campaigns/pd-led-20261116-c3/c3a-reconciliation.md), [C1 maps](https://github.com/Takazudo/zudo-pd/tree/codex/c3-c5-decision-review-20261117-01/circuit/orchestration/campaigns/pd-led-20261116-c1) and [machine-readable review bundle](https://github.com/Takazudo/zudo-pd/blob/codex/c3-c5-decision-review-20261117-01/circuit/orchestration/campaigns/pd-led-20261117-integration/c3-c5-candidates.json) retain exact input paths and hashes. No private vendor documents or local-only STEP are included.", "",
     ]
     return "\n".join(out)

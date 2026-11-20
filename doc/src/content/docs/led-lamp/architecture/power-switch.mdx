@@ -1,12 +1,12 @@
 ---
 title: Lamp power switch — G-Switch C5446803
-description: Development migration candidate; historical LED text awaiting unified-site review.
+description: Historical LED page copied from zudo-led-lamp at 88cb1740; current status lives in the LED Lamp section.
 sidebar_position: 35
 ---
 
-> **Development migration candidate.** This page preserves historical LED text; its status and decisions need review before publication. Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/codex/c5-private-six-category-site-20261117-01/products/led-lamp/doc/src/content/docs/architecture/power-switch.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/architecture/power-switch/).
+> **Historical LED page** copied from zudo-led-lamp at `88cb1740`; current status lives in [LED Lamp](/docs/led-lamp/). Held legacy citation links open the original LED page for their exact source. [Maintained source](https://github.com/Takazudo/zudo-pd/blob/main/products/led-lamp/doc/src/content/docs/architecture/power-switch.mdx) and [original LED page](https://zudo-led-lamp.takazudomodular.com/docs/architecture/power-switch/).
 
-> **Integrated context (development review).** This Board L switch design is retained for source history. Its electrical and mechanical behavior is not a measured lamp qualification; use the [release gates](/docs/architecture/release-readiness/) before treating it as accepted hardware.
+> **Integrated context.** This Board L switch design is retained for source history. Its electrical and mechanical behavior is not a measured lamp qualification; use the [release gates](/docs/architecture/release-readiness/) before treating it as accepted hardware.
 
 The selected switch is **G-Switch SS-12D01-G020 / C5446803**, a maintained SPDT
 slide switch on the rear of Board L. It replaces the tall Dailywell toggle. RV1,
@@ -44,8 +44,9 @@ service cables before handling the assembly.
 
 ON restarts the MCU only after sufficient rail decay; rapid OFF/ON may avoid
 reset. Firmware must initialize PWM off, validate the RV1 absolute ADC position
-and PD/thermal state, then ramp toward that position. No executable lamp-control
-firmware is supplied by this hardware revision.
+and PD/thermal state, then ramp toward that position. The current image gates on ADC validity, thermal input, the reset latch and the BOR option gate. It does **not** read PDOK/ATT; PD gating is an open owner decision. The lamp-control
+image in `firmware/board-l/target/` is build-only and unflashed; the received Board Ls are
+believed blank.
 
 ## Short actuator and model provenance
 

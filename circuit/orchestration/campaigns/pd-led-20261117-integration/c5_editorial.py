@@ -54,9 +54,9 @@ EDITORIAL = {
     ),
     "doc/src/content/docs/how-to/ci-cloudflare-setup.mdx": (
         "This is the original LED repository's Cloudflare runbook. Its secrets, workflows, "
-        "preview aliases and deployment instructions do not describe an approved action for "
-        "this private integration branch. Use the current root workflows only after the "
-        "separate publication decision; no preview or production cutover is authorized here."
+        "preview aliases and deployment instructions describe the original LED site, not this "
+        "combined site, which deploys through the root workflows. No LED-host redirect or "
+        "cutover is authorized here."
     ),
     "doc/src/content/docs/how-to/index.mdx": (
         "The how-to entries below come from the original LED site. Their CI and publication "
