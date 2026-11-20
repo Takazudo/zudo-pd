@@ -1,0 +1,114 @@
+{
+ "_comment": "Flag PD20 BOM lines whose JLC catalog row may not cover an order. Reads retained lookups only; no network.",
+ "pairs": 2,
+ "lines_checked": 99,
+ "flagged": [
+  {
+   "lcsc": "C2861552",
+   "comment": "INA301A3IDGKR",
+   "model": "INA301A3IDGKR",
+   "placements": [
+    "board-b20-draft:U11",
+    "board-b20-draft:U12"
+   ],
+   "stock": 0,
+   "need_for_pairs": 4,
+   "lossNumber": 0,
+   "minPurchaseNum": 4,
+   "leastPatchNumber": 0,
+   "retrieved_utc": "2026-11-20T18:17:21Z",
+   "reasons": [
+    "zero stock"
+   ]
+  },
+  {
+   "lcsc": "C523793",
+   "comment": "TVS2200DRVR",
+   "model": "TVS2200DRVR",
+   "placements": [
+    "board-p:D5"
+   ],
+   "stock": 2,
+   "need_for_pairs": 2,
+   "lossNumber": 0,
+   "minPurchaseNum": 21,
+   "leastPatchNumber": 5,
+   "retrieved_utc": "2026-11-20T18:17:43Z",
+   "reasons": [
+    "stock below minPurchaseNum",
+    "stock below leastPatchNumber"
+   ]
+  },
+  {
+   "lcsc": "C705764",
+   "comment": "RT0603BRD0730K1L",
+   "model": "RT0603BRD0730K1L",
+   "placements": [
+    "board-b20-draft:RVX1"
+   ],
+   "stock": 2,
+   "need_for_pairs": 10,
+   "lossNumber": 8,
+   "minPurchaseNum": 255,
+   "leastPatchNumber": 20,
+   "retrieved_utc": "2026-11-20T18:17:48Z",
+   "reasons": [
+    "stock below 2 x placements + lossNumber",
+    "stock below minPurchaseNum",
+    "stock below leastPatchNumber"
+   ]
+  },
+  {
+   "lcsc": "C861076",
+   "comment": "RT0603BRD0710K4L",
+   "model": "RT0603BRD0710K4L",
+   "placements": [
+    "board-b20-draft:R66"
+   ],
+   "stock": 11,
+   "need_for_pairs": 8,
+   "lossNumber": 6,
+   "minPurchaseNum": 1,
+   "leastPatchNumber": 20,
+   "retrieved_utc": "2026-11-20T18:18:04Z",
+   "reasons": [
+    "stock below leastPatchNumber"
+   ]
+  },
+  {
+   "lcsc": "C861332",
+   "comment": "RT0603BRD0733RL",
+   "model": "RT0603BRD0733RL",
+   "placements": [
+    "board-b20-draft:R35"
+   ],
+   "stock": 0,
+   "need_for_pairs": 10,
+   "lossNumber": 8,
+   "minPurchaseNum": 200,
+   "leastPatchNumber": 20,
+   "retrieved_utc": "2026-11-20T18:18:16Z",
+   "reasons": [
+    "zero stock"
+   ]
+  },
+  {
+   "lcsc": "C861371",
+   "comment": "RT0603BRD073K09L",
+   "model": "RT0603BRD073K09L",
+   "placements": [
+    "board-b20-draft:R22",
+    "board-b20-draft:R31"
+   ],
+   "stock": 195,
+   "need_for_pairs": 12,
+   "lossNumber": 8,
+   "minPurchaseNum": 389,
+   "leastPatchNumber": 20,
+   "retrieved_utc": "2026-11-20T18:18:17Z",
+   "reasons": [
+    "stock below minPurchaseNum"
+   ]
+  }
+ ]
+}

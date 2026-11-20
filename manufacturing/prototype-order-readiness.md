@@ -8,7 +8,7 @@ inputs, supplier review and physical qualification. It is not an order authoriza
 | --- | --- | --- | --- | --- |
 | Shared P15 r1 | None | Fixed package `manufacturing/releases/corner-support-review/board-p15/`, [handoff](p15-order-handoff.md) | Owner: upload, two assembled sets, D5 / D9 placement preview, current quote | P15-NVM-1–7, then LED first |
 | PD15 | None for ordering: no new Board B is ordered | P15 only; reuse the received S3 Board B | Same as P15 | Board B unpowered check, staged PD15 bring-up |
-| PD20 | **None.** D1–D12 each have an explicit disposition below; D10–D12 left the hold list on 2026-11-20 and D2 after its 2026-11-20 retiming | Revision-bound package `manufacturing/releases/pd20-prototype-review/`, [order sheet](releases/pd20-prototype-review/ORDER-SHEET.md) | Owner: quantity decision; JLC parts pre-order or reviewed substitute for the three zero-stock placements (U11, U12, R35 on 2026-11-20); two-sided assembly settings, bottom-side rotation and via/stencil review in the supplier preview; current quote | Per-unit NVM provisioning once a 20 V image is reviewed (T4), T1–T8 |
+| PD20 | **None.** D1–D12 each have an explicit disposition below; D10–D12 left the hold list on 2026-11-20 and D2 after its 2026-11-20 retiming | Revision-bound package `manufacturing/releases/pd20-prototype-review/`, [order sheet](releases/pd20-prototype-review/ORDER-SHEET.md) | Owner: quantity decision; exact-part supply for the six flagged lines (zero stock U11, U12, R35; below the two-pair need, minimum-purchase or least-patch fields B20 RVX1, R22/R31, R66 and Board P D5; re-read 2026-11-20 18:16 UTC), by pre-order or supplier matching, with no substitution only to clear a stock warning; upload-file integrity check; two-sided assembly settings, bottom-side rotation and via/stencil review in the supplier preview; current quote | Per-unit NVM provisioning once a 20 V image is reviewed (T4), T1–T8 |
 | LED Lamp | None: 0 new Board L | P15 from the shared order | — | LED preparation and arrival sequence |
 
 “No pre-order hold” means every open item needs an assembled board or a supplier preview to close. It is not electrical
@@ -160,7 +160,9 @@ netlist/owner checks do not turn it into full electrical qualification.
 
 Current package: `releases/pd20-prototype-review/` (2026-11-20), with its
 [order sheet](releases/pd20-prototype-review/ORDER-SHEET.md) and
-[evidence](verification/pd20-order-package-20261120/README.md). Manifest `f430a76a…`; B20 PCB `bc16fc9b…`. Board P
+[evidence](verification/pd20-order-package-20261120/README.md), plus the
+[pre-order closeout evidence](verification/pd20-order-closeout-20261121/README.md) (upload-file integrity PASS 6/6, pad-1 polarity
+reference, and the 2026-11-20 18:16 UTC stock re-read with six lines to resolve). Manifest `f430a76a…`; B20 PCB `bc16fc9b…`. Board P
 r3: 44 fitted, 27 BOM lines, 22 per side, two copper layers. B20: 294 fitted, 88 BOM lines, 268 top and 26 bottom,
 four copper layers. DRC has 0 errors and 0 unconnected items on both boards, the pair assembly preview passes, and
 `verify-jlcpcb.py --write` passes. It ran on cloud wrappers of the pinned KiCad 10.0.6 image. It is a **DEVELOPMENT

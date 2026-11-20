@@ -13,8 +13,9 @@ for the next implementation session. The [super epic #308](https://github.com/Ta
 [execution handoff](moya-codex-cloud.md) are its entry points.
 Status 2026-11-20: C1/C2 are done (`2edec40d` imports LED `88cb1740` with its history under
 `products/led-lamp/`), and the C4/C5 six-category site is published by the current-docs slice.
-C3 and C6 stay open under #308; campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318)
-manages the order deliverables.
+C3 and C6 stay open under #308. Campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318), which managed the
+order deliverables, closed on 2026-11-20 after #307 and #321 merged. The pre-order closeout is tracked in
+[#322](https://github.com/Takazudo/zudo-pd/issues/322).
 
 | Control / starting point | Observed state / next action |
 | --- | --- |
@@ -22,7 +23,7 @@ manages the order deliverables.
 | LED input | `zudo-led-lamp/main` inspected at `88cb17409cf16a0391e8eadf0ad8a43d60a37356`; preserve original history and source identities |
 | Manager / implementation environment | Intended single manager Moya; Codex Cloud implements bounded tasks; actual sessions and launch controls not yet assigned |
 | Remaining deliverables | C3 identity adoption (four conflicting identity texts, 21 CAD path collisions) into one active catalog; C6 cutover of the 60 held generated LED links, 11 LED assets and old routes, which stay on the old LED host until then |
-| In-flight circuit work | #307 remains open at `9312dc627df2de22d1ac44a3a05fbcb207665b3e`; inspect its latest disposition before overlapping moves or evidence/configuration changes |
+| In-flight circuit work | #307 merged on 2026-11-20 (final head `cc3f590426620323e7a397155ff50cbfef05bce2`, merge `e165ebf`) with the PD20 package, and #321 merged as `e974d71`. Check open PRs and the closeout tracker #322 before overlapping moves or evidence/configuration changes |
 | Existing hardware tracking | #228 remains the hardware completion owner; #235 and #279 retain their own PD20 acceptance scope; #210 retains framework-bridge parity obligations |
 | Resource / model / integration allocation | Unassigned for this campaign; observe capacity, reserve CI and record actual selections and granted actions at kickoff |
 | Target | One repository, one site, one Components catalog; Project / Shared P15 / PD15 / PD20 / LED Lamp / Components |
