@@ -1,20 +1,26 @@
 """Prove a B20 PCB edit only added parts and changed copper on their nets (plus explicitly allowed nets).
 
 usage: verify-insert-parts.py BEFORE.kicad_pcb AFTER.kicad_pcb --refs R77,R78 [--repin U7.6=UV5_IN ...]
-       [--extra-net NET ...] [--reach-mm 10] --output OUT.json
+       [--replace Q51,RX12] [--field-sync R61,R62] [--extra-net NET ...] [--reach-mm 10] [--added-reach-mm 10]
+       [--allow-outside-fill-gain] --output OUT.json
 
 Each board's project is read from beside it (BEFORE.kicad_pro, AFTER.kicad_pro, and any .kicad_dru).
 
 Pure Python (sexp), no third-party dependency. Built for an insertion done in native KiCad, where the
 exact copper is only known afterwards. Filled polygons are set aside and:
-- every footprint of BEFORE is in AFTER with an identical tree, and AFTER adds exactly --refs. The only exception
+- every footprint of BEFORE is in AFTER with an identical tree, and AFTER adds exactly --refs. Each --replace
+  reference stays but its footprint may change entirely (a land or side swap); its old and new pad nets are allowed
+  and both its old and new courtyard anchor the reach and fill region. Each --field-sync footprint may differ only in
+  its Value and LCSC property text. The only exception
   is each --repin pad: a series part splits a net, so that existing pad moves from one new-part net to another
   (for example U7.6 from UV5_DIV to UV5_IN). Its old and new net must be on two pads of one new part, the new
   net must not exist anywhere in BEFORE, and the pad must change; nothing else in that footprint may;
 - the allowed nets are the nets on the new footprints' pads plus each --extra-net; every segment and via on any
   other net is unchanged as a whole tree (identity included);
-- every removed or added segment or via lies, along its whole length, within --reach-mm of a new courtyard or a repinned
-  footprint, so copper on an allowed net cannot change elsewhere on the board;
+- every removed segment or via, except copper on a net whose every BEFORE pad is on a replaced footprint (a net
+  re-laid out whole), lies, along its whole length, within --reach-mm of a new or replaced (old or new)
+  courtyard or a repinned footprint, and every added one within --added-reach-mm (default --reach-mm), so copper on
+  an allowed net cannot change elsewhere on the board. The largest distance found for each is reported;
 - every other top-level node (setup, layers, outline and legend graphics, zone definitions) is identical;
 - the project's design rules (board.design_settings and net_settings in .kicad_pro, plus any sibling .kicad_dru)
   are identical, so no rule is relaxed outside the PCB file;
@@ -23,6 +29,13 @@ exact copper is only known afterwards. Filled polygons are set aside and:
   must lie in that region, so a fill change anywhere else fails. KiCad's zero-width fracture slits (and a slit foot
   lying straight on its edge) are removed first, because a hole that changes inside the region can move a slit that
   ends far outside it. No other vertex is dropped.
+With --allow-outside-fill-gain, a zone whose fill changed outside the region is accepted only if the change there is a
+pure gain of copper: every corner that disappears outside the region lies inside (or within re-approximation distance of the
+boundary of) the AFTER fill of the same zone and layer, and every corner that appears outside the region lies outside
+(or within that distance of the boundary of) the BEFORE fill. The distance is twice the project's max_error. Any loss (a removed island, a new hole, a boundary
+moved inward) is still refused, and so is any outside change to a zone whose net is not an allowed net. The zone set, zone definitions, rules, footprints and other-net copper checks are
+unchanged and still apply. Each accepted zone is reported under fill_gain_outside_region. A gain is not a clearance or
+connectivity proof: DRC with refill and unchanged rules is still required.
 This is a vertex screen, not a connectivity proof: a far island that loses its connection without any vertex moving,
 or a long new fill edge from a vertex inside the region, is left to DRC (unconnected items, isolated copper).
 The output records every removed and added copper item, so the delta can be reviewed item by item.
@@ -44,6 +57,9 @@ FILL_MARGIN_MM = 2.0
 REACH_MM = 10.0
 # KiCad stores 1 nm units; a slit foot rounded onto an outline edge sits within a few nm of it.
 SLIT_FOOT_MM = 1e-5
+# A refill re-approximates every arc and clearance outline within the project's max_error (design_settings.rules,
+# 0.005 mm on B20), once on each side of the true curve, so an unchanged boundary may move by up to twice it.
+FILL_GAIN_ERROR_FACTOR = 2.0
 
 
 def child(node, name):
@@ -194,6 +210,67 @@ def fills(tree):
     return zones
 
 
+def fill_rings(tree):
+    """Filled-polygon rings per (zone uuid, layer) as float point lists, fracture slits kept (they cancel in even-odd)."""
+    zones = {}
+    for item in tree:
+        if isinstance(item, list) and item and atom(item[0]) == 'zone':
+            name = atom(child(item, 'uuid')[1])
+            for fp in item:
+                if isinstance(fp, list) and fp and atom(fp[0]) == 'filled_polygon':
+                    layer = atom(child(fp, 'layer')[1])
+                    pts = [(float(atom(q[1])), float(atom(q[2]))) for q in child(fp, 'pts')[1:] if atom(q[0]) == 'xy']
+                    zones.setdefault((name, layer), []).append(pts)
+    return zones
+
+
+def zone_nets(tree):
+    return {atom(child(i, 'uuid')[1]): atom(child(i, 'net')[1]) if child(i, 'net') else None
+            for i in tree if isinstance(i, list) and i and atom(i[0]) == 'zone'}
+
+
+def fill_inside(point, rings):
+    """Even-odd point-in-fill over every ring of one zone and layer; a slit's two reverse edges cancel."""
+    x, y = point
+    odd = False
+    for ring in rings:
+        n = len(ring)
+        for i in range(n):
+            (x1, y1), (x2, y2) = ring[i - 1], ring[i]
+            if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+                odd = not odd
+    return odd
+
+
+def fill_boundary_distance(point, rings):
+    """Distance to the fill outline and hole loops, ignoring zero-width fracture slits (which run through copper)."""
+    best = math.inf
+    for ring in rings:
+        n = len(ring)
+        edges = [(ring[i], ring[(i + 1) % n]) for i in range(n)]
+        present = collections.Counter(edges)
+        for a, b in edges:
+            if a == b or present[(b, a)]:
+                continue
+            if min(a[0], b[0]) - best > point[0] or max(a[0], b[0]) + best < point[0]:
+                continue
+            best = min(best, seg_distance(point, a, b))
+    return best
+
+
+def fill_gain_only(lost, gained, rings_before, rings_after, eps):
+    """First corner showing a copper loss, or None: a lost corner must be covered by AFTER, a new one not by BEFORE."""
+    for pt in lost:
+        p = (float(pt[0]), float(pt[1]))
+        if not fill_inside(p, rings_after) and fill_boundary_distance(p, rings_after) > eps:
+            return pt, 'a BEFORE corner is no longer covered by the AFTER fill'
+    for pt in gained:
+        p = (float(pt[0]), float(pt[1]))
+        if fill_inside(p, rings_before) and fill_boundary_distance(p, rings_before) > eps:
+            return pt, 'a new AFTER corner lies inside the BEFORE fill'
+    return None
+
+
 def rules(pcb_path):
     """Design rules from the project beside the board, and the sha256 of each file read."""
     pro = Path(pcb_path).with_suffix('.kicad_pro')
@@ -219,14 +296,29 @@ def all_nets(tree):
     return found
 
 
-def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REACH_MM):
+FIELD_SYNC_PROPERTIES = ('Value', 'LCSC')
+
+
+def without_synced_fields(fp_node):
+    return [[q[0], q[1], '<synced>'] + q[3:] if isinstance(q, list) and q and atom(q[0]) == 'property'
+            and atom(q[1]) in FIELD_SYNC_PROPERTIES else q for q in fp_node]
+
+
+def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REACH_MM, replaced=(), field_sync=(),
+           added_reach_mm=None, allow_outside_fill_gain=False):
     repins = dict(repins or {})
+    replaced, field_sync = set(replaced), set(field_sync)
+    added_reach_mm = reach_mm if added_reach_mm is None else added_reach_mm
     if Path(before_path).resolve() == Path(after_path).resolve():
         raise SystemExit('BEFORE and AFTER are the same file')
     rules_before, project_before = rules(before_path)
     rules_after, project_after = rules(after_path)
     if rules_before != rules_after:
         raise SystemExit('Project design rules changed (design_settings, net_settings or .kicad_dru)')
+    max_error = rules_after['design_settings'].get('rules', {}).get('max_error')
+    if allow_outside_fill_gain and not (isinstance(max_error, (int, float)) and 0 < max_error <= 0.01):
+        raise SystemExit(f'--allow-outside-fill-gain needs a project max_error in (0, 0.01] mm, found {max_error}')
+    gain_eps = FILL_GAIN_ERROR_FACTOR * max_error if allow_outside_fill_gain else None
     raw_before, raw_after = Path(before_path).read_bytes(), Path(after_path).read_bytes()
     before, after = parse(tokenize(raw_before.decode())), parse(tokenize(raw_after.decode()))
     for tree, label in ((before, 'BEFORE'), (after, 'AFTER')):
@@ -238,7 +330,13 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
         raise SystemExit(f'Footprints removed: {sorted(set(old) - set(new))}')
     if set(new) - set(old) != refs:
         raise SystemExit(f'Footprints added {sorted(set(new) - set(old))} differ from expected {sorted(refs)}')
-    part_nets = set().union(*(pad_nets(new[r]) for r in refs)) if refs else set()
+    missing = (replaced | field_sync) - (set(old) & set(new))
+    if missing or replaced & field_sync or (replaced | field_sync) & refs:
+        raise SystemExit(f'--replace/--field-sync must name distinct existing footprints: {sorted(missing)}')
+    unchanged = sorted(r for r in replaced if key(strip(old[r])) == key(strip(new[r])))
+    if unchanged:
+        raise SystemExit(f'Replaced footprints {unchanged} did not change; drop them from --replace')
+    part_nets = set().union(set(), *(pad_nets(new[r]) for r in refs), *(pad_nets(old[r]) | pad_nets(new[r]) for r in replaced))
     before_nets = all_nets(before)
     repinned = []
     for spec, net_to in sorted(repins.items()):
@@ -256,7 +354,11 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
             raise SystemExit(f'Repinned pad {spec} is not on {net_to} in AFTER')
         set_pad_net(old[ref], number, child(after_pad, 'net'))
         repinned.append({'pad': spec, 'from': net_from, 'to': net_to})
-    for ref in sorted(old):
+    for ref in sorted(field_sync):
+        if key(strip(old[ref])) == key(strip(new[ref])):
+            raise SystemExit(f'Field-sync footprint {ref} did not change; drop it from --field-sync')
+        old[ref], new[ref] = without_synced_fields(old[ref]), without_synced_fields(new[ref])
+    for ref in sorted(set(old) - replaced):
         if key(strip(old[ref])) != key(strip(new[ref])):
             raise SystemExit(f'Existing footprint {ref} changed' + (' beyond its repinned pad' if any(
                 r['pad'].split('.')[0] == ref for r in repinned) else ''))
@@ -287,18 +389,32 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     if unused:
         raise SystemExit(f'Extra nets {sorted(unused)} were allowed but not changed; drop them from the allowance')
 
-    anchors = [courtyard(new[r]) for r in refs] + [footprint_reach(new[r['pad'].split('.')[0]]) for r in repinned]
+    courtyards = ([courtyard(new[r]) for r in refs] + [courtyard(old[r]) for r in sorted(replaced)]
+                  + [courtyard(new[r]) for r in sorted(replaced)])
+    anchors = courtyards + [footprint_reach(new[r['pad'].split('.')[0]]) for r in repinned]
 
-    def near(point):
-        return any(seg_distance(point, a, b) <= r + reach_mm for a, b, r in anchors)
+    def distance(point):
+        return min(max(0.0, seg_distance(point, a, b) - r) for a, b, r in anchors)
 
-    for item in removed + added:
-        a, b, _r = reach(item)
-        steps = max(1, math.ceil(math.dist(a, b) / 0.5))
-        if not all(near([a[0] + (b[0] - a[0]) * k / steps, a[1] + (b[1] - a[1]) * k / steps]) for k in range(steps + 1)):
-            raise SystemExit(f'Copper change on {item["net"]} lies beyond {reach_mm} mm of the new parts: {item}')
+    # A net whose every BEFORE pad sits on a replaced footprint is re-laid out whole, so its old copper may go anywhere.
+    other_pads = set().union(set(), *(pad_nets(fp) for r, fp in old.items() if r not in replaced))
+    vanished = sorted({item['net'] for item in removed} - other_pads - {'GND'})
+    farthest = {}
+    for label, items, limit in (('removed', [i for i in removed if i['net'] not in vanished], reach_mm),
+                                ('added', added, added_reach_mm)):
+        farthest[label] = 0.0
+        for item in items:
+            a, b, _r = reach(item)
+            steps = max(1, math.ceil(math.dist(a, b) / 0.5))
+            worst = max(distance([a[0] + (b[0] - a[0]) * k / steps, a[1] + (b[1] - a[1]) * k / steps])
+                        for k in range(steps + 1))
+            item['reach_mm'] = round(worst, 3)
+            farthest[label] = max(farthest[label], worst)
+            if worst > limit:
+                raise SystemExit(f'{label.capitalize()} copper on {item["net"]} lies {worst:.2f} mm from the edited parts, '
+                                 f'beyond {limit} mm: {item}')
 
-    region = [courtyard(new[r]) for r in refs] + [reach(item) for item in removed + added]
+    region = courtyards + [reach(item) for item in removed + added]
 
     def inside(point):
         p = (float(point[0]), float(point[1]))
@@ -307,23 +423,40 @@ def verify(before_path, after_path, refs, extra_nets, repins=None, reach_mm=REAC
     f_old, f_new = fills(before), fills(after)
     if set(f_old) != set(f_new):
         raise SystemExit(f'Filled zone set changed: {sorted(set(f_old) ^ set(f_new))}')
-    deltas = {}
+    deltas, gains = {}, {}
+    rings_old = rings_new = None
     for zone in sorted(f_old):
         changed = (f_old[zone] - f_new[zone]) + (f_new[zone] - f_old[zone])
         outside = [pt for pt in changed if not inside(pt)]
-        if outside:
+        if outside and not allow_outside_fill_gain:
             raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region, e.g. at {outside[0]}')
+        if outside:
+            if rings_old is None:
+                rings_old, rings_new = fill_rings(before), fill_rings(after)
+            if zone_nets(after).get(zone[0]) not in allowed:
+                raise SystemExit(f'Fill of {"/".join(zone)} changed outside the edit region on a net that is not allowed')
+            lost = [pt for pt in f_old[zone] - f_new[zone] if not inside(pt)]
+            gained = [pt for pt in f_new[zone] - f_old[zone] if not inside(pt)]
+            loss = fill_gain_only(lost, gained, rings_old[zone], rings_new[zone], gain_eps)
+            if loss:
+                raise SystemExit(f'Fill of {"/".join(zone)} lost copper outside the edit region at {loss[0]}: {loss[1]}')
+            gains['/'.join(zone)] = {'corners_removed_outside': len(lost), 'corners_added_outside': len(gained)}
         if changed:
             deltas['/'.join(zone)] = sum(changed.values())
     return {'scope': 'B20 part insertion: existing footprints, copper on other nets and non-copper content unchanged; '
                      'fill changes confined to the edit region; not electrical acceptance',
             'before_sha256': hashlib.sha256(raw_before).hexdigest(), 'after_sha256': hashlib.sha256(raw_after).hexdigest(),
-            'added_parts': sorted(refs), 'part_nets': sorted(part_nets), 'extra_nets': sorted(extra_nets),
-            'repinned_pads': repinned, 'reach_mm': reach_mm, 'project_rules_identical': True,
+            'added_parts': sorted(refs), 'replaced_parts': sorted(replaced), 'field_synced_parts': sorted(field_sync),
+            'part_nets': sorted(part_nets), 'extra_nets': sorted(extra_nets),
+            'repinned_pads': repinned, 'reach_mm': reach_mm, 'added_reach_mm': added_reach_mm,
+            'farthest_change_mm': {k: round(v, 3) for k, v in farthest.items()},
+            'retired_nets': {n: sum(1 for i in removed if i['net'] == n) for n in vanished}, 'project_rules_identical': True,
             'project_before_sha256': project_before, 'project_after_sha256': project_after,
             'removed_copper': removed, 'added_copper': added,
             'existing_footprints_identical': len(old), 'other_net_copper_identical': len(fixed_before),
-            'fill_margin_mm': FILL_MARGIN_MM, 'fill_vertices_changed_inside_region': deltas}
+            'fill_margin_mm': FILL_MARGIN_MM, 'fill_vertices_changed_inside_region': deltas,
+            'allow_outside_fill_gain': allow_outside_fill_gain, 'fill_gain_eps_mm': gain_eps,
+            'fill_gain_outside_region': gains}
 
 
 def main():
@@ -333,12 +466,19 @@ def main():
     parser.add_argument('--refs', required=True)
     parser.add_argument('--repin', action='append', default=[], help='REF.PAD=NEW_NET')
     parser.add_argument('--extra-net', action='append', default=[])
+    parser.add_argument('--replace', default='', help='existing references whose footprint is swapped')
+    parser.add_argument('--field-sync', default='', help='existing references whose Value/LCSC text changes')
     parser.add_argument('--reach-mm', type=float, default=REACH_MM)
+    parser.add_argument('--added-reach-mm', type=float)
+    parser.add_argument('--allow-outside-fill-gain', action='store_true',
+                        help='accept a fill change outside the edit region only where it is a pure gain of copper')
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
     repins = dict(r.split('=', 1) for r in args.repin)
-    result = verify(args.before, args.after, set(filter(None, args.refs.split(','))), args.extra_net, repins,
-                    args.reach_mm)
+    def refs_of(text):
+        return set(filter(None, text.split(',')))
+    result = verify(args.before, args.after, refs_of(args.refs), args.extra_net, repins, args.reach_mm,
+                    refs_of(args.replace), refs_of(args.field_sync), args.added_reach_mm, args.allow_outside_fill_gain)
     Path(args.output).write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({k: v for k, v in result.items() if k not in ('removed_copper', 'added_copper')}, indent=2))
 

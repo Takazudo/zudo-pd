@@ -4072,7 +4072,7 @@
 		      )
 		    )
 		  )
-		(symbol "zudo-pd:0603WAF1002T5E"
+		(symbol "zudo-pd:RT0603BRD074K02L"
 		    (in_bom yes)
 		    (on_board yes)
 		    (property
@@ -4084,37 +4084,58 @@
 		    )
 		    (property
 		      "Value"
-		      "0603WAF1002T5E"
+		      "RT0603BRD074K02L"
 		      (id 1)
 		      (at 0 -5.08 0)
 		      (effects (font (size 1.27 1.27) ) )
 		    )
 		    (property
 		      "Footprint"
-		      "easyeda2kicad:R0603"
+		      "zudo-pd:R0603"
 		      (id 2)
 		      (at 0 -7.62 0)
 		      (effects (font (size 1.27 1.27) ) hide)
 		    )
 		    (property
 		      "Datasheet"
-		      "https://lcsc.com/product-detail/Chip-Resistor-Surface-Mount-UniOhm_10KR-1002-1_C25804.html"
+		      "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD074K02L"
 		      (id 3)
 		      (at 0 -10.16 0)
 		      (effects (font (size 1.27 1.27) ) hide)
 		    )
 		    (property
-		      "LCSC Part"
-		      "C25804"
-		      (id 5)
+		      "Manufacturer"
+		      "YAGEO"
+		      (id 4)
 		      (at 0 -12.70 0)
 		      (effects (font (size 1.27 1.27) ) hide)
 		    )
-		    (symbol "0603WAF1002T5E_0_1"
+		    (property
+		      "MPN"
+		      "RT0603BRD074K02L"
+		      (id 5)
+		      (at 0 -15.24 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "LCSC Part"
+		      "C705781"
+		      (id 6)
+		      (at 0 -17.78 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "ki_keywords"
+		      "Resistors"
+		      (id 8)
+		      (at 0 -20.32 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (symbol "RT0603BRD074K02L_0_1"
 		      (rectangle
 		        (start -2.54 1.02)
 		        (end 2.54 -1.02)
-		        (stroke (width 0) (type default) (color 0 0 0 0))
+		        (stroke (width 0) (type default))
 		        (fill (type background))
 		      )
 		      (pin passive line
@@ -4131,7 +4152,7 @@
 		      )
 		    )
 		  )
-		(symbol "zudo-pd:CL21B223KBANNNC"
+		(symbol "zudo-pd:GRM2165C1H273JA01D"
 		    (in_bom yes)
 		    (on_board yes)
 		    (property
@@ -4143,43 +4164,36 @@
 		    )
 		    (property
 		      "Value"
-		      "CL21B223KBANNNC"
+		      "GRM2165C1H273JA01D"
 		      (id 1)
 		      (at 0 -5.08 0)
 		      (effects (font (size 1.27 1.27) ) )
 		    )
 		    (property
 		      "Footprint"
-		      "easyeda2kicad:C0805"
+		      "zudo-pd:C0805"
 		      (id 2)
 		      (at 0 -7.62 0)
 		      (effects (font (size 1.27 1.27) ) hide)
 		    )
 		    (property
 		      "Datasheet"
-		      "https://www.lcsc.com/product-detail/C1729.html"
+		      "https://jlcpcb.com/partdetail/C3882413"
 		      (id 3)
 		      (at 0 -10.16 0)
 		      (effects (font (size 1.27 1.27) ) hide)
 		    )
 		    (property
 		      "LCSC Part"
-		      "C1729"
+		      "C3882413"
 		      (id 5)
 		      (at 0 -12.70 0)
 		      (effects (font (size 1.27 1.27) ) hide)
 		    )
-		    (symbol "CL21B223KBANNNC_0_1"
+		    (symbol "GRM2165C1H273JA01D_0_1"
 		      (polyline
 		        (pts
-		          (xy -0.51 -0.00) (xy -2.54 -0.00)
-		        )
-		        (stroke (width 0) (type default) (color 0 0 0 0))
-		        (fill (type none))
-		      )
-		      (polyline
-		        (pts
-		          (xy 0.51 2.03) (xy 0.51 -2.03)
+		          (xy -0.51 -2.03) (xy -0.51 2.03)
 		        )
 		        (stroke (width 0) (type default) (color 0 0 0 0))
 		        (fill (type none))
@@ -4193,22 +4207,29 @@
 		      )
 		      (polyline
 		        (pts
-		          (xy -0.51 -2.03) (xy -0.51 2.03)
+		          (xy 0.51 2.03) (xy 0.51 -2.03)
 		        )
 		        (stroke (width 0) (type default) (color 0 0 0 0))
 		        (fill (type none))
 		      )
-		      (pin passive line
-		        (at 5.08 -0.00 180)
-		        (length 2.54)
-		        (name "2" (effects (font (size 1.27 1.27))))
-		        (number "2" (effects (font (size 1.27 1.27))))
+		      (polyline
+		        (pts
+		          (xy -0.51 -0.00) (xy -2.54 -0.00)
+		        )
+		        (stroke (width 0) (type default) (color 0 0 0 0))
+		        (fill (type none))
 		      )
 		      (pin passive line
 		        (at -5.08 -0.00 0)
 		        (length 2.54)
 		        (name "1" (effects (font (size 1.27 1.27))))
 		        (number "1" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at 5.08 -0.00 180)
+		        (length 2.54)
+		        (name "2" (effects (font (size 1.27 1.27))))
+		        (number "2" (effects (font (size 1.27 1.27))))
 		      )
 		    )
 		  )
@@ -4276,6 +4297,65 @@
 		        (start -2.54 1.02)
 		        (end 2.54 -1.02)
 		        (stroke (width 0) (type default))
+		        (fill (type background))
+		      )
+		      (pin passive line
+		        (at 5.08 -0.00 180)
+		        (length 2.54)
+		        (name "2" (effects (font (size 1.27 1.27))))
+		        (number "2" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at -5.08 -0.00 0)
+		        (length 2.54)
+		        (name "1" (effects (font (size 1.27 1.27))))
+		        (number "1" (effects (font (size 1.27 1.27))))
+		      )
+		    )
+		  )
+		(symbol "zudo-pd:0603WAF1002T5E"
+		    (in_bom yes)
+		    (on_board yes)
+		    (property
+		      "Reference"
+		      "R"
+		      (id 0)
+		      (at 0 5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Value"
+		      "0603WAF1002T5E"
+		      (id 1)
+		      (at 0 -5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Footprint"
+		      "easyeda2kicad:R0603"
+		      (id 2)
+		      (at 0 -7.62 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "Datasheet"
+		      "https://lcsc.com/product-detail/Chip-Resistor-Surface-Mount-UniOhm_10KR-1002-1_C25804.html"
+		      (id 3)
+		      (at 0 -10.16 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "LCSC Part"
+		      "C25804"
+		      (id 5)
+		      (at 0 -12.70 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (symbol "0603WAF1002T5E_0_1"
+		      (rectangle
+		        (start -2.54 1.02)
+		        (end 2.54 -1.02)
+		        (stroke (width 0) (type default) (color 0 0 0 0))
 		        (fill (type background))
 		      )
 		      (pin passive line
@@ -4658,167 +4738,6 @@
 		        (length 3.81)
 		        (name "K" (effects (font (size 1.27 1.27))))
 		        (number "1" (effects (font (size 1.27 1.27))))
-		      )
-		    )
-		  )
-		(symbol "zudo-pd:RT0603BRD074K02L"
-		    (in_bom yes)
-		    (on_board yes)
-		    (property
-		      "Reference"
-		      "R"
-		      (id 0)
-		      (at 0 5.08 0)
-		      (effects (font (size 1.27 1.27) ) )
-		    )
-		    (property
-		      "Value"
-		      "RT0603BRD074K02L"
-		      (id 1)
-		      (at 0 -5.08 0)
-		      (effects (font (size 1.27 1.27) ) )
-		    )
-		    (property
-		      "Footprint"
-		      "zudo-pd:R0603"
-		      (id 2)
-		      (at 0 -7.62 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "Datasheet"
-		      "https://yageogroup.com/component-documentation/download/specsheet/RT0603BRD074K02L"
-		      (id 3)
-		      (at 0 -10.16 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "Manufacturer"
-		      "YAGEO"
-		      (id 4)
-		      (at 0 -12.70 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "MPN"
-		      "RT0603BRD074K02L"
-		      (id 5)
-		      (at 0 -15.24 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "LCSC Part"
-		      "C705781"
-		      (id 6)
-		      (at 0 -17.78 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "ki_keywords"
-		      "Resistors"
-		      (id 8)
-		      (at 0 -20.32 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (symbol "RT0603BRD074K02L_0_1"
-		      (rectangle
-		        (start -2.54 1.02)
-		        (end 2.54 -1.02)
-		        (stroke (width 0) (type default))
-		        (fill (type background))
-		      )
-		      (pin passive line
-		        (at 5.08 -0.00 180)
-		        (length 2.54)
-		        (name "2" (effects (font (size 1.27 1.27))))
-		        (number "2" (effects (font (size 1.27 1.27))))
-		      )
-		      (pin passive line
-		        (at -5.08 -0.00 0)
-		        (length 2.54)
-		        (name "1" (effects (font (size 1.27 1.27))))
-		        (number "1" (effects (font (size 1.27 1.27))))
-		      )
-		    )
-		  )
-		(symbol "zudo-pd:GRM2165C1H273JA01D"
-		    (in_bom yes)
-		    (on_board yes)
-		    (property
-		      "Reference"
-		      "C"
-		      (id 0)
-		      (at 0 5.08 0)
-		      (effects (font (size 1.27 1.27) ) )
-		    )
-		    (property
-		      "Value"
-		      "GRM2165C1H273JA01D"
-		      (id 1)
-		      (at 0 -5.08 0)
-		      (effects (font (size 1.27 1.27) ) )
-		    )
-		    (property
-		      "Footprint"
-		      "zudo-pd:C0805"
-		      (id 2)
-		      (at 0 -7.62 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "Datasheet"
-		      "https://jlcpcb.com/partdetail/C3882413"
-		      (id 3)
-		      (at 0 -10.16 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (property
-		      "LCSC Part"
-		      "C3882413"
-		      (id 5)
-		      (at 0 -12.70 0)
-		      (effects (font (size 1.27 1.27) ) hide)
-		    )
-		    (symbol "GRM2165C1H273JA01D_0_1"
-		      (polyline
-		        (pts
-		          (xy -0.51 -2.03) (xy -0.51 2.03)
-		        )
-		        (stroke (width 0) (type default) (color 0 0 0 0))
-		        (fill (type none))
-		      )
-		      (polyline
-		        (pts
-		          (xy 2.54 -0.00) (xy 0.51 -0.00)
-		        )
-		        (stroke (width 0) (type default) (color 0 0 0 0))
-		        (fill (type none))
-		      )
-		      (polyline
-		        (pts
-		          (xy 0.51 2.03) (xy 0.51 -2.03)
-		        )
-		        (stroke (width 0) (type default) (color 0 0 0 0))
-		        (fill (type none))
-		      )
-		      (polyline
-		        (pts
-		          (xy -0.51 -0.00) (xy -2.54 -0.00)
-		        )
-		        (stroke (width 0) (type default) (color 0 0 0 0))
-		        (fill (type none))
-		      )
-		      (pin passive line
-		        (at -5.08 -0.00 0)
-		        (length 2.54)
-		        (name "1" (effects (font (size 1.27 1.27))))
-		        (number "1" (effects (font (size 1.27 1.27))))
-		      )
-		      (pin passive line
-		        (at 5.08 -0.00 180)
-		        (length 2.54)
-		        (name "2" (effects (font (size 1.27 1.27))))
-		        (number "2" (effects (font (size 1.27 1.27))))
 		      )
 		    )
 		  )
@@ -7256,6 +7175,87 @@
 				)
 				(embedded_fonts no)
 			)
+		(symbol "zudo-pd:CL21B223KBANNNC"
+		    (in_bom yes)
+		    (on_board yes)
+		    (property
+		      "Reference"
+		      "C"
+		      (id 0)
+		      (at 0 5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Value"
+		      "CL21B223KBANNNC"
+		      (id 1)
+		      (at 0 -5.08 0)
+		      (effects (font (size 1.27 1.27) ) )
+		    )
+		    (property
+		      "Footprint"
+		      "easyeda2kicad:C0805"
+		      (id 2)
+		      (at 0 -7.62 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "Datasheet"
+		      "https://www.lcsc.com/product-detail/C1729.html"
+		      (id 3)
+		      (at 0 -10.16 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (property
+		      "LCSC Part"
+		      "C1729"
+		      (id 5)
+		      (at 0 -12.70 0)
+		      (effects (font (size 1.27 1.27) ) hide)
+		    )
+		    (symbol "CL21B223KBANNNC_0_1"
+		      (polyline
+		        (pts
+		          (xy -0.51 -0.00) (xy -2.54 -0.00)
+		        )
+		        (stroke (width 0) (type default) (color 0 0 0 0))
+		        (fill (type none))
+		      )
+		      (polyline
+		        (pts
+		          (xy 0.51 2.03) (xy 0.51 -2.03)
+		        )
+		        (stroke (width 0) (type default) (color 0 0 0 0))
+		        (fill (type none))
+		      )
+		      (polyline
+		        (pts
+		          (xy 2.54 -0.00) (xy 0.51 -0.00)
+		        )
+		        (stroke (width 0) (type default) (color 0 0 0 0))
+		        (fill (type none))
+		      )
+		      (polyline
+		        (pts
+		          (xy -0.51 -2.03) (xy -0.51 2.03)
+		        )
+		        (stroke (width 0) (type default) (color 0 0 0 0))
+		        (fill (type none))
+		      )
+		      (pin passive line
+		        (at 5.08 -0.00 180)
+		        (length 2.54)
+		        (name "2" (effects (font (size 1.27 1.27))))
+		        (number "2" (effects (font (size 1.27 1.27))))
+		      )
+		      (pin passive line
+		        (at -5.08 -0.00 0)
+		        (length 2.54)
+		        (name "1" (effects (font (size 1.27 1.27))))
+		        (number "1" (effects (font (size 1.27 1.27))))
+		      )
+		    )
+		  )
 		(symbol "zudo-pd:BZT52C3V9-7-F_C154917"
 		    (in_bom yes)
 		    (on_board yes)
@@ -16871,7 +16871,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1002T5E")
+		(lib_id "zudo-pd:RT0603BRD074K02L")
 		(at 838.2 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -16885,7 +16885,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Value" "10k 1%"
+		(property "Value" "4.02k 0.1%"
 			(at 838.2 396.24 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -16905,7 +16905,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25804"
+		(property "LCSC" "C705781"
 			(at 838.2 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -16928,7 +16928,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:CL21B223KBANNNC")
+		(lib_id "zudo-pd:GRM2165C1H273JA01D")
 		(at 889 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -16942,7 +16942,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Value" "22nF"
+		(property "Value" "27nF C0G"
 			(at 889 396.24 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -16962,18 +16962,18 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C1729"
+		(property "LCSC" "C3882413"
 			(at 889 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
-		(pin "2"
-			(uuid "29755a16-dc3c-5027-90ab-a7089c2f177a")
-		)
 		(pin "1"
-			(uuid "f73d987c-0644-5bd8-8828-b98b5b84422a")
+			(uuid "a2a6e8bc-6287-5f5d-a627-ff724a695b75")
+		)
+		(pin "2"
+			(uuid "81d8d73b-fc0a-5456-82b9-1d28a70b41ff")
 		)
 		(instances
 			(project "board-b20-draft"
@@ -16985,7 +16985,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:0603WAF1002T5E")
+		(lib_id "zudo-pd:RT0603BRD074K02L")
 		(at 939.8 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -16999,7 +16999,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Value" "10k 1%"
+		(property "Value" "4.02k 0.1%"
 			(at 939.8 396.24 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -17019,7 +17019,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25804"
+		(property "LCSC" "C705781"
 			(at 939.8 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -17042,7 +17042,7 @@
 		)
 	)
 	(symbol
-		(lib_id "zudo-pd:CL21B223KBANNNC")
+		(lib_id "zudo-pd:GRM2165C1H273JA01D")
 		(at 990.6 391.16 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -17056,7 +17056,7 @@
 				(font (size 1.27 1.27))
 			)
 		)
-		(property "Value" "22nF"
+		(property "Value" "27nF C0G"
 			(at 990.6 396.24 0)
 			(effects
 				(font (size 1.27 1.27))
@@ -17076,18 +17076,18 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C1729"
+		(property "LCSC" "C3882413"
 			(at 990.6 398.78 0)
 			(effects
 				(font (size 1.27 1.27))
 				(hide yes)
 			)
 		)
-		(pin "2"
-			(uuid "d4610f0c-8b81-59bc-8cd2-83db8f4daf51")
-		)
 		(pin "1"
-			(uuid "2c1a24e0-e686-5a2c-acee-3f416b35dd4c")
+			(uuid "6af511b3-fb92-5510-9f4d-ddc3eb8ebd56")
+		)
+		(pin "2"
+			(uuid "9fc7e8c3-9855-5e90-917e-87f1381c75e5")
 		)
 		(instances
 			(project "board-b20-draft"

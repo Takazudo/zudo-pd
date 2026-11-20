@@ -2,8 +2,8 @@
 
 **Draft only. These notes accompany a review export, not an order.** The board-b20-draft PCB is a
 four-layer development board with source-bound native checks. No export of this pair has been uploaded, quoted
-or ordered. Electrical and physical qualification remain incomplete; this pair is not released for ordering. The current development review package in `corner-support-review/` is the 15 V pair
-(board-p15 + Board B). This pair is not that package.
+or ordered. Electrical and physical qualification remain incomplete; the pair is a development prototype, not a
+release. The frozen P15 package in `corner-support-review/` (board-p15 + Board B) is a separate package.
 
 Links below resolve inside an export of this pair. Repository documents are named by their path in
 [Takazudo/zudo-pd](https://github.com/Takazudo/zudo-pd).
@@ -14,12 +14,15 @@ Links below resolve inside an export of this pair. Repository documents are name
   `boards/board-p/r3-draft/independent-review.md`, with corrective work and source-bound native receipts beside it.
   Use the actual export revision's DRC/parity and layout dispositions; a historical clean DRC is not current
   acceptance. It is a two-sided board (Standard PCBA, double side).
-- **PD20 electrical order hold.** Actual phase33 refinement reveals modeled no-load slope/current excursions
-  beyond the adopted exceptions. Loaded asymmetric discharge, disconnect-before-discharge behavior and maximum
-  delivered current including overshoot remain pre-order gates. No tracked ramp-down agreement, excess-current
-  budget or lower current ceiling is adopted. PD20 NVM mapping/timing/transition decisions, repetitive discharge
-  endurance, installed-capacitance bounds, shared land/paste review and thermal margins remain separate holds.
-  See repository `manufacturing/prototype-order-readiness.md`; a successful development export does not close them.
+- **B20 is now two-sided too (D2, 2026-11-14).** The D2 discharge network and the swapped Q51/Q52/Q55 and
+  RX12/RX5/R76 lands are on B.Cu. Order it as Standard PCBA, double side, and check every bottom-side rotation in
+  JLC's placement preview. See repository `manufacturing/verification/pd20-native-d2-layout-20261114/README.md`.
+- **No pre-order design hold remains (2026-11-20).** D1–D12 in repository `manufacturing/prototype-order-readiness.md`
+  each have a disposition: D1 and D3 meet OSC E21 / E23 in simulation, D2 is the sequenced fast discharge with its
+  firing RC retimed on 2026-11-20, and D4–D12 are adopted corrections or prototype dispositions. Their residuals need an
+  assembled board (bench T1–T8) or the supplier preview. Electrical acceptance is NOT ESTABLISHED and nothing is
+  measured. Quantity, two-sided assembly settings, bottom-side rotations and via/stencil handling are owner steps in
+  the supplier preview; see `ORDER-SHEET.md` in the release folder.
 - **B20 top-edge probe row.** P1/TP3–TP5 sit at Board B's positions with B20 nets (owner decision 2026-11-04): P1 =
   NC, PDOK, GND, NC (no ATT) and TP3/TP4/TP5 = P12_PRE, P5_PRE, M12_PRE. They are bare copper, outside the BOM and CPL.
   The front and back rail labels are on the board and checked against the J6/J7 pin nets. P1 ordinals and its
@@ -44,10 +47,15 @@ Links below resolve inside an export of this pair. Repository documents are name
   comparison has 1.36449 mm³ unintended intersection. Actual header seating and tolerances remain unverified.
   HC11 supports with the populated face toward a flat 11 mm enclosure floor are incompatible with the current
   P back plane and terminal height. The diameter-6 mm support-column screen is a PROJECT assumption; a taller
-  support or deliberate floor clearance needs owner disposition. No 16 mm support substitution is adopted.
-- **Current B20 population is 270 fitted components.** The 269-component export receipt is historical.
-- **Prototype quantity rule is 2.** This development review does not authorize a PD20 order. The settled current
-  purchase handoff is exactly two assembled P15 modules from the separate frozen P15 package.
+  support or deliberate floor clearance was needed; `dec-pd20-stack-support-prototype` installs PD20 front face down
+  on the 18 mm printed adhesive legs at H4–H7, like PD15. Leg printing and fit are unmeasured.
+- **Current population.** B20 has 294 fitted components in 88 BOM lines, 268 top and 26 bottom; Board P r3 has 44,
+  22 top and 22 bottom. Earlier 269 / 270 / 274 counts are historical.
+- **Quantity is the owner's decision.** Preparing this package does not place an order. `ORDER-SHEET.md` in the
+  release folder prices a labelled two-pair estimate. The settled P15 purchase is separate: exactly two assembled P15
+  modules from the frozen P15 package.
+- **Supplier stock on 2026-11-20.** JLC's catalog showed zero stock for INA301A3IDGKR C2861552 (U11, U12) and
+  RT0603BRD0733RL C861332 (R35). They need a JLC parts pre-order or a reviewed substitute before the assembly order.
 - **Placement-preview orientation checks.** Before any order, check every polarized part against pad 1 of `cpl.csv`
   in JLC's placement preview. Start with these:
   - D1–D3 Schottky diodes. For D3 (B560C-13-F C85100, SMC), the cathode is pad 1 on C_SW.
@@ -55,6 +63,9 @@ Links below resolve inside an export of this pair. Repository documents are name
   - The VSSOP-8 amplifiers.
   - The SON-8 Q1–Q6.
   - Every SOT-23 FET.
+  - The polarized bottom-side D2 parts: D4 / D5 (SOD-123 zeners), Q51 / Q52 / Q55 (VSON-8), Q8
+    (PowerDI3333-8) and Q7 / Q9 / Q13 (SOT-23). Check them in
+    the bottom-side preview, which mirrors the view.
   - Body models alone do not establish pin-1/cathode orientation or supplier placement.
 
 ## Contents of an export of this pair
