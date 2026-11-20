@@ -4,7 +4,7 @@ import { zudoDoc } from "@takazudo/zudo-doc/config";
 export default defineConfig(
   zudoDoc({
     themePack: "sumi",
-    siteName: "zudo-pd + LED Lamp (development)",
+    siteName: "zudo-pd + LED Lamp",
     githubUrl: "https://github.com/Takazudo/zudo-pd",
     siteUrl: "https://pd.takazudomodular.com",
     logo: "/img/logo.svg",
