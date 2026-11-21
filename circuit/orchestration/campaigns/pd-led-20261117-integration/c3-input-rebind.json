@@ -88,5 +88,40 @@
     "src-c861616-primary"
   ],
   "reason": "PD20 sourcing adoption (#326) changed two PD inputs locked by the C3 reconciliation after it was reviewed. The reconciliation itself is a reviewed historical record and is not rewritten. This rebind names the exact current bytes; c3_c5_decisions.py accepts them only while the semantic checks it runs still hold (every LED/PD overlapping line keeps its reconciled identity and placements, LED-only lines stay absent from PD, the 13 shared records stay selected, and no added or removed PD record or source ID is used by LED evidence). The two Board P CAD files changed only by the zener/resistor identity adoption; their collision with the separate LED Board P stays a byte-different PRESERVE_BOTH_NAMESPACE_ROOTS pair.",
+  "route_contract_delta": {
+    "fields": {
+      "locked_pd_manifest_files_verified": {
+        "accepted": 41,
+        "current": 43
+      },
+      "locked_source_files_verified": {
+        "accepted": 393,
+        "current": 407
+      },
+      "pd_record_routes": {
+        "accepted": 145,
+        "current": 157
+      },
+      "proposal_source_set_sha256": {
+        "accepted": "a399646b028a50ff74a3f42d9c1949e1858a84aac06288989977f11175097285",
+        "current": "26b44cebb2b19150a958bbe7732b2e68536b262185fc2e4915e1ce79b71920b2"
+      }
+    },
+    "inspected_file_sha256": {
+      ".claude/skills/circuit-spec-integration/references/rules.json": {
+        "accepted": "139345d969d8cbb35f8ffe3d687330b2953294154c25db2072b299cde6f38070",
+        "current": "7249208602bb2c866b89eca5324ea1779ff7858ead861bb6d9b37e40b065b6f1"
+      },
+      "circuit/orchestration/campaigns/pd-led-20261116-c3/translation/proposal.json": {
+        "accepted": "5240b1f2a8dea5b8951ffaf0c6c27f24fc99d3dbcbebefc550f97c6aa42ee32e",
+        "current": "199e2ef303d65290bf4556778d3f43176230617342c27f7d1165b125db671874"
+      },
+      "patches/@takazudo__zudo-circuit-doc@0.3.0.patch": {
+        "accepted": "7991370866d4019bc1c7b2411e9421c18ba701a850f580c49c4d098e8b005e6c",
+        "current": "13846e3ebc3c04ba01c7ea29be53a709766962631beaa75b9db92c76d5577d5d"
+      }
+    },
+    "note": "The independently accepted C3e result.json stays the baseline. After #326 the current check.mjs output may differ from it only in these fields and inspected inputs (pnpm-lock.yaml is tracked separately by current_pnpm_lock_sha256); every route, anchor and legacy LED route pair must stay equal."
+  },
   "schema": "private-c3-input-rebind-v1"
 }

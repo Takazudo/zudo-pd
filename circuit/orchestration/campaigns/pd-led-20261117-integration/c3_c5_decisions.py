@@ -21,7 +21,7 @@ INPUT_SHA256 = {
     "circuit/orchestration/campaigns/pd-led-20261116-c1/asset-map.tsv": "456f5d08e14e0a5abd1ad4b36757d396cca31e4457824664c89a2338d7369fa1",
     "circuit/orchestration/campaigns/pd-led-20261116-c1/redirect-map.tsv": "3880ee324ae0950c99f9405c5c99837f285827e528664a040a4e73f0bb158799",
     "circuit/orchestration/campaigns/pd-led-20261116-c3/reconciliation.json": "bc86a479339ed5158609875602b58ef3226ba6141da71a821f79dbf421772195",
-    "circuit/orchestration/campaigns/pd-led-20261116-c3/route-contract/result.json": "93f94bc1acd29ca5bc4c7581a6ec9c5628ead5a2f7b5e51130784363c8ae6fed",
+    "circuit/orchestration/campaigns/pd-led-20261116-c3/route-contract/result.json": "2921a0d1bce6ab3df261e16d825ed2d6460f769ac69d64b93080735831d795c7",
     "circuit/orchestration/campaigns/pd-led-20261117-integration/c5-link-audit.json": "992b2ad5acf5e8a14f707a844bd72e5cc96c4dc16f0c31e7a2458fd61ae329e8",
     "doc/public/_redirects": "b15d15c5be4c199b8bf20cca6b2ff6b31aa900727d408f3e1b2a2945a5a76f93",
     "products/led-lamp/doc/public/_redirects": "f339b3049300d76937832bea6beff12f0458a51387806c4ecfb198999f88c461",
@@ -65,11 +65,19 @@ def verify_inputs():
         ["node", str(C3 / "route-contract/check.mjs")], cwd=ROOT, text=True))
     accepted_inspected = accepted.pop("inspected_file_sha256")
     current_inspected = current.pop("inspected_file_sha256")
+    # The accepted C3e result stays the baseline; only the delta named in the rebind record may differ.
+    delta = rebind["route_contract_delta"]
+    for key, change in delta["fields"].items():
+        assert accepted[key] == change["accepted"] and current[key] == change["current"], \
+            f"C3 route contract delta changed: {key}"
+        accepted[key] = change["current"]
     assert current == accepted, "C3 route proposal semantics changed"
-    assert {key for key in current_inspected if current_inspected[key] != accepted_inspected[key]} <= {
+    for key, change in delta["inspected_file_sha256"].items():
+        assert accepted_inspected[key] == change["accepted"] and current_inspected[key] == change["current"], \
+            f"C3 route or installed provider input changed: {key}"
+        accepted_inspected[key] = change["current"]
+    assert {key for key in current_inspected if current_inspected[key] != accepted_inspected[key]} == {
         "pnpm-lock.yaml"}, "C3 route or installed provider input changed"
-    assert all(current_inspected[key] == accepted_inspected[key] for key in current_inspected
-               if key != "pnpm-lock.yaml")
     return reconciliation, current_inspected["pnpm-lock.yaml"]
 
 

@@ -22,5 +22,5 @@ recorded spare in the sourcing ledger only. Do not substitute A1/A2 gain, INA381
 
 ## Human component reference
 
-[INA301A3QDGKTQ1](/docs/components/records/c179864/) and [INA301A3IDGKR](/docs/components/records/c2861552/).
+[INA301A3QDGKTQ1](/docs/components/records/c179864/) and INA301A3IDGKR (superseded at its B20/Board P placements; record not published).
 See the [catalog](/docs/components/catalog/) and [integration rules](/docs/components/integration/). The JSON bundle is authoritative.

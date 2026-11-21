@@ -13,7 +13,8 @@ Seven focused Node tests, C3c deterministic regeneration and `pnpm circuit:check
 **2026-11-22 current-evidence regeneration (#326).** The PD20 sourcing adoption added two PD owner bundles and changed
 PD evidence, rules, the inventory, the selection, the reviewed package patch and the lockfile. `translation/propose.py`
 then regenerated `proposal.json`: only the source locks and PD counts changed (2,870 → 3,085 PD definitions); every LED
-mapping, shared-ID count and reference translation is unchanged. `check.mjs` regenerated `result.json`: 157 PD record
-routes and 43 locked PD manifests, no route or anchor collision, and the same 35 legacy LED route pairs. The C3
-reconciliation is not rewritten; `../../pd-led-20261117-integration/c3-input-rebind.json` names the current PD bytes and
-`c3_c5_decisions.py` checks that the reconciled overlaps still hold.
+mapping, shared-ID count and reference translation is unchanged. The accepted `result.json` is kept unchanged as the baseline. The current `check.mjs`
+output reports 157 PD record routes and 43 locked PD manifests, no route or anchor collision, and the same 35 legacy LED
+route pairs. `../../pd-led-20261117-integration/c3-input-rebind.json` names that exact count/hash delta and the current
+PD bytes; `c3_c5_decisions.py` accepts only that delta and checks that the reconciled overlaps still hold. The C3
+reconciliation is not rewritten.

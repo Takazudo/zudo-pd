@@ -253,9 +253,9 @@ PASS: board_b20_components.py matches board_b20_spec.py
   }
  }
 }
-Isolated finalization diagnostics: /home/user/zudo-pd/tmp/b20-finalize-1mkowqtj
-Isolated finalization diagnostics: /home/user/zudo-pd/tmp/b20-finalize-1mkowqtj
-Isolated finalization diagnostics: /home/user/zudo-pd/tmp/b20-finalize-1mkowqtj
+Isolated finalization diagnostics: ./tmp/b20-finalize-1mkowqtj
+Isolated finalization diagnostics: ./tmp/b20-finalize-1mkowqtj
+Isolated finalization diagnostics: ./tmp/b20-finalize-1mkowqtj
 {
   "scope": "Owned serialized reload/refill finalization; two fresh pinned Docker CLI processes, no heuristic rerouting.",
   "input_sha256": "b4de1f6bae5221cd898990edcac0e2899062aa2fcbdc9eed8d0faa80687b53be",
@@ -296,8 +296,8 @@ Isolated finalization diagnostics: /home/user/zudo-pd/tmp/b20-finalize-1mkowqtj
       "json",
       "--severity-all",
       "-o",
-      "/home/user/zudo-pd/tmp/b20-finalize-1mkowqtj/drc-1.json",
-      "/home/user/zudo-pd/tmp/b20-finalize-1mkowqtj/board-b20-draft.kicad_pcb"
+      "./tmp/b20-finalize-1mkowqtj/drc-1.json",
+      "./tmp/b20-finalize-1mkowqtj/board-b20-draft.kicad_pcb"
     ],
     [
       "docker",
@@ -328,8 +328,8 @@ Isolated finalization diagnostics: /home/user/zudo-pd/tmp/b20-finalize-1mkowqtj
       "json",
       "--severity-all",
       "-o",
-      "/home/user/zudo-pd/tmp/b20-finalize-1mkowqtj/drc-2.json",
-      "/home/user/zudo-pd/tmp/b20-finalize-1mkowqtj/board-b20-draft.kicad_pcb"
+      "./tmp/b20-finalize-1mkowqtj/drc-2.json",
+      "./tmp/b20-finalize-1mkowqtj/board-b20-draft.kicad_pcb"
     ]
   ],
   "diagnostics": "tmp/b20-finalize-1mkowqtj",
