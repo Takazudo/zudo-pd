@@ -46,10 +46,38 @@ index 7d37e594e7c3ae181d21bcbcf3c6ad4df386724f..60201b5e8bc010e3a71747b802bd8599
          }
      }
 diff --git a/python/circuit_evidence/routing.py b/python/circuit_evidence/routing.py
-index 187357d6494b91f9410b1d739c25e504f97de8c3..ee4922ec377f7f846b781eddb8cf5c22ac7a436e 100644
+index 187357d6494b91f9410b1d739c25e504f97de8c3..4cc45f11263b4825aa28c476ac06ae9a82d7435d 100644
 --- a/python/circuit_evidence/routing.py
 +++ b/python/circuit_evidence/routing.py
-@@ -153,4 +153,21 @@ def resolve_bundle_route(query, routes, routing=NO_ROUTING_POLICY):
+@@ -35,6 +35,17 @@ def contains_alias(query, alias):
+     return re.search(rf"(?<![A-Za-z0-9]){re.escape(alias)}(?![A-Za-z0-9])", query, re.I) is not None
+ 
+ 
++def alias_spans(query, alias):
++    return [m.span() for m in re.finditer(rf"(?<![A-Za-z0-9]){re.escape(alias)}(?![A-Za-z0-9])", query, re.I)]
++
++
++def alias_subsumed(query, alias, aliases):
++    # A shorter exact MPN (JSCJ "BZT52C11") inside a longer one ("BZT52C11-7-F") is not a separate mention;
++    # any standalone occurrence still counts, so a query naming both stays ambiguous and fails closed.
++    longer = [span for other in aliases if other != alias and alias in other for span in alias_spans(query, other)]
++    return bool(longer) and all(any(s >= ls and e <= le for ls, le in longer) for s, e in alias_spans(query, alias))
++
++
+ def looks_like_vendor_hint(token, known_vendor_tokens, board_names=frozenset(), function_tokens=frozenset()):
+     folded = token.casefold()
+     if folded in board_names or folded in function_tokens:
+@@ -66,6 +77,7 @@ def resolve_identities(query, entries, *, id_key, routing=NO_ROUTING_POLICY):
+     mentioned_lcsc = lcsc_tokens & known_lcsc
+     unknown_lcsc = lcsc_tokens - known_lcsc
+     mentioned_mpn = {entry["mpn"].casefold() for entry in entries if contains_alias(query, entry["mpn"])}
++    mentioned_mpn = {mpn for mpn in mentioned_mpn if not alias_subsumed(query, mpn, mentioned_mpn)}
+     mpn_matches = {entry[id_key] for entry in entries if entry["mpn"].casefold() in mentioned_mpn}
+     lcsc_matches = {entry[id_key] for entry in entries if entry["lcsc"] in mentioned_lcsc}
+ 
+@@ -151,6 +163,23 @@ def resolve(query, lines, routing=NO_ROUTING_POLICY):
+ 
+ 
  def resolve_bundle_route(query, routes, routing=NO_ROUTING_POLICY):
 +    # Reject an unknown attached numeric order suffix before bare-MPN or LCSC
 +    # fallback. Only bundles declaring comma-qualified MPN aliases are affected;
