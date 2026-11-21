@@ -314,6 +314,25 @@ changed = {ref: {'before': before[ref], 'after': after[ref]} for ref in before i
 # D10 (dec-p-20v-c36-x7r-1206): C36 becomes a 1206 X7R part and moves by the minimum 0.25 mm grid step that
 # restores the 0.10 mm placement gap to R13; every other footprint identity must still match the baseline.
 FOOTPRINT_CHANGES = {'C36': ('zudo-pd:C0603', 'zudo-pd:C1206')}
+# #326 sourcing adoption: the JSCJ zeners rebind D8/D9/D11-D13 to a manufacturer-neutral library footprint whose pads
+# are identical to the Diodes-described one; only the library identity may change, and placed pads must match exactly.
+SOD123_REBIND = ('zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', 'zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm')
+for ref in ('D8', 'D9', 'D11', 'D12', 'D13'):
+    FOOTPRINT_CHANGES[ref] = SOD123_REBIND
+
+def placed_pads(value, ref):
+    fp = value.FindFootprintByReference(ref)
+    return sorted((p.GetNumber(), xy(p.GetPosition()), xy(p.GetSize(pcbnew.F_Cu)), int(p.GetShape(pcbnew.F_Cu)),
+                   p.GetOrientation().AsDegrees(), p.GetLayerSet().FmtHex()) for p in fp.Pads())
+
+for ref in list(changed):
+    if FOOTPRINT_CHANGES.get(ref) == SOD123_REBIND:
+        b, a = dict(before[ref]), dict(after[ref])
+        if (b.pop('footprint'), a.pop('footprint')) != SOD123_REBIND or b != a:
+            raise ValueError(f'{ref}: rebind changed more than the library identity')
+        if placed_pads(baseline_board, ref) != placed_pads(board, ref):
+            raise ValueError(f'{ref}: rebound footprint pads differ from the baseline')
+        del changed[ref]
 if set(changed) != {'C30', 'C34', 'C36'}:
     raise ValueError(f'Unexpected footprint identity/placement changes: {changed}')
 for ref in before:
