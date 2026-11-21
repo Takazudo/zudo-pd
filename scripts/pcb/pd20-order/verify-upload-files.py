@@ -9,7 +9,7 @@ supplier acceptance. Complete historical replay is the unmodified scripts/pcb/ve
 source hash and the original local-only populated-stack STEP; this checker never substitutes for it.
 
 Order of checks: strict SHA256SUMS parse (no duplicate or unsafe path), manifest.json against its checksum and, for
-the default release, against the pinned manifest hash of the 2026-11-20 export, the
+the default release, against the pinned manifest hash of the 2026-11-22 sourcing-review export, the
 verified manifest's artifact hashes against SHA256SUMS for all six files, then the six files' actual bytes.
 Exit 0 = all six match; 1 = any refusal; 2 = usage error. Nothing is written.
 """
@@ -17,9 +17,10 @@ import argparse, hashlib, json, re, sys
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_RELEASE = ROOT / 'manufacturing/releases/pd20-prototype-review'
-# manifest.json of the 2026-11-20 PD20 package (ORDER-SHEET.md); anchors the default check to that exact export
-EXPECTED_MANIFEST_SHA256 = 'f430a76ac01ff77359a5c67112b429c45807afac7ac70cae73d1566c57b62607'
+DEFAULT_RELEASE = ROOT / 'manufacturing/releases/pd20-sourcing-review-20261122'
+# manifest.json of the 2026-11-22 PD20 sourcing-review package (its ORDER-SHEET.md); anchors the default check to that
+# exact export. The superseded 2026-11-20 package (pd20-prototype-review, manifest f430a76a…) is checked with --release.
+EXPECTED_MANIFEST_SHA256 = '940e805f56290f933dd5e92d5fd578e6692421c2ca7d9b6398da81521165c85d'
 BOARDS = ('board-p', 'board-b20-draft')
 UPLOAD_FILES = tuple(f'{b}/{name}' for b in BOARDS for name in (f'{b}-gerbers.zip', 'bom.csv', 'cpl.csv'))
 MANIFEST = 'manifest.json'
@@ -116,7 +117,7 @@ def main(argv=None):
         return 1
     for relative, sha in results:
         print(f'OK  {sha}  {relative}')
-    anchor = 'pinned manifest f430a76a… matched' if default else 'no pinned manifest for a non-default release'
+    anchor = 'pinned manifest 940e805f… matched' if default else 'no pinned manifest for a non-default release'
     print(f'UPLOAD FILE INTEGRITY: PASS (6/6 upload files; manifest.json and SHA256SUMS agree; {anchor}) in {args.release}')
     print(SCOPE)
     return 0

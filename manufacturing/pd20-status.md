@@ -10,7 +10,8 @@ B20 is now a two-sided assembly with **294 fitted parts** (88 BOM lines, 268 top
 the D2 sequenced fast-discharge network ([D2 layout](verification/pd20-native-d2-layout-20261114/README.md) and its
 [independent review](verification/pd20-native-d2-layout-20261114/review-20261120/README.md)); the D2 firing RC was
 retimed on 2026-11-20 (`dec-b20-d2-firing-threshold-band`). The revision-bound package is
-`releases/pd20-prototype-review/` with its [order sheet](releases/pd20-prototype-review/ORDER-SHEET.md). The
+`releases/pd20-sourcing-review-20261122/` with its [order sheet](releases/pd20-sourcing-review-20261122/ORDER-SHEET.md),
+carrying the 12 substitutions adopted on 2026-11-22; `releases/pd20-prototype-review/` is kept as history. The
 [readiness ledger](prototype-order-readiness.md) records D1–D12 with no remaining pre-order design hold; every open item
 needs an assembled board or a supplier preview. The dated sections below, including the 270 / 274 counts, are
 historical. Every bench row stays NOT RUN.
