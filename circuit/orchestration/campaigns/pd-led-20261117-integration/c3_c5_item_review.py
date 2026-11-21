@@ -131,15 +131,20 @@ def build():
     assert "including all connector headers" in (ROOT / PACKAGE / "README.md").read_text()
     assert "Hand-fit a pin strip" in (ROOT / "products/led-lamp/doc/src/content/docs/architecture/board-l.mdx").read_text()
     assert "exactly two hand-fit/DNP connectors" in (ROOT / "products/led-lamp/doc/src/content/docs/architecture/swd-adapter.mdx").read_text()
+    rebound = json.loads((HERE / "c3-input-rebind.json").read_text())["cad_pd_git_blobs"]
     for row in c3["cad_path_collisions"]:
         pd_path, led_path = ROOT / row["relative_path"], ROOT / row["led_destination"]
         assert pd_path.is_file() and led_path.is_file()
-        checked_git_blob(pd_path, row["pd_blob"])
+        pd_blob = row["pd_blob"]
+        if row["relative_path"] in rebound:
+            assert rebound[row["relative_path"]]["reconciled"] == pd_blob and not row["same_bytes"]
+            pd_blob = rebound[row["relative_path"]]["current"]
+        checked_git_blob(pd_path, pd_blob)
         checked_git_blob(led_path, row["led_blob"])
         assert (pd_path.read_bytes() == led_path.read_bytes()) == row["same_bytes"]
         pd_pads = re.findall(r'\(pad\s+"?([^"\s)]+)', pd_path.read_text()) if pd_path.suffix == ".kicad_mod" else []
         led_pads = re.findall(r'\(pad\s+"?([^"\s)]+)', led_path.read_text()) if led_path.suffix == ".kicad_mod" else []
-        output["cad"].append({"relative_path": row["relative_path"], "pd_git_blob": row["pd_blob"],
+        output["cad"].append({"relative_path": row["relative_path"], "pd_git_blob": pd_blob,
                               "led_git_blob": row["led_blob"], "same_bytes": row["same_bytes"],
                               "pd_size_bytes": pd_path.stat().st_size, "led_size_bytes": led_path.stat().st_size,
                               "pd_pad_numbers": sorted(pd_pads), "led_pad_numbers": sorted(led_pads),

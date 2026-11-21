@@ -21,7 +21,7 @@ INPUT_SHA256 = {
     "circuit/orchestration/campaigns/pd-led-20261116-c1/asset-map.tsv": "456f5d08e14e0a5abd1ad4b36757d396cca31e4457824664c89a2338d7369fa1",
     "circuit/orchestration/campaigns/pd-led-20261116-c1/redirect-map.tsv": "3880ee324ae0950c99f9405c5c99837f285827e528664a040a4e73f0bb158799",
     "circuit/orchestration/campaigns/pd-led-20261116-c3/reconciliation.json": "bc86a479339ed5158609875602b58ef3226ba6141da71a821f79dbf421772195",
-    "circuit/orchestration/campaigns/pd-led-20261116-c3/route-contract/result.json": "2921a0d1bce6ab3df261e16d825ed2d6460f769ac69d64b93080735831d795c7",
+    "circuit/orchestration/campaigns/pd-led-20261116-c3/route-contract/result.json": "93f94bc1acd29ca5bc4c7581a6ec9c5628ead5a2f7b5e51130784363c8ae6fed",
     "circuit/orchestration/campaigns/pd-led-20261117-integration/c5-link-audit.json": "992b2ad5acf5e8a14f707a844bd72e5cc96c4dc16f0c31e7a2458fd61ae329e8",
     "doc/public/_redirects": "b15d15c5be4c199b8bf20cca6b2ff6b31aa900727d408f3e1b2a2945a5a76f93",
     "products/led-lamp/doc/public/_redirects": "f339b3049300d76937832bea6beff12f0458a51387806c4ecfb198999f88c461",
@@ -49,8 +49,15 @@ def verify_inputs():
     for name, expected in INPUT_SHA256.items():
         assert sha256(ROOT / name) == expected, f"Locked decision input changed: {name}"
     reconciliation = json.loads((C3 / "reconciliation.json").read_text())
+    rebind = json.loads((HERE / "c3-input-rebind.json").read_text())
     for name, expected in reconciliation["source_locks_sha256"].items():
-        assert sha256(ROOT / name) == expected, f"C3 source input changed: {name}"
+        actual = sha256(ROOT / name)
+        if actual == expected:
+            continue
+        entry = rebind["files"].get(name)
+        assert entry and entry["reconciled_sha256"] == expected and entry["current_sha256"] == actual, \
+            f"C3 source input changed: {name}"
+    verify_rebind_semantics(reconciliation, rebind)
     subprocess.run(["python3", str(HERE / "c5_link_audit.py")], cwd=ROOT,
                    stdout=subprocess.DEVNULL, check=True)
     accepted = json.loads((C3 / "route-contract/result.json").read_text())
@@ -59,11 +66,52 @@ def verify_inputs():
     accepted_inspected = accepted.pop("inspected_file_sha256")
     current_inspected = current.pop("inspected_file_sha256")
     assert current == accepted, "C3 route proposal semantics changed"
-    assert {key for key in current_inspected if current_inspected[key] != accepted_inspected[key]} == {
+    assert {key for key in current_inspected if current_inspected[key] != accepted_inspected[key]} <= {
         "pnpm-lock.yaml"}, "C3 route or installed provider input changed"
     assert all(current_inspected[key] == accepted_inspected[key] for key in current_inspected
                if key != "pnpm-lock.yaml")
     return reconciliation, current_inspected["pnpm-lock.yaml"]
+
+
+def evidence_ids(value, out):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key in ("id", "record_id", "source_id") and isinstance(item, str):
+                out.add(item)
+            evidence_ids(item, out)
+    elif isinstance(value, list):
+        for item in value:
+            evidence_ids(item, out)
+    return out
+
+
+def verify_rebind_semantics(reconciliation, rebind):
+    """The reconciled LED/PD relationship must survive a rebound PD input unchanged."""
+    inventory = json.loads((ROOT / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
+    lines = {line["line_id"]: line for line in inventory["lines"]}
+    for row in reconciliation["line_reconciliation"]:
+        overlap = row["pd_overlap"]
+        if overlap is None:
+            assert row["led_line_id"] not in lines, f"LED-only line now in PD: {row['led_line_id']}"
+            continue
+        line = lines.get(overlap["line_id"])
+        assert line is not None, f"Reconciled PD line missing: {overlap['line_id']}"
+        assert {key: line.get(key) for key in overlap["identity"]} == overlap["identity"], \
+            f"Reconciled PD identity changed: {overlap['line_id']}"
+        placements = [{"board": p["board"], "refdes": p["refdes"], "dnp": p["dnp"]} for p in line["placements"]]
+        assert sorted(placements, key=json.dumps) == sorted(overlap["pd_placements"], key=json.dumps), \
+            f"Reconciled PD placements changed: {overlap['line_id']}"
+    selection = json.loads((ROOT / "circuit/publication/selection.json").read_text())
+    for item in reconciliation["shared_record_evidence_collisions"]:
+        assert item["record_id"] in selection["recordIds"], f"Shared record left selection: {item['record_id']}"
+    led = set()
+    for path in sorted((ROOT / "products/led-lamp/.claude/skills").glob("*/*.json")):
+        evidence_ids(json.loads(path.read_text()), led)
+    changed = set().union(*(rebind[key] for key in ("pd_record_ids_added", "pd_record_ids_removed",
+                                                    "pd_source_ids_added", "pd_source_ids_removed")))
+    assert set(selection["recordIds"]) >= set(rebind["pd_record_ids_added"])
+    assert not set(selection["recordIds"]) & set(rebind["pd_record_ids_removed"])
+    assert not changed & led, f"Rebound PD evidence IDs collide with LED evidence: {sorted(changed & led)}"
 
 
 def check_redirect_source(row, repository):

@@ -131,9 +131,13 @@ def section_bridge(old_route, title, fragments, source):
     return "\n".join(lines)
 
 
+# Active PD inventory lines after the 2026-11-22 sourcing adoption (#326: +12 adopted, -8 superseded identities).
+PD_LINES = 133
+
+
 def candidate_catalog(pd, led):
     pd_by_id = {line["line_id"]: line for line in pd["lines"]}
-    assert len(pd_by_id) == 129 and len(led["lines"]) == 35
+    assert len(pd_by_id) == PD_LINES and len(led["lines"]) == 35
     shared = [line for line in led["lines"] if line["line_id"] in pd_by_id]
     conflicts = [line for line in shared if any(line.get(key) != pd_by_id[line["line_id"]].get(key)
                                                for key in ("manufacturer", "mpn", "package", "lcsc"))]
@@ -174,15 +178,15 @@ def unified_line_catalog(pd, led):
     lines = [
         "---", "title: Unified line review", "sidebar_position: 2", "---", "",
         "# Unified component lines", "",
-        "> **Review comparison.** Search 129 active PD evidence lines and 35 historical LED candidate lines together. Product-scoped keys remain separate even when their line IDs match. This is not a shared exact-part decision, active LED selection or manufacturing BOM.",
+        f"> **Review comparison.** Search {PD_LINES} active PD evidence lines and 35 historical LED candidate lines together. Product-scoped keys remain separate even when their line IDs match. This is not a shared exact-part decision, active LED selection or manufacturing BOM.",
         "",
         "PD's [generated exact records](/docs/components/records/) retain active authority. [LED candidate details](./led-candidates.mdx) explain the 17 overlapping line IDs and four text conflicts. Matching IDs in this table stay separate rows.",
         "",
         '<label for="catalog-line-query">Find by scoped key, manufacturer, MPN, package or order code</label>',
         '<input id="catalog-line-query" type="search" autocomplete="off" placeholder="e.g. STUSB4500 or C2678061" />',
         '<label for="catalog-line-status">Evidence status</label>',
-        '<select id="catalog-line-status"><option value="all">All 164 lines</option><option value="PD">PD active evidence (129)</option><option value="LED">LED historical candidates (35)</option></select>',
-        '<p id="catalog-line-count" role="status" aria-live="polite">Showing 164 of 164 lines</p>',
+        f'<select id="catalog-line-status"><option value="all">All {PD_LINES + 35} lines</option><option value="PD">PD active evidence ({PD_LINES})</option><option value="LED">LED historical candidates (35)</option></select>',
+        f'<p id="catalog-line-count" role="status" aria-live="polite">Showing {PD_LINES + 35} of {PD_LINES + 35} lines</p>',
         '<script type="module" src="/assets/client/catalog-line-filter.js"></script>',
         "",
         "| Scoped line key | Manufacturer / full MPN | Package / LCSC | Review status | Recorded fit input |",
@@ -205,7 +209,7 @@ def unified_line_catalog(pd, led):
             assert all("|" not in str(value) and "\n" not in str(value) for value in cells)
             lines.append("| " + " | ".join(map(str, cells)) + " |")
             count += 1
-    assert count == 164
+    assert count == PD_LINES + 35
     lines += [
         "", "Both source inventories are unchanged. This table is generated from the same source bytes as the LED detail table; candidate replay fails on source or output drift. CAD roots, record facts, public assets and publication selections are outside this comparison.", "",
     ]

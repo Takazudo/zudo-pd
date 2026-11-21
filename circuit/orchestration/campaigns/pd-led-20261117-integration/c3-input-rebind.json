@@ -1,0 +1,92 @@
+{
+  "cad_pd_git_blobs": {
+    "boards/board-p/board-p.kicad_pcb": {
+      "current": "226a87149161751c64ecd76f932ddeb7afa44c62",
+      "reconciled": "b9eb8a9c1c15f105946f6b2743ec4afb4a49a9bd"
+    },
+    "boards/board-p/board-p.kicad_sch": {
+      "current": "13955a706482bcc38f5e63e832e8869ac49be1da",
+      "reconciled": "d2074360871f45bb2879728d520a1d75e3368821"
+    }
+  },
+  "files": {
+    ".claude/skills/component-spec-audit/references/inventory.json": {
+      "current_sha256": "9c75640c069a1cc6320e3296274df5ba541cf5a5a21a1604df5f5b68d6354dbf",
+      "reconciled_sha256": "3ee367cf16fa3563f166cda35ca5728772e21fd2199207585e697c9b5b932f5d"
+    },
+    "circuit/publication/selection.json": {
+      "current_sha256": "6c658495da28553c0cf06a275f850a80bae4b5638dda586852c30ca2042e016b",
+      "reconciled_sha256": "f51a42ae7663dd7887ddaa662b8de49868684ff73e0deb8f5587b9d2d8793ad7"
+    }
+  },
+  "pd_record_ids_added": [
+    "rec-c107038",
+    "rec-c107039",
+    "rec-c14941",
+    "rec-c179864",
+    "rec-c28994963",
+    "rec-c2989252",
+    "rec-c2989442",
+    "rec-c43490",
+    "rec-c46616054",
+    "rec-c50670209",
+    "rec-c50670301",
+    "rec-c50670525"
+  ],
+  "pd_record_ids_removed": [
+    "rec-c162204",
+    "rec-c2861552",
+    "rec-c37298",
+    "rec-c515735",
+    "rec-c705764",
+    "rec-c705781",
+    "rec-c861244",
+    "rec-c861616"
+  ],
+  "pd_source_ids_added": [
+    "src-c107038-identity",
+    "src-c107038-primary",
+    "src-c107039-identity",
+    "src-c107039-primary",
+    "src-c14941-identity",
+    "src-c14941-primary",
+    "src-c179864-identity",
+    "src-c179864-primary",
+    "src-c28994963-identity",
+    "src-c28994963-primary",
+    "src-c2989252-identity",
+    "src-c2989252-primary",
+    "src-c2989442-identity",
+    "src-c2989442-primary",
+    "src-c43490-identity",
+    "src-c43490-primary",
+    "src-c46616054-identity",
+    "src-c46616054-primary",
+    "src-c50670209-identity",
+    "src-c50670209-primary",
+    "src-c50670301-identity",
+    "src-c50670301-primary",
+    "src-c50670525-identity",
+    "src-c50670525-primary"
+  ],
+  "pd_source_ids_removed": [
+    "src-c162204-identity",
+    "src-c162204-primary",
+    "src-c2861552-identity",
+    "src-c2861552-primary",
+    "src-c37298-identity",
+    "src-c37298-primary",
+    "src-c515735-identity",
+    "src-c515735-primary",
+    "src-c705764-identity",
+    "src-c705764-primary",
+    "src-c705781-identity",
+    "src-c705781-primary",
+    "src-c861244-identity",
+    "src-c861244-primary",
+    "src-c861616-identity",
+    "src-c861616-primary"
+  ],
+  "reason": "PD20 sourcing adoption (#326) changed two PD inputs locked by the C3 reconciliation after it was reviewed. The reconciliation itself is a reviewed historical record and is not rewritten. This rebind names the exact current bytes; c3_c5_decisions.py accepts them only while the semantic checks it runs still hold (every LED/PD overlapping line keeps its reconciled identity and placements, LED-only lines stay absent from PD, the 13 shared records stay selected, and no added or removed PD record or source ID is used by LED evidence). The two Board P CAD files changed only by the zener/resistor identity adoption; their collision with the separate LED Board P stays a byte-different PRESERVE_BOTH_NAMESPACE_ROOTS pair.",
+  "schema": "private-c3-input-rebind-v1"
+}
