@@ -17,6 +17,11 @@ dec-p-20v-front-end-r3):
   ahead of every other Board P part. IN 1-3 and P_IN 6 on EF_IN; OUT 18-20 on VBUS_P.
   OVP R24/R25 174k/10k 0.1 %: 21.60-22.56 V rising (V(OVPR) 1.176-1.224 V, SLVSET9G).
   UVLO R22/R23 11.5k/4.02k 0.1 %: 4.53-4.73 V rising. R26 4.02k: I(OL) 4.185-4.815 A.
+- Sourcing adoption 2026-11-22 JST (#326, manufacturing/readiness/parts-sourcing-audit-20261122.json):
+  D8/D13 are JSCJ BZT52C11 C14941 (was Diodes BZT52C11-7-F C92321), D9/D11/D12 are JSCJ
+  BZT52C18 C43490 (was Diodes BZT52C18-7-F C192739) on the neutral SOD-123_Pad0.90x0.95mm_P3.15mm
+  land, and R23/R26 are UNI-ROYAL TC0325B4021T5F C46616054 (was YAGEO RT0603BRD074K02L C705781)
+  with the same 0.1 % / 25 ppm/C values. Nets and the calculations below are unchanged.
   C5 100 nF dVdT. MODE open = latch; SHDN, IMON, FLT and PGOOD open. Both dividers
   sense VBUS_IN, ahead of the ideal diode.
 - Common controller block (manager common-controller-block.md, LED requirements
@@ -34,12 +39,12 @@ dec-p-20v-front-end-r3):
 - Q1 gate drive DRAFT (dec-p-20v-q1-gate-clamp, phase 6): R11 (source-gate) 100k ->
   150k C22807 and R12 (gate-VBEN) 150k -> 4.7k C23162, so the asserted VGS is
   -4.60 / -4.85 / -5.09 V at 4.75 / 5.00 / 5.25 V VBUS (was -2.0 V at 5 V, inside the
-  threshold range), and D8 BZT52C11-7-F C92321 (cathode
+  threshold range), and D8 BZT52C11 (cathode
   VBUS_P, anode Q1_G, the Board A dec-e-q1-20v-gate-guard topology) clamps VGS to
   10.4-11.6 V at 20 V so the +/-25 V VGSS limit keeps >= 13.3 V margin. With D8 open
   the divider alone gives -24.44 V at the 25.21 V overshoot case (inside 25 V) but -27.49 V at the
   28.35 V TVS2200 connector row, beyond VGSS. Phase 11 (dec-p-q1-gate-clamp-redundant) adds D13, a second
-  BZT52C11-7-F in parallel with D8, so one open clamp no longer exposes Q1; both open is a double fault.
+  BZT52C11 in parallel with D8, so one open clamp no longer exposes Q1; both open is a double fault.
   C35 is unchanged; the turn-on gate time constant falls from 6.0 ms to 0.46 ms and
   the VBEN-release turn-off constant (R11 x C35) rises from 10 ms to 15 ms.
 - Q1 soft turn-on DRAFT (dec-p-20v-q1-soft-start, phase 7, independent review
@@ -60,17 +65,17 @@ dec-p-20v-front-end-r3):
   DISCH or VBUS_EN_SNK connects to VBUS_P or VBUS_OUT directly any more, so the main surge
   path no longer has to stay below the 28 V STUSB absolute maximum:
   - VDD (U1.24) on VDD_LOC: R29 1k C21190 + R30 470R C23179 from VBUS_P (phase 10: sized for
-    2 x the idle typical IDD at a 5 V attach), D9 BZT52C18-7-F C192739
+    2 x the idle typical IDD at a 5 V attach), D9 BZT52C18
     to GND and C38 1 uF. VDD_LOC <= 20.79 V at 125 C with VBUS_P at the 28.35 V TVS2200
     row, and <= 20.38 V at 105 C, inside the 22 V operating maximum.
   - VBUS_VS_DISCH (U1.18): R14 + R28 2 x 1k C21190 and D10 BZT52C20-7-F C260890 at the pin,
     so it stays <= 23.0 V and still reads >= 17.63 V on a 20 V contract (VMONUSBL 16 V).
     Discharge of C3 to vSafe0V then needs about 0.91 s: the factory image must set
     TDISPAR0V >= 13 (the 9 default gives 0.63 s minimum).
-  - DISCH (U1.9): R13 4.7k C23162 from VBUS_OUT and D12 BZT52C18-7-F at the pin.
+  - DISCH (U1.9): R13 4.7k C23162 from VBUS_OUT and D12 BZT52C18 at the pin.
   - VBUS_EN_SNK (U1.16) on VBEN_PIN behind Q6 BSS138-7-F (source on the pin, drain on
     R12 / net VBEN, gate on VG_LOC = VDD_LOC / 2 through R31 / R32 100k C25803) with
-    D11 BZT52C18-7-F at the pin. J3.8 probes the pin side.
+    D11 BZT52C18 at the pin. J3.8 probes the pin side.
 """
 
 PROJECT_NAME = 'board-p'
@@ -89,10 +94,10 @@ COMPONENTS = {
     'Q3': ('CSD18543Q3A', 'CSD18543Q3A', 'C840100', 'zudo-pd:VSON-8_L3.3-W3.3-P0.65_CSD18543Q3A', False, (63.5, 38.1)),
     'C5': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603', False, (228.6, 241.3)),
     'R22': ('RT0603BRD0711K5L', '11.5k 0.1%', 'C705719', 'zudo-pd:R0603', False, (38.1, 241.3)),
-    'R23': ('RT0603BRD074K02L', '4.02k 0.1%', 'C705781', 'zudo-pd:R0603', False, (76.2, 241.3)),
+    'R23': ('TC0325B4021T5F', '4.02k 0.1%', 'C46616054', 'zudo-pd:R0603', False, (76.2, 241.3)),
     'R24': ('RT0603BRD07174KL', '174k 0.1%', 'C861163', 'zudo-pd:R0603', False, (114.3, 241.3)),
     'R25': ('RT0603BRD0710KL', '10k 0.1%', 'C95204', 'zudo-pd:R0603', False, (152.4, 241.3)),
-    'R26': ('RT0603BRD074K02L', '4.02k 0.1%', 'C705781', 'zudo-pd:R0603', False, (190.5, 241.3)),
+    'R26': ('TC0325B4021T5F', '4.02k 0.1%', 'C46616054', 'zudo-pd:R0603', False, (190.5, 241.3)),
     'D6': ('PESD24VS1UB_C85382', 'PESD24VS1UB', 'C85382', 'zudo-pd:SOD-523_L1.2-W0.8-LS1.6-RD', True, (228.6, 165.1)),
     'D7': ('PESD24VS1UB_C85382', 'PESD24VS1UB', 'C85382', 'zudo-pd:SOD-523_L1.2-W0.8-LS1.6-RD', True, (190.5, 215.9)),
     'C1': ('CL31A106KBHNNNE', '10uF/50V', 'C13585', 'zudo-pd:C1206', False, (38.1, 165.1)),
@@ -102,8 +107,8 @@ COMPONENTS = {
     'C35': ('CC0603KRX7R9BB104', '100nF/50V', 'C14663', 'zudo-pd:C0603', False, (190.5, 165.1)),
     'R11': ('0603WAF1503T5E', '150k', 'C22807', 'zudo-pd:R0603', False, (38.1, 190.5)),
     'R12': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (76.2, 190.5)),
-    'D8': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (279.4, 76.2)),
-    'D13': ('BZT52C11-7-F_C92321', 'BZT52C11-7-F', 'C92321', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (279.4, 101.6)),
+    'D8': ('BZT52C11_C14941', 'BZT52C11', 'C14941', 'zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm', False, (279.4, 76.2)),
+    'D13': ('BZT52C11_C14941', 'BZT52C11', 'C14941', 'zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm', False, (279.4, 101.6)),
     'R13': ('0603WAF4701T5E', '4.7k', 'C23162', 'zudo-pd:R0603', False, (114.3, 190.5)),
     'R14': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 190.5)),
     'R28': ('0603WAF1001T5E', '1k', 'C21190', 'zudo-pd:R0603', False, (152.4, 266.7)),
@@ -112,10 +117,10 @@ COMPONENTS = {
     'R31': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603', False, (228.6, 215.9)),
     'R32': ('0603WAF1003T5E', '100k', 'C25803', 'zudo-pd:R0603', False, (266.7, 215.9)),
     'C38': ('CL10A105KB8NNNC', '1uF/50V', 'C15849', 'zudo-pd:C0603', False, (266.7, 165.1)),
-    'D9': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (38.1, 139.7)),
+    'D9': ('BZT52C18_C43490', 'BZT52C18', 'C43490', 'zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm', False, (38.1, 139.7)),
     'D10': ('BZT52C20-7-F_C260890', 'BZT52C20-7-F', 'C260890', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (76.2, 139.7)),
-    'D11': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (228.6, 139.7)),
-    'D12': ('BZT52C18-7-F_C192739', 'BZT52C18-7-F', 'C192739', 'zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD', False, (266.7, 139.7)),
+    'D11': ('BZT52C18_C43490', 'BZT52C18', 'C43490', 'zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm', False, (228.6, 139.7)),
+    'D12': ('BZT52C18_C43490', 'BZT52C18', 'C43490', 'zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm', False, (266.7, 139.7)),
     'Q6': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED', False, (292.1, 266.7)),
     'C36': ('CL31B105KBHNNNE', '1uF/50V X7R', 'C1848', 'zudo-pd:C1206', False, (38.1, 266.7)),
     'Q5': ('BSS138-7-F', 'BSS138-7-F', 'C40912', 'zudo-pd:SOT-23_DIODES-DS30144-SUGGESTED', False, (76.2, 266.7)),

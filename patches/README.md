@@ -17,7 +17,7 @@ The runtime request is `^0.3.0`. The root lock resolves the npm 0.3.0 tarball wi
 registry integrity and this patch's hash. The patch retains the reviewed
 `lib/scan/built-references.js` checker branch and the active-page setup in
 `lib/browser-smoke/chrome.js` with its visibility precondition in
-`lib/browser-smoke/cdp.js`. The fourth hunk guards bundle order-code routing
+`lib/browser-smoke/cdp.js`. The fourth file guards bundle order-code routing and nested exact-MPN mentions
 in `python/circuit_evidence/routing.py`. Dependency versions are unchanged.
 
 ## Why it exists
@@ -49,6 +49,17 @@ empty-LCSC routes and inventory routing unchanged. The project-local validator
 uses the same guard; `circuit/tests/compatibility-routing.test.mjs` exercises the
 installed package and CLI. This patch changes no registry version and does not
 establish component evidence or fitted status.
+
+## Nested exact-MPN routing (2026-11-22)
+
+The 2026-11-22 JST sourcing adoption ([#326](https://github.com/Takazudo/zudo-pd/issues/326)) fitted
+JSCJ `BZT52C11` (C14941) while Diodes `BZT52C11-7-F` (C92321) stays fitted at Board A D8. In the
+pinned 0.3.0 package the shorter alias also matches inside the longer one, so the exact query
+`BZT52C11-7-F` resolved two lines and failed closed. The same `routing.py` file now ignores an MPN
+mention only when every occurrence lies inside an occurrence of a longer mentioned MPN; a query that
+names the short MPN standalone, or both parts, still resolves both and fails closed. LCSC, manufacturer
+and function checks are unchanged. The project-local validator carries the same rule. Remove it with the
+routing bridge when a released package handles nested exact MPNs.
 
 ## Mac active-page lifecycle (2026-11-09)
 

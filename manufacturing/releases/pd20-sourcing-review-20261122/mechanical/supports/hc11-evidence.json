@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "identity": {
+    "manufacturer_as_listed": "Haidebao",
+    "mpn": "HC-11",
+    "seller": "Tayda Electronics",
+    "seller_sku": "A-2882",
+    "quantity_for_board_b_corner_supports": 4,
+    "assembly": "Separately installed adhesive mechanical accessory, not a soldered PCBA component"
+  },
+  "sources": [
+    {
+      "source_id": "hc11-tayda-product",
+      "url": "https://www.taydaelectronics.com/hc-11-11mm-pcb-support-html.html",
+      "retrieved": "2026-09-20",
+      "authority": "exact seller product page; no independent manufacturer engineering release retrieved",
+      "extract": "Haidebao HC-11, SKU A-2882; adhesive backing; dimension A=11mm."
+    },
+    {
+      "source_id": "hc11-tayda-drawing",
+      "url": "https://www.taydaelectronics.com/datasheets/images/A-2882.jpg",
+      "retrieved": "2026-09-20",
+      "local_copy": "hc11-tayda-drawing.jpg",
+      "sha256": "7d904eb4c31fd8b0aca08b36718377057046c43fa20c3b73513193ce387c6142",
+      "authority": "exact product-linked dimension image, no title block/revision/tolerance statement",
+      "dimensions_directly_printed_mm": {
+        "mounting_hole_diameter": 3.0,
+        "accepted_chassis_or_pcb_thickness": 1.6,
+        "retention_region_vertical_dimension": 2.0,
+        "upper_tip_narrow_side_view_width": 2.1
+      },
+      "interpretation": "The2.1 label is a width, without diameter sign; do not call it complete head diameter. The2.0 vertical dimension covers the retaining region above the seating shoulder; the explicitly stated board thickness remains1.6."
+    }
+  ],
+  "height": {
+    "A_mm": 11.0,
+    "value_source": "hc11-tayda-product",
+    "datum_interpretation_source": "hc11-tayda-drawing",
+    "datum": "Dimension arrows span drawn base underside to the PCB-seating shoulder. Inference from image geometry, not a separately worded supplier datum definition.",
+    "includes_base_height": true,
+    "excludes_above_board_snap_head": true,
+    "adhesive_thickness_mm": null,
+    "adhesive_treatment": "The drawing does not distinguish tape, compressed adhesive thickness, release liner or a separate bonding-surface datum. Do not silently add an adhesive allowance to11mm or claim guaranteed finished floor clearance.",
+    "height_tolerance_mm": null
+  },
+  "envelopes_not_dimensioned": {
+    "base_width_mm": null,
+    "base_depth_mm": null,
+    "base_thickness_mm": null,
+    "column_diameter_mm": null,
+    "seating_collar_diameter_mm": null,
+    "maximum_head_width_mm": null,
+    "head_projection_above_board_mm": null,
+    "instruction": "Do not scale the raster or borrow a generic HC-11/other-vendor CAD model to invent these missing dimensions. Obtain dimensions from actual purchased supports or exact supplier data."
+  },
+  "board_interface": {
+    "board_b_nominal_thickness_mm": 1.6,
+    "board_thickness_matches_printed_nominal": true,
+    "required_support_hole_nominal_mm": 3.0,
+    "existing_pd_m3_hole_mm": 3.2,
+    "existing_pd_holes_are_not_qualified_for_hc11": true,
+    "new_corner_footprint": "zudo-pd:MountingHole_HC11_3mm",
+    "planned_refs": [
+      "H4",
+      "H5",
+      "H6",
+      "H7"
+    ],
+    "retained_pd_refs": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "footprint_files": [
+      "footprints/kicad/MountingHole_HC11_3mm.kicad_mod",
+      "footprints/kicad/zudo-power.pretty/MountingHole_HC11_3mm.kicad_mod"
+    ],
+    "footprint_sha256": "5c7b36b3ddb8b8c3afbe52dd6ca66fa0925068855d11a66143038256ba028d24",
+    "hole_type": "3.0mm NPTH; no net; board_only, excluded_from_bom and excluded_from_pos_files",
+    "clearance_assumptions": {
+      "fab_collar_circle_diameter_mm": 6.0,
+      "courtyard_square_side_mm": 6.5,
+      "supplier_guaranteed": false,
+      "meaning": "Inherited local layout marker from existing project hole pattern. This is NOT an HC-11 head/base dimensional guarantee or enclosure adhesive-pad envelope."
+    },
+    "models_created": false
+  },
+  "flat_floor_screen": {
+    "status": "KNOWN NOMINAL INTERFERENCE for component-side-toward-flat-floor installation",
+    "coordinate_convention": "Board B component/front plane is z=0; its substrate extends to−1.6. HC-11 base/enclosure floor is on the component side, nominallyz=+11.0. Front-mounted flipped P component-face plane is+11.1 and P substrate extends toward+12.7.",
+    "floor_z_nominal_mm": 11.0,
+    "board_p_component_plane_z_mm": 11.1,
+    "board_p_thickness_mm": 1.6,
+    "board_p_back_plane_z_mm": 12.7,
+    "board_p_back_plane_beyond_floor_mm": 1.7,
+    "screw_terminal_nominal_height_mm": 14.0,
+    "screw_terminal_drawing_height_max_mm": 14.2,
+    "screw_terminal_nominal_beyond_floor_mm": 3.0,
+    "screw_terminal_drawing_max_beyond_floor_mm": 3.2,
+    "project_sources": [
+      "boards/board-b/mechanical.json pd_stack.nominal_board_p_top_z_mm",
+      "boards/board-p/board-p.kicad_pcb1.6mm thickness",
+      "component-kangnex-wj500v-5-08-2p-c8465 fact-c8465-dimensions"
+    ],
+    "conditions": [
+      "This is a flat enclosure floor covering the populated board area, with the Board B component face toward that floor. Different mounting orientation or real enclosure cutouts require a new geometric screen.",
+      "PD solder tails/other outward geometry may extend farther than12.7mm;1.7mm is already a sufficient lower bound on the present incompatibility.",
+      "Moving the PD board laterally cannot solve a global flat-floor height conflict by itself.",
+      "PCB seating tolerance, adhesive compression, component seating and routing/wire access are not added margins.",
+      "A taller support or deliberate floor clearance is required for this orientation.16mm is a candidate only, not a selected/verified exact support; it gives1.8mm nominal residual over terminal drawing maximum before other assembly limits."
+    ]
+  },
+  "qualification_open": [
+    "Actual3.0mm finished-hole/clip retention andPCBthickness tolerance.",
+    "Exactbase/head/column envelopes and adhesive handling, compression, load andtemperature limits.",
+    "Wholeassemblyfloorclearance, soldertails, terminalwire/screwdriver access andmechanical load."
+  ],
+  "bom_policy": "Keep as separately procured mechanical assembly hardware in this support note. Do not add to JLCPCB electrical BOM/CPL; the four board-only hole footprints are explicitly excluded. No exact manufacturer CAD has been invented."
+}

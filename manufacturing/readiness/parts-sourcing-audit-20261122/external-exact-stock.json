@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "scope": "Bounded external exact-part sourcing follow-up for two unchanged parts only; four targeted public searches plus source-page reads. Not a global market survey.",
+  "completed_utc": "2026-11-21T18:32:50.194462+00:00",
+  "jlc_inventory_is_separate": true,
+  "ordering_quote_contact_performed": false,
+  "next_route_status": "External procurement reference only. JLC Global Sourcing/consignment acceptance, applicable quantity and packing requirements, price, transport and lead time remain unconfirmed. No external stock is added to JLC stock or treated as reserved.",
+  "parts": [
+    {
+      "baseline_code": "C861076",
+      "exact_mpn": "RT0603BRD0710K4L",
+      "manufacturer": "YAGEO",
+      "scope": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R66"
+          ]
+        }
+      ],
+      "conclusion": "Current public Mouser page provides a stocked exact-part lead; no component substitution is needed for this route.",
+      "sources": [
+        {
+          "supplier": "Mouser",
+          "supplier_part_number": "603-RT0603BRD0710K4L",
+          "url": "https://www.mouser.com/en/ProductDetail/YAGEO/RT0603BRD0710K4L?qs=bQfrgN9vNvy5TWXxutImCw%3D%3D",
+          "evidence_status": "Fresh direct public HTML retrieval; stock and price text both inspected. Not a quote or checkout confirmation.",
+          "retrieved_utc": "2026-11-21T18:31:54.314168+00:00",
+          "retrieved_jst": "2026-11-22T03:31:54.314168+09:00",
+          "http_status": 200,
+          "html_sha256": "43fcb31bfeee55ac1bae317a671138450492bdf5eb0f3ee6eaa3416d02d06169",
+          "stock_count": 8215,
+          "stock_text": "Can Ship Immediately",
+          "currency": "USD",
+          "cut_tape_min_quantity": 1,
+          "cut_tape_quantity_multiple": 1,
+          "cut_tape_price_tiers": [
+            {
+              "minimum_quantity": 1,
+              "unit_price": 0.1
+            },
+            {
+              "minimum_quantity": 10,
+              "unit_price": 0.073
+            },
+            {
+              "minimum_quantity": 100,
+              "unit_price": 0.069
+            },
+            {
+              "minimum_quantity": 500,
+              "unit_price": 0.061
+            }
+          ],
+          "full_reel_quantity_multiple": 5000,
+          "full_reel_price_tiers": [
+            {
+              "minimum_quantity": 5000,
+              "unit_price": 0.051
+            },
+            {
+              "minimum_quantity": 10000,
+              "unit_price": 0.047
+            }
+          ],
+          "optional_mouse_reel_fee_usd": 7,
+          "on_order_quantity_not_in_stock": 5000,
+          "limits": [
+            "Stock is not reserved. Shipping, taxes, tariffs, packaging service and JLC intake costs are excluded.",
+            "Public page contains an additional generic unexpected-error message; the displayed stock and pricing are not a checkout guarantee.",
+            "Older search-cache 10-piece price0.062USD is superseded by this fresh0.073USD observation."
+          ]
+        },
+        {
+          "supplier": "DigiKey",
+          "url": "https://www.digikey.com/en/products/detail/yageo/RT0603BRD0710K4L/12707071",
+          "supplier_cut_tape_number": "13-RT0603BRD0710K4LCT-ND",
+          "evidence_status": "Search cache only; direct retrieval and follow-up web fetch returned403. Current live stock and price NOT VERIFIED.",
+          "direct_request_utc": "2026-11-21T18:31:18.997405+00:00",
+          "direct_result": "HTTP403",
+          "search_cache_age": "Search result labeled crawled4weeks ago; open result labeled lastweek but refreshed find failed403.",
+          "cached_stock_count_not_current": 21159,
+          "currency": "USD",
+          "cached_cut_tape_price_tiers_not_current": [
+            {
+              "minimum_quantity": 1,
+              "unit_price": 0.1
+            },
+            {
+              "minimum_quantity": 10,
+              "unit_price": 0.07
+            },
+            {
+              "minimum_quantity": 50,
+              "unit_price": 0.0614
+            }
+          ],
+          "use": "Secondary reference URL only; do not state these cached quantities as current inventory."
+        }
+      ]
+    },
+    {
+      "baseline_code": "C523793",
+      "exact_mpn": "TVS2200DRVR",
+      "manufacturer": "Texas Instruments",
+      "scope": [
+        {
+          "board": "board-p",
+          "refs": [
+            "D5"
+          ]
+        }
+      ],
+      "conclusion": "No positive current external live stock quantity established within the bounded search. Keep external availability unknown.",
+      "sources": [
+        {
+          "supplier": "Texas Instruments",
+          "url": "https://www.ti.com/product/TVS2200/part-details/TVS2200DRVR",
+          "evidence_status": "Public page retrieved through web tool; cache labeled crawledyesterday. No authenticated inventory call.",
+          "observed_public_status": [
+            "Out of stock",
+            "Log in to view inventory",
+            "Pricing table blank"
+          ],
+          "current_stock_count": null,
+          "currency": null,
+          "small_quantity_price": null,
+          "quantity_information": "Listed factory carrier3000largeT&R; this is not asserted as the minimum small-order quantity.",
+          "use": "Manufacturer identity and sourcing reference; no live numeric inventory or small-order price confirmed."
+        },
+        {
+          "supplier": "DigiKey",
+          "url": "https://www.digikey.com/en/products/detail/texas-instruments/TVS2200DRVR/8567233",
+          "supplier_cut_tape_number": "296-52187-1-ND",
+          "evidence_status": "Direct page fetch403. Conflicting indexed snapshots; current live inventory NOT VERIFIED.",
+          "cached_stock_claims_not_current": [
+            {
+              "source": "exact product search result",
+              "stock_count": 257,
+              "cache_age": "3weeks"
+            },
+            {
+              "source": "6-WSON TVS category result",
+              "stock_count": 0,
+              "cache_age": "2weeks"
+            }
+          ],
+          "currency": "USD",
+          "cached_cut_tape_price_tiers_not_current": [
+            {
+              "minimum_quantity": 1,
+              "unit_price": 1.22
+            },
+            {
+              "minimum_quantity": 10,
+              "unit_price": 0.763
+            },
+            {
+              "minimum_quantity": 50,
+              "unit_price": 0.565
+            }
+          ],
+          "use": "Reference only; neither conflicting count is adopted as current availability."
+        }
+      ]
+    }
+  ]
+}

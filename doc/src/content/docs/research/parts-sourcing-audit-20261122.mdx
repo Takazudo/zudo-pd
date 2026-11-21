@@ -1,0 +1,114 @@
+---
+title: Parts sourcing audit, 2026-11-22
+description: Dated supply and cost audit of all 101 active part codes on Board P r3, Board B20 and P15, and the 12 substitutions adopted from it.
+sidebar_position: 30
+---
+
+Research date 2026-11-22 JST, against main `360788939707e8907cc63900ffbbbc3426dfe41c`. The policy this audit follows
+is [BOM and sourcing decisions](../decisions/sourcing.mdx). This page is a dated observation. Stock and prices change;
+nothing here is a reservation, a quote or an order.
+
+## All 101 active codes were reviewed; 12 are adopted
+
+The audit covered every active code on the current order targets, Board P r3, Board B20 and P15: 101 codes and 361
+fitted placements for one of each board (44 / 294 / 23). DNP placements, earlier Board B and Board L, and received or
+frozen hardware are excluded. "Every code" does not mean every manufacturer or distributor in the market.
+
+| Decision | Codes |
+|---|---:|
+| Retain | 71 |
+| Change (adopted here) | 12 |
+| Retain, with a recorded backup candidate | 15 |
+| Retain, with a redesign-only candidate | 1 |
+| Retain, supply condition to confirm | 2 |
+
+The machine-readable ledger is
+[`manufacturing/readiness/parts-sourcing-audit-20261122.json`](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/readiness/parts-sourcing-audit-20261122.json),
+one row per code with placements, role, required specification, every compared candidate, catalog snapshot, price tiers,
+`minPurchaseNum` / `leastPatchNumber` / `lossNumber`, primary sources and the reason. The detailed comparisons, the
+change plan, the source index and the adoption recheck are in
+[`manufacturing/readiness/parts-sourcing-audit-20261122/`](https://github.com/Takazudo/zudo-pd/tree/main/manufacturing/readiness/parts-sourcing-audit-20261122).
+The ledger's free-text role and reason fields keep the survey's original Japanese wording as received evidence; this page
+is the English summary.
+
+## Adopted substitutions: 7 placements on Board P r3, 25 on B20
+
+Stock and the 20-piece-tier unit price are the catalog snapshot of 2026-11-22 JST. The 20-piece tier is a comparison
+basis, not an order quantity.
+
+| Previous code / MPN | Adopted code / exact MPN | Stock, old → new | Unit price, old → new | Scope |
+|---|---|---:|---:|---|
+| C92321 BZT52C11-7-F | C14941 JSCJ BZT52C11 | 1,472 → 7,003 | $0.0475 → $0.0203 | P D8, D13; B20 D4, DZ1, DZ2, DZ3 |
+| C192739 BZT52C18-7-F | C43490 JSCJ BZT52C18 | 6,182 → 106,084 | $0.1295 → $0.0213 | P D9, D11, D12 (P15 D9 unchanged) |
+| C705781 RT0603BRD074K02L | C46616054 TC0325B4021T5F | 8,263 → 9,483 | $0.0418 → $0.0107 | P R23, R26; B20 R6, R16, R17, R21, R23, RDG5, RDG12 |
+| C37298 CL10C151JB8NNNC | C107038 CC0603JRNPO9BN151 | 52,009 → 322,338 | $0.0266 → $0.0053 | B20 C10, C13 |
+| C162204 GRM1885C1H152JA01D | C107039 CC0603JRNPO9BN152 | 14,688 → 58,214 | $0.0194 → $0.0158 | B20 CI5, CI12 |
+| C2861552 INA301A3IDGKR | C179864 INA301A3QDGKTQ1 | 0 → 13 | $2.3969 → $3.5389 | B20 U11, U12 (spare C2155855) |
+| C515735 RT0603BRD0710K2L | C50670301 TC0325B1022T5F | 6,191 → 7,197 | $0.0540 → $0.0378 | B20 R33, RLM2 |
+| C861244 RT0603BRD0723K2L | C50670525 TC0325B2322T5F | 2,629 → 3,721 | $0.0535 → $0.0205 | B20 R42 |
+| C705764 RT0603BRD0730K1L | C2989442 TC0325B3012T5F | 2 → 2,145 | $0.0360 → $0.0230 | B20 RVX1 |
+| C861332 RT0603BRD0733RL | C2989252 TC0325B330JT5F | 0 → 23,593 | $0.0547 → $0.0262 | B20 R35 |
+| C861371 RT0603BRD073K09L | C50670209 TC0325B3091T5F | 195 → 2,176 | $0.0285 → $0.0190 | B20 R22, R31 |
+| C861616 RT0603BRD079K76L | C28994963 TC0325B9761T5F | 497 → 3,265 | $0.0503 → $0.0110 | B20 RLV1 |
+
+Because C192739 stays on P15 D9, the active set after adoption is 102 codes, not 101. That is a scoped adoption, not a
+missed line.
+
+## The required specification is kept for every adopted part
+
+- **Precision resistors.** All seven UNI-ROYAL parts carry the full `T5F` suffix: ±0.1 %, ±25 ppm/°C, 0.1 W at 70 °C,
+  75 V and −55 to 155 °C. The datasheet load-life limits match the previous RT parts' in the compared rows, but the test
+  conditions are not all the same; an initial 0.1 % part is not claimed to stay within 0.1 % at end of life. R35
+  (33 Ω) keeps its precision because the limiter window 1.94204–1.99556 A and floor 1.92899 A depend on it.
+- **C0G capacitors.** 150 pF and 1.5 nF stay C0G/NP0, 5 %, 50 V, 0603. C6 (47 pF) is retained; C105622 is recorded as
+  its backup only.
+- **JSCJ zeners.** A shared SOD-123 name does not make the parts compatible. The adopted parts use a
+  manufacturer-neutral footprint whose pads are identical to the previous land, and the thermal screen was kept. The
+  dominating case, P D9, stays at or below 88.314 mW at 22.56 V and 139.463 mW for an assumed continuous 28.35 V, including
+  initial resistor tolerance and a 100 ppm/°C sensitivity. JSCJ's 250 °C/W is a test-board value, not this PCB's thermal
+  resistance; 125 °C ambient combined with continuous 28.35 V is outside the screen, and no ambient rating is created.
+  The JSCJ temperature coefficients are typical columns and are recorded as typical.
+- **INA301.** The Q1 A3 variant keeps the gain, pins, gain error 0.2 %, VOS 35 µV, LIMIT 79.2–80.8 µA, and the 1 µs
+  and 1.5 µs delays with their conditions; RESET stays at GND, OUT is NC and the ALERT wiring is unchanged. A1, A2,
+  INA381 and INA300 change the circuit or response and are not BOM substitutes. 13 units in stock is not large stock.
+
+## Comparison cost is +$1.6274 for two pairs, not an order total
+
+Using the price tier for each board job's placement count, with PD20 assumed at two pairs only for comparison:
+
+- INA301: 4 × ($3.6223 − $2.7241) = +$3.5928.
+- The other 11 changes: −$1.9654.
+- Total versus the previous set: **+$1.6274**, mounted parts only.
+
+This assumes the previous zero-stock parts could be bought at their old price. It excludes extra purchase quantity,
+minimums, loss, setup, assembly, PCB, shipping and tax. It is not added to or subtracted from the earlier $527.34 catalog
+estimate. The PD20 quantity is undecided. Under Standard PCBA the $1.53 setup charge applies per unique SMT part for both
+Basic and Extended parts, so a Basic-to-Extended change is not itself a cost increase.
+
+## Unadopted backlog: two supply checks, one redesign and fifteen backups
+
+These remain conditional and are not applied.
+
+| Line | Status | What remains |
+|---|---|---|
+| B20 R66 C861076 RT0603BRD0710K4L (10.4 kΩ) | Supply check | JLC stock 11, `leastPatchNumber` 20, `lossNumber` 6. No in-stock JLC equivalent with the same value and precision found. Mouser listed the exact part, 8,215 units, $0.10 / 1 and $0.073 / 10 (2026-11-22 03:31:54 JST). Confirm Standard PCBA use at the real quantity or external sourcing, consignment, packing, shipping and lead time. Do not add external stock to JLC stock or change to 10.5 kΩ |
+| Board P D5 C523793 TVS2200DRVR | Supply check | JLC stock 2, `minPurchaseNum` 21, `leastPatchNumber` 5. A documented conditional backup exists but is not approved; no same-name automatic substitution |
+| B20 CAF1, CBF1, CCF1, CSO3 C136280 25SVPF47M | Redesign only | Two cheaper candidates with equal or better electrical ratings recommend 1.6 mm land width against the current 1.2 mm; a footprint revision is needed |
+| B20 L1–L7 C1334133 ASPI-0630LR-100M-T15 | Backup | Sunlord candidate matches the land but its 30 V absolute limit, saturation and temperature definitions and the E23 current-limit neighborhood are unverified |
+| B20 C6 C1671 (47 pF) | Backup | C105622 fits but saves $0.0015 per board with less stock |
+| B20 RSH2 C164156 PE1206FRF470R02L | Backup | Candidates differ in copper condition of the rating or recommended land |
+| Twelve B20 precision resistor codes (R58, RVU2, R36, RVU1, R68, R30, R57/R62, R7, R38, R47, R10/RVR1/RVR2, R46) | Backup | Equivalent TC or Viking candidates recorded; current supply is good and the per-board difference is small |
+
+## Adoption and package state
+
+The adoption updated the component owners, inventory, pin locks, symbols, the neutral SOD-123 footprint and model,
+integration rules and forward test, the generator specs, the Board P and B20 schematics and PCBs, and the publication
+selection. The Board P r3 rebuild and B20 field sync changed only the library identity of the zener footprints and
+the adopted Value and LCSC fields. Native DRC has 0 errors and 0 unconnected items on both boards.
+
+Manufacturing outputs for the new part set are generated in a new destination,
+`manufacturing/releases/pd20-sourcing-review-20261122/`; `pd20-prototype-review/` and `corner-support-review/` are kept
+unchanged. See [current state](../project/current-state.md) for the package and check status.
+
+Electrical acceptance is NOT ESTABLISHED and T1–T8 are NOT RUN. Before an order, re-check the adopted codes' stock,
+INA301 in particular, at the real quantity.

@@ -31,6 +31,38 @@
       "blocking_fact_ids": [
         "fact-c2861552-candidate-scope"
       ]
+    },
+    {
+      "coverage_id": "cov-c179864-primary-specification",
+      "record_id": "rec-c179864",
+      "domain": "primary-specification",
+      "status": "COVERED",
+      "reason": "TI SBOS786B retrieved and hashed 2026-11-21 UTC.",
+      "fact_ids": [
+        "fact-c179864-manufacturer",
+        "fact-c179864-vcm",
+        "fact-c179864-vos",
+        "fact-c179864-gain-error",
+        "fact-c179864-ilimit",
+        "fact-c179864-cmp-offset",
+        "fact-c179864-tp",
+        "fact-c179864-temperature-grade"
+      ],
+      "blocking_fact_ids": []
+    },
+    {
+      "coverage_id": "cov-c179864-placement",
+      "record_id": "rec-c179864",
+      "domain": "placement",
+      "status": "OPEN",
+      "reason": "Placed on the unvalidated board-b20-draft; no assembly, bench or as-built record.",
+      "fact_ids": [
+        "fact-c179864-board-role",
+        "fact-c179864-land-pattern"
+      ],
+      "blocking_fact_ids": [
+        "fact-c179864-board-role"
+      ]
     }
   ]
 }

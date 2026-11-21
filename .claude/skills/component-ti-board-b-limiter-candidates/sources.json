@@ -39,6 +39,45 @@
       "identity_extract_sha256": "b3aa3368691e4481c0ca51ba871ef97e769d58303f4200cdd7aaffab20bde597",
       "refresh_policy": "VOLATILE-HTML",
       "refresh_note": "JLCPCB parts API selectSmtComponentList read 2026-10-31 (read only, no cart or quote); stock 41, volatile. Live HTML and API bytes are not deterministic; the exact identity extract is locked separately."
+    },
+    {
+      "source_id": "src-c179864-primary",
+      "record_id": "rec-c179864",
+      "document_title": "INA301-Q1 36-V, Automotive, High-Speed, Zero-Drift, Voltage-Output Current-Shunt Monitor With High-Speed, Overcurrent Protection Comparator",
+      "document_number": "SBOS786B",
+      "revision": "B (revised April 2022)",
+      "document_date": "2022-04-01",
+      "authoritative_url": "https://www.ti.com/lit/ds/symlink/ina301-q1.pdf",
+      "alternate_authoritative_url": "https://www.ti.com/product/INA301-Q1",
+      "retrieval_date": "2026-11-21",
+      "authority_class": "MANUFACTURER_PRIMARY",
+      "sha256": "8e975f2c8547955b75f4a0a54412a5fdde9f5c5f28443aea182fd3404cf2deda",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 4,
+      "printed_page_label": "5",
+      "locator": "Table 5-1 Pin Functions page 3; 6.1 Absolute Maximum Ratings page 4; 6.5 Electrical Characteristics pages 5-6; Package option addendum (orderable INA301A3QDGKTQ1 row) physical page 27; DGK0008A example board layout 4214862/A physical page 32",
+      "evidence_extract": "TI SBOS786B (April 2016, revised April 2022), PDF metadata creation 2025-11-10; retained in Takazudo/circuit-dev-resources texas-instruments/ina301-q1/ina301-q1-datasheet-sbos786b.pdf. AEC-Q100 grade 1, -40..125 C ambient. DGK pins: 1 VS, 2 OUT, 3 LIMIT, 4 GND, 5 RESET, 6 ALERT (active-low open drain), 7 IN-, 8 IN+. EC TA 25 C VS 5 V: VCM 0..36 V; INA301A3-Q1 VIN 0..50 mV; VOS +/-35 uV max; drift 0.5 uV/C max -40..125 C; gain 100 V/V; gain error +/-0.2 % max (VOUT 0.5 V to VS-0.5 V), 10 ppm/C max -40..125 C; total alert propagation delay 1 us max at 1 mV overdrive; slew-rate-limited tp 1.5 us max (VOUT step 0.5..4.5 V, VLIMIT 4 V); ILIMIT 79.7..80.3 uA at 25 C and 79.2..80.8 uA -40..125 C; comparator VOS 4.5 mV max (A3), hysteresis 100 mV typ. Abs max VS 6 V; IN+/IN- common mode GND-0.3..40 V. Orderable INA301A3QDGKTQ1: Active, VSSOP (DGK) 8, 250 small T&R, -40..125 C, marking ZGJ6. Example board layout 4214862/A: 8X 1.4 x 0.45 mm pads, 0.65 mm pitch, 4.4 mm row span (same drawing as the INA301A3IDGKR SBOS713A land)."
+    },
+    {
+      "source_id": "src-c179864-identity",
+      "record_id": "rec-c179864",
+      "document_title": "INA301A3QDGKTQ1 distributor identity",
+      "document_number": "C179864",
+      "revision": "2026-11-21",
+      "document_date": "2026-11-21",
+      "authoritative_url": "https://jlcpcb.com/partdetail/TexasInstruments-INA301A3QDGKTQ1/C179864",
+      "alternate_authoritative_url": "",
+      "retrieval_date": "2026-11-21",
+      "authority_class": "DISTRIBUTOR_IDENTITY",
+      "sha256": "8ccc1fd90abb8715a314553928f32c4d48450040cc23aa705eaba7e5775676f5",
+      "availability": "AVAILABLE",
+      "physical_pdf_page_index": 0,
+      "printed_page_label": "web",
+      "locator": "Product identity table manufacturer/MPN/LCSC/package rows",
+      "evidence_extract": "{\"lcsc\": \"C179864\", \"manufacturer\": \"Texas Instruments\", \"mpn\": \"INA301A3QDGKTQ1\", \"variant\": \"INA301A3-Q1 gain 100 V/V automotive current-sense amplifier with comparator, VSSOP-8 small reel\"}",
+      "identity_extract_sha256": "8ccc1fd90abb8715a314553928f32c4d48450040cc23aa705eaba7e5775676f5",
+      "refresh_policy": "VOLATILE-HTML",
+      "refresh_note": "JLCPCB parts API selectSmtComponentList read 2026-11-21T19:19:40+00:00 (read only, no cart, quote or reservation); componentCode C179864, brand Texas Instruments, model INA301A3QDGKTQ1, stock 13, minPurchaseNum 1, leastPatchNumber 0, lossNumber 0; the raw API response is not deterministic because prices and stock change. Raw response sha256 f44b808d40db6bb4849ac1c56d036c4d8aef7fde8ae08cec9f755f41a75d35d0 (signed asset URLs redacted in manufacturing/readiness/parts-sourcing-audit-20261122/adoption-recheck-20261121.json). The exact identity extract is locked separately."
     }
   ]
 }

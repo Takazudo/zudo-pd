@@ -8,7 +8,7 @@ inputs, supplier review and physical qualification. It is not an order authoriza
 | --- | --- | --- | --- | --- |
 | Shared P15 r1 | None | Fixed package `manufacturing/releases/corner-support-review/board-p15/`, [handoff](p15-order-handoff.md) | Owner: upload, two assembled sets, D5 / D9 placement preview, current quote | P15-NVM-1–7, then LED first |
 | PD15 | None for ordering: no new Board B is ordered | P15 only; reuse the received S3 Board B | Same as P15 | Board B unpowered check, staged PD15 bring-up |
-| PD20 | **None.** D1–D12 each have an explicit disposition below; D10–D12 left the hold list on 2026-11-20 and D2 after its 2026-11-20 retiming | Revision-bound package `manufacturing/releases/pd20-prototype-review/`, [order sheet](releases/pd20-prototype-review/ORDER-SHEET.md) | Owner: quantity decision; exact-part supply for the six flagged lines (zero stock U11, U12, R35; below the two-pair need, minimum-purchase or least-patch fields B20 RVX1, R22/R31, R66 and Board P D5; re-read 2026-11-20 18:16 UTC), by pre-order or supplier matching, with no substitution only to clear a stock warning; upload-file integrity check; two-sided assembly settings, bottom-side rotation and via/stencil review in the supplier preview; current quote | Per-unit NVM provisioning once a 20 V image is reviewed (T4), T1–T8 |
+| PD20 | **None.** D1–D12 each have an explicit disposition below; D10–D12 left the hold list on 2026-11-20 and D2 after its 2026-11-20 retiming | Revision-bound package `manufacturing/releases/pd20-sourcing-review-20261122/`, [order sheet](releases/pd20-sourcing-review-20261122/ORDER-SHEET.md) (12 reviewed substitutions under the [sourcing policy](../doc/src/content/docs/decisions/sourcing.mdx), 2026-11-22; `pd20-prototype-review/` kept as history) | Owner: quantity decision; supply at that quantity for B20 R66 and Board P D5 (exact parts kept) and the adopted INA301A3QDGKTQ1 C179864 (13 observed), and a re-check of every adopted code; upload-file integrity check; two-sided assembly settings, bottom-side rotation and via/stencil review in the supplier preview; current quote | Per-unit NVM provisioning once a 20 V image is reviewed (T4), T1–T8 |
 | LED Lamp | None: 0 new Board L | P15 from the shared order | — | LED preparation and arrival sequence |
 
 “No pre-order hold” means every open item needs an assembled board or a supplier preview to close. It is not electrical
@@ -158,7 +158,14 @@ netlist/owner checks do not turn it into full electrical qualification.
 
 ## Revision-bound development package
 
-Current package: `releases/pd20-prototype-review/` (2026-11-20), with its
+Current package: `releases/pd20-sourcing-review-20261122/` (2026-11-22), with its
+[order sheet](releases/pd20-sourcing-review-20261122/ORDER-SHEET.md) and
+[evidence](verification/pd20-sourcing-review-20261122/README.md): the 12 substitutions adopted under the
+[sourcing policy](../doc/src/content/docs/decisions/sourcing.mdx), manifest `940e805f…`, B20 PCB `b4de1f6b…`, Board P r3
+PCB `3cc1affe…`, DRC 0 errors and 0 unconnected on both boards, pair preview and `verify-jlcpcb.py --write` PASS,
+upload-file integrity PASS 6/6; counts and both `cpl.csv` files unchanged. The superseded package below is kept as history.
+
+Superseded package: `releases/pd20-prototype-review/` (2026-11-20), with its
 [order sheet](releases/pd20-prototype-review/ORDER-SHEET.md) and
 [evidence](verification/pd20-order-package-20261120/README.md), plus the
 [pre-order closeout evidence](verification/pd20-order-closeout-20261121/README.md) (upload-file integrity PASS 6/6, pad-1 polarity

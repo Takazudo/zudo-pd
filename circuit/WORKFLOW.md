@@ -164,7 +164,7 @@ The validator recomputes the arithmetic. **Arithmetic is not dimensional proof:*
 
 ## Workflow B — add or replace an exact component
 
-**Input:** an exact part or link, its function, a proposed placement, or a requested substitution. The step-by-step checklist is [new-component-workflow.md](../.claude/skills/component-spec-audit/references/new-component-workflow.md).
+**Input:** an exact part or link, its function, a proposed placement, or a requested substitution. For a choice driven by supply or cost, first read the [sourcing policy](../doc/src/content/docs/decisions/sourcing.mdx) (required specification per part type, separate JLC quantity fields, setup cost per unique part, adoption scope per board and reference). The step-by-step checklist is [new-component-workflow.md](../.claude/skills/component-spec-audit/references/new-component-workflow.md).
 
 1. **Resolve identity:** manufacturer, complete MPN with suffix and package variant, supplier order codes, and population intent (fitted, not fitted, hand-fitted, external).
 2. **Find or create the owner.** Reuse an existing owner bundle, or create one:

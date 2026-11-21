@@ -20,6 +20,10 @@ dec-e-q1-20v-gate-guard zener clamp across the Q1 gate-source (cathode/pin 1 on
 VBUS_IN = Q1 source, anode/pin 2 on Net-(Q1-G)). `line_id` is set and
 `candidate_id` is null.
 
+Board P r3 D8/D13 and B20 D4/DZ1/DZ2/DZ3 used this part until the 2026-11-22 JST sourcing
+adoption (#326); they are now JSCJ BZT52C11 C14941, owned by `component-jscj-bzt52-zeners`.
+A JSCJ BZT52C11 is a different part from this Diodes record.
+
 The exact BZT52C11 row of DS18004 Rev. 38-2 gives VZ 10.4-11.6 V at IZT 5 mA —
 exactly the decision-locked window — with IR 0.1 uA guaranteed only at VR 8.0 V,
 below the 9.62 V divider operating point at the 15 V contract. Sub-knee conduction

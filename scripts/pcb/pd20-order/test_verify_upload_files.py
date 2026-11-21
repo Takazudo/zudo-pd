@@ -155,7 +155,7 @@ class VerifyUploadFiles(unittest.TestCase):
         with redirect_stdout(out):
             self.assertEqual(vuf.main([]), 0)
         self.assertIn('UPLOAD FILE INTEGRITY: PASS (6/6', out.getvalue())
-        self.assertIn('pinned manifest f430a76a… matched', out.getvalue())
+        self.assertIn('pinned manifest 940e805f… matched', out.getvalue())
         self.assertNotIn('populated-stack.step', out.getvalue())
 
 

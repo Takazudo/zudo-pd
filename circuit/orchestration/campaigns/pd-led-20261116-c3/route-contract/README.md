@@ -9,3 +9,12 @@ This read-only check follows the independently accepted C3d in-memory feasibilit
 **Integration calculation gap:** C3c translates the nine LED calculations' structured `fact_ids`, but does not translate their `calculation_id` values or embedded fact aliases in `expression`. None of the nine current calculation IDs collides with PD, so this is not a present anchor collision. The installed Python rule validator derives expression variable names from `fact_ids` (`fact-id` to `fact_id`); applying the structured translation alone would leave all nine calculation expressions referring to old symbols. A later serialized canonical implementation must review each calculation ID, structured fact list and expression together, with validator/scenario tests. `result.json` lists every affected calculation and old symbol. No historical rule or proposal byte was changed here.
 
 Seven focused Node tests, C3c deterministic regeneration and `pnpm circuit:check` pass under two-CPU affinity and a 4 GiB inherited per-process address-space limit. Maximum child RSS was 55,160 KiB for focused tests, 30,956 KiB for regeneration and 112,220 KiB for the project check. Aggregate memory peak across simultaneous children was not measured. Native CAD, full build/generated pages, CI, PR, merge, deployment and physical validation are NOT RUN. The 463 textual ID locations, exact identity/SMAJ CAD, DNP, publication, private-resource and #307 holds remain. Independent review of this corrected exact head is required before Moya uses the findings for a canonical implementation brief.
+
+**2026-11-22 current-evidence regeneration (#326).** The PD20 sourcing adoption added two PD owner bundles and changed
+PD evidence, rules, the inventory, the selection, the reviewed package patch and the lockfile. `translation/propose.py`
+then regenerated `proposal.json`: only the source locks and PD counts changed (2,870 → 3,085 PD definitions); every LED
+mapping, shared-ID count and reference translation is unchanged. The accepted `result.json` is kept unchanged as the baseline. The current `check.mjs`
+output reports 157 PD record routes and 43 locked PD manifests, no route or anchor collision, and the same 35 legacy LED
+route pairs. `../../pd-led-20261117-integration/c3-input-rebind.json` names that exact count/hash delta and the current
+PD bytes; `c3_c5_decisions.py` accepts only that delta and checks that the reconciled overlaps still hold. The C3
+reconciliation is not rewritten.

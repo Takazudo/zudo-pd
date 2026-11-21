@@ -1,0 +1,2418 @@
+{
+  "schema_version": 1,
+  "category": "general_resistors",
+  "part_count": 15,
+  "reviewed_at_utc": "2026-11-21T18:14:24.019369+00:00",
+  "rows": [
+    {
+      "code": "C21189",
+      "mpn": "0603WAF0000T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "R19",
+            "R20",
+            "R21"
+          ]
+        },
+        {
+          "board": "board-p15",
+          "refs": [
+            "R19",
+            "R20",
+            "R21"
+          ]
+        }
+      ],
+      "role": "Board P/P15 のCC関連ジャンパ・RESET対GND接続。0 ohmは許容差より残留抵抗と許容電流を評価する。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行約1,560万個、対案約262万個。対案は0.0003 USD安いだけで、供給改善なし。既存のzero-ohm jumperを維持し、別メーカーの最大残留抵抗・電流を未確認のまま交換しない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:05:54.302749+00:00",
+        "http_status": 200,
+        "raw_sha256": "dfa46ec05065d345f724ea2f80f5ea648e1a5dcdccd9e306def12c2af964607a",
+        "model": "0603WAF0000T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 15601637,
+        "describe": "-55℃~+155℃ 0Ω 100mW 75V Thick Film Resistor ±1% 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0021
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0016
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0014
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0012
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0011
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0011
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/21903-0603WAF0000T5E/C21189",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 0Ω 100mW 75V Thick Film Resistor ±1% 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603JR-070RL",
+          "retrieved_utc": "2026-11-21T18:07:20.870264+00:00",
+          "returned_count": 1,
+          "raw_sha256": "4b43fdb6565f206afbddfa91e62b93279bb72673949461467010e74390fd9490",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C95177",
+          "mpn": "RC0603JR-070RL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C95177",
+            "componentModelEn": "RC0603JR-070RL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 2619731,
+            "describe": "-55℃~+155℃ 0Ω 100mW 75V Thick Film Resistor ±5% 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0018
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0013
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0011
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.001
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0009
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0009
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603JR070RL/C95177"
+          },
+          "retrieved_utc": "2026-11-21T18:07:20.870264+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603JR070RL/C95177",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": 0.0018
+    },
+    {
+      "code": "C21190",
+      "mpn": "0603WAF1001T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "R14",
+            "R28",
+            "R29"
+          ]
+        },
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "RCP1",
+            "RCP2",
+            "RCP3"
+          ]
+        },
+        {
+          "board": "board-p15",
+          "refs": [
+            "R29"
+          ]
+        }
+      ],
+      "role": "Board P/P15のSTUSB4500周辺直列抵抗、B20 RCP1–RCP3のランプ信号直列抵抗。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:05:54.402746+00:00",
+        "http_status": 200,
+        "raw_sha256": "bb05f69ed9068f6319dcc3c36830358cd7d94deff291966cb9f11eb874ad7080",
+        "model": "0603WAF1001T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 40557802,
+        "describe": "-55℃~+155℃ 100mW 1kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0016
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0013
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0011
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0009
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0008
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0008
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/21904-0603WAF1001T5E/C21190",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 1kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-071KL",
+          "retrieved_utc": "2026-11-21T18:07:20.870911+00:00",
+          "returned_count": 1,
+          "raw_sha256": "24d98387c966dd41f12ac186c374df12014b092a48816f9ed9ad4a9e41855992",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C22548",
+          "mpn": "RC0603FR-071KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C22548",
+            "componentModelEn": "RC0603FR-071KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 12613792,
+            "describe": "-55℃~+155℃ 100mW 1kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0036
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0026
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0022
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0019
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0017
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0017
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR071KL/C22548"
+          },
+          "retrieved_utc": "2026-11-21T18:07:20.870911+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR071KL/C22548",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.024
+    },
+    {
+      "code": "C25803",
+      "mpn": "0603WAF1003T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "R31",
+            "R32"
+          ]
+        },
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R37",
+            "R41",
+            "R45",
+            "R51",
+            "R52",
+            "R53",
+            "R54",
+            "R56",
+            "R60",
+            "R74",
+            "RE2",
+            "RF3",
+            "RP1",
+            "RP2",
+            "RSQ1",
+            "RSQ2",
+            "RSQ3"
+          ]
+        },
+        {
+          "board": "board-p15",
+          "refs": [
+            "R11",
+            "R22",
+            "R23"
+          ]
+        }
+      ],
+      "role": "Board P/P15のgate/divider・pull抵抗、B20のpull/bias/logic関連17箇所。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行在庫約1,305万個、対案約992万個。対案単価は0.0009 USD低いが、PD20 2pairの搭載38個では0.0342 USDの差にとどまる。供給改善がなく、今回の変更優先度は低い。Basic区分によるStandard料金免除を理由にはしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:10.422522+00:00",
+        "http_status": 200,
+        "raw_sha256": "f871669485d3ed25864340a751bedde5be5a5ef20f70c81ca6e62b0536b6fb09",
+        "model": "0603WAF1003T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 13046814,
+        "describe": "-55℃~+155℃ 100kΩ 100mW 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0029
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0023
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.002
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0016
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0015
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0015
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/26546-0603WAF1003T5E/C25803",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100kΩ 100mW 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-07100KL",
+          "retrieved_utc": "2026-11-21T18:07:25.635744+00:00",
+          "returned_count": 1,
+          "raw_sha256": "06d24985178f7646f5f1c1bb9e92aa77a415f3e9e7931e7352ad9baa4288a543",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C14675",
+          "mpn": "RC0603FR-07100KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C14675",
+            "componentModelEn": "RC0603FR-07100KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 9922318,
+            "describe": "-55℃~+155℃ 100kΩ 100mW 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.002
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0015
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0013
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0011
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.001
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.001
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR07100KL/C14675"
+          },
+          "retrieved_utc": "2026-11-21T18:07:25.635744+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR07100KL/C14675",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Exact manufacturer specsheet confirms value, 0603, 1%, ±100ppm/C, 0.1W at70C, 75V, −55..155C; body1.6×0.8×0.45mm nominal. Still not an adopted or bench-qualified replacement.",
+          "primary_source": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-07100KL"
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+        "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-07100KL"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": 0.0342
+    },
+    {
+      "code": "C22807",
+      "mpn": "0603WAF1503T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "R11",
+            "R27"
+          ]
+        },
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "RHO1",
+            "RHO2",
+            "RRDY1",
+            "RRDY2"
+          ]
+        },
+        {
+          "board": "board-p15",
+          "refs": [
+            "R12"
+          ]
+        }
+      ],
+      "role": "Board P/P15のbias、B20のhold/ready信号抵抗。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:05:59.693463+00:00",
+        "http_status": 200,
+        "raw_sha256": "7a8d5feeea682a7ed1971db16681ba29896f348503ed0a28d9d5b148c52ebd04",
+        "model": "0603WAF1503T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 785117,
+        "describe": "-55℃~+155℃ 100mW 150kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0017
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0013
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0011
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.001
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0008
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0008
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23534-0603WAF1503T5E/C22807",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 150kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-07150KL",
+          "retrieved_utc": "2026-11-21T18:07:25.642415+00:00",
+          "returned_count": 1,
+          "raw_sha256": "c43d8f5b8598c9776b13b36fd3a404f87f96b7a955bc6af3a6f2207e6dc36dca",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C114660",
+          "mpn": "RC0603FR-07150KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C114660",
+            "componentModelEn": "RC0603FR-07150KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 278509,
+            "describe": "-55℃~+155℃ 100mW 150kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0039
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0031
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0027
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0025
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0023
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0023
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR07150KL/C114660"
+          },
+          "retrieved_utc": "2026-11-21T18:07:25.642415+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR07150KL/C114660",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0264
+    },
+    {
+      "code": "C23179",
+      "mpn": "0603WAF4700T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "R30"
+          ]
+        },
+        {
+          "board": "board-p15",
+          "refs": [
+            "R13",
+            "R14",
+            "R30"
+          ]
+        }
+      ],
+      "role": "Board P/P15のSTUSB4500 VDD/discharge経路。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:05.002631+00:00",
+        "http_status": 200,
+        "raw_sha256": "7b3eb66088bbdfc6d82a383bafc7b449b42cf9135db3876707dcb0b4235c0c9d",
+        "model": "0603WAF4700T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 4052072,
+        "describe": "-55℃~+155℃ 100mW 470Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0019
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0015
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0013
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.001
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0009
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0009
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23906-0603WAF4700T5E/C23179",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 470Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-07470RL",
+          "retrieved_utc": "2026-11-21T18:07:30.302568+00:00",
+          "returned_count": 1,
+          "raw_sha256": "0324bbcbb41e7c6cbfb80c78a24686a1fc02c0f20e5d339a2937da0f2b3a1152",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C114669",
+          "mpn": "RC0603FR-07470RL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C114669",
+            "componentModelEn": "RC0603FR-07470RL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 822989,
+            "describe": "-55℃~+155℃ 100mW 470Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0027
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0021
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0017
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0015
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0013
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0013
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR07470RL/C114669"
+          },
+          "retrieved_utc": "2026-11-21T18:07:30.302568+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR07470RL/C114669",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0016
+    },
+    {
+      "code": "C23162",
+      "mpn": "0603WAF4701T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "R12",
+            "R13"
+          ]
+        },
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R48",
+            "R61",
+            "RE1",
+            "RF2",
+            "RSQ4"
+          ]
+        }
+      ],
+      "role": "Board P gate/discharge、B20 enable/fault/sequence関連。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:04.863569+00:00",
+        "http_status": 200,
+        "raw_sha256": "c988678c178e5d1f2971c8d25d66a3de986566e78a8ec01a570bd0a7db9439cb",
+        "model": "0603WAF4701T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 19312697,
+        "describe": "-55℃~+155℃ 100mW 4.7kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0028
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0022
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0019
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0016
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0015
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0015
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23889-0603WAF4701T5E/C23162",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 4.7kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-074K7L",
+          "retrieved_utc": "2026-11-21T18:07:30.314436+00:00",
+          "returned_count": 1,
+          "raw_sha256": "34ce3e08ff9f9dac0c7416c4d1610a66f542ddd69e28e0a313fcc690f639016d",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C99782",
+          "mpn": "RC0603FR-074K7L",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C99782",
+            "componentModelEn": "RC0603FR-074K7L",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 8234963,
+            "describe": "-55℃~+155℃ 100mW 4.7kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0032
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0023
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0019
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0017
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0015
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0015
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR074K7L/C99782"
+          },
+          "retrieved_utc": "2026-11-21T18:07:30.314436+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR074K7L/C99782",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0056
+    },
+    {
+      "code": "C25741",
+      "mpn": "0402WGF1003TCE",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R77",
+            "R78",
+            "R79",
+            "R80"
+          ]
+        }
+      ],
+      "role": "B20 R77–R80、OPA2187 comparator入力直列抵抗。D12保護条件に関係する。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:10.366721+00:00",
+        "http_status": 200,
+        "raw_sha256": "bbb693915918653c1a988f87c650ab35adc8d4c4b72132d6b21a8bf98292db53",
+        "model": "0402WGF1003TCE",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0402",
+        "stock": 12002658,
+        "describe": "-55℃~+155℃ 100kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0009
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 2999,
+            "productPrice": 0.0007
+          },
+          {
+            "startNumber": 3000,
+            "endNumber": 9999,
+            "productPrice": 0.0006
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0005
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0005
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0005
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 12,
+        "url": "https://jlcpcb.com/partdetail/26484-0402WGF1003TCE/C25741",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0402FR-07100KL",
+          "retrieved_utc": "2026-11-21T18:07:35.634774+00:00",
+          "returned_count": 1,
+          "raw_sha256": "9a732a2aea4d1b434e42dc62a4d8232a1a179ecb297819997ee5c7e39dba6a2e",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C60491",
+          "mpn": "RC0402FR-07100KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C60491",
+            "componentModelEn": "RC0402FR-07100KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0402",
+            "stockCount": 14627977,
+            "describe": "-55℃~+155℃ 100kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0019
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 2999,
+                "productPrice": 0.0014
+              },
+              {
+                "startNumber": 3000,
+                "endNumber": 9999,
+                "productPrice": 0.0012
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0011
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0009
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0009
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 14,
+            "urlSuffix": "YAGEO-RC0402FR07100KL/C60491"
+          },
+          "retrieved_utc": "2026-11-21T18:07:35.634774+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0402FR07100KL/C60491",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.008
+    },
+    {
+      "code": "C25804",
+      "mpn": "0603WAF1002T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R2",
+            "R49",
+            "R81"
+          ]
+        }
+      ],
+      "role": "B20 R2/R49/R81の10k一般抵抗。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:10.430468+00:00",
+        "http_status": 200,
+        "raw_sha256": "61f7713540a2e28951481c8a50a3cf1652b405c5fa6cb1dc389bcafa9fa3ade8",
+        "model": "0603WAF1002T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 42580878,
+        "describe": "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0017
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0013
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0012
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0011
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.001
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.001
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/26547-0603WAF1002T5E/C25804",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-0710KL",
+          "retrieved_utc": "2026-11-21T18:07:35.714517+00:00",
+          "returned_count": 1,
+          "raw_sha256": "aee876207fa1347aff282f4452e3125e821bf920d8f67953df25198134f11977",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C98220",
+          "mpn": "RC0603FR-0710KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C98220",
+            "componentModelEn": "RC0603FR-0710KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 9505610,
+            "describe": "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0023
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0017
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0015
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0013
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0011
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0011
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 15,
+            "urlSuffix": "YAGEO-RC0603FR0710KL/C98220"
+          },
+          "retrieved_utc": "2026-11-21T18:07:35.714517+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR0710KL/C98220",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0036
+    },
+    {
+      "code": "C22935",
+      "mpn": "0603WAF1004T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R82",
+            "RJ5",
+            "RJ12"
+          ]
+        }
+      ],
+      "role": "B20 R82/RJ5/RJ12、1M bias/補償関連。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:05:59.706943+00:00",
+        "http_status": 200,
+        "raw_sha256": "42aac907b329d7f23402e5f9bc95b1cd4126ab22f07ae68f4c165564710508d1",
+        "model": "0603WAF1004T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 5661552,
+        "describe": "-55℃~+155℃ 100mW 1MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0018
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0014
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0012
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.001
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0009
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0009
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23662-0603WAF1004T5E/C22935",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 1MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-071ML",
+          "retrieved_utc": "2026-11-21T18:07:40.162701+00:00",
+          "returned_count": 1,
+          "raw_sha256": "ce82726a023a55fabac39b95be10970b9f613498d4a2bdb0a8d52e718dafa8b6",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C105578",
+          "mpn": "RC0603FR-071ML",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C105578",
+            "componentModelEn": "RC0603FR-071ML",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 3519373,
+            "describe": "-55℃~+155℃ 100mW 1MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.002
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0016
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0013
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0012
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0011
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0011
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR071ML/C105578"
+          },
+          "retrieved_utc": "2026-11-21T18:07:40.162701+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR071ML/C105578",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0012
+    },
+    {
+      "code": "C7250",
+      "mpn": "0603WAF1005T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R40",
+            "R44",
+            "R50"
+          ]
+        }
+      ],
+      "role": "B20 R40/R44/R50の高抵抗帰還・hysteresis関連。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:07:02.534623+00:00",
+        "http_status": 200,
+        "raw_sha256": "427ac7739b0820f85be4d338b0494d771cd83c92c3c0d47e4897d307fe30be98",
+        "model": "0603WAF1005T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 883286,
+        "describe": "-55℃~+155℃ 100mW 10MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0022
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0017
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0014
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0011
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.001
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.001
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/7726-0603WAF1005T5E/C7250",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 10MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-0710ML",
+          "retrieved_utc": "2026-11-21T18:07:40.190465+00:00",
+          "returned_count": 1,
+          "raw_sha256": "c2ef47729eeafe9cd3f22e3e4252ff43c2f8bf781ddf45b1eb197ac243072bdf",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C114606",
+          "mpn": "RC0603FR-0710ML",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C114606",
+            "componentModelEn": "RC0603FR-0710ML",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 2382818,
+            "describe": "-55℃~+155℃ 100mW 10MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0028
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0021
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0018
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0017
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0014
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0014
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR0710ML/C114606"
+          },
+          "retrieved_utc": "2026-11-21T18:07:40.190465+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR0710ML/C114606",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0036
+    },
+    {
+      "code": "C23153",
+      "mpn": "0603WAF3902T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "RAEN2",
+            "RBEN2",
+            "RCEN2"
+          ]
+        }
+      ],
+      "role": "B20 RAEN2/RBEN2/RCEN2のenable分圧下側。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:05:59.714698+00:00",
+        "http_status": 200,
+        "raw_sha256": "ff7e85c1c6f6f4b5a6e5759c794e3bc1801910d41dc1624f23e35bfa4059e18e",
+        "model": "0603WAF3902T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 759076,
+        "describe": "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0018
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0014
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0012
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.001
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0009
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0009
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23880-0603WAF3902T5E/C23153",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-0739KL",
+          "retrieved_utc": "2026-11-21T18:07:45.910932+00:00",
+          "returned_count": 1,
+          "raw_sha256": "9d9321db0787f190ef0c6e70b75021372ec4cc6fb12ebfbba59ee8256197a24c",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C163424",
+          "mpn": "RC0603FR-0739KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C163424",
+            "componentModelEn": "RC0603FR-0739KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 224008,
+            "describe": "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0042
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0033
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0028
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0026
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0023
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0023
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR0739KL/C163424"
+          },
+          "retrieved_utc": "2026-11-21T18:07:45.910932+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR0739KL/C163424",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0144
+    },
+    {
+      "code": "C23178",
+      "mpn": "0603WAF4703T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "RAEN1",
+            "RBEN1",
+            "RCEN1"
+          ]
+        }
+      ],
+      "role": "B20 RAEN1/RBEN1/RCEN1のenable分圧上側。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:04.922373+00:00",
+        "http_status": 200,
+        "raw_sha256": "6df478de889583e8a69eaaf9a439017254c1a5eebce9e1e001452091bdfd922d",
+        "model": "0603WAF4703T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 959784,
+        "describe": "-55℃~+155℃ 100mW 470kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.003
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0023
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.002
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0017
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0014
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0014
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23905-0603WAF4703T5E/C23178",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 470kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-07470KL",
+          "retrieved_utc": "2026-11-21T18:07:46.010515+00:00",
+          "returned_count": 1,
+          "raw_sha256": "a2f3f61f23fddfba8d81d85302eecd8ed6fb6f78ec76226fc399a81b7f6165d8",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C114622",
+          "mpn": "RC0603FR-07470KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C114622",
+            "componentModelEn": "RC0603FR-07470KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 475439,
+            "describe": "-55℃~+155℃ 100mW 470kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0033
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0026
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0022
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.002
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0018
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0018
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR07470KL/C114622"
+          },
+          "retrieved_utc": "2026-11-21T18:07:46.010515+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR07470KL/C114622",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0018
+    },
+    {
+      "code": "C23163",
+      "mpn": "0603WAF4704T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R28"
+          ]
+        }
+      ],
+      "role": "B20 R28=RJ12N、SV12N–C_FB間の4.7M補償抵抗。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行175,238個に対案13,373個で供給余裕は現行が大きい。対案は半額程度だが1個/B20なので2枚の搭載差額は0.0042 USD。メーカーexact specsheetで主要仕様は一致し、別メーカー候補として記録するが今回採用は維持。StandardではPreferred免除を仮定しない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:04.918494+00:00",
+        "http_status": 200,
+        "raw_sha256": "5c3727926ea0a92ba3e95b4c7d126dee2cdebb0b3ad0d129124790fe7c35f073",
+        "model": "0603WAF4704T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 175238,
+        "describe": "-55℃~+155℃ 100mW 4.7MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "expand",
+        "preferredComponentFlag": true,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0041
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0037
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0035
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0033
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0032
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0032
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23890-0603WAF4704T5E/C23163",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 4.7MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-074M7L",
+          "retrieved_utc": "2026-11-21T18:07:51.448888+00:00",
+          "returned_count": 1,
+          "raw_sha256": "276c605523cc8ed506796166b414ea8466c1d9ca9b5741dbb06810871e96898a",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C123423",
+          "mpn": "RC0603FR-074M7L",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C123423",
+            "componentModelEn": "RC0603FR-074M7L",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 13373,
+            "describe": "-55℃~+155℃ 100mW 4.7MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.002
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0015
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0013
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0012
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.001
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.001
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR074M7L/C123423"
+          },
+          "retrieved_utc": "2026-11-21T18:07:51.448888+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR074M7L/C123423",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Exact manufacturer specsheet confirms value, 0603, 1%, ±100ppm/C, 0.1W at70C, 75V, −55..155C; body1.6×0.8×0.45mm nominal. Still not an adopted or bench-qualified replacement.",
+          "primary_source": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-074M7L"
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf",
+        "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-074M7L"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": 0.0042
+    },
+    {
+      "code": "C23206",
+      "mpn": "0603WAF5602T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R55",
+            "R75"
+          ]
+        }
+      ],
+      "role": "B20 R55/R75の56k一般抵抗。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:06:10.274839+00:00",
+        "http_status": 200,
+        "raw_sha256": "331ebc302b94533a5ea847b2f5d71211780083e4936b1f9c37ed3a3ef12b7e07",
+        "model": "0603WAF5602T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 575695,
+        "describe": "-55℃~+155℃ 100mW 56kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0027
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0021
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0018
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0014
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0012
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0012
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/23933-0603WAF5602T5E/C23206",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 100mW 56kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0603FR-0756KL",
+          "retrieved_utc": "2026-11-21T18:07:51.462495+00:00",
+          "returned_count": 1,
+          "raw_sha256": "463d2bbe999973158b28deb267a916da9876ad9071f7919377f3ac4962a6da78",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C114630",
+          "mpn": "RC0603FR-0756KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C114630",
+            "componentModelEn": "RC0603FR-0756KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0603",
+            "stockCount": 317685,
+            "describe": "-55℃~+155℃ 100mW 56kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.0033
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.0026
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0022
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.002
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 50199,
+                "productPrice": 0.0018
+              },
+              {
+                "startNumber": 50200,
+                "endNumber": -1,
+                "productPrice": 0.0018
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0603FR0756KL/C114630"
+          },
+          "retrieved_utc": "2026-11-21T18:07:51.462495+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0603FR0756KL/C114630",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0024
+    },
+    {
+      "code": "C17414",
+      "mpn": "0805W8F1002T5E",
+      "category": "general_resistors",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R72",
+            "R73",
+            "RF1",
+            "RG1",
+            "RG2",
+            "RG3"
+          ]
+        }
+      ],
+      "role": "B20 R72/R73/RF1/RG1/RG2/RG3、0805の10k一般抵抗。旧Board Pの説明を現在用途に流用しない。",
+      "decision": "retain",
+      "selected_alternative": null,
+      "reason": "現行品は十分な公開在庫があり、比較した同値同サイズのYAGEO品より少量掲載単価が低い。値・精度・定格・既存のsource/placement対応を維持する。StandardのBasic/Extended料金差は採用理由にしていない。",
+      "current_catalog": {
+        "retrieved_utc": "2026-11-21T18:05:47.927144+00:00",
+        "http_status": 200,
+        "raw_sha256": "c6675f836cac11a7201b4fed55153f6f65bb9f5a25071dce6bb713bd65177599",
+        "model": "0805W8F1002T5E",
+        "brand": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0805",
+        "stock": 45509971,
+        "describe": "-55℃~+155℃ 10kΩ 125mW 150V Thick Film Resistor ±1% ±100ppm/℃ 0805 Chip Resistor - Surface Mount ROHS",
+        "componentLibraryType": "base",
+        "preferredComponentFlag": false,
+        "componentPrices": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0032
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 4999,
+            "productPrice": 0.0025
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0017
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 49999,
+            "productPrice": 0.0015
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": 50199,
+            "productPrice": 0.0013
+          },
+          {
+            "startNumber": 50200,
+            "endNumber": -1,
+            "productPrice": 0.0013
+          }
+        ],
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "url": "https://jlcpcb.com/partdetail/18102-0805W8F1002T5E/C17414",
+        "estimateDate": null
+      },
+      "required_specs": "-55℃~+155℃ 10kΩ 125mW 150V Thick Film Resistor ±1% ±100ppm/℃ 0805 Chip Resistor - Surface Mount ROHS",
+      "searches": [
+        {
+          "query": "RC0805FR-0710KL",
+          "retrieved_utc": "2026-11-21T18:07:56.750872+00:00",
+          "returned_count": 1,
+          "raw_sha256": "191bf4a2310860696f10de4ee9d0d966bbda294fa01b45a7e42a6e9e3e02e245",
+          "error": null
+        }
+      ],
+      "alternatives": [
+        {
+          "code": "C84376",
+          "mpn": "RC0805FR-0710KL",
+          "manufacturer": "YAGEO",
+          "catalog": {
+            "componentCode": "C84376",
+            "componentModelEn": "RC0805FR-0710KL",
+            "componentBrandEn": "YAGEO",
+            "componentSpecificationEn": "0805",
+            "stockCount": 2105408,
+            "describe": "-55℃~+155℃ 10kΩ 125mW 150V Thick Film Resistor ±1% ±100ppm/℃ 0805 Chip Resistor - Surface Mount ROHS",
+            "componentLibraryType": "expand",
+            "preferredComponentFlag": false,
+            "componentPrices": [
+              {
+                "startNumber": 1,
+                "endNumber": 999,
+                "productPrice": 0.004
+              },
+              {
+                "startNumber": 1000,
+                "endNumber": 4999,
+                "productPrice": 0.003
+              },
+              {
+                "startNumber": 5000,
+                "endNumber": 9999,
+                "productPrice": 0.0025
+              },
+              {
+                "startNumber": 10000,
+                "endNumber": 49999,
+                "productPrice": 0.0022
+              },
+              {
+                "startNumber": 50000,
+                "endNumber": 99999,
+                "productPrice": 0.0021
+              },
+              {
+                "startNumber": 100000,
+                "endNumber": -1,
+                "productPrice": 0.002
+              }
+            ],
+            "minPurchaseNum": 1,
+            "leastPatchNumber": 20,
+            "lossNumber": 10,
+            "urlSuffix": "YAGEO-RC0805FR0710KL/C84376"
+          },
+          "retrieved_utc": "2026-11-21T18:07:56.750872+00:00",
+          "source": "https://jlcpcb.com/partdetail/YAGEO-RC0805FR0710KL/C84376",
+          "status": "catalog-screened-not-adopted",
+          "electrical_assessment": "Catalog reports same value/package/tolerance/TCR and nominal ratings where applicable. Exact primary qualification is not complete unless separately stated. Zero-ohm tolerance text is not a useful compatibility criterion."
+        }
+      ],
+      "primary_sources": [
+        "https://www.uni-royal.cn/en/images/userfile/file/1668661899c56505e6d9ab55c7.pdf"
+      ],
+      "repo_sources": [
+        "scripts/schgen/board_p_spec.py",
+        "scripts/schgen/board_p15_spec.py",
+        "scripts/schgen/board_b20_spec.py",
+        "scripts/schgen/board_b20_components.py"
+      ],
+      "limitations": [
+        "No purchase, stock reservation, supplier quote, CAD edit, or bench qualification. Inventory is a dated observation."
+      ],
+      "standard_fee_basis": "https://jlcpcb.com/help/article/pcb-assembly-price",
+      "comparison_quantity": {
+        "board-p": 2,
+        "board-b20-draft": 2,
+        "board-p15": 2,
+        "pd20_quantity_confirmed": false
+      },
+      "installed_only_saving_usd_for_pd20_two_pairs": -0.0096
+    }
+  ]
+}

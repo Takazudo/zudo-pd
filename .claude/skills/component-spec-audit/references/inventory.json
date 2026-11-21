@@ -23,8 +23,8 @@
     }
   ],
   "assertions": {
-    "orderable_lines": 129,
-    "fitted_lines": 127,
+    "orderable_lines": 133,
+    "fitted_lines": 131,
     "dnp_or_hand_fit_lines": 2,
     "fitted_placements": 455,
     "dnp_placements": 12
@@ -219,7 +219,20 @@
           "board": "board-a",
           "refdes": "D8",
           "dnp": false
-        },
+        }
+      ]
+    },
+    {
+      "line_id": "line-c14941",
+      "mpn": "BZT52C11",
+      "manufacturer": "JSCJ",
+      "lcsc": "C14941",
+      "package": "SOD-123_Pad0.90x0.95mm_P3.15mm",
+      "owner_skill": "component-jscj-bzt52-zeners",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "11V zener diode, Q1 gate-source clamp (Board P D8 with redundant D13) and B20 pass-pair gate clamps",
+      "placements": [
         {
           "board": "board-p",
           "refdes": "D8",
@@ -228,6 +241,11 @@
         {
           "board": "board-p",
           "refdes": "D13",
+          "dnp": false
+        },
+        {
+          "board": "board-b20-draft",
+          "refdes": "D4",
           "dnp": false
         },
         {
@@ -244,11 +262,6 @@
           "board": "board-b20-draft",
           "refdes": "DZ3",
           "dnp": false
-        },
-        {
-          "board": "board-b20-draft",
-          "refdes": "D4",
-          "dnp": false
         }
       ]
     },
@@ -264,6 +277,24 @@
       "function": "18V zener diode, STUSB4500 local clamps (VDD, VBUS_EN_SNK, DISCH)",
       "placements": [
         {
+          "board": "board-p15",
+          "refdes": "D9",
+          "dnp": false
+        }
+      ]
+    },
+    {
+      "line_id": "line-c43490",
+      "mpn": "BZT52C18",
+      "manufacturer": "JSCJ",
+      "lcsc": "C43490",
+      "package": "SOD-123_Pad0.90x0.95mm_P3.15mm",
+      "owner_skill": "component-jscj-bzt52-zeners",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "18V zener diode, Board P STUSB4500 local clamps (VDD, VBUS_EN_SNK, DISCH)",
+      "placements": [
+        {
           "board": "board-p",
           "refdes": "D9",
           "dnp": false
@@ -276,11 +307,6 @@
         {
           "board": "board-p",
           "refdes": "D12",
-          "dnp": false
-        },
-        {
-          "board": "board-p15",
-          "refdes": "D9",
           "dnp": false
         }
       ]
@@ -1933,7 +1959,20 @@
           "board": "board-b",
           "refdes": "R23",
           "dnp": false
-        },
+        }
+      ]
+    },
+    {
+      "line_id": "line-c50670209",
+      "mpn": "TC0325B3091T5F",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C50670209",
+      "package": "R0603",
+      "owner_skill": "component-uniroyal-tc03-precision-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "3.09k 0.1% 0603 thin-film precision resistor",
+      "placements": [
         {
           "board": "board-b20-draft",
           "refdes": "R22",
@@ -1961,7 +2000,20 @@
           "board": "board-b",
           "refdes": "R24",
           "dnp": false
-        },
+        }
+      ]
+    },
+    {
+      "line_id": "line-c2989252",
+      "mpn": "TC0325B330JT5F",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C2989252",
+      "package": "R0603",
+      "owner_skill": "component-uniroyal-tc03-precision-resistors",
+      "identity_state": "VERIFIED",
+      "source_state": "AVAILABLE",
+      "function": "33 0.1% 0603 thin-film precision resistor",
+      "placements": [
         {
           "board": "board-b20-draft",
           "refdes": "R35",
@@ -2479,24 +2531,24 @@
       ]
     },
     {
-      "line_id": "line-c705781",
-      "mpn": "RT0603BRD074K02L",
-      "manufacturer": "YAGEO",
-      "lcsc": "C705781",
+      "line_id": "line-c46616054",
+      "mpn": "TC0325B4021T5F",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C46616054",
       "package": "R0603",
-      "owner_skill": "component-renewal-feedback-resistors",
+      "owner_skill": "component-uniroyal-tc03-precision-resistors",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "4.02 kOhm precision eFuse current-limit and UVLO divider resistor",
+      "function": "4.02k 0.1% 0603 thin-film precision resistor",
       "placements": [
         {
           "board": "board-p",
-          "refdes": "R26",
+          "refdes": "R23",
           "dnp": false
         },
         {
           "board": "board-p",
-          "refdes": "R23",
+          "refdes": "R26",
           "dnp": false
         },
         {
@@ -2526,12 +2578,12 @@
         },
         {
           "board": "board-b20-draft",
-          "refdes": "RDG12",
+          "refdes": "RDG5",
           "dnp": false
         },
         {
           "board": "board-b20-draft",
-          "refdes": "RDG5",
+          "refdes": "RDG12",
           "dnp": false
         }
       ]
@@ -2948,15 +3000,15 @@
       ]
     },
     {
-      "line_id": "line-c37298",
-      "mpn": "CL10C151JB8NNNC",
-      "manufacturer": "Samsung Electro-Mechanics",
-      "lcsc": "C37298",
+      "line_id": "line-c107038",
+      "mpn": "CC0603JRNPO9BN151",
+      "manufacturer": "YAGEO",
+      "lcsc": "C107038",
       "package": "C0603",
       "owner_skill": "component-board-b20-draft-candidates",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "Board B 20 V draft 150 pF C0G 0603 capacitor",
+      "function": "Board B 20 V draft 150pF C0G 0603 capacitor",
       "placements": [
         {
           "board": "board-b20-draft",
@@ -3040,15 +3092,15 @@
       ]
     },
     {
-      "line_id": "line-c162204",
-      "mpn": "GRM1885C1H152JA01D",
-      "manufacturer": "Murata Electronics",
-      "lcsc": "C162204",
+      "line_id": "line-c107039",
+      "mpn": "CC0603JRNPO9BN152",
+      "manufacturer": "YAGEO",
+      "lcsc": "C107039",
       "package": "C0603",
       "owner_skill": "component-board-b20-draft-candidates",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "Board B 20 V draft 1.5 nF C0G 0603 capacitor",
+      "function": "Board B 20 V draft 1.5nF C0G 0603 capacitor",
       "placements": [
         {
           "board": "board-b20-draft",
@@ -3273,15 +3325,15 @@
       ]
     },
     {
-      "line_id": "line-c515735",
-      "mpn": "RT0603BRD0710K2L",
-      "manufacturer": "YAGEO",
-      "lcsc": "C515735",
+      "line_id": "line-c50670301",
+      "mpn": "TC0325B1022T5F",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C50670301",
       "package": "R0603",
-      "owner_skill": "component-board-b20-draft-candidates",
+      "owner_skill": "component-uniroyal-tc03-precision-resistors",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "Board B 20 V draft 10.2 kOhm 0.1 % 0603 resistor",
+      "function": "10.2k 0.1% 0603 thin-film precision resistor",
       "placements": [
         {
           "board": "board-b20-draft",
@@ -3378,15 +3430,15 @@
       ]
     },
     {
-      "line_id": "line-c861244",
-      "mpn": "RT0603BRD0723K2L",
-      "manufacturer": "YAGEO",
-      "lcsc": "C861244",
+      "line_id": "line-c50670525",
+      "mpn": "TC0325B2322T5F",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C50670525",
       "package": "R0603",
-      "owner_skill": "component-board-b20-draft-candidates",
+      "owner_skill": "component-uniroyal-tc03-precision-resistors",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "Board B 20 V draft 23.2 kOhm 0.1 % 0603 resistor",
+      "function": "23.2k 0.1% 0603 thin-film precision resistor",
       "placements": [
         {
           "board": "board-b20-draft",
@@ -3798,15 +3850,15 @@
       ]
     },
     {
-      "line_id": "line-c861616",
-      "mpn": "RT0603BRD079K76L",
-      "manufacturer": "YAGEO",
-      "lcsc": "C861616",
+      "line_id": "line-c28994963",
+      "mpn": "TC0325B9761T5F",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C28994963",
       "package": "R0603",
-      "owner_skill": "component-board-b20-draft-candidates",
+      "owner_skill": "component-uniroyal-tc03-precision-resistors",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "Board B 20 V draft 9.76 kOhm 0.1 % 0603 resistor",
+      "function": "9.76k 0.1% 0603 thin-film precision resistor",
       "placements": [
         {
           "board": "board-b20-draft",
@@ -3929,15 +3981,15 @@
       ]
     },
     {
-      "line_id": "line-c705764",
-      "mpn": "RT0603BRD0730K1L",
-      "manufacturer": "YAGEO",
-      "lcsc": "C705764",
+      "line_id": "line-c2989442",
+      "mpn": "TC0325B3012T5F",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C2989442",
       "package": "R0603",
-      "owner_skill": "component-board-b20-draft-candidates",
+      "owner_skill": "component-uniroyal-tc03-precision-resistors",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "Board B 20 V draft 30.1 kOhm 0.1 % 0603 resistor",
+      "function": "30.1k 0.1% 0603 thin-film precision resistor",
       "placements": [
         {
           "board": "board-b20-draft",
@@ -4051,15 +4103,15 @@
       ]
     },
     {
-      "line_id": "line-c2861552",
-      "mpn": "INA301A3IDGKR",
+      "line_id": "line-c179864",
+      "mpn": "INA301A3QDGKTQ1",
       "manufacturer": "Texas Instruments",
-      "lcsc": "C2861552",
+      "lcsc": "C179864",
       "package": "VSSOP-8_TI-DGK0008A",
       "owner_skill": "component-ti-board-b-limiter-candidates",
       "identity_state": "VERIFIED",
       "source_state": "AVAILABLE",
-      "function": "Board B interface limiter current-sense comparator candidate",
+      "function": "Board B interface limiter current-sense comparator (INA301A3-Q1)",
       "placements": [
         {
           "board": "board-b20-draft",

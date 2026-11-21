@@ -1,5 +1,5 @@
 {
-  "tested_base_revision": "c70d526f8c48fa7094eb32e272c3d7436760f606",
+  "tested_base_revision": "2711a1366b98db2f71390dba7082cafa2250127f",
   "source_state": "Candidate source hashes below bind the working tree; this report is not a release or supplier approval.",
   "source_hashes": {
     ".claude/skills/component-csd18543q3a/coverage.json": "e2d96fad7763b8a566946e9246d68b64ad742b17e5a76d19043849c85c5e34f6",
@@ -31,7 +31,7 @@
     ".claude/skills/component-tvs2200drvr/routing.json": "c70c30e11f3fbad19276486ebc5d4fced1f184851b80a3fd31d6706db56be5b2",
     ".claude/skills/component-tvs2200drvr/sources.json": "fa6376449e49c169d6ce0b51785d8188ff49aa3854b132233bce827c73eb0d76",
     "boards/board-p/board-p.kicad_pro": "c1790f00a7aabeffe42cabb9635541bc94f45c471d124506e9eb77bdaded0415",
-    "boards/board-p/board-p.kicad_sch": "d218e2de8ebab94d6f1512bcb138cf01454c9e9c73f4a42c67a041ffc6a316e6",
+    "boards/board-p/board-p.kicad_sch": "a69c9d0741cb0313932ca5c1f5daf7c0a20a1e380dcdb054b7ad4597dcbed4e5",
     "boards/board-p/fp-lib-table": "ce60ef4b91dee74f1fbc4118d3b6406585b6a2ff76aa583c4bb313c1c396a03c",
     "boards/board-p/r3-draft/fabrication-legend-constraints.json": "d36a55619d26fbf15a14c3f42b311cfdd39220737251d6712f76986ce66b48a7",
     "boards/board-p/r3-draft/floorplan.json": "a5e653347700d013022e68b4b06a4b6b86f66189cc2ceafab3d19258938d8359",
@@ -49,6 +49,7 @@
     "footprints/kicad/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.kicad_mod": "839e63b364d731d1faad23a4fa89e7379631f129bd0827de375fe7d28f14c94b",
     "footprints/kicad/R0603.kicad_mod": "27f8887a5625d61c0c5d0d4c3873cba164a643a2b37eb635473bc0341af30a18",
     "footprints/kicad/SOD-123_L2.8-W1.8-LS3.7-RD.kicad_mod": "f6af3878bd3fab38e8515d680884820a1040635892ee299e5665ebb27497ef96",
+    "footprints/kicad/SOD-123_Pad0.90x0.95mm_P3.15mm.kicad_mod": "bb82e4179104d5f176dc4ac172abb11df34c72d366d96777e9d1b587016344ea",
     "footprints/kicad/SOD-523_L1.2-W0.8-LS1.6-RD.kicad_mod": "440e193ceb9c17915555bb97e7e91e854d9bc68cb26ec5047ed59cd2f7ab321c",
     "footprints/kicad/SOT-23-6_TI-DBV0006A.kicad_mod": "6b4415c09335235e48dca9be98e67d51f056ec53e0f28416441e8f5f04445d0e",
     "footprints/kicad/SOT-23_DIODES-DS30144-SUGGESTED.kicad_mod": "3d2cbea6b8ea38f89690a3a6bd634e7351f244b342c06c573cf896082dc69835",
@@ -66,6 +67,7 @@
     "footprints/kicad/zudo-power.pretty/QFN-24_L4.0-W4.0-P0.50-BL-EP2.8.kicad_mod": "839e63b364d731d1faad23a4fa89e7379631f129bd0827de375fe7d28f14c94b",
     "footprints/kicad/zudo-power.pretty/R0603.kicad_mod": "27f8887a5625d61c0c5d0d4c3873cba164a643a2b37eb635473bc0341af30a18",
     "footprints/kicad/zudo-power.pretty/SOD-123_L2.8-W1.8-LS3.7-RD.kicad_mod": "f6af3878bd3fab38e8515d680884820a1040635892ee299e5665ebb27497ef96",
+    "footprints/kicad/zudo-power.pretty/SOD-123_Pad0.90x0.95mm_P3.15mm.kicad_mod": "bb82e4179104d5f176dc4ac172abb11df34c72d366d96777e9d1b587016344ea",
     "footprints/kicad/zudo-power.pretty/SOD-523_L1.2-W0.8-LS1.6-RD.kicad_mod": "440e193ceb9c17915555bb97e7e91e854d9bc68cb26ec5047ed59cd2f7ab321c",
     "footprints/kicad/zudo-power.pretty/SOT-23-6_TI-DBV0006A.kicad_mod": "6b4415c09335235e48dca9be98e67d51f056ec53e0f28416441e8f5f04445d0e",
     "footprints/kicad/zudo-power.pretty/SOT-23_DIODES-DS30144-SUGGESTED.kicad_mod": "3d2cbea6b8ea38f89690a3a6bd634e7351f244b342c06c573cf896082dc69835",
@@ -91,12 +93,12 @@
     "scripts/pcb/board-p-r3-draft/test-finish-details.py": "58bd7b89a863807c36b8163ff1ba06e037e7f6fb50d81e999b9a9a2ce4e72350",
     "scripts/pcb/board-p-r3-draft/test-native-connectivity.py": "771efd4f8015c67a79ec93995a8db55f33ec37f1f9f9dca5aa91c34582414485",
     "scripts/pcb/board-p-r3-draft/test-routing-fixed-groups.py": "427ffe40589bc2f50db57f93bdebfa9446f48fe4d970299180b56eb78ac6bd73",
-    "scripts/pcb/board-p-r3-draft/verify-corrections.py": "90e545e1144c67a6d85f13dda70827e96577d30fcad90e22c7cb3650e2ac1453",
+    "scripts/pcb/board-p-r3-draft/verify-corrections.py": "e642d502770838eacfbfcd11a9a9ce890e544cf66f24eec7f3e53050e445d1a6",
     "scripts/pcb/board-p-r3-draft/verify-replay.py": "bcf8723a875252b52d48c306a1f23708c2ec9ec0ec92a431a863be63c1a66a5e",
-    "scripts/schgen/board_p_spec.py": "f1e662dbab54d9be80b0c6fd6edfcba3eba7bfff20d21c6250f74990c1bc3a36",
-    "symbols/zudo-pd.kicad_sym": "60a215eeb9e1b043899fad622df1db82146ecca14757b9d647f619b071fb99b6"
+    "scripts/schgen/board_p_spec.py": "9c6b7772a28de35c5a2af6e3f20a2a1bad4d8a6f837df97403b634ab744dca4a",
+    "symbols/zudo-pd.kicad_sym": "4817b70894bb8a7991fa7cbf6dcc34e93dd10fd78d96da54cfef42da5ef739db"
   },
-  "pcb_sha256": "3fc44335431a111d4bc2cf9678fbef1a719ded77731bbd2de1fc218c576e7785",
+  "pcb_sha256": "3cc1affe9901063b3f6a02d5628bd18698304ada89d8e5bfffde3ff600e5782f",
   "kicad_version": "10.0.6",
   "component_evidence_hashes": {
     "tps16630pwpr": "c36907d13e2c5210dca87ac4999fbcbe5a023ad4a35af0be25fc65069d8461d8",
@@ -198,6 +200,26 @@
       "C36": [
         "zudo-pd:C0603",
         "zudo-pd:C1206"
+      ],
+      "D8": [
+        "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD",
+        "zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm"
+      ],
+      "D9": [
+        "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD",
+        "zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm"
+      ],
+      "D11": [
+        "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD",
+        "zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm"
+      ],
+      "D12": [
+        "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD",
+        "zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm"
+      ],
+      "D13": [
+        "zudo-pd:SOD-123_L2.8-W1.8-LS3.7-RD",
+        "zudo-pd:SOD-123_Pad0.90x0.95mm_P3.15mm"
       ]
     },
     "outline_unchanged": true,

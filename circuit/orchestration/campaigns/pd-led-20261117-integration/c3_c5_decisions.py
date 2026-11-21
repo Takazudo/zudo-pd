@@ -49,8 +49,15 @@ def verify_inputs():
     for name, expected in INPUT_SHA256.items():
         assert sha256(ROOT / name) == expected, f"Locked decision input changed: {name}"
     reconciliation = json.loads((C3 / "reconciliation.json").read_text())
+    rebind = json.loads((HERE / "c3-input-rebind.json").read_text())
     for name, expected in reconciliation["source_locks_sha256"].items():
-        assert sha256(ROOT / name) == expected, f"C3 source input changed: {name}"
+        actual = sha256(ROOT / name)
+        if actual == expected:
+            continue
+        entry = rebind["files"].get(name)
+        assert entry and entry["reconciled_sha256"] == expected and entry["current_sha256"] == actual, \
+            f"C3 source input changed: {name}"
+    verify_rebind_semantics(reconciliation, rebind)
     subprocess.run(["python3", str(HERE / "c5_link_audit.py")], cwd=ROOT,
                    stdout=subprocess.DEVNULL, check=True)
     accepted = json.loads((C3 / "route-contract/result.json").read_text())
@@ -58,12 +65,61 @@ def verify_inputs():
         ["node", str(C3 / "route-contract/check.mjs")], cwd=ROOT, text=True))
     accepted_inspected = accepted.pop("inspected_file_sha256")
     current_inspected = current.pop("inspected_file_sha256")
+    # The accepted C3e result stays the baseline; only the delta named in the rebind record may differ.
+    delta = rebind["route_contract_delta"]
+    for key, change in delta["fields"].items():
+        assert accepted[key] == change["accepted"] and current[key] == change["current"], \
+            f"C3 route contract delta changed: {key}"
+        accepted[key] = change["current"]
     assert current == accepted, "C3 route proposal semantics changed"
+    for key, change in delta["inspected_file_sha256"].items():
+        assert accepted_inspected[key] == change["accepted"] and current_inspected[key] == change["current"], \
+            f"C3 route or installed provider input changed: {key}"
+        accepted_inspected[key] = change["current"]
     assert {key for key in current_inspected if current_inspected[key] != accepted_inspected[key]} == {
         "pnpm-lock.yaml"}, "C3 route or installed provider input changed"
-    assert all(current_inspected[key] == accepted_inspected[key] for key in current_inspected
-               if key != "pnpm-lock.yaml")
     return reconciliation, current_inspected["pnpm-lock.yaml"]
+
+
+def evidence_ids(value, out):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key in ("id", "record_id", "source_id") and isinstance(item, str):
+                out.add(item)
+            evidence_ids(item, out)
+    elif isinstance(value, list):
+        for item in value:
+            evidence_ids(item, out)
+    return out
+
+
+def verify_rebind_semantics(reconciliation, rebind):
+    """The reconciled LED/PD relationship must survive a rebound PD input unchanged."""
+    inventory = json.loads((ROOT / ".claude/skills/component-spec-audit/references/inventory.json").read_text())
+    lines = {line["line_id"]: line for line in inventory["lines"]}
+    for row in reconciliation["line_reconciliation"]:
+        overlap = row["pd_overlap"]
+        if overlap is None:
+            assert row["led_line_id"] not in lines, f"LED-only line now in PD: {row['led_line_id']}"
+            continue
+        line = lines.get(overlap["line_id"])
+        assert line is not None, f"Reconciled PD line missing: {overlap['line_id']}"
+        assert {key: line.get(key) for key in overlap["identity"]} == overlap["identity"], \
+            f"Reconciled PD identity changed: {overlap['line_id']}"
+        placements = [{"board": p["board"], "refdes": p["refdes"], "dnp": p["dnp"]} for p in line["placements"]]
+        assert sorted(placements, key=json.dumps) == sorted(overlap["pd_placements"], key=json.dumps), \
+            f"Reconciled PD placements changed: {overlap['line_id']}"
+    selection = json.loads((ROOT / "circuit/publication/selection.json").read_text())
+    for item in reconciliation["shared_record_evidence_collisions"]:
+        assert item["record_id"] in selection["recordIds"], f"Shared record left selection: {item['record_id']}"
+    led = set()
+    for path in sorted((ROOT / "products/led-lamp/.claude/skills").glob("*/*.json")):
+        evidence_ids(json.loads(path.read_text()), led)
+    changed = set().union(*(rebind[key] for key in ("pd_record_ids_added", "pd_record_ids_removed",
+                                                    "pd_source_ids_added", "pd_source_ids_removed")))
+    assert set(selection["recordIds"]) >= set(rebind["pd_record_ids_added"])
+    assert not set(selection["recordIds"]) & set(rebind["pd_record_ids_removed"])
+    assert not changed & led, f"Rebound PD evidence IDs collide with LED evidence: {sorted(changed & led)}"
 
 
 def check_redirect_source(row, repository):

@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / 'scripts/schgen'))
 from sexp import atom, find_all, load  # noqa: E402
 
-DEFAULT_RELEASE = ROOT / 'manufacturing/releases/pd20-prototype-review'
+DEFAULT_RELEASE = ROOT / 'manufacturing/releases/pd20-sourcing-review-20261122'
 POLARIZED_PREFIXES = ('DZ', 'D', 'Q', 'U', 'J')
 POLARIZED_CAP_FOOTPRINT = 'CAP-SMD_BD'  # electrolytic can footprints; ceramics are non-polar
 

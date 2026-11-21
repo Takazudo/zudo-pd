@@ -372,6 +372,17 @@ def contains_alias(query, alias):
     return re.search(rf"(?<![A-Za-z0-9]){re.escape(alias)}(?![A-Za-z0-9])", query, re.I) is not None
 
 
+def alias_spans(query, alias):
+    return [m.span() for m in re.finditer(rf"(?<![A-Za-z0-9]){re.escape(alias)}(?![A-Za-z0-9])", query, re.I)]
+
+
+def alias_subsumed(query, alias, aliases):
+    # A shorter exact MPN (JSCJ "BZT52C11") inside a longer one ("BZT52C11-7-F") is not a separate mention;
+    # any standalone occurrence still counts, so a query naming both stays ambiguous and fails closed.
+    longer = [span for other in aliases if other != alias and alias in other for span in alias_spans(query, other)]
+    return bool(longer) and all(any(s >= ls and e <= le for ls, le in longer) for s, e in alias_spans(query, alias))
+
+
 def looks_like_vendor_hint(token, known_vendor_tokens, boards):
     folded = token.casefold()
     if folded in {board.casefold() for board in boards}:
@@ -403,6 +414,7 @@ def resolve_identities(query, entries, *, id_key, boards=("board-a", "board-b"))
     mentioned_lcsc = lcsc_tokens & known_lcsc
     unknown_lcsc = lcsc_tokens - known_lcsc
     mentioned_mpn = {entry["mpn"].casefold() for entry in entries if contains_alias(query, entry["mpn"])}
+    mentioned_mpn = {mpn for mpn in mentioned_mpn if not alias_subsumed(query, mpn, mentioned_mpn)}
     mpn_matches = {entry[id_key] for entry in entries if entry["mpn"].casefold() in mentioned_mpn}
     lcsc_matches = {entry[id_key] for entry in entries if entry["lcsc"] in mentioned_lcsc}
 
