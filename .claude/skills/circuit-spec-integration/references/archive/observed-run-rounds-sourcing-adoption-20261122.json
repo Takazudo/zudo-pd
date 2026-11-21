@@ -38,7 +38,43 @@
         "CONFIRMED",
         "CONFIRMED"
       ],
-      "excerpt": "Recorded in observed-runs.json (observed-renewal-pd-gate-policy-sourcing-adoption)."
+      "excerpt": "All six CONFIRMED; afterwards the sourcing note was relocated from the rule conditions into calculation conditions (4000-character field limit), so round 3 re-ran on the committed text."
+    },
+    {
+      "round": 3,
+      "packet_sha256": "02fc4ee12cc36bb5b72491b62c71b51d435c23a402ecb91e1d8a6200ed5baa0e",
+      "verdicts": [
+        "UNSOURCED",
+        "UNSOURCED"
+      ],
+      "refused": true,
+      "conditions": [
+        "CONFIRMED",
+        "REJECTED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED"
+      ],
+      "excerpt": "Condition 2 REJECTED: numbers reproduce, but it used the STUSB 28 V limit without saying it is mirror-only/UNSOURCED and presented the STUSB-node margins as standing although since phase 9 they are only the unclamped reference. Condition 2 was restated."
+    },
+    {
+      "round": 4,
+      "packet_sha256": "0f310c2be8467e47a0dbe1f214a579a6e8d55371b422ededc82f0c58fd1ee88c",
+      "verdicts": [
+        "UNSOURCED",
+        "UNSOURCED"
+      ],
+      "refused": true,
+      "conditions": [
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED"
+      ],
+      "excerpt": "Recorded in observed-runs.json."
     }
   ]
 }
