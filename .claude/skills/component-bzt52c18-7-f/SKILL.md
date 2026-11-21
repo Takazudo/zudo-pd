@@ -1,6 +1,6 @@
 ---
 name: component-bzt52c18-7-f
-description: Resolve exact Diodes Incorporated BZT52C18-7-F (LCSC C192739) zener limits and its Board P STUSB4500 local-clamp placements. Use whenever BZT52C18, C192739, Board P D9, D11, D12, the STUSB4500 local clamps, their pins, package, substitution, or bring-up behavior is relevant.
+description: Resolve exact Diodes Incorporated BZT52C18-7-F (LCSC C192739) zener limits, its P15 D9 placement and its former Board P r3 STUSB4500 local-clamp role. Use whenever Diodes BZT52C18-7-F, C192739, P15 D9, or the history of Board P D9, D11, D12 is relevant.
 ---
 
 # Exact component record
@@ -13,11 +13,14 @@ Keep this owner aligned with its `manifest.json`, `sources.json`, `facts.json`,
 inventory line and direct-routing fixture.
 
 This record owns inventory line `line-c192739` (BZT52C18-7-F, Diodes Incorporated, C192739,
-SOD-123_L2.8-W1.8-LS3.7-RD), fitted on Board P at D9, D11, D12. Board P local clamps: D9 on VDD_LOC (U1.24 VDD; R29 1k + R30 470R from VBUS_P), D11 on VBEN_PIN (U1.16 behind the Q6 cascode), D12 on DISCH (U1.9; R13 4.7k from VBUS_OUT); cathode on the pin node, anode on GND.
+SOD-123_L2.8-W1.8-LS3.7-RD), fitted at P15 D9. Board P r3 D9, D11 and D12 used this part until the
+2026-11-22 JST sourcing adoption (#326); they are now JSCJ BZT52C18 C43490, owned by
+`component-jscj-bzt52-zeners`. Their former role (D9 on VDD_LOC, D11 on VBEN_PIN, D12 on DISCH) is
+kept in `fact-c192739-board-p-role` as history.
 
 The exact BZT52C18 row of DS18004 Rev. 38-2 gives VZ 16.8-19.1 V at IZT 5 mA and a
 12.4-16.0 mV/C temperature coefficient. The pin bounds that use them are calculated,
-not measured; the `local-clamp-application` domain stays open until the Board P bench.
+not measured; the `local-clamp-application` domain stays open until a bench measurement.
 
 ## Human component reference
 

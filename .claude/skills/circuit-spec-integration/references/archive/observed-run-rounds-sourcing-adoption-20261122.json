@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "case_id": "renewal-pd-gate-policy",
+  "run_date": "2026-11-21",
+  "note": "Rounds of the 2026-11-22 JST sourcing-adoption re-run. Round 1 is a condensed excerpt of the assessor reply (not verbatim); round 2 is recorded in observed-runs.json.",
+  "rounds": [
+    {
+      "round": 1,
+      "packet_sha256": "075d20afbd51b87ede175eb8435b7a200291900f264a267cef6505e4f702927b",
+      "verdicts": [
+        "UNSOURCED",
+        "UNSOURCED"
+      ],
+      "refused": true,
+      "conditions": [
+        "CONFIRMED",
+        "REJECTED",
+        "REJECTED",
+        "CONFIRMED",
+        "CONFIRMED (conditioned on non-fact inputs)",
+        "CONFIRMED"
+      ],
+      "excerpt": "Condition 2 REJECTED: arithmetic reproduces, but it presents the superseded 100k/150k rows as the asserted drive of the current draft. Condition 3 REJECTED: arithmetic reproduces (-4.848093 V, 3.0813 mA, 0.557993 / -2.488688 V, 13.4 V, 5.1567 V), but the C14941 facts cover VZ only at IZT 5 mA and 25 C, the installed current (about 1.97 mA at 20 V across D8 and D13) is below IZT, so \"at least 13.4 V\" is unsupported. Notes: fact-c43490-tc-max is GUARANTEED_ELECTRICAL/PASS although the JSCJ columns are labelled typical; VZ minimums 16.8 V and 18.8 V are not cited facts; D8-open label says single fault; the 100k/150k rows conflict with the current draft. Process: the packet read was truncated at line 875 and the assessor read the remainder of the same file once more."
+    },
+    {
+      "round": 2,
+      "packet_sha256": "1675029a9414a7e895a799b8684f26890f09b06e3a8a83877b2e1c10a8ca4c2f",
+      "verdicts": [
+        "UNSOURCED",
+        "UNSOURCED"
+      ],
+      "refused": true,
+      "conditions": [
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED",
+        "CONFIRMED"
+      ],
+      "excerpt": "Recorded in observed-runs.json (observed-renewal-pd-gate-policy-sourcing-adoption)."
+    }
+  ]
+}

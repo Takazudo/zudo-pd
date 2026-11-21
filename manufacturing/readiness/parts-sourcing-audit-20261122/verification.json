@@ -1,0 +1,52 @@
+{
+  "coverage": {
+    "expected": 101,
+    "actual": 101,
+    "exact_baseline_code_match": true,
+    "current_catalog_success_count": 101,
+    "placement_counts": {
+      "board-p": 44,
+      "board-p15": 23,
+      "board-b20-draft": 294
+    }
+  },
+  "selection": {
+    "changes": 12,
+    "changed_placements": {
+      "board-p": 7,
+      "board-b20-draft": 25
+    },
+    "every_selected_candidate_has_positive_observed_stock": true,
+    "all_selected_refs_are_in_active_baseline": true,
+    "p15_changes": 0
+  },
+  "not_run": [
+    "repo offline validators",
+    "native KiCad/DRC/refill for substitutions",
+    "new manufacturing package verification",
+    "bench tests",
+    "supplier quote/cart/order"
+  ],
+  "artifact_security": "Vendor PDFs/models and raw API responses excluded. Signed credentials/query URLs and scratch-only path references excluded from sanitized detail copies.",
+  "independent_review": {
+    "baseline_bom_vs_inventory": "101 codes / 361 placements independently reconstructed and matched",
+    "selected_code_mpn_ref_map": "12 changes / P7 / B2025 / P150 matched",
+    "tier_arithmetic": "Decimal per-board mounted-quantity calculation independently reproduced +1.6274 USD for two PD20 pairs; INA +3.5928, other11 -1.9654",
+    "policy": "Independent review complete; feeder fee unit clarified",
+    "execution_prompt": "Independent review complete; draft PR before new native Actions and pre-merge trigger added",
+    "qualification_claims": "No native or bench pass inferred; documented baseline is not called known-working",
+    "metadata_corrections": "TC selected primary source/limits populated; dangling scratch rescale pointers and manifest note removed; four minor reason/tier/time fields normalized"
+  },
+  "repository_observation": {
+    "sha": "360788939707e8907cc63900ffbbbc3426dfe41c",
+    "open_prs": 0,
+    "completed_success_checks": [
+      "validate",
+      "doc-tests",
+      "Build & deploy docs",
+      "LED docs, enclosure and browser"
+    ],
+    "scope": "Observed existing main only, not checks of the proposed substitutions"
+  },
+  "final_artifact_validation": "PASS: exact coverage, selected sources, scoped refs, arithmetic and sanitized references checked"
+}

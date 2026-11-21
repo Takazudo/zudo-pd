@@ -1,0 +1,1465 @@
+{
+  "schema_version": 1,
+  "base_sha": "360788939707e8907cc63900ffbbbc3426dfe41c",
+  "changes": [
+    {
+      "old_code": "C92321",
+      "old_mpn": "BZT52C11-7-F",
+      "new_code": "C14941",
+      "new_mpn": "BZT52C11",
+      "manufacturer": "Jiangsu Changjing Electronics Technology Co., Ltd.",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "D8",
+            "D13"
+          ]
+        },
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "D4",
+            "DZ1",
+            "DZ2",
+            "DZ3"
+          ]
+        }
+      ],
+      "current_stock": 1472,
+      "candidate_stock": 7003,
+      "current_unit_1_usd": 0.0475,
+      "candidate_unit_1_usd": 0.0203,
+      "current_unit_20_usd": 0.0475,
+      "candidate_unit_20_usd": 0.0203,
+      "candidate_catalog": {
+        "code": "C14941",
+        "mpn": "BZT52C11",
+        "manufacturer": "Jiangsu Changjing Electronics Technology Co., Ltd.",
+        "package": "SOD-123",
+        "stock": 7003,
+        "retrieved_utc": "2026-11-21T18:05:14.041362+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 499,
+            "productPrice": 0.0203
+          },
+          {
+            "startNumber": 500,
+            "endNumber": 2999,
+            "productPrice": 0.0161
+          },
+          {
+            "startNumber": 3000,
+            "endNumber": 5999,
+            "productPrice": 0.0131
+          },
+          {
+            "startNumber": 6000,
+            "endNumber": 23999,
+            "productPrice": 0.0117
+          },
+          {
+            "startNumber": 24000,
+            "endNumber": 50999,
+            "productPrice": 0.0106
+          },
+          {
+            "startNumber": 51000,
+            "endNumber": -1,
+            "productPrice": 0.0099
+          }
+        ],
+        "unit_price_usd_at_1": 0.0203,
+        "unit_price_usd_at_20": 0.0203,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 15,
+        "lossNumber": 8,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/15613-BZT52C11/C14941",
+        "raw_response_sha256": "e5d1decd238e3226ea9e86014c2923355f450c0dd47f2a83c577aa58f02bf0fd",
+        "assessment": "change",
+        "reason": "Documented standard-zener cost and stock improvement; no broad redesign of the nominal clamp is proposed.",
+        "technical_comparison": [
+          "VZ 10.4..11.6 V at 5 mA; ZZT<=20 ohm, ZK<=150 ohm at 1 mA; IR<=0.1 uA at 8 V; TC 5.4..9.0 mV/C.",
+          "Pinned native footprint has pads 0.900 x 0.950 mm centered at +/-1.575 mm (outer extent 4.050 mm). JSCJ Rev.2.1 suggests 0.8 x 1.0 mm pads, 3.24 mm center spacing, general tolerance +/-0.05 mm (outer extent 4.04 mm). Existing pad side clearance to maximum 0.65 mm terminal width is 0.15 mm each; terminal span 3.55..3.85 mm fits. Electrical pin 1 cathode / pin 2 anode is preserved. This is a dimensional review, not fabricated-joint qualification.",
+          "JSCJ Rev.2.1 500 mW/250 C/W is specified with its stated mounting conditions; both devices cover -55..150 C.",
+          "Thermal source and current-circuit paper screen completed: Diodes 370 mW/338 C/W at its FR-4 condition versus JSCJ 500 mW/250 C/W at its 1 in2/2 oz FR-4 condition, both Tj max150 C. The changed lower limit -65 to -55 C still covers all existing analyzed operating points, whose minimum is -40 C; no -65 C project use/storage requirement was found."
+        ],
+        "qualification_limits": [
+          "The per-ref DC power screen is complete. Actual native-PCB effective theta and a formal product ambient rating are not established by this read-only review. Use the numerical theta/ambient ceilings in thermal_and_temperature_screen; do not transplant the 250 C/W test-board number into a verified-PCB claim.",
+          "Low-current knee behavior outside the tabulated test points remains unbounded in both data sheets; do not claim the nominal voltage at arbitrary current.",
+          "Native component/owner/footprint identity and exact cathode orientation need controlled implementation and regenerated evidence."
+        ],
+        "primary_sources": [
+          {
+            "sha256": "fd5a910fc58737806f1596a6318cecd1e1264061e3ca7c6c7f13e69667e36ab5",
+            "retrieved_utc": "2026-11-21T18:11:54.508818+00:00",
+            "primary_source": true,
+            "url": "https://jlc-prod-smt.oss-eu-central-1.aliyuncs.com/smtDataManualFile/8586171981443686400-C14941.pdf",
+            "url_note": "Manufacturer-authored PDF retrieved from the exact JLC catalog record. The public catalog and unsigned asset identifier are recorded with the retrieved-file SHA. Temporary signed retrieval URLs are excluded.",
+            "pages": [
+              1,
+              2,
+              4
+            ]
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-p",
+          "comparison_board_count": 2,
+          "mounted_quantity": 4,
+          "current_unit_usd": 0.0475,
+          "candidate_unit_usd": 0.0203,
+          "installed_only_delta_usd": -0.1088
+        },
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 8,
+          "current_unit_usd": 0.0475,
+          "candidate_unit_usd": 0.0203,
+          "installed_only_delta_usd": -0.2176
+        }
+      ],
+      "reason": "Adopt the exact JSCJ candidate through the project replacement workflow: matching tabulated electrical guarantees, adequate mechanical fit, lower observed unit price and higher visible inventory. Current Diodes device remains the documented baseline fallback (physical qualification is not established). Per-ref dissipation was subsequently bounded from the current series-resistor/source topology using Pz <= Vs^2/(4Rmin), without assuming the 5 mA zener voltage at lower current; see the attached thermal/temperature screen."
+    },
+    {
+      "old_code": "C192739",
+      "old_mpn": "BZT52C18-7-F",
+      "new_code": "C43490",
+      "new_mpn": "BZT52C18",
+      "manufacturer": "Jiangsu Changjing Electronics Technology Co., Ltd.",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "D9",
+            "D11",
+            "D12"
+          ]
+        }
+      ],
+      "current_stock": 6182,
+      "candidate_stock": 106084,
+      "current_unit_1_usd": 0.1295,
+      "candidate_unit_1_usd": 0.0213,
+      "current_unit_20_usd": 0.1295,
+      "candidate_unit_20_usd": 0.0213,
+      "candidate_catalog": {
+        "code": "C43490",
+        "mpn": "BZT52C18",
+        "manufacturer": "Jiangsu Changjing Electronics Technology Co., Ltd.",
+        "package": "SOD-123",
+        "stock": 106084,
+        "retrieved_utc": "2026-11-21T18:05:22.851948+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 499,
+            "productPrice": 0.0213
+          },
+          {
+            "startNumber": 500,
+            "endNumber": 2999,
+            "productPrice": 0.0171
+          },
+          {
+            "startNumber": 3000,
+            "endNumber": 5999,
+            "productPrice": 0.014
+          },
+          {
+            "startNumber": 6000,
+            "endNumber": 23999,
+            "productPrice": 0.0126
+          },
+          {
+            "startNumber": 24000,
+            "endNumber": 50999,
+            "productPrice": 0.0115
+          },
+          {
+            "startNumber": 51000,
+            "endNumber": -1,
+            "productPrice": 0.0108
+          }
+        ],
+        "unit_price_usd_at_1": 0.0213,
+        "unit_price_usd_at_20": 0.0213,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 15,
+        "lossNumber": 8,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/44481-BZT52C18/C43490",
+        "raw_response_sha256": "07a8ed59857a36179490aea5e9dffe62441e5631e03f88e593ad68ebc5074146",
+        "assessment": "change",
+        "reason": "Documented standard-zener cost and stock improvement; no broad redesign of the nominal clamp is proposed.",
+        "technical_comparison": [
+          "VZ 16.8..19.1 V at 5 mA; ZZT<=45 ohm, ZK<=225 ohm at 1 mA; IR<=0.1 uA at 12.6 V; TC 12.4..16.0 mV/C.",
+          "Pinned native footprint has pads 0.900 x 0.950 mm centered at +/-1.575 mm (outer extent 4.050 mm). JSCJ Rev.2.1 suggests 0.8 x 1.0 mm pads, 3.24 mm center spacing, general tolerance +/-0.05 mm (outer extent 4.04 mm). Existing pad side clearance to maximum 0.65 mm terminal width is 0.15 mm each; terminal span 3.55..3.85 mm fits. Electrical pin 1 cathode / pin 2 anode is preserved. This is a dimensional review, not fabricated-joint qualification.",
+          "JSCJ Rev.2.1 500 mW/250 C/W is specified with its stated mounting conditions; both devices cover -55..150 C.",
+          "Thermal source and current-circuit paper screen completed: Diodes 370 mW/338 C/W at its FR-4 condition versus JSCJ 500 mW/250 C/W at its 1 in2/2 oz FR-4 condition, both Tj max150 C. The changed lower limit -65 to -55 C still covers all existing analyzed operating points, whose minimum is -40 C; no -65 C project use/storage requirement was found."
+        ],
+        "qualification_limits": [
+          "The per-ref DC power screen is complete. Actual native-PCB effective theta and a formal product ambient rating are not established by this read-only review. Use the numerical theta/ambient ceilings in thermal_and_temperature_screen; do not transplant the 250 C/W test-board number into a verified-PCB claim.",
+          "Low-current knee behavior outside the tabulated test points remains unbounded in both data sheets; do not claim the nominal voltage at arbitrary current.",
+          "Native component/owner/footprint identity and exact cathode orientation need controlled implementation and regenerated evidence."
+        ],
+        "primary_sources": [
+          {
+            "sha256": "fd5a910fc58737806f1596a6318cecd1e1264061e3ca7c6c7f13e69667e36ab5",
+            "retrieved_utc": "2026-11-21T18:11:49.402870+00:00",
+            "primary_source": true,
+            "url": "https://jlc-prod-smt.oss-eu-central-1.aliyuncs.com/smtDataManualFile/8586176365041766400-C43490.pdf",
+            "url_note": "Manufacturer-authored PDF retrieved from the exact JLC catalog record. The public catalog and unsigned asset identifier are recorded with the retrieved-file SHA. Temporary signed retrieval URLs are excluded.",
+            "pages": [
+              1,
+              2,
+              4
+            ]
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-p",
+          "comparison_board_count": 2,
+          "mounted_quantity": 6,
+          "current_unit_usd": 0.1295,
+          "candidate_unit_usd": 0.0213,
+          "installed_only_delta_usd": -0.6492
+        }
+      ],
+      "reason": "Adopt the exact JSCJ candidate through the project replacement workflow: matching tabulated electrical guarantees, adequate mechanical fit, lower observed unit price and higher visible inventory. Current Diodes device remains the documented baseline fallback (physical qualification is not established). Per-ref dissipation was subsequently bounded from the current series-resistor/source topology using Pz <= Vs^2/(4Rmin), without assuming the 5 mA zener voltage at lower current; see the attached thermal/temperature screen. Selection is explicitly limited to Board P D9/D11/D12 in this implementation. P15 D9 retains current C192739; its technically eligible candidate is recorded for a future package revision."
+    },
+    {
+      "old_code": "C705781",
+      "old_mpn": "RT0603BRD074K02L",
+      "new_code": "C46616054",
+      "new_mpn": "TC0325B4021T5F",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "placements": [
+        {
+          "board": "board-p",
+          "refs": [
+            "R23",
+            "R26"
+          ]
+        },
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R6",
+            "R16",
+            "R17",
+            "R21",
+            "R23",
+            "RDG5",
+            "RDG12"
+          ]
+        }
+      ],
+      "current_stock": 8263,
+      "candidate_stock": 9483,
+      "current_unit_1_usd": 0.0418,
+      "candidate_unit_1_usd": 0.0107,
+      "current_unit_20_usd": 0.0418,
+      "candidate_unit_20_usd": 0.0107,
+      "candidate_catalog": {
+        "code": "C46616054",
+        "mpn": "TC0325B4021T5F",
+        "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 9483,
+        "retrieved_utc": "2026-11-21T18:05:37.430554+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 199,
+            "productPrice": 0.0107
+          },
+          {
+            "startNumber": 200,
+            "endNumber": 599,
+            "productPrice": 0.0104
+          },
+          {
+            "startNumber": 600,
+            "endNumber": 1999,
+            "productPrice": 0.0102
+          },
+          {
+            "startNumber": 2000,
+            "endNumber": 2039,
+            "productPrice": 0.0101
+          },
+          {
+            "startNumber": 2040,
+            "endNumber": 2079,
+            "productPrice": 0.0101
+          },
+          {
+            "startNumber": 2080,
+            "endNumber": -1,
+            "productPrice": 0.0101
+          }
+        ],
+        "unit_price_usd_at_1": 0.0107,
+        "unit_price_usd_at_20": 0.0107,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 6,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/48766999-TC0325B4021T5F/C46616054",
+        "raw_response_sha256": null,
+        "assessment": "usable-paper-alternative; supplier quote/native adoption still required",
+        "reason": null,
+        "technical_comparison": {
+          "status": "meets-stated-primary-electrical-ratings",
+          "family": "UNI-ROYAL TC03",
+          "primary_url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+          "decode": "TC03=0603;25=25ppm/C;B=0.1%;4021=4020ohm;T5=tape/reel5000;F=0.1W.",
+          "specifications": {
+            "tolerance_pct": 0.1,
+            "tcr_ppm_per_c": 25,
+            "rated_power_w_at_70c": 0.1,
+            "max_working_voltage_v": 75,
+            "temperature_c": [
+              -55,
+              155
+            ],
+            "body_nominal_mm": [
+              1.6,
+              0.8,
+              0.45
+            ],
+            "body_tolerance_mm": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "resistance_ohm": 4020
+          },
+          "scope": "Paper initial electrical/body-family comparison; no unconditional reliability equivalence. See reliability_comparison for endurance/test coverage. No substitution applied and no native/physical validation claimed."
+        },
+        "qualification_limits": [
+          "基本定格と比較可能な主要耐久限度を保持。試験範囲全体の同等性と寿命後0.1%精度は未証明。details/precision_resistors.json の reliability_comparison を参照。"
+        ],
+        "primary_sources": [
+          {
+            "id": "tc2026v18",
+            "url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+            "revision": "2026-05-29 V18",
+            "inspected": "Current live manufacturer product page PDF; TC03 code/body/basic ratings and endurance limits inspected. Replaces obsolete V6 reliance; see reliability_comparison for exact tests, revision provenance and limits.",
+            "sha256": "13f99c4f3055c699348b3c43dc58a0d680bf1297ca816c34c906c87a561f0866"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-p",
+          "comparison_board_count": 2,
+          "mounted_quantity": 4,
+          "current_unit_usd": 0.0418,
+          "candidate_unit_usd": 0.0107,
+          "installed_only_delta_usd": -0.1244
+        },
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 14,
+          "current_unit_usd": 0.0418,
+          "candidate_unit_usd": 0.0107,
+          "installed_only_delta_usd": -0.4354
+        }
+      ],
+      "reason": "同じ必要仕様で現行8,263個に対し9,483個、単価$0.0418→$0.0107。現行発注対象で9 placementsあり、今回の同値置換候補として合理性がある。P r3 R23/R26も対象になるためB20だけの変更と誤認しない。"
+    },
+    {
+      "old_code": "C37298",
+      "old_mpn": "CL10C151JB8NNNC",
+      "new_code": "C107038",
+      "new_mpn": "CC0603JRNPO9BN151",
+      "manufacturer": "YAGEO",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "C10",
+            "C13"
+          ]
+        }
+      ],
+      "current_stock": 52009,
+      "candidate_stock": 322338,
+      "current_unit_1_usd": 0.0266,
+      "candidate_unit_1_usd": 0.0053,
+      "current_unit_20_usd": 0.0266,
+      "candidate_unit_20_usd": 0.0053,
+      "candidate_catalog": {
+        "code": "C107038",
+        "mpn": "CC0603JRNPO9BN151",
+        "manufacturer": "YAGEO",
+        "package": null,
+        "stock": 322338,
+        "retrieved_utc": "2026-11-21T18:07:53.758306+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 999,
+            "productPrice": 0.0053
+          },
+          {
+            "startNumber": 1000,
+            "endNumber": 3999,
+            "productPrice": 0.0042
+          },
+          {
+            "startNumber": 4000,
+            "endNumber": 7999,
+            "productPrice": 0.0036
+          },
+          {
+            "startNumber": 8000,
+            "endNumber": 47999,
+            "productPrice": 0.0033
+          },
+          {
+            "startNumber": 48000,
+            "endNumber": 99999,
+            "productPrice": 0.0029
+          },
+          {
+            "startNumber": 100000,
+            "endNumber": -1,
+            "productPrice": 0.0028
+          }
+        ],
+        "unit_price_usd_at_1": 0.0053,
+        "unit_price_usd_at_20": 0.0053,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/YAGEO-CC0603JRNPO9BN151/C107038",
+        "raw_response_sha256": "475ab3967be2803e36c3c00a07859b292f55b077f393fbee6d82b9613242681d",
+        "assessment": "change",
+        "reason": "一次exact spec: 150pF ±5%,50V,C0G,-55..125℃; L1.6±0.1/W0.8±0.1/T0.8±0.1,B0.4±0.2mm。既存C0603 envelope内。Class1を維持するためClass2のようなDC bias容量減少を導入しない。",
+        "technical_comparison": {
+          "package": "0603/1608",
+          "dimensions_mm": "1.6±0.1 x0.8±0.1 x0.8±0.1",
+          "termination_mm": "0.4±0.2",
+          "temperature_c": [
+            -55,
+            125
+          ],
+          "dissipation_factor_percent": 0.1,
+          "insulation_resistance_gohm": 10,
+          "tolerance_percent": 5,
+          "voltage_v": 50,
+          "dielectric": "C0G/NP0",
+          "native_change": "Fields/evidence/generic C0603 identity only; no topology, nominal value or copper change indicated."
+        },
+        "qualification_limits": [
+          "No physical sample has been assembled; normal native synchronization/ERC/DRC/BOM-CPL consistency gates remain."
+        ],
+        "primary_sources": [
+          {
+            "url": "https://yageogroup.com/download/specsheet/CC0603JRNPO9BN151",
+            "locator": "Exact MPN generated2026-11-21 specifications and dimensions.",
+            "authority": "MANUFACTURER_PRIMARY",
+            "sha256": "f518fc930fbaecc39a1c34e12cbe84a8f6c89e6249d6a802eeabe9d3ab4493f5"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 4,
+          "current_unit_usd": 0.0266,
+          "candidate_unit_usd": 0.0053,
+          "installed_only_delta_usd": -0.0852
+        }
+      ],
+      "reason": "322,338個・$0.0053へ。現行52,009個・$0.0266より在庫/単価の両方が改善。 C0G・容量・5%・50V・温度範囲を維持。Standard実装でBasicからExtendedへの変更自体に追加feeder差はない。"
+    },
+    {
+      "old_code": "C162204",
+      "old_mpn": "GRM1885C1H152JA01D",
+      "new_code": "C107039",
+      "new_mpn": "CC0603JRNPO9BN152",
+      "manufacturer": "YAGEO",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "CI5",
+            "CI12"
+          ]
+        }
+      ],
+      "current_stock": 14688,
+      "candidate_stock": 58214,
+      "current_unit_1_usd": 0.0194,
+      "candidate_unit_1_usd": 0.0158,
+      "current_unit_20_usd": 0.0194,
+      "candidate_unit_20_usd": 0.0158,
+      "candidate_catalog": {
+        "code": "C107039",
+        "mpn": "CC0603JRNPO9BN152",
+        "manufacturer": "YAGEO",
+        "package": null,
+        "stock": 58214,
+        "retrieved_utc": "2026-11-21T18:08:08.878352+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 499,
+            "productPrice": 0.0158
+          },
+          {
+            "startNumber": 500,
+            "endNumber": 1499,
+            "productPrice": 0.0126
+          },
+          {
+            "startNumber": 1500,
+            "endNumber": 3999,
+            "productPrice": 0.0108
+          },
+          {
+            "startNumber": 4000,
+            "endNumber": 23999,
+            "productPrice": 0.0095
+          },
+          {
+            "startNumber": 24000,
+            "endNumber": 47999,
+            "productPrice": 0.0086
+          },
+          {
+            "startNumber": 48000,
+            "endNumber": -1,
+            "productPrice": 0.0081
+          }
+        ],
+        "unit_price_usd_at_1": 0.0158,
+        "unit_price_usd_at_20": 0.0158,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 10,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/YAGEO-CC0603JRNPO9BN152/C107039",
+        "raw_response_sha256": "c296ef4bed734cc49e5563304e3df2ccd386dec3fef4bd61c4c987b2edaf8c6f",
+        "assessment": "change",
+        "reason": "一次exact spec: 1.5nF ±5%,50V,C0G,-55..125℃; L1.6±0.1/W0.8±0.1/T0.8±0.1,B0.4±0.2mm。既存C0603 envelope内。Class1を維持するためClass2のようなDC bias容量減少を導入しない。",
+        "technical_comparison": {
+          "package": "0603/1608",
+          "dimensions_mm": "1.6±0.1 x0.8±0.1 x0.8±0.1",
+          "termination_mm": "0.4±0.2",
+          "temperature_c": [
+            -55,
+            125
+          ],
+          "dissipation_factor_percent": 0.1,
+          "insulation_resistance_gohm": 10,
+          "tolerance_percent": 5,
+          "voltage_v": 50,
+          "dielectric": "C0G/NP0",
+          "native_change": "Fields/evidence/generic C0603 identity only; no topology, nominal value or copper change indicated."
+        },
+        "qualification_limits": [
+          "No physical sample has been assembled; normal native synchronization/ERC/DRC/BOM-CPL consistency gates remain."
+        ],
+        "primary_sources": [
+          {
+            "url": "https://yageogroup.com/download/specsheet/CC0603JRNPO9BN152",
+            "locator": "Exact MPN generated2026-11-21 specifications and dimensions.",
+            "authority": "MANUFACTURER_PRIMARY",
+            "sha256": "8cebbc4974c78ef424787e5f4eeda2c965c0b20711224e7e53309f1c75404fdc"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 4,
+          "current_unit_usd": 0.0194,
+          "candidate_unit_usd": 0.0158,
+          "installed_only_delta_usd": -0.0144
+        }
+      ],
+      "reason": "58,214個・$0.0158へ。現行14,688個・$0.0194より在庫/単価の両方が改善。 C0G・容量・5%・50V・温度範囲を維持。Standard実装でBasicからExtendedへの変更自体に追加feeder差はない。"
+    },
+    {
+      "old_code": "C2861552",
+      "old_mpn": "INA301A3IDGKR",
+      "new_code": "C179864",
+      "new_mpn": "INA301A3QDGKTQ1",
+      "manufacturer": "Texas Instruments",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "U11",
+            "U12"
+          ]
+        }
+      ],
+      "current_stock": 0,
+      "candidate_stock": 13,
+      "current_unit_1_usd": 2.7241,
+      "candidate_unit_1_usd": 3.6223,
+      "current_unit_20_usd": 2.3969,
+      "candidate_unit_20_usd": 3.5389,
+      "candidate_catalog": {
+        "code": "C179864",
+        "mpn": "INA301A3QDGKTQ1",
+        "manufacturer": "Texas Instruments",
+        "package": "VSSOP-8",
+        "stock": 13,
+        "retrieved_utc": "2026-11-21T17:43:37.032340+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 9,
+            "productPrice": 3.6223
+          },
+          {
+            "startNumber": 10,
+            "endNumber": 29,
+            "productPrice": 3.5389
+          },
+          {
+            "startNumber": 30,
+            "endNumber": 99,
+            "productPrice": 3.4816
+          },
+          {
+            "startNumber": 100,
+            "endNumber": 101,
+            "productPrice": 3.426
+          },
+          {
+            "startNumber": 102,
+            "endNumber": 103,
+            "productPrice": 3.426
+          },
+          {
+            "startNumber": 104,
+            "endNumber": -1,
+            "productPrice": 3.426
+          }
+        ],
+        "unit_price_usd_at_1": 3.6223,
+        "unit_price_usd_at_20": 3.5389,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 0,
+        "lossNumber": 0,
+        "library_type": "expand",
+        "preferred": null,
+        "url": "https://jlcpcb.com/partdetail/TexasInstruments-INA301A3QDGKTQ1/C179864",
+        "raw_response_sha256": "1665112a4cc739c71b8b572cb42deaf665e706c545b0053a5f2d42e30731b990",
+        "assessment": "change",
+        "reason": "Same-gain, same-pin active Q1 device is the lowest-price stocked exact-function candidate.",
+        "technical_comparison": [
+          "INA301A3-Q1 same 100 V/V gain and DGK8 pin functions; same relevant input offset max 35 uV, gain error max 0.2%, LIMIT current bounds and comparator timing conditions.",
+          "AEC-Q100 grade 1, -40..125 C. TI orderable page lists ACTIVE."
+        ],
+        "qualification_limits": [
+          "Rebind exact MPN/Ccode/manufacturer owner and Q1 source digest; keep current shunts/dividers only after corner comparison is recorded.",
+          "Only 13 visible JLC/LCSC units; those pools must not be added together. No larger global allocation was verified."
+        ],
+        "primary_sources": [
+          {
+            "url": "https://www.ti.com/lit/ds/symlink/ina301.pdf",
+            "primary_source": true
+          },
+          {
+            "url": "https://www.ti.com/lit/ds/symlink/ina301-q1.pdf",
+            "primary_source": true
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 4,
+          "current_unit_usd": 2.7241,
+          "candidate_unit_usd": 3.6223,
+          "installed_only_delta_usd": 3.5928
+        }
+      ],
+      "reason": "Replace zero-stock commercial A3 R with active automotive A3 Q1 T C179864 as primary; Q1 R C2155855 is the same-device carrier backup. Thirteen/thirty-four units are sufficient for the illustrative four mounted ICs but are not abundant or reserved."
+    },
+    {
+      "old_code": "C515735",
+      "old_mpn": "RT0603BRD0710K2L",
+      "new_code": "C50670301",
+      "new_mpn": "TC0325B1022T5F",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R33",
+            "RLM2"
+          ]
+        }
+      ],
+      "current_stock": 6191,
+      "candidate_stock": 7197,
+      "current_unit_1_usd": 0.054,
+      "candidate_unit_1_usd": 0.0378,
+      "current_unit_20_usd": 0.054,
+      "candidate_unit_20_usd": 0.0378,
+      "candidate_catalog": {
+        "code": "C50670301",
+        "mpn": "TC0325B1022T5F",
+        "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 7197,
+        "retrieved_utc": "2026-11-21T18:05:58.247347+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 199,
+            "productPrice": 0.0378
+          },
+          {
+            "startNumber": 200,
+            "endNumber": 599,
+            "productPrice": 0.03
+          },
+          {
+            "startNumber": 600,
+            "endNumber": 4999,
+            "productPrice": 0.0256
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.023
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 19999,
+            "productPrice": 0.0207
+          },
+          {
+            "startNumber": 20000,
+            "endNumber": -1,
+            "productPrice": 0.0194
+          }
+        ],
+        "unit_price_usd_at_1": 0.0378,
+        "unit_price_usd_at_20": 0.0378,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 6,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/53304366-TC0325B1022T5F/C50670301",
+        "raw_response_sha256": null,
+        "assessment": "usable-paper-alternative; supplier quote/native adoption still required",
+        "reason": null,
+        "technical_comparison": {
+          "status": "meets-stated-primary-electrical-ratings",
+          "family": "UNI-ROYAL TC03",
+          "primary_url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+          "decode": "TC03=0603;25=25ppm/C;B=0.1%;1022=10200ohm;T5=tape/reel5000;F=0.1W.",
+          "specifications": {
+            "tolerance_pct": 0.1,
+            "tcr_ppm_per_c": 25,
+            "rated_power_w_at_70c": 0.1,
+            "max_working_voltage_v": 75,
+            "temperature_c": [
+              -55,
+              155
+            ],
+            "body_nominal_mm": [
+              1.6,
+              0.8,
+              0.45
+            ],
+            "body_tolerance_mm": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "resistance_ohm": 10200
+          },
+          "scope": "Paper initial electrical/body-family comparison; no unconditional reliability equivalence. See reliability_comparison for endurance/test coverage. No substitution applied and no native/physical validation claimed."
+        },
+        "qualification_limits": [
+          "基本定格と比較可能な主要耐久限度を保持。試験範囲全体の同等性と寿命後0.1%精度は未証明。details/precision_resistors.json の reliability_comparison を参照。"
+        ],
+        "primary_sources": [
+          {
+            "id": "tc2026v18",
+            "url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+            "revision": "2026-05-29 V18",
+            "inspected": "Current live manufacturer product page PDF; TC03 code/body/basic ratings and endurance limits inspected. Replaces obsolete V6 reliance; see reliability_comparison for exact tests, revision provenance and limits.",
+            "sha256": "13f99c4f3055c699348b3c43dc58a0d680bf1297ca816c34c906c87a561f0866"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 4,
+          "current_unit_usd": 0.054,
+          "candidate_unit_usd": 0.0378,
+          "installed_only_delta_usd": -0.0648
+        }
+      ],
+      "reason": "候補7,197個/$0.0378は現行6,191個/$0.054より在庫・価格の両方が改善。2 placementsの節約$0.0324は採用推奨23.2kの$0.033とほぼ同じで、backup-onlyのままにする理由は一貫しない。最終批判的レビューで同値置換推奨へ昇格。B20 R33/RLM2のみ対象。"
+    },
+    {
+      "old_code": "C861244",
+      "old_mpn": "RT0603BRD0723K2L",
+      "new_code": "C50670525",
+      "new_mpn": "TC0325B2322T5F",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R42"
+          ]
+        }
+      ],
+      "current_stock": 2629,
+      "candidate_stock": 3721,
+      "current_unit_1_usd": 0.0535,
+      "candidate_unit_1_usd": 0.0205,
+      "current_unit_20_usd": 0.0535,
+      "candidate_unit_20_usd": 0.0205,
+      "candidate_catalog": {
+        "code": "C50670525",
+        "mpn": "TC0325B2322T5F",
+        "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 3721,
+        "retrieved_utc": "2026-11-21T18:07:04.493427+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 499,
+            "productPrice": 0.0205
+          },
+          {
+            "startNumber": 500,
+            "endNumber": 1499,
+            "productPrice": 0.0163
+          },
+          {
+            "startNumber": 1500,
+            "endNumber": 4999,
+            "productPrice": 0.0139
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 24999,
+            "productPrice": 0.0125
+          },
+          {
+            "startNumber": 25000,
+            "endNumber": 49999,
+            "productPrice": 0.0113
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": -1,
+            "productPrice": 0.0106
+          }
+        ],
+        "unit_price_usd_at_1": 0.0205,
+        "unit_price_usd_at_20": 0.0205,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 6,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/53304590-TC0325B2322T5F/C50670525",
+        "raw_response_sha256": null,
+        "assessment": "usable-paper-alternative; supplier quote/native adoption still required",
+        "reason": null,
+        "technical_comparison": {
+          "status": "meets-stated-primary-electrical-ratings",
+          "family": "UNI-ROYAL TC03",
+          "primary_url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+          "decode": "TC03=0603;25=25ppm/C;B=0.1%;2322=23200ohm;T5=tape/reel5000;F=0.1W.",
+          "specifications": {
+            "tolerance_pct": 0.1,
+            "tcr_ppm_per_c": 25,
+            "rated_power_w_at_70c": 0.1,
+            "max_working_voltage_v": 75,
+            "temperature_c": [
+              -55,
+              155
+            ],
+            "body_nominal_mm": [
+              1.6,
+              0.8,
+              0.45
+            ],
+            "body_tolerance_mm": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "resistance_ohm": 23200
+          },
+          "scope": "Paper initial electrical/body-family comparison; no unconditional reliability equivalence. See reliability_comparison for endurance/test coverage. No substitution applied and no native/physical validation claimed."
+        },
+        "qualification_limits": [
+          "基本定格と比較可能な主要耐久限度を保持。試験範囲全体の同等性と寿命後0.1%精度は未証明。details/precision_resistors.json の reliability_comparison を参照。"
+        ],
+        "primary_sources": [
+          {
+            "id": "tc2026v18",
+            "url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+            "revision": "2026-05-29 V18",
+            "inspected": "Current live manufacturer product page PDF; TC03 code/body/basic ratings and endurance limits inspected. Replaces obsolete V6 reliance; see reliability_comparison for exact tests, revision provenance and limits.",
+            "sha256": "13f99c4f3055c699348b3c43dc58a0d680bf1297ca816c34c906c87a561f0866"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 2,
+          "current_unit_usd": 0.0535,
+          "candidate_unit_usd": 0.0205,
+          "installed_only_delta_usd": -0.066
+        }
+      ],
+      "reason": "同じ必要仕様で現行2,629個に対し3,721個、単価$0.0535→$0.0205。価格と在庫の両方が改善し、値や精度を変える必要がない。"
+    },
+    {
+      "old_code": "C705764",
+      "old_mpn": "RT0603BRD0730K1L",
+      "new_code": "C2989442",
+      "new_mpn": "TC0325B3012T5F",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "RVX1"
+          ]
+        }
+      ],
+      "current_stock": 2,
+      "candidate_stock": 2145,
+      "current_unit_1_usd": 0.036,
+      "candidate_unit_1_usd": 0.023,
+      "current_unit_20_usd": 0.036,
+      "candidate_unit_20_usd": 0.023,
+      "candidate_catalog": {
+        "code": "C2989442",
+        "mpn": "TC0325B3012T5F",
+        "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 2145,
+        "retrieved_utc": "2026-11-21T18:07:39.348669+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 499,
+            "productPrice": 0.023
+          },
+          {
+            "startNumber": 500,
+            "endNumber": 1499,
+            "productPrice": 0.0187
+          },
+          {
+            "startNumber": 1500,
+            "endNumber": 4999,
+            "productPrice": 0.0164
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 24999,
+            "productPrice": 0.0145
+          },
+          {
+            "startNumber": 25000,
+            "endNumber": 49999,
+            "productPrice": 0.0133
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": -1,
+            "productPrice": 0.0126
+          }
+        ],
+        "unit_price_usd_at_1": 0.023,
+        "unit_price_usd_at_20": 0.023,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 6,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/3448865-TC0325B3012T5F/C2989442",
+        "raw_response_sha256": null,
+        "assessment": "usable-paper-alternative; supplier quote/native adoption still required",
+        "reason": null,
+        "technical_comparison": {
+          "status": "meets-stated-primary-electrical-ratings",
+          "family": "UNI-ROYAL TC03",
+          "primary_url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+          "decode": "TC03=0603;25=25ppm/C;B=0.1%;3012=30100ohm;T5=tape/reel5000;F=0.1W.",
+          "specifications": {
+            "tolerance_pct": 0.1,
+            "tcr_ppm_per_c": 25,
+            "rated_power_w_at_70c": 0.1,
+            "max_working_voltage_v": 75,
+            "temperature_c": [
+              -55,
+              155
+            ],
+            "body_nominal_mm": [
+              1.6,
+              0.8,
+              0.45
+            ],
+            "body_tolerance_mm": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "resistance_ohm": 30100
+          },
+          "scope": "Paper initial electrical/body-family comparison; no unconditional reliability equivalence. See reliability_comparison for endurance/test coverage. No substitution applied and no native/physical validation claimed."
+        },
+        "qualification_limits": [
+          "基本定格と比較可能な主要耐久限度を保持。試験範囲全体の同等性と寿命後0.1%精度は未証明。details/precision_resistors.json の reliability_comparison を参照。"
+        ],
+        "primary_sources": [
+          {
+            "id": "tc2026v18",
+            "url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+            "revision": "2026-05-29 V18",
+            "inspected": "Current live manufacturer product page PDF; TC03 code/body/basic ratings and endurance limits inspected. Replaces obsolete V6 reliance; see reliability_comparison for exact tests, revision provenance and limits.",
+            "sha256": "13f99c4f3055c699348b3c43dc58a0d680bf1297ca816c34c906c87a561f0866"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 2,
+          "current_unit_usd": 0.036,
+          "candidate_unit_usd": 0.023,
+          "installed_only_delta_usd": -0.026
+        }
+      ],
+      "reason": "現行2個、minPurchaseNum254、least20/loss8に対し候補2,145個/min1。0.1%・25ppm・同値のまま供給flagを解消する推奨。"
+    },
+    {
+      "old_code": "C861332",
+      "old_mpn": "RT0603BRD0733RL",
+      "new_code": "C2989252",
+      "new_mpn": "TC0325B330JT5F",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R35"
+          ]
+        }
+      ],
+      "current_stock": 0,
+      "candidate_stock": 23593,
+      "current_unit_1_usd": 0.0547,
+      "candidate_unit_1_usd": 0.0262,
+      "current_unit_20_usd": 0.0547,
+      "candidate_unit_20_usd": 0.0262,
+      "candidate_catalog": {
+        "code": "C2989252",
+        "mpn": "TC0325B330JT5F",
+        "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 23593,
+        "retrieved_utc": "2026-11-21T18:07:45.061153+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 199,
+            "productPrice": 0.0262
+          },
+          {
+            "startNumber": 200,
+            "endNumber": 599,
+            "productPrice": 0.0213
+          },
+          {
+            "startNumber": 600,
+            "endNumber": 4999,
+            "productPrice": 0.0185
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 9999,
+            "productPrice": 0.0164
+          },
+          {
+            "startNumber": 10000,
+            "endNumber": 19999,
+            "productPrice": 0.015
+          },
+          {
+            "startNumber": 20000,
+            "endNumber": -1,
+            "productPrice": 0.0142
+          }
+        ],
+        "unit_price_usd_at_1": 0.0262,
+        "unit_price_usd_at_20": 0.0262,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 6,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/3448675-TC0325B330JT5F/C2989252",
+        "raw_response_sha256": null,
+        "assessment": "usable-paper-alternative; supplier quote/native adoption still required",
+        "reason": null,
+        "technical_comparison": {
+          "status": "meets-stated-primary-electrical-ratings",
+          "family": "UNI-ROYAL TC03",
+          "primary_url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+          "decode": "TC03=0603;25=25ppm/C;B=0.1%;330J=33.0ohm;T5=tape/reel5000;F=0.1W.",
+          "specifications": {
+            "tolerance_pct": 0.1,
+            "tcr_ppm_per_c": 25,
+            "rated_power_w_at_70c": 0.1,
+            "max_working_voltage_v": 75,
+            "temperature_c": [
+              -55,
+              155
+            ],
+            "body_nominal_mm": [
+              1.6,
+              0.8,
+              0.45
+            ],
+            "body_tolerance_mm": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "resistance_ohm": 33.0
+          },
+          "scope": "Paper initial electrical/body-family comparison; no unconditional reliability equivalence. See reliability_comparison for endurance/test coverage. No substitution applied and no native/physical validation claimed."
+        },
+        "qualification_limits": [
+          "基本定格と比較可能な主要耐久限度を保持。試験範囲全体の同等性と寿命後0.1%精度は未証明。details/precision_resistors.json の reliability_comparison を参照。"
+        ],
+        "primary_sources": [
+          {
+            "id": "tc2026v18",
+            "url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+            "revision": "2026-05-29 V18",
+            "inspected": "Current live manufacturer product page PDF; TC03 code/body/basic ratings and endurance limits inspected. Replaces obsolete V6 reliance; see reliability_comparison for exact tests, revision provenance and limits.",
+            "sha256": "13f99c4f3055c699348b3c43dc58a0d680bf1297ca816c34c906c87a561f0866"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 2,
+          "current_unit_usd": 0.0547,
+          "candidate_unit_usd": 0.0262,
+          "installed_only_delta_usd": -0.057
+        }
+      ],
+      "reason": "現行0在庫。先のR35調査を再利用し、0.1%・25ppm・33 ohmを維持する候補を推奨。旧Board B R24への一括置換はしない。"
+    },
+    {
+      "old_code": "C861371",
+      "old_mpn": "RT0603BRD073K09L",
+      "new_code": "C50670209",
+      "new_mpn": "TC0325B3091T5F",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "R22",
+            "R31"
+          ]
+        }
+      ],
+      "current_stock": 195,
+      "candidate_stock": 2176,
+      "current_unit_1_usd": 0.0285,
+      "candidate_unit_1_usd": 0.019,
+      "current_unit_20_usd": 0.0285,
+      "candidate_unit_20_usd": 0.019,
+      "candidate_catalog": {
+        "code": "C50670209",
+        "mpn": "TC0325B3091T5F",
+        "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 2176,
+        "retrieved_utc": "2026-11-21T18:07:50.764556+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 499,
+            "productPrice": 0.019
+          },
+          {
+            "startNumber": 500,
+            "endNumber": 1499,
+            "productPrice": 0.0147
+          },
+          {
+            "startNumber": 1500,
+            "endNumber": 4999,
+            "productPrice": 0.0124
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 24999,
+            "productPrice": 0.011
+          },
+          {
+            "startNumber": 25000,
+            "endNumber": 49999,
+            "productPrice": 0.0098
+          },
+          {
+            "startNumber": 50000,
+            "endNumber": -1,
+            "productPrice": 0.0091
+          }
+        ],
+        "unit_price_usd_at_1": 0.019,
+        "unit_price_usd_at_20": 0.019,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 6,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/53304274-TC0325B3091T5F/C50670209",
+        "raw_response_sha256": null,
+        "assessment": "usable-paper-alternative; supplier quote/native adoption still required",
+        "reason": null,
+        "technical_comparison": {
+          "status": "meets-stated-primary-electrical-ratings",
+          "family": "UNI-ROYAL TC03",
+          "primary_url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+          "decode": "TC03=0603;25=25ppm/C;B=0.1%;3091=3090ohm;T5=tape/reel5000;F=0.1W.",
+          "specifications": {
+            "tolerance_pct": 0.1,
+            "tcr_ppm_per_c": 25,
+            "rated_power_w_at_70c": 0.1,
+            "max_working_voltage_v": 75,
+            "temperature_c": [
+              -55,
+              155
+            ],
+            "body_nominal_mm": [
+              1.6,
+              0.8,
+              0.45
+            ],
+            "body_tolerance_mm": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "resistance_ohm": 3090
+          },
+          "scope": "Paper initial electrical/body-family comparison; no unconditional reliability equivalence. See reliability_comparison for endurance/test coverage. No substitution applied and no native/physical validation claimed."
+        },
+        "qualification_limits": [
+          "基本定格と比較可能な主要耐久限度を保持。試験範囲全体の同等性と寿命後0.1%精度は未証明。details/precision_resistors.json の reliability_comparison を参照。"
+        ],
+        "primary_sources": [
+          {
+            "id": "tc2026v18",
+            "url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+            "revision": "2026-05-29 V18",
+            "inspected": "Current live manufacturer product page PDF; TC03 code/body/basic ratings and endurance limits inspected. Replaces obsolete V6 reliance; see reliability_comparison for exact tests, revision provenance and limits.",
+            "sha256": "13f99c4f3055c699348b3c43dc58a0d680bf1297ca816c34c906c87a561f0866"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 4,
+          "current_unit_usd": 0.0285,
+          "candidate_unit_usd": 0.019,
+          "installed_only_delta_usd": -0.038
+        }
+      ],
+      "reason": "現行195個がminPurchaseNum388未満。候補2,176個/min1、同じ3.09 kohm/0.1%/25ppmで価格も低い。B20 R22/R31のみが今回の対象。"
+    },
+    {
+      "old_code": "C861616",
+      "old_mpn": "RT0603BRD079K76L",
+      "new_code": "C28994963",
+      "new_mpn": "TC0325B9761T5F",
+      "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+      "placements": [
+        {
+          "board": "board-b20-draft",
+          "refs": [
+            "RLV1"
+          ]
+        }
+      ],
+      "current_stock": 497,
+      "candidate_stock": 3265,
+      "current_unit_1_usd": 0.0503,
+      "candidate_unit_1_usd": 0.011,
+      "current_unit_20_usd": 0.0503,
+      "candidate_unit_20_usd": 0.011,
+      "candidate_catalog": {
+        "code": "C28994963",
+        "mpn": "TC0325B9761T5F",
+        "manufacturer": "UNI-ROYAL(Uniroyal Elec)",
+        "package": "0603",
+        "stock": 3265,
+        "retrieved_utc": "2026-11-21T18:08:58.415093+00:00",
+        "prices_usd": [
+          {
+            "startNumber": 1,
+            "endNumber": 499,
+            "productPrice": 0.011
+          },
+          {
+            "startNumber": 500,
+            "endNumber": 1499,
+            "productPrice": 0.0108
+          },
+          {
+            "startNumber": 1500,
+            "endNumber": 4999,
+            "productPrice": 0.0106
+          },
+          {
+            "startNumber": 5000,
+            "endNumber": 5099,
+            "productPrice": 0.0105
+          },
+          {
+            "startNumber": 5100,
+            "endNumber": 5199,
+            "productPrice": 0.0105
+          },
+          {
+            "startNumber": 5200,
+            "endNumber": -1,
+            "productPrice": 0.0105
+          }
+        ],
+        "unit_price_usd_at_1": 0.011,
+        "unit_price_usd_at_20": 0.011,
+        "minPurchaseNum": 1,
+        "leastPatchNumber": 20,
+        "lossNumber": 6,
+        "library_type": "expand",
+        "preferred": false,
+        "url": "https://jlcpcb.com/partdetail/30721986-TC0325B9761T5F/C28994963",
+        "raw_response_sha256": null,
+        "assessment": "usable-paper-alternative; supplier quote/native adoption still required",
+        "reason": null,
+        "technical_comparison": {
+          "status": "meets-stated-primary-electrical-ratings",
+          "family": "UNI-ROYAL TC03",
+          "primary_url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+          "decode": "TC03=0603;25=25ppm/C;B=0.1%;9761=9760ohm;T5=tape/reel5000;F=0.1W.",
+          "specifications": {
+            "tolerance_pct": 0.1,
+            "tcr_ppm_per_c": 25,
+            "rated_power_w_at_70c": 0.1,
+            "max_working_voltage_v": 75,
+            "temperature_c": [
+              -55,
+              155
+            ],
+            "body_nominal_mm": [
+              1.6,
+              0.8,
+              0.45
+            ],
+            "body_tolerance_mm": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "resistance_ohm": 9760
+          },
+          "scope": "Paper initial electrical/body-family comparison; no unconditional reliability equivalence. See reliability_comparison for endurance/test coverage. No substitution applied and no native/physical validation claimed."
+        },
+        "qualification_limits": [
+          "基本定格と比較可能な主要耐久限度を保持。試験範囲全体の同等性と寿命後0.1%精度は未証明。details/precision_resistors.json の reliability_comparison を参照。"
+        ],
+        "primary_sources": [
+          {
+            "id": "tc2026v18",
+            "url": "https://www.uni-royal.cn/en/./images/userfile/file/1793259523fc3ff2ddba72913b.pdf",
+            "revision": "2026-05-29 V18",
+            "inspected": "Current live manufacturer product page PDF; TC03 code/body/basic ratings and endurance limits inspected. Replaces obsolete V6 reliance; see reliability_comparison for exact tests, revision provenance and limits.",
+            "sha256": "13f99c4f3055c699348b3c43dc58a0d680bf1297ca816c34c906c87a561f0866"
+          }
+        ]
+      },
+      "installed_only_comparison": [
+        {
+          "board": "board-b20-draft",
+          "comparison_board_count": 2,
+          "mounted_quantity": 2,
+          "current_unit_usd": 0.0503,
+          "candidate_unit_usd": 0.011,
+          "installed_only_delta_usd": -0.0786
+        }
+      ],
+      "reason": "現行497個に対し候補3,265個、単価$0.0503→$0.011。初期精度とTCRを維持しながら供給余裕と価格を大きく改善。"
+    }
+  ],
+  "selected_change_count": 12,
+  "selected_placement_counts": {
+    "board-p": 7,
+    "board-b20-draft": 25
+  },
+  "expected_active_unique_codes_after_all_changes": 102,
+  "expected_codes_by_board": {
+    "board-p": 27,
+    "board-p15": 14,
+    "board-b20-draft": 88
+  },
+  "installed_only_comparison": {
+    "pd20_pairs": 2,
+    "p15_changes": 0,
+    "new_minus_old_usd": 1.6274,
+    "basis": "Apply tier to mounted quantity per board job. Does not include extra purchase/attrition, setup, PCB, assembly, shipping or tax. Comparison against zero-stock old parts is hypothetical; not a payable quote."
+  }
+}
