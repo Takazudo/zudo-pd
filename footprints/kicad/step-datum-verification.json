@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "review_sha256": "744eafd9e118ee34a56681a77f535661e00601c637035e6e3c87875ea13a0aa3",
+  "review_sha256": "108c0388d77a924d383614552a49cd6b7f6242abc891c524396e77f187c07b93",
   "boards": [
     {
       "path": "boards/board-p/board-p.kicad_pcb",
-      "sha256": "3fc44335431a111d4bc2cf9678fbef1a719ded77731bbd2de1fc218c576e7785"
+      "sha256": "3cc1affe9901063b3f6a02d5628bd18698304ada89d8e5bfffde3ff600e5782f"
     },
     {
       "path": "boards/board-p15/board-p15-draft.kicad_pcb",
@@ -17,7 +17,7 @@
     },
     {
       "path": "boards/board-b20-draft/board-b20-draft.kicad_pcb",
-      "sha256": "bc16fc9bfa0f1d7120fd6a95b15cc1690084cd3210253eb0ad2fe35afa9e388f"
+      "sha256": "b4de1f6bae5221cd898990edcac0e2899062aa2fcbdc9eed8d0faa80687b53be"
     }
   ],
   "verifier_sha256": "72ad2e7c540e3d051fc23262d6132e0208a75ce0dc36b8dc0b5a3c246d857dc8",
@@ -1740,6 +1740,63 @@
       "status": "PASS"
     },
     {
+      "wrl": "SOD-123_Pad0.90x0.95mm_P3.15mm.wrl",
+      "step": "SOD-123_Pad0.90x0.95mm_P3.15mm.step",
+      "uses_at_review": [
+        "board-p/D8",
+        "board-p/D9",
+        "board-p/D11",
+        "board-p/D12",
+        "board-p/D13",
+        "board-b20-draft/D4",
+        "board-b20-draft/DZ1",
+        "board-b20-draft/DZ2",
+        "board-b20-draft/DZ3"
+      ],
+      "wrl_sha256": "45ee4c503da44795a4f422d2d92f51802d3df66ad926d926d4878cd01c406507",
+      "step_sha256": "1a3ff428cbd393ef718338336f3bc921239a12b8d495beac300798295fc1fb9f",
+      "input_step_sha256": "1a3ff428cbd393ef718338336f3bc921239a12b8d495beac300798295fc1fb9f",
+      "original_step_sha256": "1a3ff428cbd393ef718338336f3bc921239a12b8d495beac300798295fc1fb9f",
+      "reviewed_translation_mm": null,
+      "translation_applied_this_run": false,
+      "before_bounds_mm": [
+        [
+          -1.84,
+          -0.8,
+          0.0
+        ],
+        [
+          1.84,
+          0.8000001,
+          1.2200001000000285
+        ]
+      ],
+      "after_bounds_mm": [
+        [
+          -1.84,
+          -0.8,
+          0.0
+        ],
+        [
+          1.84,
+          0.8000001,
+          1.2200001000000285
+        ]
+      ],
+      "volume_before_mm3": 4.671293028231624,
+      "volume_after_mm3": 4.671293028231624,
+      "surface_screen": {
+        "wrl_to_step_max_mm": 0.020103999999999997,
+        "step_to_wrl_max_mm": 0.0016840276327889628,
+        "wrl_to_step_p99_mm": 0.020103999999999997,
+        "step_to_wrl_p99_mm": 0.001555216635951733,
+        "wrl_samples": 1115,
+        "step_samples": 3072,
+        "wrl_samples_strictly_inside_step_exception": 0
+      },
+      "status": "PASS"
+    },
+    {
       "wrl": "HSOP-8_DDA_MaxEnvelope_W4.0-L5.0-H1.7.wrl",
       "step": "HSOP-8_DDA_MaxEnvelope_W4.0-L5.0-H1.7.step",
       "uses_at_review": [
@@ -2548,6 +2605,6 @@
     "Agreement with existing WRL does not certify manufacturer accuracy, normalized land-pattern fit, unseen geometry or physical mating. ASPI remains a conservative illustrative envelope.",
     "The exact BD8 capacitor retains internal WRL faces contained within the STEP solid; its outer STEP-to-WRL screen must still pass."
   ],
-  "model_pairs_checked": 47,
+  "model_pairs_checked": 48,
   "step_translations_applied_this_run": 0
 }

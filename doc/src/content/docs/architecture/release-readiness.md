@@ -52,6 +52,9 @@ Headroom calculations retain source/path voltage, temperature, ripple and cerami
 Each export needs one exact valid pair, final-revision Gerbers/drills/BOM/CPL, reviewed DNP/side/rotation/THT scope,
 source locks, reports and named blockers. Use [package preparation](../project/jlcpcb-package.md).
 An export is neither an executed order nor a release. Prototype residual acceptance does not waive product qualification.
+Part supply and cost choices follow the [sourcing policy](../decisions/sourcing.mdx): before an order, re-check each
+adopted exact code, its stock at the real quantity and the hash of the latest package. Adoption, consistent
+manufacturing files and measured acceptance remain separate states.
 
 The two-P15 local packet and the PD20 development pair have separate dispositions
 in the [execution ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md).

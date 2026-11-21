@@ -54,8 +54,13 @@ Links below resolve inside an export of this pair. Repository documents are name
 - **Quantity is the owner's decision.** Preparing this package does not place an order. `ORDER-SHEET.md` in the
   release folder prices a labelled two-pair estimate. The settled P15 purchase is separate: exactly two assembled P15
   modules from the frozen P15 package.
-- **Supplier stock on 2026-11-20.** JLC's catalog showed zero stock for INA301A3IDGKR C2861552 (U11, U12) and
-  RT0603BRD0733RL C861332 (R35). They need a JLC parts pre-order or a reviewed substitute before the assembly order.
+- **Sourcing adoption 2026-11-22 JST (#326).** Twelve reviewed substitutions replace earlier codes at 7 Board P r3 and
+  25 B20 placements, including INA301A3QDGKTQ1 C179864 for the zero-stock INA301A3IDGKR (U11, U12) and TC0325B330JT5F
+  C2989252 for the zero-stock 33 Ω R35. The repository policy is `doc/src/content/docs/decisions/sourcing.mdx` and the
+  dated audit is `doc/src/content/docs/research/parts-sourcing-audit-20261122.mdx`. Stock is an observation, not a
+  reservation: C179864 showed 13 units (spare C2155855, 34). B20 R66 (C861076, 11 units, least-patch 20, loss 6) and
+  Board P D5 (TVS2200DRVR C523793, 2 units, minimum purchase 21) keep their exact parts and need a supply check at the
+  real quantity. Re-check every adopted code before ordering.
 - **Placement-preview orientation checks.** Before any order, check every polarized part against pad 1 of `cpl.csv`
   in JLC's placement preview. Start with these:
   - D1–D3 Schottky diodes. For D3 (B560C-13-F C85100, SMC), the cathode is pad 1 on C_SW.
@@ -63,7 +68,7 @@ Links below resolve inside an export of this pair. Repository documents are name
   - The VSSOP-8 amplifiers.
   - The SON-8 Q1–Q6.
   - Every SOT-23 FET.
-  - The polarized bottom-side D2 parts: D4 / D5 (SOD-123 zeners), Q51 / Q52 / Q55 (VSON-8), Q8
+  - The polarized bottom-side D2 parts: D4 / D5 (SOD-123 zeners; D4 is now JSCJ BZT52C11 C14941, pad 1 cathode), Q51 / Q52 / Q55 (VSON-8), Q8
     (PowerDI3333-8) and Q7 / Q9 / Q13 (SOT-23). Check them in
     the bottom-side preview, which mirrors the view.
   - Body models alone do not establish pin-1/cathode orientation or supplier placement.

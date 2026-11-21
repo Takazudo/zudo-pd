@@ -1,0 +1,160 @@
+---
+title: BOM and sourcing decisions
+description: How zudo-pd selects exact parts for supply and cost without weakening the required specification, and how dated stock and price observations are recorded.
+sidebar_position: 20
+---
+
+This page is the project's sourcing policy. It explains how parts are chosen for supply and cost, and how supply
+observations are recorded. It is not a replacement for the canonical component inventory
+(`.claude/skills/component-spec-audit/references/inventory.json`) or for a generated assembly BOM. Nothing on this page
+is an order, a quote, a stock reservation or an assembly plan.
+
+The latest dated audit under this policy is the
+[parts sourcing audit of 2026-11-22 JST](../research/parts-sourcing-audit-20261122.mdx), with the machine-readable
+[101-line ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/readiness/parts-sourcing-audit-20261122.json).
+
+## Purpose and scope
+
+Among the parts that satisfy the required electrical, thermal, mechanical and manufacturing conditions, choose one that
+is easy to obtain in the needed quantity and keeps the whole order cost low. A generic part with zero or low stock is the
+first place to look for an equivalent with more stock.
+
+The current scope is PD20 (Board P r3 and Board B20) and the planned additional P15 boards. Earlier Board B, Board L,
+received hardware and frozen packages are separate history and are not rewritten by a sourcing change.
+
+A cheap, well-stocked part in use is still compared and the comparison is recorded, but saving a few cents is not by
+itself a reason to replace a good part. Count the cost of another unique part, its verification, another sourcing route
+and a split order line.
+
+## Intended build
+
+| Field | Entry |
+|---|---|
+| Build | PD20 prototype (Board P r3 + Board B20); 2 additional P15 r1 from the fixed package |
+| Design revision | The revision of the latest PD20 package in [current state](../project/current-state.md) |
+| PD20 quantity | **Undecided.** "Two pairs" is a comparison basis only and is not the order quantity |
+| Assembly | JLCPCB Standard PCBA; B20 is two-sided |
+| Generated BOM and placement | The package named in current state; regenerate after any identity change |
+| Quote | None obtained. No upload, quote or purchase is part of a sourcing change |
+
+## Decision order
+
+1. Fix the part's role in the circuit and its required specification.
+2. Identify the exact manufacturer, the complete MPN with suffix, the supplier code, and the board and references.
+3. Compare the part in use with each candidate from primary sources: specification, pin numbering and polarity,
+   recommended land pattern, outline and mounted height.
+4. Judge supply with the same basis for every candidate: the board quantity, placements per board, the side split, the
+   sourcing route, assembly loss and minimum quantities.
+5. Compare cost as the needed purchase quantity plus setup, manual or special processes, shipping and lead time, not unit
+   price alone.
+6. Record each line as adopted, retained, retained with a backup candidate, a redesign-only candidate, or retained
+   pending a supply check.
+
+A candidate whose comparison basis is unconfirmed stays unconfirmed. A catalog title or a shared package name does not
+make a part compatible. A typical value is never used as a guaranteed limit.
+
+## Conditions by part type
+
+- **General resistors.** Keep resistance, tolerance, any required TCR, power, voltage, temperature range and outline. A
+  0 Ω part is compared by its residual resistance and current rating, not its printed tolerance.
+- **Precision resistors.** Keep the precision budget of that reference. Do not relax the ±0.1 % / 25 ppm/°C parts used
+  here to 0.5 %, 1 % or 50 ppm/°C for price. Treat initial tolerance, temperature drift and long-term drift
+  separately; check load life, damp heat and soldering heat where they matter. An initial 0.1 % part does not guarantee
+  0.1 % at end of life. Scaling a divider while keeping its ratio is a design change: input bias, RC and leakage change.
+- **Capacitors.** Compare dielectric, effective capacitance at the applied voltage, ESR, ripple current, temperature,
+  life and recommended land as well as nominal value, tolerance and rating. Never replace a timing or compensation C0G
+  with X7R. Two 10 µF / 50 V / 1210 parts with different DC-bias curves are not equivalent.
+- **Inductors.** Compare inductance and DCR, the saturation definition and its test condition, temperature rise, maximum
+  temperature, winding voltage, and the waveform and fault current of each placement. Do not move a switching inductor
+  and a post-filter inductor together because they share a package.
+- **Shunts.** Keep resistance, tolerance, TCR, Kelvin connection, current and pulse ratings, the copper condition of
+  the power rating, and the land. A catalog "1 W" includes its board condition.
+- **Semiconductors.** Compare pins, supply range, leakage, on-resistance, gain, offset, delay, protection behavior, surge
+  rating, thermal condition and recommended land for the role the part plays. INA301 A1/A2/A3, same-name TVS parts
+  from different manufacturers, and TPS54560 versus TPS54560B are never treated as the same part automatically.
+- **Connectors.** Keep pitch and also per-pin rating, orientation, key, mating part, holes and retention, and stack height.
+
+## Stock and quantity
+
+Every stock or price observation records its retrieval time and time zone, supplier, URL, MPN, supplier code and price
+tier. A stock value is an observation at that time, not a reservation or a lead-time promise. LCSC stock, the JLC
+public pool, JLC consigned or private stock, and Global Sourcing availability are kept apart and never added together.
+
+The JLC API fields `minPurchaseNum`, `leastPatchNumber` and `lossNumber` are stored as separate observations. None of
+them is "the MOQ". JLC's public help describes different conditions for buying an in-stock Extended part, pre-ordering an
+out-of-stock part, and the minimum and loss quantities of assembly. One API field does not determine the quantity a
+Standard PCBA order will bill. Stock below `minPurchaseNum` alone does not prove a part cannot be placed.
+
+The needed quantity comes from the actual board count and the placements on each side. The usable quantity and loss are
+confirmed in the quote and order screens. When a minimum or loss quantity is unconfirmed, the line is recorded as supply
+unconfirmed. The PD20 "two pairs" comparison basis is not changed into an order quantity.
+
+## Cost
+
+On 2026-11-22 JST the JLC public price list gave a Standard PCBA SMT feeder setup charge of **$1.53 per unique SMT part
+for both Basic and Extended parts**, and $3.07 per unique Extended part for Economic PCBA. The charge is per unique part,
+not per placement or per board. The Preferred Extended waiver is an Economic condition. PD20 is two-sided Standard PCBA,
+so a change from a Basic to an Extended part is not by itself a cost increase. Through-hole parts are handled separately
+from SMT feeders. Recheck these amounts and conditions at the next quote.
+
+A "unit price at the 20-piece tier" or a "difference times placements" is a comparison metric. Name it as such; it is not
+a purchase cost or a finished quote. State which costs are included: parts, setup, PCB, two-sided assembly, inspection
+and fixtures, packing, shipping and tax. Do not subtract a unit-price difference from an older catalog estimate to make a
+new order total.
+
+## Evidence and adoption
+
+The audit ledger keeps one line per part code: boards and references, role, required specification, the part in use,
+compared candidates, retrieval times, price tiers and quantity fields, primary sources (title, revision, URL, SHA256), the
+reason for the decision, and the conditions left. "Researched" and "adopted" are different states.
+
+Adopting a part updates, together and consistently: the component owner bundle, the inventory, facts and sources, pin
+map, footprint and model, integration rules, the generator spec, schematic, PCB, BOM and CPL, and the publication
+selection. Candidates do not enter the published inventory first. Source bytes go to the private
+`Takazudo/circuit-dev-resources` repository; this repository records metadata and digests. Generated component pages and
+catalogs are never edited by hand.
+
+When the same code stays on an older board or on P15, the adoption names its scope per board and reference. Never
+replace a string across the whole repository. Frozen releases and past checksums and receipts are kept; after a change,
+manufacturing data is generated as a new revision in a new destination.
+
+Redo electrical calculations, native KiCad, DRC, refill and parity, STEP datum review, assembly preview and Gerber, BOM
+and CPL verification as the change requires. A PASS of the earlier package does not carry over to the new part set.
+Adopting a part, consistent manufacturing files and measured electrical acceptance are three different states.
+
+## Alternate parts and unavailable items
+
+| Affected line | Procurement problem | Candidate | Work required | Record |
+|---|---|---|---|---|
+| B20 R66 10.4 kΩ, C861076 RT0603BRD0710K4L | JLC stock 11, `minPurchaseNum` 1, `leastPatchNumber` 20, `lossNumber` 6 | No equivalent JLC stock found; Mouser lists the exact part (8,215 units, 2026-11-22 03:31:54 JST) | Confirm Standard PCBA use at the real quantity, or external exact-part sourcing, consignment, packing, shipping and lead time. Never add external stock to JLC stock. Do not change to 10.5 kΩ or rescale the divider through the BOM alone | [Audit](../research/parts-sourcing-audit-20261122.mdx) |
+| Board P D5 TVS2200DRVR, C523793 | JLC stock 2, `minPurchaseNum` 21, `leastPatchNumber` 5, `lossNumber` 0 | A documented conditional backup exists; no lower-cost part with the same high-temperature clamp is approved | Confirm usable quantity and minimums at the real quantity, or a route for the current TI part. No automatic same-name substitution | [Audit](../research/parts-sourcing-audit-20261122.mdx) |
+| B20 INA301 U11/U12, adopted C179864 | 13 units observed; spare C2155855 (34) | Not "large stock"; nothing is reserved | Re-check stock and the adopted identity when ordering | [Audit](../research/parts-sourcing-audit-20261122.mdx) |
+
+The other retained lines with backup or redesign-only candidates are listed in the audit. A similar label, package or
+catalog number is a candidate for investigation, not a replacement.
+
+## Build reconciliation and ongoing use
+
+The component-selection step of [circuit/WORKFLOW.md](https://github.com/Takazudo/zudo-pd/blob/main/circuit/WORKFLOW.md)
+links here. [Current state](../project/current-state.md), the
+[order readiness ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md) and
+[release readiness](../architecture/release-readiness.md) also link here. Dated audits go under
+[research](../research/index.mdx); machine-readable ledgers go under `manufacturing/readiness/`.
+
+Immediately before an order, re-check each adopted part's exact code, stock, price, needed quantity, side placement,
+supply route and the hash of the latest manufacturing package. A request to research, document, change the design or
+merge is not permission to buy, reserve stock, request a quote, contact a supplier, send manufacturing files, program a
+part or energize hardware.
+
+## Sources for this policy
+
+- JLC price list: https://jlcpcb.com/help/article/pcb-assembly-price
+- Stock and pre-ordering: https://jlcpcb.com/help/article/how-to-build-your-own-parts-library-in-jlcpcb
+- BOM and CPL quantity and matching: https://jlcpcb.com/help/article/common-bom-and-cpl-matching-issues-and-explanations
+- JLC FAQ: https://jlcpcb.com/help/article/pcb-assembly-faqs
+- Evidence and generated-file rules: [circuit/WORKFLOW.md](https://github.com/Takazudo/zudo-pd/blob/main/circuit/WORKFLOW.md)
+- Reference standard from the OSC project:
+  https://github.com/Takazudo/zudo-osc-hole-field/blob/e37e0e662529f497031561ea413de926302526da/design/standard/electrical-standard.json
+
+The OSC standard is a reference for precision classes and how evidence is kept. A matching statement or imported part data
+in OSC does not establish compatibility or current supply for this project.
