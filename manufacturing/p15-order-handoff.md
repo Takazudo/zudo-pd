@@ -48,7 +48,8 @@ regenerate a replacement or refresh the locks.
 | Size | 27 × 40 mm (Gerber outline 27.05 × 40.05) | Package notes, Gerber job |
 | Material, thickness | FR-4, 1.6 mm | Gerber job `BoardThickness` |
 | Outer copper | 35 µm (1 oz) | Gerber job stackup |
-| Surface finish, mask and silk colour | Not fixed by the package; choose in the quote | Gerber job `Finish: None` |
+| Solder mask colour | **Black** (owner preference). Check that the quote keeps it, and record any price or lead-time change | Owner preference; not in the package |
+| Surface finish, silk colour | Not fixed by the package; choose in the quote | Gerber job `Finish: None` |
 | Assembly | **Top side only**, 2 assembled sets (PCBA minimum, owner rule 2026-11-03); 23 placements per board | `cpl.csv` (all Top) |
 | Through-hole | JOUT1 (PZ254V-11-06P) needs through-hole soldering. J1 has 4 THT shell tabs | PCB pads |
 | Bare-PCB quantity | Set in the quote. The quote's minimum was not re-read on 2026-11-20 | — |
@@ -183,3 +184,16 @@ Hashes:
 
 - **Files:** all four upload and review hashes above match, and so does the NVM image.
 - **Lookups:** the 2026-11-20 lookups found no stock shortfall.
+
+## Read-only refresh — 2026-11-22
+
+On `main` `edfd690`, in a full clone (evidence in [`verification/pd20-order-day-20261122/p15/`](verification/pd20-order-day-20261122/README.md)):
+
+- **`verify-shared-reference.py --rev HEAD`:** SOURCE IDENTITY MATCH, all 7 artifacts, ancestry included.
+- **`sha256sum -c SHA256SUMS`:** 150 OK, 0 mismatches, 1 unreadable (the local-only STEP). The four `board-p15/` files
+  and the NVM image (`76622e14…`) match the table above.
+- **Board-p15 non-replay subset:** PASS, all 13 checks.
+- **JLC lookups, 06:13:47–06:14:01 UTC:** all 14 lines found. Each has stock above two boards plus `lossNumber`, and
+  no `minPurchaseNum` or `leastPatchNumber` above stock.
+
+Full historical replay stays NOT RUN.

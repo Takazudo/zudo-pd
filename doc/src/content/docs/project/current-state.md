@@ -24,7 +24,8 @@ hold list on 2026-11-20 because only an assembled board can close their verifica
 two-sided assembly. Electrical acceptance is NOT ESTABLISHED. The remaining pre-order items are supplier checks and
 the owner's quantity decision. On 2026-11-22 JST the [parts sourcing audit](../research/parts-sourcing-audit-20261122.mdx)
 reviewed all 101 active codes and 12 substitutions were adopted (#326), so U11/U12, R35, RVX1 and R22/R31 no longer
-need a pre-order; B20 R66 and Board P D5 keep their exact parts with a supply check.
+need a pre-order; B20 R66 and Board P D5 keep their exact parts with a supply check. The 2026-11-22 order-day re-read
+added B20 RVU1 (C861233) to that check.
 
 ## P15 r1 shared input module
 
@@ -76,8 +77,8 @@ Each step needs the evidence named; record results here with the unit identity. 
 
 | # | Action | Procedure | Evidence to record |
 | --- | --- | --- | --- |
-| 1 | Order 2 × P15 r1 from the fixed package; check D5/D9 in the JLC placement preview; re-check stock and cost | [Order handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md) | Order date and number, preview screenshots for D5/D9, quoted total |
-| 2 | Decide the PD20 quantity and confirm supply at that quantity for B20 R66, Board P D5 and the adopted INA301A3QDGKTQ1 (U11 / U12), re-checking every adopted code ([sourcing policy](../decisions/sourcing.mdx)); run the upload-file integrity check, then quote the PD20 pair with two-sided B20 assembly; check bottom-side rotations and via/stencil details in the preview | [PD20 order sheet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/releases/pd20-sourcing-review-20261122/ORDER-SHEET.md) | Quantity, quote total, preview screenshots |
+| 1 | Order 2 × P15 r1 from the fixed package with black solder mask (owner preference); check D5/D9 in the JLC placement preview; re-check stock and cost | [Order handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md) | Order date and number, preview screenshots for D5/D9, quoted total |
+| 2 | Decide the PD20 quantity and confirm supply at that quantity for B20 R66, B20 RVU1, Board P D5 and the adopted INA301A3QDGKTQ1 (U11 / U12), re-checking every adopted code ([sourcing policy](../decisions/sourcing.mdx)); run the upload-file integrity check, then quote the PD20 pair with two-sided B20 assembly; check bottom-side rotations and via/stencil details in the preview | [PD20 order sheet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/releases/pd20-sourcing-review-20261122/ORDER-SHEET.md) | Quantity, quote total, preview screenshots |
 | 3 | P15 incoming inspection, then per-unit NVM provisioning on a current-limited 5 V-only source with L and B disconnected, then no-load PD acceptance on a source also offering 20 V | [P15-NVM-1–7](../architecture/board-p15-programming.md) | Factory dump, power-cycle readback hash `76622e14…`, contract voltage, VBUS_OUT off at 5 V, per unit |
 | 4 | Hand the first accepted P15 to the LED lamp stack | [LED prototype preparation](../led-lamp/prototype-preparation.md) | Board L identity, RS1, firmware identity, startup/current/thermal |
 | 5 | Received S3 Board B: D1 unpowered inspection, count and condition | [Board B unpowered check](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/board-b-unpowered-check.md) | Usable count, LED2 rotation, copper/silk identity |
@@ -90,6 +91,14 @@ Existing Board B units are not yet inspected or cleared to mate.
 
 These dated entries are kept as written; each describes the state at its date. Where one says a hold remains, the
 status table above and the readiness ledger supersede it.
+
+**Order-day procurement re-read 2026-11-22 JST**, tracker [#329](https://github.com/Takazudo/zudo-pd/issues/329)
+under #228 ([evidence](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/verification/pd20-order-day-20261122/README.md)).
+Both packages' upload files still match their locks, and the P15 source identity matches at `edfd690`. All 99 PD20
+and 14 P15 codes were re-read on the JLC catalog. Four PD20 lines need an owner supply decision: Board P D5 C523793,
+B20 R66 C861076, B20 RVU1 C861233 (new: stock 15, `minPurchaseNum` 178) and B20 U11/U12 C179864 (13, covers six
+pairs). JLC's Global Sourcing, consignment and pre-order routes are documented but not confirmed for this order. No
+part was substituted. Nothing was uploaded, quoted, reserved or ordered.
 
 **Sourcing adoption 2026-11-22 JST**, tracker [#324](https://github.com/Takazudo/zudo-pd/issues/324) under #228. The
 [sourcing policy](../decisions/sourcing.mdx) and the [101-code audit](../research/parts-sourcing-audit-20261122.mdx)

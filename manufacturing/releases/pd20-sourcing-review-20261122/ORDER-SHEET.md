@@ -85,17 +85,29 @@ for this package. Take the meaning of pad 1 from the exact part's owner pin map.
 
 ## Supply to confirm first
 
-Observed 2026-11-22 JST; stock is not reserved. Re-read every line on the order day at the real quantity.
+Re-read 2026-11-22 06:11:44–06:13:05 UTC (15:11–15:13 JST) for all 99 codes; stock is not reserved. Evidence and the
+route research are in [the order-day evidence](../../verification/pd20-order-day-20261122/README.md) (#329). Re-read
+every line on the order day. Demand is per pair (one Board P r3 + one B20); the quantity is undecided.
 
-| LCSC | Part | Placements | Observation | Action |
-| --- | --- | --- | --- | --- |
-| C179864 | INA301A3QDGKTQ1 (adopted) | B20 U11, U12 | 13 in stock; spare C2155855 (34) | Not large stock; re-check before ordering |
-| C861076 | RT0603BRD0710K4L | B20 R66 | 11 in stock; `leastPatchNumber` 20, `lossNumber` 6 | Confirm Standard PCBA use, or source the exact part (Mouser listed 8,215 units); never add external stock to JLC stock |
-| C523793 | TVS2200DRVR | Board P D5 | 2 in stock; `minPurchaseNum` 21, `leastPatchNumber` 5 | Confirm usable quantity, or a route for the exact TI part; no same-name substitute |
+| LCSC | Part | Placements (per pair) | JLC stock | `minPurchaseNum` | `leastPatchNumber` | `lossNumber` | Action |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- |
+| C523793 | TVS2200DRVR | Board P D5 (1) | 2 | 21 | 5 | 0 | Two fields exceed stock. Confirm JLC accepts the line at the real quantity, or bring in the exact TI part (below). No same-name substitute |
+| C861076 | RT0603BRD0710K4L | B20 R66 (1) | 11 | 1 | 20 | 6 | `leastPatchNumber` exceeds stock. Confirm Standard PCBA use, or bring in the exact part. Do not change the value |
+| C861233 | RT0603BRD07226KL | B20 RVU1 (1) | 15 | **178** | 20 | 8 | **New on 2026-11-22**: stock was 55 and `minPurchaseNum` 1 on 2026-11-20/21. Two fields exceed stock. Confirm or bring in the exact part |
+| C179864 | INA301A3QDGKTQ1 (adopted) | B20 U11, U12 (2) | 13 | 1 | 0 | 0 | Stock covers 6 pairs; nothing reserved. Re-check at the chosen quantity |
 
-The other earlier flags are resolved by adopted parts: R35 is C2989252 (23,593), RVX1 is C2989442 (2,145) and R22 / R31
-are C50670209 (2,176). The JLC fields `minPurchaseNum`, `leastPatchNumber` and `lossNumber` are separate observations;
-none of them alone sets the billed quantity.
+Every other line has stock above two pairs plus `lossNumber`, with no field above stock. The earlier R35, RVX1 and
+R22 / R31 flags stay resolved by the adopted parts. `minPurchaseNum`,
+`leastPatchNumber` and `lossNumber` are separate observations that JLC does not publicly define; none of them alone
+sets the billed or usable quantity.
+
+**Routes for the exact parts (documented, not confirmed for this order).** JLC's help pages describe Global Sourcing,
+consignment and parts pre-order, each into the account's private parts library. They give no numeric minimum,
+cut-tape or leader rule and do not state Standard PCBA applicability, so confirm all of that in the order flow. LCSC
+retail showed 0 of C523793, C861076 and C861233. TI's store inventory endpoint returned 113,626 TVS2200DRVR while its
+product page said out of stock, so TI supply is unconfirmed. No other distributor gave a current number. Never add
+external or private stock to JLC's public stock. If no route gives the exact part, the fallback is an engineering
+change, which needs its own evidence and is outside this package.
 
 ## Quantity: undecided
 
@@ -109,7 +121,7 @@ earlier estimate. Standard PCBA setup is $1.53 per unique SMT part for Basic and
 ## Owner steps before ordering
 
 1. Decide the PD20 assembled quantity.
-2. Confirm supply for the three lines above at that quantity.
+2. Confirm supply for the four lines above at that quantity.
 3. Run the upload-file integrity check, then upload both boards.
 4. Set Standard PCBA, **both sides**, on both boards.
 5. Make the placement-preview checks above, including bottom-side rotations in the mirrored view and via and stencil
