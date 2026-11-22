@@ -1,0 +1,140 @@
+{
+ "schema_version": 1,
+ "scope": "Order-day exact-part fulfillment-route evidence for PD20 lines flagged by stock-review.py on 2026-11-22. Read-only public pages and endpoints. No login, contact, cart, reservation, upload, quote or order.",
+ "separation_rules": [
+  "JLC assembly stock, LCSC retail stock, JLC private (consigned / pre-ordered / Global Sourcing) stock and external distributor stock are separate pools and are never added together.",
+  "A documented route is not confirmed acceptance for this order; acceptance, billed quantity, packaging and lead time are confirmed only in the owner's JLC order flow or a supplier response."
+ ],
+ "jlc_routes_documented": {
+  "retrieved_utc": "2026-11-22T06:10Z..06:16Z (help pages show \"Last updated on Sep 09, 2026\")",
+  "global_sourcing": {
+   "urls": [
+    "https://jlcpcb.com/help/article/how-to-use-jlcpcb-global-sourcing-parts-service",
+    "https://jlcpcb.com/help/article/global-sourcing-parts-order-terms-conditions",
+    "https://jlcpcb.com/help/article/pcba-parts-sourcing-instruction"
+   ],
+   "stated": [
+    "paid orders cannot be canceled or returned",
+    "parts are stored and listed in the customer parts library",
+    "purchasing normally 9-20 business days (sourcing instruction says 9-15 days); review 1-3 business days",
+    "USD 20 commodity inspection per kind of part; baking USD 8 per 48 h",
+    "customer should allow for minimum assembly quantity and attrition (no number given)"
+   ],
+   "unknown": [
+    "numeric minimum",
+    "cut-tape / leader requirements",
+    "explicit Standard PCBA applicability"
+   ]
+  },
+  "consignment": {
+   "urls": [
+    "https://jlcpcb.com/help/article/how-to-consign-parts-to-jlcpcb",
+    "https://jlcpcb.com/help/article/consignment-part-terms-conditions",
+    "https://jlcpcb.com/help/article/how-to-use-my-own-parts-for-pcb-assembly-order"
+   ],
+   "stated": [
+    "each item needs extra quantity for attrition or minimum assembly requirement (no number given)",
+    "loose components accepted with an extra handling fee",
+    "import handling fee minimum USD 10 per shipment; duties/VAT deposit; price review within 2 business days",
+    "parts go to My Parts Lib"
+   ],
+   "unknown": [
+    "leader length",
+    "receiving time",
+    "explicit Standard PCBA applicability"
+   ]
+  },
+  "parts_pre_order": {
+   "urls": [
+    "https://jlcpcb.com/help/article/what-is-jlcpcb-parts-pre-order-service",
+    "https://jlcpcb.com/help/article/pre-ordering-parts-terms-conditions",
+    "https://jlcpcb.com/help/article/how-to-build-your-own-parts-library-in-jlcpcb"
+   ],
+   "stated": [
+    "private library; selectable only after arrival at the JLC warehouse",
+    "in-stock extended parts: no minimum order quantity; non-stock parts: a minimum order quantity applies",
+    "lead time within 18 days proceeds directly"
+   ],
+   "unknown": [
+    "packaging",
+    "explicit Standard PCBA applicability"
+   ]
+  },
+  "combination": "Global Sourcing parts may be chosen alongside consigned parts in one order (consigned stock matched first).",
+  "field_meanings": "minPurchaseNum, leastPatchNumber and lossNumber are not defined on any public JLC help page found; reading them as minimum buy, minimum assembly quantity and attrition is an inference, not a JLC statement. PCBA FAQ part 2 (https://jlcpcb.com/help/article/pcb-assembly-faqs-part-2) says a minimum quantity or extra parts for attrition may be required."
+ },
+ "lcsc_retail": {
+  "C861076": {
+   "retrieved_utc": "2026-11-22T06:12:44Z",
+   "url": "https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C861076",
+   "raw_sha256_not_retained": "37bc4adaebc8599c2a961a0bd767a78a861e8a3a2713743e63994279237428f2",
+   "model": "RT0603BRD0710K4L",
+   "lcsc_retail_stock": 0,
+   "minBuyNumber": 20,
+   "split": 20,
+   "minPacketNumber": 5000,
+   "packing": "Tape & Reel (TR)"
+  },
+  "C523793": {
+   "retrieved_utc": "2026-11-22T06:12:44Z",
+   "url": "https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C523793",
+   "raw_sha256_not_retained": "2681aaa898fb88c8696a6e728d2884aff34af1e4833ec586b29b1da552a10925",
+   "model": "TVS2200DRVR",
+   "lcsc_retail_stock": 0,
+   "minBuyNumber": 1,
+   "split": 1,
+   "minPacketNumber": 3000,
+   "packing": "Tape & Reel (TR)"
+  },
+  "C179864": {
+   "retrieved_utc": "2026-11-22T06:12:44Z",
+   "url": "https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C179864",
+   "raw_sha256_not_retained": "77c6619ec534527b6bf337b8241a09cac64055071abb302c50f308bdd79a9971",
+   "model": "INA301A3QDGKTQ1",
+   "lcsc_retail_stock": 13,
+   "minBuyNumber": 1,
+   "split": 1,
+   "minPacketNumber": 250,
+   "packing": "Tape & Reel (TR)"
+  },
+  "C861233": {
+   "retrieved_utc": "2026-11-22T06:15:01Z",
+   "url": "https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C861233",
+   "raw_sha256_not_retained": "9945ee0c4b3e80b9c7ca5dd987902fe85596d6d518dcdd7933d5cb68ed43199e",
+   "model": "RT0603BRD07226KL",
+   "lcsc_retail_stock": 0,
+   "minBuyNumber": 20,
+   "split": 20,
+   "minPacketNumber": 5000,
+   "packing": "Tape & Reel (TR)"
+  }
+ },
+ "ti_store_inventory_endpoint": {
+  "TVS2200DRVR": {
+   "retrieved_utc": "2026-11-22T06:14:55Z",
+   "url": "https://www.ti.com/storeservices/cart/opninventory?opn=TVS2200DRVR",
+   "response": {
+    "orderable_number": "TVS2200DRVR",
+    "inventory": 113626
+   }
+  },
+  "INA301A3QDGKTQ1": {
+   "retrieved_utc": "2026-11-22T06:14:55Z",
+   "url": "https://www.ti.com/storeservices/cart/opninventory?opn=INA301A3QDGKTQ1",
+   "response": {
+    "orderable_number": "INA301A3QDGKTQ1",
+    "inventory": 77578
+   }
+  }
+ },
+ "ti_page_conflict": "The TVS2200DRVR part-details page schema.org data read \"OutOfStock\" at 2026-11-22T06:12:53Z while the inventory endpoint returned 113,626. TI buyable stock, MOQ and cut-tape terms are UNCONFIRMED until the rendered store page is checked.",
+ "external_distributors": {
+  "Mouser": "bot-blocked 2026-11-22; the 8,215-unit RT0603BRD0710K4L observation (2026-11-21T18:31:54Z, parts-sourcing-audit-20261122/external-exact-stock.json) is not current",
+  "DigiKey": "HTTP 403",
+  "Arrow": "timeout",
+  "Farnell/Newark": "HTTP 403",
+  "RS": "HTTP 403",
+  "Octopart": "HTTP 403",
+  "FindChips": "no distributor rows rendered"
+ }
+}
