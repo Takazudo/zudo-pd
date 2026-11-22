@@ -93,7 +93,7 @@ every line on the order day. Demand is per pair (one Board P r3 + one B20); the 
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
 | C523793 | TVS2200DRVR | Board P D5 (1) | 2 | 21 | 5 | 0 | Two fields exceed stock. Confirm JLC accepts the line at the real quantity, or bring in the exact TI part (below). No same-name substitute |
 | C861076 | RT0603BRD0710K4L | B20 R66 (1) | 11 | 1 | 20 | 6 | `leastPatchNumber` exceeds stock. Confirm Standard PCBA use, or bring in the exact part. Do not change the value |
-| C861233 | RT0603BRD07226KL | B20 RVU1 (1) | 15 | **178** | 20 | 8 | **New on 2026-11-22**: stock was 55 and `minPurchaseNum` 1 on 2026-11-20/21. Two fields exceed stock. Confirm or bring in the exact part |
+| C861233 | RT0603BRD07226KL | B20 RVU1 (1) | 15 | **178** | 20 | 8 | **New on 2026-11-22**: the 2026-11-20 UTC reads showed stock 55 and `minPurchaseNum` 1. Two fields exceed stock. Confirm or bring in the exact part |
 | C179864 | INA301A3QDGKTQ1 (adopted) | B20 U11, U12 (2) | 13 | 1 | 0 | 0 | Stock covers 6 pairs; nothing reserved. Re-check at the chosen quantity |
 
 Every other line has stock above two pairs plus `lossNumber`, with no field above stock. The earlier R35, RVX1 and

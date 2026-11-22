@@ -189,7 +189,7 @@ Hashes:
 
 On `main` `edfd690`, in a full clone (evidence in [`verification/pd20-order-day-20261122/p15/`](verification/pd20-order-day-20261122/README.md)):
 
-- **`verify-shared-reference.py --rev HEAD`:** SOURCE IDENTITY MATCH, all 7 artifacts, ancestry included.
+- **`verify-shared-reference.py --rev HEAD`:** SOURCE IDENTITY MATCH, all 7 artifacts, with no ancestry error.
 - **`sha256sum -c SHA256SUMS`:** 150 OK, 0 mismatches, 1 unreadable (the local-only STEP). The four `board-p15/` files
   and the NVM image (`76622e14…`) match the table above.
 - **Board-p15 non-replay subset:** PASS, all 13 checks.
