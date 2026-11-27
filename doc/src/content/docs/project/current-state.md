@@ -3,7 +3,8 @@ title: Current State — P15, PD15 and PD20
 sidebar_position: 2
 ---
 
-Status on **2026-11-20 UTC** (campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318), tracker
+Status on **2026-11-27 UTC (2026-11-28 JST)** (readiness closeout [#331](https://github.com/Takazudo/zudo-pd/issues/331);
+D-register dispositions from campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318), 2026-11-20; tracker
 [#228](https://github.com/Takazudo/zudo-pd/issues/228)). This page owns current status.
 [Variant architecture](../architecture/index.mdx) owns design responsibilities;
 [release readiness](../architecture/release-readiness.md) owns acceptance gates. A software check, CAD result,
@@ -16,6 +17,17 @@ export receipt, order plan, received unit and bench measurement establish differ
 | PD20 | Board P r3 + `boards/board-b20-draft/` | Revision-bound package `manufacturing/releases/pd20-sourcing-review-20261122/` ([order sheet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/releases/pd20-sourcing-review-20261122/ORDER-SHEET.md)), with the 12 substitutions adopted 2026-11-22 under the [sourcing policy](../decisions/sourcing.mdx); `pd20-prototype-review/` is kept as history; quantity undecided | Not ordered | No 20 V binary; T1–T8 NOT RUN |
 | LED Lamp | P15 r1 + received Board L (LED Lamp section) | P15 from the shared order; 0 new Board L | Two Board L units received 2026-09-19 | Unflashed firmware candidate only; NOT RUN |
 
+### First prototype order: readiness by state
+
+The three states are independent. Passing state 1 does not establish state 2, and neither establishes state 3.
+
+| Stream | 1. Design/export and file integrity | 2. Procurement, quantity, supplier preview and quotation | 3. Ordered, received, programmed, measured |
+| --- | --- | --- | --- |
+| P15 r1 | **Ready.** Fixed `corner-support-review/board-p15/` upload files; Gerber/BOM/CPL hashes match the [handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md) and all seven `shared-reference.json` artifacts match. Byte-integrity checks, not a fresh native KiCad run; full historical replay NOT RUN (original local-only STEP absent) | **Owner steps open.** Quantity settled: **two assembled P15**, black solder mask, top-side-only assembly; 0 new Board L, 0 new Board B. All 14 codes were in JLC public stock for two boards on 2026-11-22 and 2026-11-27 UTC. Upload, D5/D9 placement preview and a current quotation are not done | Not ordered. P15-NVM-1–7 NOT RUN |
+| PD20 (Board P r3 + B20) | **Ready.** Package `pd20-sourcing-review-20261122/`: UPLOAD FILE INTEGRITY PASS 6/6 against pinned manifest `940e805f…`; current Board P r3 and B20 PCB/spec bytes match the package source locks. Byte-integrity checks, not a fresh native KiCad run or electrical acceptance | **Owner decisions open.** Quantity undecided (historical one/two-pair calculations do not select it). Both boards need Standard PCBA, both sides. Exact supply is unresolved for four lines: Board P D5 TI TVS2200DRVR C523793 (1/pair), B20 R66 YAGEO RT0603BRD0710K4L C861076 (1/pair), B20 RVU1 YAGEO RT0603BRD07226KL C861233 (1/pair), B20 U11/U12 TI INA301A3QDGKTQ1 C179864 (2/pair). On 2026-11-27 UTC JLC public stock was 1, 11, **0** and 10. Supplier preview (two sides, mirrored bottom rotations, via/stencil) and quotation not done | Not ordered. No reviewed program-ready 20 V NVM binary (a prerequisite to programming/T4, not to ordering). T1–T8 NOT RUN |
+
+Prototype residual dispositions are not measured product ratings. Electrical acceptance of PD20 is NOT ESTABLISHED.
+
 **PD20 order readiness.** No D-register item holds the PD20 order
 ([ledger](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/prototype-order-readiness.md)): D10–D12 left the
 hold list on 2026-11-20 because only an assembled board can close their verification, and D2 left it after the
@@ -25,7 +37,10 @@ two-sided assembly. Electrical acceptance is NOT ESTABLISHED. The remaining pre-
 the owner's quantity decision. On 2026-11-22 JST the [parts sourcing audit](../research/parts-sourcing-audit-20261122.mdx)
 reviewed all 101 active codes and 12 substitutions were adopted (#326), so U11/U12, R35, RVX1 and R22/R31 no longer
 need a pre-order; B20 R66 and Board P D5 keep their exact parts with a supply check. The 2026-11-22 order-day re-read
-added B20 RVU1 (C861233) to that check.
+added B20 RVU1 (C861233) to that check. The 2026-11-27 UTC re-read
+([evidence](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/verification/supply-observation-20261127/README.md))
+found RVU1 at zero JLC public stock and D5 at one, so neither exact line is covered for even one pair without another
+route or a new observation.
 
 ## P15 r1 shared input module
 
@@ -69,7 +84,7 @@ accessible packet and programming contract support the summary above, not a reco
 | NVM | `boards/board-p/nvm/stusb4500-20v-intent.json` is intent only, **no program-ready binary**. TDISPAR0V = 15 at 0xCA[7:4] (`dec-pd20-tdispar0v-15`); its reset interaction stays bench T8. DS12499 Rev 8 answers initial lower-current source matching. POWER_ONLY_ABOVE_5V at 0xE6 bit 3 is confirmed by an official-GUI export pair (`dec-pd20-nvm-power-only-gui`, 2026-11-14), not by readback; established-contract downgrade behavior remains open (T8) |
 | Order/physical state | Development hardware; no order/received PD20 units, programming/readback acceptance or measurements recorded |
 | Desk load cases (2026-11-08) | `scripts/pcb/board-b20/load_cases.py` binds the current, thermal, loop and power reports to the PD20 contract: continuous 1.7 / 1.6 / 0.3 A, 20 ms transient 2.0 / 1.9 / 0.4 A, let-through maximum 2.1 / 2.0 / 0.5 A (+12 / −12 / +5). The former "rated" 1.2 / 0.8 / 0.5 A case is kept only as the legacy PD15 comparison. At continuous load the desk model gives 4.29–4.79 W board loss and D3 TJ 99.0–120.1 °C at maximum RDS (92.9–111.5 °C at typical RDS). At maximum RDS, the transient held steady gives 113.2–139.7 °C; this is not a 20 ms thermal model. Steady-state desk figures, not transient or measured results ([#230](https://github.com/Takazudo/zudo-pd/issues/230)) |
-| Remaining gate | **No pre-order design hold** (readiness ledger, 2026-11-20): D1–D12 each have a disposition, and every open item needs an assembled board or a supplier preview. Before ordering, the owner decides quantity, confirms supply at that quantity for B20 R66 (C861076), B20 RVU1 (C861233), Board P D5 (TVS2200DRVR C523793) and the adopted INA301A3QDGKTQ1 C179864 (13 observed), re-checks every adopted code, and checks two-sided assembly, bottom-side rotations and via/stencil handling in the supplier preview using the [order sheet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/releases/pd20-sourcing-review-20261122/ORDER-SHEET.md). D2 switch-threshold residuals (cold PA corner, onset floor), D10 Q1 slew, D11 RDY timing, D12 back-feed, installed thermal margin, header seating and HC11 flat-floor interference, and the NVM reset/downgrade questions move to bench T1–T8, all NOT RUN. Electrical acceptance is NOT ESTABLISHED |
+| Remaining gate | **No pre-order design hold** (readiness ledger, 2026-11-20): D1–D12 each have a disposition, and every open item needs an assembled board or a supplier preview. Before ordering, the owner decides quantity, confirms supply at that quantity for B20 R66 (C861076), B20 RVU1 (C861233), Board P D5 (TVS2200DRVR C523793) and the adopted INA301A3QDGKTQ1 C179864 (JLC public stock 11 / 0 / 1 / 10 on 2026-11-27 UTC; 11 / 15 / 2 / 13 on 2026-11-22), re-checks every adopted code, and checks two-sided assembly, bottom-side rotations and via/stencil handling in the supplier preview using the [order sheet](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/releases/pd20-sourcing-review-20261122/ORDER-SHEET.md). D2 switch-threshold residuals (cold PA corner, onset floor), D10 Q1 slew, D11 RDY timing, D12 back-feed, installed thermal margin, header seating and HC11 flat-floor interference, and the NVM reset/downgrade questions move to bench T1–T8, all NOT RUN. Electrical acceptance is NOT ESTABLISHED |
 
 ## Owner actions, in order
 
@@ -91,6 +106,16 @@ Existing Board B units are not yet inspected or cleared to mate.
 
 These dated entries are kept as written; each describes the state at its date. Where one says a hold remains, the
 status table above and the readiness ledger supersede it.
+
+**Readiness closeout 2026-11-27 UTC (2026-11-28 JST)**, [#331](https://github.com/Takazudo/zudo-pd/issues/331) under
+#228, from main `3a55b4c`. The component workflow now runs on PD20 order-package-only changes on PR and main push.
+A read-only catalog re-read
+([evidence](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/verification/supply-observation-20261127/README.md))
+found all 99 PD20 and 14 P15 codes. P15 is covered for two boards. Three PD20 exact lines are not covered by JLC
+public stock for one pair: B20 RVU1 C861233 (0), Board P D5 C523793 (1, below `minPurchaseNum` 21 and
+`leastPatchNumber` 5) and B20 R66 C861076 (11, below `leastPatchNumber` 20); C179864 has 10 (five pairs). Other
+distributors and JLC private-library routes were NOT CHECKED. No part was substituted, and nothing was uploaded, quoted,
+reserved or ordered.
 
 **Order-day procurement re-read 2026-11-22 JST**, tracker [#329](https://github.com/Takazudo/zudo-pd/issues/329)
 under #228 ([evidence](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/verification/pd20-order-day-20261122/README.md)).

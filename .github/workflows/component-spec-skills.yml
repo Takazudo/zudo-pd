@@ -32,7 +32,7 @@ on:
       # Inputs consumed by circuit/scripts/run-python-gates.sh beyond the shared
       # documentation paths: Board P 20 V NVM intent, B20 tests and retained
       # reports, the PD15 supply-capability report, phase33 analysis, export
-      # freshness bindings and the fixed P15 package checks (traced; contract in circuit/tests/workflow-contract.test.ts).
+      # freshness bindings, the fixed P15 package checks and the PD20 order-package checks (traced; contract in circuit/tests/workflow-contract.test.ts).
       - 'scripts/pcb/**'
       - 'manufacturing/README.md'
       - 'manufacturing/package-notes-p15.md'
@@ -45,6 +45,11 @@ on:
       - 'manufacturing/power-layout.json'
       - 'manufacturing/power-layout-b20.json'
       - 'manufacturing/releases/corner-support-review/**'
+      # PD20 order package read by scripts/pcb/pd20-order/ (upload-file verifier and its tests), and only the
+      # source PCB/CPL inputs the polarity tests read from the retained 2026-11-20 package.
+      - 'manufacturing/releases/pd20-sourcing-review-20261122/**'
+      - 'manufacturing/releases/pd20-prototype-review/*/cpl.csv'
+      - 'manufacturing/releases/pd20-prototype-review/*/source/*.kicad_pcb'
       - 'manufacturing/sim/board-b20-phase33/**'
       - 'manufacturing/sim/board-b20-phase7/ac/**'
       - 'boards/**'
@@ -76,7 +81,7 @@ on:
       # Inputs consumed by circuit/scripts/run-python-gates.sh beyond the shared
       # documentation paths: Board P 20 V NVM intent, B20 tests and retained
       # reports, the PD15 supply-capability report, phase33 analysis, export
-      # freshness bindings and the fixed P15 package checks (traced; contract in circuit/tests/workflow-contract.test.ts).
+      # freshness bindings, the fixed P15 package checks and the PD20 order-package checks (traced; contract in circuit/tests/workflow-contract.test.ts).
       - 'scripts/pcb/**'
       - 'manufacturing/README.md'
       - 'manufacturing/package-notes-p15.md'
@@ -89,6 +94,11 @@ on:
       - 'manufacturing/power-layout.json'
       - 'manufacturing/power-layout-b20.json'
       - 'manufacturing/releases/corner-support-review/**'
+      # PD20 order package read by scripts/pcb/pd20-order/ (upload-file verifier and its tests), and only the
+      # source PCB/CPL inputs the polarity tests read from the retained 2026-11-20 package.
+      - 'manufacturing/releases/pd20-sourcing-review-20261122/**'
+      - 'manufacturing/releases/pd20-prototype-review/*/cpl.csv'
+      - 'manufacturing/releases/pd20-prototype-review/*/source/*.kicad_pcb'
       - 'manufacturing/sim/board-b20-phase33/**'
       - 'manufacturing/sim/board-b20-phase7/ac/**'
       - 'boards/**'

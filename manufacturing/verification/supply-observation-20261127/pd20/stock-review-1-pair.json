@@ -1,0 +1,59 @@
+{
+ "_comment": "Flag PD20 BOM lines whose JLC catalog row may not cover an order. Reads retained lookups only; no network.",
+ "pairs": 1,
+ "lines_checked": 99,
+ "flagged": [
+  {
+   "lcsc": "C523793",
+   "comment": "TVS2200DRVR",
+   "model": "TVS2200DRVR",
+   "placements": [
+    "board-p:D5"
+   ],
+   "stock": 1,
+   "need_for_pairs": 1,
+   "lossNumber": 0,
+   "minPurchaseNum": 21,
+   "leastPatchNumber": 5,
+   "retrieved_utc": "2026-11-27T20:26:12Z",
+   "reasons": [
+    "stock below minPurchaseNum",
+    "stock below leastPatchNumber"
+   ]
+  },
+  {
+   "lcsc": "C861076",
+   "comment": "RT0603BRD0710K4L",
+   "model": "RT0603BRD0710K4L",
+   "placements": [
+    "board-b20-draft:R66"
+   ],
+   "stock": 11,
+   "need_for_pairs": 7,
+   "lossNumber": 6,
+   "minPurchaseNum": 1,
+   "leastPatchNumber": 20,
+   "retrieved_utc": "2026-11-27T20:26:21Z",
+   "reasons": [
+    "stock below leastPatchNumber"
+   ]
+  },
+  {
+   "lcsc": "C861233",
+   "comment": "RT0603BRD07226KL",
+   "model": "RT0603BRD07226KL",
+   "placements": [
+    "board-b20-draft:RVU1"
+   ],
+   "stock": 0,
+   "need_for_pairs": 9,
+   "lossNumber": 8,
+   "minPurchaseNum": 178,
+   "leastPatchNumber": 20,
+   "retrieved_utc": "2026-11-27T20:26:24Z",
+   "reasons": [
+    "zero stock"
+   ]
+  }
+ ]
+}
