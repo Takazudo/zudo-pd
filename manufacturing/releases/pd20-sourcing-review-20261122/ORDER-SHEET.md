@@ -106,9 +106,9 @@ every line on the order day. Demand is per pair (one Board P r3 + one B20); the 
 | C861233 | B20 RVU1 (1) | **0** | 178 | 20 | 8 | 0 |
 | C179864 | B20 U11, U12 (2) | 10 | 1 | 0 | 0 | 5 |
 
-On that date RVU1 has no JLC public stock and D5 is below two of its own fields, so neither exact line is covered from
-JLC's public pool even for one pair. Every other line covered at least 13 pairs after `lossNumber`, with no field above
-stock. LCSC retail, TI and other distributors and JLC private-library routes were NOT CHECKED in this re-read.
+On that date RVU1 has no JLC public stock, D5 is below two of its own fields and R66 stays below `leastPatchNumber`, so
+none of these three exact lines is covered from JLC's public pool even for one pair; C179864 covers five pairs. Every line
+outside this table covered at least 13 pairs after `lossNumber`, with no field above stock. LCSC retail, TI and other distributors and JLC private-library routes were NOT CHECKED in this re-read.
 
 On 2026-11-22, every other line had stock above two pairs plus `lossNumber`, with no field above stock. The earlier R35, RVX1 and
 R22 / R31 flags stay resolved by the adopted parts. `minPurchaseNum`,

@@ -24,7 +24,7 @@ The three states are independent. Passing state 1 does not establish state 2, an
 | Stream | 1. Design/export and file integrity | 2. Procurement, quantity, supplier preview and quotation | 3. Ordered, received, programmed, measured |
 | --- | --- | --- | --- |
 | P15 r1 | **Ready.** Fixed `corner-support-review/board-p15/` upload files; Gerber/BOM/CPL hashes match the [handoff](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/p15-order-handoff.md) and all seven `shared-reference.json` artifacts match. Byte-integrity checks, not a fresh native KiCad run; full historical replay NOT RUN (original local-only STEP absent) | **Owner steps open.** Quantity settled: **two assembled P15**, black solder mask, top-side-only assembly; 0 new Board L, 0 new Board B. All 14 codes were in JLC public stock for two boards on 2026-11-22 and 2026-11-27 UTC. Upload, D5/D9 placement preview and a current quotation are not done | Not ordered. P15-NVM-1–7 NOT RUN |
-| PD20 (Board P r3 + B20) | **Ready.** Package `pd20-sourcing-review-20261122/`: UPLOAD FILE INTEGRITY PASS 6/6 against pinned manifest `940e805f…`; current Board P r3 and B20 PCB/spec bytes match the package source locks. Byte-integrity checks, not a fresh native KiCad run or electrical acceptance | **Owner decisions open.** Quantity undecided (historical one/two-pair calculations do not select it). Both boards need Standard PCBA, both sides. Exact supply is unresolved for four lines: Board P D5 TI TVS2200DRVR C523793 (1/pair), B20 R66 YAGEO RT0603BRD0710K4L C861076 (1/pair), B20 RVU1 YAGEO RT0603BRD07226KL C861233 (1/pair), B20 U11/U12 TI INA301A3QDGKTQ1 C179864 (2/pair). On 2026-11-27 UTC JLC public stock was 1, 11, **0** and 10. Supplier preview (two sides, mirrored bottom rotations, via/stencil) and quotation not done | Not ordered. No reviewed program-ready 20 V NVM binary (a prerequisite to programming/T4, not to ordering). T1–T8 NOT RUN |
+| PD20 (Board P r3 + B20) | **Ready.** Package `pd20-sourcing-review-20261122/`: UPLOAD FILE INTEGRITY PASS 6/6 against pinned manifest `940e805f…`; current Board P r3 and B20 PCB/spec bytes match the package source locks. Byte-integrity checks, not a fresh native KiCad run or electrical acceptance | **Owner decisions open.** Quantity undecided (historical one/two-pair calculations do not select it). Both boards need Standard PCBA, both sides. Exact supply is unresolved for four lines: Board P D5 TI TVS2200DRVR C523793 (1/pair), B20 R66 RT0603BRD0710K4L C861076 (1/pair), B20 RVU1 RT0603BRD07226KL C861233 (1/pair), B20 U11/U12 TI INA301A3QDGKTQ1 C179864 (2/pair). On 2026-11-27 UTC JLC public stock was 1, 11, **0** and 10. Supplier preview (two sides, mirrored bottom rotations, via/stencil) and quotation not done | Not ordered. No reviewed program-ready 20 V NVM binary (a prerequisite to programming/T4, not to ordering). T1–T8 NOT RUN |
 
 Prototype residual dispositions are not measured product ratings. Electrical acceptance of PD20 is NOT ESTABLISHED.
 
@@ -39,8 +39,9 @@ reviewed all 101 active codes and 12 substitutions were adopted (#326), so U11/U
 need a pre-order; B20 R66 and Board P D5 keep their exact parts with a supply check. The 2026-11-22 order-day re-read
 added B20 RVU1 (C861233) to that check. The 2026-11-27 UTC re-read
 ([evidence](https://github.com/Takazudo/zudo-pd/blob/main/manufacturing/verification/supply-observation-20261127/README.md))
-found RVU1 at zero JLC public stock and D5 at one, so neither exact line is covered for even one pair without another
-route or a new observation.
+found RVU1 at zero JLC public stock, D5 at one (below its `minPurchaseNum` 21 and `leastPatchNumber` 5) and R66 at 11
+(below its `leastPatchNumber` 20), so none of these three exact lines is covered from JLC's public pool for even one pair
+without another route or a new observation.
 
 ## P15 r1 shared input module
 
