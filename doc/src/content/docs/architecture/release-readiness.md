@@ -65,7 +65,8 @@ candidate. Conversely, PD20's explicitly pre-order interface obligations cannot
 be reassigned to T1–T8 merely to make an order appear ready. On 2026-11-20 the ledger records a disposition for each of them
 (startup by OSC E21, loaded discharge by the retimed sequenced fast discharge, delivered current by OSC E23), so PD20
 has no remaining pre-order design hold. The bench checks those dispositions name stay open, and PD20 qualification
-above is not established.
+above is not established. The missing reviewed program-ready 20 V NVM binary gates programming and T4, not the
+prototype order. Ordering readiness is tracked by state in [current state](../project/current-state.md).
 
 The P15 `corner-support-review` package is fixed at manifest base `3b9821b`; retain its historical full-verifier
 and 151/151 checksum PASS with the original STEP. Current HEAD does not inherit that result. A historical replay

@@ -1,14 +1,18 @@
 # Prototype order readiness — execution ledger
 
-Current summary: 2026-11-20 UTC, campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318). Parent
+Current summary: 2026-11-27 UTC (2026-11-28 JST), closeout [#331](https://github.com/Takazudo/zudo-pd/issues/331); D-register
+dispositions from campaign [#318](https://github.com/Takazudo/zudo-pd/issues/318), 2026-11-20. Parent
 [#228](https://github.com/Takazudo/zudo-pd/issues/228). This ledger separates source integration, local manufacturing
-inputs, supplier review and physical qualification. It is not an order authorization or a measured rating.
+inputs, supplier review and physical qualification. It is not an order authorization or a measured rating. The
+per-stream state split (design/export and file integrity; procurement, quantity, preview and quotation; ordered,
+received, programmed and measured) is owned by
+[current state](../doc/src/content/docs/project/current-state.md#first-prototype-order-readiness-by-state).
 
 | Stream | Pre-order design holds | Order files | Remaining before ordering | After arrival |
 | --- | --- | --- | --- | --- |
-| Shared P15 r1 | None | Fixed package `manufacturing/releases/corner-support-review/board-p15/`, [handoff](p15-order-handoff.md) | Owner: upload, two assembled sets, D5 / D9 placement preview, current quote | P15-NVM-1–7, then LED first |
+| Shared P15 r1 | None | Fixed package `manufacturing/releases/corner-support-review/board-p15/`, [handoff](p15-order-handoff.md) | Owner: upload, two assembled sets (black mask, top-side only), D5 / D9 placement preview, current quote. All 14 codes in JLC public stock for two boards on 2026-11-22 and 2026-11-27 UTC | P15-NVM-1–7, then LED first |
 | PD15 | None for ordering: no new Board B is ordered | P15 only; reuse the received S3 Board B | Same as P15 | Board B unpowered check, staged PD15 bring-up |
-| PD20 | **None.** D1–D12 each have an explicit disposition below; D10–D12 left the hold list on 2026-11-20 and D2 after its 2026-11-20 retiming | Revision-bound package `manufacturing/releases/pd20-sourcing-review-20261122/`, [order sheet](releases/pd20-sourcing-review-20261122/ORDER-SHEET.md) (12 reviewed substitutions under the [sourcing policy](../doc/src/content/docs/decisions/sourcing.mdx), 2026-11-22; `pd20-prototype-review/` kept as history) | Owner: quantity decision; supply at that quantity for B20 R66, B20 RVU1 C861233 (re-read 2026-11-22: stock 15, `minPurchaseNum` 178) and Board P D5 (exact parts kept) and the adopted INA301A3QDGKTQ1 C179864 (13 observed), and a re-check of every adopted code; upload-file integrity check; two-sided assembly settings, bottom-side rotation and via/stencil review in the supplier preview; current quote | Per-unit NVM provisioning once a 20 V image is reviewed (T4), T1–T8 |
+| PD20 | **None.** D1–D12 each have an explicit disposition below; D10–D12 left the hold list on 2026-11-20 and D2 after its 2026-11-20 retiming | Revision-bound package `manufacturing/releases/pd20-sourcing-review-20261122/`, [order sheet](releases/pd20-sourcing-review-20261122/ORDER-SHEET.md) (12 reviewed substitutions under the [sourcing policy](../doc/src/content/docs/decisions/sourcing.mdx), 2026-11-22; `pd20-prototype-review/` kept as history) | Owner: quantity decision; exact-part supply at that quantity for Board P D5 C523793, B20 R66 C861076, B20 RVU1 C861233 and B20 U11/U12 C179864 (JLC public stock 2 / 11 / 15 / 13 on 2026-11-22, 1 / 11 / **0** / 10 on 2026-11-27 UTC, [evidence](verification/supply-observation-20261127/README.md)), and a re-check of every adopted code; upload-file integrity check; Standard PCBA both-side settings, bottom-side rotation and via/stencil review in the supplier preview; current quote | Per-unit NVM provisioning once a 20 V image is reviewed (T4), T1–T8 |
 | LED Lamp | None: 0 new Board L | P15 from the shared order | — | LED preparation and arrival sequence |
 
 “No pre-order hold” means every open item needs an assembled board or a supplier preview to close. It is not electrical

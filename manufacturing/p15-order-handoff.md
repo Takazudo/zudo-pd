@@ -1,4 +1,4 @@
-# P15 r1 prototype order: owner handoff (2026-11-20)
+# P15 r1 prototype order: owner handoff (prepared 2026-11-20; supply re-read 2026-11-22 and 2026-11-27)
 
 This is the order-day checklist for the owner. It is desk preparation only. Nothing has been ordered, quoted,
 uploaded, programmed or energized, and no file below is validated, qualified or released. The full reasoning is in
@@ -75,9 +75,10 @@ If D5 or D9 is reversed, stop and correct it in JLC's tool. Do not edit the froz
 - Every BOM line is matched to the exact LCSC code, with no substitutes.
 - The final quote total is recorded.
 
-## Parts are in stock on 2026-11-20; re-check on the order day
+## Parts were in stock on 2026-11-20, 2026-11-22 and 2026-11-27; re-check on the order day
 
-The data comes from a read-only lookup of each exact code, retrieved 2026-11-20 between 09:57:03Z and 09:57:20Z. It
+The table below is the 2026-11-20 lookup; the later re-reads are at the end of this page. The data comes from a
+read-only lookup of each exact code, retrieved 2026-11-20 between 09:57:03Z and 09:57:20Z. It
 used the JLC parts search endpoint
 `https://jlcpcb.com/api/overseas-pcb-order/v1/shoppingCart/smtGood/selectSmtComponentList` and LCSC
 `https://www.lcsc.com/product-detail/<code>.html`. Unit prices are the lowest-quantity tier in USD. No line is below
@@ -197,3 +198,17 @@ On `main` `edfd690`, in a full clone (evidence in [`verification/pd20-order-day-
   no `minPurchaseNum` or `leastPatchNumber` above stock.
 
 Full historical replay stays NOT RUN.
+
+## Read-only refresh — 2026-11-27
+
+On `main` `3a55b4c` (evidence in [`verification/supply-observation-20261127/`](verification/supply-observation-20261127/README.md)):
+
+- **`verify-shared-reference.py --rev HEAD`:** SOURCE IDENTITY MATCH, all 7 artifacts; the frozen source lock is
+  438/498 unchanged, with no fabrication-path change.
+- **`sha256sum -c SHA256SUMS`:** 150 OK, 0 mismatches, 1 unreadable (the local-only STEP). The four `board-p15/`
+  hashes above match. These are byte-identity checks, not a fresh native KiCad run.
+- **JLC and LCSC lookups, 20:26:31–20:26:46 UTC:** all 14 lines found with matching models. Each has JLC stock above
+  two boards plus `lossNumber`, and no `minPurchaseNum` or `leastPatchNumber` above stock. The lowest JLC stocks are
+  STUSB4500QTR 5,528, BZT52C18-7-F 5,896 and SMAJ16A 13,978. Stock is not reserved.
+
+Upload, placement preview and quotation remain owner steps. Full historical replay stays NOT RUN.

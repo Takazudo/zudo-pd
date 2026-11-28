@@ -28,7 +28,7 @@ The two-P15 plan is not an executed order; no physical programming/readback acce
 | [Prototype order readiness](prototype-order-readiness.md) | Current revision-bound execution ledger: separate integration, capability, verification and owner-decision registers for two P15 modules and the PD20 development pair |
 | [PD20 status](pd20-status.md) | Current technical/reference disposition plus dated verification receipts; original 269-component receipt retained separately from current 270 source |
 | [P15 order decision](p15-order-decision-packet.md) | Revision-specific verification/order-decision record, 2026-11-03; plan, not receipt of an order |
-| [P15 order handoff](p15-order-handoff.md) | Owner order-day checklist for 2 × P15, 2026-11-08: exact files, preview checks, stock re-check, arrival tests; not an order |
+| [P15 order handoff](p15-order-handoff.md) | Owner order-day checklist for 2 × P15 (prepared 2026-11-20; supply re-read 2026-11-22 and 2026-11-27): exact files, preview checks, stock re-check, arrival tests; not an order |
 | [Shared P15 reference](../boards/board-p15/shared-reference.json) | Source identity record (paths, hashes, commits, consumers); checked by `scripts/pcb/board-p15/verify-shared-reference.py`; byte identity only |
 | [As-built identity and controllers](as-built-and-controller.md) | Revision-specific received identity/LED observations plus controller research; LED measurements only |
 | [Board B unpowered check](board-b-unpowered-check.md) | Current procedure for received PD15 Board B D1, not an executed result |
