@@ -96,7 +96,21 @@ every line on the order day. Demand is per pair (one Board P r3 + one B20); the 
 | C861233 | RT0603BRD07226KL | B20 RVU1 (1) | 15 | **178** | 20 | 8 | **New on 2026-11-22**: the 2026-11-20 UTC reads showed stock 55 and `minPurchaseNum` 1. Two fields exceed stock. Confirm or bring in the exact part |
 | C179864 | INA301A3QDGKTQ1 (adopted) | B20 U11, U12 (2) | 13 | 1 | 0 | 0 | Stock covers 6 pairs; nothing reserved. Re-check at the chosen quantity |
 
-Every other line has stock above two pairs plus `lossNumber`, with no field above stock. The earlier R35, RVX1 and
+**Re-read 2026-11-27 UTC (2026-11-28 JST)**, 20:25:32–20:26:30 UTC, all 99 codes found
+([evidence](../../verification/supply-observation-20261127/README.md)). The table above keeps its 2026-11-22 values.
+
+| LCSC | Placements (per pair) | JLC stock | `minPurchaseNum` | `leastPatchNumber` | `lossNumber` | Pairs covered by stock − loss |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| C523793 | Board P D5 (1) | **1** | 21 | 5 | 0 | 1 |
+| C861076 | B20 R66 (1) | 11 | 1 | 20 | 6 | 5 |
+| C861233 | B20 RVU1 (1) | **0** | 178 | 20 | 8 | 0 |
+| C179864 | B20 U11, U12 (2) | 10 | 1 | 0 | 0 | 5 |
+
+On that date RVU1 has no JLC public stock, D5 is below two of its own fields and R66 stays below `leastPatchNumber`, so
+none of these three exact lines is covered from JLC's public pool even for one pair; C179864 covers five pairs. Every line
+outside this table covered at least 13 pairs after `lossNumber`, with no field above stock. LCSC retail, TI and other distributors and JLC private-library routes were NOT CHECKED in this re-read.
+
+On 2026-11-22, every other line had stock above two pairs plus `lossNumber`, with no field above stock. The earlier R35, RVX1 and
 R22 / R31 flags stay resolved by the adopted parts. `minPurchaseNum`,
 `leastPatchNumber` and `lossNumber` are separate observations that JLC does not publicly define; none of them alone
 sets the billed or usable quantity.
@@ -121,7 +135,7 @@ earlier estimate. Standard PCBA setup is $1.53 per unique SMT part for Basic and
 ## Owner steps before ordering
 
 1. Decide the PD20 assembled quantity.
-2. Confirm supply for the four lines above at that quantity.
+2. Confirm exact-part supply for the four lines above at that quantity, from a new same-day observation.
 3. Run the upload-file integrity check, then upload both boards.
 4. Set Standard PCBA, **both sides**, on both boards.
 5. Make the placement-preview checks above, including bottom-side rotations in the mirrored view and via and stencil

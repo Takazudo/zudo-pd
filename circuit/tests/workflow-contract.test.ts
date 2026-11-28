@@ -29,6 +29,15 @@ const REQUIRED_PATHS = [
   "footprints/**",
 ] as const;
 const REQUIRED_PYTHON = "3.12";
+const PD20_CURRENT_PACKAGE_DIR = "manufacturing/releases/pd20-sourcing-review-20261122";
+const PD20_CURRENT_PACKAGE = `${PD20_CURRENT_PACKAGE_DIR}/**`;
+const PD20_UPLOAD_FILES = ["board-p", "board-b20-draft"].flatMap((board) =>
+  [`${board}-gerbers.zip`, "bom.csv", "cpl.csv"].map((name) => `${PD20_CURRENT_PACKAGE_DIR}/${board}/${name}`),
+);
+const PD20_RETAINED_PACKAGE_DIR = "manufacturing/releases/pd20-prototype-review";
+const PD20_RETAINED_BOARDS = ["board-p", "board-b20-draft"] as const;
+const PD20_RETAINED_CPL = `${PD20_RETAINED_PACKAGE_DIR}/*/cpl.csv`;
+const PD20_RETAINED_SOURCE_PCB = `${PD20_RETAINED_PACKAGE_DIR}/*/source/*.kicad_pcb`;
 // Inputs the component gate (circuit/scripts/run-python-gates.sh) consumes beyond REQUIRED_PATHS.
 // Traced with a Python open() audit hook over every gate; each family lists representative files.
 // These belong only to component-spec-skills.yml, not to every documentation workflow.
@@ -68,6 +77,14 @@ const COMPONENT_GATE_INPUTS: ReadonlyArray<{ readonly pattern: string; readonly 
     samples: ["manufacturing/sim/board-b20-phase33/analyze_refinement.py", "manufacturing/sim/board-b20-phase33/test_run_ladder.py"],
   },
   { pattern: "manufacturing/sim/board-b20-phase7/ac/**", samples: ["manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir"] },
+  // Current PD20 order package: verify-upload-files.py and its refusal tests read these eight files.
+  { pattern: PD20_CURRENT_PACKAGE, samples: [...PD20_UPLOAD_FILES, `${PD20_CURRENT_PACKAGE_DIR}/manifest.json`, `${PD20_CURRENT_PACKAGE_DIR}/SHA256SUMS`] },
+  // Retained 2026-11-20 package: test_polarity_reference.py reads only each board's source PCB and CPL.
+  { pattern: PD20_RETAINED_CPL, samples: PD20_RETAINED_BOARDS.map((board) => `${PD20_RETAINED_PACKAGE_DIR}/${board}/cpl.csv`) },
+  {
+    pattern: PD20_RETAINED_SOURCE_PCB,
+    samples: PD20_RETAINED_BOARDS.map((board) => `${PD20_RETAINED_PACKAGE_DIR}/${board}/source/${board}.kicad_pcb`),
+  },
 ];
 // Changed-file sets that must schedule the component gate on both pull_request and main push.
 const COMPONENT_GATE_FIXTURES: ReadonlyArray<readonly [string, readonly string[]]> = [
@@ -82,9 +99,25 @@ const COMPONENT_GATE_FIXTURES: ReadonlyArray<readonly [string, readonly string[]
   ["supply-capability-report-only", ["manufacturing/supply-capability.json"]],
   ["status-report-only", ["manufacturing/pd20-status.md"]],
   ["C12 template-only", ["manufacturing/sim/board-b20-phase7/ac/m12_full_19_47n.cir"]],
+  ...PD20_UPLOAD_FILES.map((file): readonly [string, readonly string[]] => [`PD20 upload-file-only ${file}`, [file]]),
+  ["PD20 manifest-only", [`${PD20_CURRENT_PACKAGE_DIR}/manifest.json`]],
+  ["PD20 SHA256SUMS-only", [`${PD20_CURRENT_PACKAGE_DIR}/SHA256SUMS`]],
+  ...PD20_RETAINED_BOARDS.flatMap((board): Array<readonly [string, readonly string[]]> => [
+    [`retained ${board} CPL-only`, [`${PD20_RETAINED_PACKAGE_DIR}/${board}/cpl.csv`]],
+    [`retained ${board} source-PCB-only`, [`${PD20_RETAINED_PACKAGE_DIR}/${board}/source/${board}.kicad_pcb`]],
+  ]),
 ];
 // Not consumed by any gate; selecting them would mean an indiscriminate manufacturing/** filter.
-const COMPONENT_GATE_UNRELATED = ["manufacturing/sim/board-b20-phase9/README.md", "manufacturing/heat-spreader-concept.md"] as const;
+const COMPONENT_GATE_UNRELATED = [
+  "manufacturing/sim/board-b20-phase9/results.json",
+  "manufacturing/heat-spreader-concept.md",
+  // Retained-package files no gate reads, and verification records outside the current package.
+  `${PD20_RETAINED_PACKAGE_DIR}/ORDER-SHEET.md`,
+  `${PD20_RETAINED_PACKAGE_DIR}/manifest.json`,
+  `${PD20_RETAINED_PACKAGE_DIR}/board-p/bom.csv`,
+  `${PD20_RETAINED_PACKAGE_DIR}/board-p/board-p-gerbers.zip`,
+  "manufacturing/verification/pd20-sourcing-review-20261122/field-sync/field-sync.sh",
+] as const;
 const DRIFT_PATHS = [
   "doc/src/content/docs/components",
   "circuit/generated/preflight.json",
@@ -197,6 +230,9 @@ describe("root workspace workflow contract", () => {
         assert.ok(tracked.includes(sample), `sample ${sample} is not a tracked file`);
         assert.ok(globMatches(family.pattern, sample), `${family.pattern} does not match its sample ${sample}`);
       }
+    }
+    for (const file of COMPONENT_GATE_UNRELATED) {
+      assert.ok(tracked.includes(file), `negative control ${file} is not a tracked file`);
     }
   });
 
